@@ -9,6 +9,7 @@ import java.util.List;
 /* loaded from: classes.dex */
 public class DiffUtil {
     private static final Comparator<Snake> SNAKE_COMPARATOR = new Comparator<Snake>() { // from class: androidx.recyclerview.widget.DiffUtil.1
+        @Override // java.util.Comparator
         public int compare(Snake snake, Snake snake2) {
             int i = snake.x - snake2.x;
             return i == 0 ? snake.y - snake2.y : i;
@@ -95,25 +96,25 @@ public class DiffUtil {
         return new DiffResult(callback, arrayList, iArr, iArr2, z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0042, code lost:
-        if (r24[r13 - 1] < r24[r13 + r5]) goto L18;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0042, code lost:
+        if (r24[r13 - 1] < r24[r13 + r5]) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00b8, code lost:
-        if (r25[r12 - 1] < r25[r12 + 1]) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00b8, code lost:
+        if (r25[r12 - 1] < r25[r12 + 1]) goto L77;
      */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x00e1 A[LOOP:4: B:49:0x00cd->B:53:0x00e1, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x00ec A[EDGE_INSN: B:85:0x00ec->B:55:0x00ec ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00e1 A[LOOP:4: B:54:0x00cd->B:58:0x00e1, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00ec A[EDGE_INSN: B:59:0x00ec->B:60:0x00ec ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static Snake diffPartial(Callback callback, int i, int i2, int i3, int i4, int[] iArr, int[] iArr2, int i5) {
-        boolean z;
         int i6;
         int i7;
+        boolean z;
         int i8;
         int i9;
-        boolean z2;
         int i10;
+        boolean z2;
         int i11;
         int i12 = i2 - i;
         int i13 = i4 - i3;
@@ -175,25 +176,25 @@ public class DiffUtil {
                 if (i26 != i19 + i15) {
                     if (i26 != i20 + i15) {
                         int i27 = i5 + i26;
-                        i9 = 1;
+                        i6 = 1;
                     } else {
-                        i9 = 1;
+                        i6 = 1;
                     }
-                    i6 = iArr2[(i5 + i26) + i9] - i9;
+                    i7 = iArr2[(i5 + i26) + i6] - i6;
                     z = true;
-                    i7 = i6 - i26;
-                    while (i6 > 0 && i7 > 0) {
-                        i8 = i12;
-                        if (callback.areItemsTheSame((i + i6) - 1, (i3 + i7) - 1)) {
+                    i8 = i7 - i26;
+                    while (i7 > 0 && i8 > 0) {
+                        i9 = i12;
+                        if (callback.areItemsTheSame((i + i7) - 1, (i3 + i8) - 1)) {
                             break;
                         }
-                        i6--;
                         i7--;
-                        i12 = i8;
+                        i8--;
+                        i12 = i9;
                     }
-                    i8 = i12;
+                    i9 = i12;
                     int i28 = i5 + i26;
-                    iArr2[i28] = i6;
+                    iArr2[i28] = i7;
                     if (z3 && i26 >= i20 && i26 <= i19 && iArr[i28] >= iArr2[i28]) {
                         Snake snake2 = new Snake();
                         int i29 = iArr2[i28];
@@ -205,25 +206,25 @@ public class DiffUtil {
                         return snake2;
                     }
                     i25 += 2;
-                    i12 = i8;
+                    i12 = i9;
                 } else {
-                    i9 = 1;
+                    i6 = 1;
                 }
-                i6 = iArr2[(i5 + i26) - i9];
+                i7 = iArr2[(i5 + i26) - i6];
                 z = false;
-                i7 = i6 - i26;
-                while (i6 > 0) {
-                    i8 = i12;
-                    if (callback.areItemsTheSame((i + i6) - 1, (i3 + i7) - 1)) {
+                i8 = i7 - i26;
+                while (i7 > 0) {
+                    i9 = i12;
+                    if (callback.areItemsTheSame((i + i7) - 1, (i3 + i8) - 1)) {
                     }
                 }
-                i8 = i12;
+                i9 = i12;
                 int i282 = i5 + i26;
-                iArr2[i282] = i6;
+                iArr2[i282] = i7;
                 if (z3) {
                 }
                 i25 += 2;
-                i12 = i8;
+                i12 = i9;
             }
             i19++;
             i12 = i12;
@@ -232,6 +233,7 @@ public class DiffUtil {
         throw new IllegalStateException("DiffUtil hit an unexpected case while trying to calculate the optimal path. Please make sure your data is not changing during the diff calculation.");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Snake {
         boolean removal;
@@ -244,6 +246,7 @@ public class DiffUtil {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Range {
         int newListEnd;
@@ -350,11 +353,11 @@ public class DiffUtil {
             int i5;
             if (z) {
                 i2--;
-                i4 = i;
-                i5 = i2;
+                i5 = i;
+                i4 = i2;
             } else {
-                i5 = i - 1;
-                i4 = i5;
+                i4 = i - 1;
+                i5 = i4;
             }
             while (i3 >= 0) {
                 Snake snake = this.mSnakes.get(i3);
@@ -364,21 +367,21 @@ public class DiffUtil {
                 int i9 = snake.y + i7;
                 int i10 = 8;
                 if (z) {
-                    for (int i11 = i4 - 1; i11 >= i8; i11--) {
-                        if (this.mCallback.areItemsTheSame(i11, i5)) {
-                            if (!this.mCallback.areContentsTheSame(i11, i5)) {
+                    for (int i11 = i5 - 1; i11 >= i8; i11--) {
+                        if (this.mCallback.areItemsTheSame(i11, i4)) {
+                            if (!this.mCallback.areContentsTheSame(i11, i4)) {
                                 i10 = 4;
                             }
-                            this.mNewItemStatuses[i5] = (i11 << 5) | 16;
-                            this.mOldItemStatuses[i11] = (i5 << 5) | i10;
+                            this.mNewItemStatuses[i4] = (i11 << 5) | 16;
+                            this.mOldItemStatuses[i11] = (i4 << 5) | i10;
                             return true;
                         }
                     }
                     continue;
                 } else {
                     for (int i12 = i2 - 1; i12 >= i9; i12--) {
-                        if (this.mCallback.areItemsTheSame(i5, i12)) {
-                            if (!this.mCallback.areContentsTheSame(i5, i12)) {
+                        if (this.mCallback.areItemsTheSame(i4, i12)) {
+                            if (!this.mCallback.areContentsTheSame(i4, i12)) {
                                 i10 = 4;
                             }
                             int i13 = i - 1;
@@ -389,7 +392,7 @@ public class DiffUtil {
                     }
                     continue;
                 }
-                i4 = snake.x;
+                i5 = snake.x;
                 i2 = snake.y;
                 i3--;
             }
@@ -509,6 +512,7 @@ public class DiffUtil {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class PostponedUpdate {
         int currentPos;

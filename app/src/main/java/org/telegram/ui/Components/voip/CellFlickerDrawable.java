@@ -196,7 +196,6 @@ public class CellFlickerDrawable {
         }
 
         public DrawableInterface(SvgHelper.SvgDrawable svgDrawable) {
-            CellFlickerDrawable.this = r1;
             this.svgDrawable = svgDrawable;
         }
 

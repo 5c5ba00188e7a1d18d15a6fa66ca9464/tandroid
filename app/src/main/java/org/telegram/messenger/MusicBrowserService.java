@@ -131,6 +131,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         loadChildrenImpl(str, result);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLoadChildren$1(MessagesStorage messagesStorage, final String str, final MediaBrowserService.Result result) {
         try {
             ArrayList arrayList = new ArrayList();
@@ -207,6 +208,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLoadChildren$0(String str, MediaBrowserService.Result result) {
         this.chatsLoaded = true;
         this.loadingChats = false;
@@ -247,11 +249,11 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         updatePlaybackState(null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0060, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0081, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0081, code lost:
+        if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -278,14 +280,6 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                         mediaId.setTitle("DELETED USER");
                     }
                     tLRPC$FileLocation = null;
-                    if (tLRPC$FileLocation != null && (bitmap = createRoundBitmap(FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation, true))) != null) {
-                        mediaId.setIconBitmap(bitmap);
-                    }
-                    if (tLRPC$FileLocation != null || bitmap == null) {
-                        mediaId.setIconUri(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/drawable/contact_blue"));
-                    }
-                    arrayList.add(new MediaBrowser.MediaItem(mediaId.build(), 1));
-                    i2++;
                 } else {
                     TLRPC$Chat tLRPC$Chat = this.chats.get(-longValue);
                     if (tLRPC$Chat != null) {
@@ -298,15 +292,15 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                         mediaId.setTitle("DELETED CHAT");
                     }
                     tLRPC$FileLocation = null;
-                    if (tLRPC$FileLocation != null) {
-                        mediaId.setIconBitmap(bitmap);
-                    }
-                    if (tLRPC$FileLocation != null) {
-                    }
-                    mediaId.setIconUri(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/drawable/contact_blue"));
-                    arrayList.add(new MediaBrowser.MediaItem(mediaId.build(), 1));
-                    i2++;
                 }
+                if (tLRPC$FileLocation != null && (bitmap = createRoundBitmap(FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation, true))) != null) {
+                    mediaId.setIconBitmap(bitmap);
+                }
+                if (tLRPC$FileLocation == null || bitmap == null) {
+                    mediaId.setIconUri(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/drawable/contact_blue"));
+                }
+                arrayList.add(new MediaBrowser.MediaItem(mediaId.build(), 1));
+                i2++;
             }
         } else if (str != null && str.startsWith("__CHAT_")) {
             try {
@@ -360,7 +354,6 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     /* loaded from: classes.dex */
     private final class MediaSessionCallback extends MediaSession.Callback {
         private MediaSessionCallback() {
-            MusicBrowserService.this = r1;
         }
 
         @Override // android.media.session.MediaSession.Callback
@@ -516,6 +509,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         return 3076L;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleStopRequest(String str) {
         this.delayedStopHandler.removeCallbacksAndMessages(null);
         this.delayedStopHandler.sendEmptyMessageDelayed(0, 30000L);
@@ -527,6 +521,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handlePlayRequest() {
         Bitmap cover;
         this.delayedStopHandler.removeCallbacksAndMessages(null);
@@ -556,6 +551,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         this.mediaSession.setMetadata(builder.build());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handlePauseRequest() {
         MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
         this.delayedStopHandler.removeCallbacksAndMessages(null);
@@ -568,6 +564,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         handlePlayRequest();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class DelayedStopHandler extends Handler {
         private final WeakReference<MusicBrowserService> mWeakReference;

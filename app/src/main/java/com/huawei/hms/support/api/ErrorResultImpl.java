@@ -16,13 +16,13 @@ public abstract class ErrorResultImpl<R extends Result> extends PendingResult<R>
     private R a = null;
     private int b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class a implements Runnable {
         final /* synthetic */ ResultCallback a;
         final /* synthetic */ ErrorResultImpl b;
 
         a(ResultCallback resultCallback, ErrorResultImpl errorResultImpl) {
-            ErrorResultImpl.this = r1;
             this.a = resultCallback;
             this.b = errorResultImpl;
         }
@@ -75,6 +75,7 @@ public abstract class ErrorResultImpl<R extends Result> extends PendingResult<R>
         throw new IllegalStateException("await must not be called on the UI thread");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public R a(int i, ErrorResultImpl errorResultImpl) {
         Type genericSuperclass = errorResultImpl.getClass().getGenericSuperclass();
         if (genericSuperclass != null) {

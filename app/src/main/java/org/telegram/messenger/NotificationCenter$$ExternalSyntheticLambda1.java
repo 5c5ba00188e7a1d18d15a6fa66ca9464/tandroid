@@ -9,6 +9,6 @@ public final /* synthetic */ class NotificationCenter$$ExternalSyntheticLambda1 
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.checkForExpiredNotifications();
+        NotificationCenter.$r8$lambda$qfLoSVnI6RSAMmhz7SoulpZLung(this.f$0);
     }
 }

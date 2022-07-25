@@ -115,7 +115,7 @@ public final class zzp implements ClearcutLogger.zza {
 
     @Override // com.google.android.gms.clearcut.ClearcutLogger.zza
     public final boolean zza(com.google.android.gms.clearcut.zze zzeVar) {
-        List<zzgw$zza.zzb> list;
+        List<zzgw$zza.zzb> zzfs;
         zzae<zzgw$zza> putIfAbsent;
         zzr zzrVar = zzeVar.zzag;
         String str = zzrVar.zzj;
@@ -153,16 +153,16 @@ public final class zzp implements ClearcutLogger.zza {
             return true;
         }
         if (this.zzh == null) {
-            list = Collections.emptyList();
+            zzfs = Collections.emptyList();
         } else {
             ConcurrentHashMap<String, zzae<zzgw$zza>> concurrentHashMap = zzas;
             zzae<zzgw$zza> zzaeVar2 = concurrentHashMap.get(str);
             if (zzaeVar2 == null && (putIfAbsent = concurrentHashMap.putIfAbsent(str, (zzaeVar2 = zzaq.zza(str, zzgw$zza.zzft(), zzq.zzax)))) != null) {
                 zzaeVar2 = putIfAbsent;
             }
-            list = zzaeVar2.get().zzfs();
+            zzfs = zzaeVar2.get().zzfs();
         }
-        for (zzgw$zza.zzb zzbVar : list) {
+        for (zzgw$zza.zzb zzbVar : zzfs) {
             if (!zzbVar.zzfv() || zzbVar.getEventCode() == 0 || zzbVar.getEventCode() == i2) {
                 if (!zzb(zza(zzbVar.zzfw(), zzd(this.zzh)), zzbVar.zzfx(), zzbVar.zzfy())) {
                     return false;

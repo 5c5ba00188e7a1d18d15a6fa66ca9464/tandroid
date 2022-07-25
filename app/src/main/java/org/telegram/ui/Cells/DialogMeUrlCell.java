@@ -90,9 +90,9 @@ public class DialogMeUrlCell extends BaseCell {
 
     public void buildLayout() {
         String str;
-        int i;
-        int i2;
-        int i3;
+        int measuredWidth;
+        int dp;
+        int measuredWidth2;
         TextPaint textPaint = Theme.dialogs_namePaint[0];
         TextPaint textPaint2 = Theme.dialogs_messagePaint[0];
         this.drawNameLock = false;
@@ -189,39 +189,39 @@ public class DialogMeUrlCell extends BaseCell {
             str = LocaleController.getString("HiddenName", R.string.HiddenName);
         }
         if (!LocaleController.isRTL) {
-            i2 = getMeasuredWidth() - this.nameLeft;
-            i = AndroidUtilities.dp(14.0f);
+            measuredWidth = getMeasuredWidth() - this.nameLeft;
+            dp = AndroidUtilities.dp(14.0f);
         } else {
-            i2 = getMeasuredWidth() - this.nameLeft;
-            i = AndroidUtilities.dp(AndroidUtilities.leftBaseline);
+            measuredWidth = getMeasuredWidth() - this.nameLeft;
+            dp = AndroidUtilities.dp(AndroidUtilities.leftBaseline);
         }
-        int i4 = i2 - i;
+        int i = measuredWidth - dp;
         if (this.drawNameLock) {
-            i4 -= AndroidUtilities.dp(4.0f) + Theme.dialogs_lockDrawable.getIntrinsicWidth();
+            i -= AndroidUtilities.dp(4.0f) + Theme.dialogs_lockDrawable.getIntrinsicWidth();
         }
         if (this.drawVerified) {
-            int dp = AndroidUtilities.dp(6.0f) + Theme.dialogs_verifiedDrawable.getIntrinsicWidth();
-            i4 -= dp;
+            int dp2 = AndroidUtilities.dp(6.0f) + Theme.dialogs_verifiedDrawable.getIntrinsicWidth();
+            i -= dp2;
             if (LocaleController.isRTL) {
-                this.nameLeft += dp;
+                this.nameLeft += dp2;
             }
         }
-        int max = Math.max(AndroidUtilities.dp(12.0f), i4);
+        int max = Math.max(AndroidUtilities.dp(12.0f), i);
         try {
             this.nameLayout = new StaticLayout(TextUtils.ellipsize(str.replace('\n', ' '), textPaint, max - AndroidUtilities.dp(12.0f), TextUtils.TruncateAt.END), textPaint, max, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         } catch (Exception e) {
             FileLog.e(e);
         }
-        int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(AndroidUtilities.leftBaseline + 16);
+        int measuredWidth3 = getMeasuredWidth() - AndroidUtilities.dp(AndroidUtilities.leftBaseline + 16);
         if (!LocaleController.isRTL) {
             this.messageLeft = AndroidUtilities.dp(AndroidUtilities.leftBaseline);
-            i3 = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 13.0f : 9.0f);
+            measuredWidth2 = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 13.0f : 9.0f);
         } else {
             this.messageLeft = AndroidUtilities.dp(16.0f);
-            i3 = getMeasuredWidth() - AndroidUtilities.dp(AndroidUtilities.isTablet() ? 65.0f : 61.0f);
+            measuredWidth2 = getMeasuredWidth() - AndroidUtilities.dp(AndroidUtilities.isTablet() ? 65.0f : 61.0f);
         }
-        this.avatarImage.setImageCoords(i3, this.avatarTop, AndroidUtilities.dp(52.0f), AndroidUtilities.dp(52.0f));
-        int max2 = Math.max(AndroidUtilities.dp(12.0f), measuredWidth);
+        this.avatarImage.setImageCoords(measuredWidth2, this.avatarTop, AndroidUtilities.dp(52.0f), AndroidUtilities.dp(52.0f));
+        int max2 = Math.max(AndroidUtilities.dp(12.0f), measuredWidth3);
         try {
             this.messageLayout = new StaticLayout(TextUtils.ellipsize(str4, textPaint2, max2 - AndroidUtilities.dp(12.0f), TextUtils.TruncateAt.END), textPaint2, max2, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         } catch (Exception e2) {
@@ -238,9 +238,9 @@ public class DialogMeUrlCell extends BaseCell {
                     Double.isNaN(d2);
                     Double.isNaN(d);
                     double d3 = d + (d2 - ceil);
-                    double dp2 = AndroidUtilities.dp(6.0f);
-                    Double.isNaN(dp2);
-                    double d4 = d3 - dp2;
+                    double dp3 = AndroidUtilities.dp(6.0f);
+                    Double.isNaN(dp3);
+                    double d4 = d3 - dp3;
                     double intrinsicWidth = Theme.dialogs_verifiedDrawable.getIntrinsicWidth();
                     Double.isNaN(intrinsicWidth);
                     this.nameMuteLeft = (int) (d4 - intrinsicWidth);

@@ -5,6 +5,7 @@ import java.io.IOException;
 public abstract class HttpClientDecorator implements HttpClient {
     final HttpClient mDecoratedApi;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public HttpClientDecorator(HttpClient httpClient) {
         this.mDecoratedApi = httpClient;
     }

@@ -9,6 +9,7 @@ class ErrorDetails {
     ErrorDetails() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ErrorDetails parse(String str) throws JSONException {
         JSONObject jSONObject = new JSONObject(str);
         ErrorDetails errorDetails = new ErrorDetails();
@@ -16,6 +17,7 @@ class ErrorDetails {
         return errorDetails;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String getCode() {
         return this.code;
     }

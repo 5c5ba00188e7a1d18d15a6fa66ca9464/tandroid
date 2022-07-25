@@ -8,12 +8,14 @@ final class M3 extends c3 {
     private final boolean l;
     private final Comparator m;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public M3(c cVar) {
         super(cVar, e4.REFERENCE, d4.q | d4.o);
         this.l = true;
         this.m = Comparator$CC.a();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public M3(c cVar, Comparator comparator) {
         super(cVar, e4.REFERENCE, d4.q | d4.p);
         this.l = false;

@@ -6,7 +6,8 @@ import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public final class ExecutionModule_ExecutorFactory implements Factory<Executor> {
     @Override // javax.inject.Provider
-    public Executor get() {
+    /* renamed from: get  reason: collision with other method in class */
+    public Executor mo70get() {
         return executor();
     }
 
@@ -18,9 +19,8 @@ public final class ExecutionModule_ExecutorFactory implements Factory<Executor> 
         return (Executor) Preconditions.checkNotNull(ExecutionModule.executor(), "Cannot return null from a non-@Nullable @Provides method");
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class InstanceHolder {
+    private static final class InstanceHolder {
         private static final ExecutionModule_ExecutorFactory INSTANCE = new ExecutionModule_ExecutorFactory();
     }
 }

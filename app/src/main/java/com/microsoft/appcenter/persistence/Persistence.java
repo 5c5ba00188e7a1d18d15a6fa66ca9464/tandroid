@@ -23,6 +23,7 @@ public abstract class Persistence implements Closeable {
 
     public abstract boolean setMaxStorageSize(long j);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LogSerializer getLogSerializer() {
         LogSerializer logSerializer = this.mLogSerializer;
         if (logSerializer != null) {
@@ -41,6 +42,7 @@ public abstract class Persistence implements Closeable {
             super(str, th);
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public PersistenceException(String str) {
             super(str);
         }

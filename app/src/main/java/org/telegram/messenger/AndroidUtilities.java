@@ -276,6 +276,7 @@ public class AndroidUtilities {
         return c == '-' || c == '~';
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$formatSpannableSimple$7(Integer num) {
         return "%s";
     }
@@ -344,7 +345,7 @@ public class AndroidUtilities {
         StaticLayout staticLayout;
         float lineWidth;
         float f;
-        CharSequence charSequence2;
+        CharSequence subSequence;
         try {
             int length = charSequence.length();
             indexOf = charSequence.toString().toLowerCase().indexOf(str);
@@ -398,14 +399,14 @@ public class AndroidUtilities {
                 }
             }
             if (i5 >= 10) {
-                charSequence2 = charSequence.subSequence(staticLayout.getOffsetForHorizontal(0, staticLayout.getPrimaryHorizontal(i3) - (f * 0.3f)), charSequence.length());
+                subSequence = charSequence.subSequence(staticLayout.getOffsetForHorizontal(0, staticLayout.getPrimaryHorizontal(i3) - (f * 0.3f)), charSequence.length());
             } else {
                 if (offsetForHorizontal > 0 && offsetForHorizontal < charSequence.length() - 2 && Character.isWhitespace(charSequence.charAt(offsetForHorizontal))) {
                     offsetForHorizontal++;
                 }
-                charSequence2 = charSequence.subSequence(offsetForHorizontal, charSequence.length());
+                subSequence = charSequence.subSequence(offsetForHorizontal, charSequence.length());
             }
-            return SpannableStringBuilder.valueOf("...").append(charSequence2);
+            return SpannableStringBuilder.valueOf("...").append(subSequence);
         }
         return charSequence;
     }
@@ -502,6 +503,7 @@ public class AndroidUtilities {
         }, 36L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$recycleBitmaps$1(final ArrayList arrayList) {
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
@@ -511,6 +513,7 @@ public class AndroidUtilities {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$recycleBitmaps$0(ArrayList arrayList) {
         for (int i = 0; i < arrayList.size(); i++) {
             Bitmap bitmap = (Bitmap) arrayList.get(i);
@@ -524,6 +527,7 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class LinkSpec {
         int end;
@@ -575,6 +579,7 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$static$2(CharSequence charSequence, int i, int i2) {
         return i == 0 || charSequence.charAt(i - 1) != '@';
     }
@@ -639,6 +644,7 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$pruneOverlaps$3(LinkSpec linkSpec, LinkSpec linkSpec2) {
         int i;
         int i2;
@@ -785,18 +791,18 @@ public class AndroidUtilities {
         double d12 = max == 0.0d ? 0.0d : d10 / max;
         if (max != min) {
             if (d5 > d7 && d5 > d9) {
-                d3 = (d7 - d9) / d10;
+                d = (d7 - d9) / d10;
                 d2 = d7 < d9 ? 6 : 0;
                 Double.isNaN(d2);
             } else if (d7 > d9) {
-                d = 2.0d + ((d9 - d5) / d10);
-                d11 = d / 6.0d;
+                d3 = 2.0d + ((d9 - d5) / d10);
+                d11 = d3 / 6.0d;
             } else {
-                d3 = (d5 - d7) / d10;
+                d = (d5 - d7) / d10;
                 d2 = 4.0d;
             }
-            d = d3 + d2;
-            d11 = d / 6.0d;
+            d3 = d + d2;
+            d11 = d3 / 6.0d;
         }
         return new double[]{d11, d12, max};
     }
@@ -992,6 +998,7 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$isGoogleMapsInstalled$4(BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
         try {
             baseFragment.getParentActivity().startActivityForResult(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=com.google.android.apps.maps")), 500);
@@ -1136,9 +1143,8 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class VcardData {
+    private static class VcardData {
         String name;
         ArrayList<String> phones;
         StringBuilder vcard;
@@ -1276,8 +1282,8 @@ public class AndroidUtilities {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x0093, code lost:
-            if (r0.equals("OTHER") == false) goto L32;
+        /* JADX WARN: Code restructure failed: missing block: B:45:0x0093, code lost:
+            if (r0.equals("OTHER") == false) goto L37;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1388,7 +1394,6 @@ public class AndroidUtilities {
     /* JADX WARN: Multi-variable type inference failed */
     public static ArrayList<TLRPC$User> loadVCardFromStream(Uri uri, int i, boolean z, ArrayList<VcardItem> arrayList, String str) {
         InputStream createInputStream;
-        Throwable th;
         char c;
         String[] strArr;
         String str2;
@@ -1400,16 +1405,16 @@ public class AndroidUtilities {
         if (z) {
             try {
                 createInputStream = ApplicationLoader.applicationContext.getContentResolver().openAssetFileDescriptor(uri, "r").createInputStream();
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
                 FileLog.e(th);
                 return arrayList3;
             }
         } else {
             try {
                 createInputStream = ApplicationLoader.applicationContext.getContentResolver().openInputStream(uri);
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th2) {
+                th = th2;
                 arrayList3 = null;
                 FileLog.e(th);
                 return arrayList3;
@@ -1611,8 +1616,8 @@ public class AndroidUtilities {
     }
 
     public static Typeface getTypeface(String str) {
+        Typeface createFromAsset;
         Typeface typeface;
-        Typeface typeface2;
         Hashtable<String, Typeface> hashtable = typefaceCache;
         synchronized (hashtable) {
             if (!hashtable.containsKey(str)) {
@@ -1625,11 +1630,11 @@ public class AndroidUtilities {
                         if (str.contains("italic")) {
                             builder.setItalic(true);
                         }
-                        typeface = builder.build();
+                        createFromAsset = builder.build();
                     } else {
-                        typeface = Typeface.createFromAsset(ApplicationLoader.applicationContext.getAssets(), str);
+                        createFromAsset = Typeface.createFromAsset(ApplicationLoader.applicationContext.getAssets(), str);
                     }
-                    hashtable.put(str, typeface);
+                    hashtable.put(str, createFromAsset);
                 } catch (Exception e) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.e("Could not get typeface '" + str + "' because " + e.getMessage());
@@ -1637,9 +1642,9 @@ public class AndroidUtilities {
                     return null;
                 }
             }
-            typeface2 = hashtable.get(str);
+            typeface = hashtable.get(str);
         }
-        return typeface2;
+        return typeface;
     }
 
     public static boolean isWaitingForSms() {
@@ -1659,6 +1664,7 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setWaitingForSms$5(Void r0) {
         if (BuildVars.DEBUG_VERSION) {
             FileLog.d("sms listener registered");
@@ -1714,8 +1720,8 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x008a A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0004, B:5:0x0017, B:7:0x001b, B:9:0x0021, B:11:0x0027, B:12:0x002c, B:14:0x0032, B:16:0x0036, B:18:0x003c, B:20:0x0042, B:23:0x004a, B:25:0x0054, B:27:0x006a, B:28:0x006e, B:30:0x0074, B:34:0x007d, B:37:0x0084, B:39:0x008a, B:41:0x0096, B:43:0x009f), top: B:47:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0096 A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0004, B:5:0x0017, B:7:0x001b, B:9:0x0021, B:11:0x0027, B:12:0x002c, B:14:0x0032, B:16:0x0036, B:18:0x003c, B:20:0x0042, B:23:0x004a, B:25:0x0054, B:27:0x006a, B:28:0x006e, B:30:0x0074, B:34:0x007d, B:37:0x0084, B:39:0x008a, B:41:0x0096, B:43:0x009f), top: B:47:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x008a A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0004, B:5:0x0017, B:7:0x001b, B:8:0x0021, B:10:0x0027, B:11:0x004a, B:13:0x0054, B:15:0x006a, B:16:0x006e, B:18:0x0074, B:22:0x0084, B:24:0x008a, B:27:0x0096, B:29:0x007d, B:32:0x009f, B:35:0x002c, B:37:0x0032, B:39:0x0036, B:40:0x003c, B:42:0x0042), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0096 A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0004, B:5:0x0017, B:7:0x001b, B:8:0x0021, B:10:0x0027, B:11:0x004a, B:13:0x0054, B:15:0x006a, B:16:0x006e, B:18:0x0074, B:22:0x0084, B:24:0x008a, B:27:0x0096, B:29:0x007d, B:32:0x009f, B:35:0x002c, B:37:0x0032, B:39:0x0036, B:40:0x003c, B:42:0x0042), top: B:2:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1826,7 +1832,7 @@ public class AndroidUtilities {
 
     public static File getCacheDir() {
         String str;
-        File file;
+        File externalCacheDir;
         try {
             str = Environment.getExternalStorageState();
         } catch (Exception e) {
@@ -1838,12 +1844,12 @@ public class AndroidUtilities {
                 if (Build.VERSION.SDK_INT >= 19) {
                     File[] externalCacheDirs = ApplicationLoader.applicationContext.getExternalCacheDirs();
                     int i = 0;
-                    file = externalCacheDirs[0];
+                    externalCacheDir = externalCacheDirs[0];
                     if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
                         while (true) {
                             if (i < externalCacheDirs.length) {
                                 if (externalCacheDirs[i] != null && externalCacheDirs[i].getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
-                                    file = externalCacheDirs[i];
+                                    externalCacheDir = externalCacheDirs[i];
                                     break;
                                 }
                                 i++;
@@ -1853,10 +1859,10 @@ public class AndroidUtilities {
                         }
                     }
                 } else {
-                    file = ApplicationLoader.applicationContext.getExternalCacheDir();
+                    externalCacheDir = ApplicationLoader.applicationContext.getExternalCacheDir();
                 }
-                if (file != null) {
-                    return file;
+                if (externalCacheDir != null) {
+                    return externalCacheDir;
                 }
             } catch (Exception e2) {
                 FileLog.e(e2);
@@ -2483,6 +2489,7 @@ public class AndroidUtilities {
         }).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$shakeViewSpring$6(Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (runnable != null) {
             runnable.run();
@@ -2582,19 +2589,19 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b3, code lost:
-        if (r2 == 1) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x00b3, code lost:
+        if (r2 == 1) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b5, code lost:
-        if (r2 == 2) goto L43;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00b5, code lost:
+        if (r2 == 2) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x00b7, code lost:
         r1 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00b9, code lost:
         r1 = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00bc, code lost:
         r1 = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
      */
     @SuppressLint({"NewApi"})
@@ -3084,13 +3091,13 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0036, code lost:
-        if (r8.length() != 0) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0036, code lost:
+        if (r8.length() != 0) goto L11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0085 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0085 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0075  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3175,6 +3182,7 @@ public class AndroidUtilities {
         return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda12.INSTANCE, charSequenceArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$formatSpannable$8(Integer num) {
         return "%" + (num.intValue() + 1) + "$s";
     }
@@ -3256,8 +3264,8 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
-        if (r1.length() != 0) goto L19;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0053, code lost:
+        if (r1.length() != 0) goto L18;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3313,26 +3321,26 @@ public class AndroidUtilities {
     }
 
     public static void setRectToRect(Matrix matrix, RectF rectF, RectF rectF2, int i, boolean z) {
+        float height;
+        float width;
+        float height2;
+        boolean z2;
         float f;
         float f2;
-        float f3;
-        boolean z2;
-        float f4;
-        float f5;
-        float f6;
-        float f7;
+        float height3;
+        float height4;
         if (i == 90 || i == 270) {
-            f3 = rectF2.height() / rectF.width();
-            f2 = rectF2.width();
-            f = rectF.height();
+            height = rectF2.height() / rectF.width();
+            width = rectF2.width();
+            height2 = rectF.height();
         } else {
-            f3 = rectF2.width() / rectF.width();
-            f2 = rectF2.height();
-            f = rectF.height();
+            height = rectF2.width() / rectF.width();
+            width = rectF2.height();
+            height2 = rectF.height();
         }
-        float f8 = f2 / f;
-        if (f3 < f8) {
-            f3 = f8;
+        float f3 = width / height2;
+        if (height < f3) {
+            height = f3;
             z2 = true;
         } else {
             z2 = false;
@@ -3351,28 +3359,28 @@ public class AndroidUtilities {
             matrix.preTranslate(-rectF2.height(), 0.0f);
         }
         if (z) {
-            f4 = (-rectF.left) * f3;
-            f5 = (-rectF.top) * f3;
+            f = (-rectF.left) * height;
+            f2 = (-rectF.top) * height;
         } else {
-            f4 = rectF2.left - (rectF.left * f3);
-            f5 = rectF2.top - (rectF.top * f3);
+            f = rectF2.left - (rectF.left * height);
+            f2 = rectF2.top - (rectF.top * height);
         }
         if (z2) {
-            f6 = rectF2.width();
-            f7 = rectF.width();
+            height3 = rectF2.width();
+            height4 = rectF.width();
         } else {
-            f6 = rectF2.height();
-            f7 = rectF.height();
+            height3 = rectF2.height();
+            height4 = rectF.height();
         }
-        float f9 = (f6 - (f7 * f3)) / 2.0f;
+        float f4 = (height3 - (height4 * height)) / 2.0f;
         if (z2) {
-            f4 += f9;
+            f += f4;
         } else {
-            f5 += f9;
+            f2 += f4;
         }
-        matrix.preScale(f3, f3);
+        matrix.preScale(height, height);
         if (z) {
-            matrix.preTranslate(f4, f5);
+            matrix.preTranslate(f, f2);
         }
     }
 
@@ -3390,13 +3398,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0108 A[Catch: Exception -> 0x0125, TRY_LEAVE, TryCatch #0 {Exception -> 0x0125, blocks: (B:5:0x0008, B:8:0x0012, B:10:0x0018, B:12:0x0020, B:15:0x0032, B:18:0x003b, B:20:0x0043, B:23:0x0053, B:25:0x0059, B:27:0x005f, B:29:0x0065, B:31:0x0083, B:32:0x0087, B:33:0x009d, B:35:0x00ad, B:37:0x00b5, B:39:0x00bd, B:41:0x00c3, B:43:0x00cb, B:45:0x00d3, B:47:0x00dd, B:48:0x00e1, B:52:0x0102, B:54:0x0108, B:67:0x0121), top: B:71:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0117  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0119  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0108 A[Catch: Exception -> 0x0125, TRY_LEAVE, TryCatch #0 {Exception -> 0x0125, blocks: (B:6:0x0008, B:9:0x0012, B:11:0x0018, B:13:0x0020, B:16:0x0032, B:19:0x003b, B:21:0x0043, B:24:0x0053, B:26:0x0059, B:28:0x005f, B:30:0x0065, B:32:0x0083, B:33:0x0087, B:34:0x0102, B:36:0x0108, B:46:0x0121, B:52:0x009d, B:54:0x00ad, B:56:0x00b5, B:60:0x00bd, B:62:0x00c3, B:64:0x00cb, B:66:0x00d3, B:68:0x00dd, B:69:0x00e1), top: B:5:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0114  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3406,37 +3414,37 @@ public class AndroidUtilities {
         String str2;
         String str3;
         String str4;
-        String str5;
-        String str6;
-        String str7;
         String path;
+        String queryParameter;
+        String queryParameter2;
+        String str5;
         if (intent == null) {
             return false;
         }
         try {
             if ((intent.getFlags() & 1048576) == 0 && (data = intent.getData()) != null) {
                 String scheme = data.getScheme();
-                String str8 = null;
+                String str6 = null;
                 if (scheme != null) {
                     if (!scheme.equals("http") && !scheme.equals("https")) {
                         if (scheme.equals("tg")) {
                             String uri = data.toString();
                             if (uri.startsWith("tg:proxy") || uri.startsWith("tg://proxy") || uri.startsWith("tg:socks") || uri.startsWith("tg://socks")) {
                                 Uri parse = Uri.parse(uri.replace("tg:proxy", "tg://telegram.org").replace("tg://proxy", "tg://telegram.org").replace("tg://socks", "tg://telegram.org").replace("tg:socks", "tg://telegram.org"));
-                                String queryParameter = parse.getQueryParameter("server");
-                                if (checkHostForPunycode(queryParameter)) {
-                                    queryParameter = IDN.toASCII(queryParameter, 1);
+                                String queryParameter3 = parse.getQueryParameter("server");
+                                if (checkHostForPunycode(queryParameter3)) {
+                                    queryParameter3 = IDN.toASCII(queryParameter3, 1);
                                 }
-                                String str9 = queryParameter;
-                                String queryParameter2 = parse.getQueryParameter("port");
-                                String queryParameter3 = parse.getQueryParameter("user");
-                                str3 = parse.getQueryParameter("pass");
-                                str4 = parse.getQueryParameter("secret");
-                                str = queryParameter2;
-                                str2 = str9;
-                                str8 = queryParameter3;
-                                if (!TextUtils.isEmpty(str2) && !TextUtils.isEmpty(str)) {
-                                    showProxyAlert(activity, str2, str, str8 != null ? "" : str8, str3 != null ? "" : str3, str4 != null ? "" : str4);
+                                String str7 = queryParameter3;
+                                String queryParameter4 = parse.getQueryParameter("port");
+                                String queryParameter5 = parse.getQueryParameter("user");
+                                str2 = parse.getQueryParameter("pass");
+                                str = parse.getQueryParameter("secret");
+                                str4 = queryParameter4;
+                                str3 = str7;
+                                str6 = queryParameter5;
+                                if (!TextUtils.isEmpty(str3) && !TextUtils.isEmpty(str4)) {
+                                    showProxyAlert(activity, str3, str4, str6 != null ? "" : str6, str2 != null ? "" : str2, str != null ? "" : str);
                                     return true;
                                 }
                             }
@@ -3444,36 +3452,36 @@ public class AndroidUtilities {
                     }
                     String lowerCase = data.getHost().toLowerCase();
                     if ((lowerCase.equals("telegram.me") || lowerCase.equals("t.me") || lowerCase.equals("telegram.dog")) && (path = data.getPath()) != null && (path.startsWith("/socks") || path.startsWith("/proxy"))) {
-                        String queryParameter4 = data.getQueryParameter("server");
-                        if (checkHostForPunycode(queryParameter4)) {
-                            queryParameter4 = IDN.toASCII(queryParameter4, 1);
+                        String queryParameter6 = data.getQueryParameter("server");
+                        if (checkHostForPunycode(queryParameter6)) {
+                            queryParameter6 = IDN.toASCII(queryParameter6, 1);
                         }
-                        String str10 = queryParameter4;
-                        str7 = data.getQueryParameter("port");
-                        String queryParameter5 = data.getQueryParameter("user");
-                        str3 = data.getQueryParameter("pass");
-                        str5 = data.getQueryParameter("secret");
-                        str8 = queryParameter5;
-                        str6 = str10;
+                        String str8 = queryParameter6;
+                        queryParameter = data.getQueryParameter("port");
+                        String queryParameter7 = data.getQueryParameter("user");
+                        str2 = data.getQueryParameter("pass");
+                        queryParameter2 = data.getQueryParameter("secret");
+                        str6 = queryParameter7;
+                        str5 = str8;
                     } else {
-                        str7 = null;
-                        str6 = null;
+                        queryParameter = null;
                         str5 = null;
-                        str3 = null;
+                        queryParameter2 = null;
+                        str2 = null;
                     }
-                    str = str7;
-                    str2 = str6;
-                    str4 = str5;
-                    if (!TextUtils.isEmpty(str2)) {
-                        showProxyAlert(activity, str2, str, str8 != null ? "" : str8, str3 != null ? "" : str3, str4 != null ? "" : str4);
+                    str4 = queryParameter;
+                    str3 = str5;
+                    str = queryParameter2;
+                    if (!TextUtils.isEmpty(str3)) {
+                        showProxyAlert(activity, str3, str4, str6 != null ? "" : str6, str2 != null ? "" : str2, str != null ? "" : str);
                         return true;
                     }
                 }
-                str4 = null;
-                str3 = null;
-                str2 = null;
                 str = null;
-                if (!TextUtils.isEmpty(str2)) {
+                str2 = null;
+                str3 = null;
+                str4 = null;
+                if (!TextUtils.isEmpty(str3)) {
                 }
             }
         } catch (Exception unused) {
@@ -3562,6 +3570,7 @@ public class AndroidUtilities {
         builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showProxyAlert$10(String str, String str2, String str3, String str4, String str5, Runnable runnable, View view) {
         SharedConfig.ProxyInfo proxyInfo;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
@@ -3689,8 +3698,8 @@ public class AndroidUtilities {
         int i3 = 0;
         if (f2 == 0.0f) {
             i3 = (int) ((f3 * 255.0f) + 0.5f);
-            i2 = i3;
-            i = i2;
+            i = i3;
+            i2 = i;
         } else {
             float floor = (f - ((float) Math.floor(f))) * 6.0f;
             float floor2 = floor - ((float) Math.floor(floor));
@@ -3700,34 +3709,34 @@ public class AndroidUtilities {
             int i4 = (int) floor;
             if (i4 == 0) {
                 i3 = (int) ((f3 * 255.0f) + 0.5f);
-                i2 = (int) ((f6 * 255.0f) + 0.5f);
+                i = (int) ((f6 * 255.0f) + 0.5f);
             } else if (i4 == 1) {
                 i3 = (int) ((f5 * 255.0f) + 0.5f);
-                i2 = (int) ((f3 * 255.0f) + 0.5f);
+                i = (int) ((f3 * 255.0f) + 0.5f);
             } else if (i4 != 2) {
                 if (i4 == 3) {
                     i3 = (int) ((f4 * 255.0f) + 0.5f);
-                    i2 = (int) ((f5 * 255.0f) + 0.5f);
+                    i = (int) ((f5 * 255.0f) + 0.5f);
                 } else if (i4 == 4) {
                     i3 = (int) ((f6 * 255.0f) + 0.5f);
-                    i2 = (int) ((f4 * 255.0f) + 0.5f);
+                    i = (int) ((f4 * 255.0f) + 0.5f);
                 } else if (i4 != 5) {
-                    i2 = 0;
                     i = 0;
+                    i2 = 0;
                 } else {
                     i3 = (int) ((f3 * 255.0f) + 0.5f);
-                    i2 = (int) ((f4 * 255.0f) + 0.5f);
-                    i = (int) ((f5 * 255.0f) + 0.5f);
+                    i = (int) ((f4 * 255.0f) + 0.5f);
+                    i2 = (int) ((f5 * 255.0f) + 0.5f);
                 }
-                i = (int) ((f3 * 255.0f) + 0.5f);
+                i2 = (int) ((f3 * 255.0f) + 0.5f);
             } else {
                 i3 = (int) ((f4 * 255.0f) + 0.5f);
-                i2 = (int) ((f3 * 255.0f) + 0.5f);
-                i = (int) ((f6 * 255.0f) + 0.5f);
+                i = (int) ((f3 * 255.0f) + 0.5f);
+                i2 = (int) ((f6 * 255.0f) + 0.5f);
             }
-            i = (int) ((f4 * 255.0f) + 0.5f);
+            i2 = (int) ((f4 * 255.0f) + 0.5f);
         }
-        return ((i2 & 255) << 8) | (-16777216) | ((i3 & 255) << 16) | (i & 255);
+        return ((i & 255) << 8) | (-16777216) | ((i3 & 255) << 16) | (i2 & 255);
     }
 
     public static float computePerceivedBrightness(int i) {
@@ -3901,6 +3910,7 @@ public class AndroidUtilities {
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$registerFlagSecure$11(ArrayList arrayList, long j, Window window) {
         arrayList.remove(Long.valueOf(j));
         updateFlagSecure(window);
@@ -4076,6 +4086,7 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setNavigationBarColor$12(IntColorCallback intColorCallback, Window window, ValueAnimator valueAnimator) {
         int intValue = ((Integer) valueAnimator.getAnimatedValue()).intValue();
         if (intColorCallback != null) {
@@ -4090,39 +4101,38 @@ public class AndroidUtilities {
     public static boolean checkHostForPunycode(String str) {
         boolean z;
         boolean z2;
-        Exception e;
         if (str == null) {
             return false;
         }
         try {
             int length = str.length();
-            z2 = false;
             z = false;
+            z2 = false;
             for (int i = 0; i < length; i++) {
                 try {
                     char charAt = str.charAt(i);
                     if (charAt != '.' && charAt != '-' && charAt != '/' && charAt != '+' && (charAt < '0' || charAt > '9')) {
                         if ((charAt < 'a' || charAt > 'z') && (charAt < 'A' || charAt > 'Z')) {
-                            z = true;
-                        } else {
                             z2 = true;
+                        } else {
+                            z = true;
                         }
-                        if (z2 && z) {
+                        if (z && z2) {
                             break;
                         }
                     }
-                } catch (Exception e2) {
-                    e = e2;
+                } catch (Exception e) {
+                    e = e;
                     FileLog.e(e);
-                    return !z2 ? false : false;
+                    return !z ? false : false;
                 }
             }
-        } catch (Exception e3) {
-            e = e3;
-            z2 = false;
+        } catch (Exception e2) {
+            e = e2;
             z = false;
+            z2 = false;
         }
-        if (!z2 && z) {
+        if (!z && z2) {
             return true;
         }
     }
@@ -4159,6 +4169,7 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$scrollToFragmentRow$13(BaseFragment baseFragment, String str, RecyclerListView recyclerListView) {
         int i = -1;
         try {
@@ -4208,6 +4219,7 @@ public class AndroidUtilities {
         duration.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$updateImageViewImageAnimated$14(ImageView imageView, AtomicBoolean atomicBoolean, Drawable drawable, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float abs = Math.abs(floatValue - 0.5f) + 0.5f;
@@ -4272,19 +4284,18 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0051 A[Catch: all -> 0x0073, TryCatch #1 {all -> 0x0073, blocks: (B:7:0x0015, B:8:0x0020, B:10:0x0024, B:16:0x0031, B:18:0x0041, B:20:0x004c, B:22:0x0051, B:23:0x0056), top: B:49:0x0015 }] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0056 A[Catch: all -> 0x0073, TRY_LEAVE, TryCatch #1 {all -> 0x0073, blocks: (B:7:0x0015, B:8:0x0020, B:10:0x0024, B:16:0x0031, B:18:0x0041, B:20:0x004c, B:22:0x0051, B:23:0x0056), top: B:49:0x0015 }] */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0064 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0051 A[Catch: all -> 0x0073, TryCatch #1 {all -> 0x0073, blocks: (B:6:0x0020, B:8:0x0024, B:14:0x0031, B:16:0x0041, B:19:0x004c, B:21:0x0051, B:30:0x0056, B:38:0x0015), top: B:37:0x0015 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0064 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0056 A[Catch: all -> 0x0073, TRY_LEAVE, TryCatch #1 {all -> 0x0073, blocks: (B:6:0x0020, B:8:0x0024, B:14:0x0031, B:16:0x0041, B:19:0x004c, B:21:0x0051, B:30:0x0056, B:38:0x0015), top: B:37:0x0015 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static Bitmap getScaledBitmap(float f, float f2, String str, String str2, int i) {
-        Throwable th;
         FileInputStream fileInputStream;
         BitmapFactory.Options options;
         int i2;
         int i3;
-        Bitmap bitmap;
+        Bitmap decodeStream;
         int i4;
         try {
             try {
@@ -4298,8 +4309,8 @@ public class AndroidUtilities {
                     try {
                         fileInputStream.getChannel().position(i);
                         BitmapFactory.decodeStream(fileInputStream, null, options);
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th) {
+                        th = th;
                         try {
                             FileLog.e(th);
                             if (fileInputStream != null) {
@@ -4321,8 +4332,8 @@ public class AndroidUtilities {
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             fileInputStream = null;
         }
         if (i2 <= 0 || (i3 = options.outHeight) <= 0) {
@@ -4341,7 +4352,7 @@ public class AndroidUtilities {
             options.inJustDecodeBounds = false;
             if (str == null) {
             }
-            return bitmap;
+            return decodeStream;
         }
         do {
             i4 = options.inSampleSize * 2;
@@ -4349,12 +4360,12 @@ public class AndroidUtilities {
         } while (i4 < min);
         options.inJustDecodeBounds = false;
         if (str == null) {
-            bitmap = BitmapFactory.decodeFile(str, options);
+            decodeStream = BitmapFactory.decodeFile(str, options);
         } else {
             fileInputStream.getChannel().position(i);
-            bitmap = BitmapFactory.decodeStream(fileInputStream, null, options);
+            decodeStream = BitmapFactory.decodeStream(fileInputStream, null, options);
         }
-        return bitmap;
+        return decodeStream;
     }
 
     public static Uri getBitmapShareUri(Bitmap bitmap, String str, Bitmap.CompressFormat compressFormat) {

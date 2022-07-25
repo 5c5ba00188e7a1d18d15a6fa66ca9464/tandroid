@@ -15,10 +15,9 @@ public class f0 {
         public long c;
 
         public a(long j) {
-            f0.this = r4;
             this.a += "_" + j;
             this.c = j;
-            r4.b = false;
+            f0.this.b = false;
         }
 
         public void a(long j) {

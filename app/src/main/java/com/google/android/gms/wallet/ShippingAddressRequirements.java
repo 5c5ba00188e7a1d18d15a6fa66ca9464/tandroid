@@ -23,6 +23,7 @@ public final class ShippingAddressRequirements extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ShippingAddressRequirements(ArrayList<String> arrayList) {
         this.zza = arrayList;
     }

@@ -5,7 +5,8 @@ import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 /* loaded from: classes.dex */
 public final class EventStoreModule_StoreConfigFactory implements Factory<EventStoreConfig> {
     @Override // javax.inject.Provider
-    public EventStoreConfig get() {
+    /* renamed from: get */
+    public EventStoreConfig mo70get() {
         return storeConfig();
     }
 
@@ -17,9 +18,8 @@ public final class EventStoreModule_StoreConfigFactory implements Factory<EventS
         return (EventStoreConfig) Preconditions.checkNotNull(EventStoreModule.storeConfig(), "Cannot return null from a non-@Nullable @Provides method");
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class InstanceHolder {
+    private static final class InstanceHolder {
         private static final EventStoreModule_StoreConfigFactory INSTANCE = new EventStoreModule_StoreConfigFactory();
     }
 }

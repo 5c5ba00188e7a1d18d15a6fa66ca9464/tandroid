@@ -29,10 +29,12 @@ public final class PeerConnectionDependencies {
         return new Builder(observer);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public PeerConnection.Observer getObserver() {
         return this.observer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public SSLCertificateVerifier getSSLCertificateVerifier() {
         return this.sslCertificateVerifier;
     }

@@ -47,10 +47,10 @@ public class PhotoViewerWebView extends FrameLayout {
     protected void processTouch(MotionEvent motionEvent) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class YoutubeProxy {
         private YoutubeProxy() {
-            PhotoViewerWebView.this = r1;
         }
 
         @JavascriptInterface
@@ -65,6 +65,7 @@ public class PhotoViewerWebView extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$postEvent$0() {
             PhotoViewerWebView.this.progressBar.setVisibility(4);
             PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);

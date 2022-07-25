@@ -176,11 +176,9 @@ public class a {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v0 */
-    /* JADX WARN: Type inference failed for: r1v1, types: [java.io.InputStream] */
-    /* JADX WARN: Type inference failed for: r1v2 */
+    /* JADX WARN: Type inference failed for: r1v1 */
+    /* JADX WARN: Type inference failed for: r1v2, types: [java.io.InputStream] */
     public static X509Certificate a(Context context, String str) {
-        Throwable th;
-        Exception e;
         InputStream inputStream;
         KeyStore keyStore;
         ?? r1 = 0;
@@ -190,54 +188,54 @@ public class a {
                     try {
                         keyStore = KeyStore.getInstance("bks");
                         inputStream = context.getAssets().open("hmsrootcas.bks");
-                    } catch (IOException e2) {
+                    } catch (IOException e) {
+                        e = e;
+                        inputStream = null;
+                        HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
+                        IOUtils.closeQuietly(inputStream);
+                        return null;
+                    } catch (KeyStoreException e2) {
                         e = e2;
                         inputStream = null;
                         HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
                         IOUtils.closeQuietly(inputStream);
                         return null;
-                    } catch (KeyStoreException e3) {
+                    } catch (NoSuchAlgorithmException e3) {
                         e = e3;
                         inputStream = null;
                         HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
                         IOUtils.closeQuietly(inputStream);
                         return null;
-                    } catch (NoSuchAlgorithmException e4) {
+                    } catch (CertificateException e4) {
                         e = e4;
                         inputStream = null;
                         HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
                         IOUtils.closeQuietly(inputStream);
                         return null;
-                    } catch (CertificateException e5) {
-                        e = e5;
-                        inputStream = null;
-                        HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
-                        IOUtils.closeQuietly(inputStream);
-                        return null;
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th) {
+                        th = th;
                         IOUtils.closeQuietly((InputStream) r1);
                         throw th;
                     }
                     try {
                         keyStore.load(inputStream, "".toCharArray());
-                    } catch (IOException e6) {
+                    } catch (IOException e5) {
+                        e = e5;
+                        HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
+                        IOUtils.closeQuietly(inputStream);
+                        return null;
+                    } catch (KeyStoreException e6) {
                         e = e6;
                         HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
                         IOUtils.closeQuietly(inputStream);
                         return null;
-                    } catch (KeyStoreException e7) {
+                    } catch (NoSuchAlgorithmException e7) {
                         e = e7;
                         HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
                         IOUtils.closeQuietly(inputStream);
                         return null;
-                    } catch (NoSuchAlgorithmException e8) {
+                    } catch (CertificateException e8) {
                         e = e8;
-                        HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
-                        IOUtils.closeQuietly(inputStream);
-                        return null;
-                    } catch (CertificateException e9) {
-                        e = e9;
                         HMSLog.e("X509CertUtil", "exception:" + e.getMessage());
                         IOUtils.closeQuietly(inputStream);
                         return null;
@@ -257,8 +255,8 @@ public class a {
                     IOUtils.closeQuietly(inputStream);
                     return x509Certificate;
                 }
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th2) {
+                th = th2;
                 r1 = context;
             }
         }

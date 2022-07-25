@@ -48,13 +48,13 @@ public class SessionCell extends FrameLayout {
     private AnimatedFloat showStubValue = new AnimatedFloat(this);
     private int currentAccount = UserConfig.selectedAccount;
 
-    /* JADX WARN: Removed duplicated region for block: B:85:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0250  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0294  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0296  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x024e  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0294  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0296  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0250  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x023f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -210,7 +210,7 @@ public class SessionCell extends FrameLayout {
 
     public void setSession(TLObject tLObject, boolean z) {
         String str;
-        String str2;
+        String stringForMessageListDate;
         this.needDivider = z;
         if (tLObject instanceof TLRPC$TL_authorization) {
             TLRPC$TL_authorization tLRPC$TL_authorization = (TLRPC$TL_authorization) tLObject;
@@ -233,10 +233,10 @@ public class SessionCell extends FrameLayout {
             this.nameTextView.setText(sb);
             if ((tLRPC$TL_authorization.flags & 1) != 0) {
                 setTag("windowBackgroundWhiteValueText");
-                str2 = LocaleController.getString("Online", R.string.Online);
+                stringForMessageListDate = LocaleController.getString("Online", R.string.Online);
             } else {
                 setTag("windowBackgroundWhiteGrayText3");
-                str2 = LocaleController.stringForMessageListDate(tLRPC$TL_authorization.date_active);
+                stringForMessageListDate = LocaleController.stringForMessageListDate(tLRPC$TL_authorization.date_active);
             }
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             if (tLRPC$TL_authorization.country.length() != 0) {
@@ -247,7 +247,7 @@ public class SessionCell extends FrameLayout {
                 dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
                 spannableStringBuilder.append((CharSequence) " . ").setSpan(dotDividerSpan, spannableStringBuilder.length() - 2, spannableStringBuilder.length() - 1, 0);
             }
-            spannableStringBuilder.append((CharSequence) str2);
+            spannableStringBuilder.append((CharSequence) stringForMessageListDate);
             this.detailExTextView.setText(spannableStringBuilder);
             StringBuilder sb2 = new StringBuilder();
             sb2.append(tLRPC$TL_authorization.app_name);

@@ -11,6 +11,7 @@ final class zacm implements Runnable {
     private final /* synthetic */ Result zaa;
     private final /* synthetic */ zacn zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zacm(zacn zacnVar, Result result) {
         this.zab = zacnVar;
         this.zaa = result;

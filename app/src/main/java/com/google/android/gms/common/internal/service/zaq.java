@@ -23,7 +23,7 @@ public final class zaq extends GoogleApi<Api.ApiOptions.NoOptions> implements za
     }
 
     @Override // com.google.android.gms.common.internal.zaac
-    public final Task<Void> zaa(zaaa zaaaVar) {
+    public final Task<Void> zaa(final zaaa zaaaVar) {
         return doBestEffortWrite(TaskApiCall.builder().setFeatures(zae.zaa).setAutoResolveMissingFeatures(false).run(new RemoteCall(zaaaVar) { // from class: com.google.android.gms.common.internal.service.zap
             private final zaaa zaa;
 
@@ -39,6 +39,7 @@ public final class zaq extends GoogleApi<Api.ApiOptions.NoOptions> implements za
         }).build());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ void zaa(zaaa zaaaVar, zar zarVar, TaskCompletionSource taskCompletionSource) throws RemoteException {
         ((zak) zarVar.getService()).zaa(zaaaVar);
         taskCompletionSource.setResult(null);

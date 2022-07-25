@@ -41,16 +41,19 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
     private final SchemaManager schemaManager;
     private final Clock wallClock;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface Function<T, U> {
         U apply(T t);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface Producer<T> {
         T produce();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public SQLiteEventStore(Clock clock, Clock clock2, EventStoreConfig eventStoreConfig, SchemaManager schemaManager, Lazy<String> lazy) {
         this.schemaManager = schemaManager;
         this.wallClock = clock;
@@ -70,6 +73,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         }, SQLiteEventStore$$ExternalSyntheticLambda22.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ SQLiteDatabase lambda$getDb$0(Throwable th) {
         throw new SynchronizationException("Timed out while trying to open db.", th);
     }
@@ -91,6 +95,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return PersistedEvent.create(longValue, transportContext, eventInternal);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Long lambda$persist$1(EventInternal eventInternal, TransportContext transportContext, SQLiteDatabase sQLiteDatabase) {
         if (isStorageAtLimit()) {
             recordLogEventDropped(1L, LogEventDropped.Reason.CACHE_FULL, eventInternal.getTransportName());
@@ -163,6 +168,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return (Long) tryWithCursor(sQLiteDatabase.query("transport_contexts", new String[]{"_id"}, sb.toString(), (String[]) arrayList.toArray(new String[0]), null, null, null), SQLiteEventStore$$ExternalSyntheticLambda18.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Long lambda$getTransportContextId$2(Cursor cursor) {
         if (!cursor.moveToNext()) {
             return null;
@@ -186,6 +192,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$recordFailure$4(String str, String str2, SQLiteDatabase sQLiteDatabase) {
         sQLiteDatabase.compileStatement(str).execute();
         tryWithCursor(sQLiteDatabase.rawQuery(str2, null), new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda4
@@ -200,6 +207,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$recordFailure$3(Cursor cursor) {
         while (cursor.moveToNext()) {
             int i = cursor.getInt(0);
@@ -234,6 +242,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return ((Long) tryWithCursor(getDb().rawQuery("SELECT next_request_ms FROM transport_contexts WHERE backend_name = ? and priority = ?", new String[]{transportContext.getBackendName(), String.valueOf(PriorityMapping.toInt(transportContext.getPriority()))}), SQLiteEventStore$$ExternalSyntheticLambda17.INSTANCE)).longValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Long lambda$getNextCallTime$5(Cursor cursor) {
         if (cursor.moveToNext()) {
             return Long.valueOf(cursor.getLong(0));
@@ -253,6 +262,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         })).booleanValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Boolean lambda$hasPendingEventsFor$6(TransportContext transportContext, SQLiteDatabase sQLiteDatabase) {
         Long transportContextId = getTransportContextId(sQLiteDatabase, transportContext);
         if (transportContextId == null) {
@@ -273,6 +283,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Object lambda$recordNextCallTime$7(long j, TransportContext transportContext, SQLiteDatabase sQLiteDatabase) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("next_request_ms", Long.valueOf(j));
@@ -296,6 +307,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ List lambda$loadBatch$8(TransportContext transportContext, SQLiteDatabase sQLiteDatabase) {
         List<PersistedEvent> loadEvents = loadEvents(sQLiteDatabase, transportContext);
         return join(loadEvents, loadMetadata(sQLiteDatabase, loadEvents));
@@ -306,10 +318,12 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return (Iterable) inTransaction(SQLiteEventStore$$ExternalSyntheticLambda21.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ List lambda$loadActiveContexts$10(SQLiteDatabase sQLiteDatabase) {
         return (List) tryWithCursor(sQLiteDatabase.rawQuery("SELECT distinct t._id, t.backend_name, t.priority, t.extras FROM transport_contexts AS t, events AS e WHERE e.context_id = t._id", new String[0]), SQLiteEventStore$$ExternalSyntheticLambda16.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ List lambda$loadActiveContexts$9(Cursor cursor) {
         ArrayList arrayList = new ArrayList();
         while (cursor.moveToNext()) {
@@ -331,6 +345,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         })).intValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Integer lambda$cleanUp$12(long j, SQLiteDatabase sQLiteDatabase) {
         String[] strArr = {String.valueOf(j)};
         tryWithCursor(sQLiteDatabase.rawQuery("SELECT COUNT(*), transport_name FROM events WHERE timestamp_ms < ? GROUP BY transport_name", strArr), new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda3
@@ -344,6 +359,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return Integer.valueOf(sQLiteDatabase.delete("events", "timestamp_ms < ?", strArr));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$cleanUp$11(Cursor cursor) {
         while (cursor.moveToNext()) {
             int i = cursor.getInt(0);
@@ -381,6 +397,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$loadEvents$14(List list, TransportContext transportContext, Cursor cursor) {
         while (cursor.moveToNext()) {
             boolean z = false;
@@ -406,6 +423,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return (byte[]) tryWithCursor(getDb().query("event_payloads", new String[]{"bytes"}, "event_id = ?", new String[]{String.valueOf(j)}, null, null, "sequence_num"), SQLiteEventStore$$ExternalSyntheticLambda15.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ byte[] lambda$readPayload$15(Cursor cursor) {
         ArrayList arrayList = new ArrayList();
         int i = 0;
@@ -452,6 +470,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return hashMap;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Object lambda$loadMetadata$16(Map map, Cursor cursor) {
         while (cursor.moveToNext()) {
             long j = cursor.getLong(0);
@@ -506,6 +525,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Object lambda$recordLogEventDropped$18(String str, LogEventDropped.Reason reason, long j, SQLiteDatabase sQLiteDatabase) {
         if (!((Boolean) tryWithCursor(sQLiteDatabase.rawQuery("SELECT 1 FROM log_event_dropped WHERE log_source = ? AND reason = ?", new String[]{str, Integer.toString(reason.getNumber())}), SQLiteEventStore$$ExternalSyntheticLambda19.INSTANCE)).booleanValue()) {
             ContentValues contentValues = new ContentValues();
@@ -519,6 +539,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Boolean lambda$recordLogEventDropped$17(Cursor cursor) {
         return Boolean.valueOf(cursor.getCount() > 0);
     }
@@ -570,6 +591,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ ClientMetrics lambda$loadClientMetrics$20(String str, final Map map, final ClientMetrics.Builder builder, SQLiteDatabase sQLiteDatabase) {
         return (ClientMetrics) tryWithCursor(sQLiteDatabase.rawQuery(str, new String[0]), new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda12
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore.Function
@@ -581,6 +603,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ ClientMetrics lambda$loadClientMetrics$19(Map map, ClientMetrics.Builder builder, Cursor cursor) {
         while (cursor.moveToNext()) {
             String string = cursor.getString(0);
@@ -616,6 +639,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ TimeWindow lambda$getTimeWindow$22(final long j, SQLiteDatabase sQLiteDatabase) {
         return (TimeWindow) tryWithCursor(sQLiteDatabase.rawQuery("SELECT last_metrics_upload_ms FROM global_log_event_state LIMIT 1", new String[0]), new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda0
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore.Function
@@ -627,6 +651,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ TimeWindow lambda$getTimeWindow$21(long j, Cursor cursor) {
         cursor.moveToNext();
         return TimeWindow.newBuilder().setStartMs(cursor.getLong(0)).setEndMs(j).build();
@@ -647,6 +672,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         }, SQLiteEventStore$$ExternalSyntheticLambda23.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Object lambda$ensureBeginTransaction$25(Throwable th) {
         throw new SynchronizationException("Timed out while trying to acquire the lock.", th);
     }
@@ -676,6 +702,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Metadata {
         final String key;

@@ -73,10 +73,8 @@ public class SharedPhotoVideoCell extends FrameLayout {
         private FrameLayout videoInfoContainer;
         private TextView videoTextView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public PhotoVideoView(Context context) {
             super(context);
-            SharedPhotoVideoCell.this = r13;
             setWillNotDraw(false);
             FrameLayout frameLayout = new FrameLayout(context);
             this.container = frameLayout;
@@ -86,7 +84,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
             backupImageView.getImageReceiver().setNeedsQualityThumb(true);
             this.imageView.getImageReceiver().setShouldGenerateQualityThumb(true);
             this.container.addView(this.imageView, LayoutHelper.createFrame(-1, -1.0f));
-            FrameLayout frameLayout2 = new FrameLayout(this, context, r13) { // from class: org.telegram.ui.Cells.SharedPhotoVideoCell.PhotoVideoView.1
+            FrameLayout frameLayout2 = new FrameLayout(this, context, SharedPhotoVideoCell.this) { // from class: org.telegram.ui.Cells.SharedPhotoVideoCell.PhotoVideoView.1
                 private RectF rect = new RectF();
 
                 @Override // android.view.View
@@ -320,6 +318,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.delegate != null) {
             int intValue = ((Integer) view.getTag()).intValue();
@@ -327,6 +326,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(View view) {
         if (this.delegate != null) {
             int intValue = ((Integer) view.getTag()).intValue();
@@ -423,36 +423,36 @@ public class SharedPhotoVideoCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        int i3;
+        int itemSize;
         if (this.type == 1) {
-            i3 = (View.MeasureSpec.getSize(i) - ((this.itemsCount - 1) * AndroidUtilities.dp(2.0f))) / this.itemsCount;
+            itemSize = (View.MeasureSpec.getSize(i) - ((this.itemsCount - 1) * AndroidUtilities.dp(2.0f))) / this.itemsCount;
         } else {
-            i3 = getItemSize(this.itemsCount);
+            itemSize = getItemSize(this.itemsCount);
         }
         this.ignoreLayout = true;
-        int i4 = 0;
-        for (int i5 = 0; i5 < this.itemsCount; i5++) {
-            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.photoVideoViews[i5].getLayoutParams();
+        int i3 = 0;
+        for (int i4 = 0; i4 < this.itemsCount; i4++) {
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.photoVideoViews[i4].getLayoutParams();
             layoutParams.topMargin = this.isFirst ? 0 : AndroidUtilities.dp(2.0f);
-            layoutParams.leftMargin = (AndroidUtilities.dp(2.0f) + i3) * i5;
-            if (i5 == this.itemsCount - 1) {
+            layoutParams.leftMargin = (AndroidUtilities.dp(2.0f) + itemSize) * i4;
+            if (i4 == this.itemsCount - 1) {
                 if (AndroidUtilities.isTablet()) {
-                    layoutParams.width = AndroidUtilities.dp(490.0f) - ((this.itemsCount - 1) * (AndroidUtilities.dp(2.0f) + i3));
+                    layoutParams.width = AndroidUtilities.dp(490.0f) - ((this.itemsCount - 1) * (AndroidUtilities.dp(2.0f) + itemSize));
                 } else {
-                    layoutParams.width = AndroidUtilities.displaySize.x - ((this.itemsCount - 1) * (AndroidUtilities.dp(2.0f) + i3));
+                    layoutParams.width = AndroidUtilities.displaySize.x - ((this.itemsCount - 1) * (AndroidUtilities.dp(2.0f) + itemSize));
                 }
             } else {
-                layoutParams.width = i3;
+                layoutParams.width = itemSize;
             }
-            layoutParams.height = i3;
+            layoutParams.height = itemSize;
             layoutParams.gravity = 51;
-            this.photoVideoViews[i5].setLayoutParams(layoutParams);
+            this.photoVideoViews[i4].setLayoutParams(layoutParams);
         }
         this.ignoreLayout = false;
         if (!this.isFirst) {
-            i4 = AndroidUtilities.dp(2.0f);
+            i3 = AndroidUtilities.dp(2.0f);
         }
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(i4 + i3, 1073741824));
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(i3 + itemSize, 1073741824));
     }
 
     public static int getItemSize(int i) {

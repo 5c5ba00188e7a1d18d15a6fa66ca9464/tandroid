@@ -148,6 +148,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         imageView.setContentDescription(charSequence);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addIconTab$0(int i, View view) {
         if (!(this.pager.getAdapter() instanceof IconTabProvider) || ((IconTabProvider) this.pager.getAdapter()).canScrollToTab(i)) {
             this.pager.setCurrentItem(i, false);
@@ -177,6 +178,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         this.tabsContainer.measure(getMeasuredWidth() | 1073741824, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void scrollToChild(int i, int i2) {
         if (this.tabCount == 0) {
             return;
@@ -222,11 +224,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         canvas.drawRect(f3, height - this.indicatorHeight, f2, height, this.rectPaint);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class PageListener implements ViewPager.OnPageChangeListener {
+    private class PageListener implements ViewPager.OnPageChangeListener {
         private PageListener() {
-            PagerSlidingTabStrip.this = r1;
         }
 
         @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -271,6 +271,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;

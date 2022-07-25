@@ -133,6 +133,7 @@ public class Browser {
         customTabsSession = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class NavigationCallback extends CustomTabsCallback {
         @Override // org.telegram.messenger.support.customtabs.CustomTabsCallback
@@ -188,10 +189,10 @@ public class Browser {
         return isTelegraphUrl(str, false, true) || str.matches("^(https://)?t\\.me/iv\\??.*") || str.matches("^(https://)?telegram\\.org/(blog|tour)/?.*");
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(14:54|(2:128|55)|(11:59|60|(5:63|(2:65|140)(1:141)|66|126|61)|118|68|(3:70|(4:73|(2:74|(1:1)(2:76|(3:135|78|134)(1:79)))|80|71)|132)(3:81|(4:84|(2:88|137)(1:138)|89|82)|136)|90|(3:92|(3:95|96|93)|139)|97|98|(2:103|104))|67|118|68|(0)(0)|90|(0)|97|98|(0)|103|104) */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x01f4  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x021d  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x025c  */
+    /* JADX WARN: Can't wrap try/catch for region: R(14:40|(2:41|42)|(11:46|47|(5:51|(2:53|54)(1:56)|55|48|49)|57|58|(3:60|(4:63|(2:64|(1:1)(2:66|(3:69|70|71)(1:68)))|72|61)|74)(3:94|(4:97|(2:103|104)(1:101)|102|95)|105)|75|(3:77|(3:80|81|78)|82)|84|85|(2:90|91))|110|57|58|(0)(0)|75|(0)|84|85|(0)|90|91) */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x025c  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x021d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -360,6 +361,7 @@ public class Browser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openUrl$1(final AlertDialog[] alertDialogArr, final int i, final Uri uri, final Context context, final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -369,8 +371,9 @@ public class Browser {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0036  */
-    /* JADX WARN: Removed duplicated region for block: B:18:? A[RETURN, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0036  */
+    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -398,6 +401,7 @@ public class Browser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openUrl$3(AlertDialog[] alertDialogArr, final int i) {
         if (alertDialogArr[0] == null) {
             return;
@@ -414,6 +418,7 @@ public class Browser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openUrl$2(int i, DialogInterface dialogInterface) {
         ConnectionsManager.getInstance(UserConfig.selectedAccount).cancelRequest(i, true);
     }

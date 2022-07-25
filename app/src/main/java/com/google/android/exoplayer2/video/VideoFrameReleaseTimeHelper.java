@@ -66,7 +66,7 @@ public final class VideoFrameReleaseTimeHelper {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0048  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -127,6 +127,7 @@ public final class VideoFrameReleaseTimeHelper {
         return new DefaultDisplayListener(displayManager);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateDefaultDisplayRefreshRateParams() {
         Display defaultDisplay = this.windowManager.getDefaultDisplay();
         if (defaultDisplay != null) {
@@ -154,6 +155,7 @@ public final class VideoFrameReleaseTimeHelper {
         return j5 - j < j - j4 ? j5 : j4;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(17)
     /* loaded from: classes.dex */
     public final class DefaultDisplayListener implements DisplayManager.DisplayListener {
@@ -168,7 +170,6 @@ public final class VideoFrameReleaseTimeHelper {
         }
 
         public DefaultDisplayListener(DisplayManager displayManager) {
-            VideoFrameReleaseTimeHelper.this = r1;
             this.displayManager = displayManager;
         }
 
@@ -188,9 +189,8 @@ public final class VideoFrameReleaseTimeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class VSyncSampler implements Choreographer.FrameCallback, Handler.Callback {
+    private static final class VSyncSampler implements Choreographer.FrameCallback, Handler.Callback {
         private static final VSyncSampler INSTANCE = new VSyncSampler();
         private Choreographer choreographer;
         private final HandlerThread choreographerOwnerThread;

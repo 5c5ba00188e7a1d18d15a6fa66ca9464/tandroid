@@ -130,7 +130,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
     protected void onMeasure(int i, int i2) {
         int i3;
         CharSequence highlightText;
-        CharSequence charSequence;
+        CharSequence replace;
         this.descriptionLayout = null;
         this.titleLayout = null;
         this.captionLayout = null;
@@ -147,15 +147,15 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         }
         try {
             if (this.viewType == 1 && (this.currentMessageObject.isVoice() || this.currentMessageObject.isRoundVideo())) {
-                charSequence = FilteredSearchView.createFromInfoString(this.currentMessageObject);
+                replace = FilteredSearchView.createFromInfoString(this.currentMessageObject);
             } else {
-                charSequence = this.currentMessageObject.getMusicTitle().replace('\n', ' ');
+                replace = this.currentMessageObject.getMusicTitle().replace('\n', ' ');
             }
-            CharSequence highlightText2 = AndroidUtilities.highlightText(charSequence, this.currentMessageObject.highlightedWords, this.resourcesProvider);
+            CharSequence highlightText2 = AndroidUtilities.highlightText(replace, this.currentMessageObject.highlightedWords, this.resourcesProvider);
             if (highlightText2 != null) {
-                charSequence = highlightText2;
+                replace = highlightText2;
             }
-            this.titleLayout = new StaticLayout(TextUtils.ellipsize(charSequence, Theme.chat_contextResult_titleTextPaint, size - i3, TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, (AndroidUtilities.dp(4.0f) + size) - i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            this.titleLayout = new StaticLayout(TextUtils.ellipsize(replace, Theme.chat_contextResult_titleTextPaint, size - i3, TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, (AndroidUtilities.dp(4.0f) + size) - i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -168,9 +168,9 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
                 TextPaint textPaint = this.viewType == 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
                 this.descriptionLayout = new StaticLayout(TextUtils.ellipsize(formatDuration, textPaint, size, TextUtils.TruncateAt.END), textPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             } else {
-                String replace = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
-                ?? highlightText3 = AndroidUtilities.highlightText(replace, this.currentMessageObject.highlightedWords, this.resourcesProvider);
-                String str = replace;
+                String replace2 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
+                ?? highlightText3 = AndroidUtilities.highlightText(replace2, this.currentMessageObject.highlightedWords, this.resourcesProvider);
+                String str = replace2;
                 if (highlightText3 != null) {
                     str = highlightText3;
                 }
@@ -264,8 +264,8 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         this.radialProgress.initMiniIcons();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0064  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

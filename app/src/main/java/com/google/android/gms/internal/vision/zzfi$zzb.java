@@ -24,6 +24,7 @@ public final class zzfi$zzb extends zzjb<zzfi$zzb, zza> implements zzkm {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zzb>, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {

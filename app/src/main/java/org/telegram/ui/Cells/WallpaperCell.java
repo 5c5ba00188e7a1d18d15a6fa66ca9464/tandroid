@@ -53,6 +53,7 @@ public class WallpaperCell extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class WallpaperView extends FrameLayout {
         private AnimatorSet animator;
@@ -63,12 +64,11 @@ public class WallpaperCell extends FrameLayout {
         private boolean isSelected;
         private View selector;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public WallpaperView(Context context) {
             super(context);
-            WallpaperCell.this = r8;
             setWillNotDraw(false);
-            BackupImageView backupImageView = new BackupImageView(context, r8) { // from class: org.telegram.ui.Cells.WallpaperCell.WallpaperView.1
+            BackupImageView backupImageView = new BackupImageView(context, WallpaperCell.this) { // from class: org.telegram.ui.Cells.WallpaperCell.WallpaperView.1
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.BackupImageView, android.view.View
                 public void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
@@ -115,10 +115,10 @@ public class WallpaperCell extends FrameLayout {
         }
 
         public void setWallpaper(Object obj, Object obj2, Drawable drawable, boolean z) {
-            int i;
-            int i2;
+            int patternColor;
+            int patternColor2;
             this.currentWallpaper = obj;
-            int i3 = 0;
+            int i = 0;
             this.imageView.setVisibility(0);
             this.imageView2.setVisibility(4);
             TLRPC$PhotoSize tLRPC$PhotoSize = null;
@@ -160,13 +160,13 @@ public class WallpaperCell extends FrameLayout {
                         this.imageView.getImageReceiver().setGradientBitmap(motionBackgroundDrawable.getBitmap());
                     }
                     TLRPC$WallPaperSettings tLRPC$WallPaperSettings3 = tLRPC$TL_wallPaper.settings;
-                    i2 = MotionBackgroundDrawable.getPatternColor(tLRPC$WallPaperSettings3.background_color, tLRPC$WallPaperSettings3.second_background_color, tLRPC$WallPaperSettings3.third_background_color, tLRPC$WallPaperSettings3.fourth_background_color);
+                    patternColor2 = MotionBackgroundDrawable.getPatternColor(tLRPC$WallPaperSettings3.background_color, tLRPC$WallPaperSettings3.second_background_color, tLRPC$WallPaperSettings3.third_background_color, tLRPC$WallPaperSettings3.fourth_background_color);
                 } else {
                     this.imageView.setBackgroundColor(Theme.getWallpaperColor(tLRPC$WallPaperSettings.background_color));
-                    i2 = AndroidUtilities.getPatternColor(tLRPC$TL_wallPaper.settings.background_color);
+                    patternColor2 = AndroidUtilities.getPatternColor(tLRPC$TL_wallPaper.settings.background_color);
                 }
                 if (Build.VERSION.SDK_INT < 29 || tLRPC$TL_wallPaper.settings.third_background_color == 0) {
-                    this.imageView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(AndroidUtilities.getPatternColor(i2), PorterDuff.Mode.SRC_IN));
+                    this.imageView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(AndroidUtilities.getPatternColor(patternColor2), PorterDuff.Mode.SRC_IN));
                 }
                 if (tLRPC$PhotoSize != null) {
                     this.imageView.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, tLRPC$TL_wallPaper.document), str, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$TL_wallPaper.document), null, "jpg", j, 1, tLRPC$TL_wallPaper);
@@ -187,9 +187,9 @@ public class WallpaperCell extends FrameLayout {
                         } else {
                             this.imageView.getImageReceiver().setGradientBitmap(motionBackgroundDrawable2.getBitmap());
                         }
-                        i = MotionBackgroundDrawable.getPatternColor(colorWallpaper.color, colorWallpaper.gradientColor1, colorWallpaper.gradientColor2, colorWallpaper.gradientColor3);
+                        patternColor = MotionBackgroundDrawable.getPatternColor(colorWallpaper.color, colorWallpaper.gradientColor1, colorWallpaper.gradientColor2, colorWallpaper.gradientColor3);
                     } else {
-                        i = AndroidUtilities.getPatternColor(colorWallpaper.color);
+                        patternColor = AndroidUtilities.getPatternColor(colorWallpaper.color);
                     }
                     if ("d".equals(colorWallpaper.slug)) {
                         if (colorWallpaper.defaultCache == null) {
@@ -210,7 +210,7 @@ public class WallpaperCell extends FrameLayout {
                     if (Build.VERSION.SDK_INT >= 29 && colorWallpaper.gradientColor2 != 0) {
                         return;
                     }
-                    this.imageView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(AndroidUtilities.getPatternColor(i), PorterDuff.Mode.SRC_IN));
+                    this.imageView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(AndroidUtilities.getPatternColor(patternColor), PorterDuff.Mode.SRC_IN));
                     return;
                 }
                 this.imageView.setImageBitmap(null);
@@ -247,9 +247,9 @@ public class WallpaperCell extends FrameLayout {
                         tLRPC$PhotoSize = closestPhotoSizeWithSize5;
                     }
                     if (tLRPC$PhotoSize != null) {
-                        i3 = tLRPC$PhotoSize.size;
+                        i = tLRPC$PhotoSize.size;
                     }
-                    this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), str, ImageLocation.getForPhoto(closestPhotoSizeWithSize4, searchImage.photo), str2, "jpg", i3, 1, searchImage);
+                    this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), str, ImageLocation.getForPhoto(closestPhotoSizeWithSize4, searchImage.photo), str2, "jpg", i, 1, searchImage);
                     return;
                 }
                 this.imageView.setImage(searchImage.thumbUrl, str, null);
@@ -381,10 +381,12 @@ public class WallpaperCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(WallpaperView wallpaperView, int i, View view) {
         onWallpaperClick(wallpaperView.currentWallpaper, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(WallpaperView wallpaperView, int i, View view) {
         return onWallpaperLongClick(wallpaperView.currentWallpaper, i);
     }

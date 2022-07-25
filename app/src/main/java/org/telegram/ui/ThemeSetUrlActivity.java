@@ -79,14 +79,17 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
     private Theme.ThemeAccent themeAccent;
     private Theme.ThemeInfo themeInfo;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$4(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$saveTheme$9(DialogInterface dialogInterface) {
     }
 
@@ -95,7 +98,6 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         private String url;
 
         public LinkSpan(String str) {
-            ThemeSetUrlActivity.this = r1;
             this.url = str;
         }
 
@@ -373,6 +375,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 6) {
             AndroidUtilities.hideKeyboard(this.nameField);
@@ -381,6 +384,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
         View view;
         if (i != 6 || (view = this.doneButton) == null) {
@@ -390,6 +394,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view, boolean z) {
         if (z) {
             this.helpInfoCell.setText(AndroidUtilities.replaceTags(LocaleController.getString("ThemeCreateHelp2", R.string.ThemeCreateHelp2)));
@@ -398,6 +403,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(Context context, View view) {
         if (getParentActivity() == null) {
             return;
@@ -479,6 +485,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean checkUrl(final String str, boolean z) {
         String str2;
         Runnable runnable = this.checkRunnable;
@@ -553,6 +560,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUrl$8(final String str) {
         TLRPC$TL_account_createTheme tLRPC$TL_account_createTheme = new TLRPC$TL_account_createTheme();
         tLRPC$TL_account_createTheme.slug = str;
@@ -566,6 +574,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUrl$7(final String str, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
@@ -575,6 +584,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUrl$6(String str, TLRPC$TL_error tLRPC$TL_error) {
         this.checkReqId = 0;
         String str2 = this.lastCheckName;
@@ -610,6 +620,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void saveTheme() {
         if (checkUrl(this.linkField.getText().toString(), true) && getParentActivity() != null) {
             if (this.nameField.length() == 0) {
@@ -677,6 +688,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveTheme$12(final TLRPC$TL_account_updateTheme tLRPC$TL_account_updateTheme, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_theme) {
             final TLRPC$TL_theme tLRPC$TL_theme = (TLRPC$TL_theme) tLObject;
@@ -696,6 +708,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveTheme$10(TLRPC$TL_theme tLRPC$TL_theme) {
         try {
             this.progressDialog.dismiss();
@@ -707,6 +720,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveTheme$11(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_account_updateTheme tLRPC$TL_account_updateTheme) {
         try {
             this.progressDialog.dismiss();
@@ -717,6 +731,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this, tLRPC$TL_account_updateTheme, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveTheme$13(int i, DialogInterface dialogInterface) {
         ConnectionsManager.getInstance(this.currentAccount).cancelRequest(i, true);
     }

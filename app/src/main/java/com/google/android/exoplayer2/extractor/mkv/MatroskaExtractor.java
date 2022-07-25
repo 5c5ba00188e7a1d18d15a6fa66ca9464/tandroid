@@ -672,13 +672,13 @@ public class MatroskaExtractor implements Extractor {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x0211, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x0211, code lost:
         throw new com.google.android.exoplayer2.ParserException("EBML lacing sample size out of range.");
      */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0262  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0249  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0262  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0249  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1148,19 +1148,19 @@ public class MatroskaExtractor implements Extractor {
     }
 
     private static void setSubtitleEndTime(String str, long j, byte[] bArr) {
+        byte[] formatSubtitleTimecode;
         int i;
-        byte[] bArr2;
         str.hashCode();
         if (str.equals("S_TEXT/ASS")) {
-            bArr2 = formatSubtitleTimecode(j, "%01d:%02d:%02d:%02d", 10000L);
+            formatSubtitleTimecode = formatSubtitleTimecode(j, "%01d:%02d:%02d:%02d", 10000L);
             i = 21;
         } else if (str.equals("S_TEXT/UTF8")) {
-            bArr2 = formatSubtitleTimecode(j, "%02d:%02d:%02d,%03d", 1000L);
+            formatSubtitleTimecode = formatSubtitleTimecode(j, "%02d:%02d:%02d,%03d", 1000L);
             i = 19;
         } else {
             throw new IllegalArgumentException();
         }
-        System.arraycopy(bArr2, 0, bArr, i, bArr2.length);
+        System.arraycopy(formatSubtitleTimecode, 0, bArr, i, formatSubtitleTimecode.length);
     }
 
     private static byte[] formatSubtitleTimecode(long j, String str, long j2) {
@@ -1272,11 +1272,9 @@ public class MatroskaExtractor implements Extractor {
         return iArr.length >= i ? iArr : new int[Math.max(iArr.length * 2, i)];
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class InnerEbmlProcessor implements EbmlProcessor {
+    private final class InnerEbmlProcessor implements EbmlProcessor {
         private InnerEbmlProcessor() {
-            MatroskaExtractor.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.extractor.mkv.EbmlProcessor
@@ -1320,6 +1318,7 @@ public class MatroskaExtractor implements Extractor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class TrueHdSampleRechunker {
         private int chunkFlags;
@@ -1375,6 +1374,7 @@ public class MatroskaExtractor implements Extractor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Track {
         public int audioBitDepth;
@@ -1467,20 +1467,20 @@ public class MatroskaExtractor implements Extractor {
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
         public void initializeOutput(ExtractorOutput extractorOutput, int i) throws ParserException {
             char c;
+            List<byte[]> singletonList;
+            String str;
+            int pcmEncoding;
+            String str2;
             int i2;
             int i3;
+            String str3;
             List<byte[]> list;
-            Format format;
+            Format createImageSampleFormat;
             int i4;
             int i5;
             int i6;
             int i7;
             int i8;
-            String str;
-            int pcmEncoding;
-            String str2;
-            String str3;
-            List<byte[]> list2;
             String str4 = this.codecId;
             str4.hashCode();
             int i9 = 1;
@@ -1705,11 +1705,11 @@ public class MatroskaExtractor implements Extractor {
                 case 1:
                 case '\t':
                     byte[] bArr = this.codecPrivate;
-                    list = bArr == null ? null : Collections.singletonList(bArr);
+                    singletonList = bArr == null ? null : Collections.singletonList(bArr);
                     str = "video/mp4v-es";
                     str5 = str;
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 2:
                     if (parseMsAcmCodecPrivate(new ParsableByteArray(this.codecPrivate))) {
@@ -1717,212 +1717,212 @@ public class MatroskaExtractor implements Extractor {
                         if (pcmEncoding == 0) {
                             Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to " + str5);
                         }
-                        i3 = pcmEncoding;
+                        i2 = pcmEncoding;
                         str5 = "audio/raw";
-                        list = null;
-                        i2 = -1;
+                        singletonList = null;
+                        i3 = -1;
                         break;
                     } else {
                         Log.w("MatroskaExtractor", "Non-PCM MS/ACM is unsupported. Setting mimeType to " + str5);
                     }
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                 case 3:
                     this.trueHdSampleRechunker = new TrueHdSampleRechunker();
                     str2 = "audio/true-hd";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 4:
-                    list = parseVorbisCodecPrivate(this.codecPrivate);
+                    singletonList = parseVorbisCodecPrivate(this.codecPrivate);
                     str5 = "audio/vorbis";
-                    i3 = -1;
-                    i2 = 8192;
+                    i2 = -1;
+                    i3 = 8192;
                     break;
                 case 5:
                     str3 = "audio/mpeg-L2";
                     str5 = str3;
-                    list = null;
-                    i3 = -1;
-                    i2 = 4096;
+                    singletonList = null;
+                    i2 = -1;
+                    i3 = 4096;
                     break;
                 case 6:
                     str3 = "audio/mpeg";
                     str5 = str3;
-                    list = null;
-                    i3 = -1;
-                    i2 = 4096;
+                    singletonList = null;
+                    i2 = -1;
+                    i3 = 4096;
                     break;
                 case 7:
                     Pair<String, List<byte[]>> parseFourCcPrivate = parseFourCcPrivate(new ParsableByteArray(this.codecPrivate));
                     str = (String) parseFourCcPrivate.first;
-                    list = (List) parseFourCcPrivate.second;
+                    singletonList = (List) parseFourCcPrivate.second;
                     str5 = str;
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case '\b':
                     byte[] bArr2 = this.codecPrivate;
-                    list = Collections.singletonList(new byte[]{bArr2[0], bArr2[1], bArr2[2], bArr2[3]});
+                    singletonList = Collections.singletonList(new byte[]{bArr2[0], bArr2[1], bArr2[2], bArr2[3]});
                     str5 = "application/dvbsubs";
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case '\n':
                     AvcConfig parse = AvcConfig.parse(new ParsableByteArray(this.codecPrivate));
-                    list2 = parse.initializationData;
+                    list = parse.initializationData;
                     this.nalUnitLengthFieldLength = parse.nalUnitLengthFieldLength;
                     str = MediaController.VIDEO_MIME_TYPE;
-                    list = list2;
+                    singletonList = list;
                     str5 = str;
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 11:
-                    list = Collections.singletonList(this.codecPrivate);
+                    singletonList = Collections.singletonList(this.codecPrivate);
                     str5 = "application/vobsub";
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case '\f':
                     str2 = "audio/vnd.dts.hd";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case '\r':
-                    list = Collections.singletonList(this.codecPrivate);
+                    singletonList = Collections.singletonList(this.codecPrivate);
                     str = MediaController.AUIDO_MIME_TYPE;
                     str5 = str;
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 14:
                     str2 = "audio/ac3";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 15:
                 case 21:
                     str2 = "audio/vnd.dts";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 16:
                     str2 = "video/av01";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 17:
                     str2 = "video/x-vnd.on2.vp8";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 18:
                     str2 = "video/x-vnd.on2.vp9";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 19:
                     str5 = "application/pgs";
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case R.styleable.MapAttrs_uiZoomControls /* 20 */:
                     str2 = "video/x-unknown";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
                     pcmEncoding = Util.getPcmEncoding(this.audioBitDepth);
                     if (pcmEncoding == 0) {
                         Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to " + str5);
-                        list = null;
-                        i3 = -1;
+                        singletonList = null;
                         i2 = -1;
+                        i3 = -1;
                         break;
                     }
-                    i3 = pcmEncoding;
+                    i2 = pcmEncoding;
                     str5 = "audio/raw";
-                    list = null;
-                    i2 = -1;
+                    singletonList = null;
+                    i3 = -1;
                 case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
                     str5 = "text/x-ssa";
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case 24:
                     HevcConfig parse2 = HevcConfig.parse(new ParsableByteArray(this.codecPrivate));
-                    list2 = parse2.initializationData;
+                    list = parse2.initializationData;
                     this.nalUnitLengthFieldLength = parse2.nalUnitLengthFieldLength;
                     str = "video/hevc";
-                    list = list2;
+                    singletonList = list;
                     str5 = str;
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
                     str5 = "application/x-subrip";
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
                     str2 = "video/mpeg2";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
                     str2 = "audio/eac3";
                     str5 = str2;
-                    list = null;
-                    i3 = -1;
+                    singletonList = null;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                    list = Collections.singletonList(this.codecPrivate);
+                    singletonList = Collections.singletonList(this.codecPrivate);
                     str = "audio/flac";
                     str5 = str;
-                    i3 = -1;
                     i2 = -1;
+                    i3 = -1;
                     break;
                 case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                    list = new ArrayList<>(3);
-                    list.add(this.codecPrivate);
+                    singletonList = new ArrayList<>(3);
+                    singletonList.add(this.codecPrivate);
                     ByteBuffer allocate = ByteBuffer.allocate(8);
                     ByteOrder byteOrder = ByteOrder.LITTLE_ENDIAN;
-                    list.add(allocate.order(byteOrder).putLong(this.codecDelayNs).array());
-                    list.add(ByteBuffer.allocate(8).order(byteOrder).putLong(this.seekPreRollNs).array());
+                    singletonList.add(allocate.order(byteOrder).putLong(this.codecDelayNs).array());
+                    singletonList.add(ByteBuffer.allocate(8).order(byteOrder).putLong(this.seekPreRollNs).array());
                     str5 = "audio/opus";
-                    i3 = -1;
-                    i2 = 5760;
+                    i2 = -1;
+                    i3 = 5760;
                     break;
                 default:
                     throw new ParserException("Unrecognized codec identifier.");
             }
             int i10 = (this.flagDefault ? 1 : 0) | 0 | (this.flagForced ? 2 : 0);
             if (MimeTypes.isAudio(str5)) {
-                format = Format.createAudioSampleFormat(Integer.toString(i), str5, null, -1, i2, this.channelCount, this.sampleRate, i3, list, this.drmInitData, i10, this.language);
+                createImageSampleFormat = Format.createAudioSampleFormat(Integer.toString(i), str5, null, -1, i3, this.channelCount, this.sampleRate, i2, singletonList, this.drmInitData, i10, this.language);
             } else if (MimeTypes.isVideo(str5)) {
                 if (this.displayUnit == 0) {
                     int i11 = this.displayWidth;
@@ -1960,22 +1960,22 @@ public class MatroskaExtractor implements Extractor {
                     } else if (Float.compare(this.projectionPosePitch, -90.0f) == 0) {
                         i7 = 270;
                     }
-                    format = Format.createVideoSampleFormat(Integer.toString(i), str5, null, -1, i2, this.width, this.height, -1.0f, list, i7, f, this.projectionData, this.stereoMode, colorInfo, this.drmInitData);
+                    createImageSampleFormat = Format.createVideoSampleFormat(Integer.toString(i), str5, null, -1, i3, this.width, this.height, -1.0f, singletonList, i7, f, this.projectionData, this.stereoMode, colorInfo, this.drmInitData);
                     i9 = 2;
                 }
                 i7 = i6;
-                format = Format.createVideoSampleFormat(Integer.toString(i), str5, null, -1, i2, this.width, this.height, -1.0f, list, i7, f, this.projectionData, this.stereoMode, colorInfo, this.drmInitData);
+                createImageSampleFormat = Format.createVideoSampleFormat(Integer.toString(i), str5, null, -1, i3, this.width, this.height, -1.0f, singletonList, i7, f, this.projectionData, this.stereoMode, colorInfo, this.drmInitData);
                 i9 = 2;
             } else {
                 if ("application/x-subrip".equals(str5)) {
-                    format = Format.createTextSampleFormat(Integer.toString(i), str5, i10, this.language, this.drmInitData);
+                    createImageSampleFormat = Format.createTextSampleFormat(Integer.toString(i), str5, i10, this.language, this.drmInitData);
                 } else if ("text/x-ssa".equals(str5)) {
                     ArrayList arrayList = new ArrayList(2);
                     arrayList.add(MatroskaExtractor.SSA_DIALOGUE_FORMAT);
                     arrayList.add(this.codecPrivate);
-                    format = Format.createTextSampleFormat(Integer.toString(i), str5, null, -1, i10, this.language, -1, this.drmInitData, Long.MAX_VALUE, arrayList);
+                    createImageSampleFormat = Format.createTextSampleFormat(Integer.toString(i), str5, null, -1, i10, this.language, -1, this.drmInitData, Long.MAX_VALUE, arrayList);
                 } else if ("application/vobsub".equals(str5) || "application/pgs".equals(str5) || "application/dvbsubs".equals(str5)) {
-                    format = Format.createImageSampleFormat(Integer.toString(i), str5, null, -1, i10, list, this.language, this.drmInitData);
+                    createImageSampleFormat = Format.createImageSampleFormat(Integer.toString(i), str5, null, -1, i10, singletonList, this.language, this.drmInitData);
                 } else {
                     throw new ParserException("Unexpected MIME type.");
                 }
@@ -1983,7 +1983,7 @@ public class MatroskaExtractor implements Extractor {
             }
             TrackOutput track = extractorOutput.track(this.number, i9);
             this.output = track;
-            track.format(format);
+            track.format(createImageSampleFormat);
         }
 
         public void outputPendingSampleMetadata() {

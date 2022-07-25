@@ -14,6 +14,7 @@ public final class zzm extends AbstractSafeParcelable {
     public final int zza;
     final Bundle zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzm(int i, Bundle bundle) {
         this.zza = i;
         this.zzb = bundle;

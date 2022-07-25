@@ -83,21 +83,21 @@ public class PaymentInfoCell extends FrameLayout {
     }
 
     public void setInfo(String str, String str2, TLRPC$WebDocument tLRPC$WebDocument, String str3, Object obj) {
-        int i;
+        int min;
         this.nameTextView.setText(str);
         this.detailTextView.setText(str2);
         this.detailExTextView.setText(str3);
         if (AndroidUtilities.isTablet()) {
-            i = AndroidUtilities.getMinTabletSide();
+            min = AndroidUtilities.getMinTabletSide();
         } else {
             Point point = AndroidUtilities.displaySize;
-            i = Math.min(point.x, point.y);
+            min = Math.min(point.x, point.y);
         }
         float f = 640;
-        float dp = f / (((int) (i * 0.7f)) - AndroidUtilities.dp(2.0f));
-        int i2 = (int) (f / dp);
-        int i3 = (int) (360 / dp);
-        int i4 = 5;
+        float dp = f / (((int) (min * 0.7f)) - AndroidUtilities.dp(2.0f));
+        int i = (int) (f / dp);
+        int i2 = (int) (360 / dp);
+        int i3 = 5;
         if (tLRPC$WebDocument != null && tLRPC$WebDocument.mime_type.startsWith("image/")) {
             TextView textView = this.nameTextView;
             boolean z = LocaleController.isRTL;
@@ -108,20 +108,20 @@ public class PaymentInfoCell extends FrameLayout {
             TextView textView3 = this.detailExTextView;
             boolean z3 = LocaleController.isRTL;
             if (!z3) {
-                i4 = 3;
+                i3 = 3;
             }
-            textView3.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, i4 | 48, z3 ? 10.0f : 123.0f, 90.0f, z3 ? 123.0f : 10.0f, 0.0f));
+            textView3.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, i3 | 48, z3 ? 10.0f : 123.0f, 90.0f, z3 ? 123.0f : 10.0f, 0.0f));
             this.imageView.setVisibility(0);
-            this.imageView.getImageReceiver().setImage(ImageLocation.getForWebFile(WebFile.createWithWebDocument(tLRPC$WebDocument)), String.format(Locale.US, "%d_%d", Integer.valueOf(i2), Integer.valueOf(i3)), null, null, -1L, null, obj, 1);
+            this.imageView.getImageReceiver().setImage(ImageLocation.getForWebFile(WebFile.createWithWebDocument(tLRPC$WebDocument)), String.format(Locale.US, "%d_%d", Integer.valueOf(i), Integer.valueOf(i2)), null, null, -1L, null, obj, 1);
             return;
         }
         this.nameTextView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 17.0f, 9.0f, 17.0f, 0.0f));
         this.detailTextView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 17.0f, 33.0f, 17.0f, 0.0f));
         TextView textView4 = this.detailExTextView;
         if (!LocaleController.isRTL) {
-            i4 = 3;
+            i3 = 3;
         }
-        textView4.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, i4 | 48, 17.0f, 90.0f, 17.0f, 9.0f));
+        textView4.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, i3 | 48, 17.0f, 90.0f, 17.0f, 9.0f));
         this.imageView.setVisibility(8);
     }
 

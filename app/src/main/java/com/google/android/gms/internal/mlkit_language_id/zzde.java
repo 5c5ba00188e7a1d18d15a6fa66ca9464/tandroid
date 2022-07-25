@@ -48,14 +48,17 @@ public abstract class zzde<MessageType extends zzde<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int zzg() {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void zza(int i) {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <T> void zza(Iterable<T> iterable, List<? super T> list) {
         zzeq.zza(iterable);
         if (iterable instanceof zzfg) {

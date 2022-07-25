@@ -6,13 +6,17 @@ import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class InternalFrame extends Id3Frame {
     public static final Parcelable.Creator<InternalFrame> CREATOR = new Parcelable.Creator<InternalFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.InternalFrame.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public InternalFrame createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public InternalFrame mo121createFromParcel(Parcel parcel) {
             return new InternalFrame(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public InternalFrame[] newArray(int i) {
+        /* renamed from: newArray */
+        public InternalFrame[] mo122newArray(int i) {
             return new InternalFrame[i];
         }
     };

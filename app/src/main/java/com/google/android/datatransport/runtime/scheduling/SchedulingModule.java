@@ -10,6 +10,7 @@ import com.google.android.datatransport.runtime.scheduling.persistence.EventStor
 import com.google.android.datatransport.runtime.time.Clock;
 /* loaded from: classes.dex */
 public abstract class SchedulingModule {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static WorkScheduler workScheduler(Context context, EventStore eventStore, SchedulerConfig schedulerConfig, Clock clock) {
         if (Build.VERSION.SDK_INT >= 21) {
             return new JobInfoScheduler(context, eventStore, schedulerConfig);

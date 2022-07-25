@@ -14,6 +14,7 @@ public class HuaweiPushListenerService extends HmsMessageService {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onMessageReceived$0(RemoteMessage remoteMessage) {
         String from = remoteMessage.getFrom();
         String data = remoteMessage.getData();
@@ -34,6 +35,7 @@ public class HuaweiPushListenerService extends HmsMessageService {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onNewToken$1(String str) {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("Refreshed HCM token: " + str);

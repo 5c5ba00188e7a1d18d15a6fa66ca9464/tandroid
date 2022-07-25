@@ -7,6 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
 /* loaded from: classes.dex */
 public final class zbs extends com.google.android.gms.internal.p001authapi.zba {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zbs(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.auth.api.signin.internal.ISignInService");
     }

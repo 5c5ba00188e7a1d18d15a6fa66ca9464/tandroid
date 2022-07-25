@@ -133,6 +133,7 @@ public class LogoutActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i, float f, float f2) {
         if (i == this.addAccountRow) {
             int i2 = -1;
@@ -184,10 +185,12 @@ public class LogoutActivity extends BaseFragment {
         return create;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$makeLogOutDialog$1(int i, DialogInterface dialogInterface, int i2) {
         MessagesController.getInstance(i).performLogout(1);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onDialogDismiss(Dialog dialog) {
         DownloadController.getInstance(this.currentAccount).checkAutodownloadSettings();
@@ -207,7 +210,6 @@ public class LogoutActivity extends BaseFragment {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            LogoutActivity.this = r1;
             this.mContext = context;
         }
 
@@ -272,27 +274,27 @@ public class LogoutActivity extends BaseFragment {
             return adapterPosition == LogoutActivity.this.addAccountRow || adapterPosition == LogoutActivity.this.passcodeRow || adapterPosition == LogoutActivity.this.cacheRow || adapterPosition == LogoutActivity.this.phoneRow || adapterPosition == LogoutActivity.this.supportRow || adapterPosition == LogoutActivity.this.logoutRow;
         }
 
-        /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            TextDetailSettingsCell textDetailSettingsCell;
             View view;
-            TextSettingsCell textSettingsCell;
             if (i == 0) {
-                HeaderCell headerCell = new HeaderCell(this.mContext);
+                FrameLayout headerCell = new HeaderCell(this.mContext);
                 headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                textSettingsCell = headerCell;
+                textDetailSettingsCell = headerCell;
             } else if (i == 1) {
-                TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(this.mContext);
-                textDetailSettingsCell.setMultilineDetail(true);
-                textDetailSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                textSettingsCell = textDetailSettingsCell;
+                TextDetailSettingsCell textDetailSettingsCell2 = new TextDetailSettingsCell(this.mContext);
+                textDetailSettingsCell2.setMultilineDetail(true);
+                textDetailSettingsCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textDetailSettingsCell = textDetailSettingsCell2;
             } else {
                 if (i == 2) {
                     view = new ShadowSectionCell(this.mContext);
                 } else if (i == 3) {
-                    TextSettingsCell textSettingsCell2 = new TextSettingsCell(this.mContext);
-                    textSettingsCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell = textSettingsCell2;
+                    FrameLayout textSettingsCell = new TextSettingsCell(this.mContext);
+                    textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                    textDetailSettingsCell = textSettingsCell;
                 } else {
                     view = new TextInfoPrivacyCell(this.mContext);
                     view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
@@ -300,7 +302,7 @@ public class LogoutActivity extends BaseFragment {
                 view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 return new RecyclerListView.Holder(view);
             }
-            view = textSettingsCell;
+            view = textDetailSettingsCell;
             view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
             return new RecyclerListView.Holder(view);
         }

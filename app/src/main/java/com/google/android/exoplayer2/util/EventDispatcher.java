@@ -37,6 +37,7 @@ public final class EventDispatcher<T> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class HandlerAndListener<T> {
         private final Handler handler;
@@ -61,6 +62,7 @@ public final class EventDispatcher<T> {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$dispatch$0(Event event) {
             if (!this.released) {
                 event.sendTo(this.listener);

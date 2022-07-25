@@ -1,6 +1,7 @@
 package com.android.billingclient.api;
 
 import java.util.concurrent.Callable;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public final class zzai implements Callable {
@@ -8,6 +9,7 @@ public final class zzai implements Callable {
     final /* synthetic */ PurchasesResponseListener zzb;
     final /* synthetic */ BillingClientImpl zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzai(BillingClientImpl billingClientImpl, String str, PurchasesResponseListener purchasesResponseListener) {
         this.zzc = billingClientImpl;
         this.zza = str;

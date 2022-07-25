@@ -14,9 +14,8 @@ import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
+final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     private final ObjectEncoder<Object> fallbackEncoder;
     private final Map<Class<?>, ObjectEncoder<?>> objectEncoders;
     private OutputStream output;
@@ -27,11 +26,13 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     private static final FieldDescriptor MAP_VALUE_DESC = FieldDescriptor.builder("value").withProperty(AtProtobuf.builder().tag(2).build()).build();
     private static final ObjectEncoder<Map.Entry<Object, Object>> DEFAULT_MAP_ENCODER = ProtobufDataEncoderContext$$ExternalSyntheticLambda0.INSTANCE;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0(Map.Entry entry, ObjectEncoderContext objectEncoderContext) throws IOException {
         objectEncoderContext.add(MAP_KEY_DESC, entry.getKey());
         objectEncoderContext.add(MAP_VALUE_DESC, entry.getValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ProtobufDataEncoderContext(OutputStream outputStream, Map<Class<?>, ObjectEncoder<?>> map, Map<Class<?>, ValueEncoder<?>> map2, ObjectEncoder<Object> objectEncoder) {
         this.output = outputStream;
         this.objectEncoders = map;
@@ -44,6 +45,7 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         return add(fieldDescriptor, obj, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj, boolean z) throws IOException {
         if (obj == null) {
             return this;
@@ -99,10 +101,10 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
                 return doEncode((ValueEncoder<FieldDescriptor>) valueEncoder, fieldDescriptor, (FieldDescriptor) obj, z);
             }
             if (obj instanceof ProtoEnum) {
-                return add(fieldDescriptor, ((ProtoEnum) obj).getNumber());
+                return mo195add(fieldDescriptor, ((ProtoEnum) obj).getNumber());
             }
             if (obj instanceof Enum) {
-                return add(fieldDescriptor, ((Enum) obj).ordinal());
+                return mo195add(fieldDescriptor, ((Enum) obj).ordinal());
             }
             return doEncode((ObjectEncoder<FieldDescriptor>) this.fallbackEncoder, fieldDescriptor, (FieldDescriptor) obj, z);
         }
@@ -127,11 +129,13 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
+    /* renamed from: add  reason: collision with other method in class */
+    public ProtobufDataEncoderContext mo195add(FieldDescriptor fieldDescriptor, int i) throws IOException {
         return add(fieldDescriptor, i, true);
     }
 
-    /* renamed from: com.google.firebase.encoders.proto.ProtobufDataEncoderContext$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: com.google.firebase.encoders.proto.ProtobufDataEncoderContext$1  reason: invalid class name */
     /* loaded from: classes.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding;
@@ -174,7 +178,8 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    /* renamed from: add  reason: collision with other method in class */
+    public ProtobufDataEncoderContext mo196add(FieldDescriptor fieldDescriptor, long j) throws IOException {
         return add(fieldDescriptor, j, true);
     }
 
@@ -197,10 +202,12 @@ public final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, boolean z, boolean z2) throws IOException {
         return add(fieldDescriptor, z ? 1 : 0, z2);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ProtobufDataEncoderContext encode(Object obj) throws IOException {
         if (obj == null) {
             return this;

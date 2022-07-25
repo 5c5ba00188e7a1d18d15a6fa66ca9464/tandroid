@@ -151,11 +151,11 @@ public class ChecksHintView extends FrameLayout {
         return true;
     }
 
-    /* renamed from: org.telegram.ui.Components.ChecksHintView$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.ChecksHintView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends AnimatorListenerAdapter {
         AnonymousClass1() {
-            ChecksHintView.this = r1;
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -169,6 +169,7 @@ public class ChecksHintView extends FrameLayout {
             }, 3000L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
             ChecksHintView.this.hide();
         }

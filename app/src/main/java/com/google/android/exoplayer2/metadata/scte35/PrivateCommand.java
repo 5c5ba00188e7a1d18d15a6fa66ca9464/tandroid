@@ -7,13 +7,17 @@ import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class PrivateCommand extends SpliceCommand {
     public static final Parcelable.Creator<PrivateCommand> CREATOR = new Parcelable.Creator<PrivateCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.PrivateCommand.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PrivateCommand createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public PrivateCommand mo131createFromParcel(Parcel parcel) {
             return new PrivateCommand(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PrivateCommand[] newArray(int i) {
+        /* renamed from: newArray */
+        public PrivateCommand[] mo132newArray(int i) {
             return new PrivateCommand[i];
         }
     };
@@ -33,6 +37,7 @@ public final class PrivateCommand extends SpliceCommand {
         this.commandBytes = (byte[]) Util.castNonNull(parcel.createByteArray());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static PrivateCommand parseFromSection(ParsableByteArray parsableByteArray, int i, long j) {
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
         int i2 = i - 4;

@@ -407,10 +407,12 @@ public class ProxySettingsActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         setProxyType(((Integer) view.getTag()).intValue(), true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i != 5) {
             if (i != 6) {
@@ -427,6 +429,7 @@ public class ProxySettingsActivity extends BaseFragment {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         if (this.pasteType != -1) {
             int i = 0;
@@ -461,6 +464,7 @@ public class ProxySettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2() {
         AndroidUtilities.hideKeyboard(this.inputFieldsContainer.findFocus());
         for (int i = 0; i < this.pasteFields.length; i++) {
@@ -471,6 +475,7 @@ public class ProxySettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         String str;
         StringBuilder sb = new StringBuilder();
@@ -528,9 +533,10 @@ public class ProxySettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:10:0x002c A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x002c A[RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -724,12 +730,14 @@ public class ProxySettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setShareDoneEnabled$5(ValueAnimator valueAnimator) {
         this.shareDoneProgress = AndroidUtilities.lerp(this.shareDoneProgressAnimValues, valueAnimator.getAnimatedFraction());
         this.shareCell.setTextColor(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhiteGrayText2"), Theme.getColor("windowBackgroundWhiteBlueText4"), this.shareDoneProgress));
         this.doneItem.setAlpha((this.shareDoneProgress / 2.0f) + 0.5f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkShareDone(boolean z) {
         if (this.shareCell == null || this.doneItem == null) {
             return;
@@ -808,6 +816,7 @@ public class ProxySettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         if (!z || z2 || !this.addingNewProxy) {
@@ -890,6 +899,7 @@ public class ProxySettingsActivity extends BaseFragment {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$6() {
         ValueAnimator valueAnimator;
         if (this.shareCell != null && ((valueAnimator = this.shareDoneAnimator) == null || !valueAnimator.isRunning())) {

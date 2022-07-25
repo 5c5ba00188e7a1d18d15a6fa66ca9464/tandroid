@@ -281,6 +281,7 @@ public class VideoTimelineView extends View {
         this.delegate = videoTimelineViewDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reloadFrames(int i) {
         if (this.mediaMetadataRetriever == null) {
             return;
@@ -311,8 +312,9 @@ public class VideoTimelineView extends View {
         AsyncTask<Integer, Integer, Bitmap> asyncTask = new AsyncTask<Integer, Integer, Bitmap>() { // from class: org.telegram.ui.Components.VideoTimelineView.1
             private int frameNum = 0;
 
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // android.os.AsyncTask
             public Bitmap doInBackground(Integer... numArr) {
-                Exception e;
                 Bitmap frameAtTime;
                 this.frameNum = numArr[0].intValue();
                 Bitmap bitmap = null;
@@ -321,8 +323,8 @@ public class VideoTimelineView extends View {
                 }
                 try {
                     frameAtTime = VideoTimelineView.this.mediaMetadataRetriever.getFrameAtTime(VideoTimelineView.this.frameTimeOffset * this.frameNum * 1000, 2);
-                } catch (Exception e2) {
-                    e = e2;
+                } catch (Exception e) {
+                    e = e;
                 }
                 try {
                     if (isCancelled()) {
@@ -339,14 +341,16 @@ public class VideoTimelineView extends View {
                     canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelineView.this.frameWidth - width) / 2, (VideoTimelineView.this.frameHeight - height) / 2, width, height), (Paint) null);
                     frameAtTime.recycle();
                     return createBitmap;
-                } catch (Exception e3) {
-                    e = e3;
+                } catch (Exception e2) {
+                    e = e2;
                     bitmap = frameAtTime;
                     FileLog.e(e);
                     return bitmap;
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // android.os.AsyncTask
             public void onPostExecute(Bitmap bitmap) {
                 if (!isCancelled()) {
                     VideoTimelineView.this.frames.add(bitmap);

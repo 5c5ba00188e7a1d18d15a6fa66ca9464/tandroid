@@ -16,10 +16,11 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import j$.util.stream.IntStream;
 import j$.wrappers.C$r8$wrapper$java$util$stream$IntStream$VWRP;
+import j$.wrappers.C$r8$wrapper$java$util$stream$IntStream$WRP;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.AnimatedTextView;
 /* loaded from: classes3.dex */
@@ -63,6 +64,7 @@ public class AnimatedTextView extends View {
         private CharSequence toSetText;
         private boolean toSetTextMoveDown;
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public interface RegionCallback {
             void run(CharSequence charSequence, int i, int i2);
@@ -382,6 +384,7 @@ public class AnimatedTextView extends View {
             invalidateSelf();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setText$0(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6, CharSequence charSequence, int i, int i2) {
             StaticLayout makeLayout = makeLayout(charSequence, this.bounds.width() - Math.min(this.currentWidth, this.oldWidth));
             arrayList.add(Integer.valueOf(arrayList2.size()));
@@ -397,6 +400,7 @@ public class AnimatedTextView extends View {
             this.oldHeight = Math.max(this.oldHeight, makeLayout.getHeight());
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setText$1(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, CharSequence charSequence, int i, int i2) {
             StaticLayout makeLayout = makeLayout(charSequence, this.bounds.width() - this.currentWidth);
             arrayList.add(Integer.valueOf(this.currentWidth));
@@ -406,6 +410,7 @@ public class AnimatedTextView extends View {
             this.currentHeight = Math.max(this.currentHeight, makeLayout.getHeight());
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setText$2(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, CharSequence charSequence, int i, int i2) {
             StaticLayout makeLayout = makeLayout(charSequence, this.bounds.width() - this.oldWidth);
             arrayList.add(Integer.valueOf(this.oldWidth));
@@ -415,6 +420,7 @@ public class AnimatedTextView extends View {
             this.oldHeight = Math.max(this.oldHeight, makeLayout.getHeight());
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setText$3(ValueAnimator valueAnimator) {
             this.t = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidateSelf();
@@ -440,10 +446,23 @@ public class AnimatedTextView extends View {
             return new StaticLayout(charSequence, 0, charSequence.length(), this.textPaint, i2, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i2);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public static class WordSequence implements CharSequence {
             private final int length;
             private CharSequence[] words;
+
+            @Override // java.lang.CharSequence
+            /* renamed from: chars  reason: collision with other method in class */
+            public /* synthetic */ IntStream mo1243chars() {
+                return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(chars());
+            }
+
+            @Override // java.lang.CharSequence
+            /* renamed from: codePoints  reason: collision with other method in class */
+            public /* synthetic */ IntStream mo1244codePoints() {
+                return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(codePoints());
+            }
 
             public WordSequence(CharSequence charSequence) {
                 if (charSequence == null) {
@@ -535,7 +554,7 @@ public class AnimatedTextView extends View {
             }
 
             @Override // java.lang.CharSequence
-            public IntStream chars() {
+            public j$.util.stream.IntStream chars() {
                 if (Build.VERSION.SDK_INT >= 24) {
                     return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(toCharSequence().chars());
                 }
@@ -543,7 +562,7 @@ public class AnimatedTextView extends View {
             }
 
             @Override // java.lang.CharSequence
-            public IntStream codePoints() {
+            public j$.util.stream.IntStream codePoints() {
                 if (Build.VERSION.SDK_INT >= 24) {
                     return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(toCharSequence().codePoints());
                 }
@@ -756,6 +775,7 @@ public class AnimatedTextView extends View {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         CharSequence charSequence = this.toSetText;
         if (charSequence != null) {

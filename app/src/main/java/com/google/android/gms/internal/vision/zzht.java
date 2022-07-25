@@ -12,6 +12,7 @@ public abstract class zzht implements Serializable, Iterable<Byte> {
     private static final zzhz zzb;
     private int zzc = 0;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(byte b) {
         return b & 255;
     }
@@ -28,8 +29,10 @@ public abstract class zzht implements Serializable, Iterable<Byte> {
 
     protected abstract String zza(Charset charset);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract void zza(zzhq zzhqVar) throws IOException;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract byte zzb(int i);
 
     public abstract boolean zzc();
@@ -60,14 +63,17 @@ public abstract class zzht implements Serializable, Iterable<Byte> {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzib zzc(int i) {
         return new zzib(i, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final int zzd() {
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, int i2, int i3) {
         int i4 = i2 - i;
         if ((i | i2 | i4 | (i3 - i2)) < 0) {

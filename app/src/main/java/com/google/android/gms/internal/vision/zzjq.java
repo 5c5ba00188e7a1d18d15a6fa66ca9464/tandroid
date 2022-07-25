@@ -29,7 +29,8 @@ final class zzjq<K> implements Iterator<Map.Entry<K, Object>>, j$.util.Iterator 
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         Map.Entry<K, Object> next = this.zza.next();
         return next.getValue() instanceof zzjp ? new zzjr(next) : next;
     }

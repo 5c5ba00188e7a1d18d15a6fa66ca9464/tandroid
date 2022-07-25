@@ -14,7 +14,8 @@ public class HandledErrorLogFactory extends AbstractLogFactory {
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.json.LogFactory
-    public HandledErrorLog create() {
+    /* renamed from: create */
+    public HandledErrorLog mo247create() {
         return new HandledErrorLog();
     }
 }

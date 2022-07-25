@@ -103,6 +103,7 @@ public class VoIPStatusTextView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setText$0() {
         TextView[] textViewArr = this.textView;
         TextView textView = textViewArr[0];
@@ -139,6 +140,7 @@ public class VoIPStatusTextView extends FrameLayout {
         this.ellipsizeAnimator.removeView(this.textView[1]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void replaceViews(final View view, final View view2, Runnable runnable) {
         view.setVisibility(0);
         view2.setVisibility(0);
@@ -158,6 +160,7 @@ public class VoIPStatusTextView extends FrameLayout {
         this.animator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$replaceViews$1(View view, View view2, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float f = (floatValue * 0.6f) + 0.4f;
@@ -173,7 +176,8 @@ public class VoIPStatusTextView extends FrameLayout {
         view2.setScaleY(f3);
     }
 
-    /* renamed from: org.telegram.ui.Components.voip.VoIPStatusTextView$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.voip.VoIPStatusTextView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$in;
@@ -181,7 +185,6 @@ public class VoIPStatusTextView extends FrameLayout {
         final /* synthetic */ View val$out;
 
         AnonymousClass1(View view, View view2, Runnable runnable) {
-            VoIPStatusTextView.this = r1;
             this.val$out = view;
             this.val$in = view2;
             this.val$onEnd = runnable;
@@ -225,6 +228,7 @@ public class VoIPStatusTextView extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
             TextView[] textViewArr = VoIPStatusTextView.this.textView;
             TextView textView = textViewArr[0];

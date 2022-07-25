@@ -22,6 +22,7 @@ final class TopicOperation {
         this.serializedString = sb.toString();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static TopicOperation from(String str) {
         if (TextUtils.isEmpty(str)) {
             return null;

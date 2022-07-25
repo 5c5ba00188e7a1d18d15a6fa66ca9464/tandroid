@@ -42,6 +42,7 @@ public class DefaultUserAgentPublisher implements UserAgentPublisher {
         return Component.builder(UserAgentPublisher.class).add(Dependency.setOf(LibraryVersion.class)).factory(DefaultUserAgentPublisher$$ExternalSyntheticLambda0.INSTANCE).build();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ UserAgentPublisher lambda$component$0(ComponentContainer componentContainer) {
         return new DefaultUserAgentPublisher(componentContainer.setOf(LibraryVersion.class), GlobalLibraryVersionRegistrar.getInstance());
     }

@@ -141,6 +141,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         return this.isLive;
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCompleted(ParsingLoadable<HlsPlaylist> parsingLoadable, long j, long j2) {
         HlsMasterPlaylist hlsMasterPlaylist;
         HlsPlaylist result = parsingLoadable.getResult();
@@ -163,10 +164,12 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         this.eventDispatcher.loadCompleted(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), 4, j, j2, parsingLoadable.bytesLoaded());
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCanceled(ParsingLoadable<HlsPlaylist> parsingLoadable, long j, long j2, boolean z) {
         this.eventDispatcher.loadCanceled(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), 4, j, j2, parsingLoadable.bytesLoaded());
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public Loader.LoadErrorAction onLoadError(ParsingLoadable<HlsPlaylist> parsingLoadable, long j, long j2, IOException iOException, int i) {
         long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(parsingLoadable.type, j2, iOException, i);
         boolean z = retryDelayMsFor == -9223372036854775807L;
@@ -177,6 +180,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         return Loader.createRetryAction(false, retryDelayMsFor);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean maybeSelectNewPrimaryUrl() {
         List<HlsMasterPlaylist.Variant> list = this.masterPlaylist.variants;
         int size = list.size();
@@ -222,6 +226,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onPlaylistUpdated(Uri uri, HlsMediaPlaylist hlsMediaPlaylist) {
         if (uri.equals(this.primaryMediaPlaylistUrl)) {
             if (this.primaryMediaPlaylistSnapshot == null) {
@@ -237,6 +242,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean notifyPlaylistError(Uri uri, long j) {
         int size = this.listeners.size();
         boolean z = false;
@@ -246,6 +252,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         return z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public HlsMediaPlaylist getLatestPlaylistSnapshot(HlsMediaPlaylist hlsMediaPlaylist, HlsMediaPlaylist hlsMediaPlaylist2) {
         if (!hlsMediaPlaylist2.isNewerThan(hlsMediaPlaylist)) {
             return hlsMediaPlaylist2.hasEndTag ? hlsMediaPlaylist.copyWithEndTag() : hlsMediaPlaylist;
@@ -289,6 +296,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public final class MediaPlaylistBundle implements Loader.Callback<ParsingLoadable<HlsPlaylist>>, Runnable {
         private long blacklistUntilMs;
@@ -303,9 +311,8 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         private final Uri playlistUrl;
 
         public MediaPlaylistBundle(Uri uri) {
-            DefaultHlsPlaylistTracker.this = r4;
             this.playlistUrl = uri;
-            this.mediaPlaylistLoadable = new ParsingLoadable<>(r4.dataSourceFactory.createDataSource(4), uri, 4, r4.mediaPlaylistParser);
+            this.mediaPlaylistLoadable = new ParsingLoadable<>(DefaultHlsPlaylistTracker.this.dataSourceFactory.createDataSource(4), uri, 4, DefaultHlsPlaylistTracker.this.mediaPlaylistParser);
         }
 
         public HlsMediaPlaylist getPlaylistSnapshot() {
@@ -350,6 +357,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             throw iOException;
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public void onLoadCompleted(ParsingLoadable<HlsPlaylist> parsingLoadable, long j, long j2) {
             HlsPlaylist result = parsingLoadable.getResult();
             if (result instanceof HlsMediaPlaylist) {
@@ -360,10 +368,12 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             this.playlistError = new ParserException("Loaded playlist has unexpected type.");
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public void onLoadCanceled(ParsingLoadable<HlsPlaylist> parsingLoadable, long j, long j2, boolean z) {
             DefaultHlsPlaylistTracker.this.eventDispatcher.loadCanceled(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), 4, j, j2, parsingLoadable.bytesLoaded());
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public Loader.LoadErrorAction onLoadError(ParsingLoadable<HlsPlaylist> parsingLoadable, long j, long j2, IOException iOException, int i) {
             Loader.LoadErrorAction loadErrorAction;
             long blacklistDurationMsFor = DefaultHlsPlaylistTracker.this.loadErrorHandlingPolicy.getBlacklistDurationMsFor(parsingLoadable.type, j2, iOException, i);
@@ -399,6 +409,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             eventDispatcher.loadStarted(parsingLoadable.dataSpec, parsingLoadable.type, startLoading);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void processLoadedPlaylist(HlsMediaPlaylist hlsMediaPlaylist, long j) {
             long j2;
             HlsMediaPlaylist hlsMediaPlaylist2 = this.playlistSnapshot;

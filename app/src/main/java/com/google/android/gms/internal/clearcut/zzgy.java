@@ -20,6 +20,8 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
         this.zzrs = -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
     /* renamed from: zzgb */
     public final zzgy clone() {
         try {
@@ -146,6 +148,7 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
         super.zza(zzfsVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
     public final int zzen() {
         long[] jArr;

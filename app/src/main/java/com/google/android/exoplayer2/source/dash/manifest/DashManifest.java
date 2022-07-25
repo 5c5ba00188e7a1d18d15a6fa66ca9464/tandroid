@@ -23,6 +23,12 @@ public class DashManifest implements FilterableManifest<DashManifest> {
     public final long timeShiftBufferDepthMs;
     public final UtcTimingElement utcTiming;
 
+    @Override // com.google.android.exoplayer2.offline.FilterableManifest
+    /* renamed from: copy  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ DashManifest mo163copy(List list) {
+        return mo163copy((List<StreamKey>) list);
+    }
+
     public DashManifest(long j, long j2, long j3, boolean z, long j4, long j5, long j6, long j7, ProgramInformation programInformation, UtcTimingElement utcTimingElement, Uri uri, List<Period> list) {
         this.availabilityStartTimeMs = j;
         this.durationMs = j2;
@@ -64,8 +70,10 @@ public class DashManifest implements FilterableManifest<DashManifest> {
         return C.msToUs(getPeriodDurationMs(i));
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public final DashManifest copy(List<StreamKey> list) {
+    /* renamed from: copy */
+    public final DashManifest mo163copy(List<StreamKey> list) {
         long j;
         LinkedList linkedList = new LinkedList(list);
         Collections.sort(linkedList);

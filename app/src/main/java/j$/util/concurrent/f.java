@@ -10,6 +10,7 @@ final class f implements t {
     final double c;
     final double d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public f(long j, long j2, double d, double d2) {
         this.a = j;
         this.b = j2;
@@ -17,8 +18,9 @@ final class f implements t {
         this.d = d2;
     }
 
+    @Override // j$.util.t, j$.util.w, j$.util.u
     /* renamed from: a */
-    public f trySplit() {
+    public f mo350trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
         if (j2 <= j) {
@@ -38,7 +40,7 @@ final class f implements t {
         return 17728;
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.w
     /* renamed from: e */
     public void forEachRemaining(j$.util.function.f fVar) {
         fVar.getClass();
@@ -81,7 +83,7 @@ final class f implements t {
         return j$.util.a.f(this, i);
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.w
     /* renamed from: k */
     public boolean tryAdvance(j$.util.function.f fVar) {
         fVar.getClass();

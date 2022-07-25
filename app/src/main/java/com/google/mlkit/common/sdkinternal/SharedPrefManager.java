@@ -30,6 +30,7 @@ public class SharedPrefManager {
         return this.zza.getSharedPreferences("com.google.mlkit.internal", 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ SharedPrefManager zza(ComponentContainer componentContainer) {
         return new SharedPrefManager((Context) componentContainer.get(Context.class));
     }

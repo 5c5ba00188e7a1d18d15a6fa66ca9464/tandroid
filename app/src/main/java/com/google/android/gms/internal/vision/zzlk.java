@@ -18,7 +18,8 @@ final class zzlk implements Iterator<Object>, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final Object next() {
+    /* renamed from: next */
+    public final Object mo335next() {
         throw new NoSuchElementException();
     }
 

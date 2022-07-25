@@ -130,6 +130,7 @@ public class UserConfig extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveConfig$0(boolean z) {
         synchronized (this.sync) {
             try {
@@ -275,6 +276,7 @@ public class UserConfig extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkPremium$1(TLRPC$User tLRPC$User) {
         getMessagesController().updatePremium(tLRPC$User.premium);
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.currentUserPremiumStatusChanged, new Object[0]);
@@ -282,15 +284,15 @@ public class UserConfig extends BaseController {
         getMediaDataController().loadPremiumPromo(false);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(22:8|(1:10)|11|(18:16|18|(1:24)|25|56|26|(1:30)|33|(1:35)|36|(1:40)|41|(1:45)|46|(1:48)|49|50|51)|17|18|(3:20|22|24)|25|56|26|(2:28|30)|33|(0)|36|(2:38|40)|41|(2:43|45)|46|(0)|49|50|51) */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0162, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(22:9|(1:11)|12|(18:17|18|(1:24)|25|26|27|(1:31)|33|(1:35)|36|(1:40)|41|(1:45)|46|(1:48)|49|50|51)|54|18|(3:20|22|24)|25|26|27|(2:29|31)|33|(0)|36|(2:38|40)|41|(2:43|45)|46|(0)|49|50|51) */
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x0162, code lost:
         r2 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0163, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0163, code lost:
         org.telegram.messenger.FileLog.e(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0170 A[Catch: all -> 0x01e9, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d1, B:18:0x00dd, B:20:0x0111, B:22:0x0119, B:24:0x011f, B:25:0x0131, B:26:0x0141, B:28:0x0149, B:30:0x014f, B:32:0x0163, B:33:0x0166, B:35:0x0170, B:36:0x0198, B:38:0x01a0, B:40:0x01a6, B:41:0x01b8, B:43:0x01c0, B:45:0x01c6, B:46:0x01d8, B:48:0x01dc, B:49:0x01e5, B:50:0x01e7), top: B:55:0x0003, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01dc A[Catch: all -> 0x01e9, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d1, B:18:0x00dd, B:20:0x0111, B:22:0x0119, B:24:0x011f, B:25:0x0131, B:26:0x0141, B:28:0x0149, B:30:0x014f, B:32:0x0163, B:33:0x0166, B:35:0x0170, B:36:0x0198, B:38:0x01a0, B:40:0x01a6, B:41:0x01b8, B:43:0x01c0, B:45:0x01c6, B:46:0x01d8, B:48:0x01dc, B:49:0x01e5, B:50:0x01e7), top: B:55:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0170 A[Catch: all -> 0x01e9, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x0009, B:11:0x0012, B:12:0x001a, B:14:0x00d1, B:18:0x00dd, B:20:0x0111, B:22:0x0119, B:24:0x011f, B:25:0x0131, B:27:0x0141, B:29:0x0149, B:31:0x014f, B:33:0x0166, B:35:0x0170, B:36:0x0198, B:38:0x01a0, B:40:0x01a6, B:41:0x01b8, B:43:0x01c0, B:45:0x01c6, B:46:0x01d8, B:48:0x01dc, B:49:0x01e5, B:50:0x01e7, B:53:0x0163), top: B:3:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x01dc A[Catch: all -> 0x01e9, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x0009, B:11:0x0012, B:12:0x001a, B:14:0x00d1, B:18:0x00dd, B:20:0x0111, B:22:0x0119, B:24:0x011f, B:25:0x0131, B:27:0x0141, B:29:0x0149, B:31:0x014f, B:33:0x0166, B:35:0x0170, B:36:0x0198, B:38:0x01a0, B:40:0x01a6, B:41:0x01b8, B:43:0x01c0, B:45:0x01c6, B:46:0x01d8, B:48:0x01dc, B:49:0x01e5, B:50:0x01e7, B:53:0x0163), top: B:3:0x0003, inners: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

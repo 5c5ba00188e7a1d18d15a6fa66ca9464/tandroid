@@ -47,15 +47,15 @@ public class ScamDrawable extends Drawable {
     }
 
     public void checkText() {
-        String str;
+        String string;
         if (this.currentType == 0) {
-            str = LocaleController.getString("ScamMessage", R.string.ScamMessage);
+            string = LocaleController.getString("ScamMessage", R.string.ScamMessage);
         } else {
-            str = LocaleController.getString("FakeMessage", R.string.FakeMessage);
+            string = LocaleController.getString("FakeMessage", R.string.FakeMessage);
         }
-        if (!str.equals(this.text)) {
-            this.text = str;
-            this.textWidth = (int) Math.ceil(this.textPaint.measureText(str));
+        if (!string.equals(this.text)) {
+            this.text = string;
+            this.textWidth = (int) Math.ceil(this.textPaint.measureText(string));
         }
     }
 

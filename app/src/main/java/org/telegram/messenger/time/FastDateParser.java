@@ -80,6 +80,7 @@ public class FastDateParser implements DateParser, Serializable {
         this(str, timeZone, locale, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public FastDateParser(String str, TimeZone timeZone, Locale locale, Date date) {
         int i;
         this.pattern = str;
@@ -221,6 +222,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static StringBuilder escapeRegex(StringBuilder sb, String str, boolean z) {
         sb.append("\\Q");
         int i = 0;
@@ -288,10 +290,12 @@ public class FastDateParser implements DateParser, Serializable {
         return hashMap;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Map<String, Integer> getDisplayNames(int i, Calendar calendar, Locale locale) {
         return getDisplayNames(i, locale);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int adjustYear(int i) {
         int i2 = this.century + i;
         return i >= this.startYear ? i2 : i2 + 100;
@@ -306,6 +310,7 @@ public class FastDateParser implements DateParser, Serializable {
         return this.currentFormatField.length();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static abstract class Strategy {
         abstract boolean addRegex(FastDateParser fastDateParser, StringBuilder sb);
@@ -409,6 +414,7 @@ public class FastDateParser implements DateParser, Serializable {
         return strategy;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class CopyQuotedStrategy extends Strategy {
         private final String formatField;
@@ -434,6 +440,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class TextStrategy extends Strategy {
         private final int field;
@@ -472,9 +479,8 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class NumberStrategy extends Strategy {
+    private static class NumberStrategy extends Strategy {
         private final int field;
 
         @Override // org.telegram.messenger.time.FastDateParser.Strategy
@@ -509,6 +515,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class TimeZoneStrategy extends Strategy {
         private static final int ID = 0;

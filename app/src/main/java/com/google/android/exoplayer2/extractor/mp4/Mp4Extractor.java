@@ -275,8 +275,8 @@ public final class Mp4Extractor implements Extractor, SeekMap {
 
     private void processMoovAtom(Atom.ContainerAtom containerAtom) throws ParserException {
         Metadata metadata;
-        long j;
         TrackSampleTable trackSampleTable;
+        long j;
         ArrayList arrayList = new ArrayList();
         GaplessInfoHolder gaplessInfoHolder = new GaplessInfoHolder();
         Atom.LeafAtom leafAtomOfType = containerAtom.getLeafAtomOfType(1969517665);
@@ -562,6 +562,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Mp4Track {
         public int sampleIndex;

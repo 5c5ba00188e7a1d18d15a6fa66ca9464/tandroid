@@ -2,9 +2,9 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.u;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class q4 extends f4 implements u.a {
+final class q4 extends f4 implements u.a {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public q4(y2 y2Var, j$.util.function.y yVar, boolean z) {
         super(y2Var, yVar, z);
     }
@@ -18,7 +18,7 @@ public final class q4 extends f4 implements u.a {
         return j$.util.a.k(this, consumer);
     }
 
-    @Override // j$.util.u.a
+    @Override // j$.util.w
     /* renamed from: c */
     public void forEachRemaining(j$.util.function.l lVar) {
         if (this.h != null || this.i) {
@@ -37,7 +37,7 @@ public final class q4 extends f4 implements u.a {
         j$.util.a.c(this, consumer);
     }
 
-    @Override // j$.util.u.a
+    @Override // j$.util.w
     /* renamed from: g */
     public boolean tryAdvance(j$.util.function.l lVar) {
         lVar.getClass();
@@ -65,7 +65,8 @@ public final class q4 extends f4 implements u.a {
     }
 
     @Override // j$.util.stream.f4, j$.util.u
-    public u.a trySplit() {
-        return (u.a) super.trySplit();
+    /* renamed from: trySplit */
+    public u.a mo350trySplit() {
+        return (u.a) super.mo350trySplit();
     }
 }

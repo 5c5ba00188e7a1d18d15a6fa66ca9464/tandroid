@@ -23,6 +23,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ExoPlayerImpl extends BasePlayer {
     final TrackSelectorResult emptyTrackSelectorResult;
@@ -130,6 +131,7 @@ public final class ExoPlayerImpl extends BasePlayer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setPlayWhenReady$0(boolean z, boolean z2, int i, boolean z3, int i2, boolean z4, boolean z5, Player.EventListener eventListener) {
         if (z) {
             eventListener.onPlayerStateChanged(z2, i);
@@ -456,6 +458,7 @@ public final class ExoPlayerImpl extends BasePlayer {
         return this.playbackInfo.timeline.isEmpty() || this.pendingOperationAcks > 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class PlaybackInfoUpdate implements Runnable {
         private final boolean isLoadingChanged;
@@ -557,36 +560,44 @@ public final class ExoPlayerImpl extends BasePlayer {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0(Player.EventListener eventListener) {
             eventListener.onTimelineChanged(this.playbackInfo.timeline, this.timelineChangeReason);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$1(Player.EventListener eventListener) {
             eventListener.onPositionDiscontinuity(this.positionDiscontinuityReason);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$2(Player.EventListener eventListener) {
             eventListener.onPlayerError(this.playbackInfo.playbackError);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$3(Player.EventListener eventListener) {
             PlaybackInfo playbackInfo = this.playbackInfo;
             eventListener.onTracksChanged(playbackInfo.trackGroups, playbackInfo.trackSelectorResult.selections);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$4(Player.EventListener eventListener) {
             eventListener.onLoadingChanged(this.playbackInfo.isLoading);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$5(Player.EventListener eventListener) {
             eventListener.onPlayerStateChanged(this.playWhenReady, this.playbackInfo.playbackState);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$6(Player.EventListener eventListener) {
             eventListener.onIsPlayingChanged(this.playbackInfo.playbackState == 3);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void invokeAll(CopyOnWriteArrayList<BasePlayer.ListenerHolder> copyOnWriteArrayList, BasePlayer.ListenerInvocation listenerInvocation) {
         Iterator<BasePlayer.ListenerHolder> it = copyOnWriteArrayList.iterator();
         while (it.hasNext()) {

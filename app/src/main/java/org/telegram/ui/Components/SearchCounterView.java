@@ -189,6 +189,7 @@ public class SearchCounterView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setCount$0(ValueAnimator valueAnimator) {
         this.countChangeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

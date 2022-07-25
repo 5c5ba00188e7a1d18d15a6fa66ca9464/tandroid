@@ -5,6 +5,7 @@ final class zzdr {
     private zzdr() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzdr(zzdm zzdmVar) {
         this();
     }

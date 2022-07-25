@@ -269,70 +269,72 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
         onDirectionClick();
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        LocationDirectionCell locationDirectionCell;
-        FrameLayout frameLayout;
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View sendLocationCell;
+        View view;
         switch (i) {
             case 0:
-                FrameLayout frameLayout2 = new FrameLayout(this.mContext);
-                this.emptyCell = frameLayout2;
-                frameLayout2.setLayoutParams(new RecyclerView.LayoutParams(-1, this.overScrollHeight));
-                locationDirectionCell = frameLayout2;
+                FrameLayout frameLayout = new FrameLayout(this.mContext);
+                this.emptyCell = frameLayout;
+                frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, this.overScrollHeight));
+                view = frameLayout;
                 break;
             case 1:
-                frameLayout = new SendLocationCell(this.mContext, false, this.resourcesProvider);
-                locationDirectionCell = frameLayout;
+                sendLocationCell = new SendLocationCell(this.mContext, false, this.resourcesProvider);
+                view = sendLocationCell;
                 break;
             case 2:
-                locationDirectionCell = new HeaderCell(this.mContext, this.resourcesProvider);
+                view = new HeaderCell(this.mContext, this.resourcesProvider);
                 break;
             case 3:
-                frameLayout = new LocationCell(this.mContext, false, this.resourcesProvider);
-                locationDirectionCell = frameLayout;
+                sendLocationCell = new LocationCell(this.mContext, false, this.resourcesProvider);
+                view = sendLocationCell;
                 break;
             case 4:
-                locationDirectionCell = new LocationLoadingCell(this.mContext, this.resourcesProvider);
+                view = new LocationLoadingCell(this.mContext, this.resourcesProvider);
                 break;
             case 5:
-                locationDirectionCell = new LocationPoweredCell(this.mContext, this.resourcesProvider);
+                view = new LocationPoweredCell(this.mContext, this.resourcesProvider);
                 break;
             case 6:
-                SendLocationCell sendLocationCell = new SendLocationCell(this.mContext, true, this.resourcesProvider);
-                sendLocationCell.setDialogId(this.dialogId);
-                locationDirectionCell = sendLocationCell;
+                SendLocationCell sendLocationCell2 = new SendLocationCell(this.mContext, true, this.resourcesProvider);
+                sendLocationCell2.setDialogId(this.dialogId);
+                view = sendLocationCell2;
                 break;
             case 7:
                 Context context = this.mContext;
                 int i2 = this.locationType;
-                locationDirectionCell = new SharingLiveLocationCell(context, true, (i2 == 4 || i2 == 5) ? 16 : 54, this.resourcesProvider);
+                view = new SharingLiveLocationCell(context, true, (i2 == 4 || i2 == 5) ? 16 : 54, this.resourcesProvider);
                 break;
             case 8:
-                LocationDirectionCell locationDirectionCell2 = new LocationDirectionCell(this.mContext, this.resourcesProvider);
-                locationDirectionCell2.setOnButtonClick(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.LocationActivityAdapter$$ExternalSyntheticLambda0
+                LocationDirectionCell locationDirectionCell = new LocationDirectionCell(this.mContext, this.resourcesProvider);
+                locationDirectionCell.setOnButtonClick(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.LocationActivityAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        LocationActivityAdapter.this.lambda$onCreateViewHolder$0(view);
+                    public final void onClick(View view2) {
+                        LocationActivityAdapter.this.lambda$onCreateViewHolder$0(view2);
                     }
                 });
-                locationDirectionCell = locationDirectionCell2;
+                view = locationDirectionCell;
                 break;
             case 9:
                 View shadowSectionCell = new ShadowSectionCell(this.mContext);
                 CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 combinedDrawable.setFullsize(true);
                 shadowSectionCell.setBackgroundDrawable(combinedDrawable);
-                locationDirectionCell = shadowSectionCell;
+                view = shadowSectionCell;
                 break;
             default:
-                locationDirectionCell = new View(this.mContext);
+                view = new View(this.mContext);
                 break;
         }
-        return new RecyclerListView.Holder(locationDirectionCell);
+        return new RecyclerListView.Holder(view);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

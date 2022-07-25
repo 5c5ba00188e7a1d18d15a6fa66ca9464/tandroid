@@ -11,6 +11,7 @@ import javax.annotation.CheckForNull;
 public abstract class zzu extends zzr implements List, RandomAccess {
     private static final zzai zza = new zzs(zzaa.zza, 0);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzu zzi(Object[] objArr) {
         return zzj(objArr, objArr.length);
     }
@@ -157,6 +158,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
     public int zza(Object[] objArr, int i) {
         int size = size();
@@ -177,6 +179,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
         return listIterator(0);
     }
 
+    @Override // java.util.List
     /* renamed from: zzh */
     public zzu subList(int i, int i2) {
         zzm.zzd(i, i2, size());
@@ -190,6 +193,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
         return zzaa.zza;
     }
 
+    @Override // java.util.List
     /* renamed from: zzm */
     public final zzai listIterator(int i) {
         zzm.zzb(i, size(), "index");

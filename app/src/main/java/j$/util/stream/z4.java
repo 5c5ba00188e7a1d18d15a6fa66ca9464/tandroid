@@ -1,8 +1,10 @@
 package j$.util.stream;
 
 import java.util.Comparator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class z4 extends D4 implements j$.util.w {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public z4(j$.util.w wVar, long j, long j2) {
         super(wVar, j, j2, 0L, Math.min(wVar.estimateSize(), j2));
     }
@@ -76,6 +78,7 @@ public abstract class z4 extends D4 implements j$.util.w {
         return ((j$.util.w) this.c).tryAdvance(obj);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public z4(j$.util.w wVar, long j, long j2, long j3, long j4, o1 o1Var) {
         super(wVar, j, j2, j3, j4);
     }

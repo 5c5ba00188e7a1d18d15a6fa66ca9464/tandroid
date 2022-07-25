@@ -93,6 +93,7 @@ public class CopyUtilities {
         return tLRPC$MessageEntity;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ParsedSpoilerSpan {
         private ParsedSpoilerSpan() {
@@ -199,6 +200,7 @@ public class CopyUtilities {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class HTMLTagHandler implements HTMLTagAttributesHandler.TagHandler {
         private HTMLTagHandler() {

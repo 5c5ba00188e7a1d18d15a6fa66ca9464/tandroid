@@ -21,6 +21,7 @@ public final class LocationAvailability extends AbstractSafeParcelable implement
     int zzd;
     zzbo[] zze;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LocationAvailability(int i, int i2, int i3, long j, zzbo[] zzboVarArr) {
         this.zzd = i;
         this.zza = i2;

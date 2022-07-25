@@ -12,9 +12,8 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase10;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
-public class EglBase10Impl implements EglBase10 {
+class EglBase10Impl implements EglBase10 {
     private static final int EGL_CONTEXT_CLIENT_VERSION = 12440;
     private static final String TAG = "EglBase10Impl";
     private final EGL10 egl;
@@ -24,6 +23,7 @@ public class EglBase10Impl implements EglBase10 {
     private EGLDisplay eglDisplay;
     private EGLSurface eglSurface;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native long nativeGetCurrentNativeEGLContext();
 
     /* loaded from: classes3.dex */
@@ -141,7 +141,8 @@ public class EglBase10Impl implements EglBase10 {
     }
 
     @Override // org.webrtc.EglBase
-    public EglBase.Context getEglBaseContext() {
+    /* renamed from: getEglBaseContext */
+    public EglBase.Context mo2328getEglBaseContext() {
         return new Context(this.egl, this.eglContext, this.eglConfig);
     }
 
@@ -376,7 +377,6 @@ public class EglBase10Impl implements EglBase10 {
         }
 
         FakeSurfaceHolder(Surface surface) {
-            EglBase10Impl.this = r1;
             this.surface = surface;
         }
 

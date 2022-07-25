@@ -265,6 +265,7 @@ public final class Util {
         return myLooper != null ? myLooper : Looper.getMainLooper();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Thread lambda$newSingleThreadExecutor$0(String str, Runnable runnable) {
         return new Thread(runnable, str);
     }
@@ -790,7 +791,7 @@ public final class Util {
         return systemLocales;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x005e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x005e, code lost:
         return false;
      */
     /*

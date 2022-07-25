@@ -126,16 +126,16 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 super.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:17:0x009c  */
-            /* JADX WARN: Removed duplicated region for block: B:19:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x009c  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x00ed  */
+            /* JADX WARN: Removed duplicated region for block: B:18:? A[RETURN, SYNTHETIC] */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             protected void onDraw(Canvas canvas) {
-                int i;
                 float f;
+                int i;
                 int dp = (FiltersListBottomSheet.this.scrollOffsetY - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop) - AndroidUtilities.dp(8.0f);
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(36.0f) + ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop;
                 if (Build.VERSION.SDK_INT >= 21) {
@@ -255,11 +255,13 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         this.delegate.didSelectFilter(this.adapter.getItem(i));
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
             RecyclerListView recyclerListView = this.listView;
@@ -398,6 +400,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         return arrayList2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
@@ -413,7 +416,6 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         }
 
         public ListAdapter(Context context) {
-            FiltersListBottomSheet.this = r1;
             this.context = context;
         }
 
@@ -431,7 +433,8 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             BottomSheet.BottomSheetCell bottomSheetCell = new BottomSheet.BottomSheetCell(this.context, 0);
             bottomSheetCell.setBackground(null);
             bottomSheetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));

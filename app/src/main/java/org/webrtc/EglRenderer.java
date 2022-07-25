@@ -72,6 +72,7 @@ public class EglRenderer implements VideoSink {
         VideoSink.CC.$default$setParentSink(this, videoSink);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class FrameListenerAndParams {
         public final boolean applyFpsReduction;
@@ -87,13 +88,13 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class EglSurfaceCreation implements Runnable {
         private final boolean background;
         private Object surface;
 
         public EglSurfaceCreation(boolean z) {
-            EglRenderer.this = r1;
             this.background = z;
         }
 
@@ -101,8 +102,8 @@ public class EglRenderer implements VideoSink {
             this.surface = obj;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x0028, code lost:
-            if (org.webrtc.EglRenderer.this.eglBase.hasSurface() == false) goto L14;
+        /* JADX WARN: Code restructure failed: missing block: B:31:0x0028, code lost:
+            if (r3.this$0.eglBase.hasSurface() == false) goto L12;
          */
         @Override // java.lang.Runnable
         /*
@@ -140,6 +141,7 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class HandlerWithExceptionCallback extends Handler {
         private final Runnable exceptionCallback;
@@ -209,6 +211,7 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$0(EglBase.Context context, int[] iArr) {
         if (context == null) {
             logD("EglBase10.create context");
@@ -287,6 +290,7 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$release$1(CountDownLatch countDownLatch) {
         synchronized (EglBase.lock) {
             GLES20.glUseProgram(0);
@@ -308,6 +312,7 @@ public class EglRenderer implements VideoSink {
         countDownLatch.countDown();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$release$2(Looper looper) {
         logD("Quitting render thread.");
         looper.quit();
@@ -391,6 +396,7 @@ public class EglRenderer implements VideoSink {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addFrameListener$3(RendererCommon.GlDrawer glDrawer, FrameListener frameListener, float f, boolean z) {
         if (glDrawer == null) {
             glDrawer = this.drawer;
@@ -417,6 +423,7 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeFrameListener$4(CountDownLatch countDownLatch, FrameListener frameListener) {
         countDownLatch.countDown();
         Iterator<FrameListenerAndParams> it = this.frameListeners.iterator();
@@ -480,6 +487,7 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$releaseEglSurface$5(boolean z, Runnable runnable) {
         EglBase eglBase = this.eglBase;
         if (eglBase != null) {
@@ -500,6 +508,7 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: clearSurfaceOnRenderThread */
     public void lambda$clearImage$6(float f, float f2, float f3, float f4) {
         EglBase eglBase = this.eglBase;
@@ -550,10 +559,12 @@ public class EglRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getTexture$7(GlGenericDrawer.TextureCallback textureCallback) {
         this.frameDrawer.getRenderBufferBitmap(this.drawer, this.rotation, textureCallback);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void renderFrameOnRenderThread() {
         boolean z;
         float f;
@@ -597,11 +608,11 @@ public class EglRenderer implements VideoSink {
             }
             float f4 = 1.0f;
             if (rotatedHeight > f) {
-                f2 = f / rotatedHeight;
-                f3 = 1.0f;
-            } else {
-                f3 = rotatedHeight / f;
+                f3 = f / rotatedHeight;
                 f2 = 1.0f;
+            } else {
+                f2 = rotatedHeight / f;
+                f3 = 1.0f;
             }
             this.drawMatrix.reset();
             this.drawMatrix.preTranslate(0.5f, 0.5f);
@@ -612,7 +623,7 @@ public class EglRenderer implements VideoSink {
                 f4 = -1.0f;
             }
             matrix.preScale(f5, f4);
-            this.drawMatrix.preScale(f2, f3);
+            this.drawMatrix.preScale(f3, f2);
             this.drawMatrix.preTranslate(-0.5f, -0.5f);
             try {
                 if (z) {

@@ -80,6 +80,7 @@ public class HintDialogCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(float f) {
         float progress = 1.0f - (this.checkBox.getProgress() * 0.143f);
         this.imageView.setScaleX(progress);
@@ -169,7 +170,7 @@ public class HintDialogCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x007d  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -126,23 +126,27 @@ public final class zzy$zzad extends zzeo.zzc<zzy$zzad, zza> {
         return (zza) zzbd.zza(zzy_zzad);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(zzaj zzajVar) {
         this.zzg = zzajVar.zza();
         this.zzd |= 2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(zzy$zzau zzy_zzau) {
         zzy_zzau.getClass();
         this.zzy = zzy_zzau;
         this.zzd |= 524288;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(zzy$zzbh zzy_zzbh) {
         zzy_zzbh.getClass();
         this.zzf = zzy_zzbh;
         this.zzd |= 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(boolean z) {
         this.zzd |= 4;
         this.zzh = true;
@@ -157,6 +161,7 @@ public final class zzy$zzad extends zzeo.zzc<zzy$zzad, zza> {
         return zzy_zzbh == null ? zzy$zzbh.zzc() : zzy_zzbh;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzad>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {

@@ -55,14 +55,14 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
         return isEmpty() ? Collections.emptySet() : super.entrySet();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x005c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x005c A[RETURN] */
     @Override // java.util.AbstractMap, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public final boolean equals(Object obj) {
         boolean z;
-        boolean z2;
+        boolean equals;
         if (obj instanceof Map) {
             Map map = (Map) obj;
             if (this != map) {
@@ -72,13 +72,13 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
                             V value = entry.getValue();
                             Object obj2 = map.get(entry.getKey());
                             if (!(value instanceof byte[]) || !(obj2 instanceof byte[])) {
-                                z2 = value.equals(obj2);
+                                equals = value.equals(obj2);
                                 continue;
                             } else {
-                                z2 = Arrays.equals((byte[]) value, (byte[]) obj2);
+                                equals = Arrays.equals((byte[]) value, (byte[]) obj2);
                                 continue;
                             }
-                            if (!z2) {
+                            if (!equals) {
                             }
                         }
                     }

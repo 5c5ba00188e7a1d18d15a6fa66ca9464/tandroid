@@ -13,7 +13,6 @@ public class x {
         public long c = 0;
 
         public a() {
-            x.this = r3;
         }
 
         public void a(long j) {

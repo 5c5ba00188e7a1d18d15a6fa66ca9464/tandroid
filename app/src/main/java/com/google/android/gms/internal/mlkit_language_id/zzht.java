@@ -4,10 +4,10 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzht extends zzho {
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x00b6, code lost:
         return -1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0061, code lost:
         return -1;
      */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzho
@@ -111,6 +111,7 @@ final class zzht extends zzho {
         throw new ArrayIndexOutOfBoundsException(String.format("Array length=%d, index=%d, limit=%d", Integer.valueOf(bArr.length), Integer.valueOf(i2), Integer.valueOf(i3)));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzho
     public final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         char c;

@@ -97,6 +97,7 @@ public class PullForegroundDrawable {
         throw null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         this.textSwappingProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.cell;
@@ -105,6 +106,7 @@ public class PullForegroundDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ValueAnimator valueAnimator) {
         this.textInProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.cell;
@@ -159,8 +161,8 @@ public class PullForegroundDrawable {
         float f;
         int i2;
         int i3;
-        float f2;
         int i4;
+        float f2;
         int i5;
         int i6;
         float f3;
@@ -201,12 +203,12 @@ public class PullForegroundDrawable {
         }
         canvas.save();
         if (z) {
-            i3 = dp4;
-            i2 = viewOffset;
+            i2 = dp4;
+            i3 = viewOffset;
             canvas.clipRect(0, 0, this.listView.getMeasuredWidth(), viewOffset + 1);
         } else {
-            i3 = dp4;
-            i2 = viewOffset;
+            i2 = dp4;
+            i3 = viewOffset;
         }
         if (this.outProgress == 0.0f) {
             if (this.accentRevalProgress != 1.0f && this.accentRevalProgressOut != 1.0f) {
@@ -270,18 +272,18 @@ public class PullForegroundDrawable {
         if (height > i8) {
             this.paintSecondary.setAlpha((int) ((1.0f - f7) * 0.4f * f * 255.0f));
             if (z) {
-                i5 = i4;
-                this.rectF.set(dp, i5, dp + i3, i5 + i2 + i);
+                i6 = i4;
+                this.rectF.set(dp, i6, dp + i2, i6 + i3 + i);
             } else {
-                i5 = i4;
-                this.rectF.set(dp, ((this.cell.getHeight() - height) + i5) - i2, dp + i3, this.cell.getHeight() - i5);
+                i6 = i4;
+                this.rectF.set(dp, ((this.cell.getHeight() - height) + i6) - i3, dp + i2, this.cell.getHeight() - i6);
             }
-            i6 = i;
-            float f24 = i6;
+            i5 = i;
+            float f24 = i5;
             canvas.drawRoundRect(this.rectF, f24, f24, this.paintSecondary);
         } else {
-            i6 = i;
-            i5 = i4;
+            i5 = i;
+            i6 = i4;
         }
         if (z) {
             canvas.restore();
@@ -291,7 +293,7 @@ public class PullForegroundDrawable {
             this.paintWhite.setAlpha((int) (f * 255.0f));
             float f25 = i7;
             float f26 = measuredHeight;
-            canvas.drawCircle(f25, f26, i6, this.paintWhite);
+            canvas.drawCircle(f25, f26, i5, this.paintWhite);
             int intrinsicHeight = this.arrowDrawable.getIntrinsicHeight();
             int intrinsicWidth = this.arrowDrawable.getIntrinsicWidth() >> 1;
             f3 = f9;
@@ -349,7 +351,7 @@ public class PullForegroundDrawable {
         }
         canvas.save();
         int intrinsicWidth2 = Theme.dialogs_archiveAvatarDrawable.getIntrinsicWidth();
-        int height3 = (this.cell.getHeight() - i5) - i6;
+        int height3 = (this.cell.getHeight() - i6) - i5;
         float f35 = intrinsicWidth2;
         float dp5 = AndroidUtilities.dp(24.0f) / f35;
         float f36 = this.outProgress;
@@ -424,6 +426,7 @@ public class PullForegroundDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateTextProgress$2(ValueAnimator valueAnimator) {
         this.arrowRotateProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.cell;
@@ -475,6 +478,7 @@ public class PullForegroundDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$colorize$3(ValueAnimator valueAnimator) {
         this.accentRevalProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.cell;
@@ -487,6 +491,7 @@ public class PullForegroundDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$colorize$4(ValueAnimator valueAnimator) {
         this.accentRevalProgressOut = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.cell;
@@ -572,6 +577,7 @@ public class PullForegroundDrawable {
         this.outAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startOutAnimation$5(ValueAnimator valueAnimator) {
         setOutProgress(((Float) valueAnimator.getAnimatedValue()).floatValue());
         View view = this.cell;
@@ -580,6 +586,7 @@ public class PullForegroundDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startOutAnimation$6(ValueAnimator valueAnimator) {
         this.bounceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.bounceIn = true;
@@ -589,6 +596,7 @@ public class PullForegroundDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startOutAnimation$7(ValueAnimator valueAnimator) {
         this.bounceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.bounceIn = false;
@@ -674,6 +682,7 @@ public class PullForegroundDrawable {
         this.wasSendCallback = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ArrowDrawable extends Drawable {
         private float lastDensity;

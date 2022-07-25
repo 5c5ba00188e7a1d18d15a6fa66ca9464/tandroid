@@ -9,6 +9,6 @@ public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda14
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.removePromoDialog();
+        MessagesController.m561$r8$lambda$3glUIU4Rpam_ZmjiPRPcrBSWg8(this.f$0);
     }
 }

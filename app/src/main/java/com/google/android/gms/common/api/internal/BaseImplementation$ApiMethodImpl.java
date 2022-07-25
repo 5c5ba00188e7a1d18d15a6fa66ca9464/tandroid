@@ -22,6 +22,7 @@ public abstract class BaseImplementation$ApiMethodImpl<R extends Result, A exten
     protected void onSetFailedResult(@RecentlyNonNull R r) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public BaseImplementation$ApiMethodImpl(@RecentlyNonNull Api<?> api, @RecentlyNonNull GoogleApiClient googleApiClient) {
         super((GoogleApiClient) Preconditions.checkNotNull(googleApiClient, "GoogleApiClient must not be null"));
         Preconditions.checkNotNull(api, "Api must not be null");

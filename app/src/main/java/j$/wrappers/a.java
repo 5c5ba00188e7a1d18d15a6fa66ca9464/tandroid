@@ -37,6 +37,18 @@ public final /* synthetic */ class a implements j$.util.n {
         return this.a.hasNext();
     }
 
+    @Override // j$.util.n, java.util.Iterator, j$.util.Iterator
+    /* renamed from: next */
+    public /* synthetic */ Double mo335next() {
+        return this.a.next();
+    }
+
+    @Override // j$.util.n, java.util.Iterator, j$.util.Iterator
+    /* renamed from: next  reason: collision with other method in class */
+    public /* synthetic */ Object mo335next() {
+        return this.a.next();
+    }
+
     @Override // j$.util.n
     public /* synthetic */ double nextDouble() {
         return this.a.nextDouble();

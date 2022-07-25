@@ -40,6 +40,7 @@ public class TermsOfServiceView extends FrameLayout {
         void onAcceptTerms(int i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$accept$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -118,6 +119,7 @@ public class TermsOfServiceView extends FrameLayout {
         addView(view2, layoutParams);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle(LocaleController.getString("TermsOfService", R.string.TermsOfService));
@@ -132,6 +134,7 @@ public class TermsOfServiceView extends FrameLayout {
         builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(DialogInterface dialogInterface, int i) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
@@ -146,6 +149,7 @@ public class TermsOfServiceView extends FrameLayout {
         builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(DialogInterface dialogInterface, int i) {
         final AlertDialog alertDialog = new AlertDialog(getContext(), 3);
         alertDialog.setCanCancel(false);
@@ -160,6 +164,7 @@ public class TermsOfServiceView extends FrameLayout {
         alertDialog.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
@@ -169,6 +174,7 @@ public class TermsOfServiceView extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(AlertDialog alertDialog, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         try {
             alertDialog.dismiss();
@@ -191,6 +197,7 @@ public class TermsOfServiceView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(View view) {
         if (this.currentTos.min_age_confirm != 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -209,6 +216,7 @@ public class TermsOfServiceView extends FrameLayout {
         accept();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(DialogInterface dialogInterface, int i) {
         accept();
     }

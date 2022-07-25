@@ -27,6 +27,7 @@ public abstract class h3 implements l3 {
         return consumer.getClass();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Long l) {
         o1.c(this, l);

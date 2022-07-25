@@ -494,17 +494,17 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     public /* synthetic */ void lambda$new$1(View view, int i) {
-        Object obj;
+        Object item;
         int i2;
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         ListAdapter listAdapter = this.listAdapter;
         if (adapter == listAdapter) {
-            obj = listAdapter.getItem(i);
+            item = listAdapter.getItem(i);
         } else {
-            obj = this.searchAdapter.getItem(i);
+            item = this.searchAdapter.getItem(i);
         }
-        if (obj instanceof ListItem) {
-            ListItem listItem = (ListItem) obj;
+        if (item instanceof ListItem) {
+            ListItem listItem = (ListItem) item;
             File file = listItem.file;
             boolean isExternalStorageManager = Build.VERSION.SDK_INT >= 30 ? Environment.isExternalStorageManager() : false;
             if (!BuildVars.NO_SCOPED_STORAGE && (((i2 = listItem.icon) == R.drawable.files_storage || i2 == R.drawable.files_internal) && !isExternalStorageManager)) {
@@ -601,19 +601,19 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 return;
             }
         }
-        onItemClick(view, obj);
+        onItemClick(view, item);
     }
 
     public /* synthetic */ boolean lambda$new$2(View view, int i) {
-        Object obj;
+        Object item;
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         ListAdapter listAdapter = this.listAdapter;
         if (adapter == listAdapter) {
-            obj = listAdapter.getItem(i);
+            item = listAdapter.getItem(i);
         } else {
-            obj = this.searchAdapter.getItem(i);
+            item = this.searchAdapter.getItem(i);
         }
-        return onItemClick(view, obj);
+        return onItemClick(view, item);
     }
 
     public /* synthetic */ void lambda$new$3(View view, int i) {
@@ -622,7 +622,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     private void runAnimation(final int i) {
-        final float f;
+        final float dp;
         ValueAnimator valueAnimator = this.listAnimation;
         if (valueAnimator != null) {
             valueAnimator.cancel();
@@ -640,7 +640,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             }
         }
         if (i == 1) {
-            f = AndroidUtilities.dp(150.0f);
+            dp = AndroidUtilities.dp(150.0f);
             this.backgroundListView.setAlpha(1.0f);
             this.backgroundListView.setScaleX(1.0f);
             this.backgroundListView.setScaleY(1.0f);
@@ -648,11 +648,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             removeView(this.backgroundListView);
             addView(this.backgroundListView, i2);
             this.backgroundListView.setVisibility(0);
-            this.listView.setTranslationX(f);
+            this.listView.setTranslationX(dp);
             this.listView.setAlpha(0.0f);
             this.listAnimation = ValueAnimator.ofFloat(1.0f, 0.0f);
         } else {
-            f = AndroidUtilities.dp(150.0f);
+            dp = AndroidUtilities.dp(150.0f);
             this.listView.setAlpha(0.0f);
             this.listView.setScaleX(0.95f);
             this.listView.setScaleY(0.95f);
@@ -668,7 +668,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         this.listAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                ChatAttachAlertDocumentLayout.this.lambda$runAnimation$4(i, f, valueAnimator2);
+                ChatAttachAlertDocumentLayout.this.lambda$runAnimation$4(i, dp, valueAnimator2);
             }
         });
         this.listAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.9
@@ -798,38 +798,38 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         return getListTopPadding() + AndroidUtilities.dp(5.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003e  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x003e  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     void onPreMeasure(int i, int i2) {
+        int dp;
         int i3;
-        int i4;
         if (this.parentAlert.actionBar.isSearchFieldVisible() || this.parentAlert.sizeNotifierFrameLayout.measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) {
-            i3 = AndroidUtilities.dp(56.0f);
+            dp = AndroidUtilities.dp(56.0f);
             this.parentAlert.setAllowNestedScroll(false);
         } else {
             if (!AndroidUtilities.isTablet()) {
                 android.graphics.Point point = AndroidUtilities.displaySize;
                 if (point.x > point.y) {
-                    i4 = (int) (i2 / 3.5f);
-                    i3 = i4 - AndroidUtilities.dp(1.0f);
-                    if (i3 < 0) {
-                        i3 = 0;
+                    i3 = (int) (i2 / 3.5f);
+                    dp = i3 - AndroidUtilities.dp(1.0f);
+                    if (dp < 0) {
+                        dp = 0;
                     }
                     this.parentAlert.setAllowNestedScroll(true);
                 }
             }
-            i4 = (i2 / 5) * 2;
-            i3 = i4 - AndroidUtilities.dp(1.0f);
-            if (i3 < 0) {
+            i3 = (i2 / 5) * 2;
+            dp = i3 - AndroidUtilities.dp(1.0f);
+            if (dp < 0) {
             }
             this.parentAlert.setAllowNestedScroll(true);
         }
-        if (this.listView.getPaddingTop() != i3) {
+        if (this.listView.getPaddingTop() != dp) {
             this.ignoreLayout = true;
-            this.listView.setPadding(0, i3, 0, AndroidUtilities.dp(48.0f));
+            this.listView.setPadding(0, dp, 0, AndroidUtilities.dp(48.0f));
             this.ignoreLayout = false;
         }
         ((FrameLayout.LayoutParams) this.filtersView.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight();
@@ -1313,20 +1313,18 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:66:0x01a3 A[Catch: Exception -> 0x01c6, TRY_LEAVE, TryCatch #5 {Exception -> 0x01c6, blocks: (B:64:0x0192, B:66:0x01a3), top: B:95:0x0192 }] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01ce  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x01fd  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0248 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0248 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01a3 A[Catch: Exception -> 0x01c6, TRY_LEAVE, TryCatch #5 {Exception -> 0x01c6, blocks: (B:79:0x0192, B:81:0x01a3), top: B:78:0x0192 }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01fd  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0235  */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void listRoots() {
-        File file;
-        Throwable th;
         BufferedReader bufferedReader;
-        Exception e;
+        File file;
         int lastIndexOf;
         BufferedReader bufferedReader2 = null;
         this.currentDir = null;
@@ -1388,13 +1386,13 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                                         listItem2.icon = R.drawable.files_internal;
                                         listItem2.file = new File(nextToken);
                                         this.listAdapter.items.add(listItem2);
-                                    } catch (Exception e2) {
-                                        FileLog.e(e2);
+                                    } catch (Exception e) {
+                                        FileLog.e(e);
                                     }
                                 }
                             }
-                        } catch (Exception e3) {
-                            e = e3;
+                        } catch (Exception e2) {
+                            e = e2;
                             FileLog.e(e);
                             if (bufferedReader != null) {
                                 bufferedReader.close();
@@ -1412,28 +1410,28 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                             this.scrolling = true;
                             this.listAdapter.notifyDataSetChanged();
                         }
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th) {
+                        th = th;
                         bufferedReader2 = bufferedReader;
                         if (bufferedReader2 != null) {
                             try {
                                 bufferedReader2.close();
-                            } catch (Exception e4) {
-                                FileLog.e(e4);
+                            } catch (Exception e3) {
+                                FileLog.e(e3);
                             }
                         }
                         throw th;
                     }
                 }
                 bufferedReader.close();
-            } catch (Exception e5) {
-                FileLog.e(e5);
+            } catch (Exception e4) {
+                FileLog.e(e4);
             }
-        } catch (Exception e6) {
-            e = e6;
+        } catch (Exception e5) {
+            e = e5;
             bufferedReader = null;
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             if (bufferedReader2 != null) {
             }
             throw th;
@@ -1448,8 +1446,8 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 listItem3.file = file;
                 this.listAdapter.items.add(listItem3);
             }
-        } catch (Exception e7) {
-            FileLog.e(e7);
+        } catch (Exception e6) {
+            FileLog.e(e6);
         }
         if (!this.isSoundPicker) {
             ListItem listItem4 = new ListItem(null);
@@ -1526,25 +1524,26 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
-            View view2;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View headerCell;
+            View sharedDocumentCell;
             if (i != 0) {
                 if (i == 1) {
-                    view2 = new SharedDocumentCell(this.mContext, 1, ChatAttachAlertDocumentLayout.this.resourcesProvider);
+                    sharedDocumentCell = new SharedDocumentCell(this.mContext, 1, ChatAttachAlertDocumentLayout.this.resourcesProvider);
                 } else if (i == 2) {
-                    view2 = new ShadowSectionCell(this.mContext);
+                    sharedDocumentCell = new ShadowSectionCell(this.mContext);
                     CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(ChatAttachAlertDocumentLayout.this.getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     combinedDrawable.setFullsize(true);
-                    view2.setBackgroundDrawable(combinedDrawable);
+                    sharedDocumentCell.setBackgroundDrawable(combinedDrawable);
                 } else {
-                    view = new View(this.mContext);
+                    headerCell = new View(this.mContext);
                 }
-                view = view2;
+                headerCell = sharedDocumentCell;
             } else {
-                view = new HeaderCell(this.mContext, ChatAttachAlertDocumentLayout.this.resourcesProvider);
+                headerCell = new HeaderCell(this.mContext, ChatAttachAlertDocumentLayout.this.resourcesProvider);
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(headerCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1765,11 +1764,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             updateFiltersView(true, null, null, true);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:43:0x0085  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x00bc  */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x00cb  */
-        /* JADX WARN: Removed duplicated region for block: B:60:0x00d9  */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x0194  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0085  */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x00bc  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x00cb  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x00d9  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x0194  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2250,7 +2249,8 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        public Object getItem(int i, int i2) {
+        /* renamed from: getItem */
+        public Object mo1747getItem(int i, int i2) {
             ArrayList<MessageObject> arrayList;
             if (i == 0) {
                 if (i2 >= this.searchResult.size()) {
@@ -2288,7 +2288,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
         public View getSectionHeaderView(int i, View view) {
-            String str;
+            String formatSectionDate;
             GraySectionCell graySectionCell = (GraySectionCell) view;
             if (graySectionCell == null) {
                 graySectionCell = new GraySectionCell(this.mContext, ChatAttachAlertDocumentLayout.this.resourcesProvider);
@@ -2305,19 +2305,23 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 if (arrayList != null) {
                     MessageObject messageObject = arrayList.get(0);
                     if (i2 == 0 && !this.searchResult.isEmpty()) {
-                        str = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
+                        formatSectionDate = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
                     } else {
-                        str = LocaleController.formatSectionDate(messageObject.messageOwner.date);
+                        formatSectionDate = LocaleController.formatSectionDate(messageObject.messageOwner.date);
                     }
-                    graySectionCell.setText(str);
+                    graySectionCell.setText(formatSectionDate);
                 }
             }
             return view;
         }
 
         /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r1v1, types: [org.telegram.ui.Cells.SharedDocumentCell] */
+        /* JADX WARN: Type inference failed for: r4v8, types: [org.telegram.ui.Components.FlickerLoadingView] */
+        /* JADX WARN: Type inference failed for: r4v9, types: [android.view.View] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             GraySectionCell graySectionCell;
             if (i == 0) {
                 graySectionCell = new GraySectionCell(this.mContext, ChatAttachAlertDocumentLayout.this.resourcesProvider);
@@ -2325,7 +2329,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 int i2 = 2;
                 if (i != 1) {
                     if (i == 2) {
-                        FlickerLoadingView flickerLoadingView = new FlickerLoadingView(this.mContext, ChatAttachAlertDocumentLayout.this.resourcesProvider);
+                        ?? flickerLoadingView = new FlickerLoadingView(this.mContext, ChatAttachAlertDocumentLayout.this.resourcesProvider);
                         flickerLoadingView.setViewType(3);
                         flickerLoadingView.setIsSingleCell(true);
                         graySectionCell = flickerLoadingView;
@@ -2337,7 +2341,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 if (i == 1) {
                     i2 = 1;
                 }
-                SharedDocumentCell sharedDocumentCell = new SharedDocumentCell(context, i2, ChatAttachAlertDocumentLayout.this.resourcesProvider);
+                ?? sharedDocumentCell = new SharedDocumentCell(context, i2, ChatAttachAlertDocumentLayout.this.resourcesProvider);
                 sharedDocumentCell.setDrawDownloadIcon(false);
                 graySectionCell = sharedDocumentCell;
             }
@@ -2347,7 +2351,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
         public void onBindViewHolder(int i, int i2, RecyclerView.ViewHolder viewHolder) {
-            String str;
+            String formatSectionDate;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 2 || itemViewType == 3) {
                 return;
@@ -2361,11 +2365,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 }
                 MessageObject messageObject = arrayList.get(0);
                 if (i3 == 0 && !this.searchResult.isEmpty()) {
-                    str = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
+                    formatSectionDate = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
                 } else {
-                    str = LocaleController.formatSectionDate(messageObject.messageOwner.date);
+                    formatSectionDate = LocaleController.formatSectionDate(messageObject.messageOwner.date);
                 }
-                ((GraySectionCell) viewHolder.itemView).setText(str);
+                ((GraySectionCell) viewHolder.itemView).setText(formatSectionDate);
             } else if (itemViewType != 1 && itemViewType != 4) {
             } else {
                 final SharedDocumentCell sharedDocumentCell = (SharedDocumentCell) viewHolder.itemView;

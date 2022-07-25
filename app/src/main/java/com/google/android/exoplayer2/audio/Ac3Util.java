@@ -57,98 +57,98 @@ public final class Ac3Util {
     }
 
     public static SyncFrameInfo parseAc3SyncframeInfo(ParsableBitArray parsableBitArray) {
+        String str;
         int i;
         int i2;
         int i3;
         int i4;
         int i5;
-        String str;
+        int readBits;
         int i6;
         int i7;
         int i8;
         int i9;
         int i10;
-        int i11;
         int position = parsableBitArray.getPosition();
         parsableBitArray.skipBits(40);
         boolean z = parsableBitArray.readBits(5) > 10;
         parsableBitArray.setPosition(position);
-        int i12 = -1;
+        int i11 = -1;
         if (z) {
             parsableBitArray.skipBits(16);
-            int readBits = parsableBitArray.readBits(2);
-            if (readBits == 0) {
-                i12 = 0;
-            } else if (readBits == 1) {
-                i12 = 1;
-            } else if (readBits == 2) {
-                i12 = 2;
+            int readBits2 = parsableBitArray.readBits(2);
+            if (readBits2 == 0) {
+                i11 = 0;
+            } else if (readBits2 == 1) {
+                i11 = 1;
+            } else if (readBits2 == 2) {
+                i11 = 2;
             }
             parsableBitArray.skipBits(3);
-            int readBits2 = (parsableBitArray.readBits(11) + 1) * 2;
-            int readBits3 = parsableBitArray.readBits(2);
-            if (readBits3 == 3) {
-                i6 = SAMPLE_RATE_BY_FSCOD2[parsableBitArray.readBits(2)];
-                i8 = 3;
-                i7 = 6;
+            int readBits3 = (parsableBitArray.readBits(11) + 1) * 2;
+            int readBits4 = parsableBitArray.readBits(2);
+            if (readBits4 == 3) {
+                i7 = SAMPLE_RATE_BY_FSCOD2[parsableBitArray.readBits(2)];
+                readBits = 3;
+                i6 = 6;
             } else {
-                i8 = parsableBitArray.readBits(2);
-                i7 = BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[i8];
-                i6 = SAMPLE_RATE_BY_FSCOD[readBits3];
+                readBits = parsableBitArray.readBits(2);
+                i6 = BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[readBits];
+                i7 = SAMPLE_RATE_BY_FSCOD[readBits4];
             }
-            int i13 = i7 * 256;
-            int readBits4 = parsableBitArray.readBits(3);
+            int i12 = i6 * 256;
+            int readBits5 = parsableBitArray.readBits(3);
             boolean readBit = parsableBitArray.readBit();
-            int i14 = CHANNEL_COUNT_BY_ACMOD[readBits4] + (readBit ? 1 : 0);
+            int i13 = CHANNEL_COUNT_BY_ACMOD[readBits5] + (readBit ? 1 : 0);
             parsableBitArray.skipBits(10);
             if (parsableBitArray.readBit()) {
                 parsableBitArray.skipBits(8);
             }
-            if (readBits4 == 0) {
+            if (readBits5 == 0) {
                 parsableBitArray.skipBits(5);
                 if (parsableBitArray.readBit()) {
                     parsableBitArray.skipBits(8);
                 }
             }
-            if (i12 == 1 && parsableBitArray.readBit()) {
+            if (i11 == 1 && parsableBitArray.readBit()) {
                 parsableBitArray.skipBits(16);
             }
             if (parsableBitArray.readBit()) {
-                if (readBits4 > 2) {
+                if (readBits5 > 2) {
                     parsableBitArray.skipBits(2);
                 }
-                if ((readBits4 & 1) == 0 || readBits4 <= 2) {
-                    i10 = 6;
+                if ((readBits5 & 1) == 0 || readBits5 <= 2) {
+                    i9 = 6;
                 } else {
-                    i10 = 6;
+                    i9 = 6;
                     parsableBitArray.skipBits(6);
                 }
-                if ((readBits4 & 4) != 0) {
-                    parsableBitArray.skipBits(i10);
+                if ((readBits5 & 4) != 0) {
+                    parsableBitArray.skipBits(i9);
                 }
                 if (readBit && parsableBitArray.readBit()) {
                     parsableBitArray.skipBits(5);
                 }
-                if (i12 == 0) {
+                if (i11 == 0) {
                     if (parsableBitArray.readBit()) {
-                        i11 = 6;
+                        i10 = 6;
                         parsableBitArray.skipBits(6);
                     } else {
-                        i11 = 6;
+                        i10 = 6;
                     }
-                    if (readBits4 == 0 && parsableBitArray.readBit()) {
-                        parsableBitArray.skipBits(i11);
+                    if (readBits5 == 0 && parsableBitArray.readBit()) {
+                        parsableBitArray.skipBits(i10);
                     }
                     if (parsableBitArray.readBit()) {
-                        parsableBitArray.skipBits(i11);
+                        parsableBitArray.skipBits(i10);
                     }
-                    int readBits5 = parsableBitArray.readBits(2);
-                    if (readBits5 == 1) {
+                    int readBits6 = parsableBitArray.readBits(2);
+                    if (readBits6 == 1) {
                         parsableBitArray.skipBits(5);
-                    } else if (readBits5 == 2) {
+                    } else if (readBits6 == 2) {
                         parsableBitArray.skipBits(12);
-                    } else if (readBits5 == 3) {
-                        int readBits6 = parsableBitArray.readBits(5);
+                    } else if (readBits6 == 3) {
+                        int readBits7 = parsableBitArray.readBits(5);
                         if (parsableBitArray.readBit()) {
                             parsableBitArray.skipBits(5);
                             if (parsableBitArray.readBit()) {
@@ -190,22 +190,22 @@ public final class Ac3Util {
                                 }
                             }
                         }
-                        parsableBitArray.skipBits((readBits6 + 2) * 8);
+                        parsableBitArray.skipBits((readBits7 + 2) * 8);
                         parsableBitArray.byteAlign();
                     }
-                    if (readBits4 < 2) {
+                    if (readBits5 < 2) {
                         if (parsableBitArray.readBit()) {
                             parsableBitArray.skipBits(14);
                         }
-                        if (readBits4 == 0 && parsableBitArray.readBit()) {
+                        if (readBits5 == 0 && parsableBitArray.readBit()) {
                             parsableBitArray.skipBits(14);
                         }
                     }
                     if (parsableBitArray.readBit()) {
-                        if (i8 == 0) {
+                        if (readBits == 0) {
                             parsableBitArray.skipBits(5);
                         } else {
-                            for (int i15 = 0; i15 < i7; i15++) {
+                            for (int i14 = 0; i14 < i6; i14++) {
                                 if (parsableBitArray.readBit()) {
                                     parsableBitArray.skipBits(5);
                                 }
@@ -216,62 +216,62 @@ public final class Ac3Util {
             }
             if (parsableBitArray.readBit()) {
                 parsableBitArray.skipBits(5);
-                if (readBits4 == 2) {
+                if (readBits5 == 2) {
                     parsableBitArray.skipBits(4);
                 }
-                if (readBits4 >= 6) {
+                if (readBits5 >= 6) {
                     parsableBitArray.skipBits(2);
                 }
                 if (parsableBitArray.readBit()) {
                     parsableBitArray.skipBits(8);
                 }
-                if (readBits4 == 0 && parsableBitArray.readBit()) {
+                if (readBits5 == 0 && parsableBitArray.readBit()) {
                     parsableBitArray.skipBits(8);
                 }
-                if (readBits3 < 3) {
+                if (readBits4 < 3) {
                     parsableBitArray.skipBit();
                 }
             }
-            if (i12 == 0 && i8 != 3) {
+            if (i11 == 0 && readBits != 3) {
                 parsableBitArray.skipBit();
             }
-            if (i12 != 2 || (i8 != 3 && !parsableBitArray.readBit())) {
-                i9 = 6;
+            if (i11 != 2 || (readBits != 3 && !parsableBitArray.readBit())) {
+                i8 = 6;
             } else {
-                i9 = 6;
+                i8 = 6;
                 parsableBitArray.skipBits(6);
             }
-            str = (parsableBitArray.readBit() && parsableBitArray.readBits(i9) == 1 && parsableBitArray.readBits(8) == 1) ? "audio/eac3-joc" : "audio/eac3";
+            str = (parsableBitArray.readBit() && parsableBitArray.readBits(i8) == 1 && parsableBitArray.readBits(8) == 1) ? "audio/eac3-joc" : "audio/eac3";
+            i4 = i11;
             i5 = i12;
-            i = i13;
-            i2 = readBits2;
-            i3 = i6;
-            i4 = i14;
+            i = readBits3;
+            i2 = i7;
+            i3 = i13;
         } else {
             parsableBitArray.skipBits(32);
-            int readBits7 = parsableBitArray.readBits(2);
-            String str2 = readBits7 == 3 ? null : "audio/ac3";
-            int ac3SyncframeSize = getAc3SyncframeSize(readBits7, parsableBitArray.readBits(6));
+            int readBits8 = parsableBitArray.readBits(2);
+            String str2 = readBits8 == 3 ? null : "audio/ac3";
+            int ac3SyncframeSize = getAc3SyncframeSize(readBits8, parsableBitArray.readBits(6));
             parsableBitArray.skipBits(8);
-            int readBits8 = parsableBitArray.readBits(3);
-            if ((readBits8 & 1) != 0 && readBits8 != 1) {
+            int readBits9 = parsableBitArray.readBits(3);
+            if ((readBits9 & 1) != 0 && readBits9 != 1) {
                 parsableBitArray.skipBits(2);
             }
-            if ((readBits8 & 4) != 0) {
+            if ((readBits9 & 4) != 0) {
                 parsableBitArray.skipBits(2);
             }
-            if (readBits8 == 2) {
+            if (readBits9 == 2) {
                 parsableBitArray.skipBits(2);
             }
             int[] iArr = SAMPLE_RATE_BY_FSCOD;
             str = str2;
-            i2 = ac3SyncframeSize;
-            i3 = readBits7 < iArr.length ? iArr[readBits7] : -1;
-            i4 = CHANNEL_COUNT_BY_ACMOD[readBits8] + (parsableBitArray.readBit() ? 1 : 0);
-            i5 = -1;
-            i = 1536;
+            i = ac3SyncframeSize;
+            i2 = readBits8 < iArr.length ? iArr[readBits8] : -1;
+            i3 = CHANNEL_COUNT_BY_ACMOD[readBits9] + (parsableBitArray.readBit() ? 1 : 0);
+            i4 = -1;
+            i5 = 1536;
         }
-        return new SyncFrameInfo(str, i5, i4, i3, i2, i);
+        return new SyncFrameInfo(str, i4, i3, i2, i, i5);
     }
 
     public static int parseAc3SyncframeSize(byte[] bArr) {

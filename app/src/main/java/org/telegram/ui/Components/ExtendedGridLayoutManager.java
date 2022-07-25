@@ -129,6 +129,7 @@ public class ExtendedGridLayoutManager extends GridLayoutManager {
         return fixSize(getSizeForItem(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Size fixSize(Size size) {
         if (size == null) {
             return null;
@@ -184,6 +185,7 @@ public class ExtendedGridLayoutManager extends GridLayoutManager {
         return i <= this.firstRowMax;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int getFlowItemCount() {
         return getItemCount();
     }

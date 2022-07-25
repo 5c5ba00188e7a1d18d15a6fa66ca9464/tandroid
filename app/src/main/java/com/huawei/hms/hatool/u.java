@@ -42,8 +42,8 @@ public class u {
     }
 
     public void a() {
-        o0 o0Var;
-        n0 n0Var;
+        n0 l0Var;
+        o0 c;
         String str;
         String a = a(this.a, this.b);
         if (!TextUtils.isEmpty(a) || "preins".equals(this.b)) {
@@ -56,14 +56,14 @@ public class u {
                 if (a2.length == 0) {
                     str = "request body is empty";
                 } else {
-                    n0Var = new i0(a2, a, this.a, this.b, this.e, this.d);
-                    o0Var = o0.b();
+                    l0Var = new i0(a2, a, this.a, this.b, this.e, this.d);
+                    c = o0.b();
                 }
             } else {
-                n0Var = new l0(this.d, this.a, this.e, this.b);
-                o0Var = o0.c();
+                l0Var = new l0(this.d, this.a, this.e, this.b);
+                c = o0.c();
             }
-            o0Var.a(n0Var);
+            c.a(l0Var);
             return;
         }
         str = "collectUrl is empty";

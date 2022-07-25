@@ -8,17 +8,17 @@ import java.util.List;
 final class zzfl extends zzfj {
     private static final Class<?> zza = Collections.unmodifiableList(Collections.emptyList()).getClass();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzfl() {
+    private zzfl() {
         super();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj
     public final void zza(Object obj, long j) {
-        Object obj2;
+        Object unmodifiableList;
         List list = (List) zzhn.zzf(obj, j);
         if (list instanceof zzfg) {
-            obj2 = ((zzfg) list).a_();
+            unmodifiableList = ((zzfg) list).a_();
         } else if (zza.isAssignableFrom(list.getClass())) {
             return;
         } else {
@@ -30,11 +30,12 @@ final class zzfl extends zzfj {
                 zzewVar.b_();
                 return;
             }
-            obj2 = Collections.unmodifiableList(list);
+            unmodifiableList = Collections.unmodifiableList(list);
         }
-        zzhn.zza(obj, j, obj2);
+        zzhn.zza(obj, j, unmodifiableList);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj
     public final <E> void zza(Object obj, Object obj2, long j) {
         ArrayList arrayList;

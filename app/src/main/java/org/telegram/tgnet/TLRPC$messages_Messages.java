@@ -15,13 +15,13 @@ public abstract class TLRPC$messages_Messages extends TLObject {
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
     public static TLRPC$messages_Messages TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$messages_Messages tLRPC$messages_Messages;
+        TLRPC$messages_Messages tLRPC$TL_messages_messages;
         switch (i) {
             case -1938715001:
-                tLRPC$messages_Messages = new TLRPC$TL_messages_messages();
+                tLRPC$TL_messages_messages = new TLRPC$TL_messages_messages();
                 break;
             case 978610270:
-                tLRPC$messages_Messages = new TLRPC$messages_Messages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_messagesSlice
+                tLRPC$TL_messages_messages = new TLRPC$messages_Messages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_messagesSlice
                     public static int constructor = 978610270;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -118,7 +118,7 @@ public abstract class TLRPC$messages_Messages extends TLObject {
                 };
                 break;
             case 1682413576:
-                tLRPC$messages_Messages = new TLRPC$messages_Messages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_channelMessages
+                tLRPC$TL_messages_messages = new TLRPC$messages_Messages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_channelMessages
                     public static int constructor = 1682413576;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -211,7 +211,7 @@ public abstract class TLRPC$messages_Messages extends TLObject {
                 };
                 break;
             case 1951620897:
-                tLRPC$messages_Messages = new TLRPC$messages_Messages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_messagesNotModified
+                tLRPC$TL_messages_messages = new TLRPC$messages_Messages() { // from class: org.telegram.tgnet.TLRPC$TL_messages_messagesNotModified
                     public static int constructor = 1951620897;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -227,14 +227,14 @@ public abstract class TLRPC$messages_Messages extends TLObject {
                 };
                 break;
             default:
-                tLRPC$messages_Messages = null;
+                tLRPC$TL_messages_messages = null;
                 break;
         }
-        if (tLRPC$messages_Messages != null || !z) {
-            if (tLRPC$messages_Messages != null) {
-                tLRPC$messages_Messages.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_messages_messages != null || !z) {
+            if (tLRPC$TL_messages_messages != null) {
+                tLRPC$TL_messages_messages.readParams(abstractSerializedData, z);
             }
-            return tLRPC$messages_Messages;
+            return tLRPC$TL_messages_messages;
         }
         throw new RuntimeException(String.format("can't parse magic %x in messages_Messages", Integer.valueOf(i)));
     }

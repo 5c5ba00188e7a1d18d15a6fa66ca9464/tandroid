@@ -50,6 +50,7 @@ import java.util.TimeZone;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import org.telegram.messenger.OneUIUtilities;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class CctTransportBackend implements TransportBackend {
     private final Context applicationContext;
@@ -78,6 +79,7 @@ public final class CctTransportBackend implements TransportBackend {
         this.readTimeout = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CctTransportBackend(Context context, Clock clock, Clock clock2) {
         this(context, clock, clock2, OneUIUtilities.ONE_UI_4_0);
     }
@@ -167,9 +169,8 @@ public final class CctTransportBackend implements TransportBackend {
         return BatchedLogRequest.create(arrayList2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public HttpResponse doSend(HttpRequest httpRequest) throws IOException {
-        Throwable e;
-        Throwable e2;
         Logging.d("CctTransportBackend", "Making request to: %s", httpRequest.url);
         HttpURLConnection httpURLConnection = (HttpURLConnection) httpRequest.url.openConnection();
         httpURLConnection.setConnectTimeout(30000);
@@ -233,21 +234,21 @@ public final class CctTransportBackend implements TransportBackend {
                 }
                 throw th2;
             }
-        } catch (EncodingException e3) {
-            e2 = e3;
-            Logging.e("CctTransportBackend", "Couldn't encode request, returning with 400", e2);
+        } catch (EncodingException e) {
+            e = e;
+            Logging.e("CctTransportBackend", "Couldn't encode request, returning with 400", e);
             return new HttpResponse(400, null, 0L);
-        } catch (ConnectException e4) {
+        } catch (ConnectException e2) {
+            e = e2;
+            Logging.e("CctTransportBackend", "Couldn't open connection, returning with 500", e);
+            return new HttpResponse(500, null, 0L);
+        } catch (UnknownHostException e3) {
+            e = e3;
+            Logging.e("CctTransportBackend", "Couldn't open connection, returning with 500", e);
+            return new HttpResponse(500, null, 0L);
+        } catch (IOException e4) {
             e = e4;
-            Logging.e("CctTransportBackend", "Couldn't open connection, returning with 500", e);
-            return new HttpResponse(500, null, 0L);
-        } catch (UnknownHostException e5) {
-            e = e5;
-            Logging.e("CctTransportBackend", "Couldn't open connection, returning with 500", e);
-            return new HttpResponse(500, null, 0L);
-        } catch (IOException e6) {
-            e2 = e6;
-            Logging.e("CctTransportBackend", "Couldn't encode request, returning with 400", e2);
+            Logging.e("CctTransportBackend", "Couldn't encode request, returning with 400", e);
             return new HttpResponse(400, null, 0L);
         }
     }
@@ -300,6 +301,7 @@ public final class CctTransportBackend implements TransportBackend {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ HttpRequest lambda$send$0(HttpRequest httpRequest, HttpResponse httpResponse) {
         URL url = httpResponse.redirectUrl;
         if (url != null) {
@@ -314,6 +316,7 @@ public final class CctTransportBackend implements TransportBackend {
         return TimeZone.getDefault().getOffset(Calendar.getInstance().getTimeInMillis()) / 1000;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class HttpResponse {
         final int code;
@@ -327,6 +330,7 @@ public final class CctTransportBackend implements TransportBackend {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class HttpRequest {
         final String apiKey;

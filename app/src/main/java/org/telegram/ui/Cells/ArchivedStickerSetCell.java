@@ -121,6 +121,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
         addView(backupImageView, LayoutHelper.createFrameRelatively(48.0f, 48.0f, 8388659, 12.0f, 8.0f, 0.0f, 0.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         toggle();
     }
@@ -153,7 +154,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
     }
 
     public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z) {
-        ImageLocation imageLocation;
+        ImageLocation forSticker;
         this.needDivider = z;
         this.stickersSet = tLRPC$StickerSetCovered;
         setWillNotDraw(!z);
@@ -171,24 +172,24 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, "windowBackgroundGray", 1.0f);
             boolean z2 = closestPhotoSizeWithSize instanceof TLRPC$Document;
             if (z2) {
-                imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+                forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
             } else {
-                imageLocation = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
+                forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
             }
-            ImageLocation imageLocation2 = imageLocation;
+            ImageLocation imageLocation = forSticker;
             if (z2 && MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
                 if (svgThumb != null) {
                     this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
                     return;
                 } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation2, (String) null, 0, tLRPC$StickerSetCovered);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
                     return;
                 }
-            } else if (imageLocation2 != null && imageLocation2.imageType == 1) {
-                this.imageView.setImage(imageLocation2, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+            } else if (imageLocation != null && imageLocation.imageType == 1) {
+                this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
                 return;
             } else {
-                this.imageView.setImage(imageLocation2, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
                 return;
             }
         }

@@ -11,12 +11,14 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.HandlerUtils;
 import java.text.NumberFormat;
 import java.util.Locale;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
     private final Context mContext;
     private ProgressDialog mProgressDialog;
     private final ReleaseDetails mReleaseDetails;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ReleaseDownloadListener(Context context, ReleaseDetails releaseDetails) {
         this.mContext = context;
         this.mReleaseDetails = releaseDetails;
@@ -73,6 +75,7 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
         Distribute.getInstance().completeWorkflow(this.mReleaseDetails);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized ProgressDialog showDownloadProgress(Activity activity) {
         if (!this.mReleaseDetails.isMandatoryUpdate()) {
             return null;
@@ -88,6 +91,7 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
         return this.mProgressDialog;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void hideProgressDialog() {
         final ProgressDialog progressDialog = this.mProgressDialog;
         if (progressDialog != null) {
@@ -102,6 +106,7 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void updateProgressDialog(long j, long j2) {
         ProgressDialog progressDialog = this.mProgressDialog;
         if (progressDialog != null && j2 >= 0) {

@@ -7,31 +7,37 @@ import java.util.Map;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzip extends zziq<zzjb.zzf> {
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zziq
     public final boolean zza(zzkk zzkkVar) {
         return zzkkVar instanceof zzjb.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zziq
     public final zziu<zzjb.zzf> zza(Object obj) {
         return ((zzjb.zzc) obj).zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zziq
     public final zziu<zzjb.zzf> zzb(Object obj) {
         return ((zzjb.zzc) obj).zza();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zziq
     public final void zzc(Object obj) {
         zza(obj).zzb();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zziq
     public final int zza(Map.Entry<?, ?> entry) {
         return ((zzjb.zzf) entry.getKey()).zzb;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zziq
     public final void zza(zzmr zzmrVar, Map.Entry<?, ?> entry) throws IOException {
         zzjb.zzf zzfVar = (zzjb.zzf) entry.getKey();
@@ -163,6 +169,7 @@ final class zzip extends zziq<zzjb.zzf> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zziq
     public final Object zza(zzio zzioVar, zzkk zzkkVar, int i) {
         return zzioVar.zza(zzkkVar, i);

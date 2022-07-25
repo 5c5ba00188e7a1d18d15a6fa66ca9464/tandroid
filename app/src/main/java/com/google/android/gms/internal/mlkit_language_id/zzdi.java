@@ -95,6 +95,7 @@ abstract class zzdi<E> extends AbstractList<E> implements zzew<E> {
         return super.retainAll(collection);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void zzc() {
         if (this.zza) {
             return;

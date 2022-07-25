@@ -3,11 +3,13 @@ package com.google.android.datatransport.runtime.scheduling.persistence;
 import com.google.android.datatransport.runtime.scheduling.persistence.AutoValue_EventStoreConfig;
 import com.google.auto.value.AutoValue;
 import com.huawei.hms.android.HwBuildEx;
+/* JADX INFO: Access modifiers changed from: package-private */
 @AutoValue
 /* loaded from: classes.dex */
 public abstract class EventStoreConfig {
     static final EventStoreConfig DEFAULT = builder().setMaxStorageSizeInBytes(10485760).setLoadBatchSize(200).setCriticalSectionEnterTimeoutMs(HwBuildEx.VersionCodes.CUR_DEVELOPMENT).setEventCleanUpAge(604800000).setMaxBlobByteSizePerRow(81920).build();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @AutoValue.Builder
     /* loaded from: classes.dex */
     public static abstract class Builder {
@@ -24,14 +26,19 @@ public abstract class EventStoreConfig {
         abstract Builder setMaxStorageSizeInBytes(long j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract int getCriticalSectionEnterTimeoutMs();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract long getEventCleanUpAge();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract int getLoadBatchSize();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract int getMaxBlobByteSizePerRow();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract long getMaxStorageSizeInBytes();
 
     static Builder builder() {

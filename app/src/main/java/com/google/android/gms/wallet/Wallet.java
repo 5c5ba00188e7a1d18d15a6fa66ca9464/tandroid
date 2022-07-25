@@ -89,6 +89,7 @@ public final class Wallet {
             return Objects.hashCode(Integer.valueOf(this.environment), Integer.valueOf(this.theme), null, Boolean.valueOf(this.zzb));
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public /* synthetic */ WalletOptions(zzaj zzajVar) {
             this(new Builder());
         }

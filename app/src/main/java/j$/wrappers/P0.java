@@ -123,7 +123,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ Iterator iterator() {
-        return this.a.mo66iterator();
+        return this.a.mo331iterator();
     }
 
     @Override // java.util.stream.Stream
@@ -173,7 +173,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream parallel() {
-        return I0.n0(this.a.parallel());
+        return I0.n0(this.a.mo332parallel());
     }
 
     @Override // java.util.stream.Stream
@@ -198,7 +198,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream sequential() {
-        return I0.n0(this.a.sequential());
+        return I0.n0(this.a.mo333sequential());
     }
 
     @Override // java.util.stream.Stream
@@ -218,7 +218,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ Spliterator spliterator() {
-        return h.a(this.a.spliterator());
+        return h.a(this.a.mo334spliterator());
     }
 
     @Override // java.util.stream.Stream

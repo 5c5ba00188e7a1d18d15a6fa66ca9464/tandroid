@@ -21,6 +21,7 @@ public class PlatformSoftwareVideoDecoderFactory extends MediaCodecVideoDecoderF
             return Predicate.CC.$default$or(this, predicate);
         }
 
+        @Override // org.webrtc.Predicate
         public boolean test(MediaCodecInfo mediaCodecInfo) {
             return MediaCodecUtils.isSoftwareOnly(mediaCodecInfo);
         }

@@ -27,6 +27,7 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         protected zzej<zzf> zzc = zzej.zza();
     }
 
+    /* JADX WARN: Failed to restore enum class, 'enum' modifier removed */
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public static final class zze {
@@ -44,10 +45,9 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
-    public static final class zzf implements zzel<zzf> {
+    static final class zzf implements zzel<zzf> {
         @Override // com.google.android.gms.internal.mlkit_language_id.zzel
         public final int zza() {
             throw new NoSuchMethodError();
@@ -89,15 +89,18 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract Object zza(int i, Object obj, Object obj2);
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public static abstract class zzd<MessageType extends zzc<MessageType, BuilderType>, BuilderType extends zzd<MessageType, BuilderType>> extends zzb<MessageType, BuilderType> implements zzgb {
+        /* JADX INFO: Access modifiers changed from: protected */
         public zzd(MessageType messagetype) {
             super(messagetype);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo.zzb
         public void zzc() {
             super.zzc();
@@ -141,17 +144,20 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         protected boolean zzb = false;
         private final MessageType zzc;
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public zzb(MessageType messagetype) {
             this.zzc = messagetype;
             this.zza = (MessageType) messagetype.zza(zze.zzd, null, null);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public void zzc() {
             MessageType messagetype = (MessageType) this.zza.zza(zze.zzd, null, null);
             zza(messagetype, this.zza);
             this.zza = messagetype;
         }
 
+        @Override // com.google.android.gms.internal.mlkit_language_id.zzfy
         /* renamed from: zzd */
         public MessageType zzf() {
             if (this.zzb) {
@@ -163,6 +169,7 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
             return this.zza;
         }
 
+        @Override // com.google.android.gms.internal.mlkit_language_id.zzfy
         /* renamed from: zze */
         public final MessageType zzg() {
             MessageType messagetype = (MessageType) zzf();
@@ -214,10 +221,12 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         return zzgk.zza().zza((zzgk) this).zza(this, (zzeo) obj);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final <MessageType extends zzeo<MessageType, BuilderType>, BuilderType extends zzb<MessageType, BuilderType>> BuilderType zzh() {
         return (BuilderType) zza(zze.zze, (Object) null, (Object) null);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final <MessageType extends zzeo<MessageType, BuilderType>, BuilderType extends zzb<MessageType, BuilderType>> BuilderType zza(MessageType messagetype) {
         return (BuilderType) zzh().zza(messagetype);
     }
@@ -227,15 +236,13 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         return zza(this, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzde
-    public final int zzg() {
+    final int zzg() {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzde
-    public final void zza(int i) {
+    final void zza(int i) {
         this.zzc = i;
     }
 
@@ -252,34 +259,38 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T extends zzeo<?, ?>> T zza(Class<T> cls) {
-        T t = zzd.get(cls);
-        if (t == null) {
+        zzeo<?, ?> zzeoVar = zzd.get(cls);
+        if (zzeoVar == null) {
             try {
                 Class.forName(cls.getName(), true, cls.getClassLoader());
-                t = zzd.get(cls);
+                zzeoVar = zzd.get(cls);
             } catch (ClassNotFoundException e) {
                 throw new IllegalStateException("Class initialization cannot fail.", e);
             }
         }
-        if (t == null) {
-            t = (T) ((zzeo) zzhn.zza(cls)).zza(zze.zzf, (Object) null, (Object) null);
-            if (t == null) {
+        if (zzeoVar == null) {
+            zzeoVar = (T) ((zzeo) zzhn.zza(cls)).zza(zze.zzf, (Object) null, (Object) null);
+            if (zzeoVar == null) {
                 throw new IllegalStateException();
             }
-            zzd.put(cls, t);
+            zzd.put(cls, zzeoVar);
         }
-        return (T) t;
+        return (T) zzeoVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <T extends zzeo<?, ?>> void zza(Class<T> cls, T t) {
         zzd.put(cls, t);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static Object zza(zzfz zzfzVar, String str, Object[] objArr) {
         return new zzgm(zzfzVar, str, objArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Object zza(Method method, Object obj, Object... objArr) {
         try {
             return method.invoke(obj, objArr);
@@ -312,15 +323,18 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         return zzc2;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.mlkit_language_id.zzeu, com.google.android.gms.internal.mlkit_language_id.zzer] */
     public static zzeu zzk() {
         return zzer.zzd();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <E> zzew<E> zzl() {
         return zzgn.zzd();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <E> zzew<E> zza(zzew<E> zzewVar) {
         int size = zzewVar.size();
         return zzewVar.zzb(size == 0 ? 10 : size << 1);

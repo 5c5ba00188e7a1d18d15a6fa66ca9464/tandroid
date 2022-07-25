@@ -118,6 +118,7 @@ public class LocationController extends BaseController implements NotificationCe
         public int stopTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$broadcastLastKnownLocation$8(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -141,6 +142,7 @@ public class LocationController extends BaseController implements NotificationCe
         return locationController;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class GpsLocationListener implements LocationListener {
         @Override // android.location.LocationListener
@@ -156,7 +158,6 @@ public class LocationController extends BaseController implements NotificationCe
         }
 
         private GpsLocationListener() {
-            LocationController.this = r1;
         }
 
         @Override // android.location.LocationListener
@@ -174,10 +175,10 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class FusedLocationListener implements com.google.android.gms.location.LocationListener {
         private FusedLocationListener() {
-            LocationController.this = r1;
         }
 
         @Override // com.google.android.gms.location.LocationListener
@@ -205,6 +206,7 @@ public class LocationController extends BaseController implements NotificationCe
         loadSharingLocations();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         LocationController locationController = getAccountInstance().getLocationController();
         getNotificationCenter().addObserver(locationController, NotificationCenter.didReceiveNewMessages);
@@ -332,6 +334,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onConnected$4(LocationSettingsResult locationSettingsResult) {
         final Status status = locationSettingsResult.getStatus();
         int statusCode = status.getStatusCode();
@@ -355,6 +358,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onConnected$2(final Status status) {
         if (this.lookingForPeopleNearby || !this.sharingLocations.isEmpty()) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda14
@@ -366,10 +370,12 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onConnected$1(Status status) {
         getNotificationCenter().postNotificationName(NotificationCenter.needShowPlayServicesAlert, status);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onConnected$3() {
         this.playServicesAvailable = Boolean.FALSE;
         try {
@@ -388,6 +394,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startFusedLocationRequest$5(boolean z) {
         if (!z) {
             this.playServicesAvailable = Boolean.FALSE;
@@ -512,6 +519,7 @@ public class LocationController extends BaseController implements NotificationCe
         stop(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$broadcastLastKnownLocation$7(final SharingLocationInfo sharingLocationInfo, int[] iArr, TLRPC$TL_messages_editMessage tLRPC$TL_messages_editMessage, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             if (!tLRPC$TL_error.text.equals("MESSAGE_ID_INVALID")) {
@@ -549,6 +557,7 @@ public class LocationController extends BaseController implements NotificationCe
         getMessagesController().processUpdates(tLRPC$Updates, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$broadcastLastKnownLocation$6(SharingLocationInfo sharingLocationInfo) {
         this.sharingLocationsUI.remove(sharingLocationInfo);
         this.sharingLocationsMapUI.remove(sharingLocationInfo.did);
@@ -562,6 +571,7 @@ public class LocationController extends BaseController implements NotificationCe
         return SystemClock.elapsedRealtime() > this.locationEndWatchTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setNewLocationEndWatchTime() {
         if (this.sharingLocations.isEmpty()) {
             return;
@@ -570,6 +580,7 @@ public class LocationController extends BaseController implements NotificationCe
         start();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void update() {
         UserConfig userConfig = getUserConfig();
         boolean z = true;
@@ -618,6 +629,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$update$9(SharingLocationInfo sharingLocationInfo) {
         this.sharingLocationsUI.remove(sharingLocationInfo);
         this.sharingLocationsMapUI.remove(sharingLocationInfo.did);
@@ -648,6 +660,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cleanup$10() {
         this.locationEndWatchTime = 0L;
         this.requests.clear();
@@ -657,6 +670,7 @@ public class LocationController extends BaseController implements NotificationCe
         stop(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setLastKnownLocation(Location location) {
         if (location == null || Build.VERSION.SDK_INT < 17 || (SystemClock.elapsedRealtimeNanos() - location.getElapsedRealtimeNanos()) / 1000000000 <= 300) {
             this.lastKnownLocation = location;
@@ -667,6 +681,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setLastKnownLocation$11() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.newLocationAvailable, new Object[0]);
     }
@@ -684,6 +699,7 @@ public class LocationController extends BaseController implements NotificationCe
         return this.cachedNearbyChats;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void addSharingLocation(TLRPC$Message tLRPC$Message) {
         final SharingLocationInfo sharingLocationInfo = new SharingLocationInfo();
         sharingLocationInfo.did = tLRPC$Message.dialog_id;
@@ -712,6 +728,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addSharingLocation$12(SharingLocationInfo sharingLocationInfo, SharingLocationInfo sharingLocationInfo2) {
         if (sharingLocationInfo != null) {
             this.sharingLocationsUI.remove(sharingLocationInfo);
@@ -752,6 +769,7 @@ public class LocationController extends BaseController implements NotificationCe
         return sharingLocationInfo != null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProximityLocation$13(int i, long j) {
         try {
             SQLitePreparedStatement executeFast = getMessagesStorage().getDatabase().executeFast("UPDATE sharing_locations SET proximity = ? WHERE uid = ?");
@@ -765,6 +783,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProximityLocation$14() {
         broadcastLastKnownLocation(true);
     }
@@ -783,6 +802,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSharingLocations$18() {
         final ArrayList arrayList = new ArrayList();
         final ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();
@@ -835,6 +855,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSharingLocations$17(ArrayList arrayList, ArrayList arrayList2, final ArrayList arrayList3) {
         getMessagesController().putUsers(arrayList, true);
         getMessagesController().putChats(arrayList2, true);
@@ -846,6 +867,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSharingLocations$16(final ArrayList arrayList) {
         this.sharingLocations.addAll(arrayList);
         for (int i = 0; i < this.sharingLocations.size(); i++) {
@@ -860,6 +882,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSharingLocations$15(ArrayList arrayList) {
         this.sharingLocationsUI.addAll(arrayList);
         for (int i = 0; i < arrayList.size(); i++) {
@@ -879,6 +902,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveSharingLocation$19(int i, SharingLocationInfo sharingLocationInfo) {
         try {
             if (i == 2) {
@@ -919,6 +943,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeSharingLocation$22(long j) {
         final SharingLocationInfo sharingLocationInfo = this.sharingLocationsMap.get(j);
         this.sharingLocationsMap.remove(j);
@@ -952,6 +977,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeSharingLocation$20(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             return;
@@ -959,6 +985,7 @@ public class LocationController extends BaseController implements NotificationCe
         getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeSharingLocation$21(SharingLocationInfo sharingLocationInfo) {
         this.sharingLocationsUI.remove(sharingLocationInfo);
         this.sharingLocationsMapUI.remove(sharingLocationInfo.did);
@@ -989,6 +1016,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeAllLocationSharings$25() {
         for (int i = 0; i < this.sharingLocations.size(); i++) {
             SharingLocationInfo sharingLocationInfo = this.sharingLocations.get(i);
@@ -1019,6 +1047,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeAllLocationSharings$23(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             return;
@@ -1026,6 +1055,7 @@ public class LocationController extends BaseController implements NotificationCe
         getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeAllLocationSharings$24() {
         this.sharingLocationsUI.clear();
         this.sharingLocationsMapUI.clear();
@@ -1049,8 +1079,8 @@ public class LocationController extends BaseController implements NotificationCe
         setLastKnownLocation(location);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0022 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:37:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0022 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1135,6 +1165,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startLocationLookupForPeopleNearby$26(boolean z) {
         boolean z2 = !z;
         this.lookingForPeopleNearby = z2;
@@ -1166,6 +1197,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadLiveLocations$28(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             return;
@@ -1178,6 +1210,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadLiveLocations$27(long j, TLObject tLObject) {
         this.cacheRequests.delete(j);
         TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
@@ -1198,11 +1231,11 @@ public class LocationController extends BaseController implements NotificationCe
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v10, types: [org.telegram.tgnet.TLRPC$TL_channels_readMessageContents] */
-    /* JADX WARN: Type inference failed for: r1v6, types: [org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r1v7, types: [org.telegram.tgnet.TLRPC$TL_messages_readMessageContents] */
+    /* JADX WARN: Type inference failed for: r1v6, types: [org.telegram.tgnet.TLRPC$TL_messages_readMessageContents] */
+    /* JADX WARN: Type inference failed for: r1v7, types: [org.telegram.tgnet.TLObject] */
     public void markLiveLoactionsAsRead(long j) {
         ArrayList<TLRPC$Message> arrayList;
-        ?? r1;
+        ?? tLRPC$TL_messages_readMessageContents;
         if (!DialogObject.isEncryptedDialog(j) && (arrayList = this.locationsCache.get(j)) != null && !arrayList.isEmpty()) {
             Integer num = this.lastReadLocationTime.get(j);
             int elapsedRealtime = (int) (SystemClock.elapsedRealtime() / 1000);
@@ -1214,14 +1247,14 @@ public class LocationController extends BaseController implements NotificationCe
             if (DialogObject.isChatDialog(j)) {
                 long j2 = -j;
                 if (ChatObject.isChannel(j2, this.currentAccount)) {
-                    r1 = new TLRPC$TL_channels_readMessageContents();
+                    tLRPC$TL_messages_readMessageContents = new TLRPC$TL_channels_readMessageContents();
                     int size = arrayList.size();
                     while (i < size) {
-                        r1.id.add(Integer.valueOf(arrayList.get(i).id));
+                        tLRPC$TL_messages_readMessageContents.id.add(Integer.valueOf(arrayList.get(i).id));
                         i++;
                     }
-                    r1.channel = getMessagesController().getInputChannel(j2);
-                    getConnectionsManager().sendRequest(r1, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda28
+                    tLRPC$TL_messages_readMessageContents.channel = getMessagesController().getInputChannel(j2);
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda28
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             LocationController.this.lambda$markLiveLoactionsAsRead$29(tLObject, tLRPC$TL_error);
@@ -1229,13 +1262,13 @@ public class LocationController extends BaseController implements NotificationCe
                     });
                 }
             }
-            r1 = new TLRPC$TL_messages_readMessageContents();
+            tLRPC$TL_messages_readMessageContents = new TLRPC$TL_messages_readMessageContents();
             int size2 = arrayList.size();
             while (i < size2) {
-                r1.id.add(Integer.valueOf(arrayList.get(i).id));
+                tLRPC$TL_messages_readMessageContents.id.add(Integer.valueOf(arrayList.get(i).id));
                 i++;
             }
-            getConnectionsManager().sendRequest(r1, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda28
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_readMessageContents, new RequestDelegate() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda28
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     LocationController.this.lambda$markLiveLoactionsAsRead$29(tLObject, tLRPC$TL_error);
@@ -1244,6 +1277,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$markLiveLoactionsAsRead$29(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_messages_affectedMessages) {
             TLRPC$TL_messages_affectedMessages tLRPC$TL_messages_affectedMessages = (TLRPC$TL_messages_affectedMessages) tLObject;
@@ -1283,9 +1317,10 @@ public class LocationController extends BaseController implements NotificationCe
         callbacks.put(locationFetchCallback, runnable2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$fetchLocationAddress$31(final Location location, final LocationFetchCallback locationFetchCallback) {
+        final String format;
         final String str;
-        final String str2;
         boolean z;
         try {
             List<Address> fromLocation = new Geocoder(ApplicationLoader.applicationContext, LocaleController.getInstance().getSystemDefaultLocale()).getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -1369,23 +1404,24 @@ public class LocationController extends BaseController implements NotificationCe
                     }
                 }
                 str = sb.toString();
-                str2 = sb2.toString();
+                format = sb2.toString();
             } else {
                 str = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
-                str2 = str;
+                format = str;
             }
         } catch (Exception unused) {
-            str2 = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
-            str = str2;
+            format = String.format(Locale.US, "Unknown address (%f,%f)", Double.valueOf(location.getLatitude()), Double.valueOf(location.getLongitude()));
+            str = format;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocationController$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str, str2, location);
+                LocationController.lambda$fetchLocationAddress$30(LocationController.LocationFetchCallback.this, str, format, location);
             }
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$fetchLocationAddress$30(LocationFetchCallback locationFetchCallback, String str, String str2, Location location) {
         callbacks.remove(locationFetchCallback);
         locationFetchCallback.onLocationAddressAvailable(str, str2, location);

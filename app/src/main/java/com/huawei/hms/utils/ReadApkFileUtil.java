@@ -49,6 +49,7 @@ public class ReadApkFileUtil {
 
     @TargetApi(19)
     public static void b(byte[] bArr) {
+        Throwable th;
         ByteArrayInputStream byteArrayInputStream;
         BufferedReader bufferedReader;
         if (bArr == null) {
@@ -95,27 +96,27 @@ public class ReadApkFileUtil {
                         bufferedReader = bufferedReader2;
                         IOUtils.closeQuietly((InputStream) byteArrayInputStream);
                         IOUtils.closeQuietly((Reader) bufferedReader);
-                    } catch (Throwable th) {
-                        th = th;
+                    } catch (Throwable th2) {
+                        th = th2;
                         IOUtils.closeQuietly((InputStream) byteArrayInputStream);
                         IOUtils.closeQuietly((Reader) bufferedReader2);
                         throw th;
                     }
-                } catch (Throwable th2) {
-                    th = th2;
+                } catch (Throwable th3) {
+                    th = th3;
                     bufferedReader2 = bufferedReader;
                     IOUtils.closeQuietly((InputStream) byteArrayInputStream);
                     IOUtils.closeQuietly((Reader) bufferedReader2);
                     throw th;
                 }
             } catch (Exception unused2) {
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th4) {
+                th = th4;
             }
         } catch (Exception unused3) {
             byteArrayInputStream = null;
-        } catch (Throwable th4) {
-            th = th4;
+        } catch (Throwable th5) {
+            th = th5;
             byteArrayInputStream = null;
         }
         IOUtils.closeQuietly((InputStream) byteArrayInputStream);
@@ -175,24 +176,22 @@ public class ReadApkFileUtil {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r3v0 */
-    /* JADX WARN: Type inference failed for: r3v1, types: [java.util.zip.ZipFile] */
-    /* JADX WARN: Type inference failed for: r3v4, types: [java.lang.StringBuilder] */
-    /* JADX WARN: Type inference failed for: r3v5 */
+    /* JADX WARN: Type inference failed for: r3v1 */
+    /* JADX WARN: Type inference failed for: r3v2, types: [java.util.zip.ZipFile] */
+    /* JADX WARN: Type inference failed for: r3v5, types: [java.lang.StringBuilder] */
     @TargetApi(19)
     public static boolean isCertFound(String str) {
-        Throwable th;
-        Exception e2;
         ZipFile zipFile;
         ZipFile zipFile2 = 0;
         ZipFile zipFile3 = null;
         try {
             try {
                 zipFile = new ZipFile(str);
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
-        } catch (Exception e3) {
-            e2 = e3;
+        } catch (Exception e2) {
+            e = e2;
         }
         try {
             boolean z = zipFile.getEntry("META-INF/HUAWEI.CER") != null;
@@ -201,39 +200,39 @@ public class ReadApkFileUtil {
             }
             try {
                 zipFile.close();
-            } catch (IOException e4) {
+            } catch (IOException e3) {
                 String str2 = a;
-                HMSLog.e(str2, "zipFile.close Exception!" + e4.getMessage());
+                HMSLog.e(str2, "zipFile.close Exception!" + e3.getMessage());
             }
             return z;
-        } catch (Exception e5) {
-            e2 = e5;
+        } catch (Exception e4) {
+            e = e4;
             zipFile3 = zipFile;
             String str3 = a;
-            HMSLog.e(str3, "isCertFound Exception!" + e2.getMessage());
+            HMSLog.e(str3, "isCertFound Exception!" + e.getMessage());
             if (zipFile3 == null) {
                 return false;
             }
             try {
                 zipFile3.close();
                 return false;
-            } catch (IOException e6) {
+            } catch (IOException e5) {
                 String str4 = a;
                 zipFile2 = new StringBuilder();
                 zipFile2.append("zipFile.close Exception!");
-                zipFile2.append(e6.getMessage());
+                zipFile2.append(e5.getMessage());
                 HMSLog.e(str4, zipFile2.toString());
                 return false;
             }
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             zipFile2 = zipFile;
             if (zipFile2 != 0) {
                 try {
                     zipFile2.close();
-                } catch (IOException e7) {
+                } catch (IOException e6) {
                     String str5 = a;
-                    HMSLog.e(str5, "zipFile.close Exception!" + e7.getMessage());
+                    HMSLog.e(str5, "zipFile.close Exception!" + e6.getMessage());
                 }
             }
             throw th;
@@ -242,23 +241,21 @@ public class ReadApkFileUtil {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v0 */
-    /* JADX WARN: Type inference failed for: r1v1, types: [java.util.zip.ZipFile] */
-    /* JADX WARN: Type inference failed for: r1v4, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r1v5 */
+    /* JADX WARN: Type inference failed for: r1v1 */
+    /* JADX WARN: Type inference failed for: r1v2, types: [java.util.zip.ZipFile] */
+    /* JADX WARN: Type inference failed for: r1v5, types: [java.lang.String] */
     public static boolean verifyApkHash(String str) {
-        Throwable th;
-        Exception e2;
         ZipFile zipFile;
         ZipFile zipFile2 = 0;
         ZipFile zipFile3 = null;
         try {
             try {
                 zipFile = new ZipFile(str);
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
-        } catch (Exception e3) {
-            e2 = e3;
+        } catch (Exception e2) {
+            e = e2;
         }
         try {
             byte[] a2 = a(zipFile);
@@ -274,9 +271,9 @@ public class ReadApkFileUtil {
                 if (str2.equals(bytesToString)) {
                     try {
                         zipFile.close();
-                    } catch (Exception e4) {
+                    } catch (Exception e3) {
                         String str3 = a;
-                        HMSLog.i(str3, "close stream Exception!" + e4.getMessage());
+                        HMSLog.i(str3, "close stream Exception!" + e3.getMessage());
                     }
                     return true;
                 }
@@ -284,36 +281,36 @@ public class ReadApkFileUtil {
             try {
                 zipFile.close();
                 return false;
-            } catch (Exception e5) {
+            } catch (Exception e4) {
                 String str4 = a;
-                HMSLog.i(str4, "close stream Exception!" + e5.getMessage());
+                HMSLog.i(str4, "close stream Exception!" + e4.getMessage());
                 return false;
             }
-        } catch (Exception e6) {
-            e2 = e6;
+        } catch (Exception e5) {
+            e = e5;
             zipFile3 = zipFile;
             String str5 = a;
-            HMSLog.i(str5, "verifyApkHash Exception!" + e2.getMessage());
+            HMSLog.i(str5, "verifyApkHash Exception!" + e.getMessage());
             if (zipFile3 == null) {
                 return false;
             }
             try {
                 zipFile3.close();
                 return false;
-            } catch (Exception e7) {
+            } catch (Exception e6) {
                 zipFile2 = a;
-                HMSLog.i(zipFile2, "close stream Exception!" + e7.getMessage());
+                HMSLog.i(zipFile2, "close stream Exception!" + e6.getMessage());
                 return false;
             }
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             zipFile2 = zipFile;
             if (zipFile2 != 0) {
                 try {
                     zipFile2.close();
-                } catch (Exception e8) {
+                } catch (Exception e7) {
                     String str6 = a;
-                    HMSLog.i(str6, "close stream Exception!" + e8.getMessage());
+                    HMSLog.i(str6, "close stream Exception!" + e7.getMessage());
                 }
             }
             throw th;
@@ -321,36 +318,36 @@ public class ReadApkFileUtil {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Not initialized variable reg: 4, insn: 0x0099: MOVE  (r0 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:42:0x0098 */
-    /* JADX WARN: Type inference failed for: r4v1, types: [java.io.OutputStream] */
-    /* JADX WARN: Type inference failed for: r4v2 */
+    /* JADX WARN: Not initialized variable reg: 4, insn: 0x0099: MOVE  (r0 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:56:0x0098 */
+    /* JADX WARN: Type inference failed for: r4v1 */
+    /* JADX WARN: Type inference failed for: r4v2, types: [java.io.OutputStream] */
     /* JADX WARN: Type inference failed for: r4v3 */
     /* JADX WARN: Type inference failed for: r4v4, types: [java.io.OutputStream, java.io.BufferedOutputStream] */
     /* JADX WARN: Type inference failed for: r7v0, types: [java.util.zip.ZipFile] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.io.InputStream] */
     /* JADX WARN: Type inference failed for: r7v10, types: [java.io.InputStream] */
+    /* JADX WARN: Type inference failed for: r7v11 */
     /* JADX WARN: Type inference failed for: r7v12 */
-    /* JADX WARN: Type inference failed for: r7v13 */
-    /* JADX WARN: Type inference failed for: r7v2, types: [java.io.InputStream] */
     /* JADX WARN: Type inference failed for: r7v3 */
-    /* JADX WARN: Type inference failed for: r7v7 */
-    /* JADX WARN: Type inference failed for: r7v9 */
+    /* JADX WARN: Type inference failed for: r7v6 */
+    /* JADX WARN: Type inference failed for: r7v8 */
+    /* JADX WARN: Type inference failed for: r7v9, types: [java.io.InputStream] */
     /* JADX WARN: Type inference failed for: r8v1, types: [java.util.zip.ZipEntry] */
     /* JADX WARN: Type inference failed for: r8v11, types: [java.io.BufferedInputStream, java.io.InputStream] */
     /* JADX WARN: Type inference failed for: r8v12 */
     /* JADX WARN: Type inference failed for: r8v2, types: [java.io.InputStream] */
-    /* JADX WARN: Type inference failed for: r8v3, types: [java.io.InputStream] */
-    /* JADX WARN: Type inference failed for: r8v4 */
     /* JADX WARN: Type inference failed for: r8v5 */
+    /* JADX WARN: Type inference failed for: r8v6 */
     /* JADX WARN: Type inference failed for: r8v7 */
+    /* JADX WARN: Type inference failed for: r8v8, types: [java.io.InputStream] */
     public static byte[] a(ZipFile zipFile, String str) {
-        ByteArrayOutputStream byteArrayOutputStream;
         Throwable th;
         OutputStream outputStream;
-        ?? r4;
+        ByteArrayOutputStream byteArrayOutputStream;
+        Throwable th2;
         Exception e2;
         Object obj;
-        Throwable th2;
+        ?? r4;
         ?? entry = zipFile.getEntry(str);
         OutputStream outputStream2 = null;
         try {

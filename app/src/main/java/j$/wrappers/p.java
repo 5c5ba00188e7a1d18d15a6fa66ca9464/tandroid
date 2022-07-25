@@ -62,4 +62,15 @@ public final /* synthetic */ class p implements Spliterator.OfPrimitive {
     public /* synthetic */ boolean tryAdvance(Consumer consumer) {
         return this.a.b(w.b(consumer));
     }
+
+    @Override // java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    public /* synthetic */ Spliterator.OfPrimitive trySplit() {
+        return a(this.a.mo350trySplit());
+    }
+
+    @Override // java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public /* synthetic */ Spliterator mo351trySplit() {
+        return h.a(this.a.mo350trySplit());
+    }
 }

@@ -18,6 +18,7 @@ public final class zzbc extends AbstractSafeParcelable {
     final com.google.android.gms.location.zzba zze;
     final zzai zzf;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzbc(int i, zzba zzbaVar, IBinder iBinder, PendingIntent pendingIntent, IBinder iBinder2, IBinder iBinder3) {
         this.zza = i;
         this.zzb = zzbaVar;

@@ -82,6 +82,7 @@ public class UsersAlertBase extends BottomSheet {
     protected void onSearchViewTouched(MotionEvent motionEvent, EditTextBoldCursor editTextBoldCursor) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void search(String str) {
     }
 
@@ -133,6 +134,7 @@ public class UsersAlertBase extends BottomSheet {
                 getLocationInWindow(new int[2]);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
             public boolean emptyViewIsVisible() {
                 return getAdapter() != null && UsersAlertBase.this.isEmptyViewVisible && getAdapter().getItemCount() <= 2;
@@ -197,6 +199,7 @@ public class UsersAlertBase extends BottomSheet {
         return f2 >= ((float) (AndroidUtilities.dp(58.0f) + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class SearchField extends FrameLayout {
         private final ImageView clearSearchImageView;
@@ -205,24 +208,22 @@ public class UsersAlertBase extends BottomSheet {
         protected EditTextBoldCursor searchEditText;
         private final ImageView searchIconImageView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SearchField(Context context) {
             super(context);
-            UsersAlertBase.this = r12;
             View view = new View(context);
             this.searchBackground = view;
-            view.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), Theme.getColor(r12.keySearchBackground)));
+            view.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), Theme.getColor(UsersAlertBase.this.keySearchBackground)));
             addView(view, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f));
             ImageView imageView = new ImageView(context);
             this.searchIconImageView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             imageView.setImageResource(R.drawable.smiles_inputsearch);
-            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(r12.keySearchPlaceholder), PorterDuff.Mode.MULTIPLY));
+            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(UsersAlertBase.this.keySearchPlaceholder), PorterDuff.Mode.MULTIPLY));
             addView(imageView, LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 11.0f, 0.0f, 0.0f));
             ImageView imageView2 = new ImageView(context);
             this.clearSearchImageView = imageView2;
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
-            CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2(r12) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.1
+            CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2(UsersAlertBase.this) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.1
                 @Override // org.telegram.ui.Components.CloseProgressDrawable2
                 protected int getCurrentColor() {
                     return Theme.getColor(UsersAlertBase.this.keySearchPlaceholder);
@@ -241,7 +242,7 @@ public class UsersAlertBase extends BottomSheet {
                     UsersAlertBase.SearchField.this.lambda$new$0(view2);
                 }
             });
-            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, r12) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.2
+            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, UsersAlertBase.this) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.2
                 @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
                 public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                     MotionEvent obtain = MotionEvent.obtain(motionEvent);
@@ -256,8 +257,8 @@ public class UsersAlertBase extends BottomSheet {
             };
             this.searchEditText = editTextBoldCursor;
             editTextBoldCursor.setTextSize(1, 16.0f);
-            this.searchEditText.setHintTextColor(Theme.getColor(r12.keySearchPlaceholder));
-            this.searchEditText.setTextColor(Theme.getColor(r12.keySearchText));
+            this.searchEditText.setHintTextColor(Theme.getColor(UsersAlertBase.this.keySearchPlaceholder));
+            this.searchEditText.setTextColor(Theme.getColor(UsersAlertBase.this.keySearchText));
             this.searchEditText.setBackgroundDrawable(null);
             this.searchEditText.setPadding(0, 0, 0, 0);
             this.searchEditText.setMaxLines(1);
@@ -265,11 +266,11 @@ public class UsersAlertBase extends BottomSheet {
             this.searchEditText.setSingleLine(true);
             this.searchEditText.setImeOptions(268435459);
             this.searchEditText.setHint(LocaleController.getString("VoipGroupSearchMembers", R.string.VoipGroupSearchMembers));
-            this.searchEditText.setCursorColor(Theme.getColor(r12.keySearchText));
+            this.searchEditText.setCursorColor(Theme.getColor(UsersAlertBase.this.keySearchText));
             this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
             this.searchEditText.setCursorWidth(1.5f);
             addView(this.searchEditText, LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 9.0f, 46.0f, 0.0f));
-            this.searchEditText.addTextChangedListener(new TextWatcher(r12) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.3
+            this.searchEditText.addTextChangedListener(new TextWatcher(UsersAlertBase.this) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.3
                 @Override // android.text.TextWatcher
                 public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 }
@@ -324,11 +325,13 @@ public class UsersAlertBase extends BottomSheet {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             this.searchEditText.setText("");
             AndroidUtilities.showKeyboard(this.searchEditText);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
             if (keyEvent != null) {
                 if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
@@ -354,20 +357,24 @@ public class UsersAlertBase extends BottomSheet {
 
     static {
         new AnimationProperties.FloatProperty<UsersAlertBase>("colorProgress") { // from class: org.telegram.ui.Components.UsersAlertBase.3
+            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
             public void setValue(UsersAlertBase usersAlertBase, float f) {
                 usersAlertBase.setColorProgress(f);
             }
 
+            @Override // android.util.Property
             public Float get(UsersAlertBase usersAlertBase) {
                 return Float.valueOf(usersAlertBase.getColorProgress());
             }
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public float getColorProgress() {
         return this.colorProgress;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setColorProgress(float f) {
         this.colorProgress = f;
         this.backgroundColor = AndroidUtilities.getOffsetColor(Theme.getColor(this.keyInviteMembersBackground), Theme.getColor(this.keyListViewBackground), f, 1.0f);
@@ -398,6 +405,7 @@ public class UsersAlertBase extends BottomSheet {
         super.dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @SuppressLint({"NewApi"})
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
@@ -419,6 +427,7 @@ public class UsersAlertBase extends BottomSheet {
         setTranslationY(top);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setTranslationY(int i) {
         this.listView.setTopGlowOffset(i);
         float f = i;
@@ -474,6 +483,7 @@ public class UsersAlertBase extends BottomSheet {
         this.shadowAnimation.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void showItemsAnimated(final int i) {
         if (!isShowing()) {
             return;
@@ -504,16 +514,15 @@ public class UsersAlertBase extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class ContainerView extends FrameLayout {
         private boolean ignoreLayout = false;
         float snapToTopOffset;
         ValueAnimator valueAnimator;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ContainerView(Context context) {
             super(context);
-            UsersAlertBase.this = r1;
         }
 
         @Override // android.view.View
@@ -524,7 +533,7 @@ public class UsersAlertBase extends BottomSheet {
 
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
-            int i3;
+            int dp;
             int size = View.MeasureSpec.getSize(i2);
             if (Build.VERSION.SDK_INT >= 21) {
                 this.ignoreLayout = true;
@@ -533,11 +542,11 @@ public class UsersAlertBase extends BottomSheet {
             }
             int paddingTop = size - getPaddingTop();
             if (((BottomSheet) UsersAlertBase.this).keyboardVisible) {
-                i3 = AndroidUtilities.dp(8.0f);
+                dp = AndroidUtilities.dp(8.0f);
                 UsersAlertBase.this.setAllowNestedScroll(false);
-                int i4 = UsersAlertBase.this.scrollOffsetY;
-                if (i4 != 0) {
-                    float f = i4;
+                int i3 = UsersAlertBase.this.scrollOffsetY;
+                if (i3 != 0) {
+                    float f = i3;
                     this.snapToTopOffset = f;
                     setTranslationY(f);
                     ValueAnimator valueAnimator = this.valueAnimator;
@@ -570,17 +579,18 @@ public class UsersAlertBase extends BottomSheet {
                     setTranslationY(this.snapToTopOffset);
                 }
             } else {
-                i3 = (paddingTop - ((paddingTop / 5) * 3)) + AndroidUtilities.dp(8.0f);
+                dp = (paddingTop - ((paddingTop / 5) * 3)) + AndroidUtilities.dp(8.0f);
                 UsersAlertBase.this.setAllowNestedScroll(true);
             }
-            if (UsersAlertBase.this.listView.getPaddingTop() != i3) {
+            if (UsersAlertBase.this.listView.getPaddingTop() != dp) {
                 this.ignoreLayout = true;
-                UsersAlertBase.this.listView.setPadding(0, i3, 0, 0);
+                UsersAlertBase.this.listView.setPadding(0, dp, 0, 0);
                 this.ignoreLayout = false;
             }
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMeasure$0(ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             this.snapToTopOffset = floatValue;
@@ -619,15 +629,15 @@ public class UsersAlertBase extends BottomSheet {
             super.requestLayout();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:15:0x00c3  */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x016a  */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x00c3  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x016a  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onDraw(Canvas canvas) {
-            int i;
             float f;
+            int i;
             canvas.save();
             UsersAlertBase usersAlertBase = UsersAlertBase.this;
             int dp = (usersAlertBase.scrollOffsetY - ((BottomSheet) usersAlertBase).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
@@ -687,6 +697,7 @@ public class UsersAlertBase extends BottomSheet {
             canvas.restore();
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.view.ViewGroup, android.view.View
         public void dispatchDraw(Canvas canvas) {
             canvas.save();

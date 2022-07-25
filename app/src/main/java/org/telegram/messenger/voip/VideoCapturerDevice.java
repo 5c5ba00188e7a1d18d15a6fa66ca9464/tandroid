@@ -68,6 +68,7 @@ public class VideoCapturerDevice {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(boolean z) {
         if (eglBase == null) {
             eglBase = EglBase.CC.create(null, EglBase.CONFIG_PLAIN);
@@ -92,6 +93,7 @@ public class VideoCapturerDevice {
         }
         videoCapturerDeviceArr[1].currentWidth = i2;
         videoCapturerDeviceArr[1].currentHeight = screenCaptureSize.y;
+        final VideoCapturerDevice videoCapturerDevice = videoCapturerDeviceArr[1];
         videoCapturerDeviceArr[1].handler.post(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
@@ -100,6 +102,7 @@ public class VideoCapturerDevice {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkScreenCapturerSize$1(VideoCapturerDevice videoCapturerDevice, Point point) {
         VideoCapturer videoCapturer = videoCapturerDevice.videoCapturer;
         if (videoCapturer != null) {
@@ -168,6 +171,7 @@ public class VideoCapturerDevice {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$5(long j, String str) {
         if (eglBase == null) {
             return;
@@ -181,7 +185,7 @@ public class VideoCapturerDevice {
             final Point screenCaptureSize = getScreenCaptureSize();
             this.currentWidth = screenCaptureSize.x;
             this.currentHeight = screenCaptureSize.y;
-            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("ScreenCapturerThread", eglBase.getEglBaseContext());
+            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("ScreenCapturerThread", eglBase.mo2328getEglBaseContext());
             this.handler.post(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -209,7 +213,7 @@ public class VideoCapturerDevice {
         final String str2 = deviceNames[i];
         if (this.videoCapturer == null) {
             this.videoCapturer = camera2Enumerator.createCapturer(str2, new AnonymousClass2());
-            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("VideoCapturerThread", eglBase.getEglBaseContext());
+            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("VideoCapturerThread", eglBase.mo2328getEglBaseContext());
             this.handler.post(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -226,11 +230,11 @@ public class VideoCapturerDevice {
         });
     }
 
-    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$1  reason: invalid class name */
     /* loaded from: classes.dex */
     public class AnonymousClass1 extends MediaProjection.Callback {
         AnonymousClass1() {
-            VideoCapturerDevice.this = r1;
         }
 
         @Override // android.media.projection.MediaProjection.Callback
@@ -238,6 +242,7 @@ public class VideoCapturerDevice {
             AndroidUtilities.runOnUIThread(VideoCapturerDevice$1$$ExternalSyntheticLambda0.INSTANCE);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onStop$0() {
             if (VoIPService.getSharedInstance() != null) {
                 VoIPService.getSharedInstance().stopScreenCapture();
@@ -245,6 +250,7 @@ public class VideoCapturerDevice {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$2(Point point) {
         if (this.videoCapturerSurfaceTextureHelper != null) {
             long j = this.nativePtr;
@@ -262,7 +268,8 @@ public class VideoCapturerDevice {
         }
     }
 
-    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$2  reason: invalid class name */
     /* loaded from: classes.dex */
     public class AnonymousClass2 implements CameraVideoCapturer.CameraEventsHandler {
         @Override // org.webrtc.CameraVideoCapturer.CameraEventsHandler
@@ -286,7 +293,6 @@ public class VideoCapturerDevice {
         }
 
         AnonymousClass2() {
-            VideoCapturerDevice.this = r1;
         }
 
         @Override // org.webrtc.CameraVideoCapturer.CameraEventsHandler
@@ -294,6 +300,7 @@ public class VideoCapturerDevice {
             AndroidUtilities.runOnUIThread(VideoCapturerDevice$2$$ExternalSyntheticLambda0.INSTANCE);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onFirstFrameAvailable$0() {
             if (VoIPService.getSharedInstance() != null) {
                 VoIPService.getSharedInstance().onCameraFirstFrameAvailable();
@@ -301,6 +308,7 @@ public class VideoCapturerDevice {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$3() {
         if (this.videoCapturerSurfaceTextureHelper == null) {
             return;
@@ -310,7 +318,8 @@ public class VideoCapturerDevice {
         this.videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, 30);
     }
 
-    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$3 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$3  reason: invalid class name */
     /* loaded from: classes.dex */
     public class AnonymousClass3 implements CameraVideoCapturer.CameraSwitchHandler {
         @Override // org.webrtc.CameraVideoCapturer.CameraSwitchHandler
@@ -318,7 +327,6 @@ public class VideoCapturerDevice {
         }
 
         AnonymousClass3() {
-            VideoCapturerDevice.this = r1;
         }
 
         @Override // org.webrtc.CameraVideoCapturer.CameraSwitchHandler
@@ -331,6 +339,7 @@ public class VideoCapturerDevice {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onCameraSwitchDone$0(boolean z) {
             if (VoIPService.getSharedInstance() != null) {
                 VoIPService.getSharedInstance().setSwitchingCamera(false, z);
@@ -338,6 +347,7 @@ public class VideoCapturerDevice {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$4(String str) {
         ((CameraVideoCapturer) this.videoCapturer).switchCamera(new AnonymousClass3(), str);
     }
@@ -362,6 +372,7 @@ public class VideoCapturerDevice {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onStateChanged$7(long j, final int i) {
         if (this.nativePtr != j) {
             return;
@@ -374,6 +385,7 @@ public class VideoCapturerDevice {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onStateChanged$6(int i) {
         VideoCapturer videoCapturer = this.videoCapturer;
         if (videoCapturer == null) {
@@ -403,6 +415,7 @@ public class VideoCapturerDevice {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDestroy$9() {
         int i = 0;
         while (true) {
@@ -429,6 +442,7 @@ public class VideoCapturerDevice {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDestroy$8() {
         WebRtcAudioRecord webRtcAudioRecord;
         if ((this.videoCapturer instanceof ScreenCapturerAndroid) && (webRtcAudioRecord = WebRtcAudioRecord.Instance) != null) {
@@ -457,7 +471,7 @@ public class VideoCapturerDevice {
         }
         EglBase eglBase2 = eglBase;
         if (eglBase2 != null) {
-            return eglBase2.getEglBaseContext();
+            return eglBase2.mo2328getEglBaseContext();
         }
         return null;
     }

@@ -9,6 +9,7 @@ class A implements n, j$.util.function.f, Iterator {
     double b;
     final /* synthetic */ t c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public A(t tVar) {
         this.c = tVar;
     }
@@ -19,7 +20,7 @@ class A implements n, j$.util.function.f, Iterator {
         this.b = d;
     }
 
-    @Override // j$.util.n
+    @Override // j$.util.p
     /* renamed from: e */
     public void forEachRemaining(j$.util.function.f fVar) {
         fVar.getClass();
@@ -58,7 +59,8 @@ class A implements n, j$.util.function.f, Iterator {
     }
 
     @Override // j$.util.n, java.util.Iterator, j$.util.Iterator
-    public Double next() {
+    /* renamed from: next */
+    public Double mo335next() {
         if (!N.a) {
             return Double.valueOf(nextDouble());
         }

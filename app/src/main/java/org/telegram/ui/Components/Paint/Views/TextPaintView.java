@@ -115,6 +115,7 @@ public class TextPaintView extends EntityView {
         }, 300L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$beginEditing$0() {
         AndroidUtilities.showKeyboard(this.editText);
     }
@@ -178,8 +179,10 @@ public class TextPaintView extends EntityView {
         return new Rect((point.x - (measuredWidth / 2.0f)) * scaleX, (point.y - (measuredHeight / 2.0f)) * scaleX, measuredWidth * scaleX, measuredHeight * scaleX);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public TextViewSelectionView createSelectionView() {
+    /* renamed from: createSelectionView  reason: collision with other method in class */
+    public TextViewSelectionView mo1526createSelectionView() {
         return new TextViewSelectionView(this, getContext());
     }
 

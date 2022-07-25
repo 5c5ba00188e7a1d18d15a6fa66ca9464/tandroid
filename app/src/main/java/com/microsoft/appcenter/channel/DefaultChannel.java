@@ -222,6 +222,7 @@ public class DefaultChannel implements Channel {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void triggerIngestion(GroupState groupState) {
         if (!this.mEnabled) {
             return;
@@ -284,12 +285,14 @@ public class DefaultChannel implements Channel {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkPendingLogsAfterPost(GroupState groupState, int i) {
         if (checkStateDidNotChange(groupState, i)) {
             checkPendingLogs(groupState);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleSendingSuccess(GroupState groupState, String str) {
         List<Log> remove = groupState.mSendingBatches.remove(str);
         if (remove != null) {
@@ -304,6 +307,7 @@ public class DefaultChannel implements Channel {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleSendingFailure(GroupState groupState, String str, Exception exc) {
         String str2 = groupState.mName;
         List<Log> remove = groupState.mSendingBatches.remove(str);
@@ -467,6 +471,7 @@ public class DefaultChannel implements Channel {
         suspend(false, new CancellationException());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class GroupState {
         final long mBatchTimeInterval;
@@ -490,7 +495,6 @@ public class DefaultChannel implements Channel {
         };
 
         GroupState(String str, int i, long j, int i2, Ingestion ingestion, Channel.GroupListener groupListener) {
-            DefaultChannel.this = r1;
             this.mName = str;
             this.mMaxLogsPerBatch = i;
             this.mBatchTimeInterval = j;

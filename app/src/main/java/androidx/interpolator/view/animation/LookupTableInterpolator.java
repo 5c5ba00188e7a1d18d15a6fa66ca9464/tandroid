@@ -1,11 +1,13 @@
 package androidx.interpolator.view.animation;
 
 import android.view.animation.Interpolator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class LookupTableInterpolator implements Interpolator {
     private final float mStepSize;
     private final float[] mValues;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public LookupTableInterpolator(float[] fArr) {
         this.mValues = fArr;
         this.mStepSize = 1.0f / (fArr.length - 1);

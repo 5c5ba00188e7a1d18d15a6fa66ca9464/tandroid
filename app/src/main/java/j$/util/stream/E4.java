@@ -1,11 +1,11 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class E4 extends H4 implements j$.util.t, j$.util.function.f {
+final class E4 extends H4 implements j$.util.t, j$.util.function.f {
     double e;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public E4(j$.util.t tVar, long j, long j2) {
         super(tVar, j, j2);
     }

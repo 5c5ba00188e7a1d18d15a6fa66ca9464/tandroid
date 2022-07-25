@@ -108,12 +108,14 @@ public class ForwardingPreviewView extends FrameLayout {
     private void updateColors() {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void didSendPressed() {
     }
 
     protected void onDismiss(boolean z) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void selectAnotherChat() {
     }
 
@@ -125,15 +127,16 @@ public class ForwardingPreviewView extends FrameLayout {
     @SuppressLint({"ClickableViewAccessibility"})
     public ForwardingPreviewView(Context context, final ForwardingMessagesParams forwardingMessagesParams, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, int i, final ResourcesDelegate resourcesDelegate) {
         super(context);
-        String str;
         int i2;
-        String str2;
+        String str;
         int i3;
+        String str2;
         this.currentUser = tLRPC$User;
         this.currentChat = tLRPC$Chat;
         this.forwardingMessagesParams = forwardingMessagesParams;
         this.resourcesProvider = resourcesDelegate;
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.ForwardingPreviewView.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
             public Drawable getNewDrawable() {
                 Drawable wallpaperDrawable = resourcesDelegate.getWallpaperDrawable();
@@ -192,6 +195,7 @@ public class ForwardingPreviewView extends FrameLayout {
                 return true;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 for (int i4 = 0; i4 < getChildCount(); i4++) {
@@ -204,6 +208,7 @@ public class ForwardingPreviewView extends FrameLayout {
                 super.dispatchDraw(canvas);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
             public void onLayout(boolean z, int i4, int i5, int i6, int i7) {
                 super.onLayout(z, i4, i5, i6, i7);
@@ -612,7 +617,8 @@ public class ForwardingPreviewView extends FrameLayout {
         updateColors();
     }
 
-    /* renamed from: org.telegram.ui.Components.ForwardingPreviewView$5 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.ForwardingPreviewView$5  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass5 extends ChatListItemAnimator {
         Runnable finishRunnable;
@@ -622,7 +628,6 @@ public class ForwardingPreviewView extends FrameLayout {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass5(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider, int i) {
             super(chatActivity, recyclerListView, resourcesProvider);
-            ForwardingPreviewView.this = r1;
             this.val$currentAccount = i;
         }
 
@@ -641,6 +646,7 @@ public class ForwardingPreviewView extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.recyclerview.widget.ChatListItemAnimator, androidx.recyclerview.widget.DefaultItemAnimator
         public void onAllAnimationsDone() {
             super.onAllAnimationsDone();
@@ -669,6 +675,7 @@ public class ForwardingPreviewView extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAllAnimationsDone$0(int i) {
             if (this.scrollAnimationIndex != -1) {
                 NotificationCenter.getInstance(i).onAnimationFinish(this.scrollAnimationIndex);
@@ -676,6 +683,7 @@ public class ForwardingPreviewView extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAllAnimationsDone$1() {
             ForwardingPreviewView.this.updateMessages();
         }
@@ -698,6 +706,7 @@ public class ForwardingPreviewView extends FrameLayout {
             AndroidUtilities.runOnUIThread(runnable2);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$endAnimations$2(int i) {
             if (this.scrollAnimationIndex != -1) {
                 NotificationCenter.getInstance(i).onAnimationFinish(this.scrollAnimationIndex);
@@ -706,7 +715,8 @@ public class ForwardingPreviewView extends FrameLayout {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.ForwardingPreviewView$8 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.ForwardingPreviewView$8  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass8 extends GridLayoutManagerFixed {
         final /* synthetic */ ForwardingMessagesParams val$params;
@@ -719,7 +729,6 @@ public class ForwardingPreviewView extends FrameLayout {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass8(Context context, int i, int i2, boolean z, ForwardingMessagesParams forwardingMessagesParams) {
             super(context, i, i2, z);
-            ForwardingPreviewView.this = r1;
             this.val$params = forwardingMessagesParams;
         }
 
@@ -766,11 +775,13 @@ public class ForwardingPreviewView extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onLayoutChildren$0() {
             ForwardingPreviewView.this.adapter.notifyDataSetChanged();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ForwardingMessagesParams forwardingMessagesParams, View view) {
         if (forwardingMessagesParams.hideForwardSendersName) {
             this.returnSendersNames = false;
@@ -788,6 +799,7 @@ public class ForwardingPreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ForwardingMessagesParams forwardingMessagesParams, View view) {
         if (!forwardingMessagesParams.hideForwardSendersName) {
             this.returnSendersNames = false;
@@ -799,6 +811,7 @@ public class ForwardingPreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(ForwardingMessagesParams forwardingMessagesParams, View view) {
         if (forwardingMessagesParams.hideCaption) {
             if (this.returnSendersNames) {
@@ -815,6 +828,7 @@ public class ForwardingPreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(ForwardingMessagesParams forwardingMessagesParams, View view) {
         if (!forwardingMessagesParams.hideCaption) {
             this.showCaptionView.setChecked(false);
@@ -831,14 +845,17 @@ public class ForwardingPreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(View view) {
         didSendPressed();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
         selectAnotherChat();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$6(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == 1) {
             dismiss(true);
@@ -846,6 +863,7 @@ public class ForwardingPreviewView extends FrameLayout {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$7(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == 1) {
             dismiss(true);
@@ -913,6 +931,7 @@ public class ForwardingPreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateMessages() {
         if (this.itemAnimator.isRunning()) {
             this.updateAfterAnimations = true;
@@ -1015,6 +1034,7 @@ public class ForwardingPreviewView extends FrameLayout {
         this.firstLayout = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePositions() {
         final int i = this.chatTopOffset;
         final float f = this.yOffset;
@@ -1086,6 +1106,7 @@ public class ForwardingPreviewView extends FrameLayout {
         setOffset(f, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updatePositions$8(int i, float f, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float f2 = 1.0f - floatValue;
@@ -1096,6 +1117,7 @@ public class ForwardingPreviewView extends FrameLayout {
         setOffset(f3, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setOffset(float f, int i) {
         if (this.isLandscapeMode) {
             this.actionBar.setTranslationY(0.0f);
@@ -1118,14 +1140,15 @@ public class ForwardingPreviewView extends FrameLayout {
         return this.showing;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerView.Adapter {
         private Adapter() {
-            ForwardingPreviewView.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(new ChatMessageCell(viewGroup.getContext(), false, ForwardingPreviewView.this.resourcesProvider));
         }
 
@@ -1366,6 +1389,7 @@ public class ForwardingPreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public MessageObject.GroupedMessages getValidGroupedMessage(MessageObject messageObject) {
         if (messageObject.getGroupId() != 0) {
             MessageObject.GroupedMessages groupedMessages = this.forwardingMessagesParams.groupedMessagesMap.get(messageObject.getGroupId());

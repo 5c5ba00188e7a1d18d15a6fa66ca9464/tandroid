@@ -7,6 +7,7 @@ final class zabq {
     final long zac;
     final int zad;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zabq(com.google.android.gms.common.internal.zao zaoVar, int i, long j, int i2) {
         this.zaa = zaoVar;
         this.zab = i;

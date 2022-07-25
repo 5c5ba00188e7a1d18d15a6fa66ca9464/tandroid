@@ -8,7 +8,6 @@ public abstract class ResultConvert<R extends Result, S extends Result> {
     /* loaded from: classes.dex */
     public class FailPendingResult extends EmptyPendingResult {
         public FailPendingResult(Status status) {
-            ResultConvert.this = r1;
             setResult(status);
         }
     }

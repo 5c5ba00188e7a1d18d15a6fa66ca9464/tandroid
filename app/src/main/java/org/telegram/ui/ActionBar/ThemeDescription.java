@@ -107,7 +107,7 @@ public class ThemeDescription {
     /* loaded from: classes3.dex */
     public interface ThemeDescriptionDelegate {
 
-        /* renamed from: org.telegram.ui.ActionBar.ThemeDescription$ThemeDescriptionDelegate$-CC */
+        /* renamed from: org.telegram.ui.ActionBar.ThemeDescription$ThemeDescriptionDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static void $default$onAnimationProgress(ThemeDescriptionDelegate themeDescriptionDelegate, float f) {

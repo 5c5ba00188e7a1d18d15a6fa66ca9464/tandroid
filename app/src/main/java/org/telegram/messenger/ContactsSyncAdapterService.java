@@ -14,6 +14,7 @@ import android.os.IBinder;
 public class ContactsSyncAdapterService extends Service {
     private static SyncAdapterImpl sSyncAdapter;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class SyncAdapterImpl extends AbstractThreadedSyncAdapter {
         private Context mContext;
@@ -45,6 +46,7 @@ public class ContactsSyncAdapterService extends Service {
         return sSyncAdapter;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void performSync(Context context, Account account, Bundle bundle, String str, ContentProviderClient contentProviderClient, SyncResult syncResult) throws OperationCanceledException {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("performSync: " + account.toString());

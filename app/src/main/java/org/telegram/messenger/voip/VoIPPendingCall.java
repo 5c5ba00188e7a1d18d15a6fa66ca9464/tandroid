@@ -27,12 +27,14 @@ public final class VoIPPendingCall {
         return new VoIPPendingCall(activity, j, z, 1000L, accountInstance);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(int i, int i2, Object[] objArr) {
         if (i == NotificationCenter.didUpdateConnectionState) {
             onConnectionStateUpdated(false);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         onConnectionStateUpdated(true);
     }

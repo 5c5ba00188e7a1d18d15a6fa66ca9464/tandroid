@@ -131,7 +131,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
     }
 
     private void updateRows(DiffCallback diffCallback) {
-        int i;
+        int min;
         this.rowCount = 0;
         this.usersStartRow = -1;
         this.usersEndRow = -1;
@@ -140,53 +140,53 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         this.chatsEndRow = -1;
         this.chatsCreateRow = -1;
         this.showMeRow = -1;
-        int i2 = 0 + 1;
-        this.rowCount = i2;
+        int i = 0 + 1;
+        this.rowCount = i;
         this.helpRow = 0;
+        int i2 = i + 1;
+        this.rowCount = i2;
+        this.helpSectionRow = i;
         int i3 = i2 + 1;
         this.rowCount = i3;
-        this.helpSectionRow = i2;
-        int i4 = i3 + 1;
-        this.rowCount = i4;
-        this.usersHeaderRow = i3;
-        this.rowCount = i4 + 1;
-        this.showMeRow = i4;
+        this.usersHeaderRow = i2;
+        this.rowCount = i3 + 1;
+        this.showMeRow = i3;
         if (!this.users.isEmpty()) {
             if (this.expanded) {
-                i = this.users.size();
+                min = this.users.size();
             } else {
-                i = Math.min(5, this.users.size());
+                min = Math.min(5, this.users.size());
             }
-            int i5 = this.rowCount;
-            this.usersStartRow = i5;
-            int i6 = i5 + i;
-            this.rowCount = i6;
-            this.usersEndRow = i6;
-            if (i != this.users.size()) {
-                int i7 = this.rowCount;
-                this.rowCount = i7 + 1;
-                this.showMoreRow = i7;
+            int i4 = this.rowCount;
+            this.usersStartRow = i4;
+            int i5 = i4 + min;
+            this.rowCount = i5;
+            this.usersEndRow = i5;
+            if (min != this.users.size()) {
+                int i6 = this.rowCount;
+                this.rowCount = i6 + 1;
+                this.showMoreRow = i6;
             }
         }
-        int i8 = this.rowCount;
+        int i7 = this.rowCount;
+        int i8 = i7 + 1;
+        this.rowCount = i8;
+        this.usersSectionRow = i7;
         int i9 = i8 + 1;
         this.rowCount = i9;
-        this.usersSectionRow = i8;
-        int i10 = i9 + 1;
-        this.rowCount = i10;
-        this.chatsHeaderRow = i9;
-        this.rowCount = i10 + 1;
-        this.chatsCreateRow = i10;
+        this.chatsHeaderRow = i8;
+        this.rowCount = i9 + 1;
+        this.chatsCreateRow = i9;
         if (!this.chats.isEmpty()) {
-            int i11 = this.rowCount;
-            this.chatsStartRow = i11;
-            int size = i11 + this.chats.size();
+            int i10 = this.rowCount;
+            this.chatsStartRow = i10;
+            int size = i10 + this.chats.size();
             this.rowCount = size;
             this.chatsEndRow = size;
         }
-        int i12 = this.rowCount;
-        this.rowCount = i12 + 1;
-        this.chatsSectionRow = i12;
+        int i11 = this.rowCount;
+        this.rowCount = i11 + 1;
+        this.chatsSectionRow = i11;
         if (this.listViewAdapter != null) {
             if (diffCallback == null) {
                 this.listView.setItemAnimator(null);
@@ -199,6 +199,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class DiffCallback extends DiffUtil.Callback {
         SparseIntArray newPositionToItem;
@@ -212,7 +213,6 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         int oldUsersStartRow;
 
         private DiffCallback() {
-            PeopleNearbyActivity.this = r1;
             this.oldPositionToItem = new SparseIntArray();
             this.newPositionToItem = new SparseIntArray();
             this.oldUsers = new ArrayList<>();
@@ -413,6 +413,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view, int i) {
         long j;
         if (getParentActivity() == null) {
@@ -489,10 +490,12 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(DialogInterface dialogInterface) {
         this.loadingDialog = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(UserConfig userConfig, DialogInterface dialogInterface, int i) {
         userConfig.sharingMyLocationUntil = Integer.MAX_VALUE;
         userConfig.saveConfig(false);
@@ -500,16 +503,17 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         updateRows(null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0041  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0043  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0046  */
-    /* JADX WARN: Removed duplicated region for block: B:41:? A[RETURN, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:36:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x0041  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0046  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void checkScroll(boolean z) {
-        boolean z2;
         RecyclerView.ViewHolder findViewHolderForAdapterPosition;
+        boolean z2;
         int findFirstVisibleItemPosition = this.layoutManager.findFirstVisibleItemPosition();
         if (findFirstVisibleItemPosition == 0 && (findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition)) != null) {
             HintInnerCell hintInnerCell = (HintInnerCell) findViewHolderForAdapterPosition.itemView;
@@ -597,6 +601,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }), this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkCanCreateGroup$4(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
@@ -606,6 +611,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkCanCreateGroup$3(TLRPC$TL_error tLRPC$TL_error) {
         this.canCreateGroup = tLRPC$TL_error == null;
         this.checkingCanCreate = false;
@@ -666,6 +672,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         this.showProgressAnimation.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendRequest(boolean z, final int i) {
         Location location;
         if (!this.firstLoaded) {
@@ -725,11 +732,13 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         getConnectionsManager().bindRequestToGuid(this.reqId, this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendRequest$5() {
         showLoadingProgress(true);
         this.showProgressRunnable = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendRequest$7(final int i, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -739,6 +748,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendRequest$6(int i, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         boolean z;
         this.reqId = 0;
@@ -833,6 +843,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         getLocationController().startLocationLookupForPeopleNearby(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyHidden() {
         super.onBecomeFullyHidden();
@@ -864,6 +875,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         openGroupCreate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyVisible() {
         super.onBecomeFullyVisible();
@@ -871,7 +883,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:20:0x0061, code lost:
-        if (r13 != r5.peer.user_id) goto L23;
+        if (r13 != r5.peer.user_id) goto L25;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
@@ -944,6 +956,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$8(TLRPC$Chat tLRPC$Chat, long j, boolean z) {
         if (tLRPC$Chat != null) {
             if (ChatObject.isNotInChat(tLRPC$Chat)) {
@@ -1008,6 +1021,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkForExpiredLocations$9() {
         this.checkExpiredRunnable = null;
         checkForExpiredLocations(false);
@@ -1064,12 +1078,12 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            PeopleNearbyActivity.this = r1;
             this.mContext = context;
         }
 
@@ -1085,42 +1099,43 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            HintInnerCell hintInnerCell;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            TextView textView;
             if (i == 0) {
-                ManageChatUserCell manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false);
+                View manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false);
                 manageChatUserCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                hintInnerCell = manageChatUserCell;
+                textView = manageChatUserCell;
             } else if (i == 1) {
-                hintInnerCell = new ShadowSectionCell(this.mContext);
+                textView = new ShadowSectionCell(this.mContext);
             } else if (i == 2) {
-                ManageChatTextCell manageChatTextCell = new ManageChatTextCell(this.mContext);
+                View manageChatTextCell = new ManageChatTextCell(this.mContext);
                 manageChatTextCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                hintInnerCell = manageChatTextCell;
+                textView = manageChatTextCell;
             } else if (i == 3) {
-                HeaderCellProgress headerCellProgress = new HeaderCellProgress(this.mContext);
+                View headerCellProgress = new HeaderCellProgress(this.mContext);
                 headerCellProgress.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                hintInnerCell = headerCellProgress;
+                textView = headerCellProgress;
             } else if (i == 4) {
-                TextView textView = new TextView(this, this.mContext) { // from class: org.telegram.ui.PeopleNearbyActivity.ListAdapter.1
+                TextView textView2 = new TextView(this, this.mContext) { // from class: org.telegram.ui.PeopleNearbyActivity.ListAdapter.1
                     @Override // android.widget.TextView, android.view.View
                     protected void onMeasure(int i2, int i3) {
                         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(67.0f), 1073741824));
                     }
                 };
-                textView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                textView.setPadding(0, 0, AndroidUtilities.dp(3.0f), 0);
-                textView.setTextSize(1, 14.0f);
-                textView.setGravity(17);
-                textView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText3"));
-                hintInnerCell = textView;
+                textView2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textView2.setPadding(0, 0, AndroidUtilities.dp(3.0f), 0);
+                textView2.setTextSize(1, 14.0f);
+                textView2.setGravity(17);
+                textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText3"));
+                textView = textView2;
             } else {
-                HintInnerCell hintInnerCell2 = new HintInnerCell(PeopleNearbyActivity.this, this.mContext);
-                hintInnerCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                hintInnerCell = hintInnerCell2;
+                View hintInnerCell = new HintInnerCell(PeopleNearbyActivity.this, this.mContext);
+                hintInnerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textView = hintInnerCell;
             }
-            hintInnerCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(hintInnerCell);
+            textView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(textView);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1326,6 +1341,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$10() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

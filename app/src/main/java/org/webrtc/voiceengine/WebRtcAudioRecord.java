@@ -71,6 +71,7 @@ public class WebRtcAudioRecord {
 
     private native void nativeCacheDirectBufferAddress(ByteBuffer byteBuffer, long j);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public native void nativeDataIsRecorded(int i, long j);
 
     static {
@@ -123,10 +124,8 @@ public class WebRtcAudioRecord {
     private class AudioRecordThread extends Thread {
         private volatile boolean keepAlive = true;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AudioRecordThread(String str) {
             super(str);
-            WebRtcAudioRecord.this = r1;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -474,6 +473,7 @@ public class WebRtcAudioRecord {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reportWebRtcAudioRecordError(String str) {
         Logging.e(TAG, "Run-time recording error: " + str);
         WebRtcAudioUtils.logAudioState(TAG);

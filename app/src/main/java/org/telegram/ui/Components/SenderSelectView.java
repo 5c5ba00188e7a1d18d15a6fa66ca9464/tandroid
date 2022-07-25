@@ -36,6 +36,7 @@ public class SenderSelectView extends View {
     private Paint backgroundPaint = new Paint(1);
     private Paint menuPaint = new Paint(1);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(SenderSelectView senderSelectView, float f) {
         senderSelectView.menuProgress = f;
         senderSelectView.invalidate();
@@ -188,6 +189,7 @@ public class SenderSelectView extends View {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProgress$2(boolean z, float f, float f2, DynamicAnimation dynamicAnimation, float f3, float f4) {
         if (z) {
             if (f3 > f / 2.0f || !this.scaleIn) {
@@ -200,6 +202,7 @@ public class SenderSelectView extends View {
         this.scaleOut = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProgress$3(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         this.scaleIn = false;
         this.scaleOut = false;
@@ -211,6 +214,7 @@ public class SenderSelectView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProgress$4(ValueAnimator valueAnimator) {
         this.menuProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

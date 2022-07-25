@@ -2,6 +2,7 @@ package com.google.firebase.components;
 
 import com.google.firebase.inject.Provider;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class AbstractComponentContainer implements ComponentContainer {
     @Override // com.google.firebase.components.ComponentContainer
@@ -10,11 +11,11 @@ public abstract class AbstractComponentContainer implements ComponentContainer {
         if (provider == null) {
             return null;
         }
-        return provider.get();
+        return provider.mo190get();
     }
 
     @Override // com.google.firebase.components.ComponentContainer
     public <T> Set<T> setOf(Class<T> cls) {
-        return setOfProvider(cls).get();
+        return setOfProvider(cls).mo190get();
     }
 }

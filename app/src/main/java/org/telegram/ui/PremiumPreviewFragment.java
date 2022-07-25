@@ -185,15 +185,19 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$sentPremiumButtonClick$13(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$sentPremiumBuyCanceled$14(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$sentShowFeaturePreview$15(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$sentShowScreenStat$12(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -631,6 +635,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         if (view instanceof PremiumFeatureCell) {
             PremiumFeatureCell premiumFeatureCell = (PremiumFeatureCell) view;
@@ -645,10 +650,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view) {
         buyPremium(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2() {
         getMediaDataController().loadPremiumPromo(false);
     }
@@ -692,10 +699,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$fillPremiumFeaturesList$3(MessagesController messagesController, PremiumFeatureData premiumFeatureData, PremiumFeatureData premiumFeatureData2) {
         return messagesController.premiumFeaturesTypesToPosition.get(premiumFeatureData.type, Integer.MAX_VALUE) - messagesController.premiumFeaturesTypesToPosition.get(premiumFeatureData2.type, Integer.MAX_VALUE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateBackgroundImage() {
         if (this.contentView.getMeasuredWidth() == 0 || this.contentView.getMeasuredHeight() == 0) {
             return;
@@ -708,6 +717,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         this.backgroundView.imageView.setBackgroundBitmap(this.gradientTextureBitmap);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkButtonDivider() {
         AndroidUtilities.updateViewVisibilityAnimated(this.buttonDivider, this.listView.canScrollVertically(1), 1.0f, true);
     }
@@ -751,6 +761,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$11(final BaseFragment baseFragment, final List list, final BillingResult billingResult, final List list2) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -760,6 +771,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$10(BillingResult billingResult, final BaseFragment baseFragment, List list, final List list2) {
         if (billingResult.getResponseCode() == 0) {
             final Runnable runnable = new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda5
@@ -807,6 +819,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$4(BaseFragment baseFragment) {
         if (baseFragment instanceof PremiumPreviewFragment) {
             PremiumPreviewFragment premiumPreviewFragment = (PremiumPreviewFragment) baseFragment;
@@ -825,6 +838,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$6(final BaseFragment baseFragment, Runnable runnable, final TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$Updates) {
             baseFragment.getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
@@ -840,16 +854,19 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$5(BaseFragment baseFragment, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction) {
         AlertsCreator.processError(baseFragment.getCurrentAccount(), tLRPC$TL_error, baseFragment, tLRPC$TL_payments_assignPlayMarketTransaction, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$7(Runnable runnable, BillingResult billingResult) {
         if (billingResult.getResponseCode() == 0) {
             runnable.run();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$9(final BaseFragment baseFragment, final List list, final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -859,6 +876,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$8(TLObject tLObject, BaseFragment baseFragment, List list, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             BillingController.getInstance().launchBillingFlow(baseFragment.getParentActivity(), baseFragment.getAccountInstance(), new TLRPC$TL_inputStorePaymentPremiumSubscription(), Collections.singletonList(BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(BillingController.PREMIUM_PRODUCT_DETAILS).setOfferToken(((ProductDetails.SubscriptionOfferDetails) list.get(0)).getOfferToken()).build()));
@@ -899,6 +917,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         return LocaleController.formatString(R.string.SubscribeToPremium, str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void measureGradient(int i, int i2) {
         int i3 = 0;
         for (int i4 = 0; i4 < this.premiumFeatures.size(); i4++) {
@@ -972,22 +991,20 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
-            PremiumPreviewFragment.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             Context context = viewGroup.getContext();
             if (i == 1) {
                 view = new PremiumFeatureCell(context) { // from class: org.telegram.ui.PremiumPreviewFragment.Adapter.2
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.PremiumFeatureCell, android.view.ViewGroup, android.view.View
-                    public void dispatchDraw(Canvas canvas) {
+                    protected void dispatchDraw(Canvas canvas) {
                         RectF rectF = AndroidUtilities.rectTmp;
                         rectF.set(this.imageView.getLeft(), this.imageView.getTop(), this.imageView.getRight(), this.imageView.getBottom());
                         PremiumPreviewFragment.this.matrix.reset();
@@ -1034,8 +1051,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:69:0x0238  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x024a A[ADDED_TO_REGION, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0238  */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x024a A[ADDED_TO_REGION, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1194,22 +1211,20 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BackgroundView extends LinearLayout {
         private final GLIconTextureView imageView;
         private final TextView subtitleView;
         TextView titleView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BackgroundView(Context context) {
             super(context);
-            PremiumPreviewFragment.this = r11;
             setOrientation(1);
-            GLIconTextureView gLIconTextureView = new GLIconTextureView(context, 0, r11, context) { // from class: org.telegram.ui.PremiumPreviewFragment.BackgroundView.1
+            GLIconTextureView gLIconTextureView = new GLIconTextureView(context, 0, PremiumPreviewFragment.this, context) { // from class: org.telegram.ui.PremiumPreviewFragment.BackgroundView.1
                 final /* synthetic */ Context val$context;
 
                 {
-                    BackgroundView.this = this;
                     this.val$context = context;
                 }
 
@@ -1288,6 +1303,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }, "premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4", "premiumGradientBackground1", "premiumGradientBackground2", "premiumGradientBackground3", "premiumGradientBackground4", "premiumGradientBackgroundOverlay", "premiumStarGradient1", "premiumStarGradient2", "premiumStartSmallStarsColor", "premiumStartSmallStarsColor2");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateColors() {
         ActionBar actionBar;
         if (this.backgroundView == null || (actionBar = this.actionBar) == null) {
@@ -1331,6 +1347,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         return showDialog;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onDialogDismiss(Dialog dialog) {
         super.onDialogDismiss(dialog);

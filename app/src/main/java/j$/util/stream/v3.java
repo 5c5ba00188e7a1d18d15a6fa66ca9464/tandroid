@@ -1,9 +1,11 @@
 package j$.util.stream;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class v3 extends b1 {
     final /* synthetic */ long l;
     final /* synthetic */ long m;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public v3(c cVar, e4 e4Var, int i, long j, long j2) {
         super(cVar, e4Var, i);
@@ -30,9 +32,10 @@ public class v3 extends b1 {
             d = B3.d(j, this.m);
             return new y4(vVar, j, d);
         }
-        return !d4.ORDERED.d(y2Var.s0()) ? N0((j$.util.v) y2Var.w0(uVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, uVar, t3.a, this.l, this.m).invoke()).mo69spliterator();
+        return !d4.ORDERED.d(y2Var.s0()) ? N0((j$.util.v) y2Var.w0(uVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, uVar, t3.a, this.l, this.m).invoke()).mo313spliterator();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
         return new u3(this, m3Var);
@@ -43,12 +46,12 @@ public class v3 extends b1 {
         long j5;
         if (j <= j3) {
             long j6 = j3 - j;
-            j4 = j2 >= 0 ? Math.min(j2, j6) : j6;
-            j5 = 0;
+            j5 = j2 >= 0 ? Math.min(j2, j6) : j6;
+            j4 = 0;
         } else {
-            j5 = j;
-            j4 = j2;
+            j4 = j;
+            j5 = j2;
         }
-        return new G4(vVar, j5, j4);
+        return new G4(vVar, j4, j5);
     }
 }

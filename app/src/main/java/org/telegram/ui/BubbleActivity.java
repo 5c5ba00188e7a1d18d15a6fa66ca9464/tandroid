@@ -100,6 +100,7 @@ public class BubbleActivity extends BasePermissionsActivity implements ActionBar
         handleIntent(getIntent(), false, bundle != null, false, UserConfig.selectedAccount, 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showPasscodeActivity() {
         if (this.passcodeView == null) {
             return;
@@ -123,6 +124,7 @@ public class BubbleActivity extends BasePermissionsActivity implements ActionBar
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPasscodeActivity$0() {
         SharedConfig.isWaitingForPasscodeEnter = false;
         Intent intent = this.passcodeSaveIntent;

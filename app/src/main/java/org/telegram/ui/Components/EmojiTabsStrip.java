@@ -325,8 +325,8 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0222 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0222 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -479,6 +479,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         updateClickListeners();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateEmojiPacks$0(EmojiTabButton emojiTabButton, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         emojiTabButton.setAlpha(floatValue);
@@ -528,14 +529,17 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateClickListeners$2(int i, View view) {
         onTabClick(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateClickListeners$3(int i, View view) {
         onTabClick(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateClickListeners$4(View view) {
         Runnable runnable = this.onSettingsOpenRunnable;
         if (runnable != null) {
@@ -640,6 +644,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$select$5(float f, float f2, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.selectAnimationT = floatValue;
@@ -647,10 +652,12 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         this.contentView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int selectorColor() {
         return Theme.getColor("chat_emojiPanelIcon", this.resourcesProvider) & 788529151;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class EmojiTabButton extends ViewGroup {
         private boolean forceSelector;
@@ -667,16 +674,14 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         private boolean selected;
         private boolean wasVisible;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EmojiTabButton(Context context, int i, int i2, boolean z, boolean z2) {
             super(context);
-            EmojiTabsStrip.this = r8;
             this.round = z;
             this.forceSelector = z2;
             if (z) {
-                setBackground(Theme.createCircleSelectorDrawable(r8.selectorColor(), 0, 0));
+                setBackground(Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0));
             } else if (z2) {
-                setBackground(Theme.createRadSelectorDrawable(r8.selectorColor(), 8, 8));
+                setBackground(Theme.createRadSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 8, 8));
             }
             if (Build.VERSION.SDK_INT >= 23) {
                 RLottieDrawable rLottieDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), false, null);
@@ -691,40 +696,36 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 imageView.setImageDrawable(context.getResources().getDrawable(i).mutate());
                 addView(this.imageView);
             }
-            setColor(Theme.getColor("chat_emojiPanelIcon", r8.resourcesProvider));
+            setColor(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider));
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EmojiTabButton(Context context, int i, boolean z, boolean z2) {
             super(context);
-            EmojiTabsStrip.this = r1;
             this.round = z;
             this.forceSelector = z2;
             if (z) {
-                setBackground(Theme.createCircleSelectorDrawable(r1.selectorColor(), 0, 0));
+                setBackground(Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0));
             } else if (z2) {
-                setBackground(Theme.createRadSelectorDrawable(r1.selectorColor(), 8, 8));
+                setBackground(Theme.createRadSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 8, 8));
             }
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setImageDrawable(context.getResources().getDrawable(i).mutate());
-            setColor(Theme.getColor("chat_emojiPanelIcon", r1.resourcesProvider));
+            setColor(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider));
             addView(this.imageView);
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EmojiTabButton(Context context, Drawable drawable, boolean z, boolean z2, boolean z3) {
             super(context);
-            EmojiTabsStrip.this = r1;
             this.newly = true;
             this.round = z2;
             this.forceSelector = z3;
             if (z2) {
-                setBackground(Theme.createCircleSelectorDrawable(r1.selectorColor(), 0, 0));
+                setBackground(Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0));
             } else if (z3) {
-                setBackground(Theme.createRadSelectorDrawable(r1.selectorColor(), 8, 8));
+                setBackground(Theme.createRadSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 8, 8));
             }
-            ImageView imageView = new ImageView(context, r1) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabButton.1
+            ImageView imageView = new ImageView(context, EmojiTabsStrip.this) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabButton.1
                 @Override // android.view.View
                 public void invalidate() {
                     super.invalidate();
@@ -830,6 +831,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             this.lockAnimator.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateLock$0(ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             this.lockT = floatValue;
@@ -950,6 +952,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSelect$1(ValueAnimator valueAnimator) {
             this.selectT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             setColor(ColorUtils.blendARGB(Theme.getColor("chat_emojiPanelIcon", EmojiTabsStrip.this.resourcesProvider), Theme.getColor("chat_emojiPanelIconSelected", EmojiTabsStrip.this.resourcesProvider), this.selectT));
@@ -975,6 +978,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class EmojiTabsView extends ScrollableHorizontalScrollView {
         private LinearLayout contentView;
@@ -984,17 +988,15 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         private boolean shown = false;
         private float showT = 0.0f;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EmojiTabsView(Context context) {
             super(context);
-            EmojiTabsStrip.this = r12;
             setSmoothScrollingEnabled(true);
             setHorizontalScrollBarEnabled(false);
             setVerticalScrollBarEnabled(false);
             if (Build.VERSION.SDK_INT >= 21) {
                 setNestedScrollingEnabled(true);
             }
-            LinearLayout linearLayout = new LinearLayout(context, r12) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabsView.1
+            LinearLayout linearLayout = new LinearLayout(context, EmojiTabsStrip.this) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabsView.1
                 @Override // android.widget.LinearLayout, android.view.ViewGroup, android.view.View
                 protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
                     int paddingLeft = getPaddingLeft();
@@ -1017,9 +1019,8 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             linearLayout.setOrientation(0);
             addView(this.contentView, new FrameLayout.LayoutParams(-2, -1));
             for (int i = 0; i < EmojiTabsStrip.emojiTabsDrawableIds.length; i++) {
-                this.contentView.addView(new EmojiTabButton(context, EmojiTabsStrip.emojiTabsDrawableIds[i], EmojiTabsStrip.emojiTabsAnimatedDrawableIds[i], true, false, r12) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabsView.2
+                this.contentView.addView(new EmojiTabButton(context, EmojiTabsStrip.emojiTabsDrawableIds[i], EmojiTabsStrip.emojiTabsAnimatedDrawableIds[i], true, false, EmojiTabsStrip.this) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabsView.2
                     {
-                        EmojiTabsView.this = this;
                         EmojiTabsStrip emojiTabsStrip = EmojiTabsStrip.this;
                     }
 
@@ -1067,6 +1068,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void intercept(MotionEvent motionEvent) {
             if (!this.shown || this.scrollingAnimation) {
                 return;
@@ -1136,6 +1138,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             EmojiTabsStrip.this.contentView.invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$show$0(ValueAnimator valueAnimator) {
             this.showT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();

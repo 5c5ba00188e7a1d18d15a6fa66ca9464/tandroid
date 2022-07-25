@@ -38,6 +38,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
     private Paint paint = new Paint(1);
     private Paint arcPaint = new Paint(1);
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public enum BlurViewActiveControl {
         BlurViewActiveControlNone,
@@ -90,8 +91,8 @@ public class PhotoFilterBlurControl extends FrameLayout {
         return (float) Math.sqrt((x2 * x2) + (y2 * y2));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0018, code lost:
-        if (r2 != 6) goto L88;
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0018, code lost:
+        if (r2 != 6) goto L10;
      */
     @Override // android.view.View
     /*
@@ -356,7 +357,8 @@ public class PhotoFilterBlurControl extends FrameLayout {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.PhotoFilterBlurControl$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.PhotoFilterBlurControl$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl;

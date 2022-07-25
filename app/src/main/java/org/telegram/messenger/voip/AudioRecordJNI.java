@@ -32,7 +32,7 @@ public class AudioRecordJNI {
         return Math.max(AudioRecord.getMinBufferSize(i2, 16, 2), i);
     }
 
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:24:0x004d -> B:57:0x0052). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:56:0x004d -> B:23:0x0052). Please submit an issue!!! */
     public void init(int i, int i2, int i3, int i4) {
         if (this.audioRecord != null) {
             throw new IllegalStateException("already inited");
@@ -200,6 +200,7 @@ public class AudioRecordJNI {
         thread.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startThread$0(ByteBuffer byteBuffer) {
         while (this.running) {
             try {

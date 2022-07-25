@@ -42,12 +42,14 @@ public abstract class FragmentTransitionImpl {
 
     public abstract Object wrapTransitionInSet(Object obj);
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void getBoundsOnScreen(View view, Rect rect) {
         int[] iArr = new int[2];
         view.getLocationOnScreen(iArr);
         rect.set(iArr[0], iArr[1], iArr[0] + view.getWidth(), iArr[1] + view.getHeight());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ArrayList<String> prepareSetNameOverridesReordered(ArrayList<View> arrayList) {
         ArrayList<String> arrayList2 = new ArrayList<>();
         int size = arrayList.size();
@@ -59,6 +61,7 @@ public abstract class FragmentTransitionImpl {
         return arrayList2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setNameOverridesReordered(View view, final ArrayList<View> arrayList, final ArrayList<View> arrayList2, final ArrayList<String> arrayList3, Map<String, String> map) {
         final int size = arrayList2.size();
         final ArrayList arrayList4 = new ArrayList();
@@ -93,6 +96,7 @@ public abstract class FragmentTransitionImpl {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void captureTransitioningViews(ArrayList<View> arrayList, View view) {
         if (view.getVisibility() == 0) {
             if (view instanceof ViewGroup) {
@@ -111,6 +115,7 @@ public abstract class FragmentTransitionImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void findNamedViews(Map<String, View> map, View view) {
         if (view.getVisibility() == 0) {
             String transitionName = ViewCompat.getTransitionName(view);
@@ -128,6 +133,7 @@ public abstract class FragmentTransitionImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setNameOverridesOrdered(View view, final ArrayList<View> arrayList, final Map<String, String> map) {
         OneShotPreDrawListener.add(view, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.2
             @Override // java.lang.Runnable
@@ -144,6 +150,7 @@ public abstract class FragmentTransitionImpl {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void scheduleNameReset(ViewGroup viewGroup, final ArrayList<View> arrayList, final Map<String, String> map) {
         OneShotPreDrawListener.add(viewGroup, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.3
             @Override // java.lang.Runnable
@@ -157,6 +164,7 @@ public abstract class FragmentTransitionImpl {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static void bfsAddViewChildren(List<View> list, View view) {
         int size = list.size();
         if (containedBeforeIndex(list, view, size)) {
@@ -187,6 +195,7 @@ public abstract class FragmentTransitionImpl {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static boolean isNullOrEmpty(List list) {
         return list == null || list.isEmpty();
     }

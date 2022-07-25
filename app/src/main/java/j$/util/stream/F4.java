@@ -2,11 +2,11 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.u;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class F4 extends H4 implements u.a, j$.util.function.l {
+final class F4 extends H4 implements u.a, j$.util.function.l {
     int e;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public F4(u.a aVar, long j, long j2) {
         super(aVar, j, j2);
     }

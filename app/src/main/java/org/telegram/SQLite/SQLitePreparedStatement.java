@@ -30,6 +30,7 @@ public class SQLitePreparedStatement {
 
     native void reset(long j) throws SQLiteException;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public native int step(long j) throws SQLiteException;
 
     public long getStatementHandle() {

@@ -49,9 +49,8 @@ final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
         return ((((this.token.hashCode() ^ 1000003) * 1000003) ^ ((int) (j ^ (j >>> 32)))) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends InstallationTokenResult.Builder {
+    static final class Builder extends InstallationTokenResult.Builder {
         private String token;
         private Long tokenCreationTimestamp;
         private Long tokenExpirationTimestamp;

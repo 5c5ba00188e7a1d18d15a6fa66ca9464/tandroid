@@ -5,6 +5,7 @@ import com.huawei.hms.common.data.DataHolder;
 import java.util.HashMap;
 /* loaded from: classes.dex */
 final class DataHolderBuilderCreator extends DataHolder.Builder {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DataHolderBuilderCreator(String[] strArr, String str) {
         super(strArr, (String) null, (DataHolderBuilderCreator) null);
     }

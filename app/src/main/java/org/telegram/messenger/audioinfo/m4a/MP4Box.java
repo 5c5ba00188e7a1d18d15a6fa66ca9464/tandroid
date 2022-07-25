@@ -36,6 +36,7 @@ public class MP4Box<I extends PositionInputStream> {
         return this.input;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public MP4Atom getChild() {
         return this.child;
     }

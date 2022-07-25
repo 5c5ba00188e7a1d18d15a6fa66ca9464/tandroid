@@ -109,15 +109,15 @@ public final class zzb extends zzt<zzh> {
 
     @Override // com.google.android.gms.internal.vision.zzt
     protected final /* synthetic */ zzh zza(DynamiteModule dynamiteModule, Context context) throws RemoteException, DynamiteModule.LoadingException {
-        zzi zziVar;
+        zzi asInterface;
         if (zzu.zza(context, "com.google.android.gms.vision.dynamite.face")) {
-            zziVar = zzl.asInterface(dynamiteModule.instantiate("com.google.android.gms.vision.face.NativeFaceDetectorV2Creator"));
+            asInterface = zzl.asInterface(dynamiteModule.instantiate("com.google.android.gms.vision.face.NativeFaceDetectorV2Creator"));
         } else {
-            zziVar = zzl.asInterface(dynamiteModule.instantiate("com.google.android.gms.vision.face.ChimeraNativeFaceDetectorCreator"));
+            asInterface = zzl.asInterface(dynamiteModule.instantiate("com.google.android.gms.vision.face.ChimeraNativeFaceDetectorCreator"));
         }
-        if (zziVar == null) {
+        if (asInterface == null) {
             return null;
         }
-        return zziVar.newFaceDetector(ObjectWrapper.wrap(context), (zzf) Preconditions.checkNotNull(this.zza));
+        return asInterface.newFaceDetector(ObjectWrapper.wrap(context), (zzf) Preconditions.checkNotNull(this.zza));
     }
 }

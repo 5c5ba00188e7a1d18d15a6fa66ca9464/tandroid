@@ -14,9 +14,8 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
         flacStreamMetadata.getClass();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class FlacTimestampSeeker implements BinarySearchSeeker.TimestampSeeker {
+    private static final class FlacTimestampSeeker implements BinarySearchSeeker.TimestampSeeker {
         private final FlacStreamMetadata flacStreamMetadata;
         private final int frameStartMarker;
         private final FlacFrameReader.SampleNumberHolder sampleNumberHolder;

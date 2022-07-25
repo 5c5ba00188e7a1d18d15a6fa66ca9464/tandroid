@@ -15,12 +15,14 @@ public abstract class l {
         Collections.emptySet();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static double a(double[] dArr) {
         double d = dArr[0] + dArr[1];
         double d2 = dArr[dArr.length - 1];
         return (!Double.isNaN(d) || !Double.isInfinite(d2)) ? d : d2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static double[] b(double[] dArr, double d) {
         double d2 = d - dArr[1];
         double d3 = dArr[0];

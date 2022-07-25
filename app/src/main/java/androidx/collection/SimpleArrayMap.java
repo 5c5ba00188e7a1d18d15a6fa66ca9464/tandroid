@@ -186,6 +186,7 @@ public class SimpleArrayMap<K, V> {
         return obj == null ? indexOfNull() : indexOf(obj, obj.hashCode());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int indexOfValue(Object obj) {
         int i = this.mSize * 2;
         Object[] objArr = this.mArray;
@@ -240,35 +241,35 @@ public class SimpleArrayMap<K, V> {
 
     public V put(K k, V v) {
         int i;
-        int i2;
-        int i3 = this.mSize;
+        int indexOf;
+        int i2 = this.mSize;
         if (k == null) {
-            i2 = indexOfNull();
+            indexOf = indexOfNull();
             i = 0;
         } else {
             int hashCode = k.hashCode();
             i = hashCode;
-            i2 = indexOf(k, hashCode);
+            indexOf = indexOf(k, hashCode);
         }
-        if (i2 >= 0) {
-            int i4 = (i2 << 1) + 1;
+        if (indexOf >= 0) {
+            int i3 = (indexOf << 1) + 1;
             Object[] objArr = this.mArray;
-            V v2 = (V) objArr[i4];
-            objArr[i4] = v;
+            V v2 = (V) objArr[i3];
+            objArr[i3] = v;
             return v2;
         }
-        int i5 = i2 ^ (-1);
+        int i4 = indexOf ^ (-1);
         int[] iArr = this.mHashes;
-        if (i3 >= iArr.length) {
-            int i6 = 4;
-            if (i3 >= 8) {
-                i6 = (i3 >> 1) + i3;
-            } else if (i3 >= 4) {
-                i6 = 8;
+        if (i2 >= iArr.length) {
+            int i5 = 4;
+            if (i2 >= 8) {
+                i5 = (i2 >> 1) + i2;
+            } else if (i2 >= 4) {
+                i5 = 8;
             }
             Object[] objArr2 = this.mArray;
-            allocArrays(i6);
-            if (i3 != this.mSize) {
+            allocArrays(i5);
+            if (i2 != this.mSize) {
                 throw new ConcurrentModificationException();
             }
             int[] iArr2 = this.mHashes;
@@ -276,25 +277,25 @@ public class SimpleArrayMap<K, V> {
                 System.arraycopy(iArr, 0, iArr2, 0, iArr.length);
                 System.arraycopy(objArr2, 0, this.mArray, 0, objArr2.length);
             }
-            freeArrays(iArr, objArr2, i3);
+            freeArrays(iArr, objArr2, i2);
         }
-        if (i5 < i3) {
+        if (i4 < i2) {
             int[] iArr3 = this.mHashes;
-            int i7 = i5 + 1;
-            System.arraycopy(iArr3, i5, iArr3, i7, i3 - i5);
+            int i6 = i4 + 1;
+            System.arraycopy(iArr3, i4, iArr3, i6, i2 - i4);
             Object[] objArr3 = this.mArray;
-            System.arraycopy(objArr3, i5 << 1, objArr3, i7 << 1, (this.mSize - i5) << 1);
+            System.arraycopy(objArr3, i4 << 1, objArr3, i6 << 1, (this.mSize - i4) << 1);
         }
-        int i8 = this.mSize;
-        if (i3 == i8) {
+        int i7 = this.mSize;
+        if (i2 == i7) {
             int[] iArr4 = this.mHashes;
-            if (i5 < iArr4.length) {
-                iArr4[i5] = i;
+            if (i4 < iArr4.length) {
+                iArr4[i4] = i;
                 Object[] objArr4 = this.mArray;
-                int i9 = i5 << 1;
-                objArr4[i9] = k;
-                objArr4[i9 + 1] = v;
-                this.mSize = i8 + 1;
+                int i8 = i4 << 1;
+                objArr4[i8] = k;
+                objArr4[i8 + 1] = v;
+                this.mSize = i7 + 1;
                 return null;
             }
         }

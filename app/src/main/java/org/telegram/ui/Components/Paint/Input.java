@@ -208,10 +208,12 @@ public class Input {
         this.clearBuffer = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$paintPath$0(Path path) {
         this.lastRemainder = path.remainder;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$paintPath$1(final Path path) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable

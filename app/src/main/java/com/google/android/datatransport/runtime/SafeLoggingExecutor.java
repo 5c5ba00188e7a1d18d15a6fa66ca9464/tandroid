@@ -6,6 +6,7 @@ import java.util.concurrent.Executor;
 class SafeLoggingExecutor implements Executor {
     private final Executor delegate;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public SafeLoggingExecutor(Executor executor) {
         this.delegate = executor;
     }

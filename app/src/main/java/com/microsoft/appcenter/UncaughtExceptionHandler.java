@@ -7,13 +7,13 @@ import com.microsoft.appcenter.utils.ShutdownHelper;
 import java.lang.Thread;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private final Channel mChannel;
     private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
     private final Handler mHandler;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public UncaughtExceptionHandler(Handler handler, Channel channel) {
         this.mHandler = handler;
         this.mChannel = channel;
@@ -47,6 +47,7 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void register() {
         this.mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);

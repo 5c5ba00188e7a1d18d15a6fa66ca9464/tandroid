@@ -274,22 +274,22 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
 
     private static int getSideCoord(boolean z, int i, float f, int i2) {
         int i3;
-        int i4;
+        int round;
         if (z) {
             i3 = AndroidUtilities.displaySize.x;
         } else {
             i3 = AndroidUtilities.displaySize.y - i2;
             i2 = ActionBar.getCurrentActionBarHeight();
         }
-        int i5 = i3 - i2;
+        int i4 = i3 - i2;
         if (i == 0) {
-            i4 = AndroidUtilities.dp(10.0f);
+            round = AndroidUtilities.dp(10.0f);
         } else if (i == 1) {
-            i4 = i5 - AndroidUtilities.dp(10.0f);
+            round = i4 - AndroidUtilities.dp(10.0f);
         } else {
-            i4 = Math.round((i5 - AndroidUtilities.dp(20.0f)) * f) + AndroidUtilities.dp(10.0f);
+            round = Math.round((i4 - AndroidUtilities.dp(20.0f)) * f) + AndroidUtilities.dp(10.0f);
         }
-        return !z ? i4 + ActionBar.getCurrentActionBarHeight() : i4;
+        return !z ? round + ActionBar.getCurrentActionBarHeight() : round;
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -451,15 +451,16 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         this.hideShowAnimation.start();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:55:? A[RETURN, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void animateToBoundsMaybe() {
-        boolean z;
         ArrayList arrayList;
+        boolean z;
         int i;
         int sideCoord = getSideCoord(true, 0, 0.0f, this.videoWidth);
         int sideCoord2 = getSideCoord(true, 1, 0.0f, this.videoWidth);

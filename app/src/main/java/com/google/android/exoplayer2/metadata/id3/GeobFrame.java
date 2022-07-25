@@ -7,13 +7,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class GeobFrame extends Id3Frame {
     public static final Parcelable.Creator<GeobFrame> CREATOR = new Parcelable.Creator<GeobFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.GeobFrame.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public GeobFrame createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public GeobFrame mo118createFromParcel(Parcel parcel) {
             return new GeobFrame(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public GeobFrame[] newArray(int i) {
+        /* renamed from: newArray */
+        public GeobFrame[] mo119newArray(int i) {
             return new GeobFrame[i];
         }
     };

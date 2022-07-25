@@ -12,6 +12,7 @@ public abstract class zzdn implements Serializable, Iterable<Byte> {
     private static final zzdt zzb;
     private int zzc = 0;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(byte b) {
         return b & 255;
     }
@@ -28,8 +29,10 @@ public abstract class zzdn implements Serializable, Iterable<Byte> {
 
     protected abstract String zza(Charset charset);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract void zza(zzdk zzdkVar) throws IOException;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract byte zzb(int i);
 
     public abstract boolean zzc();
@@ -55,14 +58,17 @@ public abstract class zzdn implements Serializable, Iterable<Byte> {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzdv zzc(int i) {
         return new zzdv(i, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final int zzd() {
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, int i2, int i3) {
         int i4 = i2 - i;
         if ((i | i2 | i4 | (i3 - i2)) < 0) {
@@ -106,8 +112,6 @@ public abstract class zzdn implements Serializable, Iterable<Byte> {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r0v4, types: [com.google.android.gms.internal.mlkit_language_id.zzdr] */
-    /* JADX WARN: Type inference failed for: r0v5, types: [com.google.android.gms.internal.mlkit_language_id.zzdw] */
     static {
         zzb = zzdl.zza() ? new zzdw(null) : new zzdr(null);
         new zzdp();

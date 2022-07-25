@@ -12,6 +12,7 @@ abstract class s2 extends CountedCompleter implements m3 {
     protected int f;
     protected int g;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public s2(s2 s2Var, j$.util.u uVar, long j, long j2, int i) {
         super(s2Var);
         this.a = uVar;
@@ -24,6 +25,7 @@ abstract class s2 extends CountedCompleter implements m3 {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public s2(j$.util.u uVar, y2 y2Var, int i) {
         this.a = uVar;
         this.b = y2Var;
@@ -56,13 +58,13 @@ abstract class s2 extends CountedCompleter implements m3 {
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.u trySplit;
+        j$.util.u mo350trySplit;
         j$.util.u uVar = this.a;
         s2 s2Var = this;
-        while (uVar.estimateSize() > s2Var.c && (trySplit = uVar.trySplit()) != null) {
+        while (uVar.estimateSize() > s2Var.c && (mo350trySplit = uVar.mo350trySplit()) != null) {
             s2Var.setPendingCount(1);
-            long estimateSize = trySplit.estimateSize();
-            s2Var.b(trySplit, s2Var.d, estimateSize).fork();
+            long estimateSize = mo350trySplit.estimateSize();
+            s2Var.b(mo350trySplit, s2Var.d, estimateSize).fork();
             s2Var = s2Var.b(uVar, s2Var.d + estimateSize, s2Var.e - estimateSize);
         }
         c cVar = (c) s2Var.b;

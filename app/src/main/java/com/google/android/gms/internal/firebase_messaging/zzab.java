@@ -13,6 +13,7 @@ import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class zzab implements ObjectEncoderContext {
@@ -37,6 +38,7 @@ public final class zzab implements ObjectEncoderContext {
         zzh = builder2.withProperty(zzvVar2.zzb()).build();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzab(OutputStream outputStream, Map<Class<?>, ObjectEncoder<?>> map, Map<Class<?>, ValueEncoder<?>> map2, ObjectEncoder<Object> objectEncoder) {
         this.zzb = outputStream;
         this.zzc = map;
@@ -44,6 +46,7 @@ public final class zzab implements ObjectEncoderContext {
         this.zze = objectEncoder;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ void zzg(Map.Entry entry, ObjectEncoderContext objectEncoderContext) throws IOException {
         objectEncoderContext.add(zzg, entry.getKey());
         objectEncoderContext.add(zzh, entry.getValue());
@@ -122,6 +125,7 @@ public final class zzab implements ObjectEncoderContext {
         this.zzb.write(((int) j) & 127);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final ObjectEncoderContext zza(FieldDescriptor fieldDescriptor, Object obj, boolean z) throws IOException {
         if (obj == null) {
             return this;
@@ -208,6 +212,7 @@ public final class zzab implements ObjectEncoderContext {
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final zzab zzd(FieldDescriptor fieldDescriptor, int i, boolean z) throws IOException {
         if (!z || i != 0) {
             zzz zzm = zzm(fieldDescriptor);
@@ -248,6 +253,7 @@ public final class zzab implements ObjectEncoderContext {
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final zzab zzf(Object obj) throws IOException {
         if (obj == null) {
             return this;
@@ -265,13 +271,15 @@ public final class zzab implements ObjectEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
+    /* renamed from: add */
+    public final /* bridge */ /* synthetic */ ObjectEncoderContext mo195add(FieldDescriptor fieldDescriptor, int i) throws IOException {
         zzd(fieldDescriptor, i, true);
         return this;
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    /* renamed from: add */
+    public final /* bridge */ /* synthetic */ ObjectEncoderContext mo196add(FieldDescriptor fieldDescriptor, long j) throws IOException {
         zze(fieldDescriptor, j, true);
         return this;
     }

@@ -18,6 +18,7 @@ public final class zzhg {
     public final void zzb() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzhg zza(zzhg zzhgVar, zzhg zzhgVar2) {
         int i = zzhgVar.zzb + zzhgVar2.zzb;
         int[] copyOf = Arrays.copyOf(zzhgVar.zzc, i);
@@ -38,6 +39,7 @@ public final class zzhg {
         this.zzd = objArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zza(zzib zzibVar) throws IOException {
         if (zzibVar.zza() == zzia.zzb) {
             for (int i = this.zzb - 1; i >= 0; i--) {
@@ -105,33 +107,33 @@ public final class zzhg {
     }
 
     public final int zzd() {
-        int i;
-        int i2 = this.zze;
-        if (i2 != -1) {
-            return i2;
+        int zze;
+        int i = this.zze;
+        if (i != -1) {
+            return i;
         }
-        int i3 = 0;
-        for (int i4 = 0; i4 < this.zzb; i4++) {
-            int i5 = this.zzc[i4];
-            int i6 = i5 >>> 3;
-            int i7 = i5 & 7;
-            if (i7 == 0) {
-                i = zzea.zze(i6, ((Long) this.zzd[i4]).longValue());
-            } else if (i7 == 1) {
-                i = zzea.zzg(i6, ((Long) this.zzd[i4]).longValue());
-            } else if (i7 == 2) {
-                i = zzea.zzc(i6, (zzdn) this.zzd[i4]);
-            } else if (i7 == 3) {
-                i = (zzea.zze(i6) << 1) + ((zzhg) this.zzd[i4]).zzd();
-            } else if (i7 == 5) {
-                i = zzea.zzi(i6, ((Integer) this.zzd[i4]).intValue());
+        int i2 = 0;
+        for (int i3 = 0; i3 < this.zzb; i3++) {
+            int i4 = this.zzc[i3];
+            int i5 = i4 >>> 3;
+            int i6 = i4 & 7;
+            if (i6 == 0) {
+                zze = zzea.zze(i5, ((Long) this.zzd[i3]).longValue());
+            } else if (i6 == 1) {
+                zze = zzea.zzg(i5, ((Long) this.zzd[i3]).longValue());
+            } else if (i6 == 2) {
+                zze = zzea.zzc(i5, (zzdn) this.zzd[i3]);
+            } else if (i6 == 3) {
+                zze = (zzea.zze(i5) << 1) + ((zzhg) this.zzd[i3]).zzd();
+            } else if (i6 == 5) {
+                zze = zzea.zzi(i5, ((Integer) this.zzd[i3]).intValue());
             } else {
                 throw new IllegalStateException(zzez.zza());
             }
-            i3 += i;
+            i2 += zze;
         }
-        this.zze = i3;
-        return i3;
+        this.zze = i2;
+        return i2;
     }
 
     public final boolean equals(Object obj) {
@@ -202,6 +204,7 @@ public final class zzhg {
         return i6 + i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zza(StringBuilder sb, int i) {
         for (int i2 = 0; i2 < this.zzb; i2++) {
             zzga.zza(sb, i, String.valueOf(this.zzc[i2] >>> 3), this.zzd[i2]);

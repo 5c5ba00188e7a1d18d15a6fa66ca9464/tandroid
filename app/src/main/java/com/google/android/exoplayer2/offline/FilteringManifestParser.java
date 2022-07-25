@@ -17,9 +17,10 @@ public final class FilteringManifestParser<T extends FilterableManifest<T>> impl
     }
 
     @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-    public T parse(Uri uri, InputStream inputStream) throws IOException {
-        T parse = this.parser.parse(uri, inputStream);
+    /* renamed from: parse */
+    public T mo164parse(Uri uri, InputStream inputStream) throws IOException {
+        T mo164parse = this.parser.mo164parse(uri, inputStream);
         List<StreamKey> list = this.streamKeys;
-        return (list == null || list.isEmpty()) ? parse : (T) parse.copy(this.streamKeys);
+        return (list == null || list.isEmpty()) ? mo164parse : (T) mo164parse.mo163copy(this.streamKeys);
     }
 }

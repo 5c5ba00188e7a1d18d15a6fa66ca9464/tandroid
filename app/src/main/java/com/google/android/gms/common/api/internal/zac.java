@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
 import com.google.android.gms.tasks.TaskCompletionSource;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public abstract class zac<T> extends zad {
@@ -35,12 +36,12 @@ public abstract class zac<T> extends zad {
         try {
             zab(zaaVar);
         } catch (DeadObjectException e) {
-            zab = zab.zab(e);
-            zaa(zab);
+            zab2 = zab.zab(e);
+            zaa(zab2);
             throw e;
         } catch (RemoteException e2) {
-            zab2 = zab.zab(e2);
-            zaa(zab2);
+            zab = zab.zab(e2);
+            zaa(zab);
         } catch (RuntimeException e3) {
             zaa(e3);
         }

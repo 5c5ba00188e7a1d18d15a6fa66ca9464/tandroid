@@ -13,10 +13,12 @@ final class zzir {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zziq<?> zza() {
         return zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zziq<?> zzb() {
         zziq<?> zziqVar = zzb;
         if (zziqVar != null) {

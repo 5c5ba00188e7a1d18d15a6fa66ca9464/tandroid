@@ -114,6 +114,7 @@ public abstract class VersionedParcel {
         writeVersionedParcelable(versionedParcelable);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void writeVersionedParcelable(VersionedParcelable versionedParcelable) {
         if (versionedParcelable == null) {
             writeString(null);
@@ -138,6 +139,7 @@ public abstract class VersionedParcel {
         return !readField(i) ? t : (T) readVersionedParcelable();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public <T extends VersionedParcelable> T readVersionedParcelable() {
         String readString = readString();
         if (readString == null) {

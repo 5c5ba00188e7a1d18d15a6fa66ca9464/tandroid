@@ -160,6 +160,7 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static long getManifestPublishTimeMsInEmsg(EventMessage eventMessage) {
         try {
             return Util.parseXsDateTime(Util.fromUtf8Bytes(eventMessage.messageData));
@@ -175,8 +176,7 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         private final MetadataInputBuffer buffer = new MetadataInputBuffer();
 
         PlayerTrackEmsgHandler(Allocator allocator) {
-            PlayerEmsgHandler.this = r3;
-            this.sampleQueue = new SampleQueue(allocator, r3.handler.getLooper(), DrmSessionManager.CC.getDummyDrmSessionManager());
+            this.sampleQueue = new SampleQueue(allocator, PlayerEmsgHandler.this.handler.getLooper(), DrmSessionManager.CC.getDummyDrmSessionManager());
         }
 
         @Override // com.google.android.exoplayer2.extractor.TrackOutput
@@ -252,6 +252,7 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class ManifestExpiryEventInfo {
         public final long eventTimeUs;

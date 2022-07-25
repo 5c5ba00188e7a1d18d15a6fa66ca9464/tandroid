@@ -85,10 +85,10 @@ public class WebviewActivity extends BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TelegramWebviewProxy {
         private TelegramWebviewProxy() {
-            WebviewActivity.this = r1;
         }
 
         @JavascriptInterface
@@ -101,6 +101,7 @@ public class WebviewActivity extends BaseFragment {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$postEvent$0(String str) {
             if (WebviewActivity.this.getParentActivity() == null) {
                 return;
@@ -315,6 +316,7 @@ public class WebviewActivity extends BaseFragment {
         this.typingRunnable.run();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         WebView webView;
@@ -328,6 +330,7 @@ public class WebviewActivity extends BaseFragment {
         return !"samsung".equals(Build.MANUFACTURER) || !"GT-I9500".equals(Build.MODEL);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reloadStats(String str) {
         if (this.loadStats) {
             return;
@@ -348,6 +351,7 @@ public class WebviewActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$reloadStats$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WebviewActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -357,6 +361,7 @@ public class WebviewActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$reloadStats$0(TLObject tLObject) {
         this.loadStats = false;
         if (tLObject != null) {

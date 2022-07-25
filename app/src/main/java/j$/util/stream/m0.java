@@ -1,8 +1,10 @@
 package j$.util.stream;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class m0 extends o0 implements l3 {
     final j$.util.function.q b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public m0(j$.util.function.q qVar, boolean z) {
         super(z);
         this.b = qVar;
@@ -13,6 +15,7 @@ public final class m0 extends o0 implements l3 {
         this.b.accept(j);
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: e */
     public /* synthetic */ void accept(Long l) {
         o1.c(this, l);

@@ -22,18 +22,18 @@ public class w {
     }
 
     public static Map<String, List<q>> a(Context context, String str, String str2) {
-        Map<String, List<q>> map;
-        Map<String, List<q>> map2;
+        Map<String, List<q>> a;
+        Map<String, List<q>> a2;
         if ("alltype".equals(str2) || TextUtils.isEmpty(str)) {
             y.c("hmsSdk", "read all event records");
-            map = a(context, "stat_v2_1");
-            map2 = a(context, "cached_v2_1");
+            a = a(context, "stat_v2_1");
+            a2 = a(context, "cached_v2_1");
         } else {
-            String a = u0.a(str, str2);
-            map = b(context, "stat_v2_1", a);
-            map2 = b(context, "cached_v2_1", a);
+            String a3 = u0.a(str, str2);
+            a = b(context, "stat_v2_1", a3);
+            a2 = b(context, "cached_v2_1", a3);
         }
-        return a(map, map2);
+        return a(a, a2);
     }
 
     public static Map<String, List<q>> a(Map<String, ?> map) {

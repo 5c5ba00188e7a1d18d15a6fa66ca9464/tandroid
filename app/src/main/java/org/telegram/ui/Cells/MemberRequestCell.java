@@ -35,8 +35,8 @@ public class MemberRequestCell extends FrameLayout {
 
     public MemberRequestCell(Context context, final OnClickListener onClickListener, boolean z) {
         super(context);
-        String str;
         int i;
+        String str;
         BackupImageView backupImageView = new BackupImageView(getContext());
         this.avatarImageView = backupImageView;
         SimpleTextView simpleTextView = new SimpleTextView(getContext());
@@ -108,6 +108,7 @@ public class MemberRequestCell extends FrameLayout {
         addView(textView2, layoutParams);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(OnClickListener onClickListener, View view) {
         TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter;
         if (onClickListener == null || (tLRPC$TL_chatInviteImporter = this.importer) == null) {
@@ -116,6 +117,7 @@ public class MemberRequestCell extends FrameLayout {
         onClickListener.onAddClicked(tLRPC$TL_chatInviteImporter);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(OnClickListener onClickListener, View view) {
         TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter;
         if (onClickListener == null || (tLRPC$TL_chatInviteImporter = this.importer) == null) {

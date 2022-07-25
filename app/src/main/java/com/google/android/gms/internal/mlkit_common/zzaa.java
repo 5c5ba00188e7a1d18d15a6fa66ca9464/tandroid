@@ -7,6 +7,7 @@ abstract class zzaa<E> extends zzaj<E> {
     private final int zza;
     private int zzb;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public zzaa(int i, int i2) {
         zzy.zzb(i2, i);
         this.zza = i;
@@ -21,7 +22,8 @@ abstract class zzaa<E> extends zzaj<E> {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final E next() {
+    /* renamed from: next */
+    public final E mo335next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }

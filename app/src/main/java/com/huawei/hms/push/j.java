@@ -25,14 +25,14 @@ public class j {
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x007a, code lost:
-        if (r3 != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x00ba, code lost:
+        if (com.huawei.hms.push.q.a(r6.b, r6.c.d(), r2).booleanValue() != false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x00ba, code lost:
-        if (com.huawei.hms.push.q.a(r6.b, r6.c.d(), r2).booleanValue() != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x007a, code lost:
+        if (r3 != false) goto L14;
      */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00bf  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00c5 A[Catch: Exception -> 0x00e1, TryCatch #1 {Exception -> 0x00e1, blocks: (B:3:0x0007, B:5:0x000e, B:7:0x001c, B:15:0x007e, B:17:0x0085, B:18:0x0097, B:20:0x009f, B:25:0x00c1, B:27:0x00c5, B:29:0x00d0, B:30:0x00d6, B:31:0x00db, B:10:0x0044, B:12:0x0059), top: B:37:0x0007, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00c5 A[Catch: Exception -> 0x00e1, TryCatch #1 {Exception -> 0x00e1, blocks: (B:3:0x0007, B:5:0x000e, B:7:0x001c, B:17:0x00c1, B:20:0x00c5, B:22:0x00d0, B:23:0x00db, B:25:0x00d6, B:10:0x0097, B:12:0x009f, B:33:0x007e, B:35:0x0085, B:27:0x0044, B:29:0x0059), top: B:2:0x0007, inners: #0 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

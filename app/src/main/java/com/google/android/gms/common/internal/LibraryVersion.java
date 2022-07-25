@@ -22,15 +22,13 @@ public class LibraryVersion {
     protected LibraryVersion() {
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00b7  */
     @RecentlyNonNull
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public String getVersion(@RecentlyNonNull String str) {
-        Throwable th;
         String str2;
-        IOException e;
         InputStream resourceAsStream;
         Preconditions.checkNotEmpty(str, "Please provide a valid libraryName");
         if (this.zzc.containsKey(str)) {
@@ -43,11 +41,11 @@ public class LibraryVersion {
         try {
             try {
                 resourceAsStream = LibraryVersion.class.getResourceAsStream(String.format("/%s.properties", str));
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
-        } catch (IOException e2) {
-            e = e2;
+        } catch (IOException e) {
+            e = e;
             str2 = null;
         }
         try {
@@ -68,8 +66,8 @@ public class LibraryVersion {
             if (resourceAsStream != null) {
                 IOUtils.closeQuietly(resourceAsStream);
             }
-        } catch (IOException e3) {
-            e = e3;
+        } catch (IOException e2) {
+            e = e2;
             str2 = null;
             inputStream = resourceAsStream;
             GmsLogger gmsLogger3 = zza;
@@ -83,8 +81,8 @@ public class LibraryVersion {
             }
             this.zzc.put(str, str3);
             return str3;
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             inputStream2 = resourceAsStream;
             if (inputStream2 != null) {
                 IOUtils.closeQuietly(inputStream2);

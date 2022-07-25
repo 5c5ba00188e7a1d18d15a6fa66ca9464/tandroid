@@ -50,6 +50,7 @@ public class CodeNumberField extends EditTextBoldCursor {
     float exitAnimation = 1.0f;
     boolean pressed = false;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(CodeNumberField codeNumberField, float f) {
         codeNumberField.focusedProgress = f;
         if (codeNumberField.getParent() != null) {
@@ -57,6 +58,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$3(CodeNumberField codeNumberField, float f) {
         codeNumberField.errorProgress = f;
         if (codeNumberField.getParent() != null) {
@@ -64,6 +66,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$5(CodeNumberField codeNumberField, float f) {
         codeNumberField.successProgress = f;
         if (codeNumberField.getParent() != null) {
@@ -71,6 +74,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$7(CodeNumberField codeNumberField, float f) {
         codeNumberField.successScaleProgress = f;
         if (codeNumberField.getParent() != null) {
@@ -148,6 +152,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -188,6 +193,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.exitAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startExitAnimation$8(ValueAnimator valueAnimator) {
         this.exitAnimation = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -216,6 +222,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.enterAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startEnterAnimation$9(ValueAnimator valueAnimator) {
         this.enterAnimation = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -295,6 +302,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         return this.pressed;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void pasteFromClipboard() {
         ClipboardManager clipboardManager;
         CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
@@ -314,6 +322,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         codeFieldContainer.setText(charSequence, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
     public void onFocusChanged(boolean z, int i, Rect rect) {
         super.onFocusChanged(z, i, rect);

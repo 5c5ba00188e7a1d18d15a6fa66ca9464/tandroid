@@ -1,8 +1,8 @@
 package j$.util.stream;
-
-import j$.util.u;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class I0 extends L0 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public I0(j$.util.u uVar, int i, boolean z) {
         super(uVar, i, z);
     }
@@ -12,6 +12,7 @@ public class I0 extends L0 {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public final m3 H0(int i, m3 m3Var) {
         throw new UnsupportedOperationException();
@@ -19,10 +20,8 @@ public class I0 extends L0 {
 
     @Override // j$.util.stream.L0, j$.util.stream.IntStream
     public void I(j$.util.function.l lVar) {
-        u.a M0;
         if (!isParallel()) {
-            M0 = L0.M0(J0());
-            M0.c(lVar);
+            L0.L0(J0()).c(lVar);
             return;
         }
         lVar.getClass();
@@ -31,24 +30,24 @@ public class I0 extends L0 {
 
     @Override // j$.util.stream.L0, j$.util.stream.IntStream
     public void U(j$.util.function.l lVar) {
-        u.a M0;
-        if (isParallel()) {
+        if (!isParallel()) {
+            L0.L0(J0()).c(lVar);
+        } else {
             super.U(lVar);
-            return;
         }
-        M0 = L0.M0(J0());
-        M0.c(lVar);
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ IntStream parallel() {
-        parallel();
+    /* renamed from: parallel */
+    public /* bridge */ /* synthetic */ IntStream mo332parallel() {
+        mo332parallel();
         return this;
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ IntStream sequential() {
-        sequential();
+    /* renamed from: sequential */
+    public /* bridge */ /* synthetic */ IntStream mo333sequential() {
+        mo333sequential();
         return this;
     }
 }

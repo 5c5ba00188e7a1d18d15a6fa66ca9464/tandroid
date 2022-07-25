@@ -63,6 +63,7 @@ public interface Action {
             return put(RemoteMessageConst.Notification.URL, str);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public final String zza() {
             String str = this.zzc;
             if (str == null) {
@@ -71,6 +72,7 @@ public interface Action {
             return new String(str);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public final String zzb() {
             String str = this.zzd;
             if (str == null) {
@@ -79,6 +81,7 @@ public interface Action {
             return new String(str);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public final String zzc() {
             return new String(this.zzg);
         }

@@ -7,9 +7,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class FlacBinarySearchSeeker extends BinarySearchSeeker {
+final class FlacBinarySearchSeeker extends BinarySearchSeeker {
     private final FlacDecoderJni decoderJni;
 
     /* loaded from: classes.dex */
@@ -36,9 +35,8 @@ public final class FlacBinarySearchSeeker extends BinarySearchSeeker {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class FlacTimestampSeeker implements BinarySearchSeeker.TimestampSeeker {
+    private static final class FlacTimestampSeeker implements BinarySearchSeeker.TimestampSeeker {
         private final FlacDecoderJni decoderJni;
         private final OutputFrameHolder outputFrameHolder;
 

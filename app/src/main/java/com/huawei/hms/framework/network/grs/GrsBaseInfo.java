@@ -92,7 +92,8 @@ public class GrsBaseInfo implements Cloneable {
         return false;
     }
 
-    public GrsBaseInfo clone() {
+    /* renamed from: clone */
+    public GrsBaseInfo m224clone() {
         return (GrsBaseInfo) super.clone();
     }
 

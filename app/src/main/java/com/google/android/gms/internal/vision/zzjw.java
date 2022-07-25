@@ -8,17 +8,17 @@ import java.util.List;
 final class zzjw extends zzju {
     private static final Class<?> zza = Collections.unmodifiableList(Collections.emptyList()).getClass();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzjw() {
+    private zzjw() {
         super();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzju
     public final void zzb(Object obj, long j) {
-        Object obj2;
+        Object unmodifiableList;
         List list = (List) zzma.zzf(obj, j);
         if (list instanceof zzjv) {
-            obj2 = ((zzjv) list).zze();
+            unmodifiableList = ((zzjv) list).zze();
         } else if (zza.isAssignableFrom(list.getClass())) {
             return;
         } else {
@@ -30,32 +30,32 @@ final class zzjw extends zzju {
                 zzjlVar.zzb();
                 return;
             }
-            obj2 = Collections.unmodifiableList(list);
+            unmodifiableList = Collections.unmodifiableList(list);
         }
-        zzma.zza(obj, j, obj2);
+        zzma.zza(obj, j, unmodifiableList);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
     private static <L> List<L> zza(Object obj, long j, int i) {
         zzjs zzjsVar;
-        List<L> list;
+        List<L> arrayList;
         List<L> zzc = zzc(obj, j);
         if (zzc.isEmpty()) {
             if (zzc instanceof zzjv) {
-                list = new zzjs(i);
+                arrayList = new zzjs(i);
             } else if ((zzc instanceof zzkw) && (zzc instanceof zzjl)) {
-                list = ((zzjl) zzc).zza(i);
+                arrayList = ((zzjl) zzc).zza(i);
             } else {
-                list = new ArrayList<>(i);
+                arrayList = new ArrayList<>(i);
             }
-            zzma.zza(obj, j, list);
-            return list;
+            zzma.zza(obj, j, arrayList);
+            return arrayList;
         }
         if (zza.isAssignableFrom(zzc.getClass())) {
-            ArrayList arrayList = new ArrayList(zzc.size() + i);
-            arrayList.addAll(zzc);
-            zzma.zza(obj, j, arrayList);
-            zzjsVar = arrayList;
+            ArrayList arrayList2 = new ArrayList(zzc.size() + i);
+            arrayList2.addAll(zzc);
+            zzma.zza(obj, j, arrayList2);
+            zzjsVar = arrayList2;
         } else if (zzc instanceof zzlz) {
             zzjs zzjsVar2 = new zzjs(zzc.size() + i);
             zzjsVar2.addAll((zzlz) zzc);
@@ -75,6 +75,7 @@ final class zzjw extends zzju {
         return zzjsVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzju
     public final <E> void zza(Object obj, Object obj2, long j) {
         List zzc = zzc(obj2, j);

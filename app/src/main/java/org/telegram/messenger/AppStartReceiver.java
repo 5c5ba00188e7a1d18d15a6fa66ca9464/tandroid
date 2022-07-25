@@ -13,6 +13,7 @@ public class AppStartReceiver extends BroadcastReceiver {
         AndroidUtilities.runOnUIThread(AppStartReceiver$$ExternalSyntheticLambda0.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$0() {
         SharedConfig.loadConfig();
         if (SharedConfig.passcodeHash.length() > 0) {

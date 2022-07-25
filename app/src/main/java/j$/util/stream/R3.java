@@ -7,6 +7,7 @@ final class R3 extends F3 {
     private Object[] d;
     private int e;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public R3(m3 m3Var, Comparator comparator) {
         super(m3Var, comparator);
     }

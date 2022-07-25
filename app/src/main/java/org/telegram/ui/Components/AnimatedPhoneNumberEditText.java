@@ -68,6 +68,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setHintText$0(boolean z, String str) {
         this.hintAnimationValues.clear();
         for (SpringAnimation springAnimation : this.hintAnimations) {
@@ -122,11 +123,13 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
         this.textPaint.setColor(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.HintEditText, org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -201,14 +204,14 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
         return this.progress;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public final class HintFadeProperty extends FloatPropertyCompat<Integer> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public HintFadeProperty() {
             super("hint_fade");
-            AnimatedPhoneNumberEditText.this = r1;
         }
 
+        @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
         public float getValue(Integer num) {
             if (num.intValue() < AnimatedPhoneNumberEditText.this.hintAnimationValues.size()) {
                 return ((Float) AnimatedPhoneNumberEditText.this.hintAnimationValues.get(num.intValue())).floatValue() * 100.0f;
@@ -216,6 +219,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
             return 0.0f;
         }
 
+        @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
         public void setValue(Integer num, float f) {
             if (num.intValue() < AnimatedPhoneNumberEditText.this.hintAnimationValues.size()) {
                 AnimatedPhoneNumberEditText.this.hintAnimationValues.set(num.intValue(), Float.valueOf(f / 100.0f));

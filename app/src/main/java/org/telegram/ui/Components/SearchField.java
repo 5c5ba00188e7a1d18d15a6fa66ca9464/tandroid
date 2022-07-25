@@ -37,31 +37,31 @@ public class SearchField extends FrameLayout {
 
     public SearchField(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        FrameLayout.LayoutParams layoutParams;
-        FrameLayout.LayoutParams layoutParams2;
-        FrameLayout.LayoutParams layoutParams3;
-        FrameLayout.LayoutParams layoutParams4;
+        FrameLayout.LayoutParams createFrame;
+        FrameLayout.LayoutParams createFrame2;
+        FrameLayout.LayoutParams createFrame3;
+        FrameLayout.LayoutParams createFrame4;
         this.resourcesProvider = resourcesProvider;
         View view = new View(context);
         this.searchBackground = view;
         view.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), getThemedColor("dialogSearchBackground")));
         if (z) {
-            layoutParams = LayoutHelper.createFrameRelatively(-1.0f, 36.0f, 8388659, 14.0f, 11.0f, 14.0f, 0.0f);
+            createFrame = LayoutHelper.createFrameRelatively(-1.0f, 36.0f, 8388659, 14.0f, 11.0f, 14.0f, 0.0f);
         } else {
-            layoutParams = LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f);
+            createFrame = LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f);
         }
-        addView(this.searchBackground, layoutParams);
+        addView(this.searchBackground, createFrame);
         ImageView imageView = new ImageView(context);
         this.searchIconImageView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.searchIconImageView.setImageResource(R.drawable.smiles_inputsearch);
         this.searchIconImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogSearchIcon"), PorterDuff.Mode.MULTIPLY));
         if (z) {
-            layoutParams2 = LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388659, 16.0f, 11.0f, 0.0f, 0.0f);
+            createFrame2 = LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388659, 16.0f, 11.0f, 0.0f, 0.0f);
         } else {
-            layoutParams2 = LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 11.0f, 0.0f, 0.0f);
+            createFrame2 = LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 11.0f, 0.0f, 0.0f);
         }
-        addView(this.searchIconImageView, layoutParams2);
+        addView(this.searchIconImageView, createFrame2);
         ImageView imageView2 = new ImageView(context);
         this.clearSearchImageView = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
@@ -79,11 +79,11 @@ public class SearchField extends FrameLayout {
         this.clearSearchImageView.setScaleY(0.1f);
         this.clearSearchImageView.setAlpha(0.0f);
         if (z) {
-            layoutParams3 = LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388661, 14.0f, 11.0f, 14.0f, 0.0f);
+            createFrame3 = LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388661, 14.0f, 11.0f, 14.0f, 0.0f);
         } else {
-            layoutParams3 = LayoutHelper.createFrame(36, 36.0f, 53, 14.0f, 11.0f, 14.0f, 0.0f);
+            createFrame3 = LayoutHelper.createFrame(36, 36.0f, 53, 14.0f, 11.0f, 14.0f, 0.0f);
         }
-        addView(this.clearSearchImageView, layoutParams3);
+        addView(this.clearSearchImageView, createFrame3);
         this.clearSearchImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchField$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -123,11 +123,11 @@ public class SearchField extends FrameLayout {
         this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
         this.searchEditText.setCursorWidth(1.5f);
         if (z) {
-            layoutParams4 = LayoutHelper.createFrameRelatively(-1.0f, 40.0f, 8388659, 54.0f, 9.0f, 46.0f, 0.0f);
+            createFrame4 = LayoutHelper.createFrameRelatively(-1.0f, 40.0f, 8388659, 54.0f, 9.0f, 46.0f, 0.0f);
         } else {
-            layoutParams4 = LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 9.0f, 46.0f, 0.0f);
+            createFrame4 = LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 9.0f, 46.0f, 0.0f);
         }
-        addView(this.searchEditText, layoutParams4);
+        addView(this.searchEditText, createFrame4);
         this.searchEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.SearchField.3
             @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -171,11 +171,13 @@ public class SearchField extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         this.searchEditText.setText("");
         AndroidUtilities.showKeyboard(this.searchEditText);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
         if (keyEvent != null) {
             if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
@@ -218,6 +220,7 @@ public class SearchField extends FrameLayout {
         list.add(new ThemeDescription(this.searchEditText, ThemeDescription.FLAG_CURSORCOLOR, null, null, null, null, "featuredStickers_addedIcon"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;

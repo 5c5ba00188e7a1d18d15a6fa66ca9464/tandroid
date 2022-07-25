@@ -33,29 +33,29 @@ public class c0 {
     }
 
     public String a() {
-        String str;
-        String str2;
-        String str3;
-        String str4;
+        String b;
+        String b2;
+        String b3;
+        String b4;
         String c = c();
         if (b()) {
             y.c("hmsSdk", "refresh components");
-            str = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
-            a("aprpap", str);
-            str2 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
-            a("febdoc", str2);
-            str3 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
-            a("marfil", str3);
-            str4 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
-            a("maywnj", str4);
+            b = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            a("aprpap", b);
+            b2 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            a("febdoc", b2);
+            b3 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            a("marfil", b3);
+            b4 = EncryptUtil.generateSecureRandomStr(ConnectionsManager.RequestFlagNeedQuickAck);
+            a("maywnj", b4);
             g0.b(b.i(), "Privacy_MY", "assemblyFlash", System.currentTimeMillis());
         } else {
-            str = b("aprpap");
-            str2 = b("febdoc");
-            str3 = b("marfil");
-            str4 = b("maywnj");
+            b = b("aprpap");
+            b2 = b("febdoc");
+            b3 = b("marfil");
+            b4 = b("maywnj");
         }
-        return HexUtil.byteArray2HexStr(PBKDF2.pbkdf2(a(str, str2, str3, c), HexUtil.hexStr2ByteArray(str4), HwBuildEx.VersionCodes.CUR_DEVELOPMENT, 16));
+        return HexUtil.byteArray2HexStr(PBKDF2.pbkdf2(a(b, b2, b3, c), HexUtil.hexStr2ByteArray(b4), HwBuildEx.VersionCodes.CUR_DEVELOPMENT, 16));
     }
 
     public final String a(String str) {

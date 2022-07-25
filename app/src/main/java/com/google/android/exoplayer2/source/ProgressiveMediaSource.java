@@ -29,6 +29,7 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
     public void maybeThrowSourceInfoRefreshError() throws IOException {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ProgressiveMediaSource(Uri uri, DataSource.Factory factory, ExtractorsFactory extractorsFactory, DrmSessionManager<?> drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, String str, int i, Object obj) {
         this.uri = uri;
         this.dataSourceFactory = factory;
@@ -49,12 +50,12 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
 
     @Override // com.google.android.exoplayer2.source.MediaSource
     public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
-        DataSource createDataSource = this.dataSourceFactory.createDataSource();
+        DataSource mo840createDataSource = this.dataSourceFactory.mo840createDataSource();
         TransferListener transferListener = this.transferListener;
         if (transferListener != null) {
-            createDataSource.addTransferListener(transferListener);
+            mo840createDataSource.addTransferListener(transferListener);
         }
-        return new ProgressiveMediaPeriod(this.uri, createDataSource, this.extractorsFactory.createExtractors(), this.drmSessionManager, this.loadableLoadErrorHandlingPolicy, createEventDispatcher(mediaPeriodId), this, allocator, this.customCacheKey, this.continueLoadingCheckIntervalBytes);
+        return new ProgressiveMediaPeriod(this.uri, mo840createDataSource, this.extractorsFactory.createExtractors(), this.drmSessionManager, this.loadableLoadErrorHandlingPolicy, createEventDispatcher(mediaPeriodId), this, allocator, this.customCacheKey, this.continueLoadingCheckIntervalBytes);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource

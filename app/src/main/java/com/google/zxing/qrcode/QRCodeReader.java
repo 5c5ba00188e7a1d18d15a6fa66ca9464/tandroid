@@ -27,21 +27,21 @@ public class QRCodeReader {
     }
 
     public final Result decode(BinaryBitmap binaryBitmap, Map<DecodeHintType, ?> map) throws NotFoundException, ChecksumException, FormatException {
-        ResultPoint[] resultPointArr;
+        ResultPoint[] points;
         DecoderResult decoderResult;
         if (map != null && map.containsKey(DecodeHintType.PURE_BARCODE)) {
             decoderResult = this.decoder.decode(extractPureBits(binaryBitmap.getBlackMatrix()), map);
-            resultPointArr = NO_POINTS;
+            points = NO_POINTS;
         } else {
             DetectorResult detect = new Detector(binaryBitmap.getBlackMatrix()).detect(map);
             DecoderResult decode = this.decoder.decode(detect.getBits(), map);
-            resultPointArr = detect.getPoints();
+            points = detect.getPoints();
             decoderResult = decode;
         }
         if (decoderResult.getOther() instanceof QRCodeDecoderMetaData) {
-            ((QRCodeDecoderMetaData) decoderResult.getOther()).applyMirroredCorrection(resultPointArr);
+            ((QRCodeDecoderMetaData) decoderResult.getOther()).applyMirroredCorrection(points);
         }
-        Result result = new Result(decoderResult.getText(), decoderResult.getRawBytes(), resultPointArr, BarcodeFormat.QR_CODE);
+        Result result = new Result(decoderResult.getText(), decoderResult.getRawBytes(), points, BarcodeFormat.QR_CODE);
         List<byte[]> byteSegments = decoderResult.getByteSegments();
         if (byteSegments != null) {
             result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);

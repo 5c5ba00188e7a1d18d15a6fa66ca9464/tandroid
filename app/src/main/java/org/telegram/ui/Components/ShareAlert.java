@@ -749,11 +749,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i3, int i4) {
-                int i5;
+                int size2;
                 if (getLayoutParams().height > 0) {
-                    i5 = getLayoutParams().height;
+                    size2 = getLayoutParams().height;
                 } else {
-                    i5 = View.MeasureSpec.getSize(i4);
+                    size2 = View.MeasureSpec.getSize(i4);
                 }
                 ShareAlert.this.layoutManager.setNeedFixGap(getLayoutParams().height <= 0);
                 ShareAlert.this.searchLayoutManager.setNeedFixGap(getLayoutParams().height <= 0);
@@ -762,7 +762,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     setPadding(((BottomSheet) ShareAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) ShareAlert.this).backgroundPaddingLeft, 0);
                     this.ignoreLayout = false;
                 }
-                int paddingTop = i5 - getPaddingTop();
+                int paddingTop = size2 - getPaddingTop();
                 int dp = AndroidUtilities.dp(103.0f) + AndroidUtilities.dp(48.0f) + (Math.max(2, (int) Math.ceil(Math.max(ShareAlert.this.searchAdapter.getItemCount(), ShareAlert.this.listAdapter.getItemCount() - 1) / 4.0f)) * AndroidUtilities.dp(103.0f)) + ((BottomSheet) ShareAlert.this).backgroundPaddingTop;
                 int dp2 = (dp < paddingTop ? 0 : paddingTop - ((paddingTop / 5) * 3)) + AndroidUtilities.dp(8.0f);
                 if (ShareAlert.this.gridView.getPaddingTop() != dp2) {
@@ -775,14 +775,14 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     ShareAlert.this.searchGridView.setPadding(0, 0, 0, AndroidUtilities.dp(48.0f));
                     this.ignoreLayout = false;
                 }
-                boolean z4 = dp >= i5;
+                boolean z4 = dp >= size2;
                 this.fullHeight = z4;
-                this.topOffset = (z4 || !SharedConfig.smoothKeyboard) ? 0 : i5 - dp;
+                this.topOffset = (z4 || !SharedConfig.smoothKeyboard) ? 0 : size2 - dp;
                 this.ignoreLayout = true;
                 ShareAlert.this.checkCurrentList(false);
                 this.ignoreLayout = false;
-                setMeasuredDimension(View.MeasureSpec.getSize(i3), i5);
-                onMeasureInternal(i3, View.MeasureSpec.makeMeasureSpec(i5, 1073741824));
+                setMeasuredDimension(View.MeasureSpec.getSize(i3), size2);
+                onMeasureInternal(i3, View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
             }
 
             private void onMeasureInternal(int i3, int i4) {
@@ -839,11 +839,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:31:0x0090  */
-            /* JADX WARN: Removed duplicated region for block: B:38:0x00ad  */
-            /* JADX WARN: Removed duplicated region for block: B:42:0x00c5  */
-            /* JADX WARN: Removed duplicated region for block: B:46:0x00d7  */
-            /* JADX WARN: Removed duplicated region for block: B:47:0x00e0  */
+            /* JADX WARN: Removed duplicated region for block: B:20:0x0090  */
+            /* JADX WARN: Removed duplicated region for block: B:27:0x00c5  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x00d7  */
+            /* JADX WARN: Removed duplicated region for block: B:33:0x00e0  */
+            /* JADX WARN: Removed duplicated region for block: B:40:0x00ad  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -855,72 +855,72 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 int i10;
                 int i11;
                 int i12;
-                int i13;
-                int i14;
+                int measuredHeight;
+                int measuredHeight2;
                 int childCount = getChildCount();
                 int measureKeyboardHeight = measureKeyboardHeight();
                 int emojiPadding = ((!SharedConfig.smoothKeyboard || !((BottomSheet) ShareAlert.this).keyboardVisible) && measureKeyboardHeight <= AndroidUtilities.dp(20.0f) && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isTablet()) ? ShareAlert.this.commentTextView.getEmojiPadding() : 0;
                 setBottomClip(emojiPadding);
-                for (int i15 = 0; i15 < childCount; i15++) {
-                    View childAt = getChildAt(i15);
+                for (int i13 = 0; i13 < childCount; i13++) {
+                    View childAt = getChildAt(i13);
                     if (childAt.getVisibility() != 8) {
                         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                         int measuredWidth = childAt.getMeasuredWidth();
-                        int measuredHeight = childAt.getMeasuredHeight();
-                        int i16 = layoutParams.gravity;
-                        if (i16 == -1) {
-                            i16 = 51;
+                        int measuredHeight3 = childAt.getMeasuredHeight();
+                        int i14 = layoutParams.gravity;
+                        if (i14 == -1) {
+                            i14 = 51;
                         }
-                        int i17 = i16 & 7;
-                        int i18 = i16 & 112;
-                        int i19 = i17 & 7;
-                        if (i19 == 1) {
-                            i14 = (((i5 - i3) - measuredWidth) / 2) + layoutParams.leftMargin;
-                            i13 = layoutParams.rightMargin;
-                        } else if (i19 == 5) {
-                            i14 = (((i5 - i3) - measuredWidth) - layoutParams.rightMargin) - getPaddingRight();
-                            i13 = ((BottomSheet) ShareAlert.this).backgroundPaddingLeft;
+                        int i15 = i14 & 7;
+                        int i16 = i14 & 112;
+                        int i17 = i15 & 7;
+                        if (i17 == 1) {
+                            i7 = (((i5 - i3) - measuredWidth) / 2) + layoutParams.leftMargin;
+                            i8 = layoutParams.rightMargin;
+                        } else if (i17 == 5) {
+                            i7 = (((i5 - i3) - measuredWidth) - layoutParams.rightMargin) - getPaddingRight();
+                            i8 = ((BottomSheet) ShareAlert.this).backgroundPaddingLeft;
                         } else {
-                            i7 = layoutParams.leftMargin + getPaddingLeft();
-                            if (i18 == 16) {
-                                if (i18 == 48) {
-                                    i8 = layoutParams.topMargin + getPaddingTop() + this.topOffset;
-                                } else if (i18 == 80) {
-                                    i11 = ((i6 - emojiPadding) - i4) - measuredHeight;
-                                    i12 = layoutParams.bottomMargin;
+                            i9 = layoutParams.leftMargin + getPaddingLeft();
+                            if (i16 == 16) {
+                                if (i16 == 48) {
+                                    i12 = layoutParams.topMargin + getPaddingTop() + this.topOffset;
+                                } else if (i16 == 80) {
+                                    i10 = ((i6 - emojiPadding) - i4) - measuredHeight3;
+                                    i11 = layoutParams.bottomMargin;
                                 } else {
-                                    i8 = layoutParams.topMargin;
+                                    i12 = layoutParams.topMargin;
                                 }
                                 if (ShareAlert.this.commentTextView != null && ShareAlert.this.commentTextView.isPopupView(childAt)) {
                                     if (!AndroidUtilities.isTablet()) {
-                                        i10 = getMeasuredHeight();
-                                        i9 = childAt.getMeasuredHeight();
+                                        measuredHeight = getMeasuredHeight();
+                                        measuredHeight2 = childAt.getMeasuredHeight();
                                     } else {
-                                        i10 = getMeasuredHeight() + measureKeyboardHeight;
-                                        i9 = childAt.getMeasuredHeight();
+                                        measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
+                                        measuredHeight2 = childAt.getMeasuredHeight();
                                     }
-                                    i8 = i10 - i9;
+                                    i12 = measuredHeight - measuredHeight2;
                                 }
-                                childAt.layout(i7, i8, measuredWidth + i7, measuredHeight + i8);
+                                childAt.layout(i9, i12, measuredWidth + i9, measuredHeight3 + i12);
                             } else {
-                                i11 = ((((i6 - emojiPadding) - (this.topOffset + i4)) - measuredHeight) / 2) + layoutParams.topMargin;
-                                i12 = layoutParams.bottomMargin;
+                                i10 = ((((i6 - emojiPadding) - (this.topOffset + i4)) - measuredHeight3) / 2) + layoutParams.topMargin;
+                                i11 = layoutParams.bottomMargin;
                             }
-                            i8 = i11 - i12;
+                            i12 = i10 - i11;
                             if (ShareAlert.this.commentTextView != null) {
                                 if (!AndroidUtilities.isTablet()) {
                                 }
-                                i8 = i10 - i9;
+                                i12 = measuredHeight - measuredHeight2;
                             }
-                            childAt.layout(i7, i8, measuredWidth + i7, measuredHeight + i8);
+                            childAt.layout(i9, i12, measuredWidth + i9, measuredHeight3 + i12);
                         }
-                        i7 = i14 - i13;
-                        if (i18 == 16) {
+                        i9 = i7 - i8;
+                        if (i16 == 16) {
                         }
-                        i8 = i11 - i12;
+                        i12 = i10 - i11;
                         if (ShareAlert.this.commentTextView != null) {
                         }
-                        childAt.layout(i7, i8, measuredWidth + i7, measuredHeight + i8);
+                        childAt.layout(i9, i12, measuredWidth + i9, measuredHeight3 + i12);
                     }
                 }
                 notifyHeightChanged();
@@ -954,17 +954,17 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 super.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:19:0x00ce  */
-            /* JADX WARN: Removed duplicated region for block: B:26:0x0158  */
-            /* JADX WARN: Removed duplicated region for block: B:27:0x015b  */
-            /* JADX WARN: Removed duplicated region for block: B:30:0x017d  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x00ce  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x0158  */
+            /* JADX WARN: Removed duplicated region for block: B:25:0x017d  */
+            /* JADX WARN: Removed duplicated region for block: B:42:0x015b  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             protected void onDraw(Canvas canvas) {
-                int i3;
                 float f;
+                int i3;
                 canvas.save();
                 canvas.translate(0.0f, ShareAlert.this.currentPanTranslationY);
                 int dp = (ShareAlert.this.scrollOffsetY - ((BottomSheet) ShareAlert.this).backgroundPaddingTop) + AndroidUtilities.dp(6.0f) + this.topOffset;
@@ -1785,7 +1785,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     private boolean onSendLongClick(View view) {
-        int i;
+        int measuredHeight;
         ChatActivity chatActivity;
         if (this.parentActivity == null) {
             return false;
@@ -1936,11 +1936,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         int[] iArr = new int[2];
         view.getLocationInWindow(iArr);
         if (this.keyboardVisible && (chatActivity = this.parentFragment) != null && chatActivity.contentView.getMeasuredHeight() > AndroidUtilities.dp(58.0f)) {
-            i = iArr[1] + view.getMeasuredHeight();
+            measuredHeight = iArr[1] + view.getMeasuredHeight();
         } else {
-            i = (iArr[1] - linearLayout.getMeasuredHeight()) - AndroidUtilities.dp(2.0f);
+            measuredHeight = (iArr[1] - linearLayout.getMeasuredHeight()) - AndroidUtilities.dp(2.0f);
         }
-        this.sendPopupWindow.showAtLocation(view, 51, ((iArr[0] + view.getMeasuredWidth()) - linearLayout.getMeasuredWidth()) + AndroidUtilities.dp(8.0f), i);
+        this.sendPopupWindow.showAtLocation(view, 51, ((iArr[0] + view.getMeasuredWidth()) - linearLayout.getMeasuredWidth()) + AndroidUtilities.dp(8.0f), measuredHeight);
         this.sendPopupWindow.dimBehind();
         view.performHapticFeedback(3, 2);
         return true;
@@ -2487,16 +2487,17 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View shareDialogCell;
             if (i == 0) {
-                view = new ShareDialogCell(this.context, ShareAlert.this.darkTheme ? 1 : 0, ShareAlert.this.resourcesProvider);
-                view.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(100.0f)));
+                shareDialogCell = new ShareDialogCell(this.context, ShareAlert.this.darkTheme ? 1 : 0, ShareAlert.this.resourcesProvider);
+                shareDialogCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(100.0f)));
             } else {
-                view = new View(this.context);
-                view.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp((!ShareAlert.this.darkTheme || ShareAlert.this.linkToCopy[1] == null) ? 56.0f : 109.0f)));
+                shareDialogCell = new View(this.context);
+                shareDialogCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp((!ShareAlert.this.darkTheme || ShareAlert.this.linkToCopy[1] == null) ? 56.0f : 109.0f)));
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(shareDialogCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -2592,10 +2593,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             });
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:173:0x03f8 A[Catch: Exception -> 0x0414, LOOP:7: B:145:0x0346->B:173:0x03f8, LOOP_END, TryCatch #0 {Exception -> 0x0414, blocks: (B:3:0x0002, B:5:0x0011, B:7:0x001e, B:9:0x002c, B:16:0x003a, B:18:0x0041, B:19:0x0043, B:20:0x0068, B:22:0x006e, B:24:0x0086, B:26:0x0090, B:27:0x0098, B:29:0x009e, B:31:0x00a9, B:32:0x00b1, B:35:0x00c2, B:36:0x00e7, B:38:0x00ed, B:41:0x0101, B:43:0x0108, B:47:0x0113, B:49:0x011d, B:52:0x0136, B:54:0x013c, B:58:0x0154, B:65:0x0164, B:67:0x016b, B:69:0x0185, B:71:0x018d, B:72:0x0198, B:73:0x01bf, B:75:0x01cd, B:78:0x01e4, B:80:0x01f1, B:82:0x01f7, B:83:0x021d, B:85:0x0223, B:90:0x023a, B:92:0x0242, B:95:0x0259, B:97:0x025f, B:100:0x0275, B:101:0x0278, B:103:0x027f, B:105:0x028c, B:107:0x0292, B:109:0x0298, B:111:0x029c, B:113:0x02a0, B:115:0x02a4, B:117:0x02a8, B:120:0x02ce, B:122:0x02d6, B:123:0x02dc, B:125:0x02e2, B:127:0x02ec, B:129:0x02f0, B:130:0x02f3, B:131:0x02f6, B:132:0x030d, B:134:0x0313, B:137:0x031f, B:140:0x0333, B:142:0x033c, B:146:0x0348, B:148:0x0350, B:151:0x0367, B:153:0x036d, B:157:0x0385, B:162:0x0390, B:164:0x0397, B:166:0x03ab, B:167:0x03b2, B:169:0x03bd, B:170:0x03c9, B:171:0x03f0, B:173:0x03f8, B:176:0x0406), top: B:180:0x0002 }] */
-        /* JADX WARN: Removed duplicated region for block: B:197:0x0164 A[SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:220:0x0390 A[SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:75:0x01cd A[Catch: Exception -> 0x0414, LOOP:2: B:46:0x0111->B:75:0x01cd, LOOP_END, TryCatch #0 {Exception -> 0x0414, blocks: (B:3:0x0002, B:5:0x0011, B:7:0x001e, B:9:0x002c, B:16:0x003a, B:18:0x0041, B:19:0x0043, B:20:0x0068, B:22:0x006e, B:24:0x0086, B:26:0x0090, B:27:0x0098, B:29:0x009e, B:31:0x00a9, B:32:0x00b1, B:35:0x00c2, B:36:0x00e7, B:38:0x00ed, B:41:0x0101, B:43:0x0108, B:47:0x0113, B:49:0x011d, B:52:0x0136, B:54:0x013c, B:58:0x0154, B:65:0x0164, B:67:0x016b, B:69:0x0185, B:71:0x018d, B:72:0x0198, B:73:0x01bf, B:75:0x01cd, B:78:0x01e4, B:80:0x01f1, B:82:0x01f7, B:83:0x021d, B:85:0x0223, B:90:0x023a, B:92:0x0242, B:95:0x0259, B:97:0x025f, B:100:0x0275, B:101:0x0278, B:103:0x027f, B:105:0x028c, B:107:0x0292, B:109:0x0298, B:111:0x029c, B:113:0x02a0, B:115:0x02a4, B:117:0x02a8, B:120:0x02ce, B:122:0x02d6, B:123:0x02dc, B:125:0x02e2, B:127:0x02ec, B:129:0x02f0, B:130:0x02f3, B:131:0x02f6, B:132:0x030d, B:134:0x0313, B:137:0x031f, B:140:0x0333, B:142:0x033c, B:146:0x0348, B:148:0x0350, B:151:0x0367, B:153:0x036d, B:157:0x0385, B:162:0x0390, B:164:0x0397, B:166:0x03ab, B:167:0x03b2, B:169:0x03bd, B:170:0x03c9, B:171:0x03f0, B:173:0x03f8, B:176:0x0406), top: B:180:0x0002 }] */
+        /* JADX WARN: Removed duplicated region for block: B:189:0x03f8 A[Catch: Exception -> 0x0414, LOOP:7: B:173:0x0346->B:189:0x03f8, LOOP_END, TryCatch #0 {Exception -> 0x0414, blocks: (B:3:0x0002, B:5:0x0011, B:8:0x001e, B:10:0x002c, B:15:0x003a, B:17:0x0041, B:18:0x0043, B:19:0x0068, B:21:0x006e, B:36:0x0086, B:39:0x0090, B:24:0x0098, B:27:0x009e, B:30:0x00a9, B:43:0x00b1, B:46:0x00c2, B:47:0x00e7, B:49:0x00ed, B:52:0x0101, B:54:0x0108, B:57:0x0113, B:59:0x011d, B:62:0x0136, B:64:0x013c, B:68:0x0154, B:74:0x0164, B:76:0x016b, B:78:0x0185, B:80:0x018d, B:81:0x01bf, B:84:0x0198, B:72:0x01cd, B:95:0x01e4, B:96:0x01f1, B:98:0x01f7, B:99:0x021d, B:101:0x0223, B:106:0x023a, B:108:0x0242, B:111:0x0259, B:113:0x025f, B:139:0x0275, B:117:0x0278, B:119:0x027f, B:121:0x028c, B:123:0x0292, B:125:0x0298, B:127:0x029c, B:129:0x02a0, B:131:0x02a4, B:133:0x02a8, B:146:0x02ce, B:147:0x02d6, B:148:0x02dc, B:150:0x02e2, B:152:0x02ec, B:154:0x02f0, B:156:0x02f3, B:160:0x02f6, B:161:0x030d, B:163:0x0313, B:166:0x031f, B:169:0x0333, B:171:0x033c, B:174:0x0348, B:176:0x0350, B:179:0x0367, B:181:0x036d, B:185:0x0385, B:191:0x0390, B:193:0x0397, B:195:0x03ab, B:196:0x03b2, B:198:0x03bd, B:199:0x03f0, B:203:0x03c9, B:189:0x03f8, B:213:0x0406), top: B:2:0x0002 }] */
+        /* JADX WARN: Removed duplicated region for block: B:190:0x0390 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:72:0x01cd A[Catch: Exception -> 0x0414, LOOP:2: B:56:0x0111->B:72:0x01cd, LOOP_END, TryCatch #0 {Exception -> 0x0414, blocks: (B:3:0x0002, B:5:0x0011, B:8:0x001e, B:10:0x002c, B:15:0x003a, B:17:0x0041, B:18:0x0043, B:19:0x0068, B:21:0x006e, B:36:0x0086, B:39:0x0090, B:24:0x0098, B:27:0x009e, B:30:0x00a9, B:43:0x00b1, B:46:0x00c2, B:47:0x00e7, B:49:0x00ed, B:52:0x0101, B:54:0x0108, B:57:0x0113, B:59:0x011d, B:62:0x0136, B:64:0x013c, B:68:0x0154, B:74:0x0164, B:76:0x016b, B:78:0x0185, B:80:0x018d, B:81:0x01bf, B:84:0x0198, B:72:0x01cd, B:95:0x01e4, B:96:0x01f1, B:98:0x01f7, B:99:0x021d, B:101:0x0223, B:106:0x023a, B:108:0x0242, B:111:0x0259, B:113:0x025f, B:139:0x0275, B:117:0x0278, B:119:0x027f, B:121:0x028c, B:123:0x0292, B:125:0x0298, B:127:0x029c, B:129:0x02a0, B:131:0x02a4, B:133:0x02a8, B:146:0x02ce, B:147:0x02d6, B:148:0x02dc, B:150:0x02e2, B:152:0x02ec, B:154:0x02f0, B:156:0x02f3, B:160:0x02f6, B:161:0x030d, B:163:0x0313, B:166:0x031f, B:169:0x0333, B:171:0x033c, B:174:0x0348, B:176:0x0350, B:179:0x0367, B:181:0x036d, B:185:0x0385, B:191:0x0390, B:193:0x0397, B:195:0x03ab, B:196:0x03b2, B:198:0x03bd, B:199:0x03f0, B:203:0x03c9, B:189:0x03f8, B:213:0x0406), top: B:2:0x0002 }] */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x0164 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -3064,15 +3065,20 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
 
         /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r5v3, types: [org.telegram.ui.Components.ShareAlert$ShareSearchAdapter$2, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, org.telegram.ui.Components.RecyclerListView] */
+        /* JADX WARN: Type inference failed for: r5v4, types: [org.telegram.ui.Cells.GraySectionCell, android.widget.FrameLayout] */
+        /* JADX WARN: Type inference failed for: r5v5, types: [org.telegram.ui.Components.ShareAlert$ShareSearchAdapter$5] */
+        /* JADX WARN: Type inference failed for: r5v6, types: [android.view.View] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             ShareDialogCell shareDialogCell;
             if (i == 0) {
                 ShareDialogCell shareDialogCell2 = new ShareDialogCell(this.context, ShareAlert.this.darkTheme ? 1 : 0, ShareAlert.this.resourcesProvider);
                 shareDialogCell2.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(100.0f)));
                 shareDialogCell = shareDialogCell2;
             } else if (i == 2) {
-                RecyclerListView recyclerListView = new RecyclerListView(this, this.context, ShareAlert.this.resourcesProvider) { // from class: org.telegram.ui.Components.ShareAlert.ShareSearchAdapter.2
+                ?? r5 = new RecyclerListView(this, this.context, ShareAlert.this.resourcesProvider) { // from class: org.telegram.ui.Components.ShareAlert.ShareSearchAdapter.2
                     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
                     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                         if (getParent() != null && getParent().getParent() != null) {
@@ -3086,8 +3092,8 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         return super.onInterceptTouchEvent(motionEvent);
                     }
                 };
-                recyclerListView.setItemAnimator(null);
-                recyclerListView.setLayoutAnimation(null);
+                r5.setItemAnimator(null);
+                r5.setLayoutAnimation(null);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, this.context) { // from class: org.telegram.ui.Components.ShareAlert.ShareSearchAdapter.3
                     @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
                     public boolean supportsPredictiveItemAnimations() {
@@ -3095,7 +3101,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     }
                 };
                 linearLayoutManager.setOrientation(0);
-                recyclerListView.setLayoutManager(linearLayoutManager);
+                r5.setLayoutManager(linearLayoutManager);
                 DialogsSearchAdapter.CategoryAdapterRecycler categoryAdapterRecycler = new DialogsSearchAdapter.CategoryAdapterRecycler(this.context, ((BottomSheet) ShareAlert.this).currentAccount, true) { // from class: org.telegram.ui.Components.ShareAlert.ShareSearchAdapter.4
                     {
                         ShareSearchAdapter.this = this;
@@ -3148,23 +3154,23 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     }
                 };
                 this.categoryAdapter = categoryAdapterRecycler;
-                recyclerListView.setAdapter(categoryAdapterRecycler);
-                recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ShareAlert$ShareSearchAdapter$$ExternalSyntheticLambda5
+                r5.setAdapter(categoryAdapterRecycler);
+                r5.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ShareAlert$ShareSearchAdapter$$ExternalSyntheticLambda5
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                     public final void onItemClick(View view, int i2) {
                         ShareAlert.ShareSearchAdapter.this.lambda$onCreateViewHolder$5(view, i2);
                     }
                 });
-                shareDialogCell = recyclerListView;
+                shareDialogCell = r5;
             } else if (i == 3) {
-                GraySectionCell graySectionCell = new GraySectionCell(this.context, ShareAlert.this.resourcesProvider);
+                ?? graySectionCell = new GraySectionCell(this.context, ShareAlert.this.resourcesProvider);
                 graySectionCell.setTextColor(ShareAlert.this.darkTheme ? "voipgroup_nameText" : "key_graySectionText");
                 ShareAlert shareAlert = ShareAlert.this;
                 graySectionCell.setBackgroundColor(shareAlert.getThemedColor(shareAlert.darkTheme ? "voipgroup_searchBackground" : "graySection"));
                 graySectionCell.setText(LocaleController.getString("Recent", R.string.Recent));
                 shareDialogCell = graySectionCell;
             } else if (i != 4) {
-                View view = new View(this.context);
+                ?? view = new View(this.context);
                 view.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp((!ShareAlert.this.darkTheme || ShareAlert.this.linkToCopy[1] == null) ? 56.0f : 109.0f)));
                 shareDialogCell = view;
             } else {
@@ -3204,11 +3210,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            CharSequence charSequence;
             long j;
+            CharSequence charSequence;
             int indexOfIgnoreCase;
-            int indexOfIgnoreCase2;
             TLRPC$User user;
+            int indexOfIgnoreCase2;
             if (viewHolder.getItemViewType() == 0) {
                 ShareDialogCell shareDialogCell = (ShareDialogCell) viewHolder.itemView;
                 String str = null;

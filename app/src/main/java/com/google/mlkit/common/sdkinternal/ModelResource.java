@@ -43,13 +43,13 @@ public abstract class ModelResource {
         });
     }
 
-    public <T> Task<T> callAfterLoad(Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
+    public <T> Task<T> callAfterLoad(final Executor executor, final Callable<T> callable, final CancellationToken cancellationToken) {
         Preconditions.checkState(this.zza.get() > 0);
         if (cancellationToken.isCancellationRequested()) {
             return Tasks.forCanceled();
         }
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        TaskCompletionSource taskCompletionSource = new TaskCompletionSource(cancellationTokenSource.getToken());
+        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource(cancellationTokenSource.getToken());
         this.taskQueue.submit(new Executor(executor, cancellationToken, cancellationTokenSource, taskCompletionSource) { // from class: com.google.mlkit.common.sdkinternal.zzm
             private final Executor zza;
             private final CancellationToken zzb;
@@ -109,6 +109,7 @@ public abstract class ModelResource {
         return this.zzb.get();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zza(CancellationToken cancellationToken, CancellationTokenSource cancellationTokenSource, Callable callable, TaskCompletionSource taskCompletionSource) {
         try {
             if (cancellationToken.isCancellationRequested()) {
@@ -142,6 +143,7 @@ public abstract class ModelResource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zza() {
         int decrementAndGet = this.zza.decrementAndGet();
         Preconditions.checkState(decrementAndGet >= 0);

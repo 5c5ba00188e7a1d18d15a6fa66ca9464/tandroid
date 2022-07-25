@@ -37,19 +37,19 @@ public final class StandaloneMediaClock implements MediaClock {
 
     @Override // com.google.android.exoplayer2.util.MediaClock
     public long getPositionUs() {
-        long j;
-        long j2 = this.baseUs;
+        long mediaTimeUsForPlayoutTimeMs;
+        long j = this.baseUs;
         if (this.started) {
             long elapsedRealtime = this.clock.elapsedRealtime() - this.baseElapsedMs;
             PlaybackParameters playbackParameters = this.playbackParameters;
             if (playbackParameters.speed == 1.0f) {
-                j = C.msToUs(elapsedRealtime);
+                mediaTimeUsForPlayoutTimeMs = C.msToUs(elapsedRealtime);
             } else {
-                j = playbackParameters.getMediaTimeUsForPlayoutTimeMs(elapsedRealtime);
+                mediaTimeUsForPlayoutTimeMs = playbackParameters.getMediaTimeUsForPlayoutTimeMs(elapsedRealtime);
             }
-            return j2 + j;
+            return j + mediaTimeUsForPlayoutTimeMs;
         }
-        return j2;
+        return j;
     }
 
     @Override // com.google.android.exoplayer2.util.MediaClock

@@ -19,6 +19,7 @@ public class SignInAccount extends AbstractSafeParcelable implements ReflectedPa
     String zbb;
     private GoogleSignInAccount zbc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public SignInAccount(String str, GoogleSignInAccount googleSignInAccount, String str2) {
         this.zbc = googleSignInAccount;
         this.zba = Preconditions.checkNotEmpty(str, "8.3 and 8.4 SDKs require non-null email");

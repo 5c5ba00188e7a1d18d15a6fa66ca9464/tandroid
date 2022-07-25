@@ -7,8 +7,7 @@ import java.util.List;
 final class zzda extends zzcy {
     private static final Class<?> zzlv = Collections.unmodifiableList(Collections.emptyList()).getClass();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzda() {
+    private zzda() {
         super();
     }
 
@@ -16,20 +15,22 @@ final class zzda extends zzcy {
         return (List) zzfd.zzo(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzcy
     public final void zza(Object obj, long j) {
-        Object obj2;
+        Object unmodifiableList;
         List list = (List) zzfd.zzo(obj, j);
         if (list instanceof zzcx) {
-            obj2 = ((zzcx) list).zzbu();
+            unmodifiableList = ((zzcx) list).zzbu();
         } else if (zzlv.isAssignableFrom(list.getClass())) {
             return;
         } else {
-            obj2 = Collections.unmodifiableList(list);
+            unmodifiableList = Collections.unmodifiableList(list);
         }
-        zzfd.zza(obj, j, obj2);
+        zzfd.zza(obj, j, unmodifiableList);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.android.gms.internal.clearcut.zzcy
     public final <E> void zza(Object obj, Object obj2, long j) {

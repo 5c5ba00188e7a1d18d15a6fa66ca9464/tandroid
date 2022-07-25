@@ -189,11 +189,13 @@ public class BlurBehindDrawable {
         this.queue.postRunnable(this.blurBackgroundTask);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$draw$0() {
         this.error = true;
         this.parentView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getBlurRadius() {
         return Math.max(7, Math.max(this.lastH, this.lastW) / 180);
     }
@@ -217,6 +219,7 @@ public class BlurBehindDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clear$2() {
         Bitmap[] bitmapArr = this.renderingBitmap;
         if (bitmapArr != null) {
@@ -250,6 +253,7 @@ public class BlurBehindDrawable {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clear$1() {
         DispatchQueue dispatchQueue = this.queue;
         if (dispatchQueue != null) {
@@ -367,7 +371,6 @@ public class BlurBehindDrawable {
         int width;
 
         public BlurBackgroundTask() {
-            BlurBehindDrawable.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -417,6 +420,7 @@ public class BlurBehindDrawable {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0() {
             if (this.canceled) {
                 return;
@@ -445,6 +449,7 @@ public class BlurBehindDrawable {
         return Theme.getCachedWallpaperNonBlocking();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;

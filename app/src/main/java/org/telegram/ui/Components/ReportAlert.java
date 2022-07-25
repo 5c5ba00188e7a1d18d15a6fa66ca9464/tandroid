@@ -134,6 +134,7 @@ public class ReportAlert extends BottomSheet {
         this.smoothKeyboardAnimationEnabled = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$0(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 6) {
             this.clearButton.background.callOnClick();
@@ -142,6 +143,7 @@ public class ReportAlert extends BottomSheet {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(int i, View view) {
         AndroidUtilities.hideKeyboard(this.editText);
         onSend(i, this.editText.getText().toString());

@@ -6,6 +6,7 @@ import java.util.Arrays;
 final class zzg extends zzd {
     private final byte[] zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzg(byte[] bArr) {
         super(Arrays.copyOfRange(bArr, 0, 25));
         this.zza = bArr;

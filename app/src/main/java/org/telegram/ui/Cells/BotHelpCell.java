@@ -91,7 +91,7 @@ public class BotHelpCell extends View {
     }
 
     public void setText(boolean z, String str, TLObject tLObject, TLRPC$BotInfo tLRPC$BotInfo) {
-        int i;
+        int min;
         boolean z2 = tLObject != null;
         boolean z3 = !TextUtils.isEmpty(str);
         if ((str == null || str.length() == 0) && !z2) {
@@ -137,12 +137,12 @@ public class BotHelpCell extends View {
         this.oldText = AndroidUtilities.getSafeString(str2);
         setVisibility(0);
         if (AndroidUtilities.isTablet()) {
-            i = AndroidUtilities.getMinTabletSide();
+            min = AndroidUtilities.getMinTabletSide();
         } else {
             Point point = AndroidUtilities.displaySize;
-            i = Math.min(point.x, point.y);
+            min = Math.min(point.x, point.y);
         }
-        int i2 = (int) (i * 0.7f);
+        int i = (int) (min * 0.7f);
         if (this.isTextVisible) {
             String[] split = str2.split("\n");
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
@@ -151,9 +151,9 @@ public class BotHelpCell extends View {
                 spannableStringBuilder.append((CharSequence) string);
                 spannableStringBuilder.append((CharSequence) "\n\n");
             }
-            for (int i3 = 0; i3 < split.length; i3++) {
-                spannableStringBuilder.append((CharSequence) split[i3].trim());
-                if (i3 != split.length - 1) {
+            for (int i2 = 0; i2 < split.length; i2++) {
+                spannableStringBuilder.append((CharSequence) split[i2].trim());
+                if (i2 != split.length - 1) {
                     spannableStringBuilder.append((CharSequence) "\n");
                 }
             }
@@ -163,37 +163,37 @@ public class BotHelpCell extends View {
             }
             Emoji.replaceEmoji(spannableStringBuilder, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
             try {
-                StaticLayout staticLayout = new StaticLayout(spannableStringBuilder, Theme.chat_msgTextPaint, i2 - (this.isPhotoVisible ? AndroidUtilities.dp(5.0f) : 0), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                StaticLayout staticLayout = new StaticLayout(spannableStringBuilder, Theme.chat_msgTextPaint, i - (this.isPhotoVisible ? AndroidUtilities.dp(5.0f) : 0), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.textLayout = staticLayout;
                 this.width = 0;
                 this.height = staticLayout.getHeight() + AndroidUtilities.dp(22.0f);
                 int lineCount = this.textLayout.getLineCount();
-                for (int i4 = 0; i4 < lineCount; i4++) {
-                    this.width = (int) Math.ceil(Math.max(this.width, this.textLayout.getLineWidth(i4) + this.textLayout.getLineLeft(i4)));
+                for (int i3 = 0; i3 < lineCount; i3++) {
+                    this.width = (int) Math.ceil(Math.max(this.width, this.textLayout.getLineWidth(i3) + this.textLayout.getLineLeft(i3)));
                 }
-                if (this.width > i2 || this.isPhotoVisible) {
-                    this.width = i2;
+                if (this.width > i || this.isPhotoVisible) {
+                    this.width = i;
                 }
             } catch (Exception e) {
                 FileLog.e(e);
             }
         } else if (this.isPhotoVisible) {
-            this.width = i2;
+            this.width = i;
         }
         int dp3 = this.width + AndroidUtilities.dp(22.0f);
         this.width = dp3;
         if (!this.isPhotoVisible) {
             return;
         }
-        int i5 = this.height;
+        int i4 = this.height;
         double d = dp3;
         Double.isNaN(d);
-        int i6 = (int) (d * 0.5625d);
-        this.photoHeight = i6;
-        this.height = i5 + i6 + AndroidUtilities.dp(4.0f);
+        int i5 = (int) (d * 0.5625d);
+        this.photoHeight = i5;
+        this.height = i4 + i5 + AndroidUtilities.dp(4.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00ff  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00ff  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -202,7 +202,6 @@ public class BotHelpCell extends View {
         boolean z;
         BotHelpCellDelegate botHelpCellDelegate;
         boolean z2;
-        Exception e;
         int lineForVertical;
         float f;
         int offsetForHorizontal;
@@ -218,8 +217,8 @@ public class BotHelpCell extends View {
                         f = (int) (x - this.textX);
                         offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
                         lineLeft = this.textLayout.getLineLeft(lineForVertical);
-                    } catch (Exception e2) {
-                        e = e2;
+                    } catch (Exception e) {
+                        e = e;
                         z2 = false;
                     }
                     if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
@@ -233,11 +232,11 @@ public class BotHelpCell extends View {
                                 int spanStart = spannable.getSpanStart(clickableSpan);
                                 this.urlPath.setCurrentLayout(this.textLayout, spanStart, 0.0f);
                                 this.textLayout.getSelectionPath(spanStart, spannable.getSpanEnd(this.pressedLink), this.urlPath);
-                            } catch (Exception e3) {
+                            } catch (Exception e2) {
                                 try {
-                                    FileLog.e(e3);
-                                } catch (Exception e4) {
-                                    e = e4;
+                                    FileLog.e(e2);
+                                } catch (Exception e3) {
+                                    e = e3;
                                     z2 = true;
                                     resetPressedLink();
                                     FileLog.e(e);
@@ -270,8 +269,8 @@ public class BotHelpCell extends View {
                             } else {
                                 clickableSpan2.onClick(this);
                             }
-                        } catch (Exception e5) {
-                            FileLog.e(e5);
+                        } catch (Exception e4) {
+                            FileLog.e(e4);
                         }
                         resetPressedLink();
                         z = true;

@@ -234,6 +234,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         public TLRPC$TL_messageMediaVenue venue;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$7(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -249,6 +250,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return f2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class SearchButton extends TextView {
         private float additionanTranslationY;
@@ -283,10 +285,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     public class MapOverlayView extends FrameLayout {
         private HashMap<Marker, View> views = new HashMap<>();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public MapOverlayView(Context context) {
             super(context);
-            LocationActivity.this = r1;
         }
 
         public void addInfoView(Marker marker) {
@@ -352,7 +352,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
 
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    float f;
+                    float interpolation;
                     float lerp = AndroidUtilities.lerp(this.animatorValues, valueAnimator.getAnimatedFraction());
                     if (lerp >= 0.7f && !this.startedInner && LocationActivity.this.lastPressedMarkerView != null) {
                         AnimatorSet animatorSet = new AnimatorSet();
@@ -363,14 +363,14 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                         this.startedInner = true;
                     }
                     if (lerp <= 0.5f) {
-                        f = CubicBezierInterpolator.EASE_OUT.getInterpolation(lerp / 0.5f) * 1.1f;
+                        interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(lerp / 0.5f) * 1.1f;
                     } else if (lerp <= 0.75f) {
-                        f = 1.1f - (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.5f) / 0.25f) * 0.2f);
+                        interpolation = 1.1f - (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.5f) / 0.25f) * 0.2f);
                     } else {
-                        f = (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.75f) / 0.25f) * 0.1f) + 0.9f;
+                        interpolation = (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.75f) / 0.25f) * 0.1f) + 0.9f;
                     }
-                    frameLayout3.setScaleX(f);
-                    frameLayout3.setScaleY(f);
+                    frameLayout3.setScaleX(interpolation);
+                    frameLayout3.setScaleY(interpolation);
                 }
             });
             ofFloat.setDuration(360L);
@@ -379,6 +379,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             LocationActivity.this.googleMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()), 300, null);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$addInfoView$1(final VenueLocation venueLocation, View view) {
             if (LocationActivity.this.parentFragment == null || !LocationActivity.this.parentFragment.isInScheduleMode()) {
                 LocationActivity.this.delegate.didSelectLocation(venueLocation.venue, LocationActivity.this.locationType, true, 0);
@@ -393,6 +394,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$addInfoView$0(VenueLocation venueLocation, boolean z, int i) {
             LocationActivity.this.delegate.didSelectLocation(venueLocation.venue, LocationActivity.this.locationType, z, i);
             LocationActivity.this.finishFragment();
@@ -801,16 +803,16 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             mutate4.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable3 = new CombinedDrawable(mutate4, createSimpleSelectorCircleDrawable2, 0, 0);
             combinedDrawable3.setIconSize(AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f));
-            str2 = "location_actionBackground";
+            str3 = "location_actionBackground";
             createSimpleSelectorCircleDrawable2 = combinedDrawable3;
-            str3 = "location_actionPressedBackground";
+            str2 = "location_actionPressedBackground";
         } else {
             StateListAnimator stateListAnimator3 = new StateListAnimator();
             ImageView imageView = this.locationButton;
             Property property3 = View.TRANSLATION_Z;
             ObjectAnimator ofFloat = ObjectAnimator.ofFloat(imageView, property3, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f));
-            str3 = "location_actionPressedBackground";
-            str2 = "location_actionBackground";
+            str2 = "location_actionPressedBackground";
+            str3 = "location_actionBackground";
             stateListAnimator3.addState(new int[]{16842919}, ofFloat.setDuration(200L));
             stateListAnimator3.addState(new int[0], ObjectAnimator.ofFloat(this.locationButton, property3, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.locationButton.setStateListAnimator(stateListAnimator3);
@@ -838,7 +840,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             }
         });
         this.proximityButton = new ImageView(context);
-        Drawable createSimpleSelectorCircleDrawable3 = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(40.0f), Theme.getColor(str2), Theme.getColor(str3));
+        Drawable createSimpleSelectorCircleDrawable3 = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(40.0f), Theme.getColor(str3), Theme.getColor(str2));
         if (i2 < 21) {
             Drawable mutate5 = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
             mutate5.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
@@ -1124,6 +1126,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         showSearchPlacesButton(false);
         this.adapter.searchPlacesWithQuery(null, this.userLocation, true, true);
@@ -1131,10 +1134,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         showResults();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view) {
         this.mapTypeButton.toggleSubMenu();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(int i) {
         GoogleMap googleMap = this.googleMap;
         if (googleMap == null) {
@@ -1150,6 +1155,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         GoogleMap googleMap;
         Activity parentActivity;
@@ -1181,6 +1187,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(View view) {
         if (getParentActivity() == null || this.myLocation == null || !checkGpsEnabled() || this.googleMap == null) {
             return;
@@ -1218,21 +1225,25 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         openProximityAlert();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4() {
         getLocationController().setProximityLocation(this.dialogId, 0, true);
         this.canUndo = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(LocationController.SharingLocationInfo sharingLocationInfo) {
         this.proximityButton.setImageResource(R.drawable.msg_location_alert2);
         createCircle(sharingLocationInfo.proximityMeters);
         this.canUndo = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$8() {
         updateClipView(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$14(View view, int i) {
         MessageObject messageObject;
         final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue;
@@ -1337,6 +1348,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$10(final AlertDialog[] alertDialogArr, final TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
@@ -1346,6 +1358,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$9(AlertDialog[] alertDialogArr, TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue) {
         try {
             alertDialogArr[0].dismiss();
@@ -1356,27 +1369,29 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$11(int i, DialogInterface dialogInterface) {
         getConnectionsManager().cancelRequest(i, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12(TLRPC$TL_messageMediaGeo tLRPC$TL_messageMediaGeo, boolean z, int i) {
         this.delegate.didSelectLocation(tLRPC$TL_messageMediaGeo, this.locationType, z, i);
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$13(Object obj, boolean z, int i) {
         this.delegate.didSelectLocation((TLRPC$TL_messageMediaVenue) obj, this.locationType, z, i);
         finishFragment();
     }
 
-    /* renamed from: org.telegram.ui.LocationActivity$11 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.LocationActivity$11  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass11 extends MapView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass11(Context context) {
             super(context);
-            LocationActivity.this = r1;
         }
 
         @Override // android.view.View
@@ -1450,6 +1465,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onLayout$0() {
             if (LocationActivity.this.moveToBounds != null) {
                 LocationActivity.this.googleMap.moveCamera(LocationActivity.this.moveToBounds);
@@ -1458,6 +1474,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$17(final MapView mapView) {
         try {
             mapView.onCreate(null);
@@ -1471,6 +1488,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$16(MapView mapView) {
         if (this.mapView == null || getParentActivity() == null) {
             return;
@@ -1494,6 +1512,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$15(GoogleMap googleMap) {
         this.googleMap = googleMap;
         if (isActiveThemeDark()) {
@@ -1504,11 +1523,13 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         onMapInit();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$18(ArrayList arrayList) {
         this.searchInProgress = false;
         updateEmptyView();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$20(View view, int i) {
         final TLRPC$TL_messageMediaVenue item = this.searchAdapter.getItem(i);
         if (item == null || this.delegate == null) {
@@ -1528,6 +1549,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$19(TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, boolean z, int i) {
         this.delegate.didSelectLocation(tLRPC$TL_messageMediaVenue, this.locationType, z, i);
         finishFragment();
@@ -1537,6 +1559,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return Theme.getActiveTheme().isDark() || AndroidUtilities.computePerceivedBrightness(Theme.getColor("windowBackgroundWhite")) < 0.721f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyView() {
         if (this.searching) {
             if (this.searchInProgress) {
@@ -1551,6 +1574,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.emptyView.setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showSearchPlacesButton(boolean z) {
         SearchButton searchButton;
         Location location;
@@ -1582,7 +1606,6 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     private Bitmap createUserBitmap(LiveLocation liveLocation) {
-        Throwable th;
         TLRPC$FileLocation tLRPC$FileLocation;
         TLRPC$ChatPhoto tLRPC$ChatPhoto;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
@@ -1641,14 +1664,14 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 } catch (Exception unused) {
                     return createBitmap;
                 }
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
                 bitmap = createBitmap;
                 FileLog.e(th);
                 return bitmap;
             }
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
         }
     }
 
@@ -1692,6 +1715,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.proximitySheet.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$openProximityAlert$21(boolean z, int i) {
         Circle circle = this.proximityCircle;
         if (circle != null) {
@@ -1719,6 +1743,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$openProximityAlert$23(final TLRPC$User tLRPC$User, boolean z, final int i) {
         if (getLocationController().getSharingLocationInfo(this.dialogId) == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
@@ -1741,10 +1766,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openProximityAlert$22(TLRPC$User tLRPC$User, int i, DialogInterface dialogInterface, int i2) {
         lambda$openShareLiveLocation$26(tLRPC$User, 900, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openProximityAlert$24() {
         GoogleMap googleMap = this.googleMap;
         if (googleMap != null) {
@@ -1765,6 +1792,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.proximitySheet = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openShareLiveLocation(final int i) {
         Activity parentActivity;
         if (this.delegate == null || getParentActivity() == null || this.myLocation == null || !checkGpsEnabled()) {
@@ -1794,10 +1822,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }, null));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openShareLiveLocation$25() {
         openShareLiveLocation(this.askWithRadius);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: shareLiveLocation */
     public void lambda$openShareLiveLocation$26(TLRPC$User tLRPC$User, int i, int i2) {
         TLRPC$TL_messageMediaGeoLive tLRPC$TL_messageMediaGeoLive = new TLRPC$TL_messageMediaGeoLive();
@@ -1848,6 +1878,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePlacesMarkers(ArrayList<TLRPC$TL_messageMediaVenue> arrayList) {
         if (arrayList == null) {
             return;
@@ -2069,6 +2100,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         createCircle(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$27(int i) {
         View childAt;
         RecyclerView.ViewHolder findContainingViewHolder;
@@ -2093,12 +2125,14 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$28(Location location) {
         positionMarker(location);
         getLocationController().setGoogleMapLocation(location, this.isFirstLocation);
         this.isFirstLocation = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onMapInit$29(Marker marker) {
         if (!(marker.getTag() instanceof VenueLocation)) {
             return true;
@@ -2113,6 +2147,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$30() {
         MapOverlayView mapOverlayView = this.overlayView;
         if (mapOverlayView != null) {
@@ -2145,6 +2180,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkGpsEnabled$31(DialogInterface dialogInterface, int i) {
         if (getParentActivity() == null) {
             return;
@@ -2185,6 +2221,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showPermissionAlert(boolean z) {
         if (getParentActivity() == null) {
             return;
@@ -2206,6 +2243,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPermissionAlert$32(DialogInterface dialogInterface, int i) {
         if (getParentActivity() == null) {
             return;
@@ -2254,6 +2292,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         ((FrameLayout) view).addView(this.mapView, 0, LayoutHelper.createFrame(-1, -1, 51));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void maybeShowProximityHint() {
         SharedPreferences globalMainSettings;
         int i;
@@ -2280,20 +2319,21 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateClipView(boolean z) {
         int i;
         int i2;
         FrameLayout.LayoutParams layoutParams;
         RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(0);
         if (findViewHolderForAdapterPosition != null) {
-            i2 = (int) findViewHolderForAdapterPosition.itemView.getY();
-            i = this.overScrollHeight + Math.min(i2, 0);
+            i = (int) findViewHolderForAdapterPosition.itemView.getY();
+            i2 = this.overScrollHeight + Math.min(i, 0);
         } else {
-            i2 = -this.mapViewClip.getMeasuredHeight();
-            i = 0;
+            i = -this.mapViewClip.getMeasuredHeight();
+            i2 = 0;
         }
         if (((FrameLayout.LayoutParams) this.mapViewClip.getLayoutParams()) != null) {
-            if (i <= 0) {
+            if (i2 <= 0) {
                 if (this.mapView.getVisibility() == 0) {
                     this.mapView.setVisibility(4);
                     this.mapViewClip.setVisibility(4);
@@ -2310,8 +2350,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                     mapOverlayView2.setVisibility(0);
                 }
             }
-            this.mapViewClip.setTranslationY(Math.min(0, i2));
-            int i3 = -i2;
+            this.mapViewClip.setTranslationY(Math.min(0, i));
+            int i3 = -i;
             int i4 = i3 / 2;
             this.mapView.setTranslationY(Math.max(0, i4));
             MapOverlayView mapOverlayView3 = this.overlayView;
@@ -2333,7 +2373,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             }
             View view = this.markerImageView;
             if (view != null) {
-                int dp = (i3 - AndroidUtilities.dp(view.getTag() == null ? 48.0f : 69.0f)) + (i / 2);
+                int dp = (i3 - AndroidUtilities.dp(view.getTag() == null ? 48.0f : 69.0f)) + (i2 / 2);
                 this.markerTop = dp;
                 view.setTranslationY(dp);
             }
@@ -2358,6 +2398,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void fixLayoutInternal(boolean z) {
         FrameLayout.LayoutParams layoutParams;
         if (this.listView != null) {
@@ -2420,6 +2461,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fixLayoutInternal$33(int i) {
         this.layoutManager.scrollToPositionWithOffset(0, -AndroidUtilities.dp(i));
         updateClipView(false);
@@ -2570,7 +2612,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:11:0x0084 -> B:24:0x010a). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:18:0x0084 -> B:10:0x010a). Please submit an issue!!! */
     private void moveToBounds(int i, boolean z, boolean z2) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(new LatLng(this.myLocation.getLatitude(), this.myLocation.getLongitude()));
@@ -2645,6 +2687,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return arrayList != null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getRecentLocations$36(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda23
@@ -2656,6 +2699,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getRecentLocations$35(TLObject tLObject, long j) {
         if (this.googleMap == null) {
             return;
@@ -2689,6 +2733,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         AndroidUtilities.runOnUIThread(runnable, 5000L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getRecentLocations$34() {
         Runnable runnable;
         getLocationController().markLiveLoactionsAsRead(this.dialogId);
@@ -2836,6 +2881,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return super.onBackPressed();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyHidden() {
         UndoView[] undoViewArr = this.undoView;
@@ -3007,6 +3053,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$37() {
         this.mapTypeButton.setIconColor(Theme.getColor("location_actionIcon"));
         this.mapTypeButton.redrawPopup(Theme.getColor("actionBarDefaultSubmenuBackground"));

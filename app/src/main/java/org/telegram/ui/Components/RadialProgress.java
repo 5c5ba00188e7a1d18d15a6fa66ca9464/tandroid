@@ -214,9 +214,9 @@ public class RadialProgress {
 
     public void draw(Canvas canvas) {
         Drawable drawable;
-        float f;
         int i;
-        float f2;
+        float centerX;
+        float centerY;
         int i2;
         Drawable drawable2;
         if (this.drawMiniProgress && this.currentDrawable != null) {
@@ -234,23 +234,23 @@ public class RadialProgress {
                 this.currentDrawable.draw(canvas);
             }
             if (Math.abs(this.progressRect.width() - AndroidUtilities.dp(44.0f)) < AndroidUtilities.density) {
-                i2 = 20;
-                float f3 = 16;
-                f2 = this.progressRect.centerX() + AndroidUtilities.dp(f3);
-                f = this.progressRect.centerY() + AndroidUtilities.dp(f3);
-                i = 0;
+                i = 20;
+                float f = 16;
+                centerX = this.progressRect.centerX() + AndroidUtilities.dp(f);
+                centerY = this.progressRect.centerY() + AndroidUtilities.dp(f);
+                i2 = 0;
             } else {
-                i2 = 22;
-                f2 = this.progressRect.centerX() + AndroidUtilities.dp(18.0f);
-                f = this.progressRect.centerY() + AndroidUtilities.dp(18.0f);
-                i = 2;
+                i = 22;
+                centerX = this.progressRect.centerX() + AndroidUtilities.dp(18.0f);
+                centerY = this.progressRect.centerY() + AndroidUtilities.dp(18.0f);
+                i2 = 2;
             }
-            int i3 = i2 / 2;
-            float f4 = (this.previousMiniDrawable == null || !this.alphaForMiniPrevious) ? 1.0f : this.animatedAlphaValue * this.overrideAlpha;
+            int i3 = i / 2;
+            float f2 = (this.previousMiniDrawable == null || !this.alphaForMiniPrevious) ? 1.0f : this.animatedAlphaValue * this.overrideAlpha;
             Canvas canvas2 = this.miniDrawCanvas;
             if (canvas2 != null) {
-                float f5 = i2 + 18 + i;
-                canvas2.drawCircle(AndroidUtilities.dp(f5), AndroidUtilities.dp(f5), AndroidUtilities.dp(i3 + 1) * f4, Theme.checkboxSquare_eraserPaint);
+                float f3 = i + 18 + i2;
+                canvas2.drawCircle(AndroidUtilities.dp(f3), AndroidUtilities.dp(f3), AndroidUtilities.dp(i3 + 1) * f2, Theme.checkboxSquare_eraserPaint);
             } else {
                 this.miniProgressBackgroundPaint.setColor(this.progressColor);
                 if (this.previousMiniDrawable != null && this.currentMiniDrawable == null) {
@@ -258,7 +258,7 @@ public class RadialProgress {
                 } else {
                     this.miniProgressBackgroundPaint.setAlpha(255);
                 }
-                canvas.drawCircle(f2, f, AndroidUtilities.dp(12.0f), this.miniProgressBackgroundPaint);
+                canvas.drawCircle(centerX, centerY, AndroidUtilities.dp(12.0f), this.miniProgressBackgroundPaint);
             }
             if (this.miniDrawCanvas != null) {
                 Bitmap bitmap = this.miniDrawBitmap;
@@ -272,8 +272,8 @@ public class RadialProgress {
                 } else {
                     drawable4.setAlpha((int) (this.overrideAlpha * 255.0f));
                 }
-                float f6 = i3;
-                this.previousMiniDrawable.setBounds((int) (f2 - (AndroidUtilities.dp(f6) * f4)), (int) (f - (AndroidUtilities.dp(f6) * f4)), (int) ((AndroidUtilities.dp(f6) * f4) + f2), (int) ((AndroidUtilities.dp(f6) * f4) + f));
+                float f4 = i3;
+                this.previousMiniDrawable.setBounds((int) (centerX - (AndroidUtilities.dp(f4) * f2)), (int) (centerY - (AndroidUtilities.dp(f4) * f2)), (int) ((AndroidUtilities.dp(f4) * f2) + centerX), (int) ((AndroidUtilities.dp(f4) * f2) + centerY));
                 this.previousMiniDrawable.draw(canvas);
             }
             if (!this.hideCurrentDrawable && (drawable2 = this.currentMiniDrawable) != null) {
@@ -282,8 +282,8 @@ public class RadialProgress {
                 } else {
                     drawable2.setAlpha((int) (this.overrideAlpha * 255.0f));
                 }
-                float f7 = i3;
-                this.currentMiniDrawable.setBounds((int) (f2 - AndroidUtilities.dp(f7)), (int) (f - AndroidUtilities.dp(f7)), (int) (AndroidUtilities.dp(f7) + f2), (int) (AndroidUtilities.dp(f7) + f));
+                float f5 = i3;
+                this.currentMiniDrawable.setBounds((int) (centerX - AndroidUtilities.dp(f5)), (int) (centerY - AndroidUtilities.dp(f5)), (int) (AndroidUtilities.dp(f5) + centerX), (int) (AndroidUtilities.dp(f5) + centerY));
                 this.currentMiniDrawable.draw(canvas);
             }
             if (this.currentMiniWithRound || this.previousMiniWithRound) {
@@ -293,8 +293,8 @@ public class RadialProgress {
                 } else {
                     this.miniProgressPaint.setAlpha((int) (this.overrideAlpha * 255.0f));
                 }
-                float f8 = i3 - 2;
-                this.cicleRect.set(f2 - (AndroidUtilities.dp(f8) * f4), f - (AndroidUtilities.dp(f8) * f4), f2 + (AndroidUtilities.dp(f8) * f4), f + (AndroidUtilities.dp(f8) * f4));
+                float f6 = i3 - 2;
+                this.cicleRect.set(centerX - (AndroidUtilities.dp(f6) * f2), centerY - (AndroidUtilities.dp(f6) * f2), centerX + (AndroidUtilities.dp(f6) * f2), centerY + (AndroidUtilities.dp(f6) * f2));
                 canvas.drawArc(this.cicleRect, this.radOffset - 90.0f, Math.max(4.0f, this.animatedProgressValue * 360.0f), false, this.miniProgressPaint);
                 updateAnimation(true);
                 return;
@@ -334,9 +334,9 @@ public class RadialProgress {
             }
             RectF rectF5 = this.cicleRect;
             RectF rectF6 = this.progressRect;
-            float f9 = rectF6.left;
+            float f7 = rectF6.left;
             int i4 = this.diff;
-            rectF5.set(f9 + i4, rectF6.top + i4, rectF6.right - i4, rectF6.bottom - i4);
+            rectF5.set(f7 + i4, rectF6.top + i4, rectF6.right - i4, rectF6.bottom - i4);
             canvas.drawArc(this.cicleRect, this.radOffset - 90.0f, Math.max(4.0f, this.animatedProgressValue * 360.0f), false, this.progressPaint);
             updateAnimation(true);
             return;

@@ -30,13 +30,13 @@ public final class Ac4Util {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:37:0x0086, code lost:
-        if (r10 != 11) goto L42;
+        if (r10 != 11) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x008b, code lost:
-        if (r10 != 11) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x008b, code lost:
+        if (r10 != 11) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0090, code lost:
-        if (r10 != 8) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0090, code lost:
+        if (r10 != 8) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

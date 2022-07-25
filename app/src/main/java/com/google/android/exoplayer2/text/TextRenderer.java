@@ -57,6 +57,7 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
     public void onStreamChanged(Format[] formatArr, long j) {
         Format format = formatArr[0];
@@ -84,7 +85,7 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         if (this.nextSubtitle == null) {
             this.decoder.setPositionUs(j);
             try {
-                this.nextSubtitle = this.decoder.dequeueOutputBuffer();
+                this.nextSubtitle = this.decoder.mo167dequeueOutputBuffer();
             } catch (SubtitleDecoderException e) {
                 handleDecoderError(e);
                 return;
@@ -136,9 +137,9 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         while (!this.inputStreamEnded) {
             try {
                 if (this.nextInputBuffer == null) {
-                    SubtitleInputBuffer dequeueInputBuffer = this.decoder.dequeueInputBuffer();
-                    this.nextInputBuffer = dequeueInputBuffer;
-                    if (dequeueInputBuffer == null) {
+                    SubtitleInputBuffer mo166dequeueInputBuffer = this.decoder.mo166dequeueInputBuffer();
+                    this.nextInputBuffer = mo166dequeueInputBuffer;
+                    if (mo166dequeueInputBuffer == null) {
                         return;
                     }
                 }

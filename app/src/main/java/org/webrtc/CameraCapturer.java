@@ -8,9 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.webrtc.CameraSession;
 import org.webrtc.CameraVideoCapturer;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
-public abstract class CameraCapturer implements CameraVideoCapturer {
+abstract class CameraCapturer implements CameraVideoCapturer {
     private static final int MAX_OPEN_CAMERA_ATTEMPTS = 3;
     private static final int OPEN_CAMERA_DELAY_MS = 500;
     private static final int OPEN_CAMERA_TIMEOUT = 10000;
@@ -174,6 +173,7 @@ public abstract class CameraCapturer implements CameraVideoCapturer {
     private final Object stateLock = new Object();
     private SwitchState switchState = SwitchState.IDLE;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public enum SwitchState {
         IDLE,
@@ -271,6 +271,7 @@ public abstract class CameraCapturer implements CameraVideoCapturer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void createSessionInternal(int i) {
         this.uiThreadHandler.postDelayed(this.openCameraTimeoutRunnable, i + 10000);
         this.cameraThreadHandler.postDelayed(new Runnable() { // from class: org.webrtc.CameraCapturer.5
@@ -373,6 +374,7 @@ public abstract class CameraCapturer implements CameraVideoCapturer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reportCameraSwitchError(String str, CameraVideoCapturer.CameraSwitchHandler cameraSwitchHandler) {
         Logging.e(TAG, str);
         if (cameraSwitchHandler != null) {
@@ -380,6 +382,7 @@ public abstract class CameraCapturer implements CameraVideoCapturer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void switchCameraInternal(CameraVideoCapturer.CameraSwitchHandler cameraSwitchHandler, String str) {
         Logging.d(TAG, "switchCamera internal");
         if (!Arrays.asList(this.cameraEnumerator.getDeviceNames()).contains(str)) {
@@ -422,6 +425,7 @@ public abstract class CameraCapturer implements CameraVideoCapturer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkIsOnCameraThread() {
         if (Thread.currentThread() == this.cameraThreadHandler.getLooper().getThread()) {
             return;

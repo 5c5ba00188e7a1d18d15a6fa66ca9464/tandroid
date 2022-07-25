@@ -8,6 +8,7 @@ import java.util.Iterator;
 final class N3 extends F3 {
     private ArrayList d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public N3(m3 m3Var, Comparator comparator) {
         super(m3Var, comparator);
     }

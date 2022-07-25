@@ -38,6 +38,7 @@ public final class H262Reader implements ElementaryStreamReader {
         this(null);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public H262Reader(UserDataReader userDataReader) {
         this.userDataReader = userDataReader;
         this.prefixFlags = new boolean[4];
@@ -156,35 +157,35 @@ public final class H262Reader implements ElementaryStreamReader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x006b  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x006b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static Pair<Format, Long> parseCsdBuffer(CsdBuffer csdBuffer, String str) {
         float f;
         int i;
-        int i2;
         float f2;
+        int i2;
         byte[] copyOf = Arrays.copyOf(csdBuffer.data, csdBuffer.length);
         int i3 = copyOf[5] & 255;
         int i4 = ((copyOf[4] & 255) << 4) | (i3 >> 4);
         int i5 = ((i3 & 15) << 8) | (copyOf[6] & 255);
         int i6 = (copyOf[7] & 240) >> 4;
         if (i6 == 2) {
-            f2 = i5 * 4;
-            i2 = i4 * 3;
+            f = i5 * 4;
+            i = i4 * 3;
         } else if (i6 == 3) {
-            f2 = i5 * 16;
-            i2 = i4 * 9;
+            f = i5 * 16;
+            i = i4 * 9;
         } else if (i6 != 4) {
-            f = 1.0f;
-            Format createVideoSampleFormat = Format.createVideoSampleFormat(str, "video/mpeg2", null, -1, -1, i4, i5, -1.0f, Collections.singletonList(copyOf), -1, f, null);
+            f2 = 1.0f;
+            Format createVideoSampleFormat = Format.createVideoSampleFormat(str, "video/mpeg2", null, -1, -1, i4, i5, -1.0f, Collections.singletonList(copyOf), -1, f2, null);
             long j = 0;
-            i = (copyOf[7] & 15) - 1;
-            if (i >= 0) {
+            i2 = (copyOf[7] & 15) - 1;
+            if (i2 >= 0) {
                 double[] dArr = FRAME_RATE_VALUES;
-                if (i < dArr.length) {
-                    double d = dArr[i];
+                if (i2 < dArr.length) {
+                    double d = dArr[i2];
                     int i7 = csdBuffer.sequenceExtensionPosition + 9;
                     int i8 = (copyOf[i7] & 96) >> 5;
                     int i9 = copyOf[i7] & 31;
@@ -200,18 +201,19 @@ public final class H262Reader implements ElementaryStreamReader {
             }
             return Pair.create(createVideoSampleFormat, Long.valueOf(j));
         } else {
-            f2 = i5 * 121;
-            i2 = i4 * 100;
+            f = i5 * 121;
+            i = i4 * 100;
         }
-        f = f2 / i2;
-        Format createVideoSampleFormat2 = Format.createVideoSampleFormat(str, "video/mpeg2", null, -1, -1, i4, i5, -1.0f, Collections.singletonList(copyOf), -1, f, null);
+        f2 = f / i;
+        Format createVideoSampleFormat2 = Format.createVideoSampleFormat(str, "video/mpeg2", null, -1, -1, i4, i5, -1.0f, Collections.singletonList(copyOf), -1, f2, null);
         long j2 = 0;
-        i = (copyOf[7] & 15) - 1;
-        if (i >= 0) {
+        i2 = (copyOf[7] & 15) - 1;
+        if (i2 >= 0) {
         }
         return Pair.create(createVideoSampleFormat2, Long.valueOf(j2));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CsdBuffer {
         private static final byte[] START_CODE = {0, 0, 1};

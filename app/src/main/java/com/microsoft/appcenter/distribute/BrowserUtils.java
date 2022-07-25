@@ -14,6 +14,7 @@ import java.util.List;
 import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 class BrowserUtils {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void openBrowser(String str, Activity activity) {
         try {
             openBrowserWithoutIntentChooser(str, activity);
@@ -36,23 +37,23 @@ class BrowserUtils {
         String str4 = null;
         if (resolveActivity != null) {
             ActivityInfo activityInfo = resolveActivity.activityInfo;
-            str2 = activityInfo.packageName;
-            str3 = activityInfo.name;
-            AppCenterLog.debug("AppCenterDistribute", "Default browser seems to be " + str2 + "/" + str3);
+            str3 = activityInfo.packageName;
+            str2 = activityInfo.name;
+            AppCenterLog.debug("AppCenterDistribute", "Default browser seems to be " + str3 + "/" + str2);
         } else {
-            str3 = null;
             str2 = null;
+            str3 = null;
         }
         Iterator<ResolveInfo> it = queryIntentActivities.iterator();
         while (true) {
             if (!it.hasNext()) {
-                str3 = null;
+                str2 = null;
                 break;
             }
             ActivityInfo activityInfo2 = it.next().activityInfo;
-            if (activityInfo2.packageName.equals(str2) && activityInfo2.name.equals(str3)) {
+            if (activityInfo2.packageName.equals(str3) && activityInfo2.name.equals(str2)) {
                 AppCenterLog.debug("AppCenterDistribute", "And its not the picker.");
-                str4 = str2;
+                str4 = str3;
                 break;
             }
         }
@@ -63,13 +64,14 @@ class BrowserUtils {
             AppCenterLog.debug("AppCenterDistribute", "Picking first browser in list.");
             ActivityInfo activityInfo3 = queryIntentActivities.iterator().next().activityInfo;
             str4 = activityInfo3.packageName;
-            str3 = activityInfo3.name;
+            str2 = activityInfo3.name;
         }
-        AppCenterLog.debug("AppCenterDistribute", "Launch browser=" + str4 + "/" + str3);
-        intent.setClassName(str4, str3);
+        AppCenterLog.debug("AppCenterDistribute", "Launch browser=" + str4 + "/" + str2);
+        intent.setClassName(str4, str2);
         activity.startActivity(intent);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String appendUri(String str, String str2) throws URISyntaxException {
         URI uri = new URI(str);
         String query = uri.getQuery();

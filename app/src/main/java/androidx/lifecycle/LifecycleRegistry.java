@@ -126,7 +126,8 @@ public class LifecycleRegistry extends Lifecycle {
         }
     }
 
-    /* renamed from: androidx.lifecycle.LifecycleRegistry$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: androidx.lifecycle.LifecycleRegistry$1  reason: invalid class name */
     /* loaded from: classes.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$Event;
@@ -278,6 +279,7 @@ public class LifecycleRegistry extends Lifecycle {
         return (state2 == null || state2.compareTo(state) >= 0) ? state : state2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class ObserverWithState {
         GenericLifecycleObserver mLifecycleObserver;

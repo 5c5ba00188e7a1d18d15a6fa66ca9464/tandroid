@@ -2,6 +2,8 @@ package com.google.android.gms.internal.vision;
 
 import com.huawei.hms.framework.common.ContainerUtils;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* JADX WARN: Incorrect field signature: TK; */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzlm implements Comparable<zzlm>, Map.Entry<K, V> {
@@ -9,10 +11,12 @@ public final class zzlm implements Comparable<zzlm>, Map.Entry<K, V> {
     private V zzb;
     private final /* synthetic */ zzlh zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzlm(zzlh zzlhVar, Map.Entry<K, V> entry) {
         this(zzlhVar, (Comparable) entry.getKey(), entry.getValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     public zzlm(zzlh zzlhVar, K k, V v) {
         this.zzc = zzlhVar;

@@ -1,12 +1,16 @@
 package j$.util.stream;
 
+import j$.util.u;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Spliterator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class Z3 extends e implements Iterable, j$.lang.e {
     Object e = c(16);
     Object[] f;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes2.dex */
     public abstract class a implements j$.util.w {
         int a;
@@ -15,14 +19,14 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         final int d;
         Object e;
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public a(int i, int i2, int i3, int i4) {
-            Z3.this = r1;
             this.a = i;
             this.b = i2;
             this.c = i3;
             this.d = i4;
-            Object[] objArr = r1.f;
-            this.e = objArr == null ? r1.e : objArr[i];
+            Object[] objArr = Z3.this.f;
+            this.e = objArr == null ? Z3.this.e : objArr[i];
         }
 
         abstract void a(Object obj, int i, Object obj2);
@@ -114,7 +118,26 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         }
 
         @Override // j$.util.w, j$.util.u
-        public j$.util.w trySplit() {
+        /* renamed from: trySplit */
+        public /* bridge */ /* synthetic */ j$.util.t mo350trySplit() {
+            return (j$.util.t) mo350trySplit();
+        }
+
+        @Override // j$.util.w, j$.util.u
+        /* renamed from: trySplit  reason: collision with other method in class */
+        public /* bridge */ /* synthetic */ u.a mo350trySplit() {
+            return (u.a) mo350trySplit();
+        }
+
+        @Override // j$.util.w, j$.util.u
+        /* renamed from: trySplit  reason: collision with other method in class */
+        public /* bridge */ /* synthetic */ j$.util.v mo350trySplit() {
+            return (j$.util.v) mo350trySplit();
+        }
+
+        @Override // j$.util.w, j$.util.u
+        /* renamed from: trySplit */
+        public j$.util.w mo350trySplit() {
             int i = this.a;
             int i2 = this.b;
             if (i < i2) {
@@ -142,9 +165,11 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Z3() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Z3(int i) {
         super(i);
     }
@@ -158,6 +183,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void A() {
         if (this.b == u(this.e)) {
             y();
@@ -229,7 +255,13 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
     }
 
     /* renamed from: spliterator */
-    public abstract j$.util.u mo71spliterator();
+    public abstract j$.util.u mo317spliterator();
+
+    @Override // java.lang.Iterable, j$.lang.e
+    /* renamed from: spliterator  reason: collision with other method in class */
+    public /* synthetic */ Spliterator mo317spliterator() {
+        return j$.wrappers.h.a(mo317spliterator());
+    }
 
     protected abstract void t(Object obj, int i, int i2, Object obj2);
 
@@ -243,6 +275,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         return u(this.f[i]) + this.d[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int w(long j) {
         if (this.c == 0) {
             if (j >= this.b) {
@@ -261,6 +294,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void x(long j) {
         int i;
         long v = v();

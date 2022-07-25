@@ -125,6 +125,7 @@ public final class CircleOptions extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CircleOptions(LatLng latLng, double d, float f, int i, int i2, float f2, boolean z, boolean z2, List<PatternItem> list) {
         this.zza = latLng;
         this.zzb = d;

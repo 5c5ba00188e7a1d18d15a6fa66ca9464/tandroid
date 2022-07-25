@@ -5,6 +5,7 @@ import com.google.zxing.ResultPoint;
 public final class QRCodeDecoderMetaData {
     private final boolean mirrored;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public QRCodeDecoderMetaData(boolean z) {
         this.mirrored = z;
     }

@@ -757,25 +757,25 @@ public class NetworkUtil {
 
     private static int getMobileSingalStrengthUpPPlatfrom(Context context) {
         SignalStrength signalStrength;
-        int i;
-        int i2 = Integer.MAX_VALUE;
+        int dbm;
+        int i = Integer.MAX_VALUE;
         if (Build.VERSION.SDK_INT > 28 && (signalStrength = getSignalStrength(context)) != null) {
             int networkType = getNetworkType(context);
             try {
                 if (networkType == 3) {
                     List cellSignalStrengths = signalStrength.getCellSignalStrengths(CellSignalStrengthCdma.class);
                     if (cellSignalStrengths.size() > 0) {
-                        i = ((CellSignalStrengthCdma) cellSignalStrengths.get(0)).getDbm();
+                        dbm = ((CellSignalStrengthCdma) cellSignalStrengths.get(0)).getDbm();
                     } else {
                         List cellSignalStrengths2 = signalStrength.getCellSignalStrengths(CellSignalStrengthTdscdma.class);
                         if (cellSignalStrengths2.size() > 0) {
-                            i = ((CellSignalStrengthTdscdma) cellSignalStrengths2.get(0)).getDbm();
+                            dbm = ((CellSignalStrengthTdscdma) cellSignalStrengths2.get(0)).getDbm();
                         } else {
                             List cellSignalStrengths3 = signalStrength.getCellSignalStrengths(CellSignalStrengthWcdma.class);
                             if (cellSignalStrengths3.size() <= 0) {
                                 return Integer.MAX_VALUE;
                             }
-                            i = ((CellSignalStrengthWcdma) cellSignalStrengths3.get(0)).getDbm();
+                            dbm = ((CellSignalStrengthWcdma) cellSignalStrengths3.get(0)).getDbm();
                         }
                     }
                 } else if (networkType == 4) {
@@ -783,7 +783,7 @@ public class NetworkUtil {
                     if (cellSignalStrengths4.size() <= 0) {
                         return Integer.MAX_VALUE;
                     }
-                    i = ((CellSignalStrengthLte) cellSignalStrengths4.get(0)).getDbm();
+                    dbm = ((CellSignalStrengthLte) cellSignalStrengths4.get(0)).getDbm();
                 } else if (networkType != 5) {
                     return Integer.MAX_VALUE;
                 } else {
@@ -791,14 +791,14 @@ public class NetworkUtil {
                     if (cellSignalStrengths5.size() <= 0) {
                         return Integer.MAX_VALUE;
                     }
-                    i = ((CellSignalStrengthNr) cellSignalStrengths5.get(0)).getDbm();
+                    dbm = ((CellSignalStrengthNr) cellSignalStrengths5.get(0)).getDbm();
                 }
-                i2 = i;
-                return i2;
+                i = dbm;
+                return i;
             } catch (Throwable th) {
                 String str = TAG;
                 Logger.i(str, "getMobileSingalStrength: throwable:" + th.getClass());
-                return i2;
+                return i;
             }
         }
         return Integer.MAX_VALUE;

@@ -112,10 +112,12 @@ public final class FloatingActionMode extends ActionMode {
         setFloatingToolbar(floatingToolbar);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$0(MenuItem menuItem) {
         return this.mCallback.onActionItemClicked(this, menuItem);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$setFloatingToolbar$1(MenuItem menuItem) {
         return this.mCallback.onActionItemClicked(this, menuItem);
     }
@@ -258,10 +260,12 @@ public final class FloatingActionMode extends ActionMode {
         this.mOriginatingView.removeCallbacks(this.mHideOff);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isViewStillActive() {
         return this.mOriginatingView.getWindowVisibility() == 0 && this.mOriginatingView.isShown();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static final class FloatingToolbarVisibilityHelper {
         private boolean mActive;

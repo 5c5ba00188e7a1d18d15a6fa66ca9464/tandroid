@@ -331,10 +331,12 @@ public class GroupCallRenderersContainer extends FrameLayout {
         setIsTablet(GroupCallActivity.isTabletMode);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         onBackPressed();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         if (this.inFullscreenMode) {
             boolean z = !this.hasPinnedVideo;
@@ -344,6 +346,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(GroupCallActivity groupCallActivity, View view) {
         if (isRtmpStream()) {
             if (AndroidUtilities.checkInlinePermissions(groupCallActivity.getParentActivity())) {
@@ -382,6 +385,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup
     public boolean drawChild(Canvas canvas, View view, long j) {
         if (this.drawFirst) {
@@ -434,24 +438,24 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0459  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x0466  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x04aa  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x04b2  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x04bd A[LOOP:1: B:155:0x04bd->B:162:0x0516, LOOP_START, PHI: r10 
-      PHI: (r10v1 int) = (r10v0 int), (r10v2 int) binds: [B:154:0x04bb, B:162:0x0516] A[DONT_GENERATE, DONT_INLINE]] */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x0519 A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0466  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0459  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x04aa  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x04bd A[LOOP:1: B:84:0x04bd->B:92:0x0516, LOOP_START, PHI: r10 
+      PHI: (r10v1 int) = (r10v0 int), (r10v2 int) binds: [B:83:0x04bb, B:92:0x0516] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0519 A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x04b2  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void dispatchDraw(Canvas canvas) {
-        int dp;
         GroupCallMiniTextureView groupCallMiniTextureView;
+        int dp;
         GroupCallMiniTextureView groupCallMiniTextureView2;
-        float f;
-        float f2;
         GroupCallMiniTextureView groupCallMiniTextureView3;
+        float f;
+        float alpha;
         if (GroupCallActivity.isTabletMode) {
             this.drawRenderesOnly = true;
             super.dispatchDraw(canvas);
@@ -463,12 +467,12 @@ public class GroupCallRenderersContainer extends FrameLayout {
         if (this.outFullscreenTextureView != null || this.fullscreenTextureView != null) {
             float y = this.listView.getY() - getTop();
             float measuredHeight = (this.listView.getMeasuredHeight() + y) - this.listView.getTranslationY();
-            float f3 = this.progressToFullscreenMode;
+            float f2 = this.progressToFullscreenMode;
             canvas.save();
             boolean z = GroupCallActivity.isTabletMode;
-            if (!z && (groupCallMiniTextureView3 = this.fullscreenTextureView) != null && !groupCallMiniTextureView3.forceDetached && groupCallMiniTextureView3.primaryView != null) {
-                float f4 = 1.0f - f3;
-                canvas.clipRect(0.0f, y * f4, getMeasuredWidth(), (measuredHeight * f4) + (getMeasuredHeight() * f3));
+            if (!z && (groupCallMiniTextureView = this.fullscreenTextureView) != null && !groupCallMiniTextureView.forceDetached && groupCallMiniTextureView.primaryView != null) {
+                float f3 = 1.0f - f2;
+                canvas.clipRect(0.0f, y * f3, getMeasuredWidth(), (measuredHeight * f3) + (getMeasuredHeight() * f2));
             } else if (z) {
                 canvas.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
             }
@@ -503,12 +507,12 @@ public class GroupCallRenderersContainer extends FrameLayout {
         for (int i = 0; i < 2; i++) {
             if (this.undoView[i].getVisibility() == 0) {
                 canvas.save();
-                float f5 = GroupCallActivity.isLandscapeMode ? 0.0f : (-AndroidUtilities.dp(90.0f)) * (1.0f - this.progressToHideUi);
-                canvas.clipRect(0.0f, 0.0f, getMeasuredWidth(), ((getMeasuredHeight() - (GroupCallActivity.isLandscapeMode ? 0 : AndroidUtilities.dp(90.0f))) + f5) - AndroidUtilities.dp(18.0f));
+                float f4 = GroupCallActivity.isLandscapeMode ? 0.0f : (-AndroidUtilities.dp(90.0f)) * (1.0f - this.progressToHideUi);
+                canvas.clipRect(0.0f, 0.0f, getMeasuredWidth(), ((getMeasuredHeight() - (GroupCallActivity.isLandscapeMode ? 0 : AndroidUtilities.dp(90.0f))) + f4) - AndroidUtilities.dp(18.0f));
                 if (this.isTablet) {
                     canvas.translate(this.undoView[i].getX() - AndroidUtilities.dp(8.0f), this.undoView[i].getY() - AndroidUtilities.dp(8.0f));
                 } else {
-                    canvas.translate(this.undoView[i].getX() - AndroidUtilities.dp(8.0f), ((this.undoView[i].getY() - (GroupCallActivity.isLandscapeMode ? 0 : AndroidUtilities.dp(90.0f))) + f5) - AndroidUtilities.dp(26.0f));
+                    canvas.translate(this.undoView[i].getX() - AndroidUtilities.dp(8.0f), ((this.undoView[i].getY() - (GroupCallActivity.isLandscapeMode ? 0 : AndroidUtilities.dp(90.0f))) + f4) - AndroidUtilities.dp(26.0f));
                 }
                 if (this.undoView[i].getAlpha() != 1.0f) {
                     canvas.saveLayerAlpha(0.0f, 0.0f, this.undoView[i].getMeasuredWidth(), this.undoView[i].getMeasuredHeight(), (int) (this.undoView[i].getAlpha() * 255.0f), 31);
@@ -521,19 +525,19 @@ public class GroupCallRenderersContainer extends FrameLayout {
                 canvas.restore();
             }
         }
-        float f6 = this.progressToFullscreenMode * (1.0f - this.progressToHideUi);
-        if (this.replaceFullscreenViewAnimator != null && (groupCallMiniTextureView = this.outFullscreenTextureView) != null && (groupCallMiniTextureView2 = this.fullscreenTextureView) != null) {
-            boolean z3 = groupCallMiniTextureView.hasVideo;
-            boolean z4 = groupCallMiniTextureView2.hasVideo;
+        float f5 = this.progressToFullscreenMode * (1.0f - this.progressToHideUi);
+        if (this.replaceFullscreenViewAnimator != null && (groupCallMiniTextureView2 = this.outFullscreenTextureView) != null && (groupCallMiniTextureView3 = this.fullscreenTextureView) != null) {
+            boolean z3 = groupCallMiniTextureView2.hasVideo;
+            boolean z4 = groupCallMiniTextureView3.hasVideo;
             if (z3 != z4) {
                 if (!z4) {
-                    f2 = 1.0f - groupCallMiniTextureView2.getAlpha();
+                    alpha = 1.0f - groupCallMiniTextureView3.getAlpha();
                 } else {
-                    f2 = groupCallMiniTextureView2.getAlpha();
+                    alpha = groupCallMiniTextureView3.getAlpha();
                 }
-                f = f2 * f6;
+                f = alpha * f5;
             } else {
-                f = !z4 ? 0.0f : f6;
+                f = !z4 ? 0.0f : f5;
             }
             int i2 = (int) (f * 255.0f);
             this.topShadowDrawable.setAlpha(i2);
@@ -541,20 +545,20 @@ public class GroupCallRenderersContainer extends FrameLayout {
         } else {
             GroupCallMiniTextureView groupCallMiniTextureView6 = this.fullscreenTextureView;
             if (groupCallMiniTextureView6 != null) {
-                float f7 = 255.0f * f6;
-                this.topShadowDrawable.setAlpha((int) ((1.0f - groupCallMiniTextureView6.progressToNoVideoStub) * f7));
-                this.rightShadowDrawable.setAlpha((int) (f7 * (1.0f - this.fullscreenTextureView.progressToNoVideoStub)));
+                float f6 = 255.0f * f5;
+                this.topShadowDrawable.setAlpha((int) ((1.0f - groupCallMiniTextureView6.progressToNoVideoStub) * f6));
+                this.rightShadowDrawable.setAlpha((int) (f6 * (1.0f - this.fullscreenTextureView.progressToNoVideoStub)));
             } else {
-                int i3 = (int) (255.0f * f6);
+                int i3 = (int) (255.0f * f5);
                 this.topShadowDrawable.setAlpha(i3);
                 this.rightShadowDrawable.setAlpha(i3);
             }
         }
-        this.backButton.setAlpha(f6);
+        this.backButton.setAlpha(f5);
         if (isRtmpStream()) {
             this.pinButton.setAlpha(0.0f);
             this.pinButton.setVisibility(4);
-            this.pipView.setAlpha(f6);
+            this.pipView.setAlpha(f5);
             this.pipView.setVisibility(0);
             if (GroupCallActivity.isLandscapeMode) {
                 this.pipView.setTranslationX((-AndroidUtilities.dp(72.0f)) * (1.0f - this.progressToHideUi));
@@ -562,7 +566,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                 this.pipView.setTranslationX(0.0f);
             }
         } else {
-            this.pinButton.setAlpha(f6);
+            this.pinButton.setAlpha(f5);
             this.pinButton.setVisibility(0);
             this.pipView.setAlpha(0.0f);
             this.pipView.setVisibility(4);
@@ -574,28 +578,28 @@ public class GroupCallRenderersContainer extends FrameLayout {
         } else {
             dp = GroupCallActivity.isLandscapeMode ? AndroidUtilities.dp(180.0f) : 0;
         }
-        float f8 = measuredWidth - dp;
-        this.pinTextView.setTranslationX(f8);
-        this.unpinTextView.setTranslationX(f8);
+        float f7 = measuredWidth - dp;
+        this.pinTextView.setTranslationX(f7);
+        this.unpinTextView.setTranslationX(f7);
         this.pinTextView.setTranslationY(currentActionBarHeight);
         this.unpinTextView.setTranslationY(currentActionBarHeight);
-        this.pinContainer.setTranslationX(f8 - AndroidUtilities.dp(36.0f));
+        this.pinContainer.setTranslationX(f7 - AndroidUtilities.dp(36.0f));
         this.pinContainer.setTranslationY((ActionBar.getCurrentActionBarHeight() - this.pinContainer.getMeasuredHeight()) / 2.0f);
-        this.pinButton.setTranslationX(f8 - AndroidUtilities.dp(44.0f));
+        this.pinButton.setTranslationX(f7 - AndroidUtilities.dp(44.0f));
         if (isRtmpStream()) {
             this.pinTextView.setAlpha(0.0f);
             this.unpinTextView.setAlpha(0.0f);
             this.pinContainer.setAlpha(0.0f);
         } else {
-            this.pinTextView.setAlpha((1.0f - this.pinDrawable.getProgress()) * f6);
-            this.unpinTextView.setAlpha(this.pinDrawable.getProgress() * f6);
-            this.pinContainer.setAlpha(f6);
+            this.pinTextView.setAlpha((1.0f - this.pinDrawable.getProgress()) * f5);
+            this.unpinTextView.setAlpha(this.pinDrawable.getProgress() * f5);
+            this.pinContainer.setAlpha(f5);
         }
-        float f9 = this.speakingMembersToastChangeProgress;
-        if (f9 != 1.0f) {
-            float f10 = f9 + 0.07272727f;
-            this.speakingMembersToastChangeProgress = f10;
-            if (f10 > 1.0f) {
+        float f8 = this.speakingMembersToastChangeProgress;
+        if (f8 != 1.0f) {
+            float f9 = f8 + 0.07272727f;
+            this.speakingMembersToastChangeProgress = f9;
+            if (f9 > 1.0f) {
                 this.speakingMembersToastChangeProgress = 1.0f;
             } else {
                 invalidate();
@@ -604,11 +608,11 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
         boolean z5 = this.showSpeakingMembersToast;
         if (z5) {
-            float f11 = this.showSpeakingMembersToastProgress;
-            if (f11 != 1.0f) {
-                float f12 = f11 + 0.10666667f;
-                this.showSpeakingMembersToastProgress = f12;
-                if (f12 > 1.0f) {
+            float f10 = this.showSpeakingMembersToastProgress;
+            if (f10 != 1.0f) {
+                float f11 = f10 + 0.10666667f;
+                this.showSpeakingMembersToastProgress = f11;
+                if (f11 > 1.0f) {
                     this.showSpeakingMembersToastProgress = 1.0f;
                 } else {
                     invalidate();
@@ -645,11 +649,11 @@ public class GroupCallRenderersContainer extends FrameLayout {
             }
         }
         if (!z5) {
-            float f13 = this.showSpeakingMembersToastProgress;
-            if (f13 != 0.0f) {
-                float f14 = f13 - 0.10666667f;
-                this.showSpeakingMembersToastProgress = f14;
-                if (f14 < 0.0f) {
+            float f12 = this.showSpeakingMembersToastProgress;
+            if (f12 != 0.0f) {
+                float f13 = f12 - 0.10666667f;
+                this.showSpeakingMembersToastProgress = f13;
+                if (f13 < 0.0f) {
                     this.showSpeakingMembersToastProgress = 0.0f;
                 } else {
                     invalidate();
@@ -667,10 +671,10 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x01df  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01ae  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x01b5  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x01df  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1120,6 +1124,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         animateSwipeToBack(z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestFullscreen$3(final GroupCallMiniTextureView groupCallMiniTextureView, final GroupCallMiniTextureView groupCallMiniTextureView2) {
         ValueAnimator valueAnimator = this.replaceFullscreenViewAnimator;
         if (valueAnimator != null) {
@@ -1144,6 +1149,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestFullscreen$4(final GroupCallMiniTextureView groupCallMiniTextureView) {
         groupCallMiniTextureView.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.11
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1153,11 +1159,13 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }).setDuration(150L).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestFullscreen$5(GroupCallMiniTextureView groupCallMiniTextureView, ValueAnimator valueAnimator) {
         groupCallMiniTextureView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestFullscreen$6(ValueAnimator valueAnimator) {
         this.progressToFullscreenMode = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.groupCallActivity.getMenuItemsContainer().setAlpha(1.0f - this.progressToFullscreenMode);
@@ -1166,6 +1174,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         update();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void clearCurrentFullscreenTextureView() {
         GroupCallMiniTextureView groupCallMiniTextureView = this.fullscreenTextureView;
         if (groupCallMiniTextureView != null) {
@@ -1174,10 +1183,12 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void update() {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setUiVisible(boolean z) {
         if (this.uiVisible != z) {
             this.uiVisible = z;
@@ -1199,6 +1210,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean canHideUI() {
         return this.inFullscreenMode;
     }
@@ -1208,7 +1220,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         return onTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x025d  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x025d  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1393,7 +1405,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
     }
 
     private void animateSwipeToBack(boolean z) {
-        ValueAnimator valueAnimator;
+        ValueAnimator ofFloat;
         if (this.swipeToBackGesture) {
             this.swipeToBackGesture = false;
             float[] fArr = new float[2];
@@ -1401,17 +1413,17 @@ public class GroupCallRenderersContainer extends FrameLayout {
             if (z) {
                 fArr[0] = f;
                 fArr[1] = 0.0f;
-                valueAnimator = ValueAnimator.ofFloat(fArr);
+                ofFloat = ValueAnimator.ofFloat(fArr);
             } else {
                 fArr[0] = f;
                 fArr[1] = 0.0f;
-                valueAnimator = ValueAnimator.ofFloat(fArr);
+                ofFloat = ValueAnimator.ofFloat(fArr);
             }
-            this.swipeToBackAnimator = valueAnimator;
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda1
+            this.swipeToBackAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    GroupCallRenderersContainer.this.lambda$animateSwipeToBack$7(valueAnimator2);
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    GroupCallRenderersContainer.this.lambda$animateSwipeToBack$7(valueAnimator);
                 }
             });
             this.swipeToBackAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.15
@@ -1424,9 +1436,9 @@ public class GroupCallRenderersContainer extends FrameLayout {
                     groupCallRenderersContainer.invalidate();
                 }
             });
-            ValueAnimator valueAnimator2 = this.swipeToBackAnimator;
+            ValueAnimator valueAnimator = this.swipeToBackAnimator;
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
-            valueAnimator2.setInterpolator(cubicBezierInterpolator);
+            valueAnimator.setInterpolator(cubicBezierInterpolator);
             this.swipeToBackAnimator.setDuration(z ? 350L : 200L);
             this.swipeToBackAnimator.setInterpolator(cubicBezierInterpolator);
             GroupCallMiniTextureView groupCallMiniTextureView = this.fullscreenTextureView;
@@ -1440,6 +1452,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         this.maybeSwipeToBackGesture = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateSwipeToBack$7(ValueAnimator valueAnimator) {
         this.swipeToBackDy = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -1479,6 +1492,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         this.isInPinchToZoomTouchMode = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$finishZoom$8(float f, float f2, float f3, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.pinchScale = (f * floatValue) + ((1.0f - floatValue) * 1.0f);
@@ -1688,6 +1702,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         this.speakingMembersAvatars.commitTransition(z2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVisibleParticipant$9() {
         this.updateTooltipRunnbale = null;
         setVisibleParticipant(true);

@@ -203,6 +203,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         this.emojiButton.setContentDescription(LocaleController.getString("Emoji", R.string.Emoji));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.emojiButton.isEnabled()) {
             AdjustPanLayoutHelper adjustPanLayoutHelper = this.adjustPanLayoutHelper;
@@ -389,6 +390,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hidePopup$1(int i, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.emojiView.setTranslationY(floatValue);
@@ -425,6 +427,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void showPopup(int i) {
         if (i == 1) {
             EmojiView emojiView = this.emojiView;
@@ -511,6 +514,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         onWindowSizeChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPopup$2(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.emojiView.setTranslationY(floatValue);
@@ -542,7 +546,8 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         this.sizeNotifierLayout.addView(this.emojiView);
     }
 
-    /* renamed from: org.telegram.ui.Components.EditTextEmoji$5 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.EditTextEmoji$5  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass5 implements EmojiView.EmojiViewDelegate {
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
@@ -641,7 +646,6 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
 
         AnonymousClass5() {
-            EditTextEmoji.this = r1;
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
@@ -721,6 +725,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onClearEmojiRecent$0(DialogInterface dialogInterface, int i) {
             EditTextEmoji.this.emojiView.clearRecentEmoji();
         }

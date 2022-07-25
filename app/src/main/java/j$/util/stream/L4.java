@@ -1,9 +1,9 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class L4 extends f4 {
+final class L4 extends f4 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public L4(y2 y2Var, j$.util.function.y yVar, boolean z) {
         super(y2Var, yVar, z);
     }

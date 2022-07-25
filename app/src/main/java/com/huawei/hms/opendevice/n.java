@@ -18,6 +18,7 @@ import org.json.JSONObject;
 /* loaded from: classes.dex */
 public class n {
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: ReportAaidToken.java */
     /* loaded from: classes.dex */
     public enum a {
@@ -46,6 +47,7 @@ public class n {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: ReportAaidToken.java */
     /* loaded from: classes.dex */
     public enum b {

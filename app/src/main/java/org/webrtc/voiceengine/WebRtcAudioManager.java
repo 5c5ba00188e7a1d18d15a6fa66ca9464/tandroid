@@ -79,9 +79,8 @@ public class WebRtcAudioManager {
         return z;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class VolumeLogger {
+    private static class VolumeLogger {
         private static final String THREAD_NAME = "WebRtcVolumeLevelLoggerThread";
         private static final int TIMER_PERIOD_IN_SECONDS = 30;
         private final AudioManager audioManager;
@@ -97,13 +96,13 @@ public class WebRtcAudioManager {
             timer.schedule(new LogVolumeTask(this.audioManager.getStreamMaxVolume(2), this.audioManager.getStreamMaxVolume(0)), 0L, 30000L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class LogVolumeTask extends TimerTask {
             private final int maxRingVolume;
             private final int maxVoiceCallVolume;
 
             LogVolumeTask(int i, int i2) {
-                VolumeLogger.this = r1;
                 this.maxRingVolume = i;
                 this.maxVoiceCallVolume = i2;
             }
@@ -120,6 +119,7 @@ public class WebRtcAudioManager {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void stop() {
             Timer timer = this.timer;
             if (timer != null) {
@@ -167,13 +167,13 @@ public class WebRtcAudioManager {
     }
 
     private boolean isDeviceBlacklistedForOpenSLESUsage() {
-        boolean z;
+        boolean deviceIsBlacklistedForOpenSLESUsage;
         if (blacklistDeviceForOpenSLESUsageIsOverridden) {
-            z = blacklistDeviceForOpenSLESUsage;
+            deviceIsBlacklistedForOpenSLESUsage = blacklistDeviceForOpenSLESUsage;
         } else {
-            z = WebRtcAudioUtils.deviceIsBlacklistedForOpenSLESUsage();
+            deviceIsBlacklistedForOpenSLESUsage = WebRtcAudioUtils.deviceIsBlacklistedForOpenSLESUsage();
         }
-        if (z) {
+        if (deviceIsBlacklistedForOpenSLESUsage) {
             Logging.d(TAG, Build.MODEL + " is blacklisted for OpenSL ES usage!");
             return blacklistDeviceForAAudioUsage;
         }

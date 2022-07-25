@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import org.webrtc.MediaStreamTrack;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AudioFocusManager {
     private AudioAttributes audioAttributes;
@@ -189,6 +190,7 @@ public final class AudioFocusManager {
         playerControl.setVolumeMultiplier(f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handlePlatformAudioFocusChange(int i) {
         if (i == -3 || i == -2) {
             if (i == -2 || willPauseWhenDucked()) {
@@ -215,15 +217,16 @@ public final class AudioFocusManager {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class AudioFocusListener implements AudioManager.OnAudioFocusChangeListener {
         private final Handler eventHandler;
 
         public AudioFocusListener(Handler handler) {
-            AudioFocusManager.this = r1;
             this.eventHandler = handler;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAudioFocusChange$0(int i) {
             AudioFocusManager.this.handlePlatformAudioFocusChange(i);
         }

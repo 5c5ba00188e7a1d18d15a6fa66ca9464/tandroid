@@ -23,6 +23,7 @@ public class FileVideoCapturer implements VideoCapturer {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public interface VideoReader {
         void close();

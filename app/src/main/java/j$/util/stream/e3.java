@@ -9,12 +9,15 @@ import j$.util.function.Predicate;
 import j$.util.function.ToIntFunction;
 import java.util.Comparator;
 import java.util.Iterator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class e3 extends c implements Stream {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public e3(c cVar, int i) {
         super(cVar, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public e3(j$.util.u uVar, int i, boolean z) {
         super(uVar, i, z);
     }
@@ -32,6 +35,7 @@ public abstract class e3 extends c implements Stream {
         return x0(new z2(e4.REFERENCE, bVar, biFunction, obj));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public final e4 B0() {
         return e4.REFERENCE;
@@ -78,16 +82,16 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final Object b0(j$.wrappers.J0 j0) {
-        Object obj;
+        Object x0;
         if (!isParallel() || !j0.b().contains(h.CONCURRENT) || (C0() && !j0.b().contains(h.UNORDERED))) {
             j0.getClass();
             j$.util.function.y f = j0.f();
-            obj = x0(new I2(e4.REFERENCE, j0.c(), j0.a(), f, j0));
+            x0 = x0(new I2(e4.REFERENCE, j0.c(), j0.a(), f, j0));
         } else {
-            obj = j0.f().get();
-            forEach(new o(j0.a(), obj));
+            x0 = j0.f().get();
+            forEach(new o(j0.a(), x0));
         }
-        return j0.b().contains(h.IDENTITY_FINISH) ? obj : j0.e().apply(obj);
+        return j0.b().contains(h.IDENTITY_FINISH) ? x0 : j0.e().apply(x0);
     }
 
     @Override // j$.util.stream.Stream
@@ -147,8 +151,8 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    public final Iterator mo66iterator() {
-        return j$.util.L.i(spliterator());
+    public final Iterator mo331iterator() {
+        return j$.util.L.i(mo334spliterator());
     }
 
     @Override // j$.util.stream.Stream
@@ -226,6 +230,7 @@ public abstract class e3 extends c implements Stream {
         return (Optional) x0(new D2(e4.REFERENCE, bVar));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
     public final s1 t0(long j, j$.util.function.m mVar) {
         return x2.d(j, mVar);

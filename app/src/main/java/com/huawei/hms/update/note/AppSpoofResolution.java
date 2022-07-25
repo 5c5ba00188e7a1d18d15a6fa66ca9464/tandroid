@@ -20,7 +20,6 @@ public class AppSpoofResolution implements IBridgeActivityDelegate {
     /* loaded from: classes.dex */
     public class a implements AbstractDialog.Callback {
         public a() {
-            AppSpoofResolution.this = r1;
         }
 
         @Override // com.huawei.hms.ui.AbstractDialog.Callback

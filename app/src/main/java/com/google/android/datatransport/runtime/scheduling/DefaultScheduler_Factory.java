@@ -24,8 +24,9 @@ public final class DefaultScheduler_Factory implements Factory<DefaultScheduler>
     }
 
     @Override // javax.inject.Provider
-    public DefaultScheduler get() {
-        return newInstance(this.executorProvider.get(), this.backendRegistryProvider.get(), this.workSchedulerProvider.get(), this.eventStoreProvider.get(), this.guardProvider.get());
+    /* renamed from: get */
+    public DefaultScheduler mo70get() {
+        return newInstance(this.executorProvider.mo70get(), this.backendRegistryProvider.mo70get(), this.workSchedulerProvider.mo70get(), this.eventStoreProvider.mo70get(), this.guardProvider.mo70get());
     }
 
     public static DefaultScheduler_Factory create(Provider<Executor> provider, Provider<BackendRegistry> provider2, Provider<WorkScheduler> provider3, Provider<EventStore> provider4, Provider<SynchronizationGuard> provider5) {

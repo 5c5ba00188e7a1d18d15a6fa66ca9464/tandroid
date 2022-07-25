@@ -35,15 +35,15 @@ public abstract class Representation {
     }
 
     private Representation(long j, Format format, String str, SegmentBase segmentBase, List<Descriptor> list) {
-        List<Descriptor> list2;
+        List<Descriptor> unmodifiableList;
         this.format = format;
         this.baseUrl = str;
         if (list == null) {
-            list2 = Collections.emptyList();
+            unmodifiableList = Collections.emptyList();
         } else {
-            list2 = Collections.unmodifiableList(list);
+            unmodifiableList = Collections.unmodifiableList(list);
         }
-        this.inbandEventStreams = list2;
+        this.inbandEventStreams = unmodifiableList;
         this.initializationUri = segmentBase.getInitialization(this);
         this.presentationTimeOffsetUs = segmentBase.getPresentationTimeOffsetUs();
     }

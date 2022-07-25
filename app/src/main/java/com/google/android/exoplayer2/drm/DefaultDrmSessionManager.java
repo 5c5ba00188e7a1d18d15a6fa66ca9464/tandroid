@@ -47,6 +47,7 @@ public class DefaultDrmSessionManager<T extends ExoMediaCrypto> implements DrmSe
     private final int[] useDrmSessionsForClearContentTrackTypes;
     private final UUID uuid;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class ProvisioningManagerImpl implements DefaultDrmSession.ProvisioningManager<T> {
     }
@@ -196,6 +197,7 @@ public class DefaultDrmSessionManager<T extends ExoMediaCrypto> implements DrmSe
         }, list, this.mode, this.playClearSamplesWithoutKeys | z, z, this.offlineLicenseKeySetId, this.keyRequestParameters, this.callback, (Looper) Assertions.checkNotNull(this.playbackLooper), this.eventDispatcher, this.loadErrorHandlingPolicy);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onSessionReleased(DefaultDrmSession<T> defaultDrmSession) {
         this.sessions.remove(defaultDrmSession);
         if (this.placeholderDrmSession == defaultDrmSession) {
@@ -221,13 +223,12 @@ public class DefaultDrmSessionManager<T extends ExoMediaCrypto> implements DrmSe
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
     public class MediaDrmHandler extends Handler {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public MediaDrmHandler(Looper looper) {
             super(looper);
-            DefaultDrmSessionManager.this = r1;
         }
 
         @Override // android.os.Handler

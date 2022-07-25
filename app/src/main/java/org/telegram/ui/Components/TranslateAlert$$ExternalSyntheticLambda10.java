@@ -9,6 +9,6 @@ public final /* synthetic */ class TranslateAlert$$ExternalSyntheticLambda10 imp
 
     @Override // java.lang.Runnable
     public final void run() {
-        this.f$0.checkForNextLoading();
+        TranslateAlert.m1689$r8$lambda$mwKSKbgsZrQySWppXYXfqWZUA4(this.f$0);
     }
 }

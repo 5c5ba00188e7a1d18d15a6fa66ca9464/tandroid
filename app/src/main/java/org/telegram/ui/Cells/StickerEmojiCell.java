@@ -126,12 +126,6 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
         return sendAnimationData;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x01e4, code lost:
-        r7 = false;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void setSticker(TLRPC$Document tLRPC$Document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z) {
         this.currentEmoji = str;
         boolean isPremiumSticker = MessageObject.isPremiumSticker(tLRPC$Document);
@@ -211,6 +205,7 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
                         i++;
                     }
                 }
+                z3 = false;
                 if (!z3) {
                     this.emojiTextView.setText(Emoji.replaceEmoji(MediaDataController.getInstance(this.currentAccount).getEmojiForSticker(this.sticker.id), this.emojiTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
                 }

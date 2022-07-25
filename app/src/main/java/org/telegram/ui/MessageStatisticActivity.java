@@ -246,10 +246,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x02d1  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x02d6  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0331  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0311  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0331  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x02d6  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -353,12 +353,14 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ChatAvatarContainer, android.view.ViewGroup, android.view.View
             public void onAttachedToWindow() {
                 super.onAttachedToWindow();
                 MessageStatisticActivity.this.thumbImage.onAttachedToWindow();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ChatAvatarContainer, android.view.ViewGroup, android.view.View
             public void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
@@ -484,6 +486,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         int i2 = this.startRow;
         if (i < i2 || i >= this.endRow) {
@@ -505,6 +508,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         presentFragment(new ChatActivity(bundle));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view) {
         if (getParentLayout().fragmentsStack.size() > 1) {
             BaseFragment baseFragment = getParentLayout().fragmentsStack.get(getParentLayout().fragmentsStack.size() - 2);
@@ -530,6 +534,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         createMenu.addItem(0, R.drawable.ic_ab_other).addSubItem(1, R.drawable.msg_stats, LocaleController.getString("ViewChannelStats", R.string.ViewChannelStats));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void loadChats(int i) {
         if (this.loading) {
             return;
@@ -567,6 +572,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }, null, null, 0, this.chat.stats_dc, 1, true), this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChats$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -576,6 +582,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChats$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
@@ -621,6 +628,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }, null, null, 0, this.chat.stats_dc, 1, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStat$8(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -630,6 +638,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStat$7(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.statsLoaded = true;
         if (tLRPC$TL_error != null) {
@@ -658,6 +667,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         updateRows();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStat$6(final String str, final TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         ChartData chartData = null;
         if (tLObject instanceof TLRPC$TL_statsGraph) {
@@ -683,12 +693,14 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStat$4(TLObject tLObject) {
         if (getParentActivity() != null) {
             Toast.makeText(getParentActivity(), ((TLRPC$TL_statsGraphError) tLObject).error, 1).show();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStat$5(TLRPC$TL_error tLRPC$TL_error, ChartData chartData, String str, TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph) {
         this.statsLoaded = true;
         if (tLRPC$TL_error != null || chartData == null) {
@@ -712,12 +724,12 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            MessageStatisticActivity.this = r1;
             this.mContext = context;
         }
 
@@ -734,17 +746,16 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             return MessageStatisticActivity.this.rowCount;
         }
 
-        /* renamed from: org.telegram.ui.MessageStatisticActivity$ListAdapter$1 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.MessageStatisticActivity$ListAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass1 extends StatisticActivity.BaseChartCell {
             @Override // org.telegram.ui.StatisticActivity.BaseChartCell
             void loadData(StatisticActivity.ChartViewData chartViewData) {
             }
 
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             AnonymousClass1(Context context, int i, BaseChartView.SharedUiComponents sharedUiComponents) {
                 super(context, i, sharedUiComponents);
-                ListAdapter.this = r1;
             }
 
             @Override // org.telegram.ui.StatisticActivity.BaseChartCell
@@ -792,6 +803,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onZoomed$1(final String str, final StatisticActivity.ZoomCancelable zoomCancelable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 final ChartData chartData = null;
                 if (tLObject instanceof TLRPC$TL_statsGraph) {
@@ -811,6 +823,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 });
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onZoomed$0(ChartData chartData, String str, StatisticActivity.ZoomCancelable zoomCancelable) {
                 if (chartData != null) {
                     MessageStatisticActivity.this.childDataCache.put(str, chartData);
@@ -843,49 +856,50 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            LoadingCell loadingCell;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            HeaderCell headerCell;
             if (i == 0) {
-                ManageChatUserCell manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false);
+                View manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false);
                 manageChatUserCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                loadingCell = manageChatUserCell;
+                headerCell = manageChatUserCell;
             } else if (i == 1) {
-                loadingCell = new ShadowSectionCell(this.mContext);
+                headerCell = new ShadowSectionCell(this.mContext);
             } else if (i == 2) {
-                HeaderCell headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 16, 11, false);
-                headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                headerCell.setHeight(43);
-                loadingCell = headerCell;
+                HeaderCell headerCell2 = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 16, 11, false);
+                headerCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                headerCell2.setHeight(43);
+                headerCell = headerCell2;
             } else if (i == 4) {
-                AnonymousClass1 anonymousClass1 = new AnonymousClass1(this.mContext, 1, MessageStatisticActivity.this.sharedUi = new BaseChartView.SharedUiComponents());
+                View anonymousClass1 = new AnonymousClass1(this.mContext, 1, MessageStatisticActivity.this.sharedUi = new BaseChartView.SharedUiComponents());
                 anonymousClass1.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                loadingCell = anonymousClass1;
+                headerCell = anonymousClass1;
             } else if (i == 5) {
-                OverviewCell overviewCell = new OverviewCell(this.mContext);
+                View overviewCell = new OverviewCell(this.mContext);
                 overviewCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 overviewCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                loadingCell = overviewCell;
+                headerCell = overviewCell;
             } else if (i == 6) {
-                EmptyCell emptyCell = new EmptyCell(this.mContext, 16);
+                View emptyCell = new EmptyCell(this.mContext, 16);
                 emptyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, 16));
                 emptyCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                loadingCell = emptyCell;
+                headerCell = emptyCell;
             } else {
-                loadingCell = new LoadingCell(this.mContext, AndroidUtilities.dp(40.0f), AndroidUtilities.dp(120.0f));
+                headerCell = new LoadingCell(this.mContext, AndroidUtilities.dp(40.0f), AndroidUtilities.dp(120.0f));
             }
-            return new RecyclerListView.Holder(loadingCell);
+            return new RecyclerListView.Holder(headerCell);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:32:0x00e9  */
-        /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x00e9  */
+        /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            String str;
             TLRPC$User tLRPC$User;
-            String str2;
+            String formatPluralString;
+            String format;
             int itemViewType = viewHolder.getItemViewType();
             boolean z = true;
             if (itemViewType != 0) {
@@ -923,11 +937,11 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 TLRPC$Chat chat = MessageStatisticActivity.this.getMessagesController().getChat(Long.valueOf(-dialogId));
                 if (chat.participants_count != 0) {
                     if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                        str2 = LocaleController.formatPluralString("Subscribers", chat.participants_count, new Object[0]);
+                        formatPluralString = LocaleController.formatPluralString("Subscribers", chat.participants_count, new Object[0]);
                     } else {
-                        str2 = LocaleController.formatPluralString("Members", chat.participants_count, new Object[0]);
+                        formatPluralString = LocaleController.formatPluralString("Members", chat.participants_count, new Object[0]);
                     }
-                    str = String.format("%1$s, %2$s", str2, LocaleController.formatPluralString("Views", item.views, new Object[0]));
+                    format = String.format("%1$s, %2$s", formatPluralString, LocaleController.formatPluralString("Views", item.views, new Object[0]));
                     tLRPC$User = chat;
                     if (tLRPC$User != null) {
                         return;
@@ -935,12 +949,12 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                     if (i == MessageStatisticActivity.this.endRow - 1) {
                         z = false;
                     }
-                    manageChatUserCell.setData(tLRPC$User, null, str, z);
+                    manageChatUserCell.setData(tLRPC$User, null, format, z);
                     return;
                 }
                 tLRPC$User = chat;
             }
-            str = null;
+            format = null;
             if (tLRPC$User != null) {
             }
         }
@@ -987,10 +1001,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         TextView[] title = new TextView[3];
         View[] cell = new View[3];
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public OverviewCell(Context context) {
             super(context);
-            MessageStatisticActivity.this = r8;
             setOrientation(1);
             setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
             LinearLayout linearLayout = new LinearLayout(context);
@@ -1032,6 +1044,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             updateColors();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
             for (int i = 0; i < 3; i++) {
                 this.primary[i].setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
@@ -1089,6 +1102,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$9() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

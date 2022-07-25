@@ -40,6 +40,7 @@ public final class NotificationManagerCompat {
     private static Set<String> sEnabledNotificationListenerPackages = new HashSet();
     private static final Object sLock = new Object();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface Task {
         void send(INotificationSideChannel service) throws RemoteException;
@@ -136,6 +137,7 @@ public final class NotificationManagerCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class SideChannelManager implements Handler.Callback, ServiceConnection {
         private final Context mContext;
@@ -341,6 +343,7 @@ public final class NotificationManagerCompat {
             scheduleListenerRetry(record);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class ListenerRecord {
             final ComponentName componentName;
@@ -366,6 +369,7 @@ public final class NotificationManagerCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class NotifyTask implements Task {
         final int id;
@@ -390,6 +394,7 @@ public final class NotificationManagerCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class CancelTask implements Task {
         final boolean all = false;

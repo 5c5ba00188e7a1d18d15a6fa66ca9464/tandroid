@@ -8,6 +8,7 @@ class x implements java.util.Iterator, Consumer {
     Object b;
     final /* synthetic */ u c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public x(u uVar) {
         this.c = uVar;
     }

@@ -131,6 +131,7 @@ public class FileLog {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$e$0(String str, Throwable th) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
@@ -159,6 +160,7 @@ public class FileLog {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$e$1(String str) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
@@ -194,6 +196,7 @@ public class FileLog {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$e$2(Throwable th) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
@@ -230,6 +233,7 @@ public class FileLog {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$d$3(String str) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
@@ -257,6 +261,7 @@ public class FileLog {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$w$4(String str) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;

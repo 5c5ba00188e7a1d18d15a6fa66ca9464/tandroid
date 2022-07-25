@@ -24,6 +24,7 @@ public final class zzey {
         this.zzfa = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzey zza(zzey zzeyVar, zzey zzeyVar2) {
         int i = zzeyVar.count + zzeyVar2.count;
         int[] copyOf = Arrays.copyOf(zzeyVar.zzpa, i);
@@ -62,6 +63,7 @@ public final class zzey {
         return zzoz;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzey zzeb() {
         return new zzey();
     }
@@ -134,6 +136,7 @@ public final class zzey {
         return i6 + i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zza(zzfr zzfrVar) throws IOException {
         if (zzfrVar.zzaj() == zzcg.zzg.zzkp) {
             for (int i = this.count - 1; i >= 0; i--) {
@@ -146,6 +149,7 @@ public final class zzey {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zza(StringBuilder sb, int i) {
         for (int i2 = 0; i2 < this.count; i2++) {
             zzdr.zza(sb, i, String.valueOf(this.zzpa[i2] >>> 3), this.zzmj[i2]);
@@ -153,35 +157,36 @@ public final class zzey {
     }
 
     public final int zzas() {
-        int i;
-        int i2 = this.zzjq;
-        if (i2 != -1) {
-            return i2;
+        int zze;
+        int i = this.zzjq;
+        if (i != -1) {
+            return i;
         }
-        int i3 = 0;
-        for (int i4 = 0; i4 < this.count; i4++) {
-            int i5 = this.zzpa[i4];
-            int i6 = i5 >>> 3;
-            int i7 = i5 & 7;
-            if (i7 == 0) {
-                i = zzbn.zze(i6, ((Long) this.zzmj[i4]).longValue());
-            } else if (i7 == 1) {
-                i = zzbn.zzg(i6, ((Long) this.zzmj[i4]).longValue());
-            } else if (i7 == 2) {
-                i = zzbn.zzc(i6, (zzbb) this.zzmj[i4]);
-            } else if (i7 == 3) {
-                i = (zzbn.zzr(i6) << 1) + ((zzey) this.zzmj[i4]).zzas();
-            } else if (i7 != 5) {
+        int i2 = 0;
+        for (int i3 = 0; i3 < this.count; i3++) {
+            int i4 = this.zzpa[i3];
+            int i5 = i4 >>> 3;
+            int i6 = i4 & 7;
+            if (i6 == 0) {
+                zze = zzbn.zze(i5, ((Long) this.zzmj[i3]).longValue());
+            } else if (i6 == 1) {
+                zze = zzbn.zzg(i5, ((Long) this.zzmj[i3]).longValue());
+            } else if (i6 == 2) {
+                zze = zzbn.zzc(i5, (zzbb) this.zzmj[i3]);
+            } else if (i6 == 3) {
+                zze = (zzbn.zzr(i5) << 1) + ((zzey) this.zzmj[i3]).zzas();
+            } else if (i6 != 5) {
                 throw new IllegalStateException(zzco.zzbn());
             } else {
-                i = zzbn.zzj(i6, ((Integer) this.zzmj[i4]).intValue());
+                zze = zzbn.zzj(i5, ((Integer) this.zzmj[i3]).intValue());
             }
-            i3 += i;
+            i2 += zze;
         }
-        this.zzjq = i3;
-        return i3;
+        this.zzjq = i2;
+        return i2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zzb(int i, Object obj) {
         if (this.zzfa) {
             int i2 = this.count;

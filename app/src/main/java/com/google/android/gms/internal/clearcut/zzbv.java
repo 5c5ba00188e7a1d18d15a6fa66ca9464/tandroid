@@ -5,16 +5,19 @@ import java.io.IOException;
 import java.util.Map;
 /* loaded from: classes.dex */
 final class zzbv extends zzbu<zzcg.zze> {
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final int zza(Map.Entry<?, ?> entry) {
         return ((zzcg.zze) entry.getKey()).number;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final zzby<zzcg.zze> zza(Object obj) {
         return ((zzcg.zzd) obj).zzjv;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final void zza(zzfr zzfrVar, Map.Entry<?, ?> entry) throws IOException {
         zzcg.zze zzeVar = (zzcg.zze) entry.getKey();
@@ -78,11 +81,13 @@ final class zzbv extends zzbu<zzcg.zze> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final void zza(Object obj, zzby<zzcg.zze> zzbyVar) {
         ((zzcg.zzd) obj).zzjv = zzbyVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final zzby<zzcg.zze> zzb(Object obj) {
         zzby<zzcg.zze> zza = zza(obj);
@@ -94,11 +99,13 @@ final class zzbv extends zzbu<zzcg.zze> {
         return zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final void zzc(Object obj) {
         zza(obj).zzv();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final boolean zze(zzdo zzdoVar) {
         return zzdoVar instanceof zzcg.zzd;

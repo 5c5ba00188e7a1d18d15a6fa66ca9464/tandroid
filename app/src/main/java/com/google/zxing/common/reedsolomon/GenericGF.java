@@ -12,6 +12,7 @@ public final class GenericGF {
     public static final GenericGF QR_CODE_FIELD_256 = new GenericGF(285, 256, 0);
     public static final GenericGF DATA_MATRIX_FIELD_256 = new GenericGF(301, 256, 1);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int addOrSubtract(int i, int i2) {
         return i ^ i2;
     }
@@ -43,14 +44,17 @@ public final class GenericGF {
         this.one = new GenericGFPoly(this, new int[]{1});
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GenericGFPoly getZero() {
         return this.zero;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GenericGFPoly getOne() {
         return this.one;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GenericGFPoly buildMonomial(int i, int i2) {
         if (i >= 0) {
             if (i2 == 0) {
@@ -63,10 +67,12 @@ public final class GenericGF {
         throw new IllegalArgumentException();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int exp(int i) {
         return this.expTable[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int log(int i) {
         if (i == 0) {
             throw new IllegalArgumentException();
@@ -74,6 +80,7 @@ public final class GenericGF {
         return this.logTable[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int inverse(int i) {
         if (i == 0) {
             throw new ArithmeticException();
@@ -81,6 +88,7 @@ public final class GenericGF {
         return this.expTable[(this.size - this.logTable[i]) - 1];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int multiply(int i, int i2) {
         if (i == 0 || i2 == 0) {
             return 0;

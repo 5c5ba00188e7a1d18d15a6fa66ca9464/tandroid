@@ -11,6 +11,7 @@ final /* synthetic */ class zzdu implements Callable {
         this.zza = sharedPrefManager;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Callable zza(SharedPrefManager sharedPrefManager) {
         return new zzdu(sharedPrefManager);
     }

@@ -59,11 +59,11 @@ public class FilesMigrationService extends Service {
         return super.onStartCommand(intent, i, i2);
     }
 
-    /* renamed from: org.telegram.messenger.FilesMigrationService$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.messenger.FilesMigrationService$1  reason: invalid class name */
     /* loaded from: classes.dex */
     public class AnonymousClass1 extends Thread {
         AnonymousClass1() {
-            FilesMigrationService.this = r1;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -77,6 +77,7 @@ public class FilesMigrationService extends Service {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0() {
             FilesMigrationService.isRunning = false;
             FilesMigrationService.this.stopForeground(true);
@@ -155,6 +156,7 @@ public class FilesMigrationService extends Service {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$moveDirectory$0(File file, Path path) {
         File file2 = new File(file, path.getFileName().toString());
         if (Files.isDirectory(path, new LinkOption[0])) {
@@ -187,6 +189,7 @@ public class FilesMigrationService extends Service {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateProgress$1(int i) {
         ((NotificationManager) getSystemService(RemoteMessageConst.NOTIFICATION)).notify(301, new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(org.telegram.messenger.beta.R.string.MigratingFiles)).setContentText(String.format("%s/%s", Integer.valueOf(i), Integer.valueOf(this.totalFilesCount))).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).setAutoCancel(false).setProgress(this.totalFilesCount, i, false).build());
     }
@@ -285,6 +288,7 @@ public class FilesMigrationService extends Service {
             setCustomView(scrollView);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             migrateOldFolder();
         }

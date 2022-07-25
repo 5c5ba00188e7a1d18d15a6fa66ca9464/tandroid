@@ -32,10 +32,12 @@ public class ChangeNameActivity extends BaseFragment {
     private EditTextBoldCursor lastNameField;
     private Theme.ResourcesProvider resourcesProvider;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$saveName$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -145,6 +147,7 @@ public class ChangeNameActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             this.lastNameField.requestFocus();
@@ -155,6 +158,7 @@ public class ChangeNameActivity extends BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 6) {
             this.doneButton.performClick();
@@ -172,6 +176,7 @@ public class ChangeNameActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void saveName() {
         String str;
         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
@@ -218,6 +223,7 @@ public class ChangeNameActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTransitionAnimationEnd$4() {
         EditTextBoldCursor editTextBoldCursor = this.firstNameField;
         if (editTextBoldCursor != null) {

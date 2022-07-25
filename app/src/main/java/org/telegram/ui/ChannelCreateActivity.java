@@ -146,6 +146,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$5(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -180,10 +181,12 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.chatId = bundle.getLong("chat_id", 0L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(TLRPC$TL_error tLRPC$TL_error) {
         this.canCreatePublic = tLRPC$TL_error == null || !tLRPC$TL_error.text.equals("CHANNELS_ADMIN_PUBLIC_TOO_MUCH");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
@@ -287,6 +290,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showDoneCancelDialog() {
         if (this.cancelDialog != null) {
             return;
@@ -304,6 +308,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.cancelDialog = builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showDoneCancelDialog$2(DialogInterface dialogInterface, int i) {
         this.donePressed = false;
         this.createAfterUpload = false;
@@ -315,6 +320,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         dialogInterface.dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3() {
         updateDoneProgress(true);
     }
@@ -351,6 +357,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateDoneProgress$4(ValueAnimator valueAnimator) {
         this.doneButtonDrawable.setProgress(((Float) valueAnimator.getAnimatedValue()).floatValue());
         this.doneButtonDrawable.invalidateSelf();
@@ -474,11 +481,12 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     }
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:27:0x0072  */
-                /* JADX WARN: Removed duplicated region for block: B:34:0x008c  */
-                /* JADX WARN: Removed duplicated region for block: B:38:0x00a1  */
-                /* JADX WARN: Removed duplicated region for block: B:42:0x00b3  */
-                /* JADX WARN: Removed duplicated region for block: B:43:0x00bc  */
+                /* JADX INFO: Access modifiers changed from: protected */
+                /* JADX WARN: Removed duplicated region for block: B:22:0x0072  */
+                /* JADX WARN: Removed duplicated region for block: B:29:0x00a1  */
+                /* JADX WARN: Removed duplicated region for block: B:33:0x00b3  */
+                /* JADX WARN: Removed duplicated region for block: B:35:0x00bc  */
+                /* JADX WARN: Removed duplicated region for block: B:42:0x008c  */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -490,72 +498,72 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     int i9;
                     int i10;
                     int i11;
-                    int i12;
-                    int i13;
+                    int measuredHeight;
+                    int measuredHeight2;
                     int childCount = getChildCount();
                     int measureKeyboardHeight = measureKeyboardHeight();
                     int emojiPadding = (measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : ChannelCreateActivity.this.nameTextView.getEmojiPadding();
                     setBottomClip(emojiPadding);
-                    for (int i14 = 0; i14 < childCount; i14++) {
-                        View childAt = getChildAt(i14);
+                    for (int i12 = 0; i12 < childCount; i12++) {
+                        View childAt = getChildAt(i12);
                         if (childAt.getVisibility() != 8) {
                             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                             int measuredWidth = childAt.getMeasuredWidth();
-                            int measuredHeight = childAt.getMeasuredHeight();
-                            int i15 = layoutParams.gravity;
-                            if (i15 == -1) {
-                                i15 = 51;
+                            int measuredHeight3 = childAt.getMeasuredHeight();
+                            int i13 = layoutParams.gravity;
+                            if (i13 == -1) {
+                                i13 = 51;
                             }
-                            int i16 = i15 & 7;
-                            int i17 = i15 & 112;
-                            int i18 = i16 & 7;
-                            if (i18 == 1) {
-                                i13 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
-                                i12 = layoutParams.rightMargin;
-                            } else if (i18 == 5) {
-                                i13 = i4 - measuredWidth;
-                                i12 = layoutParams.rightMargin;
+                            int i14 = i13 & 7;
+                            int i15 = i13 & 112;
+                            int i16 = i14 & 7;
+                            if (i16 == 1) {
+                                i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
+                                i7 = layoutParams.rightMargin;
+                            } else if (i16 == 5) {
+                                i6 = i4 - measuredWidth;
+                                i7 = layoutParams.rightMargin;
                             } else {
-                                i6 = layoutParams.leftMargin;
-                                if (i17 == 16) {
-                                    if (i17 == 48) {
-                                        i7 = layoutParams.topMargin + getPaddingTop();
-                                    } else if (i17 == 80) {
-                                        i10 = ((i5 - emojiPadding) - i3) - measuredHeight;
-                                        i11 = layoutParams.bottomMargin;
+                                i8 = layoutParams.leftMargin;
+                                if (i15 == 16) {
+                                    if (i15 == 48) {
+                                        i11 = layoutParams.topMargin + getPaddingTop();
+                                    } else if (i15 == 80) {
+                                        i9 = ((i5 - emojiPadding) - i3) - measuredHeight3;
+                                        i10 = layoutParams.bottomMargin;
                                     } else {
-                                        i7 = layoutParams.topMargin;
+                                        i11 = layoutParams.topMargin;
                                     }
                                     if (ChannelCreateActivity.this.nameTextView != null && ChannelCreateActivity.this.nameTextView.isPopupView(childAt)) {
                                         if (!AndroidUtilities.isTablet()) {
-                                            i9 = getMeasuredHeight();
-                                            i8 = childAt.getMeasuredHeight();
+                                            measuredHeight = getMeasuredHeight();
+                                            measuredHeight2 = childAt.getMeasuredHeight();
                                         } else {
-                                            i9 = getMeasuredHeight() + measureKeyboardHeight;
-                                            i8 = childAt.getMeasuredHeight();
+                                            measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
+                                            measuredHeight2 = childAt.getMeasuredHeight();
                                         }
-                                        i7 = i9 - i8;
+                                        i11 = measuredHeight - measuredHeight2;
                                     }
-                                    childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                                    childAt.layout(i8, i11, measuredWidth + i8, measuredHeight3 + i11);
                                 } else {
-                                    i10 = ((((i5 - emojiPadding) - i3) - measuredHeight) / 2) + layoutParams.topMargin;
-                                    i11 = layoutParams.bottomMargin;
+                                    i9 = ((((i5 - emojiPadding) - i3) - measuredHeight3) / 2) + layoutParams.topMargin;
+                                    i10 = layoutParams.bottomMargin;
                                 }
-                                i7 = i10 - i11;
+                                i11 = i9 - i10;
                                 if (ChannelCreateActivity.this.nameTextView != null) {
                                     if (!AndroidUtilities.isTablet()) {
                                     }
-                                    i7 = i9 - i8;
+                                    i11 = measuredHeight - measuredHeight2;
                                 }
-                                childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                                childAt.layout(i8, i11, measuredWidth + i8, measuredHeight3 + i11);
                             }
-                            i6 = i13 - i12;
-                            if (i17 == 16) {
+                            i8 = i6 - i7;
+                            if (i15 == 16) {
                             }
-                            i7 = i10 - i11;
+                            i11 = i9 - i10;
                             if (ChannelCreateActivity.this.nameTextView != null) {
                             }
-                            childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                            childAt.layout(i8, i11, measuredWidth + i8, measuredHeight3 + i11);
                         }
                     }
                     notifyHeightChanged();
@@ -868,6 +876,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$8(View view) {
         this.imageUpdater.openMenu(this.avatar != null, new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
@@ -885,6 +894,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.avatarEditor.playAnimation();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6() {
         this.avatar = null;
         this.avatarBig = null;
@@ -898,6 +908,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.cameraDrawable.setCurrentFrame(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$7(DialogInterface dialogInterface) {
         if (!this.imageUpdater.isUploadingImage()) {
             this.cameraDrawable.setCustomEndFrame(86);
@@ -907,6 +918,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.cameraDrawable.setCurrentFrame(0, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$9(TextView textView, int i, KeyEvent keyEvent) {
         if (i != 5 || TextUtils.isEmpty(this.nameTextView.getEditText().getText())) {
             return false;
@@ -915,6 +927,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$10(TextView textView, int i, KeyEvent keyEvent) {
         View view;
         if (i != 6 || (view = this.doneButton) == null) {
@@ -924,6 +937,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$11(View view) {
         if (!this.canCreatePublic) {
             showPremiumIncreaseLimitDialog();
@@ -934,6 +948,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12(View view) {
         if (this.isPrivate) {
             return;
@@ -966,6 +981,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$14(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
@@ -975,6 +991,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$13(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             this.invite = (TLRPC$TL_chatInviteExported) ((TLRPC$TL_messages_exportedChatInvites) tLObject).invites.get(0);
@@ -986,10 +1003,10 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     }
 
     private void updatePrivatePublic() {
-        String str;
         int i;
-        String str2;
+        String str;
         int i2;
+        String str2;
         if (this.sectionCell == null) {
             return;
         }
@@ -1087,6 +1104,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didUploadPhoto$15(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, String str, double d, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2) {
         if (tLRPC$InputFile != null || tLRPC$InputFile2 != null) {
             this.inputPhoto = tLRPC$InputFile;
@@ -1287,6 +1305,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$21(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
@@ -1296,6 +1315,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$20(TLObject tLObject) {
         this.loadingAdminedChannels = false;
         if (tLObject == null || getParentActivity() == null) {
@@ -1325,6 +1345,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         updatePrivatePublic();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$19(View view) {
         final TLRPC$Chat currentChannel = ((AdminedChannelCell) view.getParent()).getCurrentChannel();
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
@@ -1344,6 +1365,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$18(TLRPC$Chat tLRPC$Chat, DialogInterface dialogInterface, int i) {
         TLRPC$TL_channels_updateUsername tLRPC$TL_channels_updateUsername = new TLRPC$TL_channels_updateUsername();
         tLRPC$TL_channels_updateUsername.channel = MessagesController.getInputChannel(tLRPC$Chat);
@@ -1356,6 +1378,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }, 64);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$17(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda11
@@ -1367,6 +1390,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$16() {
         this.canCreatePublic = true;
         if (this.descriptionTextView.length() > 0) {
@@ -1375,6 +1399,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         updatePrivatePublic();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean checkUserName(final String str) {
         if (str != null && str.length() > 0) {
             this.checkTextView.setVisibility(0);
@@ -1440,6 +1465,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$24(final String str) {
         TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
         tLRPC$TL_channels_checkUsername.username = str;
@@ -1452,6 +1478,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$23(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
@@ -1461,6 +1488,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$22(String str, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.checkReqId = 0;
         String str2 = this.lastCheckName;
@@ -1500,6 +1528,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         showDialog(limitReachedBottomSheet);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPremiumIncreaseLimitDialog$25() {
         this.canCreatePublic = true;
         updatePrivatePublic();
@@ -1577,6 +1606,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$26() {
         LinearLayout linearLayout = this.adminnedChannelsLayout;
         if (linearLayout != null) {

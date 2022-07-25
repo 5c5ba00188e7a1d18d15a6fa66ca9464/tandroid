@@ -12,7 +12,8 @@ public interface b extends j$.lang.e {
 
     @Override // j$.lang.e
     /* renamed from: spliterator */
-    u mo71spliterator();
+    u mo317spliterator();
 
-    Stream stream();
+    /* renamed from: stream */
+    Stream mo266stream();
 }

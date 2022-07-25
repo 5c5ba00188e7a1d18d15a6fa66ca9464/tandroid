@@ -29,7 +29,7 @@ class J extends f3 {
                 U u = (U) ((j$.util.function.g) ((K) this.c).m).apply(d);
                 if (u != null) {
                     try {
-                        u.sequential().j(new F(this));
+                        u.mo333sequential().j(new F(this));
                     } finally {
                         try {
                             u.close();

@@ -16,9 +16,8 @@ public class YuvConverter {
     private final ThreadUtils.ThreadChecker threadChecker;
     private final VideoFrameDrawer videoFrameDrawer;
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class ShaderCallbacks implements GlGenericDrawer.ShaderCallbacks {
+    private static class ShaderCallbacks implements GlGenericDrawer.ShaderCallbacks {
         private float[] coeffs;
         private int coeffsLoc;
         private float stepSize;
@@ -79,7 +78,6 @@ public class YuvConverter {
     public VideoFrame.I420Buffer convert(VideoFrame.TextureBuffer textureBuffer) {
         ByteBuffer byteBuffer;
         int i;
-        Exception e;
         this.threadChecker.checkIsOnValidThread();
         VideoFrame.TextureBuffer textureBuffer2 = (VideoFrame.TextureBuffer) this.videoFrameDrawer.prepareBufferForViewportSize(textureBuffer, textureBuffer.getWidth(), textureBuffer.getHeight());
         int width = textureBuffer2.getWidth();
@@ -99,8 +97,8 @@ public class YuvConverter {
             GlUtil.checkNoGLES2Error("glBindFramebuffer");
             this.shaderCallbacks.setPlaneY();
             byteBuffer = nativeAllocateByteBuffer;
-        } catch (Exception e2) {
-            e = e2;
+        } catch (Exception e) {
+            e = e;
             byteBuffer = nativeAllocateByteBuffer;
         }
         try {
@@ -114,8 +112,8 @@ public class YuvConverter {
             i = 0;
             try {
                 GLES20.glBindFramebuffer(36160, 0);
-            } catch (Exception e3) {
-                e = e3;
+            } catch (Exception e2) {
+                e = e2;
                 FileLog.e(e);
                 int i6 = (i2 * height) + i;
                 int i7 = i2 / 2;
@@ -139,8 +137,8 @@ public class YuvConverter {
                     }
                 });
             }
-        } catch (Exception e4) {
-            e = e4;
+        } catch (Exception e3) {
+            e = e3;
             i = 0;
             FileLog.e(e);
             int i62 = (i2 * height) + i;

@@ -2,11 +2,13 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class zzdx extends zzdu {
     protected final byte[] zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzdx(byte[] bArr) {
         bArr.getClass();
         this.zzb = bArr;
@@ -21,6 +23,7 @@ public class zzdx extends zzdu {
         return this.zzb[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
     public byte zzb(int i) {
         return this.zzb[i];
@@ -40,6 +43,7 @@ public class zzdx extends zzdu {
         return new zzdq(this.zzb, zze(), zzb);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
     public final void zza(zzdk zzdkVar) throws IOException {
         zzdkVar.zza(this.zzb, zze(), zza());
@@ -79,9 +83,8 @@ public class zzdx extends zzdu {
         return obj.equals(this);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdu
-    public final boolean zza(zzdn zzdnVar, int i, int i2) {
+    final boolean zza(zzdn zzdnVar, int i, int i2) {
         if (i2 > zzdnVar.zza()) {
             int zza = zza();
             StringBuilder sb = new StringBuilder(40);

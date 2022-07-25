@@ -66,24 +66,24 @@ final class MediaPeriodQueue {
         return getFollowingMediaPeriodInfo(mediaPeriodHolder, j);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x0018, code lost:
-        if (r1 != (-9223372036854775807L)) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0018, code lost:
+        if (r1 != (-9223372036854775807L)) goto L7;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public MediaPeriodHolder enqueueNextMediaPeriodHolder(RendererCapabilities[] rendererCapabilitiesArr, TrackSelector trackSelector, Allocator allocator, MediaSource mediaSource, MediaPeriodInfo mediaPeriodInfo, TrackSelectorResult trackSelectorResult) {
-        long j;
+        long rendererOffset;
         MediaPeriodHolder mediaPeriodHolder = this.loading;
         if (mediaPeriodHolder == null) {
             if (mediaPeriodInfo.id.isAd()) {
-                j = mediaPeriodInfo.contentPositionUs;
+                rendererOffset = mediaPeriodInfo.contentPositionUs;
             }
-            j = 0;
+            rendererOffset = 0;
         } else {
-            j = (mediaPeriodHolder.getRendererOffset() + this.loading.info.durationUs) - mediaPeriodInfo.startPositionUs;
+            rendererOffset = (mediaPeriodHolder.getRendererOffset() + this.loading.info.durationUs) - mediaPeriodInfo.startPositionUs;
         }
-        MediaPeriodHolder mediaPeriodHolder2 = new MediaPeriodHolder(rendererCapabilitiesArr, j, trackSelector, allocator, mediaSource, mediaPeriodInfo, trackSelectorResult);
+        MediaPeriodHolder mediaPeriodHolder2 = new MediaPeriodHolder(rendererCapabilitiesArr, rendererOffset, trackSelector, allocator, mediaSource, mediaPeriodInfo, trackSelectorResult);
         MediaPeriodHolder mediaPeriodHolder3 = this.loading;
         if (mediaPeriodHolder3 != null) {
             mediaPeriodHolder3.setNext(mediaPeriodHolder2);
@@ -290,9 +290,9 @@ final class MediaPeriodQueue {
 
     private MediaPeriodInfo getFollowingMediaPeriodInfo(MediaPeriodHolder mediaPeriodHolder, long j) {
         long j2;
+        Object obj;
         long j3;
         long j4;
-        Object obj;
         long j5;
         MediaPeriodInfo mediaPeriodInfo = mediaPeriodHolder.info;
         long rendererOffset = (mediaPeriodHolder.getRendererOffset() + mediaPeriodInfo.durationUs) - j;
@@ -319,16 +319,16 @@ final class MediaPeriodQueue {
                     j5 = this.nextWindowSequenceNumber;
                     this.nextWindowSequenceNumber = 1 + j5;
                 }
-                j3 = longValue;
+                j4 = longValue;
                 j6 = -9223372036854775807L;
-                j4 = j5;
+                j3 = j5;
                 obj = obj3;
             } else {
                 obj = obj2;
-                j4 = j7;
-                j3 = 0;
+                j3 = j7;
+                j4 = 0;
             }
-            return getMediaPeriodInfo(resolveMediaPeriodIdForAds(obj, j3, j4), j6, j3);
+            return getMediaPeriodInfo(resolveMediaPeriodIdForAds(obj, j4, j3), j6, j4);
         }
         MediaSource.MediaPeriodId mediaPeriodId = mediaPeriodInfo.id;
         this.timeline.getPeriodByUid(mediaPeriodId.periodUid, this.period);

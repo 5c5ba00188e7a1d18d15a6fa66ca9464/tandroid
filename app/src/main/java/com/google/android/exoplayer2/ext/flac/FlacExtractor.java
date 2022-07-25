@@ -45,6 +45,7 @@ public final class FlacExtractor implements Extractor {
     public @interface Flags {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Extractor[] lambda$static$0() {
         return new Extractor[]{new FlacExtractor()};
     }
@@ -178,17 +179,17 @@ public final class FlacExtractor implements Extractor {
     }
 
     private static FlacBinarySearchSeeker outputSeekMap(FlacDecoderJni flacDecoderJni, FlacStreamMetadata flacStreamMetadata, long j, ExtractorOutput extractorOutput, FlacBinarySearchSeeker.OutputFrameHolder outputFrameHolder) {
-        SeekMap seekMap;
+        SeekMap unseekable;
         FlacBinarySearchSeeker flacBinarySearchSeeker = null;
         if (flacDecoderJni.getSeekPoints(0L) != null) {
-            seekMap = new FlacSeekMap(flacStreamMetadata.getDurationUs(), flacDecoderJni);
+            unseekable = new FlacSeekMap(flacStreamMetadata.getDurationUs(), flacDecoderJni);
         } else if (j != -1) {
             flacBinarySearchSeeker = new FlacBinarySearchSeeker(flacStreamMetadata, flacDecoderJni.getDecodePosition(), j, flacDecoderJni, outputFrameHolder);
-            seekMap = flacBinarySearchSeeker.getSeekMap();
+            unseekable = flacBinarySearchSeeker.getSeekMap();
         } else {
-            seekMap = new SeekMap.Unseekable(flacStreamMetadata.getDurationUs());
+            unseekable = new SeekMap.Unseekable(flacStreamMetadata.getDurationUs());
         }
-        extractorOutput.seekMap(seekMap);
+        extractorOutput.seekMap(unseekable);
         return flacBinarySearchSeeker;
     }
 
@@ -202,6 +203,7 @@ public final class FlacExtractor implements Extractor {
         trackOutput.sampleMetadata(j, 1, i, 0, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class FlacSeekMap implements SeekMap {
         private final FlacDecoderJni decoderJni;

@@ -255,26 +255,26 @@ public class SharingLiveLocationCell extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         int i;
         int i2;
-        int i3;
+        int themedColor;
         LocationController.SharingLocationInfo sharingLocationInfo = this.currentInfo;
         if (sharingLocationInfo == null && this.liveLocation == null) {
             return;
         }
         if (sharingLocationInfo != null) {
-            i = sharingLocationInfo.stopTime;
-            i2 = sharingLocationInfo.period;
+            i2 = sharingLocationInfo.stopTime;
+            i = sharingLocationInfo.period;
         } else {
             TLRPC$Message tLRPC$Message = this.liveLocation.object;
-            int i4 = tLRPC$Message.date;
-            i2 = tLRPC$Message.media.period;
-            i = i4 + i2;
+            int i3 = tLRPC$Message.date;
+            i = tLRPC$Message.media.period;
+            i2 = i3 + i;
         }
         int currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
-        if (i < currentTime) {
+        if (i2 < currentTime) {
             return;
         }
-        int i5 = i - currentTime;
-        float abs = Math.abs(i5) / i2;
+        int i4 = i2 - currentTime;
+        float abs = Math.abs(i4) / i;
         float f = 48.0f;
         float f2 = 18.0f;
         if (LocaleController.isRTL) {
@@ -303,14 +303,14 @@ public class SharingLiveLocationCell extends FrameLayout {
             rectF2.set(measuredWidth, dp4, measuredWidth2, AndroidUtilities.dp(f));
         }
         if (this.distanceTextView == null) {
-            i3 = getThemedColor("dialog_liveLocationProgress");
+            themedColor = getThemedColor("dialog_liveLocationProgress");
         } else {
-            i3 = getThemedColor("location_liveLocationProgress");
+            themedColor = getThemedColor("location_liveLocationProgress");
         }
-        Theme.chat_radialProgress2Paint.setColor(i3);
-        Theme.chat_livePaint.setColor(i3);
+        Theme.chat_radialProgress2Paint.setColor(themedColor);
+        Theme.chat_livePaint.setColor(themedColor);
         canvas.drawArc(this.rect, -90.0f, abs * (-360.0f), false, Theme.chat_radialProgress2Paint);
-        String formatLocationLeftTime = LocaleController.formatLocationLeftTime(i5);
+        String formatLocationLeftTime = LocaleController.formatLocationLeftTime(i4);
         canvas.drawText(formatLocationLeftTime, this.rect.centerX() - (Theme.chat_livePaint.measureText(formatLocationLeftTime) / 2.0f), AndroidUtilities.dp(this.distanceTextView != null ? 37.0f : 31.0f), Theme.chat_livePaint);
     }
 

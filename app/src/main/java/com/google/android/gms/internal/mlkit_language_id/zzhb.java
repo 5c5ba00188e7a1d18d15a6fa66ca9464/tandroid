@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class zzhb extends AbstractSet<Map.Entry<K, V>> {
@@ -58,6 +59,7 @@ public class zzhb extends AbstractSet<Map.Entry<K, V>> {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzhb(zzgq zzgqVar, zzgt zzgtVar) {
         this(zzgqVar);
     }

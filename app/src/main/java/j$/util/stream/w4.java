@@ -2,9 +2,9 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.u;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class w4 extends z4 implements u.a {
+final class w4 extends z4 implements u.a {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public w4(u.a aVar, long j, long j2) {
         super(aVar, j, j2);
     }

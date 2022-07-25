@@ -124,7 +124,6 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            QuickRepliesSettingsActivity.this = r1;
             this.mContext = context;
         }
 
@@ -133,7 +132,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             return QuickRepliesSettingsActivity.this.rowCount;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:25:0x0086  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0086  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -211,31 +210,32 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View textInfoPrivacyCell;
             if (i == 0) {
-                view = new TextInfoPrivacyCell(this.mContext);
+                textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
             } else if (i == 1) {
-                view = new TextSettingsCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textInfoPrivacyCell = new TextSettingsCell(this.mContext);
+                textInfoPrivacyCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else {
                 switch (i) {
                     case 9:
                     case 10:
                     case 11:
                     case 12:
-                        view = new EditTextSettingsCell(this.mContext);
-                        view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                        QuickRepliesSettingsActivity.this.textCells[i - 9] = view;
+                        textInfoPrivacyCell = new EditTextSettingsCell(this.mContext);
+                        textInfoPrivacyCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                        QuickRepliesSettingsActivity.this.textCells[i - 9] = textInfoPrivacyCell;
                         break;
                     default:
-                        view = new TextCheckCell(this.mContext);
-                        view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                        textInfoPrivacyCell = new TextCheckCell(this.mContext);
+                        textInfoPrivacyCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                         break;
                 }
             }
-            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(view);
+            textInfoPrivacyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(textInfoPrivacyCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

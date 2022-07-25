@@ -13,13 +13,13 @@ public abstract class TLRPC$BotInfo extends TLObject {
     public int version;
 
     public static TLRPC$BotInfo TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$BotInfo tLRPC$BotInfo;
+        TLRPC$BotInfo tLRPC$TL_botInfo;
         switch (i) {
             case -1892676777:
-                tLRPC$BotInfo = new TLRPC$TL_botInfo();
+                tLRPC$TL_botInfo = new TLRPC$TL_botInfo();
                 break;
             case -1729618630:
-                tLRPC$BotInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer131
+                tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer131
                     public static int constructor = -1729618630;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
@@ -58,7 +58,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 };
                 break;
             case -1154598962:
-                tLRPC$BotInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfoEmpty_layer48
+                tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfoEmpty_layer48
                     public static int constructor = -1154598962;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
@@ -68,7 +68,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 };
                 break;
             case -468280483:
-                tLRPC$BotInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer140
+                tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer140
                     public static int constructor = -468280483;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
@@ -109,7 +109,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 };
                 break;
             case 164583517:
-                tLRPC$BotInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer48
+                tLRPC$TL_botInfo = new TLRPC$TL_botInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer48
                     public static int constructor = 164583517;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInfo, org.telegram.tgnet.TLObject
@@ -152,7 +152,7 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 };
                 break;
             case 460632885:
-                tLRPC$BotInfo = new TLRPC$BotInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer139
+                tLRPC$TL_botInfo = new TLRPC$BotInfo() { // from class: org.telegram.tgnet.TLRPC$TL_botInfo_layer139
                     public static int constructor = 460632885;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -191,14 +191,14 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 };
                 break;
             default:
-                tLRPC$BotInfo = null;
+                tLRPC$TL_botInfo = null;
                 break;
         }
-        if (tLRPC$BotInfo != null || !z) {
-            if (tLRPC$BotInfo != null) {
-                tLRPC$BotInfo.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_botInfo != null || !z) {
+            if (tLRPC$TL_botInfo != null) {
+                tLRPC$TL_botInfo.readParams(abstractSerializedData, z);
             }
-            return tLRPC$BotInfo;
+            return tLRPC$TL_botInfo;
         }
         throw new RuntimeException(String.format("can't parse magic %x in BotInfo", Integer.valueOf(i)));
     }

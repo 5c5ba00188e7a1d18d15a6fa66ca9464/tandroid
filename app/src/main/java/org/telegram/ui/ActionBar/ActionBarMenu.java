@@ -22,6 +22,7 @@ public class ActionBarMenu extends LinearLayout {
         this.parentActionBar = actionBar;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void updateItemsBackgroundColor() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -32,6 +33,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void updateItemsColor() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -116,6 +118,7 @@ public class ActionBarMenu extends LinearLayout {
         return actionBarMenuItem;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addItem$0(View view) {
         ActionBarMenuItem actionBarMenuItem = (ActionBarMenuItem) view;
         if (actionBarMenuItem.hasSubMenu()) {
@@ -140,6 +143,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setPopupItemsColor(int i, boolean z) {
         int childCount = getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {
@@ -150,6 +154,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setPopupItemsSelectorColor(int i) {
         int childCount = getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {
@@ -160,6 +165,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void redrawPopup(int i) {
         int childCount = getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {

@@ -92,6 +92,7 @@ public class AudioTrackJNI {
         thread.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startThread$0() {
         try {
             this.audioTrack.play();

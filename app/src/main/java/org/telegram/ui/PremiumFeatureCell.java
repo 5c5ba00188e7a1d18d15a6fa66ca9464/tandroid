@@ -55,6 +55,7 @@ public class PremiumFeatureCell extends FrameLayout {
         this.drawDivider = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);

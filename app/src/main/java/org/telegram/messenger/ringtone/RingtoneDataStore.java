@@ -76,6 +76,7 @@ public class RingtoneDataStore {
         checkRingtoneSoundsLoaded();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUserRingtones$2(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -85,6 +86,7 @@ public class RingtoneDataStore {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUserRingtones$1(TLObject tLObject) {
         if (tLObject != null) {
             if (tLObject instanceof TLRPC$TL_account_savedRingtonesNotModified) {
@@ -137,6 +139,7 @@ public class RingtoneDataStore {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadFromPrefs$3() {
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
     }
@@ -289,6 +292,7 @@ public class RingtoneDataStore {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkRingtoneSoundsLoaded$5(ArrayList arrayList) {
         final TLRPC$Document tLRPC$Document;
         File pathToAttach;
@@ -305,6 +309,7 @@ public class RingtoneDataStore {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkRingtoneSoundsLoaded$4(TLRPC$Document tLRPC$Document) {
         FileLoader.getInstance(this.currentAccount).loadFile(tLRPC$Document, tLRPC$Document, 0, 0);
     }

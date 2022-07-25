@@ -26,11 +26,13 @@ public interface HttpDataSource extends DataSource {
     public static abstract class BaseFactory implements DataSource.Factory {
         private final RequestProperties defaultRequestProperties = new RequestProperties();
 
-        protected abstract HttpDataSource createDataSourceInternal(RequestProperties requestProperties);
+        /* renamed from: createDataSourceInternal */
+        protected abstract HttpDataSource mo175createDataSourceInternal(RequestProperties requestProperties);
 
         @Override // com.google.android.exoplayer2.upstream.DataSource.Factory
-        public final HttpDataSource createDataSource() {
-            return createDataSourceInternal(this.defaultRequestProperties);
+        /* renamed from: createDataSource  reason: collision with other method in class */
+        public final HttpDataSource mo840createDataSource() {
+            return mo175createDataSourceInternal(this.defaultRequestProperties);
         }
     }
 

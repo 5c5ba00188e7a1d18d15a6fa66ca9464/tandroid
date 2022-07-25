@@ -112,6 +112,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         setCustomView(scrollView);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(Context context, View view) {
         Uri bitmapShareUri = AndroidUtilities.getBitmapShareUri(this.qrCode, "qr_tmp.png", Bitmap.CompressFormat.PNG);
         if (bitmapShareUri != null) {
@@ -141,6 +142,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void updateColors() {
         this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
         this.help.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));

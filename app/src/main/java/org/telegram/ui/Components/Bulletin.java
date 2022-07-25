@@ -629,19 +629,23 @@ public class Bulletin {
     /* loaded from: classes3.dex */
     public static abstract class Layout extends FrameLayout {
         public static final FloatPropertyCompat<Layout> IN_OUT_OFFSET_Y = new FloatPropertyCompat<Layout>("offsetY") { // from class: org.telegram.ui.Components.Bulletin.Layout.1
+            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
             public float getValue(Layout layout) {
                 return layout.inOutOffset;
             }
 
+            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
             public void setValue(Layout layout, float f) {
                 layout.setInOutOffset(f);
             }
         };
         public static final Property<Layout, Float> IN_OUT_OFFSET_Y2 = new AnimationProperties.FloatProperty<Layout>("offsetY") { // from class: org.telegram.ui.Components.Bulletin.Layout.2
+            @Override // android.util.Property
             public Float get(Layout layout) {
                 return Float.valueOf(layout.inOutOffset);
             }
 
+            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
             public void setValue(Layout layout, float f) {
                 layout.setInOutOffset(f);
             }

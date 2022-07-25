@@ -101,6 +101,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
         TLRPC$ChatFull chatFull;
         TLRPC$Peer tLRPC$Peer;
@@ -128,6 +129,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
@@ -137,6 +139,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(TLRPC$TL_error tLRPC$TL_error) {
         if (this.destroyed) {
             return;
@@ -255,26 +258,31 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewTheme);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3() {
         this.parentAlert.updateLayout(this, true, 0);
         this.webViewContainer.invalidateViewPortHeight();
         System.currentTimeMillis();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4() {
         this.webViewContainer.invalidateViewPortHeight(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5() {
         if (!onCheckDismissByUser()) {
             this.swipeContainer.stickTo(0.0f);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Boolean lambda$new$6(Void r2) {
         return Boolean.valueOf(this.parentAlert.sizeNotifierFrameLayout.getKeyboardHeight() >= AndroidUtilities.dp(20.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(Float f) {
         this.progressView.setLoadProgressAnimated(f.floatValue());
         if (f.floatValue() == 1.0f) {
@@ -297,6 +305,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(ValueAnimator valueAnimator) {
         this.progressView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
@@ -328,6 +337,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCheckDismissByUser$9(DialogInterface dialogInterface, int i) {
         this.parentAlert.dismiss();
     }
@@ -423,6 +433,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         this.webViewScrollAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPanTransitionStart$10(ValueAnimator valueAnimator) {
         int intValue = ((Integer) valueAnimator.getAnimatedValue()).intValue();
         if (this.webViewContainer.getWebView() != null) {
@@ -468,10 +479,12 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onShown$11() {
         this.webViewContainer.restoreButtonData();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void requestEnableKeyboard() {
         BaseFragment baseFragment = this.parentAlert.getBaseFragment();
         if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).contentView.measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) {
@@ -489,6 +502,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         this.parentAlert.setFocusable(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onHidden() {
         super.onHidden();
@@ -496,6 +510,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         this.parentAlert.getWindow().setSoftInputMode(48);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getCurrentItemTop() {
         return (int) (this.swipeContainer.getSwipeOffsetY() + this.swipeContainer.getOffsetY());
@@ -563,6 +578,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.webViewResultSent);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$13(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
@@ -572,6 +588,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$12(TLObject tLObject, int i) {
         if (tLObject instanceof TLRPC$TL_webViewResultUrl) {
             TLRPC$TL_webViewResultUrl tLRPC$TL_webViewResultUrl = (TLRPC$TL_webViewResultUrl) tLObject;
@@ -594,6 +611,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         AndroidUtilities.cancelRunOnUIThread(this.pollRunnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onHide() {
         super.onHide();
@@ -617,6 +635,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getListTopPadding() {
         return (int) this.swipeContainer.getOffsetY();
@@ -627,9 +646,9 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         return getListTopPadding() + AndroidUtilities.dp(56.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0021  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x002d  */
-    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
+    /* JADX WARN: Removed duplicated region for block: B:14:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0021  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -669,6 +688,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         return ((int) this.swipeContainer.getTopActionBarOffsetY()) + AndroidUtilities.dp(12.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public boolean onBackPressed() {
         if (this.webViewContainer.onBackPressed()) {
@@ -686,6 +706,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         super.requestLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void scrollToTop() {
         WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
@@ -921,6 +942,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             invalidateTranslation();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setOffsetY$1(float f, float f2, boolean z, float f3, DynamicAnimation dynamicAnimation, float f4, float f5) {
             this.offsetY = f4;
             float f6 = (f4 - f) / f2;
@@ -934,6 +956,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             invalidateTranslation();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setOffsetY$2(float f, DynamicAnimation dynamicAnimation, boolean z, float f2, float f3) {
             this.offsetYAnimator = null;
             if (!z) {
@@ -944,6 +967,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             this.pendingOffsetY = f;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void invalidateTranslation() {
             setTranslationY(Math.max(this.topActionBarOffsetY, this.offsetY + this.swipeOffsetY));
             Runnable runnable = this.scrollListener;
@@ -1042,6 +1066,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             addEndListener.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$stickTo$3(Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
             if (dynamicAnimation == this.scrollAnimator) {
                 this.scrollAnimator = null;

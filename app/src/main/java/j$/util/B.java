@@ -2,9 +2,8 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class B implements u {
+final class B implements u {
     private final Object[] a;
     private int b;
     private final int c;
@@ -79,7 +78,8 @@ public final class B implements u {
     }
 
     @Override // j$.util.u
-    public u trySplit() {
+    /* renamed from: trySplit */
+    public u mo350trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;
         if (i >= i2) {

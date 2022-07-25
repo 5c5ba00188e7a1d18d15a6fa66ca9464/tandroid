@@ -26,6 +26,7 @@ public class GcmPushListenerService extends FirebaseMessagingService {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onNewToken$0(String str) {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("Refreshed FCM token: " + str);

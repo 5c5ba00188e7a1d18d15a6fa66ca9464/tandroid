@@ -20,8 +20,9 @@ import org.telegram.ui.ActionBar.Theme;
 public class BasePermissionsActivity extends Activity {
     protected int currentAccount = -1;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean checkPermissionsResult(int i, String[] strArr, int[] iArr) {
-        String str;
+        String string;
         if (iArr == null) {
             iArr = new int[0];
         }
@@ -41,11 +42,11 @@ public class BasePermissionsActivity extends Activity {
         } else if (i == 4 || i == 151) {
             if (!z) {
                 if (i == 151) {
-                    str = LocaleController.getString("PermissionNoStorageAvatar", R.string.PermissionNoStorageAvatar);
+                    string = LocaleController.getString("PermissionNoStorageAvatar", R.string.PermissionNoStorageAvatar);
                 } else {
-                    str = LocaleController.getString("PermissionStorageWithHint", R.string.PermissionStorageWithHint);
+                    string = LocaleController.getString("PermissionStorageWithHint", R.string.PermissionStorageWithHint);
                 }
-                showPermissionErrorAlert(R.raw.permission_request_folder, str);
+                showPermissionErrorAlert(R.raw.permission_request_folder, string);
             } else {
                 ImageLoader.getInstance().checkMediaPaths();
             }
@@ -88,6 +89,7 @@ public class BasePermissionsActivity extends Activity {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public AlertDialog createPermissionErrorAlert(int i, String str) {
         return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor("dialogTopBackground")).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.BasePermissionsActivity$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnClickListener
@@ -97,6 +99,7 @@ public class BasePermissionsActivity extends Activity {
         }).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null).create();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createPermissionErrorAlert$0(DialogInterface dialogInterface, int i) {
         try {
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");

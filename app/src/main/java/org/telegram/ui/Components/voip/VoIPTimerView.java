@@ -27,6 +27,7 @@ public class VoIPTimerView extends View {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         if (getVisibility() == 0) {
             updateTimer();

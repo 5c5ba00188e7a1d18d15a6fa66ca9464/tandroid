@@ -17,12 +17,14 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
     protected final GoogleApiAvailability zac;
     private final Handler zad;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public zal(LifecycleFragment lifecycleFragment) {
         this(lifecycleFragment, GoogleApiAvailability.getInstance());
     }
 
     protected abstract void zaa();
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract void zaa(ConnectionResult connectionResult, int i);
 
     zal(LifecycleFragment lifecycleFragment, GoogleApiAvailability googleApiAvailability) {
@@ -64,12 +66,7 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
         this.zaa = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0067  */
     @Override // com.google.android.gms.common.api.internal.LifecycleCallback
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void onActivityResult(int i, int i2, Intent intent) {
         zak zakVar = this.zab.get();
         boolean z = true;
@@ -85,37 +82,28 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
                 if (zakVar.zab().getErrorCode() == 18 && isGooglePlayServicesAvailable == 18) {
                     return;
                 }
-                if (z) {
-                    zab();
-                    return;
-                } else if (zakVar == null) {
-                    return;
-                } else {
-                    zaa(zakVar.zab(), zakVar.zaa());
-                    return;
-                }
             }
             z = false;
-            if (z) {
-            }
-        } else {
-            if (i2 != -1) {
-                if (i2 == 0) {
-                    if (zakVar == null) {
-                        return;
-                    }
-                    int i3 = 13;
-                    if (intent != null) {
-                        i3 = intent.getIntExtra("<<ResolutionFailureErrorDetail>>", 13);
-                    }
-                    zak zakVar2 = new zak(new ConnectionResult(i3, null, zakVar.zab().toString()), zaa(zakVar));
-                    this.zab.set(zakVar2);
-                    zakVar = zakVar2;
+        } else if (i2 != -1) {
+            if (i2 == 0) {
+                if (zakVar == null) {
+                    return;
                 }
-                z = false;
+                int i3 = 13;
+                if (intent != null) {
+                    i3 = intent.getIntExtra("<<ResolutionFailureErrorDetail>>", 13);
+                }
+                zak zakVar2 = new zak(new ConnectionResult(i3, null, zakVar.zab().toString()), zaa(zakVar));
+                this.zab.set(zakVar2);
+                zakVar = zakVar2;
             }
-            if (z) {
-            }
+            z = false;
+        }
+        if (z) {
+            zab();
+        } else if (zakVar == null) {
+        } else {
+            zaa(zakVar.zab(), zakVar.zaa());
         }
     }
 
@@ -125,6 +113,7 @@ public abstract class zal extends LifecycleCallback implements DialogInterface.O
         this.zaa = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void zab() {
         this.zab.set(null);
         zaa();

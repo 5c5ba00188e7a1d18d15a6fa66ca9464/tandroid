@@ -8,13 +8,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class TrackGroup implements Parcelable {
     public static final Parcelable.Creator<TrackGroup> CREATOR = new Parcelable.Creator<TrackGroup>() { // from class: com.google.android.exoplayer2.source.TrackGroup.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TrackGroup createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public TrackGroup mo147createFromParcel(Parcel parcel) {
             return new TrackGroup(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TrackGroup[] newArray(int i) {
+        /* renamed from: newArray */
+        public TrackGroup[] mo148newArray(int i) {
             return new TrackGroup[i];
         }
     };

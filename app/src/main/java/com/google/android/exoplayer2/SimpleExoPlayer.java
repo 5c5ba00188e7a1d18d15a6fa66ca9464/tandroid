@@ -85,6 +85,7 @@ public class SimpleExoPlayer extends BasePlayer {
     public interface VideoListener extends com.google.android.exoplayer2.video.VideoListener {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Deprecated
     public SimpleExoPlayer(Context context, RenderersFactory renderersFactory, TrackSelector trackSelector, LoadControl loadControl, DrmSessionManager<FrameworkMediaCrypto> drmSessionManager, BandwidthMeter bandwidthMeter, AnalyticsCollector analyticsCollector, Clock clock, Looper looper) {
         this.bandwidthMeter = bandwidthMeter;
@@ -356,6 +357,7 @@ public class SimpleExoPlayer extends BasePlayer {
         this.playerReleased = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$release$0(boolean z) {
         this.player.release(z);
     }
@@ -429,6 +431,7 @@ public class SimpleExoPlayer extends BasePlayer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setVideoSurfaceInternal(Surface surface, boolean z) {
         Renderer[] rendererArr;
         ArrayList<PlayerMessage> arrayList = new ArrayList();
@@ -463,6 +466,7 @@ public class SimpleExoPlayer extends BasePlayer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void maybeNotifySurfaceSizeChanged(int i, int i2) {
         if (i == this.surfaceWidth && i2 == this.surfaceHeight) {
             return;
@@ -475,6 +479,7 @@ public class SimpleExoPlayer extends BasePlayer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendVolumeToRenderers() {
         Renderer[] rendererArr;
         float volumeMultiplier = this.audioVolume * this.audioFocusManager.getVolumeMultiplier();
@@ -485,6 +490,7 @@ public class SimpleExoPlayer extends BasePlayer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePlayWhenReady(boolean z, int i) {
         int i2 = 0;
         boolean z2 = z && i != -1;
@@ -501,6 +507,7 @@ public class SimpleExoPlayer extends BasePlayer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateWakeAndWifiLock() {
         int playbackState = getPlaybackState();
         if (playbackState != 1) {
@@ -516,6 +523,7 @@ public class SimpleExoPlayer extends BasePlayer {
         this.wifiLockManager.setStayAwake(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public final class ComponentListener implements VideoRendererEventListener, AudioRendererEventListener, TextOutput, MetadataOutput, SurfaceHolder.Callback, TextureView.SurfaceTextureListener, AudioFocusManager.PlayerControl, AudioBecomingNoisyManager.EventListener, Player.EventListener {
         @Override // com.google.android.exoplayer2.Player.EventListener
@@ -569,7 +577,6 @@ public class SimpleExoPlayer extends BasePlayer {
         }
 
         private ComponentListener() {
-            SimpleExoPlayer.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.video.VideoRendererEventListener

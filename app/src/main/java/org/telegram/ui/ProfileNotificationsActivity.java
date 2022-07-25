@@ -100,7 +100,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     /* loaded from: classes3.dex */
     public interface ProfileNotificationsActivityDelegate {
 
-        /* renamed from: org.telegram.ui.ProfileNotificationsActivity$ProfileNotificationsActivityDelegate$-CC */
+        /* renamed from: org.telegram.ui.ProfileNotificationsActivity$ProfileNotificationsActivityDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static void $default$didRemoveException(ProfileNotificationsActivityDelegate profileNotificationsActivityDelegate, long j) {
@@ -123,12 +123,12 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.addingException = bundle.getBoolean("exception", false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00d5  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00f0  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0110  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x011d  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0131  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0110  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0131  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x00f0  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -418,6 +418,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(Context context, View view, int i) {
         if (!view.isEnabled()) {
             return;
@@ -539,6 +540,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(DialogInterface dialogInterface, int i) {
         this.needReset = true;
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
@@ -551,6 +553,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1() {
         ListAdapter listAdapter = this.adapter;
         if (listAdapter != null) {
@@ -558,6 +561,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2() {
         ListAdapter listAdapter = this.adapter;
         if (listAdapter != null) {
@@ -565,6 +569,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3() {
         ListAdapter listAdapter = this.adapter;
         if (listAdapter != null) {
@@ -572,6 +577,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(int i, int i2) {
         SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
         SharedPreferences.Editor putInt = edit.putInt("smart_max_count_" + this.dialogId, i);
@@ -582,6 +588,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5() {
         ListAdapter listAdapter = this.adapter;
         if (listAdapter != null) {
@@ -697,12 +704,12 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
         public ListAdapter(Context context) {
-            ProfileNotificationsActivity.this = r1;
             this.context = context;
         }
 
@@ -735,49 +742,50 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
-            View view2;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View headerCell;
+            View textInfoPrivacyCell;
             switch (i) {
                 case 0:
-                    view2 = new HeaderCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
-                    view2.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
-                    view = view2;
+                    headerCell = new HeaderCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
+                    textInfoPrivacyCell = headerCell;
                     break;
                 case 1:
-                    view2 = new TextSettingsCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
-                    view2.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
-                    view = view2;
+                    headerCell = new TextSettingsCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
+                    textInfoPrivacyCell = headerCell;
                     break;
                 case 2:
-                    view = new TextInfoPrivacyCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
+                    textInfoPrivacyCell = new TextInfoPrivacyCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
                     break;
                 case 3:
-                    view2 = new TextColorCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
-                    view2.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
-                    view = view2;
+                    headerCell = new TextColorCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
+                    textInfoPrivacyCell = headerCell;
                     break;
                 case 4:
-                    view2 = new RadioCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
-                    view2.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
-                    view = view2;
+                    headerCell = new RadioCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
+                    textInfoPrivacyCell = headerCell;
                     break;
                 case 5:
-                    view2 = new UserCell2(this.context, 4, 0, ProfileNotificationsActivity.this.resourcesProvider);
-                    view2.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
-                    view = view2;
+                    headerCell = new UserCell2(this.context, 4, 0, ProfileNotificationsActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
+                    textInfoPrivacyCell = headerCell;
                     break;
                 case 6:
-                    view = new ShadowSectionCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
+                    textInfoPrivacyCell = new ShadowSectionCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
                     break;
                 default:
-                    view2 = new TextCheckCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
-                    view2.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
-                    view = view2;
+                    headerCell = new TextCheckCell(this.context, ProfileNotificationsActivity.this.resourcesProvider);
+                    headerCell.setBackgroundColor(ProfileNotificationsActivity.this.getThemedColor("windowBackgroundWhite"));
+                    textInfoPrivacyCell = headerCell;
                     break;
             }
-            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(view);
+            textInfoPrivacyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(textInfoPrivacyCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1153,6 +1161,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$7() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

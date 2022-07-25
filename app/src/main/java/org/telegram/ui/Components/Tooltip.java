@@ -21,6 +21,7 @@ public class Tooltip extends TextView {
     };
     private boolean showing;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         ViewPropertyAnimator duration = animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Tooltip.1
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

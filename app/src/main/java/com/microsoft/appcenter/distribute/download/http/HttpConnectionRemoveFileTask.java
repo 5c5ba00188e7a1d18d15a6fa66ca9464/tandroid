@@ -6,10 +6,13 @@ import java.io.File;
 class HttpConnectionRemoveFileTask extends AsyncTask<Void, Void, Void> {
     private final File mFile;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public HttpConnectionRemoveFileTask(File file) {
         this.mFile = file;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Void doInBackground(Void... voidArr) {
         this.mFile.delete();
         return null;

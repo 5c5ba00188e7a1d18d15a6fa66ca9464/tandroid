@@ -17,33 +17,28 @@ final class AutoValue_EventStoreConfig extends EventStoreConfig {
         this.maxBlobByteSizePerRow = i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStoreConfig
-    public long getMaxStorageSizeInBytes() {
+    long getMaxStorageSizeInBytes() {
         return this.maxStorageSizeInBytes;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStoreConfig
-    public int getLoadBatchSize() {
+    int getLoadBatchSize() {
         return this.loadBatchSize;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStoreConfig
-    public int getCriticalSectionEnterTimeoutMs() {
+    int getCriticalSectionEnterTimeoutMs() {
         return this.criticalSectionEnterTimeoutMs;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStoreConfig
-    public long getEventCleanUpAge() {
+    long getEventCleanUpAge() {
         return this.eventCleanUpAge;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStoreConfig
-    public int getMaxBlobByteSizePerRow() {
+    int getMaxBlobByteSizePerRow() {
         return this.maxBlobByteSizePerRow;
     }
 
@@ -68,9 +63,8 @@ final class AutoValue_EventStoreConfig extends EventStoreConfig {
         return this.maxBlobByteSizePerRow ^ ((((((((((int) (j ^ (j >>> 32))) ^ 1000003) * 1000003) ^ this.loadBatchSize) * 1000003) ^ this.criticalSectionEnterTimeoutMs) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends EventStoreConfig.Builder {
+    static final class Builder extends EventStoreConfig.Builder {
         private Integer criticalSectionEnterTimeoutMs;
         private Long eventCleanUpAge;
         private Integer loadBatchSize;

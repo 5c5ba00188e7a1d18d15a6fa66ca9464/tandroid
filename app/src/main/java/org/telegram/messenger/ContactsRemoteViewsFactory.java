@@ -90,10 +90,10 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
 
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
     public RemoteViews getViewAt(int i) {
-        TLRPC$FileLocation tLRPC$FileLocation;
         String str;
         TLRPC$Chat tLRPC$Chat;
         TLRPC$User tLRPC$User;
+        TLRPC$FileLocation tLRPC$FileLocation;
         Bitmap decodeFile;
         int i2;
         AvatarDrawable avatarDrawable;

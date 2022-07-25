@@ -114,6 +114,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         this.textPaint.setTextSize(AndroidUtilities.dpf2(15.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         setAlphaValue(AndroidUtilities.lerp(this.animatorValues, valueAnimator.getAnimatedFraction()), true);
     }
@@ -160,23 +161,24 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         this.pressedOverlayGradient[1].setBounds(i - i5, 0, i, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:119:0x0304  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0307  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x01d2  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x01f3  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x020e  */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0304  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0307  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x01d2  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x020e  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x01f3  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onDraw(Canvas canvas) {
-        boolean z;
         int i;
+        boolean z;
         float f;
         int i2;
-        float f2;
         int i3;
+        float f2;
         for (int i4 = 0; i4 < 2; i4++) {
             float[] fArr = this.pressedOverlayAlpha;
             if (fArr[i4] > 0.0f) {

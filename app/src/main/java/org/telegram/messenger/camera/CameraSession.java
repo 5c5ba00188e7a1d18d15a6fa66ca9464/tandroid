@@ -42,6 +42,7 @@ public class CameraSession {
     Camera.CameraInfo info = new Camera.CameraInfo();
     private Camera.AutoFocusCallback autoFocusCallback = CameraSession$$ExternalSyntheticLambda0.INSTANCE;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(boolean z, Camera camera) {
     }
 
@@ -89,6 +90,7 @@ public class CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int roundOrientation(int i, int i2) {
         boolean z = true;
         if (i2 != -1) {
@@ -174,6 +176,7 @@ public class CameraSession {
         return this.sameTakePictureOrientation;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean configureRoundCamera(boolean z) {
         int i;
         try {
@@ -244,9 +247,9 @@ public class CameraSession {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0061  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -306,6 +309,7 @@ public class CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void configurePhotoCamera() {
         int i;
         try {
@@ -385,6 +389,7 @@ public class CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void focusToRect(Rect rect, Rect rect2) {
         try {
             Camera camera = this.cameraInfo.camera;
@@ -441,6 +446,7 @@ public class CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void configureRecorder(int i, MediaRecorder mediaRecorder) {
         int i2;
         updateCameraInfo();
@@ -469,6 +475,7 @@ public class CameraSession {
         this.isVideo = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void stopVideoRecording() {
         this.isVideo = false;
         this.useTorch = false;

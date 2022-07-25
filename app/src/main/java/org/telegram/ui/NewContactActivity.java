@@ -86,6 +86,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
     private HashMap<String, String> codesMap = new HashMap<>();
     private HashMap<String, String> phoneFormatMap = new HashMap<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -94,7 +95,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x056d  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x056d  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -286,8 +287,8 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
 
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                boolean z2;
                 String str5;
+                boolean z2;
                 if (NewContactActivity.this.ignoreOnTextChange) {
                     return;
                 }
@@ -558,11 +559,11 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         return this.fragmentView;
     }
 
-    /* renamed from: org.telegram.ui.NewContactActivity$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.NewContactActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
         AnonymousClass1() {
-            NewContactActivity.this = r1;
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -614,6 +615,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
             NewContactActivity.this.finishFragment();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$2(final TLRPC$TL_inputPhoneContact tLRPC$TL_inputPhoneContact, final TLRPC$TL_contacts_importContacts tLRPC$TL_contacts_importContacts, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
             final TLRPC$TL_contacts_importedContacts tLRPC$TL_contacts_importedContacts = (TLRPC$TL_contacts_importedContacts) tLObject;
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NewContactActivity$1$$ExternalSyntheticLambda1
@@ -624,6 +626,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$1(TLRPC$TL_contacts_importedContacts tLRPC$TL_contacts_importedContacts, final TLRPC$TL_inputPhoneContact tLRPC$TL_inputPhoneContact, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_contacts_importContacts tLRPC$TL_contacts_importContacts) {
             NewContactActivity.this.donePressed = false;
             if (tLRPC$TL_contacts_importedContacts == null) {
@@ -649,6 +652,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$0(TLRPC$TL_inputPhoneContact tLRPC$TL_inputPhoneContact, DialogInterface dialogInterface, int i) {
             try {
                 Intent intent = new Intent("android.intent.action.VIEW", Uri.fromParts("sms", tLRPC$TL_inputPhoneContact.phone, null));
@@ -660,6 +664,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             this.lastNameField.requestFocus();
@@ -670,6 +675,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             this.phoneField.requestFocus();
@@ -680,6 +686,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         CountrySelectActivity countrySelectActivity = new CountrySelectActivity(true);
         countrySelectActivity.setCountrySelectActivityDelegate(new CountrySelectActivity.CountrySelectActivityDelegate() { // from class: org.telegram.ui.NewContactActivity$$ExternalSyntheticLambda8
@@ -691,6 +698,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         presentFragment(countrySelectActivity);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(CountrySelectActivity.Country country) {
         selectCountry(country.name);
         this.phoneField.requestFocus();
@@ -698,6 +706,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         hintEditText.setSelection(hintEditText.length());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$5(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             this.phoneField.requestFocus();
@@ -708,6 +717,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$6(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 6) {
             this.editDoneItem.performClick();
@@ -716,6 +726,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$7(View view, int i, KeyEvent keyEvent) {
         if (i == 67 && this.phoneField.length() == 0) {
             this.codeField.requestFocus();
@@ -759,6 +770,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         return str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void invalidateAvatar() {
         this.avatarDrawable.setInfo(5L, this.firstNameField.getText().toString(), this.lastNameField.getText().toString());
         this.avatarImage.invalidate();
@@ -809,6 +821,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         this.ignoreOnTextChange = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showEditDoneProgress(final boolean z, boolean z2) {
         AnimatorSet animatorSet = this.editDoneItemAnimation;
         if (animatorSet != null) {
@@ -924,6 +937,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$8() {
         if (this.avatarImage != null) {
             invalidateAvatar();

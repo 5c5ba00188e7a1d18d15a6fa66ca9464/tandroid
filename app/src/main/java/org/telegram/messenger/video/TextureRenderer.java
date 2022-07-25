@@ -196,10 +196,10 @@ public class TextureRenderer {
     }
 
     public void drawFrame(SurfaceTexture surfaceTexture) {
-        char c;
-        float[] fArr;
         int i;
         int i2;
+        float[] fArr;
+        char c;
         if (this.isPhoto) {
             GLES20.glUseProgram(this.simpleShaderProgram);
             GLES20.glActiveTexture(33984);
@@ -242,19 +242,19 @@ public class TextureRenderer {
                 if (i4 != this.originalWidth || this.transformedHeight != this.originalHeight) {
                     GLES20.glViewport(0, 0, i4, this.transformedHeight);
                 }
-                i2 = this.filterShaders.getRenderTexture(!drawBlurPass);
+                i = this.filterShaders.getRenderTexture(!drawBlurPass);
                 fArr = this.mSTMatrixIdentity;
-                i = 3553;
+                i2 = 3553;
                 c = 1;
             } else {
-                i2 = this.mTextureID;
-                i = 36197;
+                i = this.mTextureID;
+                i2 = 36197;
                 fArr = this.mSTMatrix;
                 c = 0;
             }
             GLES20.glUseProgram(this.mProgram[c]);
             GLES20.glActiveTexture(33984);
-            GLES20.glBindTexture(i, i2);
+            GLES20.glBindTexture(i2, i);
             GLES20.glVertexAttribPointer(this.maPositionHandle[c], 2, 5126, false, 8, (Buffer) this.verticesBuffer);
             GLES20.glEnableVertexAttribArray(this.maPositionHandle[c]);
             GLES20.glVertexAttribPointer(this.maTextureHandle[c], 2, 5126, false, 8, (Buffer) this.renderTextureBuffer);
@@ -410,18 +410,18 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0204 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0204 A[SYNTHETIC] */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void surfaceCreated() {
-        Bitmap bitmap;
-        int i;
         String str;
+        int i;
         Bitmap decodeFile;
-        float f;
+        float max;
+        Bitmap bitmap;
         int i2 = 0;
         while (true) {
             int[] iArr = this.mProgram;
@@ -502,21 +502,21 @@ public class TextureRenderer {
                                 createBitmap.eraseColor(i5);
                                 Canvas canvas = new Canvas(createBitmap);
                                 if (i != 90 && i != 270) {
-                                    f = Math.max(decodeFile.getWidth() / this.transformedWidth, decodeFile.getHeight() / this.transformedHeight);
+                                    max = Math.max(decodeFile.getWidth() / this.transformedWidth, decodeFile.getHeight() / this.transformedHeight);
                                     android.graphics.Matrix matrix = new android.graphics.Matrix();
                                     matrix.postTranslate((-decodeFile.getWidth()) / 2, (-decodeFile.getHeight()) / 2);
-                                    float f2 = 1.0f / f;
-                                    matrix.postScale(f2, f2);
+                                    float f = 1.0f / max;
+                                    matrix.postScale(f, f);
                                     matrix.postRotate(i);
                                     matrix.postTranslate(createBitmap.getWidth() / 2, createBitmap.getHeight() / 2);
                                     canvas.drawBitmap(decodeFile, matrix, new Paint(2));
                                     decodeFile = createBitmap;
                                 }
-                                f = Math.max(decodeFile.getHeight() / this.transformedWidth, decodeFile.getWidth() / this.transformedHeight);
+                                max = Math.max(decodeFile.getHeight() / this.transformedWidth, decodeFile.getWidth() / this.transformedHeight);
                                 android.graphics.Matrix matrix2 = new android.graphics.Matrix();
                                 matrix2.postTranslate((-decodeFile.getWidth()) / 2, (-decodeFile.getHeight()) / 2);
-                                float f22 = 1.0f / f;
-                                matrix2.postScale(f22, f22);
+                                float f2 = 1.0f / max;
+                                matrix2.postScale(f2, f2);
                                 matrix2.postRotate(i);
                                 matrix2.postTranslate(createBitmap.getWidth() / 2, createBitmap.getHeight() / 2);
                                 canvas.drawBitmap(decodeFile, matrix2, new Paint(2));

@@ -68,6 +68,7 @@ public abstract class zzad<E> extends zzac<E> implements List<E>, RandomAccess {
         return indexOf(obj) >= 0;
     }
 
+    @Override // java.util.List
     /* renamed from: zza */
     public zzad<E> subList(int i, int i2) {
         zzy.zza(i, i2, size());

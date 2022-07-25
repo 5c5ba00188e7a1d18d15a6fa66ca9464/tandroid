@@ -5,6 +5,7 @@ class x3 extends f3 {
     long c;
     final /* synthetic */ y3 d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public x3(y3 y3Var, m3 m3Var) {
         super(m3Var);

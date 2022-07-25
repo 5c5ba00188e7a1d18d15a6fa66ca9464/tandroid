@@ -42,10 +42,10 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return this.mediaPeriod.getTrackGroups();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0062, code lost:
-        if (r2 > r4) goto L25;
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0062, code lost:
+        if (r2 > r4) goto L26;
      */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0052  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0052  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x006e  */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     /*
@@ -159,8 +159,8 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return Long.MIN_VALUE;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0032, code lost:
-        if (r0 > r7) goto L17;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0032, code lost:
+        if (r0 > r7) goto L18;
      */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     /*
@@ -226,6 +226,7 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onPrepared(this);
     }
 
+    @Override // com.google.android.exoplayer2.source.SequenceableLoader.Callback
     public void onContinueLoadingRequested(MediaPeriod mediaPeriod) {
         ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onContinueLoadingRequested(this);
     }
@@ -253,14 +254,12 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class ClippingSampleStream implements SampleStream {
+    private final class ClippingSampleStream implements SampleStream {
         public final SampleStream childStream;
         private boolean sentEos;
 
         public ClippingSampleStream(SampleStream sampleStream) {
-            ClippingMediaPeriod.this = r1;
             this.childStream = sampleStream;
         }
 

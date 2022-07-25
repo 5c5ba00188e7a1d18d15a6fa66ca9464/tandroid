@@ -44,6 +44,7 @@ public class Track {
     private ArrayList<SamplePresentationTime> samplePresentationTimes = new ArrayList<>();
     private boolean first = true;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class SamplePresentationTime {
         private long dt;
@@ -303,6 +304,7 @@ public class Track {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$prepare$0(SamplePresentationTime samplePresentationTime, SamplePresentationTime samplePresentationTime2) {
         if (samplePresentationTime.presentationTime > samplePresentationTime2.presentationTime) {
             return 1;

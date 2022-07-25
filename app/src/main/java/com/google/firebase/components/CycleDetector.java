@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class CycleDetector {
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Dep {
         private final Class<?> anInterface;
@@ -31,6 +33,7 @@ public class CycleDetector {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ComponentNode {
         private final Component<?> component;
@@ -70,6 +73,7 @@ public class CycleDetector {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void detect(List<Component<?>> list) {
         Set<ComponentNode> graph = toGraph(list);
         Set<ComponentNode> roots = getRoots(graph);

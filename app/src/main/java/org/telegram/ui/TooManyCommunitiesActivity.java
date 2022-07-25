@@ -93,6 +93,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         if (view instanceof GroupCreateUserCell) {
             GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) view;
@@ -118,6 +119,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(View view, int i) {
         this.onItemClickListener.onItemClick(view, i);
         return true;
@@ -270,6 +272,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         if (this.selectedIds.isEmpty()) {
             return;
@@ -348,8 +351,9 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadInactiveChannels$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        String str;
+        String formatPluralString;
         if (tLRPC$TL_error == null) {
             final TLRPC$TL_messages_inactiveChats tLRPC$TL_messages_inactiveChats = (TLRPC$TL_messages_inactiveChats) tLObject;
             final ArrayList arrayList = new ArrayList();
@@ -357,18 +361,18 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                 TLRPC$Chat tLRPC$Chat = tLRPC$TL_messages_inactiveChats.chats.get(i);
                 int currentTime = (getConnectionsManager().getCurrentTime() - tLRPC$TL_messages_inactiveChats.dates.get(i).intValue()) / RemoteMessageConst.DEFAULT_TTL;
                 if (currentTime < 30) {
-                    str = LocaleController.formatPluralString("Days", currentTime, new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Days", currentTime, new Object[0]);
                 } else if (currentTime < 365) {
-                    str = LocaleController.formatPluralString("Months", currentTime / 30, new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Months", currentTime / 30, new Object[0]);
                 } else {
-                    str = LocaleController.formatPluralString("Years", currentTime / 365, new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Years", currentTime / 365, new Object[0]);
                 }
                 if (ChatObject.isMegagroup(tLRPC$Chat)) {
-                    arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
+                    arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), formatPluralString));
                 } else if (ChatObject.isChannel(tLRPC$Chat)) {
-                    arrayList.add(LocaleController.formatString("InactiveChannelSignature", R.string.InactiveChannelSignature, str));
+                    arrayList.add(LocaleController.formatString("InactiveChannelSignature", R.string.InactiveChannelSignature, formatPluralString));
                 } else {
-                    arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), str));
+                    arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), formatPluralString));
                 }
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda2
@@ -380,6 +384,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadInactiveChannels$4(ArrayList arrayList, TLRPC$TL_messages_inactiveChats tLRPC$TL_messages_inactiveChats) {
         this.inactiveChatsSignatures.clear();
         this.inactiveChats.clear();
@@ -411,6 +416,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadInactiveChannels$3(ValueAnimator valueAnimator) {
         this.enterProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         int childCount = this.listView.getChildCount();
@@ -426,6 +432,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         int endPaddingPosition;
@@ -437,7 +444,6 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         int shadowPosition;
 
         Adapter() {
-            TooManyCommunitiesActivity.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -476,43 +482,44 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            GroupCreateUserCell groupCreateUserCell;
-            String str;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            String string;
+            HeaderCell headerCell;
             if (i == 1) {
                 TooManyCommunitiesActivity.this.hintCell = new TooManyCommunitiesHintCell(viewGroup.getContext());
-                TooManyCommunitiesHintCell tooManyCommunitiesHintCell = TooManyCommunitiesActivity.this.hintCell;
+                View view = TooManyCommunitiesActivity.this.hintCell;
                 int i2 = TooManyCommunitiesActivity.this.type;
                 if (i2 == 0) {
-                    str = LocaleController.getString("TooManyCommunitiesHintJoin", R.string.TooManyCommunitiesHintJoin);
+                    string = LocaleController.getString("TooManyCommunitiesHintJoin", R.string.TooManyCommunitiesHintJoin);
                 } else if (i2 == 1) {
-                    str = LocaleController.getString("TooManyCommunitiesHintEdit", R.string.TooManyCommunitiesHintEdit);
+                    string = LocaleController.getString("TooManyCommunitiesHintEdit", R.string.TooManyCommunitiesHintEdit);
                 } else {
-                    str = LocaleController.getString("TooManyCommunitiesHintCreate", R.string.TooManyCommunitiesHintCreate);
+                    string = LocaleController.getString("TooManyCommunitiesHintCreate", R.string.TooManyCommunitiesHintCreate);
                 }
-                TooManyCommunitiesActivity.this.hintCell.setMessageText(str);
+                TooManyCommunitiesActivity.this.hintCell.setMessageText(string);
                 RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, -2);
                 ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin = AndroidUtilities.dp(16.0f);
                 ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(23.0f);
                 TooManyCommunitiesActivity.this.hintCell.setLayoutParams(layoutParams);
-                groupCreateUserCell = tooManyCommunitiesHintCell;
+                headerCell = view;
             } else if (i == 2) {
                 View shadowSectionCell = new ShadowSectionCell(viewGroup.getContext());
                 CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(viewGroup.getContext(), (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
                 combinedDrawable.setFullsize(true);
                 shadowSectionCell.setBackground(combinedDrawable);
-                groupCreateUserCell = shadowSectionCell;
+                headerCell = shadowSectionCell;
             } else if (i == 3) {
-                HeaderCell headerCell = new HeaderCell(viewGroup.getContext(), "windowBackgroundWhiteBlueHeader", 21, 8, false);
-                headerCell.setHeight(54);
-                headerCell.setText(LocaleController.getString("InactiveChats", R.string.InactiveChats));
-                groupCreateUserCell = headerCell;
+                HeaderCell headerCell2 = new HeaderCell(viewGroup.getContext(), "windowBackgroundWhiteBlueHeader", 21, 8, false);
+                headerCell2.setHeight(54);
+                headerCell2.setText(LocaleController.getString("InactiveChats", R.string.InactiveChats));
+                headerCell = headerCell2;
             } else if (i == 5) {
-                groupCreateUserCell = new EmptyCell(viewGroup.getContext(), AndroidUtilities.dp(12.0f));
+                headerCell = new EmptyCell(viewGroup.getContext(), AndroidUtilities.dp(12.0f));
             } else {
-                groupCreateUserCell = new GroupCreateUserCell(viewGroup.getContext(), 1, 0, false);
+                headerCell = new GroupCreateUserCell(viewGroup.getContext(), 1, 0, false);
             }
-            return new RecyclerListView.Holder(groupCreateUserCell);
+            return new RecyclerListView.Holder(headerCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -562,6 +569,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int lastSearchId;
@@ -575,11 +583,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
 
         SearchAdapter() {
-            TooManyCommunitiesActivity.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(new GroupCreateUserCell(viewGroup.getContext(), 1, 0, false));
         }
 
@@ -637,6 +645,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processSearch$1(String str, int i) {
             String lowerCase = str.trim().toLowerCase();
             String str2 = null;
@@ -697,6 +706,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$2(int i, ArrayList arrayList, ArrayList arrayList2) {
             if (i != this.lastSearchId) {
                 return;
@@ -774,6 +784,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$6() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

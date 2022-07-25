@@ -115,7 +115,8 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
                 return new RecyclerListView.Holder(new SenderView(viewGroup.getContext()));
             }
 
@@ -194,6 +195,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         this.scrimPopupContainerLayout.addView(this.recyclerContainer);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(OnSelectCallback onSelectCallback, List list, View view, int i) {
         if (this.clicked) {
             return;
@@ -277,14 +279,17 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startShowAnimation$1(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleX(1.0f / f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startShowAnimation$2(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleY(1.0f / f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startShowAnimation$3(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (!z) {
             this.springAnimations.remove(springAnimation);
@@ -349,14 +354,17 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDismissAnimation$4(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleX(1.0f / f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDismissAnimation$5(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleY(1.0f / f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDismissAnimation$6(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (this.dimView.getParent() != null) {
             ((ViewGroup) this.dimView.getParent()).removeView(this.dimView);
@@ -364,10 +372,12 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDismissAnimation$7(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         this.runningCustomSprings = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDismissAnimation$8(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (!z) {
             this.springAnimations.remove(springAnimation);
@@ -414,13 +424,10 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class BackButtonFrameLayout extends FrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    private class BackButtonFrameLayout extends FrameLayout {
         public BackButtonFrameLayout(Context context) {
             super(context);
-            SenderSelectPopup.this = r1;
         }
 
         @Override // android.view.ViewGroup, android.view.View

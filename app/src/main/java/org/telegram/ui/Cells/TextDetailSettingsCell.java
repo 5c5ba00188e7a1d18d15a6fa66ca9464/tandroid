@@ -115,27 +115,27 @@ public class TextDetailSettingsCell extends FrameLayout {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        float f;
+        float dp;
         int i;
         if (!this.needDivider || Theme.dividerPaint == null) {
             return;
         }
-        float f2 = 71.0f;
+        float f = 71.0f;
         if (LocaleController.isRTL) {
-            f = 0.0f;
+            dp = 0.0f;
         } else {
-            f = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? 71.0f : 20.0f);
+            dp = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? 71.0f : 20.0f);
         }
         float measuredHeight = getMeasuredHeight() - 1;
         int measuredWidth = getMeasuredWidth();
         if (LocaleController.isRTL) {
             if (this.imageView.getVisibility() != 0) {
-                f2 = 20.0f;
+                f = 20.0f;
             }
-            i = AndroidUtilities.dp(f2);
+            i = AndroidUtilities.dp(f);
         } else {
             i = 0;
         }
-        canvas.drawLine(f, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
+        canvas.drawLine(dp, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
     }
 }

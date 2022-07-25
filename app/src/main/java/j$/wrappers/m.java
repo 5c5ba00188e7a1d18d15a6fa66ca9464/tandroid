@@ -72,4 +72,22 @@ public final /* synthetic */ class m implements j$.util.v {
     public /* synthetic */ boolean tryAdvance(Object obj) {
         return this.a.tryAdvance((Spliterator.OfLong) obj);
     }
+
+    @Override // j$.util.v, j$.util.w, j$.util.u
+    /* renamed from: trySplit */
+    public /* synthetic */ j$.util.u mo350trySplit() {
+        return g.a(this.a.trySplit());
+    }
+
+    @Override // j$.util.v, j$.util.w, j$.util.u
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public /* synthetic */ j$.util.v mo350trySplit() {
+        return a(this.a.trySplit());
+    }
+
+    @Override // j$.util.v, j$.util.w, j$.util.u
+    /* renamed from: trySplit */
+    public /* synthetic */ j$.util.w mo350trySplit() {
+        return o.a(this.a.trySplit());
+    }
 }

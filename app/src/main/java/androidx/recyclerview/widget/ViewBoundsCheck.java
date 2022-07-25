@@ -6,9 +6,8 @@ class ViewBoundsCheck {
     BoundFlags mBoundFlags = new BoundFlags();
     final Callback mCallback;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public interface Callback {
+    interface Callback {
         View getChildAt(int i);
 
         int getChildEnd(View view);
@@ -20,13 +19,13 @@ class ViewBoundsCheck {
         int getParentStart();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ViewBoundsCheck(Callback callback) {
         this.mCallback = callback;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class BoundFlags {
+    static class BoundFlags {
         int mBoundFlags = 0;
         int mChildEnd;
         int mChildStart;
@@ -76,6 +75,7 @@ class ViewBoundsCheck {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public View findOneViewWithinBoundFlags(int i, int i2, int i3, int i4) {
         int parentStart = this.mCallback.getParentStart();
         int parentEnd = this.mCallback.getParentEnd();
@@ -103,6 +103,7 @@ class ViewBoundsCheck {
         return view;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isViewWithinBoundFlags(View view, int i) {
         this.mBoundFlags.setBounds(this.mCallback.getParentStart(), this.mCallback.getParentEnd(), this.mCallback.getChildStart(view), this.mCallback.getChildEnd(view));
         if (i != 0) {

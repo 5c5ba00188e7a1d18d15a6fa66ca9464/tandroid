@@ -200,6 +200,7 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ProgressObserver implements DownloadController.FileDownloadProgressListener {
         long downloaded;
@@ -224,7 +225,6 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
         }
 
         private ProgressObserver(String str) {
-            DownloadProgressIcon.this = r1;
             this.fileName = str;
         }
 

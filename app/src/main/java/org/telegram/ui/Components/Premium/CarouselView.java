@@ -77,11 +77,13 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ float lambda$static$0(float f) {
         float f2 = f - 1.0f;
         return (f2 * f2 * f2 * f2 * f2) + 1.0f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$new$1(DrawingObject drawingObject) {
         return (int) (drawingObject.yRelative * 100.0f);
     }
@@ -196,6 +198,7 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkSelectedHaptic() {
         int size = (int) (this.offsetAngle / (360.0f / this.drawingObjects.size()));
         if (this.lastSelected != size) {
@@ -204,6 +207,7 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void scrollToInternal(final float f) {
         if (Math.abs(f - this.offsetAngle) >= 1.0f || this.autoScrollAnimation != null) {
             AndroidUtilities.cancelRunOnUIThread(this.autoScrollRunnable);
@@ -229,19 +233,20 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$scrollToInternal$2(float f, float f2, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.offsetAngle = (f * (1.0f - floatValue)) + (f2 * floatValue);
         invalidate();
     }
 
-    /* renamed from: org.telegram.ui.Components.Premium.CarouselView$3 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.Premium.CarouselView$3  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass3 extends AnimatorListenerAdapter {
         final /* synthetic */ float val$scrollTo;
 
         AnonymousClass3(float f) {
-            CarouselView.this = r1;
             this.val$scrollTo = f;
         }
 
@@ -259,6 +264,7 @@ public class CarouselView extends View implements PagerHeaderView {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
             if (!CarouselView.this.drawingObjectsSorted.isEmpty()) {
                 ((DrawingObject) CarouselView.this.drawingObjectsSorted.get(CarouselView.this.drawingObjectsSorted.size() - 1)).select();
@@ -304,8 +310,8 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0074, code lost:
-        if (java.lang.Math.abs(r8 % r2) > 2.0d) goto L20;
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0074, code lost:
+        if (java.lang.Math.abs(r8 % r2) > 2.0d) goto L32;
      */
     @Override // android.view.View
     /*

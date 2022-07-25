@@ -38,6 +38,7 @@ public class DefaultScheduler implements Scheduler {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$schedule$1(final TransportContext transportContext, TransportScheduleCallback transportScheduleCallback, EventInternal eventInternal) {
         try {
             TransportBackend transportBackend = this.backendRegistry.get(transportContext.getBackendName());
@@ -64,6 +65,7 @@ public class DefaultScheduler implements Scheduler {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$schedule$0(TransportContext transportContext, EventInternal eventInternal) {
         this.eventStore.persist(transportContext, eventInternal);
         this.workScheduler.schedule(transportContext, 1);

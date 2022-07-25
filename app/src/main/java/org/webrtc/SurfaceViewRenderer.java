@@ -212,6 +212,7 @@ public class SurfaceViewRenderer extends SurfaceView implements SurfaceHolder.Ca
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFrameResolutionChanged$0(int i, int i2) {
         this.rotatedFrameWidth = i;
         this.rotatedFrameHeight = i2;

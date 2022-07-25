@@ -5,6 +5,7 @@ final class zacf implements Runnable {
     private final /* synthetic */ com.google.android.gms.signin.internal.zak zaa;
     private final /* synthetic */ zace zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zacf(zace zaceVar, com.google.android.gms.signin.internal.zak zakVar) {
         this.zab = zaceVar;
         this.zaa = zakVar;

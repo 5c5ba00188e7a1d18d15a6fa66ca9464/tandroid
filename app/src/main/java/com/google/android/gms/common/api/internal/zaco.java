@@ -12,6 +12,7 @@ public final class zaco {
     final Set<BasePendingResult<?>> zab = Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap()));
     private final zacq zac = new zacr(this);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa(BasePendingResult<? extends Result> basePendingResult) {
         this.zab.add(basePendingResult);
         basePendingResult.zaa(this.zac);

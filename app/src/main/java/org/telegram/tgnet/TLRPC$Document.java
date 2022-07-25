@@ -24,16 +24,16 @@ public abstract class TLRPC$Document extends TLObject {
     public ArrayList<TLRPC$DocumentAttribute> attributes = new ArrayList<>();
 
     public static TLRPC$Document TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$Document tLRPC$Document;
+        TLRPC$Document tLRPC$TL_document_layer82;
         switch (i) {
             case -2027738169:
-                tLRPC$Document = new TLRPC$TL_document_layer82();
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document_layer82();
                 break;
             case -1881881384:
-                tLRPC$Document = new TLRPC$TL_document();
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document();
                 break;
             case -1683841855:
-                tLRPC$Document = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer113
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer113
                     public static int constructor = -1683841855;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_document, org.telegram.tgnet.TLObject
@@ -112,7 +112,7 @@ public abstract class TLRPC$Document extends TLObject {
                 };
                 break;
             case -1627626714:
-                tLRPC$Document = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_old
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_old
                     public static int constructor = -1627626714;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_document, org.telegram.tgnet.TLObject
@@ -144,7 +144,7 @@ public abstract class TLRPC$Document extends TLObject {
                 };
                 break;
             case -106717361:
-                tLRPC$Document = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer53
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer53
                     public static int constructor = -106717361;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_document, org.telegram.tgnet.TLObject
@@ -193,7 +193,7 @@ public abstract class TLRPC$Document extends TLObject {
                 };
                 break;
             case 512177195:
-                tLRPC$Document = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer142
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer142
                     public static int constructor = 512177195;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_document, org.telegram.tgnet.TLObject
@@ -297,10 +297,10 @@ public abstract class TLRPC$Document extends TLObject {
                 };
                 break;
             case 922273905:
-                tLRPC$Document = new TLRPC$TL_documentEmpty();
+                tLRPC$TL_document_layer82 = new TLRPC$TL_documentEmpty();
                 break;
             case 1431655766:
-                tLRPC$Document = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_documentEncrypted_old
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_documentEncrypted_old
                     public static int constructor = 1431655766;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_document, org.telegram.tgnet.TLObject
@@ -336,10 +336,10 @@ public abstract class TLRPC$Document extends TLObject {
                 };
                 break;
             case 1431655768:
-                tLRPC$Document = new TLRPC$TL_documentEncrypted();
+                tLRPC$TL_document_layer82 = new TLRPC$TL_documentEncrypted();
                 break;
             case 1498631756:
-                tLRPC$Document = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer92
+                tLRPC$TL_document_layer82 = new TLRPC$TL_document() { // from class: org.telegram.tgnet.TLRPC$TL_document_layer92
                     public static int constructor = 1498631756;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_document, org.telegram.tgnet.TLObject
@@ -390,15 +390,15 @@ public abstract class TLRPC$Document extends TLObject {
                 };
                 break;
             default:
-                tLRPC$Document = null;
+                tLRPC$TL_document_layer82 = null;
                 break;
         }
-        if (tLRPC$Document != null || !z) {
-            if (tLRPC$Document != null) {
-                tLRPC$Document.readParams(abstractSerializedData, z);
-                tLRPC$Document.file_name_fixed = FileLoader.getDocumentFileName(tLRPC$Document);
+        if (tLRPC$TL_document_layer82 != null || !z) {
+            if (tLRPC$TL_document_layer82 != null) {
+                tLRPC$TL_document_layer82.readParams(abstractSerializedData, z);
+                tLRPC$TL_document_layer82.file_name_fixed = FileLoader.getDocumentFileName(tLRPC$TL_document_layer82);
             }
-            return tLRPC$Document;
+            return tLRPC$TL_document_layer82;
         }
         throw new RuntimeException(String.format("can't parse magic %x in Document", Integer.valueOf(i)));
     }

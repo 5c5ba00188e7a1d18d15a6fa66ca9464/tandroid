@@ -94,6 +94,7 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
         this.animation.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setIcon$0(ValueAnimator valueAnimator) {
         this.progress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidateSelf();
@@ -107,34 +108,34 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
     }
 
     private void updateBounds(Drawable drawable, android.graphics.Rect rect) {
+        int intrinsicHeight;
         int i;
+        int intrinsicWidth;
         int i2;
-        int i3;
-        int i4;
         if (drawable == null) {
             return;
         }
         if (drawable.getIntrinsicHeight() < 0) {
-            i2 = rect.top;
-            i = rect.bottom;
+            i = rect.top;
+            intrinsicHeight = rect.bottom;
         } else {
             int height = (rect.height() - drawable.getIntrinsicHeight()) / 2;
-            int i5 = rect.top;
-            int i6 = i5 + height;
-            i = i5 + height + drawable.getIntrinsicHeight();
-            i2 = i6;
+            int i3 = rect.top;
+            int i4 = i3 + height;
+            intrinsicHeight = i3 + height + drawable.getIntrinsicHeight();
+            i = i4;
         }
         if (drawable.getIntrinsicWidth() < 0) {
-            i4 = rect.left;
-            i3 = rect.right;
+            i2 = rect.left;
+            intrinsicWidth = rect.right;
         } else {
             int width = (rect.width() - drawable.getIntrinsicWidth()) / 2;
-            int i7 = rect.left;
-            int i8 = i7 + width;
-            i3 = i7 + width + drawable.getIntrinsicWidth();
-            i4 = i8;
+            int i5 = rect.left;
+            int i6 = i5 + width;
+            intrinsicWidth = i5 + width + drawable.getIntrinsicWidth();
+            i2 = i6;
         }
-        drawable.setBounds(i4, i2, i3, i);
+        drawable.setBounds(i2, i, intrinsicWidth, intrinsicHeight);
     }
 
     @Override // android.graphics.drawable.Drawable

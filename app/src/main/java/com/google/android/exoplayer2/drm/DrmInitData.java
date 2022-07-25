@@ -14,13 +14,17 @@ import java.util.UUID;
 /* loaded from: classes.dex */
 public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
     public static final Parcelable.Creator<DrmInitData> CREATOR = new Parcelable.Creator<DrmInitData>() { // from class: com.google.android.exoplayer2.drm.DrmInitData.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public DrmInitData createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public DrmInitData mo82createFromParcel(Parcel parcel) {
             return new DrmInitData(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public DrmInitData[] newArray(int i) {
+        /* renamed from: newArray */
+        public DrmInitData[] mo83newArray(int i) {
             return new DrmInitData[i];
         }
     };
@@ -136,6 +140,7 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
         return Util.areEqual(this.schemeType, drmInitData.schemeType) && Arrays.equals(this.schemeDatas, drmInitData.schemeDatas);
     }
 
+    @Override // java.util.Comparator
     public int compare(SchemeData schemeData, SchemeData schemeData2) {
         UUID uuid = C.UUID_NIL;
         if (uuid.equals(schemeData.uuid)) {
@@ -162,13 +167,17 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
     /* loaded from: classes.dex */
     public static final class SchemeData implements Parcelable {
         public static final Parcelable.Creator<SchemeData> CREATOR = new Parcelable.Creator<SchemeData>() { // from class: com.google.android.exoplayer2.drm.DrmInitData.SchemeData.1
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public SchemeData createFromParcel(Parcel parcel) {
+            /* renamed from: createFromParcel */
+            public SchemeData mo84createFromParcel(Parcel parcel) {
                 return new SchemeData(parcel);
             }
 
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public SchemeData[] newArray(int i) {
+            /* renamed from: newArray */
+            public SchemeData[] mo85newArray(int i) {
                 return new SchemeData[i];
             }
         };

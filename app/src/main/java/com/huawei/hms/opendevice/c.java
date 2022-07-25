@@ -232,7 +232,6 @@ public abstract class c {
 
     public static void a(String str, String str2, String str3) throws IOException {
         OutputStreamWriter outputStreamWriter;
-        Throwable th;
         HMSLog.i(a, "save local secret key.");
         BufferedWriter bufferedWriter = null;
         try {
@@ -247,18 +246,18 @@ public abstract class c {
                     b.put(str, str2);
                     IOUtils.closeQuietly((Writer) outputStreamWriter);
                     IOUtils.closeQuietly((Writer) bufferedWriter2);
-                } catch (Throwable th2) {
-                    th = th2;
+                } catch (Throwable th) {
+                    th = th;
                     bufferedWriter = bufferedWriter2;
                     IOUtils.closeQuietly((Writer) outputStreamWriter);
                     IOUtils.closeQuietly((Writer) bufferedWriter);
                     throw th;
                 }
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th2) {
+                th = th2;
             }
-        } catch (Throwable th4) {
-            th = th4;
+        } catch (Throwable th3) {
+            th = th3;
             outputStreamWriter = null;
         }
     }

@@ -11,6 +11,7 @@ public class GlobalLibraryVersionRegistrar {
     GlobalLibraryVersionRegistrar() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Set<LibraryVersion> getRegisteredVersions() {
         Set<LibraryVersion> unmodifiableSet;
         synchronized (this.infos) {

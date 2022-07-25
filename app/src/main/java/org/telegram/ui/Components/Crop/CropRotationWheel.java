@@ -119,6 +119,7 @@ public class CropRotationWheel extends FrameLayout {
         setRotation(0.0f, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         RotationWheelListener rotationWheelListener = this.rotationListener;
         if (rotationWheelListener != null) {
@@ -126,11 +127,13 @@ public class CropRotationWheel extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(View view) {
         this.aspectRatioButton.callOnClick();
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         RotationWheelListener rotationWheelListener = this.rotationListener;
         if (rotationWheelListener != null) {
@@ -138,6 +141,7 @@ public class CropRotationWheel extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         RotationWheelListener rotationWheelListener = this.rotationListener;
         if (rotationWheelListener != null) {

@@ -11,6 +11,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 final class zzbh extends com.google.android.gms.location.zzbi<LocationSettingsResult> {
     final /* synthetic */ LocationSettingsRequest zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zzbh(zzbi zzbiVar, GoogleApiClient googleApiClient, LocationSettingsRequest locationSettingsRequest, String str) {
         super(googleApiClient);

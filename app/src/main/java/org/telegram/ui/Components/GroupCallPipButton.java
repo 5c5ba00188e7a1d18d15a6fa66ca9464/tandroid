@@ -229,26 +229,26 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:107:0x022e  */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x02a1  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x02ac  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x02db  */
-    /* JADX WARN: Removed duplicated region for block: B:130:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00d8  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00f1  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0119  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x012b  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0156  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x015a  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0168  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x016c  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0174  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x02db  */
+    /* JADX WARN: Removed duplicated region for block: B:110:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0156  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0168  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0174  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x022e  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x02ac  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x023d  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -531,7 +531,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     }
 
     public void setState(int i) {
-        String str;
+        String string;
         WeavingState weavingState = this.currentState;
         if (weavingState == null || weavingState.currentState != i) {
             WeavingState weavingState2 = this.currentState;
@@ -554,26 +554,26 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             }
             VoIPService sharedInstance = VoIPService.getSharedInstance();
             if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
-                str = LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat);
+                string = LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat);
             } else {
-                str = LocaleController.getString("VoipGroupVoiceChat", R.string.VoipGroupVoiceChat);
+                string = LocaleController.getString("VoipGroupVoiceChat", R.string.VoipGroupVoiceChat);
             }
             if (i == 0) {
-                str = str + ", " + LocaleController.getString("VoipTapToMute", R.string.VoipTapToMute);
+                string = string + ", " + LocaleController.getString("VoipTapToMute", R.string.VoipTapToMute);
             } else if (i == 2) {
-                str = str + ", " + LocaleController.getString("Connecting", R.string.Connecting);
+                string = string + ", " + LocaleController.getString("Connecting", R.string.Connecting);
             } else if (i == 3) {
-                str = str + ", " + LocaleController.getString("VoipMutedByAdmin", R.string.VoipMutedByAdmin);
+                string = string + ", " + LocaleController.getString("VoipMutedByAdmin", R.string.VoipMutedByAdmin);
             }
-            setContentDescription(str);
+            setContentDescription(string);
             invalidate();
         }
     }
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        String str;
         int i;
+        String str;
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         if (Build.VERSION.SDK_INT < 21 || GroupCallPip.getInstance() == null) {
             return;

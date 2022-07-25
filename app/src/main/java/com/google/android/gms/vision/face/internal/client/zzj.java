@@ -8,6 +8,7 @@ import com.google.android.gms.internal.vision.zzs;
 /* compiled from: com.google.android.gms:play-services-vision@@20.1.3 */
 /* loaded from: classes.dex */
 public final class zzj extends com.google.android.gms.internal.vision.zzb implements zzh {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzj(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.vision.face.internal.client.INativeFaceDetector");
     }

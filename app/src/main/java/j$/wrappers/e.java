@@ -37,6 +37,18 @@ public final /* synthetic */ class e implements j$.util.r {
         return this.a.hasNext();
     }
 
+    @Override // j$.util.r, java.util.Iterator
+    /* renamed from: next */
+    public /* synthetic */ Long mo339next() {
+        return this.a.next();
+    }
+
+    @Override // j$.util.r, java.util.Iterator
+    /* renamed from: next  reason: collision with other method in class */
+    public /* synthetic */ Object mo339next() {
+        return this.a.next();
+    }
+
     @Override // j$.util.r
     public /* synthetic */ long nextLong() {
         return this.a.nextLong();

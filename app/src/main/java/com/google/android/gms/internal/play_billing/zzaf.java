@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public final class zzaf extends zzx {
@@ -17,14 +18,16 @@ public final class zzaf extends zzx {
         this.zzd = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r15v0 */
-    /* JADX WARN: Type inference failed for: r5v14 */
-    /* JADX WARN: Type inference failed for: r5v15, types: [java.lang.Object[]] */
-    /* JADX WARN: Type inference failed for: r5v7, types: [int[]] */
+    /* JADX WARN: Type inference failed for: r5v11 */
+    /* JADX WARN: Type inference failed for: r5v13, types: [java.lang.Object[]] */
+    /* JADX WARN: Type inference failed for: r5v4, types: [int[]] */
     public static zzaf zzf(int i, Object[] objArr, zzw zzwVar) {
-        Object[] objArr2;
         short[] sArr;
+        Object[] objArr2;
+        byte[] bArr;
         int i2 = i;
         Object[] objArr3 = objArr;
         if (i2 == 0) {
@@ -67,8 +70,8 @@ public final class zzaf extends zzx {
             int i4 = i3 - 1;
             char c2 = 65535;
             if (i3 <= 128) {
-                byte[] bArr = new byte[i3];
-                Arrays.fill(bArr, (byte) -1);
+                byte[] bArr2 = new byte[i3];
+                Arrays.fill(bArr2, (byte) -1);
                 int i5 = 0;
                 for (int i6 = 0; i6 < i2; i6++) {
                     int i7 = i6 + i6;
@@ -81,7 +84,7 @@ public final class zzaf extends zzx {
                     int zza2 = zzq.zza(obj6.hashCode());
                     while (true) {
                         int i9 = zza2 & i4;
-                        int i10 = bArr[i9] & 255;
+                        int i10 = bArr2[i9] & 255;
                         if (i10 != 255) {
                             if (obj6.equals(objArr3[i10])) {
                                 int i11 = i10 ^ 1;
@@ -94,7 +97,7 @@ public final class zzaf extends zzx {
                             }
                             zza2 = i9 + 1;
                         } else {
-                            bArr[i9] = (byte) i8;
+                            bArr2[i9] = (byte) i8;
                             if (i5 < i6) {
                                 objArr3[i8] = obj6;
                                 objArr3[i8 ^ 1] = obj7;
@@ -104,10 +107,11 @@ public final class zzaf extends zzx {
                     }
                 }
                 if (i5 == i2) {
-                    obj = bArr;
+                    bArr = bArr2;
                     c = 2;
+                    obj = bArr;
                 } else {
-                    sArr = new Object[]{bArr, Integer.valueOf(i5), obj};
+                    sArr = new Object[]{bArr2, Integer.valueOf(i5), obj};
                 }
             } else if (i3 <= 32768) {
                 sArr = new short[i3];
@@ -198,23 +202,26 @@ public final class zzaf extends zzx {
                     obj = objArr2;
                 }
             }
-            obj = sArr;
+            bArr = sArr;
             c = 2;
+            obj = bArr;
         }
-        if (obj instanceof Object[]) {
+        boolean z = obj instanceof Object[];
+        Object obj15 = obj;
+        if (z) {
             Object[] objArr4 = (Object[]) obj;
             zzwVar.zzc = (zzv) objArr4[c];
-            Object obj15 = objArr4[0];
+            Object obj16 = objArr4[0];
             int intValue = ((Integer) objArr4[1]).intValue();
             objArr3 = Arrays.copyOf(objArr3, intValue + intValue);
-            obj = obj15;
+            obj15 = obj16;
             i2 = intValue;
         }
-        return new zzaf(obj, objArr3, i2);
+        return new zzaf(obj15, objArr3, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x009e A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x009f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:5:0x009e A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x009f A[RETURN] */
     @Override // com.google.android.gms.internal.play_billing.zzx, java.util.Map, j$.util.Map
     @CheckForNull
     /*

@@ -11,11 +11,11 @@ public abstract class TLRPC$messages_AllStickers extends TLObject {
     }
 
     public static TLRPC$messages_AllStickers TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$messages_AllStickers tLRPC$messages_AllStickers;
+        TLRPC$messages_AllStickers tLRPC$TL_messages_allStickers;
         if (i == -843329861) {
-            tLRPC$messages_AllStickers = new TLRPC$TL_messages_allStickers();
+            tLRPC$TL_messages_allStickers = new TLRPC$TL_messages_allStickers();
         } else {
-            tLRPC$messages_AllStickers = i != -395967805 ? null : new TLRPC$messages_AllStickers() { // from class: org.telegram.tgnet.TLRPC$TL_messages_allStickersNotModified
+            tLRPC$TL_messages_allStickers = i != -395967805 ? null : new TLRPC$messages_AllStickers() { // from class: org.telegram.tgnet.TLRPC$TL_messages_allStickersNotModified
                 public static int constructor = -395967805;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -24,11 +24,11 @@ public abstract class TLRPC$messages_AllStickers extends TLObject {
                 }
             };
         }
-        if (tLRPC$messages_AllStickers != null || !z) {
-            if (tLRPC$messages_AllStickers != null) {
-                tLRPC$messages_AllStickers.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_messages_allStickers != null || !z) {
+            if (tLRPC$TL_messages_allStickers != null) {
+                tLRPC$TL_messages_allStickers.readParams(abstractSerializedData, z);
             }
-            return tLRPC$messages_AllStickers;
+            return tLRPC$TL_messages_allStickers;
         }
         throw new RuntimeException(String.format("can't parse magic %x in messages_AllStickers", Integer.valueOf(i)));
     }

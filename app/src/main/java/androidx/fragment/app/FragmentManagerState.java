@@ -2,17 +2,22 @@ package androidx.fragment.app;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: FragmentManager.java */
 /* loaded from: classes.dex */
 public final class FragmentManagerState implements Parcelable {
     public static final Parcelable.Creator<FragmentManagerState> CREATOR = new Parcelable.Creator<FragmentManagerState>() { // from class: androidx.fragment.app.FragmentManagerState.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public FragmentManagerState createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public FragmentManagerState mo17createFromParcel(Parcel parcel) {
             return new FragmentManagerState(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public FragmentManagerState[] newArray(int i) {
+        /* renamed from: newArray */
+        public FragmentManagerState[] mo18newArray(int i) {
             return new FragmentManagerState[i];
         }
     };

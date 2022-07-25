@@ -4,6 +4,7 @@ import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzff<K> implements Iterator<Map.Entry<K, Object>>, j$.util.Iterator {
@@ -29,7 +30,8 @@ public final class zzff<K> implements Iterator<Map.Entry<K, Object>>, j$.util.It
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         Map.Entry<K, Object> next = this.zza.next();
         return next.getValue() instanceof zzfa ? new zzfc(next) : next;
     }

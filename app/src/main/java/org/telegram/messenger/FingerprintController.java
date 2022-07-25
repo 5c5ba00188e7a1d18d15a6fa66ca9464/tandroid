@@ -49,6 +49,7 @@ public class FingerprintController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void generateNewKey(final boolean z) {
         KeyPairGenerator keyPairGenerator2 = getKeyPairGenerator();
         if (keyPairGenerator2 != null) {
@@ -75,6 +76,7 @@ public class FingerprintController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$generateNewKey$0(boolean z) {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didGenerateFingerprintKeyPair, Boolean.valueOf(z));
     }

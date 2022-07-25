@@ -11,6 +11,7 @@ public class AutoLifecycleFragment extends Fragment {
     private final SparseArray<a> a = new SparseArray<>();
     private boolean b;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class a {
         public final HuaweiApiClient a;

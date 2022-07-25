@@ -312,6 +312,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
         this.playlistTracker.refreshPlaylist(uri);
     }
 
+    @Override // com.google.android.exoplayer2.source.SequenceableLoader.Callback
     public void onContinueLoadingRequested(HlsSampleStreamWrapper hlsSampleStreamWrapper) {
         this.callback.onContinueLoadingRequested(this);
     }
@@ -332,14 +333,14 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
     }
 
     private void buildAndPrepareSampleStreamWrappers(long j) {
-        Map<String, DrmInitData> map;
+        Map<String, DrmInitData> emptyMap;
         HlsMasterPlaylist hlsMasterPlaylist = (HlsMasterPlaylist) Assertions.checkNotNull(this.playlistTracker.getMasterPlaylist());
         if (this.useSessionKeys) {
-            map = deriveOverridingDrmInitData(hlsMasterPlaylist.sessionKeyDrmInitData);
+            emptyMap = deriveOverridingDrmInitData(hlsMasterPlaylist.sessionKeyDrmInitData);
         } else {
-            map = Collections.emptyMap();
+            emptyMap = Collections.emptyMap();
         }
-        Map<String, DrmInitData> map2 = map;
+        Map<String, DrmInitData> map = emptyMap;
         boolean z = !hlsMasterPlaylist.variants.isEmpty();
         List<HlsMasterPlaylist.Rendition> list = hlsMasterPlaylist.audios;
         List<HlsMasterPlaylist.Rendition> list2 = hlsMasterPlaylist.subtitles;
@@ -347,14 +348,14 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         if (z) {
-            buildAndPrepareMainSampleStreamWrapper(hlsMasterPlaylist, j, arrayList, arrayList2, map2);
+            buildAndPrepareMainSampleStreamWrapper(hlsMasterPlaylist, j, arrayList, arrayList2, map);
         }
-        buildAndPrepareAudioSampleStreamWrappers(j, list, arrayList, arrayList2, map2);
+        buildAndPrepareAudioSampleStreamWrappers(j, list, arrayList, arrayList2, map);
         int i = 0;
         while (i < list2.size()) {
             HlsMasterPlaylist.Rendition rendition = list2.get(i);
             int i2 = i;
-            HlsSampleStreamWrapper buildSampleStreamWrapper = buildSampleStreamWrapper(3, new Uri[]{rendition.url}, new Format[]{rendition.format}, null, Collections.emptyList(), map2, j);
+            HlsSampleStreamWrapper buildSampleStreamWrapper = buildSampleStreamWrapper(3, new Uri[]{rendition.url}, new Format[]{rendition.format}, null, Collections.emptyList(), map, j);
             arrayList2.add(new int[]{i2});
             arrayList.add(buildSampleStreamWrapper);
             buildSampleStreamWrapper.prepareWithMasterPlaylistInfo(new TrackGroup[]{new TrackGroup(rendition.format)}, 0, new int[0]);
@@ -397,17 +398,17 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
         }
         if (i2 > 0) {
             size = i2;
-            z2 = true;
+            z = true;
         } else if (i3 < size) {
             size -= i3;
-            z2 = false;
-            z = true;
+            z = false;
+            z2 = true;
             Uri[] uriArr = new Uri[size];
             Format[] formatArr = new Format[size];
             int[] iArr2 = new int[size];
             int i5 = 0;
             for (i = 0; i < hlsMasterPlaylist.variants.size(); i++) {
-                if ((!z2 || iArr[i] == 2) && (!z || iArr[i] != 1)) {
+                if ((!z || iArr[i] == 2) && (!z2 || iArr[i] != 1)) {
                     HlsMasterPlaylist.Variant variant = hlsMasterPlaylist.variants.get(i);
                     uriArr[i5] = variant.url;
                     formatArr[i5] = variant.format;
@@ -453,9 +454,9 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
             buildSampleStreamWrapper.prepareWithMasterPlaylistInfo((TrackGroup[]) arrayList.toArray(new TrackGroup[0]), 0, arrayList.indexOf(trackGroup));
             return;
         } else {
-            z2 = false;
+            z = false;
         }
-        z = false;
+        z2 = false;
         Uri[] uriArr2 = new Uri[size];
         Format[] formatArr4 = new Format[size];
         int[] iArr22 = new int[size];
@@ -535,12 +536,12 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
 
     private static Format deriveAudioFormat(Format format, Format format2, boolean z) {
         String str;
+        String str2;
+        String str3;
+        Metadata metadata;
         int i;
         int i2;
         int i3;
-        Metadata metadata;
-        String str2;
-        String str3;
         if (format2 != null) {
             String str4 = format2.codecs;
             Metadata metadata2 = format2.metadata;
@@ -548,35 +549,35 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
             int i5 = format2.selectionFlags;
             int i6 = format2.roleFlags;
             String str5 = format2.language;
-            str3 = format2.label;
-            str2 = str4;
+            str2 = format2.label;
+            str = str4;
             metadata = metadata2;
-            i3 = i4;
+            i = i4;
             i2 = i5;
-            i = i6;
-            str = str5;
+            i3 = i6;
+            str3 = str5;
         } else {
             String codecsOfType = Util.getCodecsOfType(format.codecs, 1);
             Metadata metadata3 = format.metadata;
             if (z) {
                 int i7 = format.channelCount;
-                str2 = codecsOfType;
-                i3 = i7;
+                str = codecsOfType;
+                i = i7;
                 i2 = format.selectionFlags;
                 metadata = metadata3;
-                i = format.roleFlags;
-                str = format.language;
-                str3 = format.label;
+                i3 = format.roleFlags;
+                str3 = format.language;
+                str2 = format.label;
             } else {
-                str2 = codecsOfType;
+                str = codecsOfType;
+                str2 = null;
                 str3 = null;
-                str = null;
                 metadata = metadata3;
-                i3 = -1;
+                i = -1;
                 i2 = 0;
-                i = 0;
+                i3 = 0;
             }
         }
-        return Format.createAudioContainerFormat(format.id, str3, format.containerMimeType, MimeTypes.getMediaMimeType(str2), str2, metadata, z ? format.bitrate : -1, i3, -1, null, i2, i, str);
+        return Format.createAudioContainerFormat(format.id, str2, format.containerMimeType, MimeTypes.getMediaMimeType(str), str, metadata, z ? format.bitrate : -1, i, -1, null, i2, i3, str3);
     }
 }

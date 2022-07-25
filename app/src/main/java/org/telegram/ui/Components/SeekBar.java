@@ -33,7 +33,7 @@ public class SeekBar {
     /* loaded from: classes3.dex */
     public interface SeekBarDelegate {
 
-        /* renamed from: org.telegram.ui.Components.SeekBar$SeekBarDelegate$-CC */
+        /* renamed from: org.telegram.ui.Components.SeekBar$SeekBarDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static void $default$onSeekBarContinuousDrag(SeekBarDelegate seekBarDelegate, float f) {

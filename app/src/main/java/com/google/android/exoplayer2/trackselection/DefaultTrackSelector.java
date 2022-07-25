@@ -32,6 +32,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     private final AtomicReference<Parameters> parametersReference;
     private final TrackSelection.Factory trackSelectionFactory;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int compareFormatValues(int i, int i2) {
         if (i == -1) {
             return i2 == -1 ? 0 : -1;
@@ -42,6 +43,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int compareInts(int i, int i2) {
         if (i > i2) {
             return 1;
@@ -80,7 +82,8 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
-        public Parameters build() {
+        /* renamed from: build */
+        public Parameters mo170build() {
             return new Parameters(this.maxVideoWidth, this.maxVideoHeight, this.maxVideoFrameRate, this.maxVideoBitrate, this.exceedVideoConstraintsIfNecessary, this.allowVideoMixedMimeTypeAdaptiveness, this.allowVideoNonSeamlessAdaptiveness, this.viewportWidth, this.viewportHeight, this.viewportOrientationMayChange, this.preferredAudioLanguage, this.maxAudioChannelCount, this.maxAudioBitrate, this.exceedAudioConstraintsIfNecessary, this.allowAudioMixedMimeTypeAdaptiveness, this.allowAudioMixedSampleRateAdaptiveness, this.allowAudioMixedChannelCountAdaptiveness, this.preferredTextLanguage, this.preferredTextRoleFlags, this.selectUndeterminedTextLanguage, this.disabledTextTrackSelectionFlags, this.forceLowestBitrate, this.forceHighestSupportedBitrate, this.exceedRendererCapabilitiesIfNecessary, this.tunnelingAudioSessionId, this.selectionOverrides, this.rendererDisabledFlags);
         }
 
@@ -132,15 +135,19 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         public final int viewportHeight;
         public final boolean viewportOrientationMayChange;
         public final int viewportWidth;
-        public static final Parameters DEFAULT_WITHOUT_CONTEXT = new ParametersBuilder().build();
+        public static final Parameters DEFAULT_WITHOUT_CONTEXT = new ParametersBuilder().mo170build();
         public static final Parcelable.Creator<Parameters> CREATOR = new Parcelable.Creator<Parameters>() { // from class: com.google.android.exoplayer2.trackselection.DefaultTrackSelector.Parameters.1
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public Parameters createFromParcel(Parcel parcel) {
+            /* renamed from: createFromParcel */
+            public Parameters mo168createFromParcel(Parcel parcel) {
                 return new Parameters(parcel);
             }
 
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public Parameters[] newArray(int i) {
+            /* renamed from: newArray */
+            public Parameters[] mo169newArray(int i) {
                 return new Parameters[i];
             }
         };
@@ -344,13 +351,17 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     /* loaded from: classes.dex */
     public static final class SelectionOverride implements Parcelable {
         public static final Parcelable.Creator<SelectionOverride> CREATOR = new Parcelable.Creator<SelectionOverride>() { // from class: com.google.android.exoplayer2.trackselection.DefaultTrackSelector.SelectionOverride.1
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public SelectionOverride createFromParcel(Parcel parcel) {
+            /* renamed from: createFromParcel */
+            public SelectionOverride mo171createFromParcel(Parcel parcel) {
                 return new SelectionOverride(parcel);
             }
 
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public SelectionOverride[] newArray(int i) {
+            /* renamed from: newArray */
+            public SelectionOverride[] mo172newArray(int i) {
                 return new SelectionOverride[i];
             }
         };
@@ -449,8 +460,8 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         int i;
         String str;
         int i2;
-        String str2;
         AudioTrackScore audioTrackScore;
+        String str2;
         int i3;
         int rendererCount = mappedTrackInfo.getRendererCount();
         TrackSelection.Definition[] definitionArr = new TrackSelection.Definition[rendererCount];
@@ -481,33 +492,33 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         int i8 = 0;
         while (i8 < rendererCount) {
             if (i == mappedTrackInfo.getRendererType(i8)) {
-                i3 = i7;
+                i2 = i7;
                 audioTrackScore = audioTrackScore2;
                 str2 = str3;
-                i2 = i8;
+                i3 = i8;
                 Pair<TrackSelection.Definition, AudioTrackScore> selectAudioTrack = selectAudioTrack(mappedTrackInfo.getTrackGroups(i8), iArr[i8], iArr2[i8], parameters, this.allowMultipleAdaptiveSelections || i6 == 0);
                 if (selectAudioTrack != null && (audioTrackScore == null || ((AudioTrackScore) selectAudioTrack.second).compareTo(audioTrackScore) > 0)) {
-                    if (i3 != -1) {
-                        definitionArr[i3] = null;
+                    if (i2 != -1) {
+                        definitionArr[i2] = null;
                     }
                     TrackSelection.Definition definition = (TrackSelection.Definition) selectAudioTrack.first;
-                    definitionArr[i2] = definition;
+                    definitionArr[i3] = definition;
                     str3 = definition.group.getFormat(definition.tracks[0]).language;
                     audioTrackScore2 = (AudioTrackScore) selectAudioTrack.second;
-                    i7 = i2;
-                    i8 = i2 + 1;
+                    i7 = i3;
+                    i8 = i3 + 1;
                     i = 1;
                 }
             } else {
-                i3 = i7;
+                i2 = i7;
                 audioTrackScore = audioTrackScore2;
                 str2 = str3;
-                i2 = i8;
+                i3 = i8;
             }
-            i7 = i3;
+            i7 = i2;
             audioTrackScore2 = audioTrackScore;
             str3 = str2;
-            i8 = i2 + 1;
+            i8 = i3 + 1;
             i = 1;
         }
         String str4 = str3;
@@ -636,20 +647,20 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x009b, code lost:
-        if (r0 < 0) goto L49;
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x009b, code lost:
+        if (r0 < 0) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x009d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x009d, code lost:
         r0 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x007a  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0088  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00bc  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x007a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -659,46 +670,46 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         int i;
         boolean isSupported;
         boolean z2;
+        int compareFormatValues;
         int i2;
         int i3;
         int i4;
-        int i5;
         TrackGroupArray trackGroupArray2 = trackGroupArray;
-        int i6 = -1;
-        int i7 = 0;
+        int i5 = -1;
+        int i6 = 0;
         TrackGroup trackGroup2 = null;
+        int i7 = 0;
         int i8 = 0;
-        int i9 = 0;
+        int i9 = -1;
         int i10 = -1;
-        int i11 = -1;
-        while (i7 < trackGroupArray2.length) {
-            TrackGroup trackGroup3 = trackGroupArray2.get(i7);
+        while (i6 < trackGroupArray2.length) {
+            TrackGroup trackGroup3 = trackGroupArray2.get(i6);
             List<Integer> viewportFilteredTrackIndices = getViewportFilteredTrackIndices(trackGroup3, parameters.viewportWidth, parameters.viewportHeight, parameters.viewportOrientationMayChange);
-            int[] iArr2 = iArr[i7];
-            int i12 = 0;
-            while (i12 < trackGroup3.length) {
-                Format format = trackGroup3.getFormat(i12);
-                if ((format.roleFlags & 16384) == 0 && isSupported(iArr2[i12], parameters.exceedRendererCapabilitiesIfNecessary)) {
-                    if (viewportFilteredTrackIndices.contains(Integer.valueOf(i12)) && (((i3 = format.width) == i6 || i3 <= parameters.maxVideoWidth) && ((i4 = format.height) == i6 || i4 <= parameters.maxVideoHeight))) {
+            int[] iArr2 = iArr[i6];
+            int i11 = 0;
+            while (i11 < trackGroup3.length) {
+                Format format = trackGroup3.getFormat(i11);
+                if ((format.roleFlags & 16384) == 0 && isSupported(iArr2[i11], parameters.exceedRendererCapabilitiesIfNecessary)) {
+                    if (viewportFilteredTrackIndices.contains(Integer.valueOf(i11)) && (((i2 = format.width) == i5 || i2 <= parameters.maxVideoWidth) && ((i3 = format.height) == i5 || i3 <= parameters.maxVideoHeight))) {
                         float f = format.frameRate;
-                        if ((f == -1.0f || f <= parameters.maxVideoFrameRate) && ((i5 = format.bitrate) == i6 || i5 <= parameters.maxVideoBitrate)) {
+                        if ((f == -1.0f || f <= parameters.maxVideoFrameRate) && ((i4 = format.bitrate) == i5 || i4 <= parameters.maxVideoBitrate)) {
                             z = true;
                             if (!z || parameters.exceedVideoConstraintsIfNecessary) {
                                 i = !z ? 2 : 1;
-                                isSupported = isSupported(iArr2[i12], false);
+                                isSupported = isSupported(iArr2[i11], false);
                                 if (isSupported) {
                                     i += 1000;
                                 }
-                                z2 = i <= i9;
-                                if (i != i9) {
-                                    int compareFormatValues = compareFormatValues(format.bitrate, i10);
+                                z2 = i <= i8;
+                                if (i != i8) {
+                                    int compareFormatValues2 = compareFormatValues(format.bitrate, i9);
                                     trackGroup = trackGroup2;
-                                    if (!parameters.forceLowestBitrate || compareFormatValues == 0) {
+                                    if (!parameters.forceLowestBitrate || compareFormatValues2 == 0) {
                                         int pixelCount = format.getPixelCount();
-                                        if (pixelCount != i11) {
-                                            i2 = compareFormatValues(pixelCount, i11);
+                                        if (pixelCount != i10) {
+                                            compareFormatValues = compareFormatValues(pixelCount, i10);
                                         } else {
-                                            i2 = compareFormatValues(format.bitrate, i10);
+                                            compareFormatValues = compareFormatValues(format.bitrate, i9);
                                         }
                                         if (isSupported) {
                                         }
@@ -708,17 +719,17 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                                     trackGroup = trackGroup2;
                                 }
                                 if (z2) {
-                                    i10 = format.bitrate;
-                                    i11 = format.getPixelCount();
+                                    i9 = format.bitrate;
+                                    i10 = format.getPixelCount();
                                     trackGroup2 = trackGroup3;
-                                    i9 = i;
-                                    i8 = i12;
-                                    i12++;
-                                    i6 = -1;
+                                    i8 = i;
+                                    i7 = i11;
+                                    i11++;
+                                    i5 = -1;
                                 }
                                 trackGroup2 = trackGroup;
-                                i12++;
-                                i6 = -1;
+                                i11++;
+                                i5 = -1;
                             }
                         }
                     }
@@ -727,32 +738,32 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                     }
                     if (!z) {
                     }
-                    isSupported = isSupported(iArr2[i12], false);
+                    isSupported = isSupported(iArr2[i11], false);
                     if (isSupported) {
                     }
-                    if (i <= i9) {
+                    if (i <= i8) {
                     }
-                    if (i != i9) {
+                    if (i != i8) {
                     }
                     if (z2) {
                     }
                     trackGroup2 = trackGroup;
-                    i12++;
-                    i6 = -1;
+                    i11++;
+                    i5 = -1;
                 }
                 trackGroup = trackGroup2;
                 trackGroup2 = trackGroup;
-                i12++;
-                i6 = -1;
+                i11++;
+                i5 = -1;
             }
-            i7++;
+            i6++;
             trackGroupArray2 = trackGroupArray;
-            i6 = -1;
+            i5 = -1;
         }
         if (trackGroup2 == null) {
             return null;
         }
-        return new TrackSelection.Definition(trackGroup2, i8);
+        return new TrackSelection.Definition(trackGroup2, i7);
     }
 
     protected Pair<TrackSelection.Definition, AudioTrackScore> selectAudioTrack(TrackGroupArray trackGroupArray, int[][] iArr, int i, Parameters parameters, boolean z) throws ExoPlaybackException {
@@ -1010,8 +1021,8 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         return arrayList;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x000d, code lost:
-        if (r1 != r3) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x000d, code lost:
+        if (r1 != r3) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1034,6 +1045,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         return new Point(Util.ceilDivide(i5, i4), i);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static final class AudioTrackScore implements Comparable<AudioTrackScore> {
         private final int bitrate;
@@ -1084,6 +1096,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             this.localeLanguageScore = i2;
         }
 
+        @Override // java.lang.Comparable
         public int compareTo(AudioTrackScore audioTrackScore) {
             int compareInts;
             int compareFormatValues;
@@ -1140,6 +1153,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class AudioConfigurationTuple {
         public final int channelCount;
@@ -1170,6 +1184,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static final class TextTrackScore implements Comparable<TextTrackScore> {
         private final boolean hasCaptionRoleFlags;
@@ -1202,6 +1217,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             this.isWithinConstraints = z;
         }
 
+        @Override // java.lang.Comparable
         public int compareTo(TextTrackScore textTrackScore) {
             boolean z;
             boolean z2 = this.isWithinRendererCapabilities;

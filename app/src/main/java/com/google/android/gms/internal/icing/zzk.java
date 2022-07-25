@@ -22,6 +22,7 @@ public final class zzk extends AbstractSafeParcelable {
         zzrVar.zze();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzk(String str, zzs zzsVar, int i, byte[] bArr) {
         int i2 = zza;
         boolean z = true;

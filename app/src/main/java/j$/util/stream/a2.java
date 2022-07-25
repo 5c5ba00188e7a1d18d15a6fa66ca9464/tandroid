@@ -2,7 +2,8 @@ package j$.util.stream;
 /* loaded from: classes2.dex */
 abstract class a2 implements A1 {
     @Override // j$.util.stream.A1
-    public A1 b(int i) {
+    /* renamed from: b */
+    public A1 mo316b(int i) {
         throw new IndexOutOfBoundsException();
     }
 

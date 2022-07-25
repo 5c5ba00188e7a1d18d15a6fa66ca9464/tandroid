@@ -1,5 +1,6 @@
 package j$.util.stream;
 
+import j$.util.u;
 import java.util.concurrent.atomic.AtomicLong;
 /* loaded from: classes2.dex */
 abstract class J4 {
@@ -8,6 +9,7 @@ abstract class J4 {
     private final long c;
     private final AtomicLong d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public J4(j$.util.u uVar, long j, long j2) {
         this.a = uVar;
         long j3 = 0;
@@ -17,6 +19,7 @@ abstract class J4 {
         this.d = new AtomicLong(i >= 0 ? j + j2 : j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public J4(j$.util.u uVar, J4 j4) {
         this.a = uVar;
         this.b = j4.b;
@@ -32,6 +35,7 @@ abstract class J4 {
         return this.a.estimateSize();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final long p(long j) {
         long j2;
         long min;
@@ -57,6 +61,7 @@ abstract class J4 {
 
     protected abstract j$.util.u q(j$.util.u uVar);
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final int r() {
         if (this.d.get() > 0) {
             return 2;
@@ -64,11 +69,31 @@ abstract class J4 {
         return this.b ? 3 : 1;
     }
 
-    public final j$.util.u trySplit() {
-        j$.util.u trySplit;
-        if (this.d.get() == 0 || (trySplit = this.a.trySplit()) == null) {
+    public /* bridge */ /* synthetic */ j$.util.t trySplit() {
+        return (j$.util.t) m276trySplit();
+    }
+
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ u.a m275trySplit() {
+        return (u.a) m276trySplit();
+    }
+
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public final j$.util.u m276trySplit() {
+        j$.util.u mo350trySplit;
+        if (this.d.get() == 0 || (mo350trySplit = this.a.mo350trySplit()) == null) {
             return null;
         }
-        return q(trySplit);
+        return q(mo350trySplit);
+    }
+
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ j$.util.v m277trySplit() {
+        return (j$.util.v) m276trySplit();
+    }
+
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ j$.util.w m278trySplit() {
+        return (j$.util.w) m276trySplit();
     }
 }

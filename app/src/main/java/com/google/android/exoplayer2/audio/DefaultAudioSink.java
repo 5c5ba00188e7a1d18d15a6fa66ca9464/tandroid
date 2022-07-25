@@ -218,24 +218,24 @@ public final class DefaultAudioSink implements AudioSink {
                 }
             }
             int i11 = audioFormat.sampleRate;
-            i9 = audioFormat.channelCount;
-            i7 = audioFormat.encoding;
-            i8 = i11;
+            i7 = audioFormat.channelCount;
+            i8 = audioFormat.encoding;
+            i9 = i11;
         } else {
-            i9 = i2;
-            i7 = i;
-            i8 = i3;
+            i7 = i2;
+            i8 = i;
+            i9 = i3;
         }
-        int channelConfig = getChannelConfig(i9, isEncodingLinearPcm);
+        int channelConfig = getChannelConfig(i7, isEncodingLinearPcm);
         if (channelConfig == 0) {
-            throw new AudioSink.ConfigurationException("Unsupported channel count: " + i9);
+            throw new AudioSink.ConfigurationException("Unsupported channel count: " + i7);
         }
         int pcmFrameSize = isEncodingLinearPcm ? Util.getPcmFrameSize(i, i2) : -1;
-        int pcmFrameSize2 = isEncodingLinearPcm ? Util.getPcmFrameSize(i7, i9) : -1;
+        int pcmFrameSize2 = isEncodingLinearPcm ? Util.getPcmFrameSize(i8, i7) : -1;
         if (isEncodingLinearPcm && !z2) {
             z = true;
         }
-        Configuration configuration = new Configuration(isEncodingLinearPcm, pcmFrameSize, i3, pcmFrameSize2, i8, channelConfig, i7, i4, isEncodingLinearPcm, z, audioProcessorArr);
+        Configuration configuration = new Configuration(isEncodingLinearPcm, pcmFrameSize, i3, pcmFrameSize2, i9, channelConfig, i8, i4, isEncodingLinearPcm, z, audioProcessorArr);
         if (isInitialized()) {
             this.pendingConfiguration = configuration;
         } else {
@@ -515,9 +515,9 @@ public final class DefaultAudioSink implements AudioSink {
         this.handledEndOfStream = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0023  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003a  */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:19:0x0034 -> B:9:0x0014). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0023  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x003a  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:17:0x0034 -> B:7:0x0014). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -806,6 +806,7 @@ public final class DefaultAudioSink implements AudioSink {
         return this.audioTrack != null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public long getSubmittedFrames() {
         Configuration configuration = this.configuration;
         if (configuration.isInputPcm) {
@@ -814,6 +815,7 @@ public final class DefaultAudioSink implements AudioSink {
         return this.submittedEncodedFrames;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public long getWrittenFrames() {
         Configuration configuration = this.configuration;
         if (configuration.isInputPcm) {
@@ -841,6 +843,7 @@ public final class DefaultAudioSink implements AudioSink {
         return Util.getAudioTrackChannelConfig(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int getMaximumEncodedRateBytesPerSecond(int i) {
         if (i != 5) {
             if (i == 6) {
@@ -953,6 +956,7 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class PlaybackParametersCheckpoint {
         private final long mediaTimeUs;
@@ -966,11 +970,9 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class PositionTrackerListener implements AudioTrackPositionTracker.Listener {
+    private final class PositionTrackerListener implements AudioTrackPositionTracker.Listener {
         private PositionTrackerListener() {
-            DefaultAudioSink.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.audio.AudioTrackPositionTracker.Listener
@@ -1004,6 +1006,7 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Configuration {
         public final AudioProcessor[] availableAudioProcessors;
@@ -1073,13 +1076,13 @@ public final class DefaultAudioSink implements AudioSink {
 
         @TargetApi(21)
         private AudioTrack createAudioTrackV21(boolean z, AudioAttributes audioAttributes, int i) {
-            android.media.AudioAttributes audioAttributes2;
+            android.media.AudioAttributes audioAttributesV21;
             if (z) {
-                audioAttributes2 = new AudioAttributes.Builder().setContentType(3).setFlags(16).setUsage(1).build();
+                audioAttributesV21 = new AudioAttributes.Builder().setContentType(3).setFlags(16).setUsage(1).build();
             } else {
-                audioAttributes2 = audioAttributes.getAudioAttributesV21();
+                audioAttributesV21 = audioAttributes.getAudioAttributesV21();
             }
-            return new AudioTrack(audioAttributes2, new AudioFormat.Builder().setChannelMask(this.outputChannelConfig).setEncoding(this.outputEncoding).setSampleRate(this.outputSampleRate).build(), this.bufferSize, 1, i != 0 ? i : 0);
+            return new AudioTrack(audioAttributesV21, new AudioFormat.Builder().setChannelMask(this.outputChannelConfig).setEncoding(this.outputEncoding).setSampleRate(this.outputSampleRate).build(), this.bufferSize, 1, i != 0 ? i : 0);
         }
 
         private int getDefaultBufferSize() {

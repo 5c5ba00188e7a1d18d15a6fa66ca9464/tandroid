@@ -56,20 +56,20 @@ public class Detector {
     }
 
     private static PerspectiveTransform createTransform(ResultPoint resultPoint, ResultPoint resultPoint2, ResultPoint resultPoint3, ResultPoint resultPoint4, int i) {
+        float x;
+        float y;
         float f;
-        float f2;
-        float f3;
-        float f4 = i - 3.5f;
+        float f2 = i - 3.5f;
         if (resultPoint4 != null) {
-            f2 = resultPoint4.getX();
-            f = resultPoint4.getY();
-            f3 = f4 - 3.0f;
+            x = resultPoint4.getX();
+            y = resultPoint4.getY();
+            f = f2 - 3.0f;
         } else {
-            f2 = (resultPoint2.getX() - resultPoint.getX()) + resultPoint3.getX();
-            f = (resultPoint2.getY() - resultPoint.getY()) + resultPoint3.getY();
-            f3 = f4;
+            x = (resultPoint2.getX() - resultPoint.getX()) + resultPoint3.getX();
+            y = (resultPoint2.getY() - resultPoint.getY()) + resultPoint3.getY();
+            f = f2;
         }
-        return PerspectiveTransform.quadrilateralToQuadrilateral(3.5f, 3.5f, f4, 3.5f, f3, f3, 3.5f, f4, resultPoint.getX(), resultPoint.getY(), resultPoint2.getX(), resultPoint2.getY(), f2, f, resultPoint3.getX(), resultPoint3.getY());
+        return PerspectiveTransform.quadrilateralToQuadrilateral(3.5f, 3.5f, f2, 3.5f, f, f, 3.5f, f2, resultPoint.getX(), resultPoint.getY(), resultPoint2.getX(), resultPoint2.getY(), x, y, resultPoint3.getX(), resultPoint3.getY());
     }
 
     private static BitMatrix sampleGrid(BitMatrix bitMatrix, PerspectiveTransform perspectiveTransform, int i) throws NotFoundException {
@@ -127,33 +127,33 @@ public class Detector {
         int i7;
         int i8;
         int i9;
-        boolean z;
         Detector detector;
+        boolean z;
         boolean z2;
         int i10 = 1;
         boolean z3 = Math.abs(i4 - i2) > Math.abs(i3 - i);
         if (z3) {
-            i7 = i;
-            i8 = i2;
-            i5 = i3;
-            i6 = i4;
+            i6 = i;
+            i5 = i2;
+            i8 = i3;
+            i7 = i4;
         } else {
-            i8 = i;
-            i7 = i2;
-            i6 = i3;
-            i5 = i4;
+            i5 = i;
+            i6 = i2;
+            i7 = i3;
+            i8 = i4;
         }
-        int abs = Math.abs(i6 - i8);
-        int abs2 = Math.abs(i5 - i7);
+        int abs = Math.abs(i7 - i5);
+        int abs2 = Math.abs(i8 - i6);
         int i11 = (-abs) / 2;
         int i12 = -1;
-        int i13 = i8 < i6 ? 1 : -1;
-        if (i7 < i5) {
+        int i13 = i5 < i7 ? 1 : -1;
+        if (i6 < i8) {
             i12 = 1;
         }
-        int i14 = i6 + i13;
-        int i15 = i8;
-        int i16 = i7;
+        int i14 = i7 + i13;
+        int i15 = i5;
+        int i16 = i6;
         int i17 = 0;
         while (true) {
             if (i15 == i14) {
@@ -175,13 +175,13 @@ public class Detector {
             }
             if (z2 == detector.image.get(i18, i19)) {
                 if (i17 == 2) {
-                    return MathUtils.distance(i15, i16, i8, i7);
+                    return MathUtils.distance(i15, i16, i5, i6);
                 }
                 i17++;
             }
             i11 += abs2;
             if (i11 > 0) {
-                if (i16 == i5) {
+                if (i16 == i8) {
                     break;
                 }
                 i16 += i12;
@@ -193,7 +193,7 @@ public class Detector {
             i10 = 1;
         }
         if (i17 == 2) {
-            return MathUtils.distance(i9, i5, i8, i7);
+            return MathUtils.distance(i9, i8, i5, i6);
         }
         return Float.NaN;
     }

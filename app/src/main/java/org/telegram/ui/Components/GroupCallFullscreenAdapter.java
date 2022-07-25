@@ -69,14 +69,15 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new RecyclerListView.Holder(new GroupCallUserCell(viewGroup.getContext()));
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
         ChatObject.VideoParticipant videoParticipant;
+        TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
         GroupCallUserCell groupCallUserCell = (GroupCallUserCell) viewHolder.itemView;
         ChatObject.VideoParticipant videoParticipant2 = groupCallUserCell.videoParticipant;
         if (i < this.videoParticipants.size()) {
@@ -165,10 +166,8 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
         TextPaint textPaint = new TextPaint(1);
         GroupCallUserCell.AvatarWavesDrawable avatarWavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(26.0f), AndroidUtilities.dp(29.0f));
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public GroupCallUserCell(Context context) {
             super(context);
-            GroupCallFullscreenAdapter.this = r9;
             this.avatarDrawable.setTextSize((int) (AndroidUtilities.dp(18.0f) / 1.15f));
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarImageView = backupImageView;
@@ -180,7 +179,7 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.selectionPaint.setStyle(Paint.Style.STROKE);
             this.selectionPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
             this.textPaint.setColor(-1);
-            RLottieImageView rLottieImageView = new RLottieImageView(context, r9) { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter.GroupCallUserCell.1
+            RLottieImageView rLottieImageView = new RLottieImageView(context, GroupCallFullscreenAdapter.this) { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter.GroupCallUserCell.1
                 @Override // android.view.View
                 public void invalidate() {
                     super.invalidate();
@@ -315,8 +314,8 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             super.dispatchDraw(canvas);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:21:0x003a  */
-        /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x003a  */
+        /* JADX WARN: Removed duplicated region for block: B:14:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -479,59 +478,59 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.avatarWavesDrawable.setAmplitude(d);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0035  */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x006c  */
+        /* JADX WARN: Removed duplicated region for block: B:10:0x0035  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x006c  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void updateState(boolean z) {
-            final int i;
-            final int i2;
+            final int color;
+            final int color2;
             GroupCallStatusIcon groupCallStatusIcon = this.statusIcon;
             if (groupCallStatusIcon == null) {
                 return;
             }
             groupCallStatusIcon.updateIcon(z);
             if (this.statusIcon.isMutedByMe()) {
-                i2 = Theme.getColor("voipgroup_mutedByAdminIcon");
+                color = Theme.getColor("voipgroup_mutedByAdminIcon");
             } else if (this.statusIcon.isSpeaking()) {
-                i2 = Theme.getColor("voipgroup_speakingText");
+                color = Theme.getColor("voipgroup_speakingText");
             } else {
-                i2 = Theme.getColor("voipgroup_nameText");
-                i = Theme.getColor("voipgroup_listeningText");
+                color = Theme.getColor("voipgroup_nameText");
+                color2 = Theme.getColor("voipgroup_listeningText");
                 if (z) {
                     ValueAnimator valueAnimator = this.colorAnimator;
                     if (valueAnimator != null) {
                         valueAnimator.removeAllListeners();
                         this.colorAnimator.cancel();
                     }
-                    this.lastColor = i2;
-                    this.lastWavesColor = i;
-                    this.muteButton.setColorFilter(new PorterDuffColorFilter(i2, PorterDuff.Mode.MULTIPLY));
+                    this.lastColor = color;
+                    this.lastWavesColor = color2;
+                    this.muteButton.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
                     this.textPaint.setColor(this.lastColor);
-                    this.selectionPaint.setColor(i);
-                    this.avatarWavesDrawable.setColor(ColorUtils.setAlphaComponent(i, 38));
+                    this.selectionPaint.setColor(color2);
+                    this.avatarWavesDrawable.setColor(ColorUtils.setAlphaComponent(color2, 38));
                     invalidate();
                     return;
                 }
-                final int i3 = this.lastColor;
-                final int i4 = this.lastWavesColor;
+                final int i = this.lastColor;
+                final int i2 = this.lastWavesColor;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.colorAnimator = ofFloat;
-                final int i5 = i2;
-                final int i6 = i;
+                final int i3 = color;
+                final int i4 = color2;
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter$GroupCallUserCell$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        GroupCallFullscreenAdapter.GroupCallUserCell.this.lambda$updateState$0(i3, i5, i4, i6, valueAnimator2);
+                        GroupCallFullscreenAdapter.GroupCallUserCell.this.lambda$updateState$0(i, i3, i2, i4, valueAnimator2);
                     }
                 });
                 this.colorAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupCallFullscreenAdapter.GroupCallUserCell.2
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         GroupCallUserCell groupCallUserCell = GroupCallUserCell.this;
-                        groupCallUserCell.lastColor = i2;
-                        groupCallUserCell.lastWavesColor = i;
+                        groupCallUserCell.lastColor = color;
+                        groupCallUserCell.lastWavesColor = color2;
                         groupCallUserCell.muteButton.setColorFilter(new PorterDuffColorFilter(GroupCallUserCell.this.lastColor, PorterDuff.Mode.MULTIPLY));
                         GroupCallUserCell groupCallUserCell2 = GroupCallUserCell.this;
                         groupCallUserCell2.textPaint.setColor(groupCallUserCell2.lastColor);
@@ -544,11 +543,12 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                 this.colorAnimator.start();
                 return;
             }
-            i = i2;
+            color2 = color;
             if (z) {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateState$0(int i, int i2, int i3, int i4, ValueAnimator valueAnimator) {
             this.lastColor = ColorUtils.blendARGB(i, i2, ((Float) valueAnimator.getAnimatedValue()).floatValue());
             this.lastWavesColor = ColorUtils.blendARGB(i3, i4, ((Float) valueAnimator.getAnimatedValue()).floatValue());

@@ -88,6 +88,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     protected void onButtonClicked(boolean z) {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static /* synthetic */ void access$4700(EmojiPacksAlert emojiPacksAlert, int i) {
         emojiPacksAlert.onSubItemClick(i);
     }
@@ -281,16 +282,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 return super.dispatchTouchEvent(motionEvent);
             }
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             /* renamed from: org.telegram.ui.Components.EmojiPacksAlert$2$DrawingInBackgroundLine */
             /* loaded from: classes3.dex */
-            public class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
+            class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
                 ArrayList<EmojiImageView> drawInBackgroundViews = new ArrayList<>();
                 ArrayList<EmojiImageView> imageViewEmojis;
                 public int position;
 
                 DrawingInBackgroundLine() {
-                    AnonymousClass2.this = r1;
                 }
 
                 @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
@@ -381,6 +380,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 return false;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             public void onMeasure(int i, int i2) {
                 EmojiPacksAlert.this.gridLayoutManager.setSpanCount(Math.max(1, View.MeasureSpec.getSize(i) / AndroidUtilities.dp(AndroidUtilities.isTablet() ? 60.0f : 45.0f)));
@@ -393,6 +393,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 ((BottomSheet) EmojiPacksAlert.this).containerView.invalidate();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
             public void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
@@ -480,6 +481,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         MediaDataController.getInstance(baseFragment.getCurrentAccount()).checkStickers(5);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ArrayList arrayList, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider, View view, int i) {
         if (arrayList == null || arrayList.size() <= 1 || SystemClock.elapsedRealtime() - this.premiumButtonClicked < 250) {
             return;
@@ -579,6 +581,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLightStatusBar(boolean z) {
         boolean z2 = true;
         boolean z3 = AndroidUtilities.computePerceivedBrightness(getThemedColor("dialogBackground")) > 0.721f;
@@ -626,6 +629,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$installSet$3(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final boolean z, final BaseFragment baseFragment, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -635,6 +639,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$installSet$2(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, TLRPC$TL_error tLRPC$TL_error, boolean z, BaseFragment baseFragment, TLObject tLObject, final Runnable runnable) {
         int i;
         TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
@@ -665,6 +670,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$installSet$1(Runnable runnable, ArrayList arrayList) {
         if (runnable != null) {
             runnable.run();
@@ -696,6 +702,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.loadAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAnimation$4(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.loadT = floatValue;
@@ -706,6 +713,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateButton() {
         TLRPC$StickerSet tLRPC$StickerSet;
         if (this.buttonsView == null) {
@@ -803,10 +811,12 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.first = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateButton$5(View view) {
         showPremiumAlert();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateButton$6(ArrayList arrayList, View view) {
         int i = 0;
         while (true) {
@@ -827,6 +837,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateButton$7(ArrayList arrayList, View view) {
         dismiss();
         int i = 0;
@@ -837,6 +848,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         onButtonClicked(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getListTop() {
         if (this.containerView == null) {
             return 0;
@@ -888,15 +900,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerView.Adapter {
+    private class Adapter extends RecyclerView.Adapter {
         private Adapter() {
-            EmojiPacksAlert.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 0) {
                 view = EmojiPacksAlert.this.paddingView;
@@ -1058,6 +1069,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onSubItemClick(int i) {
         ArrayList<TLRPC$TL_messages_stickerSet> arrayList;
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
@@ -1103,9 +1115,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class EmojiImageView extends View {
+    private class EmojiImageView extends View {
         public ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder;
         public ImageReceiver imageReceiver;
         public AnimatedEmojiSpan span;
@@ -1121,6 +1132,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class EmojiPackHeader extends FrameLayout {
         public TextView addButtonView;
@@ -1156,14 +1168,12 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         private boolean toggled = false;
         private float toggleT = 0.0f;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EmojiPackHeader(Context context, boolean z) {
             super(context);
-            EmojiPacksAlert.this = r26;
             this.single = z;
             float f = 8.0f;
             if (!z) {
-                if (!UserConfig.getInstance(((BottomSheet) r26).currentAccount).isPremium()) {
+                if (!UserConfig.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).isPremium()) {
                     PremiumButtonView premiumButtonView = new PremiumButtonView(context, AndroidUtilities.dp(4.0f), false);
                     this.unlockButtonView = premiumButtonView;
                     premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda2
@@ -1188,8 +1198,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 TextView textView = new TextView(context);
                 this.addButtonView = textView;
                 textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.addButtonView.setTextColor(r26.getThemedColor("featuredStickers_buttonText"));
-                this.addButtonView.setBackground(Theme.AdaptiveRipple.filledRect(r26.getThemedColor("featuredStickers_addButton"), 4.0f));
+                this.addButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor("featuredStickers_buttonText"));
+                this.addButtonView.setBackground(Theme.AdaptiveRipple.filledRect(EmojiPacksAlert.this.getThemedColor("featuredStickers_addButton"), 4.0f));
                 this.addButtonView.setText(LocaleController.getString("Add", R.string.Add));
                 this.addButtonView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
                 this.addButtonView.setGravity(17);
@@ -1205,8 +1215,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 TextView textView2 = new TextView(context);
                 this.removeButtonView = textView2;
                 textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.removeButtonView.setTextColor(r26.getThemedColor("featuredStickers_addButton"));
-                this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(r26.getThemedColor("featuredStickers_addButton") & 268435455, 4, 4));
+                this.removeButtonView.setTextColor(EmojiPacksAlert.this.getThemedColor("featuredStickers_addButton"));
+                this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(EmojiPacksAlert.this.getThemedColor("featuredStickers_addButton") & 268435455, 4, 4));
                 this.removeButtonView.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
                 this.removeButtonView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
                 this.removeButtonView.setGravity(17);
@@ -1230,7 +1240,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             this.titleView.setEllipsize(TextUtils.TruncateAt.END);
             this.titleView.setSingleLine(true);
             this.titleView.setLines(1);
-            this.titleView.setTextColor(r26.getThemedColor("dialogTextBlack"));
+            this.titleView.setTextColor(EmojiPacksAlert.this.getThemedColor("dialogTextBlack"));
             if (z) {
                 this.titleView.setTextSize(1, 20.0f);
                 addView(this.titleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388659, 14.0f, 11.0f, f, 0.0f));
@@ -1242,20 +1252,20 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 TextView textView4 = new TextView(context);
                 this.subtitleView = textView4;
                 textView4.setTextSize(1, 13.0f);
-                this.subtitleView.setTextColor(r26.getThemedColor("dialogTextGray2"));
+                this.subtitleView.setTextColor(EmojiPacksAlert.this.getThemedColor("dialogTextGray2"));
                 this.subtitleView.setEllipsize(TextUtils.TruncateAt.END);
                 this.subtitleView.setSingleLine(true);
                 this.subtitleView.setLines(1);
                 addView(this.subtitleView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388659, 8.0f, 31.66f, f, 0.0f));
             }
             if (z) {
-                ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, 0, r26.getThemedColor("key_sheet_other"), ((BottomSheet) r26).resourcesProvider);
+                ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, 0, EmojiPacksAlert.this.getThemedColor("key_sheet_other"), ((BottomSheet) EmojiPacksAlert.this).resourcesProvider);
                 this.optionsButton = actionBarMenuItem;
                 actionBarMenuItem.setLongClickEnabled(false);
                 this.optionsButton.setSubMenuOpenSide(2);
                 this.optionsButton.setIcon(R.drawable.ic_ab_other);
-                this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(r26.getThemedColor("player_actionBarSelector"), 1));
-                addView(this.optionsButton, LayoutHelper.createFrame(40, 40.0f, 53, 0.0f, 5.0f, 5.0f - (((BottomSheet) r26).backgroundPaddingLeft / AndroidUtilities.density), 0.0f));
+                this.optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(EmojiPacksAlert.this.getThemedColor("player_actionBarSelector"), 1));
+                addView(this.optionsButton, LayoutHelper.createFrame(40, 40.0f, 53, 0.0f, 5.0f, 5.0f - (((BottomSheet) EmojiPacksAlert.this).backgroundPaddingLeft / AndroidUtilities.density), 0.0f));
                 this.optionsButton.addSubItem(1, R.drawable.msg_share, LocaleController.getString("StickersShare", R.string.StickersShare));
                 this.optionsButton.addSubItem(2, R.drawable.msg_link, LocaleController.getString("CopyLink", R.string.CopyLink));
                 this.optionsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda3
@@ -1274,16 +1284,19 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             EmojiPacksAlert.this.premiumButtonClicked = SystemClock.elapsedRealtime();
             EmojiPacksAlert.this.showPremiumAlert();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1(View view) {
             EmojiPacksAlert.installSet(this.dummyFragment, this.set, true);
             toggle(true, true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$3(View view) {
             EmojiPacksAlert.uninstallSet(this.dummyFragment, this.set, true, new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPackHeader$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
@@ -1294,14 +1307,17 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             toggle(false, true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2() {
             toggle(true, true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$4(View view) {
             this.optionsButton.toggleSubMenu();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void toggle(boolean z, boolean z2) {
             if (this.toggled == z) {
                 return;
@@ -1352,6 +1368,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             textView2.setAlpha(f);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$toggle$6(ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             this.toggleT = floatValue;
@@ -1409,6 +1426,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class EmojiPacksLoader implements NotificationCenter.NotificationCenterDelegate {
         private int currentAccount;
@@ -1421,7 +1439,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         public EmojiPacksLoader(int i, ArrayList<TLRPC$InputStickerSet> arrayList) {
-            EmojiPacksAlert.this = r1;
             this.currentAccount = i;
             this.inputStickerSets = arrayList == null ? new ArrayList<>() : arrayList;
             init();
@@ -1455,6 +1472,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$init$1(boolean[] zArr) {
             if (!zArr[0]) {
                 zArr[0] = true;
@@ -1467,11 +1485,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$init$0() {
             EmojiPacksAlert.this.dismiss();
             BulletinFactory.of(EmojiPacksAlert.this.fragment).createErrorBulletin(LocaleController.getString("AddEmojiNotFound", R.string.AddEmojiNotFound)).show();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$init$2() {
             EmojiPacksAlert.this.dismiss();
         }
@@ -1531,26 +1551,26 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         public int getItemsCount() {
-            int i;
-            int i2 = 0;
+            int min;
+            int i = 0;
             if (this.data == null) {
                 return 0;
             }
-            int i3 = 0;
+            int i2 = 0;
             while (true) {
                 ArrayList<EmojiView.CustomEmoji>[] arrayListArr = this.data;
-                if (i2 >= arrayListArr.length) {
-                    return i3;
+                if (i >= arrayListArr.length) {
+                    return i2;
                 }
-                if (arrayListArr[i2] != null) {
+                if (arrayListArr[i] != null) {
                     if (arrayListArr.length != 1) {
-                        i = Math.min(EmojiPacksAlert.this.gridLayoutManager.getSpanCount() * 2, this.data[i2].size());
+                        min = Math.min(EmojiPacksAlert.this.gridLayoutManager.getSpanCount() * 2, this.data[i].size());
                     } else {
-                        i = arrayListArr[i2].size();
+                        min = arrayListArr[i].size();
                     }
-                    i3 = i3 + i + 1;
+                    i2 = i2 + min + 1;
                 }
-                i2++;
+                i++;
             }
         }
 

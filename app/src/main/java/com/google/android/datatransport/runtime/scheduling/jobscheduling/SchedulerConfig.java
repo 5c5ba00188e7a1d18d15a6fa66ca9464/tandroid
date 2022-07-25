@@ -22,8 +22,10 @@ public abstract class SchedulerConfig {
         DEVICE_CHARGING
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract Clock getClock();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract Map<Priority, ConfigValue> getValues();
 
     @AutoValue
@@ -42,10 +44,13 @@ public abstract class SchedulerConfig {
             public abstract Builder setMaxAllowedDelay(long j);
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public abstract long getDelta();
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public abstract Set<Flag> getFlags();
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public abstract long getMaxAllowedDelay();
 
         public static Builder builder() {

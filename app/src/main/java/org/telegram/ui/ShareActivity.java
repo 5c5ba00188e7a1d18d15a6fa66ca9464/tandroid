@@ -79,6 +79,7 @@ public class ShareActivity extends Activity {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreate$0(DialogInterface dialogInterface) {
         if (!isFinishing()) {
             finish();

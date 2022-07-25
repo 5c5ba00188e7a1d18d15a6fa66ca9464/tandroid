@@ -202,7 +202,7 @@ public class IconCompat extends CustomVersionedParcelable {
     }
 
     public Icon toIcon(Context context) {
-        Icon icon;
+        Icon createWithBitmap;
         switch (this.mType) {
             case -1:
                 return (Icon) this.mObj1;
@@ -210,29 +210,29 @@ public class IconCompat extends CustomVersionedParcelable {
             default:
                 throw new IllegalArgumentException("Unknown type");
             case 1:
-                icon = Icon.createWithBitmap((Bitmap) this.mObj1);
+                createWithBitmap = Icon.createWithBitmap((Bitmap) this.mObj1);
                 break;
             case 2:
-                icon = Icon.createWithResource(getResPackage(), this.mInt1);
+                createWithBitmap = Icon.createWithResource(getResPackage(), this.mInt1);
                 break;
             case 3:
-                icon = Icon.createWithData((byte[]) this.mObj1, this.mInt1, this.mInt2);
+                createWithBitmap = Icon.createWithData((byte[]) this.mObj1, this.mInt1, this.mInt2);
                 break;
             case 4:
-                icon = Icon.createWithContentUri((String) this.mObj1);
+                createWithBitmap = Icon.createWithContentUri((String) this.mObj1);
                 break;
             case 5:
                 if (Build.VERSION.SDK_INT >= 26) {
-                    icon = Icon.createWithAdaptiveBitmap((Bitmap) this.mObj1);
+                    createWithBitmap = Icon.createWithAdaptiveBitmap((Bitmap) this.mObj1);
                     break;
                 } else {
-                    icon = Icon.createWithBitmap(createLegacyIconFromAdaptiveIcon((Bitmap) this.mObj1, false));
+                    createWithBitmap = Icon.createWithBitmap(createLegacyIconFromAdaptiveIcon((Bitmap) this.mObj1, false));
                     break;
                 }
             case 6:
                 int i = Build.VERSION.SDK_INT;
                 if (i >= 30) {
-                    icon = Icon.createWithAdaptiveBitmapContentUri(getUri());
+                    createWithBitmap = Icon.createWithAdaptiveBitmapContentUri(getUri());
                     break;
                 } else if (context == null) {
                     throw new IllegalArgumentException("Context is required to resolve the file uri of the icon: " + getUri());
@@ -241,23 +241,23 @@ public class IconCompat extends CustomVersionedParcelable {
                     if (uriInputStream == null) {
                         throw new IllegalStateException("Cannot load adaptive icon from uri: " + getUri());
                     } else if (i >= 26) {
-                        icon = Icon.createWithAdaptiveBitmap(BitmapFactory.decodeStream(uriInputStream));
+                        createWithBitmap = Icon.createWithAdaptiveBitmap(BitmapFactory.decodeStream(uriInputStream));
                         break;
                     } else {
-                        icon = Icon.createWithBitmap(createLegacyIconFromAdaptiveIcon(BitmapFactory.decodeStream(uriInputStream), false));
+                        createWithBitmap = Icon.createWithBitmap(createLegacyIconFromAdaptiveIcon(BitmapFactory.decodeStream(uriInputStream), false));
                         break;
                     }
                 }
         }
         ColorStateList colorStateList = this.mTintList;
         if (colorStateList != null) {
-            icon.setTintList(colorStateList);
+            createWithBitmap.setTintList(colorStateList);
         }
         PorterDuff.Mode mode = this.mTintMode;
         if (mode != DEFAULT_TINT_MODE) {
-            icon.setTintMode(mode);
+            createWithBitmap.setTintMode(mode);
         }
-        return icon;
+        return createWithBitmap;
     }
 
     public void checkResource(Context context) {

@@ -7,13 +7,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ApicFrame extends Id3Frame {
     public static final Parcelable.Creator<ApicFrame> CREATOR = new Parcelable.Creator<ApicFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ApicFrame.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public ApicFrame createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public ApicFrame mo108createFromParcel(Parcel parcel) {
             return new ApicFrame(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public ApicFrame[] newArray(int i) {
+        /* renamed from: newArray */
+        public ApicFrame[] mo109newArray(int i) {
             return new ApicFrame[i];
         }
     };

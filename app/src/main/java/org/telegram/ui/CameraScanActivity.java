@@ -346,50 +346,50 @@ public class CameraScanActivity extends BaseFragment {
 
             @Override // android.view.ViewGroup, android.view.View
             protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-                int i5;
-                int i6;
-                int i7;
-                int i8 = i3 - i;
-                int i9 = i4 - i2;
+                int measuredHeight;
+                int dp;
+                int measuredWidth;
+                int i5 = i3 - i;
+                int i6 = i4 - i2;
                 if (CameraScanActivity.this.currentType == 0) {
                     if (CameraScanActivity.this.cameraView != null) {
                         CameraScanActivity.this.cameraView.layout(0, 0, CameraScanActivity.this.cameraView.getMeasuredWidth(), CameraScanActivity.this.cameraView.getMeasuredHeight() + 0);
                     }
-                    CameraScanActivity.this.recognizedMrzView.setTextSize(0, i9 / 22);
-                    CameraScanActivity.this.recognizedMrzView.setPadding(0, 0, 0, i9 / 15);
-                    int i10 = (int) (i9 * 0.65f);
-                    CameraScanActivity.this.titleTextView.layout(AndroidUtilities.dp(36.0f), i10, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.titleTextView.getMeasuredWidth(), CameraScanActivity.this.titleTextView.getMeasuredHeight() + i10);
+                    CameraScanActivity.this.recognizedMrzView.setTextSize(0, i6 / 22);
+                    CameraScanActivity.this.recognizedMrzView.setPadding(0, 0, 0, i6 / 15);
+                    int i7 = (int) (i6 * 0.65f);
+                    CameraScanActivity.this.titleTextView.layout(AndroidUtilities.dp(36.0f), i7, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.titleTextView.getMeasuredWidth(), CameraScanActivity.this.titleTextView.getMeasuredHeight() + i7);
                 } else {
                     ((BaseFragment) CameraScanActivity.this).actionBar.layout(0, 0, ((BaseFragment) CameraScanActivity.this).actionBar.getMeasuredWidth(), ((BaseFragment) CameraScanActivity.this).actionBar.getMeasuredHeight());
                     if (CameraScanActivity.this.cameraView != null) {
                         CameraScanActivity.this.cameraView.layout(0, 0, CameraScanActivity.this.cameraView.getMeasuredWidth(), CameraScanActivity.this.cameraView.getMeasuredHeight());
                     }
-                    int min = (int) (Math.min(i8, i9) / 1.5f);
+                    int min = (int) (Math.min(i5, i6) / 1.5f);
                     if (CameraScanActivity.this.currentType == 1) {
-                        i6 = ((i9 - min) / 2) - CameraScanActivity.this.titleTextView.getMeasuredHeight();
-                        i5 = AndroidUtilities.dp(30.0f);
+                        measuredHeight = ((i6 - min) / 2) - CameraScanActivity.this.titleTextView.getMeasuredHeight();
+                        dp = AndroidUtilities.dp(30.0f);
                     } else {
-                        i6 = ((i9 - min) / 2) - CameraScanActivity.this.titleTextView.getMeasuredHeight();
-                        i5 = AndroidUtilities.dp(64.0f);
+                        measuredHeight = ((i6 - min) / 2) - CameraScanActivity.this.titleTextView.getMeasuredHeight();
+                        dp = AndroidUtilities.dp(64.0f);
                     }
-                    int i11 = i6 - i5;
-                    CameraScanActivity.this.titleTextView.layout(AndroidUtilities.dp(36.0f), i11, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.titleTextView.getMeasuredWidth(), CameraScanActivity.this.titleTextView.getMeasuredHeight() + i11);
+                    int i8 = measuredHeight - dp;
+                    CameraScanActivity.this.titleTextView.layout(AndroidUtilities.dp(36.0f), i8, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.titleTextView.getMeasuredWidth(), CameraScanActivity.this.titleTextView.getMeasuredHeight() + i8);
                     CameraScanActivity.this.recognizedMrzView.layout(0, getMeasuredHeight() - CameraScanActivity.this.recognizedMrzView.getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight());
                     if (!CameraScanActivity.this.needGalleryButton) {
-                        i7 = (i8 / 2) - (CameraScanActivity.this.flashButton.getMeasuredWidth() / 2);
+                        measuredWidth = (i5 / 2) - (CameraScanActivity.this.flashButton.getMeasuredWidth() / 2);
                     } else {
-                        i7 = (i8 / 2) + AndroidUtilities.dp(35.0f);
+                        measuredWidth = (i5 / 2) + AndroidUtilities.dp(35.0f);
                     }
-                    int dp = ((i9 - min) / 2) + min + AndroidUtilities.dp(80.0f);
-                    CameraScanActivity.this.flashButton.layout(i7, dp, CameraScanActivity.this.flashButton.getMeasuredWidth() + i7, CameraScanActivity.this.flashButton.getMeasuredHeight() + dp);
+                    int dp2 = ((i6 - min) / 2) + min + AndroidUtilities.dp(80.0f);
+                    CameraScanActivity.this.flashButton.layout(measuredWidth, dp2, CameraScanActivity.this.flashButton.getMeasuredWidth() + measuredWidth, CameraScanActivity.this.flashButton.getMeasuredHeight() + dp2);
                     if (CameraScanActivity.this.galleryButton != null) {
-                        int dp2 = ((i8 / 2) - AndroidUtilities.dp(35.0f)) - CameraScanActivity.this.galleryButton.getMeasuredWidth();
-                        CameraScanActivity.this.galleryButton.layout(dp2, dp, CameraScanActivity.this.galleryButton.getMeasuredWidth() + dp2, CameraScanActivity.this.galleryButton.getMeasuredHeight() + dp);
+                        int dp3 = ((i5 / 2) - AndroidUtilities.dp(35.0f)) - CameraScanActivity.this.galleryButton.getMeasuredWidth();
+                        CameraScanActivity.this.galleryButton.layout(dp3, dp2, CameraScanActivity.this.galleryButton.getMeasuredWidth() + dp3, CameraScanActivity.this.galleryButton.getMeasuredHeight() + dp2);
                     }
                 }
-                int i12 = (int) (i9 * 0.74f);
-                int i13 = (int) (i8 * 0.05f);
-                CameraScanActivity.this.descriptionText.layout(i13, i12, CameraScanActivity.this.descriptionText.getMeasuredWidth() + i13, CameraScanActivity.this.descriptionText.getMeasuredHeight() + i12);
+                int i9 = (int) (i6 * 0.74f);
+                int i10 = (int) (i5 * 0.05f);
+                CameraScanActivity.this.descriptionText.layout(i10, i9, CameraScanActivity.this.descriptionText.getMeasuredWidth() + i10, CameraScanActivity.this.descriptionText.getMeasuredHeight() + i9);
                 CameraScanActivity.this.updateNormalBounds();
             }
 
@@ -1219,16 +1219,11 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x016a A[Catch: all -> 0x01d1, TryCatch #0 {all -> 0x01d1, blocks: (B:3:0x0005, B:5:0x0014, B:8:0x001c, B:9:0x0032, B:10:0x0055, B:12:0x005d, B:14:0x0063, B:16:0x006f, B:19:0x0073, B:21:0x007a, B:22:0x009b, B:25:0x00a6, B:28:0x00ac, B:29:0x00e3, B:30:0x0105, B:32:0x0117, B:34:0x011b, B:36:0x0125, B:39:0x012e, B:41:0x0139, B:42:0x015e, B:44:0x0164, B:46:0x016a, B:48:0x016e, B:50:0x0172, B:53:0x017b, B:54:0x018b, B:56:0x0193, B:58:0x0197, B:60:0x019e, B:61:0x01cc), top: B:65:0x0005 }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x016e A[Catch: all -> 0x01d1, TryCatch #0 {all -> 0x01d1, blocks: (B:3:0x0005, B:5:0x0014, B:8:0x001c, B:9:0x0032, B:10:0x0055, B:12:0x005d, B:14:0x0063, B:16:0x006f, B:19:0x0073, B:21:0x007a, B:22:0x009b, B:25:0x00a6, B:28:0x00ac, B:29:0x00e3, B:30:0x0105, B:32:0x0117, B:34:0x011b, B:36:0x0125, B:39:0x012e, B:41:0x0139, B:42:0x015e, B:44:0x0164, B:46:0x016a, B:48:0x016e, B:50:0x0172, B:53:0x017b, B:54:0x018b, B:56:0x0193, B:58:0x0197, B:60:0x019e, B:61:0x01cc), top: B:65:0x0005 }] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public QrResult tryReadQr(byte[] bArr, Size size, int i, int i2, int i3, Bitmap bitmap) {
         String str;
         int i4;
-        LuminanceSource luminanceSource;
-        Frame frame;
+        LuminanceSource planarYUVLuminanceSource;
+        Frame build;
         try {
             RectF rectF = new RectF();
             BarcodeDetector barcodeDetector = this.visionQrReader;
@@ -1238,15 +1233,15 @@ public class CameraScanActivity extends BaseFragment {
             int i6 = 1;
             if (barcodeDetector != null && barcodeDetector.isOperational()) {
                 if (bitmap != null) {
-                    frame = new Frame.Builder().setBitmap(bitmap).build();
+                    build = new Frame.Builder().setBitmap(bitmap).build();
                     i6 = bitmap.getWidth();
                     i4 = bitmap.getHeight();
                 } else {
-                    frame = new Frame.Builder().setImageData(ByteBuffer.wrap(bArr), size.getWidth(), size.getHeight(), 17).build();
+                    build = new Frame.Builder().setImageData(ByteBuffer.wrap(bArr), size.getWidth(), size.getHeight(), 17).build();
                     i6 = size.getWidth();
                     i4 = size.getWidth();
                 }
-                SparseArray<Barcode> detect = this.visionQrReader.detect(frame);
+                SparseArray<Barcode> detect = this.visionQrReader.detect(build);
                 if (detect == null || detect.size() <= 0) {
                     str = null;
                 } else {
@@ -1269,73 +1264,69 @@ public class CameraScanActivity extends BaseFragment {
                     }
                     rectF = null;
                 }
-                if (!TextUtils.isEmpty(str)) {
-                }
-            } else {
-                if (this.qrReader != null) {
-                    if (bitmap != null) {
-                        int[] iArr = new int[bitmap.getWidth() * bitmap.getHeight()];
-                        bitmap.getPixels(iArr, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-                        luminanceSource = new RGBLuminanceSource(bitmap.getWidth(), bitmap.getHeight(), iArr);
-                        i6 = bitmap.getWidth();
-                        i4 = bitmap.getWidth();
-                    } else {
-                        luminanceSource = new PlanarYUVLuminanceSource(bArr, size.getWidth(), size.getHeight(), i, i2, i3, i3, false);
-                        i6 = size.getWidth();
-                        i4 = size.getHeight();
-                    }
-                    Result decode = this.qrReader.decode(new BinaryBitmap(new GlobalHistogramBinarizer(luminanceSource)));
-                    if (decode == null) {
-                        onNoQrFound();
-                        return null;
-                    }
-                    str = decode.getText();
-                    if (decode.getResultPoints() != null && decode.getResultPoints().length != 0) {
-                        ResultPoint[] resultPoints = decode.getResultPoints();
-                        int length2 = resultPoints.length;
-                        float f5 = Float.MIN_VALUE;
-                        float f6 = Float.MAX_VALUE;
-                        while (i5 < length2) {
-                            ResultPoint resultPoint = resultPoints[i5];
-                            f2 = Math.min(f2, resultPoint.getX());
-                            f = Math.max(f, resultPoint.getX());
-                            f6 = Math.min(f6, resultPoint.getY());
-                            f5 = Math.max(f5, resultPoint.getY());
-                            i5++;
-                        }
-                        rectF.set(f2, f6, f, f5);
-                    }
-                    rectF = null;
+            } else if (this.qrReader != null) {
+                if (bitmap != null) {
+                    int[] iArr = new int[bitmap.getWidth() * bitmap.getHeight()];
+                    bitmap.getPixels(iArr, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+                    planarYUVLuminanceSource = new RGBLuminanceSource(bitmap.getWidth(), bitmap.getHeight(), iArr);
+                    i6 = bitmap.getWidth();
+                    i4 = bitmap.getWidth();
                 } else {
-                    str = null;
-                    i4 = 1;
+                    planarYUVLuminanceSource = new PlanarYUVLuminanceSource(bArr, size.getWidth(), size.getHeight(), i, i2, i3, i3, false);
+                    i6 = size.getWidth();
+                    i4 = size.getHeight();
                 }
-                if (!TextUtils.isEmpty(str)) {
+                Result decode = this.qrReader.decode(new BinaryBitmap(new GlobalHistogramBinarizer(planarYUVLuminanceSource)));
+                if (decode == null) {
                     onNoQrFound();
                     return null;
                 }
-                if (this.needGalleryButton) {
-                    if (!str.startsWith("ton://transfer/")) {
-                        return null;
+                str = decode.getText();
+                if (decode.getResultPoints() != null && decode.getResultPoints().length != 0) {
+                    ResultPoint[] resultPoints = decode.getResultPoints();
+                    int length2 = resultPoints.length;
+                    float f5 = Float.MIN_VALUE;
+                    float f6 = Float.MAX_VALUE;
+                    while (i5 < length2) {
+                        ResultPoint resultPoint = resultPoints[i5];
+                        f2 = Math.min(f2, resultPoint.getX());
+                        f = Math.max(f, resultPoint.getX());
+                        f6 = Math.min(f6, resultPoint.getY());
+                        f5 = Math.max(f5, resultPoint.getY());
+                        i5++;
                     }
-                    Uri.parse(str).getPath().replace("/", "");
-                } else if (!str.startsWith("tg://login?token=")) {
-                    onNoQrFound();
+                    rectF.set(f2, f6, f, f5);
+                }
+                rectF = null;
+            } else {
+                str = null;
+                i4 = 1;
+            }
+            if (TextUtils.isEmpty(str)) {
+                onNoQrFound();
+                return null;
+            }
+            if (this.needGalleryButton) {
+                if (!str.startsWith("ton://transfer/")) {
                     return null;
                 }
-                QrResult qrResult = new QrResult(this, null);
-                if (rectF != null) {
-                    float dp = AndroidUtilities.dp(25.0f);
-                    float dp2 = AndroidUtilities.dp(15.0f);
-                    rectF.set(rectF.left - dp, rectF.top - dp2, rectF.right + dp, rectF.bottom + dp2);
-                    float f7 = i6;
-                    float f8 = i4;
-                    rectF.set(rectF.left / f7, rectF.top / f8, rectF.right / f7, rectF.bottom / f8);
-                }
-                qrResult.bounds = rectF;
-                qrResult.text = str;
-                return qrResult;
+                Uri.parse(str).getPath().replace("/", "");
+            } else if (!str.startsWith("tg://login?token=")) {
+                onNoQrFound();
+                return null;
             }
+            QrResult qrResult = new QrResult(this, null);
+            if (rectF != null) {
+                float dp = AndroidUtilities.dp(25.0f);
+                float dp2 = AndroidUtilities.dp(15.0f);
+                rectF.set(rectF.left - dp, rectF.top - dp2, rectF.right + dp, rectF.bottom + dp2);
+                float f7 = i6;
+                float f8 = i4;
+                rectF.set(rectF.left / f7, rectF.top / f8, rectF.right / f7, rectF.bottom / f8);
+            }
+            qrResult.bounds = rectF;
+            qrResult.text = str;
+            return qrResult;
         } catch (Throwable unused) {
             onNoQrFound();
             return null;

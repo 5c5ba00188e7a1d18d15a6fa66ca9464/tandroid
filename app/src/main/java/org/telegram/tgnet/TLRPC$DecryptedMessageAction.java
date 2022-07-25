@@ -15,19 +15,19 @@ public abstract class TLRPC$DecryptedMessageAction extends TLObject {
     public int ttl_seconds;
 
     public static TLRPC$DecryptedMessageAction TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$DecryptedMessageAction tLRPC$DecryptedMessageAction;
+        TLRPC$DecryptedMessageAction tLRPC$TL_decryptedMessageActionScreenshotMessages;
         switch (i) {
             case -1967000459:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionScreenshotMessages();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionScreenshotMessages();
                 break;
             case -1586283796:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionSetMessageTTL();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionSetMessageTTL();
                 break;
             case -1473258141:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionNoop();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionNoop();
                 break;
             case -860719551:
-                tLRPC$DecryptedMessageAction = new TLRPC$DecryptedMessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_decryptedMessageActionTyping
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$DecryptedMessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_decryptedMessageActionTyping
                     public static int constructor = -860719551;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -43,41 +43,41 @@ public abstract class TLRPC$DecryptedMessageAction extends TLObject {
                 };
                 break;
             case -586814357:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionAbortKey();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionAbortKey();
                 break;
             case -332526693:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionCommitKey();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionCommitKey();
                 break;
             case -217806717:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionNotifyLayer();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionNotifyLayer();
                 break;
             case -204906213:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionRequestKey();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionRequestKey();
                 break;
             case 206520510:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionReadMessages();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionReadMessages();
                 break;
             case 1360072880:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionResend();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionResend();
                 break;
             case 1700872964:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionDeleteMessages();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionDeleteMessages();
                 break;
             case 1729750108:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionFlushHistory();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionFlushHistory();
                 break;
             case 1877046107:
-                tLRPC$DecryptedMessageAction = new TLRPC$TL_decryptedMessageActionAcceptKey();
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = new TLRPC$TL_decryptedMessageActionAcceptKey();
                 break;
             default:
-                tLRPC$DecryptedMessageAction = null;
+                tLRPC$TL_decryptedMessageActionScreenshotMessages = null;
                 break;
         }
-        if (tLRPC$DecryptedMessageAction != null || !z) {
-            if (tLRPC$DecryptedMessageAction != null) {
-                tLRPC$DecryptedMessageAction.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_decryptedMessageActionScreenshotMessages != null || !z) {
+            if (tLRPC$TL_decryptedMessageActionScreenshotMessages != null) {
+                tLRPC$TL_decryptedMessageActionScreenshotMessages.readParams(abstractSerializedData, z);
             }
-            return tLRPC$DecryptedMessageAction;
+            return tLRPC$TL_decryptedMessageActionScreenshotMessages;
         }
         throw new RuntimeException(String.format("can't parse magic %x in DecryptedMessageAction", Integer.valueOf(i)));
     }

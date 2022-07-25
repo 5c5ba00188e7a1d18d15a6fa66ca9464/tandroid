@@ -82,6 +82,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         dispatchQueue.postRunnable(runnable, 400L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDelayed$1(final String str, final Location location) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -91,6 +92,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDelayed$0(String str, Location location) {
         this.searchRunnable = null;
         this.lastSearchLocation = null;
@@ -112,6 +114,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda2
@@ -123,6 +126,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$2(TLObject tLObject) {
         TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer = (TLRPC$TL_contacts_resolvedPeer) tLObject;
         MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_contacts_resolvedPeer.users, false);
@@ -196,6 +200,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchPlacesWithQuery$5(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -205,6 +210,7 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchPlacesWithQuery$4(TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             this.currentRequestNum = 0;

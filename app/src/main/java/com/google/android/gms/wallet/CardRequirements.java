@@ -30,6 +30,7 @@ public final class CardRequirements extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CardRequirements(ArrayList<Integer> arrayList, boolean z, boolean z2, int i) {
         this.zza = arrayList;
         this.zzb = z;

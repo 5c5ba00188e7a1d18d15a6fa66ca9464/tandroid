@@ -8,6 +8,7 @@ import org.telegram.messenger.FileLog;
 /* loaded from: classes.dex */
 public class NativeByteBuffer extends AbstractSerializedData {
     private static final ThreadLocal<LinkedList<NativeByteBuffer>> addressWrappers = new ThreadLocal<LinkedList<NativeByteBuffer>>() { // from class: org.telegram.tgnet.NativeByteBuffer.1
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // java.lang.ThreadLocal
         public LinkedList<NativeByteBuffer> initialValue() {
             return new LinkedList<>();

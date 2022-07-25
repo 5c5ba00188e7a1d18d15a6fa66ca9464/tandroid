@@ -35,6 +35,7 @@ import com.huawei.hms.utils.HMSPackageManager;
 import com.huawei.hms.utils.PackageManagerHelper;
 import com.huawei.hms.utils.Util;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: HuaweiApiAvailabilityImpl.java */
 /* loaded from: classes.dex */
 public final class b extends HuaweiApiAvailability {

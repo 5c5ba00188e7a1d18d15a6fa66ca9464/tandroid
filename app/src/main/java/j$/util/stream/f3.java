@@ -27,6 +27,7 @@ public abstract class f3 implements j3 {
         return consumer.getClass();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Double d) {
         o1.a(this, d);

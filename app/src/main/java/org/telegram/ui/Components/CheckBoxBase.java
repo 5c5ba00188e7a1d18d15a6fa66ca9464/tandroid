@@ -236,12 +236,12 @@ public class CheckBoxBase {
         setProgress(z ? 1.0f : 0.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:162:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0048  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0066  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00ef  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x02c1  */
+    /* JADX WARN: Removed duplicated region for block: B:131:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0066  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x02c1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -365,25 +365,25 @@ public class CheckBoxBase {
                 int i11 = this.backgroundType;
                 if (i11 == 6) {
                     i5 = (int) (this.progress * (-360.0f));
-                    i7 = 6;
-                    i6 = 0;
+                    i6 = 6;
+                    i7 = 0;
                 } else if (i11 == 1) {
                     i5 = (int) (this.progress * (-270.0f));
-                    i7 = 6;
-                    i6 = -90;
+                    i6 = 6;
+                    i7 = -90;
                 } else {
                     i5 = (int) (this.progress * 270.0f);
-                    i7 = 6;
-                    i6 = 90;
+                    i6 = 6;
+                    i7 = 90;
                 }
-                if (i11 == i7) {
+                if (i11 == i6) {
                     int themedColor = getThemedColor("dialogBackground");
                     int alpha = Color.alpha(themedColor);
                     this.backgroundPaint.setColor(themedColor);
                     this.backgroundPaint.setAlpha((int) (alpha * this.progress));
                     i2 = centerY;
                     i3 = centerX;
-                    canvas.drawArc(this.rect, i6, i5, false, this.backgroundPaint);
+                    canvas.drawArc(this.rect, i7, i5, false, this.backgroundPaint);
                     int themedColor2 = getThemedColor("chat_attachPhotoBackground");
                     int alpha2 = Color.alpha(themedColor2);
                     this.backgroundPaint.setColor(themedColor2);
@@ -392,7 +392,7 @@ public class CheckBoxBase {
                     i2 = centerY;
                     i3 = centerX;
                 }
-                canvas.drawArc(this.rect, i6, i5, false, this.backgroundPaint);
+                canvas.drawArc(this.rect, i7, i5, false, this.backgroundPaint);
             }
             if (f2 > 0.0f) {
                 return;

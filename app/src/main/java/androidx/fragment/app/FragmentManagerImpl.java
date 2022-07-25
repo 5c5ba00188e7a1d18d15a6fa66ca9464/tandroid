@@ -49,6 +49,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: FragmentManager.java */
 /* loaded from: classes.dex */
 public final class FragmentManagerImpl extends FragmentManager implements LayoutInflater.Factory2 {
@@ -92,6 +93,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static final class FragmentLifecycleCallbacksHolder {
@@ -99,12 +101,14 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         final boolean mRecursive;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static class FragmentTag {
         public static final int[] Fragment = {16842755, 16842960, 16842961};
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public interface OpGenerator {
@@ -133,6 +137,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LayoutInflater.Factory2 getLayoutInflaterFactory() {
         return this;
     }
@@ -552,26 +557,28 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isStateAtLeast(int i) {
         return this.mCurState >= i;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x0072, code lost:
-        if (r0 != 3) goto L209;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0072, code lost:
+        if (r0 != 3) goto L43;
      */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0292  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x02b2  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x041d  */
-    /* JADX WARN: Removed duplicated region for block: B:216:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x02b2  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x041d  */
+    /* JADX WARN: Removed duplicated region for block: B:48:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0292  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void moveToState(Fragment fragment, int i, int i2, int i3, boolean z) {
         int i4;
         ViewGroup viewGroup;
+        FragmentManagerImpl fragmentManagerImpl;
         ViewGroup viewGroup2;
         String str;
-        FragmentManagerImpl fragmentManagerImpl;
         int i5;
         int i6 = 1;
         boolean z2 = true;
@@ -966,6 +973,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         fragment.onHiddenChanged(fragment.mHidden);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void moveFragmentToExpectedState(Fragment fragment) {
         if (fragment == null) {
             return;
@@ -1017,6 +1025,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         completeShowHideFragment(fragment);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void moveToState(int i, boolean z) {
         FragmentHostCallback fragmentHostCallback;
         if (this.mHost == null && i != 0) {
@@ -1060,6 +1069,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void makeActive(Fragment fragment) {
         if (fragment.mIndex >= 0) {
             return;
@@ -1273,7 +1283,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         return this.mStateSaved || this.mStopped;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0027, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0027, code lost:
         return;
      */
     /*
@@ -1732,6 +1742,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void addBackStackState(BackStackRecord backStackRecord) {
         if (this.mBackStack == null) {
             this.mBackStack = new ArrayList<>();
@@ -1794,6 +1805,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentManagerNonConfig retainNonConfig() {
         setRetaining(this.mSavedNonConfig);
         return this.mSavedNonConfig;
@@ -1824,17 +1836,17 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         ArrayList arrayList3;
         FragmentManagerNonConfig fragmentManagerNonConfig;
         if (this.mActive != null) {
-            arrayList3 = null;
-            arrayList2 = null;
             arrayList = null;
+            arrayList2 = null;
+            arrayList3 = null;
             for (int i = 0; i < this.mActive.size(); i++) {
                 Fragment valueAt = this.mActive.valueAt(i);
                 if (valueAt != null) {
                     if (valueAt.mRetainInstance) {
-                        if (arrayList3 == null) {
-                            arrayList3 = new ArrayList();
+                        if (arrayList == null) {
+                            arrayList = new ArrayList();
                         }
-                        arrayList3.add(valueAt);
+                        arrayList.add(valueAt);
                         Fragment fragment = valueAt.mTarget;
                         valueAt.mTargetIndex = fragment != null ? fragment.mIndex : -1;
                         if (DEBUG) {
@@ -1857,26 +1869,26 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                     if (arrayList2 != null) {
                         arrayList2.add(fragmentManagerNonConfig);
                     }
-                    if (arrayList == null && valueAt.mViewModelStore != null) {
-                        arrayList = new ArrayList(this.mActive.size());
+                    if (arrayList3 == null && valueAt.mViewModelStore != null) {
+                        arrayList3 = new ArrayList(this.mActive.size());
                         for (int i3 = 0; i3 < i; i3++) {
-                            arrayList.add(null);
+                            arrayList3.add(null);
                         }
                     }
-                    if (arrayList != null) {
-                        arrayList.add(valueAt.mViewModelStore);
+                    if (arrayList3 != null) {
+                        arrayList3.add(valueAt.mViewModelStore);
                     }
                 }
             }
         } else {
-            arrayList3 = null;
-            arrayList2 = null;
             arrayList = null;
+            arrayList2 = null;
+            arrayList3 = null;
         }
-        if (arrayList3 == null && arrayList2 == null && arrayList == null) {
+        if (arrayList == null && arrayList2 == null && arrayList3 == null) {
             this.mSavedNonConfig = null;
         } else {
-            this.mSavedNonConfig = new FragmentManagerNonConfig(arrayList3, arrayList2, arrayList);
+            this.mSavedNonConfig = new FragmentManagerNonConfig(arrayList, arrayList2, arrayList3);
         }
     }
 
@@ -1928,6 +1940,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         return bundle;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Parcelable saveAllState() {
         int[] iArr;
         int size;
@@ -2021,9 +2034,10 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         return fragmentManagerState;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void restoreAllState(Parcelable parcelable, FragmentManagerNonConfig fragmentManagerNonConfig) {
-        List<ViewModelStore> list;
-        List<FragmentManagerNonConfig> list2;
+        List<FragmentManagerNonConfig> list;
+        List<ViewModelStore> list2;
         FragmentState[] fragmentStateArr;
         if (parcelable == null) {
             return;
@@ -2034,8 +2048,8 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
         if (fragmentManagerNonConfig != null) {
             List<Fragment> fragments = fragmentManagerNonConfig.getFragments();
-            list2 = fragmentManagerNonConfig.getChildNonConfigs();
-            list = fragmentManagerNonConfig.getViewModelStores();
+            list = fragmentManagerNonConfig.getChildNonConfigs();
+            list2 = fragmentManagerNonConfig.getViewModelStores();
             int size = fragments != null ? fragments.size() : 0;
             for (int i = 0; i < size; i++) {
                 Fragment fragment = fragments.get(i);
@@ -2068,8 +2082,8 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 }
             }
         } else {
-            list2 = null;
             list = null;
+            list2 = null;
         }
         this.mActive = new SparseArray<>(fragmentManagerState.mActive.length);
         int i3 = 0;
@@ -2080,7 +2094,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             }
             FragmentState fragmentState2 = fragmentStateArr2[i3];
             if (fragmentState2 != null) {
-                Fragment instantiate = fragmentState2.instantiate(this.mHost, this.mContainer, this.mParent, (list2 == null || i3 >= list2.size()) ? null : list2.get(i3), (list == null || i3 >= list.size()) ? null : list.get(i3));
+                Fragment instantiate = fragmentState2.instantiate(this.mHost, this.mContainer, this.mParent, (list == null || i3 >= list.size()) ? null : list.get(i3), (list2 == null || i3 >= list2.size()) ? null : list2.get(i3));
                 if (DEBUG) {
                     Log.v("FragmentManager", "restoreAllState: active #" + i3 + ": " + instantiate);
                 }
@@ -2380,7 +2394,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         return this.mPrimaryNav;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2404,7 +2418,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2428,7 +2442,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2452,7 +2466,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2476,7 +2490,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2500,7 +2514,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2524,7 +2538,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2548,7 +2562,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2572,7 +2586,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2596,7 +2610,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2620,7 +2634,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2644,7 +2658,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2668,7 +2682,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2692,7 +2706,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2804,7 +2818,6 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         final String mName;
 
         PopBackStackState(String str, int i, int i2) {
-            FragmentManagerImpl.this = r1;
             this.mName = str;
             this.mId = i;
             this.mFlags = i2;
@@ -2821,6 +2834,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static class StartEnterTransitionListener implements Fragment.OnStartEnterTransitionListener {
@@ -2873,6 +2887,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static class AnimationOrAnimator {
@@ -2898,10 +2913,9 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
-    public static class AnimationListenerWrapper implements Animation.AnimationListener {
+    private static class AnimationListenerWrapper implements Animation.AnimationListener {
         private final Animation.AnimationListener mWrapped;
 
         AnimationListenerWrapper(Animation.AnimationListener animationListener) {
@@ -2933,6 +2947,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static class AnimateOnHWLayerIfNeededListener extends AnimationListenerWrapper {
@@ -2959,6 +2974,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static class AnimatorOnHWLayerIfNeededListener extends AnimatorListenerAdapter {
@@ -2980,6 +2996,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static class EndViewTransitionAnimator extends AnimationSet implements Runnable {

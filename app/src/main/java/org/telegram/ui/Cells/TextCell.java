@@ -122,37 +122,38 @@ public class TextCell extends FrameLayout {
         setMeasuredDimension(size, AndroidUtilities.dp(50.0f) + (this.needDivider ? 1 : 0));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        int i5;
-        int i6 = i4 - i2;
-        int i7 = i3 - i;
-        int textHeight = (i6 - this.valueTextView.getTextHeight()) / 2;
-        int dp = LocaleController.isRTL ? AndroidUtilities.dp(this.leftPadding) : 0;
+        int dp;
+        int i5 = i4 - i2;
+        int i6 = i3 - i;
+        int textHeight = (i5 - this.valueTextView.getTextHeight()) / 2;
+        int dp2 = LocaleController.isRTL ? AndroidUtilities.dp(this.leftPadding) : 0;
         if (this.prioritizeTitleOverValue && !LocaleController.isRTL) {
-            dp = (i7 - this.valueTextView.getMeasuredWidth()) - AndroidUtilities.dp(this.leftPadding);
+            dp2 = (i6 - this.valueTextView.getMeasuredWidth()) - AndroidUtilities.dp(this.leftPadding);
         }
         SimpleTextView simpleTextView = this.valueTextView;
-        simpleTextView.layout(dp, textHeight, simpleTextView.getMeasuredWidth() + dp, this.valueTextView.getMeasuredHeight() + textHeight);
-        int textHeight2 = (i6 - this.textView.getTextHeight()) / 2;
+        simpleTextView.layout(dp2, textHeight, simpleTextView.getMeasuredWidth() + dp2, this.valueTextView.getMeasuredHeight() + textHeight);
+        int textHeight2 = (i5 - this.textView.getTextHeight()) / 2;
         if (LocaleController.isRTL) {
-            i5 = (getMeasuredWidth() - this.textView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.offsetFromImage : this.leftPadding);
+            dp = (getMeasuredWidth() - this.textView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.offsetFromImage : this.leftPadding);
         } else {
-            i5 = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.offsetFromImage : this.leftPadding);
+            dp = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.offsetFromImage : this.leftPadding);
         }
         SimpleTextView simpleTextView2 = this.textView;
-        simpleTextView2.layout(i5, textHeight2, simpleTextView2.getMeasuredWidth() + i5, this.textView.getMeasuredHeight() + textHeight2);
+        simpleTextView2.layout(dp, textHeight2, simpleTextView2.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight2);
         if (this.imageView.getVisibility() == 0) {
-            int dp2 = AndroidUtilities.dp(5.0f);
-            int dp3 = !LocaleController.isRTL ? AndroidUtilities.dp(this.imageLeft) : (i7 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageLeft);
+            int dp3 = AndroidUtilities.dp(5.0f);
+            int dp4 = !LocaleController.isRTL ? AndroidUtilities.dp(this.imageLeft) : (i6 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageLeft);
             RLottieImageView rLottieImageView = this.imageView;
-            rLottieImageView.layout(dp3, dp2, rLottieImageView.getMeasuredWidth() + dp3, this.imageView.getMeasuredHeight() + dp2);
+            rLottieImageView.layout(dp4, dp3, rLottieImageView.getMeasuredWidth() + dp4, this.imageView.getMeasuredHeight() + dp3);
         }
         if (this.valueImageView.getVisibility() == 0) {
-            int measuredHeight = (i6 - this.valueImageView.getMeasuredHeight()) / 2;
-            int dp4 = LocaleController.isRTL ? AndroidUtilities.dp(23.0f) : (i7 - this.valueImageView.getMeasuredWidth()) - AndroidUtilities.dp(23.0f);
+            int measuredHeight = (i5 - this.valueImageView.getMeasuredHeight()) / 2;
+            int dp5 = LocaleController.isRTL ? AndroidUtilities.dp(23.0f) : (i6 - this.valueImageView.getMeasuredWidth()) - AndroidUtilities.dp(23.0f);
             ImageView imageView = this.valueImageView;
-            imageView.layout(dp4, measuredHeight, imageView.getMeasuredWidth() + dp4, this.valueImageView.getMeasuredHeight() + measuredHeight);
+            imageView.layout(dp5, measuredHeight, imageView.getMeasuredWidth() + dp5, this.valueImageView.getMeasuredHeight() + measuredHeight);
         }
     }
 
@@ -264,20 +265,20 @@ public class TextCell extends FrameLayout {
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         float f;
+        float dp;
         int i;
-        float f2;
         if (this.needDivider) {
             int i2 = 72;
-            float f3 = 20.0f;
+            float f2 = 20.0f;
             if (LocaleController.isRTL) {
-                f = 0.0f;
+                dp = 0.0f;
             } else {
                 if (this.imageView.getVisibility() == 0) {
-                    f2 = this.inDialogs ? 72 : 68;
+                    f = this.inDialogs ? 72 : 68;
                 } else {
-                    f2 = 20.0f;
+                    f = 20.0f;
                 }
-                f = AndroidUtilities.dp(f2);
+                dp = AndroidUtilities.dp(f);
             }
             float measuredHeight = getMeasuredHeight() - 1;
             int measuredWidth = getMeasuredWidth();
@@ -286,13 +287,13 @@ public class TextCell extends FrameLayout {
                     if (!this.inDialogs) {
                         i2 = 68;
                     }
-                    f3 = i2;
+                    f2 = i2;
                 }
-                i = AndroidUtilities.dp(f3);
+                i = AndroidUtilities.dp(f2);
             } else {
                 i = 0;
             }
-            canvas.drawLine(f, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
+            canvas.drawLine(dp, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
         }
     }
 

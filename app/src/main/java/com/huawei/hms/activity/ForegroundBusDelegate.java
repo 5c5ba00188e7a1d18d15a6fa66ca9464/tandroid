@@ -41,10 +41,10 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
     private WeakReference<Activity> mThisWeakRef;
     private ResponseHeader responseHeader;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class MyAvailableCallBack implements AvailableAdapter.AvailableCallBack {
         private MyAvailableCallBack() {
-            ForegroundBusDelegate.this = r1;
         }
 
         @Override // com.huawei.hms.adapter.AvailableAdapter.AvailableCallBack
@@ -132,6 +132,7 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void errorReturn(int i, String str) {
         HMSLog.e(TAG, str);
         Activity activity = getActivity();
@@ -179,8 +180,9 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
         availableAdapter.startResolution(activity, availableCallBack);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startApkHubActivity() {
-        String str;
+        String hMSPackageNameForMultiService;
         HMSLog.i(TAG, "startApkHubActivity");
         Activity activity = getActivity();
         if (activity == null) {
@@ -188,19 +190,19 @@ public class ForegroundBusDelegate implements IBridgeActivityDelegate {
             return;
         }
         if (this.isUseInnerHms) {
-            str = activity.getPackageName();
+            hMSPackageNameForMultiService = activity.getPackageName();
         } else {
-            str = HMSPackageManager.getInstance(activity.getApplicationContext()).getHMSPackageNameForMultiService();
+            hMSPackageNameForMultiService = HMSPackageManager.getInstance(activity.getApplicationContext()).getHMSPackageNameForMultiService();
         }
         Intent intent = new Intent(this.innerHeader.getAction());
         intent.putExtra(HMS_FOREGROUND_REQ_BODY, this.foregroundBody);
         try {
-            intent.setPackage(str);
+            intent.setPackage(hMSPackageNameForMultiService);
         } catch (IllegalArgumentException unused) {
             HMSLog.e(TAG, "IllegalArgumentException when startApkHubActivity intent.setPackage");
         }
         intent.putExtra(BridgeActivity.EXTRA_IS_FULLSCREEN, UIUtil.isActivityFullscreen(activity));
-        intent.setClassName(str, UI_JUMP_ACTIVITY_NAME);
+        intent.setClassName(hMSPackageNameForMultiService, UI_JUMP_ACTIVITY_NAME);
         intent.putExtra(HMS_FOREGROUND_REQ_HEADER, this.foregroundHeader.toJson());
         intent.putExtra(EXTRA_DELEGATE_NAME, EXTRA_DELEGATE_VALUE);
         try {

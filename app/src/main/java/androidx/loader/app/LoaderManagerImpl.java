@@ -17,6 +17,7 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class LoaderManagerImpl extends LoaderManager {
     static boolean DEBUG = false;
@@ -175,6 +176,7 @@ public class LoaderManagerImpl extends LoaderManager {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class LoaderObserver<D> implements Observer<D> {
         private final LoaderManager.LoaderCallbacks<D> mCallback;
@@ -219,6 +221,7 @@ public class LoaderManagerImpl extends LoaderManager {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class LoaderViewModel extends ViewModel {
         private static final ViewModelProvider.Factory FACTORY = new ViewModelProvider.Factory() { // from class: androidx.loader.app.LoaderManagerImpl.LoaderViewModel.1
@@ -264,6 +267,7 @@ public class LoaderManagerImpl extends LoaderManager {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.lifecycle.ViewModel
         public void onCleared() {
             super.onCleared();
@@ -292,6 +296,7 @@ public class LoaderManagerImpl extends LoaderManager {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LoaderManagerImpl(LifecycleOwner lifecycleOwner, ViewModelStore viewModelStore) {
         this.mLifecycleOwner = lifecycleOwner;
         this.mLoaderViewModel = LoaderViewModel.getInstance(viewModelStore);

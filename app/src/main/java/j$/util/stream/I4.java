@@ -3,11 +3,11 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 import org.telegram.tgnet.ConnectionsManager;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class I4 extends J4 implements j$.util.u, Consumer {
+final class I4 extends J4 implements j$.util.u, Consumer {
     Object e;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public I4(j$.util.u uVar, long j, long j2) {
         super(uVar, j, j2);
     }

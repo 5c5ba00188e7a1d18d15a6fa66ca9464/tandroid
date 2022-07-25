@@ -21,6 +21,7 @@ final class zzah extends DeferredLifecycleHelper<zzag> {
     private final GoogleMapOptions zzd;
     private final List<OnMapReadyCallback> zze = new ArrayList();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzah(ViewGroup viewGroup, Context context, GoogleMapOptions googleMapOptions) {
         this.zzb = viewGroup;
         this.zzc = context;

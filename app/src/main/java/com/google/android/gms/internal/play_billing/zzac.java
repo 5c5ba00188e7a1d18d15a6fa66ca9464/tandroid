@@ -10,6 +10,7 @@ final class zzac extends zzy {
     private final transient Object[] zzb;
     private final transient int zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzac(zzx zzxVar, Object[] objArr, int i, int i2) {
         this.zza = zzxVar;
         this.zzb = objArr;
@@ -39,6 +40,7 @@ final class zzac extends zzy {
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
     public final int zza(Object[] objArr, int i) {
         return zzd().zza(objArr, 0);

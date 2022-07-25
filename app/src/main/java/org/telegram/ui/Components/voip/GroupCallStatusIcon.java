@@ -51,6 +51,7 @@ public class GroupCallStatusIcon {
         void onStatusChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         this.shakeHandDrawable.setOnFinishCallback(null, 0);
         this.micDrawable.setOnFinishCallback(null, 0);
@@ -60,6 +61,7 @@ public class GroupCallStatusIcon {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         int nextInt = Utilities.random.nextInt(100);
         int i = 540;
@@ -87,6 +89,7 @@ public class GroupCallStatusIcon {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
         this.isSpeaking = false;
         Callback callback = this.callback;
@@ -113,6 +116,7 @@ public class GroupCallStatusIcon {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3() {
         updateIcon(true);
     }
@@ -130,12 +134,12 @@ public class GroupCallStatusIcon {
     public void updateIcon(boolean z) {
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
         boolean z2;
+        boolean customEndFrame;
         boolean z3;
-        boolean z4;
         if (this.iconView == null || (tLRPC$TL_groupCallParticipant = this.participant) == null || this.micDrawable == null) {
             return;
         }
-        boolean z5 = tLRPC$TL_groupCallParticipant.muted_by_you && !tLRPC$TL_groupCallParticipant.self;
+        boolean z4 = tLRPC$TL_groupCallParticipant.muted_by_you && !tLRPC$TL_groupCallParticipant.self;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant2 = this.participant;
         if (elapsedRealtime - tLRPC$TL_groupCallParticipant2.lastVoiceUpdateTime < 500) {
@@ -143,38 +147,38 @@ public class GroupCallStatusIcon {
         } else {
             z2 = tLRPC$TL_groupCallParticipant2.hasVoice;
         }
-        boolean z6 = !tLRPC$TL_groupCallParticipant2.self ? !((!tLRPC$TL_groupCallParticipant2.muted || (this.isSpeaking && z2)) && !z5) : !(VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute() || (this.isSpeaking && z2));
+        boolean z5 = !tLRPC$TL_groupCallParticipant2.self ? !((!tLRPC$TL_groupCallParticipant2.muted || (this.isSpeaking && z2)) && !z4) : !(VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute() || (this.isSpeaking && z2));
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant3 = this.participant;
-        boolean z7 = ((tLRPC$TL_groupCallParticipant3.muted && !this.isSpeaking) || z5) && (!(z4 = tLRPC$TL_groupCallParticipant3.can_self_unmute) || z5) && !z4 && tLRPC$TL_groupCallParticipant3.raise_hand_rating != 0;
-        if (z7) {
+        boolean z6 = ((tLRPC$TL_groupCallParticipant3.muted && !this.isSpeaking) || z4) && (!(z3 = tLRPC$TL_groupCallParticipant3.can_self_unmute) || z4) && !z3 && tLRPC$TL_groupCallParticipant3.raise_hand_rating != 0;
+        if (z6) {
             long elapsedRealtime2 = SystemClock.elapsedRealtime();
             long j = this.participant.lastRaiseHandDate;
             long j2 = elapsedRealtime2 - j;
             if (j != 0 && j2 <= 5000) {
                 AndroidUtilities.runOnUIThread(this.checkRaiseRunnable, 5000 - j2);
             }
-            z3 = this.micDrawable.setCustomEndFrame(136);
+            customEndFrame = this.micDrawable.setCustomEndFrame(136);
         } else {
             this.iconView.setAnimation(this.micDrawable);
             this.micDrawable.setOnFinishCallback(null, 0);
-            if (z6 && this.lastRaisedHand) {
-                z3 = this.micDrawable.setCustomEndFrame(36);
+            if (z5 && this.lastRaisedHand) {
+                customEndFrame = this.micDrawable.setCustomEndFrame(36);
             } else {
-                z3 = this.micDrawable.setCustomEndFrame(z6 ? 99 : 69);
+                customEndFrame = this.micDrawable.setCustomEndFrame(z5 ? 99 : 69);
             }
         }
         if (!z) {
             RLottieDrawable rLottieDrawable = this.micDrawable;
             rLottieDrawable.setCurrentFrame(rLottieDrawable.getCustomEndFrame() - 1, false, true);
             this.iconView.invalidate();
-        } else if (z3) {
-            if (z7) {
+        } else if (customEndFrame) {
+            if (z6) {
                 this.micDrawable.setCurrentFrame(99);
                 this.micDrawable.setCustomEndFrame(136);
-            } else if (z6 && this.lastRaisedHand && !z7) {
+            } else if (z5 && this.lastRaisedHand && !z6) {
                 this.micDrawable.setCurrentFrame(0);
                 this.micDrawable.setCustomEndFrame(36);
-            } else if (z6) {
+            } else if (z5) {
                 this.micDrawable.setCurrentFrame(69);
                 this.micDrawable.setCustomEndFrame(99);
             } else {
@@ -185,11 +189,11 @@ public class GroupCallStatusIcon {
             this.iconView.invalidate();
         }
         this.iconView.setAnimation(this.micDrawable);
-        this.lastRaisedHand = z7;
-        if (this.mutedByMe == z5) {
+        this.lastRaisedHand = z6;
+        if (this.mutedByMe == z4) {
             return;
         }
-        this.mutedByMe = z5;
+        this.mutedByMe = z4;
         Callback callback = this.callback;
         if (callback == null) {
             return;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 final class zaac extends zaay {
     private final /* synthetic */ zaaa zaa;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zaac(zaaa zaaaVar, zaaw zaawVar) {
         super(zaawVar);

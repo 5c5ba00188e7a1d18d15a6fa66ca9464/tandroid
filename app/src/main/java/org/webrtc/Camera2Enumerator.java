@@ -90,10 +90,12 @@ public class Camera2Enumerator implements CameraEnumerator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int getFpsUnitFactor(Range<Integer>[] rangeArr) {
         return (rangeArr.length != 0 && rangeArr[0].getUpper().intValue() >= 1000) ? 1 : 1000;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static List<Size> getSupportedSizes(CameraCharacteristics cameraCharacteristics) {
         int intValue = ((Integer) cameraCharacteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL)).intValue();
         List<Size> convertSizes = convertSizes(((StreamConfigurationMap) cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)).getOutputSizes(SurfaceTexture.class));
@@ -116,7 +118,7 @@ public class Camera2Enumerator implements CameraEnumerator {
 
     static List<CameraEnumerationAndroid.CaptureFormat> getSupportedFormats(CameraManager cameraManager, String str) {
         long j;
-        int i;
+        int round;
         Map<String, List<CameraEnumerationAndroid.CaptureFormat>> map = cachedSupportedFormats;
         synchronized (map) {
             if (map.containsKey(str)) {
@@ -130,9 +132,9 @@ public class Camera2Enumerator implements CameraEnumerator {
                 Range[] rangeArr = (Range[]) cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
                 List<CameraEnumerationAndroid.CaptureFormat.FramerateRange> convertFramerates = convertFramerates(rangeArr, getFpsUnitFactor(rangeArr));
                 List<Size> supportedSizes = getSupportedSizes(cameraCharacteristics);
-                int i2 = 0;
+                int i = 0;
                 for (CameraEnumerationAndroid.CaptureFormat.FramerateRange framerateRange : convertFramerates) {
-                    i2 = Math.max(i2, framerateRange.max);
+                    i = Math.max(i, framerateRange.max);
                 }
                 ArrayList arrayList = new ArrayList();
                 for (Size size : supportedSizes) {
@@ -142,14 +144,14 @@ public class Camera2Enumerator implements CameraEnumerator {
                         j = 0;
                     }
                     if (j == 0) {
-                        i = i2;
+                        round = i;
                     } else {
                         double d = j;
                         Double.isNaN(d);
-                        i = ((int) Math.round(NANO_SECONDS_PER_SECOND / d)) * 1000;
+                        round = ((int) Math.round(NANO_SECONDS_PER_SECOND / d)) * 1000;
                     }
-                    arrayList.add(new CameraEnumerationAndroid.CaptureFormat(size.width, size.height, 0, i));
-                    Logging.d(TAG, "Format: " + size.width + "x" + size.height + "@" + i);
+                    arrayList.add(new CameraEnumerationAndroid.CaptureFormat(size.width, size.height, 0, round));
+                    Logging.d(TAG, "Format: " + size.width + "x" + size.height + "@" + round);
                 }
                 cachedSupportedFormats.put(str, arrayList);
                 long elapsedRealtime2 = SystemClock.elapsedRealtime();
@@ -170,6 +172,7 @@ public class Camera2Enumerator implements CameraEnumerator {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static List<CameraEnumerationAndroid.CaptureFormat.FramerateRange> convertFramerates(Range<Integer>[] rangeArr, int i) {
         ArrayList arrayList = new ArrayList();
         for (Range<Integer> range : rangeArr) {

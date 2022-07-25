@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.internal.GoogleApiManager;
 final class zabf implements Runnable {
     private final /* synthetic */ GoogleApiManager.zaa zaa;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zabf(GoogleApiManager.zaa zaaVar) {
         this.zaa = zaaVar;
     }

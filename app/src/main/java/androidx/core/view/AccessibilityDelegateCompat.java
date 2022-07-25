@@ -21,6 +21,7 @@ public class AccessibilityDelegateCompat {
     private final View.AccessibilityDelegate mBridge;
     private final View.AccessibilityDelegate mOriginalDelegate;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class AccessibilityDelegateAdapter extends View.AccessibilityDelegate {
         final AccessibilityDelegateCompat mCompat;
@@ -98,6 +99,7 @@ public class AccessibilityDelegateCompat {
         this.mBridge = new AccessibilityDelegateAdapter(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public View.AccessibilityDelegate getBridge() {
         return this.mBridge;
     }

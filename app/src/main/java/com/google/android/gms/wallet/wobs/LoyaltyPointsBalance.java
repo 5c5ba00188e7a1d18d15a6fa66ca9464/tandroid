@@ -35,6 +35,7 @@ public final class LoyaltyPointsBalance extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LoyaltyPointsBalance(int i, String str, double d, String str2, long j, int i2) {
         this.zza = i;
         this.zzb = str;

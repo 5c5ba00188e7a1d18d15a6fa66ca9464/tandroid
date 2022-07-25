@@ -45,6 +45,7 @@ final class WebRtcAudioUtils {
         return i != 12 ? i != 16 ? "INVALID" : "IN_MONO" : "IN_STEREO";
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String deviceTypeToString(int i) {
         switch (i) {
             case 1:
@@ -96,6 +97,7 @@ final class WebRtcAudioUtils {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String modeToString(int i) {
         return i != 0 ? i != 1 ? i != 2 ? i != 3 ? "MODE_INVALID" : "MODE_IN_COMMUNICATION" : "MODE_IN_CALL" : "MODE_RINGTONE" : "MODE_NORMAL";
     }
@@ -119,6 +121,7 @@ final class WebRtcAudioUtils {
         Logging.d(str, "Android SDK: " + Build.VERSION.SDK_INT + ", Release: " + Build.VERSION.RELEASE + ", Brand: " + Build.BRAND + ", Device: " + Build.DEVICE + ", Id: " + Build.ID + ", Hardware: " + Build.HARDWARE + ", Manufacturer: " + Build.MANUFACTURER + ", Model: " + Build.MODEL + ", Product: " + Build.PRODUCT);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void logAudioState(String str, Context context, AudioManager audioManager) {
         logDeviceInfo(str);
         logAudioStateBasic(str, context, audioManager);

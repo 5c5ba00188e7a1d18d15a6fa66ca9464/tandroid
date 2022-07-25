@@ -267,10 +267,10 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x016a A[Catch: Exception -> 0x0188, all -> 0x03bd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:34:0x0164, B:36:0x016a, B:38:0x016e, B:39:0x0170, B:41:0x0174, B:43:0x017a, B:45:0x0180), top: B:81:0x011b, outer: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x016e A[Catch: Exception -> 0x0188, all -> 0x03bd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:34:0x0164, B:36:0x016a, B:38:0x016e, B:39:0x0170, B:41:0x0174, B:43:0x017a, B:45:0x0180), top: B:81:0x011b, outer: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x022a  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x016a A[Catch: Exception -> 0x0188, all -> 0x03bd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x016e A[Catch: Exception -> 0x0188, all -> 0x03bd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -279,7 +279,6 @@ public class SharedConfig {
         int i;
         String str;
         String str2;
-        Exception e;
         synchronized (sync) {
             if (!configLoaded && ApplicationLoader.applicationContext != null) {
                 SharedPreferences unused = BackgroundActivityPrefs.prefs = ApplicationLoader.applicationContext.getSharedPreferences("background_activity", 0);
@@ -334,8 +333,8 @@ public class SharedConfig {
                             i = packageInfo.versionCode;
                             try {
                                 str = packageInfo.versionName;
-                            } catch (Exception e2) {
-                                e = e2;
+                            } catch (Exception e) {
+                                e = e;
                                 FileLog.e(e);
                                 str = null;
                                 if (i == 0) {
@@ -413,8 +412,8 @@ public class SharedConfig {
                                     WebView.setWebContentsDebuggingEnabled(true);
                                 }
                             }
-                        } catch (Exception e3) {
-                            e = e3;
+                        } catch (Exception e2) {
+                            e = e2;
                             i = 0;
                         }
                         if (i == 0) {
@@ -428,8 +427,8 @@ public class SharedConfig {
                             AndroidUtilities.runOnUIThread(SharedConfig$$ExternalSyntheticLambda4.INSTANCE);
                         }
                     }
-                } catch (Exception e4) {
-                    FileLog.e(e4);
+                } catch (Exception e3) {
+                    FileLog.e(e3);
                 }
                 sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
                 if (!sharedPreferences.getBoolean("save_gallery", false) && BuildVars.NO_SCOPED_STORAGE) {
@@ -501,8 +500,8 @@ public class SharedConfig {
                     if (Build.VERSION.SDK_INT >= 19 && debugWebView) {
                         WebView.setWebContentsDebuggingEnabled(true);
                     }
-                } catch (Exception e5) {
-                    FileLog.e(e5);
+                } catch (Exception e4) {
+                    FileLog.e(e4);
                 }
             }
         }
@@ -574,8 +573,8 @@ public class SharedConfig {
         return pendingAppUpdateBuildVersion == i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0020  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0024  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0024  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0020  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -583,19 +582,18 @@ public class SharedConfig {
         int i;
         String str;
         String str2;
-        Exception e;
         PackageInfo packageInfo;
         try {
             packageInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
             i = packageInfo.versionCode;
-        } catch (Exception e2) {
-            e = e2;
+        } catch (Exception e) {
+            e = e;
             i = 0;
         }
         try {
             str = packageInfo.versionName;
-        } catch (Exception e3) {
-            e = e3;
+        } catch (Exception e2) {
+            e = e2;
             FileLog.e(e);
             str = null;
             if (i == 0) {
@@ -785,6 +783,7 @@ public class SharedConfig {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkLogsToDelete$0(int i) {
         long j = i - 864000;
         try {
@@ -813,6 +812,7 @@ public class SharedConfig {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkKeepMedia$1(int i, File file) {
         int i2 = keepMedia;
         if (i2 != 2) {
@@ -1199,6 +1199,7 @@ public class SharedConfig {
         Utilities.globalQueue.postRunnable(SharedConfig$$ExternalSyntheticLambda2.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkSaveToGalleryFiles$3() {
         try {
             File file = new File(Environment.getExternalStorageDirectory(), "Telegram");

@@ -96,19 +96,19 @@ public class Utilities {
     }
 
     public static Bitmap blurWallpaper(Bitmap bitmap) {
-        Bitmap bitmap2;
+        Bitmap createBitmap;
         if (bitmap == null) {
             return null;
         }
         if (bitmap.getHeight() > bitmap.getWidth()) {
-            bitmap2 = Bitmap.createBitmap(Math.round((bitmap.getWidth() * 450.0f) / bitmap.getHeight()), 450, Bitmap.Config.ARGB_8888);
+            createBitmap = Bitmap.createBitmap(Math.round((bitmap.getWidth() * 450.0f) / bitmap.getHeight()), 450, Bitmap.Config.ARGB_8888);
         } else {
-            bitmap2 = Bitmap.createBitmap(450, Math.round((bitmap.getHeight() * 450.0f) / bitmap.getWidth()), Bitmap.Config.ARGB_8888);
+            createBitmap = Bitmap.createBitmap(450, Math.round((bitmap.getHeight() * 450.0f) / bitmap.getWidth()), Bitmap.Config.ARGB_8888);
         }
         Paint paint = new Paint(2);
-        new Canvas(bitmap2).drawBitmap(bitmap, (Rect) null, new Rect(0, 0, bitmap2.getWidth(), bitmap2.getHeight()), paint);
-        stackBlurBitmap(bitmap2, 12);
-        return bitmap2;
+        new Canvas(createBitmap).drawBitmap(bitmap, (Rect) null, new Rect(0, 0, createBitmap.getWidth(), createBitmap.getHeight()), paint);
+        stackBlurBitmap(createBitmap, 12);
+        return createBitmap;
     }
 
     public static void aesIgeEncryption(ByteBuffer byteBuffer, byte[] bArr, byte[] bArr2, boolean z, boolean z2, int i, int i2) {

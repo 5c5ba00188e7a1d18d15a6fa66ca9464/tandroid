@@ -11,6 +11,7 @@ import java.util.concurrent.TimeoutException;
 /* compiled from: com.google.mlkit:common@@17.0.0 */
 /* loaded from: classes.dex */
 public abstract class zzal extends zzz implements ExecutorService {
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract ExecutorService zzb();
 
     @Override // java.util.concurrent.ExecutorService

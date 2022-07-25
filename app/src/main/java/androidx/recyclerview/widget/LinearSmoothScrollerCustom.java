@@ -111,32 +111,32 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
     }
 
     public int calculateDyToMakeVisible(View view) {
-        int i;
+        int paddingTop;
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
         if (layoutManager != null && layoutManager.canScrollVertically()) {
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) view.getLayoutParams();
             int decoratedTop = layoutManager.getDecoratedTop(view) - ((ViewGroup.MarginLayoutParams) layoutParams).topMargin;
             int decoratedBottom = layoutManager.getDecoratedBottom(view) + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
             int height = (layoutManager.getHeight() - layoutManager.getPaddingBottom()) - layoutManager.getPaddingTop();
-            int i2 = decoratedBottom - decoratedTop;
-            int i3 = this.scrollPosition;
-            if (i3 == 2) {
-                i = layoutManager.getPaddingTop();
-            } else if (i2 > height) {
-                i = 0;
-            } else if (i3 == 0) {
-                i = (height - i2) / 2;
+            int i = decoratedBottom - decoratedTop;
+            int i2 = this.scrollPosition;
+            if (i2 == 2) {
+                paddingTop = layoutManager.getPaddingTop();
+            } else if (i > height) {
+                paddingTop = 0;
+            } else if (i2 == 0) {
+                paddingTop = (height - i) / 2;
             } else {
-                i = layoutManager.getPaddingTop() - AndroidUtilities.dp(88.0f);
+                paddingTop = layoutManager.getPaddingTop() - AndroidUtilities.dp(88.0f);
             }
-            int i4 = i2 + i;
-            int i5 = i - decoratedTop;
-            if (i5 > 0) {
+            int i3 = i + paddingTop;
+            int i4 = paddingTop - decoratedTop;
+            if (i4 > 0) {
+                return i4;
+            }
+            int i5 = i3 - decoratedBottom;
+            if (i5 < 0) {
                 return i5;
-            }
-            int i6 = i4 - decoratedBottom;
-            if (i6 < 0) {
-                return i6;
             }
         }
         return 0;

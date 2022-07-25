@@ -31,6 +31,7 @@ public class PaymentsClient extends GoogleApi<Wallet.WalletOptions> {
         }).setFeatures(zzj.zzc).setAutoResolveMissingFeatures(true).setMethodKey(23707).build());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public PaymentsClient(Context context, Wallet.WalletOptions walletOptions) {
         super(context, Wallet.API, walletOptions, GoogleApi.Settings.DEFAULT_SETTINGS);
     }

@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class z2 extends U2 {
+class z2 extends U2 {
     public final /* synthetic */ int b = 3;
     final /* synthetic */ Object c;
     final /* synthetic */ Object d;

@@ -12,13 +12,17 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public final class IcyHeaders implements Metadata.Entry {
     public static final Parcelable.Creator<IcyHeaders> CREATOR = new Parcelable.Creator<IcyHeaders>() { // from class: com.google.android.exoplayer2.metadata.icy.IcyHeaders.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public IcyHeaders createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public IcyHeaders mo104createFromParcel(Parcel parcel) {
             return new IcyHeaders(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public IcyHeaders[] newArray(int i) {
+        /* renamed from: newArray */
+        public IcyHeaders[] mo105newArray(int i) {
             return new IcyHeaders[i];
         }
     };
@@ -44,23 +48,23 @@ public final class IcyHeaders implements Metadata.Entry {
         return Metadata.Entry.CC.$default$getWrappedMetadataFormat(this);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x005e  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x008f  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a9  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00ec  */
-    /* JADX WARN: Removed duplicated region for block: B:55:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x005e  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x009a  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00ec  */
+    /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0067  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static IcyHeaders parse(Map<String, List<String>> map) {
-        int i;
         boolean z;
+        int i;
         List<String> list;
         String str;
         List<String> list2;

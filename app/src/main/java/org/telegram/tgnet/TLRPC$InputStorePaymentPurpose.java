@@ -2,17 +2,17 @@ package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public abstract class TLRPC$InputStorePaymentPurpose extends TLObject {
     public static TLRPC$InputStorePaymentPurpose TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose;
+        TLRPC$InputStorePaymentPurpose tLRPC$TL_inputStorePaymentPremiumSubscription;
         if (i == -1502273946) {
-            tLRPC$InputStorePaymentPurpose = new TLRPC$TL_inputStorePaymentPremiumSubscription();
+            tLRPC$TL_inputStorePaymentPremiumSubscription = new TLRPC$TL_inputStorePaymentPremiumSubscription();
         } else {
-            tLRPC$InputStorePaymentPurpose = i != 1147243133 ? null : new TLRPC$TL_inputStorePaymentGiftPremium();
+            tLRPC$TL_inputStorePaymentPremiumSubscription = i != 1147243133 ? null : new TLRPC$TL_inputStorePaymentGiftPremium();
         }
-        if (tLRPC$InputStorePaymentPurpose != null || !z) {
-            if (tLRPC$InputStorePaymentPurpose != null) {
-                tLRPC$InputStorePaymentPurpose.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_inputStorePaymentPremiumSubscription != null || !z) {
+            if (tLRPC$TL_inputStorePaymentPremiumSubscription != null) {
+                tLRPC$TL_inputStorePaymentPremiumSubscription.readParams(abstractSerializedData, z);
             }
-            return tLRPC$InputStorePaymentPurpose;
+            return tLRPC$TL_inputStorePaymentPremiumSubscription;
         }
         throw new RuntimeException(String.format("can't parse magic %x in InputStorePaymentPurpose", Integer.valueOf(i)));
     }

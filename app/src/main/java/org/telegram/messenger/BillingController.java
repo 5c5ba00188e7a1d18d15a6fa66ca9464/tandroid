@@ -51,6 +51,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     private List<String> requestingTokens = new ArrayList();
     private Map<String, Integer> currencyExpMap = new HashMap();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onPurchasesUpdated$3(BillingResult billingResult, String str) {
     }
 
@@ -173,6 +174,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         accountInstance.getUserConfig().saveConfig(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$launchBillingFlow$2(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List list, BillingResult billingResult, List list2) {
         if (billingResult.getResponseCode() == 0) {
             final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda5
@@ -215,10 +217,12 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$launchBillingFlow$0(Activity activity, AccountInstance accountInstance, TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, List list) {
         launchBillingFlow(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$launchBillingFlow$1(List list, String str, AtomicInteger atomicInteger, Runnable runnable, BillingResult billingResult, String str2) {
         if (billingResult.getResponseCode() == 0) {
             list.add(str);
@@ -283,6 +287,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPurchasesUpdated$4(AccountInstance accountInstance, Purchase purchase, BillingResult billingResult, TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$Updates) {
             accountInstance.getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
@@ -318,6 +323,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onBillingSetupFinished$6(BillingResult billingResult, List list) {
         if (billingResult.getResponseCode() == 0) {
             Iterator it = list.iterator();
@@ -331,6 +337,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onBillingSetupFinished$5() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
     }

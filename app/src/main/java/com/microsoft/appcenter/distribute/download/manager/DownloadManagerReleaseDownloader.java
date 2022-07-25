@@ -23,10 +23,12 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         super(context, releaseDetails, listener);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DownloadManager getDownloadManager() {
         return (DownloadManager) this.mContext.getSystemService("download");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized long getDownloadId() {
         if (this.mDownloadId == -1) {
             this.mDownloadId = SharedPreferencesManager.getLong("Distribute.download_id", -1L);
@@ -87,6 +89,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void update() {
         if (isCancelled()) {
             return;
@@ -99,10 +102,12 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         AsyncTaskUtils.execute("AppCenterDistribute", new DownloadManagerRemoveTask(this.mContext, j), new Void[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onStart() {
         request();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadStarted(long j, long j2) {
         if (isCancelled()) {
             return;
@@ -114,6 +119,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadProgress(Cursor cursor) {
         if (isCancelled()) {
             return;
@@ -129,6 +135,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadComplete(Cursor cursor) {
         if (isCancelled()) {
             return;
@@ -145,6 +152,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadError(RuntimeException runtimeException) {
         if (isCancelled()) {
             return;

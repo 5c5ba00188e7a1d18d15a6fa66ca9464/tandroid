@@ -11,6 +11,7 @@ class j implements d {
     private final Context a;
     private final String b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public j(Context context, String str) {
         this.a = context;
         this.b = str;

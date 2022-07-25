@@ -9,13 +9,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class MdtaMetadataEntry implements Metadata.Entry {
     public static final Parcelable.Creator<MdtaMetadataEntry> CREATOR = new Parcelable.Creator<MdtaMetadataEntry>() { // from class: com.google.android.exoplayer2.extractor.mp4.MdtaMetadataEntry.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public MdtaMetadataEntry createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public MdtaMetadataEntry mo92createFromParcel(Parcel parcel) {
             return new MdtaMetadataEntry(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public MdtaMetadataEntry[] newArray(int i) {
+        /* renamed from: newArray */
+        public MdtaMetadataEntry[] mo93newArray(int i) {
             return new MdtaMetadataEntry[i];
         }
     };

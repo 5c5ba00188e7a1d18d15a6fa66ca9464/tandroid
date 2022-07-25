@@ -94,8 +94,8 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
     }
 
     private List<Format> getClosedCaptionFormats(TsPayloadReader.EsInfo esInfo) {
-        int i;
         String str;
+        int i;
         List<byte[]> list;
         if (isSet(32)) {
             return this.closedCaptionFormats;

@@ -186,30 +186,30 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
     @Override // java.util.Collection, java.util.Set
     public boolean add(E e) {
         int i;
-        int i2;
+        int indexOf;
         if (e == null) {
-            i2 = indexOfNull();
+            indexOf = indexOfNull();
             i = 0;
         } else {
             int hashCode = e.hashCode();
             i = hashCode;
-            i2 = indexOf(e, hashCode);
+            indexOf = indexOf(e, hashCode);
         }
-        if (i2 >= 0) {
+        if (indexOf >= 0) {
             return false;
         }
-        int i3 = i2 ^ (-1);
-        int i4 = this.mSize;
+        int i2 = indexOf ^ (-1);
+        int i3 = this.mSize;
         int[] iArr = this.mHashes;
-        if (i4 >= iArr.length) {
-            int i5 = 4;
-            if (i4 >= 8) {
-                i5 = (i4 >> 1) + i4;
-            } else if (i4 >= 4) {
-                i5 = 8;
+        if (i3 >= iArr.length) {
+            int i4 = 4;
+            if (i3 >= 8) {
+                i4 = (i3 >> 1) + i3;
+            } else if (i3 >= 4) {
+                i4 = 8;
             }
             Object[] objArr = this.mArray;
-            allocArrays(i5);
+            allocArrays(i4);
             int[] iArr2 = this.mHashes;
             if (iArr2.length > 0) {
                 System.arraycopy(iArr, 0, iArr2, 0, iArr.length);
@@ -217,16 +217,16 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
             }
             freeArrays(iArr, objArr, this.mSize);
         }
-        int i6 = this.mSize;
-        if (i3 < i6) {
+        int i5 = this.mSize;
+        if (i2 < i5) {
             int[] iArr3 = this.mHashes;
-            int i7 = i3 + 1;
-            System.arraycopy(iArr3, i3, iArr3, i7, i6 - i3);
+            int i6 = i2 + 1;
+            System.arraycopy(iArr3, i2, iArr3, i6, i5 - i2);
             Object[] objArr2 = this.mArray;
-            System.arraycopy(objArr2, i3, objArr2, i7, this.mSize - i3);
+            System.arraycopy(objArr2, i2, objArr2, i6, this.mSize - i2);
         }
-        this.mHashes[i3] = i;
-        this.mArray[i3] = e;
+        this.mHashes[i2] = i;
+        this.mArray[i2] = e;
         this.mSize++;
         return true;
     }

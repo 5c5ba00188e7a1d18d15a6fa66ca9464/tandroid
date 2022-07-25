@@ -26,6 +26,7 @@ public final class zzba extends AbstractSafeParcelable {
     static final List<ClientIdentity> zza = Collections.emptyList();
     public static final Parcelable.Creator<zzba> CREATOR = new zzbb();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzba(LocationRequest locationRequest, List<ClientIdentity> list, String str, boolean z, boolean z2, boolean z3, String str2, boolean z4, boolean z5, String str3, long j) {
         this.zzb = locationRequest;
         this.zzc = list;

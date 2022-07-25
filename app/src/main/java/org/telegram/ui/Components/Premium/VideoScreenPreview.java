@@ -156,6 +156,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context) { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.1
             Path clipPath = new Path();
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
             public void onMeasure(int i4, int i5) {
                 super.onMeasure(i4, i5);
@@ -242,6 +243,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVideo$1(TLRPC$Document tLRPC$Document) {
         final File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda0
@@ -252,6 +254,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVideo$0(File file) {
         this.file = file;
         checkVideo();

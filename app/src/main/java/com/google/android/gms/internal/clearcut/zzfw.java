@@ -110,10 +110,12 @@ public final class zzfw implements Cloneable {
         return this.mSize == 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final int size() {
         return this.mSize;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final zzfx zzaq(int i) {
         return this.zzro[i];
     }

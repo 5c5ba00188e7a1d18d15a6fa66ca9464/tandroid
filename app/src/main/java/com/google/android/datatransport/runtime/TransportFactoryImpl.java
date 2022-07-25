@@ -5,12 +5,14 @@ import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.Transport;
 import com.google.android.datatransport.TransportFactory;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class TransportFactoryImpl implements TransportFactory {
     private final Set<Encoding> supportedPayloadEncodings;
     private final TransportContext transportContext;
     private final TransportInternal transportInternal;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TransportFactoryImpl(Set<Encoding> set, TransportContext transportContext, TransportInternal transportInternal) {
         this.supportedPayloadEncodings = set;
         this.transportContext = transportContext;

@@ -54,11 +54,9 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private boolean loadingDrawableBoundsSet = false;
     private int lastWidth = -1;
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class BoldAndAccent extends CharacterStyle {
+    private class BoldAndAccent extends CharacterStyle {
         private BoldAndAccent() {
-            MessageContainsEmojiButton.this = r1;
         }
 
         @Override // android.text.style.CharacterStyle
@@ -70,7 +68,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x00ec, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x00ec, code lost:
         r5 = null;
      */
     /*
@@ -78,8 +76,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     */
     public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList) {
         super(context);
-        TLRPC$Document tLRPC$Document;
         String str;
+        TLRPC$Document tLRPC$Document;
         TLRPC$TL_messages_stickerSet stickerSet;
         TLRPC$StickerSet tLRPC$StickerSet;
         ArrayList<TLRPC$Document> arrayList2;
@@ -263,7 +261,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0048, code lost:
         r1 = null;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -363,6 +361,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         this.loadAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$0(boolean z, ValueAnimator valueAnimator) {
         this.loadT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

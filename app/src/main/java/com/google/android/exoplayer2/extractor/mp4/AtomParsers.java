@@ -25,13 +25,13 @@ import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.MediaController;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AtomParsers {
     private static final byte[] opusMagic = Util.getUtf8Bytes("OpusHead");
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public interface SampleSizeBox {
+    private interface SampleSizeBox {
         int getSampleCount();
 
         boolean isFixedSampleSize();
@@ -53,8 +53,8 @@ public final class AtomParsers {
     }
 
     public static Track parseTrak(Atom.ContainerAtom containerAtom, Atom.LeafAtom leafAtom, long j, DrmInitData drmInitData, boolean z, boolean z2) throws ParserException {
-        long j2;
         Atom.LeafAtom leafAtom2;
+        long j2;
         long[] jArr;
         long[] jArr2;
         Atom.ContainerAtom containerAtomOfType = containerAtom.getContainerAtomOfType(1835297121);
@@ -81,36 +81,36 @@ public final class AtomParsers {
         StsdData parseStsd = parseStsd(containerAtomOfType2.getLeafAtomOfType(1937011556).data, parseTkhd.id, parseTkhd.rotationDegrees, (String) parseMdhd.second, drmInitData, z2);
         if (!z) {
             Pair<long[], long[]> parseEdts = parseEdts(containerAtom.getContainerAtomOfType(1701082227));
-            jArr = (long[]) parseEdts.second;
-            jArr2 = (long[]) parseEdts.first;
+            jArr2 = (long[]) parseEdts.second;
+            jArr = (long[]) parseEdts.first;
         } else {
-            jArr2 = null;
             jArr = null;
+            jArr2 = null;
         }
         if (parseStsd.format != null) {
-            return new Track(parseTkhd.id, trackTypeForHdlr, ((Long) parseMdhd.first).longValue(), parseMvhd, j4, parseStsd.format, parseStsd.requiredSampleTransformation, parseStsd.trackEncryptionBoxes, parseStsd.nalUnitLengthFieldLength, jArr2, jArr);
+            return new Track(parseTkhd.id, trackTypeForHdlr, ((Long) parseMdhd.first).longValue(), parseMvhd, j4, parseStsd.format, parseStsd.requiredSampleTransformation, parseStsd.trackEncryptionBoxes, parseStsd.nalUnitLengthFieldLength, jArr, jArr2);
         }
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0381  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0383  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0393  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x040a  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0412  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0418  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x041c  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x0420  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x0423  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x042e  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x03fe A[EDGE_INSN: B:208:0x03fe->B:161:0x03fe ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0381  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0393  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x03fe A[EDGE_INSN: B:143:0x03fe->B:144:0x03fe ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x040a  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x0415  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x041c  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0420  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x042e  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0423  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x0418  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0412  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x0383  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static TrackSampleTable parseStbl(Track track, Atom.ContainerAtom containerAtom, GaplessInfoHolder gaplessInfoHolder) throws ParserException {
-        SampleSizeBox sampleSizeBox;
+        SampleSizeBox stz2SampleSizeBox;
         boolean z;
         int i;
         int i2;
@@ -118,12 +118,12 @@ public final class AtomParsers {
         boolean z2;
         Track track2;
         long j;
+        int i4;
         int[] iArr;
         long[] jArr;
-        int i4;
+        int i5;
         int[] iArr2;
         long[] jArr2;
-        int i5;
         int i6;
         long[] jArr3;
         boolean z3;
@@ -145,15 +145,15 @@ public final class AtomParsers {
         int i16;
         Atom.LeafAtom leafAtomOfType = containerAtom.getLeafAtomOfType(1937011578);
         if (leafAtomOfType != null) {
-            sampleSizeBox = new StszSampleSizeBox(leafAtomOfType);
+            stz2SampleSizeBox = new StszSampleSizeBox(leafAtomOfType);
         } else {
             Atom.LeafAtom leafAtomOfType2 = containerAtom.getLeafAtomOfType(1937013298);
             if (leafAtomOfType2 == null) {
                 throw new ParserException("Track has no sample table size information");
             }
-            sampleSizeBox = new Stz2SampleSizeBox(leafAtomOfType2);
+            stz2SampleSizeBox = new Stz2SampleSizeBox(leafAtomOfType2);
         }
-        int sampleCount = sampleSizeBox.getSampleCount();
+        int sampleCount = stz2SampleSizeBox.getSampleCount();
         if (sampleCount == 0) {
             return new TrackSampleTable(track, new long[0], new int[0], 0, new long[0], new int[0], -9223372036854775807L);
         }
@@ -195,7 +195,7 @@ public final class AtomParsers {
             parsableByteArray4 = parsableByteArray5;
             i2 = 0;
         }
-        if (sampleSizeBox.isFixedSampleSize() && "audio/raw".equals(track.format.sampleMimeType) && readUnsignedIntToInt == 0 && i == 0 && i2 == 0) {
+        if (stz2SampleSizeBox.isFixedSampleSize() && "audio/raw".equals(track.format.sampleMimeType) && readUnsignedIntToInt == 0 && i == 0 && i2 == 0) {
             i3 = readUnsignedIntToInt;
             z2 = true;
         } else {
@@ -265,7 +265,7 @@ public final class AtomParsers {
                 }
                 int i31 = i21;
                 jArr6[i19] = j4;
-                iArr4[i19] = sampleSizeBox.readNextSampleSize();
+                iArr4[i19] = stz2SampleSizeBox.readNextSampleSize();
                 if (iArr4[i19] > i20) {
                     i20 = iArr4[i19];
                 }
@@ -282,22 +282,22 @@ public final class AtomParsers {
                 j2 += i30;
                 int i33 = i11 - 1;
                 if (i33 != 0 || i3 <= 0) {
-                    i16 = i30;
-                    i15 = i3;
+                    i15 = i30;
+                    i16 = i3;
                 } else {
                     i33 = parsableByteArray3.readUnsignedIntToInt();
-                    i16 = parsableByteArray3.readInt();
-                    i15 = i3 - 1;
+                    i15 = parsableByteArray3.readInt();
+                    i16 = i3 - 1;
                 }
                 int i34 = i33;
                 i22 = i27 - 1;
                 i19++;
                 j3 = j4 + iArr4[i19];
                 i18 = i32;
-                i25 = i16;
+                i25 = i15;
                 sampleCount = i29;
                 i21 = i31;
-                int i35 = i15;
+                int i35 = i16;
                 i26 = i34;
                 i3 = i35;
             }
@@ -318,11 +318,11 @@ public final class AtomParsers {
                 i14 = i23;
                 if (i14 == 0 && z6) {
                     track2 = track;
-                    i5 = sampleCount;
+                    i4 = sampleCount;
                     jArr2 = jArr6;
                     jArr = jArr7;
                     iArr = iArr5;
-                    i4 = i20;
+                    i5 = i20;
                     iArr2 = iArr4;
                     j = j6;
                 }
@@ -345,11 +345,11 @@ public final class AtomParsers {
             sb.append(i14);
             sb.append(!z6 ? ", ctts invalid" : "");
             Log.w("AtomParsers", sb.toString());
-            i5 = sampleCount;
+            i4 = sampleCount;
             jArr2 = jArr6;
             jArr = jArr7;
             iArr = iArr5;
-            i4 = i20;
+            i5 = i20;
             iArr2 = iArr4;
             j = j6;
         } else {
@@ -370,10 +370,10 @@ public final class AtomParsers {
             long[] jArr10 = rechunk.timestamps;
             int[] iArr8 = rechunk.flags;
             j = rechunk.duration;
-            i5 = sampleCount;
+            i4 = sampleCount;
             iArr = iArr8;
             jArr = jArr10;
-            i4 = i38;
+            i5 = i38;
             iArr2 = iArr7;
             jArr2 = jArr9;
         }
@@ -381,7 +381,7 @@ public final class AtomParsers {
         long[] jArr11 = track2.editListDurations;
         if (jArr11 == null) {
             Util.scaleLargeTimestampsInPlace(jArr, 1000000L, track2.timescale);
-            return new TrackSampleTable(track, jArr2, iArr2, i4, jArr, iArr, scaleLargeTimestamp);
+            return new TrackSampleTable(track, jArr2, iArr2, i5, jArr, iArr, scaleLargeTimestamp);
         }
         if (jArr11.length == 1 && track2.type == 1 && jArr.length >= 2) {
             long j7 = track2.editListMediaTimes[0];
@@ -389,13 +389,13 @@ public final class AtomParsers {
             if (canApplyEditWithGaplessInfo(jArr, j, j7, scaleLargeTimestamp2)) {
                 long j8 = j - scaleLargeTimestamp2;
                 long scaleLargeTimestamp3 = Util.scaleLargeTimestamp(j7 - jArr[0], track2.format.sampleRate, track2.timescale);
-                i6 = i5;
+                i6 = i4;
                 long scaleLargeTimestamp4 = Util.scaleLargeTimestamp(j8, track2.format.sampleRate, track2.timescale);
                 if ((scaleLargeTimestamp3 != 0 || scaleLargeTimestamp4 != 0) && scaleLargeTimestamp3 <= 2147483647L && scaleLargeTimestamp4 <= 2147483647L) {
                     gaplessInfoHolder.encoderDelay = (int) scaleLargeTimestamp3;
                     gaplessInfoHolder.encoderPadding = (int) scaleLargeTimestamp4;
                     Util.scaleLargeTimestampsInPlace(jArr, 1000000L, track2.timescale);
-                    return new TrackSampleTable(track, jArr2, iArr2, i4, jArr, iArr, Util.scaleLargeTimestamp(track2.editListDurations[0], 1000000L, track2.movieTimescale));
+                    return new TrackSampleTable(track, jArr2, iArr2, i5, jArr, iArr, Util.scaleLargeTimestamp(track2.editListDurations[0], 1000000L, track2.movieTimescale));
                 }
                 jArr3 = track2.editListDurations;
                 if (jArr3.length != 1 && jArr3[0] == 0) {
@@ -403,7 +403,7 @@ public final class AtomParsers {
                     for (int i39 = 0; i39 < jArr.length; i39++) {
                         jArr[i39] = Util.scaleLargeTimestamp(jArr[i39] - j9, 1000000L, track2.timescale);
                     }
-                    return new TrackSampleTable(track, jArr2, iArr2, i4, jArr, iArr, Util.scaleLargeTimestamp(j - j9, 1000000L, track2.timescale));
+                    return new TrackSampleTable(track, jArr2, iArr2, i5, jArr, iArr, Util.scaleLargeTimestamp(j - j9, 1000000L, track2.timescale));
                 }
                 boolean z8 = track2.type != 1;
                 int[] iArr9 = new int[jArr3.length];
@@ -418,7 +418,7 @@ public final class AtomParsers {
                         break;
                     }
                     int[] iArr11 = iArr2;
-                    int i41 = i4;
+                    int i41 = i5;
                     long j10 = track2.editListMediaTimes[i8];
                     if (j10 != -1) {
                         i10 = i6;
@@ -440,11 +440,11 @@ public final class AtomParsers {
                     i8++;
                     z3 = z5;
                     i6 = i10;
-                    i4 = i41;
+                    i5 = i41;
                     iArr2 = iArr11;
                 }
                 int[] iArr12 = iArr2;
-                int i43 = i4;
+                int i43 = i5;
                 boolean z10 = z3;
                 i9 = 0;
                 boolean z11 = true;
@@ -510,7 +510,7 @@ public final class AtomParsers {
                 return new TrackSampleTable(track, jArr12, iArr13, i43, jArr13, iArr14, Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale));
             }
         }
-        i6 = i5;
+        i6 = i4;
         jArr3 = track2.editListDurations;
         if (jArr3.length != 1) {
         }
@@ -529,11 +529,11 @@ public final class AtomParsers {
             i8++;
             z3 = z5;
             i6 = i10;
-            i4 = i41;
+            i5 = i41;
             iArr2 = iArr11;
         }
         int[] iArr122 = iArr2;
-        int i432 = i4;
+        int i432 = i5;
         boolean z102 = z3;
         i9 = 0;
         boolean z112 = true;
@@ -900,7 +900,7 @@ public final class AtomParsers {
         return parsableByteArray.readUnsignedIntToInt() / parsableByteArray.readUnsignedIntToInt();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0136  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -910,9 +910,9 @@ public final class AtomParsers {
         int i8;
         int i9;
         int i10;
-        DrmInitData drmInitData2;
         int i11;
         int i12;
+        DrmInitData drmInitData2;
         int i13 = i2;
         DrmInitData drmInitData3 = drmInitData;
         parsableByteArray.setPosition(i13 + 8 + 8);
@@ -986,10 +986,10 @@ public final class AtomParsers {
                 Assertions.checkArgument(readInt > 0, "childAtomSize should be positive");
                 int readInt2 = parsableByteArray.readInt();
                 if (readInt2 == 1702061171 || (z && readInt2 == 2002876005)) {
-                    i12 = readInt;
-                    i11 = i10;
+                    i11 = readInt;
+                    i12 = i10;
                     drmInitData2 = drmInitData4;
-                    int findEsdsPosition = readInt2 == 1702061171 ? i11 : findEsdsPosition(parsableByteArray, i11, i12);
+                    int findEsdsPosition = readInt2 == 1702061171 ? i12 : findEsdsPosition(parsableByteArray, i12, i11);
                     if (findEsdsPosition != -1) {
                         Pair<String, byte[]> parseEsdsFromParent = parseEsdsFromParent(parsableByteArray, findEsdsPosition);
                         String str4 = (String) parseEsdsFromParent.first;
@@ -1014,38 +1014,38 @@ public final class AtomParsers {
                     } else if (readInt2 == 1684305011) {
                         drmInitData2 = drmInitData4;
                         stsdData.format = Format.createAudioSampleFormat(Integer.toString(i4), str3, null, -1, -1, i15, i16, null, drmInitData2, 0, str);
-                        i12 = readInt;
-                        i11 = i10;
+                        i11 = readInt;
+                        i12 = i10;
                     } else {
                         int i17 = i10;
                         drmInitData2 = drmInitData4;
                         if (readInt2 == 1682927731) {
-                            i12 = readInt;
-                            int i18 = i12 - 8;
+                            i11 = readInt;
+                            int i18 = i11 - 8;
                             byte[] bArr2 = opusMagic;
                             byte[] bArr3 = new byte[bArr2.length + i18];
                             System.arraycopy(bArr2, 0, bArr3, 0, bArr2.length);
-                            i11 = i17;
-                            parsableByteArray.setPosition(i11 + 8);
+                            i12 = i17;
+                            parsableByteArray.setPosition(i12 + 8);
                             parsableByteArray.readBytes(bArr3, bArr2.length, i18);
                             bArr = bArr3;
                         } else {
-                            i12 = readInt;
-                            i11 = i17;
+                            i11 = readInt;
+                            i12 = i17;
                             if (readInt2 == 1684425825) {
-                                int i19 = i12 - 12;
+                                int i19 = i11 - 12;
                                 byte[] bArr4 = new byte[i19 + 4];
                                 bArr4[0] = 102;
                                 bArr4[1] = 76;
                                 bArr4[2] = 97;
                                 bArr4[3] = 67;
-                                parsableByteArray.setPosition(i11 + 12);
+                                parsableByteArray.setPosition(i12 + 12);
                                 parsableByteArray.readBytes(bArr4, 4, i19);
                                 bArr = bArr4;
                             } else if (readInt2 == 1634492771) {
-                                int i20 = i12 - 12;
+                                int i20 = i11 - 12;
                                 byte[] bArr5 = new byte[i20];
-                                parsableByteArray.setPosition(i11 + 12);
+                                parsableByteArray.setPosition(i12 + 12);
                                 parsableByteArray.readBytes(bArr5, 0, i20);
                                 Pair<Integer, Integer> parseAlacAudioSpecificConfig = CodecSpecificDataUtil.parseAlacAudioSpecificConfig(bArr5);
                                 i16 = ((Integer) parseAlacAudioSpecificConfig.first).intValue();
@@ -1054,11 +1054,11 @@ public final class AtomParsers {
                             }
                         }
                     }
-                    i12 = readInt;
-                    i11 = i10;
+                    i11 = readInt;
+                    i12 = i10;
                     drmInitData2 = drmInitData4;
                 }
-                i10 = i11 + i12;
+                i10 = i12 + i11;
                 i13 = i2;
                 drmInitData4 = drmInitData2;
             }
@@ -1243,9 +1243,8 @@ public final class AtomParsers {
         return jArr[0] <= j2 && j2 < jArr[Util.constrainValue(4, 0, length)] && jArr[Util.constrainValue(jArr.length - 4, 0, length)] < j3 && j3 <= j;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class ChunkIterator {
+    private static final class ChunkIterator {
         private final ParsableByteArray chunkOffsets;
         private final boolean chunkOffsetsAreLongs;
         public int index;
@@ -1286,6 +1285,7 @@ public final class AtomParsers {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class TkhdData {
         private final long duration;
@@ -1299,6 +1299,7 @@ public final class AtomParsers {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class StsdData {
         public Format format;
@@ -1311,9 +1312,8 @@ public final class AtomParsers {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class StszSampleSizeBox implements SampleSizeBox {
+    static final class StszSampleSizeBox implements SampleSizeBox {
         private final ParsableByteArray data;
         private final int fixedSampleSize;
         private final int sampleCount;
@@ -1343,9 +1343,8 @@ public final class AtomParsers {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Stz2SampleSizeBox implements SampleSizeBox {
+    static final class Stz2SampleSizeBox implements SampleSizeBox {
         private int currentByte;
         private final ParsableByteArray data;
         private final int fieldSize;

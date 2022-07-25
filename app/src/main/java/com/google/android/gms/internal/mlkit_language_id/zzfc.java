@@ -6,8 +6,7 @@ import java.util.Map;
 final class zzfc<K> implements Map.Entry<K, Object> {
     private Map.Entry<K, zzfa> zza;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzfc(Map.Entry<K, zzfa> entry) {
+    private zzfc(Map.Entry<K, zzfa> entry) {
         this.zza = entry;
     }
 

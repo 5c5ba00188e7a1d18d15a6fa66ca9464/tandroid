@@ -1,7 +1,7 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class Q extends T {
+abstract class Q extends T {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Q(c cVar, e4 e4Var, int i) {
         super(cVar, i);
     }
@@ -12,14 +12,16 @@ public abstract class Q extends T {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ U parallel() {
-        parallel();
+    /* renamed from: parallel */
+    public /* bridge */ /* synthetic */ U mo332parallel() {
+        mo332parallel();
         return this;
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ U sequential() {
-        sequential();
+    /* renamed from: sequential */
+    public /* bridge */ /* synthetic */ U mo333sequential() {
+        mo333sequential();
         return this;
     }
 }

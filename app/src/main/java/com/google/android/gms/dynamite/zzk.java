@@ -7,6 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zzk extends com.google.android.gms.internal.common.zzb implements zzl {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzk(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.dynamite.IDynamiteLoader");
     }

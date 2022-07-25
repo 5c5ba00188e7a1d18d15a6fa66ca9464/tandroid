@@ -10,6 +10,7 @@ final class m4 implements j$.util.u, Consumer {
     private final ConcurrentHashMap b;
     private Object c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public m4(j$.util.u uVar) {
         ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
         this.a = uVar;
@@ -85,10 +86,11 @@ final class m4 implements j$.util.u, Consumer {
     }
 
     @Override // j$.util.u
-    public j$.util.u trySplit() {
-        j$.util.u trySplit = this.a.trySplit();
-        if (trySplit != null) {
-            return new m4(trySplit, this.b);
+    /* renamed from: trySplit */
+    public j$.util.u mo350trySplit() {
+        j$.util.u mo350trySplit = this.a.mo350trySplit();
+        if (mo350trySplit != null) {
+            return new m4(mo350trySplit, this.b);
         }
         return null;
     }

@@ -41,11 +41,13 @@ public class LocationSharingService extends Service implements NotificationCente
         this.handler.postDelayed(runnable, 1000L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreate$1() {
         this.handler.postDelayed(this.runnable, 1000L);
         Utilities.stageQueue.postRunnable(LocationSharingService$$ExternalSyntheticLambda2.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onCreate$0() {
         for (int i = 0; i < 4; i++) {
             LocationController.getInstance(i).update();
@@ -78,6 +80,7 @@ public class LocationSharingService extends Service implements NotificationCente
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$2() {
         if (getInfos().isEmpty()) {
             stopSelf();
@@ -98,8 +101,8 @@ public class LocationSharingService extends Service implements NotificationCente
     }
 
     private void updateNotification(boolean z) {
-        String str;
-        String str2;
+        String formatPluralString;
+        String string;
         if (this.builder == null) {
             return;
         }
@@ -109,18 +112,18 @@ public class LocationSharingService extends Service implements NotificationCente
             long dialogId = sharingLocationInfo.messageObject.getDialogId();
             int i = sharingLocationInfo.messageObject.currentAccount;
             if (DialogObject.isUserDialog(dialogId)) {
-                str2 = UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(dialogId)));
-                str = LocaleController.getString("AttachLiveLocationIsSharing", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharing);
+                formatPluralString = UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(dialogId)));
+                string = LocaleController.getString("AttachLiveLocationIsSharing", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharing);
             } else {
                 TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-dialogId));
-                str2 = chat != null ? chat.title : "";
-                str = LocaleController.getString("AttachLiveLocationIsSharingChat", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChat);
+                formatPluralString = chat != null ? chat.title : "";
+                string = LocaleController.getString("AttachLiveLocationIsSharingChat", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChat);
             }
         } else {
-            str2 = LocaleController.formatPluralString("Chats", infos.size(), new Object[0]);
-            str = LocaleController.getString("AttachLiveLocationIsSharingChats", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChats);
+            formatPluralString = LocaleController.formatPluralString("Chats", infos.size(), new Object[0]);
+            string = LocaleController.getString("AttachLiveLocationIsSharingChats", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChats);
         }
-        String format = String.format(str, LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation), str2);
+        String format = String.format(string, LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation), formatPluralString);
         this.builder.setTicker(format);
         this.builder.setContentText(format);
         if (!z) {

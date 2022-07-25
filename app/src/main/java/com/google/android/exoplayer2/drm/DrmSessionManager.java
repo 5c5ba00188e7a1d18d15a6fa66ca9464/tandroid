@@ -49,7 +49,7 @@ public interface DrmSessionManager<T extends ExoMediaCrypto> {
 
     void release();
 
-    /* renamed from: com.google.android.exoplayer2.drm.DrmSessionManager$-CC */
+    /* renamed from: com.google.android.exoplayer2.drm.DrmSessionManager$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
     public final /* synthetic */ class CC {
         public static DrmSession $default$acquirePlaceholderSession(DrmSessionManager drmSessionManager, Looper looper, int i) {

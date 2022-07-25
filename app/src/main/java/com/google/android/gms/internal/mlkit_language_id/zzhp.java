@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzhp {
@@ -8,6 +9,7 @@ public final class zzhp {
         return zza.zza(bArr, 0, bArr.length);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(int i) {
         if (i > -12) {
             return -1;
@@ -15,6 +17,7 @@ public final class zzhp {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(int i, int i2) {
         if (i > -12 || i2 > -65) {
             return -1;
@@ -22,6 +25,7 @@ public final class zzhp {
         return i ^ (i2 << 8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(int i, int i2, int i3) {
         if (i > -12 || i2 > -65 || i3 > -65) {
             return -1;
@@ -33,6 +37,7 @@ public final class zzhp {
         return zza.zza(bArr, i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzc(byte[] bArr, int i, int i2) {
         byte b = bArr[i - 1];
         int i3 = i2 - i;
@@ -48,6 +53,7 @@ public final class zzhp {
         return zzb(b);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(CharSequence charSequence) {
         int length = charSequence.length();
         int i = 0;
@@ -93,17 +99,18 @@ public final class zzhp {
         throw new IllegalArgumentException(sb.toString());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         return zza.zza(charSequence, bArr, i, i2);
     }
 
     static {
-        zzho zzhoVar;
+        zzho zzhrVar;
         if ((zzhn.zza() && zzhn.zzb()) && !zzdl.zza()) {
-            zzhoVar = new zzht();
+            zzhrVar = new zzht();
         } else {
-            zzhoVar = new zzhr();
+            zzhrVar = new zzhr();
         }
-        zza = zzhoVar;
+        zza = zzhrVar;
     }
 }

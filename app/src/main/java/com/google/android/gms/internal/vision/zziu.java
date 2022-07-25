@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zziu<T extends zziw<T>> {
@@ -64,6 +65,7 @@ public final class zziu<T extends zziw<T>> {
         return this.zza.entrySet().iterator();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final Iterator<Map.Entry<T, Object>> zze() {
         if (this.zzc) {
             return new zzjq(this.zza.zze().iterator());
@@ -121,14 +123,14 @@ public final class zziu<T extends zziw<T>> {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0029, code lost:
-        if ((r6 instanceof com.google.android.gms.internal.vision.zzje) == false) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0020, code lost:
+        if ((r6 instanceof com.google.android.gms.internal.vision.zzjp) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0032, code lost:
-        if ((r6 instanceof byte[]) == false) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0029, code lost:
+        if ((r6 instanceof com.google.android.gms.internal.vision.zzje) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x0020, code lost:
-        if ((r6 instanceof com.google.android.gms.internal.vision.zzjp) == false) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0032, code lost:
+        if ((r6 instanceof byte[]) == false) goto L3;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -246,7 +248,7 @@ public final class zziu<T extends zziw<T>> {
     }
 
     private final void zzb(Map.Entry<T, Object> entry) {
-        zzkk zzkkVar;
+        zzkk zzf;
         T key = entry.getKey();
         Object value = entry.getValue();
         if (value instanceof zzjp) {
@@ -269,11 +271,11 @@ public final class zziu<T extends zziw<T>> {
                 return;
             }
             if (zza2 instanceof zzkt) {
-                zzkkVar = key.zza((zzkt) zza2, (zzkt) value);
+                zzf = key.zza((zzkt) zza2, (zzkt) value);
             } else {
-                zzkkVar = key.zza(((zzkk) zza2).zzp(), (zzkk) value).zzf();
+                zzf = key.zza(((zzkk) zza2).zzp(), (zzkk) value).zzf();
             }
-            this.zza.zza((zzlh<T, Object>) key, (T) zzkkVar);
+            this.zza.zza((zzlh<T, Object>) key, (T) zzf);
         } else {
             this.zza.zza((zzlh<T, Object>) key, (T) zza(value));
         }

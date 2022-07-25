@@ -13,6 +13,7 @@ import org.webrtc.Camera1Session;
 import org.webrtc.CameraEnumerationAndroid;
 import org.webrtc.CameraSession;
 import org.webrtc.VideoSink;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
 public class Camera1Session implements CameraSession {
     private static final int NUMBER_OF_CAPTURE_BUFFERS = 3;
@@ -34,6 +35,7 @@ public class Camera1Session implements CameraSession {
     private final Handler cameraThreadHandler = new Handler();
     private OrientationHelper orientationHelper = new OrientationHelper();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public enum SessionState {
         RUNNING,
@@ -173,6 +175,7 @@ public class Camera1Session implements CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void stopInternal() {
         Logging.d(TAG, "Stop internal");
         checkIsOnCameraThread();
@@ -208,6 +211,7 @@ public class Camera1Session implements CameraSession {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$listenForTextureFrames$0(VideoFrame videoFrame) {
         checkIsOnCameraThread();
         if (this.state != SessionState.RUNNING) {
@@ -228,11 +232,11 @@ public class Camera1Session implements CameraSession {
         videoFrame2.release();
     }
 
-    /* renamed from: org.webrtc.Camera1Session$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.webrtc.Camera1Session$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 implements Camera.PreviewCallback {
         AnonymousClass2() {
-            Camera1Session.this = r1;
         }
 
         @Override // android.hardware.Camera.PreviewCallback
@@ -261,6 +265,7 @@ public class Camera1Session implements CameraSession {
             Logging.e(Camera1Session.TAG, "Callback from a different camera. This should never happen.");
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPreviewFrame$1(final byte[] bArr) {
             Camera1Session.this.cameraThreadHandler.post(new Runnable() { // from class: org.webrtc.Camera1Session$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -270,6 +275,7 @@ public class Camera1Session implements CameraSession {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPreviewFrame$0(byte[] bArr) {
             if (Camera1Session.this.state == SessionState.RUNNING) {
                 Camera1Session.this.camera.addCallbackBuffer(bArr);
@@ -281,6 +287,7 @@ public class Camera1Session implements CameraSession {
         this.camera.setPreviewCallbackWithBuffer(new AnonymousClass2());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getFrameOrientation() {
         int orientation = this.orientationHelper.getOrientation();
         OrientationHelper.cameraOrientation = orientation;
@@ -291,6 +298,7 @@ public class Camera1Session implements CameraSession {
         return (this.info.orientation + orientation) % 360;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkIsOnCameraThread() {
         if (Thread.currentThread() == this.cameraThreadHandler.getLooper().getThread()) {
             return;

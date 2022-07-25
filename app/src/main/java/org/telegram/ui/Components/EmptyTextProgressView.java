@@ -25,6 +25,7 @@ public class EmptyTextProgressView extends FrameLayout {
     private TextView textView;
     private LinearLayout textViewLayout;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -140,35 +141,35 @@ public class EmptyTextProgressView extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        int i5;
-        int i6;
+        int measuredHeight;
+        int paddingTop;
         this.inLayout = true;
-        int i7 = i3 - i;
-        int i8 = i4 - i2;
+        int i5 = i3 - i;
+        int i6 = i4 - i2;
         int childCount = getChildCount();
-        for (int i9 = 0; i9 < childCount; i9++) {
-            View childAt = getChildAt(i9);
+        for (int i7 = 0; i7 < childCount; i7++) {
+            View childAt = getChildAt(i7);
             if (childAt.getVisibility() != 8) {
-                int measuredWidth = (i7 - childAt.getMeasuredWidth()) / 2;
+                int measuredWidth = (i5 - childAt.getMeasuredWidth()) / 2;
                 View view = this.progressView;
                 if (childAt == view && (view instanceof FlickerLoadingView)) {
-                    i5 = (i8 - childAt.getMeasuredHeight()) / 2;
-                    i6 = getPaddingTop();
+                    measuredHeight = (i6 - childAt.getMeasuredHeight()) / 2;
+                    paddingTop = getPaddingTop();
                 } else {
-                    int i10 = this.showAtPos;
-                    if (i10 == 2) {
-                        i5 = (AndroidUtilities.dp(100.0f) - childAt.getMeasuredHeight()) / 2;
-                        i6 = getPaddingTop();
-                    } else if (i10 == 1) {
-                        i5 = ((i8 / 2) - childAt.getMeasuredHeight()) / 2;
-                        i6 = getPaddingTop();
+                    int i8 = this.showAtPos;
+                    if (i8 == 2) {
+                        measuredHeight = (AndroidUtilities.dp(100.0f) - childAt.getMeasuredHeight()) / 2;
+                        paddingTop = getPaddingTop();
+                    } else if (i8 == 1) {
+                        measuredHeight = ((i6 / 2) - childAt.getMeasuredHeight()) / 2;
+                        paddingTop = getPaddingTop();
                     } else {
-                        i5 = (i8 - childAt.getMeasuredHeight()) / 2;
-                        i6 = getPaddingTop();
+                        measuredHeight = (i6 - childAt.getMeasuredHeight()) / 2;
+                        paddingTop = getPaddingTop();
                     }
                 }
-                int i11 = i5 + i6;
-                childAt.layout(measuredWidth, i11, childAt.getMeasuredWidth() + measuredWidth, childAt.getMeasuredHeight() + i11);
+                int i9 = measuredHeight + paddingTop;
+                childAt.layout(measuredWidth, i9, childAt.getMeasuredWidth() + measuredWidth, childAt.getMeasuredHeight() + i9);
             }
         }
         this.inLayout = false;

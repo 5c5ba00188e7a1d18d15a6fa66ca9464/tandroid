@@ -15,6 +15,7 @@ public final class zat extends AbstractSafeParcelable {
     private final int zac;
     private final GoogleSignInAccount zad;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zat(int i, Account account, int i2, GoogleSignInAccount googleSignInAccount) {
         this.zaa = i;
         this.zab = account;

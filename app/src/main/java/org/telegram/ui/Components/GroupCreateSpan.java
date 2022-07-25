@@ -54,23 +54,23 @@ public class GroupCreateSpan extends View {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0097, code lost:
-        if (r1.equals("non_contacts") != false) goto L30;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0097, code lost:
+        if (r1.equals("non_contacts") != false) goto L8;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0223  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public GroupCreateSpan(Context context, Object obj, ContactsController.Contact contact) {
         super(context);
-        TLRPC$User tLRPC$User;
         String str;
-        int i;
-        StaticLayout staticLayout;
+        TLRPC$User tLRPC$User;
         TLRPC$User tLRPC$User2;
+        int min;
+        StaticLayout staticLayout;
         this.rect = new RectF();
         this.colors = new int[8];
         this.currentContact = contact;
@@ -227,12 +227,12 @@ public class GroupCreateSpan extends View {
             this.imageReceiver.setParentView(this);
             this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
             if (!AndroidUtilities.isTablet()) {
-                i = AndroidUtilities.dp(366.0f) / 2;
+                min = AndroidUtilities.dp(366.0f) / 2;
             } else {
                 android.graphics.Point point = AndroidUtilities.displaySize;
-                i = (Math.min(point.x, point.y) - AndroidUtilities.dp(164.0f)) / 2;
+                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(164.0f)) / 2;
             }
-            staticLayout = new StaticLayout(TextUtils.ellipsize(str.replace('\n', ' '), textPaint, i, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            staticLayout = new StaticLayout(TextUtils.ellipsize(str.replace('\n', ' '), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
                 this.textWidth = (int) Math.ceil(this.nameLayout.getLineWidth(0));
@@ -249,7 +249,7 @@ public class GroupCreateSpan extends View {
         this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
         if (!AndroidUtilities.isTablet()) {
         }
-        staticLayout = new StaticLayout(TextUtils.ellipsize(str.replace('\n', ' '), textPaint, i, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        staticLayout = new StaticLayout(TextUtils.ellipsize(str.replace('\n', ' '), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.nameLayout = staticLayout;
         if (staticLayout.getLineCount() > 0) {
         }

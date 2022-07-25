@@ -61,6 +61,7 @@ public class ConfigFetchHttpClient {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public HttpURLConnection createHttpURLConnection() throws FirebaseRemoteConfigException {
         try {
             return (HttpURLConnection) new URL(getFetchUrl(this.projectNumber, this.namespace)).openConnection();
@@ -69,6 +70,7 @@ public class ConfigFetchHttpClient {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Keep
     public ConfigFetchHandler.FetchResponse fetch(HttpURLConnection httpURLConnection, String str, String str2, Map<String, String> map, String str3, Map<String, String> map2, Date date) throws FirebaseRemoteConfigException {
         setUpUrlConnection(httpURLConnection, str3, str2, map2);
@@ -148,7 +150,7 @@ public class ConfigFetchHttpClient {
     }
 
     private JSONObject createFetchRequestBody(String str, String str2, Map<String, String> map) throws FirebaseRemoteConfigClientException {
-        String str3;
+        String locale;
         HashMap hashMap = new HashMap();
         if (str == null) {
             throw new FirebaseRemoteConfigClientException("Fetch failed: Firebase installation id is null.");
@@ -156,15 +158,15 @@ public class ConfigFetchHttpClient {
         hashMap.put("appInstanceId", str);
         hashMap.put("appInstanceIdToken", str2);
         hashMap.put("appId", this.appId);
-        Locale locale = this.context.getResources().getConfiguration().locale;
-        hashMap.put("countryCode", locale.getCountry());
+        Locale locale2 = this.context.getResources().getConfiguration().locale;
+        hashMap.put("countryCode", locale2.getCountry());
         int i = Build.VERSION.SDK_INT;
         if (i >= 21) {
-            str3 = locale.toLanguageTag();
+            locale = locale2.toLanguageTag();
         } else {
-            str3 = locale.toString();
+            locale = locale2.toString();
         }
-        hashMap.put("languageCode", str3);
+        hashMap.put("languageCode", locale);
         hashMap.put("platformVersion", Integer.toString(i));
         hashMap.put("timeZone", TimeZone.getDefault().getID());
         try {

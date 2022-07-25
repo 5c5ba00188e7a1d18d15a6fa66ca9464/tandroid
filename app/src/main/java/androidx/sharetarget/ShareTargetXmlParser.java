@@ -17,6 +17,7 @@ class ShareTargetXmlParser {
     private static final Object GET_INSTANCE_LOCK = new Object();
     private static volatile ArrayList<ShareTargetCompat> sShareTargets;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ArrayList<ShareTargetCompat> getShareTargets(Context context) {
         if (sShareTargets == null) {
             synchronized (GET_INSTANCE_LOCK) {

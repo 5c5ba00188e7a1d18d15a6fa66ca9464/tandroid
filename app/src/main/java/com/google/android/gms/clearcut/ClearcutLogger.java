@@ -53,22 +53,21 @@ public final class ClearcutLogger {
         }
 
         private LogEventBuilder(byte[] bArr, zzb zzbVar) {
-            ClearcutLogger.this = r4;
-            this.zzk = r4.zzk;
-            this.zzj = r4.zzj;
-            this.zzl = r4.zzl;
+            this.zzk = ClearcutLogger.this.zzk;
+            this.zzj = ClearcutLogger.this.zzj;
+            this.zzl = ClearcutLogger.this.zzl;
             this.zzm = null;
-            this.zzo = r4.zzo;
+            this.zzo = ClearcutLogger.this.zzo;
             this.zzz = true;
             zzha zzhaVar = new zzha();
             this.zzaa = zzhaVar;
             this.zzab = false;
-            this.zzl = r4.zzl;
+            this.zzl = ClearcutLogger.this.zzl;
             this.zzm = null;
-            zzhaVar.zzbkc = zzaa.zze(r4.zzh);
-            zzhaVar.zzbjf = r4.zzq.currentTimeMillis();
-            zzhaVar.zzbjg = r4.zzq.elapsedRealtime();
-            zzc unused = r4.zzr;
+            zzhaVar.zzbkc = zzaa.zze(ClearcutLogger.this.zzh);
+            zzhaVar.zzbjf = ClearcutLogger.this.zzq.currentTimeMillis();
+            zzhaVar.zzbjg = ClearcutLogger.this.zzq.elapsedRealtime();
+            zzc unused = ClearcutLogger.this.zzr;
             zzhaVar.zzbju = TimeZone.getDefault().getOffset(zzhaVar.zzbjf) / 1000;
             if (bArr != null) {
                 zzhaVar.zzbjp = bArr;
@@ -160,6 +159,7 @@ public final class ClearcutLogger {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int[] zza(ArrayList<Integer> arrayList) {
         if (arrayList == null) {
             return null;

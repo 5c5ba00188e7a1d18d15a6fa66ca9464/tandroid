@@ -159,15 +159,16 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x008d  */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$new$0(View view) {
         boolean equals;
-        Theme.ThemeInfo themeInfo;
+        Theme.ThemeInfo theme;
         if (switchingTheme) {
             return;
         }
@@ -190,10 +191,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             str2 = string2;
             equals = str.equals(activeTheme.getKey());
             if (!equals) {
-                themeInfo = Theme.getTheme(str2);
+                theme = Theme.getTheme(str2);
                 this.sunDrawable.setCustomEndFrame(36);
             } else {
-                themeInfo = Theme.getTheme(str);
+                theme = Theme.getTheme(str);
                 this.sunDrawable.setCustomEndFrame(0);
             }
             this.darkThemeView.playAnimation();
@@ -203,7 +204,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 Theme.saveAutoNightThemeConfig();
                 Theme.cancelAutoNightThemeCallbacks();
             }
-            switchTheme(themeInfo, equals);
+            switchTheme(theme, equals);
         }
         str = string;
         equals = str.equals(activeTheme.getKey());
@@ -212,9 +213,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.darkThemeView.playAnimation();
         if (Theme.selectedAutoNightType != 0) {
         }
-        switchTheme(themeInfo, equals);
+        switchTheme(theme, equals);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$1(DrawerLayoutContainer drawerLayoutContainer, View view) {
         if (drawerLayoutContainer != null) {
             drawerLayoutContainer.presentFragment(new ThemeActivity(0));
@@ -274,36 +276,36 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:68:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:81:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:62:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
+        int serviceMessageColor;
         boolean z;
-        int i;
         float clamp;
         SnowflakesEffect snowflakesEffect;
         Drawable cachedWallpaper = Theme.getCachedWallpaper();
-        int i2 = 0;
+        int i = 0;
         boolean z2 = !applyBackground(false).equals("chats_menuTopBackground") && Theme.isCustomTheme() && !Theme.isPatternWallpaper() && cachedWallpaper != null && !(cachedWallpaper instanceof ColorDrawable) && !(cachedWallpaper instanceof GradientDrawable);
         if (!z2 && Theme.hasThemeKey("chats_menuTopShadowCats")) {
-            i = Theme.getColor("chats_menuTopShadowCats");
+            serviceMessageColor = Theme.getColor("chats_menuTopShadowCats");
             z = true;
         } else {
             if (Theme.hasThemeKey("chats_menuTopShadow")) {
-                i = Theme.getColor("chats_menuTopShadow");
+                serviceMessageColor = Theme.getColor("chats_menuTopShadow");
             } else {
-                i = Theme.getServiceMessageColor() | (-16777216);
+                serviceMessageColor = Theme.getServiceMessageColor() | (-16777216);
             }
             z = false;
         }
         Integer num = this.currentColor;
-        if (num == null || num.intValue() != i) {
-            this.currentColor = Integer.valueOf(i);
-            this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+        if (num == null || num.intValue() != serviceMessageColor) {
+            this.currentColor = Integer.valueOf(serviceMessageColor);
+            this.shadowView.getDrawable().setColorFilter(new PorterDuffColorFilter(serviceMessageColor, PorterDuff.Mode.MULTIPLY));
         }
         int color = Theme.getColor("chats_menuName");
         Integer num2 = this.currentMoonColor;
@@ -344,10 +346,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             }
         } else {
             if (!z) {
-                i2 = 4;
+                i = 4;
             }
-            if (this.shadowView.getVisibility() != i2) {
-                this.shadowView.setVisibility(i2);
+            if (this.shadowView.getVisibility() != i) {
+                this.shadowView.setVisibility(i);
             }
             this.phoneTextView.setTextColor(Theme.getColor("chats_menuPhoneCats"));
             super.onDraw(canvas);
@@ -461,8 +463,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     private void setArrowState(boolean z) {
-        String str;
         int i;
+        String str;
         float f = this.accountsShown ? 180.0f : 0.0f;
         if (z) {
             this.arrowView.animate().rotation(f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();

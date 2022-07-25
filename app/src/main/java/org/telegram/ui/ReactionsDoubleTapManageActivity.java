@@ -64,25 +64,25 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         this.listView.setLayoutManager(new LinearLayoutManager(context));
         RecyclerListView recyclerListView2 = this.listView;
         RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2
-            /* JADX WARN: Multi-variable type inference failed */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                AvailableReactionCell availableReactionCell;
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+                TextInfoPrivacyCell textInfoPrivacyCell;
                 if (i == 0) {
                     ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, ((BaseFragment) ReactionsDoubleTapManageActivity.this).parentLayout, 2);
                     if (Build.VERSION.SDK_INT >= 19) {
                         themePreviewMessagesCell.setImportantForAccessibility(4);
                     }
                     themePreviewMessagesCell.fragment = ReactionsDoubleTapManageActivity.this;
-                    availableReactionCell = themePreviewMessagesCell;
+                    textInfoPrivacyCell = themePreviewMessagesCell;
                 } else if (i == 2) {
-                    TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
-                    textInfoPrivacyCell.setText(LocaleController.getString("DoubleTapPreviewRational", R.string.DoubleTapPreviewRational));
-                    availableReactionCell = textInfoPrivacyCell;
+                    TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
+                    textInfoPrivacyCell2.setText(LocaleController.getString("DoubleTapPreviewRational", R.string.DoubleTapPreviewRational));
+                    textInfoPrivacyCell = textInfoPrivacyCell2;
                 } else {
-                    availableReactionCell = new AvailableReactionCell(context, true, true);
+                    textInfoPrivacyCell = new AvailableReactionCell(context, true, true);
                 }
-                return new RecyclerListView.Holder(availableReactionCell);
+                return new RecyclerListView.Holder(textInfoPrivacyCell);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -124,6 +124,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         return this.contentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         if (view instanceof AvailableReactionCell) {
             AvailableReactionCell availableReactionCell = (AvailableReactionCell) view;
@@ -154,6 +155,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         getNotificationCenter().removeObserver(this, NotificationCenter.reactionsDidLoad);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public List<TLRPC$TL_availableReaction> getAvailableReactions() {
         return getMediaDataController().getReactionsList();
     }
@@ -173,6 +175,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         }, "windowBackgroundWhite", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText2", "listSelectorSDK21", "windowBackgroundGray", "windowBackgroundWhiteGrayText4", "windowBackgroundWhiteRedText4", "windowBackgroundChecked", "windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"NotifyDataSetChanged"})
     public void updateColors() {
         this.contentView.setBackgroundColor(Theme.getColor("windowBackgroundGray"));

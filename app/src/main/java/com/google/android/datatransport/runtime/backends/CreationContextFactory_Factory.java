@@ -17,8 +17,9 @@ public final class CreationContextFactory_Factory implements Factory<CreationCon
     }
 
     @Override // javax.inject.Provider
-    public CreationContextFactory get() {
-        return newInstance(this.applicationContextProvider.get(), this.wallClockProvider.get(), this.monotonicClockProvider.get());
+    /* renamed from: get */
+    public CreationContextFactory mo70get() {
+        return newInstance(this.applicationContextProvider.mo70get(), this.wallClockProvider.mo70get(), this.monotonicClockProvider.mo70get());
     }
 
     public static CreationContextFactory_Factory create(Provider<Context> provider, Provider<Clock> provider2, Provider<Clock> provider3) {

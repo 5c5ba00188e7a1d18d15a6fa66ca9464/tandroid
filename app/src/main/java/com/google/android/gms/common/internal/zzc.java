@@ -15,6 +15,7 @@ public final class zzc extends AbstractSafeParcelable {
     ConnectionTelemetryConfiguration zzc;
     private int zzd;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzc(Bundle bundle, Feature[] featureArr, int i, ConnectionTelemetryConfiguration connectionTelemetryConfiguration) {
         this.zza = bundle;
         this.zzb = featureArr;

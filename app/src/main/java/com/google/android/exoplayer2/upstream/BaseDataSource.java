@@ -18,6 +18,7 @@ public abstract class BaseDataSource implements DataSource {
         return emptyMap;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public BaseDataSource(boolean z) {
         this.isNetwork = z;
     }
@@ -30,12 +31,14 @@ public abstract class BaseDataSource implements DataSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void transferInitializing(DataSpec dataSpec) {
         for (int i = 0; i < this.listenerCount; i++) {
             this.listeners.get(i).onTransferInitializing(this, dataSpec, this.isNetwork);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void transferStarted(DataSpec dataSpec) {
         this.dataSpec = dataSpec;
         for (int i = 0; i < this.listenerCount; i++) {
@@ -43,6 +46,7 @@ public abstract class BaseDataSource implements DataSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void bytesTransferred(int i) {
         DataSpec dataSpec = (DataSpec) Util.castNonNull(this.dataSpec);
         for (int i2 = 0; i2 < this.listenerCount; i2++) {
@@ -50,6 +54,7 @@ public abstract class BaseDataSource implements DataSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void transferEnded() {
         DataSpec dataSpec = (DataSpec) Util.castNonNull(this.dataSpec);
         for (int i = 0; i < this.listenerCount; i++) {

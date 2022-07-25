@@ -62,6 +62,7 @@ public class Uploader {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$upload$1(final TransportContext transportContext, final int i, Runnable runnable) {
         try {
             try {
@@ -94,13 +95,14 @@ public class Uploader {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$upload$0(TransportContext transportContext, int i) {
         this.workScheduler.schedule(transportContext, i + 1);
         return null;
     }
 
     void logAndUpdateState(final TransportContext transportContext, int i) {
-        BackendResponse backendResponse;
+        BackendResponse send;
         TransportBackend transportBackend = this.backendRegistry.get(transportContext.getBackendName());
         long j = 0;
         while (true) {
@@ -126,7 +128,7 @@ public class Uploader {
                 }
                 if (transportBackend == null) {
                     Logging.d("Uploader", "Unknown backend for %s, deleting event batch for it...", transportContext);
-                    backendResponse = BackendResponse.fatalError();
+                    send = BackendResponse.fatalError();
                 } else {
                     ArrayList arrayList = new ArrayList();
                     for (PersistedEvent persistedEvent : iterable) {
@@ -143,9 +145,9 @@ public class Uploader {
                             }
                         })).toByteArray())).build()));
                     }
-                    backendResponse = transportBackend.send(BackendRequest.builder().setEvents(arrayList).setExtras(transportContext.getExtras()).build());
+                    send = transportBackend.send(BackendRequest.builder().setEvents(arrayList).setExtras(transportContext.getExtras()).build());
                 }
-                if (backendResponse.getStatus() == BackendResponse.Status.TRANSIENT_ERROR) {
+                if (send.getStatus() == BackendResponse.Status.TRANSIENT_ERROR) {
                     this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda5
                         @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                         public final Object execute() {
@@ -165,9 +167,9 @@ public class Uploader {
                         return lambda$logAndUpdateState$5;
                     }
                 });
-                if (backendResponse.getStatus() == BackendResponse.Status.OK) {
+                if (send.getStatus() == BackendResponse.Status.OK) {
                     break;
-                } else if (backendResponse.getStatus() == BackendResponse.Status.INVALID_PAYLOAD) {
+                } else if (send.getStatus() == BackendResponse.Status.INVALID_PAYLOAD) {
                     final HashMap hashMap = new HashMap();
                     for (PersistedEvent persistedEvent2 : iterable) {
                         String transportName = persistedEvent2.getEvent().getTransportName();
@@ -196,29 +198,34 @@ public class Uploader {
                 }
             });
             return;
-            j = Math.max(j2, backendResponse.getNextRequestWaitMillis());
+            j = Math.max(j2, send.getNextRequestWaitMillis());
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Boolean lambda$logAndUpdateState$2(TransportContext transportContext) {
         return Boolean.valueOf(this.eventStore.hasPendingEventsFor(transportContext));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Iterable lambda$logAndUpdateState$3(TransportContext transportContext) {
         return this.eventStore.loadBatch(transportContext);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$logAndUpdateState$4(Iterable iterable, TransportContext transportContext, long j) {
         this.eventStore.recordFailure(iterable);
         this.eventStore.recordNextCallTime(transportContext, this.clock.getTime() + j);
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$logAndUpdateState$5(Iterable iterable) {
         this.eventStore.recordSuccess(iterable);
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$logAndUpdateState$6(Map map) {
         for (Map.Entry entry : map.entrySet()) {
             this.clientHealthMetricsStore.recordLogEventDropped(((Integer) entry.getValue()).intValue(), LogEventDropped.Reason.INVALID_PAYLOD, (String) entry.getKey());
@@ -226,6 +233,7 @@ public class Uploader {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$logAndUpdateState$7(TransportContext transportContext, long j) {
         this.eventStore.recordNextCallTime(transportContext, this.clock.getTime() + j);
         return null;

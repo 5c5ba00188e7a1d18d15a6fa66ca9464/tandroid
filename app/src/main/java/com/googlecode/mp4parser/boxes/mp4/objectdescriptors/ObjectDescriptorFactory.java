@@ -42,7 +42,7 @@ public class ObjectDescriptorFactory {
     }
 
     public static BaseDescriptor createFrom(int i, ByteBuffer byteBuffer) throws IOException {
-        BaseDescriptor baseDescriptor;
+        BaseDescriptor unknownDescriptor;
         int readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
         Map<Integer, Class<? extends BaseDescriptor>> map = descriptorRegistry.get(Integer.valueOf(i));
         if (map == null) {
@@ -52,10 +52,10 @@ public class ObjectDescriptorFactory {
         if (cls == null || cls.isInterface() || Modifier.isAbstract(cls.getModifiers())) {
             Logger logger = log;
             logger.warning("No ObjectDescriptor found for objectTypeIndication " + Integer.toHexString(i) + " and tag " + Integer.toHexString(readUInt8) + " found: " + cls);
-            baseDescriptor = new UnknownDescriptor();
+            unknownDescriptor = new UnknownDescriptor();
         } else {
             try {
-                baseDescriptor = cls.newInstance();
+                unknownDescriptor = cls.newInstance();
             } catch (Exception e) {
                 Logger logger2 = log;
                 Level level = Level.SEVERE;
@@ -63,7 +63,7 @@ public class ObjectDescriptorFactory {
                 throw new RuntimeException(e);
             }
         }
-        baseDescriptor.parse(readUInt8, byteBuffer);
-        return baseDescriptor;
+        unknownDescriptor.parse(readUInt8, byteBuffer);
+        return unknownDescriptor;
     }
 }

@@ -134,6 +134,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         });
         frameLayout.addView(this.content, LayoutHelper.createLinear(-1, -2, 1, 0, 16, 0, 0));
         ViewPager viewPager = new ViewPager(parentActivity) { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.3
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.viewpager.widget.ViewPager, android.view.View
             public void onMeasure(int i3, int i4) {
                 int dp = AndroidUtilities.dp(100.0f);
@@ -175,7 +176,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             }
 
             @Override // androidx.viewpager.widget.PagerAdapter
-            public Object instantiateItem(ViewGroup viewGroup, int i3) {
+            /* renamed from: instantiateItem */
+            public Object mo1580instantiateItem(ViewGroup viewGroup, int i3) {
                 ViewPage viewPage = new ViewPage(parentActivity, i3);
                 viewGroup.addView(viewPage);
                 viewPage.position = i3;
@@ -286,10 +288,12 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         setButtonText();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(BaseFragment baseFragment, boolean z, PremiumPreviewFragment.PremiumFeatureData premiumFeatureData, View view) {
         if (baseFragment.getVisibleDialog() != null) {
             baseFragment.getVisibleDialog().dismiss();
@@ -305,6 +309,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         dismiss();
     }
@@ -336,6 +341,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 16);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -367,6 +373,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ViewPage extends LinearLayout {
         TextView description;
@@ -375,12 +382,10 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         PagerHeaderView topHeader;
         View topView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ViewPage(Context context, int i) {
             super(context);
-            PremiumFeatureBottomSheet.this = r10;
             setOrientation(1);
-            View viewForPosition = r10.getViewForPosition(context, i);
+            View viewForPosition = PremiumFeatureBottomSheet.this.getViewForPosition(context, i);
             this.topView = viewForPosition;
             addView(viewForPosition);
             this.topHeader = (PagerHeaderView) this.topView;
@@ -396,7 +401,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             textView2.setGravity(1);
             this.description.setTextSize(1, 15.0f);
             this.description.setTextColor(Theme.getColor("dialogTextBlack"));
-            if (!r10.onlySelectedType) {
+            if (!PremiumFeatureBottomSheet.this.onlySelectedType) {
                 this.description.setLines(2);
             }
             addView(this.description, LayoutHelper.createFrame(-1, -2.0f, 0, 21.0f, 10.0f, 21.0f, 16.0f));
@@ -509,6 +514,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         return new CarouselView(context, arrayList);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$getViewForPosition$3(HashMap hashMap, ReactionDrawingObject reactionDrawingObject, ReactionDrawingObject reactionDrawingObject2) {
         int i = Integer.MAX_VALUE;
         int intValue = hashMap.containsKey(reactionDrawingObject.reaction.reaction) ? ((Integer) hashMap.get(reactionDrawingObject.reaction.reaction)).intValue() : Integer.MAX_VALUE;
@@ -518,6 +524,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         return i - intValue;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public boolean onCustomOpenAnimation() {
         if (this.viewPager.getChildCount() > 0) {

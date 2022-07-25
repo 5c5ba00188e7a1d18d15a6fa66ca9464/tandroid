@@ -26,10 +26,12 @@ public abstract class GmsClient<T extends IInterface> extends BaseGmsClient<T> i
         return set;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public GmsClient(@RecentlyNonNull Context context, @RecentlyNonNull Looper looper, int i, @RecentlyNonNull ClientSettings clientSettings, @RecentlyNonNull ConnectionCallbacks connectionCallbacks, @RecentlyNonNull OnConnectionFailedListener onConnectionFailedListener) {
         this(context, looper, GmsClientSupervisor.getInstance(context), GoogleApiAvailability.getInstance(), i, clientSettings, (ConnectionCallbacks) Preconditions.checkNotNull(connectionCallbacks), (OnConnectionFailedListener) Preconditions.checkNotNull(onConnectionFailedListener));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Deprecated
     public GmsClient(@RecentlyNonNull Context context, @RecentlyNonNull Looper looper, int i, @RecentlyNonNull ClientSettings clientSettings, @RecentlyNonNull GoogleApiClient.ConnectionCallbacks connectionCallbacks, @RecentlyNonNull GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         this(context, looper, i, clientSettings, (ConnectionCallbacks) connectionCallbacks, (OnConnectionFailedListener) onConnectionFailedListener);
@@ -58,6 +60,7 @@ public abstract class GmsClient<T extends IInterface> extends BaseGmsClient<T> i
         return this.zac;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @RecentlyNonNull
     public final ClientSettings getClientSettings() {
         return this.zaa;

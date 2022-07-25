@@ -161,6 +161,7 @@ public class WindowInsetsCompat {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Impl {
         static final WindowInsetsCompat CONSUMED = new Builder().build().consumeDisplayCutout().consumeStableInsets().consumeSystemWindowInsets();
@@ -252,6 +253,7 @@ public class WindowInsetsCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Impl20 extends Impl {
         private static Class<?> sAttachInfoClass = null;
@@ -299,7 +301,7 @@ public class WindowInsetsCompat {
 
         protected Insets getInsetsForType(int type, boolean ignoreVisibility) {
             int i;
-            DisplayCutoutCompat displayCutoutCompat;
+            DisplayCutoutCompat displayCutout;
             if (type == 1) {
                 if (ignoreVisibility) {
                     return Insets.of(0, Math.max(getRootStableInsets().top, getSystemWindowInsets().top), 0, 0);
@@ -336,12 +338,12 @@ public class WindowInsetsCompat {
                 if (type == 128) {
                     WindowInsetsCompat windowInsetsCompat2 = this.mRootWindowInsets;
                     if (windowInsetsCompat2 != null) {
-                        displayCutoutCompat = windowInsetsCompat2.getDisplayCutout();
+                        displayCutout = windowInsetsCompat2.getDisplayCutout();
                     } else {
-                        displayCutoutCompat = getDisplayCutout();
+                        displayCutout = getDisplayCutout();
                     }
-                    if (displayCutoutCompat != null) {
-                        return Insets.of(displayCutoutCompat.getSafeInsetLeft(), displayCutoutCompat.getSafeInsetTop(), displayCutoutCompat.getSafeInsetRight(), displayCutoutCompat.getSafeInsetBottom());
+                    if (displayCutout != null) {
+                        return Insets.of(displayCutout.getSafeInsetLeft(), displayCutout.getSafeInsetTop(), displayCutout.getSafeInsetRight(), displayCutout.getSafeInsetBottom());
                     }
                     return Insets.NONE;
                 }
@@ -467,9 +469,8 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Impl21 extends Impl20 {
+    private static class Impl21 extends Impl20 {
         private Insets mStableInsets;
 
         Impl21(WindowInsetsCompat host, WindowInsets insets) {
@@ -512,9 +513,8 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Impl28 extends Impl21 {
+    private static class Impl28 extends Impl21 {
         Impl28(WindowInsetsCompat host, WindowInsets insets) {
             super(host, insets);
         }
@@ -551,9 +551,8 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Impl29 extends Impl28 {
+    private static class Impl29 extends Impl28 {
         private Insets mSystemGestureInsets = null;
         private Insets mMandatorySystemGestureInsets = null;
         private Insets mTappableElementInsets = null;
@@ -595,9 +594,8 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Impl30 extends Impl29 {
+    private static class Impl30 extends Impl29 {
         static final WindowInsetsCompat CONSUMED = WindowInsetsCompat.toWindowInsetsCompat(WindowInsets.CONSUMED);
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl20, androidx.core.view.WindowInsetsCompat.Impl
@@ -665,6 +663,7 @@ public class WindowInsetsCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class BuilderImpl {
         private final WindowInsetsCompat mInsets;
@@ -731,9 +730,8 @@ public class WindowInsetsCompat {
         this.mImpl.setOverriddenInsets(insetsTypeMask);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class BuilderImpl20 extends BuilderImpl {
+    private static class BuilderImpl20 extends BuilderImpl {
         private static Constructor<WindowInsets> sConstructor = null;
         private static boolean sConstructorFetched = false;
         private static Field sConsumedField = null;
@@ -816,9 +814,8 @@ public class WindowInsetsCompat {
         this.mImpl.setStableInsets(stableInsets);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class BuilderImpl29 extends BuilderImpl {
+    private static class BuilderImpl29 extends BuilderImpl {
         final WindowInsets.Builder mPlatBuilder;
 
         BuilderImpl29() {
@@ -871,9 +868,8 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class BuilderImpl30 extends BuilderImpl29 {
+    private static class BuilderImpl30 extends BuilderImpl29 {
         BuilderImpl30() {
         }
 
@@ -923,34 +919,35 @@ public class WindowInsetsCompat {
     /* loaded from: classes.dex */
     private static final class TypeImpl30 {
         static int toPlatformType(final int typeMask) {
-            int i;
-            int i2 = 0;
-            for (int i3 = 1; i3 <= 256; i3 <<= 1) {
-                if ((typeMask & i3) != 0) {
-                    if (i3 == 1) {
-                        i = WindowInsets.Type.statusBars();
-                    } else if (i3 == 2) {
-                        i = WindowInsets.Type.navigationBars();
-                    } else if (i3 == 4) {
-                        i = WindowInsets.Type.captionBar();
-                    } else if (i3 == 8) {
-                        i = WindowInsets.Type.ime();
-                    } else if (i3 == 16) {
-                        i = WindowInsets.Type.systemGestures();
-                    } else if (i3 == 32) {
-                        i = WindowInsets.Type.mandatorySystemGestures();
-                    } else if (i3 == 64) {
-                        i = WindowInsets.Type.tappableElement();
-                    } else if (i3 == 128) {
-                        i = WindowInsets.Type.displayCutout();
+            int statusBars;
+            int i = 0;
+            for (int i2 = 1; i2 <= 256; i2 <<= 1) {
+                if ((typeMask & i2) != 0) {
+                    if (i2 == 1) {
+                        statusBars = WindowInsets.Type.statusBars();
+                    } else if (i2 == 2) {
+                        statusBars = WindowInsets.Type.navigationBars();
+                    } else if (i2 == 4) {
+                        statusBars = WindowInsets.Type.captionBar();
+                    } else if (i2 == 8) {
+                        statusBars = WindowInsets.Type.ime();
+                    } else if (i2 == 16) {
+                        statusBars = WindowInsets.Type.systemGestures();
+                    } else if (i2 == 32) {
+                        statusBars = WindowInsets.Type.mandatorySystemGestures();
+                    } else if (i2 == 64) {
+                        statusBars = WindowInsets.Type.tappableElement();
+                    } else if (i2 == 128) {
+                        statusBars = WindowInsets.Type.displayCutout();
                     }
-                    i2 |= i;
+                    i |= statusBars;
                 }
             }
-            return i2;
+            return i;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setRootWindowInsets(WindowInsetsCompat rootWindowInsets) {
         this.mImpl.setRootWindowInsets(rootWindowInsets);
     }
@@ -959,10 +956,12 @@ public class WindowInsetsCompat {
         this.mImpl.setRootViewData(visibleInsets);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void copyRootViewBounds(View rootView) {
         this.mImpl.copyRootViewBounds(rootView);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Api21ReflectionHolder {
         private static Field sContentInsets;

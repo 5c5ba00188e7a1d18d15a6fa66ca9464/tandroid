@@ -32,6 +32,7 @@ public final class Id3Decoder implements MetadataDecoder {
         return i != 1 ? i != 2 ? i != 3 ? "ISO-8859-1" : "UTF-8" : "UTF-16BE" : "UTF-16";
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$static$0(int i, int i2, int i3, int i4, int i5) {
         return false;
     }
@@ -127,19 +128,19 @@ public final class Id3Decoder implements MetadataDecoder {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:31:0x0076, code lost:
-        if ((r10 & 1) != 0) goto L41;
+        if ((r10 & 1) != 0) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x0086, code lost:
-        if ((r10 & org.telegram.tgnet.ConnectionsManager.RequestFlagNeedQuickAck) != 0) goto L41;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x0086, code lost:
+        if ((r10 & org.telegram.tgnet.ConnectionsManager.RequestFlagNeedQuickAck) != 0) goto L33;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static boolean validateFrames(ParsableByteArray parsableByteArray, int i, int i2, boolean z) {
+        int readUnsignedInt24;
+        long readUnsignedInt242;
         int i3;
-        long j;
         int i4;
-        int i5;
         int position = parsableByteArray.getPosition();
         while (true) {
             try {
@@ -148,42 +149,42 @@ public final class Id3Decoder implements MetadataDecoder {
                     return true;
                 }
                 if (i >= 3) {
-                    i4 = parsableByteArray.readInt();
-                    j = parsableByteArray.readUnsignedInt();
+                    readUnsignedInt24 = parsableByteArray.readInt();
+                    readUnsignedInt242 = parsableByteArray.readUnsignedInt();
                     i3 = parsableByteArray.readUnsignedShort();
                 } else {
-                    i4 = parsableByteArray.readUnsignedInt24();
-                    j = parsableByteArray.readUnsignedInt24();
+                    readUnsignedInt24 = parsableByteArray.readUnsignedInt24();
+                    readUnsignedInt242 = parsableByteArray.readUnsignedInt24();
                     i3 = 0;
                 }
-                if (i4 == 0 && j == 0 && i3 == 0) {
+                if (readUnsignedInt24 == 0 && readUnsignedInt242 == 0 && i3 == 0) {
                     return true;
                 }
                 if (i == 4 && !z) {
-                    if ((8421504 & j) != 0) {
+                    if ((8421504 & readUnsignedInt242) != 0) {
                         return false;
                     }
-                    j = (((j >> 24) & 255) << 21) | (j & 255) | (((j >> 8) & 255) << 7) | (((j >> 16) & 255) << 14);
+                    readUnsignedInt242 = (((readUnsignedInt242 >> 24) & 255) << 21) | (readUnsignedInt242 & 255) | (((readUnsignedInt242 >> 8) & 255) << 7) | (((readUnsignedInt242 >> 16) & 255) << 14);
                 }
                 if (i == 4) {
-                    i5 = (i3 & 64) != 0 ? 1 : 0;
+                    i4 = (i3 & 64) != 0 ? 1 : 0;
                 } else {
                     if (i == 3) {
-                        i5 = (i3 & 32) != 0 ? 1 : 0;
+                        i4 = (i3 & 32) != 0 ? 1 : 0;
                     } else {
-                        i5 = 0;
+                        i4 = 0;
                     }
                     z2 = false;
                     if (z2) {
-                        i5 += 4;
+                        i4 += 4;
                     }
-                    if (j < i5) {
+                    if (readUnsignedInt242 < i4) {
                         return false;
                     }
-                    if (parsableByteArray.bytesLeft() < j) {
+                    if (parsableByteArray.bytesLeft() < readUnsignedInt242) {
                         return false;
                     }
-                    parsableByteArray.skipBytes((int) j);
+                    parsableByteArray.skipBytes((int) readUnsignedInt242);
                 }
             } finally {
                 parsableByteArray.setPosition(position);
@@ -191,23 +192,23 @@ public final class Id3Decoder implements MetadataDecoder {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:130:0x0190, code lost:
-        if (r13 == 67) goto L131;
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x0190, code lost:
+        if (r13 == 67) goto L98;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static Id3Frame decodeFrame(int i, ParsableByteArray parsableByteArray, boolean z, int i2, FramePredicate framePredicate) {
         int readUnsignedInt24;
+        String str;
         int i3;
         int i4;
-        String str;
         boolean z2;
         boolean z3;
         boolean z4;
         boolean z5;
         boolean z6;
-        Id3Frame id3Frame;
+        Id3Frame decodeBinaryFrame;
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
         int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
@@ -236,88 +237,88 @@ public final class Id3Decoder implements MetadataDecoder {
         }
         if (framePredicate != null) {
             str = "Id3Decoder";
-            i4 = position;
-            i3 = readUnsignedShort;
+            i3 = position;
+            i4 = readUnsignedShort;
             if (!framePredicate.evaluate(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4)) {
-                parsableByteArray.setPosition(i4);
+                parsableByteArray.setPosition(i3);
                 return null;
             }
         } else {
             str = "Id3Decoder";
-            i4 = position;
-            i3 = readUnsignedShort;
+            i3 = position;
+            i4 = readUnsignedShort;
         }
         if (i == 3) {
-            int i6 = i3;
-            z5 = (i6 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+            int i6 = i4;
+            z3 = (i6 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
             z4 = (i6 & 64) != 0;
-            z6 = (i6 & 32) != 0;
-            z2 = z5;
-            z3 = false;
+            z2 = (i6 & 32) != 0;
+            z6 = z3;
+            z5 = false;
         } else {
-            int i7 = i3;
+            int i7 = i4;
             if (i == 4) {
                 boolean z7 = (i7 & 64) != 0;
                 boolean z8 = (i7 & 8) != 0;
                 boolean z9 = (i7 & 4) != 0;
-                z3 = (i7 & 2) != 0;
+                z5 = (i7 & 2) != 0;
                 boolean z10 = (i7 & 1) != 0;
-                z6 = z7;
-                z5 = z10;
-                z2 = z8;
+                z2 = z7;
+                z3 = z10;
+                z6 = z8;
                 z4 = z9;
             } else {
-                z6 = false;
-                z5 = false;
-                z4 = false;
-                z3 = false;
                 z2 = false;
+                z3 = false;
+                z4 = false;
+                z5 = false;
+                z6 = false;
             }
         }
-        if (z2 || z4) {
+        if (z6 || z4) {
             Log.w(str, "Skipping unsupported compressed or encrypted frame");
-            parsableByteArray.setPosition(i4);
+            parsableByteArray.setPosition(i3);
             return null;
         }
-        if (z6) {
+        if (z2) {
             i5--;
             parsableByteArray.skipBytes(1);
         }
-        if (z5) {
+        if (z3) {
             i5 -= 4;
             parsableByteArray.skipBytes(4);
         }
-        if (z3) {
+        if (z5) {
             i5 = removeUnsynchronization(parsableByteArray, i5);
         }
         try {
             try {
                 if (readUnsignedByte == 84 && readUnsignedByte2 == 88 && readUnsignedByte3 == 88 && (i == 2 || readUnsignedByte4 == 88)) {
-                    id3Frame = decodeTxxxFrame(parsableByteArray, i5);
+                    decodeBinaryFrame = decodeTxxxFrame(parsableByteArray, i5);
                 } else if (readUnsignedByte == 84) {
-                    id3Frame = decodeTextInformationFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
+                    decodeBinaryFrame = decodeTextInformationFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
                 } else if (readUnsignedByte == 87 && readUnsignedByte2 == 88 && readUnsignedByte3 == 88 && (i == 2 || readUnsignedByte4 == 88)) {
-                    id3Frame = decodeWxxxFrame(parsableByteArray, i5);
+                    decodeBinaryFrame = decodeWxxxFrame(parsableByteArray, i5);
                 } else if (readUnsignedByte == 87) {
-                    id3Frame = decodeUrlLinkFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
+                    decodeBinaryFrame = decodeUrlLinkFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
                 } else if (readUnsignedByte == 80 && readUnsignedByte2 == 82 && readUnsignedByte3 == 73 && readUnsignedByte4 == 86) {
-                    id3Frame = decodePrivFrame(parsableByteArray, i5);
+                    decodeBinaryFrame = decodePrivFrame(parsableByteArray, i5);
                 } else if (readUnsignedByte == 71 && readUnsignedByte2 == 69 && readUnsignedByte3 == 79 && (readUnsignedByte4 == 66 || i == 2)) {
-                    id3Frame = decodeGeobFrame(parsableByteArray, i5);
+                    decodeBinaryFrame = decodeGeobFrame(parsableByteArray, i5);
                 } else if (i == 2) {
                     if (readUnsignedByte == 80 && readUnsignedByte2 == 73 && readUnsignedByte3 == 67) {
-                        id3Frame = decodeApicFrame(parsableByteArray, i5, i);
+                        decodeBinaryFrame = decodeApicFrame(parsableByteArray, i5, i);
                     }
                     if (readUnsignedByte != 67 && readUnsignedByte2 == 79 && readUnsignedByte3 == 77 && (readUnsignedByte4 == 77 || i == 2)) {
-                        id3Frame = decodeCommentFrame(parsableByteArray, i5);
+                        decodeBinaryFrame = decodeCommentFrame(parsableByteArray, i5);
                     } else if (readUnsignedByte != 67 && readUnsignedByte2 == 72 && readUnsignedByte3 == 65 && readUnsignedByte4 == 80) {
-                        id3Frame = decodeChapterFrame(parsableByteArray, i5, i, z, i2, framePredicate);
+                        decodeBinaryFrame = decodeChapterFrame(parsableByteArray, i5, i, z, i2, framePredicate);
                     } else if (readUnsignedByte != 67 && readUnsignedByte2 == 84 && readUnsignedByte3 == 79 && readUnsignedByte4 == 67) {
-                        id3Frame = decodeChapterTOCFrame(parsableByteArray, i5, i, z, i2, framePredicate);
+                        decodeBinaryFrame = decodeChapterTOCFrame(parsableByteArray, i5, i, z, i2, framePredicate);
                     } else if (readUnsignedByte != 77 && readUnsignedByte2 == 76 && readUnsignedByte3 == 76 && readUnsignedByte4 == 84) {
-                        id3Frame = decodeMlltFrame(parsableByteArray, i5);
+                        decodeBinaryFrame = decodeMlltFrame(parsableByteArray, i5);
                     } else {
-                        id3Frame = decodeBinaryFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
+                        decodeBinaryFrame = decodeBinaryFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
                     }
                 } else {
                     if (readUnsignedByte == 65) {
@@ -334,20 +335,20 @@ public final class Id3Decoder implements MetadataDecoder {
                     }
                     if (readUnsignedByte != 77) {
                     }
-                    id3Frame = decodeBinaryFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
+                    decodeBinaryFrame = decodeBinaryFrame(parsableByteArray, i5, getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4));
                 }
-                if (id3Frame == null) {
+                if (decodeBinaryFrame == null) {
                     Log.w(str, "Failed to decode frame: id=" + getFrameId(i, readUnsignedByte, readUnsignedByte2, readUnsignedByte3, readUnsignedByte4) + ", frameSize=" + i5);
                 }
-                parsableByteArray.setPosition(i4);
-                return id3Frame;
+                parsableByteArray.setPosition(i3);
+                return decodeBinaryFrame;
             } catch (UnsupportedEncodingException unused) {
                 Log.w(str, "Unsupported character encoding");
-                parsableByteArray.setPosition(i4);
+                parsableByteArray.setPosition(i3);
                 return null;
             }
         } catch (Throwable th) {
-            parsableByteArray.setPosition(i4);
+            parsableByteArray.setPosition(i3);
             throw th;
         }
     }
@@ -424,31 +425,31 @@ public final class Id3Decoder implements MetadataDecoder {
     }
 
     private static ApicFrame decodeApicFrame(ParsableByteArray parsableByteArray, int i, int i2) throws UnsupportedEncodingException {
-        int i3;
+        int indexOfZeroByte;
         String str;
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         String charsetName = getCharsetName(readUnsignedByte);
-        int i4 = i - 1;
-        byte[] bArr = new byte[i4];
-        parsableByteArray.readBytes(bArr, 0, i4);
+        int i3 = i - 1;
+        byte[] bArr = new byte[i3];
+        parsableByteArray.readBytes(bArr, 0, i3);
         if (i2 == 2) {
             str = "image/" + Util.toLowerInvariant(new String(bArr, 0, 3, "ISO-8859-1"));
             if ("image/jpg".equals(str)) {
                 str = "image/jpeg";
             }
-            i3 = 2;
+            indexOfZeroByte = 2;
         } else {
-            i3 = indexOfZeroByte(bArr, 0);
-            String lowerInvariant = Util.toLowerInvariant(new String(bArr, 0, i3, "ISO-8859-1"));
+            indexOfZeroByte = indexOfZeroByte(bArr, 0);
+            String lowerInvariant = Util.toLowerInvariant(new String(bArr, 0, indexOfZeroByte, "ISO-8859-1"));
             if (lowerInvariant.indexOf(47) == -1) {
                 str = "image/" + lowerInvariant;
             } else {
                 str = lowerInvariant;
             }
         }
-        int i5 = i3 + 2;
-        int indexOfEos = indexOfEos(bArr, i5, readUnsignedByte);
-        return new ApicFrame(str, new String(bArr, i5, indexOfEos - i5, charsetName), bArr[i3 + 1] & 255, copyOfRangeIfValid(bArr, indexOfEos + delimiterLength(readUnsignedByte), i4));
+        int i4 = indexOfZeroByte + 2;
+        int indexOfEos = indexOfEos(bArr, i4, readUnsignedByte);
+        return new ApicFrame(str, new String(bArr, i4, indexOfEos - i4, charsetName), bArr[indexOfZeroByte + 1] & 255, copyOfRangeIfValid(bArr, indexOfEos + delimiterLength(readUnsignedByte), i3));
     }
 
     private static CommentFrame decodeCommentFrame(ParsableByteArray parsableByteArray, int i) throws UnsupportedEncodingException {
@@ -605,6 +606,7 @@ public final class Id3Decoder implements MetadataDecoder {
         return (i2 <= i || i2 > bArr.length) ? "" : new String(bArr, i, i2 - i, str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Id3Header {
         private final int framesSize;

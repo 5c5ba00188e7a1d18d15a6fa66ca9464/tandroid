@@ -11,6 +11,7 @@ final /* synthetic */ class zabc implements Executor {
         this.zaa = handler;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Executor zaa(Handler handler) {
         return new zabc(handler);
     }

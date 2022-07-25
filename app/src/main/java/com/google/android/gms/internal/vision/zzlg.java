@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzlg extends zzlh<FieldDescriptorType, Object> {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzlg(int i) {
         super(i, null);
     }

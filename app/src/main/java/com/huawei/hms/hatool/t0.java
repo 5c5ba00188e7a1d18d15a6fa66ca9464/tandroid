@@ -14,14 +14,13 @@ import java.util.zip.Deflater;
 /* loaded from: classes.dex */
 public final class t0 {
     public static String a(File file) {
-        Throwable th;
         FileInputStream fileInputStream;
         FileInputStream fileInputStream2 = null;
         try {
             try {
                 fileInputStream = new FileInputStream(file);
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
         } catch (FileNotFoundException unused) {
         } catch (IOException unused2) {
@@ -53,8 +52,8 @@ public final class t0 {
             y.f("hmsSdk", "getInfoFromFile(): stream.read or new string exception");
             a((Closeable) fileInputStream2);
             return "";
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             fileInputStream2 = fileInputStream;
             a((Closeable) fileInputStream2);
             throw th;
@@ -88,15 +87,14 @@ public final class t0 {
     }
 
     public static void a(File file, String str) {
-        Throwable th;
-        FileOutputStream fileOutputStream;
         String str2;
+        FileOutputStream fileOutputStream;
         FileOutputStream fileOutputStream2 = null;
         try {
             try {
                 fileOutputStream = new FileOutputStream(file);
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
         } catch (FileNotFoundException unused) {
         } catch (IOException unused2) {
@@ -116,8 +114,8 @@ public final class t0 {
             y.f("hmsSdk", str2);
             fileOutputStream = fileOutputStream2;
             a((Closeable) fileOutputStream);
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             fileOutputStream2 = fileOutputStream;
             a((Closeable) fileOutputStream2);
             throw th;

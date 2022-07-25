@@ -30,15 +30,15 @@ public class ProxyBillingActivity extends Activity {
         return intent;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x003c  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x003c  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0048  */
     @Override // android.app.Activity
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onActivityResult(int i, int i2, Intent intent) {
         ResultReceiver resultReceiver;
-        Intent intent2;
+        Intent makePurchasesUpdatedIntent;
         super.onActivityResult(i, i2, intent);
         Bundle bundle = null;
         if (i == 100) {
@@ -59,21 +59,21 @@ public class ProxyBillingActivity extends Activity {
                             if (intent.getExtras() != null) {
                                 String string = intent.getExtras().getString("ALTERNATIVE_BILLING_USER_CHOICE_DATA");
                                 if (string != null) {
-                                    intent2 = makeAlternativeBillingIntent(string);
+                                    makePurchasesUpdatedIntent = makeAlternativeBillingIntent(string);
                                 } else {
-                                    intent2 = makePurchasesUpdatedIntent();
-                                    intent2.putExtras(intent.getExtras());
+                                    makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
+                                    makePurchasesUpdatedIntent.putExtras(intent.getExtras());
                                 }
                             } else {
-                                intent2 = makePurchasesUpdatedIntent();
+                                makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
                                 zzb.zzo("ProxyBillingActivity", "Got null bundle!");
-                                intent2.putExtra("RESPONSE_CODE", 6);
-                                intent2.putExtra("DEBUG_MESSAGE", "An internal error occurred.");
+                                makePurchasesUpdatedIntent.putExtra("RESPONSE_CODE", 6);
+                                makePurchasesUpdatedIntent.putExtra("DEBUG_MESSAGE", "An internal error occurred.");
                             }
                         } else {
-                            intent2 = makePurchasesUpdatedIntent();
+                            makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
                         }
-                        sendBroadcast(intent2);
+                        sendBroadcast(makePurchasesUpdatedIntent);
                     }
                 }
             }

@@ -4,6 +4,7 @@ import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class ProtobufValueEncoderContext implements ValueEncoderContext {
     private FieldDescriptor field;
@@ -11,10 +12,12 @@ public class ProtobufValueEncoderContext implements ValueEncoderContext {
     private boolean encoded = false;
     private boolean skipDefault = false;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ProtobufValueEncoderContext(ProtobufDataEncoderContext protobufDataEncoderContext) {
         this.objEncoderCtx = protobufDataEncoderContext;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void resetContext(FieldDescriptor fieldDescriptor, boolean z) {
         this.encoded = false;
         this.field = fieldDescriptor;
@@ -29,14 +32,16 @@ public class ProtobufValueEncoderContext implements ValueEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    public ValueEncoderContext add(String str) throws IOException {
+    /* renamed from: add */
+    public ValueEncoderContext mo193add(String str) throws IOException {
         checkNotUsed();
         this.objEncoderCtx.add(this.field, str, this.skipDefault);
         return this;
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    public ValueEncoderContext add(boolean z) throws IOException {
+    /* renamed from: add */
+    public ValueEncoderContext mo194add(boolean z) throws IOException {
         checkNotUsed();
         this.objEncoderCtx.add(this.field, z, this.skipDefault);
         return this;

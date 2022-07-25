@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.text;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class SimpleSubtitleOutputBuffer extends SubtitleOutputBuffer {
+final class SimpleSubtitleOutputBuffer extends SubtitleOutputBuffer {
     private final SimpleSubtitleDecoder owner;
 
     public SimpleSubtitleOutputBuffer(SimpleSubtitleDecoder simpleSubtitleDecoder) {

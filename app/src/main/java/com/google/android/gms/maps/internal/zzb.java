@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
 /* loaded from: classes.dex */
 public final class zzb extends com.google.android.gms.internal.maps.zza implements ICameraUpdateFactoryDelegate {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzb(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.internal.ICameraUpdateFactoryDelegate");
     }

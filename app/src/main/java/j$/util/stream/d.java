@@ -6,11 +6,13 @@ abstract class d extends f {
     protected final AtomicReference h;
     protected volatile boolean i;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public d(d dVar, j$.util.u uVar) {
         super(dVar, uVar);
         this.h = dVar.h;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public d(y2 y2Var, j$.util.u uVar) {
         super(y2Var, uVar);
         this.h = new AtomicReference(null);
@@ -25,7 +27,7 @@ abstract class d extends f {
         return super.b();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x006b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x006b, code lost:
         r8 = r7.a();
      */
     @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
@@ -34,7 +36,7 @@ abstract class d extends f {
     */
     public void compute() {
         Object obj;
-        j$.util.u trySplit;
+        j$.util.u mo350trySplit;
         j$.util.u uVar = this.b;
         long estimateSize = uVar.estimateSize();
         long j = this.c;
@@ -65,16 +67,16 @@ abstract class d extends f {
             if (z2) {
                 obj = dVar.k();
                 break;
-            } else if (estimateSize <= j || (trySplit = uVar.trySplit()) == null) {
+            } else if (estimateSize <= j || (mo350trySplit = uVar.mo350trySplit()) == null) {
                 break;
             } else {
-                d dVar3 = (d) dVar.f(trySplit);
+                d dVar3 = (d) dVar.f(mo350trySplit);
                 dVar.d = dVar3;
                 d dVar4 = (d) dVar.f(uVar);
                 dVar.e = dVar4;
                 dVar.setPendingCount(1);
                 if (z) {
-                    uVar = trySplit;
+                    uVar = mo350trySplit;
                     dVar = dVar3;
                     dVar3 = dVar4;
                 } else {
@@ -89,6 +91,7 @@ abstract class d extends f {
         dVar.tryComplete();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public void g(Object obj) {
         if (!e()) {
@@ -108,6 +111,7 @@ abstract class d extends f {
         this.i = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void j() {
         d dVar = this;
         for (d dVar2 = (d) c(); dVar2 != null; dVar2 = (d) dVar2.c()) {
@@ -123,6 +127,7 @@ abstract class d extends f {
 
     protected abstract Object k();
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void l(Object obj) {
         if (obj != null) {
             this.h.compareAndSet(null, obj);

@@ -122,6 +122,7 @@ public class ReactedHeaderView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$5(long j, TLRPC$Chat tLRPC$Chat, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$Vector) {
             final ArrayList arrayList = new ArrayList();
@@ -168,6 +169,7 @@ public class ReactedHeaderView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$0(List list) {
         this.seenUsers.addAll(list);
         Iterator it = list.iterator();
@@ -196,6 +198,7 @@ public class ReactedHeaderView extends FrameLayout {
         loadReactions();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$2(final List list, final List list2, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -205,6 +208,7 @@ public class ReactedHeaderView extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$1(TLObject tLObject, List list, List list2, Runnable runnable) {
         if (tLObject != null) {
             TLRPC$TL_channels_channelParticipants tLRPC$TL_channels_channelParticipants = (TLRPC$TL_channels_channelParticipants) tLObject;
@@ -219,6 +223,7 @@ public class ReactedHeaderView extends FrameLayout {
         runnable.run();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$4(final List list, final List list2, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -228,6 +233,7 @@ public class ReactedHeaderView extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$3(TLObject tLObject, List list, List list2, Runnable runnable) {
         if (tLObject != null) {
             TLRPC$TL_messages_chatFull tLRPC$TL_messages_chatFull = (TLRPC$TL_messages_chatFull) tLObject;
@@ -258,6 +264,7 @@ public class ReactedHeaderView extends FrameLayout {
         }, 64);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadReactions$7(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_messages_messageReactionsList) {
             final TLRPC$TL_messages_messageReactionsList tLRPC$TL_messages_messageReactionsList = (TLRPC$TL_messages_messageReactionsList) tLObject;
@@ -271,16 +278,17 @@ public class ReactedHeaderView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadReactions$6(int i, TLRPC$TL_messages_messageReactionsList tLRPC$TL_messages_messageReactionsList) {
-        String str;
+        String formatPluralString;
         boolean z;
         boolean z2;
         if (this.seenUsers.isEmpty() || this.seenUsers.size() < i) {
-            str = LocaleController.formatPluralString("ReactionsCount", i, new Object[0]);
+            formatPluralString = LocaleController.formatPluralString("ReactionsCount", i, new Object[0]);
         } else {
-            str = String.format(LocaleController.getPluralString("Reacted", i), i == this.seenUsers.size() ? String.valueOf(i) : i + "/" + this.seenUsers.size());
+            formatPluralString = String.format(LocaleController.getPluralString("Reacted", i), i == this.seenUsers.size() ? String.valueOf(i) : i + "/" + this.seenUsers.size());
         }
-        this.titleView.setText(str);
+        this.titleView.setText(formatPluralString);
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions = this.message.messageOwner.reactions;
         if (tLRPC$TL_messageReactions != null && tLRPC$TL_messageReactions.results.size() == 1 && !tLRPC$TL_messages_messageReactionsList.reactions.isEmpty()) {
             for (TLRPC$TL_availableReaction tLRPC$TL_availableReaction : MediaDataController.getInstance(this.currentAccount).getReactionsList()) {
@@ -330,26 +338,26 @@ public class ReactedHeaderView extends FrameLayout {
         return this.seenUsers;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0059  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateView() {
+        int dp;
         float f;
-        int i;
         setEnabled(this.users.size() > 0);
-        for (int i2 = 0; i2 < 3; i2++) {
-            if (i2 < this.users.size()) {
-                this.avatarsImageView.setObject(i2, this.currentAccount, this.users.get(i2));
+        for (int i = 0; i < 3; i++) {
+            if (i < this.users.size()) {
+                this.avatarsImageView.setObject(i, this.currentAccount, this.users.get(i));
             } else {
-                this.avatarsImageView.setObject(i2, this.currentAccount, null);
+                this.avatarsImageView.setObject(i, this.currentAccount, null);
             }
         }
         int size = this.users.size();
         if (size == 1) {
-            i = AndroidUtilities.dp(24.0f);
+            dp = AndroidUtilities.dp(24.0f);
         } else if (size == 2) {
-            i = AndroidUtilities.dp(12.0f);
+            dp = AndroidUtilities.dp(12.0f);
         } else {
             f = 0.0f;
             AvatarsImageView avatarsImageView = this.avatarsImageView;
@@ -362,7 +370,7 @@ public class ReactedHeaderView extends FrameLayout {
             this.avatarsImageView.animate().alpha(1.0f).setDuration(220L).start();
             this.flickerLoadingView.animate().alpha(0.0f).setDuration(220L).setListener(new HideViewAfterAnimation(this.flickerLoadingView)).start();
         }
-        f = i;
+        f = dp;
         AvatarsImageView avatarsImageView2 = this.avatarsImageView;
         if (LocaleController.isRTL) {
         }

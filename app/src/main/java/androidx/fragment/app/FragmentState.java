@@ -6,16 +6,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import androidx.lifecycle.ViewModelStore;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class FragmentState implements Parcelable {
     public static final Parcelable.Creator<FragmentState> CREATOR = new Parcelable.Creator<FragmentState>() { // from class: androidx.fragment.app.FragmentState.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public FragmentState createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public FragmentState mo19createFromParcel(Parcel parcel) {
             return new FragmentState(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public FragmentState[] newArray(int i) {
+        /* renamed from: newArray */
+        public FragmentState[] mo20newArray(int i) {
             return new FragmentState[i];
         }
     };
@@ -37,6 +42,7 @@ public final class FragmentState implements Parcelable {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentState(Fragment fragment) {
         this.mClassName = fragment.getClass().getName();
         this.mIndex = fragment.mIndex;

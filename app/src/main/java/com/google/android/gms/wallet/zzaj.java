@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.wallet.Wallet;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
 /* loaded from: classes.dex */
 public final class zzaj extends Api.AbstractClientBuilder<com.google.android.gms.internal.wallet.zzab, Wallet.WalletOptions> {

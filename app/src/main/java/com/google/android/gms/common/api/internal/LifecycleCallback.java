@@ -42,6 +42,7 @@ public class LifecycleCallback {
     public void onStop() {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @RecentlyNonNull
     public static LifecycleFragment getFragment(@RecentlyNonNull LifecycleActivity lifecycleActivity) {
         if (lifecycleActivity.isSupport()) {
@@ -58,6 +59,7 @@ public class LifecycleCallback {
         return getFragment(new LifecycleActivity(activity));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public LifecycleCallback(@RecentlyNonNull LifecycleFragment lifecycleFragment) {
         this.mLifecycleFragment = lifecycleFragment;
     }

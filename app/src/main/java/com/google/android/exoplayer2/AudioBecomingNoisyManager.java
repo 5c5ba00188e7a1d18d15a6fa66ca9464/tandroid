@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AudioBecomingNoisyManager {
+final class AudioBecomingNoisyManager {
     private final Context context;
     private final AudioBecomingNoisyReceiver receiver;
     private boolean receiverRegistered;
@@ -33,14 +32,12 @@ public final class AudioBecomingNoisyManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class AudioBecomingNoisyReceiver extends BroadcastReceiver implements Runnable {
+    private final class AudioBecomingNoisyReceiver extends BroadcastReceiver implements Runnable {
         private final Handler eventHandler;
         private final EventListener listener;
 
         public AudioBecomingNoisyReceiver(Handler handler, EventListener eventListener) {
-            AudioBecomingNoisyManager.this = r1;
             this.eventHandler = handler;
             this.listener = eventListener;
         }

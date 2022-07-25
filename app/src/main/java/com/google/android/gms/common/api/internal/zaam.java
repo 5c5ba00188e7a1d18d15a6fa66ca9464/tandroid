@@ -51,6 +51,7 @@ final class zaam implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zaam(zaaf zaafVar, zaae zaaeVar) {
         this(zaafVar);
     }

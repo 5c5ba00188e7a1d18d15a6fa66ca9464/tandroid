@@ -27,6 +27,7 @@ public class OrientationHelper {
     protected void onOrientationUpdate(int i) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int roundOrientation(int i, int i2) {
         boolean z = true;
         if (i2 != -1) {

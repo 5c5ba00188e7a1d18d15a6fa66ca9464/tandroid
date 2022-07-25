@@ -30,22 +30,22 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
     }
 
     static {
-        AtomicHelper atomicHelper;
-        Throwable th;
+        AtomicHelper synchronizedHelper;
         try {
-            atomicHelper = new SafeAtomicHelper(AtomicReferenceFieldUpdater.newUpdater(Waiter.class, Thread.class, "thread"), AtomicReferenceFieldUpdater.newUpdater(Waiter.class, Waiter.class, "next"), AtomicReferenceFieldUpdater.newUpdater(AbstractResolvableFuture.class, Waiter.class, "waiters"), AtomicReferenceFieldUpdater.newUpdater(AbstractResolvableFuture.class, Listener.class, "listeners"), AtomicReferenceFieldUpdater.newUpdater(AbstractResolvableFuture.class, Object.class, "value"));
+            synchronizedHelper = new SafeAtomicHelper(AtomicReferenceFieldUpdater.newUpdater(Waiter.class, Thread.class, "thread"), AtomicReferenceFieldUpdater.newUpdater(Waiter.class, Waiter.class, "next"), AtomicReferenceFieldUpdater.newUpdater(AbstractResolvableFuture.class, Waiter.class, "waiters"), AtomicReferenceFieldUpdater.newUpdater(AbstractResolvableFuture.class, Listener.class, "listeners"), AtomicReferenceFieldUpdater.newUpdater(AbstractResolvableFuture.class, Object.class, "value"));
             th = null;
-        } catch (Throwable th2) {
-            th = th2;
-            atomicHelper = new SynchronizedHelper();
+        } catch (Throwable th) {
+            th = th;
+            synchronizedHelper = new SynchronizedHelper();
         }
-        ATOMIC_HELPER = atomicHelper;
+        ATOMIC_HELPER = synchronizedHelper;
         if (th != null) {
             log.log(Level.SEVERE, "SafeAtomicHelper is broken!", th);
         }
         NULL = new Object();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Waiter {
         static final Waiter TOMBSTONE = new Waiter(false);
@@ -98,6 +98,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Listener {
         static final Listener TOMBSTONE = new Listener(null, null);
@@ -111,6 +112,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Failure {
         final Throwable exception;
@@ -129,6 +131,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Cancellation {
         static final Cancellation CAUSELESS_CANCELLED;
@@ -152,6 +155,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class SetFuture<V> implements Runnable {
         final ListenableFuture<? extends V> future;
@@ -169,43 +173,43 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x004c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x004c, code lost:
         java.util.concurrent.locks.LockSupport.parkNanos(r19, r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0053, code lost:
-        if (java.lang.Thread.interrupted() != false) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0053, code lost:
+        if (java.lang.Thread.interrupted() != false) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0055, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0055, code lost:
         r4 = r19.value;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0057, code lost:
-        if (r4 == null) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0057, code lost:
+        if (r4 == null) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0059, code lost:
         r5 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x005b, code lost:
-        r5 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0060, code lost:
+        if ((r5 & (!(r4 instanceof androidx.concurrent.futures.AbstractResolvableFuture.SetFuture))) == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0060, code lost:
-        if ((r5 & (!(r4 instanceof androidx.concurrent.futures.AbstractResolvableFuture.SetFuture))) == false) goto L33;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0066, code lost:
-        return getDoneValue(r4);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0067, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0067, code lost:
         r4 = r11 - java.lang.System.nanoTime();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x006f, code lost:
-        if (r4 >= 1000) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x006f, code lost:
+        if (r4 >= 1000) goto L25;
      */
     /* JADX WARN: Code restructure failed: missing block: B:35:0x0071, code lost:
         removeWaiter(r15);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0066, code lost:
+        return getDoneValue(r4);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x005b, code lost:
+        r5 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0075, code lost:
         removeWaiter(r15);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x007d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x007d, code lost:
         throw new java.lang.InterruptedException();
      */
     @Override // java.util.concurrent.Future
@@ -275,34 +279,34 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         throw new TimeoutException(str + " for " + abstractResolvableFuture);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0030, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0030, code lost:
         java.util.concurrent.locks.LockSupport.park(r6);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0037, code lost:
-        if (java.lang.Thread.interrupted() != false) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0037, code lost:
+        if (java.lang.Thread.interrupted() != false) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0039, code lost:
         r0 = r6.value;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x003b, code lost:
-        if (r0 == null) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x003b, code lost:
+        if (r0 == null) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x003d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x003d, code lost:
         r4 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x003f, code lost:
-        r4 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0044, code lost:
+        if ((r4 & (!(r0 instanceof androidx.concurrent.futures.AbstractResolvableFuture.SetFuture))) == false) goto L20;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0044, code lost:
-        if ((r4 & (!(r0 instanceof androidx.concurrent.futures.AbstractResolvableFuture.SetFuture))) == false) goto L17;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x004a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x004a, code lost:
         return getDoneValue(r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x004b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x003f, code lost:
+        r4 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x004b, code lost:
         removeWaiter(r3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0053, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0053, code lost:
         throw new java.lang.InterruptedException();
      */
     @Override // java.util.concurrent.Future
@@ -416,6 +420,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         executeListener(runnable, executor);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean set(V v) {
         if (v == null) {
             v = (V) NULL;
@@ -427,6 +432,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean setException(Throwable th) {
         if (ATOMIC_HELPER.casValue(this, null, new Failure((Throwable) checkNotNull(th)))) {
             complete(this);
@@ -618,6 +624,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static abstract class AtomicHelper {
         abstract boolean casListeners(AbstractResolvableFuture<?> abstractResolvableFuture, Listener listener, Listener listener2);

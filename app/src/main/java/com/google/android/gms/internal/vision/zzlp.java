@@ -68,7 +68,8 @@ final class zzlp implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         List list;
         List list2;
         this.zzb = true;
@@ -82,6 +83,7 @@ final class zzlp implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
         return (Map.Entry) list2.get(this.zza);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzlp(zzlh zzlhVar, zzlg zzlgVar) {
         this(zzlhVar);
     }

@@ -3,6 +3,7 @@ package j$.util.stream;
 import java.util.Arrays;
 /* loaded from: classes2.dex */
 final class L3 extends b1 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public L3(c cVar) {
         super(cVar, e4.LONG_VALUE, d4.q | d4.o);
     }

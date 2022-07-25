@@ -262,6 +262,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                 return false;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
             public boolean isLayoutRTL() {
                 return LocaleController.isRTL;
@@ -357,6 +358,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         notificationCenter.addObserver(this, NotificationCenter.featuredStickersDidLoad);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
         RecyclerView.Adapter adapter = this.listView.getAdapter();
@@ -371,6 +373,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(Delegate delegate, RecyclerListView.OnItemClickListener onItemClickListener, View view, MotionEvent motionEvent) {
         return delegate.onListViewTouchEvent(this.listView, onItemClickListener, motionEvent);
     }
@@ -664,6 +667,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         this.glueToTopAnimator = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TrendingStickersAdapter extends RecyclerListView.SelectionAdapter {
         private final Context context;
@@ -678,7 +682,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         private int stickersPerRow = 5;
 
         public TrendingStickersAdapter(Context context) {
-            TrendingStickersLayout.this = r1;
             this.context = context;
         }
 
@@ -707,6 +710,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             return obj.equals(-1) ? 4 : 2;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
             FeaturedStickerSetInfoCell featuredStickerSetInfoCell = (FeaturedStickerSetInfoCell) view.getParent();
             TLRPC$StickerSetCovered stickerSet = featuredStickerSetInfoCell.getStickerSet();
@@ -722,39 +726,42 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         }
 
         /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r7v6, types: [android.view.View] */
+        /* JADX WARN: Type inference failed for: r8v9, types: [org.telegram.ui.Cells.FeaturedStickerSetCell2] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            GraySectionCell graySectionCell;
-            StickerEmojiCell stickerEmojiCell;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout frameLayout;
+            FeaturedStickerSetInfoCell featuredStickerSetInfoCell;
             if (i == 0) {
-                StickerEmojiCell stickerEmojiCell2 = new StickerEmojiCell(this, this.context, false) { // from class: org.telegram.ui.Components.TrendingStickersLayout.TrendingStickersAdapter.1
+                StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this, this.context, false) { // from class: org.telegram.ui.Components.TrendingStickersLayout.TrendingStickersAdapter.1
                     @Override // android.widget.FrameLayout, android.view.View
                     public void onMeasure(int i2, int i3) {
                         super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
                     }
                 };
-                stickerEmojiCell2.getImageView().setLayerNum(3);
-                stickerEmojiCell = stickerEmojiCell2;
+                stickerEmojiCell.getImageView().setLayerNum(3);
+                frameLayout = stickerEmojiCell;
             } else {
                 if (i == 1) {
-                    graySectionCell = new EmptyCell(this.context);
+                    featuredStickerSetInfoCell = new EmptyCell(this.context);
                 } else if (i == 2) {
-                    FeaturedStickerSetInfoCell featuredStickerSetInfoCell = new FeaturedStickerSetInfoCell(this.context, 17, true, true, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetInfoCell.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0
+                    FeaturedStickerSetInfoCell featuredStickerSetInfoCell2 = new FeaturedStickerSetInfoCell(this.context, 17, true, true, TrendingStickersLayout.this.resourcesProvider);
+                    featuredStickerSetInfoCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$0(view);
                         }
                     });
-                    graySectionCell = featuredStickerSetInfoCell;
+                    featuredStickerSetInfoCell = featuredStickerSetInfoCell2;
                 } else if (i == 3) {
-                    graySectionCell = new View(this.context);
+                    featuredStickerSetInfoCell = new View(this.context);
                 } else if (i == 4) {
-                    graySectionCell = new GraySectionCell(this.context, TrendingStickersLayout.this.resourcesProvider);
+                    featuredStickerSetInfoCell = new GraySectionCell(this.context, TrendingStickersLayout.this.resourcesProvider);
                 } else if (i != 5) {
-                    graySectionCell = null;
+                    featuredStickerSetInfoCell = null;
                 } else {
-                    FeaturedStickerSetCell2 featuredStickerSetCell2 = new FeaturedStickerSetCell2(this.context, TrendingStickersLayout.this.resourcesProvider);
+                    ?? featuredStickerSetCell2 = new FeaturedStickerSetCell2(this.context, TrendingStickersLayout.this.resourcesProvider);
                     featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
@@ -762,14 +769,15 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                         }
                     });
                     featuredStickerSetCell2.getImageView().setLayerNum(3);
-                    stickerEmojiCell = featuredStickerSetCell2;
+                    frameLayout = featuredStickerSetCell2;
                 }
-                return new RecyclerListView.Holder(graySectionCell);
+                return new RecyclerListView.Holder(featuredStickerSetInfoCell);
             }
-            graySectionCell = stickerEmojiCell;
-            return new RecyclerListView.Holder(graySectionCell);
+            featuredStickerSetInfoCell = frameLayout;
+            return new RecyclerListView.Holder(featuredStickerSetInfoCell);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
             FeaturedStickerSetCell2 featuredStickerSetCell2 = (FeaturedStickerSetCell2) view.getParent();
             TLRPC$StickerSetCovered stickerSet = featuredStickerSetCell2.getStickerSet();
@@ -817,15 +825,15 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             super.onBindViewHolder(viewHolder, i, list);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:54:0x013b, code lost:
-            if (r11.cache.get(r13).equals(-1) != false) goto L55;
+        /* JADX WARN: Code restructure failed: missing block: B:45:0x013b, code lost:
+            if (r11.cache.get(r13).equals(-1) != false) goto L49;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         private void bindStickerSetCell(View view, int i, boolean z) {
-            boolean z2;
             TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
+            boolean z2;
             boolean z3;
             boolean z4;
             MediaDataController mediaDataController = MediaDataController.getInstance(TrendingStickersLayout.this.currentAccount);
@@ -888,6 +896,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             featuredStickerSetInfoCell.setNeedDivider(z5);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void installStickerSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, View view) {
             boolean z;
             int i = 0;
@@ -1033,6 +1042,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadMoreStickerSets$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
@@ -1042,6 +1052,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadMoreStickerSets$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
             int i;
             int i2;

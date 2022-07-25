@@ -315,6 +315,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return super.onTouchEvent(motionEvent);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTouchEvent$0() {
         if (getParent() != null) {
             getParent().requestDisallowInterceptTouchEvent(true);
@@ -394,6 +395,7 @@ public class ActionBarMenuItem extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createPopupLayout$1(View view, MotionEvent motionEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (motionEvent.getActionMasked() != 0 || (actionBarPopupWindow = this.popupWindow) == null || !actionBarPopupWindow.isShowing()) {
@@ -407,6 +409,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createPopupLayout$2(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() != 4 || keyEvent.getRepeatCount() != 0 || (actionBarPopupWindow = this.popupWindow) == null || !actionBarPopupWindow.isShowing()) {
@@ -415,6 +418,7 @@ public class ActionBarMenuItem extends FrameLayout {
         this.popupWindow.dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createPopupLayout$3(View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null) {
@@ -452,6 +456,7 @@ public class ActionBarMenuItem extends FrameLayout {
         view.setBackgroundDrawable(Theme.getSelectorDrawable(false));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addSubItem$4(View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
@@ -507,6 +512,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return textView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addSubItem$5(View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
@@ -587,6 +593,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return actionBarMenuSubItem;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addSubItem$6(boolean z, View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing() && z) {
@@ -639,6 +646,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return actionBarMenuSubItem;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$addSwipeBackItem$7(int i) {
         if (this.popupLayout.getSwipeBack() != null) {
             this.popupLayout.getSwipeBack().openForeground(i);
@@ -834,6 +842,7 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$toggleSubMenu$9(View view, int i, KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (i == 82 && keyEvent.getRepeatCount() == 0 && keyEvent.getAction() == 1 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
@@ -843,6 +852,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$toggleSubMenu$10() {
         onDismiss();
         ActionBarSubMenuItemDelegate actionBarSubMenuItemDelegate = this.subMenuDelegate;
@@ -1007,6 +1017,7 @@ public class ActionBarMenuItem extends FrameLayout {
         onFiltersChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onFiltersChanged() {
         boolean z = !this.currentSearchFilters.isEmpty();
         ArrayList arrayList = new ArrayList(this.currentSearchFilters);
@@ -1108,6 +1119,7 @@ public class ActionBarMenuItem extends FrameLayout {
         checkClearButton();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFiltersChanged$11(SearchFilterView searchFilterView, View view) {
         int indexOf = this.currentSearchFilters.indexOf(searchFilterView.getFilter());
         if (this.selectedFilterIndex != indexOf) {
@@ -1368,15 +1380,15 @@ public class ActionBarMenuItem extends FrameLayout {
             this.searchFieldCaption.setVisibility(8);
             this.searchFieldCaption.setGravity(LocaleController.isRTL ? 5 : 3);
             EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.9
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
                 public void onMeasure(int i, int i2) {
                     super.onMeasure(i, i2);
                     setMeasuredDimension(Math.max(View.MeasureSpec.getSize(i), getMeasuredWidth()) + AndroidUtilities.dp(3.0f), getMeasuredHeight());
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-                public void onSelectionChanged(int i, int i2) {
+                protected void onSelectionChanged(int i, int i2) {
                     super.onSelectionChanged(i, i2);
                 }
 
@@ -1545,6 +1557,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$setIsSearchField$12(TextView textView, int i, KeyEvent keyEvent) {
         if (keyEvent != null) {
             if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
@@ -1561,6 +1574,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setIsSearchField$13(View view) {
         if (this.searchField.length() != 0) {
             this.searchField.setText("");
@@ -1596,6 +1610,7 @@ public class ActionBarMenuItem extends FrameLayout {
         super.setOnClickListener(onClickListener);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkClearButton() {
         ActionBarMenuItemSearchListener actionBarMenuItemSearchListener;
         TextView textView;
@@ -1639,10 +1654,12 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkClearButton$14() {
         this.clearButton.setVisibility(4);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean hasRemovableFilters() {
         if (this.currentSearchFilters.isEmpty()) {
             return false;
@@ -1943,6 +1960,7 @@ public class ActionBarMenuItem extends FrameLayout {
         return color != null ? color.intValue() : Theme.getColor(str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class SearchFilterView extends FrameLayout {
         BackupImageView avatarImageView;
@@ -1984,6 +2002,7 @@ public class ActionBarMenuItem extends FrameLayout {
             updateColors();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
             int themedColor = getThemedColor("groupcreate_spanBackground");
             int themedColor2 = getThemedColor("avatar_backgroundBlue");
@@ -2093,6 +2112,7 @@ public class ActionBarMenuItem extends FrameLayout {
             AndroidUtilities.runOnUIThread(this.removeSelectionRunnable, 2000L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setSelectedForDelete$0(ValueAnimator valueAnimator) {
             this.selectedProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             updateColors();

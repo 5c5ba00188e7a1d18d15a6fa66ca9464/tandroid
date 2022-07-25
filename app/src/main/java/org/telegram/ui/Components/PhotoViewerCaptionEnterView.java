@@ -164,6 +164,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 return 2;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public void onMeasure(int i, int i2) {
                 try {
@@ -179,6 +180,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
             public void onSelectionChanged(int i, int i2) {
                 super.onSelectionChanged(i, i2);
@@ -279,6 +281,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.currentAccount = UserConfig.selectedAccount;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.keyboardVisible || ((AndroidUtilities.isInMultiwindow || AndroidUtilities.usingHardwareInput) && !isPopupShowing())) {
             showPopup(1, false);
@@ -287,6 +290,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view, boolean z) {
         if (z) {
             try {
@@ -297,10 +301,12 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
         this.messageEditText.invalidateEffects();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$3(View view, int i, KeyEvent keyEvent) {
         if (i == 4) {
             if (this.windowView != null && hideActionMode()) {
@@ -316,13 +322,15 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(View view) {
         if (isPopupShowing()) {
             showPopup((AndroidUtilities.isInMultiwindow || AndroidUtilities.usingHardwareInput) ? 0 : 2, false);
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 implements TextWatcher {
         boolean processChange = false;
@@ -332,7 +340,6 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
 
         AnonymousClass2() {
-            PhotoViewerCaptionEnterView.this = r1;
         }
 
         @Override // android.text.TextWatcher
@@ -357,8 +364,8 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             this.processChange = true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0172  */
-        /* JADX WARN: Removed duplicated region for block: B:50:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0172  */
+        /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
         @Override // android.text.TextWatcher
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -440,6 +447,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$afterTextChanged$0(ValueAnimator valueAnimator) {
             PhotoViewerCaptionEnterView.this.sendButtonEnabledProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             int themedColor = PhotoViewerCaptionEnterView.this.getThemedColor("dialogFloatingIcon");
@@ -448,6 +456,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
         if (MessagesController.getInstance(this.currentAccount).getCaptionMaxLengthLimit() - this.codePointCount < 0) {
             AndroidUtilities.shakeView(this.captionLimitView, 2.0f, 0);
@@ -461,6 +470,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.delegate.onCaptionEnter();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onLineCountChanged(int i, int i2) {
         if (!TextUtils.isEmpty(this.messageEditText.getText())) {
             this.shouldAnimateEditTextWithBounds = true;
@@ -530,10 +540,12 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         this.chatActivityEnterViewAnimateFromTop = 0.0f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDraw$6(ValueAnimator valueAnimator) {
         this.messageEditText.setOffsetY(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDraw$7(ValueAnimator valueAnimator) {
         this.offset = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -832,6 +844,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setFieldFocused$8() {
         EditTextCaption editTextCaption = this.messageEditText;
         if (editTextCaption != null) {
@@ -934,6 +947,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         onWindowSizeChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPopup$9(float f, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.emojiPadding = (int) floatValue;
@@ -1055,6 +1069,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         return this.messageEditText;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;

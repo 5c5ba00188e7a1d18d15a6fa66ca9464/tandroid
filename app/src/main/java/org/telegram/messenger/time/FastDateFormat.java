@@ -15,6 +15,7 @@ public class FastDateFormat extends Format implements DateParser, DatePrinter {
     public static final int MEDIUM = 2;
     public static final int SHORT = 3;
     private static final FormatCache<FastDateFormat> cache = new FormatCache<FastDateFormat>() { // from class: org.telegram.messenger.time.FastDateFormat.1
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.messenger.time.FormatCache
         public FastDateFormat createInstance(String str, TimeZone timeZone, Locale locale) {
             return new FastDateFormat(str, timeZone, locale);

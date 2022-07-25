@@ -58,6 +58,7 @@ public class RunnableScheduledFutureEnhance<T> implements RunnableScheduledFutur
         return this.parentName;
     }
 
+    @Override // java.lang.Comparable
     public int compareTo(Delayed delayed) {
         return this.proxy.compareTo(delayed);
     }

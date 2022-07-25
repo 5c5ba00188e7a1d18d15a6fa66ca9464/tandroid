@@ -113,11 +113,12 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x003d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0048 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0053 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x005c A[ADDED_TO_REGION] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x003d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0048 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0053 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x005c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x002b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -185,7 +186,8 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-    public Object getItem(int i, int i2) {
+    /* renamed from: getItem */
+    public Object mo1747getItem(int i, int i2) {
         HashMap<String, ArrayList<TLRPC$TL_contact>> hashMap = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).usersMutualSectionsDict : ContactsController.getInstance(this.currentAccount).usersSectionsDict;
         ArrayList<String> arrayList = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray;
         if (this.onlyUsers != 0 && !this.isAdmin) {
@@ -345,23 +347,24 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup, int i) {
-        View view;
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(final ViewGroup viewGroup, int i) {
+        View userCell;
         if (i == 0) {
-            view = new UserCell(this.mContext, 58, 1, false);
+            userCell = new UserCell(this.mContext, 58, 1, false);
         } else if (i == 1) {
-            view = new TextCell(this.mContext);
+            userCell = new TextCell(this.mContext);
         } else if (i == 2) {
-            view = new GraySectionCell(this.mContext);
+            userCell = new GraySectionCell(this.mContext);
         } else if (i == 3) {
-            view = new DividerCell(this.mContext);
+            userCell = new DividerCell(this.mContext);
             float f = 28.0f;
             int dp = AndroidUtilities.dp(LocaleController.isRTL ? 28.0f : 72.0f);
             int dp2 = AndroidUtilities.dp(8.0f);
             if (LocaleController.isRTL) {
                 f = 72.0f;
             }
-            view.setPadding(dp, dp2, AndroidUtilities.dp(f), AndroidUtilities.dp(8.0f));
+            userCell.setPadding(dp, dp2, AndroidUtilities.dp(f), AndroidUtilities.dp(8.0f));
         } else if (i == 4) {
             FrameLayout frameLayout = new FrameLayout(this.mContext) { // from class: org.telegram.ui.Adapters.ContactsAdapter.1
                 @Override // android.widget.FrameLayout, android.view.View
@@ -389,14 +392,14 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 }
             };
             frameLayout.addView(new ContactsEmptyView(this.mContext), LayoutHelper.createFrame(-2, -2, 17));
-            view = frameLayout;
+            userCell = frameLayout;
         } else {
-            view = new ShadowSectionCell(this.mContext);
+            userCell = new ShadowSectionCell(this.mContext);
             CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
             combinedDrawable.setFullsize(true);
-            view.setBackgroundDrawable(combinedDrawable);
+            userCell.setBackgroundDrawable(combinedDrawable);
         }
-        return new RecyclerListView.Holder(view);
+        return new RecyclerListView.Holder(userCell);
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter

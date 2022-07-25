@@ -89,9 +89,8 @@ public final class ChunkExtractorWrapper implements ExtractorOutput {
         this.seekMap = seekMap;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class BindingTrackOutput implements TrackOutput {
+    private static final class BindingTrackOutput implements TrackOutput {
         private final DummyTrackOutput dummyTrackOutput = new DummyTrackOutput();
         private long endTimeUs;
         private final int id;

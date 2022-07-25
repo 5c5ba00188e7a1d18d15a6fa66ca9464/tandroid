@@ -4,9 +4,11 @@ import android.os.Bundle;
 import com.android.billingclient.api.BillingResult;
 import com.google.android.gms.internal.play_billing.zzb;
 import java.util.ArrayList;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public final class zzbi {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static BillingResult zza(Bundle bundle, String str, String str2) {
         BillingResult billingResult = zzbb.zzj;
         if (bundle == null) {

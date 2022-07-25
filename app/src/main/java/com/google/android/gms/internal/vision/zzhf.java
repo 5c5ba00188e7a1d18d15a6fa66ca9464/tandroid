@@ -48,14 +48,17 @@ public abstract class zzhf<MessageType extends zzhf<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int zzi() {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void zzb(int i) {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <T> void zza(Iterable<T> iterable, List<? super T> list) {
         zzjf.zza(iterable);
         if (iterable instanceof zzjv) {

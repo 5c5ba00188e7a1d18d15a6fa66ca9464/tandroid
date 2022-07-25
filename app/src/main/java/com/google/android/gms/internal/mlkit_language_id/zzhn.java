@@ -7,6 +7,7 @@ import java.security.AccessController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.misc.Unsafe;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzhn {
@@ -196,10 +197,12 @@ public final class zzhn {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zza() {
         return zzi;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public static abstract class zzc {
@@ -242,10 +245,12 @@ public final class zzhn {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zzb() {
         return zzh;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(Class<T> cls) {
         try {
             return (T) zzc.allocateInstance(cls);
@@ -268,62 +273,77 @@ public final class zzhn {
         return -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(Object obj, long j) {
         return zzg.zze(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, long j, int i) {
         zzg.zza(obj, j, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static long zzb(Object obj, long j) {
         return zzg.zzf(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, long j, long j2) {
         zzg.zza(obj, j, j2);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zzc(Object obj, long j) {
         return zzg.zzb(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, long j, boolean z) {
         zzg.zza(obj, j, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static float zzd(Object obj, long j) {
         return zzg.zzc(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, long j, float f) {
         zzg.zza(obj, j, f);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static double zze(Object obj, long j) {
         return zzg.zzd(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, long j, double d) {
         zzg.zza(obj, j, d);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Object zzf(Object obj, long j) {
         return zzg.zza.getObject(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, long j, Object obj2) {
         zzg.zza.putObject(obj, j, obj2);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static byte zza(byte[] bArr, long j) {
         return zzg.zza(bArr, zzj + j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(byte[] bArr, long j, byte b) {
         zzg.zza((Object) bArr, zzj + j, b);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Unsafe zzc() {
         try {
             return (Unsafe) AccessController.doPrivileged(new zzhm());
@@ -452,38 +472,46 @@ public final class zzhn {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static byte zzk(Object obj, long j) {
         return (byte) (zza(obj, (-4) & j) >>> ((int) (((j ^ (-1)) & 3) << 3)));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static byte zzl(Object obj, long j) {
         return (byte) (zza(obj, (-4) & j) >>> ((int) ((j & 3) << 3)));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zzc(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = ((((int) j) ^ (-1)) & 3) << 3;
         zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((255 << i) ^ (-1))));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zzd(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = (((int) j) & 3) << 3;
         zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((255 << i) ^ (-1))));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static boolean zzm(Object obj, long j) {
         return zzk(obj, j) != 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static boolean zzn(Object obj, long j) {
         return zzl(obj, j) != 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zzd(Object obj, long j, boolean z) {
         zzc(obj, j, z ? (byte) 1 : (byte) 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zze(Object obj, long j, boolean z) {
         zzd(obj, j, z ? (byte) 1 : (byte) 0);
     }

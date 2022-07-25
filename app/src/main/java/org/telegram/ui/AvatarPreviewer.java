@@ -163,8 +163,8 @@ public class AvatarPreviewer {
         }
 
         public static Data of(TLRPC$UserFull tLRPC$UserFull, MenuItem... menuItemArr) {
-            String str;
             ImageLocation imageLocation;
+            String str;
             ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$UserFull.user, 0);
             ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$UserFull.user, 1);
             String str2 = null;
@@ -192,8 +192,8 @@ public class AvatarPreviewer {
         }
 
         public static Data of(TLRPC$Chat tLRPC$Chat, TLRPC$ChatFull tLRPC$ChatFull, MenuItem... menuItemArr) {
-            String str;
             ImageLocation imageLocation;
+            String str;
             ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(tLRPC$Chat, 0);
             ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$Chat, 1);
             String str2 = (forUserOrChat2 == null || !(forUserOrChat2.photoSize instanceof TLRPC$TL_photoStrippedSize)) ? null : "b";
@@ -223,6 +223,7 @@ public class AvatarPreviewer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class UserInfoLoadTask extends InfoLoadTask<TLRPC$User, TLRPC$UserFull> {
         public UserInfoLoadTask(TLRPC$User tLRPC$User, int i) {
@@ -242,6 +243,7 @@ public class AvatarPreviewer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ChatInfoLoadTask extends InfoLoadTask<TLRPC$Chat, TLRPC$ChatFull> {
         public ChatInfoLoadTask(TLRPC$Chat tLRPC$Chat, int i) {
@@ -263,6 +265,7 @@ public class AvatarPreviewer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static abstract class InfoLoadTask<A, B> {
         protected final A argument;
@@ -315,6 +318,7 @@ public class AvatarPreviewer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static abstract class Layout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         private final Drawable arrowDrawable;
@@ -430,6 +434,7 @@ public class AvatarPreviewer {
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onTouchEvent$0(ValueAnimator valueAnimator) {
             this.moveProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();
@@ -466,11 +471,13 @@ public class AvatarPreviewer {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$showBottomSheet$1(DialogInterface dialogInterface, int i) {
             this.callback.onMenuClick(this.menuItems[i]);
             setShowing(false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$showBottomSheet$2(DialogInterface dialogInterface) {
             this.visibleSheet = null;
             setShowing(false);
@@ -501,23 +508,23 @@ public class AvatarPreviewer {
             int dp = AndroidUtilities.dp(8.0f);
             if (Build.VERSION.SDK_INT >= 21) {
                 int stableInsetLeft = this.insets.getStableInsetLeft() + dp;
-                i = this.insets.getStableInsetRight() + dp;
-                i2 = dp + Math.max(this.insets.getStableInsetTop(), this.insets.getStableInsetBottom());
+                i2 = this.insets.getStableInsetRight() + dp;
+                i = dp + Math.max(this.insets.getStableInsetTop(), this.insets.getStableInsetBottom());
                 dp = stableInsetLeft;
             } else {
-                i2 = dp;
-                i = i2;
+                i = dp;
+                i2 = i;
             }
             int intrinsicWidth = this.arrowDrawable.getIntrinsicWidth();
             int intrinsicHeight = this.arrowDrawable.getIntrinsicHeight();
             int dp2 = AndroidUtilities.dp(24.0f);
-            int i4 = width - (i + dp);
-            int i5 = height - (i2 * 2);
+            int i4 = width - (i2 + dp);
+            int i5 = height - (i * 2);
             int min = Math.min(i4, i5);
             int i6 = intrinsicHeight / 2;
             int i7 = dp2 + i6;
             int i8 = ((i4 - min) / 2) + dp;
-            int i9 = ((i5 - min) / 2) + i2 + (i4 > i5 ? i7 : 0);
+            int i9 = ((i5 - min) / 2) + i + (i4 > i5 ? i7 : 0);
             ImageReceiver imageReceiver = this.imageReceiver;
             float f = i8;
             float f2 = i9;
@@ -537,16 +544,16 @@ public class AvatarPreviewer {
             this.arrowDrawable.setBounds(i11 - i13, i12 - i6, i11 + i13, i12 + i6);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:19:0x005e  */
-        /* JADX WARN: Removed duplicated region for block: B:22:0x007f  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x0082  */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x0085  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x008c  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x00c2  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00cf  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00ea  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x01ab  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x01b9  */
+        /* JADX WARN: Removed duplicated region for block: B:10:0x005e  */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x007f  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x0085  */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x00c2  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x00ea  */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x01ab  */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x01b9  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x00cf  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x008c  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x0082  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -683,10 +690,12 @@ public class AvatarPreviewer {
             this.arrowDrawable.draw(canvas);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onDraw$3(ValueAnimator valueAnimator) {
             invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onDraw$4(ValueAnimator valueAnimator) {
             invalidate();
         }
@@ -711,6 +720,7 @@ public class AvatarPreviewer {
             setShowing(true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setData$5(Data data, Object obj) {
             if (!this.recycled) {
                 if (obj instanceof TLRPC$UserFull) {

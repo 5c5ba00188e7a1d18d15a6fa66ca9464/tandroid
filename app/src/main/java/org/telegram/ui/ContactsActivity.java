@@ -189,6 +189,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         getNotificationCenter().onAnimationFinish(this.animationIndex);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationProgress(boolean z, float f) {
         super.onTransitionAnimationProgress(z, f);
@@ -198,42 +199,42 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(17:2|(2:4|(1:6)(2:7|(1:9)(1:10)))(1:11)|12|(3:16|(1:18)(1:19)|20)|21|(1:23)(2:25|(2:27|(1:32)(1:31))(11:33|89|34|36|(2:38|(1:40)(1:41))(1:42)|43|(20:47|(1:49)(1:50)|51|(1:53)(1:54)|55|(1:57)|58|(1:60)(1:61)|62|(1:64)(1:65)|66|(1:68)|69|(1:71)(1:72)|73|(1:75)|76|(1:78)(1:79)|(1:81)(1:82)|83)|84|(1:86)|87|88))|24|89|34|36|(0)(0)|43|(21:45|47|(0)(0)|51|(0)(0)|55|(0)|58|(0)(0)|62|(0)(0)|66|(0)|69|(0)(0)|73|(0)|76|(0)(0)|(0)(0)|83)|84|(0)|87|88) */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0126, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(17:1|(2:3|(1:5)(2:86|(1:88)(1:89)))(1:90)|6|(3:10|(1:12)(1:14)|13)|15|(1:17)(2:77|(2:79|(1:84)(1:83))(11:85|19|20|21|(2:23|(1:25)(1:73))(1:74)|26|(20:30|(1:32)(1:66)|33|(1:35)(1:65)|36|(1:38)|39|(1:41)(1:64)|42|(1:44)(1:63)|45|(1:47)|48|(1:50)(1:62)|51|(1:53)|54|(1:56)(1:61)|(1:58)(1:60)|59)|67|(1:69)|70|71))|18|19|20|21|(0)(0)|26|(21:28|30|(0)(0)|33|(0)(0)|36|(0)|39|(0)(0)|42|(0)(0)|45|(0)|48|(0)(0)|51|(0)|54|(0)(0)|(0)(0)|59)|67|(0)|70|71) */
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x0126, code lost:
         r23.hasGps = false;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0141  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0149  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x020e  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0211  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0217  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x021a  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0273  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x02c4  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x02e0  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0343  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0346  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x034a  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x034d  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0367  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0141  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x020e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0217  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0235  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0273  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x02e0  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0343  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x034a  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x034d  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0346  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0211  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0367  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0149  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public View createView(Context context) {
         final int i;
+        int i2;
         FrameLayout frameLayout;
         String str;
-        int i2;
-        boolean z;
         int i3;
+        boolean z;
         this.searching = false;
         this.searchWas = false;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -346,10 +347,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         };
         int i4 = 3;
         if (this.chatId != 0) {
-            i3 = ChatObject.canUserDoAdminAction(getMessagesController().getChat(Long.valueOf(this.chatId)), 3);
+            i2 = ChatObject.canUserDoAdminAction(getMessagesController().getChat(Long.valueOf(this.chatId)), 3);
         } else if (this.channelId != 0) {
             TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.channelId));
-            i3 = (!ChatObject.canUserDoAdminAction(chat, 3) || !TextUtils.isEmpty(chat.username)) ? 0 : 2;
+            i2 = (!ChatObject.canUserDoAdminAction(chat, 3) || !TextUtils.isEmpty(chat.username)) ? 0 : 2;
         } else {
             i = 0;
             this.hasGps = ApplicationLoader.applicationContext.getPackageManager().hasSystemFeature("android.hardware.location.gps");
@@ -430,8 +431,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             this.listView.setAnimateEmptyView(true, 0);
             this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public final void onItemClick(View view, int i52) {
-                    ContactsActivity.this.lambda$createView$1(i, view, i52);
+                public final void onItemClick(View view, int i5) {
+                    ContactsActivity.this.lambda$createView$1(i, view, i5);
                 }
             });
             this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ContactsActivity.7
@@ -449,8 +450,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     this.scrollingManually = false;
                 }
 
-                /* JADX WARN: Code restructure failed: missing block: B:17:0x004f, code lost:
-                    if (java.lang.Math.abs(r0) > 1) goto L22;
+                /* JADX WARN: Code restructure failed: missing block: B:14:0x004f, code lost:
+                    if (java.lang.Math.abs(r0) > 1) goto L25;
                  */
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 /*
@@ -487,9 +488,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             if (!this.createSecretChat && !this.returnAsResult) {
                 FrameLayout frameLayout3 = new FrameLayout(context);
                 this.floatingButtonContainer = frameLayout3;
-                i2 = Build.VERSION.SDK_INT;
-                int i5 = (i2 < 21 ? 56 : 60) + 20;
-                float f = (i2 < 21 ? 56 : 60) + 20;
+                i3 = Build.VERSION.SDK_INT;
+                int i5 = (i3 < 21 ? 56 : 60) + 20;
+                float f = (i3 < 21 ? 56 : 60) + 20;
                 z = LocaleController.isRTL;
                 if (!z) {
                     i4 = 5;
@@ -505,7 +506,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 this.floatingButton = rLottieImageView;
                 rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
                 Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-                if (i2 < 21) {
+                if (i3 < 21) {
                     Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
                     mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
                     CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -516,7 +517,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
                 this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? R.raw.write_contacts_fab_icon : R.raw.write_contacts_fab_icon_reverse, 52, 52);
                 this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", R.string.CreateNewContact));
-                if (i2 >= 21) {
+                if (i3 >= 21) {
                     StateListAnimator stateListAnimator = new StateListAnimator();
                     RLottieImageView rLottieImageView2 = this.floatingButton;
                     Property property = View.TRANSLATION_Z;
@@ -531,7 +532,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                         }
                     });
                 }
-                this.floatingButtonContainer.addView(this.floatingButton, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56 : 60, 51, 10.0f, 6.0f, 10.0f, 0.0f));
+                this.floatingButtonContainer.addView(this.floatingButton, LayoutHelper.createFrame(i3 < 21 ? 56 : 60, i3 < 21 ? 56 : 60, 51, 10.0f, 6.0f, 10.0f, 0.0f));
             }
             str = this.initialSearchString;
             if (str != null) {
@@ -540,7 +541,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
             return this.fragmentView;
         }
-        i = i3;
+        i = i2;
         this.hasGps = ApplicationLoader.applicationContext.getPackageManager().hasSystemFeature("android.hardware.location.gps");
         ContactsAdapter contactsAdapter2 = new ContactsAdapter(context, this.onlyUsers ? 1 : 0, this.needPhonebook, this.ignoreUsers, i, this.hasGps) { // from class: org.telegram.ui.ContactsActivity.4
             @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
@@ -638,8 +639,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 this.scrollingManually = false;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:17:0x004f, code lost:
-                if (java.lang.Math.abs(r0) > 1) goto L22;
+            /* JADX WARN: Code restructure failed: missing block: B:14:0x004f, code lost:
+                if (java.lang.Math.abs(r0) > 1) goto L25;
              */
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             /*
@@ -676,9 +677,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         if (!this.createSecretChat) {
             FrameLayout frameLayout32 = new FrameLayout(context);
             this.floatingButtonContainer = frameLayout32;
-            i2 = Build.VERSION.SDK_INT;
-            int i52 = (i2 < 21 ? 56 : 60) + 20;
-            float f2 = (i2 < 21 ? 56 : 60) + 20;
+            i3 = Build.VERSION.SDK_INT;
+            int i52 = (i3 < 21 ? 56 : 60) + 20;
+            float f2 = (i3 < 21 ? 56 : 60) + 20;
             z = LocaleController.isRTL;
             if (!z) {
             }
@@ -693,15 +694,15 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             this.floatingButton = rLottieImageView3;
             rLottieImageView3.setScaleType(ImageView.ScaleType.CENTER);
             Drawable createSimpleSelectorCircleDrawable2 = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-            if (i2 < 21) {
+            if (i3 < 21) {
             }
             this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable2);
             this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
             this.floatingButton.setAnimation(!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) ? R.raw.write_contacts_fab_icon : R.raw.write_contacts_fab_icon_reverse, 52, 52);
             this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", R.string.CreateNewContact));
-            if (i2 >= 21) {
+            if (i3 >= 21) {
             }
-            this.floatingButtonContainer.addView(this.floatingButton, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56 : 60, 51, 10.0f, 6.0f, 10.0f, 0.0f));
+            this.floatingButtonContainer.addView(this.floatingButton, LayoutHelper.createFrame(i3 < 21 ? 56 : 60, i3 < 21 ? 56 : 60, 51, 10.0f, 6.0f, 10.0f, 0.0f));
         }
         str = this.initialSearchString;
         if (str != null) {
@@ -709,6 +710,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(int i, View view, int i2) {
         Activity parentActivity;
         RecyclerView.Adapter adapter = this.listView.getAdapter();
@@ -836,9 +838,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return;
             }
         }
-        Object item2 = this.listViewAdapter.getItem(sectionForPosition, positionInSectionForPosition);
-        if (item2 instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User2 = (TLRPC$User) item2;
+        Object mo1747getItem = this.listViewAdapter.mo1747getItem(sectionForPosition, positionInSectionForPosition);
+        if (mo1747getItem instanceof TLRPC$User) {
+            TLRPC$User tLRPC$User2 = (TLRPC$User) mo1747getItem;
             if (this.returnAsResult) {
                 LongSparseArray<TLRPC$User> longSparseArray2 = this.ignoreUsers;
                 if (longSparseArray2 != null && longSparseArray2.indexOfKey(tLRPC$User2.id) >= 0) {
@@ -856,9 +858,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
                 presentFragment(new ChatActivity(bundle4), true);
             }
-        } else if (!(item2 instanceof ContactsController.Contact)) {
+        } else if (!(mo1747getItem instanceof ContactsController.Contact)) {
         } else {
-            ContactsController.Contact contact = (ContactsController.Contact) item2;
+            ContactsController.Contact contact = (ContactsController.Contact) mo1747getItem;
             final String str2 = !contact.phones.isEmpty() ? contact.phones.get(0) : null;
             if (str2 == null || getParentActivity() == null) {
                 return;
@@ -877,6 +879,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(String str, DialogInterface dialogInterface, int i) {
         try {
             Intent intent = new Intent("android.intent.action.VIEW", Uri.fromParts("sms", str, null));
@@ -887,6 +890,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         presentFragment(new NewContactActivity());
     }
@@ -1020,6 +1024,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didSelectResult$3(TLRPC$User tLRPC$User, String str, DialogInterface dialogInterface, int i) {
         ContactsActivityDelegate contactsActivityDelegate = this.delegate;
         if (contactsActivityDelegate != null) {
@@ -1028,6 +1033,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didSelectResult$4(TLRPC$User tLRPC$User, EditText editText, DialogInterface dialogInterface, int i) {
         didSelectResult(tLRPC$User, false, editText != null ? editText.getText().toString() : "0");
     }
@@ -1062,6 +1068,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         askForPermissons(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onResume$5(int i) {
         this.askAboutContacts = i != 0;
         if (i == 0) {
@@ -1070,6 +1077,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         askForPermissons(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public RecyclerListView getListView() {
         return this.listView;
     }
@@ -1092,6 +1100,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onDialogDismiss(Dialog dialog) {
         super.onDialogDismiss(dialog);
@@ -1129,6 +1138,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$askForPermissons$6(int i) {
         this.askAboutContacts = i != 0;
         if (i == 0) {
@@ -1223,6 +1233,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void hideFloatingButton(boolean z) {
         if (this.floatingHidden == z) {
             return;
@@ -1250,6 +1261,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.initialSearchString = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showItemsAnimated() {
         LinearLayoutManager linearLayoutManager = this.layoutManager;
         final int findLastVisibleItemPosition = linearLayoutManager == null ? 0 : linearLayoutManager.findLastVisibleItemPosition();
@@ -1276,18 +1288,19 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public AnimatorSet onCustomTransitionAnimation(final boolean z, final Runnable runnable) {
-        final ValueAnimator valueAnimator;
+        final ValueAnimator ofFloat;
         BaseFragment baseFragment;
         float[] fArr = {0.0f, 1.0f};
         if (z) {
             // fill-array-data instruction
             fArr[0] = 1.0f;
             fArr[1] = 0.0f;
-            valueAnimator = ValueAnimator.ofFloat(fArr);
+            ofFloat = ValueAnimator.ofFloat(fArr);
         } else {
-            valueAnimator = ValueAnimator.ofFloat(fArr);
+            ofFloat = ValueAnimator.ofFloat(fArr);
         }
         final ViewGroup viewGroup = (ViewGroup) this.fragmentView.getParent();
         if (this.parentLayout.fragmentsStack.size() > 1) {
@@ -1309,10 +1322,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         if (z) {
             viewGroup.setAlpha(0.0f);
         }
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                ContactsActivity.lambda$onCustomTransitionAnimation$7(valueAnimator, viewGroup, valueAnimator2);
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                ContactsActivity.lambda$onCustomTransitionAnimation$7(ofFloat, viewGroup, valueAnimator);
             }
         });
         FrameLayout frameLayout = this.floatingButtonContainer;
@@ -1320,8 +1333,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             ((ViewGroup) this.fragmentView).removeView(frameLayout);
             ((FrameLayout) viewGroup.getParent()).addView(this.floatingButtonContainer);
         }
-        valueAnimator.setDuration(150L);
-        valueAnimator.setInterpolator(new DecelerateInterpolator(1.5f));
+        ofFloat.setDuration(150L);
+        ofFloat.setInterpolator(new DecelerateInterpolator(1.5f));
         final AnimatorSet animatorSet = new AnimatorSet();
         final View view2 = view;
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ContactsActivity.12
@@ -1342,7 +1355,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 runnable.run();
             }
         });
-        animatorSet.playTogether(valueAnimator);
+        animatorSet.playTogether(ofFloat);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
@@ -1352,12 +1365,14 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         return animatorSet;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onCustomTransitionAnimation$7(ValueAnimator valueAnimator, ViewGroup viewGroup, ValueAnimator valueAnimator2) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         viewGroup.setTranslationX(AndroidUtilities.dp(48.0f) * floatValue);
         viewGroup.setAlpha(1.0f - floatValue);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCustomTransitionAnimation$8(AnimatorSet animatorSet, boolean z, final View view) {
         this.animationIndex = getNotificationCenter().setAnimationInProgress(this.animationIndex, new int[]{NotificationCenter.diceStickersDidLoad}, false);
         animatorSet.start();
@@ -1519,6 +1534,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$9() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

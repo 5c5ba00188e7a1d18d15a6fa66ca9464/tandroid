@@ -103,36 +103,36 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         return this.dids.size() + 1;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:88:0x025e, code lost:
-        if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L90;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x025e, code lost:
+        if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L54;
      */
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public RemoteViews getViewAt(int i) {
-        TLRPC$FileLocation tLRPC$FileLocation;
-        CharSequence charSequence;
         TLRPC$Chat tLRPC$Chat;
+        CharSequence charSequence;
         TLRPC$User tLRPC$User;
+        TLRPC$FileLocation tLRPC$FileLocation;
         Bitmap decodeFile;
         int i2;
         int i3;
+        TLRPC$Chat chat;
         TLRPC$User tLRPC$User2;
-        TLRPC$Chat tLRPC$Chat2;
         CharSequence charSequence2;
-        CharSequence charSequence3;
         String str;
         String replace;
-        SpannableStringBuilder spannableStringBuilder;
-        SpannableStringBuilder spannableStringBuilder2;
+        SpannableStringBuilder valueOf;
         char c;
         char c2;
         char c3;
+        String charSequence3;
         char c4;
+        SpannableStringBuilder spannableStringBuilder;
         String str2;
-        String str3;
         CharSequence charSequence4;
+        CharSequence charSequence5;
         AvatarDrawable avatarDrawable;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         if (this.deleted) {
@@ -152,7 +152,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             return remoteViews2;
         } else {
             Long l = this.dids.get(i);
-            CharSequence charSequence5 = "";
+            CharSequence charSequence6 = "";
             if (DialogObject.isUserDialog(l.longValue())) {
                 tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                 if (tLRPC$User != null) {
@@ -169,24 +169,24 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                         tLRPC$Chat = null;
                     }
                 } else {
-                    charSequence = charSequence5;
+                    charSequence = charSequence6;
                 }
                 tLRPC$Chat = null;
                 tLRPC$FileLocation = null;
             } else {
-                TLRPC$Chat chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-l.longValue()));
-                if (chat != null) {
-                    charSequence = chat.title;
-                    TLRPC$ChatPhoto tLRPC$ChatPhoto = chat.photo;
+                TLRPC$Chat chat2 = this.accountInstance.getMessagesController().getChat(Long.valueOf(-l.longValue()));
+                if (chat2 != null) {
+                    charSequence = chat2.title;
+                    TLRPC$ChatPhoto tLRPC$ChatPhoto = chat2.photo;
                     if (tLRPC$ChatPhoto == null || (tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small) == null || tLRPC$FileLocation.volume_id == 0 || tLRPC$FileLocation.local_id == 0) {
-                        tLRPC$Chat = chat;
+                        tLRPC$Chat = chat2;
                     } else {
-                        tLRPC$Chat = chat;
+                        tLRPC$Chat = chat2;
                         tLRPC$User = null;
                     }
                 } else {
-                    tLRPC$Chat = chat;
-                    charSequence = charSequence5;
+                    tLRPC$Chat = chat2;
+                    charSequence = charSequence6;
                 }
                 tLRPC$User = null;
                 tLRPC$FileLocation = null;
@@ -242,70 +242,70 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 long fromChatId = messageObject.getFromChatId();
                 if (DialogObject.isUserDialog(fromChatId)) {
                     tLRPC$User2 = this.accountInstance.getMessagesController().getUser(Long.valueOf(fromChatId));
-                    tLRPC$Chat2 = null;
+                    chat = null;
                 } else {
-                    tLRPC$Chat2 = this.accountInstance.getMessagesController().getChat(Long.valueOf(-fromChatId));
+                    chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-fromChatId));
                     tLRPC$User2 = null;
                 }
                 int color = this.mContext.getResources().getColor(org.telegram.messenger.beta.R.color.widget_text);
                 if (messageObject.messageOwner instanceof TLRPC$TL_messageService) {
                     if (ChatObject.isChannel(tLRPC$Chat)) {
                         TLRPC$MessageAction tLRPC$MessageAction = messageObject.messageOwner.action;
-                        charSequence4 = charSequence5;
+                        charSequence5 = charSequence6;
                         if (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionHistoryClear)) {
-                            charSequence4 = charSequence5;
+                            charSequence5 = charSequence6;
                         }
                         color = this.mContext.getResources().getColor(org.telegram.messenger.beta.R.color.widget_action_text);
-                        charSequence2 = charSequence4;
+                        charSequence4 = charSequence5;
                     }
-                    charSequence4 = messageObject.messageText;
+                    charSequence5 = messageObject.messageText;
                     color = this.mContext.getResources().getColor(org.telegram.messenger.beta.R.color.widget_action_text);
-                    charSequence2 = charSequence4;
+                    charSequence4 = charSequence5;
                 } else {
-                    String str4 = "🎤 ";
-                    if (tLRPC$Chat != null && tLRPC$Chat2 == null && (!ChatObject.isChannel(tLRPC$Chat) || ChatObject.isMegagroup(tLRPC$Chat))) {
+                    String str3 = "🎤 ";
+                    if (tLRPC$Chat != null && chat == null && (!ChatObject.isChannel(tLRPC$Chat) || ChatObject.isMegagroup(tLRPC$Chat))) {
                         if (messageObject.isOutOwner()) {
                             replace = LocaleController.getString("FromYou", org.telegram.messenger.beta.R.string.FromYou);
                         } else {
-                            replace = tLRPC$User2 != null ? UserObject.getFirstName(tLRPC$User2).replace("\n", charSequence5) : "DELETED";
+                            replace = tLRPC$User2 != null ? UserObject.getFirstName(tLRPC$User2).replace("\n", charSequence6) : "DELETED";
                         }
-                        String str5 = replace;
-                        CharSequence charSequence6 = messageObject.caption;
+                        String str4 = replace;
+                        CharSequence charSequence7 = messageObject.caption;
                         try {
-                            if (charSequence6 != null) {
-                                String charSequence7 = charSequence6.toString();
-                                if (charSequence7.length() > 150) {
-                                    charSequence7 = charSequence7.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                            if (charSequence7 != null) {
+                                String charSequence8 = charSequence7.toString();
+                                if (charSequence8.length() > 150) {
+                                    charSequence8 = charSequence8.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                 }
                                 if (messageObject.isVideo()) {
-                                    str3 = "📹 ";
+                                    str2 = "📹 ";
                                 } else {
                                     if (!messageObject.isVoice()) {
                                         if (messageObject.isMusic()) {
-                                            str4 = "🎧 ";
+                                            str3 = "🎧 ";
                                         } else {
-                                            str4 = messageObject.isPhoto() ? "🖼 " : "📎 ";
+                                            str3 = messageObject.isPhoto() ? "🖼 " : "📎 ";
                                         }
                                     }
-                                    str3 = str4;
+                                    str2 = str3;
                                 }
-                                spannableStringBuilder2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str3 + charSequence7.replace('\n', ' '), str5));
+                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str2 + charSequence8.replace('\n', ' '), str4));
                             } else if (messageObject.messageOwner.media != null && !messageObject.isMediaEmpty()) {
                                 int color2 = this.mContext.getResources().getColor(org.telegram.messenger.beta.R.color.widget_action_text);
                                 TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                                 if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                                     TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia;
-                                    str2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
+                                    charSequence3 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
                                     c4 = '\n';
                                     c3 = 1;
                                     c2 = 0;
                                 } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
                                     if (Build.VERSION.SDK_INT >= 18) {
                                         c2 = 0;
-                                        str2 = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
+                                        charSequence3 = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
                                     } else {
                                         c2 = 0;
-                                        str2 = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
+                                        charSequence3 = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
                                     }
                                     c4 = '\n';
                                     c3 = 1;
@@ -314,110 +314,110 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                     if (messageObject.type == 14) {
                                         if (Build.VERSION.SDK_INT >= 18) {
                                             c3 = 1;
-                                            str2 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                            charSequence3 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                         } else {
                                             c3 = 1;
-                                            str2 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                            charSequence3 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                         }
                                     } else {
                                         c3 = 1;
-                                        str2 = messageObject.messageText.toString();
+                                        charSequence3 = messageObject.messageText.toString();
                                     }
                                     c4 = '\n';
                                 }
                                 Object[] objArr = new Object[2];
-                                objArr[c2] = str2.replace(c4, ' ');
-                                objArr[c3] = str5;
-                                SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
+                                objArr[c2] = charSequence3.replace(c4, ' ');
+                                objArr[c3] = str4;
+                                SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
                                 try {
-                                    valueOf.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str5.length() + 2, valueOf.length(), 33);
+                                    valueOf2.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str4.length() + 2, valueOf2.length(), 33);
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
                                 color = color2;
-                                spannableStringBuilder = valueOf;
-                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str5.length() + 1, 33);
-                                charSequence2 = spannableStringBuilder;
+                                spannableStringBuilder = valueOf2;
+                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str4.length() + 1, 33);
+                                charSequence4 = spannableStringBuilder;
                             } else {
-                                String str6 = messageObject.messageOwner.message;
-                                if (str6 != null) {
-                                    if (str6.length() > 150) {
+                                String str5 = messageObject.messageOwner.message;
+                                if (str5 != null) {
+                                    if (str5.length() > 150) {
                                         c = 0;
-                                        str6 = str6.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                        str5 = str5.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                     } else {
                                         c = 0;
                                     }
                                     Object[] objArr2 = new Object[2];
-                                    objArr2[c] = str6.replace('\n', ' ').trim();
-                                    objArr2[1] = str5;
-                                    spannableStringBuilder2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
+                                    objArr2[c] = str5.replace('\n', ' ').trim();
+                                    objArr2[1] = str4;
+                                    valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
                                 } else {
-                                    spannableStringBuilder2 = SpannableStringBuilder.valueOf(charSequence5);
+                                    valueOf = SpannableStringBuilder.valueOf(charSequence6);
                                 }
                             }
-                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str5.length() + 1, 33);
-                            charSequence2 = spannableStringBuilder;
+                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str4.length() + 1, 33);
+                            charSequence4 = spannableStringBuilder;
                         } catch (Exception e2) {
                             FileLog.e(e2);
-                            charSequence2 = spannableStringBuilder;
+                            charSequence4 = spannableStringBuilder;
                         }
-                        spannableStringBuilder = spannableStringBuilder2;
+                        spannableStringBuilder = valueOf;
                     } else {
                         TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
                         if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) && (tLRPC$MessageMedia2.photo instanceof TLRPC$TL_photoEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence2 = LocaleController.getString("AttachPhotoExpired", org.telegram.messenger.beta.R.string.AttachPhotoExpired);
+                            charSequence4 = LocaleController.getString("AttachPhotoExpired", org.telegram.messenger.beta.R.string.AttachPhotoExpired);
                         } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) && (tLRPC$MessageMedia2.document instanceof TLRPC$TL_documentEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence2 = LocaleController.getString("AttachVideoExpired", org.telegram.messenger.beta.R.string.AttachVideoExpired);
+                            charSequence4 = LocaleController.getString("AttachVideoExpired", org.telegram.messenger.beta.R.string.AttachVideoExpired);
                         } else if (messageObject.caption != null) {
                             if (messageObject.isVideo()) {
                                 str = "📹 ";
                             } else {
                                 if (!messageObject.isVoice()) {
                                     if (messageObject.isMusic()) {
-                                        str4 = "🎧 ";
+                                        str3 = "🎧 ";
                                     } else {
-                                        str4 = messageObject.isPhoto() ? "🖼 " : "📎 ";
+                                        str3 = messageObject.isPhoto() ? "🖼 " : "📎 ";
                                     }
                                 }
-                                str = str4;
+                                str = str3;
                             }
-                            charSequence2 = str + ((Object) messageObject.caption);
+                            charSequence4 = str + ((Object) messageObject.caption);
                         } else {
                             if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
-                                charSequence3 = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
+                                charSequence2 = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
                             } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
-                                charSequence3 = "🎮 " + messageObject.messageOwner.media.game.title;
+                                charSequence2 = "🎮 " + messageObject.messageOwner.media.game.title;
                             } else if (messageObject.type == 14) {
-                                charSequence3 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                charSequence2 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                             } else {
-                                charSequence3 = messageObject.messageText;
-                                AndroidUtilities.highlightText(charSequence3, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
+                                charSequence2 = messageObject.messageText;
+                                AndroidUtilities.highlightText(charSequence2, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
                             }
-                            CharSequence charSequence8 = charSequence3;
-                            charSequence2 = charSequence8;
+                            CharSequence charSequence9 = charSequence2;
+                            charSequence4 = charSequence9;
                             if (messageObject.messageOwner.media != null) {
-                                charSequence2 = charSequence8;
+                                charSequence4 = charSequence9;
                                 if (!messageObject.isMediaEmpty()) {
                                     color = this.mContext.getResources().getColor(org.telegram.messenger.beta.R.color.widget_action_text);
-                                    charSequence2 = charSequence8;
+                                    charSequence4 = charSequence9;
                                 }
                             }
                         }
                     }
                 }
                 remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_time, LocaleController.stringForMessageListDate(messageObject.messageOwner.date));
-                remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_message, charSequence2.toString());
+                remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_message, charSequence4.toString());
                 remoteViews3.setTextColor(org.telegram.messenger.beta.R.id.shortcut_widget_item_message, color);
             } else {
-                if (tLRPC$Dialog != null && (i3 = tLRPC$Dialog.last_message_date) != 0) {
-                    remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_time, LocaleController.stringForMessageListDate(i3));
+                if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.last_message_date) != 0) {
+                    remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_time, LocaleController.stringForMessageListDate(i2));
                 } else {
-                    remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_time, charSequence5);
+                    remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_time, charSequence6);
                 }
-                remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_message, charSequence5);
+                remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_message, charSequence6);
             }
-            if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.unread_count) > 0) {
-                remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_badge, String.format("%d", Integer.valueOf(i2)));
+            if (tLRPC$Dialog != null && (i3 = tLRPC$Dialog.unread_count) > 0) {
+                remoteViews3.setTextViewText(org.telegram.messenger.beta.R.id.shortcut_widget_item_badge, String.format("%d", Integer.valueOf(i3)));
                 remoteViews3.setViewVisibility(org.telegram.messenger.beta.R.id.shortcut_widget_item_badge, 0);
                 if (this.accountInstance.getMessagesController().isDialogMuted(tLRPC$Dialog.id)) {
                     remoteViews3.setBoolean(org.telegram.messenger.beta.R.id.shortcut_widget_item_badge, "setEnabled", false);

@@ -340,8 +340,8 @@ public class ErrorLogHelper {
         FileManager.cleanDirectory(getPendingMinidumpDirectory());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001a  */
+    /* JADX WARN: Removed duplicated region for block: B:5:0x001a  */
+    /* JADX WARN: Removed duplicated region for block: B:8:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

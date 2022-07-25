@@ -75,6 +75,7 @@ public class ChatActivityMemberRequestsDelegate {
             linearLayout.setOrientation(0);
             this.root.addView(linearLayout, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 0.0f, 36.0f, 0.0f));
             AvatarsImageView avatarsImageView = new AvatarsImageView(this, this.fragment.getParentActivity(), false) { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.1
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
                 public void onMeasure(int i, int i2) {
                     int i3 = this.avatarsDarawable.count;
@@ -117,10 +118,12 @@ public class ChatActivityMemberRequestsDelegate {
         return this.root;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getView$0(View view) {
         showBottomSheet();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getView$1(View view) {
         this.fragment.getMessagesController().setChatPendingRequestsOnClose(this.currentChat.id, this.pendingRequestsCount);
         this.closePendingRequestsCount = this.pendingRequestsCount;
@@ -268,6 +271,7 @@ public class ChatActivityMemberRequestsDelegate {
         callback.onEnterOffsetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animatePendingRequests$2(ValueAnimator valueAnimator) {
         this.pendingRequestsEnterOffset = (-getViewHeight()) * (1.0f - ((Float) valueAnimator.getAnimatedValue()).floatValue());
         Callback callback = this.callback;

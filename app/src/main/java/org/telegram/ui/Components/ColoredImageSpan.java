@@ -43,23 +43,23 @@ public class ColoredImageSpan extends ReplacementSpan {
 
     @Override // android.text.style.ReplacementSpan
     public void draw(Canvas canvas, CharSequence charSequence, int i, int i2, float f, int i3, int i4, int i5, Paint paint) {
-        int i6;
+        int color;
         if (this.usePaintColor) {
-            i6 = paint.getColor();
+            color = paint.getColor();
         } else {
-            i6 = Theme.getColor(this.colorKey);
+            color = Theme.getColor(this.colorKey);
         }
-        if (this.drawableColor != i6) {
-            this.drawableColor = i6;
+        if (this.drawableColor != color) {
+            this.drawableColor = color;
             this.drawable.setColorFilter(new PorterDuffColorFilter(this.drawableColor, PorterDuff.Mode.MULTIPLY));
         }
-        int i7 = i5 - i3;
-        int i8 = this.size;
-        if (i8 == 0) {
-            i8 = this.drawable.getIntrinsicHeight();
+        int i6 = i5 - i3;
+        int i7 = this.size;
+        if (i7 == 0) {
+            i7 = this.drawable.getIntrinsicHeight();
         }
         canvas.save();
-        canvas.translate(f, i3 + ((i7 - i8) / 2) + AndroidUtilities.dp(this.topOffset));
+        canvas.translate(f, i3 + ((i6 - i7) / 2) + AndroidUtilities.dp(this.topOffset));
         this.drawable.draw(canvas);
         canvas.restore();
     }

@@ -31,6 +31,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
         this.stickerPackName = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -38,6 +39,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -54,9 +56,9 @@ public class StickerImageView extends BackupImageView implements NotificationCen
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0049  */
     /* JADX WARN: Removed duplicated region for block: B:18:0x0056  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -29,17 +29,17 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.c
     final void A0(j$.util.u uVar, m3 m3Var) {
-        j$.util.function.q qVar;
+        j$.util.function.q w0;
         j$.util.v M0 = M0(uVar);
         if (m3Var instanceof j$.util.function.q) {
-            qVar = (j$.util.function.q) m3Var;
+            w0 = (j$.util.function.q) m3Var;
         } else if (Q4.a) {
             Q4.a(c.class, "using LongStream.adapt(Sink<Long> s)");
             throw null;
         } else {
-            qVar = new W0(m3Var);
+            w0 = new W0(m3Var);
         }
-        while (!m3Var.o() && M0.i(qVar)) {
+        while (!m3Var.o() && M0.i(w0)) {
         }
     }
 
@@ -156,14 +156,14 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    public final j$.util.r mo66iterator() {
-        return j$.util.L.h(spliterator());
+    public final j$.util.r mo331iterator() {
+        return j$.util.L.h(mo334spliterator());
     }
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    public Iterator mo66iterator() {
-        return j$.util.L.h(spliterator());
+    public Iterator mo331iterator() {
+        return j$.util.L.h(mo334spliterator());
     }
 
     @Override // j$.util.stream.e1
@@ -215,8 +215,9 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    public final j$.util.v spliterator() {
-        return M0(super.spliterator());
+    /* renamed from: spliterator */
+    public final j$.util.v mo334spliterator() {
+        return M0(super.mo334spliterator());
     }
 
     @Override // j$.util.stream.e1

@@ -178,15 +178,15 @@ public class VoIPController {
         nativeSetMicMute(this.nativeInst, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x005d  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setConfig(double d, double d2, int i, long j) {
         boolean isAvailable;
         boolean isAvailable2;
-        String str;
+        String logFilePath;
         ensureNativeInstance();
         if (Build.VERSION.SDK_INT >= 16) {
             try {
@@ -202,11 +202,11 @@ public class VoIPController {
             boolean z2 = isAvailable || !VoIPServerConfig.getBoolean("use_system_aec", true);
             boolean z3 = isAvailable2 || !VoIPServerConfig.getBoolean("use_system_ns", true);
             if (!BuildVars.DEBUG_VERSION) {
-                str = getLogFilePath("voip" + j);
+                logFilePath = getLogFilePath("voip" + j);
             } else {
-                str = getLogFilePath(j);
+                logFilePath = getLogFilePath(j);
             }
-            nativeSetConfig(j2, d, d2, i, z2, z3, true, str, (BuildVars.DEBUG_VERSION || !z) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
+            nativeSetConfig(j2, d, d2, i, z2, z3, true, logFilePath, (BuildVars.DEBUG_VERSION || !z) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
         }
         isAvailable = false;
         isAvailable2 = false;
@@ -218,7 +218,7 @@ public class VoIPController {
         }
         if (!BuildVars.DEBUG_VERSION) {
         }
-        nativeSetConfig(j22, d, d2, i, z2, z3, true, str, (BuildVars.DEBUG_VERSION || !z4) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
+        nativeSetConfig(j22, d, d2, i, z2, z3, true, logFilePath, (BuildVars.DEBUG_VERSION || !z4) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
     }
 
     public void debugCtl(int i, int i2) {

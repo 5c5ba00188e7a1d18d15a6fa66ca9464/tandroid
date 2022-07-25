@@ -24,6 +24,7 @@ final class LengthCountingOutputStream extends OutputStream {
         this.length += i2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getLength() {
         return this.length;
     }

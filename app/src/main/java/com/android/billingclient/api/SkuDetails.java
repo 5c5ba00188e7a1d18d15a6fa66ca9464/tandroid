@@ -56,6 +56,7 @@ public class SkuDetails {
         return this.zzb.optString("serializedDocid");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final String zzf() {
         return this.zzb.optString("skuDetailsToken");
     }

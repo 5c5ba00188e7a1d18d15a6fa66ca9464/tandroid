@@ -24,6 +24,7 @@ public class ChartData {
     public long[] x;
     public float[] xPercentage;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ChartData() {
     }
 
@@ -91,6 +92,7 @@ public class ChartData {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void measure() {
         SimpleDateFormat simpleDateFormat;
         long[] jArr = this.x;

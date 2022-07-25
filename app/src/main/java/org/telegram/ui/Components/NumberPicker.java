@@ -184,7 +184,8 @@ public class NumberPicker extends LinearLayout {
             }
 
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-            public CharSequence getContentDescription(View view) {
+            /* renamed from: getContentDescription */
+            public CharSequence mo2109getContentDescription(View view) {
                 NumberPicker numberPicker = NumberPicker.this;
                 return numberPicker.getContentDescription(numberPicker.mValue);
             }
@@ -385,16 +386,16 @@ public class NumberPicker extends LinearLayout {
         if (r5.mFlingScroller.isFinished() == false) goto L30;
      */
     /* JADX WARN: Code restructure failed: missing block: B:26:0x0057, code lost:
-        if (r0 != 20) goto L28;
+        if (r0 != 20) goto L29;
      */
     /* JADX WARN: Code restructure failed: missing block: B:27:0x0059, code lost:
         r6 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x005b, code lost:
-        r6 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x005c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x005c, code lost:
         changeValueByOne(r6);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x005b, code lost:
+        r6 = false;
      */
     /* JADX WARN: Code restructure failed: missing block: B:30:0x005f, code lost:
         return true;
@@ -685,30 +686,31 @@ public class NumberPicker extends LinearLayout {
         removeAllCallbacks();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.LinearLayout, android.view.View
     public void onDraw(Canvas canvas) {
         int i;
         int i2;
+        float measuredHeight;
         boolean z;
-        float f;
         int i3;
         float right = ((getRight() - getLeft()) / 2) + this.textOffset;
-        float f2 = this.mCurrentScrollOffset;
+        float f = this.mCurrentScrollOffset;
         int[] iArr = this.mSelectorIndices;
         for (int i4 = 0; i4 < iArr.length; i4++) {
             String str = this.mSelectorIndexToStringCache.get(iArr[i4]);
             if (str != null && (i4 != this.SELECTOR_MIDDLE_ITEM_INDEX || this.mInputText.getVisibility() != 0)) {
                 if (this.SELECTOR_WHEEL_ITEM_COUNT > 3) {
-                    float measuredHeight = getMeasuredHeight() * 0.5f;
-                    float textSize = f2 - (this.mSelectorWheelPaint.getTextSize() / 2.0f);
+                    float measuredHeight2 = getMeasuredHeight() * 0.5f;
+                    float textSize = f - (this.mSelectorWheelPaint.getTextSize() / 2.0f);
                     if (textSize < getMeasuredHeight() / 2.0f) {
-                        f = textSize / measuredHeight;
+                        measuredHeight = textSize / measuredHeight2;
                         z = true;
                     } else {
-                        f = (getMeasuredHeight() - textSize) / measuredHeight;
+                        measuredHeight = (getMeasuredHeight() - textSize) / measuredHeight2;
                         z = false;
                     }
-                    float interpolation = interpolator.getInterpolation(Utilities.clamp(f, 1.0f, 0.0f));
+                    float interpolation = interpolator.getInterpolation(Utilities.clamp(measuredHeight, 1.0f, 0.0f));
                     float textSize2 = (1.0f - interpolation) * this.mSelectorWheelPaint.getTextSize();
                     if (!z) {
                         textSize2 = -textSize2;
@@ -722,16 +724,16 @@ public class NumberPicker extends LinearLayout {
                     } else {
                         i3 = -1;
                     }
-                    canvas.drawText(str, right, f2, this.mSelectorWheelPaint);
+                    canvas.drawText(str, right, f, this.mSelectorWheelPaint);
                     canvas.restore();
                     if (i3 != -1) {
                         this.mSelectorWheelPaint.setAlpha(i3);
                     }
                 } else {
-                    canvas.drawText(str, right, f2, this.mSelectorWheelPaint);
+                    canvas.drawText(str, right, f, this.mSelectorWheelPaint);
                 }
             }
-            f2 += this.mSelectorElementHeight;
+            f += this.mSelectorElementHeight;
         }
         if (this.drawDividers) {
             canvas.drawRect(0.0f, this.mTopSelectionDividerTop, getRight(), this.mSelectionDividerHeight + i, this.mSelectionDivider);
@@ -789,31 +791,32 @@ public class NumberPicker extends LinearLayout {
     }
 
     private void setValueInternal(int i, boolean z) {
-        int i2;
+        int min;
         if (this.mValue == i) {
             return;
         }
         if (this.mWrapSelectorWheel) {
-            i2 = getWrappedSelectorIndex(i);
+            min = getWrappedSelectorIndex(i);
         } else {
-            i2 = Math.min(Math.max(i, this.mMinValue), this.mMaxValue);
+            min = Math.min(Math.max(i, this.mMinValue), this.mMaxValue);
         }
-        int i3 = this.mValue;
-        this.mValue = i2;
+        int i2 = this.mValue;
+        this.mValue = min;
         updateInputTextView();
-        if (Math.abs(i3 - i2) > 0.9f && Build.VERSION.SDK_INT >= 27) {
+        if (Math.abs(i2 - min) > 0.9f && Build.VERSION.SDK_INT >= 27) {
             try {
                 performHapticFeedback(9, 1);
             } catch (Exception unused) {
             }
         }
         if (z) {
-            notifyChange(i3, i2);
+            notifyChange(i2, min);
         }
         initializeSelectorWheelIndices();
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void changeValueByOne(boolean z) {
         this.mInputText.setVisibility(4);
         if (!moveToFinalScrollerPosition(this.mFlingScroller)) {
@@ -1011,13 +1014,13 @@ public class NumberPicker extends LinearLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class PressedStateHelper implements Runnable {
         private int mManagedButton;
         private int mMode;
 
         PressedStateHelper() {
-            NumberPicker.this = r1;
         }
 
         public void cancel() {
@@ -1088,14 +1091,15 @@ public class NumberPicker extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class ChangeCurrentByOneFromLongPressCommand implements Runnable {
         private boolean mIncrement;
 
         ChangeCurrentByOneFromLongPressCommand() {
-            NumberPicker.this = r1;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setStep(boolean z) {
             this.mIncrement = z;
         }

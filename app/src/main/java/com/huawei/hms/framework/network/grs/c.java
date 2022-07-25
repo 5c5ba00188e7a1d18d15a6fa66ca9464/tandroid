@@ -32,20 +32,20 @@ public class c {
     private com.huawei.hms.framework.network.grs.a g;
     private FutureTask<Boolean> h;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public class a implements Callable<Boolean> {
+    class a implements Callable<Boolean> {
         final /* synthetic */ Context a;
         final /* synthetic */ GrsBaseInfo b;
 
         a(Context context, GrsBaseInfo grsBaseInfo) {
-            c.this = r1;
             this.a = context;
             this.b = grsBaseInfo;
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // java.util.concurrent.Callable
-        public Boolean call() {
+        /* renamed from: call */
+        public Boolean mo225call() {
             c.this.c = new h();
             c cVar = c.this;
             Context context = this.a;
@@ -83,6 +83,7 @@ public class c {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public c(Context context, GrsBaseInfo grsBaseInfo) {
         this.h = null;
         this.b = context.getApplicationContext() != null ? context.getApplicationContext() : context;
@@ -94,6 +95,7 @@ public class c {
         Logger.i(i, "GrsClient Instance is init, GRS SDK version: %s, GrsBaseInfoParam: app_name=%s, reg_country=%s, ser_country=%s, issue_country=%s", com.huawei.hms.framework.network.grs.h.a.a(), grsBaseInfo2.getAppName(), grsBaseInfo.getRegCountry(), grsBaseInfo.getSerCountry(), grsBaseInfo.getIssueCountry());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public c(GrsBaseInfo grsBaseInfo) {
         this.h = null;
         a(grsBaseInfo);
@@ -101,13 +103,14 @@ public class c {
 
     private void a(GrsBaseInfo grsBaseInfo) {
         try {
-            this.a = grsBaseInfo.clone();
+            this.a = grsBaseInfo.m224clone();
         } catch (CloneNotSupportedException e) {
             Logger.w(i, "GrsClient catch CloneNotSupportedException", e);
             this.a = grsBaseInfo.copy();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void a(Map<String, ?> map) {
         if (map == null || map.isEmpty()) {
             Logger.v(i, "sp's content is empty.");
@@ -142,40 +145,40 @@ public class c {
     private boolean e() {
         String str;
         String str2;
-        Throwable e;
         FutureTask<Boolean> futureTask = this.h;
         if (futureTask == null) {
             return false;
         }
         try {
             return futureTask.get(8L, TimeUnit.SECONDS).booleanValue();
-        } catch (InterruptedException e2) {
-            e = e2;
-            str2 = i;
-            str = "init compute task interrupted.";
-            Logger.w(str2, str, e);
+        } catch (InterruptedException e) {
+            e = e;
+            str = i;
+            str2 = "init compute task interrupted.";
+            Logger.w(str, str2, e);
             return false;
         } catch (CancellationException unused) {
             Logger.i(i, "init compute task canceled.");
             return false;
-        } catch (ExecutionException e3) {
-            e = e3;
-            str2 = i;
-            str = "init compute task failed.";
-            Logger.w(str2, str, e);
+        } catch (ExecutionException e2) {
+            e = e2;
+            str = i;
+            str2 = "init compute task failed.";
+            Logger.w(str, str2, e);
             return false;
         } catch (TimeoutException unused2) {
             Logger.w(i, "init compute task timed out");
             return false;
-        } catch (Exception e4) {
-            e = e4;
-            str2 = i;
-            str = "init compute task occur unknown Exception";
-            Logger.w(str2, str, e);
+        } catch (Exception e3) {
+            e = e3;
+            str = i;
+            str2 = "init compute task occur unknown Exception";
+            Logger.w(str, str2, e);
             return false;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String a(String str, String str2) {
         if (this.a == null || str == null || str2 == null) {
             Logger.w(i, "invalid para!");
@@ -187,6 +190,7 @@ public class c {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Map<String, String> a(String str) {
         if (this.a != null && str != null) {
             return e() ? this.g.a(str, this.b) : new HashMap();
@@ -195,6 +199,7 @@ public class c {
         return new HashMap();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void a() {
         if (!e()) {
             return;
@@ -208,6 +213,7 @@ public class c {
         this.c.a(grsParasKey);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void a(String str, IQueryUrlsCallBack iQueryUrlsCallBack) {
         if (iQueryUrlsCallBack == null) {
             Logger.w(i, "IQueryUrlsCallBack is must not null for process continue.");
@@ -221,6 +227,7 @@ public class c {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void a(String str, String str2, IQueryUrlCallBack iQueryUrlCallBack) {
         if (iQueryUrlCallBack == null) {
             Logger.w(i, "IQueryUrlCallBack is must not null for process continue.");
@@ -234,6 +241,7 @@ public class c {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean a(Object obj) {
         if (this == obj) {
             return true;
@@ -244,6 +252,7 @@ public class c {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean b() {
         GrsBaseInfo grsBaseInfo;
         Context context;

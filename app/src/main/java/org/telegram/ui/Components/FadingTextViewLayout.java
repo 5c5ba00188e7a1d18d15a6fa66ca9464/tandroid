@@ -81,6 +81,7 @@ public class FadingTextViewLayout extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         float animatedFraction = valueAnimator.getAnimatedFraction();
         TextView textView = this.currentView;
@@ -179,6 +180,7 @@ public class FadingTextViewLayout extends FrameLayout {
         this.animator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onTextViewCreated(TextView textView) {
         textView.setSingleLine(true);
         textView.setMaxLines(1);

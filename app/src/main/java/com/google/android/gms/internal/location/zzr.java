@@ -11,6 +11,7 @@ final class zzr extends zzx {
     final /* synthetic */ LocationRequest zza;
     final /* synthetic */ LocationListener zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zzr(zzz zzzVar, GoogleApiClient googleApiClient, LocationRequest locationRequest, LocationListener locationListener) {
         super(googleApiClient);

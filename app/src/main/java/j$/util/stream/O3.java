@@ -6,6 +6,7 @@ final class O3 extends C3 {
     private double[] c;
     private int d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public O3(m3 m3Var) {
         super(m3Var);
     }

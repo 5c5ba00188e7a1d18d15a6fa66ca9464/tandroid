@@ -114,6 +114,7 @@ public class FlickerLoadingView extends View {
         super.onMeasure(i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         int dp;

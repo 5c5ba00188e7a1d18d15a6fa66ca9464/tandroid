@@ -18,6 +18,7 @@ abstract class TagPayloadReader {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public TagPayloadReader(TrackOutput trackOutput) {
         this.output = trackOutput;
     }

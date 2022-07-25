@@ -19,7 +19,7 @@ public class UnlockPremiumView extends FrameLayout {
 
     public UnlockPremiumView(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        String str;
+        String string;
         LinearLayout linearLayout = new LinearLayout(context);
         addView(linearLayout, LayoutHelper.createFrame(-1, -2, 80));
         linearLayout.setOrientation(1);
@@ -36,13 +36,13 @@ public class UnlockPremiumView extends FrameLayout {
         PremiumButtonView premiumButtonView = new PremiumButtonView(context, false);
         this.premiumButtonView = premiumButtonView;
         if (i == 0) {
-            str = LocaleController.getString("UnlockPremiumStickers", R.string.UnlockPremiumStickers);
+            string = LocaleController.getString("UnlockPremiumStickers", R.string.UnlockPremiumStickers);
         } else {
-            str = LocaleController.getString("UnlockPremiumReactions", R.string.UnlockPremiumReactions);
+            string = LocaleController.getString("UnlockPremiumReactions", R.string.UnlockPremiumReactions);
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append((CharSequence) "d ").setSpan(new ColoredImageSpan(ContextCompat.getDrawable(context, R.drawable.msg_premium_normal)), 0, 1, 0);
-        spannableStringBuilder.append((CharSequence) str);
+        spannableStringBuilder.append((CharSequence) string);
         premiumButtonView.buttonTextView.setText(spannableStringBuilder);
         linearLayout.addView(premiumButtonView, LayoutHelper.createLinear(-1, 48, 0, 16, 0, 16, 16));
     }

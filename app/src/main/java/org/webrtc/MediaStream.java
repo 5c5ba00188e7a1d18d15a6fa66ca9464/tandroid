@@ -115,6 +115,7 @@ public class MediaStream {
         removeMediaStreamTrack(this.videoTracks, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getNativeMediaStream() {
         checkMediaStreamExists();
         return this.nativeStream;

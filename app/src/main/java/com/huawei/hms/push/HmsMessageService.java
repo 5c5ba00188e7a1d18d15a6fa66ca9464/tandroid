@@ -25,11 +25,9 @@ public class HmsMessageService extends Service {
     public static final String SUBJECT_ID = "subject_id";
     public final Messenger a = new Messenger(new t(new a()));
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public class a implements t.a {
+    private class a implements t.a {
         public a() {
-            HmsMessageService.this = r1;
         }
 
         @Override // com.huawei.hms.push.t.a

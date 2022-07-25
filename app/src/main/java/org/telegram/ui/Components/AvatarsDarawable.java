@@ -167,11 +167,13 @@ public class AvatarsDarawable {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$commitTransition$0(ValueAnimator valueAnimator) {
         this.transitionProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void swapStates() {
         for (int i = 0; i < 3; i++) {
             DrawingState[] drawingStateArr = this.currentStates;
@@ -195,6 +197,7 @@ public class AvatarsDarawable {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void invalidate() {
         View view = this.parent;
         if (view != null) {
@@ -232,6 +235,7 @@ public class AvatarsDarawable {
         this.overrideAlpha = f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class DrawingState {
         private int animationType;
@@ -271,7 +275,7 @@ public class AvatarsDarawable {
 
     public void setObject(int i, int i2, TLObject tLObject) {
         TLRPC$Chat tLRPC$Chat;
-        TLRPC$Chat tLRPC$Chat2;
+        TLRPC$Chat chat;
         this.animatingStates[i].id = 0L;
         DrawingState[] drawingStateArr = this.animatingStates;
         TLRPC$User tLRPC$User = null;
@@ -291,10 +295,10 @@ public class AvatarsDarawable {
                 TLRPC$User user = MessagesController.getInstance(i2).getUser(Long.valueOf(peerId));
                 this.animatingStates[i].avatarDrawable.setInfo(user);
                 tLRPC$User = user;
-                tLRPC$Chat2 = null;
+                chat = null;
             } else {
-                tLRPC$Chat2 = MessagesController.getInstance(i2).getChat(Long.valueOf(-peerId));
-                this.animatingStates[i].avatarDrawable.setInfo(tLRPC$Chat2);
+                chat = MessagesController.getInstance(i2).getChat(Long.valueOf(-peerId));
+                this.animatingStates[i].avatarDrawable.setInfo(chat);
             }
             if (this.currentStyle != 4) {
                 this.animatingStates[i].lastSpeakTime = tLRPC$TL_groupCallParticipant.active_date;
@@ -306,7 +310,7 @@ public class AvatarsDarawable {
                 this.animatingStates[i].lastSpeakTime = tLRPC$TL_groupCallParticipant.active_date;
             }
             this.animatingStates[i].id = peerId;
-            tLRPC$Chat = tLRPC$Chat2;
+            tLRPC$Chat = chat;
         } else if (tLObject instanceof TLRPC$User) {
             TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
             this.animatingStates[i].avatarDrawable.setInfo(tLRPC$User2);
@@ -330,19 +334,19 @@ public class AvatarsDarawable {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:148:0x025f  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x04e8  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x04fd  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x0502  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0505 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x04e8  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x0502  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0505 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x04fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onDraw(Canvas canvas) {
         int dp;
         int i;
-        boolean z;
         float f;
+        boolean z;
         int length;
         float f2;
         int i2;

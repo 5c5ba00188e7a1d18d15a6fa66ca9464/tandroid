@@ -237,11 +237,13 @@ public class StroageUsageView extends FrameLayout {
         requestLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setStorageUsage$0(ValueAnimator valueAnimator) {
         this.progress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setStorageUsage$1(ValueAnimator valueAnimator) {
         this.progress2 = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -266,12 +268,11 @@ public class StroageUsageView extends FrameLayout {
         this.divider.setBackgroundColor(Theme.getColor("divider"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ProgressView extends View {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ProgressView(Context context) {
             super(context);
-            StroageUsageView.this = r1;
         }
 
         @Override // android.view.View

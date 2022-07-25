@@ -116,8 +116,8 @@ public final class FaceDetector extends Detector<Face> {
 
     @RecentlyNonNull
     public final SparseArray<Face> detect(@RecentlyNonNull Frame frame) {
-        Face[] faceArr;
-        ByteBuffer byteBuffer;
+        ByteBuffer grayscaleImageData;
+        Face[] zza;
         if (frame == null) {
             throw new IllegalArgumentException("No frame supplied.");
         }
@@ -126,25 +126,25 @@ public final class FaceDetector extends Detector<Face> {
                 if (!this.zzd) {
                     throw new IllegalStateException("Cannot use detector after release()");
                 }
-                faceArr = this.zzb.zza((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()), zzs.zza(frame));
+                zza = this.zzb.zza((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()), zzs.zza(frame));
             }
         } else {
             if (frame.getBitmap() != null) {
-                byteBuffer = zzw.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), true);
+                grayscaleImageData = zzw.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), true);
             } else {
-                byteBuffer = frame.getGrayscaleImageData();
+                grayscaleImageData = frame.getGrayscaleImageData();
             }
             synchronized (this.zzc) {
                 if (!this.zzd) {
                     throw new IllegalStateException("Cannot use detector after release()");
                 }
-                faceArr = this.zzb.zza((ByteBuffer) Preconditions.checkNotNull(byteBuffer), zzs.zza(frame));
+                zza = this.zzb.zza((ByteBuffer) Preconditions.checkNotNull(grayscaleImageData), zzs.zza(frame));
             }
         }
         HashSet hashSet = new HashSet();
-        SparseArray<Face> sparseArray = new SparseArray<>(faceArr.length);
+        SparseArray<Face> sparseArray = new SparseArray<>(zza.length);
         int i = 0;
-        for (Face face : faceArr) {
+        for (Face face : zza) {
             int id = face.getId();
             i = Math.max(i, id);
             if (hashSet.contains(Integer.valueOf(id))) {
@@ -168,6 +168,7 @@ public final class FaceDetector extends Detector<Face> {
         this.zzb = zzbVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static boolean zzb(zzf zzfVar) {
         boolean z;
         if (zzfVar.zza == 2 || zzfVar.zzb != 2) {

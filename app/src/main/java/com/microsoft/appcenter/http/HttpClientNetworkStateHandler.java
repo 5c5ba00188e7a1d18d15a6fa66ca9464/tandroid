@@ -57,6 +57,7 @@ public class HttpClientNetworkStateHandler extends HttpClientDecorator implement
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void cancelCall(Call call) {
         ServiceCall serviceCall = call.mServiceCall;
         if (serviceCall != null) {
@@ -65,12 +66,11 @@ public class HttpClientNetworkStateHandler extends HttpClientDecorator implement
         this.mCalls.remove(call);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class Call extends HttpClientCallDecorator {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         Call(HttpClient httpClient, String str, String str2, Map<String, String> map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback) {
             super(httpClient, str, str2, map, callTemplate, serviceCallback);
-            HttpClientNetworkStateHandler.this = r8;
         }
 
         @Override // com.microsoft.appcenter.http.HttpClientCallDecorator, com.microsoft.appcenter.http.ServiceCall

@@ -16,10 +16,9 @@ class Store {
     final Context context;
     final SharedPreferences store;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
-    public static class Token {
+    static class Token {
         private static final long REFRESH_PERIOD_MILLIS = TimeUnit.DAYS.toMillis(7);
         final String appVersion;
         final long timestamp;
@@ -68,6 +67,7 @@ class Store {
             return new Token(str, null, 0L);
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public boolean needsRefresh(String str) {
             return System.currentTimeMillis() > this.timestamp + REFRESH_PERIOD_MILLIS || !str.equals(this.appVersion);
         }

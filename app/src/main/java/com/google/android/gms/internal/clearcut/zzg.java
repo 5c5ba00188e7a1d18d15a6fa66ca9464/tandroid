@@ -7,6 +7,7 @@ class zzg extends zzm {
     private zzg() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzg(zzf zzfVar) {
         this();
     }

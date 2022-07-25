@@ -20,6 +20,7 @@ public class BaseVoidTask extends TaskApiCall<PushClient, Void> {
         return 30000000;
     }
 
+    @Override // com.huawei.hms.common.internal.TaskApiCall
     public void doExecute(PushClient pushClient, ResponseErrorCode responseErrorCode, String str, TaskCompletionSource<Void> taskCompletionSource) {
         if (responseErrorCode.getErrorCode() == 0) {
             HMSLog.i("BaseVoidTask", "Operate succeed");

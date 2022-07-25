@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loader.ReleaseCallback, SequenceableLoader, ExtractorOutput, SampleQueue.UpstreamFormatChangedListener {
     private static final Set<Integer> MAPPABLE_TYPES = Collections.unmodifiableSet(new HashSet(Arrays.asList(1, 2, 4)));
@@ -217,8 +218,8 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         this.sampleQueuesEnabledStates[i2] = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0131  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0131  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -531,6 +532,7 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         return this.loader.isLoading();
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCompleted(Chunk chunk, long j, long j2) {
         this.chunkSource.onChunkLoadCompleted(chunk);
         this.eventDispatcher.loadCompleted(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.trackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, chunk.bytesLoaded());
@@ -541,6 +543,7 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         }
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCanceled(Chunk chunk, long j, long j2, boolean z) {
         this.eventDispatcher.loadCanceled(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.trackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, chunk.bytesLoaded());
         if (!z) {
@@ -552,6 +555,7 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         }
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public Loader.LoadErrorAction onLoadError(Chunk chunk, long j, long j2, IOException iOException, int i) {
         Loader.LoadErrorAction loadErrorAction;
         long bytesLoaded = chunk.bytesLoaded();
@@ -753,11 +757,13 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         this.pendingResetUpstreamFormats = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onTracksEnded() {
         this.sampleQueuesBuilt = true;
         maybeFinishPrepare();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void maybeFinishPrepare() {
         if (this.released || this.trackGroupToSampleQueueIndex != null || !this.sampleQueuesBuilt) {
             return;
@@ -952,6 +958,7 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         return new DummyTrackOutput();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class FormatAdjustingSampleQueue extends SampleQueue {
         private DrmInitData drmInitData;

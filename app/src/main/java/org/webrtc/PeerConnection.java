@@ -54,7 +54,7 @@ public class PeerConnection {
     /* loaded from: classes3.dex */
     public interface Observer {
 
-        /* renamed from: org.webrtc.PeerConnection$Observer$-CC */
+        /* renamed from: org.webrtc.PeerConnection$Observer$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             @CalledByNative("Observer")
@@ -756,6 +756,7 @@ public class PeerConnection {
         this(nativePeerConnectionFactory.createNativePeerConnection());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public PeerConnection(long j) {
         this.localStreams = new ArrayList();
         this.senders = new ArrayList();

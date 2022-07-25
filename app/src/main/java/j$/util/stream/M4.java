@@ -4,6 +4,7 @@ class M4 implements Runnable {
     final /* synthetic */ Runnable a;
     final /* synthetic */ Runnable b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public M4(Runnable runnable, Runnable runnable2) {
         this.a = runnable;
         this.b = runnable2;

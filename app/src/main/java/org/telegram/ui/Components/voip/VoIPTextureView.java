@@ -246,6 +246,7 @@ public class VoIPTextureView extends FrameLayout {
         this.blurRenderer.animate().setDuration(300L).alpha(1.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
@@ -348,6 +349,7 @@ public class VoIPTextureView extends FrameLayout {
         this.renderer.updateRotation();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void updateRendererSize() {
         TextureView textureView = this.blurRenderer;
         if (textureView != null) {
@@ -356,10 +358,11 @@ public class VoIPTextureView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        float f;
-        float f2;
+        float top;
+        float left;
         super.onLayout(z, i, i2, i3, i4);
         if (this.blurRenderer != null) {
             this.scaleTextureToFillBlur = Math.max(getMeasuredHeight() / this.blurRenderer.getMeasuredHeight(), getMeasuredWidth() / this.blurRenderer.getMeasuredWidth());
@@ -414,28 +417,28 @@ public class VoIPTextureView extends FrameLayout {
             this.animateOnNextLayout = false;
             if (this.animateWithParent && getParent() != null) {
                 View view = (View) getParent();
-                f2 = this.animateFromY - view.getTop();
-                f = this.animateFromX - view.getLeft();
+                top = this.animateFromY - view.getTop();
+                left = this.animateFromX - view.getLeft();
             } else {
-                f2 = this.animateFromY - getTop();
-                f = this.animateFromX - getLeft();
+                top = this.animateFromY - getTop();
+                left = this.animateFromX - getLeft();
             }
             this.clipVertical = 0.0f;
             this.clipHorizontal = 0.0f;
             if (this.animateFromHeight != getMeasuredHeight()) {
                 float measuredHeight = (getMeasuredHeight() - this.animateFromHeight) / 2.0f;
                 this.clipVertical = measuredHeight;
-                f2 -= measuredHeight;
+                top -= measuredHeight;
             }
-            final float f3 = f2;
+            final float f = top;
             if (this.animateFromWidth != getMeasuredWidth()) {
                 float measuredWidth = (getMeasuredWidth() - this.animateFromWidth) / 2.0f;
                 this.clipHorizontal = measuredWidth;
-                f -= measuredWidth;
+                left -= measuredWidth;
             }
-            final float f4 = f;
-            setTranslationY(f3);
-            setTranslationX(f4);
+            final float f2 = left;
+            setTranslationY(f);
+            setTranslationX(f2);
             ValueAnimator valueAnimator = this.currentAnimation;
             if (valueAnimator != null) {
                 valueAnimator.removeAllListeners();
@@ -454,15 +457,15 @@ public class VoIPTextureView extends FrameLayout {
                 invalidateOutline();
             }
             invalidate();
-            final float f5 = this.aninateFromScale;
-            final float f6 = this.aninateFromScaleBlur;
-            final float f7 = this.animateFromThumbScale;
+            final float f3 = this.aninateFromScale;
+            final float f4 = this.aninateFromScaleBlur;
+            final float f5 = this.animateFromThumbScale;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, 0.0f);
             this.currentAnimation = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPTextureView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    VoIPTextureView.this.lambda$onLayout$0(f5, f6, f4, f3, f7, valueAnimator2);
+                    VoIPTextureView.this.lambda$onLayout$0(f3, f4, f2, f, f5, valueAnimator2);
                 }
             });
             long j = this.animateNextDuration;
@@ -515,6 +518,7 @@ public class VoIPTextureView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLayout$0(float f, float f2, float f3, float f4, float f5, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float f6 = 1.0f - floatValue;

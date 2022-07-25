@@ -110,6 +110,7 @@ public class SimpleAvatarView extends View {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setSelected$0(ValueAnimator valueAnimator) {
         this.selectProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

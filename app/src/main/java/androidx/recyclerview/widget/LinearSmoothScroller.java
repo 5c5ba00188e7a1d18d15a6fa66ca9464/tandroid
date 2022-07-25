@@ -73,6 +73,7 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
         this.mTargetVector = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
         return 25.0f / displayMetrics.densityDpi;
     }
@@ -85,16 +86,19 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
         return this.mMillisPerPixel;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int calculateTimeForDeceleration(int i) {
         double calculateTimeForScrolling = calculateTimeForScrolling(i);
         Double.isNaN(calculateTimeForScrolling);
         return (int) Math.ceil(calculateTimeForScrolling / 0.3356d);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int calculateTimeForScrolling(int i) {
         return (int) Math.ceil(Math.abs(i) * getSpeedPerPixel());
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int getHorizontalSnapPreference() {
         PointF pointF = this.mTargetVector;
         if (pointF != null) {
@@ -106,6 +110,7 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int getVerticalSnapPreference() {
         PointF pointF = this.mTargetVector;
         if (pointF != null) {

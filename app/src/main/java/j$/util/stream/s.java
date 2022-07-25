@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 /* loaded from: classes2.dex */
 class s extends c3 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public s(c cVar, e4 e4Var, int i) {
         super(cVar, e4Var, i);
     }
@@ -32,9 +33,10 @@ class s extends c3 {
 
     @Override // j$.util.stream.c
     j$.util.u F0(y2 y2Var, j$.util.u uVar) {
-        return d4.DISTINCT.d(y2Var.s0()) ? y2Var.w0(uVar) : d4.ORDERED.d(y2Var.s0()) ? ((E1) L0(y2Var, uVar)).mo69spliterator() : new m4(y2Var.w0(uVar));
+        return d4.DISTINCT.d(y2Var.s0()) ? y2Var.w0(uVar) : d4.ORDERED.d(y2Var.s0()) ? ((E1) L0(y2Var, uVar)).mo313spliterator() : new m4(y2Var.w0(uVar));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
         m3Var.getClass();

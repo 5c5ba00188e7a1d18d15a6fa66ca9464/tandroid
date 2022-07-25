@@ -17,6 +17,7 @@ public class TaskQueue {
     private final Queue<zzb> zzc = new ArrayDeque();
     private final AtomicReference<Thread> zzd = new AtomicReference<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.mlkit:common@@17.0.0 */
     /* loaded from: classes.dex */
     public static class zzb {
@@ -29,13 +30,12 @@ public class TaskQueue {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.mlkit:common@@17.0.0 */
     /* loaded from: classes.dex */
     public class zza implements Closeable {
-        /* JADX INFO: Access modifiers changed from: private */
-        public zza() {
-            TaskQueue.this = r2;
-            Preconditions.checkState(((Thread) r2.zzd.getAndSet(Thread.currentThread())) == null);
+        private zza() {
+            Preconditions.checkState(((Thread) TaskQueue.this.zzd.getAndSet(Thread.currentThread())) == null);
         }
 
         @Override // java.io.Closeable, java.lang.AutoCloseable
@@ -56,7 +56,7 @@ public class TaskQueue {
         }
     }
 
-    private final void zza(Executor executor, Runnable runnable) {
+    private final void zza(Executor executor, final Runnable runnable) {
         try {
             executor.execute(new Runnable(this, runnable) { // from class: com.google.mlkit.common.sdkinternal.zzp
                 private final TaskQueue zza;
@@ -91,6 +91,7 @@ public class TaskQueue {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza() {
         synchronized (this.zza) {
             if (this.zzc.isEmpty()) {

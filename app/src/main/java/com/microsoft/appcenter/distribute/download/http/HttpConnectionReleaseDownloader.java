@@ -29,6 +29,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         super(context, releaseDetails, listener);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public File getTargetFile() {
         File externalFilesDir;
         if (this.mTargetFile == null && (externalFilesDir = this.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)) != null) {
@@ -41,10 +42,12 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         return (NotificationManager) this.mContext.getSystemService(RemoteMessageConst.NOTIFICATION);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getDownloadedReleaseFilePath() {
         return SharedPreferencesManager.getString("Distribute.downloaded_release_file", null);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setDownloadedReleaseFilePath(String str) {
         if (isCancelled()) {
             return;
@@ -140,6 +143,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         getNotificationManager().cancel(getNotificationId());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onStart(File file) {
         if (isCancelled()) {
             return;
@@ -147,6 +151,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         downloadFile(file);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadStarted(long j) {
         if (isCancelled()) {
             return;
@@ -155,6 +160,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         this.mListener.onStart(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadProgress(long j, long j2) {
         if (isCancelled()) {
             return;
@@ -163,6 +169,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         this.mListener.onProgress(j, j2);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadComplete(File file) {
         if (isCancelled()) {
             return;
@@ -178,6 +185,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         listener.onComplete(Uri.parse("file://" + absolutePath));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadError(String str) {
         if (isCancelled()) {
             return;

@@ -48,6 +48,7 @@ class WebRtcAudioManager {
         return Build.VERSION.SDK_INT >= 21 && isLowLatencyOutputSupported(context);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @CalledByNative
     public static int getSampleRate(AudioManager audioManager) {
         if (WebRtcAudioUtils.runningOnEmulator()) {

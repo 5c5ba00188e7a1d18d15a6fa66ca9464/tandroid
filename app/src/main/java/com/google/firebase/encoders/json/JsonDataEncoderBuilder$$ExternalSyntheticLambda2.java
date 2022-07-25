@@ -11,6 +11,6 @@ public final /* synthetic */ class JsonDataEncoderBuilder$$ExternalSyntheticLamb
 
     @Override // com.google.firebase.encoders.ValueEncoder
     public final void encode(Object obj, Object obj2) {
-        ((ValueEncoderContext) obj2).add((String) obj);
+        ((ValueEncoderContext) obj2).mo193add((String) obj);
     }
 }

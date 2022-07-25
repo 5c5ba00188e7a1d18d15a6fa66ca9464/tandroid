@@ -8,6 +8,7 @@ import java.util.zip.ZipException;
 /* loaded from: classes.dex */
 final class ZipUtil {
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class CentralDirectory {
         long offset;
@@ -17,6 +18,7 @@ final class ZipUtil {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static long getZipCrc(File file) throws IOException {
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
         try {

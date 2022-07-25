@@ -17,26 +17,26 @@ public class BitReaderBuffer {
     }
 
     public int readBits(int i) {
-        int i2;
-        int i3 = this.buffer.get(this.initialPos + (this.position / 8));
-        if (i3 < 0) {
-            i3 += 256;
+        int readBits;
+        int i2 = this.buffer.get(this.initialPos + (this.position / 8));
+        if (i2 < 0) {
+            i2 += 256;
         }
-        int i4 = this.position;
-        int i5 = 8 - (i4 % 8);
-        if (i <= i5) {
-            i2 = ((i3 << (i4 % 8)) & 255) >> ((i4 % 8) + (i5 - i));
-            this.position = i4 + i;
+        int i3 = this.position;
+        int i4 = 8 - (i3 % 8);
+        if (i <= i4) {
+            readBits = ((i2 << (i3 % 8)) & 255) >> ((i3 % 8) + (i4 - i));
+            this.position = i3 + i;
         } else {
-            int i6 = i - i5;
-            i2 = (readBits(i5) << i6) + readBits(i6);
+            int i5 = i - i4;
+            readBits = (readBits(i4) << i5) + readBits(i5);
         }
         ByteBuffer byteBuffer = this.buffer;
-        int i7 = this.initialPos;
+        int i6 = this.initialPos;
         double d = this.position;
         Double.isNaN(d);
-        byteBuffer.position(i7 + ((int) Math.ceil(d / 8.0d)));
-        return i2;
+        byteBuffer.position(i6 + ((int) Math.ceil(d / 8.0d)));
+        return readBits;
     }
 
     public int remainingBits() {

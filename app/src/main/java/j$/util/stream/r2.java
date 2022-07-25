@@ -8,6 +8,7 @@ final class r2 extends s2 {
         this.h = r2Var.h;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public r2(j$.util.u uVar, y2 y2Var, Object[] objArr) {
         super(uVar, y2Var, objArr.length);
         this.h = objArr;

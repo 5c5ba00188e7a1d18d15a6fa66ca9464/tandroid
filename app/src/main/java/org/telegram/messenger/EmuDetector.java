@@ -38,6 +38,7 @@ public class EmuDetector {
     private boolean isTelephony = false;
     private boolean isCheckPackage = true;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public enum EmulatorTypes {
         GENY,
@@ -53,6 +54,7 @@ public class EmuDetector {
         void onResult(boolean z);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Property {
         public String name;
@@ -136,8 +138,8 @@ public class EmuDetector {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00ce A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00ce A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

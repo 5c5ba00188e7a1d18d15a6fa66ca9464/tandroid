@@ -273,13 +273,13 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
             getSelectedDxDy(this.mTmpPosition);
             float[] fArr = this.mTmpPosition;
             float f3 = fArr[0];
-            f = fArr[1];
-            f2 = f3;
+            f2 = fArr[1];
+            f = f3;
         } else {
-            f2 = 0.0f;
             f = 0.0f;
+            f2 = 0.0f;
         }
-        this.mCallback.onDrawOver(canvas, recyclerView, this.mSelected, this.mRecoverAnimations, this.mActionState, f2, f);
+        this.mCallback.onDrawOver(canvas, recyclerView, this.mSelected, this.mRecoverAnimations, this.mActionState, f, f2);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -291,25 +291,25 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
             getSelectedDxDy(this.mTmpPosition);
             float[] fArr = this.mTmpPosition;
             float f3 = fArr[0];
-            f = fArr[1];
-            f2 = f3;
+            f2 = fArr[1];
+            f = f3;
         } else {
-            f2 = 0.0f;
             f = 0.0f;
+            f2 = 0.0f;
         }
-        this.mCallback.onDraw(canvas, recyclerView, this.mSelected, this.mRecoverAnimations, this.mActionState, f2, f);
+        this.mCallback.onDraw(canvas, recyclerView, this.mSelected, this.mRecoverAnimations, this.mActionState, f, f2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x012b  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0137  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     void select(RecyclerView.ViewHolder viewHolder, int i) {
         boolean z;
         ViewParent parent;
+        float signum;
         float f;
-        float f2;
         if (viewHolder == this.mSelected && i == this.mActionState) {
             return;
         }
@@ -331,19 +331,19 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                 int swipeIfNecessary = i2 == 2 ? 0 : swipeIfNecessary(viewHolder2);
                 releaseVelocityTracker();
                 if (swipeIfNecessary != 1 && swipeIfNecessary != 2) {
-                    f2 = (swipeIfNecessary == 4 || swipeIfNecessary == 8 || swipeIfNecessary == 16 || swipeIfNecessary == 32) ? Math.signum(this.mDx) * this.mRecyclerView.getWidth() : 0.0f;
-                    f = 0.0f;
+                    f = (swipeIfNecessary == 4 || swipeIfNecessary == 8 || swipeIfNecessary == 16 || swipeIfNecessary == 32) ? Math.signum(this.mDx) * this.mRecyclerView.getWidth() : 0.0f;
+                    signum = 0.0f;
                 } else {
-                    f = Math.signum(this.mDy) * this.mRecyclerView.getHeight();
-                    f2 = 0.0f;
+                    signum = Math.signum(this.mDy) * this.mRecyclerView.getHeight();
+                    f = 0.0f;
                 }
                 int i4 = i2 == 2 ? 8 : swipeIfNecessary > 0 ? 2 : 4;
                 getSelectedDxDy(this.mTmpPosition);
                 float[] fArr = this.mTmpPosition;
-                float f3 = fArr[0];
-                float f4 = fArr[1];
+                float f2 = fArr[0];
+                float f3 = fArr[1];
                 final int i5 = swipeIfNecessary;
-                RecoverAnimation recoverAnimation = new RecoverAnimation(viewHolder2, i4, i2, f3, f4, f2, f) { // from class: androidx.recyclerview.widget.ItemTouchHelper.3
+                RecoverAnimation recoverAnimation = new RecoverAnimation(viewHolder2, i4, i2, f2, f3, f, signum) { // from class: androidx.recyclerview.widget.ItemTouchHelper.3
                     @Override // androidx.recyclerview.widget.ItemTouchHelper.RecoverAnimation, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         super.onAnimationEnd(animator);
@@ -370,7 +370,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                         itemTouchHelper2.removeChildDrawingOrderCallbackIfNecessary(view2);
                     }
                 };
-                recoverAnimation.setDuration(this.mCallback.getAnimationDuration(this.mRecyclerView, i4, f2 - f3, f - f4));
+                recoverAnimation.setDuration(this.mCallback.getAnimationDuration(this.mRecyclerView, i4, f - f2, signum - f3));
                 this.mRecoverAnimations.add(recoverAnimation);
                 recoverAnimation.start();
                 z = true;
@@ -442,15 +442,15 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x00c1, code lost:
-        if (r1 > 0) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00c1, code lost:
+        if (r1 > 0) goto L24;
      */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00c7  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00e1  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0100 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00c7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00e1  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0100 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1198,6 +1198,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class ItemTouchHelperGestureListener extends GestureDetector.SimpleOnGestureListener {
         private boolean mShouldReactToLongPress = true;
@@ -1208,7 +1209,6 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
 
         ItemTouchHelperGestureListener() {
-            ItemTouchHelper.this = r1;
         }
 
         void doNotReactToLongPress() {
@@ -1246,6 +1246,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class RecoverAnimation implements Animator.AnimatorListener {
         final int mActionState;

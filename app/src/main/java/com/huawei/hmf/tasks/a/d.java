@@ -10,6 +10,7 @@ public final class d<TResult> implements ExecuteResult<TResult> {
     private OnCompleteListener<TResult> b;
     private final Object c = new Object();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public d(Executor executor, OnCompleteListener<TResult> onCompleteListener) {
         this.b = onCompleteListener;
         this.a = executor;

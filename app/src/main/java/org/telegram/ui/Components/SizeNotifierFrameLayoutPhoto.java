@@ -73,6 +73,7 @@ public class SizeNotifierFrameLayoutPhoto extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$notifyHeightChanged$0(boolean z) {
         SizeNotifierFrameLayoutPhotoDelegate sizeNotifierFrameLayoutPhotoDelegate = this.delegate;
         if (sizeNotifierFrameLayoutPhotoDelegate != null) {

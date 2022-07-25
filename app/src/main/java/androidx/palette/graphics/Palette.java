@@ -177,8 +177,8 @@ public final class Palette {
         }
 
         private void ensureTextColorsGenerated() {
-            int i;
-            int i2;
+            int alphaComponent;
+            int alphaComponent2;
             if (!this.mGeneratedTextColors) {
                 int calculateMinimumAlpha = ColorUtils.calculateMinimumAlpha(-1, this.mRgb, 4.5f);
                 int calculateMinimumAlpha2 = ColorUtils.calculateMinimumAlpha(-1, this.mRgb, 3.0f);
@@ -197,17 +197,17 @@ public final class Palette {
                     return;
                 }
                 if (calculateMinimumAlpha != -1) {
-                    i = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha);
+                    alphaComponent = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha);
                 } else {
-                    i = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha3);
+                    alphaComponent = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha3);
                 }
-                this.mBodyTextColor = i;
+                this.mBodyTextColor = alphaComponent;
                 if (calculateMinimumAlpha2 != -1) {
-                    i2 = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha2);
+                    alphaComponent2 = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha2);
                 } else {
-                    i2 = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha4);
+                    alphaComponent2 = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha4);
                 }
-                this.mTitleTextColor = i2;
+                this.mTitleTextColor = alphaComponent2;
                 this.mGeneratedTextColors = true;
             }
         }

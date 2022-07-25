@@ -7,6 +7,7 @@ import android.os.SystemClock;
 import android.view.Choreographer;
 import androidx.collection.SimpleArrayMap;
 import java.util.ArrayList;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class AnimationHandler {
     public static final ThreadLocal<AnimationHandler> sAnimatorHandler = new ThreadLocal<>();
@@ -17,6 +18,7 @@ public class AnimationHandler {
     long mCurrentFrameTime = 0;
     private boolean mListDirty = false;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface AnimationFrameCallback {
         boolean doAnimationFrame(long j);
@@ -25,10 +27,10 @@ public class AnimationHandler {
     AnimationHandler() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class AnimationCallbackDispatcher {
         AnimationCallbackDispatcher() {
-            AnimationHandler.this = r1;
         }
 
         void dispatchAnimationFrame() {
@@ -115,6 +117,7 @@ public class AnimationHandler {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class FrameCallbackProvider16 extends AnimationFrameCallbackProvider {
         private final Choreographer mChoreographer = Choreographer.getInstance();
@@ -135,6 +138,7 @@ public class AnimationHandler {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class FrameCallbackProvider14 extends AnimationFrameCallbackProvider {
         long mLastFrameTime = -1;
@@ -157,6 +161,7 @@ public class AnimationHandler {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static abstract class AnimationFrameCallbackProvider {
         final AnimationCallbackDispatcher mDispatcher;

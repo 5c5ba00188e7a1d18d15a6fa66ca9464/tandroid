@@ -12,6 +12,7 @@ public final class zzae {
     private final Map<Class<?>, ValueEncoder<?>> zzb;
     private final ObjectEncoder<Object> zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzae(Map<Class<?>, ObjectEncoder<?>> map, Map<Class<?>, ValueEncoder<?>> map2, ObjectEncoder<Object> objectEncoder) {
         this.zza = map;
         this.zzb = map2;

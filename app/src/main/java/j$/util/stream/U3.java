@@ -3,17 +3,21 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Arrays;
 import java.util.Iterator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class U3 extends Z3 implements j$.util.function.f {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public U3() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public U3(int i) {
         super(i);
     }
 
+    @Override // j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
     /* renamed from: B */
-    public j$.util.t mo71spliterator() {
+    public j$.util.t mo317spliterator() {
         return new T3(this, 0, this.c, 0, this.b);
     }
 
@@ -35,7 +39,7 @@ public class U3 extends Z3 implements j$.util.function.f {
         if (consumer instanceof j$.util.function.f) {
             g((j$.util.function.f) consumer);
         } else if (!Q4.a) {
-            mo71spliterator().forEachRemaining(consumer);
+            mo317spliterator().forEachRemaining(consumer);
         } else {
             Q4.a(getClass(), "{0} calling SpinedBuffer.OfDouble.forEach(Consumer)");
             throw null;
@@ -44,7 +48,7 @@ public class U3 extends Z3 implements j$.util.function.f {
 
     @Override // java.lang.Iterable
     public Iterator iterator() {
-        return j$.util.L.f(mo71spliterator());
+        return j$.util.L.f(mo317spliterator());
     }
 
     @Override // j$.util.function.f

@@ -17,6 +17,8 @@ public class Stripe {
         @Override // com.stripe.android.Stripe.TokenCreator
         public void create(final Card card, final String str, Executor executor, final TokenCallback tokenCallback) {
             Stripe.this.executeTokenTask(executor, new AsyncTask<Void, Void, ResponseWrapper>() { // from class: com.stripe.android.Stripe.1.1
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // android.os.AsyncTask
                 public ResponseWrapper doInBackground(Void... voidArr) {
                     try {
                         return new ResponseWrapper(StripeApiHandler.createToken(StripeNetworkUtils.hashMapFromCard(card), RequestOptions.builder(str).build()), null);
@@ -25,6 +27,8 @@ public class Stripe {
                     }
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
+                @Override // android.os.AsyncTask
                 public void onPostExecute(ResponseWrapper responseWrapper) {
                     Stripe.this.tokenTaskPostExecution(responseWrapper, tokenCallback);
                 }
@@ -32,6 +36,7 @@ public class Stripe {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface TokenCreator {
         void create(Card card, String str, Executor executor, TokenCallback tokenCallback);
@@ -78,6 +83,7 @@ public class Stripe {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void tokenTaskPostExecution(ResponseWrapper responseWrapper, TokenCallback tokenCallback) {
         Token token = responseWrapper.token;
         if (token != null) {
@@ -92,6 +98,7 @@ public class Stripe {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void executeTokenTask(Executor executor, AsyncTask<Void, Void, ResponseWrapper> asyncTask) {
         if (executor != null && Build.VERSION.SDK_INT > 11) {
             asyncTask.executeOnExecutor(executor, new Void[0]);
@@ -100,6 +107,7 @@ public class Stripe {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class ResponseWrapper {
         final Exception error;

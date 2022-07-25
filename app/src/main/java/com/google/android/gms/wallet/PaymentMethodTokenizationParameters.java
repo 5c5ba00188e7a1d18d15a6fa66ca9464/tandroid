@@ -26,6 +26,7 @@ public final class PaymentMethodTokenizationParameters extends AbstractSafeParce
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public PaymentMethodTokenizationParameters(int i, Bundle bundle) {
         new Bundle();
         this.zza = i;

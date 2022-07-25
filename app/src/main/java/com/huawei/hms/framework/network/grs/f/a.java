@@ -79,6 +79,7 @@ public abstract class a {
 
     public abstract int a(String str);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int a(String str, Context context) {
         StringBuilder sb = new StringBuilder();
         sb.append(GrsApp.getInstance().getBrand("/"));
@@ -95,14 +96,14 @@ public abstract class a {
         return a.get(str2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0075 A[Catch: JSONException -> 0x0091, LOOP:1: B:24:0x006f->B:26:0x0075, LOOP_END, TryCatch #0 {JSONException -> 0x0091, blocks: (B:7:0x0011, B:8:0x0019, B:10:0x001f, B:12:0x004a, B:14:0x0050, B:16:0x0056, B:17:0x005b, B:18:0x0060, B:20:0x0067, B:24:0x006f, B:26:0x0075, B:27:0x0081, B:28:0x008a), top: B:36:0x0011 }] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0075 A[Catch: JSONException -> 0x0091, LOOP:1: B:19:0x006f->B:21:0x0075, LOOP_END, TryCatch #0 {JSONException -> 0x0091, blocks: (B:7:0x0011, B:8:0x0019, B:10:0x001f, B:12:0x004a, B:14:0x0060, B:16:0x0067, B:19:0x006f, B:21:0x0075, B:23:0x0081, B:26:0x008a, B:31:0x0050, B:33:0x0056, B:34:0x005b), top: B:6:0x0011 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public List<com.huawei.hms.framework.network.grs.local.model.b> a(JSONArray jSONArray) {
+        JSONArray jSONArray2;
         HashSet hashSet;
         int i;
-        JSONArray jSONArray2;
         if (jSONArray == null || jSONArray.length() == 0) {
             return new ArrayList();
         }
@@ -221,8 +222,9 @@ public abstract class a {
         return this.a;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0094  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00e6  */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0094  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

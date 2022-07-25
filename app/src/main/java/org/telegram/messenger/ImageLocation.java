@@ -185,7 +185,7 @@ public class ImageLocation {
 
     public static ImageLocation getForChat(TLRPC$Chat tLRPC$Chat, int i) {
         TLRPC$ChatPhoto tLRPC$ChatPhoto;
-        TLRPC$InputPeer tLRPC$InputPeer;
+        TLRPC$InputPeer tLRPC$TL_inputPeerChat;
         if (tLRPC$Chat == null || (tLRPC$ChatPhoto = tLRPC$Chat.photo) == null) {
             return null;
         }
@@ -208,19 +208,19 @@ public class ImageLocation {
             if (tLRPC$Chat.access_hash == 0) {
                 return null;
             }
-            tLRPC$InputPeer = new TLRPC$TL_inputPeerChannel();
-            tLRPC$InputPeer.channel_id = tLRPC$Chat.id;
-            tLRPC$InputPeer.access_hash = tLRPC$Chat.access_hash;
+            tLRPC$TL_inputPeerChat = new TLRPC$TL_inputPeerChannel();
+            tLRPC$TL_inputPeerChat.channel_id = tLRPC$Chat.id;
+            tLRPC$TL_inputPeerChat.access_hash = tLRPC$Chat.access_hash;
         } else {
-            tLRPC$InputPeer = new TLRPC$TL_inputPeerChat();
-            tLRPC$InputPeer.chat_id = tLRPC$Chat.id;
+            tLRPC$TL_inputPeerChat = new TLRPC$TL_inputPeerChat();
+            tLRPC$TL_inputPeerChat.chat_id = tLRPC$Chat.id;
         }
-        TLRPC$InputPeer tLRPC$InputPeer2 = tLRPC$InputPeer;
+        TLRPC$InputPeer tLRPC$InputPeer = tLRPC$TL_inputPeerChat;
         int i2 = tLRPC$Chat.photo.dc_id;
         if (i2 == 0) {
             i2 = tLRPC$FileLocation.dc_id;
         }
-        ImageLocation forPhoto = getForPhoto(tLRPC$FileLocation, 0, null, null, tLRPC$InputPeer2, i, i2, null, null);
+        ImageLocation forPhoto = getForPhoto(tLRPC$FileLocation, 0, null, null, tLRPC$InputPeer, i, i2, null, null);
         forPhoto.photoId = tLRPC$Chat.photo.photo_id;
         return forPhoto;
     }

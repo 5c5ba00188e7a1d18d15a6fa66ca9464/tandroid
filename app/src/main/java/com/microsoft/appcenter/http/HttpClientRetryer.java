@@ -19,6 +19,7 @@ public class HttpClientRetryer extends HttpClientDecorator {
         RETRY_INTERVALS = new long[]{TimeUnit.SECONDS.toMillis(10L), timeUnit.toMillis(5L), timeUnit.toMillis(20L)};
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public HttpClientRetryer(HttpClient httpClient) {
         this(httpClient, new Handler(Looper.getMainLooper()));
     }
@@ -40,10 +41,8 @@ public class HttpClientRetryer extends HttpClientDecorator {
     private class RetryableCall extends HttpClientCallDecorator {
         private int mRetryCount;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         RetryableCall(HttpClient httpClient, String str, String str2, Map<String, String> map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback) {
             super(httpClient, str, str2, map, callTemplate, serviceCallback);
-            HttpClientRetryer.this = r8;
         }
 
         @Override // com.microsoft.appcenter.http.HttpClientCallDecorator, com.microsoft.appcenter.http.ServiceCall

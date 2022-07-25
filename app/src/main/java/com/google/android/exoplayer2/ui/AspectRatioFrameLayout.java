@@ -66,6 +66,7 @@ public class AspectRatioFrameLayout extends FrameLayout {
         return this.drawingReady;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
     public void onMeasure(int i, int i2) {
         float f;
@@ -135,16 +136,14 @@ public class AspectRatioFrameLayout extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class AspectRatioUpdateDispatcher implements Runnable {
+    private final class AspectRatioUpdateDispatcher implements Runnable {
         private boolean aspectRatioMismatch;
         private boolean isScheduled;
         private float naturalAspectRatio;
         private float targetAspectRatio;
 
         private AspectRatioUpdateDispatcher() {
-            AspectRatioFrameLayout.this = r1;
         }
 
         public void scheduleUpdate(float f, float f2, boolean z) {

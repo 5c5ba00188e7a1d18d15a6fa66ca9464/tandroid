@@ -34,36 +34,36 @@ public abstract class a0 {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r6v0, types: [java.lang.CharSequence, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r6v1, types: [java.net.HttpURLConnection] */
+    /* JADX WARN: Type inference failed for: r6v1 */
     /* JADX WARN: Type inference failed for: r6v10, types: [java.net.HttpURLConnection] */
-    /* JADX WARN: Type inference failed for: r6v11 */
+    /* JADX WARN: Type inference failed for: r6v11, types: [java.net.HttpURLConnection] */
     /* JADX WARN: Type inference failed for: r6v12, types: [java.net.HttpURLConnection] */
-    /* JADX WARN: Type inference failed for: r6v13 */
+    /* JADX WARN: Type inference failed for: r6v13, types: [java.net.HttpURLConnection] */
     /* JADX WARN: Type inference failed for: r6v14, types: [java.net.HttpURLConnection] */
-    /* JADX WARN: Type inference failed for: r6v15 */
-    /* JADX WARN: Type inference failed for: r6v16 */
+    /* JADX WARN: Type inference failed for: r6v15, types: [java.net.HttpURLConnection] */
+    /* JADX WARN: Type inference failed for: r6v16, types: [java.net.HttpURLConnection] */
     /* JADX WARN: Type inference failed for: r6v17, types: [java.net.HttpURLConnection] */
-    /* JADX WARN: Type inference failed for: r6v2, types: [java.net.HttpURLConnection] */
+    /* JADX WARN: Type inference failed for: r6v2 */
     /* JADX WARN: Type inference failed for: r6v3 */
-    /* JADX WARN: Type inference failed for: r6v4, types: [java.net.HttpURLConnection] */
+    /* JADX WARN: Type inference failed for: r6v4 */
     /* JADX WARN: Type inference failed for: r6v5 */
-    /* JADX WARN: Type inference failed for: r6v6, types: [java.net.HttpURLConnection] */
+    /* JADX WARN: Type inference failed for: r6v6 */
     /* JADX WARN: Type inference failed for: r6v7 */
-    /* JADX WARN: Type inference failed for: r6v8, types: [java.net.HttpURLConnection] */
-    /* JADX WARN: Type inference failed for: r6v9 */
+    /* JADX WARN: Type inference failed for: r6v8 */
+    /* JADX WARN: Type inference failed for: r6v9, types: [java.net.HttpURLConnection] */
     /* JADX WARN: Type inference failed for: r8v0, types: [java.util.Map<java.lang.String, java.lang.String>, java.util.Map] */
-    /* JADX WARN: Type inference failed for: r8v1, types: [java.io.Closeable] */
+    /* JADX WARN: Type inference failed for: r8v1 */
     /* JADX WARN: Type inference failed for: r8v10, types: [java.io.Closeable] */
-    /* JADX WARN: Type inference failed for: r8v11 */
+    /* JADX WARN: Type inference failed for: r8v11, types: [java.io.Closeable] */
     /* JADX WARN: Type inference failed for: r8v12, types: [java.io.Closeable] */
-    /* JADX WARN: Type inference failed for: r8v13 */
+    /* JADX WARN: Type inference failed for: r8v13, types: [java.io.Closeable] */
     /* JADX WARN: Type inference failed for: r8v14, types: [java.io.Closeable] */
-    /* JADX WARN: Type inference failed for: r8v15 */
-    /* JADX WARN: Type inference failed for: r8v16 */
+    /* JADX WARN: Type inference failed for: r8v15, types: [java.io.Closeable] */
+    /* JADX WARN: Type inference failed for: r8v16, types: [java.io.Closeable] */
     /* JADX WARN: Type inference failed for: r8v17 */
     /* JADX WARN: Type inference failed for: r8v18 */
     /* JADX WARN: Type inference failed for: r8v19 */
-    /* JADX WARN: Type inference failed for: r8v2, types: [java.io.Closeable] */
+    /* JADX WARN: Type inference failed for: r8v2 */
     /* JADX WARN: Type inference failed for: r8v20 */
     /* JADX WARN: Type inference failed for: r8v21 */
     /* JADX WARN: Type inference failed for: r8v22 */
@@ -71,14 +71,13 @@ public abstract class a0 {
     /* JADX WARN: Type inference failed for: r8v24 */
     /* JADX WARN: Type inference failed for: r8v25, types: [java.io.OutputStream, java.io.Closeable] */
     /* JADX WARN: Type inference failed for: r8v3 */
-    /* JADX WARN: Type inference failed for: r8v4, types: [java.io.Closeable] */
+    /* JADX WARN: Type inference failed for: r8v4 */
     /* JADX WARN: Type inference failed for: r8v5 */
-    /* JADX WARN: Type inference failed for: r8v6, types: [java.io.Closeable] */
+    /* JADX WARN: Type inference failed for: r8v6 */
     /* JADX WARN: Type inference failed for: r8v7 */
-    /* JADX WARN: Type inference failed for: r8v8, types: [java.io.Closeable] */
-    /* JADX WARN: Type inference failed for: r8v9 */
+    /* JADX WARN: Type inference failed for: r8v8 */
+    /* JADX WARN: Type inference failed for: r8v9, types: [java.io.Closeable] */
     public static b0 a(String str, byte[] bArr, Map<String, String> map, String str2) {
-        Throwable th;
         if (TextUtils.isEmpty(str)) {
             return new b0(-100, "");
         }
@@ -188,8 +187,8 @@ public abstract class a0 {
                                     t0.a((HttpURLConnection) str);
                                 }
                                 return b0Var9;
-                            } catch (Throwable th2) {
-                                th = th2;
+                            } catch (Throwable th) {
+                                th = th;
                                 bufferedOutputStream = bufferedOutputStream2;
                                 t0.a((Closeable) bufferedOutputStream);
                                 t0.a((Closeable) map);
@@ -227,12 +226,12 @@ public abstract class a0 {
                     map = 0;
                 } catch (IOException unused27) {
                     map = 0;
-                } catch (Throwable th3) {
-                    th = th3;
+                } catch (Throwable th2) {
+                    th = th2;
                     map = 0;
                 }
-            } catch (Throwable th4) {
-                th = th4;
+            } catch (Throwable th3) {
+                th = th3;
             }
         } catch (a unused28) {
             str = 0;
@@ -255,8 +254,8 @@ public abstract class a0 {
         } catch (IOException unused34) {
             str = 0;
             map = 0;
-        } catch (Throwable th5) {
-            th = th5;
+        } catch (Throwable th4) {
+            th = th4;
             str = 0;
             map = 0;
         }
@@ -287,8 +286,8 @@ public abstract class a0 {
         return httpURLConnection;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0025  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0031  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0031  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0025  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

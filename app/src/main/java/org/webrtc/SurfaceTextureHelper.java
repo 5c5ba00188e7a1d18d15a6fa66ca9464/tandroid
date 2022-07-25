@@ -50,7 +50,7 @@ public class SurfaceTextureHelper {
             @Override // java.util.concurrent.Callable
             public SurfaceTextureHelper call() {
                 try {
-                    return new SurfaceTextureHelper(context, handler, z, yuvConverter, frameRefMonitor);
+                    return new SurfaceTextureHelper(EglBase.Context.this, handler, z, yuvConverter, frameRefMonitor);
                 } catch (RuntimeException e) {
                     Logging.e(SurfaceTextureHelper.TAG, str + " create failure", e);
                     return null;
@@ -137,6 +137,7 @@ public class SurfaceTextureHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(SurfaceTexture surfaceTexture) {
         if (this.hasPendingTexture) {
             Logging.d(TAG, "A frame is already pending, dropping frame.");
@@ -173,6 +174,7 @@ public class SurfaceTextureHelper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$stopListening$1() {
         this.listener = null;
         this.pendingListener = null;
@@ -194,6 +196,7 @@ public class SurfaceTextureHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setTextureSize$2(int i, int i2) {
         this.textureWidth = i;
         this.textureHeight = i2;
@@ -209,11 +212,13 @@ public class SurfaceTextureHelper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$forceFrame$3() {
         this.hasPendingTexture = true;
         tryDeliverTextureFrame();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setFrameRotation$4(int i) {
         this.frameRotation = i;
     }
@@ -235,6 +240,7 @@ public class SurfaceTextureHelper {
         return this.handler;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void returnTextureFrame() {
         this.handler.post(new Runnable() { // from class: org.webrtc.SurfaceTextureHelper$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -244,6 +250,7 @@ public class SurfaceTextureHelper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$returnTextureFrame$5() {
         this.isTextureInUse = false;
         if (this.isQuitting) {
@@ -267,6 +274,7 @@ public class SurfaceTextureHelper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dispose$6() {
         this.isQuitting = true;
         if (!this.isTextureInUse) {
@@ -279,6 +287,7 @@ public class SurfaceTextureHelper {
         return textureBuffer.toI420();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateTexImage() {
         synchronized (EglBase.lock) {
             try {

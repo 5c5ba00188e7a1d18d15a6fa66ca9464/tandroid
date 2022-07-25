@@ -290,7 +290,7 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
     }
 
     /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x003a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

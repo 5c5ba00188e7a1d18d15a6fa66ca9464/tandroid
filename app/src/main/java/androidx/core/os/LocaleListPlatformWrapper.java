@@ -6,6 +6,7 @@ import java.util.Locale;
 final class LocaleListPlatformWrapper implements LocaleListInterface {
     private final LocaleList mLocaleList;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LocaleListPlatformWrapper(LocaleList localeList) {
         this.mLocaleList = localeList;
     }

@@ -58,16 +58,19 @@ public final class zzy$zzaf extends zzeo<zzy$zzaf, zza> implements zzgb {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(long j) {
         this.zzc |= 1;
         this.zzd = j;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(zzai zzaiVar) {
         this.zze = zzaiVar.zza();
         this.zzc |= 2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(boolean z) {
         this.zzc |= 4;
         this.zzf = z;
@@ -77,6 +80,7 @@ public final class zzy$zzaf extends zzeo<zzy$zzaf, zza> implements zzgb {
         return zzl.zzh();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzaf>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {

@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzgt extends zzgq<FieldDescriptorType, Object> {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzgt(int i) {
         super(i, null);
     }

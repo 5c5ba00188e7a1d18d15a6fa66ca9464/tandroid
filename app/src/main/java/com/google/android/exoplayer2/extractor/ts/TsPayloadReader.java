@@ -31,15 +31,15 @@ public interface TsPayloadReader {
         public final int streamType;
 
         public EsInfo(int i, String str, List<DvbSubtitleInfo> list, byte[] bArr) {
-            List<DvbSubtitleInfo> list2;
+            List<DvbSubtitleInfo> unmodifiableList;
             this.streamType = i;
             this.language = str;
             if (list == null) {
-                list2 = Collections.emptyList();
+                unmodifiableList = Collections.emptyList();
             } else {
-                list2 = Collections.unmodifiableList(list);
+                unmodifiableList = Collections.unmodifiableList(list);
             }
-            this.dvbSubtitleInfos = list2;
+            this.dvbSubtitleInfos = unmodifiableList;
             this.descriptorBytes = bArr;
         }
     }

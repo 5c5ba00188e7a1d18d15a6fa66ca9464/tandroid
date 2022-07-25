@@ -1,4 +1,5 @@
 package j$.time.format;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class h implements g {
     private final j$.time.temporal.k a;
@@ -6,6 +7,7 @@ public final class h implements g {
     private final int c;
     private final boolean d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public h(j$.time.temporal.k kVar, int i, int i2, boolean z) {
         if (kVar != null) {
             if (!kVar.a().b()) {

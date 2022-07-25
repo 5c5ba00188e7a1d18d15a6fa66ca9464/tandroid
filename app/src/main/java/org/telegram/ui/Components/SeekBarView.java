@@ -124,7 +124,8 @@ public class SeekBarView extends FrameLayout {
             }
 
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-            public CharSequence getContentDescription(View view) {
+            /* renamed from: getContentDescription */
+            public CharSequence mo2109getContentDescription(View view) {
                 SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
                 if (seekBarViewDelegate != null) {
                     return seekBarViewDelegate.getContentDescription();
@@ -298,7 +299,7 @@ public class SeekBarView extends FrameLayout {
     }
 
     public void setProgress(float f, boolean z) {
-        double d;
+        double ceil;
         if (getMeasuredWidth() == 0) {
             this.progressToSet = f;
             return;
@@ -307,14 +308,14 @@ public class SeekBarView extends FrameLayout {
         if (this.twoSided) {
             float measuredWidth = (getMeasuredWidth() - this.selectorWidth) / 2;
             if (f < 0.0f) {
-                d = Math.ceil(measuredWidth + ((-(f + 1.0f)) * measuredWidth));
+                ceil = Math.ceil(measuredWidth + ((-(f + 1.0f)) * measuredWidth));
             } else {
-                d = Math.ceil(measuredWidth + (f * measuredWidth));
+                ceil = Math.ceil(measuredWidth + (f * measuredWidth));
             }
         } else {
-            d = Math.ceil((getMeasuredWidth() - this.selectorWidth) * f);
+            ceil = Math.ceil((getMeasuredWidth() - this.selectorWidth) * f);
         }
-        int i = (int) d;
+        int i = (int) ceil;
         int i2 = this.thumbX;
         if (i2 == i) {
             return;
@@ -356,10 +357,10 @@ public class SeekBarView extends FrameLayout {
         return this.pressed;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:60:0x029a  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x02e2  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02f7  */
-    /* JADX WARN: Removed duplicated region for block: B:71:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x029a  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x02f7  */
+    /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x02e2  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

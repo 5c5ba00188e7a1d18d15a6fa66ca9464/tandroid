@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SsaStyle {
     public final int alignment;
@@ -51,6 +52,7 @@ public final class SsaStyle {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int parseAlignment(String str) {
         try {
             int parseInt = Integer.parseInt(str.trim());
@@ -63,9 +65,8 @@ public final class SsaStyle {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Format {
+    static final class Format {
         public final int alignmentIndex;
         public final int length;
         public final int nameIndex;
@@ -139,8 +140,8 @@ public final class SsaStyle {
         }
 
         private static PointF parsePosition(String str) {
-            String str2;
-            String str3;
+            String group;
+            String group2;
             Matcher matcher = POSITION_PATTERN.matcher(str);
             Matcher matcher2 = MOVE_PATTERN.matcher(str);
             boolean find = matcher.find();
@@ -149,15 +150,15 @@ public final class SsaStyle {
                 if (find2) {
                     Log.i("SsaStyle.Overrides", "Override has both \\pos(x,y) and \\move(x1,y1,x2,y2); using \\pos values. override='" + str + "'");
                 }
-                str2 = matcher.group(1);
-                str3 = matcher.group(2);
+                group = matcher.group(1);
+                group2 = matcher.group(2);
             } else if (!find2) {
                 return null;
             } else {
-                str2 = matcher2.group(1);
-                str3 = matcher2.group(2);
+                group = matcher2.group(1);
+                group2 = matcher2.group(2);
             }
-            return new PointF(Float.parseFloat(((String) Assertions.checkNotNull(str2)).trim()), Float.parseFloat(((String) Assertions.checkNotNull(str3)).trim()));
+            return new PointF(Float.parseFloat(((String) Assertions.checkNotNull(group)).trim()), Float.parseFloat(((String) Assertions.checkNotNull(group2)).trim()));
         }
 
         private static int parseAlignmentOverride(String str) {

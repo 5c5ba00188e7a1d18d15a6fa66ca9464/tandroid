@@ -43,11 +43,13 @@ class StringMaker {
         stringMaker3.cacheOffset = 2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String makeKindName(String str) {
         int lastIndexOf = str.lastIndexOf(45);
         return lastIndexOf == -1 ? str : str.substring(lastIndexOf + 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String makeModifiersString(int i) {
         if (!this.includeModifiers) {
             return "";

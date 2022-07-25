@@ -159,7 +159,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     /* loaded from: classes.dex */
     public interface ImageReceiverDelegate {
 
-        /* renamed from: org.telegram.messenger.ImageReceiver$ImageReceiverDelegate$-CC */
+        /* renamed from: org.telegram.messenger.ImageReceiver$ImageReceiverDelegate$-CC  reason: invalid class name */
         /* loaded from: classes.dex */
         public final /* synthetic */ class CC {
             public static void $default$onAnimationReady(ImageReceiverDelegate imageReceiverDelegate, ImageReceiver imageReceiver) {
@@ -268,6 +268,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class SetImageBackup {
         public int cacheType;
@@ -285,10 +286,12 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         private SetImageBackup() {
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isSet() {
             return (this.imageLocation == null && this.thumbLocation == null && this.mediaLocation == null && this.thumb == null) ? false : true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isWebfileSet() {
             ImageLocation imageLocation;
             ImageLocation imageLocation2;
@@ -296,6 +299,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             return ((imageLocation3 == null || (imageLocation3.webFile == null && imageLocation3.path == null)) && ((imageLocation = this.thumbLocation) == null || (imageLocation.webFile == null && imageLocation.path == null)) && ((imageLocation2 = this.mediaLocation) == null || (imageLocation2.webFile == null && imageLocation2.path == null))) ? false : true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void clear() {
             this.imageLocation = null;
             this.thumbLocation = null;
@@ -1121,41 +1125,42 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.useRoundForThumb = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:266:0x0657  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x0661  */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0657  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0661  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void drawDrawable(Canvas canvas, Drawable drawable, int i, BitmapShader bitmapShader, int i2, int i3, BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
-        RectF rectF;
         float f;
         float f2;
         float f3;
         float f4;
+        RectF rectF;
         boolean z;
         Paint paint;
+        int intrinsicHeight;
+        int intrinsicWidth;
         int i4;
-        int i5;
-        int i6;
         float f5;
+        int i5;
         BitmapDrawable bitmapDrawable;
-        int i7;
         int[] iArr;
         int[] iArr2;
         int[] iArr3;
         int[] iArr4;
         Object obj;
         if (backgroundThreadDrawHolder != null) {
-            f4 = backgroundThreadDrawHolder.imageX;
-            f3 = backgroundThreadDrawHolder.imageY;
-            f2 = backgroundThreadDrawHolder.imageH;
-            f = backgroundThreadDrawHolder.imageW;
+            f = backgroundThreadDrawHolder.imageX;
+            f2 = backgroundThreadDrawHolder.imageY;
+            f3 = backgroundThreadDrawHolder.imageH;
+            f4 = backgroundThreadDrawHolder.imageW;
             rectF = backgroundThreadDrawHolder.drawRegion;
         } else {
-            f4 = this.imageX;
-            f3 = this.imageY;
-            f2 = this.imageH;
-            f = this.imageW;
+            f = this.imageX;
+            f2 = this.imageY;
+            f3 = this.imageH;
+            f4 = this.imageW;
             rectF = this.drawRegion;
         }
         if (drawable instanceof BitmapDrawable) {
@@ -1175,8 +1180,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             } else {
                 paint = bitmapDrawable2.getPaint();
             }
-            int i8 = Build.VERSION.SDK_INT;
-            if (i8 >= 29) {
+            int i6 = Build.VERSION.SDK_INT;
+            if (i6 >= 29) {
                 Object obj2 = this.blendMode;
                 if (obj2 != null && this.gradientShader == null) {
                     paint.setBlendMode((BlendMode) obj2);
@@ -1218,45 +1223,45 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             }
             boolean z4 = bitmapDrawable2 instanceof AnimatedFileDrawable;
             if (z4 || (bitmapDrawable2 instanceof RLottieDrawable)) {
-                int i9 = i2 % 360;
-                if (i9 == 90 || i9 == 270) {
-                    i5 = bitmapDrawable2.getIntrinsicHeight();
-                    i4 = bitmapDrawable2.getIntrinsicWidth();
+                int i7 = i2 % 360;
+                if (i7 == 90 || i7 == 270) {
+                    intrinsicHeight = bitmapDrawable2.getIntrinsicHeight();
+                    intrinsicWidth = bitmapDrawable2.getIntrinsicWidth();
                 } else {
-                    i5 = bitmapDrawable2.getIntrinsicWidth();
-                    i4 = bitmapDrawable2.getIntrinsicHeight();
+                    intrinsicHeight = bitmapDrawable2.getIntrinsicWidth();
+                    intrinsicWidth = bitmapDrawable2.getIntrinsicHeight();
                 }
             } else {
                 Bitmap bitmap = bitmapDrawable2.getBitmap();
                 if (bitmap != null && bitmap.isRecycled()) {
                     return;
                 }
-                int i10 = i2 % 360;
-                if (i10 == 90 || i10 == 270) {
-                    i5 = bitmap.getHeight();
-                    i4 = bitmap.getWidth();
+                int i8 = i2 % 360;
+                if (i8 == 90 || i8 == 270) {
+                    intrinsicHeight = bitmap.getHeight();
+                    intrinsicWidth = bitmap.getWidth();
                 } else {
-                    i5 = bitmap.getWidth();
-                    i4 = bitmap.getHeight();
+                    intrinsicHeight = bitmap.getWidth();
+                    intrinsicWidth = bitmap.getHeight();
                 }
             }
             float f6 = this.sideClip;
-            float f7 = f - (f6 * 2.0f);
-            float f8 = f2 - (f6 * 2.0f);
-            float f9 = f == 0.0f ? 1.0f : i5 / f7;
-            if (f2 == 0.0f) {
-                i6 = i8;
+            float f7 = f4 - (f6 * 2.0f);
+            float f8 = f3 - (f6 * 2.0f);
+            float f9 = f4 == 0.0f ? 1.0f : intrinsicHeight / f7;
+            if (f3 == 0.0f) {
+                i4 = i6;
                 f5 = 1.0f;
             } else {
-                i6 = i8;
-                f5 = i4 / f8;
+                i4 = i6;
+                f5 = intrinsicWidth / f8;
             }
             if (bitmapShader != null && backgroundThreadDrawHolder == null) {
                 if (this.isAspectFit) {
                     float max = Math.max(f9, f5);
-                    float f10 = (int) (i5 / max);
-                    float f11 = (int) (i4 / max);
-                    rectF.set(((f - f10) / 2.0f) + f4, ((f2 - f11) / 2.0f) + f3, f4 + ((f + f10) / 2.0f), f3 + ((f2 + f11) / 2.0f));
+                    float f10 = (int) (intrinsicHeight / max);
+                    float f11 = (int) (intrinsicWidth / max);
+                    rectF.set(((f4 - f10) / 2.0f) + f, ((f3 - f11) / 2.0f) + f2, f + ((f4 + f10) / 2.0f), f2 + ((f3 + f11) / 2.0f));
                     if (this.isVisible) {
                         this.shaderMatrix.reset();
                         this.shaderMatrix.setTranslate((int) rectF.left, (int) rectF.top);
@@ -1278,16 +1283,16 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                                 FileLog.e(e);
                             }
                         } else {
-                            int i11 = 0;
+                            int i9 = 0;
                             while (true) {
-                                if (i11 >= this.roundRadius.length) {
+                                if (i9 >= this.roundRadius.length) {
                                     break;
                                 }
                                 float[] fArr = radii;
-                                int i12 = i11 * 2;
-                                fArr[i12] = iArr4[i11];
-                                fArr[i12 + 1] = iArr4[i11];
-                                i11++;
+                                int i10 = i9 * 2;
+                                fArr[i10] = iArr4[i9];
+                                fArr[i10 + 1] = iArr4[i9];
+                                i9++;
                             }
                             this.roundPath.reset();
                             this.roundPath.addRoundRect(this.roundRect, radii, Path.Direction.CW);
@@ -1297,13 +1302,13 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     }
                 } else {
                     if (this.legacyCanvas != null) {
-                        i7 = i4;
+                        i5 = intrinsicWidth;
                         this.roundRect.set(0.0f, 0.0f, this.legacyBitmap.getWidth(), this.legacyBitmap.getHeight());
                         this.legacyCanvas.drawBitmap(this.gradientBitmap, (Rect) null, this.roundRect, (Paint) null);
                         bitmapDrawable = bitmapDrawable2;
                         this.legacyCanvas.drawBitmap(bitmapDrawable2.getBitmap(), (Rect) null, this.roundRect, this.legacyPaint);
                     } else {
-                        i7 = i4;
+                        i5 = intrinsicWidth;
                         bitmapDrawable = bitmapDrawable2;
                     }
                     if (bitmapShader == this.imageShader && this.gradientShader != null) {
@@ -1319,19 +1324,19 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     float min = 1.0f / Math.min(f9, f5);
                     RectF rectF2 = this.roundRect;
                     float f13 = this.sideClip;
-                    float f14 = f;
-                    rectF2.set(f4 + f13, f3 + f13, (f4 + f) - f13, (f3 + f2) - f13);
+                    float f14 = f4;
+                    rectF2.set(f + f13, f2 + f13, (f + f4) - f13, (f2 + f3) - f13);
                     if (Math.abs(f9 - f5) > 5.0E-4f) {
-                        float f15 = i5 / f5;
+                        float f15 = intrinsicHeight / f5;
                         if (f15 > f7) {
                             float f16 = (int) f15;
-                            rectF.set(f4 - ((f16 - f7) / 2.0f), f3, ((f16 + f7) / 2.0f) + f4, f3 + f8);
+                            rectF.set(f - ((f16 - f7) / 2.0f), f2, ((f16 + f7) / 2.0f) + f, f2 + f8);
                         } else {
-                            float f17 = (int) (i7 / f9);
-                            rectF.set(f4, f3 - ((f17 - f8) / 2.0f), f4 + f7, ((f17 + f8) / 2.0f) + f3);
+                            float f17 = (int) (i5 / f9);
+                            rectF.set(f, f2 - ((f17 - f8) / 2.0f), f + f7, ((f17 + f8) / 2.0f) + f2);
                         }
                     } else {
-                        rectF.set(f4, f3, f4 + f7, f3 + f8);
+                        rectF.set(f, f2, f + f7, f2 + f8);
                     }
                     if (this.isVisible) {
                         this.shaderMatrix.reset();
@@ -1363,22 +1368,22 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                             int width = this.gradientBitmap.getWidth();
                             int height = this.gradientBitmap.getHeight();
                             float f21 = f14 == 0.0f ? 1.0f : width / f7;
-                            float f22 = f2 == 0.0f ? 1.0f : height / f8;
+                            float f22 = f3 == 0.0f ? 1.0f : height / f8;
                             if (Math.abs(f21 - f22) > 5.0E-4f) {
                                 float f23 = width / f22;
                                 if (f23 > f7) {
                                     width = (int) f23;
                                     float f24 = width;
-                                    rectF.set(f4 - ((f24 - f7) / 2.0f), f3, f4 + ((f24 + f7) / 2.0f), f3 + f8);
+                                    rectF.set(f - ((f24 - f7) / 2.0f), f2, f + ((f24 + f7) / 2.0f), f2 + f8);
                                 } else {
                                     height = (int) (height / f21);
                                     float f25 = height;
-                                    rectF.set(f4, f3 - ((f25 - f8) / 2.0f), f4 + f7, f3 + ((f25 + f8) / 2.0f));
+                                    rectF.set(f, f2 - ((f25 - f8) / 2.0f), f + f7, f2 + ((f25 + f8) / 2.0f));
                                 }
                             } else {
-                                rectF.set(f4, f3, f4 + f7, f3 + f8);
+                                rectF.set(f, f2, f + f7, f2 + f8);
                             }
-                            float min2 = 1.0f / Math.min(f14 == 0.0f ? 1.0f : width / f7, f2 == 0.0f ? 1.0f : height / f8);
+                            float min2 = 1.0f / Math.min(f14 == 0.0f ? 1.0f : width / f7, f3 == 0.0f ? 1.0f : height / f8);
                             this.shaderMatrix.reset();
                             Matrix matrix2 = this.shaderMatrix;
                             float f26 = rectF.left;
@@ -1402,16 +1407,16 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                                 FileLog.e(e2);
                             }
                         } else {
-                            int i13 = 0;
+                            int i11 = 0;
                             while (true) {
-                                if (i13 >= this.roundRadius.length) {
+                                if (i11 >= this.roundRadius.length) {
                                     break;
                                 }
                                 float[] fArr2 = radii;
-                                int i14 = i13 * 2;
-                                fArr2[i14] = iArr2[i13];
-                                fArr2[i14 + 1] = iArr2[i13];
-                                i13++;
+                                int i12 = i11 * 2;
+                                fArr2[i12] = iArr2[i11];
+                                fArr2[i12 + 1] = iArr2[i11];
+                                i11++;
                             }
                             this.roundPath.reset();
                             this.roundPath.addRoundRect(this.roundRect, radii, Path.Direction.CW);
@@ -1421,17 +1426,17 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
             } else {
-                float f28 = f;
-                int i15 = i4;
+                float f28 = f4;
+                int i13 = intrinsicWidth;
                 if (this.isAspectFit) {
                     float max2 = Math.max(f9, f5);
                     canvas.save();
-                    int i16 = (int) (i5 / max2);
-                    int i17 = (int) (i15 / max2);
+                    int i14 = (int) (intrinsicHeight / max2);
+                    int i15 = (int) (i13 / max2);
                     if (backgroundThreadDrawHolder == null) {
-                        float f29 = i16;
-                        float f30 = i17;
-                        rectF.set(((f28 - f29) / 2.0f) + f4, ((f2 - f30) / 2.0f) + f3, f4 + ((f28 + f29) / 2.0f), f3 + ((f2 + f30) / 2.0f));
+                        float f29 = i14;
+                        float f30 = i15;
+                        rectF.set(((f28 - f29) / 2.0f) + f, ((f3 - f30) / 2.0f) + f2, f + ((f28 + f29) / 2.0f), f2 + ((f3 + f30) / 2.0f));
                         bitmapDrawable2.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
                         if (bitmapDrawable2 instanceof AnimatedFileDrawable) {
                             ((AnimatedFileDrawable) bitmapDrawable2).setActualDrawRect(rectF.left, rectF.top, rectF.width(), rectF.height());
@@ -1453,29 +1458,29 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     if (Math.abs(f9 - f5) > 1.0E-5f) {
                         canvas.save();
                         if (this.clip) {
-                            canvas.clipRect(f4, f3, f4 + f28, f3 + f2);
+                            canvas.clipRect(f, f2, f + f28, f2 + f3);
                         }
-                        int i18 = i2 % 360;
-                        if (i18 != 0) {
+                        int i16 = i2 % 360;
+                        if (i16 != 0) {
                             if (this.centerRotation) {
-                                canvas.rotate(i2, f28 / 2.0f, f2 / 2.0f);
+                                canvas.rotate(i2, f28 / 2.0f, f3 / 2.0f);
                             } else {
                                 canvas.rotate(i2, 0.0f, 0.0f);
                             }
                         }
-                        float f31 = i5 / f5;
+                        float f31 = intrinsicHeight / f5;
                         if (f31 > f28) {
                             float f32 = (int) f31;
-                            rectF.set(f4 - ((f32 - f28) / 2.0f), f3, ((f32 + f28) / 2.0f) + f4, f3 + f2);
+                            rectF.set(f - ((f32 - f28) / 2.0f), f2, ((f32 + f28) / 2.0f) + f, f2 + f3);
                         } else {
-                            float f33 = (int) (i15 / f9);
-                            rectF.set(f4, f3 - ((f33 - f2) / 2.0f), f4 + f28, ((f33 + f2) / 2.0f) + f3);
+                            float f33 = (int) (i13 / f9);
+                            rectF.set(f, f2 - ((f33 - f3) / 2.0f), f + f28, ((f33 + f3) / 2.0f) + f2);
                         }
                         if (z4) {
-                            ((AnimatedFileDrawable) bitmapDrawable2).setActualDrawRect(f4, f3, f28, f2);
+                            ((AnimatedFileDrawable) bitmapDrawable2).setActualDrawRect(f, f2, f28, f3);
                         }
                         if (backgroundThreadDrawHolder == null) {
-                            if (i18 == 90 || i18 == 270) {
+                            if (i16 == 90 || i16 == 270) {
                                 float width2 = rectF.width() / 2.0f;
                                 float height2 = rectF.height() / 2.0f;
                                 float centerX = rectF.centerX();
@@ -1486,7 +1491,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                             }
                         }
                         if (this.isVisible) {
-                            if (i6 >= 29) {
+                            if (i4 >= 29) {
                                 try {
                                     if (this.blendMode != null) {
                                         bitmapDrawable2.getPaint().setBlendMode((BlendMode) this.blendMode);
@@ -1504,26 +1509,26 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                         }
                         canvas.restore();
                     } else {
-                        int i19 = i6;
+                        int i17 = i4;
                         canvas.save();
-                        int i20 = i2 % 360;
-                        if (i20 != 0) {
+                        int i18 = i2 % 360;
+                        if (i18 != 0) {
                             if (this.centerRotation) {
-                                canvas.rotate(i2, f28 / 2.0f, f2 / 2.0f);
+                                canvas.rotate(i2, f28 / 2.0f, f3 / 2.0f);
                             } else {
                                 canvas.rotate(i2, 0.0f, 0.0f);
                             }
                         }
-                        rectF.set(f4, f3, f4 + f28, f3 + f2);
+                        rectF.set(f, f2, f + f28, f2 + f3);
                         if (this.isRoundVideo) {
-                            int i21 = AndroidUtilities.roundMessageInset;
-                            rectF.inset(-i21, -i21);
+                            int i19 = AndroidUtilities.roundMessageInset;
+                            rectF.inset(-i19, -i19);
                         }
                         if (z4) {
-                            ((AnimatedFileDrawable) bitmapDrawable2).setActualDrawRect(f4, f3, f28, f2);
+                            ((AnimatedFileDrawable) bitmapDrawable2).setActualDrawRect(f, f2, f28, f3);
                         }
                         if (backgroundThreadDrawHolder == null) {
-                            if (i20 == 90 || i20 == 270) {
+                            if (i18 == 90 || i18 == 270) {
                                 float width3 = rectF.width() / 2.0f;
                                 float height3 = rectF.height() / 2.0f;
                                 float centerX2 = rectF.centerX();
@@ -1534,7 +1539,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                             }
                         }
                         if (this.isVisible) {
-                            if (i19 >= 29) {
+                            if (i17 >= 29) {
                                 try {
                                     if (this.blendMode != null) {
                                         bitmapDrawable2.getPaint().setBlendMode((BlendMode) this.blendMode);
@@ -1564,24 +1569,24 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             if (!z) {
             }
         } else {
-            float f34 = f;
+            float f34 = f4;
             float f35 = 1.0f;
             if (backgroundThreadDrawHolder == null) {
                 if (this.isAspectFit) {
-                    int intrinsicWidth = drawable.getIntrinsicWidth();
-                    int intrinsicHeight = drawable.getIntrinsicHeight();
+                    int intrinsicWidth2 = drawable.getIntrinsicWidth();
+                    int intrinsicHeight2 = drawable.getIntrinsicHeight();
                     float f36 = this.sideClip;
                     float f37 = f34 - (f36 * 2.0f);
-                    float f38 = f2 - (f36 * 2.0f);
+                    float f38 = f3 - (f36 * 2.0f);
                     if (f34 != 0.0f) {
-                        f35 = intrinsicWidth / f37;
+                        f35 = intrinsicWidth2 / f37;
                     }
-                    float max3 = Math.max(f35, f2 == 0.0f ? 1.0f : intrinsicHeight / f38);
-                    float f39 = (int) (intrinsicWidth / max3);
-                    float f40 = (int) (intrinsicHeight / max3);
-                    rectF.set(((f34 - f39) / 2.0f) + f4, ((f2 - f40) / 2.0f) + f3, f4 + ((f39 + f34) / 2.0f), f3 + ((f2 + f40) / 2.0f));
+                    float max3 = Math.max(f35, f3 == 0.0f ? 1.0f : intrinsicHeight2 / f38);
+                    float f39 = (int) (intrinsicWidth2 / max3);
+                    float f40 = (int) (intrinsicHeight2 / max3);
+                    rectF.set(((f34 - f39) / 2.0f) + f, ((f3 - f40) / 2.0f) + f2, f + ((f39 + f34) / 2.0f), f2 + ((f3 + f40) / 2.0f));
                 } else {
-                    rectF.set(f4, f3, f4 + f34, f2 + f3);
+                    rectF.set(f, f2, f + f34, f3 + f2);
                 }
                 drawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
             }
@@ -1734,50 +1739,49 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return draw(canvas, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:115:0x024d, code lost:
-        if (r8.useRoundForThumb == false) goto L127;
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x024d, code lost:
+        if (r8.useRoundForThumb == false) goto L115;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x024f, code lost:
-        if (r25 != null) goto L127;
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x024f, code lost:
+        if (r25 != null) goto L115;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x0251, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x0251, code lost:
         r8.updateDrawableRadius(r15);
      */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0271 A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:29:0x013e, B:38:0x014d, B:43:0x015f, B:47:0x016a, B:50:0x0170, B:52:0x0176, B:53:0x0179, B:57:0x0183, B:65:0x019c, B:69:0x01b0, B:70:0x01b9, B:72:0x01bf, B:75:0x01c5, B:76:0x01c8, B:79:0x01d5, B:83:0x01e5, B:90:0x01f5, B:93:0x01fb, B:94:0x01fe, B:96:0x0217, B:99:0x021d, B:114:0x024b, B:117:0x0251, B:123:0x0262, B:126:0x0268, B:130:0x0271, B:132:0x0275, B:135:0x027a, B:136:0x027f, B:137:0x0285, B:139:0x0299, B:141:0x029d, B:144:0x02a5, B:146:0x02a9, B:147:0x02bc, B:149:0x02c2, B:151:0x02d4, B:155:0x02db, B:158:0x02e3, B:160:0x02f9, B:163:0x0300, B:166:0x0306), top: B:181:0x013e }] */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x02a1  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x02df  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x02fe A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x014d A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:29:0x013e, B:38:0x014d, B:43:0x015f, B:47:0x016a, B:50:0x0170, B:52:0x0176, B:53:0x0179, B:57:0x0183, B:65:0x019c, B:69:0x01b0, B:70:0x01b9, B:72:0x01bf, B:75:0x01c5, B:76:0x01c8, B:79:0x01d5, B:83:0x01e5, B:90:0x01f5, B:93:0x01fb, B:94:0x01fe, B:96:0x0217, B:99:0x021d, B:114:0x024b, B:117:0x0251, B:123:0x0262, B:126:0x0268, B:130:0x0271, B:132:0x0275, B:135:0x027a, B:136:0x027f, B:137:0x0285, B:139:0x0299, B:141:0x029d, B:144:0x02a5, B:146:0x02a9, B:147:0x02bc, B:149:0x02c2, B:151:0x02d4, B:155:0x02db, B:158:0x02e3, B:160:0x02f9, B:163:0x0300, B:166:0x0306), top: B:181:0x013e }] */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0155  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0176 A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:29:0x013e, B:38:0x014d, B:43:0x015f, B:47:0x016a, B:50:0x0170, B:52:0x0176, B:53:0x0179, B:57:0x0183, B:65:0x019c, B:69:0x01b0, B:70:0x01b9, B:72:0x01bf, B:75:0x01c5, B:76:0x01c8, B:79:0x01d5, B:83:0x01e5, B:90:0x01f5, B:93:0x01fb, B:94:0x01fe, B:96:0x0217, B:99:0x021d, B:114:0x024b, B:117:0x0251, B:123:0x0262, B:126:0x0268, B:130:0x0271, B:132:0x0275, B:135:0x027a, B:136:0x027f, B:137:0x0285, B:139:0x0299, B:141:0x029d, B:144:0x02a5, B:146:0x02a9, B:147:0x02bc, B:149:0x02c2, B:151:0x02d4, B:155:0x02db, B:158:0x02e3, B:160:0x02f9, B:163:0x0300, B:166:0x0306), top: B:181:0x013e }] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01bf A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:29:0x013e, B:38:0x014d, B:43:0x015f, B:47:0x016a, B:50:0x0170, B:52:0x0176, B:53:0x0179, B:57:0x0183, B:65:0x019c, B:69:0x01b0, B:70:0x01b9, B:72:0x01bf, B:75:0x01c5, B:76:0x01c8, B:79:0x01d5, B:83:0x01e5, B:90:0x01f5, B:93:0x01fb, B:94:0x01fe, B:96:0x0217, B:99:0x021d, B:114:0x024b, B:117:0x0251, B:123:0x0262, B:126:0x0268, B:130:0x0271, B:132:0x0275, B:135:0x027a, B:136:0x027f, B:137:0x0285, B:139:0x0299, B:141:0x029d, B:144:0x02a5, B:146:0x02a9, B:147:0x02bc, B:149:0x02c2, B:151:0x02d4, B:155:0x02db, B:158:0x02e3, B:160:0x02f9, B:163:0x0300, B:166:0x0306), top: B:181:0x013e }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x01d1  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01e5 A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:29:0x013e, B:38:0x014d, B:43:0x015f, B:47:0x016a, B:50:0x0170, B:52:0x0176, B:53:0x0179, B:57:0x0183, B:65:0x019c, B:69:0x01b0, B:70:0x01b9, B:72:0x01bf, B:75:0x01c5, B:76:0x01c8, B:79:0x01d5, B:83:0x01e5, B:90:0x01f5, B:93:0x01fb, B:94:0x01fe, B:96:0x0217, B:99:0x021d, B:114:0x024b, B:117:0x0251, B:123:0x0262, B:126:0x0268, B:130:0x0271, B:132:0x0275, B:135:0x027a, B:136:0x027f, B:137:0x0285, B:139:0x0299, B:141:0x029d, B:144:0x02a5, B:146:0x02a9, B:147:0x02bc, B:149:0x02c2, B:151:0x02d4, B:155:0x02db, B:158:0x02e3, B:160:0x02f9, B:163:0x0300, B:166:0x0306), top: B:181:0x013e }] */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x02df  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x01bf A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:21:0x013e, B:26:0x014d, B:30:0x015f, B:33:0x0179, B:37:0x0183, B:42:0x01e5, B:49:0x01f5, B:52:0x01fb, B:53:0x01fe, B:54:0x0217, B:57:0x021d, B:59:0x02d4, B:62:0x02db, B:66:0x0300, B:69:0x0306, B:93:0x0271, B:95:0x0275, B:98:0x027a, B:99:0x0285, B:101:0x0299, B:103:0x029d, B:104:0x02a5, B:106:0x02a9, B:107:0x027f, B:111:0x024b, B:114:0x0251, B:120:0x0262, B:123:0x0268, B:126:0x02bc, B:128:0x02c2, B:131:0x02e3, B:132:0x02f9, B:138:0x019c, B:142:0x01b0, B:143:0x01b9, B:145:0x01bf, B:148:0x01c5, B:149:0x01c8, B:152:0x01d5, B:155:0x016a, B:158:0x0170, B:160:0x0176), top: B:20:0x013e }] */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x0176 A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:21:0x013e, B:26:0x014d, B:30:0x015f, B:33:0x0179, B:37:0x0183, B:42:0x01e5, B:49:0x01f5, B:52:0x01fb, B:53:0x01fe, B:54:0x0217, B:57:0x021d, B:59:0x02d4, B:62:0x02db, B:66:0x0300, B:69:0x0306, B:93:0x0271, B:95:0x0275, B:98:0x027a, B:99:0x0285, B:101:0x0299, B:103:0x029d, B:104:0x02a5, B:106:0x02a9, B:107:0x027f, B:111:0x024b, B:114:0x0251, B:120:0x0262, B:123:0x0268, B:126:0x02bc, B:128:0x02c2, B:131:0x02e3, B:132:0x02f9, B:138:0x019c, B:142:0x01b0, B:143:0x01b9, B:145:0x01bf, B:148:0x01c5, B:149:0x01c8, B:152:0x01d5, B:155:0x016a, B:158:0x0170, B:160:0x0176), top: B:20:0x013e }] */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x0155  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x014d A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:21:0x013e, B:26:0x014d, B:30:0x015f, B:33:0x0179, B:37:0x0183, B:42:0x01e5, B:49:0x01f5, B:52:0x01fb, B:53:0x01fe, B:54:0x0217, B:57:0x021d, B:59:0x02d4, B:62:0x02db, B:66:0x0300, B:69:0x0306, B:93:0x0271, B:95:0x0275, B:98:0x027a, B:99:0x0285, B:101:0x0299, B:103:0x029d, B:104:0x02a5, B:106:0x02a9, B:107:0x027f, B:111:0x024b, B:114:0x0251, B:120:0x0262, B:123:0x0268, B:126:0x02bc, B:128:0x02c2, B:131:0x02e3, B:132:0x02f9, B:138:0x019c, B:142:0x01b0, B:143:0x01b9, B:145:0x01bf, B:148:0x01c5, B:149:0x01c8, B:152:0x01d5, B:155:0x016a, B:158:0x0170, B:160:0x0176), top: B:20:0x013e }] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01e5 A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:21:0x013e, B:26:0x014d, B:30:0x015f, B:33:0x0179, B:37:0x0183, B:42:0x01e5, B:49:0x01f5, B:52:0x01fb, B:53:0x01fe, B:54:0x0217, B:57:0x021d, B:59:0x02d4, B:62:0x02db, B:66:0x0300, B:69:0x0306, B:93:0x0271, B:95:0x0275, B:98:0x027a, B:99:0x0285, B:101:0x0299, B:103:0x029d, B:104:0x02a5, B:106:0x02a9, B:107:0x027f, B:111:0x024b, B:114:0x0251, B:120:0x0262, B:123:0x0268, B:126:0x02bc, B:128:0x02c2, B:131:0x02e3, B:132:0x02f9, B:138:0x019c, B:142:0x01b0, B:143:0x01b9, B:145:0x01bf, B:148:0x01c5, B:149:0x01c8, B:152:0x01d5, B:155:0x016a, B:158:0x0170, B:160:0x0176), top: B:20:0x013e }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x02fe A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0317  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0271 A[Catch: Exception -> 0x0145, TryCatch #2 {Exception -> 0x0145, blocks: (B:21:0x013e, B:26:0x014d, B:30:0x015f, B:33:0x0179, B:37:0x0183, B:42:0x01e5, B:49:0x01f5, B:52:0x01fb, B:53:0x01fe, B:54:0x0217, B:57:0x021d, B:59:0x02d4, B:62:0x02db, B:66:0x0300, B:69:0x0306, B:93:0x0271, B:95:0x0275, B:98:0x027a, B:99:0x0285, B:101:0x0299, B:103:0x029d, B:104:0x02a5, B:106:0x02a9, B:107:0x027f, B:111:0x024b, B:114:0x0251, B:120:0x0262, B:123:0x0268, B:126:0x02bc, B:128:0x02c2, B:131:0x02e3, B:132:0x02f9, B:138:0x019c, B:142:0x01b0, B:143:0x01b9, B:145:0x01bf, B:148:0x01c5, B:149:0x01c8, B:152:0x01d5, B:155:0x016a, B:158:0x0170, B:160:0x0176), top: B:20:0x013e }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean draw(Canvas canvas, BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
         ImageReceiver imageReceiver;
-        Exception e;
-        BitmapShader bitmapShader;
         float f;
-        float f2;
-        boolean z;
-        boolean z2;
+        AnimatedFileDrawable animatedFileDrawable;
+        BitmapShader bitmapShader;
         BitmapShader bitmapShader2;
         BitmapShader bitmapShader3;
-        BitmapShader bitmapShader4;
-        float f3;
-        boolean z3;
-        RLottieDrawable rLottieDrawable;
+        boolean z;
         Drawable drawable;
-        int[] iArr;
         Drawable drawable2;
+        float f2;
+        float f3;
+        BitmapShader bitmapShader4;
+        boolean z2;
+        RLottieDrawable rLottieDrawable;
         Drawable drawable3;
+        boolean z3;
+        int[] iArr;
         Drawable drawable4;
         Drawable drawable5;
-        AnimatedFileDrawable animatedFileDrawable;
         Drawable drawable6;
         Drawable drawable7;
         Drawable drawable8;
@@ -1789,24 +1793,24 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         RLottieDrawable rLottieDrawable2;
         boolean z5;
         AnimatedFileDrawable animatedFileDrawable3;
+        ImageReceiverDelegate imageReceiverDelegate;
         boolean z6;
         Drawable drawable11;
         Drawable drawable12;
-        int i;
         Drawable drawable13;
         Drawable drawable14;
-        Drawable drawable15;
         boolean z7;
-        Drawable drawable16;
+        Drawable drawable15;
+        int i;
+        int i2;
         boolean z8;
+        Drawable drawable16;
         View view;
         Drawable drawable17;
         Drawable drawable18;
         BitmapShader bitmapShader5;
         float f4;
-        int i2;
         int i3;
-        ImageReceiverDelegate imageReceiverDelegate;
         if (this.gradientBitmap != null && this.currentImageKey != null) {
             canvas.save();
             float f5 = this.imageX;
@@ -1834,23 +1838,23 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 float f7 = this.currentAlpha;
                 float f8 = this.previousAlpha;
                 BitmapShader bitmapShader9 = this.crossfadeShader;
-                f3 = this.overrideAlpha;
+                f = this.overrideAlpha;
                 animatedFileDrawable = animation;
-                bitmapShader4 = bitmapShader6;
-                bitmapShader3 = bitmapShader7;
-                bitmapShader2 = bitmapShader8;
-                z2 = z12;
-                drawable4 = drawable22;
-                drawable = drawable23;
+                bitmapShader = bitmapShader6;
+                bitmapShader2 = bitmapShader7;
+                bitmapShader3 = bitmapShader8;
+                z = z12;
+                drawable = drawable22;
+                drawable2 = drawable23;
                 f2 = f7;
-                f = f8;
-                bitmapShader = bitmapShader9;
-                z = (animation != null && !animation.hasBitmap()) || (lottieAnimation != null && !lottieAnimation.hasBitmap());
+                f3 = f8;
+                bitmapShader4 = bitmapShader9;
+                z2 = (animation != null && !animation.hasBitmap()) || (lottieAnimation != null && !lottieAnimation.hasBitmap());
                 rLottieDrawable = lottieAnimation;
-                drawable2 = drawable19;
+                drawable3 = drawable19;
                 z3 = z11;
                 iArr = iArr3;
-                drawable3 = drawable20;
+                drawable4 = drawable20;
                 drawable5 = drawable21;
             } else {
                 AnimatedFileDrawable animatedFileDrawable4 = backgroundThreadDrawHolder.animation;
@@ -1871,51 +1875,51 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 float f9 = backgroundThreadDrawHolder.currentAlpha;
                 float f10 = backgroundThreadDrawHolder.previousAlpha;
                 BitmapShader bitmapShader13 = backgroundThreadDrawHolder.crossfadeShader;
-                bitmapShader4 = bitmapShader10;
-                bitmapShader3 = bitmapShader11;
-                bitmapShader2 = bitmapShader12;
-                drawable4 = drawable26;
-                z2 = z14;
-                z = backgroundThreadDrawHolder.animationNotReady;
-                drawable = drawable28;
+                bitmapShader = bitmapShader10;
+                bitmapShader2 = bitmapShader11;
+                bitmapShader3 = bitmapShader12;
+                drawable = drawable26;
+                z = z14;
+                z2 = backgroundThreadDrawHolder.animationNotReady;
+                drawable2 = drawable28;
                 f2 = f9;
-                f = f10;
-                bitmapShader = bitmapShader13;
+                f3 = f10;
+                bitmapShader4 = bitmapShader13;
                 animatedFileDrawable = animatedFileDrawable4;
-                f3 = backgroundThreadDrawHolder.overrideAlpha;
+                f = backgroundThreadDrawHolder.overrideAlpha;
                 rLottieDrawable = rLottieDrawable3;
-                drawable2 = drawable24;
-                drawable3 = drawable25;
+                drawable3 = drawable24;
+                drawable4 = drawable25;
                 drawable5 = drawable27;
                 z3 = z13;
                 iArr = iArr4;
             }
             drawable6 = drawable5;
-            drawable7 = drawable4;
-            drawable8 = drawable3;
-            drawable9 = drawable2;
+            drawable7 = drawable;
+            drawable8 = drawable4;
+            drawable9 = drawable3;
             iArr2 = iArr;
-            drawable10 = drawable;
+            drawable10 = drawable2;
             z4 = z10;
             animatedFileDrawable2 = animatedFileDrawable;
             rLottieDrawable2 = rLottieDrawable;
             try {
-            } catch (Exception e2) {
-                e = e2;
+            } catch (Exception e) {
+                e = e;
                 imageReceiver = this;
             }
-        } catch (Exception e3) {
-            e = e3;
+        } catch (Exception e2) {
+            e = e2;
             imageReceiver = this;
         }
-        if (customDraw(canvas, animatedFileDrawable, rLottieDrawable, drawable2, bitmapShader4, drawable3, bitmapShader3, drawable6, bitmapShader2, z3, z2, drawable7, bitmapShader, drawable10, f2, f, f3, iArr2, backgroundThreadDrawHolder)) {
+        if (customDraw(canvas, animatedFileDrawable, rLottieDrawable, drawable3, bitmapShader, drawable4, bitmapShader2, drawable6, bitmapShader3, z3, z, drawable7, bitmapShader4, drawable10, f2, f3, f, iArr2, backgroundThreadDrawHolder)) {
             return true;
         }
-        if (!z) {
+        if (!z2) {
             imageReceiver = this;
             try {
-            } catch (Exception e4) {
-                e = e4;
+            } catch (Exception e3) {
+                e = e3;
                 FileLog.e(e);
                 if (imageReceiver.gradientBitmap != null) {
                 }
@@ -1941,102 +1945,102 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 }
                 z6 = imageReceiver.forcePreview;
                 if (z6 && drawable9 != null && !z5) {
-                    i3 = imageReceiver.imageOrientation;
+                    i2 = imageReceiver.imageOrientation;
                     drawable15 = drawable9;
                     z7 = z5;
                     drawable14 = drawable6;
                     drawable12 = drawable7;
-                    drawable13 = drawable8;
+                    drawable11 = drawable8;
                 } else {
-                    drawable13 = drawable8;
-                    if (!z6 || drawable13 == null || (z5 && drawable9 == null)) {
+                    drawable11 = drawable8;
+                    if (!z6 || drawable11 == null || (z5 && drawable9 == null)) {
                         drawable12 = drawable7;
-                        if (drawable12 == null && !z2) {
-                            i3 = imageReceiver.imageOrientation;
+                        if (drawable12 == null && !z) {
+                            i2 = imageReceiver.imageOrientation;
                             z7 = z5;
                             drawable15 = drawable12;
-                            bitmapShader4 = bitmapShader;
+                            bitmapShader = bitmapShader4;
                             drawable14 = drawable6;
                         } else {
-                            drawable11 = drawable10;
-                            if (!(drawable11 instanceof BitmapDrawable)) {
-                                if (imageReceiver.useRoundForThumb && bitmapShader2 == null) {
-                                    imageReceiver.updateDrawableRadius(drawable11);
+                            drawable13 = drawable10;
+                            if (!(drawable13 instanceof BitmapDrawable)) {
+                                if (imageReceiver.useRoundForThumb && bitmapShader3 == null) {
+                                    imageReceiver.updateDrawableRadius(drawable13);
                                 }
-                                i3 = imageReceiver.thumbOrientation;
+                                i2 = imageReceiver.thumbOrientation;
                                 z7 = z5;
-                                drawable15 = drawable11;
-                                bitmapShader4 = bitmapShader2;
+                                drawable15 = drawable13;
+                                bitmapShader = bitmapShader3;
                                 drawable14 = drawable6;
                             } else {
                                 drawable14 = drawable6;
                                 if (drawable14 != null) {
-                                    i3 = imageReceiver.thumbOrientation;
+                                    i2 = imageReceiver.thumbOrientation;
                                     drawable15 = drawable14;
                                     z7 = z5;
-                                    bitmapShader4 = bitmapShader2;
+                                    bitmapShader = bitmapShader3;
                                 } else {
                                     z7 = z5;
                                     drawable15 = null;
                                     i = 0;
-                                    bitmapShader4 = null;
+                                    bitmapShader = null;
                                 }
                             }
-                            i = i3;
+                            i = i2;
                         }
                     } else {
                         i = imageReceiver.imageOrientation;
-                        drawable15 = drawable13;
-                        bitmapShader4 = bitmapShader3;
+                        drawable15 = drawable11;
+                        bitmapShader = bitmapShader2;
                         drawable14 = drawable6;
                         drawable12 = drawable7;
-                        drawable11 = drawable10;
+                        drawable13 = drawable10;
                         z7 = false;
                     }
                     if (drawable15 != null) {
                         if (imageReceiver.crossfadeAlpha != 0) {
-                            if (f == 1.0f || (!(drawable15 == drawable13 || drawable15 == drawable9) || drawable11 == null)) {
+                            if (f3 == 1.0f || (!(drawable15 == drawable11 || drawable15 == drawable9) || drawable13 == null)) {
                                 z8 = z7;
                                 drawable17 = drawable15;
                                 drawable18 = drawable14;
                             } else {
-                                if (imageReceiver.useRoundForThumb && bitmapShader2 == null) {
-                                    imageReceiver.updateDrawableRadius(drawable11);
+                                if (imageReceiver.useRoundForThumb && bitmapShader3 == null) {
+                                    imageReceiver.updateDrawableRadius(drawable13);
                                 }
                                 z8 = z7;
                                 drawable17 = drawable15;
                                 drawable18 = drawable14;
-                                drawDrawable(canvas, drawable11, (int) (f3 * 255.0f), bitmapShader2, i, backgroundThreadDrawHolder);
+                                drawDrawable(canvas, drawable13, (int) (f * 255.0f), bitmapShader3, i, backgroundThreadDrawHolder);
                             }
                             boolean z15 = imageReceiver.crossfadeWithThumb;
                             if (z15 && z8) {
-                                drawDrawable(canvas, drawable17, (int) (f3 * 255.0f), bitmapShader4, i, backgroundThreadDrawHolder);
+                                drawDrawable(canvas, drawable17, (int) (f * 255.0f), bitmapShader, i, backgroundThreadDrawHolder);
                                 drawable16 = drawable17;
                             } else {
                                 if (!z15 || f2 == 1.0f) {
                                     drawable16 = drawable17;
                                 } else {
                                     Drawable drawable29 = drawable17;
-                                    if (drawable29 != drawable13 && drawable29 != drawable9) {
+                                    if (drawable29 != drawable11 && drawable29 != drawable9) {
                                         if (drawable29 != drawable18 && drawable29 != drawable12) {
-                                            if (drawable29 == drawable11 && drawable12 != null) {
+                                            if (drawable29 == drawable13 && drawable12 != null) {
                                                 drawable18 = drawable12;
-                                                bitmapShader5 = bitmapShader;
+                                                bitmapShader5 = bitmapShader4;
                                                 if (drawable18 != null) {
                                                     if (!(drawable18 instanceof SvgHelper.SvgDrawable) && !(drawable18 instanceof Emoji.EmojiDrawable)) {
-                                                        f4 = f * f3 * 255.0f;
-                                                        i2 = (int) f4;
+                                                        f4 = f3 * f * 255.0f;
+                                                        i3 = (int) f4;
                                                         drawable16 = drawable29;
-                                                        drawDrawable(canvas, drawable18, i2, bitmapShader5, imageReceiver.thumbOrientation, backgroundThreadDrawHolder);
-                                                        if (i2 != 255 && (drawable18 instanceof Emoji.EmojiDrawable)) {
+                                                        drawDrawable(canvas, drawable18, i3, bitmapShader5, imageReceiver.thumbOrientation, backgroundThreadDrawHolder);
+                                                        if (i3 != 255 && (drawable18 instanceof Emoji.EmojiDrawable)) {
                                                             drawable18.setAlpha(255);
                                                         }
                                                     }
-                                                    f4 = f3 * 255.0f * (1.0f - f2);
-                                                    i2 = (int) f4;
+                                                    f4 = f * 255.0f * (1.0f - f2);
+                                                    i3 = (int) f4;
                                                     drawable16 = drawable29;
-                                                    drawDrawable(canvas, drawable18, i2, bitmapShader5, imageReceiver.thumbOrientation, backgroundThreadDrawHolder);
-                                                    if (i2 != 255) {
+                                                    drawDrawable(canvas, drawable18, i3, bitmapShader5, imageReceiver.thumbOrientation, backgroundThreadDrawHolder);
+                                                    if (i3 != 255) {
                                                         drawable18.setAlpha(255);
                                                     }
                                                 } else {
@@ -2054,38 +2058,38 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                                         }
                                     }
                                     if (drawable18 == null) {
-                                        if (drawable11 != null) {
-                                            if (imageReceiver.useRoundForThumb && bitmapShader2 == null) {
-                                                imageReceiver.updateDrawableRadius(drawable11);
+                                        if (drawable13 != null) {
+                                            if (imageReceiver.useRoundForThumb && bitmapShader3 == null) {
+                                                imageReceiver.updateDrawableRadius(drawable13);
                                             }
-                                            drawable18 = drawable11;
+                                            drawable18 = drawable13;
                                         }
                                         bitmapShader5 = null;
                                         drawable18 = null;
                                         if (drawable18 != null) {
                                         }
                                     }
-                                    bitmapShader5 = bitmapShader2;
+                                    bitmapShader5 = bitmapShader3;
                                     if (drawable18 != null) {
                                     }
                                 }
                                 if (!imageReceiver.crossfadeDelay) {
-                                    drawDrawable(canvas, drawable16, (int) (f3 * f2 * 255.0f), bitmapShader4, i, backgroundThreadDrawHolder);
+                                    drawDrawable(canvas, drawable16, (int) (f * f2 * 255.0f), bitmapShader, i, backgroundThreadDrawHolder);
                                 }
                             }
                         } else {
                             z8 = z7;
                             drawable16 = drawable15;
                             if (!imageReceiver.crossfadeDelay) {
-                                drawDrawable(canvas, drawable16, (int) (f3 * 255.0f), bitmapShader4, i, backgroundThreadDrawHolder);
+                                drawDrawable(canvas, drawable16, (int) (f * 255.0f), bitmapShader, i, backgroundThreadDrawHolder);
                             }
                         }
                         imageReceiver.checkAlphaAnimation(z8 && imageReceiver.crossfadeWithThumb, z4);
                     } else {
                         z8 = z7;
                         drawable16 = drawable15;
-                        if (drawable11 != null) {
-                            drawDrawable(canvas, drawable11, (int) (f3 * 255.0f), null, imageReceiver.thumbOrientation, backgroundThreadDrawHolder);
+                        if (drawable13 != null) {
+                            drawDrawable(canvas, drawable13, (int) (f * 255.0f), null, imageReceiver.thumbOrientation, backgroundThreadDrawHolder);
                             imageReceiver.checkAlphaAnimation(z8, z4);
                         } else {
                             imageReceiver.checkAlphaAnimation(z8, z4);
@@ -2107,8 +2111,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     }
                     return z9;
                 }
-                drawable11 = drawable10;
-                i = i3;
+                drawable13 = drawable10;
+                i = i2;
                 if (drawable15 != null) {
                 }
                 z9 = true;
@@ -2136,16 +2140,16 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         z6 = imageReceiver.forcePreview;
         if (z6) {
         }
-        drawable13 = drawable8;
+        drawable11 = drawable8;
         if (!z6) {
         }
         drawable12 = drawable7;
         if (drawable12 == null) {
         }
-        drawable11 = drawable10;
-        if (!(drawable11 instanceof BitmapDrawable)) {
+        drawable13 = drawable10;
+        if (!(drawable13 instanceof BitmapDrawable)) {
         }
-        i = i3;
+        i = i2;
         if (drawable15 != null) {
         }
         z9 = true;
@@ -2218,14 +2222,14 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return ((BitmapDrawable) drawable4).getBitmap();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x008d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public BitmapHolder getBitmapSafe() {
-        String str;
         Bitmap bitmap;
+        String str;
         AnimatedFileDrawable animation = getAnimation();
         RLottieDrawable lottieAnimation = getLottieAnimation();
         int i = 0;
@@ -2321,8 +2325,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public BitmapHolder getThumbBitmapSafe() {
-        String str;
         Bitmap bitmap;
+        String str;
         Drawable drawable = this.currentThumbDrawable;
         if (drawable instanceof BitmapDrawable) {
             bitmap = ((BitmapDrawable) drawable).getBitmap();
@@ -2538,16 +2542,16 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public float getImageAspectRatio() {
-        float f;
-        float f2;
+        float width;
+        float height;
         if (this.imageOrientation % 180 != 0) {
-            f2 = this.drawRegion.height();
-            f = this.drawRegion.width();
+            width = this.drawRegion.height();
+            height = this.drawRegion.width();
         } else {
-            f2 = this.drawRegion.width();
-            f = this.drawRegion.height();
+            width = this.drawRegion.width();
+            height = this.drawRegion.height();
         }
-        return f2 / f;
+        return width / height;
     }
 
     public String getExt() {
@@ -2840,6 +2844,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return (RLottieDrawable) drawable4;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int getTag(int i) {
         if (i == 1) {
             return this.thumbTag;
@@ -2850,6 +2855,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return this.imageTag;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setTag(int i, int i2) {
         if (i2 == 1) {
             this.thumbTag = i;
@@ -2868,10 +2874,11 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return this.param;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00a1, code lost:
-        if ((r9 instanceof org.telegram.messenger.Emoji.EmojiDrawable) == false) goto L40;
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x00a1, code lost:
+        if ((r9 instanceof org.telegram.messenger.Emoji.EmojiDrawable) == false) goto L32;
      */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0050  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3089,40 +3096,40 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     private void recycleBitmap(String str, int i) {
-        Object obj;
         String str2;
+        Drawable drawable;
         String replacedKey;
         if (i == 3) {
             str2 = this.currentMediaKey;
-            obj = this.currentMediaDrawable;
+            drawable = this.currentMediaDrawable;
         } else if (i == 2) {
             str2 = this.crossfadeKey;
-            obj = this.crossfadeImage;
+            drawable = this.crossfadeImage;
         } else if (i == 1) {
             str2 = this.currentThumbKey;
-            obj = this.currentThumbDrawable;
+            drawable = this.currentThumbDrawable;
         } else {
             str2 = this.currentImageKey;
-            obj = this.currentImageDrawable;
+            drawable = this.currentImageDrawable;
         }
         if (str2 != null && ((str2.startsWith("-") || str2.startsWith("strippedmessage-")) && (replacedKey = ImageLoader.getInstance().getReplacedKey(str2)) != null)) {
             str2 = replacedKey;
         }
-        if (obj instanceof RLottieDrawable) {
-            ((RLottieDrawable) obj).removeParentView(this);
+        if (drawable instanceof RLottieDrawable) {
+            ((RLottieDrawable) drawable).removeParentView(this);
         }
-        if (obj instanceof AnimatedFileDrawable) {
-            ((AnimatedFileDrawable) obj).removeParent(this);
+        if (drawable instanceof AnimatedFileDrawable) {
+            ((AnimatedFileDrawable) drawable).removeParent(this);
         }
-        if (str2 != null && ((str == null || !str.equals(str2)) && obj != null)) {
-            if (obj instanceof RLottieDrawable) {
-                RLottieDrawable rLottieDrawable = (RLottieDrawable) obj;
+        if (str2 != null && ((str == null || !str.equals(str2)) && drawable != null)) {
+            if (drawable instanceof RLottieDrawable) {
+                RLottieDrawable rLottieDrawable = (RLottieDrawable) drawable;
                 boolean decrementUseCount = ImageLoader.getInstance().decrementUseCount(str2);
                 if (!ImageLoader.getInstance().isInMemCache(str2, true) && decrementUseCount) {
                     rLottieDrawable.recycle();
                 }
-            } else if (obj instanceof AnimatedFileDrawable) {
-                AnimatedFileDrawable animatedFileDrawable = (AnimatedFileDrawable) obj;
+            } else if (drawable instanceof AnimatedFileDrawable) {
+                AnimatedFileDrawable animatedFileDrawable = (AnimatedFileDrawable) drawable;
                 if (animatedFileDrawable.isWebmSticker) {
                     boolean decrementUseCount2 = ImageLoader.getInstance().decrementUseCount(str2);
                     if (!ImageLoader.getInstance().isInMemCache(str2, true)) {
@@ -3135,8 +3142,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 } else if (animatedFileDrawable.getParents().isEmpty()) {
                     animatedFileDrawable.recycle();
                 }
-            } else if (obj instanceof BitmapDrawable) {
-                Bitmap bitmap = ((BitmapDrawable) obj).getBitmap();
+            } else if (drawable instanceof BitmapDrawable) {
+                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 boolean decrementUseCount3 = ImageLoader.getInstance().decrementUseCount(str2);
                 if (!ImageLoader.getInstance().isInMemCache(str2, false) && decrementUseCount3) {
                     ArrayList arrayList = new ArrayList();

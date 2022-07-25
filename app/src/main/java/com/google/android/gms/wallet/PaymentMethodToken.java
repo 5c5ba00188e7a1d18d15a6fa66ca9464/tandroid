@@ -24,6 +24,7 @@ public final class PaymentMethodToken extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public PaymentMethodToken(int i, String str) {
         this.zza = i;
         this.zzb = str;

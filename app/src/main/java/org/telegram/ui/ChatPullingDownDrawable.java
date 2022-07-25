@@ -128,39 +128,39 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
     }
 
     public void setWidth(int i) {
-        String str;
-        String str2;
+        String string;
+        String string2;
         int i2;
         if (i != this.lastWidth) {
             this.circleRadius = AndroidUtilities.dp(56.0f) / 2.0f;
             this.lastWidth = i;
             TLRPC$Chat tLRPC$Chat = this.nextChat;
-            String string = tLRPC$Chat != null ? tLRPC$Chat.title : LocaleController.getString("SwipeToGoNextChannelEnd", R.string.SwipeToGoNextChannelEnd);
-            int measureText = (int) this.textPaint.measureText(string);
+            String string3 = tLRPC$Chat != null ? tLRPC$Chat.title : LocaleController.getString("SwipeToGoNextChannelEnd", R.string.SwipeToGoNextChannelEnd);
+            int measureText = (int) this.textPaint.measureText(string3);
             this.chatNameWidth = measureText;
             this.chatNameWidth = Math.min(measureText, this.lastWidth - AndroidUtilities.dp(60.0f));
-            this.chatNameLayout = new StaticLayout(string, this.textPaint, this.chatNameWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            this.chatNameLayout = new StaticLayout(string3, this.textPaint, this.chatNameWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             boolean z = this.drawFolderBackground;
             if (z && (i2 = this.dialogFolderId) != this.folderId && i2 != 0) {
-                str2 = LocaleController.getString("SwipeToGoNextArchive", R.string.SwipeToGoNextArchive);
-                str = LocaleController.getString("ReleaseToGoNextArchive", R.string.ReleaseToGoNextArchive);
+                string = LocaleController.getString("SwipeToGoNextArchive", R.string.SwipeToGoNextArchive);
+                string2 = LocaleController.getString("ReleaseToGoNextArchive", R.string.ReleaseToGoNextArchive);
             } else if (z) {
-                str2 = LocaleController.getString("SwipeToGoNextFolder", R.string.SwipeToGoNextFolder);
-                str = LocaleController.getString("ReleaseToGoNextFolder", R.string.ReleaseToGoNextFolder);
+                string = LocaleController.getString("SwipeToGoNextFolder", R.string.SwipeToGoNextFolder);
+                string2 = LocaleController.getString("ReleaseToGoNextFolder", R.string.ReleaseToGoNextFolder);
             } else {
-                str2 = LocaleController.getString("SwipeToGoNextChannel", R.string.SwipeToGoNextChannel);
-                str = LocaleController.getString("ReleaseToGoNextChannel", R.string.ReleaseToGoNextChannel);
+                string = LocaleController.getString("SwipeToGoNextChannel", R.string.SwipeToGoNextChannel);
+                string2 = LocaleController.getString("ReleaseToGoNextChannel", R.string.ReleaseToGoNextChannel);
             }
-            String str3 = str2;
-            String str4 = str;
-            int measureText2 = (int) this.textPaint2.measureText(str3);
+            String str = string;
+            String str2 = string2;
+            int measureText2 = (int) this.textPaint2.measureText(str);
             this.layout1Width = measureText2;
             this.layout1Width = Math.min(measureText2, this.lastWidth - AndroidUtilities.dp(60.0f));
-            this.layout1 = new StaticLayout(str3, this.textPaint2, this.layout1Width, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-            int measureText3 = (int) this.textPaint2.measureText(str4);
+            this.layout1 = new StaticLayout(str, this.textPaint2, this.layout1Width, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+            int measureText3 = (int) this.textPaint2.measureText(str2);
             this.layout2Width = measureText3;
             this.layout2Width = Math.min(measureText3, this.lastWidth - AndroidUtilities.dp(60.0f));
-            this.layout2 = new StaticLayout(str4, this.textPaint2, this.layout2Width, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+            this.layout2 = new StaticLayout(str2, this.textPaint2, this.layout2Width, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
             this.imageReceiver.setImageCoords((this.lastWidth / 2.0f) - (AndroidUtilities.dp(40.0f) / 2.0f), (AndroidUtilities.dp(12.0f) + this.circleRadius) - (AndroidUtilities.dp(40.0f) / 2.0f), AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f));
             this.imageReceiver.setRoundRadius((int) (AndroidUtilities.dp(40.0f) / 2.0f));
             this.counterDrawable.setSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(100.0f));
@@ -169,9 +169,9 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
 
     public void draw(Canvas canvas, View view, float f, float f2) {
         int i;
-        float f3;
         int i2;
         int i3;
+        float f3;
         float f4;
         this.parentView = view;
         this.counterDrawable.setParent(view);
@@ -476,27 +476,32 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         this.showReleaseAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showReleaseState$0(View view, ValueAnimator valueAnimator) {
         this.swipeToReleaseProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         view.invalidate();
         this.fragmentView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showReleaseState$1(View view, ValueAnimator valueAnimator) {
         this.bounceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         view.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showReleaseState$2(View view, ValueAnimator valueAnimator) {
         this.bounceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         view.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showReleaseState$3(View view, ValueAnimator valueAnimator) {
         this.bounceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         view.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showReleaseState$4(View view, ValueAnimator valueAnimator) {
         this.swipeToReleaseProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.fragmentView.invalidate();
@@ -541,7 +546,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
     }
 
     public static TLRPC$Dialog getNextUnreadDialog(long j, int i, int i2, boolean z, int[] iArr) {
-        ArrayList<TLRPC$Dialog> arrayList;
+        ArrayList<TLRPC$Dialog> dialogs;
         TLRPC$Dialog nextUnreadDialog;
         TLRPC$Dialog nextUnreadDialog2;
         MessagesController messagesController = AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController();
@@ -555,15 +560,15 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             if (dialogFilter == null) {
                 return null;
             }
-            arrayList = dialogFilter.dialogs;
+            dialogs = dialogFilter.dialogs;
         } else {
-            arrayList = messagesController.getDialogs(i);
+            dialogs = messagesController.getDialogs(i);
         }
-        if (arrayList == null) {
+        if (dialogs == null) {
             return null;
         }
-        for (int i3 = 0; i3 < arrayList.size(); i3++) {
-            TLRPC$Dialog tLRPC$Dialog = arrayList.get(i3);
+        for (int i3 = 0; i3 < dialogs.size(); i3++) {
+            TLRPC$Dialog tLRPC$Dialog = dialogs.get(i3);
             TLRPC$Chat chat = messagesController.getChat(Long.valueOf(-tLRPC$Dialog.id));
             if (chat != null && tLRPC$Dialog.id != j && tLRPC$Dialog.unread_count > 0 && DialogObject.isChannel(tLRPC$Dialog) && !chat.megagroup && !messagesController.isPromoDialog(tLRPC$Dialog.id, false) && MessagesController.getRestrictionReason(chat.restriction_reason) == null) {
                 return tLRPC$Dialog;
@@ -598,8 +603,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         return this.nextChat.id;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00bc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -734,6 +739,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         this.showReleaseAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runOnAnimationFinish$5(ValueAnimator valueAnimator) {
         this.swipeToReleaseProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.fragmentView.invalidate();
@@ -743,6 +749,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runOnAnimationFinish$6(ValueAnimator valueAnimator) {
         this.bounceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         View view = this.parentView;

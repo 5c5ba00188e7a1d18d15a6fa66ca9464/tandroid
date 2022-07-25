@@ -8,6 +8,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 public abstract class FloatSeekBarAccessibilityDelegate extends SeekBarAccessibilityDelegate {
     private final boolean setPercentsEnabled;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public float getDelta() {
         return 0.05f;
     }

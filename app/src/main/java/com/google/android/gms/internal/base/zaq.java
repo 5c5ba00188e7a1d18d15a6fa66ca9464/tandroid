@@ -9,8 +9,7 @@ import java.util.concurrent.TimeUnit;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 final class zaq implements zam {
-    /* JADX INFO: Access modifiers changed from: private */
-    public zaq() {
+    private zaq() {
     }
 
     @Override // com.google.android.gms.internal.base.zam

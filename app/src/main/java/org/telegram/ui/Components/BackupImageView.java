@@ -55,8 +55,8 @@ public class BackupImageView extends View {
     }
 
     public void setImageMedia(ImageLocation imageLocation, String str, ImageLocation imageLocation2, String str2, Bitmap bitmap, int i, int i2, Object obj) {
-        BitmapDrawable bitmapDrawable;
         BackupImageView backupImageView;
+        BitmapDrawable bitmapDrawable;
         if (bitmap != null) {
             backupImageView = this;
             bitmapDrawable = new BitmapDrawable((Resources) null, bitmap);
@@ -80,8 +80,8 @@ public class BackupImageView extends View {
     }
 
     public void setImage(ImageLocation imageLocation, String str, ImageLocation imageLocation2, String str2, Drawable drawable, Bitmap bitmap, String str3, int i, Object obj) {
-        BitmapDrawable bitmapDrawable;
         BackupImageView backupImageView;
+        BitmapDrawable bitmapDrawable;
         if (bitmap != null) {
             backupImageView = this;
             bitmapDrawable = new BitmapDrawable((Resources) null, bitmap);
@@ -145,18 +145,21 @@ public class BackupImageView extends View {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.imageReceiver.onDetachedFromWindow();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.imageReceiver.onAttachedToWindow();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         if (this.width != -1 && this.height != -1) {

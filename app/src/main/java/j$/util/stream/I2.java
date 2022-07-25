@@ -8,6 +8,7 @@ class I2 extends U2 {
     final /* synthetic */ j$.util.function.y d;
     final /* synthetic */ j$.wrappers.J0 e;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public I2(e4 e4Var, j$.util.function.b bVar, BiConsumer biConsumer, j$.util.function.y yVar, j$.wrappers.J0 j0) {
         super(e4Var);

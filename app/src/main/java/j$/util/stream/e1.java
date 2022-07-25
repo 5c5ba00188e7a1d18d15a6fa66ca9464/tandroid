@@ -39,7 +39,7 @@ public interface e1 extends g {
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    j$.util.r mo66iterator();
+    j$.util.r mo331iterator();
 
     boolean k(j$.wrappers.j0 j0Var);
 
@@ -52,19 +52,22 @@ public interface e1 extends g {
     e1 p(j$.util.function.q qVar);
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    e1 parallel();
+    /* renamed from: parallel */
+    e1 mo332parallel();
 
     e1 s(j$.util.function.r rVar);
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    e1 sequential();
+    /* renamed from: sequential */
+    e1 mo333sequential();
 
     e1 skip(long j);
 
     e1 sorted();
 
     @Override // j$.util.stream.g
-    j$.util.v spliterator();
+    /* renamed from: spliterator */
+    j$.util.v mo334spliterator();
 
     long sum();
 

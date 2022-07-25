@@ -67,6 +67,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setState$0() {
         this.animatingState = null;
     }
@@ -91,6 +92,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Init of enum GIF_TO_KEYBOARD can be incorrect */
     /* JADX WARN: Init of enum GIF_TO_SMILE can be incorrect */
     /* JADX WARN: Init of enum KEYBOARD_TO_GIF can be incorrect */

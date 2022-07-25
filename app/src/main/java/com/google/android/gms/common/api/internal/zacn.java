@@ -57,6 +57,7 @@ public final class zacn<R extends Result> extends TransformedResult<R> implement
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa() {
         this.zac = null;
     }
@@ -66,6 +67,7 @@ public final class zacn<R extends Result> extends TransformedResult<R> implement
         return (this.zac == null || this.zag.get() == null) ? false : true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zaa(Result result) {
         if (result instanceof Releasable) {
             try {

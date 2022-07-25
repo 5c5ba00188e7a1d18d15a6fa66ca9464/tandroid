@@ -108,6 +108,7 @@ public class MessageCodec {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void writeValue(String str, Object obj, Bundle bundle) {
         if (obj != null && !a(str, obj, bundle)) {
             if (obj instanceof CharSequence) {

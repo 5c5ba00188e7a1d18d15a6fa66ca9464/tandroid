@@ -170,6 +170,7 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
 
     abstract zzr zza();
 
+    @Override // java.util.Map, j$.util.Map
     /* renamed from: zzb */
     public final zzr values() {
         zzr zzrVar = this.zzc;
@@ -185,6 +186,7 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
 
     abstract zzy zzd();
 
+    @Override // java.util.Map, j$.util.Map
     /* renamed from: zze */
     public final zzy entrySet() {
         zzy zzyVar = this.zza;

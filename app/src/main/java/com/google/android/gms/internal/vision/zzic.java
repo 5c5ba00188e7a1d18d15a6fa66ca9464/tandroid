@@ -12,6 +12,7 @@ final class zzic implements zzhz {
         return bArr2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzic(zzhs zzhsVar) {
         this();
     }

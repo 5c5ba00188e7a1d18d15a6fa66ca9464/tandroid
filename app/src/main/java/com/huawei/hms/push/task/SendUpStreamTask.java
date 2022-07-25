@@ -50,6 +50,7 @@ public class SendUpStreamTask extends TaskApiCall<PushClient, BaseVoidTask> {
         return 40003000;
     }
 
+    @Override // com.huawei.hms.common.internal.TaskApiCall
     public void doExecute(PushClient pushClient, ResponseErrorCode responseErrorCode, String str, TaskCompletionSource<BaseVoidTask> taskCompletionSource) {
         if (responseErrorCode.getErrorCode() == 0) {
             HMSLog.i("SendUpStreamTask", "send up stream task,Operate succeed");

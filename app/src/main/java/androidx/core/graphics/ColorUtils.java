@@ -68,28 +68,28 @@ public final class ColorUtils {
 
     public static void RGBToHSL(int r, int g, int b, float[] outHsl) {
         float f;
-        float f2;
-        float f3 = r / 255.0f;
-        float f4 = g / 255.0f;
-        float f5 = b / 255.0f;
-        float max = Math.max(f3, Math.max(f4, f5));
-        float min = Math.min(f3, Math.min(f4, f5));
-        float f6 = max - min;
-        float f7 = (max + min) / 2.0f;
+        float abs;
+        float f2 = r / 255.0f;
+        float f3 = g / 255.0f;
+        float f4 = b / 255.0f;
+        float max = Math.max(f2, Math.max(f3, f4));
+        float min = Math.min(f2, Math.min(f3, f4));
+        float f5 = max - min;
+        float f6 = (max + min) / 2.0f;
         if (max == min) {
             f = 0.0f;
-            f2 = 0.0f;
+            abs = 0.0f;
         } else {
-            f = max == f3 ? ((f4 - f5) / f6) % 6.0f : max == f4 ? ((f5 - f3) / f6) + 2.0f : 4.0f + ((f3 - f4) / f6);
-            f2 = f6 / (1.0f - Math.abs((2.0f * f7) - 1.0f));
+            f = max == f2 ? ((f3 - f4) / f5) % 6.0f : max == f3 ? ((f4 - f2) / f5) + 2.0f : 4.0f + ((f2 - f3) / f5);
+            abs = f5 / (1.0f - Math.abs((2.0f * f6) - 1.0f));
         }
-        float f8 = (f * 60.0f) % 360.0f;
-        if (f8 < 0.0f) {
-            f8 += 360.0f;
+        float f7 = (f * 60.0f) % 360.0f;
+        if (f7 < 0.0f) {
+            f7 += 360.0f;
         }
-        outHsl[0] = constrain(f8, 0.0f, 360.0f);
-        outHsl[1] = constrain(f2, 0.0f, 1.0f);
-        outHsl[2] = constrain(f7, 0.0f, 1.0f);
+        outHsl[0] = constrain(f7, 0.0f, 360.0f);
+        outHsl[1] = constrain(abs, 0.0f, 1.0f);
+        outHsl[2] = constrain(f6, 0.0f, 1.0f);
     }
 
     public static void colorToHSL(int color, float[] outHsl) {

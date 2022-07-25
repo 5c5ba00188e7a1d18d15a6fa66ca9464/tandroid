@@ -69,6 +69,7 @@ public final class zzs extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzs(boolean z, long j, float f, long j2, int i) {
         this.zza = z;
         this.zzb = j;

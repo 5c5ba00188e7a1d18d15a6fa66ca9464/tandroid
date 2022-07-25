@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
 class ErrorParser {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static StripeError parseError(String str) {
         StripeError stripeError = new StripeError();
         try {
@@ -23,9 +24,8 @@ class ErrorParser {
         return stripeError;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class StripeError {
+    static class StripeError {
         public String charge;
         public String code;
         public String decline_code;

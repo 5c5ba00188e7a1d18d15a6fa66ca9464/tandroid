@@ -34,16 +34,14 @@ public class EditTextOutline extends EditTextBoldCursor {
         this.textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         this.mUpdateCachedBitmap = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
-    public void onSizeChanged(int i, int i2, int i3, int i4) {
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         if (i > 0 && i2 > 0) {
             this.mUpdateCachedBitmap = true;
@@ -94,15 +92,16 @@ public class EditTextOutline extends EditTextBoldCursor {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x026a  */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x02bd  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x02d7  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x034f  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0366  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x0399  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x03b2  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03b6  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x023f  */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x026a  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x02d7  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0366  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x03b6  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0399  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x034f  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x02bd  */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -110,14 +109,14 @@ public class EditTextOutline extends EditTextBoldCursor {
     */
     public void onDraw(Canvas canvas) {
         int i;
-        int i2;
         float f;
-        Layout layout;
-        int i3;
-        float f2;
+        int i2;
         boolean z;
         boolean z2;
         boolean z3;
+        Layout layout;
+        int i3;
+        float f2;
         int i4;
         float f3;
         float f4;

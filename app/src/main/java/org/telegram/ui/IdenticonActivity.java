@@ -53,6 +53,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
     private LinearLayout linearLayout1;
     private TextView textView;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -317,6 +318,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         String str;

@@ -6,13 +6,17 @@ import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class UrlLinkFrame extends Id3Frame {
     public static final Parcelable.Creator<UrlLinkFrame> CREATOR = new Parcelable.Creator<UrlLinkFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.UrlLinkFrame.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public UrlLinkFrame createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public UrlLinkFrame mo129createFromParcel(Parcel parcel) {
             return new UrlLinkFrame(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public UrlLinkFrame[] newArray(int i) {
+        /* renamed from: newArray */
+        public UrlLinkFrame[] mo130newArray(int i) {
             return new UrlLinkFrame[i];
         }
     };

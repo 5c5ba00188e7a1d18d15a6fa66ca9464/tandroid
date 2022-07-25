@@ -1,8 +1,10 @@
 package j$.util.stream;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class U2 implements N4 {
     private final e4 a;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public U2(e4 e4Var) {
         this.a = e4Var;
     }

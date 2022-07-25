@@ -76,6 +76,7 @@ public final class WebRtcAudioUtils {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String modeToString(int i) {
         return i != 0 ? i != 1 ? i != 2 ? i != 3 ? "MODE_INVALID" : "MODE_IN_COMMUNICATION" : "MODE_IN_CALL" : "MODE_RINGTONE" : "MODE_NORMAL";
     }
@@ -185,6 +186,7 @@ public final class WebRtcAudioUtils {
         Logging.d(str, "Android SDK: " + Build.VERSION.SDK_INT + ", Release: " + Build.VERSION.RELEASE + ", Brand: " + Build.BRAND + ", Device: " + Build.DEVICE + ", Id: " + Build.ID + ", Hardware: " + Build.HARDWARE + ", Manufacturer: " + Build.MANUFACTURER + ", Model: " + Build.MODEL + ", Product: " + Build.PRODUCT);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void logAudioState(String str) {
         logDeviceInfo(str);
         AudioManager audioManager = (AudioManager) ContextUtils.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);

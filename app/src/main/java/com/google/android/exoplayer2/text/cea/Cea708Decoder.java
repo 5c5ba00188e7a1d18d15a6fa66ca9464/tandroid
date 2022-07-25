@@ -543,6 +543,7 @@ public final class Cea708Decoder extends CeaDecoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class DtvCcPacket {
         int currentIndex = 0;
@@ -557,6 +558,7 @@ public final class Cea708Decoder extends CeaDecoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CueBuilder {
         public static final int COLOR_SOLID_BLACK;
@@ -789,13 +791,13 @@ public final class Cea708Decoder extends CeaDecoder {
             return new SpannableString(spannableStringBuilder);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0065  */
-        /* JADX WARN: Removed duplicated region for block: B:22:0x0070  */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x0091  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0093  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x009e  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00a0  */
-        /* JADX WARN: Removed duplicated region for block: B:39:0x00ac  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0091  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x009e  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x00ac  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x00a0  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0093  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0070  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -827,14 +829,14 @@ public final class Cea708Decoder extends CeaDecoder {
                 }
                 Layout.Alignment alignment2 = alignment;
                 if (!this.relativePositioning) {
-                    f2 = this.horizontalAnchor / 99.0f;
-                    f = this.verticalAnchor / 99.0f;
+                    f = this.horizontalAnchor / 99.0f;
+                    f2 = this.verticalAnchor / 99.0f;
                 } else {
-                    f2 = this.horizontalAnchor / 209.0f;
-                    f = this.verticalAnchor / 74.0f;
+                    f = this.horizontalAnchor / 209.0f;
+                    f2 = this.verticalAnchor / 74.0f;
                 }
-                float f3 = (f2 * 0.9f) + 0.05f;
-                float f4 = (f * 0.9f) + 0.05f;
+                float f3 = (f * 0.9f) + 0.05f;
+                float f4 = (f2 * 0.9f) + 0.05f;
                 i = this.anchorId;
                 if (i % 3 != 0) {
                     i2 = 0;
@@ -855,8 +857,8 @@ public final class Cea708Decoder extends CeaDecoder {
             Layout.Alignment alignment22 = alignment;
             if (!this.relativePositioning) {
             }
-            float f32 = (f2 * 0.9f) + 0.05f;
-            float f42 = (f * 0.9f) + 0.05f;
+            float f32 = (f * 0.9f) + 0.05f;
+            float f42 = (f2 * 0.9f) + 0.05f;
             i = this.anchorId;
             if (i % 3 != 0) {
             }
@@ -871,11 +873,11 @@ public final class Cea708Decoder extends CeaDecoder {
             return getArgbColorFromCeaColor(i, i2, i3, 0);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0025  */
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0028  */
-        /* JADX WARN: Removed duplicated region for block: B:16:0x002b  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x002e  */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x0031  */
+        /* JADX WARN: Removed duplicated region for block: B:10:0x0025  */
+        /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0031  */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x002e  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x0028  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

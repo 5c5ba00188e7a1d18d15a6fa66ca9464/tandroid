@@ -4,8 +4,10 @@ package com.google.android.gms.internal.vision;
 /* JADX WARN: Init of enum zze can be incorrect */
 /* JADX WARN: Init of enum zzf can be incorrect */
 /* JADX WARN: Init of enum zzg can be incorrect */
+/* JADX WARN: Init of enum zzi can be incorrect */
 /* JADX WARN: Init of enum zzj can be incorrect */
 /* JADX WARN: Init of enum zzk can be incorrect */
+/* JADX WARN: Init of enum zzl can be incorrect */
 /* JADX WARN: Init of enum zzm can be incorrect */
 /* JADX WARN: Init of enum zzo can be incorrect */
 /* JADX WARN: Init of enum zzp can be incorrect */
@@ -22,13 +24,13 @@ public enum zzml {
     FIXED64(r5, 1),
     FIXED32(r11, 5),
     BOOL(zzmo.BOOLEAN, 0),
-    STRING(zzmo.STRING, 2) { // from class: com.google.android.gms.internal.vision.zzmk
+    STRING(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmk
     },
     GROUP(r13, 3) { // from class: com.google.android.gms.internal.vision.zzmn
     },
     MESSAGE(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmm
     },
-    BYTES(zzmo.BYTE_STRING, 2) { // from class: com.google.android.gms.internal.vision.zzmp
+    BYTES(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmp
     },
     UINT32(r11, 0),
     ENUM(zzmo.ENUM, 0),
@@ -40,7 +42,6 @@ public enum zzml {
     private final zzmo zzs;
     private final int zzt;
 
-    /* JADX INFO: Access modifiers changed from: private */
     zzml(zzmo zzmoVar, int i) {
         this.zzs = zzmoVar;
         this.zzt = i;
@@ -53,6 +54,8 @@ public enum zzml {
     static {
         zzmo zzmoVar = zzmo.LONG;
         zzmo zzmoVar2 = zzmo.INT;
-        zzmo zzmoVar3 = zzmo.MESSAGE;
+        final zzmo zzmoVar3 = zzmo.STRING;
+        final zzmo zzmoVar4 = zzmo.MESSAGE;
+        final zzmo zzmoVar5 = zzmo.BYTE_STRING;
     }
 }

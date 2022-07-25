@@ -4,15 +4,17 @@ import android.app.DownloadManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import java.util.NoSuchElementException;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DownloadManagerUpdateTask extends AsyncTask<Void, Void, Void> {
+class DownloadManagerUpdateTask extends AsyncTask<Void, Void, Void> {
     private final DownloadManagerReleaseDownloader mDownloader;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DownloadManagerUpdateTask(DownloadManagerReleaseDownloader downloadManagerReleaseDownloader) {
         this.mDownloader = downloadManagerReleaseDownloader;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Void doInBackground(Void... voidArr) {
         Cursor query;
         DownloadManager downloadManager = this.mDownloader.getDownloadManager();

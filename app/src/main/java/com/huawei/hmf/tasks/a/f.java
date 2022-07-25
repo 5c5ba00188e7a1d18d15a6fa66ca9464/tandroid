@@ -10,6 +10,7 @@ public final class f<TResult> implements ExecuteResult<TResult> {
     private Executor b;
     private final Object c = new Object();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public f(Executor executor, OnFailureListener onFailureListener) {
         this.a = onFailureListener;
         this.b = executor;

@@ -44,16 +44,16 @@ public class FragmentContextViewWavesDrawable {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00d8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(float f, float f2, float f3, float f4, Canvas canvas, FragmentContextView fragmentContextView, float f5) {
-        long j;
         boolean z;
-        int i;
+        long j;
         float f6;
+        int i;
         checkColors();
         int i2 = 0;
         boolean z2 = fragmentContextView != null && this.parents.size() > 0 && fragmentContextView == this.parents.get(0);

@@ -109,7 +109,8 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         Collections.shuffle(this.animationIndexes);
     }
 
-    /* renamed from: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 implements GestureDetector.OnGestureListener {
         @Override // android.view.GestureDetector.OnGestureListener
@@ -122,7 +123,6 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
 
         AnonymousClass1() {
-            GLIconTextureView.this = r1;
         }
 
         @Override // android.view.GestureDetector.OnGestureListener
@@ -158,6 +158,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSingleTapUp$0(float f, float f2) {
             ValueAnimator valueAnimator = GLIconTextureView.this.backAnimation;
             if (valueAnimator != null) {
@@ -284,6 +285,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean shouldSleep() {
         return isPaused() || this.mRenderer == null;
     }
@@ -292,10 +294,10 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         this.mRenderer.setBackground(bitmap);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class RenderThread extends Thread {
         private RenderThread() {
-            GLIconTextureView.this = r1;
         }
 
         /* synthetic */ RenderThread(GLIconTextureView gLIconTextureView, AnonymousClass1 anonymousClass1) {
@@ -347,6 +349,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void initializeRenderer(GLIconRenderer gLIconRenderer) {
         if (gLIconRenderer != null) {
             if (this.isRunning) {
@@ -356,6 +359,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void drawSingleFrame() {
         checkCurrent();
         GLIconRenderer gLIconRenderer = this.mRenderer;
@@ -390,6 +394,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkGlError() {
         int glGetError = this.mGl.glGetError();
         if (glGetError != 0) {
@@ -397,6 +402,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void initGL() {
         EGL10 egl10 = (EGL10) EGLContext.getEGL();
         this.mEgl = egl10;
@@ -455,6 +461,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         return this.gestureDetector.onTouchEvent(motionEvent);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startBackAnimation() {
         cancelAnimatons();
         GLIconRenderer gLIconRenderer = this.mRenderer;
@@ -480,6 +487,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         scheduleIdleAnimation(this.idleDelay);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startBackAnimation$0(float f, float f2, float f3, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         GLIconRenderer gLIconRenderer = this.mRenderer;
@@ -503,6 +511,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.TextureView, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -511,6 +520,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         scheduleIdleAnimation(this.idleDelay);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -518,18 +528,22 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         this.attached = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ValueAnimator valueAnimator) {
         this.mRenderer.angleX2 = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(ValueAnimator valueAnimator) {
         this.mRenderer.angleX = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(ValueAnimator valueAnimator) {
         this.mRenderer.angleY = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void scheduleIdleAnimation(long j) {
         AndroidUtilities.cancelRunOnUIThread(this.idleAnimation);
         if (this.dialogIsVisible) {
@@ -538,6 +552,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         AndroidUtilities.runOnUIThread(this.idleAnimation, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startIdleAnimation() {
         if (!this.attached) {
             return;

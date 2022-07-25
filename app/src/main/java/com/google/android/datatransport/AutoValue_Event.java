@@ -1,11 +1,11 @@
 package com.google.android.datatransport;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AutoValue_Event<T> extends Event<T> {
+final class AutoValue_Event<T> extends Event<T> {
     private final Integer code;
     private final T payload;
     private final Priority priority;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_Event(Integer num, T t, Priority priority) {
         this.code = num;
         if (t == null) {

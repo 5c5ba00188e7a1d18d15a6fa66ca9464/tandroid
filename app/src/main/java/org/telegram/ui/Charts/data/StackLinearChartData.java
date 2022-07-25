@@ -100,6 +100,7 @@ public class StackLinearChartData extends ChartData {
         measure();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.data.ChartData
     public void measure() {
         super.measure();

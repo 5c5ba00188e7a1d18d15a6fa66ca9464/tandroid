@@ -75,4 +75,21 @@ public final /* synthetic */ class n implements Spliterator.OfLong {
     public /* synthetic */ boolean tryAdvance2(LongConsumer longConsumer) {
         return this.a.i(f0.b(longConsumer));
     }
+
+    @Override // java.util.Spliterator.OfLong, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    public /* synthetic */ Spliterator.OfLong trySplit() {
+        return a(this.a.mo350trySplit());
+    }
+
+    @Override // java.util.Spliterator.OfLong, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    /* renamed from: trySplit */
+    public /* synthetic */ Spliterator.OfPrimitive mo348trySplit() {
+        return p.a(this.a.mo350trySplit());
+    }
+
+    @Override // java.util.Spliterator.OfLong, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    /* renamed from: trySplit */
+    public /* synthetic */ Spliterator mo349trySplit() {
+        return h.a(this.a.mo350trySplit());
+    }
 }

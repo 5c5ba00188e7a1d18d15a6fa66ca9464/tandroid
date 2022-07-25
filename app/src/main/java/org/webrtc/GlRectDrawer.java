@@ -5,9 +5,8 @@ import org.webrtc.GlGenericDrawer;
 public class GlRectDrawer extends GlGenericDrawer {
     private static final String FRAGMENT_SHADER = "void main() {\n  gl_FragColor = sample(tc);\n}\n";
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class ShaderCallbacks implements GlGenericDrawer.ShaderCallbacks {
+    private static class ShaderCallbacks implements GlGenericDrawer.ShaderCallbacks {
         @Override // org.webrtc.GlGenericDrawer.ShaderCallbacks
         public void onNewShader(GlShader glShader) {
         }

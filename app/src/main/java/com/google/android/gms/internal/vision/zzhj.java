@@ -103,6 +103,7 @@ abstract class zzhj<E> extends AbstractList<E> implements zzjl<E> {
         return super.retainAll(collection);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void zzc() {
         if (this.zza) {
             return;

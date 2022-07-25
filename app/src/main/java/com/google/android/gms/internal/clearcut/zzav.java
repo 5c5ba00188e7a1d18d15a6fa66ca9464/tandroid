@@ -94,6 +94,7 @@ abstract class zzav<E> extends AbstractList<E> implements zzcn<E> {
         this.zzfa = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void zzw() {
         if (this.zzfa) {
             return;

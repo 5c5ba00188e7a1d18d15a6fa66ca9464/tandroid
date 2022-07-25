@@ -6,13 +6,13 @@ import android.os.Message;
 import android.util.Log;
 import com.google.android.gms.common.internal.GmsClientSupervisor;
 import java.util.HashMap;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zzh implements Handler.Callback {
     private final /* synthetic */ zzg zza;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzh(zzg zzgVar) {
+    private zzh(zzg zzgVar) {
         this.zza = zzgVar;
     }
 

@@ -9,7 +9,7 @@ final class Sniffer {
     private int peekLength;
     private final ParsableByteArray scratch = new ParsableByteArray(8);
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x009c, code lost:
         return false;
      */
     /*

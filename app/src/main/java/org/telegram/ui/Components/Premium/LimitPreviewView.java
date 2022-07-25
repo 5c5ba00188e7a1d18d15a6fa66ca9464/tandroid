@@ -148,6 +148,7 @@ public class LimitPreviewView extends LinearLayout {
         this.limitIcon.setText(spannableStringBuilder);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public float getGlobalXOffset() {
         return (((-getMeasuredWidth()) * 0.1f) * this.progress) - (getMeasuredWidth() * 0.2f);
     }
@@ -185,11 +186,11 @@ public class LimitPreviewView extends LinearLayout {
             int dp2 = AndroidUtilities.dp(14.0f);
             float measuredWidth = (dp2 + ((getMeasuredWidth() - (dp2 * 2)) * this.position)) - (this.limitIcon.getMeasuredWidth() / 2.0f);
             if (measuredWidth > (getMeasuredWidth() - dp2) - this.limitIcon.getMeasuredWidth()) {
-                f2 = (getMeasuredWidth() - dp2) - this.limitIcon.getMeasuredWidth();
-                f = 1.0f;
+                f = (getMeasuredWidth() - dp2) - this.limitIcon.getMeasuredWidth();
+                f2 = 1.0f;
             } else {
-                f2 = measuredWidth;
-                f = 0.5f;
+                f = measuredWidth;
+                f2 = 0.5f;
             }
             this.limitIcon.setAlpha(1.0f);
             this.limitIcon.setTranslationX(0.0f);
@@ -199,8 +200,8 @@ public class LimitPreviewView extends LinearLayout {
             this.limitIcon.setScaleY(0.0f);
             this.limitIcon.createAnimationLayouts();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            final float f3 = f2;
-            final float f4 = f;
+            final float f3 = f;
+            final float f4 = f2;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -237,6 +238,7 @@ public class LimitPreviewView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLayout$0(float f, float f2, float f3, float f4, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float min = Math.min(1.0f, floatValue);
@@ -299,6 +301,7 @@ public class LimitPreviewView extends LinearLayout {
         this.premiumLocked = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class CounterView extends View {
         StaticLayout animatedStableLayout;
@@ -313,10 +316,8 @@ public class LimitPreviewView extends LinearLayout {
         TextPaint textPaint = new TextPaint(1);
         ArrayList<AnimatedLayout> animatedLayouts = new ArrayList<>();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public CounterView(Context context) {
             super(context);
-            LimitPreviewView.this = r1;
             this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.textPaint.setTextSize(AndroidUtilities.dp(22.0f));
             this.textPaint.setColor(-1);
@@ -481,11 +482,13 @@ public class LimitPreviewView extends LinearLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$createAnimationLayouts$0(AnimatedLayout animatedLayout, ValueAnimator valueAnimator) {
             animatedLayout.progress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void checkAnimationComplete() {
             for (int i = 0; i < this.animatedLayouts.size(); i++) {
                 if (this.animatedLayouts.get(i).valueAnimator != null) {
@@ -509,6 +512,7 @@ public class LimitPreviewView extends LinearLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class AnimatedLayout {
             public boolean direction;

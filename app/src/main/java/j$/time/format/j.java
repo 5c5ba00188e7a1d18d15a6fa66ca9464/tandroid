@@ -7,6 +7,7 @@ class j implements g {
     private final s d;
     final int e;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public j(j$.time.temporal.k kVar, int i, int i2, s sVar) {
         this.a = kVar;
         this.b = i;
@@ -23,10 +24,12 @@ class j implements g {
         this.e = i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public j b() {
         return this.e == -1 ? this : new j(this.a, this.b, this.c, this.d, -1);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public j c(int i) {
         return new j(this.a, this.b, this.c, this.d, this.e + i);
     }

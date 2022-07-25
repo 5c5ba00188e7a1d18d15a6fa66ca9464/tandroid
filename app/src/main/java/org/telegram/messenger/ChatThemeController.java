@@ -91,6 +91,7 @@ public class ChatThemeController extends BaseController {
         resultCallback.onComplete(arrayList);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$requestAllChatThemes$3(final ResultCallback resultCallback, final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         chatThemeQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
@@ -100,14 +101,15 @@ public class ChatThemeController extends BaseController {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00a6  */
-    /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x00a6  */
+    /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static /* synthetic */ void lambda$requestAllChatThemes$2(TLObject tLObject, final ResultCallback resultCallback, final TLRPC$TL_error tLRPC$TL_error, boolean z) {
-        boolean z2;
         final List<EmojiThemes> list;
+        boolean z2;
         if (tLObject instanceof TLRPC$TL_account_themes) {
             TLRPC$TL_account_themes tLRPC$TL_account_themes = (TLRPC$TL_account_themes) tLObject;
             themesHash = tLRPC$TL_account_themes.hash;
@@ -162,6 +164,7 @@ public class ChatThemeController extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$requestAllChatThemes$1(List list, ResultCallback resultCallback) {
         allChatThemes = new ArrayList(list);
         resultCallback.onComplete(list);
@@ -202,6 +205,7 @@ public class ChatThemeController extends BaseController {
                     ResultCallback.CC.$default$onError(this, th);
                 }
 
+                @Override // org.telegram.tgnet.ResultCallback
                 public void onComplete(List<EmojiThemes> list) {
                     for (EmojiThemes emojiThemes : list) {
                         if (str.equals(emojiThemes.getEmoticon())) {
@@ -301,6 +305,7 @@ public class ChatThemeController extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$preloadAllWallpaperThumbs$4(Pair pair) {
         if (pair != null) {
             themeIdWallpaperThumbMap.put((Long) pair.first, (Bitmap) pair.second);
@@ -325,6 +330,7 @@ public class ChatThemeController extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getWallpaperBitmap$6(File file, final ResultCallback resultCallback) {
         final Bitmap bitmap = null;
         try {
@@ -358,6 +364,7 @@ public class ChatThemeController extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$saveWallpaperBitmap$7(File file, Bitmap bitmap) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);

@@ -43,7 +43,7 @@ class Y2 extends i3 {
                 Stream stream = (Stream) ((a3) this.c).m.apply(obj);
                 if (stream != null) {
                     try {
-                        ((Stream) stream.sequential()).forEach(this.a);
+                        ((Stream) stream.mo333sequential()).forEach(this.a);
                     } finally {
                         try {
                             stream.close();

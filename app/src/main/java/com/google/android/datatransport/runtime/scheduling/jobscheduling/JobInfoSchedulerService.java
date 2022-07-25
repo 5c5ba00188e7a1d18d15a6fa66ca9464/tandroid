@@ -34,6 +34,7 @@ public class JobInfoSchedulerService extends JobService {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onStartJob$0(JobParameters jobParameters) {
         jobFinished(jobParameters, false);
     }

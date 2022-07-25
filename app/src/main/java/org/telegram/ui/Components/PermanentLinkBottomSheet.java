@@ -42,8 +42,8 @@ public class PermanentLinkBottomSheet extends BottomSheet {
 
     public PermanentLinkBottomSheet(Context context, boolean z, final BaseFragment baseFragment, final TLRPC$ChatFull tLRPC$ChatFull, long j, boolean z2) {
         super(context, z);
-        String str;
         int i;
+        String str;
         TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
         this.chatId = j;
         setAllowNestedScroll(true);
@@ -135,10 +135,12 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         updateColors();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         generateLink(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(TLRPC$ChatFull tLRPC$ChatFull, BaseFragment baseFragment, View view) {
         ManageLinksActivity manageLinksActivity = new ManageLinksActivity(tLRPC$ChatFull.id, 0L, 0);
         manageLinksActivity.setInfo(tLRPC$ChatFull, tLRPC$ChatFull.exported_invite);
@@ -162,6 +164,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$3(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -171,6 +174,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z) {
         if (tLRPC$TL_error == null) {
             this.invite = (TLRPC$TL_chatInviteExported) tLObject;
@@ -201,6 +205,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         }, 50L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$4() {
         this.linkIcon.start();
     }
@@ -228,6 +233,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateColors() {
         this.imageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(90.0f), Theme.getColor("featuredStickers_addButton")));
         this.manage.setBackground(Theme.createRadSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhiteBlueText"), 76), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f)));

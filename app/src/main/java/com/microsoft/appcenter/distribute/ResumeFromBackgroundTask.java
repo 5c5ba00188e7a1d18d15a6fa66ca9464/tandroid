@@ -11,11 +11,14 @@ class ResumeFromBackgroundTask extends AsyncTask<Void, Void, Void> {
     private final Context mContext;
     private final long mDownloadedId;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ResumeFromBackgroundTask(Context context, long j) {
         this.mContext = context;
         this.mDownloadedId = j;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Void doInBackground(Void... voidArr) {
         Distribute distribute = Distribute.getInstance();
         distribute.startFromBackground(this.mContext);

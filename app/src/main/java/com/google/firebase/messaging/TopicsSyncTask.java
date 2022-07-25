@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class TopicsSyncTask implements Runnable {
@@ -29,7 +30,6 @@ public class TopicsSyncTask implements Runnable {
         private TopicsSyncTask task;
 
         public ConnectivityChangeReceiver(TopicsSyncTask topicsSyncTask) {
-            TopicsSyncTask.this = r1;
             this.task = topicsSyncTask;
         }
 
@@ -58,6 +58,7 @@ public class TopicsSyncTask implements Runnable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TopicsSyncTask(TopicsSubscriber topicsSubscriber, Context context, Metadata metadata, long j) {
         this.topicsSubscriber = topicsSubscriber;
         this.context = context;
@@ -75,20 +76,20 @@ public class TopicsSyncTask implements Runnable {
     }
 
     private static boolean hasAccessNetworkStatePermission(Context context) {
-        boolean z;
         boolean booleanValue;
+        boolean booleanValue2;
         synchronized (TOPIC_SYNC_TASK_LOCK) {
             Boolean bool = hasAccessNetworkStatePermission;
             if (bool == null) {
-                z = hasPermission(context, "android.permission.ACCESS_NETWORK_STATE", bool);
+                booleanValue = hasPermission(context, "android.permission.ACCESS_NETWORK_STATE", bool);
             } else {
-                z = bool.booleanValue();
+                booleanValue = bool.booleanValue();
             }
-            Boolean valueOf = Boolean.valueOf(z);
+            Boolean valueOf = Boolean.valueOf(booleanValue);
             hasAccessNetworkStatePermission = valueOf;
-            booleanValue = valueOf.booleanValue();
+            booleanValue2 = valueOf.booleanValue();
         }
-        return booleanValue;
+        return booleanValue2;
     }
 
     private static boolean hasPermission(Context context, String str, Boolean bool) {
@@ -104,22 +105,23 @@ public class TopicsSyncTask implements Runnable {
     }
 
     private static boolean hasWakeLockPermission(Context context) {
-        boolean z;
         boolean booleanValue;
+        boolean booleanValue2;
         synchronized (TOPIC_SYNC_TASK_LOCK) {
             Boolean bool = hasWakeLockPermission;
             if (bool == null) {
-                z = hasPermission(context, "android.permission.WAKE_LOCK", bool);
+                booleanValue = hasPermission(context, "android.permission.WAKE_LOCK", bool);
             } else {
-                z = bool.booleanValue();
+                booleanValue = bool.booleanValue();
             }
-            Boolean valueOf = Boolean.valueOf(z);
+            Boolean valueOf = Boolean.valueOf(booleanValue);
             hasWakeLockPermission = valueOf;
-            booleanValue = valueOf.booleanValue();
+            booleanValue2 = valueOf.booleanValue();
         }
-        return booleanValue;
+        return booleanValue2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized boolean isDeviceConnected() {
         boolean z;
         ConnectivityManager connectivityManager = (ConnectivityManager) this.context.getSystemService("connectivity");
@@ -133,6 +135,7 @@ public class TopicsSyncTask implements Runnable {
         return z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static boolean isLoggable() {
         return Log.isLoggable("FirebaseMessaging", 3) || (Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3));
     }

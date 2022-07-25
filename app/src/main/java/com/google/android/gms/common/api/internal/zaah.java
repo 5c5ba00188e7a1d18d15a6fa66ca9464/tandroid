@@ -7,10 +7,9 @@ import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.common.internal.Preconditions;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.locks.Lock;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
-public final class zaah implements BaseGmsClient.ConnectionProgressReportCallbacks {
+final class zaah implements BaseGmsClient.ConnectionProgressReportCallbacks {
     private final WeakReference<zaaf> zaa;
     private final Api<?> zab;
     private final boolean zac;

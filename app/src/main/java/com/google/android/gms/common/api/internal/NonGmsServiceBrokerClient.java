@@ -88,7 +88,7 @@ public final class NonGmsServiceBrokerClient implements ServiceConnection, Api.C
     }
 
     @Override // android.content.ServiceConnection
-    public final void onServiceConnected(@RecentlyNonNull ComponentName componentName, @RecentlyNonNull IBinder iBinder) {
+    public final void onServiceConnected(@RecentlyNonNull ComponentName componentName, @RecentlyNonNull final IBinder iBinder) {
         this.zag.post(new Runnable(this, iBinder) { // from class: com.google.android.gms.common.api.internal.zabs
             private final NonGmsServiceBrokerClient zaa;
             private final IBinder zab;
@@ -214,6 +214,7 @@ public final class NonGmsServiceBrokerClient implements ServiceConnection, Api.C
         return this.zak;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zaa() {
         this.zaj = false;
         this.zai = null;
@@ -221,6 +222,7 @@ public final class NonGmsServiceBrokerClient implements ServiceConnection, Api.C
         this.zaf.onConnectionSuspended(1);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zaa(IBinder iBinder) {
         this.zaj = false;
         this.zai = iBinder;

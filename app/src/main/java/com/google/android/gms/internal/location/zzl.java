@@ -17,6 +17,7 @@ public final class zzl extends AbstractSafeParcelable {
     final zzax zzc;
     final zzai zzd;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzl(int i, zzj zzjVar, IBinder iBinder, IBinder iBinder2) {
         this.zza = i;
         this.zzb = zzjVar;

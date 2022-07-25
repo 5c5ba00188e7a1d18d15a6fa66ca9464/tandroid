@@ -42,21 +42,25 @@ public class PhotoCropView extends FrameLayout {
     private float flashAlpha = 0.0f;
     private Paint circlePaint = new Paint(1);
     public final Property<PhotoCropView, Float> ANIMATION_VALUE = new AnimationProperties.FloatProperty<PhotoCropView>("thumbAnimationProgress") { // from class: org.telegram.ui.Components.PhotoCropView.1
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(PhotoCropView photoCropView, float f) {
             PhotoCropView.this.thumbAnimationProgress = f;
             photoCropView.invalidate();
         }
 
+        @Override // android.util.Property
         public Float get(PhotoCropView photoCropView) {
             return Float.valueOf(PhotoCropView.this.thumbAnimationProgress);
         }
     };
     public final Property<PhotoCropView, Float> PROGRESS_VALUE = new AnimationProperties.FloatProperty<PhotoCropView>("thumbImageVisibleProgress") { // from class: org.telegram.ui.Components.PhotoCropView.2
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(PhotoCropView photoCropView, float f) {
             PhotoCropView.this.thumbImageVisibleProgress = f;
             photoCropView.invalidate();
         }
 
+        @Override // android.util.Property
         public Float get(PhotoCropView photoCropView) {
             return Float.valueOf(PhotoCropView.this.thumbImageVisibleProgress);
         }

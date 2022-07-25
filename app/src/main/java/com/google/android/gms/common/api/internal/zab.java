@@ -21,6 +21,7 @@ public abstract class zab {
 
     public abstract void zaa(Exception exc);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Status zab(RemoteException remoteException) {
         return new Status(19, remoteException.getClass().getSimpleName() + ": " + remoteException.getLocalizedMessage());
     }

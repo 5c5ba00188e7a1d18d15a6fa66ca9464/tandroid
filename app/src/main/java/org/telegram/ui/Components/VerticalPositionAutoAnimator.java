@@ -47,17 +47,15 @@ public final class VerticalPositionAutoAnimator {
         this.animatorLayoutChangeListener.ignoreNextLayout = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class AnimatorLayoutChangeListener implements View.OnLayoutChangeListener {
+    private class AnimatorLayoutChangeListener implements View.OnLayoutChangeListener {
         private boolean ignoreNextLayout;
         private Boolean orientation;
 
         public AnimatorLayoutChangeListener(View view, float f) {
-            VerticalPositionAutoAnimator.this = r4;
-            r4.floatingButtonAnimator = new SpringAnimation(view, DynamicAnimation.TRANSLATION_Y, r4.offsetY);
-            r4.floatingButtonAnimator.getSpring().setDampingRatio(1.0f);
-            r4.floatingButtonAnimator.getSpring().setStiffness(f);
+            VerticalPositionAutoAnimator.this.floatingButtonAnimator = new SpringAnimation(view, DynamicAnimation.TRANSLATION_Y, VerticalPositionAutoAnimator.this.offsetY);
+            VerticalPositionAutoAnimator.this.floatingButtonAnimator.getSpring().setDampingRatio(1.0f);
+            VerticalPositionAutoAnimator.this.floatingButtonAnimator.getSpring().setStiffness(f);
         }
 
         @Override // android.view.View.OnLayoutChangeListener

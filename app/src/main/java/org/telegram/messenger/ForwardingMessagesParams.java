@@ -32,10 +32,10 @@ public class ForwardingMessagesParams {
     public SparseBooleanArray selectedIds = new SparseBooleanArray();
     public ArrayList<TLRPC$TL_pollAnswerVoters> pollChoosenAnswers = new ArrayList<>();
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0124  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01ed A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0124  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x01ed A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -210,18 +210,18 @@ public class ForwardingMessagesParams {
         for (int i6 = 0; i6 < arrayList.size(); i6++) {
             MessageObject messageObject3 = arrayList.get(i6);
             if (messageObject3.isFromUser()) {
-                j2 = messageObject3.messageOwner.from_id.user_id;
+                j3 = messageObject3.messageOwner.from_id.user_id;
             } else {
                 TLRPC$Chat chat = MessagesController.getInstance(messageObject3.currentAccount).getChat(Long.valueOf(messageObject3.messageOwner.peer_id.channel_id));
                 if (ChatObject.isChannel(chat) && chat.megagroup && messageObject3.isForwardedChannelPost()) {
-                    j3 = messageObject3.messageOwner.fwd_from.from_id.channel_id;
+                    j2 = messageObject3.messageOwner.fwd_from.from_id.channel_id;
                 } else {
-                    j3 = messageObject3.messageOwner.peer_id.channel_id;
+                    j2 = messageObject3.messageOwner.peer_id.channel_id;
                 }
-                j2 = -j3;
+                j3 = -j2;
             }
-            if (!arrayList6.contains(Long.valueOf(j2))) {
-                arrayList6.add(Long.valueOf(j2));
+            if (!arrayList6.contains(Long.valueOf(j3))) {
+                arrayList6.add(Long.valueOf(j3));
             }
         }
         if (arrayList6.size() + arrayList5.size() > 1) {
@@ -247,7 +247,6 @@ public class ForwardingMessagesParams {
         public int totalVotersCached;
 
         public PreviewMediaPoll() {
-            ForwardingMessagesParams.this = r1;
         }
     }
 }

@@ -19,6 +19,7 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     private final Executor backgroundExecutor;
     private Provider<HeartBeatInfoStorage> storageProvider;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Thread lambda$static$0(Runnable runnable) {
         return new Thread(runnable, "heartbeat-information-executor");
     }
@@ -26,7 +27,8 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     private DefaultHeartBeatInfo(final Context context, Set<HeartBeatConsumer> set) {
         this(new Lazy(new Provider() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda1
             @Override // com.google.firebase.inject.Provider
-            public final Object get() {
+            /* renamed from: get */
+            public final Object mo190get() {
                 HeartBeatInfoStorage heartBeatInfoStorage;
                 heartBeatInfoStorage = HeartBeatInfoStorage.getInstance(context);
                 return heartBeatInfoStorage;
@@ -42,8 +44,8 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     @Override // com.google.firebase.heartbeatinfo.HeartBeatInfo
     public HeartBeatInfo.HeartBeat getHeartBeatCode(String str) {
         long currentTimeMillis = System.currentTimeMillis();
-        boolean shouldSendSdkHeartBeat = this.storageProvider.get().shouldSendSdkHeartBeat(str, currentTimeMillis);
-        boolean shouldSendGlobalHeartBeat = this.storageProvider.get().shouldSendGlobalHeartBeat(currentTimeMillis);
+        boolean shouldSendSdkHeartBeat = this.storageProvider.mo190get().shouldSendSdkHeartBeat(str, currentTimeMillis);
+        boolean shouldSendGlobalHeartBeat = this.storageProvider.mo190get().shouldSendGlobalHeartBeat(currentTimeMillis);
         if (!shouldSendSdkHeartBeat || !shouldSendGlobalHeartBeat) {
             if (shouldSendGlobalHeartBeat) {
                 return HeartBeatInfo.HeartBeat.GLOBAL;
@@ -60,6 +62,7 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
         return Component.builder(HeartBeatInfo.class).add(Dependency.required(Context.class)).add(Dependency.setOf(HeartBeatConsumer.class)).factory(DefaultHeartBeatInfo$$ExternalSyntheticLambda0.INSTANCE).build();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ HeartBeatInfo lambda$component$4(ComponentContainer componentContainer) {
         return new DefaultHeartBeatInfo((Context) componentContainer.get(Context.class), componentContainer.setOf(HeartBeatConsumer.class));
     }

@@ -2,14 +2,14 @@ package com.google.android.datatransport.runtime.backends;
 
 import android.content.Context;
 import com.google.android.datatransport.runtime.time.Clock;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AutoValue_CreationContext extends CreationContext {
+final class AutoValue_CreationContext extends CreationContext {
     private final Context applicationContext;
     private final String backendName;
     private final Clock monotonicClock;
     private final Clock wallClock;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_CreationContext(Context context, Clock clock, Clock clock2, String str) {
         if (context == null) {
             throw new NullPointerException("Null applicationContext");

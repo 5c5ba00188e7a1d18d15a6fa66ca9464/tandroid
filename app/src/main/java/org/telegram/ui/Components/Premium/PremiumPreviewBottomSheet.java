@@ -136,6 +136,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         this.container.addView(fireworksOverlay, LayoutHelper.createFrame(-1, -1.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(int i, BaseFragment baseFragment, View view, int i2) {
         if (view instanceof PremiumFeatureCell) {
             PremiumFeatureCell premiumFeatureCell = (PremiumFeatureCell) view;
@@ -171,6 +172,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         dialog.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showDialog$1(DialogInterface dialogInterface) {
         this.iconTextureView.setDialogVisible(false);
         this.starParticlesView.setPaused(false);
@@ -200,6 +202,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onPreMeasure(int i, int i2) {
         super.onPreMeasure(i, i2);
@@ -217,15 +220,14 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         return new Adapter();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
-            PremiumPreviewBottomSheet.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             Context context = viewGroup.getContext();
             if (i == 0) {
@@ -242,12 +244,14 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                 PremiumPreviewBottomSheet.this.iconContainer = linearLayout;
                 linearLayout.setOrientation(1);
                 PremiumPreviewBottomSheet.this.iconTextureView = new GLIconTextureView(this, context, 1) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.2
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
                     public void onAttachedToWindow() {
                         super.onAttachedToWindow();
                         setPaused(false);
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.View
                     public void onDetachedFromWindow() {
                         super.onDetachedFromWindow();
@@ -337,6 +341,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                 };
             } else if (i != 4) {
                 view = new PremiumFeatureCell(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.4
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.PremiumFeatureCell, android.view.ViewGroup, android.view.View
                     public void dispatchDraw(Canvas canvas) {
                         RectF rectF = AndroidUtilities.rectTmp;
@@ -426,6 +431,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$2() {
         try {
             this.container.performHapticFeedback(3, 2);
@@ -447,6 +453,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public void mainContainerDispatchDraw(Canvas canvas) {
         super.mainContainerDispatchDraw(canvas);
@@ -490,6 +497,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         canvas.restore();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public boolean onCustomOpenAnimation() {
         if (this.startEnterFromView == null) {
@@ -515,16 +523,17 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         return super.onCustomOpenAnimation();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCustomOpenAnimation$3(ValueAnimator valueAnimator) {
         this.enterTransitionProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.container.invalidate();
     }
 
-    /* renamed from: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 extends AnimatorListenerAdapter {
         AnonymousClass2() {
-            PremiumPreviewBottomSheet.this = r1;
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -545,6 +554,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
             super.onAnimationEnd(animator);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0(Drawable drawable, ValueAnimator valueAnimator) {
             drawable.setAlpha(((Integer) valueAnimator.getAnimatedValue()).intValue());
             PremiumPreviewBottomSheet.this.startEnterFromView.invalidate();

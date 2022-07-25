@@ -37,17 +37,17 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.c
     final void A0(j$.util.u uVar, m3 m3Var) {
-        j$.util.function.l lVar;
+        j$.util.function.l b0;
         u.a M0 = M0(uVar);
         if (m3Var instanceof j$.util.function.l) {
-            lVar = (j$.util.function.l) m3Var;
+            b0 = (j$.util.function.l) m3Var;
         } else if (Q4.a) {
             Q4.a(c.class, "using IntStream.adapt(Sink<Integer> s)");
             throw null;
         } else {
-            lVar = new B0(m3Var);
+            b0 = new B0(m3Var);
         }
-        while (!m3Var.o() && M0.g(lVar)) {
+        while (!m3Var.o() && M0.g(b0)) {
         }
     }
 
@@ -172,14 +172,14 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    public final p.a mo66iterator() {
-        return j$.util.L.g(spliterator());
+    public final p.a mo331iterator() {
+        return j$.util.L.g(mo334spliterator());
     }
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    public Iterator mo66iterator() {
-        return j$.util.L.g(spliterator());
+    public Iterator mo331iterator() {
+        return j$.util.L.g(mo334spliterator());
     }
 
     @Override // j$.util.stream.IntStream
@@ -229,8 +229,9 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    public final u.a spliterator() {
-        return M0(super.spliterator());
+    /* renamed from: spliterator */
+    public final u.a mo334spliterator() {
+        return M0(super.mo334spliterator());
     }
 
     @Override // j$.util.stream.IntStream

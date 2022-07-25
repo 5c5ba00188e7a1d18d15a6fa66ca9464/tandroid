@@ -55,6 +55,7 @@ public class PremiumNotAvailableBottomSheet extends BottomSheet {
         setCustomView(scrollView);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(View view) {
         try {
             view.getContext().startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=org.telegram.messenger")));

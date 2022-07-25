@@ -57,30 +57,30 @@ public class r0 {
     }
 
     public static String b(String str, String str2) {
-        String str3;
+        String o;
         String c = b.c();
         if (TextUtils.isEmpty(c)) {
             c = g0.a(b.i(), "Privacy_MY", "public_key_version", "");
             b.g(c);
         }
         if ("maint".equals(str2)) {
-            str3 = b.n();
-            if (TextUtils.isEmpty(str3)) {
-                str3 = AesGcmKS.decrypt("HiAnalytics_Sdk_Public_Sp_Key", g0.a(b.i(), "Privacy_MY", "public_key_maint", ""));
-                b.d(str3);
+            o = b.n();
+            if (TextUtils.isEmpty(o)) {
+                o = AesGcmKS.decrypt("HiAnalytics_Sdk_Public_Sp_Key", g0.a(b.i(), "Privacy_MY", "public_key_maint", ""));
+                b.d(o);
             }
         } else {
-            str3 = b.o();
-            if (TextUtils.isEmpty(str3)) {
-                str3 = AesGcmKS.decrypt("HiAnalytics_Sdk_Public_Sp_Key", g0.a(b.i(), "Privacy_MY", "public_key_oper", ""));
-                b.e(str3);
+            o = b.o();
+            if (TextUtils.isEmpty(o)) {
+                o = AesGcmKS.decrypt("HiAnalytics_Sdk_Public_Sp_Key", g0.a(b.i(), "Privacy_MY", "public_key_oper", ""));
+                b.e(o);
             }
         }
-        if (TextUtils.isEmpty(str3) || TextUtils.isEmpty(c) || a()) {
+        if (TextUtils.isEmpty(o) || TextUtils.isEmpty(c) || a()) {
             o0.a().a(new m0(str, str2));
             return null;
         }
-        return str3;
+        return o;
     }
 
     public static void c(String str, String str2) {

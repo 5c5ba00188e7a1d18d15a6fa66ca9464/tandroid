@@ -66,6 +66,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         void onSizeChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0() {
     }
 
@@ -441,13 +442,13 @@ public class ActionBarPopupWindow extends PopupWindow {
             super.dispatchDraw(canvas);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00a9  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x00ac  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x00b7  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x00d3  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x0164  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x01dc  */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x01df A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x00a9  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00b7  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0164  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x01dc  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x01df A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:61:0x00d3  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x00ac  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -482,17 +483,17 @@ public class ActionBarPopupWindow extends PopupWindow {
                     if (z && this.backAlpha != 255) {
                         i2 = -1000000;
                         canvas.saveLayerAlpha(0.0f, this.bgPaddings.top, getMeasuredWidth(), getMeasuredHeight(), this.backAlpha, 31);
-                        z3 = false;
+                        z2 = false;
                     } else {
                         i2 = -1000000;
                         if (this.gapStartY != -1000000) {
                             canvas.save();
                             canvas.clipRect(0, this.bgPaddings.top, getMeasuredWidth(), getMeasuredHeight());
-                            z3 = true;
+                            z2 = true;
                         } else {
-                            z3 = true;
-                            z2 = false;
-                            this.backgroundDrawable.setAlpha(!z3 ? this.backAlpha : 255);
+                            z2 = true;
+                            z3 = false;
+                            this.backgroundDrawable.setAlpha(!z2 ? this.backAlpha : 255);
                             if (!this.shownFromBottom) {
                                 int measuredHeight = getMeasuredHeight();
                                 this.backgroundDrawable.setBounds(0, (int) (measuredHeight * (1.0f - this.backScaleY)), (int) (getMeasuredWidth() * this.backScaleX), measuredHeight);
@@ -547,21 +548,21 @@ public class ActionBarPopupWindow extends PopupWindow {
                                 }
                                 canvas.restore();
                             }
-                            if (!z2) {
+                            if (!z3) {
                                 canvas.restore();
                             }
                             i4++;
                             i = 1;
                         }
                     }
-                    z2 = true;
-                    this.backgroundDrawable.setAlpha(!z3 ? this.backAlpha : 255);
+                    z3 = true;
+                    this.backgroundDrawable.setAlpha(!z2 ? this.backAlpha : 255);
                     if (!this.shownFromBottom) {
                     }
                     this.backgroundDrawable.draw(canvas);
                     if (z) {
                     }
-                    if (!z2) {
+                    if (!z3) {
                     }
                     i4++;
                     i = 1;
@@ -651,6 +652,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             getSwipeBack().setForegroundColor(i);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.widget.FrameLayout, android.view.View
         public void onMeasure(int i, int i2) {
             super.onMeasure(i, i2);
@@ -708,6 +710,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         this.dismissAnimationDuration = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void unregisterListener() {
         ViewTreeObserver viewTreeObserver;
         if (this.mSuperScrollListener == null || (viewTreeObserver = this.mViewTreeObserver) == null) {

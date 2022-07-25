@@ -9,9 +9,8 @@ import java.lang.reflect.Method;
 /* loaded from: classes.dex */
 public final class BundleCompat {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class BundleCompatBaseImpl {
+    static class BundleCompatBaseImpl {
         private static Method sPutIBinderMethod;
         private static boolean sPutIBinderMethodFetched;
 

@@ -67,6 +67,7 @@ public class TextSelectionHint extends View {
         setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), getThemedColor("undo_background")));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
@@ -135,10 +136,11 @@ public class TextSelectionHint extends View {
         setMeasuredDimension(getMeasuredWidth(), height);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
-        float f;
         int i;
+        float f;
         if (this.textLayout == null) {
             return;
         }
@@ -326,16 +328,19 @@ public class TextSelectionHint extends View {
         AndroidUtilities.runOnUIThread(this.dismissTunnable, 5000L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$0(ValueAnimator valueAnimator) {
         this.prepareProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$1(ValueAnimator valueAnimator) {
         this.enterValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$2(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.startOffsetValue = floatValue;
@@ -344,6 +349,7 @@ public class TextSelectionHint extends View {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$3(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.endOffsetValue = floatValue;
@@ -357,6 +363,7 @@ public class TextSelectionHint extends View {
         hideInternal();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void hideInternal() {
         Animator animator = this.a;
         if (animator != null) {
@@ -381,6 +388,7 @@ public class TextSelectionHint extends View {
         ofFloat.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hideInternal$4(ValueAnimator valueAnimator) {
         this.prepareProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

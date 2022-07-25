@@ -19,13 +19,17 @@ public class PermissionInfo implements IMessageEntity, Parcelable {
         a() {
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PermissionInfo createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public PermissionInfo mo237createFromParcel(Parcel parcel) {
             return new PermissionInfo(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PermissionInfo[] newArray(int i) {
+        /* renamed from: newArray */
+        public PermissionInfo[] mo238newArray(int i) {
             return new PermissionInfo[i];
         }
     }

@@ -250,10 +250,9 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         frameLayout2.addView(groupCallPipAlertView, LayoutHelper.createFrame(-2, -2.0f));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.GroupCallPip$3 */
+    /* renamed from: org.telegram.ui.Components.GroupCallPip$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends FrameLayout {
+    class AnonymousClass3 extends FrameLayout {
         AnimatorSet moveToBoundsAnimator;
         boolean pressed;
         float startX;
@@ -280,10 +279,10 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass3(Context context, float f) {
             super(context);
-            GroupCallPip.this = r1;
             this.val$touchSlop = f;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$$0() {
             if (VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute()) {
                 return;
@@ -316,7 +315,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:10:0x0022, code lost:
-            if (r4 != 3) goto L80;
+            if (r4 != 3) goto L11;
          */
         /* JADX WARN: Removed duplicated region for block: B:21:0x0064  */
         @Override // android.view.View
@@ -500,10 +499,12 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         updateAvatars(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         showAlert(false);
     }
@@ -528,6 +529,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showAlert(boolean z) {
         if (z != this.showAlert) {
             this.showAlert = z;
@@ -599,6 +601,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         checkButtonAlpha();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkButtonAlpha() {
         boolean z = this.pressedState || this.showAlert;
         if (this.buttonInAlpha != z) {
@@ -616,6 +619,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         return instance;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void remove() {
         GroupCallPip groupCallPip = instance;
         if (groupCallPip == null) {
@@ -698,11 +702,13 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         this.iconView.playAnimation();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$remove$2() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
     }
 
-    /* renamed from: org.telegram.ui.Components.GroupCallPip$9 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.GroupCallPip$9  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass9 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$alert;
@@ -712,7 +718,6 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         final /* synthetic */ View val$windowView;
 
         AnonymousClass9(View view, View view2, WindowManager windowManager, View view3, View view4) {
-            GroupCallPip.this = r1;
             this.val$windowView = view;
             this.val$windowRemoveTooltipView = view2;
             this.val$windowManager = windowManager;
@@ -736,6 +741,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onAnimationEnd$0(View view, View view2, WindowManager windowManager, View view3, View view4) {
             view.setVisibility(8);
             view2.setVisibility(8);
@@ -828,6 +834,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didEndCall);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setPosition(float f, float f2) {
         float f3 = -AndroidUtilities.dp(36.0f);
         this.windowLayoutParams.x = (int) (f3 + (((AndroidUtilities.displaySize.x - (2.0f * f3)) - AndroidUtilities.dp(105.0f)) * f));
@@ -1000,6 +1007,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$pinnedToCenter$3(ValueAnimator valueAnimator) {
         if (this.removed) {
             return;
@@ -1015,6 +1023,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         updateButtonPosition();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateButtonPosition() {
         float measuredWidth = ((this.windowLeft - this.windowOffsetLeft) + (this.windowRemoveTooltipView.getMeasuredWidth() / 2.0f)) - (this.windowView.getMeasuredWidth() / 2.0f);
         float measuredHeight = (((this.windowTop - this.windowOffsetTop) + (this.windowRemoveTooltipView.getMeasuredHeight() / 2.0f)) - (this.windowView.getMeasuredHeight() / 2.0f)) - AndroidUtilities.dp(25.0f);
@@ -1029,6 +1038,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateAvatarsPosition() {
         int i = AndroidUtilities.displaySize.x;
         float min = Math.min(Math.max(this.windowLayoutParams.x, -AndroidUtilities.dp(36.0f)), (i - this.windowView.getMeasuredWidth()) + AndroidUtilities.dp(36.0f));
@@ -1051,6 +1061,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void getRelativePosition(float f, float f2, float[] fArr) {
         android.graphics.Point point = AndroidUtilities.displaySize;
         float f3 = -AndroidUtilities.dp(36.0f);

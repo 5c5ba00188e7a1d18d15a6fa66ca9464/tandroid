@@ -45,6 +45,7 @@ final class AutoValue_EventInternal extends EventInternal {
         return this.uptimeMillis;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.datatransport.runtime.EventInternal
     public Map<String, String> getAutoMetadata() {
         return this.autoMetadata;
@@ -75,6 +76,7 @@ final class AutoValue_EventInternal extends EventInternal {
         return ((((((((hashCode ^ hashCode2) * 1000003) ^ this.encodedPayload.hashCode()) * 1000003) ^ ((int) (j ^ (j >>> 32)))) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003) ^ this.autoMetadata.hashCode();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class Builder extends EventInternal.Builder {
         private Map<String, String> autoMetadata;
@@ -120,6 +122,7 @@ final class AutoValue_EventInternal extends EventInternal {
             return this;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // com.google.android.datatransport.runtime.EventInternal.Builder
         public EventInternal.Builder setAutoMetadata(Map<String, String> map) {
             if (map == null) {

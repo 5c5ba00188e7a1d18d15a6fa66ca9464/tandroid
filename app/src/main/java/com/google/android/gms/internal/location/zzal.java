@@ -8,6 +8,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 /* compiled from: com.google.android.gms:play-services-location@@18.0.0 */
 /* loaded from: classes.dex */
 public final class zzal extends zza implements zzam {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzal(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.location.internal.IGoogleLocationManagerService");
     }

@@ -6,9 +6,8 @@ import com.microsoft.appcenter.utils.crypto.CryptoUtils;
 import java.security.KeyStore;
 import java.util.Calendar;
 import javax.crypto.spec.IvParameterSpec;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CryptoAesHandler implements CryptoHandler {
+class CryptoAesHandler implements CryptoHandler {
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
     public String getAlgorithm() {
         return "AES/CBC/PKCS7Padding/256";

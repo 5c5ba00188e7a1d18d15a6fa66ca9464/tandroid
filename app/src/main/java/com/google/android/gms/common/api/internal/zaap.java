@@ -15,8 +15,8 @@ abstract class zaap implements Runnable {
     @Override // java.lang.Runnable
     public void run() {
         Lock lock;
-        zaaz zaazVar;
         Lock lock2;
+        zaaz zaazVar;
         lock = this.zaa.zab;
         lock.lock();
         try {
@@ -33,6 +33,7 @@ abstract class zaap implements Runnable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zaap(zaaf zaafVar, zaae zaaeVar) {
         this(zaafVar);
     }

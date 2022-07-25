@@ -51,6 +51,7 @@ public class Rpc {
         this.zzg = scheduledThreadPoolExecutor;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(Message message) {
         if (message != null) {
             Object obj = message.obj;
@@ -159,7 +160,7 @@ public class Rpc {
         }
     }
 
-    public Task<Bundle> send(Bundle bundle) {
+    public Task<Bundle> send(final Bundle bundle) {
         boolean z = true;
         if (this.zzf.zzb() >= 12000000) {
             return zze.zza(this.zze).zzb(1, bundle).continueWith(zzc, zzt.zza);
@@ -202,8 +203,8 @@ public class Rpc {
     }
 
     private final Task<Bundle> zzc(Bundle bundle) {
-        String zza2 = zza();
-        TaskCompletionSource<Bundle> taskCompletionSource = new TaskCompletionSource<>();
+        final String zza2 = zza();
+        final TaskCompletionSource<Bundle> taskCompletionSource = new TaskCompletionSource<>();
         synchronized (this.zzd) {
             this.zzd.put(zza2, taskCompletionSource);
         }
@@ -244,7 +245,7 @@ public class Rpc {
                     Log.d("Rpc", "Messenger failed, fallback to startService");
                 }
             }
-            taskCompletionSource.getTask().addOnCompleteListener(zzc, new OnCompleteListener(this, zza2, this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
+            final ScheduledFuture<?> schedule = this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
                 private final TaskCompletionSource zza;
 
                 /* JADX INFO: Access modifiers changed from: package-private */
@@ -256,7 +257,8 @@ public class Rpc {
                 public final void run() {
                     Rpc.zza(this.zza);
                 }
-            }, 30L, TimeUnit.SECONDS)) { // from class: com.google.android.gms.cloudmessaging.zzx
+            }, 30L, TimeUnit.SECONDS);
+            taskCompletionSource.getTask().addOnCompleteListener(zzc, new OnCompleteListener(this, zza2, schedule) { // from class: com.google.android.gms.cloudmessaging.zzx
                 private final Rpc zza;
                 private final String zzb;
                 private final ScheduledFuture zzc;
@@ -265,7 +267,7 @@ public class Rpc {
                 {
                     this.zza = this;
                     this.zzb = zza2;
-                    this.zzc = schedule2;
+                    this.zzc = schedule;
                 }
 
                 @Override // com.google.android.gms.tasks.OnCompleteListener
@@ -280,7 +282,7 @@ public class Rpc {
         } else {
             this.zze.startService(intent);
         }
-        taskCompletionSource.getTask().addOnCompleteListener(zzc, new OnCompleteListener(this, zza2, this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
+        final ScheduledFuture schedule2 = this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
             private final TaskCompletionSource zza;
 
             /* JADX INFO: Access modifiers changed from: package-private */
@@ -292,7 +294,8 @@ public class Rpc {
             public final void run() {
                 Rpc.zza(this.zza);
             }
-        }, 30L, TimeUnit.SECONDS)) { // from class: com.google.android.gms.cloudmessaging.zzx
+        }, 30L, TimeUnit.SECONDS);
+        taskCompletionSource.getTask().addOnCompleteListener(zzc, new OnCompleteListener(this, zza2, schedule2) { // from class: com.google.android.gms.cloudmessaging.zzx
             private final Rpc zza;
             private final String zzb;
             private final ScheduledFuture zzc;
@@ -312,6 +315,7 @@ public class Rpc {
         return taskCompletionSource.getTask();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zza(String str, ScheduledFuture scheduledFuture, Task task) {
         synchronized (this.zzd) {
             this.zzd.remove(str);
@@ -319,16 +323,19 @@ public class Rpc {
         scheduledFuture.cancel(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ void zza(TaskCompletionSource taskCompletionSource) {
         if (taskCompletionSource.trySetException(new IOException("TIMEOUT"))) {
             Log.w("Rpc", "No response");
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ Task zza(Bundle bundle, Task task) throws Exception {
         return (task.isSuccessful() && zzb((Bundle) task.getResult())) ? zzc(bundle).onSuccessTask(zzc, zzw.zza) : task;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ Task zza(Bundle bundle) throws Exception {
         if (zzb(bundle)) {
             return Tasks.forResult(null);
@@ -336,6 +343,7 @@ public class Rpc {
         return Tasks.forResult(bundle);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ Bundle zza(Task task) throws Exception {
         if (task.isSuccessful()) {
             return (Bundle) task.getResult();

@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wallet.AutoResolvableResult;
 import java.util.concurrent.atomic.AtomicInteger;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
 /* loaded from: classes.dex */
 public final class zzc<TResult extends AutoResolvableResult> implements OnCompleteListener<TResult>, Runnable {

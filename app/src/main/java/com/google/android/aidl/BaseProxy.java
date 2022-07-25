@@ -9,6 +9,7 @@ public abstract class BaseProxy implements IInterface {
     private final String mDescriptor;
     private final IBinder mRemote;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public BaseProxy(IBinder remote, String descriptor) {
         this.mRemote = remote;
         this.mDescriptor = descriptor;
@@ -19,12 +20,14 @@ public abstract class BaseProxy implements IInterface {
         return this.mRemote;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Parcel obtainAndWriteInterfaceToken() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.mDescriptor);
         return obtain;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Parcel transactAndReadException(int code, Parcel in) throws RemoteException {
         in = Parcel.obtain();
         try {

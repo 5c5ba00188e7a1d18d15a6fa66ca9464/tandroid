@@ -76,6 +76,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     private List<GiftTier> giftTiers = new ArrayList();
     private PremiumGiftTierCell dummyCell = new PremiumGiftTierCell(getContext());
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$updateButtonText$4(View view) {
     }
 
@@ -160,6 +161,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final long j, BillingResult billingResult, List list) {
         Iterator it = list.iterator();
         while (it.hasNext()) {
@@ -184,11 +186,13 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(long j) {
         this.recyclerListView.getAdapter().notifyDataSetChanged();
         updateButtonText(System.currentTimeMillis() - j > 1000);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view, int i) {
         if (view instanceof PremiumGiftTierCell) {
             PremiumGiftTierCell premiumGiftTierCell = (PremiumGiftTierCell) view;
@@ -234,6 +238,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(Path path, Canvas canvas) {
         path.rewind();
         Rect selectorRect = this.recyclerListView.getSelectorRect();
@@ -258,6 +263,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         this.premiumButtonView.setFlickerDisabled(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateButtonText$5(View view) {
         onGiftPremium();
     }
@@ -337,10 +343,12 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onGiftPremium$6() {
         onGiftSuccess(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onGiftPremium$8(BillingResult billingResult) {
         if (billingResult.getResponseCode() == 0) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda6
@@ -352,10 +360,12 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onGiftPremium$7() {
         onGiftSuccess(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onGiftPremium$10(final TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, final GiftTier giftTier, final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
@@ -365,6 +375,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onGiftPremium$9(TLObject tLObject, TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, GiftTier giftTier, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             BillingController.getInstance().launchBillingFlow(getBaseFragment().getParentActivity(), AccountInstance.getInstance(this.currentAccount), tLRPC$TL_inputStorePaymentGiftPremium, Collections.singletonList(BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(giftTier.googlePlayProductDetails).build()));
@@ -384,6 +395,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         frameLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, 68, 80));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onPreMeasure(int i, int i2) {
         super.onPreMeasure(i, i2);
@@ -406,11 +418,11 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         return LocaleController.getString((int) R.string.GiftTelegramPremiumTitle);
     }
 
-    /* renamed from: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends RecyclerListView.SelectionAdapter {
         AnonymousClass1() {
-            GiftPremiumBottomSheet.this = r1;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -420,12 +432,14 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             PremiumGiftTierCell premiumGiftTierCell;
+            View view;
             if (i == 1) {
                 final AtomicReference atomicReference = new AtomicReference(Float.valueOf(0.0f));
                 final PremiumGiftTierCell premiumGiftTierCell2 = new PremiumGiftTierCell(GiftPremiumBottomSheet.this.getContext()) { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet.1.1
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.PremiumGiftTierCell, android.view.ViewGroup, android.view.View
                     public void dispatchDraw(Canvas canvas) {
                         if (this.discountView.getVisibility() == 0) {
@@ -493,11 +507,13 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
             return new RecyclerListView.Holder(view);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ Paint lambda$onCreateViewHolder$0(PremiumGiftTierCell premiumGiftTierCell, Void r9) {
             GiftPremiumBottomSheet.this.gradientTools.gradientMatrix(0, 0, premiumGiftTierCell.getMeasuredWidth(), GiftPremiumBottomSheet.this.totalGradientHeight, 0.0f, -premiumGiftTierCell.tier.yOffset);
             return GiftPremiumBottomSheet.this.gradientTools.paint;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onCreateViewHolder$1(AtomicReference atomicReference, PremiumGiftTierCell premiumGiftTierCell, float f) {
             atomicReference.set(Float.valueOf(f));
             premiumGiftTierCell.invalidate();
@@ -543,7 +559,6 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     /* loaded from: classes3.dex */
     private final class LinkSpan extends ClickableSpan {
         private LinkSpan() {
-            GiftPremiumBottomSheet.this = r1;
         }
 
         /* synthetic */ LinkSpan(GiftPremiumBottomSheet giftPremiumBottomSheet, AnonymousClass1 anonymousClass1) {

@@ -10,6 +10,7 @@ final class k implements g {
         new k("+HH:MM:ss", "0");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public k(String str, String str2) {
         if (str != null) {
             if (str2 == null) {

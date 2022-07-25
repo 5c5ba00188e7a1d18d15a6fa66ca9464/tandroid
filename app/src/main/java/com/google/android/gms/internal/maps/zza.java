@@ -10,6 +10,7 @@ public class zza implements IInterface {
     private final IBinder zza;
     private final String zzb;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public zza(IBinder iBinder, String str) {
         this.zza = iBinder;
         this.zzb = str;
@@ -20,6 +21,7 @@ public class zza implements IInterface {
         return this.zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final Parcel zzH(int i, Parcel parcel) throws RemoteException {
         parcel = Parcel.obtain();
         try {
@@ -33,12 +35,14 @@ public class zza implements IInterface {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final Parcel zza() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.zzb);
         return obtain;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void zzc(int i, Parcel parcel) throws RemoteException {
         Parcel obtain = Parcel.obtain();
         try {

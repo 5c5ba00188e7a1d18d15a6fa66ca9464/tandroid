@@ -7,24 +7,24 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.WithinAppServiceConnection;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-public class WithinAppServiceBinder extends Binder {
+class WithinAppServiceBinder extends Binder {
     private final IntentHandler intentHandler;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
     /* loaded from: classes.dex */
-    public interface IntentHandler {
+    interface IntentHandler {
         Task<Void> handle(Intent intent);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public WithinAppServiceBinder(IntentHandler intentHandler) {
         this.intentHandler = intentHandler;
     }
 
-    public void send(WithinAppServiceConnection.BindRequest bindRequest) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void send(final WithinAppServiceConnection.BindRequest bindRequest) {
         if (Binder.getCallingUid() != Process.myUid()) {
             throw new SecurityException("Binding only allowed within app");
         }

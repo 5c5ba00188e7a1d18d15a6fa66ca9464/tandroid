@@ -85,6 +85,7 @@ public class DataBufferRef {
         return value != null ? (String) value : "";
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void getWindowIndex(int i) {
         Preconditions.checkArgument(i >= 0 && i < this.mDataHolder.getCount(), "rowNum is out of index");
         this.mDataRow = i;

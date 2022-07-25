@@ -4,8 +4,10 @@ package com.google.android.gms.internal.clearcut;
 /* JADX WARN: Init of enum zzqg can be incorrect */
 /* JADX WARN: Init of enum zzqh can be incorrect */
 /* JADX WARN: Init of enum zzqi can be incorrect */
+/* JADX WARN: Init of enum zzqk can be incorrect */
 /* JADX WARN: Init of enum zzql can be incorrect */
 /* JADX WARN: Init of enum zzqm can be incorrect */
+/* JADX WARN: Init of enum zzqn can be incorrect */
 /* JADX WARN: Init of enum zzqo can be incorrect */
 /* JADX WARN: Init of enum zzqq can be incorrect */
 /* JADX WARN: Init of enum zzqr can be incorrect */
@@ -21,13 +23,13 @@ public enum zzfl {
     FIXED64(r5, 1),
     FIXED32(r11, 5),
     BOOL(zzfq.BOOLEAN, 0),
-    STRING(zzfq.STRING, 2) { // from class: com.google.android.gms.internal.clearcut.zzfm
+    STRING(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfm
     },
     GROUP(r13, 3) { // from class: com.google.android.gms.internal.clearcut.zzfn
     },
     MESSAGE(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfo
     },
-    BYTES(zzfq.BYTE_STRING, 2) { // from class: com.google.android.gms.internal.clearcut.zzfp
+    BYTES(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfp
     },
     UINT32(r11, 0),
     ENUM(zzfq.ENUM, 0),
@@ -42,10 +44,11 @@ public enum zzfl {
     static {
         zzfq zzfqVar = zzfq.LONG;
         zzfq zzfqVar2 = zzfq.INT;
-        zzfq zzfqVar3 = zzfq.MESSAGE;
+        final zzfq zzfqVar3 = zzfq.STRING;
+        final zzfq zzfqVar4 = zzfq.MESSAGE;
+        final zzfq zzfqVar5 = zzfq.BYTE_STRING;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     zzfl(zzfq zzfqVar, int i) {
         this.zzqu = zzfqVar;
         this.zzqv = i;

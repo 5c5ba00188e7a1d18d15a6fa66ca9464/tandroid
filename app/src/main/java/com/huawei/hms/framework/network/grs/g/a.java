@@ -15,7 +15,8 @@ public class a {
     private final GrsBaseInfo g;
     private final com.huawei.hms.framework.network.grs.e.c h;
 
-    /* renamed from: com.huawei.hms.framework.network.grs.g.a$a */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* renamed from: com.huawei.hms.framework.network.grs.g.a$a  reason: collision with other inner class name */
     /* loaded from: classes.dex */
     public enum EnumC0005a {
         GRSPOST,

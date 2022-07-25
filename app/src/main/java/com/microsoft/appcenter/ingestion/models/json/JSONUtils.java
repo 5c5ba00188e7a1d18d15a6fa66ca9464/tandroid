@@ -55,9 +55,9 @@ public class JSONUtils {
         List<M> createList = modelFactory.createList(optJSONArray.length());
         for (int i = 0; i < optJSONArray.length(); i++) {
             JSONObject jSONObject2 = optJSONArray.getJSONObject(i);
-            M create = modelFactory.create();
-            create.read(jSONObject2);
-            createList.add(create);
+            M mo246create = modelFactory.mo246create();
+            mo246create.read(jSONObject2);
+            createList.add(mo246create);
         }
         return createList;
     }

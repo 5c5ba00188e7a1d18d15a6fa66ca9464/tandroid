@@ -4,9 +4,8 @@ import android.media.AudioManager;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.webrtc.Logging;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
-public class VolumeLogger {
+class VolumeLogger {
     private static final String TAG = "VolumeLogger";
     private static final String THREAD_NAME = "WebRtcVolumeLevelLoggerThread";
     private static final int TIMER_PERIOD_IN_SECONDS = 30;
@@ -28,14 +27,12 @@ public class VolumeLogger {
         timer.schedule(new LogVolumeTask(this.audioManager.getStreamMaxVolume(2), this.audioManager.getStreamMaxVolume(0)), 0L, 30000L);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class LogVolumeTask extends TimerTask {
+    private class LogVolumeTask extends TimerTask {
         private final int maxRingVolume;
         private final int maxVoiceCallVolume;
 
         LogVolumeTask(int i, int i2) {
-            VolumeLogger.this = r1;
             this.maxRingVolume = i;
             this.maxVoiceCallVolume = i2;
         }

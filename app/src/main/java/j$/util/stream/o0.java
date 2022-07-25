@@ -5,6 +5,7 @@ import j$.util.function.Consumer;
 abstract class o0 implements N4, O4 {
     private final boolean a;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public o0(boolean z) {
         this.a = z;
     }

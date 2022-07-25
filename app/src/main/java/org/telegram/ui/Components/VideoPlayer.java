@@ -485,8 +485,8 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x003f, code lost:
-        if (r11.equals("dash") == false) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x003f, code lost:
+        if (r11.equals("dash") == false) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -494,7 +494,7 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
     public void preparePlayerLoop(Uri uri, String str, Uri uri2, String str2) {
         Uri uri3;
         String str3;
-        MediaSource mediaSource;
+        MediaSource ssMediaSource;
         this.videoUri = uri;
         this.audioUri = uri2;
         this.videoType = str;
@@ -542,20 +542,20 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
                 switch (c) {
                     case 0:
                         DataSource.Factory factory = this.mediaDataSourceFactory;
-                        mediaSource = new SsMediaSource(uri3, factory, new DefaultSsChunkSource.Factory(factory), this.mainHandler, null);
+                        ssMediaSource = new SsMediaSource(uri3, factory, new DefaultSsChunkSource.Factory(factory), this.mainHandler, null);
                         break;
                     case 1:
-                        mediaSource = new HlsMediaSource.Factory(this.mediaDataSourceFactory).createMediaSource(uri3);
+                        ssMediaSource = new HlsMediaSource.Factory(this.mediaDataSourceFactory).createMediaSource(uri3);
                         break;
                     case 2:
                         DataSource.Factory factory2 = this.mediaDataSourceFactory;
-                        mediaSource = new DashMediaSource(uri3, factory2, new DefaultDashChunkSource.Factory(factory2), this.mainHandler, null);
+                        ssMediaSource = new DashMediaSource(uri3, factory2, new DefaultDashChunkSource.Factory(factory2), this.mainHandler, null);
                         break;
                     default:
-                        mediaSource = new ExtractorMediaSource(uri3, this.mediaDataSourceFactory, new DefaultExtractorsFactory(), this.mainHandler, null);
+                        ssMediaSource = new ExtractorMediaSource(uri3, this.mediaDataSourceFactory, new DefaultExtractorsFactory(), this.mainHandler, null);
                         break;
                 }
-                LoopingMediaSource loopingMediaSource3 = new LoopingMediaSource(mediaSource);
+                LoopingMediaSource loopingMediaSource3 = new LoopingMediaSource(ssMediaSource);
                 if (i == 0) {
                     loopingMediaSource = loopingMediaSource3;
                 } else {
@@ -571,14 +571,14 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0052, code lost:
-        if (r10.equals("ss") == false) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0052, code lost:
+        if (r10.equals("ss") == false) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void preparePlayer(Uri uri, String str) {
-        MediaSource mediaSource;
+        MediaSource ssMediaSource;
         this.videoUri = uri;
         this.videoType = str;
         this.audioUri = null;
@@ -616,20 +616,20 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
         switch (c) {
             case 0:
                 DataSource.Factory factory = this.mediaDataSourceFactory;
-                mediaSource = new SsMediaSource(uri, factory, new DefaultSsChunkSource.Factory(factory), this.mainHandler, null);
+                ssMediaSource = new SsMediaSource(uri, factory, new DefaultSsChunkSource.Factory(factory), this.mainHandler, null);
                 break;
             case 1:
-                mediaSource = new HlsMediaSource.Factory(this.mediaDataSourceFactory).createMediaSource(uri);
+                ssMediaSource = new HlsMediaSource.Factory(this.mediaDataSourceFactory).createMediaSource(uri);
                 break;
             case 2:
                 DataSource.Factory factory2 = this.mediaDataSourceFactory;
-                mediaSource = new DashMediaSource(uri, factory2, new DefaultDashChunkSource.Factory(factory2), this.mainHandler, null);
+                ssMediaSource = new DashMediaSource(uri, factory2, new DefaultDashChunkSource.Factory(factory2), this.mainHandler, null);
                 break;
             default:
-                mediaSource = new ExtractorMediaSource(uri, this.mediaDataSourceFactory, new DefaultExtractorsFactory(), this.mainHandler, null);
+                ssMediaSource = new ExtractorMediaSource(uri, this.mediaDataSourceFactory, new DefaultExtractorsFactory(), this.mainHandler, null);
                 break;
         }
-        this.player.prepare(mediaSource, true, true);
+        this.player.prepare(ssMediaSource, true, true);
     }
 
     public boolean isPlayerPrepared() {

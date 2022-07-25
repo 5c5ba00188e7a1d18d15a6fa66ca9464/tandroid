@@ -111,6 +111,7 @@ public class PlayingGameDrawable extends StatusDrawable {
         checkUpdate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkUpdate() {
         if (this.started) {
             if (!NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {

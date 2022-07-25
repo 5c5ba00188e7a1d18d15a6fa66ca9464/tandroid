@@ -56,6 +56,7 @@ public final class PaymentData extends AbstractSafeParcelable implements AutoRes
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public PaymentData(String str, CardInfo cardInfo, UserAddress userAddress, PaymentMethodToken paymentMethodToken, String str2, Bundle bundle, String str3, Bundle bundle2) {
         this.zza = str;
         this.zzb = cardInfo;

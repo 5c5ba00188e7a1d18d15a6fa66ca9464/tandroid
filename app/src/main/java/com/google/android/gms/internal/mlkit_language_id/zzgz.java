@@ -2,6 +2,8 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import com.huawei.hms.framework.common.ContainerUtils;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* JADX WARN: Incorrect field signature: TK; */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzgz implements Comparable<zzgz>, Map.Entry<K, V> {
@@ -9,10 +11,12 @@ public final class zzgz implements Comparable<zzgz>, Map.Entry<K, V> {
     private V zzb;
     private final /* synthetic */ zzgq zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzgz(zzgq zzgqVar, Map.Entry<K, V> entry) {
         this(zzgqVar, (Comparable) entry.getKey(), entry.getValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     public zzgz(zzgq zzgqVar, K k, V v) {
         this.zzc = zzgqVar;

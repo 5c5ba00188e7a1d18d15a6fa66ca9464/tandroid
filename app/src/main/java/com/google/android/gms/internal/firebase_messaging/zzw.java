@@ -16,6 +16,7 @@ final class zzw extends OutputStream {
         this.zza += bArr.length;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final long zza() {
         return this.zza;
     }

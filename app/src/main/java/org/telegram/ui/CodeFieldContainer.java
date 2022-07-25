@@ -187,18 +187,18 @@ public class CodeFieldContainer extends LinearLayout {
                 }
                 int i7 = 10;
                 if (i2 == 10) {
-                    i4 = 42;
-                    i3 = 47;
+                    i3 = 42;
+                    i4 = 47;
                 } else if (i2 == 11) {
                     i7 = 5;
-                    i4 = 28;
-                    i3 = 34;
+                    i3 = 28;
+                    i4 = 34;
                 } else {
                     i7 = 7;
-                    i4 = 34;
-                    i3 = 42;
+                    i3 = 34;
+                    i4 = 42;
                 }
-                addView(this.codeField[i6], LayoutHelper.createLinear(i4, i3, 1, 0, 0, i6 != i + (-1) ? i7 : 0, 0));
+                addView(this.codeField[i6], LayoutHelper.createLinear(i3, i4, 1, 0, 0, i6 != i + (-1) ? i7 : 0, 0));
                 this.codeField[i6].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.CodeFieldContainer.2
                     @Override // android.text.TextWatcher
                     public void beforeTextChanged(CharSequence charSequence, int i8, int i9, int i10) {
@@ -262,6 +262,7 @@ public class CodeFieldContainer extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$setNumbersCount$0(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             processNextPressed();

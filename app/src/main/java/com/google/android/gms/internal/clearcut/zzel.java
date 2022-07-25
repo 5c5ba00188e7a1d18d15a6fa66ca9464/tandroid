@@ -2,9 +2,8 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.Iterator;
 import java.util.Map;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzel extends zzer {
+final class zzel extends zzer {
     private final /* synthetic */ zzei zzos;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -13,6 +12,7 @@ public final class zzel extends zzer {
         this.zzos = zzeiVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzel(zzei zzeiVar, zzej zzejVar) {
         this(zzeiVar);
     }

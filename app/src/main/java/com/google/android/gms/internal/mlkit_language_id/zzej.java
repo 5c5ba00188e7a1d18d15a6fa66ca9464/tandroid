@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzej<T extends zzel<T>> {
+final class zzej<T extends zzel<T>> {
     private static final zzej zzd = new zzej(true);
     final zzgq<T, Object> zza;
     private boolean zzb;
@@ -65,6 +64,7 @@ public final class zzej<T extends zzel<T>> {
         return this.zza.entrySet().iterator();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final Iterator<Map.Entry<T, Object>> zze() {
         if (this.zzc) {
             return new zzff(this.zza.zze().iterator());
@@ -106,14 +106,14 @@ public final class zzej<T extends zzel<T>> {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0025, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzet) == false) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x001c, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzfa) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002e, code lost:
-        if ((r3 instanceof byte[]) == false) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0025, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzet) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x001c, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzfa) == false) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x002e, code lost:
+        if ((r3 instanceof byte[]) == false) goto L3;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -227,7 +227,7 @@ public final class zzej<T extends zzel<T>> {
     }
 
     private final void zzb(Map.Entry<T, Object> entry) {
-        zzfz zzfzVar;
+        zzfz zzg;
         T key = entry.getKey();
         Object value = entry.getValue();
         if (value instanceof zzfa) {
@@ -250,11 +250,11 @@ public final class zzej<T extends zzel<T>> {
                 return;
             }
             if (zza2 instanceof zzgf) {
-                zzfzVar = key.zza((zzgf) zza2, (zzgf) value);
+                zzg = key.zza((zzgf) zza2, (zzgf) value);
             } else {
-                zzfzVar = key.zza(((zzfz) zza2).zzm(), (zzfz) value).zzg();
+                zzg = key.zza(((zzfz) zza2).zzm(), (zzfz) value).zzg();
             }
-            this.zza.zza((zzgq<T, Object>) key, (T) zzfzVar);
+            this.zza.zza((zzgq<T, Object>) key, (T) zzg);
         } else {
             this.zza.zza((zzgq<T, Object>) key, (T) zza(value));
         }

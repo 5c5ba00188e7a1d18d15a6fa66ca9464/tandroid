@@ -52,8 +52,8 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
             return new DataHolder(this, i, (Bundle) null);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
-        /* JADX WARN: Removed duplicated region for block: B:13:0x003f  */
+        /* JADX WARN: Removed duplicated region for block: B:12:0x003f  */
+        /* JADX WARN: Removed duplicated region for block: B:9:0x0034  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -105,6 +105,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
             return new DataHolder(this, i, bundle, -1);
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public Builder(String[] strArr, String str, DataHolderBuilderCreator dataHolderBuilderCreator) {
             this(strArr, null);
         }
@@ -168,7 +169,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x00b0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x00b0, code lost:
         return r0;
      */
     /*
@@ -453,6 +454,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DataHolder(int i, String[] strArr, CursorWindow[] cursorWindowArr, int i2, Bundle bundle) {
         this.mClosed = false;
         this.isInstance = true;

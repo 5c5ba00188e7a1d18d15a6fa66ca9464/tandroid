@@ -53,15 +53,16 @@ public class MessagesSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view;
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View dialogCell;
         if (i == 0) {
-            view = new DialogCell(null, this.mContext, false, true, this.currentAccount, this.resourcesProvider);
+            dialogCell = new DialogCell(null, this.mContext, false, true, this.currentAccount, this.resourcesProvider);
         } else {
-            view = i != 1 ? null : new LoadingCell(this.mContext);
+            dialogCell = i != 1 ? null : new LoadingCell(this.mContext);
         }
-        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-        return new RecyclerListView.Holder(view);
+        dialogCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+        return new RecyclerListView.Holder(dialogCell);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

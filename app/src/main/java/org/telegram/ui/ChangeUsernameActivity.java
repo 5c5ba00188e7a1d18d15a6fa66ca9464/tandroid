@@ -57,6 +57,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     private CharSequence infoText;
     private String lastCheckName;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -66,7 +67,6 @@ public class ChangeUsernameActivity extends BaseFragment {
         private String url;
 
         public LinkSpan(String str) {
-            ChangeUsernameActivity.this = r1;
             this.url = str;
         }
 
@@ -227,6 +227,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         View view;
         if (i != 6 || (view = this.doneButton) == null) {
@@ -245,6 +246,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean checkUserName(final String str, boolean z) {
         if (str != null && str.startsWith("@")) {
             str = str.substring(1);
@@ -343,6 +345,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$4(final String str) {
         TLRPC$TL_account_checkUsername tLRPC$TL_account_checkUsername = new TLRPC$TL_account_checkUsername();
         tLRPC$TL_account_checkUsername.username = str;
@@ -354,6 +357,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         }, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$3(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -363,6 +367,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$2(String str, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.checkReqId = 0;
         String str2 = this.lastCheckName;
@@ -380,6 +385,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         this.checkTextView.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void saveName() {
         String obj = this.firstNameField.getText().toString();
         if (obj.startsWith("@")) {
@@ -420,6 +426,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         alertDialog.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveName$7(final AlertDialog alertDialog, final TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             final TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
@@ -439,6 +446,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveName$5(AlertDialog alertDialog, TLRPC$User tLRPC$User) {
         try {
             alertDialog.dismiss();
@@ -453,6 +461,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveName$6(AlertDialog alertDialog, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername) {
         try {
             alertDialog.dismiss();
@@ -462,6 +471,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this, tLRPC$TL_account_updateUsername, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveName$8(int i, DialogInterface dialogInterface) {
         ConnectionsManager.getInstance(this.currentAccount).cancelRequest(i, true);
     }

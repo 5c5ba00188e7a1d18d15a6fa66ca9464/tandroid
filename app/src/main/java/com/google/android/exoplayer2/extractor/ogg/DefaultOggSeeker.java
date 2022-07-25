@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DefaultOggSeeker implements OggSeeker {
     private long end;
@@ -69,7 +70,8 @@ public final class DefaultOggSeeker implements OggSeeker {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-    public OggSeekMap createSeekMap() {
+    /* renamed from: createSeekMap  reason: collision with other method in class */
+    public OggSeekMap mo94createSeekMap() {
         if (this.totalGranules != 0) {
             return new OggSeekMap();
         }
@@ -187,6 +189,7 @@ public final class DefaultOggSeeker implements OggSeeker {
         return this.pageHeader.granulePosition;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public final class OggSeekMap implements SeekMap {
         @Override // com.google.android.exoplayer2.extractor.SeekMap
@@ -195,7 +198,6 @@ public final class DefaultOggSeeker implements OggSeeker {
         }
 
         private OggSeekMap() {
-            DefaultOggSeeker.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.extractor.SeekMap

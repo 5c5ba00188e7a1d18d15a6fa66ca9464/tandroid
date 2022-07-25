@@ -1,9 +1,8 @@
 package com.google.zxing.qrcode.decoder;
 
 import com.google.zxing.common.BitMatrix;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public enum DataMask {
+enum DataMask {
     DATA_MASK_000 { // from class: com.google.zxing.qrcode.decoder.DataMask.1
         @Override // com.google.zxing.qrcode.decoder.DataMask
         boolean isMasked(int i, int i2) {
@@ -55,6 +54,7 @@ public enum DataMask {
 
     abstract boolean isMasked(int i, int i2);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void unmaskBitMatrix(BitMatrix bitMatrix, int i) {
         for (int i2 = 0; i2 < i; i2++) {
             for (int i3 = 0; i3 < i; i3++) {

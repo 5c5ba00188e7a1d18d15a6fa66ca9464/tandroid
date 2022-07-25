@@ -39,59 +39,58 @@ public class StaticLayoutEx {
 
     public static StaticLayout createStaticLayout(CharSequence charSequence, int i, int i2, TextPaint textPaint, int i3, Layout.Alignment alignment, float f, float f2, boolean z, TextUtils.TruncateAt truncateAt, int i4, int i5, boolean z2) {
         StaticLayout staticLayout;
-        Exception e;
         int i6;
         int i7;
         StaticLayout staticLayout2;
-        int i8;
+        int offsetForHorizontal;
         try {
             if (i5 == 1) {
                 CharSequence ellipsize = TextUtils.ellipsize(charSequence, textPaint, i4, TextUtils.TruncateAt.END);
                 try {
                     return new StaticLayout(ellipsize, 0, ellipsize.length(), textPaint, i3, alignment, f, f2, z);
-                } catch (Exception e2) {
-                    e = e2;
+                } catch (Exception e) {
+                    e = e;
                     staticLayout = null;
                 }
             } else {
-                int i9 = Build.VERSION.SDK_INT;
-                if (i9 >= 23) {
+                int i8 = Build.VERSION.SDK_INT;
+                if (i8 >= 23) {
                     staticLayout2 = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i3).setAlignment(alignment).setLineSpacing(f2, f).setIncludePad(z).setEllipsize(null).setEllipsizedWidth(i4).setMaxLines(i5).setBreakStrategy(1).setHyphenationFrequency(0).build();
-                    i6 = i9;
+                    i6 = i8;
                     i7 = i5;
                 } else {
-                    i6 = i9;
+                    i6 = i8;
                     staticLayout = null;
                     i7 = i5;
                     try {
                         staticLayout2 = new StaticLayout(charSequence, textPaint, i3, alignment, f, f2, z);
-                    } catch (Exception e3) {
-                        e = e3;
+                    } catch (Exception e2) {
+                        e = e2;
                     }
                 }
                 if (staticLayout2.getLineCount() <= i7) {
                     return staticLayout2;
                 }
-                int i10 = i7 - 1;
-                float lineLeft = staticLayout2.getLineLeft(i10);
-                float lineWidth = staticLayout2.getLineWidth(i10);
+                int i9 = i7 - 1;
+                float lineLeft = staticLayout2.getLineLeft(i9);
+                float lineWidth = staticLayout2.getLineWidth(i9);
                 if (lineLeft != 0.0f) {
-                    i8 = staticLayout2.getOffsetForHorizontal(i10, lineLeft);
+                    offsetForHorizontal = staticLayout2.getOffsetForHorizontal(i9, lineLeft);
                 } else {
-                    i8 = staticLayout2.getOffsetForHorizontal(i10, lineWidth);
+                    offsetForHorizontal = staticLayout2.getOffsetForHorizontal(i9, lineWidth);
                 }
                 if (lineWidth < i4 - AndroidUtilities.dp(10.0f)) {
-                    i8 += 3;
+                    offsetForHorizontal += 3;
                 }
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence.subSequence(0, Math.max(0, i8 - 3)));
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence.subSequence(0, Math.max(0, offsetForHorizontal - 3)));
                 spannableStringBuilder.append((CharSequence) "…");
                 if (i6 >= 23) {
                     return StaticLayout.Builder.obtain(spannableStringBuilder, 0, spannableStringBuilder.length(), textPaint, i3).setAlignment(alignment).setLineSpacing(f2, f).setIncludePad(z).setEllipsize(truncateAt).setEllipsizedWidth(i4).setMaxLines(i7).setBreakStrategy(z2 ? 1 : 0).setHyphenationFrequency(0).build();
                 }
                 return new StaticLayout(spannableStringBuilder, textPaint, i3, alignment, f, f2, z);
             }
-        } catch (Exception e4) {
-            e = e4;
+        } catch (Exception e3) {
+            e = e3;
             staticLayout = null;
         }
         FileLog.e(e);

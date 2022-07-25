@@ -76,6 +76,7 @@ final class TtmlRenderUtil {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void endParagraph(SpannableStringBuilder spannableStringBuilder) {
         int length = spannableStringBuilder.length() - 1;
         while (length >= 0 && spannableStringBuilder.charAt(length) == ' ') {
@@ -87,6 +88,7 @@ final class TtmlRenderUtil {
         spannableStringBuilder.append('\n');
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String applyTextElementSpacePolicy(String str) {
         return str.replaceAll("\r\n", "\n").replaceAll(" *\n *", "\n").replaceAll("\n", " ").replaceAll("[ \t\\x0B\f\r]+", " ");
     }

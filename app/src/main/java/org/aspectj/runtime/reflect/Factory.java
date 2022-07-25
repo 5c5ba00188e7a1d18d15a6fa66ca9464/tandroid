@@ -31,6 +31,7 @@ public final class Factory {
         prims.put("double", Double.TYPE);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Class makeClass(String str, ClassLoader classLoader) {
         if (str.equals("*")) {
             return null;

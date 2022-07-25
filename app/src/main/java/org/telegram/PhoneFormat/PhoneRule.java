@@ -7,6 +7,7 @@ public class PhoneRule {
     public int maxVal;
     public int minVal;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String format(String str, String str2, String str3) {
         StringBuilder sb = new StringBuilder(20);
         boolean z = false;

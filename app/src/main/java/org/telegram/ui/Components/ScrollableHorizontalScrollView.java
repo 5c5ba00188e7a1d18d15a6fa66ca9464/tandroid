@@ -7,6 +7,7 @@ import android.content.Context;
 import android.widget.HorizontalScrollView;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: EmojiTabsStrip.java */
 /* loaded from: classes3.dex */
 public class ScrollableHorizontalScrollView extends HorizontalScrollView {
@@ -19,19 +20,19 @@ public class ScrollableHorizontalScrollView extends HorizontalScrollView {
     }
 
     public boolean scrollToVisible(int i, int i2) {
-        int i3;
+        int measuredWidth;
         if (getChildCount() <= 0) {
             return false;
         }
         int dp = AndroidUtilities.dp(50.0f);
         if (i < getScrollX() + dp) {
-            i3 = i - dp;
+            measuredWidth = i - dp;
         } else if (i2 <= getScrollX() + (getMeasuredWidth() - dp)) {
             return false;
         } else {
-            i3 = (i2 - getMeasuredWidth()) + dp;
+            measuredWidth = (i2 - getMeasuredWidth()) + dp;
         }
-        scrollTo(MathUtils.clamp(i3, 0, getChildAt(0).getMeasuredWidth() - getMeasuredWidth()));
+        scrollTo(MathUtils.clamp(measuredWidth, 0, getChildAt(0).getMeasuredWidth() - getMeasuredWidth()));
         return true;
     }
 
@@ -75,6 +76,7 @@ public class ScrollableHorizontalScrollView extends HorizontalScrollView {
         this.scrollAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$scrollTo$0(ValueAnimator valueAnimator) {
         setScrollX((int) ((Float) valueAnimator.getAnimatedValue()).floatValue());
     }

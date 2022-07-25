@@ -2,7 +2,7 @@ package j$.util.function;
 /* loaded from: classes2.dex */
 public interface Function<T, R> {
 
-    /* renamed from: j$.util.function.Function$-CC */
+    /* renamed from: j$.util.function.Function$-CC  reason: invalid class name */
     /* loaded from: classes2.dex */
     public final /* synthetic */ class CC {
     }

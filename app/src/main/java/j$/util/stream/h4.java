@@ -3,6 +3,7 @@ package j$.util.stream;
 final class h4 extends j4 implements j$.util.function.l {
     final int[] c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public h4(int i) {
         this.c = new int[i];
     }

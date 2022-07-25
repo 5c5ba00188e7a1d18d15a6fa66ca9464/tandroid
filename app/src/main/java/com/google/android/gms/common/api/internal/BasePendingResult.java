@@ -43,11 +43,11 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     private volatile zacn<R> zao;
     private boolean zap;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
     /* loaded from: classes.dex */
     public final class zaa {
         private zaa() {
-            BasePendingResult.this = r1;
         }
 
         protected final void finalize() throws Throwable {
@@ -71,10 +71,12 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
         this.zad = new WeakReference<>(null);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static <R extends Result> ResultCallback<R> zab(ResultCallback<R> resultCallback) {
         return resultCallback;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract R createFailedResult(@RecentlyNonNull Status status);
 
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
@@ -115,6 +117,7 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public BasePendingResult(GoogleApiClient googleApiClient) {
         this.zab = new Object();
         this.zae = new CountDownLatch(1);

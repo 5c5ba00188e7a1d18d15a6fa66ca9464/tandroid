@@ -9,13 +9,17 @@ import java.util.List;
 /* loaded from: classes.dex */
 public final class Metadata implements Parcelable {
     public static final Parcelable.Creator<Metadata> CREATOR = new Parcelable.Creator<Metadata>() { // from class: com.google.android.exoplayer2.metadata.Metadata.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public Metadata createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public Metadata mo96createFromParcel(Parcel parcel) {
             return new Metadata(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public Metadata[] newArray(int i) {
+        /* renamed from: newArray */
+        public Metadata[] mo97newArray(int i) {
             return new Metadata[i];
         }
     };
@@ -24,7 +28,7 @@ public final class Metadata implements Parcelable {
     /* loaded from: classes.dex */
     public interface Entry extends Parcelable {
 
-        /* renamed from: com.google.android.exoplayer2.metadata.Metadata$Entry$-CC */
+        /* renamed from: com.google.android.exoplayer2.metadata.Metadata$Entry$-CC  reason: invalid class name */
         /* loaded from: classes.dex */
         public final /* synthetic */ class CC {
             public static byte[] $default$getWrappedMetadataBytes(Entry entry) {

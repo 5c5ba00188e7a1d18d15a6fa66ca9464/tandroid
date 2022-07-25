@@ -35,6 +35,7 @@ public class NetworkMonitor {
 
     private native void nativeNotifyOfNetworkPreference(long j, NetworkChangeDetector.ConnectionType connectionType, int i);
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class InstanceHolder {
         static final NetworkMonitor instance = new NetworkMonitor();
@@ -166,6 +167,7 @@ public class NetworkMonitor {
         }, context);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateCurrentConnectionType(NetworkChangeDetector.ConnectionType connectionType) {
         this.currentConnectionType = connectionType;
         notifyObserversOfConnectionTypeChange(connectionType);
@@ -184,18 +186,21 @@ public class NetworkMonitor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyObserversOfNetworkConnect(NetworkChangeDetector.NetworkInformation networkInformation) {
         for (Long l : getNativeNetworkObserversSync()) {
             nativeNotifyOfNetworkConnect(l.longValue(), networkInformation);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyObserversOfNetworkDisconnect(long j) {
         for (Long l : getNativeNetworkObserversSync()) {
             nativeNotifyOfNetworkDisconnect(l.longValue(), j);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyObserversOfNetworkPreference(List<NetworkChangeDetector.ConnectionType> list, int i) {
         List<Long> nativeNetworkObserversSync = getNativeNetworkObserversSync();
         for (NetworkChangeDetector.ConnectionType connectionType : list) {

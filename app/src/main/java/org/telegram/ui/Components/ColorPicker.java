@@ -80,7 +80,7 @@ public class ColorPicker extends FrameLayout {
     /* loaded from: classes3.dex */
     public interface ColorPickerDelegate {
 
-        /* renamed from: org.telegram.ui.Components.ColorPicker$ColorPickerDelegate$-CC */
+        /* renamed from: org.telegram.ui.Components.ColorPicker$ColorPickerDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static void $default$deleteTheme(ColorPickerDelegate colorPickerDelegate) {
@@ -103,9 +103,11 @@ public class ColorPicker extends FrameLayout {
         void setColor(int i, int i2, boolean z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$4(View view) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class RadioButton extends View {
         private ObjectAnimator checkAnimator;
@@ -218,7 +220,6 @@ public class ColorPicker extends FrameLayout {
             private RectF rect = new RectF();
 
             {
-                ColorPicker.this = this;
                 Paint paint2 = new Paint(1);
                 this.paint = paint2;
                 paint2.setColor(Theme.getColor("dialogBackgroundGray"));
@@ -451,6 +452,7 @@ public class ColorPicker extends FrameLayout {
         updateColorsPosition(null, 0, false, getMeasuredWidth());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         RadioButton radioButton = (RadioButton) view;
         int i = 0;
@@ -472,6 +474,7 @@ public class ColorPicker extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 6) {
             AndroidUtilities.hideKeyboard(textView);
@@ -480,6 +483,7 @@ public class ColorPicker extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         if (this.colorsAnimator != null) {
             return;
@@ -558,6 +562,7 @@ public class ColorPicker extends FrameLayout {
         this.colorsAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         RadioButton[] radioButtonArr;
         if (this.colorsAnimator != null) {
@@ -641,6 +646,7 @@ public class ColorPicker extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(int i) {
         boolean z = true;
         if (i != 1 && i != 2) {
@@ -657,6 +663,7 @@ public class ColorPicker extends FrameLayout {
         colorPickerDelegate.openThemeCreate(z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(View view) {
         this.menuItem.toggleSubMenu();
     }
@@ -736,16 +743,16 @@ public class ColorPicker extends FrameLayout {
         AndroidUtilities.hideKeyboard(this.colorEditText[1]);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x009f  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
         float f;
-        int i;
         float measuredWidth;
+        int i;
         int dp = AndroidUtilities.dp(45.0f);
         float f2 = dp;
         canvas.drawBitmap(this.colorWheelBitmap, 0.0f, f2, (Paint) null);
@@ -818,6 +825,7 @@ public class ColorPicker extends FrameLayout {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getFieldColor(int i, int i2) {
         try {
             return Integer.parseInt(this.colorEditText[i].getText().toString(), 16) | (-16777216);
@@ -856,13 +864,13 @@ public class ColorPicker extends FrameLayout {
         return createBitmap;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00fa, code lost:
-        if (r12 <= (r11.sliderRect.bottom + org.telegram.messenger.AndroidUtilities.dp(7.0f))) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00fa, code lost:
+        if (r12 <= (r11.sliderRect.bottom + org.telegram.messenger.AndroidUtilities.dp(7.0f))) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:5:0x000b, code lost:
-        if (r0 != 2) goto L7;
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x000b, code lost:
+        if (r0 != 2) goto L5;
      */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0141  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0141  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -954,6 +962,7 @@ public class ColorPicker extends FrameLayout {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setColorInner(int i) {
         Color.colorToHSV(i, this.colorHSV);
         int defaultColor = this.delegate.getDefaultColor(this.selectedColor);
@@ -1160,6 +1169,7 @@ public class ColorPicker extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$provideThemeDescriptions$7() {
         this.menuItem.setIconColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         Theme.setDrawableColor(this.menuItem.getBackground(), Theme.getColor("dialogButtonSelector"));

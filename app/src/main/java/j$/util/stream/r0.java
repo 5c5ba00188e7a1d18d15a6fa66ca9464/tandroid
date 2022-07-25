@@ -1,9 +1,8 @@
 package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class r0 extends CountedCompleter {
+final class r0 extends CountedCompleter {
     private j$.util.u a;
     private final m3 b;
     private final y2 c;
@@ -17,6 +16,7 @@ public final class r0 extends CountedCompleter {
         this.c = r0Var.c;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public r0(y2 y2Var, j$.util.u uVar, m3 m3Var) {
         super(null);
         this.b = m3Var;
@@ -27,7 +27,7 @@ public final class r0 extends CountedCompleter {
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.u trySplit;
+        j$.util.u mo350trySplit;
         j$.util.u uVar = this.a;
         long estimateSize = uVar.estimateSize();
         long j = this.d;
@@ -42,13 +42,13 @@ public final class r0 extends CountedCompleter {
         while (true) {
             if (d && m3Var.o()) {
                 break;
-            } else if (estimateSize <= j || (trySplit = uVar.trySplit()) == null) {
+            } else if (estimateSize <= j || (mo350trySplit = uVar.mo350trySplit()) == null) {
                 break;
             } else {
-                r0 r0Var2 = new r0(r0Var, trySplit);
+                r0 r0Var2 = new r0(r0Var, mo350trySplit);
                 r0Var.addToPendingCount(1);
                 if (z) {
-                    uVar = trySplit;
+                    uVar = mo350trySplit;
                 } else {
                     r0 r0Var3 = r0Var;
                     r0Var = r0Var2;

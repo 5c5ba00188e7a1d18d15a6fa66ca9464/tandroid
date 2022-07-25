@@ -11,7 +11,8 @@ public interface p extends java.util.Iterator {
         void forEachRemaining(Consumer consumer);
 
         @Override // java.util.Iterator
-        Integer next();
+        /* renamed from: next */
+        Integer mo337next();
 
         int nextInt();
     }

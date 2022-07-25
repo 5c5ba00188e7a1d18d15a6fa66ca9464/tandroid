@@ -53,9 +53,8 @@ public class TextInfoPrivacyCell extends FrameLayout {
         LinkSpanDrawable.LinkCollector linkCollector = new LinkSpanDrawable.LinkCollector(this);
         this.links = linkCollector;
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, linkCollector, resourcesProvider) { // from class: org.telegram.ui.Cells.TextInfoPrivacyCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 TextInfoPrivacyCell.this.onTextDraw();
                 super.onDraw(canvas);
                 TextInfoPrivacyCell.this.afterTextDraw();

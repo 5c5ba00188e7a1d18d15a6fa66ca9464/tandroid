@@ -57,7 +57,7 @@ public final class zzcv {
         this.zzh = mLTaskExecutor.scheduleCallable(zzcx.zza(sharedPrefManager));
     }
 
-    public final void zza(zzy$zzad.zza zzaVar, zzaj zzajVar) {
+    public final void zza(final zzy$zzad.zza zzaVar, final zzaj zzajVar) {
         MLTaskExecutor.workerThreadExecutor().execute(new Runnable(this, zzaVar, zzajVar) { // from class: com.google.android.gms.internal.mlkit_language_id.zzcw
             private final zzcv zza;
             private final zzy$zzad.zza zzb;
@@ -105,32 +105,34 @@ public final class zzcv {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zzb(zzy$zzad.zza zzaVar, zzaj zzajVar) {
-        String str;
-        String str2;
+        String version;
+        String mlSdkInstanceId;
         String zza2 = zzaVar.zza().zza();
         if ("NA".equals(zza2) || "".equals(zza2)) {
             zza2 = "NA";
         }
         zzy$zzbh.zza zzb2 = zzy$zzbh.zzb().zza(this.zzc).zzb(this.zzd).zzd(zza2).zza(zzb()).zzb(true);
         if (this.zzg.isSuccessful()) {
-            str = this.zzg.getResult();
+            version = this.zzg.getResult();
         } else {
-            str = LibraryVersion.getInstance().getVersion("language-id");
+            version = LibraryVersion.getInstance().getVersion("language-id");
         }
-        zzy$zzbh.zza zzc = zzb2.zzc(str);
+        zzy$zzbh.zza zzc = zzb2.zzc(version);
         if (zzl) {
             if (this.zzh.isSuccessful()) {
-                str2 = this.zzh.getResult();
+                mlSdkInstanceId = this.zzh.getResult();
             } else {
-                str2 = this.zzf.getMlSdkInstanceId();
+                mlSdkInstanceId = this.zzf.getMlSdkInstanceId();
             }
-            zzc.zze(str2);
+            zzc.zze(mlSdkInstanceId);
         }
         zzaVar.zza(zzajVar).zza(zzc);
         this.zze.zza((zzy$zzad) ((zzeo) zzaVar.zzg()));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ zzcv zza(ComponentContainer componentContainer) {
         return new zzcv((Context) componentContainer.get(Context.class), (SharedPrefManager) componentContainer.get(SharedPrefManager.class), (zzb) componentContainer.get(zzb.class));
     }

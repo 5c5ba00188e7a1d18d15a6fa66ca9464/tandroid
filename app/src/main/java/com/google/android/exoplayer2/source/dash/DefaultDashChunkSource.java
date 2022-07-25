@@ -71,11 +71,11 @@ public class DefaultDashChunkSource implements DashChunkSource {
 
         @Override // com.google.android.exoplayer2.source.dash.DashChunkSource.Factory
         public DashChunkSource createDashChunkSource(LoaderErrorThrower loaderErrorThrower, DashManifest dashManifest, int i, int[] iArr, TrackSelection trackSelection, int i2, long j, boolean z, List<Format> list, PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler, TransferListener transferListener) {
-            DataSource createDataSource = this.dataSourceFactory.createDataSource();
+            DataSource mo840createDataSource = this.dataSourceFactory.mo840createDataSource();
             if (transferListener != null) {
-                createDataSource.addTransferListener(transferListener);
+                mo840createDataSource.addTransferListener(transferListener);
             }
-            return new DefaultDashChunkSource(loaderErrorThrower, dashManifest, i, iArr, trackSelection, i2, createDataSource, j, this.maxSegmentsPerLoad, z, list, playerTrackEmsgHandler);
+            return new DefaultDashChunkSource(loaderErrorThrower, dashManifest, i, iArr, trackSelection, i2, mo840createDataSource, j, this.maxSegmentsPerLoad, z, list, playerTrackEmsgHandler);
         }
     }
 
@@ -151,10 +151,10 @@ public class DefaultDashChunkSource implements DashChunkSource {
 
     @Override // com.google.android.exoplayer2.source.chunk.ChunkSource
     public void getNextChunk(long j, long j2, List<? extends MediaChunk> list, ChunkHolder chunkHolder) {
-        long j3;
-        MediaChunkIterator[] mediaChunkIteratorArr;
         int i;
         int i2;
+        MediaChunkIterator[] mediaChunkIteratorArr;
+        long j3;
         if (this.fatalError != null) {
             return;
         }
@@ -174,26 +174,26 @@ public class DefaultDashChunkSource implements DashChunkSource {
             RepresentationHolder representationHolder = this.representationHolders[i3];
             if (representationHolder.segmentIndex == null) {
                 mediaChunkIteratorArr2[i3] = MediaChunkIterator.EMPTY;
-                i2 = i3;
-                i = length;
+                i = i3;
+                i2 = length;
                 mediaChunkIteratorArr = mediaChunkIteratorArr2;
                 j3 = nowUnixTimeUs;
             } else {
                 long firstAvailableSegmentNum = representationHolder.getFirstAvailableSegmentNum(this.manifest, this.periodIndex, nowUnixTimeUs);
                 long lastAvailableSegmentNum = representationHolder.getLastAvailableSegmentNum(this.manifest, this.periodIndex, nowUnixTimeUs);
-                i2 = i3;
-                i = length;
+                i = i3;
+                i2 = length;
                 mediaChunkIteratorArr = mediaChunkIteratorArr2;
                 j3 = nowUnixTimeUs;
                 long segmentNum = getSegmentNum(representationHolder, mediaChunk, j2, firstAvailableSegmentNum, lastAvailableSegmentNum);
                 if (segmentNum < firstAvailableSegmentNum) {
-                    mediaChunkIteratorArr[i2] = MediaChunkIterator.EMPTY;
+                    mediaChunkIteratorArr[i] = MediaChunkIterator.EMPTY;
                 } else {
-                    mediaChunkIteratorArr[i2] = new RepresentationSegmentIterator(representationHolder, segmentNum, lastAvailableSegmentNum);
+                    mediaChunkIteratorArr[i] = new RepresentationSegmentIterator(representationHolder, segmentNum, lastAvailableSegmentNum);
                 }
             }
-            i3 = i2 + 1;
-            length = i;
+            i3 = i + 1;
+            length = i2;
             mediaChunkIteratorArr2 = mediaChunkIteratorArr;
             nowUnixTimeUs = j3;
         }
@@ -358,6 +358,7 @@ public class DefaultDashChunkSource implements DashChunkSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static final class RepresentationHolder {
         final ChunkExtractorWrapper extractorWrapper;
@@ -379,8 +380,8 @@ public class DefaultDashChunkSource implements DashChunkSource {
         }
 
         RepresentationHolder copyWithNewRepresentation(long j, Representation representation) throws BehindLiveWindowException {
+            long segmentNum;
             long j2;
-            long j3;
             DashSegmentIndex index = this.representation.getIndex();
             DashSegmentIndex index2 = representation.getIndex();
             if (index == null) {
@@ -395,22 +396,22 @@ public class DefaultDashChunkSource implements DashChunkSource {
             }
             long firstSegmentNum = index.getFirstSegmentNum();
             long timeUs = index.getTimeUs(firstSegmentNum);
-            long j4 = (segmentCount + firstSegmentNum) - 1;
-            long timeUs2 = index.getTimeUs(j4) + index.getDurationUs(j4, j);
+            long j3 = (segmentCount + firstSegmentNum) - 1;
+            long timeUs2 = index.getTimeUs(j3) + index.getDurationUs(j3, j);
             long firstSegmentNum2 = index2.getFirstSegmentNum();
             long timeUs3 = index2.getTimeUs(firstSegmentNum2);
-            long j5 = this.segmentNumShift;
+            long j4 = this.segmentNumShift;
             if (timeUs2 == timeUs3) {
-                j2 = j5 + ((j4 + 1) - firstSegmentNum2);
+                j2 = j4 + ((j3 + 1) - firstSegmentNum2);
             } else if (timeUs2 < timeUs3) {
                 throw new BehindLiveWindowException();
             } else {
                 if (timeUs3 < timeUs) {
-                    j3 = j5 - (index2.getSegmentNum(timeUs, j) - firstSegmentNum);
+                    segmentNum = j4 - (index2.getSegmentNum(timeUs, j) - firstSegmentNum);
                 } else {
-                    j3 = (index.getSegmentNum(timeUs3, j) - firstSegmentNum2) + j5;
+                    segmentNum = (index.getSegmentNum(timeUs3, j) - firstSegmentNum2) + j4;
                 }
-                j2 = j3;
+                j2 = segmentNum;
             }
             return new RepresentationHolder(j, representation, this.extractorWrapper, j2, index2);
         }
@@ -470,19 +471,19 @@ public class DefaultDashChunkSource implements DashChunkSource {
         }
 
         private static ChunkExtractorWrapper createExtractorWrapper(int i, Representation representation, boolean z, List<Format> list, TrackOutput trackOutput) {
-            Extractor extractor;
+            Extractor fragmentedMp4Extractor;
             String str = representation.format.containerMimeType;
             if (mimeTypeIsRawText(str)) {
                 return null;
             }
             if ("application/x-rawcc".equals(str)) {
-                extractor = new RawCcExtractor(representation.format);
+                fragmentedMp4Extractor = new RawCcExtractor(representation.format);
             } else if (mimeTypeIsWebm(str)) {
-                extractor = new MatroskaExtractor(1);
+                fragmentedMp4Extractor = new MatroskaExtractor(1);
             } else {
-                extractor = new FragmentedMp4Extractor(z ? 4 : 0, null, null, list, trackOutput);
+                fragmentedMp4Extractor = new FragmentedMp4Extractor(z ? 4 : 0, null, null, list, trackOutput);
             }
-            return new ChunkExtractorWrapper(extractor, i, representation.format);
+            return new ChunkExtractorWrapper(fragmentedMp4Extractor, i, representation.format);
         }
     }
 }

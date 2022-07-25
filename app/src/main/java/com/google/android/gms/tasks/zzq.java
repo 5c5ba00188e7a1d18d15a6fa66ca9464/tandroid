@@ -3,6 +3,7 @@ package com.google.android.gms.tasks;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import javax.annotation.concurrent.GuardedBy;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
 /* loaded from: classes.dex */
 public final class zzq<TResult> {

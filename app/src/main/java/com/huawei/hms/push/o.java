@@ -23,10 +23,10 @@ public class o {
     public static int a;
 
     public static synchronized void a(Context context, k kVar) {
+        int hashCode;
         int i;
         int i2;
-        int i3;
-        int i4;
+        int hashCode2;
         synchronized (o.class) {
             if (context != null) {
                 if (!a(kVar)) {
@@ -37,42 +37,42 @@ public class o {
                     if (TextUtils.isEmpty(kVar.l())) {
                         String q = kVar.q();
                         if (!TextUtils.isEmpty(q)) {
-                            int hashCode = q.hashCode();
-                            kVar.a(hashCode);
-                            HMSLog.d("PushSelfShowLog", "notification msgTag = " + hashCode);
+                            int hashCode3 = q.hashCode();
+                            kVar.a(hashCode3);
+                            HMSLog.d("PushSelfShowLog", "notification msgTag = " + hashCode3);
                         }
                         if (kVar.s() != -1) {
-                            i4 = kVar.s();
-                            i3 = (kVar.k() + System.currentTimeMillis()).hashCode();
-                            i2 = i3 + 1;
-                            i = (kVar.s() + kVar.k() + context.getPackageName()).hashCode();
+                            hashCode = kVar.s();
+                            i = (kVar.k() + System.currentTimeMillis()).hashCode();
+                            i2 = i + 1;
+                            hashCode2 = (kVar.s() + kVar.k() + context.getPackageName()).hashCode();
                         } else {
-                            i4 = a + 1;
-                            a = i4;
-                            i3 = i4 + 1;
-                            a = i3;
-                            i2 = i3 + 1;
-                            a = i2;
-                            i = i2 + 1;
+                            hashCode = a + 1;
+                            a = hashCode;
+                            i = hashCode + 1;
                             a = i;
+                            i2 = i + 1;
+                            a = i2;
+                            hashCode2 = i2 + 1;
+                            a = hashCode2;
                         }
                     } else {
-                        i4 = (kVar.l() + kVar.k()).hashCode();
-                        i3 = a + 1;
-                        a = i3;
-                        i2 = i3 + 1;
+                        hashCode = (kVar.l() + kVar.k()).hashCode();
+                        i = a + 1;
+                        a = i;
+                        i2 = i + 1;
                         a = i2;
-                        i = (kVar.l() + kVar.k() + context.getPackageName()).hashCode();
+                        hashCode2 = (kVar.l() + kVar.k() + context.getPackageName()).hashCode();
                     }
-                    HMSLog.d("PushSelfShowLog", "notifyId:" + i4 + ",openNotifyId:" + i3 + ",delNotifyId:" + i2 + ",alarmNotifyId:" + i);
+                    HMSLog.d("PushSelfShowLog", "notifyId:" + hashCode + ",openNotifyId:" + i + ",delNotifyId:" + i2 + ",alarmNotifyId:" + hashCode2);
                     int[] iArr = new int[4];
-                    iArr[0] = i4;
-                    iArr[1] = i3;
+                    iArr[0] = hashCode;
+                    iArr[1] = i;
                     iArr[2] = i2;
                     if (kVar.f() <= 0) {
-                        i = 0;
+                        hashCode2 = 0;
                     }
-                    iArr[3] = i;
+                    iArr[3] = hashCode2;
                     Notification notification = null;
                     if (q.e()) {
                         notification = a(context, kVar, iArr);
@@ -82,7 +82,7 @@ public class o {
                         if (Build.VERSION.SDK_INT >= 26) {
                             notificationManager.createNotificationChannel(new NotificationChannel("HwPushChannelID", context.getString(ResourceLoaderUtil.getStringId("hms_push_channel")), 3));
                         }
-                        notificationManager.notify(i4, notification);
+                        notificationManager.notify(hashCode, notification);
                         d(context, kVar, iArr);
                         e.a(context, kVar.p(), kVar.b(), "100");
                     }

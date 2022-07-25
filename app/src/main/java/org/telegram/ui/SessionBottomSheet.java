@@ -47,12 +47,13 @@ public class SessionBottomSheet extends BottomSheet {
         void onSessionTerminated(TLRPC$TL_authorization tLRPC$TL_authorization);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$uploadSessionSettings$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
     public SessionBottomSheet(BaseFragment baseFragment, final TLRPC$TL_authorization tLRPC$TL_authorization, boolean z, Callback callback) {
         super(baseFragment.getParentActivity(), false);
-        String str;
+        String formatDateTime;
         setOpenNoDelay(true);
         Activity parentActivity = baseFragment.getParentActivity();
         this.session = tLRPC$TL_authorization;
@@ -86,11 +87,11 @@ public class SessionBottomSheet extends BottomSheet {
         textView2.setGravity(17);
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 1, 21, 4, 21, 21));
         if ((tLRPC$TL_authorization.flags & 1) != 0) {
-            str = LocaleController.getString("Online", R.string.Online);
+            formatDateTime = LocaleController.getString("Online", R.string.Online);
         } else {
-            str = LocaleController.formatDateTime(tLRPC$TL_authorization.date_active);
+            formatDateTime = LocaleController.formatDateTime(tLRPC$TL_authorization.date_active);
         }
-        textView2.setText(str);
+        textView2.setText(formatDateTime);
         StringBuilder sb = new StringBuilder();
         if (tLRPC$TL_authorization.device_model.length() != 0) {
             sb.append(tLRPC$TL_authorization.device_model);
@@ -227,7 +228,8 @@ public class SessionBottomSheet extends BottomSheet {
         setCustomView(scrollView);
     }
 
-    /* renamed from: org.telegram.ui.SessionBottomSheet$8 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.SessionBottomSheet$8  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass8 implements View.OnClickListener {
         final /* synthetic */ Callback val$callback;
@@ -235,7 +237,6 @@ public class SessionBottomSheet extends BottomSheet {
         final /* synthetic */ TLRPC$TL_authorization val$session;
 
         AnonymousClass8(Callback callback, TLRPC$TL_authorization tLRPC$TL_authorization, BaseFragment baseFragment) {
-            SessionBottomSheet.this = r1;
             this.val$callback = callback;
             this.val$session = tLRPC$TL_authorization;
             this.val$fragment = baseFragment;
@@ -264,6 +265,7 @@ public class SessionBottomSheet extends BottomSheet {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onClick$0(Callback callback, TLRPC$TL_authorization tLRPC$TL_authorization, DialogInterface dialogInterface, int i) {
             callback.onSessionTerminated(tLRPC$TL_authorization);
             SessionBottomSheet.this.dismiss();
@@ -275,6 +277,7 @@ public class SessionBottomSheet extends BottomSheet {
         return (i == 2040 || i == 2496) ? false : true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void uploadSessionSettings() {
         TLRPC$TL_account_changeAuthorizationSettings tLRPC$TL_account_changeAuthorizationSettings = new TLRPC$TL_account_changeAuthorizationSettings();
         TLRPC$TL_authorization tLRPC$TL_authorization = this.session;
@@ -285,6 +288,7 @@ public class SessionBottomSheet extends BottomSheet {
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_changeAuthorizationSettings, SessionBottomSheet$$ExternalSyntheticLambda1.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void copyText(final String str) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet$$ExternalSyntheticLambda0
@@ -296,16 +300,17 @@ public class SessionBottomSheet extends BottomSheet {
         builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$copyText$1(String str, DialogInterface dialogInterface, int i) {
         ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", str));
         BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00c4, code lost:
-        if (r13.app_name.toLowerCase().contains("desktop") != false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x00c4, code lost:
+        if (r13.app_name.toLowerCase().contains("desktop") != false) goto L39;
      */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x00fc  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x00fc  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x010d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -376,9 +381,8 @@ public class SessionBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class ItemView extends FrameLayout {
+    private static class ItemView extends FrameLayout {
         TextView descriptionText;
         ImageView iconView;
         boolean needDivider = false;
@@ -424,8 +428,8 @@ public class SessionBottomSheet extends BottomSheet {
 
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            String str;
             int i;
+            String str;
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             if (this.switchView != null) {
                 accessibilityNodeInfo.setClassName("android.widget.Switch");

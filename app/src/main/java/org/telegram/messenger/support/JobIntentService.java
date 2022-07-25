@@ -29,6 +29,7 @@ public abstract class JobIntentService extends Service {
     boolean mStopped = false;
     boolean mDestroyed = false;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface CompatJobEngine {
         IBinder compatGetBinder();
@@ -36,6 +37,7 @@ public abstract class JobIntentService extends Service {
         GenericWorkItem dequeueWork();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface GenericWorkItem {
         void complete();
@@ -49,6 +51,7 @@ public abstract class JobIntentService extends Service {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static abstract class WorkEnqueuer {
         final ComponentName mComponentName;
@@ -81,6 +84,7 @@ public abstract class JobIntentService extends Service {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class CompatWorkEnqueuer extends WorkEnqueuer {
         private final Context mContext;
@@ -149,9 +153,8 @@ public abstract class JobIntentService extends Service {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class JobServiceEngineImpl extends JobServiceEngine implements CompatJobEngine {
+    static final class JobServiceEngineImpl extends JobServiceEngine implements CompatJobEngine {
         static final boolean DEBUG = false;
         static final String TAG = "JobServiceEngineImpl";
         final Object mLock = new Object();
@@ -163,7 +166,6 @@ public abstract class JobIntentService extends Service {
             final JobWorkItem mJobWork;
 
             WrapperWorkItem(JobWorkItem jobWorkItem) {
-                JobServiceEngineImpl.this = r1;
                 this.mJobWork = jobWorkItem;
             }
 
@@ -231,6 +233,7 @@ public abstract class JobIntentService extends Service {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class JobWorkEnqueuer extends WorkEnqueuer {
         private final JobInfo mJobInfo;
@@ -249,13 +252,13 @@ public abstract class JobIntentService extends Service {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class CompatWorkItem implements GenericWorkItem {
         final Intent mIntent;
         final int mStartId;
 
         CompatWorkItem(Intent intent, int i) {
-            JobIntentService.this = r1;
             this.mIntent = intent;
             this.mStartId = i;
         }
@@ -271,12 +274,14 @@ public abstract class JobIntentService extends Service {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class CommandProcessor extends AsyncTask<Void, Void, Void> {
         CommandProcessor() {
-            JobIntentService.this = r1;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public Void doInBackground(Void... voidArr) {
             while (true) {
                 GenericWorkItem dequeueWork = JobIntentService.this.dequeueWork();
@@ -292,10 +297,14 @@ public abstract class JobIntentService extends Service {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public void onCancelled(Void r1) {
             JobIntentService.this.processorFinished();
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public void onPostExecute(Void r1) {
             JobIntentService.this.processorFinished();
         }
@@ -375,22 +384,22 @@ public abstract class JobIntentService extends Service {
     }
 
     static WorkEnqueuer getWorkEnqueuer(Context context, ComponentName componentName, boolean z, int i) {
-        WorkEnqueuer workEnqueuer;
+        WorkEnqueuer compatWorkEnqueuer;
         HashMap<ComponentName, WorkEnqueuer> hashMap = sClassWorkEnqueuer;
-        WorkEnqueuer workEnqueuer2 = hashMap.get(componentName);
-        if (workEnqueuer2 == null) {
+        WorkEnqueuer workEnqueuer = hashMap.get(componentName);
+        if (workEnqueuer == null) {
             if (Build.VERSION.SDK_INT < 26) {
-                workEnqueuer = new CompatWorkEnqueuer(context, componentName);
+                compatWorkEnqueuer = new CompatWorkEnqueuer(context, componentName);
             } else if (!z) {
                 throw new IllegalArgumentException("Can't be here without a job id");
             } else {
-                workEnqueuer = new JobWorkEnqueuer(context, componentName, i);
+                compatWorkEnqueuer = new JobWorkEnqueuer(context, componentName, i);
             }
-            WorkEnqueuer workEnqueuer3 = workEnqueuer;
-            hashMap.put(componentName, workEnqueuer3);
-            return workEnqueuer3;
+            WorkEnqueuer workEnqueuer2 = compatWorkEnqueuer;
+            hashMap.put(componentName, workEnqueuer2);
+            return workEnqueuer2;
         }
-        return workEnqueuer2;
+        return workEnqueuer;
     }
 
     public void setInterruptIfStopped(boolean z) {

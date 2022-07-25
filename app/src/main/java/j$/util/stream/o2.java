@@ -1,4 +1,5 @@
 package j$.util.stream;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class o2 extends s2 implements j3 {
     private final double[] h;
@@ -8,6 +9,7 @@ public final class o2 extends s2 implements j3 {
         this.h = o2Var.h;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public o2(j$.util.u uVar, y2 y2Var, double[] dArr) {
         super(uVar, y2Var, dArr.length);
         this.h = dArr;
@@ -30,6 +32,7 @@ public final class o2 extends s2 implements j3 {
         return new o2(this, uVar, j, j2);
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: c */
     public /* synthetic */ void accept(Double d) {
         o1.a(this, d);

@@ -34,6 +34,7 @@ public final class OfferWalletObject extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public OfferWalletObject(int i, String str, String str2, CommonWalletObject commonWalletObject) {
         this.zzd = i;
         this.zzb = str2;

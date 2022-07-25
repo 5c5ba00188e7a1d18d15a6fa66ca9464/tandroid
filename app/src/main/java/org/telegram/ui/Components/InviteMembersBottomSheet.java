@@ -227,10 +227,11 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).rightMargin = AndroidUtilities.dp(4.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(long j, BaseFragment baseFragment, LongSparseArray longSparseArray, Context context, View view, int i) {
-        long j2;
         String str;
         TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
+        long j2;
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         SearchAdapter searchAdapter = this.searchAdapter;
         TLObject tLObject = null;
@@ -296,6 +297,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(Context context, long j, View view) {
         Activity findActivity;
         if ((this.dialogsDelegate == null && this.selectedContacts.size() == 0) || (findActivity = AndroidUtilities.findActivity(context)) == null) {
@@ -351,6 +353,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface, int i) {
         onAddToGroupDone(0);
     }
@@ -373,29 +376,29 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00c8  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00c8  */
     /* JADX WARN: Removed duplicated region for block: B:36:0x0116  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0123  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setSelectedContacts(ArrayList<Long> arrayList) {
+        float max;
         int i;
         int i2;
-        int i3;
-        float max;
-        Object obj;
+        int max2;
+        Object user;
         int size = arrayList.size();
-        int i4 = 0;
-        for (int i5 = 0; i5 < size; i5++) {
-            long longValue = arrayList.get(i5).longValue();
+        int i3 = 0;
+        for (int i4 = 0; i4 < size; i4++) {
+            long longValue = arrayList.get(i4).longValue();
             if (DialogObject.isChatDialog(longValue)) {
-                obj = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
+                user = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
             } else {
-                obj = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
+                user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
             }
-            GroupCreateSpan groupCreateSpan = new GroupCreateSpan(this.spansContainer.getContext(), obj);
+            GroupCreateSpan groupCreateSpan = new GroupCreateSpan(this.spansContainer.getContext(), user);
             this.spansContainer.addSpan(groupCreateSpan, false);
             groupCreateSpan.setOnClickListener(this.spanClickListener);
         }
@@ -415,54 +418,55 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             i = AndroidUtilities.displaySize.x;
             int dp = i - AndroidUtilities.dp(26.0f);
             int dp2 = AndroidUtilities.dp(10.0f);
-            int i6 = 0;
+            int i5 = 0;
             for (i2 = 0; i2 < childCount; i2++) {
                 View childAt = this.spansContainer.getChildAt(i2);
                 if (childAt instanceof GroupCreateSpan) {
                     childAt.measure(View.MeasureSpec.makeMeasureSpec(i, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
-                    if (childAt.getMeasuredWidth() + i6 > dp) {
+                    if (childAt.getMeasuredWidth() + i5 > dp) {
                         dp2 += childAt.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
-                        i6 = 0;
+                        i5 = 0;
                     }
-                    i6 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
+                    i5 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
                 }
             }
             int dp3 = dp2 + AndroidUtilities.dp(42.0f);
             if (this.dialogsDelegate == null) {
-                i3 = this.spanEnter ? Math.min(this.maxSize, dp3) : 0;
+                max2 = this.spanEnter ? Math.min(this.maxSize, dp3) : 0;
             } else {
-                i3 = Math.max(0, Math.min(this.maxSize, dp3) - AndroidUtilities.dp(52.0f));
+                max2 = Math.max(0, Math.min(this.maxSize, dp3) - AndroidUtilities.dp(52.0f));
             }
-            int i7 = this.searchAdditionalHeight;
+            int i6 = this.searchAdditionalHeight;
             if (this.selectedContacts.size() > 0) {
-                i4 = AndroidUtilities.dp(56.0f);
+                i3 = AndroidUtilities.dp(56.0f);
             }
-            this.searchAdditionalHeight = i4;
-            if (i3 != this.additionalHeight && i7 == i4) {
+            this.searchAdditionalHeight = i3;
+            if (max2 != this.additionalHeight && i6 == i3) {
                 return;
             }
-            this.additionalHeight = i3;
+            this.additionalHeight = max2;
         } else {
             max = Math.max(AndroidUtilities.displaySize.x * 0.8f, Math.min(AndroidUtilities.dp(480.0f), AndroidUtilities.displaySize.x));
         }
         i = (int) max;
         int dp4 = i - AndroidUtilities.dp(26.0f);
         int dp22 = AndroidUtilities.dp(10.0f);
-        int i62 = 0;
+        int i52 = 0;
         while (i2 < childCount) {
         }
         int dp32 = dp22 + AndroidUtilities.dp(42.0f);
         if (this.dialogsDelegate == null) {
         }
-        int i72 = this.searchAdditionalHeight;
+        int i62 = this.searchAdditionalHeight;
         if (this.selectedContacts.size() > 0) {
         }
-        this.searchAdditionalHeight = i4;
-        if (i3 != this.additionalHeight) {
+        this.searchAdditionalHeight = i3;
+        if (max2 != this.additionalHeight) {
         }
-        this.additionalHeight = i3;
+        this.additionalHeight = max2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void spansCountChanged(boolean z) {
         final boolean z2 = this.selectedContacts.size() > 0;
         if (this.spanEnter != z2) {
@@ -551,6 +555,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$spansCountChanged$3(ValueAnimator valueAnimator) {
         this.spansEnterProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.containerView.invalidate();
@@ -606,14 +611,15 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         this.listViewAdapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private ListAdapter() {
-            InviteMembersBottomSheet.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatTextCell manageChatTextCell;
             Context context = viewGroup.getContext();
             if (i == 2) {
@@ -634,6 +640,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 manageChatTextCell = manageChatTextCell2;
             } else {
                 StickerEmptyView stickerEmptyView = new StickerEmptyView(this, context, null, 0) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.ListAdapter.2
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.StickerEmptyView, android.view.ViewGroup, android.view.View
                     public void onAttachedToWindow() {
                         super.onAttachedToWindow();
@@ -730,6 +737,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int currentItemsCount;
@@ -739,7 +747,6 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         private Runnable searchRunnable;
 
         public SearchAdapter() {
-            InviteMembersBottomSheet.this = r2;
             SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false);
             this.searchAdapterHelper = searchAdapterHelper;
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda4
@@ -770,6 +777,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(int i) {
             InviteMembersBottomSheet.this.showItemsAnimated(this.currentItemsCount - 1);
             if (this.searchRunnable == null && !this.searchAdapterHelper.isSearchInProgress() && getItemCount() <= 2) {
@@ -784,35 +792,36 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View groupCreateUserCell;
             Context context = viewGroup.getContext();
             if (i == 1) {
-                view = new GroupCreateUserCell(context, 1, 0, false);
+                groupCreateUserCell = new GroupCreateUserCell(context, 1, 0, false);
             } else if (i == 2) {
-                view = new View(context) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.SearchAdapter.1
+                groupCreateUserCell = new View(context) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.SearchAdapter.1
                     @Override // android.view.View
                     protected void onMeasure(int i2, int i3) {
                         super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f) + InviteMembersBottomSheet.this.additionalHeight + InviteMembersBottomSheet.this.searchAdditionalHeight, 1073741824));
                     }
                 };
             } else if (i != 4) {
-                view = new GroupCreateSectionCell(context);
+                groupCreateUserCell = new GroupCreateSectionCell(context);
             } else {
-                view = new View(context);
+                groupCreateUserCell = new View(context);
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(groupCreateUserCell);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00ae, code lost:
-            if (r13.toString().startsWith("@" + r3) != false) goto L53;
+        /* JADX WARN: Code restructure failed: missing block: B:26:0x00ae, code lost:
+            if (r13.toString().startsWith("@" + r3) != false) goto L27;
          */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x0109  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x010e  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x0120  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x0125  */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x0134  */
-        /* JADX WARN: Removed duplicated region for block: B:91:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0109  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0120  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x0134  */
+        /* JADX WARN: Removed duplicated region for block: B:54:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0125  */
+        /* JADX WARN: Removed duplicated region for block: B:59:0x010e  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -957,6 +966,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$1(ArrayList arrayList, ArrayList arrayList2) {
             this.searchRunnable = null;
             this.searchResult = arrayList;
@@ -1008,6 +1018,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             inviteMembersBottomSheet2.listView.setAdapter(adapter4);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$4(final String str) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
@@ -1017,6 +1028,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$3(final String str) {
             this.searchAdapterHelper.queryServerSearch(str, true, InviteMembersBottomSheet.this.dialogsDelegate != null, true, InviteMembersBottomSheet.this.dialogsDelegate != null, false, 0L, false, 0, 0);
             DispatchQueue dispatchQueue = Utilities.searchQueue;
@@ -1030,11 +1042,12 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             dispatchQueue.postRunnable(runnable);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:38:0x00d0, code lost:
-            if (r13.contains(" " + r3) != false) goto L43;
+        /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x00d0, code lost:
+            if (r13.contains(" " + r3) != false) goto L53;
          */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x0130 A[LOOP:1: B:29:0x0094->B:53:0x0130, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x00e0 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x0130 A[LOOP:1: B:26:0x0094->B:41:0x0130, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x00e0 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1153,6 +1166,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSearchViewTouched$5(final EditTextBoldCursor editTextBoldCursor) {
         setFocusable(true);
         editTextBoldCursor.requestFocus();
@@ -1164,6 +1178,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SpansContainer extends ViewGroup {
         boolean addAnimation;
@@ -1171,10 +1186,8 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         private ArrayList<Animator> animators = new ArrayList<>();
         private View removingSpan;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SpansContainer(Context context) {
             super(context);
-            InviteMembersBottomSheet.this = r1;
         }
 
         @Override // android.view.View
@@ -1284,15 +1297,18 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             InviteMembersBottomSheet.this.listView.setTranslationY(0.0f);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMeasure$0(ValueAnimator valueAnimator) {
             InviteMembersBottomSheet.this.scrollViewH = ((Integer) valueAnimator.getAnimatedValue()).intValue();
             ((BottomSheet) InviteMembersBottomSheet.this).containerView.invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMeasure$1(int i) {
             InviteMembersBottomSheet.this.spansScrollView.smoothScrollTo(0, i - InviteMembersBottomSheet.this.maxSize);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMeasure$2(int i) {
             InviteMembersBottomSheet.this.spansScrollView.smoothScrollTo(0, i - InviteMembersBottomSheet.this.maxSize);
         }
@@ -1387,9 +1403,8 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.UsersAlertBase.ContainerView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 InviteMembersBottomSheet inviteMembersBottomSheet;
                 InviteMembersBottomSheet inviteMembersBottomSheet2 = InviteMembersBottomSheet.this;
                 InviteMembersBottomSheet.this.spansScrollView.setTranslationY((inviteMembersBottomSheet2.scrollOffsetY - ((BottomSheet) inviteMembersBottomSheet2).backgroundPaddingTop) + AndroidUtilities.dp(6.0f) + AndroidUtilities.dp(64.0f));
@@ -1436,9 +1451,8 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         };
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
-    public void search(String str) {
+    protected void search(String str) {
         this.searchAdapter.searchDialogs(str);
     }
 
@@ -1453,9 +1467,8 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         updateRows();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class ItemAnimator extends DefaultItemAnimator {
+    private class ItemAnimator extends DefaultItemAnimator {
         public ItemAnimator(InviteMembersBottomSheet inviteMembersBottomSheet) {
             this.translationInterpolator = CubicBezierInterpolator.DEFAULT;
             setMoveDuration(150L);
@@ -1498,6 +1511,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$8(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
@@ -1507,6 +1521,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$7(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             this.invite = (TLRPC$TL_chatInviteExported) tLObject;

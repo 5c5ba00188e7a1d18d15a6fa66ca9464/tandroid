@@ -10,7 +10,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
 /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
-/* renamed from: com.google.android.gms.internal.auth-api.zbo */
+/* renamed from: com.google.android.gms.internal.auth-api.zbo  reason: invalid package */
 /* loaded from: classes.dex */
 public final class zbo extends GmsClient<zbt> {
     private final Auth.AuthCredentialsOptions zba;

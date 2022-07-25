@@ -1,15 +1,17 @@
 package androidx.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FullLifecycleObserverAdapter implements GenericLifecycleObserver {
     private final FullLifecycleObserver mObserver;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FullLifecycleObserverAdapter(FullLifecycleObserver fullLifecycleObserver) {
         this.mObserver = fullLifecycleObserver;
     }
 
-    /* renamed from: androidx.lifecycle.FullLifecycleObserverAdapter$1 */
+    /* renamed from: androidx.lifecycle.FullLifecycleObserverAdapter$1  reason: invalid class name */
     /* loaded from: classes.dex */
     static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$Event;

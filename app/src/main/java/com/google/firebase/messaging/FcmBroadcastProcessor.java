@@ -43,14 +43,17 @@ public class FcmBroadcastProcessor {
         return withinAppServiceConnection;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ Integer lambda$bindToMessagingService$3$FcmBroadcastProcessor(Task task) throws Exception {
         return -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ Integer lambda$startMessagingService$1$FcmBroadcastProcessor(Task task) throws Exception {
         return 403;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ Task lambda$startMessagingService$2$FcmBroadcastProcessor(Context context, Intent intent, Task task) throws Exception {
         return (!PlatformVersion.isAtLeastO() || ((Integer) task.getResult()).intValue() != 402) ? task : bindToMessagingService(context, intent).continueWith(FcmBroadcastProcessor$$Lambda$5.$instance, FcmBroadcastProcessor$$Lambda$6.$instance);
     }
@@ -65,7 +68,7 @@ public class FcmBroadcastProcessor {
     }
 
     @SuppressLint({"InlinedApi"})
-    public Task<Integer> startMessagingService(Context context, Intent intent) {
+    public Task<Integer> startMessagingService(final Context context, final Intent intent) {
         boolean z = false;
         if (PlatformVersion.isAtLeastO() && context.getApplicationInfo().targetSdkVersion >= 26) {
             z = true;

@@ -122,6 +122,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         bindPremium(UserConfig.getInstance(getCurrentAccount()).isPremium());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(int i, BaseFragment baseFragment, View view) {
         if (!UserConfig.getInstance(i).isPremium()) {
             PremiumPreviewFragment.buyPremium(baseFragment, "double_limits");
@@ -129,6 +130,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         dismiss();
     }
@@ -139,6 +141,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onPreMeasure(int i, int i2) {
         super.onPreMeasure(i, i2);
@@ -211,22 +214,24 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
                 return false;
             }
 
+            /* JADX WARN: Multi-variable type inference failed */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                LimitCell limitCell;
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+                FixedHeightEmptyCell fixedHeightEmptyCell;
                 Context context = viewGroup.getContext();
                 if (i == 1) {
-                    limitCell = new FixedHeightEmptyCell(context, 64);
+                    fixedHeightEmptyCell = new FixedHeightEmptyCell(context, 64);
                 } else if (i != 2) {
-                    LimitCell limitCell2 = new LimitCell(DoubledLimitsBottomSheet.this, context);
-                    limitCell2.previewView.setParentViewForGradien(((BottomSheet) DoubledLimitsBottomSheet.this).containerView);
-                    limitCell2.previewView.setStaticGradinet(DoubledLimitsBottomSheet.this.gradientTools);
-                    limitCell = limitCell2;
+                    LimitCell limitCell = new LimitCell(DoubledLimitsBottomSheet.this, context);
+                    limitCell.previewView.setParentViewForGradien(((BottomSheet) DoubledLimitsBottomSheet.this).containerView);
+                    limitCell.previewView.setStaticGradinet(DoubledLimitsBottomSheet.this.gradientTools);
+                    fixedHeightEmptyCell = limitCell;
                 } else {
-                    limitCell = new FixedHeightEmptyCell(context, 16);
+                    fixedHeightEmptyCell = new FixedHeightEmptyCell(context, 16);
                 }
-                limitCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                return new RecyclerListView.Holder(limitCell);
+                fixedHeightEmptyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                return new RecyclerListView.Holder(fixedHeightEmptyCell);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -258,6 +263,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -284,6 +290,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class LimitCell extends LinearLayout {
         LimitPreviewView previewView;
@@ -331,6 +338,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.totalGradientHeight = i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class Limit {
         final int defaultLimit;

@@ -19,6 +19,7 @@ public class MLTaskExecutor {
         return zza.INSTANCE;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.mlkit:common@@17.0.0 */
     /* loaded from: classes.dex */
     public enum zza implements Executor {
@@ -47,8 +48,8 @@ public class MLTaskExecutor {
         this.zzc = new com.google.android.gms.internal.mlkit_common.zzb(looper);
     }
 
-    public <ResultT> Task<ResultT> scheduleCallable(Callable<ResultT> callable) {
-        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+    public <ResultT> Task<ResultT> scheduleCallable(final Callable<ResultT> callable) {
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
         scheduleRunnable(new Runnable(callable, taskCompletionSource) { // from class: com.google.mlkit.common.sdkinternal.zzg
             private final Callable zza;
             private final TaskCompletionSource zzb;
@@ -71,6 +72,7 @@ public class MLTaskExecutor {
         workerThreadExecutor().execute(runnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ void zza(Callable callable, TaskCompletionSource taskCompletionSource) {
         try {
             taskCompletionSource.setResult(callable.call());

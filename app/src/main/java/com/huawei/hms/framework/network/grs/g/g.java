@@ -20,22 +20,23 @@ public class g extends a implements Callable<d> {
         super(str, i2, cVar, context, str2, grsBaseInfo, cVar2);
     }
 
-    /* JADX WARN: Not initialized variable reg: 9, insn: 0x0130: MOVE  (r6 I:??[OBJECT, ARRAY]) = (r9 I:??[OBJECT, ARRAY]), block:B:56:0x0130 */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0123  */
+    /* JADX WARN: Can't rename method to resolve collision */
+    /* JADX WARN: Not initialized variable reg: 9, insn: 0x0130: MOVE  (r6 I:??[OBJECT, ARRAY]) = (r9 I:??[OBJECT, ARRAY]), block:B:79:0x0130 */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0123  */
     @Override // java.util.concurrent.Callable
+    /* renamed from: call */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public d call() {
-        long j;
+    public d mo228call() {
         HttpsURLConnection httpsURLConnection;
-        long j2;
-        IOException e;
-        long elapsedRealtime;
         HttpsURLConnection httpsURLConnection2;
+        long j;
+        long currentTimeMillis;
+        long elapsedRealtime;
         String str = i;
         Logger.i(str, "Post call execute");
-        long j3 = 0;
+        long j2 = 0;
         HttpsURLConnection httpsURLConnection3 = null;
         InputStream inputStream = null;
         byte[] bArr = null;
@@ -44,66 +45,66 @@ public class g extends a implements Callable<d> {
                 try {
                     elapsedRealtime = SystemClock.elapsedRealtime();
                     try {
-                        j3 = System.currentTimeMillis();
-                        httpsURLConnection = com.huawei.hms.framework.network.grs.h.f.a.a(c(), a(), e());
-                    } catch (IOException e2) {
-                        e = e2;
-                        httpsURLConnection = null;
+                        j2 = System.currentTimeMillis();
+                        httpsURLConnection2 = com.huawei.hms.framework.network.grs.h.f.a.a(c(), a(), e());
+                    } catch (IOException e) {
+                        e = e;
+                        httpsURLConnection2 = null;
                     }
-                } catch (IOException e3) {
-                    e = e3;
-                    httpsURLConnection = null;
-                    j2 = 0;
+                } catch (IOException e2) {
+                    e = e2;
+                    httpsURLConnection2 = null;
+                    j = 0;
                 }
                 try {
-                } catch (IOException e4) {
-                    e = e4;
-                    long j4 = j3;
-                    j3 = elapsedRealtime;
-                    j2 = j4;
+                } catch (IOException e3) {
+                    e = e3;
+                    long j3 = j2;
+                    j2 = elapsedRealtime;
+                    j = j3;
                     long elapsedRealtime2 = SystemClock.elapsedRealtime();
-                    j = System.currentTimeMillis();
+                    currentTimeMillis = System.currentTimeMillis();
                     Logger.w(i, "RequestCallableV2 run task catch IOException", e);
-                    this.a = new d(e, elapsedRealtime2 - j3);
-                    if (httpsURLConnection != null) {
+                    this.a = new d(e, elapsedRealtime2 - j2);
+                    if (httpsURLConnection2 != null) {
                         try {
-                            httpsURLConnection.disconnect();
+                            httpsURLConnection2.disconnect();
                         } catch (RuntimeException unused) {
-                            j3 = j2;
+                            j2 = j;
                             Logger.w(i, "RequestCallableV2 disconnect HttpsURLConnection catch RuntimeException");
                             this.a.b(c());
                             this.a.a(d());
-                            this.a.b(j3);
-                            this.a.a(j);
+                            this.a.b(j2);
+                            this.a.a(currentTimeMillis);
                             if (b() != null) {
                             }
                             return this.a;
                         } catch (Throwable unused2) {
-                            j3 = j2;
+                            j2 = j;
                             Logger.w(i, "RequestCallableV2 disconnect HttpsURLConnection catch Throwable");
                             this.a.b(c());
                             this.a.a(d());
-                            this.a.b(j3);
-                            this.a.a(j);
+                            this.a.b(j2);
+                            this.a.a(currentTimeMillis);
                             if (b() != null) {
                             }
                             return this.a;
                         }
                     }
-                    j3 = j2;
+                    j2 = j;
                     this.a.b(c());
                     this.a.a(d());
-                    this.a.b(j3);
-                    this.a.a(j);
+                    this.a.b(j2);
+                    this.a.a(currentTimeMillis);
                     if (b() != null) {
                     }
                     return this.a;
                 }
-                if (httpsURLConnection == null) {
+                if (httpsURLConnection2 == null) {
                     Logger.w(str, "create HttpsURLConnection instance by url return null.");
-                    if (httpsURLConnection != null) {
+                    if (httpsURLConnection2 != null) {
                         try {
-                            httpsURLConnection.disconnect();
+                            httpsURLConnection2.disconnect();
                         } catch (RuntimeException unused3) {
                             Logger.w(i, "RequestCallableV2 disconnect HttpsURLConnection catch RuntimeException");
                         } catch (Throwable unused4) {
@@ -112,21 +113,21 @@ public class g extends a implements Callable<d> {
                     }
                     return null;
                 }
-                httpsURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                httpsURLConnection.setRequestMethod("POST");
-                httpsURLConnection.setDoOutput(true);
-                httpsURLConnection.setDoInput(true);
+                httpsURLConnection2.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                httpsURLConnection2.setRequestMethod("POST");
+                httpsURLConnection2.setDoOutput(true);
+                httpsURLConnection2.setDoInput(true);
                 String a = b() != null ? b().a() : "";
                 if (TextUtils.isEmpty(a)) {
                     a = ContainerUtils.FIELD_DELIMITER;
                 }
-                httpsURLConnection.setRequestProperty("If-None-Match", a);
-                httpsURLConnection.connect();
-                com.huawei.hms.framework.network.grs.h.f.a.a(httpsURLConnection, f().a("services", ""));
-                int responseCode = httpsURLConnection.getResponseCode();
+                httpsURLConnection2.setRequestProperty("If-None-Match", a);
+                httpsURLConnection2.connect();
+                com.huawei.hms.framework.network.grs.h.f.a.a(httpsURLConnection2, f().a("services", ""));
+                int responseCode = httpsURLConnection2.getResponseCode();
                 if (responseCode == 200) {
                     try {
-                        inputStream = httpsURLConnection.getInputStream();
+                        inputStream = httpsURLConnection2.getInputStream();
                         byte[] byteArray = IoUtils.toByteArray(inputStream);
                         IoUtils.closeSecure(inputStream);
                         bArr = byteArray;
@@ -135,19 +136,19 @@ public class g extends a implements Callable<d> {
                         throw th;
                     }
                 }
-                Map headerFields = httpsURLConnection.getHeaderFields();
-                httpsURLConnection.disconnect();
+                Map headerFields = httpsURLConnection2.getHeaderFields();
+                httpsURLConnection2.disconnect();
                 long elapsedRealtime3 = SystemClock.elapsedRealtime();
-                j = System.currentTimeMillis();
+                currentTimeMillis = System.currentTimeMillis();
                 this.a = new d(responseCode, headerFields, bArr == null ? new byte[0] : bArr, elapsedRealtime3 - elapsedRealtime);
                 try {
-                    httpsURLConnection.disconnect();
+                    httpsURLConnection2.disconnect();
                 } catch (RuntimeException unused5) {
                     Logger.w(i, "RequestCallableV2 disconnect HttpsURLConnection catch RuntimeException");
                     this.a.b(c());
                     this.a.a(d());
-                    this.a.b(j3);
-                    this.a.a(j);
+                    this.a.b(j2);
+                    this.a.a(currentTimeMillis);
                     if (b() != null) {
                     }
                     return this.a;
@@ -155,16 +156,16 @@ public class g extends a implements Callable<d> {
                     Logger.w(i, "RequestCallableV2 disconnect HttpsURLConnection catch Throwable");
                     this.a.b(c());
                     this.a.a(d());
-                    this.a.b(j3);
-                    this.a.a(j);
+                    this.a.b(j2);
+                    this.a.a(currentTimeMillis);
                     if (b() != null) {
                     }
                     return this.a;
                 }
                 this.a.b(c());
                 this.a.a(d());
-                this.a.b(j3);
-                this.a.a(j);
+                this.a.b(j2);
+                this.a.a(currentTimeMillis);
                 if (b() != null) {
                     b().a(this.a);
                 }
@@ -184,7 +185,7 @@ public class g extends a implements Callable<d> {
             }
         } catch (Throwable th3) {
             th = th3;
-            httpsURLConnection3 = httpsURLConnection2;
+            httpsURLConnection3 = httpsURLConnection;
         }
     }
 }

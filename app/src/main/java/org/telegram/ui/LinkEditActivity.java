@@ -145,12 +145,14 @@ public class LinkEditActivity extends BaseFragment {
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
             protected AdjustPanLayoutHelper createAdjustPanLayoutHelper() {
                 AdjustPanLayoutHelper adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) { // from class: org.telegram.ui.LinkEditActivity.2.1
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
                     public void onTransitionStart(boolean z, int i3) {
                         super.onTransitionStart(z, i3);
                         LinkEditActivity.this.scrollView.getLayoutParams().height = i3;
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
                     public void onTransitionEnd() {
                         super.onTransitionEnd();
@@ -158,6 +160,7 @@ public class LinkEditActivity extends BaseFragment {
                         LinkEditActivity.this.scrollView.requestLayout();
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
                     public void onPanTranslationUpdate(float f, float f2, boolean z) {
                         super.onPanTranslationUpdate(f, f2, z);
@@ -173,12 +176,14 @@ public class LinkEditActivity extends BaseFragment {
                 return adjustPanLayoutHelper;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
             public void onAttachedToWindow() {
                 super.onAttachedToWindow();
                 this.adjustPanLayoutHelper.onAttach();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
             public void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
@@ -209,6 +214,7 @@ public class LinkEditActivity extends BaseFragment {
                 this.oldKeyboardHeight = this.keyboardHeight;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                 int scrollY = LinkEditActivity.this.scrollView.getScrollY();
@@ -224,6 +230,7 @@ public class LinkEditActivity extends BaseFragment {
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
@@ -242,27 +249,27 @@ public class LinkEditActivity extends BaseFragment {
         LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.LinkEditActivity.3
             @Override // android.widget.LinearLayout, android.view.View
             protected void onMeasure(int i3, int i4) {
-                int i5;
+                int dp;
                 super.onMeasure(i3, i4);
                 int size = View.MeasureSpec.getSize(i4);
-                int i6 = 0;
-                for (int i7 = 0; i7 < getChildCount(); i7++) {
-                    View childAt = getChildAt(i7);
+                int i5 = 0;
+                for (int i6 = 0; i6 < getChildCount(); i6++) {
+                    View childAt = getChildAt(i6);
                     if (childAt != LinkEditActivity.this.buttonTextView && childAt.getVisibility() != 8) {
-                        i6 += childAt.getMeasuredHeight();
+                        i5 += childAt.getMeasuredHeight();
                     }
                 }
-                int dp = size - ((AndroidUtilities.dp(48.0f) + AndroidUtilities.dp(24.0f)) + AndroidUtilities.dp(16.0f));
-                if (i6 >= dp) {
-                    i5 = AndroidUtilities.dp(24.0f);
+                int dp2 = size - ((AndroidUtilities.dp(48.0f) + AndroidUtilities.dp(24.0f)) + AndroidUtilities.dp(16.0f));
+                if (i5 >= dp2) {
+                    dp = AndroidUtilities.dp(24.0f);
                 } else {
-                    i5 = (AndroidUtilities.dp(24.0f) + dp) - i6;
+                    dp = (AndroidUtilities.dp(24.0f) + dp2) - i5;
                 }
-                if (((LinearLayout.LayoutParams) LinkEditActivity.this.buttonTextView.getLayoutParams()).topMargin != i5) {
-                    int i8 = ((LinearLayout.LayoutParams) LinkEditActivity.this.buttonTextView.getLayoutParams()).topMargin;
-                    ((LinearLayout.LayoutParams) LinkEditActivity.this.buttonTextView.getLayoutParams()).topMargin = i5;
+                if (((LinearLayout.LayoutParams) LinkEditActivity.this.buttonTextView.getLayoutParams()).topMargin != dp) {
+                    int i7 = ((LinearLayout.LayoutParams) LinkEditActivity.this.buttonTextView.getLayoutParams()).topMargin;
+                    ((LinearLayout.LayoutParams) LinkEditActivity.this.buttonTextView.getLayoutParams()).topMargin = dp;
                     if (!LinkEditActivity.this.firstLayout) {
-                        LinkEditActivity.this.buttonTextView.setTranslationY(i8 - i5);
+                        LinkEditActivity.this.buttonTextView.setTranslationY(i7 - dp);
                         LinkEditActivity.this.buttonTextView.animate().translationY(0.0f).setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator).start();
                     }
                     super.onMeasure(i3, i4);
@@ -293,6 +300,7 @@ public class LinkEditActivity extends BaseFragment {
             this.buttonTextView.setText(LocaleController.getString("SaveLink", R.string.SaveLink));
         }
         TextCheckCell textCheckCell = new TextCheckCell(this, context) { // from class: org.telegram.ui.LinkEditActivity.4
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.TextCheckCell, android.view.View
             public void onDraw(Canvas canvas) {
                 canvas.save();
@@ -521,6 +529,7 @@ public class LinkEditActivity extends BaseFragment {
         return sizeNotifierFrameLayout;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         TextCheckCell textCheckCell = (TextCheckCell) view;
         boolean z = !textCheckCell.isChecked();
@@ -530,10 +539,12 @@ public class LinkEditActivity extends BaseFragment {
         this.firstLayout = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(boolean z, int i) {
         chooseDate(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(Context context, View view) {
         AlertsCreator.createDatePickerDialog(context, -1L, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
@@ -543,6 +554,7 @@ public class LinkEditActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(int i) {
         if (i < this.dispalyedDates.size()) {
             this.timeEditText.setText(LocaleController.formatDateAudio(this.dispalyedDates.get(i).intValue() + getConnectionsManager().getCurrentTime(), false));
@@ -551,6 +563,7 @@ public class LinkEditActivity extends BaseFragment {
         this.timeEditText.setText("");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(int i) {
         this.usesEditText.clearFocus();
         this.ignoreSet = true;
@@ -562,6 +575,7 @@ public class LinkEditActivity extends BaseFragment {
         this.ignoreSet = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
@@ -576,15 +590,17 @@ public class LinkEditActivity extends BaseFragment {
         showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(DialogInterface dialogInterface, int i) {
         this.callback.revokeLink(this.inviteToEdit);
         finishFragment();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x01a6  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01d3  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x01fb  */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x01a6  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x01d3  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01fb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -728,6 +744,7 @@ public class LinkEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateClicked$8(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
@@ -737,6 +754,7 @@ public class LinkEditActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateClicked$7(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.loading = false;
         AlertDialog alertDialog = this.progressDialog;
@@ -754,6 +772,7 @@ public class LinkEditActivity extends BaseFragment {
         AlertsCreator.showSimpleAlert(this, tLRPC$TL_error.text);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateClicked$10(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
@@ -763,6 +782,7 @@ public class LinkEditActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateClicked$9(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.loading = false;
         AlertDialog alertDialog = this.progressDialog;
@@ -783,6 +803,7 @@ public class LinkEditActivity extends BaseFragment {
         AlertsCreator.showSimpleAlert(this, tLRPC$TL_error.text);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void chooseUses(int i) {
         this.dispalyedUses.clear();
         int i2 = 0;
@@ -888,6 +909,7 @@ public class LinkEditActivity extends BaseFragment {
         this.callback = callback;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void resetUses() {
         this.dispalyedUses.clear();
         int i = 0;
@@ -992,6 +1014,7 @@ public class LinkEditActivity extends BaseFragment {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$11() {
         TextInfoPrivacyCell textInfoPrivacyCell = this.dividerUses;
         if (textInfoPrivacyCell != null) {

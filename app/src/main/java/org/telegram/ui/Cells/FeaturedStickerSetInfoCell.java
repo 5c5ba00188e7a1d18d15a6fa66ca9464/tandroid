@@ -53,10 +53,10 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
 
     public FeaturedStickerSetInfoCell(Context context, int i, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        FrameLayout.LayoutParams layoutParams;
-        FrameLayout.LayoutParams layoutParams2;
-        FrameLayout.LayoutParams layoutParams3;
-        FrameLayout.LayoutParams layoutParams4;
+        FrameLayout.LayoutParams createFrame;
+        FrameLayout.LayoutParams createFrame2;
+        FrameLayout.LayoutParams createFrame3;
+        FrameLayout.LayoutParams createFrame4;
         this.canAddRemove = z2;
         this.resourcesProvider = resourcesProvider;
         TextView textView = new TextView(context);
@@ -67,11 +67,11 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
         this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.nameTextView.setSingleLine(true);
         if (z) {
-            layoutParams = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388659, i, 8.0f, 40.0f, 0.0f);
+            createFrame = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388659, i, 8.0f, 40.0f, 0.0f);
         } else {
-            layoutParams = LayoutHelper.createFrame(-2, -2.0f, 51, i, 8.0f, 40.0f, 0.0f);
+            createFrame = LayoutHelper.createFrame(-2, -2.0f, 51, i, 8.0f, 40.0f, 0.0f);
         }
-        addView(this.nameTextView, layoutParams);
+        addView(this.nameTextView, createFrame);
         TextView textView2 = new TextView(context);
         this.infoTextView = textView2;
         textView2.setTextColor(getThemedColor("chat_emojiPanelTrendingDescription"));
@@ -79,22 +79,22 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
         this.infoTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.infoTextView.setSingleLine(true);
         if (z) {
-            layoutParams2 = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388659, i, 30.0f, 100.0f, 0.0f);
+            createFrame2 = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388659, i, 30.0f, 100.0f, 0.0f);
         } else {
-            layoutParams2 = LayoutHelper.createFrame(-2, -2.0f, 51, i, 30.0f, 100.0f, 0.0f);
+            createFrame2 = LayoutHelper.createFrame(-2, -2.0f, 51, i, 30.0f, 100.0f, 0.0f);
         }
-        addView(this.infoTextView, layoutParams2);
+        addView(this.infoTextView, createFrame2);
         if (z2) {
             ProgressButton progressButton = new ProgressButton(context);
             this.addButton = progressButton;
             progressButton.setTextColor(getThemedColor("featuredStickers_buttonText"));
             this.addButton.setText(LocaleController.getString("Add", R.string.Add));
             if (z) {
-                layoutParams3 = LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f);
+                createFrame3 = LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f);
             } else {
-                layoutParams3 = LayoutHelper.createFrame(-2, 28.0f, 53, 0.0f, 16.0f, 14.0f, 0.0f);
+                createFrame3 = LayoutHelper.createFrame(-2, 28.0f, 53, 0.0f, 16.0f, 14.0f, 0.0f);
             }
-            addView(this.addButton, layoutParams3);
+            addView(this.addButton, createFrame3);
             TextView textView3 = new TextView(context);
             this.delButton = textView3;
             textView3.setGravity(17);
@@ -103,11 +103,11 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
             this.delButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.delButton.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
             if (z) {
-                layoutParams4 = LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f);
+                createFrame4 = LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f);
             } else {
-                layoutParams4 = LayoutHelper.createFrame(-2, 28.0f, 53, 0.0f, 16.0f, 14.0f, 0.0f);
+                createFrame4 = LayoutHelper.createFrame(-2, 28.0f, 53, 0.0f, 16.0f, 14.0f, 0.0f);
             }
-            addView(this.delButton, layoutParams4);
+            addView(this.delButton, createFrame4);
         }
         setWillNotDraw(false);
         updateColors();

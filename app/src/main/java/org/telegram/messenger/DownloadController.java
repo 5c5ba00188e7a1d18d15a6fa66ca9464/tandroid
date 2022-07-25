@@ -97,6 +97,7 @@ public class DownloadController extends BaseController implements NotificationCe
         void onSuccessDownload(String str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$savePresetToServer$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -141,34 +142,34 @@ public class DownloadController extends BaseController implements NotificationCe
         }
 
         public Preset(String str, String str2) {
-            String[] strArr;
+            String[] split;
             this.mask = new int[4];
             this.sizes = new long[4];
-            String[] split = str.split("_");
-            if (split.length >= 11) {
+            String[] split2 = str.split("_");
+            if (split2.length >= 11) {
                 boolean z = false;
-                this.mask[0] = Utilities.parseInt((CharSequence) split[0]).intValue();
-                this.mask[1] = Utilities.parseInt((CharSequence) split[1]).intValue();
-                this.mask[2] = Utilities.parseInt((CharSequence) split[2]).intValue();
-                this.mask[3] = Utilities.parseInt((CharSequence) split[3]).intValue();
-                this.sizes[0] = Utilities.parseInt((CharSequence) split[4]).intValue();
-                this.sizes[1] = Utilities.parseInt((CharSequence) split[5]).intValue();
-                this.sizes[2] = Utilities.parseInt((CharSequence) split[6]).intValue();
-                this.sizes[3] = Utilities.parseInt((CharSequence) split[7]).intValue();
-                this.preloadVideo = Utilities.parseInt((CharSequence) split[8]).intValue() == 1;
-                this.preloadMusic = Utilities.parseInt((CharSequence) split[9]).intValue() == 1;
-                this.enabled = Utilities.parseInt((CharSequence) split[10]).intValue() == 1;
-                if (split.length >= 12) {
+                this.mask[0] = Utilities.parseInt((CharSequence) split2[0]).intValue();
+                this.mask[1] = Utilities.parseInt((CharSequence) split2[1]).intValue();
+                this.mask[2] = Utilities.parseInt((CharSequence) split2[2]).intValue();
+                this.mask[3] = Utilities.parseInt((CharSequence) split2[3]).intValue();
+                this.sizes[0] = Utilities.parseInt((CharSequence) split2[4]).intValue();
+                this.sizes[1] = Utilities.parseInt((CharSequence) split2[5]).intValue();
+                this.sizes[2] = Utilities.parseInt((CharSequence) split2[6]).intValue();
+                this.sizes[3] = Utilities.parseInt((CharSequence) split2[7]).intValue();
+                this.preloadVideo = Utilities.parseInt((CharSequence) split2[8]).intValue() == 1;
+                this.preloadMusic = Utilities.parseInt((CharSequence) split2[9]).intValue() == 1;
+                this.enabled = Utilities.parseInt((CharSequence) split2[10]).intValue() == 1;
+                if (split2.length >= 12) {
+                    this.lessCallData = Utilities.parseInt((CharSequence) split2[11]).intValue() == 1 ? true : z;
+                    split = null;
+                } else {
+                    split = str2.split("_");
                     this.lessCallData = Utilities.parseInt((CharSequence) split[11]).intValue() == 1 ? true : z;
-                    strArr = null;
-                } else {
-                    strArr = str2.split("_");
-                    this.lessCallData = Utilities.parseInt((CharSequence) strArr[11]).intValue() == 1 ? true : z;
                 }
-                if (split.length >= 13) {
-                    this.maxVideoBitrate = Utilities.parseInt((CharSequence) split[12]).intValue();
+                if (split2.length >= 13) {
+                    this.maxVideoBitrate = Utilities.parseInt((CharSequence) split2[12]).intValue();
                 } else {
-                    this.maxVideoBitrate = Utilities.parseInt((CharSequence) (strArr == null ? str2.split("_") : strArr)[12]).intValue();
+                    this.maxVideoBitrate = Utilities.parseInt((CharSequence) (split == null ? str2.split("_") : split)[12]).intValue();
                 }
             }
         }
@@ -367,6 +368,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         getNotificationCenter().addObserver(this, NotificationCenter.fileLoadFailed);
         getNotificationCenter().addObserver(this, NotificationCenter.fileLoaded);
@@ -404,6 +406,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAutoDownloadConfig$2(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
@@ -413,6 +416,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAutoDownloadConfig$1(TLObject tLObject) {
         Preset preset;
         this.loadingAutoDownloadConfig = false;
@@ -651,47 +655,47 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public boolean canDownloadMedia(int i, long j) {
-        Preset preset;
+        Preset currentMobilePreset;
         int autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
         if (autodownloadNetworkType == 1) {
             if (!this.wifiPreset.enabled) {
                 return false;
             }
-            preset = getCurrentWiFiPreset();
+            currentMobilePreset = getCurrentWiFiPreset();
         } else if (autodownloadNetworkType == 2) {
             if (!this.roamingPreset.enabled) {
                 return false;
             }
-            preset = getCurrentRoamingPreset();
+            currentMobilePreset = getCurrentRoamingPreset();
         } else if (!this.mobilePreset.enabled) {
             return false;
         } else {
-            preset = getCurrentMobilePreset();
+            currentMobilePreset = getCurrentMobilePreset();
         }
-        int i2 = preset.mask[1];
-        long j2 = preset.sizes[typeToIndex(i)];
+        int i2 = currentMobilePreset.mask[1];
+        long j2 = currentMobilePreset.sizes[typeToIndex(i)];
         if (i == 1 || (j != 0 && j <= j2)) {
             return i == 2 || (i & i2) != 0;
         }
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0067, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0067, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0089, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0089, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00c8, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x00c8, code lost:
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L22;
      */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00d4  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x00e0  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x00ff  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x010f  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00d4  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00ff  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x010f  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00e0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -699,7 +703,7 @@ public class DownloadController extends BaseController implements NotificationCe
         int i;
         char c;
         int autodownloadNetworkType;
-        Preset preset;
+        Preset currentMobilePreset;
         int i2;
         long j;
         if (tLRPC$Message == null) {
@@ -739,25 +743,25 @@ public class DownloadController extends BaseController implements NotificationCe
                     if (!this.wifiPreset.enabled) {
                         return 0;
                     }
-                    preset = getCurrentWiFiPreset();
+                    currentMobilePreset = getCurrentWiFiPreset();
                 } else if (autodownloadNetworkType == 2) {
                     if (!this.roamingPreset.enabled) {
                         return 0;
                     }
-                    preset = getCurrentRoamingPreset();
+                    currentMobilePreset = getCurrentRoamingPreset();
                 } else if (!this.mobilePreset.enabled) {
                     return 0;
                 } else {
-                    preset = getCurrentMobilePreset();
+                    currentMobilePreset = getCurrentMobilePreset();
                 }
-                i2 = preset.mask[c];
+                i2 = currentMobilePreset.mask[c];
                 if (i == 2) {
-                    j = Math.max(524288L, preset.sizes[typeToIndex(i)]);
+                    j = Math.max(524288L, currentMobilePreset.sizes[typeToIndex(i)]);
                 } else {
-                    j = preset.sizes[typeToIndex(i)];
+                    j = currentMobilePreset.sizes[typeToIndex(i)];
                 }
                 long messageSize = MessageObject.getMessageSize(tLRPC$Message);
-                if (!isVideoMessage && preset.preloadVideo && messageSize > j && j > 2097152) {
+                if (!isVideoMessage && currentMobilePreset.preloadVideo && messageSize > j && j > 2097152) {
                     return (i2 & i) != 0 ? 2 : 0;
                 } else if (i == 1 && (messageSize == 0 || messageSize > j)) {
                     return 0;
@@ -769,7 +773,7 @@ public class DownloadController extends BaseController implements NotificationCe
             autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
             if (autodownloadNetworkType == 1) {
             }
-            i2 = preset.mask[c];
+            i2 = currentMobilePreset.mask[c];
             if (i == 2) {
             }
             long messageSize2 = MessageObject.getMessageSize(tLRPC$Message);
@@ -784,7 +788,7 @@ public class DownloadController extends BaseController implements NotificationCe
         autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
         if (autodownloadNetworkType == 1) {
         }
-        i2 = preset.mask[c];
+        i2 = currentMobilePreset.mask[c];
         if (i == 2) {
         }
         long messageSize22 = MessageObject.getMessageSize(tLRPC$Message);
@@ -796,6 +800,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean canDownloadNextTrack() {
         int autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
         return autodownloadNetworkType == 1 ? this.wifiPreset.enabled && getCurrentWiFiPreset().preloadMusic : autodownloadNetworkType == 2 ? this.roamingPreset.enabled && getCurrentRoamingPreset().preloadMusic : this.mobilePreset.enabled && getCurrentMobilePreset().preloadMusic;
@@ -837,25 +842,25 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public void savePresetToServer(int i) {
-        Preset preset;
+        Preset currentRoamingPreset;
         boolean z;
         TLRPC$TL_account_saveAutoDownloadSettings tLRPC$TL_account_saveAutoDownloadSettings = new TLRPC$TL_account_saveAutoDownloadSettings();
         if (i == 0) {
-            preset = getCurrentMobilePreset();
+            currentRoamingPreset = getCurrentMobilePreset();
             z = this.mobilePreset.enabled;
         } else if (i == 1) {
-            preset = getCurrentWiFiPreset();
+            currentRoamingPreset = getCurrentWiFiPreset();
             z = this.wifiPreset.enabled;
         } else {
-            preset = getCurrentRoamingPreset();
+            currentRoamingPreset = getCurrentRoamingPreset();
             z = this.roamingPreset.enabled;
         }
         TLRPC$TL_autoDownloadSettings tLRPC$TL_autoDownloadSettings = new TLRPC$TL_autoDownloadSettings();
         tLRPC$TL_account_saveAutoDownloadSettings.settings = tLRPC$TL_autoDownloadSettings;
-        tLRPC$TL_autoDownloadSettings.audio_preload_next = preset.preloadMusic;
-        tLRPC$TL_autoDownloadSettings.video_preload_large = preset.preloadVideo;
-        tLRPC$TL_autoDownloadSettings.phonecalls_less_data = preset.lessCallData;
-        tLRPC$TL_autoDownloadSettings.video_upload_maxbitrate = preset.maxVideoBitrate;
+        tLRPC$TL_autoDownloadSettings.audio_preload_next = currentRoamingPreset.preloadMusic;
+        tLRPC$TL_autoDownloadSettings.video_preload_large = currentRoamingPreset.preloadVideo;
+        tLRPC$TL_autoDownloadSettings.phonecalls_less_data = currentRoamingPreset.lessCallData;
+        tLRPC$TL_autoDownloadSettings.video_upload_maxbitrate = currentRoamingPreset.maxVideoBitrate;
         tLRPC$TL_autoDownloadSettings.disabled = !z;
         int i2 = 0;
         int i3 = 0;
@@ -863,7 +868,7 @@ public class DownloadController extends BaseController implements NotificationCe
         boolean z3 = false;
         boolean z4 = false;
         while (true) {
-            int[] iArr = preset.mask;
+            int[] iArr = currentRoamingPreset.mask;
             if (i3 < iArr.length) {
                 if ((iArr[i3] & 1) != 0) {
                     z2 = true;
@@ -884,18 +889,19 @@ public class DownloadController extends BaseController implements NotificationCe
         }
         TLRPC$TL_autoDownloadSettings tLRPC$TL_autoDownloadSettings2 = tLRPC$TL_account_saveAutoDownloadSettings.settings;
         if (z2) {
-            i2 = (int) preset.sizes[0];
+            i2 = (int) currentRoamingPreset.sizes[0];
         }
         tLRPC$TL_autoDownloadSettings2.photo_size_max = i2;
         long j = 0;
-        tLRPC$TL_autoDownloadSettings2.video_size_max = z3 ? preset.sizes[1] : 0L;
+        tLRPC$TL_autoDownloadSettings2.video_size_max = z3 ? currentRoamingPreset.sizes[1] : 0L;
         if (z4) {
-            j = preset.sizes[2];
+            j = currentRoamingPreset.sizes[2];
         }
         tLRPC$TL_autoDownloadSettings2.file_size_max = j;
         getConnectionsManager().sendRequest(tLRPC$TL_account_saveAutoDownloadSettings, DownloadController$$ExternalSyntheticLambda13.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void cancelDownloading(ArrayList<Pair<Long, Integer>> arrayList) {
         TLRPC$PhotoSize closestPhotoSizeWithSize;
         int size = arrayList.size();
@@ -912,13 +918,14 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x00c5 A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r8v12, types: [java.lang.String] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00c5 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x008a  */
     /* JADX WARN: Type inference failed for: r8v16, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r8v4, types: [java.lang.String] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -991,6 +998,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void newDownloadObjectsAvailable(int i) {
         int currentDownloadMask = getCurrentDownloadMask();
         if ((currentDownloadMask & 1) != 0 && (i & 1) != 0 && this.photoDownloadQueue.isEmpty()) {
@@ -1272,6 +1280,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDownloadFile$5(final MessageObject messageObject) {
         boolean z;
         boolean z2;
@@ -1308,6 +1317,7 @@ public class DownloadController extends BaseController implements NotificationCe
         getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDownloadFile$4(MessageObject messageObject) {
         try {
             NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(messageObject.messageOwner.getObjectSize());
@@ -1338,6 +1348,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDownloadComplete$7(final MessageObject messageObject) {
         boolean z;
         boolean z2;
@@ -1381,6 +1392,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDownloadComplete$6(MessageObject messageObject) {
         try {
             getMessagesStorage().getDatabase().executeFast(String.format(Locale.ENGLISH, "UPDATE downloading_documents SET state = 1, date = %d WHERE hash = %d AND id = %d", Long.valueOf(System.currentTimeMillis()), Integer.valueOf(messageObject.getDocument().dc_id), Long.valueOf(messageObject.getDocument().id))).stepThis().dispose();
@@ -1436,6 +1448,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDownloadFail$8(MessageObject messageObject, int i) {
         boolean z;
         int i2 = 0;
@@ -1460,6 +1473,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDownloadFail$9(MessageObject messageObject) {
         try {
             SQLitePreparedStatement executeFast = getMessagesStorage().getDatabase().executeFast("DELETE FROM downloading_documents WHERE hash = ? AND id = ?");
@@ -1498,13 +1512,13 @@ public class DownloadController extends BaseController implements NotificationCe
         return this.unviewedDownloads.size() > 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class DownloadingDocumentEntry {
         int hash;
         long id;
 
         private DownloadingDocumentEntry() {
-            DownloadController.this = r1;
         }
     }
 
@@ -1517,6 +1531,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadDownloadingFiles$11() {
         final ArrayList<MessageObject> arrayList = new ArrayList<>();
         final ArrayList<MessageObject> arrayList2 = new ArrayList<>();
@@ -1555,6 +1570,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadDownloadingFiles$10(ArrayList arrayList, ArrayList arrayList2) {
         this.downloadingFiles.clear();
         this.downloadingFiles.addAll(arrayList);
@@ -1573,6 +1589,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearRecentDownloadedFiles$12() {
         try {
             getMessagesStorage().getDatabase().executeFast("DELETE FROM downloading_documents WHERE state = 1").stepThis().dispose();
@@ -1623,6 +1640,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$deleteRecentFiles$13(ArrayList arrayList) {
         try {
             SQLitePreparedStatement executeFast = getMessagesStorage().getDatabase().executeFast("DELETE FROM downloading_documents WHERE hash = ? AND id = ?");

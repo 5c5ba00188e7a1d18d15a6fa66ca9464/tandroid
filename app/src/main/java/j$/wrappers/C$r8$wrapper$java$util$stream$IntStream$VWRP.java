@@ -1,9 +1,12 @@
 package j$.wrappers;
 
 import j$.util.function.BiConsumer;
+import j$.util.p;
 import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
 import j$.util.stream.e1;
+import j$.util.u;
+import java.util.Iterator;
 /* renamed from: j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-V-WRP */
 /* loaded from: classes2.dex */
 public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP implements IntStream {
@@ -130,6 +133,18 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
         return this.a.isParallel();
     }
 
+    @Override // j$.util.stream.IntStream, j$.util.stream.g
+    /* renamed from: iterator */
+    public /* synthetic */ p.a mo331iterator() {
+        return c.a(this.a.iterator());
+    }
+
+    @Override // j$.util.stream.IntStream, j$.util.stream.g
+    /* renamed from: iterator */
+    public /* synthetic */ Iterator mo331iterator() {
+        return this.a.iterator();
+    }
+
     @Override // j$.util.stream.IntStream
     public /* synthetic */ Object k0(j$.util.function.y yVar, j$.util.function.v vVar, BiConsumer biConsumer) {
         return this.a.collect(A0.a(yVar), u0.a(vVar), r.a(biConsumer));
@@ -156,8 +171,32 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
     }
 
     @Override // j$.util.stream.IntStream
+    /* renamed from: parallel */
+    public /* synthetic */ IntStream mo332parallel() {
+        return convert(this.a.parallel());
+    }
+
+    @Override // j$.util.stream.IntStream
+    /* renamed from: parallel */
+    public /* synthetic */ j$.util.stream.g mo332parallel() {
+        return H0.n0(this.a.parallel());
+    }
+
+    @Override // j$.util.stream.IntStream
     public /* synthetic */ IntStream q(b0 b0Var) {
         return convert(this.a.map(c0.a(b0Var)));
+    }
+
+    @Override // j$.util.stream.IntStream
+    /* renamed from: sequential */
+    public /* synthetic */ IntStream mo333sequential() {
+        return convert(this.a.sequential());
+    }
+
+    @Override // j$.util.stream.IntStream
+    /* renamed from: sequential */
+    public /* synthetic */ j$.util.stream.g mo333sequential() {
+        return H0.n0(this.a.sequential());
     }
 
     @Override // j$.util.stream.IntStream
@@ -168,6 +207,18 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ IntStream sorted() {
         return convert(this.a.sorted());
+    }
+
+    @Override // j$.util.stream.IntStream, j$.util.stream.g
+    /* renamed from: spliterator */
+    public /* synthetic */ u.a mo334spliterator() {
+        return k.a(this.a.spliterator());
+    }
+
+    @Override // j$.util.stream.IntStream, j$.util.stream.g
+    /* renamed from: spliterator */
+    public /* synthetic */ j$.util.u mo334spliterator() {
+        return g.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.IntStream

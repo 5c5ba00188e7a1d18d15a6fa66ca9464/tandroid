@@ -50,23 +50,23 @@ public final class BarcodeDetector extends Detector<Barcode> {
 
     @RecentlyNonNull
     public final SparseArray<Barcode> detect(@RecentlyNonNull Frame frame) {
-        Barcode[] barcodeArr;
+        Barcode[] zza;
         if (frame == null) {
             throw new IllegalArgumentException("No frame supplied.");
         }
-        zzs zza = zzs.zza(frame);
+        zzs zza2 = zzs.zza(frame);
         if (frame.getBitmap() != null) {
-            barcodeArr = this.zza.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), zza);
-            if (barcodeArr == null) {
+            zza = this.zza.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), zza2);
+            if (zza == null) {
                 throw new IllegalArgumentException("Internal barcode detector error; check logcat output.");
             }
         } else if (Build.VERSION.SDK_INT >= 19 && frame.getPlanes() != null) {
-            barcodeArr = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getBuffer()), new zzs(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getRowStride(), zza.zzb, zza.zzc, zza.zzd, zza.zze));
+            zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getBuffer()), new zzs(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getRowStride(), zza2.zzb, zza2.zzc, zza2.zzd, zza2.zze));
         } else {
-            barcodeArr = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(frame.getGrayscaleImageData()), zza);
+            zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(frame.getGrayscaleImageData()), zza2);
         }
-        SparseArray<Barcode> sparseArray = new SparseArray<>(barcodeArr.length);
-        for (Barcode barcode : barcodeArr) {
+        SparseArray<Barcode> sparseArray = new SparseArray<>(zza.length);
+        for (Barcode barcode : zza) {
             sparseArray.append(barcode.rawValue.hashCode(), barcode);
         }
         return sparseArray;

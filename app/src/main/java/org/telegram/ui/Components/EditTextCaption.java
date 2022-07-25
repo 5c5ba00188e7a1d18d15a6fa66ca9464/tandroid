@@ -150,13 +150,14 @@ public class EditTextCaption extends EditTextBoldCursor {
     }
 
     public void makeSelectedUrl() {
-        final int i;
+        final int selectionEnd;
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
         builder.setTitle(LocaleController.getString("CreateLink", R.string.CreateLink));
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, getContext()) { // from class: org.telegram.ui.Components.EditTextCaption.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onMeasure(int i2, int i3) {
-                super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64.0f), 1073741824));
+            public void onMeasure(int i, int i2) {
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64.0f), 1073741824));
             }
         };
         editTextBoldCursor.setTextSize(1, 18.0f);
@@ -173,18 +174,18 @@ public class EditTextCaption extends EditTextBoldCursor {
         editTextBoldCursor.requestFocus();
         editTextBoldCursor.setPadding(0, 0, 0, 0);
         builder.setView(editTextBoldCursor);
-        final int i2 = this.selectionStart;
-        if (i2 >= 0 && (i = this.selectionEnd) >= 0) {
+        final int i = this.selectionStart;
+        if (i >= 0 && (selectionEnd = this.selectionEnd) >= 0) {
             this.selectionEnd = -1;
             this.selectionStart = -1;
         } else {
-            i2 = getSelectionStart();
-            i = getSelectionEnd();
+            i = getSelectionStart();
+            selectionEnd = getSelectionEnd();
         }
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
-                EditTextCaption.this.lambda$makeSelectedUrl$0(i2, i, editTextBoldCursor, dialogInterface, i3);
+            public final void onClick(DialogInterface dialogInterface, int i2) {
+                EditTextCaption.this.lambda$makeSelectedUrl$0(i, selectionEnd, editTextBoldCursor, dialogInterface, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -208,6 +209,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         editTextBoldCursor.setSelection(0, editTextBoldCursor.getText().length());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$makeSelectedUrl$0(int i, int i2, EditTextBoldCursor editTextBoldCursor, DialogInterface dialogInterface, int i3) {
         Editable text = getText();
         CharacterStyle[] characterStyleArr = (CharacterStyle[]) text.getSpans(i, i2, CharacterStyle.class);
@@ -236,6 +238,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$makeSelectedUrl$1(EditTextBoldCursor editTextBoldCursor, DialogInterface dialogInterface) {
         editTextBoldCursor.requestFocus();
         AndroidUtilities.showKeyboard(editTextBoldCursor);
@@ -251,16 +254,16 @@ public class EditTextCaption extends EditTextBoldCursor {
     }
 
     private void applyTextStyleToSelection(TextStyleSpan textStyleSpan) {
-        int i;
-        int i2 = this.selectionStart;
-        if (i2 >= 0 && (i = this.selectionEnd) >= 0) {
+        int selectionEnd;
+        int i = this.selectionStart;
+        if (i >= 0 && (selectionEnd = this.selectionEnd) >= 0) {
             this.selectionEnd = -1;
             this.selectionStart = -1;
         } else {
-            i2 = getSelectionStart();
-            i = getSelectionEnd();
+            i = getSelectionStart();
+            selectionEnd = getSelectionEnd();
         }
-        MediaDataController.addStyleToText(textStyleSpan, i2, i, getText(), this.allowTextEntitiesIntersection);
+        MediaDataController.addStyleToText(textStyleSpan, i, selectionEnd, getText(), this.allowTextEntitiesIntersection);
         EditTextCaptionDelegate editTextCaptionDelegate = this.delegate;
         if (editTextCaptionDelegate != null) {
             editTextCaptionDelegate.onSpansChanged();
@@ -343,6 +346,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         } : callback2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean performMenuAction(int i) {
         if (i == R.id.menu_regular) {
             makeSelectedRegular();
@@ -383,6 +387,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         return super.startActionMode(overrideCallback(callback));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
     @SuppressLint({"DrawAllocation"})
     public void onMeasure(int i, int i2) {
@@ -447,6 +452,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         return this.offsetY;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
         canvas.save();

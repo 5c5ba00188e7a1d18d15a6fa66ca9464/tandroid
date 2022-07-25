@@ -188,27 +188,28 @@ public class CountrySelectActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
-        Country country;
+        Country mo1747getItem;
         CountrySelectActivityDelegate countrySelectActivityDelegate;
         if (this.searching && this.searchWas) {
-            country = this.searchListViewAdapter.getItem(i);
+            mo1747getItem = this.searchListViewAdapter.getItem(i);
         } else {
             int sectionForPosition = this.listViewAdapter.getSectionForPosition(i);
             int positionInSectionForPosition = this.listViewAdapter.getPositionInSectionForPosition(i);
             if (positionInSectionForPosition < 0 || sectionForPosition < 0) {
                 return;
             }
-            country = this.listViewAdapter.getItem(sectionForPosition, positionInSectionForPosition);
+            mo1747getItem = this.listViewAdapter.mo1747getItem(sectionForPosition, positionInSectionForPosition);
         }
         if (i < 0) {
             return;
         }
         finishFragment();
-        if (country == null || (countrySelectActivityDelegate = this.delegate) == null) {
+        if (mo1747getItem == null || (countrySelectActivityDelegate = this.delegate) == null) {
             return;
         }
-        countrySelectActivityDelegate.didSelectCountry(country);
+        countrySelectActivityDelegate.didSelectCountry(mo1747getItem);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -258,7 +259,6 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         public CountryAdapter(Context context, ArrayList<Country> arrayList) {
-            CountrySelectActivity.this = r6;
             this.mContext = context;
             if (arrayList != null) {
                 for (int i = 0; i < arrayList.size(); i++) {
@@ -308,6 +308,7 @@ public class CountrySelectActivity extends BaseFragment {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ int lambda$new$0(Country country, Country country2) {
             return country.name.compareTo(country2.name);
         }
@@ -317,7 +318,8 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        public Country getItem(int i, int i2) {
+        /* renamed from: getItem  reason: collision with other method in class */
+        public Country mo1747getItem(int i, int i2) {
             if (i >= 0 && i < this.sortedCountries.size()) {
                 ArrayList<Country> arrayList = this.countries.get(this.sortedCountries.get(i));
                 if (i2 >= 0 && i2 < arrayList.size()) {
@@ -344,15 +346,16 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View createSettingsCell;
             if (i == 0) {
-                view = CountrySelectActivity.createSettingsCell(this.mContext);
+                createSettingsCell = CountrySelectActivity.createSettingsCell(this.mContext);
             } else {
-                view = new DividerCell(this.mContext);
-                view.setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f));
+                createSettingsCell = new DividerCell(this.mContext);
+                createSettingsCell.setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f));
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(createSettingsCell);
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
@@ -411,7 +414,6 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         public CountrySearchAdapter(Context context, HashMap<String, ArrayList<Country>> hashMap) {
-            CountrySelectActivity.this = r4;
             this.mContext = context;
             for (ArrayList<Country> arrayList : hashMap.values()) {
                 for (Country country : arrayList) {
@@ -450,6 +452,7 @@ public class CountrySelectActivity extends BaseFragment {
             }, 100L, 300L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void processSearch(final String str) {
             Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CountrySelectActivity$CountrySearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -459,6 +462,7 @@ public class CountrySelectActivity extends BaseFragment {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processSearch$0(String str) {
             String lowerCase = str.trim().toLowerCase();
             if (lowerCase.length() == 0) {
@@ -489,6 +493,7 @@ public class CountrySelectActivity extends BaseFragment {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$1(ArrayList arrayList) {
             if (!CountrySelectActivity.this.searching) {
                 return;
@@ -518,7 +523,8 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(CountrySelectActivity.createSettingsCell(this.mContext));
         }
 
@@ -537,6 +543,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static TextSettingsCell createSettingsCell(Context context) {
         TextSettingsCell textSettingsCell = new TextSettingsCell(context);
         float f = 16.0f;
@@ -549,7 +556,8 @@ public class CountrySelectActivity extends BaseFragment {
         return textSettingsCell;
     }
 
-    /* renamed from: org.telegram.ui.CountrySelectActivity$4 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.CountrySelectActivity$4  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass4 implements View.OnAttachStateChangeListener {
         private NotificationCenter.NotificationCenterDelegate listener;
@@ -565,6 +573,7 @@ public class CountrySelectActivity extends BaseFragment {
             };
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$$0(TextSettingsCell textSettingsCell, int i, int i2, Object[] objArr) {
             if (i == NotificationCenter.emojiLoaded) {
                 textSettingsCell.getTextView().invalidate();
@@ -582,6 +591,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static CharSequence getCountryNameWithFlag(Country country) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         String languageFlag = LocaleController.getLanguageFlag(country.shortname);

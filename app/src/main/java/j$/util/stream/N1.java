@@ -14,6 +14,7 @@ class N1 extends f {
         this.j = n1.j;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public N1(y2 y2Var, j$.util.u uVar, j$.util.function.r rVar, j$.util.function.b bVar) {
         super(y2Var, uVar);
         this.h = y2Var;
@@ -21,13 +22,15 @@ class N1 extends f {
         this.j = bVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public Object a() {
         s1 s1Var = (s1) this.i.apply(this.h.q0(this.b));
         this.h.u0(s1Var, this.b);
-        return s1Var.mo70a();
+        return s1Var.mo315a();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public f f(j$.util.u uVar) {
         return new N1(this, uVar);

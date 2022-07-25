@@ -142,8 +142,8 @@ public final class Cea608Decoder extends CeaDecoder {
         return new CeaSubtitle(list);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:70:0x006a A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0014 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x006a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0014 A[SYNTHETIC] */
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -437,6 +437,7 @@ public final class Cea608Decoder extends CeaDecoder {
         return (char) SPECIAL_PT_DE_CHARACTER_SET[b & 31];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class CueBuilder {
         private int captionMode;
@@ -539,13 +540,13 @@ public final class Cea608Decoder extends CeaDecoder {
             } else {
                 f = 0.5f;
             }
-            if (this.captionMode == 1 || (i3 = this.row) > 7) {
-                i3 = (this.row - 15) - 2;
-                i2 = 2;
+            if (this.captionMode == 1 || (i2 = this.row) > 7) {
+                i2 = (this.row - 15) - 2;
+                i3 = 2;
             } else {
-                i2 = 0;
+                i3 = 0;
             }
-            return new Cue(spannableStringBuilder, Layout.Alignment.ALIGN_NORMAL, i3, 1, i2, f, i, -3.4028235E38f);
+            return new Cue(spannableStringBuilder, Layout.Alignment.ALIGN_NORMAL, i2, 1, i3, f, i, -3.4028235E38f);
         }
 
         private SpannableString buildCurrentLine() {
@@ -618,6 +619,7 @@ public final class Cea608Decoder extends CeaDecoder {
             spannableStringBuilder.setSpan(new ForegroundColorSpan(i3), i, i2, 33);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class CueStyle {
             public int start;

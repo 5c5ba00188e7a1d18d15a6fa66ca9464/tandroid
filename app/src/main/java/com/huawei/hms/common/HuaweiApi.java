@@ -119,6 +119,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
             return TextUtils.isEmpty(str) ? TransactionIdCreater.getId(this.mApi.getAppID(), str2) : str;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void innerConnected() {
             this.mConnectionResult = null;
             this.callbackRunQueue.clear();
@@ -128,6 +129,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
             this.callbackWaitQueue.clear();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void innerConnectionFailed(ConnectionResult connectionResult) {
             this.mConnectionResult = connectionResult;
             boolean z = true;
@@ -155,6 +157,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
             this.mClient.disconnect();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void innerConnectionSuspended() {
             HMSLog.i(HuaweiApi.TAG, "wait queue size = " + this.callbackWaitQueue.size());
             HMSLog.i(HuaweiApi.TAG, "run queue size = " + this.callbackRunQueue.size());
@@ -336,6 +339,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class RequestRunnable<OptionsT extends Api.ApiOptions> implements Runnable {
         private final HuaweiApi<OptionsT> mApi;
@@ -346,18 +350,18 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
             this.mTaskApiCallWrapper = taskApiCallWrapper;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0056 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0062  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0066  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0056 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x0062  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0066  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         private void notifyCpException(RequestHandler requestHandler, Exception exc) {
-            String str;
-            AnyClient anyClient;
-            TaskCompletionSource taskCompletionSource;
-            ResponseHeader responseHeader;
             RuntimeException e;
+            AnyClient anyClient;
+            String str;
+            ResponseHeader responseHeader;
+            TaskCompletionSource taskCompletionSource;
             boolean z = true;
             TaskApiCall taskApiCall = null;
             try {
@@ -472,6 +476,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
         HMSBIInitializer.getInstance(context).initBI();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void innerDisconnect(HuaweiApi<?> huaweiApi, TaskCompletionSource<Boolean> taskCompletionSource) {
         HMSLog.i(TAG, "innerDisconnect.");
         try {
@@ -489,6 +494,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
         return taskCompletionSource.getTask();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setHostAppId(Context context) {
         String appId = Util.getAppId(context);
         this.mHostAppid = appId;
@@ -541,7 +547,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
 
     /* JADX WARN: Type inference failed for: r3v2, types: [com.huawei.hms.common.internal.AnyClient] */
     public AnyClient getClient(Looper looper, RequestHandler requestHandler) {
-        return this.mClientBuilder.buildClient(this.mContext, getClientSetting(), requestHandler, requestHandler);
+        return this.mClientBuilder.mo230buildClient(this.mContext, getClientSetting(), requestHandler, requestHandler);
     }
 
     protected ClientSettings getClientSetting() {

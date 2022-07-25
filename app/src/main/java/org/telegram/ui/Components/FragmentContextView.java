@@ -204,8 +204,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
 
     public FragmentContextView(final Context context, final BaseFragment baseFragment, View view, boolean z, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        float f;
         int i;
+        float f;
         this.speedItems = new ActionBarMenuSubItem[4];
         this.currentProgress = -1;
         this.currentStyle = -1;
@@ -214,7 +214,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.updateScheduleTimeRunnable = new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView.1
             @Override // java.lang.Runnable
             public void run() {
-                String str;
+                String formatFullDuration;
                 if (FragmentContextView.this.gradientTextPaint == null || !(FragmentContextView.this.fragment instanceof ChatActivity)) {
                     FragmentContextView.this.scheduleRunnableScheduled = false;
                     return;
@@ -229,13 +229,13 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 int i2 = groupCall.call.schedule_date;
                 int i3 = i2 - currentTime;
                 if (i3 >= 86400) {
-                    str = LocaleController.formatPluralString("Days", Math.round(i3 / 86400.0f), new Object[0]);
+                    formatFullDuration = LocaleController.formatPluralString("Days", Math.round(i3 / 86400.0f), new Object[0]);
                 } else {
-                    str = AndroidUtilities.formatFullDuration(i2 - currentTime);
+                    formatFullDuration = AndroidUtilities.formatFullDuration(i2 - currentTime);
                 }
-                String str2 = str;
-                int ceil = (int) Math.ceil(FragmentContextView.this.gradientTextPaint.measureText(str2));
-                FragmentContextView.this.timeLayout = new StaticLayout(str2, FragmentContextView.this.gradientTextPaint, ceil, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                String str = formatFullDuration;
+                int ceil = (int) Math.ceil(FragmentContextView.this.gradientTextPaint.measureText(str));
+                FragmentContextView.this.timeLayout = new StaticLayout(str, FragmentContextView.this.gradientTextPaint, ceil, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 AndroidUtilities.runOnUIThread(FragmentContextView.this.updateScheduleTimeRunnable, 1000L);
                 FragmentContextView.this.frameLayout.invalidate();
             }
@@ -270,6 +270,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 FragmentContextView.this.avatars.invalidate();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 float f2;
@@ -527,6 +528,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.currentStyle == 0) {
             if (MediaController.getInstance().isMessagePaused()) {
@@ -537,10 +539,12 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         callOnClick();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(int i) {
         float playbackSpeed = MediaController.getInstance().getPlaybackSpeed(this.isMusic);
         if (i == 1) {
@@ -559,6 +563,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         updatePlaybackButton();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         float f = 1.0f;
         if (Math.abs(MediaController.getInstance().getPlaybackSpeed(this.isMusic) - 1.0f) > 0.001f) {
@@ -573,16 +578,19 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         playbackSpeedChanged(f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$4(View view) {
         this.playbackSpeedButton.toggleSubMenu();
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5() {
         updateAvatars(true);
     }
 
-    /* renamed from: org.telegram.ui.Components.FragmentContextView$7 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.FragmentContextView$7  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass7 extends RLottieImageView {
         boolean pressed;
@@ -600,12 +608,11 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
         };
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass7(Context context) {
             super(context);
-            FragmentContextView.this = r1;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$$0() {
             if (VoIPService.getSharedInstance() == null) {
                 return;
@@ -622,6 +629,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             Theme.getFragmentContextViewWavesDrawable().updateState(true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$$1() {
             if (!this.scheduled || VoIPService.getSharedInstance() == null) {
                 return;
@@ -681,8 +689,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
 
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            String str;
             int i;
+            String str;
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             accessibilityNodeInfo.setClassName(Button.class.getName());
             if (FragmentContextView.this.isMuted) {
@@ -696,6 +704,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(View view) {
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance == null) {
@@ -725,6 +734,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.muteButton.performHapticFeedback(3, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(Theme.ResourcesProvider resourcesProvider, View view) {
         if (this.currentStyle == 2) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this.fragment.getParentActivity(), resourcesProvider);
@@ -763,6 +773,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         MediaController.getInstance().cleanupPlayer(true, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(DialogInterface dialogInterface, int i) {
         BaseFragment baseFragment = this.fragment;
         if (!(baseFragment instanceof DialogsActivity)) {
@@ -774,6 +785,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10(Theme.ResourcesProvider resourcesProvider, BaseFragment baseFragment, View view) {
         ChatActivity chatActivity;
         ChatObject.Call groupCall;
@@ -876,6 +888,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9(DialogInterface dialogInterface) {
         checkImport(false);
     }
@@ -926,6 +939,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.additionalContextView = fragmentContextView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openSharingLocation(final LocationController.SharingLocationInfo sharingLocationInfo) {
         if (sharingLocationInfo == null || !(this.fragment.getParentActivity() instanceof LaunchActivity)) {
             return;
@@ -944,6 +958,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         launchActivity.lambda$runLinkRequest$60(locationActivity);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openSharingLocation$11(LocationController.SharingLocationInfo sharingLocationInfo, long j, TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2) {
         SendMessagesHelper.getInstance(sharingLocationInfo.messageObject.currentAccount).sendMessage(tLRPC$MessageMedia, j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z, i2);
     }
@@ -953,11 +968,11 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         return this.topPadding;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a3, code lost:
-        if (r0.getId() != 0) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00a3, code lost:
+        if (r0.getId() != 0) goto L8;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x0010, code lost:
-        if (org.telegram.messenger.LocationController.getLocationsCount() != 0) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0010, code lost:
+        if (org.telegram.messenger.LocationController.getLocationsCount() != 0) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1010,8 +1025,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         view.setPadding(0, ((int) (getVisibility() == 0 ? this.topPadding : 0.0f)) + dp, 0, 0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x01c9, code lost:
-        if (r1.getGroupCall().call.rtmp_stream != false) goto L64;
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x01c9, code lost:
+        if (r1.getGroupCall().call.rtmp_stream != false) goto L66;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1440,20 +1455,20 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     }
 
     private void checkLiveLocation(boolean z) {
-        boolean z2;
-        String str;
-        String str2;
+        boolean isSharingLocation;
+        String formatPluralString;
+        String string;
         View fragmentView = this.fragment.getFragmentView();
         if (!z && fragmentView != null && (fragmentView.getParent() == null || ((View) fragmentView.getParent()).getVisibility() != 0)) {
             z = true;
         }
         BaseFragment baseFragment = this.fragment;
         if (baseFragment instanceof DialogsActivity) {
-            z2 = LocationController.getLocationsCount() != 0;
+            isSharingLocation = LocationController.getLocationsCount() != 0;
         } else {
-            z2 = LocationController.getInstance(baseFragment.getCurrentAccount()).isSharingLocation(((ChatActivity) this.fragment).getDialogId());
+            isSharingLocation = LocationController.getInstance(baseFragment.getCurrentAccount()).isSharingLocation(((ChatActivity) this.fragment).getDialogId());
         }
-        if (!z2) {
+        if (!isSharingLocation) {
             this.lastLocationSharingCount = -1;
             AndroidUtilities.cancelRunOnUIThread(this.checkLocationRunnable);
             if (!this.visible) {
@@ -1520,7 +1535,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             setVisibility(0);
         }
         if (this.fragment instanceof DialogsActivity) {
-            String string = LocaleController.getString("LiveLocationContext", R.string.LiveLocationContext);
+            String string2 = LocaleController.getString("LiveLocationContext", R.string.LiveLocationContext);
             ArrayList arrayList = new ArrayList();
             for (int i = 0; i < 4; i++) {
                 arrayList.addAll(LocationController.getInstance(i).sharingLocationsUI);
@@ -1529,19 +1544,19 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 LocationController.SharingLocationInfo sharingLocationInfo = (LocationController.SharingLocationInfo) arrayList.get(0);
                 long dialogId = sharingLocationInfo.messageObject.getDialogId();
                 if (DialogObject.isUserDialog(dialogId)) {
-                    str2 = UserObject.getFirstName(MessagesController.getInstance(sharingLocationInfo.messageObject.currentAccount).getUser(Long.valueOf(dialogId)));
-                    str = LocaleController.getString("AttachLiveLocationIsSharing", R.string.AttachLiveLocationIsSharing);
+                    formatPluralString = UserObject.getFirstName(MessagesController.getInstance(sharingLocationInfo.messageObject.currentAccount).getUser(Long.valueOf(dialogId)));
+                    string = LocaleController.getString("AttachLiveLocationIsSharing", R.string.AttachLiveLocationIsSharing);
                 } else {
                     TLRPC$Chat chat = MessagesController.getInstance(sharingLocationInfo.messageObject.currentAccount).getChat(Long.valueOf(-dialogId));
-                    str2 = chat != null ? chat.title : "";
-                    str = LocaleController.getString("AttachLiveLocationIsSharingChat", R.string.AttachLiveLocationIsSharingChat);
+                    formatPluralString = chat != null ? chat.title : "";
+                    string = LocaleController.getString("AttachLiveLocationIsSharingChat", R.string.AttachLiveLocationIsSharingChat);
                 }
             } else {
-                str2 = LocaleController.formatPluralString("Chats", arrayList.size(), new Object[0]);
-                str = LocaleController.getString("AttachLiveLocationIsSharingChats", R.string.AttachLiveLocationIsSharingChats);
+                formatPluralString = LocaleController.formatPluralString("Chats", arrayList.size(), new Object[0]);
+                string = LocaleController.getString("AttachLiveLocationIsSharingChats", R.string.AttachLiveLocationIsSharingChats);
             }
-            String format = String.format(str, string, str2);
-            int indexOf = format.indexOf(string);
+            String format = String.format(string, string2, formatPluralString);
+            int indexOf = format.indexOf(string2);
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(format);
             int i2 = 0;
             while (i2 < 2) {
@@ -1552,7 +1567,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 }
                 i2++;
             }
-            spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM), 0, getThemedColor("inappPlayerPerformer")), indexOf, string.length() + indexOf, 18);
+            spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM), 0, getThemedColor("inappPlayerPerformer")), indexOf, string2.length() + indexOf, 18);
             this.titleTextView.setText(spannableStringBuilder, false);
             return;
         }
@@ -1560,9 +1575,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         checkLocationString();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkLocationString() {
         int i;
-        String str;
+        String format;
         BaseFragment baseFragment = this.fragment;
         if (!(baseFragment instanceof ChatActivity) || this.titleTextView == null) {
             return;
@@ -1600,17 +1616,17 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.lastLocationSharingCount = i;
         String string = LocaleController.getString("LiveLocationContext", R.string.LiveLocationContext);
         if (i == 0) {
-            str = string;
+            format = string;
         } else {
             int i3 = i - 1;
-            str = LocationController.getInstance(currentAccount).isSharingLocation(dialogId) ? i3 != 0 ? (i3 != 1 || tLRPC$User == null) ? String.format("%1$s - %2$s %3$s", string, LocaleController.getString("ChatYourSelfName", R.string.ChatYourSelfName), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, LocaleController.formatString("SharingYouAndOtherName", R.string.SharingYouAndOtherName, UserObject.getFirstName(tLRPC$User))) : String.format("%1$s - %2$s", string, LocaleController.getString("ChatYourSelfName", R.string.ChatYourSelfName)) : i3 != 0 ? String.format("%1$s - %2$s %3$s", string, UserObject.getFirstName(tLRPC$User), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, UserObject.getFirstName(tLRPC$User));
+            format = LocationController.getInstance(currentAccount).isSharingLocation(dialogId) ? i3 != 0 ? (i3 != 1 || tLRPC$User == null) ? String.format("%1$s - %2$s %3$s", string, LocaleController.getString("ChatYourSelfName", R.string.ChatYourSelfName), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, LocaleController.formatString("SharingYouAndOtherName", R.string.SharingYouAndOtherName, UserObject.getFirstName(tLRPC$User))) : String.format("%1$s - %2$s", string, LocaleController.getString("ChatYourSelfName", R.string.ChatYourSelfName)) : i3 != 0 ? String.format("%1$s - %2$s %3$s", string, UserObject.getFirstName(tLRPC$User), LocaleController.formatPluralString("AndOther", i3, new Object[0])) : String.format("%1$s - %2$s", string, UserObject.getFirstName(tLRPC$User));
         }
-        if (str.equals(this.lastString)) {
+        if (format.equals(this.lastString)) {
             return;
         }
-        this.lastString = str;
-        int indexOf = str.indexOf(string);
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
+        this.lastString = format;
+        int indexOf = format.indexOf(string);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(format);
         int i4 = 0;
         while (i4 < 2) {
             AudioPlayerAlert.ClippingTextViewSwitcher clippingTextViewSwitcher = this.titleTextView;
@@ -1626,6 +1642,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.titleTextView.setText(spannableStringBuilder, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkPlayer(boolean z) {
         SpannableStringBuilder spannableStringBuilder;
         boolean z2 = true;
@@ -1996,36 +2013,36 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         return playingMessageObject != null && playingMessageObject.isVoice();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0096  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0144  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0096  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0144  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void checkCall(boolean z) {
         boolean z2;
+        ChatObject.Call groupCall;
         boolean z3;
+        ChatObject.Call call;
         int i;
         int i2;
         int i3;
-        ChatObject.Call groupCall;
-        ChatObject.Call call;
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (!this.visible || this.currentStyle != 5 || (sharedInstance != null && !sharedInstance.isHangingUp())) {
             View fragmentView = this.fragment.getFragmentView();
             boolean z4 = (z || fragmentView == null || (fragmentView.getParent() != null && ((View) fragmentView.getParent()).getVisibility() == 0)) ? z : true;
             if (GroupCallPip.isShowing()) {
-                z3 = false;
+                z2 = false;
             } else {
-                z3 = !GroupCallActivity.groupCallUiVisible && this.supportsCalls && sharedInstance != null && !sharedInstance.isHangingUp();
+                z2 = !GroupCallActivity.groupCallUiVisible && this.supportsCalls && sharedInstance != null && !sharedInstance.isHangingUp();
                 if (sharedInstance != null && (call = sharedInstance.groupCall) != null && (call.call instanceof TLRPC$TL_groupCallDiscarded)) {
-                    z3 = false;
+                    z2 = false;
                 }
-                if (!isPlayingVoice() && !GroupCallActivity.groupCallUiVisible && this.supportsCalls && !z3) {
+                if (!isPlayingVoice() && !GroupCallActivity.groupCallUiVisible && this.supportsCalls && !z2) {
                     BaseFragment baseFragment = this.fragment;
                     if ((baseFragment instanceof ChatActivity) && (groupCall = ((ChatActivity) baseFragment).getGroupCall()) != null && groupCall.shouldShowPanel()) {
-                        z3 = true;
                         z2 = true;
-                        if (z3) {
+                        z3 = true;
+                        if (z2) {
                             boolean z5 = this.visible;
                             if (z5 && ((z4 && this.currentStyle == -1) || (i3 = this.currentStyle) == 4 || i3 == 3 || i3 == 1)) {
                                 this.visible = false;
@@ -2086,7 +2103,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                             BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteExpired", R.string.InviteExpired)).show();
                             return;
                         }
-                        if (z2) {
+                        if (z3) {
                             i = 4;
                         } else {
                             i = sharedInstance.groupCall != null ? 3 : 1;
@@ -2123,7 +2140,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                             this.animatorSet.start();
                             return;
                         } else {
-                            if (z2) {
+                            if (z3) {
                                 boolean z6 = i5 == 4 && this.visible;
                                 updateStyle(4);
                                 ChatObject.Call groupCall2 = ((ChatActivity) this.fragment).getGroupCall();
@@ -2236,12 +2253,13 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     }
                 }
             }
-            z2 = false;
-            if (z3) {
+            z3 = false;
+            if (z2) {
             }
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startJoinFlickerAnimation() {
         if (this.joinButtonFlicker.getProgress() > 1.0f) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda9
@@ -2253,14 +2271,15 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startJoinFlickerAnimation$12() {
         this.joinButtonFlicker.setProgress(0.0f);
         this.joinButton.invalidate();
     }
 
     private void updateAvatars(boolean z) {
-        int i;
         ChatObject.Call call;
+        int i;
         TLRPC$User tLRPC$User;
         float f;
         int i2;
@@ -2492,6 +2511,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         return getThemedColor("inappPlayerTitle");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;

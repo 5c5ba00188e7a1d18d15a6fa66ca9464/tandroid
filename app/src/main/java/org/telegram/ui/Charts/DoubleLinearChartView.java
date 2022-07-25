@@ -18,6 +18,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
         super(context);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void init() {
         this.useMinHeight = true;
@@ -201,6 +202,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void drawSelection(Canvas canvas) {
         int i = this.selectedIndex;
@@ -237,9 +239,10 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0043  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0049  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0079  */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0079  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0049  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -304,7 +307,8 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
-    public LineViewData createLineViewData(ChartData.Line line) {
+    /* renamed from: createLineViewData */
+    public LineViewData mo1029createLineViewData(ChartData.Line line) {
         return new LineViewData(line);
     }
 
@@ -340,6 +344,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
         return i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void updatePickerMinMaxHeight() {
         int i;

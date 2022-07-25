@@ -116,7 +116,6 @@ public class PollCreateActivity extends BaseFragment {
         }
 
         public TouchHelperCallback() {
-            PollCreateActivity.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
@@ -194,6 +193,7 @@ public class PollCreateActivity extends BaseFragment {
         frameLayout.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
         FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
         RecyclerListView recyclerListView = new RecyclerListView(this, context) { // from class: org.telegram.ui.PollCreateActivity.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.RecyclerView
             public void requestChildOnScreen(View view, View view2) {
                 if (!(view instanceof PollEditTextCell)) {
@@ -244,11 +244,11 @@ public class PollCreateActivity extends BaseFragment {
         return this.fragmentView;
     }
 
-    /* renamed from: org.telegram.ui.PollCreateActivity$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.PollCreateActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
         AnonymousClass1() {
-            PollCreateActivity.this = r1;
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -320,12 +320,14 @@ public class PollCreateActivity extends BaseFragment {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$0(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, HashMap hashMap, boolean z, int i) {
             PollCreateActivity.this.delegate.sendPoll(tLRPC$TL_messageMediaPoll, hashMap, z, i);
             PollCreateActivity.this.finishFragment();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         boolean z;
         if (i == this.addAnswerRow) {
@@ -423,6 +425,7 @@ public class PollCreateActivity extends BaseFragment {
         AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showQuizHint() {
         this.listView.getChildCount();
         for (int i = this.answerStartRow; i < this.answerStartRow + this.answersCount; i++) {
@@ -442,8 +445,9 @@ public class PollCreateActivity extends BaseFragment {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x009d  */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x009a  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x009d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -500,6 +504,7 @@ public class PollCreateActivity extends BaseFragment {
         this.doneItem.setAlpha(z ? 1.0f : 0.5f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRows() {
         this.rowCount = 0;
         int i = 0 + 1;
@@ -578,6 +583,7 @@ public class PollCreateActivity extends BaseFragment {
         return checkDiscard();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean checkDiscard() {
         boolean isEmpty = TextUtils.isEmpty(ChatAttachAlertPollLayout.getFixedString(this.questionString));
         if (isEmpty) {
@@ -600,6 +606,7 @@ public class PollCreateActivity extends BaseFragment {
         return isEmpty;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$1(DialogInterface dialogInterface, int i) {
         finishFragment();
     }
@@ -608,35 +615,36 @@ public class PollCreateActivity extends BaseFragment {
         this.delegate = pollCreateActivityDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setTextLeft(View view, int i) {
-        int i2;
+        int length;
         if (!(view instanceof PollEditTextCell)) {
             return;
         }
         PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
-        int i3 = 100;
+        int i2 = 100;
         if (i == this.questionRow) {
             String str = this.questionString;
-            i2 = 255 - (str != null ? str.length() : 0);
-            i3 = 255;
+            length = 255 - (str != null ? str.length() : 0);
+            i2 = 255;
         } else if (i == this.solutionRow) {
             CharSequence charSequence = this.solutionString;
-            i2 = 200 - (charSequence != null ? charSequence.length() : 0);
-            i3 = 200;
+            length = 200 - (charSequence != null ? charSequence.length() : 0);
+            i2 = 200;
         } else {
-            int i4 = this.answerStartRow;
-            if (i < i4 || i >= this.answersCount + i4) {
+            int i3 = this.answerStartRow;
+            if (i < i3 || i >= this.answersCount + i3) {
                 return;
             }
-            int i5 = i - i4;
+            int i4 = i - i3;
             String[] strArr = this.answers;
-            i2 = 100 - (strArr[i5] != null ? strArr[i5].length() : 0);
+            length = 100 - (strArr[i4] != null ? strArr[i4].length() : 0);
         }
-        float f = i3;
-        if (i2 <= f - (0.7f * f)) {
-            pollEditTextCell.setText2(String.format("%d", Integer.valueOf(i2)));
+        float f = i2;
+        if (length <= f - (0.7f * f)) {
+            pollEditTextCell.setText2(String.format("%d", Integer.valueOf(length)));
             SimpleTextView textView2 = pollEditTextCell.getTextView2();
-            String str2 = i2 < 0 ? "windowBackgroundWhiteRedText5" : "windowBackgroundWhiteGrayText3";
+            String str2 = length < 0 ? "windowBackgroundWhiteRedText5" : "windowBackgroundWhiteGrayText3";
             textView2.setTextColor(Theme.getColor(str2));
             textView2.setTag(str2);
             return;
@@ -644,6 +652,7 @@ public class PollCreateActivity extends BaseFragment {
         pollEditTextCell.setText2("");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void addNewField() {
         boolean[] zArr = this.answersChecks;
         int i = this.answersCount;
@@ -659,12 +668,12 @@ public class PollCreateActivity extends BaseFragment {
         this.listAdapter.notifyItemChanged(this.answerSectionRow);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            PollCreateActivity.this = r1;
             this.mContext = context;
         }
 
@@ -825,10 +834,11 @@ public class PollCreateActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             PollEditTextCell pollEditTextCell;
             if (i == 0) {
-                HeaderCell headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 21, 15, false);
+                View headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 21, 15, false);
                 headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 pollEditTextCell = headerCell;
             } else if (i == 1) {
@@ -836,7 +846,7 @@ public class PollCreateActivity extends BaseFragment {
             } else if (i == 2) {
                 pollEditTextCell = new TextInfoPrivacyCell(this.mContext);
             } else if (i == 3) {
-                TextCell textCell = new TextCell(this.mContext);
+                View textCell = new TextCell(this.mContext);
                 textCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 pollEditTextCell = textCell;
             } else if (i == 4) {
@@ -868,7 +878,7 @@ public class PollCreateActivity extends BaseFragment {
                 });
                 pollEditTextCell = pollEditTextCell2;
             } else if (i == 6) {
-                TextCheckCell textCheckCell = new TextCheckCell(this.mContext);
+                View textCheckCell = new TextCheckCell(this.mContext);
                 textCheckCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 pollEditTextCell = textCheckCell;
             } else if (i == 7) {
@@ -935,6 +945,7 @@ public class PollCreateActivity extends BaseFragment {
                         return PollCreateActivity.this.quizPoll;
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.PollEditTextCell
                     public void onCheckBoxClick(PollEditTextCell pollEditTextCell5, boolean z) {
                         int adapterPosition;
@@ -1016,6 +1027,7 @@ public class PollCreateActivity extends BaseFragment {
             return new RecyclerListView.Holder(pollEditTextCell);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
             int adapterPosition;
             if (view.getTag() != null) {
@@ -1059,6 +1071,7 @@ public class PollCreateActivity extends BaseFragment {
             PollCreateActivity.this.listAdapter.notifyItemChanged(PollCreateActivity.this.answerSectionRow);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$onCreateViewHolder$1(PollEditTextCell pollEditTextCell, TextView textView, int i, KeyEvent keyEvent) {
             int adapterPosition;
             if (i == 5) {
@@ -1086,6 +1099,7 @@ public class PollCreateActivity extends BaseFragment {
             return false;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ boolean lambda$onCreateViewHolder$2(PollEditTextCell pollEditTextCell, View view, int i, KeyEvent keyEvent) {
             EditTextBoldCursor editTextBoldCursor = (EditTextBoldCursor) view;
             if (i == 67 && keyEvent.getAction() == 0 && editTextBoldCursor.length() == 0) {

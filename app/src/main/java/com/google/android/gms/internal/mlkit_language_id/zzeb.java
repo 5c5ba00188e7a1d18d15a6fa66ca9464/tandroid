@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzeb extends zzdz {
@@ -8,8 +9,7 @@ public final class zzeb extends zzdz {
     private int zzf;
     private int zzg;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzeb(byte[] bArr, int i, int i2, boolean z) {
+    private zzeb(byte[] bArr, int i, int i2, boolean z) {
         super();
         this.zzg = Integer.MAX_VALUE;
         this.zzc = i2 + i;

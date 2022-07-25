@@ -43,6 +43,7 @@ public final class MediaCodecUtil {
     private static final HashMap<CodecKey, List<MediaCodecInfo>> decoderInfosCache = new HashMap<>();
     private static int maxH264DecodableFrameSize = -1;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface MediaCodecListCompat {
         int getCodecCount();
@@ -56,6 +57,7 @@ public final class MediaCodecUtil {
         boolean secureDecodersExplicit();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface ScoreProvider<T> {
         int getScore(T t);
@@ -261,7 +263,7 @@ public final class MediaCodecUtil {
     }
 
     public static synchronized List<MediaCodecInfo> getDecoderInfos(String str, boolean z, boolean z2) throws DecoderQueryException {
-        MediaCodecListCompat mediaCodecListCompat;
+        MediaCodecListCompat mediaCodecListCompatV16;
         synchronized (MediaCodecUtil.class) {
             CodecKey codecKey = new CodecKey(str, z, z2);
             HashMap<CodecKey, List<MediaCodecInfo>> hashMap = decoderInfosCache;
@@ -271,11 +273,11 @@ public final class MediaCodecUtil {
             }
             int i = Util.SDK_INT;
             if (i >= 21) {
-                mediaCodecListCompat = new MediaCodecListCompatV21(z, z2);
+                mediaCodecListCompatV16 = new MediaCodecListCompatV21(z, z2);
             } else {
-                mediaCodecListCompat = new MediaCodecListCompatV16();
+                mediaCodecListCompatV16 = new MediaCodecListCompatV16();
             }
-            ArrayList<MediaCodecInfo> decoderInfosInternal = getDecoderInfosInternal(codecKey, mediaCodecListCompat);
+            ArrayList<MediaCodecInfo> decoderInfosInternal = getDecoderInfosInternal(codecKey, mediaCodecListCompatV16);
             if (z && decoderInfosInternal.isEmpty() && 21 <= i && i <= 23) {
                 decoderInfosInternal = getDecoderInfosInternal(codecKey, new MediaCodecListCompatV16());
                 if (!decoderInfosInternal.isEmpty()) {
@@ -302,6 +304,7 @@ public final class MediaCodecUtil {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$getDecoderInfosSortedByFormatSupport$0(Format format, MediaCodecInfo mediaCodecInfo) {
         try {
             return mediaCodecInfo.isFormatSupported(format) ? 1 : 0;
@@ -330,7 +333,7 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0075, code lost:
         if (r3.equals("av01") == false) goto L11;
      */
     /*
@@ -415,29 +418,28 @@ public final class MediaCodecUtil {
         }
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(7:25|(4:(2:69|30)|38|(9:41|42|65|43|44|67|45|80|46)|58)|32|71|33|83|58) */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0083, code lost:
-        if (r1.secure == false) goto L32;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x00a6, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00a6, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a7, code lost:
         r1 = r11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0104 A[Catch: Exception -> 0x0152, TRY_ENTER, TryCatch #5 {Exception -> 0x0152, blocks: (B:3:0x0008, B:5:0x001b, B:8:0x002d, B:11:0x0038, B:52:0x00fc, B:55:0x0104, B:57:0x010a, B:58:0x0123, B:59:0x012d, B:60:0x0150), top: B:75:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x012d A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0083, code lost:
+        if (r1.secure == false) goto L32;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0104 A[Catch: Exception -> 0x0152, TRY_ENTER, TryCatch #5 {Exception -> 0x0152, blocks: (B:3:0x0008, B:5:0x001b, B:9:0x0123, B:10:0x002d, B:13:0x0038, B:39:0x00fc, B:42:0x0104, B:44:0x010a, B:47:0x012d, B:48:0x0150), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x012d A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static ArrayList<MediaCodecInfo> getDecoderInfosInternal(CodecKey codecKey, MediaCodecListCompat mediaCodecListCompat) throws DecoderQueryException {
-        int i;
-        boolean z;
-        int i2;
         String codecMimeType;
         String str;
         String str2;
-        Exception e;
+        int i;
+        boolean z;
+        int i2;
         MediaCodecInfo.CodecCapabilities capabilitiesForType;
         boolean isFeatureSupported;
         boolean isFeatureRequired;
@@ -448,7 +450,7 @@ public final class MediaCodecUtil {
             String str3 = codecKey2.mimeType;
             boolean secureDecodersExplicit = mediaCodecListCompat.secureDecodersExplicit();
             int i3 = 0;
-            for (int codecCount = mediaCodecListCompat.getCodecCount(); i3 < codecCount; codecCount = i) {
+            for (int codecCount = mediaCodecListCompat.getCodecCount(); i3 < codecCount; codecCount = i2) {
                 android.media.MediaCodecInfo codecInfoAt = mediaCodecListCompat.getCodecInfoAt(i3);
                 if (!isAlias(codecInfoAt)) {
                     String name = codecInfoAt.getName();
@@ -458,13 +460,13 @@ public final class MediaCodecUtil {
                             isFeatureSupported = mediaCodecListCompat.isFeatureSupported("tunneled-playback", codecMimeType, capabilitiesForType);
                             isFeatureRequired = mediaCodecListCompat.isFeatureRequired("tunneled-playback", codecMimeType, capabilitiesForType);
                             z2 = codecKey2.tunneling;
-                        } catch (Exception e2) {
-                            e = e2;
+                        } catch (Exception e) {
+                            e = e;
                             str = codecMimeType;
                             str2 = name;
-                            i2 = i3;
+                            i = i3;
                             z = secureDecodersExplicit;
-                            i = codecCount;
+                            i2 = codecCount;
                         }
                         if ((z2 || !isFeatureRequired) && (!z2 || isFeatureSupported)) {
                             boolean isFeatureSupported2 = mediaCodecListCompat.isFeatureSupported("secure-playback", codecMimeType, capabilitiesForType);
@@ -478,12 +480,12 @@ public final class MediaCodecUtil {
                                 if (!secureDecodersExplicit || codecKey2.secure != isFeatureSupported2) {
                                     if (!secureDecodersExplicit) {
                                         try {
-                                        } catch (Exception e3) {
-                                            e = e3;
+                                        } catch (Exception e2) {
+                                            e = e2;
                                             str = codecMimeType;
-                                            i2 = i3;
+                                            i = i3;
                                             z = secureDecodersExplicit;
-                                            i = codecCount;
+                                            i2 = codecCount;
                                             str2 = name;
                                             if (Util.SDK_INT > 23) {
                                             }
@@ -492,60 +494,60 @@ public final class MediaCodecUtil {
                                         }
                                     }
                                     str = codecMimeType;
-                                    i2 = i3;
+                                    i = i3;
                                     z = secureDecodersExplicit;
-                                    i = codecCount;
+                                    i2 = codecCount;
                                     if (!z && isFeatureSupported2) {
                                         StringBuilder sb = new StringBuilder();
                                         try {
                                             sb.append(name);
                                             sb.append(".secure");
                                             str2 = name;
-                                        } catch (Exception e4) {
-                                            e = e4;
+                                        } catch (Exception e3) {
+                                            e = e3;
                                             str2 = name;
                                         }
                                         try {
                                             arrayList.add(MediaCodecInfo.newInstance(sb.toString(), str3, str, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, codecNeedsDisableAdaptationWorkaround, true));
                                             return arrayList;
-                                        } catch (Exception e5) {
-                                            e = e5;
+                                        } catch (Exception e4) {
+                                            e = e4;
                                             if (Util.SDK_INT > 23 || arrayList.isEmpty()) {
                                                 Log.e("MediaCodecUtil", "Failed to query codec " + str2 + " (" + str + ")");
                                                 throw e;
                                             }
                                             Log.e("MediaCodecUtil", "Skipping codec " + str2 + " (failed to query capabilities)");
-                                            i3 = i2 + 1;
+                                            i3 = i + 1;
                                             codecKey2 = codecKey;
                                             secureDecodersExplicit = z;
                                         }
                                     }
-                                    i3 = i2 + 1;
+                                    i3 = i + 1;
                                     codecKey2 = codecKey;
                                     secureDecodersExplicit = z;
                                 }
                                 str = codecMimeType;
-                                i2 = i3;
+                                i = i3;
                                 z = secureDecodersExplicit;
-                                i = codecCount;
+                                i2 = codecCount;
                                 arrayList.add(MediaCodecInfo.newInstance(name, str3, codecMimeType, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, codecNeedsDisableAdaptationWorkaround, false));
-                                i3 = i2 + 1;
+                                i3 = i + 1;
                                 codecKey2 = codecKey;
                                 secureDecodersExplicit = z;
                             }
                         }
                     }
                 }
-                i2 = i3;
+                i = i3;
                 z = secureDecodersExplicit;
-                i = codecCount;
-                i3 = i2 + 1;
+                i2 = codecCount;
+                i3 = i + 1;
                 codecKey2 = codecKey;
                 secureDecodersExplicit = z;
             }
             return arrayList;
-        } catch (Exception e6) {
-            throw new DecoderQueryException(e6);
+        } catch (Exception e5) {
+            throw new DecoderQueryException(e5);
         }
     }
 
@@ -638,6 +640,7 @@ public final class MediaCodecUtil {
         list.add(list.remove(0));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$applyWorkarounds$1(MediaCodecInfo mediaCodecInfo) {
         String str = mediaCodecInfo.name;
         if (str.startsWith("OMX.google") || str.startsWith("c2.android")) {
@@ -646,6 +649,7 @@ public final class MediaCodecUtil {
         return (Util.SDK_INT >= 26 || !str.equals("OMX.MTK.AUDIO.DECODER.RAW")) ? 0 : -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$applyWorkarounds$2(MediaCodecInfo mediaCodecInfo) {
         return mediaCodecInfo.name.startsWith("OMX.google") ? 1 : 0;
     }
@@ -763,35 +767,35 @@ public final class MediaCodecUtil {
     }
 
     private static Pair<Integer, Integer> getAvcProfileAndLevel(String str, String[] strArr) {
+        int parseInt;
         int i;
-        int i2;
         if (strArr.length < 2) {
             Log.w("MediaCodecUtil", "Ignoring malformed AVC codec string: " + str);
             return null;
         }
         try {
             if (strArr[1].length() == 6) {
-                i2 = Integer.parseInt(strArr[1].substring(0, 2), 16);
-                i = Integer.parseInt(strArr[1].substring(4), 16);
+                i = Integer.parseInt(strArr[1].substring(0, 2), 16);
+                parseInt = Integer.parseInt(strArr[1].substring(4), 16);
             } else if (strArr.length >= 3) {
-                int parseInt = Integer.parseInt(strArr[1]);
-                i = Integer.parseInt(strArr[2]);
-                i2 = parseInt;
+                int parseInt2 = Integer.parseInt(strArr[1]);
+                parseInt = Integer.parseInt(strArr[2]);
+                i = parseInt2;
             } else {
                 Log.w("MediaCodecUtil", "Ignoring malformed AVC codec string: " + str);
                 return null;
             }
-            int i3 = AVC_PROFILE_NUMBER_TO_CONST.get(i2, -1);
+            int i2 = AVC_PROFILE_NUMBER_TO_CONST.get(i, -1);
+            if (i2 == -1) {
+                Log.w("MediaCodecUtil", "Unknown AVC profile: " + i);
+                return null;
+            }
+            int i3 = AVC_LEVEL_NUMBER_TO_CONST.get(parseInt, -1);
             if (i3 == -1) {
-                Log.w("MediaCodecUtil", "Unknown AVC profile: " + i2);
+                Log.w("MediaCodecUtil", "Unknown AVC level: " + parseInt);
                 return null;
             }
-            int i4 = AVC_LEVEL_NUMBER_TO_CONST.get(i, -1);
-            if (i4 == -1) {
-                Log.w("MediaCodecUtil", "Unknown AVC level: " + i);
-                return null;
-            }
-            return new Pair<>(Integer.valueOf(i3), Integer.valueOf(i4));
+            return new Pair<>(Integer.valueOf(i2), Integer.valueOf(i3));
         } catch (NumberFormatException unused) {
             Log.w("MediaCodecUtil", "Ignoring malformed AVC codec string: " + str);
             return null;
@@ -875,6 +879,7 @@ public final class MediaCodecUtil {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$sortByScore$3(ScoreProvider scoreProvider, Object obj, Object obj2) {
         return scoreProvider.getScore(obj2) - scoreProvider.getScore(obj);
     }
@@ -890,6 +895,7 @@ public final class MediaCodecUtil {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(21)
     /* loaded from: classes.dex */
     public static final class MediaCodecListCompatV21 implements MediaCodecListCompat {
@@ -935,6 +941,7 @@ public final class MediaCodecUtil {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class MediaCodecListCompatV16 implements MediaCodecListCompat {
         @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.MediaCodecListCompat
@@ -966,6 +973,7 @@ public final class MediaCodecUtil {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CodecKey {
         public final String mimeType;

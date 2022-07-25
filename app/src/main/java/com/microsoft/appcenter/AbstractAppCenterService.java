@@ -80,6 +80,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
     public void onConfigurationUpdated(String str, String str2) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public synchronized AppCenterFuture<Boolean> isInstanceEnabledAsync() {
         final DefaultAppCenterFuture defaultAppCenterFuture;
         defaultAppCenterFuture = new DefaultAppCenterFuture();
@@ -153,6 +154,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         return "enabled_" + getServiceName();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public synchronized void post(Runnable runnable) {
         post(runnable, null, null);
     }

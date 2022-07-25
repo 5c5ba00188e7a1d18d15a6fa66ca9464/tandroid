@@ -120,15 +120,15 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         measureChildWithMargins(this.textView, i, measuredWidth, i2, 0);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:106:0x026d  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x017f  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x01ab  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01ab  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x026d  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x017f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z, boolean z2, boolean z3, boolean z4) {
-        ImageLocation imageLocation;
+        ImageLocation forSticker;
         AnimatorSet animatorSet = this.currentAnimation;
         TLRPC$Document tLRPC$Document = null;
         if (animatorSet != null) {
@@ -224,21 +224,21 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                         SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, "windowBackgroundGray", 1.0f);
                         boolean z6 = closestPhotoSizeWithSize instanceof TLRPC$Document;
                         if (z6) {
-                            imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+                            forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
                         } else {
-                            imageLocation = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
+                            forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
                         }
-                        ImageLocation imageLocation2 = imageLocation;
+                        ImageLocation imageLocation = forSticker;
                         if (!z6 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
-                            if (imageLocation2 != null && imageLocation2.imageType == 1) {
-                                this.imageView.setImage(imageLocation2, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+                            if (imageLocation != null && imageLocation.imageType == 1) {
+                                this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
                             } else {
-                                this.imageView.setImage(imageLocation2, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                                this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
                             }
                         } else if (svgThumb != null) {
                             this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
                         } else {
-                            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation2, (String) null, 0, tLRPC$StickerSetCovered);
+                            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
                         }
                     } else {
                         TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);

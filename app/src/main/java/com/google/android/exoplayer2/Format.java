@@ -15,13 +15,17 @@ import java.util.List;
 /* loaded from: classes.dex */
 public final class Format implements Parcelable {
     public static final Parcelable.Creator<Format> CREATOR = new Parcelable.Creator<Format>() { // from class: com.google.android.exoplayer2.Format.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public Format createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public Format mo76createFromParcel(Parcel parcel) {
             return new Format(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public Format[] newArray(int i) {
+        /* renamed from: newArray */
+        public Format[] mo77newArray(int i) {
             return new Format[i];
         }
     };
@@ -217,16 +221,16 @@ public final class Format implements Parcelable {
         return new Format(str, str2, i5, this.roleFlags, i, str4, metadata2 != null ? metadata2.copyWithAppendedEntriesFrom(metadata) : metadata, this.containerMimeType, str3, this.maxInputSize, this.initializationData, this.drmInitData, this.subsampleOffsetUs, i2, i3, this.frameRate, this.rotationDegrees, this.pixelWidthHeightRatio, this.projectionData, this.stereoMode, this.colorInfo, i4, this.sampleRate, this.pcmEncoding, this.encoderDelay, this.encoderPadding, str5, this.accessibilityChannel, this.exoMediaCryptoType);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0048  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x004b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public Format copyWithManifestFormatInfo(Format format) {
         String str;
-        Metadata metadata;
-        Metadata metadata2;
         String str2;
+        Metadata metadata;
+        Metadata copyWithAppendedEntriesFrom;
         if (this == format) {
             return this;
         }
@@ -237,7 +241,7 @@ public final class Format implements Parcelable {
             str4 = this.label;
         }
         String str5 = str4;
-        String str6 = ((trackType == 3 || trackType == 1) && (str2 = format.language) != null) ? str2 : this.language;
+        String str6 = ((trackType == 3 || trackType == 1) && (str = format.language) != null) ? str : this.language;
         int i = this.bitrate;
         if (i == -1) {
             i = format.bitrate;
@@ -247,25 +251,25 @@ public final class Format implements Parcelable {
         if (str7 == null) {
             String codecsOfType = Util.getCodecsOfType(format.codecs, trackType);
             if (Util.splitCodecs(codecsOfType).length == 1) {
-                str = codecsOfType;
+                str2 = codecsOfType;
                 metadata = this.metadata;
                 if (metadata != null) {
-                    metadata2 = format.metadata;
+                    copyWithAppendedEntriesFrom = format.metadata;
                 } else {
-                    metadata2 = metadata.copyWithAppendedEntriesFrom(format.metadata);
+                    copyWithAppendedEntriesFrom = metadata.copyWithAppendedEntriesFrom(format.metadata);
                 }
-                Metadata metadata3 = metadata2;
+                Metadata metadata2 = copyWithAppendedEntriesFrom;
                 float f = this.frameRate;
-                return new Format(str3, str5, this.selectionFlags | format.selectionFlags, this.roleFlags | format.roleFlags, i2, str, metadata3, this.containerMimeType, this.sampleMimeType, this.maxInputSize, this.initializationData, DrmInitData.createSessionCreationData(format.drmInitData, this.drmInitData), this.subsampleOffsetUs, this.width, this.height, (f == -1.0f || trackType != 2) ? f : format.frameRate, this.rotationDegrees, this.pixelWidthHeightRatio, this.projectionData, this.stereoMode, this.colorInfo, this.channelCount, this.sampleRate, this.pcmEncoding, this.encoderDelay, this.encoderPadding, str6, this.accessibilityChannel, this.exoMediaCryptoType);
+                return new Format(str3, str5, this.selectionFlags | format.selectionFlags, this.roleFlags | format.roleFlags, i2, str2, metadata2, this.containerMimeType, this.sampleMimeType, this.maxInputSize, this.initializationData, DrmInitData.createSessionCreationData(format.drmInitData, this.drmInitData), this.subsampleOffsetUs, this.width, this.height, (f == -1.0f || trackType != 2) ? f : format.frameRate, this.rotationDegrees, this.pixelWidthHeightRatio, this.projectionData, this.stereoMode, this.colorInfo, this.channelCount, this.sampleRate, this.pcmEncoding, this.encoderDelay, this.encoderPadding, str6, this.accessibilityChannel, this.exoMediaCryptoType);
             }
         }
-        str = str7;
+        str2 = str7;
         metadata = this.metadata;
         if (metadata != null) {
         }
-        Metadata metadata32 = metadata2;
+        Metadata metadata22 = copyWithAppendedEntriesFrom;
         float f2 = this.frameRate;
-        return new Format(str3, str5, this.selectionFlags | format.selectionFlags, this.roleFlags | format.roleFlags, i2, str, metadata32, this.containerMimeType, this.sampleMimeType, this.maxInputSize, this.initializationData, DrmInitData.createSessionCreationData(format.drmInitData, this.drmInitData), this.subsampleOffsetUs, this.width, this.height, (f2 == -1.0f || trackType != 2) ? f2 : format.frameRate, this.rotationDegrees, this.pixelWidthHeightRatio, this.projectionData, this.stereoMode, this.colorInfo, this.channelCount, this.sampleRate, this.pcmEncoding, this.encoderDelay, this.encoderPadding, str6, this.accessibilityChannel, this.exoMediaCryptoType);
+        return new Format(str3, str5, this.selectionFlags | format.selectionFlags, this.roleFlags | format.roleFlags, i2, str2, metadata22, this.containerMimeType, this.sampleMimeType, this.maxInputSize, this.initializationData, DrmInitData.createSessionCreationData(format.drmInitData, this.drmInitData), this.subsampleOffsetUs, this.width, this.height, (f2 == -1.0f || trackType != 2) ? f2 : format.frameRate, this.rotationDegrees, this.pixelWidthHeightRatio, this.projectionData, this.stereoMode, this.colorInfo, this.channelCount, this.sampleRate, this.pcmEncoding, this.encoderDelay, this.encoderPadding, str6, this.accessibilityChannel, this.exoMediaCryptoType);
     }
 
     public Format copyWithGaplessInfo(int i, int i2) {

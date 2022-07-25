@@ -17,9 +17,8 @@ import org.json.JSONObject;
 /* loaded from: classes.dex */
 public class e {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class a implements Runnable {
+    static class a implements Runnable {
         final /* synthetic */ long a;
         final /* synthetic */ ArrayList b;
         final /* synthetic */ JSONArray c;
@@ -30,7 +29,7 @@ public class e {
             this.c = jSONArray;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:5:0x001a  */
+        /* JADX WARN: Removed duplicated region for block: B:4:0x001a  */
         @Override // java.lang.Runnable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -79,6 +78,7 @@ public class e {
         HianalyticsHelper.getInstance().getReportExecutor().submit(new a(j, arrayList, jSONArray));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static LinkedHashMap<String, String> b(d dVar) {
         LinkedHashMapPack linkedHashMapPack = new LinkedHashMapPack();
         Exception d = dVar.d();

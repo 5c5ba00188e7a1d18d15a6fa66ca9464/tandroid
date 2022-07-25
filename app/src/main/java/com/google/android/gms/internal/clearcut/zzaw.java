@@ -16,10 +16,12 @@ final class zzaw {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zzx() {
         return zzfb != null && !zzfc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Class<?> zzy() {
         return zzfb;
     }

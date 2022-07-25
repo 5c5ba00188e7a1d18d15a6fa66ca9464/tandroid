@@ -114,8 +114,8 @@ public class RadialProgressView extends View {
         updateAnimation(j);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x004c  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x004c  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00f0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -228,6 +228,7 @@ public class RadialProgressView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         int measuredWidth = (getMeasuredWidth() - this.size) / 2;

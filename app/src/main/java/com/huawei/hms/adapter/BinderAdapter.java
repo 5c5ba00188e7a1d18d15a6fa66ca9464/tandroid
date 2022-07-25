@@ -65,6 +65,7 @@ public class BinderAdapter implements ServiceConnection {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void binderServiceFailed() {
         BinderCallBack callBack = getCallBack();
         if (callBack != null) {
@@ -115,6 +116,7 @@ public class BinderAdapter implements ServiceConnection {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public BinderCallBack getCallBack() {
         return this.callback;
     }

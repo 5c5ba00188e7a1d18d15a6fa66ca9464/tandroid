@@ -8,6 +8,7 @@ final class zaaj extends zaay {
     private final /* synthetic */ ConnectionResult zaa;
     private final /* synthetic */ zaag zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zaaj(zaag zaagVar, zaaw zaawVar, ConnectionResult connectionResult) {
         super(zaawVar);

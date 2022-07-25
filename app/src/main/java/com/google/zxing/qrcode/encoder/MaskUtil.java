@@ -1,10 +1,12 @@
 package com.google.zxing.qrcode.encoder;
 /* loaded from: classes.dex */
 final class MaskUtil {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int applyMaskPenaltyRule1(ByteMatrix byteMatrix) {
         return applyMaskPenaltyRule1Internal(byteMatrix, true) + applyMaskPenaltyRule1Internal(byteMatrix, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int applyMaskPenaltyRule2(ByteMatrix byteMatrix) {
         byte[][] array = byteMatrix.getArray();
         int width = byteMatrix.getWidth();
@@ -28,6 +30,7 @@ final class MaskUtil {
         return i * 3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int applyMaskPenaltyRule3(ByteMatrix byteMatrix) {
         byte[][] array = byteMatrix.getArray();
         int width = byteMatrix.getWidth();
@@ -69,6 +72,7 @@ final class MaskUtil {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int applyMaskPenaltyRule4(ByteMatrix byteMatrix) {
         byte[][] array = byteMatrix.getArray();
         int width = byteMatrix.getWidth();
@@ -86,6 +90,7 @@ final class MaskUtil {
         return ((Math.abs((i * 2) - height2) * 10) / height2) * 10;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     public static boolean getDataMaskBit(int i, int i2, int i3) {
         int i4;

@@ -23,9 +23,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class HlsChunkSource {
+class HlsChunkSource {
     private final DataSource encryptionDataSource;
     private Uri expectedPlaylistUrl;
     private final HlsExtractorFactory extractorFactory;
@@ -115,10 +114,10 @@ public class HlsChunkSource {
         this.isTimestampMaster = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0071  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0071  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -138,9 +137,9 @@ public class HlsChunkSource {
             long durationUs = hlsMediaChunk.getDurationUs();
             j5 = Math.max(0L, j5 - durationUs);
             if (resolveTimeToLiveEdgeUs != -9223372036854775807L) {
-                j4 = j5;
-                j3 = Math.max(0L, resolveTimeToLiveEdgeUs - durationUs);
-                this.trackSelection.updateSelectedTrack(j, j4, j3, list, createMediaChunkIterators(hlsMediaChunk, j2));
+                j3 = j5;
+                j4 = Math.max(0L, resolveTimeToLiveEdgeUs - durationUs);
+                this.trackSelection.updateSelectedTrack(j, j3, j4, list, createMediaChunkIterators(hlsMediaChunk, j2));
                 int selectedIndexInTrackGroup = this.trackSelection.getSelectedIndexInTrackGroup();
                 boolean z2 = indexOf == selectedIndexInTrackGroup;
                 uri = this.playlistUrls[selectedIndexInTrackGroup];
@@ -211,9 +210,9 @@ public class HlsChunkSource {
                 return;
             }
         }
-        j4 = j5;
-        j3 = resolveTimeToLiveEdgeUs;
-        this.trackSelection.updateSelectedTrack(j, j4, j3, list, createMediaChunkIterators(hlsMediaChunk, j2));
+        j3 = j5;
+        j4 = resolveTimeToLiveEdgeUs;
+        this.trackSelection.updateSelectedTrack(j, j3, j4, list, createMediaChunkIterators(hlsMediaChunk, j2));
         int selectedIndexInTrackGroup2 = this.trackSelection.getSelectedIndexInTrackGroup();
         if (indexOf == selectedIndexInTrackGroup2) {
         }
@@ -333,9 +332,8 @@ public class HlsChunkSource {
         return UriUtil.resolveToUri(hlsMediaPlaylist.baseUri, str);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class InitializationTrackSelection extends BaseTrackSelection {
+    private static final class InitializationTrackSelection extends BaseTrackSelection {
         private int selectedIndex;
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelection
@@ -374,6 +372,7 @@ public class HlsChunkSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class EncryptionKeyChunk extends DataChunk {
         private byte[] result;
@@ -392,6 +391,7 @@ public class HlsChunkSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class HlsMediaPlaylistSegmentIterator extends BaseMediaChunkIterator {
         public HlsMediaPlaylistSegmentIterator(HlsMediaPlaylist hlsMediaPlaylist, long j, int i) {

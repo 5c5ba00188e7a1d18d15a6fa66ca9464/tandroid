@@ -105,9 +105,8 @@ final class AutoValue_LogEvent extends LogEvent {
         return i3 ^ i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends LogEvent.Builder {
+    static final class Builder extends LogEvent.Builder {
         private Integer eventCode;
         private Long eventTimeMs;
         private Long eventUptimeMs;

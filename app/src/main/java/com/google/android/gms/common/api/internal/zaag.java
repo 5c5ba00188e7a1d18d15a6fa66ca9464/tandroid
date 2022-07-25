@@ -8,6 +8,7 @@ import com.google.android.gms.signin.zae;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.annotation.concurrent.GuardedBy;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zaag extends zaap {
@@ -25,13 +26,13 @@ public final class zaag extends zaap {
     @GuardedBy("mLock")
     public final void zaa() {
         GoogleApiAvailabilityLight googleApiAvailabilityLight;
-        boolean z;
         Context context;
+        boolean z;
+        Context context2;
         zaaz zaazVar;
         zae zaeVar;
         zae zaeVar2;
         zaaz zaazVar2;
-        Context context2;
         Context context3;
         boolean z2;
         googleApiAvailabilityLight = this.zaa.zad;
@@ -65,8 +66,8 @@ public final class zaag extends zaap {
             while (i2 < size2) {
                 Object obj2 = arrayList.get(i2);
                 i2++;
-                context2 = this.zaa.zac;
-                i = zajVar.zaa(context2, (Api.Client) obj2);
+                context = this.zaa.zac;
+                i = zajVar.zaa(context, (Api.Client) obj2);
                 if (i != 0) {
                     break;
                 }
@@ -89,8 +90,8 @@ public final class zaag extends zaap {
         for (Api.Client client2 : this.zab.keySet()) {
             zaah zaahVar = this.zab.get(client2);
             if (client2.requiresGooglePlayServices()) {
-                context = this.zaa.zac;
-                if (zajVar.zaa(context, client2) != 0) {
+                context2 = this.zaa.zac;
+                if (zajVar.zaa(context2, client2) != 0) {
                     zaazVar = this.zaa.zaa;
                     zaazVar.zaa(new zaai(this, this.zaa, zaahVar));
                 }

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzdd implements zzeg {
     private static final zzdn zzlz = new zzde();

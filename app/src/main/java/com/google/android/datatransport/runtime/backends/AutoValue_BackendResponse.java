@@ -1,12 +1,12 @@
 package com.google.android.datatransport.runtime.backends;
 
 import com.google.android.datatransport.runtime.backends.BackendResponse;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AutoValue_BackendResponse extends BackendResponse {
+final class AutoValue_BackendResponse extends BackendResponse {
     private final long nextRequestWaitMillis;
     private final BackendResponse.Status status;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_BackendResponse(BackendResponse.Status status, long j) {
         if (status == null) {
             throw new NullPointerException("Null status");

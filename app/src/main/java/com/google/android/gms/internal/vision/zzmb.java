@@ -9,6 +9,7 @@ final class zzmb implements Iterator<String>, j$.util.Iterator {
     private Iterator<String> zza;
     private final /* synthetic */ zzlz zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzmb(zzlz zzlzVar) {
         zzjv zzjvVar;
         this.zzb = zzlzVar;
@@ -32,7 +33,8 @@ final class zzmb implements Iterator<String>, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         return this.zza.next();
     }
 }

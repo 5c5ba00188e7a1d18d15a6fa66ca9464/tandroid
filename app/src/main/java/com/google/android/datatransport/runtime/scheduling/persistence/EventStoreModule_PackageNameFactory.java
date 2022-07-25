@@ -13,8 +13,9 @@ public final class EventStoreModule_PackageNameFactory implements Factory<String
     }
 
     @Override // javax.inject.Provider
-    public String get() {
-        return packageName(this.contextProvider.get());
+    /* renamed from: get  reason: collision with other method in class */
+    public String mo70get() {
+        return packageName(this.contextProvider.mo70get());
     }
 
     public static EventStoreModule_PackageNameFactory create(Provider<Context> provider) {

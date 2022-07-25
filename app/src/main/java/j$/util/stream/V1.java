@@ -1,23 +1,27 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class V1 extends U3 implements u1, p1 {
     @Override // j$.util.stream.U3
     public j$.util.t B() {
-        return super.mo71spliterator();
+        return super.mo317spliterator();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: C */
     public /* synthetic */ void accept(Double d) {
         o1.a(this, d);
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: D */
     public /* synthetic */ void i(Double[] dArr, int i) {
         o1.h(this, dArr, i);
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: E */
     public /* synthetic */ u1 r(long j, long j2, j$.util.function.m mVar) {
         return o1.n(this, j, j2, mVar);
@@ -25,13 +29,13 @@ public final class V1 extends U3 implements u1, p1 {
 
     @Override // j$.util.stream.p1, j$.util.stream.s1
     /* renamed from: a */
-    public A1 mo70a() {
+    public A1 mo315a() {
         return this;
     }
 
     @Override // j$.util.stream.p1, j$.util.stream.s1
-    /* renamed from: a */
-    public u1 mo70a() {
+    /* renamed from: a  reason: collision with other method in class */
+    public u1 mo315a() {
         return this;
     }
 
@@ -58,7 +62,8 @@ public final class V1 extends U3 implements u1, p1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    public z1 b(int i) {
+    /* renamed from: b  reason: collision with other method in class */
+    public z1 mo316b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -103,14 +108,21 @@ public final class V1 extends U3 implements u1, p1 {
     }
 
     @Override // j$.util.stream.U3, j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
-    /* renamed from: spliterator */
-    public j$.util.w mo71spliterator() {
-        return super.mo71spliterator();
+    /* renamed from: spliterator  reason: collision with other method in class */
+    public j$.util.w mo317spliterator() {
+        return super.mo317spliterator();
+    }
+
+    @Override // j$.util.stream.z1, j$.util.stream.A1
+    /* renamed from: b */
+    public /* bridge */ /* synthetic */ A1 mo316b(int i) {
+        mo316b(i);
+        throw null;
     }
 
     @Override // j$.util.stream.U3, j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
     /* renamed from: spliterator */
-    public j$.util.u mo71spliterator() {
-        return super.mo71spliterator();
+    public j$.util.u mo317spliterator() {
+        return super.mo317spliterator();
     }
 }

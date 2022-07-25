@@ -105,12 +105,12 @@ public class VoIPToggleButton extends FrameLayout {
         this.drawBackground = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0054  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0290  */
-    /* JADX WARN: Removed duplicated region for block: B:76:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:77:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0042  */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -385,6 +385,7 @@ public class VoIPToggleButton extends FrameLayout {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setData$0(boolean z, ValueAnimator valueAnimator) {
         this.replaceProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -482,6 +483,7 @@ public class VoIPToggleButton extends FrameLayout {
         setBackgroundColor(this.backgroundCheck1, this.backgroundCheck2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setChecked$1(ValueAnimator valueAnimator) {
         this.checkedProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         setBackgroundColor(this.backgroundCheck1, this.backgroundCheck2);

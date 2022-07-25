@@ -76,6 +76,7 @@ public class ChartHeaderView extends FrameLayout {
         recolor();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
         TextView textView = this.datesTmp;
         textView.setPivotX(textView.getMeasuredWidth() * 0.7f);
@@ -92,7 +93,7 @@ public class ChartHeaderView extends FrameLayout {
     }
 
     public void setDates(long j, long j2) {
-        String str;
+        String format;
         if (!this.showDate) {
             this.dates.setVisibility(8);
             this.datesTmp.setVisibility(8);
@@ -102,11 +103,11 @@ public class ChartHeaderView extends FrameLayout {
             j2 += 604800000;
         }
         if (j2 - j >= 86400000) {
-            str = this.formatter.format(new Date(j)) + " — " + this.formatter.format(new Date(j2));
+            format = this.formatter.format(new Date(j)) + " — " + this.formatter.format(new Date(j2));
         } else {
-            str = this.formatter.format(new Date(j));
+            format = this.formatter.format(new Date(j));
         }
-        this.dates.setText(str);
+        this.dates.setText(format);
         this.dates.setVisibility(0);
     }
 

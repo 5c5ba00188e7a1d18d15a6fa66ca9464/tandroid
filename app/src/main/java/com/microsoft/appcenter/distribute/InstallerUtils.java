@@ -28,6 +28,7 @@ public class InstallerUtils {
         hashSet.add("com.android.chrome");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Intent getInstallIntent(Uri uri) {
         Intent intent = new Intent("android.intent.action.INSTALL_PACKAGE");
         intent.setData(uri);
@@ -37,6 +38,7 @@ public class InstallerUtils {
         return intent;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static synchronized boolean isInstalledFromAppStore(String str, Context context) {
         boolean booleanValue;
         synchronized (InstallerUtils.class) {

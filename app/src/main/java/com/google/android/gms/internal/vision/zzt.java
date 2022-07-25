@@ -50,6 +50,7 @@ public abstract class zzt<T> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @RequiresNonNull({"context", "thickFeatureName", "featureName"})
     public final T zzd() {
         synchronized (this.zzb) {

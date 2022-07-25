@@ -143,22 +143,23 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(final View view, int i) {
-        TLRPC$InputStickerSet tLRPC$InputStickerSet;
+        TLRPC$InputStickerSet tLRPC$TL_inputStickerSetShortName;
         if (i < this.stickersStartRow || i >= this.stickersEndRow || getParentActivity() == null) {
             return;
         }
         final TLRPC$StickerSetCovered tLRPC$StickerSetCovered = this.sets.get(i - this.stickersStartRow);
         if (tLRPC$StickerSetCovered.set.id != 0) {
-            tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetID();
-            tLRPC$InputStickerSet.id = tLRPC$StickerSetCovered.set.id;
+            tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetID();
+            tLRPC$TL_inputStickerSetShortName.id = tLRPC$StickerSetCovered.set.id;
         } else {
-            tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetShortName();
-            tLRPC$InputStickerSet.short_name = tLRPC$StickerSetCovered.set.short_name;
+            tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
+            tLRPC$TL_inputStickerSetShortName.short_name = tLRPC$StickerSetCovered.set.short_name;
         }
-        TLRPC$InputStickerSet tLRPC$InputStickerSet2 = tLRPC$InputStickerSet;
-        tLRPC$InputStickerSet2.access_hash = tLRPC$StickerSetCovered.set.access_hash;
-        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tLRPC$InputStickerSet2, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
+        TLRPC$InputStickerSet tLRPC$InputStickerSet = tLRPC$TL_inputStickerSetShortName;
+        tLRPC$InputStickerSet.access_hash = tLRPC$StickerSetCovered.set.access_hash;
+        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tLRPC$InputStickerSet, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
         stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.ArchivedStickersActivity.2
             @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
             public void onStickerSetUninstalled() {
@@ -209,6 +210,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         this.stickersShadowRow = -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void getStickers() {
         long j;
         if (this.loadingStickers || this.endReached) {
@@ -247,6 +249,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         }), this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getStickers$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -256,12 +259,14 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getStickers$1(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             lambda$processResponse$3((TLRPC$TL_messages_archivedStickers) tLObject);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: processResponse */
     public void lambda$processResponse$3(final TLRPC$TL_messages_archivedStickers tLRPC$TL_messages_archivedStickers) {
         if (!this.isInTransition) {
@@ -289,11 +294,13 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationStart(boolean z, boolean z2) {
         this.isInTransition = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         this.isInTransition = false;
@@ -360,12 +367,12 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            ArchivedStickersActivity.this = r1;
             this.mContext = context;
         }
 
@@ -414,6 +421,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onBindViewHolder$0(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, ArchivedStickerSetCell archivedStickerSetCell, boolean z) {
             if (z) {
                 archivedStickerSetCell.setChecked(false, false, false);
@@ -432,7 +440,8 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 0) {
                 ArchivedStickerSetCell archivedStickerSetCell = new ArchivedStickerSetCell(this.mContext, true);

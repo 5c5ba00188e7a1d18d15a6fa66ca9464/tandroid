@@ -31,7 +31,6 @@ public class AvailableAdapter {
     /* loaded from: classes.dex */
     public class a implements SystemObserver {
         public a() {
-            AvailableAdapter.this = r1;
         }
 
         @Override // com.huawei.hms.adapter.sysobs.SystemObserver

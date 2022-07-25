@@ -219,18 +219,22 @@ public class StickerSetCell extends FrameLayout {
         updateButtonState(0, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         onAddButtonClick();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         onRemoveButtonClick();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         onPremiumButtonClick();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         if (this.premiumButtonView.getVisibility() == 0 && this.premiumButtonView.isEnabled()) {
             this.premiumButtonView.performClick();
@@ -277,7 +281,7 @@ public class StickerSetCell extends FrameLayout {
 
     @SuppressLint({"SetTextI18n"})
     public void setStickersSet(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z, boolean z2) {
-        ImageLocation imageLocation;
+        ImageLocation forSticker;
         this.needDivider = z;
         this.stickersSet = tLRPC$TL_messages_stickerSet;
         this.imageView.setVisibility(0);
@@ -321,20 +325,20 @@ public class StickerSetCell extends FrameLayout {
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_messages_stickerSet.set.thumbs, "windowBackgroundGray", 1.0f);
             boolean z4 = closestPhotoSizeWithSize instanceof TLRPC$Document;
             if (z4) {
-                imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+                forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
             } else {
-                imageLocation = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$TL_messages_stickerSet.set.thumb_version);
+                forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$TL_messages_stickerSet.set.thumb_version);
             }
             if ((!z4 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) && !MessageObject.isVideoSticker(tLRPC$Document)) {
-                if (imageLocation != null && imageLocation.imageType == 1) {
-                    this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
+                if (forSticker != null && forSticker.imageType == 1) {
+                    this.imageView.setImage(forSticker, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
                 } else {
-                    this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
+                    this.imageView.setImage(forSticker, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
                 }
             } else if (svgThumb != null) {
                 this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$TL_messages_stickerSet);
             } else {
-                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$TL_messages_stickerSet);
+                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", forSticker, (String) null, 0, tLRPC$TL_messages_stickerSet);
             }
         } else {
             TextView textView2 = this.valueTextView;
@@ -535,18 +539,21 @@ public class StickerSetCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setReorderable$4(boolean z) {
         if (!z) {
             this.reorderButton.setVisibility(8);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setReorderable$5(boolean z) {
         if (z) {
             this.sideButtons.setVisibility(8);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setReorderable$6(boolean z) {
         if (z) {
             this.optionsButton.setVisibility(8);
@@ -733,10 +740,12 @@ public class StickerSetCell extends FrameLayout {
         textView9.setVisibility(i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateButtonState$7(View view) {
         onPremiumButtonClick();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateButtonState$8(View view) {
         onPremiumButtonClick();
     }

@@ -105,6 +105,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(RTMPStreamPipOverlay rTMPStreamPipOverlay, float f) {
         WindowManager.LayoutParams layoutParams = rTMPStreamPipOverlay.windowLayoutParams;
         rTMPStreamPipOverlay.pipX = f;
@@ -112,6 +113,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         rTMPStreamPipOverlay.windowManager.updateViewLayout(rTMPStreamPipOverlay.contentView, layoutParams);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$3(RTMPStreamPipOverlay rTMPStreamPipOverlay, float f) {
         WindowManager.LayoutParams layoutParams = rTMPStreamPipOverlay.windowLayoutParams;
         rTMPStreamPipOverlay.pipY = f;
@@ -119,6 +121,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         rTMPStreamPipOverlay.windowManager.updateViewLayout(rTMPStreamPipOverlay.contentView, layoutParams);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4() {
         this.isShowingControls = false;
         toggleControls(false);
@@ -129,6 +132,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         return instance.isVisible;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getSuggestedWidth() {
         float min;
         float f;
@@ -144,6 +148,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         return (int) (min * f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getSuggestedHeight() {
         return (int) (getSuggestedWidth() * getRatio());
     }
@@ -164,6 +169,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         return this.aspectRatio.floatValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void toggleControls(boolean z) {
         float[] fArr = new float[2];
         float f = 0.0f;
@@ -190,6 +196,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         this.scaleAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$toggleControls$5(ValueAnimator valueAnimator) {
         this.controlsView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
@@ -234,6 +241,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         animatorSet.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$dismissInternal$6() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
     }
@@ -441,7 +449,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         VoIPTextureView voIPTextureView2 = this.textureView;
         voIPTextureView2.scaleType = VoIPTextureView.SCALE_TYPE_FILL;
         voIPTextureView2.renderer.setRotateTextureWithScreen(true);
-        this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new AnonymousClass8());
+        this.textureView.renderer.init(VideoCapturerDevice.getEglBase().mo2328getEglBaseContext(), new AnonymousClass8());
         this.contentFrameLayout.addView(this.textureView, LayoutHelper.createFrame(-1, -1.0f));
         View view = new View(context) { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay.9
             @Override // android.view.View
@@ -524,11 +532,11 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
     }
 
-    /* renamed from: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$3 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$3  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass3 implements ScaleGestureDetector.OnScaleGestureListener {
         AnonymousClass3() {
-            RTMPStreamPipOverlay.this = r1;
         }
 
         @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
@@ -560,6 +568,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onScale$0() {
             RTMPStreamPipOverlay.this.contentFrameLayout.invalidate();
             if (Build.VERSION.SDK_INT < 18 || !RTMPStreamPipOverlay.this.contentFrameLayout.isInLayout()) {
@@ -611,6 +620,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
             updateLayout();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateLayout() {
             RTMPStreamPipOverlay rTMPStreamPipOverlay = RTMPStreamPipOverlay.this;
             WindowManager.LayoutParams layoutParams = rTMPStreamPipOverlay.windowLayoutParams;
@@ -626,11 +636,11 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$8 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$8  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass8 implements RendererCommon.RendererEvents {
         AnonymousClass8() {
-            RTMPStreamPipOverlay.this = r1;
         }
 
         @Override // org.webrtc.RendererCommon.RendererEvents
@@ -644,6 +654,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onFirstFrameRendered$0() {
             RTMPStreamPipOverlay.this.bindTextureView();
         }
@@ -663,11 +674,13 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onFrameResolutionChanged$1() {
             RTMPStreamPipOverlay.this.bindTextureView();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showInternal$8(Context context, View view) {
         if (VoIPService.getSharedInstance() != null) {
             Intent action = new Intent(context, LaunchActivity.class).setAction("voip_chat");
@@ -680,6 +693,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void bindTextureView() {
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
         TLRPC$TL_groupCallParticipantVideo tLRPC$TL_groupCallParticipantVideo;

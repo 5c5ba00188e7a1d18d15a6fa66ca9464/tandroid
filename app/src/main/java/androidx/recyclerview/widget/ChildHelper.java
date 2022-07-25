@@ -11,6 +11,7 @@ public class ChildHelper {
     final Bucket mBucket = new Bucket();
     final List<View> mHiddenViews = new ArrayList();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface Callback {
         void addView(View view, int i);
@@ -36,6 +37,7 @@ public class ChildHelper {
         void removeViewAt(int i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ChildHelper(Callback callback) {
         this.mCallback = callback;
     }
@@ -64,31 +66,33 @@ public class ChildHelper {
         return this.mHiddenViews.get(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void addView(View view, boolean z) {
         addView(view, -1, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void addView(View view, int i, boolean z) {
-        int i2;
+        int offset;
         if (i < 0) {
-            i2 = this.mCallback.getChildCount();
+            offset = this.mCallback.getChildCount();
         } else {
-            i2 = getOffset(i);
+            offset = getOffset(i);
         }
-        this.mBucket.insert(i2, z);
+        this.mBucket.insert(offset, z);
         if (z) {
             hideViewInternal(view);
         }
-        this.mCallback.addView(view, i2);
+        this.mCallback.addView(view, offset);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x001f, code lost:
-        if (r4.mBucket.get(r2) == false) goto L17;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x001f, code lost:
+        if (r4.mBucket.get(r2) == false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0021, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0021, code lost:
         r2 = r2 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0024, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0024, code lost:
         return r2;
      */
     /*
@@ -110,6 +114,7 @@ public class ChildHelper {
         return -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void removeView(View view) {
         int indexOfChild = this.mCallback.indexOfChild(view);
         if (indexOfChild < 0) {
@@ -121,6 +126,7 @@ public class ChildHelper {
         this.mCallback.removeViewAt(indexOfChild);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void removeViewAt(int i) {
         int offset = getOffset(i);
         View childAt = this.mCallback.getChildAt(offset);
@@ -133,10 +139,12 @@ public class ChildHelper {
         this.mCallback.removeViewAt(offset);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public View getChildAt(int i) {
         return this.mCallback.getChildAt(getOffset(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void removeAllViewsUnfiltered() {
         this.mBucket.reset();
         for (int size = this.mHiddenViews.size() - 1; size >= 0; size--) {
@@ -146,6 +154,7 @@ public class ChildHelper {
         this.mCallback.removeAllViews();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public View findHiddenNonRemovedView(int i) {
         int size = this.mHiddenViews.size();
         for (int i2 = 0; i2 < size; i2++) {
@@ -158,38 +167,43 @@ public class ChildHelper {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void attachViewToParent(View view, int i, ViewGroup.LayoutParams layoutParams, boolean z) {
-        int i2;
+        int offset;
         if (i < 0) {
-            i2 = this.mCallback.getChildCount();
+            offset = this.mCallback.getChildCount();
         } else {
-            i2 = getOffset(i);
+            offset = getOffset(i);
         }
-        this.mBucket.insert(i2, z);
+        this.mBucket.insert(offset, z);
         if (z) {
             hideViewInternal(view);
         }
-        this.mCallback.attachViewToParent(view, i2, layoutParams);
+        this.mCallback.attachViewToParent(view, offset, layoutParams);
     }
 
     public int getChildCount() {
         return this.mCallback.getChildCount() - this.mHiddenViews.size();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int getUnfilteredChildCount() {
         return this.mCallback.getChildCount();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public View getUnfilteredChildAt(int i) {
         return this.mCallback.getChildAt(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void detachViewFromParent(int i) {
         int offset = getOffset(i);
         this.mBucket.remove(offset);
         this.mCallback.detachViewFromParent(offset);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int indexOfChild(View view) {
         int indexOfChild = this.mCallback.indexOfChild(view);
         if (indexOfChild != -1 && !this.mBucket.get(indexOfChild)) {
@@ -198,10 +212,12 @@ public class ChildHelper {
         return -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isHidden(View view) {
         return this.mHiddenViews.contains(view);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void hide(View view) {
         int indexOfChild = this.mCallback.indexOfChild(view);
         if (indexOfChild < 0) {
@@ -211,6 +227,7 @@ public class ChildHelper {
         hideViewInternal(view);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void unhide(View view) {
         int indexOfChild = this.mCallback.indexOfChild(view);
         if (indexOfChild < 0) {
@@ -227,6 +244,7 @@ public class ChildHelper {
         return this.mBucket.toString() + ", hidden list:" + this.mHiddenViews.size();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean removeViewIfHidden(View view) {
         int indexOfChild = this.mCallback.indexOfChild(view);
         if (indexOfChild == -1) {
@@ -242,6 +260,7 @@ public class ChildHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Bucket {
         long mData = 0;

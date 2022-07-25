@@ -31,6 +31,7 @@ public final class zzds {
         mLTaskExecutor.scheduleCallable(zzdu.zza(sharedPrefManager));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ zzds zza(ComponentContainer componentContainer) {
         return new zzds((Context) componentContainer.get(Context.class), (SharedPrefManager) componentContainer.get(SharedPrefManager.class), (zza) componentContainer.get(zza.class));
     }

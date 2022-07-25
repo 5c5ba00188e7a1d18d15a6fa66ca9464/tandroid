@@ -23,7 +23,8 @@ final class zzcu<K> implements Iterator<Map.Entry<K, Object>>, j$.util.Iterator 
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         Map.Entry<K, Object> next = this.zzlm.next();
         return next.getValue() instanceof zzcr ? new zzct(next) : next;
     }

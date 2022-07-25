@@ -26,6 +26,7 @@ public class ConfigContainer {
         this.containerJson = jSONObject3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ConfigContainer copyOf(JSONObject jSONObject) throws JSONException {
         JSONObject optJSONObject = jSONObject.optJSONObject("personalization_metadata_key");
         if (optJSONObject == null) {

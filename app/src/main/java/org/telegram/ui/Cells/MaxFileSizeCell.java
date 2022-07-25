@@ -160,8 +160,8 @@ public class MaxFileSizeCell extends FrameLayout {
     }
 
     public void setSize(long j) {
+        float max;
         float f;
-        float f2;
         this.currentSize = j;
         this.sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", R.string.AutodownloadSizeLimitUpTo, AndroidUtilities.formatFileSize(j)));
         long j2 = j - 512000;
@@ -172,15 +172,15 @@ public class MaxFileSizeCell extends FrameLayout {
             if (j3 < 9437184) {
                 f = (Math.max(0.0f, ((float) j3) / 9437184.0f) * 0.25f) + 0.25f;
             } else {
-                float f3 = 0.5f;
+                float f2 = 0.5f;
                 long j4 = j3 - 9437184;
                 if (j4 < 94371840) {
-                    f2 = Math.max(0.0f, ((float) j4) / 9.437184E7f);
+                    max = Math.max(0.0f, ((float) j4) / 9.437184E7f);
                 } else {
-                    f3 = 0.75f;
-                    f2 = Math.max(0.0f, ((float) (j4 - 94371840)) / 1.9922944E9f);
+                    f2 = 0.75f;
+                    max = Math.max(0.0f, ((float) (j4 - 94371840)) / 1.9922944E9f);
                 }
-                f = (f2 * 0.25f) + f3;
+                f = (max * 0.25f) + f2;
             }
         }
         this.seekBarView.setProgress(Math.min(1.0f, f));

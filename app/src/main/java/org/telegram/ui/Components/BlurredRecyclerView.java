@@ -17,6 +17,7 @@ public class BlurredRecyclerView extends RecyclerListView {
         super(context);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onMeasure(int i, int i2) {
         this.globalIgnoreLayout = true;
@@ -26,6 +27,7 @@ public class BlurredRecyclerView extends RecyclerListView {
         super.onMeasure(i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -53,6 +55,7 @@ public class BlurredRecyclerView extends RecyclerListView {
         super.requestLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         int i = this.blurTopPadding;

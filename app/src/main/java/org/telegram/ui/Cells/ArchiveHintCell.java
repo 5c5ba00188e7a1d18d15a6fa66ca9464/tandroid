@@ -28,6 +28,7 @@ public class ArchiveHintCell extends FrameLayout {
                 return super.onInterceptTouchEvent(motionEvent);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup, android.view.View
             public void onAttachedToWindow() {
                 super.onAttachedToWindow();
@@ -75,9 +76,8 @@ public class ArchiveHintCell extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(204.0f), 1073741824));
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Adapter extends PagerAdapter {
+    private class Adapter extends PagerAdapter {
         @Override // androidx.viewpager.widget.PagerAdapter
         public int getCount() {
             return 3;
@@ -93,11 +93,11 @@ public class ArchiveHintCell extends FrameLayout {
         }
 
         private Adapter() {
-            ArchiveHintCell.this = r1;
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
-        public Object instantiateItem(ViewGroup viewGroup, int i) {
+        /* renamed from: instantiateItem */
+        public Object mo1580instantiateItem(ViewGroup viewGroup, int i) {
             ArchiveHintInnerCell archiveHintInnerCell = new ArchiveHintInnerCell(viewGroup.getContext(), i);
             if (archiveHintInnerCell.getParent() != null) {
                 ((ViewGroup) archiveHintInnerCell.getParent()).removeView(archiveHintInnerCell);

@@ -383,7 +383,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     public static LongSparseArray<AnimatedEmojiDrawable> update(int i, View view, AnimatedEmojiSpan[] animatedEmojiSpanArr, LongSparseArray<AnimatedEmojiDrawable> longSparseArray) {
-        AnimatedEmojiDrawable animatedEmojiDrawable;
+        AnimatedEmojiDrawable make;
         boolean z;
         if (animatedEmojiSpanArr == null) {
             return longSparseArray;
@@ -394,8 +394,8 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         int i2 = 0;
         while (i2 < longSparseArray.size()) {
             long keyAt = longSparseArray.keyAt(i2);
-            AnimatedEmojiDrawable animatedEmojiDrawable2 = longSparseArray.get(keyAt);
-            if (animatedEmojiDrawable2 == null) {
+            AnimatedEmojiDrawable animatedEmojiDrawable = longSparseArray.get(keyAt);
+            if (animatedEmojiDrawable == null) {
                 longSparseArray.remove(keyAt);
             } else {
                 int i3 = 0;
@@ -411,7 +411,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                     }
                 }
                 if (!z) {
-                    animatedEmojiDrawable2.removeView(view);
+                    animatedEmojiDrawable.removeView(view);
                     longSparseArray.remove(keyAt);
                 } else {
                     i2++;
@@ -429,17 +429,17 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                     if (i5 < 0) {
                         i5 = i;
                     }
-                    animatedEmojiDrawable = AnimatedEmojiDrawable.make(i4, i5, tLRPC$Document);
+                    make = AnimatedEmojiDrawable.make(i4, i5, tLRPC$Document);
                 } else {
                     int i6 = UserConfig.selectedAccount;
                     int i7 = animatedEmojiSpan.cacheType;
                     if (i7 < 0) {
                         i7 = i;
                     }
-                    animatedEmojiDrawable = AnimatedEmojiDrawable.make(i6, i7, animatedEmojiSpan.documentId);
+                    make = AnimatedEmojiDrawable.make(i6, i7, animatedEmojiSpan.documentId);
                 }
-                animatedEmojiDrawable.addView(view);
-                longSparseArray.put(animatedEmojiSpan.getDocumentId(), animatedEmojiDrawable);
+                make.addView(view);
+                longSparseArray.put(animatedEmojiSpan.getDocumentId(), make);
             }
         }
         return longSparseArray;
@@ -541,6 +541,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class SpansChunk {
         private boolean allowBackgroundRendering;

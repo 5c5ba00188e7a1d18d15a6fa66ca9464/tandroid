@@ -17,6 +17,7 @@ public class ReleaseDetails {
     private long size;
     private int version;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ReleaseDetails parse(String str) throws JSONException {
         JSONObject jSONObject = new JSONObject(str);
         ReleaseDetails releaseDetails = new ReleaseDetails();
@@ -67,6 +68,7 @@ public class ReleaseDetails {
         return this.releaseNotesUrl;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int getMinApiLevel() {
         return this.minApiLevel;
     }

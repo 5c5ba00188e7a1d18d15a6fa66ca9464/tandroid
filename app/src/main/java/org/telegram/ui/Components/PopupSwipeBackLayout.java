@@ -168,23 +168,23 @@ public class PopupSwipeBackLayout extends FrameLayout {
         float measuredWidth = childAt.getMeasuredWidth();
         float measuredHeight = childAt.getMeasuredHeight();
         if (view != null) {
-            f2 = view.getMeasuredWidth();
-            f = this.overrideForegroundHeight;
-            if (f == 0.0f) {
-                f = view.getMeasuredHeight();
+            f = view.getMeasuredWidth();
+            f2 = this.overrideForegroundHeight;
+            if (f2 == 0.0f) {
+                f2 = view.getMeasuredHeight();
             }
         } else {
-            f2 = 0.0f;
             f = 0.0f;
+            f2 = 0.0f;
         }
         if (childAt.getMeasuredWidth() == 0 || childAt.getMeasuredHeight() == 0) {
             return;
         }
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = (ActionBarPopupWindow.ActionBarPopupWindowLayout) getParent();
         float f4 = this.transitionProgress;
-        float paddingTop = measuredHeight + ((f - measuredHeight) * f4) + actionBarPopupWindowLayout.getPaddingTop() + actionBarPopupWindowLayout.getPaddingBottom();
+        float paddingTop = measuredHeight + ((f2 - measuredHeight) * f4) + actionBarPopupWindowLayout.getPaddingTop() + actionBarPopupWindowLayout.getPaddingBottom();
         actionBarPopupWindowLayout.updateAnimation = false;
-        actionBarPopupWindowLayout.setBackScaleX(((measuredWidth + ((f2 - measuredWidth) * f4)) + (actionBarPopupWindowLayout.getPaddingLeft() + actionBarPopupWindowLayout.getPaddingRight())) / actionBarPopupWindowLayout.getMeasuredWidth());
+        actionBarPopupWindowLayout.setBackScaleX(((measuredWidth + ((f - measuredWidth) * f4)) + (actionBarPopupWindowLayout.getPaddingLeft() + actionBarPopupWindowLayout.getPaddingRight())) / actionBarPopupWindowLayout.getMeasuredWidth());
         if (z) {
             actionBarPopupWindowLayout.setBackScaleY(paddingTop / actionBarPopupWindowLayout.getMeasuredHeight());
         }
@@ -254,6 +254,7 @@ public class PopupSwipeBackLayout extends FrameLayout {
         return this.isProcessingSwipe;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void animateToState(final float f, float f2) {
         ValueAnimator duration = ValueAnimator.ofFloat(this.transitionProgress, f).setDuration(Math.max(0.5f, Math.abs(this.transitionProgress - f) - Math.min(0.2f, f2)) * 300.0f);
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -288,11 +289,13 @@ public class PopupSwipeBackLayout extends FrameLayout {
         duration.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateToState$0(ValueAnimator valueAnimator) {
         this.transitionProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidateTransforms();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void clearFlags() {
         this.isProcessingSwipe = false;
         this.isSwipeDisallowed = false;
@@ -389,6 +392,7 @@ public class PopupSwipeBackLayout extends FrameLayout {
         this.onHeightUpdateListener = intCallback;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isDisallowedView(MotionEvent motionEvent, View view) {
         view.getHitRect(this.hitRect);
         if (!this.hitRect.contains((int) motionEvent.getX(), (int) motionEvent.getY()) || !view.canScrollHorizontally(-1)) {
@@ -468,6 +472,7 @@ public class PopupSwipeBackLayout extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setNewForegroundHeight$1(ValueAnimator valueAnimator) {
         this.overrideForegroundHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidateTransforms();

@@ -16,6 +16,7 @@ class ClassesInfoCache {
     ClassesInfoCache() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean hasLifecycleMethods(Class cls) {
         if (this.mHasLifecycleMethods.containsKey(cls)) {
             return this.mHasLifecycleMethods.get(cls).booleanValue();
@@ -39,6 +40,7 @@ class ClassesInfoCache {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CallbackInfo getInfo(Class cls) {
         CallbackInfo callbackInfo = this.mCallbackMap.get(cls);
         return callbackInfo != null ? callbackInfo : createInfo(cls, null);
@@ -108,6 +110,7 @@ class ClassesInfoCache {
         return callbackInfo;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class CallbackInfo {
         final Map<Lifecycle.Event, List<MethodReference>> mEventToHandlers = new HashMap();
@@ -126,6 +129,7 @@ class ClassesInfoCache {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public void invokeCallbacks(LifecycleOwner lifecycleOwner, Lifecycle.Event event, Object obj) {
             invokeMethodsForEvent(this.mEventToHandlers.get(event), lifecycleOwner, event, obj);
             invokeMethodsForEvent(this.mEventToHandlers.get(Lifecycle.Event.ON_ANY), lifecycleOwner, event, obj);
@@ -140,6 +144,7 @@ class ClassesInfoCache {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class MethodReference {
         final int mCallType;

@@ -2,7 +2,8 @@ package j$.util.stream;
 /* loaded from: classes2.dex */
 public interface z1 extends A1 {
     @Override // j$.util.stream.A1
-    z1 b(int i);
+    /* renamed from: b */
+    z1 mo316b(int i);
 
     Object c(int i);
 
@@ -14,5 +15,5 @@ public interface z1 extends A1 {
 
     @Override // j$.util.stream.A1
     /* renamed from: spliterator */
-    j$.util.w mo69spliterator();
+    j$.util.w mo313spliterator();
 }

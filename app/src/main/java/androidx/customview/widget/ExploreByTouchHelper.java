@@ -344,7 +344,6 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     /* loaded from: classes.dex */
     private class MyNodeProvider extends AccessibilityNodeProviderCompat {
         MyNodeProvider() {
-            ExploreByTouchHelper.this = r1;
         }
 
         @Override // androidx.core.view.accessibility.AccessibilityNodeProviderCompat

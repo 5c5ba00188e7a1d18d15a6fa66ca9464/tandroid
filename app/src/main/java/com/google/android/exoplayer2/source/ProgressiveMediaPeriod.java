@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutput, Loader.Callback<ExtractingLoadable>, Loader.ReleaseCallback, SampleQueue.UpstreamFormatChangedListener {
     private final Allocator allocator;
@@ -94,6 +95,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
     private long durationUs = -9223372036854775807L;
     private int dataType = 1;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface Listener {
         void onSourceInfoRefreshed(long j, boolean z, boolean z2);
@@ -117,6 +119,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         eventDispatcher.mediaPeriodCreated();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         if (!this.released) {
             ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onContinueLoadingRequested(this);
@@ -382,21 +385,21 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
     }
 
     int skipData(int i, long j) {
-        int i2;
+        int advanceTo;
         if (suppressRead()) {
             return 0;
         }
         maybeNotifyDownstreamFormat(i);
         SampleQueue sampleQueue = this.sampleQueues[i];
         if (this.loadingFinished && j > sampleQueue.getLargestQueuedTimestampUs()) {
-            i2 = sampleQueue.advanceToEnd();
+            advanceTo = sampleQueue.advanceToEnd();
         } else {
-            i2 = sampleQueue.advanceTo(j);
+            advanceTo = sampleQueue.advanceTo(j);
         }
-        if (i2 == 0) {
+        if (advanceTo == 0) {
             maybeStartDeferredRetry(i);
         }
-        return i2;
+        return advanceTo;
     }
 
     private void maybeNotifyDownstreamFormat(int i) {
@@ -432,6 +435,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         return this.notifyDiscontinuity || isPendingReset();
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCompleted(ExtractingLoadable extractingLoadable, long j, long j2) {
         SeekMap seekMap;
         if (this.durationUs == -9223372036854775807L && (seekMap = this.seekMap) != null) {
@@ -447,6 +451,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         ((MediaPeriod.Callback) Assertions.checkNotNull(this.callback)).onContinueLoadingRequested(this);
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCanceled(ExtractingLoadable extractingLoadable, long j, long j2, boolean z) {
         this.eventDispatcher.loadCanceled(extractingLoadable.dataSpec, extractingLoadable.dataSource.getLastOpenedUri(), extractingLoadable.dataSource.getLastResponseHeaders(), 1, -1, null, 0, null, extractingLoadable.seekTimeUs, this.durationUs, j, j2, extractingLoadable.dataSource.getBytesRead());
         if (!z) {
@@ -461,10 +466,11 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public Loader.LoadErrorAction onLoadError(ExtractingLoadable extractingLoadable, long j, long j2, IOException iOException, int i) {
-        Loader.LoadErrorAction loadErrorAction;
-        ExtractingLoadable extractingLoadable2;
         boolean z;
+        ExtractingLoadable extractingLoadable2;
+        Loader.LoadErrorAction loadErrorAction;
         copyLengthFromLoader(extractingLoadable);
         long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(this.dataType, j2, iOException, i);
         if (retryDelayMsFor == -9223372036854775807L) {
@@ -536,9 +542,10 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         return sampleQueue;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void maybeFinishPrepare() {
+        Metadata copyWithAppendedEntries;
         int i;
-        Metadata metadata;
         SeekMap seekMap = this.seekMap;
         if (this.released || this.prepared || !this.sampleQueuesBuilt || seekMap == null) {
             return;
@@ -564,13 +571,13 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
             IcyHeaders icyHeaders = this.icyHeaders;
             if (icyHeaders != null) {
                 if (isAudio || this.sampleQueueTrackIds[i2].isIcyTrack) {
-                    Metadata metadata2 = upstreamFormat.metadata;
-                    if (metadata2 == null) {
-                        metadata = new Metadata(icyHeaders);
+                    Metadata metadata = upstreamFormat.metadata;
+                    if (metadata == null) {
+                        copyWithAppendedEntries = new Metadata(icyHeaders);
                     } else {
-                        metadata = metadata2.copyWithAppendedEntries(icyHeaders);
+                        copyWithAppendedEntries = metadata.copyWithAppendedEntries(icyHeaders);
                     }
-                    upstreamFormat = upstreamFormat.copyWithMetadata(metadata);
+                    upstreamFormat = upstreamFormat.copyWithMetadata(copyWithAppendedEntries);
                 }
                 if (isAudio && upstreamFormat.bitrate == -1 && (i = icyHeaders.bitrate) != -1) {
                     upstreamFormat = upstreamFormat.copyWithBitrate(i);
@@ -659,6 +666,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public long getLargestQueuedTimestampUs() {
         long j = Long.MIN_VALUE;
         for (SampleQueue sampleQueue : this.sampleQueues) {
@@ -676,7 +684,6 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         private final int track;
 
         public SampleStreamImpl(int i) {
-            ProgressiveMediaPeriod.this = r1;
             this.track = i;
         }
 
@@ -701,6 +708,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class ExtractingLoadable implements Loader.Loadable, IcyDataSource.Listener {
         private final StatsDataSource dataSource;
@@ -718,7 +726,6 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         private DataSpec dataSpec = buildDataSpec(0);
 
         public ExtractingLoadable(Uri uri, DataSource dataSource, ExtractorHolder extractorHolder, ExtractorOutput extractorOutput, ConditionVariable conditionVariable) {
-            ProgressiveMediaPeriod.this = r1;
             this.uri = uri;
             this.dataSource = new StatsDataSource(dataSource);
             this.extractorHolder = extractorHolder;
@@ -733,7 +740,6 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
 
         @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
         public void load() throws IOException, InterruptedException {
-            Throwable th;
             long j;
             Uri uri;
             DefaultExtractorInput defaultExtractorInput;
@@ -759,8 +765,8 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
                         icyTrack.format(ProgressiveMediaPeriod.ICY_FORMAT);
                     }
                     defaultExtractorInput = new DefaultExtractorInput(dataSource, j, this.length);
-                } catch (Throwable th2) {
-                    th = th2;
+                } catch (Throwable th) {
+                    th = th;
                 }
                 try {
                     Extractor selectExtractor = this.extractorHolder.selectExtractor(defaultExtractorInput, this.extractorOutput, uri);
@@ -786,8 +792,8 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
                         this.positionHolder.position = defaultExtractorInput.getPosition();
                     }
                     Util.closeQuietly(this.dataSource);
-                } catch (Throwable th3) {
-                    th = th3;
+                } catch (Throwable th2) {
+                    th = th2;
                     defaultExtractorInput2 = defaultExtractorInput;
                     if (i != 1 && defaultExtractorInput2 != null) {
                         this.positionHolder.position = defaultExtractorInput2.getPosition();
@@ -812,6 +818,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
             return new DataSpec(this.uri, j, -1L, ProgressiveMediaPeriod.this.customCacheKey, 6, ProgressiveMediaPeriod.ICY_METADATA_HEADERS);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setLoadPosition(long j, long j2) {
             this.positionHolder.position = j;
             this.seekTimeUs = j2;
@@ -820,6 +827,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class ExtractorHolder {
         private Extractor extractor;
@@ -877,6 +885,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class PreparedState {
         public final SeekMap seekMap;
@@ -895,6 +904,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class TrackId {
         public final int id;

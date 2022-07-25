@@ -175,37 +175,31 @@ public class UserCell2 extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0087, code lost:
-        if (r13.equals(r12.lastName) == false) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0087, code lost:
+        if (r13.equals(r12.lastName) == false) goto L37;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r13v14, types: [org.telegram.ui.Components.BackupImageView] */
-    /* JADX WARN: Type inference failed for: r1v1, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r1v34 */
-    /* JADX WARN: Type inference failed for: r1v35 */
-    /* JADX WARN: Type inference failed for: r3v7, types: [org.telegram.ui.Components.AvatarDrawable] */
+    /* JADX WARN: Type inference failed for: r3v2 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void update(int i) {
-        TLRPC$FileLocation tLRPC$FileLocation;
-        TLRPC$Chat tLRPC$Chat;
         TLRPC$User tLRPC$User;
+        TLRPC$Chat tLRPC$Chat;
+        TLRPC$FileLocation tLRPC$FileLocation;
         String str;
         TLRPC$UserStatus tLRPC$UserStatus;
         TLRPC$FileLocation tLRPC$FileLocation2;
-        TLRPC$FileLocation tLRPC$FileLocation3;
         TLObject tLObject = this.currentObject;
         if (tLObject instanceof TLRPC$User) {
             tLRPC$User = (TLRPC$User) tLObject;
             TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
             if (tLRPC$UserProfilePhoto != null) {
                 tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
-                tLRPC$Chat = 0;
+                tLRPC$Chat = null;
             } else {
-                tLRPC$FileLocation3 = null;
-                tLRPC$FileLocation = tLRPC$FileLocation3;
-                tLRPC$Chat = tLRPC$FileLocation3;
+                tLRPC$Chat = null;
+                tLRPC$FileLocation = tLRPC$Chat;
             }
         } else if (tLObject instanceof TLRPC$Chat) {
             TLRPC$Chat tLRPC$Chat2 = (TLRPC$Chat) tLObject;
@@ -221,9 +215,8 @@ public class UserCell2 extends FrameLayout {
             }
         } else {
             tLRPC$User = null;
-            tLRPC$FileLocation3 = null;
-            tLRPC$FileLocation = tLRPC$FileLocation3;
-            tLRPC$Chat = tLRPC$FileLocation3;
+            tLRPC$Chat = null;
+            tLRPC$FileLocation = tLRPC$Chat;
         }
         int i2 = 0;
         if (i != 0) {
@@ -258,7 +251,7 @@ public class UserCell2 extends FrameLayout {
             } else {
                 this.lastStatus = 0;
             }
-        } else if (tLRPC$Chat != 0) {
+        } else if (tLRPC$Chat != null) {
             this.avatarDrawable.setInfo(tLRPC$Chat);
         } else {
             CharSequence charSequence = this.currentName;
@@ -309,7 +302,7 @@ public class UserCell2 extends FrameLayout {
                 this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
             }
             this.avatarImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
-        } else if (tLRPC$Chat != 0) {
+        } else if (tLRPC$Chat != null) {
             this.statusTextView.setTextColor(this.statusColor);
             if (ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
                 int i3 = tLRPC$Chat.participants_count;

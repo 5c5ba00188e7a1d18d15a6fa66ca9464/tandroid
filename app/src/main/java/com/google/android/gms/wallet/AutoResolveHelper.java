@@ -64,6 +64,7 @@ public class AutoResolveHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zze(Activity activity, int i, int i2, Intent intent) {
         PendingIntent createPendingResult = activity.createPendingResult(i, intent, 1073741824);
         if (createPendingResult == null) {
@@ -83,6 +84,7 @@ public class AutoResolveHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zzf(Activity activity, int i, Task<? extends AutoResolvableResult> task) {
         if (activity.isFinishing()) {
             if (!Log.isLoggable("AutoResolveHelper", 3)) {

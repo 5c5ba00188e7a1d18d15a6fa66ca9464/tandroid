@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 final class zzy extends zzx {
     private final TaskCompletionSource<Boolean> zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzy(TaskCompletionSource<Boolean> taskCompletionSource) {
         this.zza = taskCompletionSource;
     }

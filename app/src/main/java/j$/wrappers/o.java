@@ -62,4 +62,16 @@ public final /* synthetic */ class o implements j$.util.w {
     public /* synthetic */ boolean tryAdvance(Object obj) {
         return this.a.tryAdvance((Spliterator.OfPrimitive) obj);
     }
+
+    @Override // j$.util.w, j$.util.u
+    /* renamed from: trySplit */
+    public /* synthetic */ j$.util.u mo350trySplit() {
+        return g.a(this.a.trySplit());
+    }
+
+    @Override // j$.util.w, j$.util.u
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public /* synthetic */ j$.util.w mo350trySplit() {
+        return a(this.a.trySplit());
+    }
 }

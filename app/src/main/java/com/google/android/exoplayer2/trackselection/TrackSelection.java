@@ -9,7 +9,7 @@ import java.util.List;
 /* loaded from: classes.dex */
 public interface TrackSelection {
 
-    /* renamed from: com.google.android.exoplayer2.trackselection.TrackSelection$-CC */
+    /* renamed from: com.google.android.exoplayer2.trackselection.TrackSelection$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
     public final /* synthetic */ class CC {
         public static void $default$onDiscontinuity(TrackSelection trackSelection) {

@@ -45,29 +45,29 @@ public class ForegroundIntentBuilder {
     }
 
     public Intent build() {
-        String str;
-        String str2;
+        String packageName;
+        String appId;
         Intent intentStartBridgeActivity = BridgeActivity.getIntentStartBridgeActivity(this.activity, ForegroundBusDelegate.class.getName());
         Context context = this.mHostContext;
         if (context != null) {
-            str2 = context.getPackageName();
-            str = Util.getAppId(this.mHostContext);
+            packageName = context.getPackageName();
+            appId = Util.getAppId(this.mHostContext);
         } else {
-            str2 = this.activity.getPackageName();
-            str = Util.getAppId(this.activity);
+            packageName = this.activity.getPackageName();
+            appId = Util.getAppId(this.activity);
         }
         if (this.foregroundHeader.getAppID() == null) {
             RequestHeader requestHeader = this.foregroundHeader;
-            requestHeader.setAppID(str + HiAnalyticsConstant.REPORT_VAL_SEPARATOR);
+            requestHeader.setAppID(appId + HiAnalyticsConstant.REPORT_VAL_SEPARATOR);
         } else {
             RequestHeader requestHeader2 = this.foregroundHeader;
-            requestHeader2.setAppID(str + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + this.foregroundHeader.getAppID());
+            requestHeader2.setAppID(appId + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + this.foregroundHeader.getAppID());
         }
         if (TextUtils.isEmpty(this.foregroundHeader.getTransactionId())) {
             RequestHeader requestHeader3 = this.foregroundHeader;
             requestHeader3.setTransactionId(TransactionIdCreater.getId(requestHeader3.getAppID(), CoreNaming.HUBREQUEST));
         }
-        this.foregroundHeader.setPkgName(str2);
+        this.foregroundHeader.setPkgName(packageName);
         intentStartBridgeActivity.putExtra(ForegroundBusDelegate.HMS_FOREGROUND_REQ_HEADER, this.foregroundHeader.toJson());
         intentStartBridgeActivity.putExtra(ForegroundBusDelegate.HMS_FOREGROUND_REQ_BODY, this.foregroundBody);
         intentStartBridgeActivity.putExtra(ForegroundBusDelegate.HMS_FOREGROUND_REQ_INNER, this.innerHeader.toJson());

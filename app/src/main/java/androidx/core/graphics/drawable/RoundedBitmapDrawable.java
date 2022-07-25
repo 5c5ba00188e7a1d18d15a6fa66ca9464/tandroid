@@ -50,6 +50,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         invalidateSelf();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void updateDstRect() {
         if (this.mApplyGravity) {
             if (this.mIsCircular) {
@@ -161,6 +162,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         return (this.mGravity != 119 || this.mIsCircular || (bitmap = this.mBitmap) == null || bitmap.hasAlpha() || this.mPaint.getAlpha() < 255 || isGreaterThanZero(this.mCornerRadius)) ? -3 : -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public RoundedBitmapDrawable(Resources res, Bitmap bitmap) {
         this.mTargetDensity = 160;
         if (res != null) {

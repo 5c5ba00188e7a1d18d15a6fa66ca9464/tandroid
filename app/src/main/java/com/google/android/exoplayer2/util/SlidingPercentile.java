@@ -15,10 +15,12 @@ public class SlidingPercentile {
     private final ArrayList<Sample> samples = new ArrayList<>();
     private int currentSortOrder = -1;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$static$0(Sample sample, Sample sample2) {
         return sample.index - sample2.index;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$static$1(Sample sample, Sample sample2) {
         return Float.compare(sample.value, sample2.value);
     }
@@ -111,6 +113,7 @@ public class SlidingPercentile {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Sample {
         public int index;

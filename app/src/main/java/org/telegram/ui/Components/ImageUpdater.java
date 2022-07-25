@@ -680,7 +680,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public void sendButtonPressed(int i2, VideoEditedInfo videoEditedInfo, boolean z2, int i3, boolean z3) {
-                Bitmap bitmap;
+                Bitmap loadBitmap;
                 MediaController.PhotoEntry photoEntry2 = (MediaController.PhotoEntry) arrayList.get(0);
                 String str3 = photoEntry2.imagePath;
                 MessageObject messageObject = null;
@@ -697,12 +697,12 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     MessageObject messageObject2 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message, false, false);
                     messageObject2.messageOwner.attachPath = new File(FileLoader.getDirectory(4), SharedConfig.getLastLocalId() + "_avatar.mp4").getAbsolutePath();
                     messageObject2.videoEditedInfo = photoEntry2.editedInfo;
-                    bitmap = ImageLoader.loadBitmap(photoEntry2.thumbPath, null, 800.0f, 800.0f, true);
+                    loadBitmap = ImageLoader.loadBitmap(photoEntry2.thumbPath, null, 800.0f, 800.0f, true);
                     messageObject = messageObject2;
                 } else {
-                    bitmap = ImageLoader.loadBitmap(str3, null, 800.0f, 800.0f, true);
+                    loadBitmap = ImageLoader.loadBitmap(str3, null, 800.0f, 800.0f, true);
                 }
-                ImageUpdater.this.processBitmap(bitmap, messageObject);
+                ImageUpdater.this.processBitmap(loadBitmap, messageObject);
             }
         }, null);
     }

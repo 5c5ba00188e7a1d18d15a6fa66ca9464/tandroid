@@ -12,6 +12,7 @@ import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import org.telegram.messenger.FileLoader;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zabr<T> implements OnCompleteListener<T> {
@@ -33,7 +34,7 @@ public final class zabr<T> implements OnCompleteListener<T> {
         int i2;
         int i3;
         int i4;
-        int i5;
+        int errorCode;
         long j;
         long j2;
         if (!this.zaa.zad()) {
@@ -43,14 +44,14 @@ public final class zabr<T> implements OnCompleteListener<T> {
         boolean z2 = this.zad > 0;
         RootTelemetryConfiguration config = RootTelemetryConfigManager.getInstance().getConfig();
         if (config == null) {
-            i3 = 5000;
+            i = 5000;
             i2 = 0;
-            i = 100;
+            i3 = 100;
         } else if (!config.getMethodInvocationTelemetryEnabled()) {
             return;
         } else {
             z2 &= config.getMethodTimingTelemetryEnabled();
-            i3 = config.getBatchPeriodMillis();
+            i = config.getBatchPeriodMillis();
             int maxMethodInvocationsInBatch = config.getMaxMethodInvocationsInBatch();
             int version = config.getVersion();
             GoogleApiManager.zaa zaa = this.zaa.zaa(this.zac);
@@ -66,37 +67,37 @@ public final class zabr<T> implements OnCompleteListener<T> {
                 z2 = z;
             }
             i2 = version;
-            i = maxMethodInvocationsInBatch;
+            i3 = maxMethodInvocationsInBatch;
         }
         GoogleApiManager googleApiManager = this.zaa;
         if (task.isSuccessful()) {
-            i5 = 0;
             i4 = 0;
+            errorCode = 0;
         } else {
             if (task.isCanceled()) {
-                i5 = 100;
+                i4 = 100;
             } else {
                 Exception exception = task.getException();
                 if (exception instanceof ApiException) {
                     Status status = ((ApiException) exception).getStatus();
                     int statusCode = status.getStatusCode();
                     ConnectionResult connectionResult = status.getConnectionResult();
-                    i4 = connectionResult == null ? -1 : connectionResult.getErrorCode();
-                    i5 = statusCode;
+                    errorCode = connectionResult == null ? -1 : connectionResult.getErrorCode();
+                    i4 = statusCode;
                 } else {
-                    i5 = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
+                    i4 = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
                 }
             }
-            i4 = -1;
+            errorCode = -1;
         }
         if (z2) {
-            j2 = this.zad;
-            j = System.currentTimeMillis();
+            j = this.zad;
+            j2 = System.currentTimeMillis();
         } else {
-            j2 = 0;
             j = 0;
+            j2 = 0;
         }
-        googleApiManager.zaa(new com.google.android.gms.common.internal.zao(this.zab, i5, i4, j2, j), i2, i3, i);
+        googleApiManager.zaa(new com.google.android.gms.common.internal.zao(this.zab, i4, errorCode, j, j2), i2, i, i3);
     }
 
     private static ConnectionTelemetryConfiguration zaa(GoogleApiManager.zaa<?> zaaVar, int i) {
@@ -114,6 +115,7 @@ public final class zabr<T> implements OnCompleteListener<T> {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> zabr<T> zaa(GoogleApiManager googleApiManager, int i, ApiKey<?> apiKey) {
         if (!googleApiManager.zad()) {
             return null;

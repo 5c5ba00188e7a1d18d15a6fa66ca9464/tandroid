@@ -25,7 +25,8 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
 
     protected abstract O createOutputBuffer();
 
-    protected abstract E createUnexpectedDecodeException(Throwable th);
+    /* renamed from: createUnexpectedDecodeException */
+    protected abstract E mo165createUnexpectedDecodeException(Throwable th);
 
     protected abstract E decode(I i, O o, boolean z);
 
@@ -35,6 +36,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         queueInputBuffer((SimpleDecoder<I, O, E>) ((DecoderInputBuffer) obj));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public SimpleDecoder(I[] iArr, O[] oArr) {
         this.availableInputBuffers = iArr;
         this.availableInputBufferCount = iArr.length;
@@ -56,6 +58,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         thread.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void setInitialInputBufferSize(int i) {
         Assertions.checkState(this.availableInputBufferCount == this.availableInputBuffers.length);
         for (I i2 : this.availableInputBuffers) {
@@ -64,7 +67,8 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public final I dequeueInputBuffer() throws Exception {
+    /* renamed from: dequeueInputBuffer */
+    public final I mo166dequeueInputBuffer() throws Exception {
         I i;
         synchronized (this.lock) {
             maybeThrowException();
@@ -94,7 +98,8 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public final O dequeueOutputBuffer() throws Exception {
+    /* renamed from: dequeueOutputBuffer */
+    public final O mo167dequeueOutputBuffer() throws Exception {
         synchronized (this.lock) {
             maybeThrowException();
             if (this.queuedOutputBuffers.isEmpty()) {
@@ -104,6 +109,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void releaseOutputBuffer(O o) {
         synchronized (this.lock) {
             releaseOutputBufferInternal(o);
@@ -158,6 +164,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void run() {
         do {
             try {
@@ -168,7 +175,7 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
     }
 
     private boolean decode() throws InterruptedException {
-        E e;
+        E mo165createUnexpectedDecodeException;
         synchronized (this.lock) {
             while (!this.released && !canDecodeBuffer()) {
                 this.lock.wait();
@@ -190,15 +197,15 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
                     o.addFlag(Integer.MIN_VALUE);
                 }
                 try {
-                    e = decode(removeFirst, o, z);
-                } catch (OutOfMemoryError e2) {
-                    e = createUnexpectedDecodeException(e2);
-                } catch (RuntimeException e3) {
-                    e = createUnexpectedDecodeException(e3);
+                    mo165createUnexpectedDecodeException = decode(removeFirst, o, z);
+                } catch (OutOfMemoryError e) {
+                    mo165createUnexpectedDecodeException = mo165createUnexpectedDecodeException(e);
+                } catch (RuntimeException e2) {
+                    mo165createUnexpectedDecodeException = mo165createUnexpectedDecodeException(e2);
                 }
-                if (e != null) {
+                if (mo165createUnexpectedDecodeException != null) {
                     synchronized (this.lock) {
-                        this.exception = e;
+                        this.exception = mo165createUnexpectedDecodeException;
                     }
                     return false;
                 }

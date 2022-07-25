@@ -65,6 +65,7 @@ public class WebRtcAudioTrack {
 
     private native void nativeCacheDirectBufferAddress(ByteBuffer byteBuffer, long j);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public native void nativeGetPlayoutData(int i, long j);
 
     static {
@@ -105,10 +106,8 @@ public class WebRtcAudioTrack {
     private class AudioTrackThread extends Thread {
         private volatile boolean keepAlive = true;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AudioTrackThread(String str) {
             super(str);
-            WebRtcAudioTrack.this = r1;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -346,6 +345,7 @@ public class WebRtcAudioTrack {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void assertTrue(boolean z) {
         if (z) {
             return;
@@ -397,6 +397,7 @@ public class WebRtcAudioTrack {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reportWebRtcAudioTrackError(String str) {
         Logging.e(TAG, "Run-time playback error: " + str);
         WebRtcAudioUtils.logAudioState(TAG);

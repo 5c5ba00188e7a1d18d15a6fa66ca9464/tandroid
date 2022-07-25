@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
@@ -21,6 +22,7 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
     private Map<K, V> zzf;
     private volatile zzgv zzg;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <FieldDescriptorType extends zzel<FieldDescriptorType>> zzgq<FieldDescriptorType, Object> zza(int i) {
         return new zzgt(i);
     }
@@ -33,21 +35,21 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
     }
 
     public void zza() {
-        Map<K, V> map;
-        Map<K, V> map2;
+        Map<K, V> unmodifiableMap;
+        Map<K, V> unmodifiableMap2;
         if (!this.zzd) {
             if (this.zzc.isEmpty()) {
-                map = Collections.emptyMap();
+                unmodifiableMap = Collections.emptyMap();
             } else {
-                map = Collections.unmodifiableMap(this.zzc);
+                unmodifiableMap = Collections.unmodifiableMap(this.zzc);
             }
-            this.zzc = map;
+            this.zzc = unmodifiableMap;
             if (this.zzf.isEmpty()) {
-                map2 = Collections.emptyMap();
+                unmodifiableMap2 = Collections.emptyMap();
             } else {
-                map2 = Collections.unmodifiableMap(this.zzf);
+                unmodifiableMap2 = Collections.unmodifiableMap(this.zzf);
             }
-            this.zzf = map2;
+            this.zzf = unmodifiableMap2;
             this.zzd = true;
         }
     }
@@ -144,6 +146,7 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final V zzc(int i) {
         zzf();
         V v = (V) this.zzb.remove(i).getValue();
@@ -189,6 +192,7 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return this.zze;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final Set<Map.Entry<K, V>> zze() {
         if (this.zzg == null) {
             this.zzg = new zzgv(this, null);
@@ -196,6 +200,7 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return this.zzg;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzf() {
         if (!this.zzd) {
             return;
@@ -257,6 +262,7 @@ public class zzgq<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return zza((zzgq<K, V>) ((Comparable) obj), (Comparable) obj2);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzgq(int i, zzgt zzgtVar) {
         this(i);
     }

@@ -113,10 +113,12 @@ public class VideoSource extends MediaSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVideoProcessor$0(VideoFrame videoFrame) {
         this.nativeAndroidVideoTrackSource.onFrameCaptured(videoFrame);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVideoProcessor$1(final VideoFrame videoFrame) {
         runWithReference(new Runnable() { // from class: org.webrtc.VideoSource$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -130,6 +132,7 @@ public class VideoSource extends MediaSource {
         return this.capturerObserver;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getNativeVideoTrackSource() {
         return getNativeMediaSource();
     }

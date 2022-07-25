@@ -29,11 +29,13 @@ public class MlKitThreadPool extends zzal {
     private final ThreadFactory zzb = Executors.defaultThreadFactory();
     private final WeakHashMap<Thread, Void> zzc = new WeakHashMap<>();
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.mlkit_common.zzal
     public final ExecutorService zzb() {
         return this.zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: zzc */
     public final Thread zzb(Runnable runnable) {
         Thread newThread = this.zzb.newThread(runnable);
@@ -44,7 +46,7 @@ public class MlKitThreadPool extends zzal {
     }
 
     @Override // java.util.concurrent.Executor
-    public void execute(Runnable runnable) {
+    public void execute(final Runnable runnable) {
         boolean containsKey;
         synchronized (this.zzc) {
             containsKey = this.zzc.containsKey(Thread.currentThread());
@@ -68,6 +70,7 @@ public class MlKitThreadPool extends zzal {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void zzd(Runnable runnable) {
         Deque<Runnable> deque = zzd.get();
         deque.add(runnable);

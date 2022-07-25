@@ -14,6 +14,7 @@ public final class zzbo extends AbstractSafeParcelable {
     public final long zzc;
     public final long zzd;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzbo(int i, int i2, long j, long j2) {
         this.zza = i;
         this.zzb = i2;

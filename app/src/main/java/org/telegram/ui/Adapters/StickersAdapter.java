@@ -110,6 +110,7 @@ public class StickersAdapter extends RecyclerListView.SelectionAdapter implement
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchEmojiByKeyword$1(final String str) {
         MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(this.lastSearchKeyboardLanguage, str, true, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Adapters.StickersAdapter$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
@@ -119,6 +120,7 @@ public class StickersAdapter extends RecyclerListView.SelectionAdapter implement
         }, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchEmojiByKeyword$0(String str, ArrayList arrayList, String str2) {
         if (str.equals(this.lastSearch)) {
             if (!arrayList.isEmpty()) {
@@ -214,7 +216,8 @@ public class StickersAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new RecyclerListView.Holder(new EmojiReplacementCell(this.mContext, this.resourcesProvider));
     }
 

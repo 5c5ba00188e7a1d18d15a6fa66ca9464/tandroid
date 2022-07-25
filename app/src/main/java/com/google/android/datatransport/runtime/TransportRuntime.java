@@ -18,6 +18,7 @@ public class TransportRuntime implements TransportInternal {
     private final Uploader uploader;
     private final Clock uptimeClock;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TransportRuntime(Clock clock, Clock clock2, Scheduler scheduler, Uploader uploader, WorkInitializer workInitializer) {
         this.eventClock = clock;
         this.uptimeClock = clock2;
@@ -30,7 +31,7 @@ public class TransportRuntime implements TransportInternal {
         if (instance == null) {
             synchronized (TransportRuntime.class) {
                 if (instance == null) {
-                    instance = DaggerTransportRuntimeComponent.builder().setApplicationContext(context).build();
+                    instance = DaggerTransportRuntimeComponent.builder().mo42setApplicationContext(context).build();
                 }
             }
         }

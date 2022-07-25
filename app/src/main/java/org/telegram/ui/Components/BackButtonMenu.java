@@ -47,10 +47,10 @@ public class BackButtonMenu {
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View] */
     public static ActionBarPopupWindow show(final BaseFragment baseFragment, View view, long j, Theme.ResourcesProvider resourcesProvider) {
         View view2;
-        android.graphics.Rect rect;
-        View view3;
         Drawable drawable;
-        String str;
+        View view3;
+        android.graphics.Rect rect;
+        String userName;
         ?? r14;
         if (baseFragment == null) {
             return null;
@@ -106,23 +106,23 @@ public class BackButtonMenu {
                 view3 = fragmentView;
                 rect = rect2;
                 if (pulledDialog.activity == ChatActivity.class && UserObject.isUserSelf(tLRPC$User)) {
-                    str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                    userName = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                     avatarDrawable.setAvatarType(1);
                     backupImageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isReplyUser(tLRPC$User)) {
-                    str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                    userName = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                     avatarDrawable.setAvatarType(12);
                     backupImageView.setImageDrawable(avatarDrawable);
                 } else if (UserObject.isDeleted(tLRPC$User)) {
-                    str = LocaleController.getString("HiddenName", R.string.HiddenName);
+                    userName = LocaleController.getString("HiddenName", R.string.HiddenName);
                     avatarDrawable.setInfo(tLRPC$User);
                     backupImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", avatarDrawable, tLRPC$User);
                 } else {
-                    str = UserObject.getUserName(tLRPC$User);
+                    userName = UserObject.getUserName(tLRPC$User);
                     avatarDrawable.setInfo(tLRPC$User);
                     backupImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", drawable, tLRPC$User);
                 }
-                textView.setText(str);
+                textView.setText(userName);
                 frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), false));
                 frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BackButtonMenu$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
@@ -181,6 +181,7 @@ public class BackButtonMenu {
         return actionBarPopupWindow;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$show$0(AtomicReference atomicReference, PulledDialog pulledDialog, ActionBarLayout actionBarLayout, BaseFragment baseFragment, View view) {
         ArrayList<BaseFragment> arrayList;
         int i;
@@ -253,22 +254,22 @@ public class BackButtonMenu {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00bb A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0099 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00bb A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0099 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static ArrayList<PulledDialog> getStackedHistoryDialogs(BaseFragment baseFragment, long j) {
         ActionBarLayout parentLayout;
         boolean z;
+        long dialogId;
         int i;
         int i2;
-        long j2;
         TLRPC$User tLRPC$User;
-        TLRPC$Chat tLRPC$Chat;
         Class<T> cls;
+        TLRPC$Chat tLRPC$Chat;
         int i3;
         int i4;
         boolean z2;
@@ -290,25 +291,25 @@ public class BackButtonMenu {
                     if (chatActivity.getChatMode() == 0 && !chatActivity.isReport()) {
                         tLRPC$Chat = chatActivity.getCurrentChat();
                         tLRPC$User = chatActivity.getCurrentUser();
-                        j2 = chatActivity.getDialogId();
+                        dialogId = chatActivity.getDialogId();
                         i2 = chatActivity.getDialogFolderId();
-                        i3 = chatActivity.getDialogFilterId();
+                        i = chatActivity.getDialogFilterId();
                         cls = cls2;
-                        if (j2 != j && (j != 0 || !UserObject.isUserSelf(tLRPC$User))) {
+                        if (dialogId != j && (j != 0 || !UserObject.isUserSelf(tLRPC$User))) {
                             i4 = 0;
                             while (true) {
                                 if (i4 < arrayList.size()) {
-                                    i = size;
+                                    i3 = size;
                                     z2 = false;
                                     break;
                                 }
-                                i = size;
-                                if (arrayList.get(i4).dialogId == j2) {
+                                i3 = size;
+                                if (arrayList.get(i4).dialogId == dialogId) {
                                     z2 = true;
                                     break;
                                 }
                                 i4++;
-                                size = i;
+                                size = i3;
                             }
                             if (z2) {
                                 PulledDialog pulledDialog = new PulledDialog();
@@ -316,16 +317,16 @@ public class BackButtonMenu {
                                 pulledDialog.stackIndex = i5;
                                 pulledDialog.chat = tLRPC$Chat;
                                 pulledDialog.user = tLRPC$User;
-                                pulledDialog.dialogId = j2;
+                                pulledDialog.dialogId = dialogId;
                                 pulledDialog.folderId = i2;
-                                pulledDialog.filterId = i3;
+                                pulledDialog.filterId = i;
                                 if (tLRPC$Chat != null || tLRPC$User != null) {
                                     arrayList.add(pulledDialog);
                                 }
                             }
                         }
                     }
-                    i = size;
+                    i3 = size;
                 } else {
                     if (baseFragment2 instanceof ProfileActivity) {
                         ProfileActivity profileActivity = (ProfileActivity) baseFragment2;
@@ -334,28 +335,28 @@ public class BackButtonMenu {
                             tLRPC$User2 = profileActivity.getUserInfo().user;
                         } catch (Exception unused) {
                         }
-                        j2 = profileActivity.getDialogId();
-                        i3 = 0;
+                        dialogId = profileActivity.getDialogId();
+                        i = 0;
                         i2 = 0;
                         tLRPC$User = tLRPC$User2;
                         cls = ProfileActivity.class;
                         tLRPC$Chat = currentChat;
-                        if (j2 != j) {
+                        if (dialogId != j) {
                             i4 = 0;
                             while (true) {
                                 if (i4 < arrayList.size()) {
                                 }
                                 i4++;
-                                size = i;
+                                size = i3;
                             }
                             if (z2) {
                             }
                         }
                     }
-                    i = size;
+                    i3 = size;
                 }
                 i5++;
-                size = i;
+                size = i3;
             }
         }
         if (arrayList3 != null) {
@@ -384,6 +385,7 @@ public class BackButtonMenu {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$getStackedHistoryDialogs$1(PulledDialog pulledDialog, PulledDialog pulledDialog2) {
         return pulledDialog2.stackIndex - pulledDialog.stackIndex;
     }

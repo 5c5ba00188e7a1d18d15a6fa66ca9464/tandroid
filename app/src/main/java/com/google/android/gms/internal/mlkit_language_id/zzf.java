@@ -9,8 +9,7 @@ public final class zzf {
     private final zze zzb;
     private zze zzc;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzf(String str) {
+    private zzf(String str) {
         zze zzeVar = new zze();
         this.zzb = zzeVar;
         this.zzc = zzeVar;

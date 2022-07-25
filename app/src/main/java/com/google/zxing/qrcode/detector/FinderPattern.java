@@ -6,6 +6,7 @@ public final class FinderPattern extends ResultPoint {
     private final int count;
     private final float estimatedModuleSize;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FinderPattern(float f, float f2, float f3) {
         this(f, f2, f3, 1);
     }
@@ -20,10 +21,12 @@ public final class FinderPattern extends ResultPoint {
         return this.estimatedModuleSize;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int getCount() {
         return this.count;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean aboutEquals(float f, float f2, float f3) {
         if (Math.abs(f2 - getY()) > f || Math.abs(f3 - getX()) > f) {
             return false;
@@ -32,6 +35,7 @@ public final class FinderPattern extends ResultPoint {
         return abs <= 1.0f || abs <= this.estimatedModuleSize;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FinderPattern combineEstimate(float f, float f2, float f3) {
         int i = this.count;
         int i2 = i + 1;

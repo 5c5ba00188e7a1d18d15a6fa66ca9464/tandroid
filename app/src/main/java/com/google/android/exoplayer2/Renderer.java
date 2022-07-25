@@ -7,7 +7,7 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public interface Renderer extends PlayerMessage.Target {
 
-    /* renamed from: com.google.android.exoplayer2.Renderer$-CC */
+    /* renamed from: com.google.android.exoplayer2.Renderer$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
     public final /* synthetic */ class CC {
         public static void $default$setOperatingRate(Renderer renderer, float f) throws ExoPlaybackException {

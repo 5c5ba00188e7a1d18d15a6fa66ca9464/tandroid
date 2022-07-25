@@ -4,17 +4,21 @@ import j$.util.function.Consumer;
 import j$.util.u;
 import java.util.Arrays;
 import java.util.Iterator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class W3 extends Z3 implements j$.util.function.l {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public W3() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public W3(int i) {
         super(i);
     }
 
+    @Override // j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
     /* renamed from: B */
-    public u.a mo71spliterator() {
+    public u.a mo317spliterator() {
         return new V3(this, 0, this.c, 0, this.b);
     }
 
@@ -36,7 +40,7 @@ public class W3 extends Z3 implements j$.util.function.l {
         if (consumer instanceof j$.util.function.l) {
             g((j$.util.function.l) consumer);
         } else if (!Q4.a) {
-            mo71spliterator().forEachRemaining(consumer);
+            mo317spliterator().forEachRemaining(consumer);
         } else {
             Q4.a(getClass(), "{0} calling SpinedBuffer.OfInt.forEach(Consumer)");
             throw null;
@@ -45,7 +49,7 @@ public class W3 extends Z3 implements j$.util.function.l {
 
     @Override // java.lang.Iterable
     public Iterator iterator() {
-        return j$.util.L.g(mo71spliterator());
+        return j$.util.L.g(mo317spliterator());
     }
 
     @Override // j$.util.function.l

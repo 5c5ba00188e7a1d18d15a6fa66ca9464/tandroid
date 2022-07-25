@@ -2,9 +2,8 @@ package com.microsoft.appcenter.crashes;
 
 import com.microsoft.appcenter.utils.ShutdownHelper;
 import java.lang.Thread;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
     private boolean mIgnoreDefaultExceptionHandler = false;
 
@@ -19,6 +18,7 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void register() {
         if (!this.mIgnoreDefaultExceptionHandler) {
             this.mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -28,6 +28,7 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void unregister() {
         Thread.setDefaultUncaughtExceptionHandler(this.mDefaultUncaughtExceptionHandler);
     }

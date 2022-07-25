@@ -103,6 +103,7 @@ public final class RemoteInput {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static android.app.RemoteInput[] fromCompat(RemoteInput[] srcArray) {
         if (srcArray == null) {
             return null;

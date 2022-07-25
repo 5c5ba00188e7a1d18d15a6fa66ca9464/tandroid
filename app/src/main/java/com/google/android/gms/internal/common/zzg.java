@@ -5,8 +5,7 @@ import java.util.concurrent.ScheduledExecutorService;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 final class zzg implements zzf {
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzg() {
+    private zzg() {
     }
 
     @Override // com.google.android.gms.internal.common.zzf

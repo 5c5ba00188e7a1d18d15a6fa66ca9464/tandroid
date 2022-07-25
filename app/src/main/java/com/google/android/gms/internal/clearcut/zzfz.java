@@ -32,6 +32,7 @@ public class zzfz {
         return 0;
     }
 
+    @Override // 
     /* renamed from: zzep */
     public zzfz clone() throws CloneNotSupportedException {
         return (zzfz) super.clone();

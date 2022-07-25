@@ -136,8 +136,8 @@ public class AudioPlayerCell extends View implements DownloadController.FileDown
         return this.currentMessageObject;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0046  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

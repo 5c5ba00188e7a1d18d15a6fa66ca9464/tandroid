@@ -33,6 +33,7 @@ public final class ContactsLoadingObserver {
         new ContactsLoadingObserver(callback).start(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(int i, int i2, Object[] objArr) {
         if (i == NotificationCenter.contactsDidLoad) {
             onContactsLoadingStateUpdated(i2, false);
@@ -47,6 +48,7 @@ public final class ContactsLoadingObserver {
         this.notificationCenter = NotificationCenter.getInstance(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         onContactsLoadingStateUpdated(this.currentAccount, true);
     }

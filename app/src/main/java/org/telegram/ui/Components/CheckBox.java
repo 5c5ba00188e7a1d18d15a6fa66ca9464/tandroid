@@ -217,17 +217,17 @@ public class CheckBox extends View {
         return this.isChecked;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00ca  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x013b  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
-        String str;
         float dp;
+        String str;
         if (getVisibility() != 0 || this.drawBitmap == null || this.checkBitmap == null) {
             return;
         }

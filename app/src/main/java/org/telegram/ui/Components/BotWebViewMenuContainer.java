@@ -98,12 +98,14 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(BotWebViewMenuContainer botWebViewMenuContainer, float f) {
         botWebViewMenuContainer.actionBarTransitionProgress = f;
         botWebViewMenuContainer.invalidate();
         botWebViewMenuContainer.invalidateActionBar();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4() {
         if (!this.dismissed) {
             TLRPC$TL_messages_prolongWebView tLRPC$TL_messages_prolongWebView = new TLRPC$TL_messages_prolongWebView();
@@ -119,6 +121,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
@@ -128,6 +131,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(TLRPC$TL_error tLRPC$TL_error) {
         if (this.dismissed) {
             return;
@@ -158,8 +162,8 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         this.linePaint.setStrokeCap(Paint.Cap.ROUND);
         this.dimPaint.setColor(1073741824);
         ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer(context) { // from class: org.telegram.ui.Components.BotWebViewMenuContainer.2
-            /* JADX WARN: Removed duplicated region for block: B:10:0x001f  */
-            /* JADX WARN: Removed duplicated region for block: B:13:0x0029  */
+            /* JADX WARN: Removed duplicated region for block: B:11:0x0029  */
+            /* JADX WARN: Removed duplicated region for block: B:8:0x001f  */
             @Override // android.widget.FrameLayout, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -244,7 +248,8 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         setWillNotDraw(false);
     }
 
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 implements BotWebViewContainer.Delegate {
         final /* synthetic */ ActionBar val$actionBar;
@@ -261,7 +266,6 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
 
         AnonymousClass1(ChatActivityEnterView chatActivityEnterView, ActionBar actionBar) {
-            BotWebViewMenuContainer.this = r1;
             this.val$parentEnterView = chatActivityEnterView;
             this.val$actionBar = actionBar;
         }
@@ -294,6 +298,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             duration.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWebAppSetActionBarColor$0(int i, int i2, ValueAnimator valueAnimator) {
             if (i != 0) {
                 BotWebViewMenuContainer.this.overrideActionBarBackground = ColorUtils.blendARGB(i, i2, ((Float) valueAnimator.getAnimatedValue()).floatValue());
@@ -319,6 +324,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             duration.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWebAppSetBackgroundColor$1(int i, int i2, ValueAnimator valueAnimator) {
             BotWebViewMenuContainer.this.backgroundPaint.setColor(ColorUtils.blendARGB(i, i2, ((Float) valueAnimator.getAnimatedValue()).floatValue()));
             BotWebViewMenuContainer.this.invalidate();
@@ -354,6 +360,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWebAppOpenInvoice$2(String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
             BotWebViewMenuContainer.this.webViewContainer.onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
         }
@@ -373,6 +380,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSetupMainButton$3(View view) {
             BotWebViewMenuContainer.this.webViewContainer.onMainButtonPressed();
         }
@@ -389,6 +397,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(ActionBar actionBar) {
         float f = 0.0f;
         if (this.swipeContainer.getSwipeOffsetY() > 0.0f) {
@@ -419,20 +428,24 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         System.currentTimeMillis();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6() {
         this.webViewContainer.invalidateViewPortHeight(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7() {
         if (!onCheckDismissByUser()) {
             this.swipeContainer.stickTo(0.0f);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Boolean lambda$new$8(ChatActivityEnterView chatActivityEnterView, Void r1) {
         return Boolean.valueOf(chatActivityEnterView.getSizeNotifierLayout().getKeyboardHeight() >= AndroidUtilities.dp(20.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10(Float f) {
         this.progressView.setLoadProgressAnimated(f.floatValue());
         if (f.floatValue() == 1.0f) {
@@ -454,10 +467,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9(ValueAnimator valueAnimator) {
         this.progressView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void invalidateActionBar() {
         ChatActivity parentFragment = this.parentEnterView.getParentFragment();
         if (parentFragment == null || getVisibility() != 0) {
@@ -505,10 +520,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCheckDismissByUser$11(DialogInterface dialogInterface, int i) {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void animateBotButton(final boolean z) {
         final ChatActivityBotWebViewButton botWebViewButton = this.parentEnterView.getBotWebViewButton();
         SpringAnimation springAnimation = this.botWebViewButtonAnimator;
@@ -542,12 +559,14 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         this.botWebViewButtonWasVisible = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateBotButton$12(DynamicAnimation dynamicAnimation, float f, float f2) {
         float multiplier = f / ChatActivityBotWebViewButton.PROGRESS_PROPERTY.getMultiplier();
         this.parentEnterView.setBotWebViewButtonOffsetX(AndroidUtilities.dp(64.0f) * multiplier);
         this.parentEnterView.setComposeShadowAlpha(1.0f - multiplier);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateBotButton$13(boolean z, ChatActivityBotWebViewButton chatActivityBotWebViewButton, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
         if (!z) {
             chatActivityBotWebViewButton.setVisibility(8);
@@ -572,6 +591,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewTheme);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$14(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         ChatActivity parentFragment = this.parentEnterView.getParentFragment();
         ChatAvatarContainer avatarContainer = parentFragment.getAvatarContainer();
@@ -689,6 +709,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         this.webViewScrollAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPanTransitionStart$15(ValueAnimator valueAnimator) {
         int intValue = ((Integer) valueAnimator.getAnimatedValue()).intValue();
         if (this.webViewContainer.getWebView() != null) {
@@ -784,11 +805,11 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         addOnLayoutChangeListener(new AnonymousClass6());
     }
 
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$6 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$6  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass6 implements View.OnLayoutChangeListener {
         AnonymousClass6() {
-            BotWebViewMenuContainer.this = r1;
         }
 
         @Override // android.view.View.OnLayoutChangeListener
@@ -804,6 +825,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             }).start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onLayoutChange$0(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
             BotWebViewMenuContainer.this.webViewContainer.restoreButtonData();
             BotWebViewMenuContainer.this.webViewContainer.invalidateViewPortHeight(true);
@@ -846,6 +868,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadWebView$17(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
@@ -855,6 +878,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadWebView$16(TLObject tLObject) {
         if (tLObject instanceof TLRPC$TL_webViewResultUrl) {
             this.isLoaded = true;
@@ -866,15 +890,16 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getColor(String str) {
-        Integer num;
+        Integer valueOf;
         Theme.ResourcesProvider resourceProvider = this.parentEnterView.getParentFragment().getResourceProvider();
         if (resourceProvider != null) {
-            num = resourceProvider.getColor(str);
+            valueOf = resourceProvider.getColor(str);
         } else {
-            num = Integer.valueOf(Theme.getColor(str));
+            valueOf = Integer.valueOf(Theme.getColor(str));
         }
-        return num != null ? num.intValue() : Theme.getColor(str);
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(str);
     }
 
     public void setOnDismissGlobalListener(Runnable runnable) {
@@ -899,6 +924,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dismiss$18(Runnable runnable) {
         onDismiss();
         if (runnable != null) {
@@ -943,6 +969,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }, z ? 200L : 0L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDismiss$20(Float f) {
         this.progressView.setLoadProgressAnimated(f.floatValue());
         if (f.floatValue() == 1.0f) {
@@ -964,10 +991,12 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDismiss$19(ValueAnimator valueAnimator) {
         this.progressView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDismiss$21() {
         if (this.savedEditText != null) {
             this.parentEnterView.getEditField().setText(this.savedEditText);

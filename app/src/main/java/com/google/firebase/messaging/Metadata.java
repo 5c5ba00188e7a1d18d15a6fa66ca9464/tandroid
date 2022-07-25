@@ -10,6 +10,7 @@ import com.google.android.gms.common.util.PlatformVersion;
 import com.google.firebase.FirebaseApp;
 import java.util.List;
 import javax.annotation.concurrent.GuardedBy;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class Metadata {
@@ -23,10 +24,12 @@ public class Metadata {
     @GuardedBy("this")
     private int iidImplementation = 0;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Metadata(Context context) {
         this.context = context;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String getDefaultSenderId(FirebaseApp firebaseApp) {
         String gcmSenderId = firebaseApp.getOptions().getGcmSenderId();
         if (gcmSenderId != null) {
@@ -68,6 +71,7 @@ public class Metadata {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getAppVersionCode() {
         if (this.appVersionCode == null) {
             populateAppVersionInfo();
@@ -75,6 +79,7 @@ public class Metadata {
         return this.appVersionCode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getAppVersionName() {
         if (this.appVersionName == null) {
             populateAppVersionInfo();
@@ -82,6 +87,7 @@ public class Metadata {
         return this.appVersionName;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getGmsVersionCode() {
         PackageInfo packageInfo;
         if (this.gmsVersionCode == 0 && (packageInfo = getPackageInfo("com.google.android.gms")) != null) {
@@ -127,6 +133,7 @@ public class Metadata {
         return i2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isGmscorePresent() {
         return getIidImplementation() != 0;
     }

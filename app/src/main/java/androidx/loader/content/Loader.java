@@ -32,6 +32,7 @@ public class Loader<D> {
         throw null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onForceLoad() {
     }
 

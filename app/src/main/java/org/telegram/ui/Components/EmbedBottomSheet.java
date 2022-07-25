@@ -103,18 +103,20 @@ public class EmbedBottomSheet extends BottomSheet {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$1(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class YoutubeProxy {
         private YoutubeProxy() {
-            EmbedBottomSheet.this = r1;
         }
 
         @JavascriptInterface
@@ -129,6 +131,7 @@ public class EmbedBottomSheet extends BottomSheet {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$postEvent$0() {
             EmbedBottomSheet.this.progressBar.setVisibility(4);
             EmbedBottomSheet.this.progressBarBlackBackground.setVisibility(4);
@@ -795,10 +798,12 @@ public class EmbedBottomSheet extends BottomSheet {
         instance = this;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         if (PipVideoOverlay.isVisible()) {
             PipVideoOverlay.dismiss();
@@ -820,6 +825,7 @@ public class EmbedBottomSheet extends BottomSheet {
         dismissInternal();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(View view) {
         try {
             ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", this.openUrl));
@@ -833,6 +839,7 @@ public class EmbedBottomSheet extends BottomSheet {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
         Browser.openUrl(this.parentActivity, this.openUrl);
         dismiss();

@@ -10,6 +10,7 @@ public class RuleSet {
     public int matchLen;
     public ArrayList<PhoneRule> rules = new ArrayList<>();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String format(String str, String str2, String str3, boolean z) {
         int length = str.length();
         int i = this.matchLen;

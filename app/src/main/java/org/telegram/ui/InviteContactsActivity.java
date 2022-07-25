@@ -78,6 +78,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     private HashMap<String, GroupCreateSpan> selectedContacts = new HashMap<>();
     private ArrayList<GroupCreateSpan> allSpans = new ArrayList<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
@@ -86,67 +87,65 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         private AnimatorSet currentAnimation;
         private View removingSpan;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SpansContainer(Context context) {
             super(context);
-            InviteContactsActivity.this = r1;
         }
 
         @Override // android.view.View
         protected void onMeasure(int i, int i2) {
-            int i3;
+            int min;
             boolean z;
             float f;
             float f2;
+            int i3;
             char c;
-            int i4;
             int childCount = getChildCount();
             int size = View.MeasureSpec.getSize(i);
             float f3 = 32.0f;
             int dp = size - AndroidUtilities.dp(32.0f);
             int dp2 = AndroidUtilities.dp(12.0f);
             int dp3 = AndroidUtilities.dp(12.0f);
+            int i4 = 0;
             int i5 = 0;
             int i6 = 0;
-            int i7 = 0;
-            while (i5 < childCount) {
-                View childAt = getChildAt(i5);
+            while (i4 < childCount) {
+                View childAt = getChildAt(i4);
                 if (childAt instanceof GroupCreateSpan) {
                     childAt.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f3), 1073741824));
-                    if (childAt == this.removingSpan || childAt.getMeasuredWidth() + i6 <= dp) {
+                    if (childAt == this.removingSpan || childAt.getMeasuredWidth() + i5 <= dp) {
                         f = 12.0f;
                     } else {
                         f = 12.0f;
                         dp2 += childAt.getMeasuredHeight() + AndroidUtilities.dp(12.0f);
-                        i6 = 0;
+                        i5 = 0;
                     }
-                    if (childAt.getMeasuredWidth() + i7 > dp) {
+                    if (childAt.getMeasuredWidth() + i6 > dp) {
                         dp3 += childAt.getMeasuredHeight() + AndroidUtilities.dp(f);
                         f2 = 16.0f;
-                        i7 = 0;
+                        i6 = 0;
                     } else {
                         f2 = 16.0f;
                     }
-                    int dp4 = AndroidUtilities.dp(f2) + i6;
+                    int dp4 = AndroidUtilities.dp(f2) + i5;
                     if (!this.animationStarted) {
                         View view = this.removingSpan;
                         if (childAt == view) {
-                            childAt.setTranslationX(AndroidUtilities.dp(f2) + i7);
+                            childAt.setTranslationX(AndroidUtilities.dp(f2) + i6);
                             childAt.setTranslationY(dp3);
                         } else if (view != null) {
                             float f4 = dp4;
                             if (childAt.getTranslationX() != f4) {
-                                i4 = 1;
+                                i3 = 1;
                                 c = 0;
                                 this.animators.add(ObjectAnimator.ofFloat(childAt, "translationX", f4));
                             } else {
-                                i4 = 1;
+                                i3 = 1;
                                 c = 0;
                             }
                             float f5 = dp2;
                             if (childAt.getTranslationY() != f5) {
                                 ArrayList<Animator> arrayList = this.animators;
-                                float[] fArr = new float[i4];
+                                float[] fArr = new float[i3];
                                 fArr[c] = f5;
                                 arrayList.add(ObjectAnimator.ofFloat(childAt, "translationY", fArr));
                             }
@@ -156,30 +155,30 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                         }
                     }
                     if (childAt != this.removingSpan) {
-                        i6 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
+                        i5 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
                     }
-                    i7 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
+                    i6 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
                 }
-                i5++;
+                i4++;
                 f3 = 32.0f;
             }
             if (AndroidUtilities.isTablet()) {
-                i3 = AndroidUtilities.dp(366.0f) / 3;
+                min = AndroidUtilities.dp(366.0f) / 3;
             } else {
                 Point point = AndroidUtilities.displaySize;
-                i3 = (Math.min(point.x, point.y) - AndroidUtilities.dp(164.0f)) / 3;
+                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(164.0f)) / 3;
             }
-            if (dp - i6 < i3) {
+            if (dp - i5 < min) {
                 dp2 += AndroidUtilities.dp(44.0f);
-                i6 = 0;
+                i5 = 0;
             }
-            if (dp - i7 < i3) {
+            if (dp - i6 < min) {
                 dp3 += AndroidUtilities.dp(44.0f);
             }
-            InviteContactsActivity.this.editText.measure(View.MeasureSpec.makeMeasureSpec(dp - i6, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
+            InviteContactsActivity.this.editText.measure(View.MeasureSpec.makeMeasureSpec(dp - i5, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
             if (!this.animationStarted) {
                 int dp5 = dp3 + AndroidUtilities.dp(44.0f);
-                int dp6 = i6 + AndroidUtilities.dp(16.0f);
+                int dp6 = i5 + AndroidUtilities.dp(16.0f);
                 InviteContactsActivity.this.fieldY = dp2;
                 if (this.currentAnimation == null) {
                     InviteContactsActivity.this.containerHeight = dp5;
@@ -343,19 +342,19 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.InviteContactsActivity.2
             @Override // android.view.View
             protected void onMeasure(int i, int i2) {
-                int i3;
+                int dp;
                 int size = View.MeasureSpec.getSize(i);
                 int size2 = View.MeasureSpec.getSize(i2);
                 setMeasuredDimension(size, size2);
                 if (AndroidUtilities.isTablet() || size2 > size) {
-                    i3 = AndroidUtilities.dp(144.0f);
+                    dp = AndroidUtilities.dp(144.0f);
                 } else {
-                    i3 = AndroidUtilities.dp(56.0f);
+                    dp = AndroidUtilities.dp(56.0f);
                 }
-                InviteContactsActivity.this.infoTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE));
+                InviteContactsActivity.this.infoTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
                 InviteContactsActivity.this.counterView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
                 int measuredHeight = InviteContactsActivity.this.infoTextView.getVisibility() == 0 ? InviteContactsActivity.this.infoTextView.getMeasuredHeight() : InviteContactsActivity.this.counterView.getMeasuredHeight();
-                InviteContactsActivity.this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i3, Integer.MIN_VALUE));
+                InviteContactsActivity.this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
                 InviteContactsActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - InviteContactsActivity.this.scrollView.getMeasuredHeight()) - measuredHeight, 1073741824));
                 InviteContactsActivity.this.emptyView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((size2 - InviteContactsActivity.this.scrollView.getMeasuredHeight()) - AndroidUtilities.dp(72.0f), 1073741824));
             }
@@ -584,6 +583,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         InviteUserCell inviteUserCell;
         ContactsController.Contact contact;
@@ -620,6 +620,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view) {
         try {
             StringBuilder sb = new StringBuilder();
@@ -673,6 +674,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         return this.containerHeight;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkVisibleRows() {
         InviteUserCell inviteUserCell;
         ContactsController.Contact contact;
@@ -685,6 +687,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateHint() {
         if (this.selectedContacts.isEmpty()) {
             this.infoTextView.setVisibility(0);
@@ -696,6 +699,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.counterTextView.setText(String.format("%d", Integer.valueOf(this.selectedContacts.size())));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void closeSearch() {
         this.searching = false;
         this.searchWas = false;
@@ -720,6 +724,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$fetchContacts$2(ContactsController.Contact contact, ContactsController.Contact contact2) {
         int i = contact.imported;
         int i2 = contact2.imported;
@@ -743,7 +748,6 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
 
         public InviteAdapter(Context context) {
-            InviteContactsActivity.this = r1;
             this.context = context;
         }
 
@@ -764,22 +768,23 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            InviteUserCell inviteUserCell;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout frameLayout;
             if (i == 1) {
                 InviteTextCell inviteTextCell = new InviteTextCell(this.context);
                 inviteTextCell.setTextAndIcon(LocaleController.getString("ShareTelegram", R.string.ShareTelegram), R.drawable.share);
-                inviteUserCell = inviteTextCell;
+                frameLayout = inviteTextCell;
             } else {
-                inviteUserCell = new InviteUserCell(this.context, true);
+                frameLayout = new InviteUserCell(this.context, true);
             }
-            return new RecyclerListView.Holder(inviteUserCell);
+            return new RecyclerListView.Holder(frameLayout);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            CharSequence charSequence;
             ContactsController.Contact contact;
+            CharSequence charSequence;
             if (viewHolder.getItemViewType() != 0) {
                 return;
             }
@@ -828,13 +833,13 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             timer2.schedule(new AnonymousClass1(str), 200L, 300L);
         }
 
-        /* renamed from: org.telegram.ui.InviteContactsActivity$InviteAdapter$1 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.InviteContactsActivity$InviteAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass1 extends TimerTask {
             final /* synthetic */ String val$query;
 
             AnonymousClass1(String str) {
-                InviteAdapter.this = r1;
                 this.val$query = str;
             }
 
@@ -855,6 +860,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                 });
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$run$1(final String str) {
                 Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
@@ -864,11 +870,12 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                 });
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:34:0x00c6, code lost:
-                if (r11.contains(" " + r14) != false) goto L35;
+            /* JADX INFO: Access modifiers changed from: private */
+            /* JADX WARN: Code restructure failed: missing block: B:32:0x00c6, code lost:
+                if (r11.contains(" " + r14) != false) goto L39;
              */
-            /* JADX WARN: Removed duplicated region for block: B:38:0x00da A[LOOP:1: B:25:0x008a->B:38:0x00da, LOOP_END] */
-            /* JADX WARN: Removed duplicated region for block: B:45:0x00cb A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:34:0x00da A[LOOP:1: B:23:0x008a->B:34:0x00da, LOOP_END] */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x00cb A[SYNTHETIC] */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -926,6 +933,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateSearchResults(final ArrayList<ContactsController.Contact> arrayList, final ArrayList<CharSequence> arrayList2) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -935,6 +943,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$0(ArrayList arrayList, ArrayList arrayList2) {
             if (!this.searching) {
                 return;
@@ -1021,6 +1030,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$3() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

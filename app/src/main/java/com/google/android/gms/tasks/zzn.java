@@ -5,6 +5,7 @@ final class zzn implements Runnable {
     private final /* synthetic */ Task zza;
     private final /* synthetic */ zzm zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzn(zzm zzmVar, Task task) {
         this.zzb = zzmVar;
         this.zza = task;

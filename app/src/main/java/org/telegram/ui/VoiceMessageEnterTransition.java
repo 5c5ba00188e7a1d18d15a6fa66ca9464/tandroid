@@ -79,6 +79,7 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(MessageEnterTransitionContainer messageEnterTransitionContainer, ValueAnimator valueAnimator) {
         this.progress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         messageEnterTransitionContainer.invalidate();
@@ -90,38 +91,38 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
 
     @Override // org.telegram.ui.MessageEnterTransitionContainer.Transition
     public void onDraw(Canvas canvas) {
-        float f;
-        float f2;
-        float f3 = this.progress;
-        float f4 = f3 > 0.6f ? 1.0f : f3 / 0.6f;
+        float centerY;
+        float centerX;
+        float f = this.progress;
+        float f2 = f > 0.6f ? 1.0f : f / 0.6f;
         ChatActivityEnterView.RecordCircle recordCircle = this.recordCircle;
         float x = (recordCircle.drawingCx + recordCircle.getX()) - this.container.getX();
         ChatActivityEnterView.RecordCircle recordCircle2 = this.recordCircle;
         float y = (recordCircle2.drawingCy + recordCircle2.getY()) - this.container.getY();
         if (this.messageView.getMessageObject().stableId != this.messageId) {
-            f2 = this.lastToCx;
-            f = this.lastToCy;
+            centerX = this.lastToCx;
+            centerY = this.lastToCy;
         } else {
-            f = ((this.messageView.getRadialProgress().getProgressRect().centerY() + this.messageView.getY()) + this.listView.getY()) - this.container.getY();
-            f2 = ((this.messageView.getRadialProgress().getProgressRect().centerX() + this.messageView.getX()) + this.listView.getX()) - this.container.getX();
+            centerY = ((this.messageView.getRadialProgress().getProgressRect().centerY() + this.messageView.getY()) + this.listView.getY()) - this.container.getY();
+            centerX = ((this.messageView.getRadialProgress().getProgressRect().centerX() + this.messageView.getX()) + this.listView.getX()) - this.container.getX();
         }
-        this.lastToCx = f2;
-        this.lastToCy = f;
-        float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(f3);
-        float interpolation2 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(f3);
-        float f5 = ((1.0f - interpolation2) * x) + (f2 * interpolation2);
-        float f6 = 1.0f - interpolation;
-        float f7 = (y * f6) + (f * interpolation);
+        this.lastToCx = centerX;
+        this.lastToCy = centerY;
+        float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(f);
+        float interpolation2 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(f);
+        float f3 = ((1.0f - interpolation2) * x) + (centerX * interpolation2);
+        float f4 = 1.0f - interpolation;
+        float f5 = (y * f4) + (centerY * interpolation);
         float height = this.messageView.getRadialProgress().getProgressRect().height() / 2.0f;
-        float f8 = (this.fromRadius * f6) + (height * interpolation);
-        int measuredHeight = this.container.getMeasuredHeight() > 0 ? (int) ((this.container.getMeasuredHeight() * f6) + (((this.listView.getY() - this.container.getY()) + this.listView.getMeasuredHeight()) * interpolation)) : 0;
+        float f6 = (this.fromRadius * f4) + (height * interpolation);
+        int measuredHeight = this.container.getMeasuredHeight() > 0 ? (int) ((this.container.getMeasuredHeight() * f4) + (((this.listView.getY() - this.container.getY()) + this.listView.getMeasuredHeight()) * interpolation)) : 0;
         this.circlePaint.setColor(ColorUtils.blendARGB(getThemedColor("chat_messagePanelVoiceBackground"), getThemedColor(this.messageView.getRadialProgress().getCircleColorKey()), interpolation));
-        this.recordCircle.drawWaves(canvas, f5, f7, 1.0f - f4);
-        canvas.drawCircle(f5, f7, f8, this.circlePaint);
+        this.recordCircle.drawWaves(canvas, f3, f5, 1.0f - f2);
+        canvas.drawCircle(f3, f5, f6, this.circlePaint);
         canvas.save();
-        float f9 = f8 / height;
-        canvas.scale(f9, f9, f5, f7);
-        canvas.translate(f5 - this.messageView.getRadialProgress().getProgressRect().centerX(), f7 - this.messageView.getRadialProgress().getProgressRect().centerY());
+        float f7 = f6 / height;
+        canvas.scale(f7, f7, f3, f5);
+        canvas.translate(f3 - this.messageView.getRadialProgress().getProgressRect().centerX(), f5 - this.messageView.getRadialProgress().getProgressRect().centerY());
         this.messageView.getRadialProgress().setOverrideAlpha(interpolation);
         this.messageView.getRadialProgress().setDrawBackground(false);
         this.messageView.getRadialProgress().draw(canvas);
@@ -132,7 +133,7 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
             this.gradientMatrix.setTranslate(0.0f, measuredHeight);
             this.gradientShader.setLocalMatrix(this.gradientMatrix);
         }
-        this.recordCircle.drawIcon(canvas, (int) x, (int) y, 1.0f - f3);
+        this.recordCircle.drawIcon(canvas, (int) x, (int) y, 1.0f - f);
     }
 
     private int getThemedColor(String str) {

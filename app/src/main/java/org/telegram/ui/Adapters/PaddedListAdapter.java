@@ -72,6 +72,7 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getPadding(int i) {
         Integer num = this.padding;
         if (num != null) {
@@ -94,7 +95,8 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (i == -983904) {
             View view = new View(viewGroup.getContext()) { // from class: org.telegram.ui.Adapters.PaddedListAdapter.1
                 @Override // android.view.View
@@ -117,7 +119,7 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
             this.paddingView = view;
             return new RecyclerListView.Holder(view);
         }
-        return this.wrappedAdapter.onCreateViewHolder(viewGroup, i);
+        return this.wrappedAdapter.mo1758onCreateViewHolder(viewGroup, i);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

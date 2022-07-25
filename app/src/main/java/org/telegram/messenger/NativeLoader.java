@@ -20,9 +20,9 @@ public class NativeLoader {
 
     private static native void init(String str, boolean z);
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0035 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0036 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x0022  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0036 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:5:0x0022  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0035 A[RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -50,26 +50,24 @@ public class NativeLoader {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x00c9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:60:0x00d3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v1, types: [java.util.zip.ZipFile] */
-    /* JADX WARN: Type inference failed for: r2v4 */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x00c9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v2 */
+    /* JADX WARN: Type inference failed for: r2v4, types: [java.util.zip.ZipFile] */
     /* JADX WARN: Type inference failed for: r2v7, types: [int] */
     @SuppressLint({"UnsafeDynamicallyLoadedCode", "SetWorldReadable"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static boolean loadFromZip(Context context, File file, File file2, String str) {
-        Throwable th;
         ?? r2;
-        Exception e;
         ZipFile zipFile;
         try {
             for (File file3 : file.listFiles()) {
                 file3.delete();
             }
-        } catch (Exception e2) {
-            FileLog.e(e2);
+        } catch (Exception e) {
+            FileLog.e(e);
         }
         InputStream inputStream = null;
         try {
@@ -98,62 +96,62 @@ public class NativeLoader {
                     try {
                         System.load(file2.getAbsolutePath());
                         nativeLoaded = true;
-                    } catch (Error e3) {
-                        FileLog.e(e3);
+                    } catch (Error e2) {
+                        FileLog.e(e2);
                     }
                     try {
                         inputStream2.close();
-                    } catch (Exception e4) {
-                        FileLog.e(e4);
+                    } catch (Exception e3) {
+                        FileLog.e(e3);
                     }
                     try {
                         zipFile.close();
-                    } catch (Exception e5) {
-                        FileLog.e(e5);
+                    } catch (Exception e4) {
+                        FileLog.e(e4);
                     }
                     return true;
-                } catch (Exception e6) {
-                    e = e6;
+                } catch (Exception e5) {
+                    e = e5;
                     FileLog.e(e);
                     if (0 != 0) {
                         try {
                             inputStream.close();
-                        } catch (Exception e7) {
-                            FileLog.e(e7);
+                        } catch (Exception e6) {
+                            FileLog.e(e6);
                         }
                     }
                     if (zipFile != null) {
                         try {
                             zipFile.close();
-                        } catch (Exception e8) {
-                            FileLog.e(e8);
+                        } catch (Exception e7) {
+                            FileLog.e(e7);
                         }
                     }
                     return false;
                 }
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
                 if (0 != 0) {
                     try {
                         inputStream.close();
-                    } catch (Exception e9) {
-                        FileLog.e(e9);
+                    } catch (Exception e8) {
+                        FileLog.e(e8);
                     }
                 }
                 if (r2 != 0) {
                     try {
                         r2.close();
-                    } catch (Exception e10) {
-                        FileLog.e(e10);
+                    } catch (Exception e9) {
+                        FileLog.e(e9);
                     }
                 }
                 throw th;
             }
-        } catch (Exception e11) {
-            e = e11;
+        } catch (Exception e10) {
+            e = e10;
             zipFile = null;
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             r2 = 0;
             if (0 != 0) {
             }
@@ -163,9 +161,9 @@ public class NativeLoader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00da A[Catch: all -> 0x001c, TryCatch #3 {, blocks: (B:4:0x0003, B:60:0x00f9, B:62:0x0102, B:9:0x000a, B:11:0x0015, B:15:0x0020, B:16:0x0023, B:19:0x0032, B:22:0x003d, B:25:0x0048, B:28:0x0053, B:31:0x0060, B:34:0x006b, B:36:0x0071, B:39:0x0088, B:40:0x008d, B:42:0x0095, B:45:0x00a0, B:47:0x00bb, B:49:0x00bf, B:50:0x00c4, B:53:0x00d0, B:54:0x00d6, B:56:0x00da, B:57:0x00ee), top: B:71:0x0003, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00f5 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x00f9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00da A[Catch: all -> 0x001c, TryCatch #3 {, blocks: (B:4:0x0003, B:36:0x00f9, B:41:0x0102, B:11:0x000a, B:13:0x0015, B:18:0x0020, B:20:0x0023, B:23:0x008d, B:25:0x0095, B:28:0x00a0, B:44:0x00bb, B:46:0x00bf, B:47:0x00c4, B:30:0x00d6, B:32:0x00da, B:33:0x00ee, B:51:0x00d0, B:52:0x0032, B:55:0x003d, B:58:0x0048, B:61:0x0053, B:64:0x0060, B:67:0x006b, B:69:0x0071, B:73:0x0088), top: B:3:0x0003, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00f9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00f5 A[RETURN] */
     @SuppressLint({"UnsafeDynamicallyLoadedCode"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

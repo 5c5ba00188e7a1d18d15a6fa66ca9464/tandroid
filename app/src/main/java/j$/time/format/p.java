@@ -76,24 +76,24 @@ public final class p {
     }
 
     private p j(j jVar) {
-        j jVar2;
+        j b;
         s sVar;
         p pVar = this.a;
         int i = pVar.e;
         if (i >= 0) {
-            j jVar3 = (j) pVar.c.get(i);
+            j jVar2 = (j) pVar.c.get(i);
             if (jVar.b == jVar.c) {
                 sVar = jVar.d;
                 if (sVar == s.NOT_NEGATIVE) {
-                    jVar2 = jVar3.c(jVar.c);
+                    b = jVar2.c(jVar.c);
                     d(jVar.b());
                     this.a.e = i;
-                    this.a.c.set(i, jVar2);
+                    this.a.c.set(i, b);
                 }
             }
-            jVar2 = jVar3.b();
+            b = jVar2.b();
             this.a.e = d(jVar);
-            this.a.c.set(i, jVar2);
+            this.a.c.set(i, b);
         } else {
             pVar.e = d(jVar);
         }
@@ -241,6 +241,7 @@ public final class p {
         return t(Locale.getDefault(), 2, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public a u(int i, j$.time.chrono.b bVar) {
         return t(Locale.getDefault(), i, bVar);
     }

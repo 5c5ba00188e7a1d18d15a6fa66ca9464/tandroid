@@ -23,7 +23,7 @@ public class ServiceStarter {
     }
 
     private int doStartService(Context context, Intent intent) {
-        ComponentName componentName;
+        ComponentName startService;
         String resolveServiceClassName = resolveServiceClassName(context, intent);
         if (resolveServiceClassName != null) {
             if (Log.isLoggable("FirebaseMessaging", 3)) {
@@ -33,12 +33,12 @@ public class ServiceStarter {
         }
         try {
             if (hasWakeLockPermission(context)) {
-                componentName = WakeLockHolder.startWakefulService(context, intent);
+                startService = WakeLockHolder.startWakefulService(context, intent);
             } else {
-                componentName = context.startService(intent);
+                startService = context.startService(intent);
                 Log.d("FirebaseMessaging", "Missing wake lock permission, service start may be delayed");
             }
-            if (componentName != null) {
+            if (startService != null) {
                 return -1;
             }
             Log.e("FirebaseMessaging", "Error while delivering the message: ServiceIntent not found.");
@@ -56,6 +56,7 @@ public class ServiceStarter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static synchronized ServiceStarter getInstance() {
         ServiceStarter serviceStarter;
         synchronized (ServiceStarter.class) {
@@ -100,10 +101,12 @@ public class ServiceStarter {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Intent getMessagingEvent() {
         return this.messagingEvents.poll();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean hasAccessNetworkStatePermission(Context context) {
         if (this.hasAccessNetworkStatePermission == null) {
             this.hasAccessNetworkStatePermission = Boolean.valueOf(context.checkCallingOrSelfPermission("android.permission.ACCESS_NETWORK_STATE") == 0);
@@ -114,6 +117,7 @@ public class ServiceStarter {
         return this.hasAccessNetworkStatePermission.booleanValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean hasWakeLockPermission(Context context) {
         if (this.hasWakeLockPermission == null) {
             this.hasWakeLockPermission = Boolean.valueOf(context.checkCallingOrSelfPermission("android.permission.WAKE_LOCK") == 0);

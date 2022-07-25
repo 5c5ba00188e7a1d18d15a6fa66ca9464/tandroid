@@ -15,6 +15,7 @@ interface IMessengerCompat extends IInterface {
     public static class Proxy implements IMessengerCompat {
         private final IBinder zza;
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public Proxy(IBinder iBinder) {
             this.zza = iBinder;
         }

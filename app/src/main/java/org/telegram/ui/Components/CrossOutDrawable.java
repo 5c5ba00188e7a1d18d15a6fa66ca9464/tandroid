@@ -72,11 +72,11 @@ public class CrossOutDrawable extends Drawable {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x003b  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0043  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x005c  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x005c  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x003b  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

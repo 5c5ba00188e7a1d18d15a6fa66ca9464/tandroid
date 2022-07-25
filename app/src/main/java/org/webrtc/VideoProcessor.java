@@ -28,7 +28,7 @@ public interface VideoProcessor extends CapturerObserver {
         }
     }
 
-    /* renamed from: org.webrtc.VideoProcessor$-CC */
+    /* renamed from: org.webrtc.VideoProcessor$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
     public final /* synthetic */ class CC {
         public static void $default$onFrameCaptured(VideoProcessor _this, VideoFrame videoFrame, FrameAdaptationParameters frameAdaptationParameters) {

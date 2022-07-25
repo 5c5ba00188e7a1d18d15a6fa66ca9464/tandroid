@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class MapCollections<K, V> {
     MapCollections<K, V>.EntrySet mEntrySet;
@@ -47,9 +48,8 @@ public abstract class MapCollections<K, V> {
         }
 
         ArrayIterator(int i) {
-            MapCollections.this = r2;
             this.mOffset = i;
-            this.mSize = r2.colGetSize();
+            this.mSize = MapCollections.this.colGetSize();
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
@@ -58,7 +58,8 @@ public abstract class MapCollections<K, V> {
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
-        public T next() {
+        /* renamed from: next */
+        public T mo335next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -93,8 +94,7 @@ public abstract class MapCollections<K, V> {
         }
 
         MapIterator() {
-            MapCollections.this = r2;
-            this.mEnd = r2.colGetSize() - 1;
+            this.mEnd = MapCollections.this.colGetSize() - 1;
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
@@ -103,7 +103,8 @@ public abstract class MapCollections<K, V> {
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
-        public Map.Entry<K, V> next() {
+        /* renamed from: next  reason: collision with other method in class */
+        public Map.Entry<K, V> mo335next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -179,10 +180,10 @@ public abstract class MapCollections<K, V> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class EntrySet implements Set<Map.Entry<K, V>> {
         EntrySet() {
-            MapCollections.this = r1;
         }
 
         @Override // java.util.Set, java.util.Collection
@@ -289,10 +290,10 @@ public abstract class MapCollections<K, V> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class KeySet implements Set<K> {
         KeySet() {
-            MapCollections.this = r1;
         }
 
         @Override // java.util.Set, java.util.Collection
@@ -381,10 +382,10 @@ public abstract class MapCollections<K, V> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class ValuesCollection implements Collection<V> {
         ValuesCollection() {
-            MapCollections.this = r1;
         }
 
         @Override // java.util.Collection

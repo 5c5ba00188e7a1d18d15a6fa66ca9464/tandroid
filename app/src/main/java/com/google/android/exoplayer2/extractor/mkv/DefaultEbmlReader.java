@@ -141,9 +141,8 @@ final class DefaultEbmlReader implements EbmlReader {
         return new String(bArr, 0, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class MasterElement {
+    private static final class MasterElement {
         private final long elementEndPosition;
         private final int elementId;
 

@@ -40,7 +40,6 @@ public class HMSPackageManager {
     /* loaded from: classes.dex */
     public class a implements Runnable {
         public a() {
-            HMSPackageManager.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -73,6 +72,7 @@ public class HMSPackageManager {
             this.f = Long.valueOf(j);
         }
 
+        @Override // java.lang.Comparable
         /* renamed from: a */
         public int compareTo(b bVar) {
             if (TextUtils.equals(this.e, bVar.e)) {

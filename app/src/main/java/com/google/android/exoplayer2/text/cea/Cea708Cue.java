@@ -11,6 +11,7 @@ final class Cea708Cue extends Cue implements Comparable<Cea708Cue> {
         this.priority = i5;
     }
 
+    @Override // java.lang.Comparable
     public int compareTo(Cea708Cue cea708Cue) {
         int i = cea708Cue.priority;
         int i2 = this.priority;

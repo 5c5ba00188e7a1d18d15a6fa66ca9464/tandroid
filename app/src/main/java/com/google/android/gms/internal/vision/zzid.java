@@ -2,11 +2,13 @@ package com.google.android.gms.internal.vision;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class zzid extends zzia {
     protected final byte[] zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzid(byte[] bArr) {
         bArr.getClass();
         this.zzb = bArr;
@@ -21,6 +23,7 @@ public class zzid extends zzia {
         return this.zzb[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzht
     public byte zzb(int i) {
         return this.zzb[i];
@@ -40,6 +43,7 @@ public class zzid extends zzia {
         return new zzhw(this.zzb, zze(), zzb);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzht
     public final void zza(zzhq zzhqVar) throws IOException {
         zzhqVar.zza(this.zzb, zze(), zza());
@@ -79,9 +83,8 @@ public class zzid extends zzia {
         return obj.equals(this);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzia
-    public final boolean zza(zzht zzhtVar, int i, int i2) {
+    final boolean zza(zzht zzhtVar, int i, int i2) {
         if (i2 > zzhtVar.zza()) {
             int zza = zza();
             StringBuilder sb = new StringBuilder(40);

@@ -21,25 +21,28 @@ import org.telegram.tgnet.ConnectionsManager;
 public class c {
     private final Context a;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class a implements Serializable, Comparator<Map.Entry<String, Integer>> {
         private a() {
         }
 
+        @Override // java.util.Comparator
         /* renamed from: a */
         public int compare(Map.Entry<String, Integer> entry, Map.Entry<String, Integer> entry2) {
             return entry.getValue().intValue() - entry2.getValue().intValue();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public c(Context context) {
         this.a = context;
     }
 
     private <T extends ServiceRegistrar> T a(String str) {
-        String str2;
-        String str3;
         StringBuilder sb;
+        String localizedMessage;
+        String sb2;
         try {
             Class<?> cls = Class.forName(str);
             if (ServiceRegistrar.class.isAssignableFrom(cls)) {
@@ -48,24 +51,24 @@ public class c {
             Log.e("ServiceRegistrarParser", cls + " must extends from ServiceRegistrar.");
             return null;
         } catch (ClassNotFoundException e) {
-            str2 = "Can not found service class, " + e.getMessage();
-            Log.e("ServiceRegistrarParser", str2);
+            sb2 = "Can not found service class, " + e.getMessage();
+            Log.e("ServiceRegistrarParser", sb2);
             return null;
         } catch (IllegalAccessException e2) {
             sb = new StringBuilder();
             sb.append("instantiate service class exception ");
-            str3 = e2.getLocalizedMessage();
-            sb.append(str3);
-            str2 = sb.toString();
-            Log.e("ServiceRegistrarParser", str2);
+            localizedMessage = e2.getLocalizedMessage();
+            sb.append(localizedMessage);
+            sb2 = sb.toString();
+            Log.e("ServiceRegistrarParser", sb2);
             return null;
         } catch (InstantiationException e3) {
             sb = new StringBuilder();
             sb.append("instantiate service class exception ");
-            str3 = e3.getLocalizedMessage();
-            sb.append(str3);
-            str2 = sb.toString();
-            Log.e("ServiceRegistrarParser", str2);
+            localizedMessage = e3.getLocalizedMessage();
+            sb.append(localizedMessage);
+            sb2 = sb.toString();
+            Log.e("ServiceRegistrarParser", sb2);
             return null;
         }
     }

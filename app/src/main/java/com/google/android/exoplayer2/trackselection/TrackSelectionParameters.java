@@ -11,15 +11,19 @@ public class TrackSelectionParameters implements Parcelable {
     public final String preferredTextLanguage;
     public final int preferredTextRoleFlags;
     public final boolean selectUndeterminedTextLanguage;
-    public static final TrackSelectionParameters DEFAULT_WITHOUT_CONTEXT = new Builder().build();
+    public static final TrackSelectionParameters DEFAULT_WITHOUT_CONTEXT = new Builder().mo170build();
     public static final Parcelable.Creator<TrackSelectionParameters> CREATOR = new Parcelable.Creator<TrackSelectionParameters>() { // from class: com.google.android.exoplayer2.trackselection.TrackSelectionParameters.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TrackSelectionParameters createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public TrackSelectionParameters mo173createFromParcel(Parcel parcel) {
             return new TrackSelectionParameters(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TrackSelectionParameters[] newArray(int i) {
+        /* renamed from: newArray */
+        public TrackSelectionParameters[] mo174newArray(int i) {
             return new TrackSelectionParameters[i];
         }
     };
@@ -37,11 +41,13 @@ public class TrackSelectionParameters implements Parcelable {
         boolean selectUndeterminedTextLanguage = false;
         int disabledTextTrackSelectionFlags = 0;
 
-        public TrackSelectionParameters build() {
+        /* renamed from: build */
+        public TrackSelectionParameters mo170build() {
             return new TrackSelectionParameters(this.preferredAudioLanguage, this.preferredTextLanguage, this.preferredTextRoleFlags, this.selectUndeterminedTextLanguage, this.disabledTextTrackSelectionFlags);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TrackSelectionParameters(String str, String str2, int i, boolean z, int i2) {
         this.preferredAudioLanguage = Util.normalizeLanguageCode(str);
         this.preferredTextLanguage = Util.normalizeLanguageCode(str2);
@@ -50,6 +56,7 @@ public class TrackSelectionParameters implements Parcelable {
         this.disabledTextTrackSelectionFlags = i2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TrackSelectionParameters(Parcel parcel) {
         this.preferredAudioLanguage = parcel.readString();
         this.preferredTextLanguage = parcel.readString();

@@ -16,6 +16,7 @@ public class ID3v2Info extends AudioInfo {
     private byte coverPictureType;
     private final Level debugLevel;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class AttachedPicture {
         final byte[] imageData;
@@ -27,6 +28,7 @@ public class ID3v2Info extends AudioInfo {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class CommentOrUnsynchronizedLyrics {
         final String description;
@@ -55,13 +57,13 @@ public class ID3v2Info extends AudioInfo {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x005a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x005a, code lost:
         r1 = org.telegram.messenger.audioinfo.mp3.ID3v2Info.LOGGER;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
-        if (r1.isLoggable(r13) == false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0060, code lost:
+        if (r1.isLoggable(r13) == false) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0062, code lost:
         r1.log(r13, "ID3 frame claims to extend frames area");
      */
     /*
@@ -583,15 +585,15 @@ public class ID3v2Info extends AudioInfo {
     }
 
     AttachedPicture parseAttachedPictureFrame(ID3v2FrameBody iD3v2FrameBody) throws IOException, ID3v2Exception {
-        String str;
+        String readZeroTerminatedString;
         ID3v2Encoding readEncoding = iD3v2FrameBody.readEncoding();
         if (iD3v2FrameBody.getTagHeader().getVersion() == 2) {
             String upperCase = iD3v2FrameBody.readFixedLengthString(3, ID3v2Encoding.ISO_8859_1).toUpperCase();
             upperCase.hashCode();
-            str = !upperCase.equals("JPG") ? !upperCase.equals("PNG") ? "image/unknown" : "image/png" : "image/jpeg";
+            readZeroTerminatedString = !upperCase.equals("JPG") ? !upperCase.equals("PNG") ? "image/unknown" : "image/png" : "image/jpeg";
         } else {
-            str = iD3v2FrameBody.readZeroTerminatedString(20, ID3v2Encoding.ISO_8859_1);
+            readZeroTerminatedString = iD3v2FrameBody.readZeroTerminatedString(20, ID3v2Encoding.ISO_8859_1);
         }
-        return new AttachedPicture(iD3v2FrameBody.getData().readByte(), iD3v2FrameBody.readZeroTerminatedString(200, readEncoding), str, iD3v2FrameBody.getData().readFully((int) iD3v2FrameBody.getRemainingLength()));
+        return new AttachedPicture(iD3v2FrameBody.getData().readByte(), iD3v2FrameBody.readZeroTerminatedString(200, readEncoding), readZeroTerminatedString, iD3v2FrameBody.getData().readFully((int) iD3v2FrameBody.getRemainingLength()));
     }
 }

@@ -39,6 +39,7 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
         MessagesController.getInstance(intExtra2).markDialogAsRead(longExtra, intExtra, intExtra, 0, false, 0, 0, true, 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$1(final AccountInstance accountInstance, final long j, final int i, final int i2) {
         final TLRPC$User userSync = accountInstance.getMessagesStorage().getUserSync(j);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda3
@@ -49,11 +50,13 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$0(AccountInstance accountInstance, TLRPC$User tLRPC$User, int i, long j, int i2) {
         accountInstance.getMessagesController().putUser(tLRPC$User, true);
         MessagesController.getInstance(i).markDialogAsRead(j, i2, i2, 0, false, 0, 0, true, 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$3(final AccountInstance accountInstance, final long j, final int i, final int i2) {
         final TLRPC$Chat chatSync = accountInstance.getMessagesStorage().getChatSync(-j);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda2
@@ -64,6 +67,7 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$2(AccountInstance accountInstance, TLRPC$Chat tLRPC$Chat, int i, long j, int i2) {
         accountInstance.getMessagesController().putChat(tLRPC$Chat, true);
         MessagesController.getInstance(i).markDialogAsRead(j, i2, i2, 0, false, 0, 0, true, 0);

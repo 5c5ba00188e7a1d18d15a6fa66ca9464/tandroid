@@ -40,6 +40,7 @@ public class HintEditText extends EditTextBoldCursor {
         setText(getText());
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
@@ -50,18 +51,19 @@ public class HintEditText extends EditTextBoldCursor {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
-        float f;
+        float measureText;
         if (this.hintText != null && length() < this.hintText.length()) {
-            float f2 = 0.0f;
+            float f = 0.0f;
             for (int i = 0; i < this.hintText.length(); i++) {
                 if (i < length()) {
-                    f = getPaint().measureText(getText(), i, i + 1);
+                    measureText = getPaint().measureText(getText(), i, i + 1);
                 } else {
-                    f = this.hintPaint.measureText(this.hintText, i, i + 1);
+                    measureText = this.hintPaint.measureText(this.hintText, i, i + 1);
                 }
-                float f3 = f;
+                float f2 = measureText;
                 if (shouldDrawBehindText(i) || i >= length()) {
                     int color = this.hintPaint.getColor();
                     canvas.save();
@@ -69,13 +71,13 @@ public class HintEditText extends EditTextBoldCursor {
                     String str = this.hintText;
                     textPaint.getTextBounds(str, 0, str.length(), this.rect);
                     float height = (getHeight() + this.rect.height()) / 2.0f;
-                    onPreDrawHintCharacter(i, canvas, f2, height);
-                    canvas.drawText(this.hintText, i, i + 1, f2, height, (Paint) this.hintPaint);
-                    f2 += f3;
+                    onPreDrawHintCharacter(i, canvas, f, height);
+                    canvas.drawText(this.hintText, i, i + 1, f, height, (Paint) this.hintPaint);
+                    f += f2;
                     canvas.restore();
                     this.hintPaint.setColor(color);
                 } else {
-                    f2 += f3;
+                    f += f2;
                 }
             }
         }

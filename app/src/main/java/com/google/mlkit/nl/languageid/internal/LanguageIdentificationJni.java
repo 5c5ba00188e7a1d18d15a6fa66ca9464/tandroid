@@ -47,8 +47,8 @@ public class LanguageIdentificationJni extends ModelResource {
 
     private native long nativeInit(MappedByteBuffer mappedByteBuffer, long j);
 
-    public final <T> Task<T> zza(Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
-        AtomicReference atomicReference = new AtomicReference(Thread.currentThread());
+    public final <T> Task<T> zza(final Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
+        final AtomicReference atomicReference = new AtomicReference(Thread.currentThread());
         Task<T> callAfterLoad = callAfterLoad(new Executor(this, atomicReference, executor) { // from class: com.google.mlkit.nl.languageid.internal.zzb
             private final LanguageIdentificationJni zza;
             private final AtomicReference zzb;
@@ -119,7 +119,8 @@ public class LanguageIdentificationJni extends ModelResource {
                 throw new MlKitException("Couldn't open language detection model file", 13, e);
             }
         } catch (MlKitException e2) {
-            this.zzc.zza(new zzcv.zza(SystemClock.elapsedRealtime() - elapsedRealtime) { // from class: com.google.mlkit.nl.languageid.internal.zza
+            final long elapsedRealtime2 = SystemClock.elapsedRealtime() - elapsedRealtime;
+            this.zzc.zza(new zzcv.zza(elapsedRealtime2) { // from class: com.google.mlkit.nl.languageid.internal.zza
                 private final long zza;
 
                 /* JADX INFO: Access modifiers changed from: package-private */

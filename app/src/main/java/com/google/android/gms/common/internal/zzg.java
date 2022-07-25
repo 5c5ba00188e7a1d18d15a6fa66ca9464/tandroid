@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.GmsClientSupervisor;
 import com.google.android.gms.common.stats.ConnectionTracker;
 import java.util.HashMap;
 import javax.annotation.concurrent.GuardedBy;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zzg extends GmsClientSupervisor {
@@ -18,11 +19,13 @@ public final class zzg extends GmsClientSupervisor {
     private final long zze = 5000;
     private final long zzf = 300000;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzg(Context context) {
         this.zzb = context.getApplicationContext();
         this.zzc = new com.google.android.gms.internal.common.zzi(context.getMainLooper(), new zzh(this));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.GmsClientSupervisor
     public final boolean zza(GmsClientSupervisor.zza zzaVar, ServiceConnection serviceConnection, String str) {
         boolean zza;

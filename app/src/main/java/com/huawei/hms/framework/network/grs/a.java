@@ -20,10 +20,9 @@ public class a {
     private h c;
     private com.huawei.hms.framework.network.grs.e.c d;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: com.huawei.hms.framework.network.grs.a$a */
+    /* renamed from: com.huawei.hms.framework.network.grs.a$a  reason: collision with other inner class name */
     /* loaded from: classes.dex */
-    public static class C0004a implements com.huawei.hms.framework.network.grs.b {
+    private static class C0004a implements com.huawei.hms.framework.network.grs.b {
         String a;
         Map<String, String> b;
         IQueryUrlsCallBack c;
@@ -77,9 +76,8 @@ public class a {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class b implements com.huawei.hms.framework.network.grs.b {
+    private static class b implements com.huawei.hms.framework.network.grs.b {
         String a;
         String b;
         IQueryUrlCallBack c;

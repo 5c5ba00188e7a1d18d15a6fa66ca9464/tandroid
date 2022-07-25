@@ -266,6 +266,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             invalidate(pair.second);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$removeLink$0(LinkSpanDrawable linkSpanDrawable) {
             removeLink(linkSpanDrawable, false);
         }
@@ -296,6 +297,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             invalidate(remove.second);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$removeLink$1(LinkSpanDrawable linkSpanDrawable) {
             removeLink(linkSpanDrawable, false);
         }
@@ -420,8 +422,8 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             this.onLongPressListener = onLinkPress;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:22:0x00b9  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x00ee  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x00b9  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00ee  */
         @Override // android.widget.TextView, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -484,6 +486,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             return this.pressedLink != null || super.onTouchEvent(motionEvent);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onTouchEvent$0(ClickableSpan[] clickableSpanArr) {
             OnLinkPress onLinkPress = this.onLongPressListener;
             if (onLinkPress != null) {
@@ -493,6 +496,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.widget.TextView, android.view.View
         public void onDraw(Canvas canvas) {
             if (!this.isCustomLinkCollector && this.links.draw(canvas)) {

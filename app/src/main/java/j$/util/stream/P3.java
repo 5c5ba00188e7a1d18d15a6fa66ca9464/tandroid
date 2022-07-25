@@ -6,6 +6,7 @@ final class P3 extends D3 {
     private int[] c;
     private int d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public P3(m3 m3Var) {
         super(m3Var);
     }

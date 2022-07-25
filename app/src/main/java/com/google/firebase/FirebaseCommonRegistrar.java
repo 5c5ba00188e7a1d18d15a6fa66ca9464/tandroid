@@ -34,21 +34,25 @@ public class FirebaseCommonRegistrar implements ComponentRegistrar {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$0(Context context) {
         ApplicationInfo applicationInfo = context.getApplicationInfo();
         return applicationInfo != null ? String.valueOf(applicationInfo.targetSdkVersion) : "";
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$1(Context context) {
         ApplicationInfo applicationInfo = context.getApplicationInfo();
         return (applicationInfo == null || Build.VERSION.SDK_INT < 24) ? "" : String.valueOf(applicationInfo.minSdkVersion);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$2(Context context) {
         int i = Build.VERSION.SDK_INT;
         return (i < 16 || !context.getPackageManager().hasSystemFeature("android.hardware.type.television")) ? (i < 20 || !context.getPackageManager().hasSystemFeature("android.hardware.type.watch")) ? (i < 23 || !context.getPackageManager().hasSystemFeature("android.hardware.type.automotive")) ? (i < 26 || !context.getPackageManager().hasSystemFeature("android.hardware.type.embedded")) ? "" : "embedded" : "auto" : "watch" : "tv";
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$3(Context context) {
         String installerPackageName = context.getPackageManager().getInstallerPackageName(context.getPackageName());
         return installerPackageName != null ? safeValue(installerPackageName) : "";

@@ -27,6 +27,7 @@ public final class LoopingMediaSource extends CompositeMediaSource<Void> {
         this.mediaPeriodToChildMediaPeriodId = new HashMap();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource, com.google.android.exoplayer2.source.BaseMediaSource
     public void prepareSourceInternal(TransferListener transferListener) {
         super.prepareSourceInternal(transferListener);
@@ -54,20 +55,25 @@ public final class LoopingMediaSource extends CompositeMediaSource<Void> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.source.CompositeMediaSource
     public void onChildSourceInfoRefreshed(Void r1, MediaSource mediaSource, Timeline timeline) {
-        Timeline timeline2;
+        Timeline infinitelyLoopingTimeline;
         if (this.loopCount != Integer.MAX_VALUE) {
-            timeline2 = new LoopingTimeline(timeline, this.loopCount);
+            infinitelyLoopingTimeline = new LoopingTimeline(timeline, this.loopCount);
         } else {
-            timeline2 = new InfinitelyLoopingTimeline(timeline);
+            infinitelyLoopingTimeline = new InfinitelyLoopingTimeline(timeline);
         }
-        refreshSourceInfo(timeline2);
+        refreshSourceInfo(infinitelyLoopingTimeline);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.source.CompositeMediaSource
     public MediaSource.MediaPeriodId getMediaPeriodIdForChildMediaPeriodId(Void r2, MediaSource.MediaPeriodId mediaPeriodId) {
         return this.loopCount != Integer.MAX_VALUE ? this.childMediaPeriodIdToMediaPeriodId.get(mediaPeriodId) : mediaPeriodId;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class LoopingTimeline extends AbstractConcatenatedTimeline {
         private final int childPeriodCount;
@@ -138,6 +144,7 @@ public final class LoopingMediaSource extends CompositeMediaSource<Void> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class InfinitelyLoopingTimeline extends ForwardingTimeline {
         public InfinitelyLoopingTimeline(Timeline timeline) {

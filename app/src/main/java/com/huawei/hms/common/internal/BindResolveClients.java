@@ -7,9 +7,8 @@ public class BindResolveClients {
     private static final Object LOCK_INST = new Object();
     private ArrayList<ResolveClientBean> mClientList;
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class SingletonManager {
+    private static class SingletonManager {
         private static final BindResolveClients INSTANCE = new BindResolveClients();
 
         private SingletonManager() {

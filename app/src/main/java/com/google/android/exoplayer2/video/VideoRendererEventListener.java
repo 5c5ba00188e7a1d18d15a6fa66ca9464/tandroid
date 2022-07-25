@@ -45,6 +45,7 @@ public interface VideoRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$enabled$0(DecoderCounters decoderCounters) {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoEnabled(decoderCounters);
         }
@@ -61,6 +62,7 @@ public interface VideoRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$decoderInitialized$1(String str, long j, long j2) {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoDecoderInitialized(str, j, j2);
         }
@@ -77,6 +79,7 @@ public interface VideoRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$inputFormatChanged$2(Format format) {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoInputFormatChanged(format);
         }
@@ -93,6 +96,7 @@ public interface VideoRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$droppedFrames$3(int i, long j) {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onDroppedFrames(i, j);
         }
@@ -109,6 +113,7 @@ public interface VideoRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$videoSizeChanged$4(int i, int i2, int i3, float f) {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoSizeChanged(i, i2, i3, f);
         }
@@ -125,6 +130,7 @@ public interface VideoRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$renderedFirstFrame$5(Surface surface) {
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onRenderedFirstFrame(surface);
         }
@@ -142,6 +148,7 @@ public interface VideoRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$disabled$6(DecoderCounters decoderCounters) {
             decoderCounters.ensureUpdated();
             ((VideoRendererEventListener) Util.castNonNull(this.listener)).onVideoDisabled(decoderCounters);

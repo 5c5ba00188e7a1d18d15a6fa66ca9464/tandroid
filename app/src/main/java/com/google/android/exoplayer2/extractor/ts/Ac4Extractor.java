@@ -19,14 +19,14 @@ public final class Ac4Extractor implements Extractor {
     public void release() {
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0039, code lost:
         r9.resetPeekPosition();
         r4 = r4 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0042, code lost:
-        if ((r4 - r3) < 8192) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0042, code lost:
+        if ((r4 - r3) < 8192) goto L15;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0044, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0044, code lost:
         return false;
      */
     @Override // com.google.android.exoplayer2.extractor.Extractor

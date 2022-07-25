@@ -115,6 +115,7 @@ public class PremiumAppIconsPreviewView extends FrameLayout implements PagerHead
         this.bottomLeftIcon.particlesScale = f2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AdaptiveIconImageView extends AppIconsSelectorCell.AdaptiveIconImageView {
         StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(20);

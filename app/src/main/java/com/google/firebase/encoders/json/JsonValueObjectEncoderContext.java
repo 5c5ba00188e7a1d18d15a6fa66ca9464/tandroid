@@ -23,6 +23,7 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
     private JsonValueObjectEncoderContext childContext = null;
     private boolean active = true;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public JsonValueObjectEncoderContext(Writer writer, Map<Class<?>, ObjectEncoder<?>> map, Map<Class<?>, ValueEncoder<?>> map2, ObjectEncoder<Object> objectEncoder, boolean z) {
         this.jsonWriter = new JsonWriter(writer);
         this.objectEncoders = map;
@@ -56,17 +57,20 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
+    /* renamed from: add */
+    public ObjectEncoderContext mo195add(FieldDescriptor fieldDescriptor, int i) throws IOException {
         return add(fieldDescriptor.getName(), i);
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    /* renamed from: add */
+    public ObjectEncoderContext mo196add(FieldDescriptor fieldDescriptor, long j) throws IOException {
         return add(fieldDescriptor.getName(), j);
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    public JsonValueObjectEncoderContext add(String str) throws IOException {
+    /* renamed from: add  reason: collision with other method in class */
+    public JsonValueObjectEncoderContext mo193add(String str) throws IOException {
         maybeUnNest();
         this.jsonWriter.value(str);
         return this;
@@ -85,7 +89,8 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    public JsonValueObjectEncoderContext add(boolean z) throws IOException {
+    /* renamed from: add  reason: collision with other method in class */
+    public JsonValueObjectEncoderContext mo194add(boolean z) throws IOException {
         maybeUnNest();
         this.jsonWriter.value(z);
         return this;
@@ -101,6 +106,7 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public JsonValueObjectEncoderContext add(Object obj, boolean z) throws IOException {
         int[] iArr;
         int i = 0;
@@ -186,7 +192,7 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
                 valueEncoder.encode(obj, this);
                 return this;
             } else if (obj instanceof Enum) {
-                add(((Enum) obj).name());
+                mo193add(((Enum) obj).name());
                 return this;
             } else {
                 return doEncode(this.fallbackEncoder, obj, z);
@@ -209,6 +215,7 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
         return obj == null || obj.getClass().isArray() || (obj instanceof Collection) || (obj instanceof Date) || (obj instanceof Enum) || (obj instanceof Number);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void close() throws IOException {
         maybeUnNest();
         this.jsonWriter.flush();

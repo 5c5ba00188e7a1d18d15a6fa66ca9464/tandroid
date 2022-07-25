@@ -260,6 +260,7 @@ public abstract class BaseHmsClient implements AidlApiClient {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyFailed(int i) {
         HMSLog.i(TAG, "notifyFailed result: " + i);
         Message message = new Message();
@@ -333,6 +334,7 @@ public abstract class BaseHmsClient implements AidlApiClient {
         binderAdapter2.unBind();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void bindCoreService() {
         String innerHmsPkg = this.mClientSettings.getInnerHmsPkg();
         String serviceAction = getServiceAction();
@@ -401,6 +403,7 @@ public abstract class BaseHmsClient implements AidlApiClient {
         return this.mAppID;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ClientSettings getClientSettings() {
         return this.mClientSettings;
     }
@@ -490,6 +493,7 @@ public abstract class BaseHmsClient implements AidlApiClient {
         checkAvailabilityAndConnect(i, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyFailed(ConnectionResult connectionResult) {
         HMSLog.i(TAG, "notifyFailed result: " + connectionResult.getErrorCode());
         Message message = new Message();

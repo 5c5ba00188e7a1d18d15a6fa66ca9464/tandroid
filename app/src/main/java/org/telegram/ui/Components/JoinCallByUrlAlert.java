@@ -111,6 +111,7 @@ public class JoinCallByUrlAlert extends BottomSheet {
         linearLayout.addView(bottomSheetCell, LayoutHelper.createLinear(-1, 50, 51, 0, 30, 0, 0));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         this.joinAfterDismiss = true;
         dismiss();

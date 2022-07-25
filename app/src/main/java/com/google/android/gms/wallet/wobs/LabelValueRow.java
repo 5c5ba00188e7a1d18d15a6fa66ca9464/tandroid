@@ -26,6 +26,7 @@ public final class LabelValueRow extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LabelValueRow(String str, String str2, ArrayList<LabelValue> arrayList) {
         this.zza = str;
         this.zzb = str2;

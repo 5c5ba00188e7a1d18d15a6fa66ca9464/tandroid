@@ -12,16 +12,17 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
         super(context);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void init() {
         this.useMinHeight = true;
         super.init();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0151  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0159  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x016d  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0151  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x016d  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0159  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -204,7 +205,8 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
-    public LineViewData createLineViewData(ChartData.Line line) {
+    /* renamed from: createLineViewData */
+    public LineViewData mo1029createLineViewData(ChartData.Line line) {
         return new LineViewData(line);
     }
 }

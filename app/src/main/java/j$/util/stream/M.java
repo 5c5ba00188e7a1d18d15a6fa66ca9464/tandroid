@@ -13,6 +13,7 @@ class M extends K0 {
         this.m = g;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
         switch (this.l) {

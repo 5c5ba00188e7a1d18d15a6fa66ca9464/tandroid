@@ -28,8 +28,8 @@ public class ProcessUtils {
 
     @Nullable
     private static String zza(int i) {
-        BufferedReader bufferedReader;
         Throwable th;
+        BufferedReader bufferedReader;
         String str = null;
         if (i <= 0) {
             return null;

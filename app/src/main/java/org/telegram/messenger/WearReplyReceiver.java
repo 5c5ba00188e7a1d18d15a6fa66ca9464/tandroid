@@ -50,6 +50,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
         sendMessage(accountInstance, charSequence, longExtra, intExtra);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onReceive$1(final AccountInstance accountInstance, final long j, final CharSequence charSequence, final int i) {
         final TLRPC$User userSync = accountInstance.getMessagesStorage().getUserSync(j);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.WearReplyReceiver$$ExternalSyntheticLambda3
@@ -60,11 +61,13 @@ public class WearReplyReceiver extends BroadcastReceiver {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onReceive$0(AccountInstance accountInstance, TLRPC$User tLRPC$User, CharSequence charSequence, long j, int i) {
         accountInstance.getMessagesController().putUser(tLRPC$User, true);
         sendMessage(accountInstance, charSequence, j, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onReceive$3(final AccountInstance accountInstance, final long j, final CharSequence charSequence, final int i) {
         final TLRPC$Chat chatSync = accountInstance.getMessagesStorage().getChatSync(-j);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.WearReplyReceiver$$ExternalSyntheticLambda2
@@ -75,6 +78,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onReceive$2(AccountInstance accountInstance, TLRPC$Chat tLRPC$Chat, CharSequence charSequence, long j, int i) {
         accountInstance.getMessagesController().putChat(tLRPC$Chat, true);
         sendMessage(accountInstance, charSequence, j, i);

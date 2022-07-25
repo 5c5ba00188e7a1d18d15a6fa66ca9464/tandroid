@@ -194,6 +194,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$7(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -248,7 +249,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
 
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i, int i2) {
-                int i3;
+                int dp;
                 int size = View.MeasureSpec.getSize(i2);
                 int size2 = View.MeasureSpec.getSize(i);
                 boolean z = false;
@@ -269,26 +270,26 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 ((FrameLayout.LayoutParams) AudioPlayerAlert.this.listView.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight();
                 ((FrameLayout.LayoutParams) AudioPlayerAlert.this.actionBarShadow.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight();
                 ((FrameLayout.LayoutParams) AudioPlayerAlert.this.blurredView.getLayoutParams()).topMargin = -getPaddingTop();
-                int dp = AndroidUtilities.dp(179.0f);
+                int dp2 = AndroidUtilities.dp(179.0f);
                 if (AudioPlayerAlert.this.playlist.size() > 1) {
-                    dp += ((BottomSheet) AudioPlayerAlert.this).backgroundPaddingTop + (AudioPlayerAlert.this.playlist.size() * AndroidUtilities.dp(56.0f));
+                    dp2 += ((BottomSheet) AudioPlayerAlert.this).backgroundPaddingTop + (AudioPlayerAlert.this.playlist.size() * AndroidUtilities.dp(56.0f));
                 }
                 if (AudioPlayerAlert.this.searching || ((BottomSheet) AudioPlayerAlert.this).keyboardVisible) {
-                    i3 = AndroidUtilities.dp(8.0f);
+                    dp = AndroidUtilities.dp(8.0f);
                 } else {
-                    if (dp >= paddingTop) {
-                        dp = (int) ((paddingTop / 5) * 3.5f);
+                    if (dp2 >= paddingTop) {
+                        dp2 = (int) ((paddingTop / 5) * 3.5f);
                     }
-                    i3 = (paddingTop - dp) + AndroidUtilities.dp(8.0f);
-                    if (i3 > paddingTop - AndroidUtilities.dp(329.0f)) {
-                        i3 = paddingTop - AndroidUtilities.dp(329.0f);
+                    dp = (paddingTop - dp2) + AndroidUtilities.dp(8.0f);
+                    if (dp > paddingTop - AndroidUtilities.dp(329.0f)) {
+                        dp = paddingTop - AndroidUtilities.dp(329.0f);
                     }
-                    if (i3 < 0) {
-                        i3 = 0;
+                    if (dp < 0) {
+                        dp = 0;
                     }
                 }
-                if (AudioPlayerAlert.this.listView.getPaddingTop() != i3) {
-                    AudioPlayerAlert.this.listView.setPadding(0, i3, 0, (!AudioPlayerAlert.this.searching || !((BottomSheet) AudioPlayerAlert.this).keyboardVisible) ? AudioPlayerAlert.this.listView.getPaddingBottom() : 0);
+                if (AudioPlayerAlert.this.listView.getPaddingTop() != dp) {
+                    AudioPlayerAlert.this.listView.setPadding(0, dp, 0, (!AudioPlayerAlert.this.searching || !((BottomSheet) AudioPlayerAlert.this).keyboardVisible) ? AudioPlayerAlert.this.listView.getPaddingBottom() : 0);
                 }
                 this.ignoreLayout = false;
                 super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
@@ -565,9 +566,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.authorTextView = anonymousClass9;
         this.playerLayout.addView(anonymousClass9, LayoutHelper.createFrame(-1, -2.0f, 51, 14.0f, 47.0f, 72.0f, 0.0f));
         SeekBarView seekBarView = new SeekBarView(context, resourcesProvider) { // from class: org.telegram.ui.Components.AudioPlayerAlert.10
-            /* JADX INFO: Access modifiers changed from: package-private */
             @Override // org.telegram.ui.Components.SeekBarView
-            public boolean onTouch(MotionEvent motionEvent) {
+            boolean onTouch(MotionEvent motionEvent) {
                 if (AudioPlayerAlert.this.rewindingState != 0) {
                     return false;
                 }
@@ -812,6 +812,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.AudioPlayerAlert.15
             boolean ignoreLayout;
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
             public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                 super.onLayout(z, i3, i4, i5, i6);
@@ -936,7 +937,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         updateEmptyView();
     }
 
-    /* renamed from: org.telegram.ui.Components.AudioPlayerAlert$9 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.AudioPlayerAlert$9  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass9 extends ClippingTextViewSwitcher {
         final /* synthetic */ Context val$context;
@@ -944,7 +946,6 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass9(Context context, Context context2) {
             super(context);
-            AudioPlayerAlert.this = r1;
             this.val$context = context2;
         }
 
@@ -966,6 +967,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             return textView;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$createTextView$0(TextView textView, View view) {
             if (MessagesController.getInstance(((BottomSheet) AudioPlayerAlert.this).currentAccount).getTotalDialogsCount() <= 10 || TextUtils.isEmpty(textView.getText().toString())) {
                 return;
@@ -987,6 +989,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(int i) {
         MediaController.getInstance().getPlaybackSpeed(true);
         if (i == 1) {
@@ -1001,6 +1004,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         updatePlaybackButton();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         if (Math.abs(MediaController.getInstance().getPlaybackSpeed(true) - 1.0f) > 0.001f) {
             MediaController.getInstance().setPlaybackSpeed(true, 1.0f);
@@ -1010,16 +1014,19 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         updatePlaybackButton();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$2(View view) {
         this.playbackSpeedButton.toggleSubMenu();
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         updateSubMenu();
         this.repeatButton.toggleSubMenu();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(int i) {
         if (i == 1 || i == 2) {
             boolean z = SharedConfig.playOrderReversed;
@@ -1047,10 +1054,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         updateRepeatButton();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.AudioPlayerAlert$13 */
+    /* renamed from: org.telegram.ui.Components.AudioPlayerAlert$13  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass13 extends RLottieImageView {
+    class AnonymousClass13 extends RLottieImageView {
         long lastTime;
         long lastUpdateTime;
         long startTime;
@@ -1129,12 +1135,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass13(Context context, float f) {
             super(context);
-            AudioPlayerAlert.this = r1;
             this.val$touchSlop = f;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:12:0x002c, code lost:
-            if (r4 != 3) goto L35;
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x002c, code lost:
+            if (r4 != 3) goto L12;
          */
         @Override // android.view.View
         /*
@@ -1196,6 +1201,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$5(View view) {
         if (MediaController.getInstance().isDownloadingCurrentMessage()) {
             return;
@@ -1207,10 +1213,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.AudioPlayerAlert$14 */
+    /* renamed from: org.telegram.ui.Components.AudioPlayerAlert$14  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass14 extends RLottieImageView {
+    class AnonymousClass14 extends RLottieImageView {
         boolean pressed;
         private final Runnable pressedRunnable = new Runnable() { // from class: org.telegram.ui.Components.AudioPlayerAlert.14.1
             @Override // java.lang.Runnable
@@ -1253,12 +1258,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass14(Context context, float f) {
             super(context);
-            AudioPlayerAlert.this = r1;
             this.val$touchSlop = f;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:12:0x002b, code lost:
-            if (r3 != 3) goto L37;
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x002b, code lost:
+            if (r3 != 3) goto L12;
          */
         @Override // android.view.View
         /*
@@ -1322,10 +1326,12 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(View view) {
         this.optionsButton.toggleSubMenu();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$8(View view, int i) {
         if (view instanceof AudioPlayerCell) {
             ((AudioPlayerCell) view).didPressedButton();
@@ -1355,6 +1361,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         return this.container.getMeasuredHeight() - i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startForwardRewindingSeek() {
         if (this.rewindingState == 1) {
             this.lastRewindingTime = System.currentTimeMillis();
@@ -1364,6 +1371,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyViewPosition() {
         if (this.emptyView.getVisibility() != 0) {
             return;
@@ -1373,16 +1381,13 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         linearLayout.setTranslationY(((linearLayout.getMeasuredHeight() - this.containerView.getMeasuredHeight()) - dp) / 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyView() {
         this.emptyView.setVisibility((!this.searching || this.listAdapter.getItemCount() != 0) ? 8 : 0);
         updateEmptyViewPosition();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0050  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean scrollToCurrentSong(boolean z) {
         boolean z2;
         int indexOf;
@@ -1402,18 +1407,13 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                         z2 = true;
                     }
                 }
-                if (!z2 && (indexOf = this.playlist.indexOf(playingMessageObject)) >= 0) {
-                    if (!SharedConfig.playOrderReversed) {
-                        this.layoutManager.scrollToPosition(indexOf);
-                    } else {
-                        this.layoutManager.scrollToPosition(this.playlist.size() - indexOf);
-                    }
-                    return true;
-                }
             }
             z2 = false;
-            if (!z2) {
-                if (!SharedConfig.playOrderReversed) {
+            if (!z2 && (indexOf = this.playlist.indexOf(playingMessageObject)) >= 0) {
+                if (SharedConfig.playOrderReversed) {
+                    this.layoutManager.scrollToPosition(indexOf);
+                } else {
+                    this.layoutManager.scrollToPosition(this.playlist.size() - indexOf);
                 }
                 return true;
             }
@@ -1491,8 +1491,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0066, code lost:
-        if (r12.exists() == false) goto L18;
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x0066, code lost:
+        if (r12.exists() == false) goto L89;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1611,6 +1612,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSubItemClick$9(ArrayList arrayList, DialogsActivity dialogsActivity, ArrayList arrayList2, CharSequence charSequence, boolean z) {
         if (arrayList2.size() > 1 || ((Long) arrayList2.get(0)).longValue() == UserConfig.getInstance(this.currentAccount).getClientUserId() || charSequence != null) {
             for (int i = 0; i < arrayList2.size(); i++) {
@@ -1642,10 +1644,12 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSubItemClick$10() {
         BulletinFactory.of((FrameLayout) this.containerView, this.resourcesProvider).createDownloadBulletin(BulletinFactory.FileType.AUDIO).show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showAlbumCover(boolean z, boolean z2) {
         if (z) {
             if (this.blurredView.getVisibility() == 0 || this.blurredAnimationInProgress) {
@@ -1791,6 +1795,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
             RecyclerListView recyclerListView = this.listView;
@@ -1942,6 +1947,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.repeatButton.setContentDescription(LocaleController.getString("AccDescrRepeatList", R.string.AccDescrRepeatList));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateProgress(MessageObject messageObject) {
         updateProgress(messageObject, false);
     }
@@ -2157,6 +2163,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
@@ -2174,7 +2181,6 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
 
         public ListAdapter(Context context) {
-            AudioPlayerAlert.this = r1;
             this.context = context;
         }
 
@@ -2205,7 +2211,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             Context context = this.context;
             boolean currentPlaylistIsGlobalSearch = MediaController.getInstance().currentPlaylistIsGlobalSearch();
             return new RecyclerListView.Holder(new AudioPlayerCell(context, currentPlaylistIsGlobalSearch ? 1 : 0, ((BottomSheet) AudioPlayerAlert.this).resourcesProvider));
@@ -2244,6 +2251,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             dispatchQueue.postRunnable(runnable, 300L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$search$0(String str) {
             this.searchRunnable = null;
             processSearch(str);
@@ -2258,6 +2266,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processSearch$2(final String str) {
             final ArrayList arrayList = new ArrayList(AudioPlayerAlert.this.playlist);
             Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.AudioPlayerAlert$ListAdapter$$ExternalSyntheticLambda2
@@ -2268,6 +2277,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processSearch$1(String str, ArrayList arrayList) {
             TLRPC$Document tLRPC$Document;
             boolean z;
@@ -2343,6 +2353,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$3(ArrayList arrayList, String str) {
             if (!AudioPlayerAlert.this.searching) {
                 return;
@@ -2437,6 +2448,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$11() {
         this.searchItem.getSearchField().setCursorColor(getThemedColor("player_actionBarTitle"));
         ActionBarMenuItem actionBarMenuItem = this.repeatButton;
@@ -2453,6 +2465,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.optionsButton.redrawPopup(getThemedColor("actionBarDefaultSubmenuBackground"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static abstract class CoverContainer extends FrameLayout {
         private int activeIndex;
@@ -2484,6 +2497,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(int i, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
             if (i == this.activeIndex) {
                 onImageUpdated(imageReceiver);
@@ -2546,6 +2560,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             this.animatorSet.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$switchImageViews$1(BackupImageView backupImageView, boolean z, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             backupImageView.setScaleX(floatValue);
@@ -2555,6 +2570,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$switchImageViews$2(BackupImageView backupImageView, BackupImageView backupImageView2, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             backupImageView.setScaleX(floatValue);
@@ -2733,11 +2749,13 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setText$0(int i, ValueAnimator valueAnimator) {
             this.clipProgress[i] = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setText$1(int i, ValueAnimator valueAnimator) {
             this.clipProgress[i] = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();

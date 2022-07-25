@@ -24,9 +24,8 @@ public final class FingerprintManagerCompat {
         public abstract void onAuthenticationSucceeded(AuthenticationResult authenticationResult);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public interface FingerprintManagerCompatImpl {
+    private interface FingerprintManagerCompatImpl {
         void authenticate(Context context, CryptoObject cryptoObject, int i, CancellationSignal cancellationSignal, AuthenticationCallback authenticationCallback, Handler handler);
 
         boolean hasEnrolledFingerprints(Context context);
@@ -175,22 +174,22 @@ public final class FingerprintManagerCompat {
             return new FingerprintManagerCompatApi23.AuthenticationCallback() { // from class: org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.Api23FingerprintManagerCompatImpl.1
                 @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
                 public void onAuthenticationError(int i, CharSequence charSequence) {
-                    authenticationCallback.onAuthenticationError(i, charSequence);
+                    AuthenticationCallback.this.onAuthenticationError(i, charSequence);
                 }
 
                 @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
                 public void onAuthenticationHelp(int i, CharSequence charSequence) {
-                    authenticationCallback.onAuthenticationHelp(i, charSequence);
+                    AuthenticationCallback.this.onAuthenticationHelp(i, charSequence);
                 }
 
                 @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
                 public void onAuthenticationSucceeded(FingerprintManagerCompatApi23.AuthenticationResultInternal authenticationResultInternal) {
-                    authenticationCallback.onAuthenticationSucceeded(new AuthenticationResult(Api23FingerprintManagerCompatImpl.unwrapCryptoObject(authenticationResultInternal.getCryptoObject())));
+                    AuthenticationCallback.this.onAuthenticationSucceeded(new AuthenticationResult(Api23FingerprintManagerCompatImpl.unwrapCryptoObject(authenticationResultInternal.getCryptoObject())));
                 }
 
                 @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback
                 public void onAuthenticationFailed() {
-                    authenticationCallback.onAuthenticationFailed();
+                    AuthenticationCallback.this.onAuthenticationFailed();
                 }
             };
         }

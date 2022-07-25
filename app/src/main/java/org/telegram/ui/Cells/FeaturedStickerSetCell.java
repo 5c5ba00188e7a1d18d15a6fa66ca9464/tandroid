@@ -120,7 +120,7 @@ public class FeaturedStickerSetCell extends FrameLayout {
     }
 
     public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z, boolean z2) {
-        ImageLocation imageLocation;
+        ImageLocation forSticker;
         boolean z3 = tLRPC$StickerSetCovered == this.stickersSet && this.wasLayout;
         this.needDivider = z;
         this.stickersSet = tLRPC$StickerSetCovered;
@@ -185,21 +185,21 @@ public class FeaturedStickerSetCell extends FrameLayout {
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, "windowBackgroundGray", 1.0f);
             boolean z5 = closestPhotoSizeWithSize instanceof TLRPC$Document;
             if (z5) {
-                imageLocation = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+                forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
             } else {
-                imageLocation = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
+                forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
             }
-            ImageLocation imageLocation2 = imageLocation;
+            ImageLocation imageLocation = forSticker;
             if (!z5 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
-                if (imageLocation2 != null && imageLocation2.imageType == 1) {
-                    this.imageView.setImage(imageLocation2, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+                if (imageLocation != null && imageLocation.imageType == 1) {
+                    this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
                 } else {
-                    this.imageView.setImage(imageLocation2, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                    this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
                 }
             } else if (svgThumb != null) {
                 this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
             } else {
-                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation2, (String) null, 0, tLRPC$StickerSetCovered);
+                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
             }
         } else {
             this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLRPC$StickerSetCovered);

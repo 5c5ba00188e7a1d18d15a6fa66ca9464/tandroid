@@ -17,13 +17,13 @@ public class OuterBinderAdapter extends BinderAdapter {
         super(context, str, str2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0030 A[Catch: all -> 0x004b, TryCatch #0 {, blocks: (B:4:0x000a, B:6:0x000e, B:7:0x001a, B:9:0x0022, B:15:0x0030, B:16:0x0047, B:17:0x0049), top: B:22:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0030 A[Catch: all -> 0x004b, TryCatch #0 {, blocks: (B:4:0x000a, B:6:0x000e, B:7:0x0047, B:8:0x0049, B:12:0x001a, B:14:0x0022, B:19:0x0030), top: B:3:0x000a }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static BinderAdapter getInstance(Context context, String str, String str2) {
-        BinderAdapter binderAdapter;
         boolean z;
+        BinderAdapter binderAdapter;
         HMSLog.i(TAG, "OuterBinderAdapter getInstance.");
         synchronized (LOCK_OBJECT_INIT) {
             if (adapter == null) {

@@ -22,6 +22,7 @@ public abstract class TaskApiCall<A extends Api.AnyClient, ResultT> {
         this.zac = 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract void doExecute(@RecentlyNonNull A a, @RecentlyNonNull TaskCompletionSource<ResultT> taskCompletionSource) throws RemoteException;
 
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
@@ -68,6 +69,7 @@ public abstract class TaskApiCall<A extends Api.AnyClient, ResultT> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public TaskApiCall(@RecentlyNonNull Feature[] featureArr, boolean z, int i) {
         this.zaa = featureArr;
         this.zab = featureArr != null && z;

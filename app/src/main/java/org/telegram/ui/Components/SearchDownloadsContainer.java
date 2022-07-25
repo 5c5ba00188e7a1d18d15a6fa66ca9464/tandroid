@@ -124,6 +124,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         FileLoader.getInstance(i).getCurrentLoadingFiles(this.currentLoadingFiles);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         MessageObject message = this.adapter.getMessage(i);
         if (message == null) {
@@ -169,6 +170,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         ((SharedAudioCell) view).didPressedButton();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(View view, int i) {
         MessageObject message = this.adapter.getMessage(i);
         if (message != null) {
@@ -199,6 +201,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkFilesExist$3() {
         ArrayList<MessageObject> arrayList = new ArrayList<>();
         ArrayList<MessageObject> arrayList2 = new ArrayList<>();
@@ -224,6 +227,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkFilesExist$2(ArrayList arrayList, ArrayList arrayList2) {
         for (int i = 0; i < arrayList.size(); i++) {
             DownloadController.getInstance(this.currentAccount).onDownloadComplete((MessageObject) arrayList.get(i));
@@ -289,6 +293,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         updateListInternal(z, this.currentLoadingFilesTmp, this.recentLoadingFilesTmp);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$update$5(ArrayList arrayList, final String str, ArrayList arrayList2) {
         final ArrayList arrayList3 = new ArrayList();
         final ArrayList arrayList4 = new ArrayList();
@@ -316,6 +321,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$update$4(String str, ArrayList arrayList, ArrayList arrayList2) {
         if (str.equals(this.lastQueryString)) {
             if (this.rowCount == 0) {
@@ -468,14 +474,15 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         update(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class DownloadsAdapter extends RecyclerListView.SelectionAdapter {
         private DownloadsAdapter() {
-            SearchDownloadsContainer.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 0) {
                 view = new GraySectionCell(viewGroup.getContext());
@@ -577,6 +584,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             return (message != null && message.isMusic()) ? 2 : 1;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public MessageObject getMessage(int i) {
             SearchDownloadsContainer searchDownloadsContainer = SearchDownloadsContainer.this;
             int i2 = searchDownloadsContainer.downloadingFilesStartRow;
@@ -601,6 +609,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showSettingsDialog() {
         if (this.parentFragment == null || this.parentActivity == null) {
             return;
@@ -665,6 +674,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showSettingsDialog$6(BottomSheet bottomSheet, View view) {
         bottomSheet.dismiss();
         BaseFragment baseFragment = this.parentFragment;
@@ -673,6 +683,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showSettingsDialog$7(BottomSheet bottomSheet, View view) {
         bottomSheet.dismiss();
         DownloadController.getInstance(this.currentAccount).clearRecentDownloadedFiles();
@@ -705,6 +716,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Cell extends FrameLayout {
         SharedDocumentCell sharedDocumentCell;

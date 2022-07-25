@@ -21,6 +21,7 @@ public class RemoteConfigRegistrar implements ComponentRegistrar {
         return Arrays.asList(Component.builder(RemoteConfigComponent.class).add(Dependency.required(Context.class)).add(Dependency.required(FirebaseApp.class)).add(Dependency.required(FirebaseInstallationsApi.class)).add(Dependency.required(AbtComponent.class)).add(Dependency.optionalProvider(AnalyticsConnector.class)).factory(RemoteConfigRegistrar$$ExternalSyntheticLambda0.INSTANCE).eagerInDefaultApp().build(), LibraryVersionComponent.create("fire-rc", "21.0.1"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ RemoteConfigComponent lambda$getComponents$0(ComponentContainer componentContainer) {
         return new RemoteConfigComponent((Context) componentContainer.get(Context.class), (FirebaseApp) componentContainer.get(FirebaseApp.class), (FirebaseInstallationsApi) componentContainer.get(FirebaseInstallationsApi.class), ((AbtComponent) componentContainer.get(AbtComponent.class)).get("frc"), componentContainer.getProvider(AnalyticsConnector.class));
     }

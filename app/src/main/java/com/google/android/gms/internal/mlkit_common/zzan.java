@@ -31,22 +31,21 @@ public final class zzan {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
     static {
-        zzaq zzaqVar;
         Integer num;
-        Throwable th;
+        zzaq zzaVar;
         try {
             num = zza();
-        } catch (Throwable th2) {
-            th = th2;
+        } catch (Throwable th) {
+            th = th;
             num = null;
         }
         if (num != null) {
             try {
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th2) {
+                th = th2;
                 PrintStream printStream = System.err;
                 String name = zza.class.getName();
                 StringBuilder sb = new StringBuilder(name.length() + 133);
@@ -55,14 +54,14 @@ public final class zzan {
                 sb.append("will be used. The error is: ");
                 printStream.println(sb.toString());
                 th.printStackTrace(System.err);
-                zzaqVar = new zza();
-                zza = zzaqVar;
+                zzaVar = new zza();
+                zza = zzaVar;
                 if (num == null) {
                 }
             }
             if (num.intValue() >= 19) {
-                zzaqVar = new zzat();
-                zza = zzaqVar;
+                zzaVar = new zzat();
+                zza = zzaVar;
                 if (num == null) {
                     return;
                 }
@@ -71,11 +70,11 @@ public final class zzan {
             }
         }
         if (!Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic")) {
-            zzaqVar = new zzar();
+            zzaVar = new zzar();
         } else {
-            zzaqVar = new zza();
+            zzaVar = new zza();
         }
-        zza = zzaqVar;
+        zza = zzaVar;
         if (num == null) {
         }
     }

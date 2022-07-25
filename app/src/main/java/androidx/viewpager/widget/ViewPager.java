@@ -87,6 +87,7 @@ public class ViewPager extends ViewGroup {
     private VelocityTracker mVelocityTracker;
     static final int[] LAYOUT_ATTRS = {16842931};
     private static final Comparator<ItemInfo> COMPARATOR = new Comparator<ItemInfo>() { // from class: androidx.viewpager.widget.ViewPager.1
+        @Override // java.util.Comparator
         public int compare(ItemInfo itemInfo, ItemInfo itemInfo2) {
             return itemInfo.position - itemInfo2.position;
         }
@@ -145,6 +146,7 @@ public class ViewPager extends ViewGroup {
         void transformPage(View view, float f);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class ItemInfo {
         Object object;
@@ -451,25 +453,25 @@ public class ViewPager extends ViewGroup {
     }
 
     void smoothScrollTo(int i, int i2, int i3) {
-        int i4;
-        int i5;
+        int scrollX;
+        int abs;
         if (getChildCount() == 0) {
             setScrollingCacheEnabled(false);
             return;
         }
         Scroller scroller = this.mScroller;
         if (scroller != null && !scroller.isFinished()) {
-            i4 = this.mIsScrollStarted ? this.mScroller.getCurrX() : this.mScroller.getStartX();
+            scrollX = this.mIsScrollStarted ? this.mScroller.getCurrX() : this.mScroller.getStartX();
             this.mScroller.abortAnimation();
             setScrollingCacheEnabled(false);
         } else {
-            i4 = getScrollX();
+            scrollX = getScrollX();
         }
-        int i6 = i4;
+        int i4 = scrollX;
         int scrollY = getScrollY();
-        int i7 = i - i6;
-        int i8 = i2 - scrollY;
-        if (i7 == 0 && i8 == 0) {
+        int i5 = i - i4;
+        int i6 = i2 - scrollY;
+        if (i5 == 0 && i6 == 0) {
             completeScroll(false);
             populate();
             setScrollState(0);
@@ -478,26 +480,26 @@ public class ViewPager extends ViewGroup {
         setScrollingCacheEnabled(true);
         setScrollState(2);
         int clientWidth = getClientWidth();
-        int i9 = clientWidth / 2;
+        int i7 = clientWidth / 2;
         float f = clientWidth;
-        float f2 = i9;
-        float distanceInfluenceForSnapDuration = f2 + (distanceInfluenceForSnapDuration(Math.min(1.0f, (Math.abs(i7) * 1.0f) / f)) * f2);
-        int abs = Math.abs(i3);
-        if (abs > 0) {
-            i5 = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs) * 1000.0f) * 4;
+        float f2 = i7;
+        float distanceInfluenceForSnapDuration = f2 + (distanceInfluenceForSnapDuration(Math.min(1.0f, (Math.abs(i5) * 1.0f) / f)) * f2);
+        int abs2 = Math.abs(i3);
+        if (abs2 > 0) {
+            abs = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs2) * 1000.0f) * 4;
         } else {
-            i5 = (int) (((Math.abs(i7) / ((f * this.mAdapter.getPageWidth(this.mCurItem)) + this.mPageMargin)) + 1.0f) * 100.0f);
+            abs = (int) (((Math.abs(i5) / ((f * this.mAdapter.getPageWidth(this.mCurItem)) + this.mPageMargin)) + 1.0f) * 100.0f);
         }
-        int min = Math.min(i5, 600);
+        int min = Math.min(abs, 600);
         this.mIsScrollStarted = false;
-        this.mScroller.startScroll(i6, scrollY, i7, i8, min);
+        this.mScroller.startScroll(i4, scrollY, i5, i6, min);
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
     ItemInfo addNewItem(int i, int i2) {
         ItemInfo itemInfo = new ItemInfo();
         itemInfo.position = i;
-        itemInfo.object = this.mAdapter.instantiateItem((ViewGroup) this, i);
+        itemInfo.object = this.mAdapter.mo1580instantiateItem((ViewGroup) this, i);
         itemInfo.widthFactor = this.mAdapter.getPageWidth(i);
         if (i2 < 0 || i2 >= this.mItems.size()) {
             this.mItems.add(itemInfo);
@@ -564,7 +566,7 @@ public class ViewPager extends ViewGroup {
         populate(this.mCurItem);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0060, code lost:
         if (r9 == r10) goto L27;
      */
     /* JADX WARN: Code restructure failed: missing block: B:26:0x0066, code lost:
@@ -575,7 +577,7 @@ public class ViewPager extends ViewGroup {
     */
     void populate(int i) {
         ItemInfo itemInfo;
-        String str;
+        String hexString;
         ItemInfo itemInfo2;
         ItemInfo infoForChild;
         ItemInfo itemInfo3;
@@ -598,11 +600,11 @@ public class ViewPager extends ViewGroup {
             int min = Math.min(count - 1, this.mCurItem + i3);
             if (count != this.mExpectedAdapterCount) {
                 try {
-                    str = getResources().getResourceName(getId());
+                    hexString = getResources().getResourceName(getId());
                 } catch (Resources.NotFoundException unused) {
-                    str = Integer.toHexString(getId());
+                    hexString = Integer.toHexString(getId());
                 }
-                throw new IllegalStateException("The application's PagerAdapter changed the adapter's contents without calling PagerAdapter#notifyDataSetChanged! Expected adapter item count: " + this.mExpectedAdapterCount + ", found: " + count + " Pager id: " + str + " Pager class: " + getClass() + " Problematic adapter: " + this.mAdapter.getClass());
+                throw new IllegalStateException("The application's PagerAdapter changed the adapter's contents without calling PagerAdapter#notifyDataSetChanged! Expected adapter item count: " + this.mExpectedAdapterCount + ", found: " + count + " Pager id: " + hexString + " Pager class: " + getClass() + " Problematic adapter: " + this.mAdapter.getClass());
             }
             int i4 = 0;
             while (true) {
@@ -648,17 +650,19 @@ public class ViewPager extends ViewGroup {
                         }
                     } else if (itemInfo4 == null) {
                         break;
-                    } else if (i8 == itemInfo4.position && !itemInfo4.scrolling) {
-                        this.mItems.remove(i7);
-                        this.mAdapter.destroyItem((ViewGroup) this, i8, itemInfo4.object);
-                        i7--;
-                        i4--;
-                        if (i7 >= 0) {
-                            itemInfo3 = this.mItems.get(i7);
+                    } else {
+                        if (i8 == itemInfo4.position && !itemInfo4.scrolling) {
+                            this.mItems.remove(i7);
+                            this.mAdapter.destroyItem((ViewGroup) this, i8, itemInfo4.object);
+                            i7--;
+                            i4--;
+                            if (i7 >= 0) {
+                                itemInfo3 = this.mItems.get(i7);
+                                itemInfo4 = itemInfo3;
+                            }
+                            itemInfo3 = null;
                             itemInfo4 = itemInfo3;
                         }
-                        itemInfo3 = null;
-                        itemInfo4 = itemInfo3;
                     }
                 }
                 float f2 = itemInfo2.widthFactor;
@@ -857,18 +861,22 @@ public class ViewPager extends ViewGroup {
     /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator<SavedState>() { // from class: androidx.viewpager.widget.ViewPager.SavedState.1
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.ClassLoaderCreator
-            public SavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
+            /* renamed from: createFromParcel */
+            public SavedState mo39createFromParcel(Parcel parcel, ClassLoader classLoader) {
                 return new SavedState(parcel, classLoader);
             }
 
             @Override // android.os.Parcelable.Creator
-            public SavedState createFromParcel(Parcel parcel) {
+            /* renamed from: createFromParcel */
+            public SavedState mo38createFromParcel(Parcel parcel) {
                 return new SavedState(parcel, null);
             }
 
             @Override // android.os.Parcelable.Creator
-            public SavedState[] newArray(int i) {
+            /* renamed from: newArray */
+            public SavedState[] mo40newArray(int i) {
                 return new SavedState[i];
             }
         };
@@ -995,18 +1003,20 @@ public class ViewPager extends ViewGroup {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.mFirstLayout = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0089  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00a8  */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0089  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1122,8 +1132,8 @@ public class ViewPager extends ViewGroup {
         scrollTo(min, getScrollY());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0071  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x008e  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1131,99 +1141,99 @@ public class ViewPager extends ViewGroup {
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         boolean z2;
         ItemInfo infoForChild;
+        int max;
         int i5;
+        int max2;
         int i6;
-        int i7;
-        int i8;
         int childCount = getChildCount();
-        int i9 = i3 - i;
-        int i10 = i4 - i2;
+        int i7 = i3 - i;
+        int i8 = i4 - i2;
         int paddingLeft = getPaddingLeft();
         int paddingTop = getPaddingTop();
         int paddingRight = getPaddingRight();
         int paddingBottom = getPaddingBottom();
         int scrollX = getScrollX();
-        int i11 = 0;
-        for (int i12 = 0; i12 < childCount; i12++) {
-            View childAt = getChildAt(i12);
+        int i9 = 0;
+        for (int i10 = 0; i10 < childCount; i10++) {
+            View childAt = getChildAt(i10);
             if (childAt.getVisibility() != 8) {
                 LayoutParams layoutParams = (LayoutParams) childAt.getLayoutParams();
                 if (layoutParams.isDecor) {
-                    int i13 = layoutParams.gravity;
-                    int i14 = i13 & 7;
-                    int i15 = i13 & 112;
-                    if (i14 == 1) {
-                        i8 = Math.max((i9 - childAt.getMeasuredWidth()) / 2, paddingLeft);
+                    int i11 = layoutParams.gravity;
+                    int i12 = i11 & 7;
+                    int i13 = i11 & 112;
+                    if (i12 == 1) {
+                        max = Math.max((i7 - childAt.getMeasuredWidth()) / 2, paddingLeft);
                     } else {
-                        if (i14 == 3) {
+                        if (i12 == 3) {
                             i5 = childAt.getMeasuredWidth() + paddingLeft;
-                        } else if (i14 != 5) {
+                        } else if (i12 != 5) {
                             i5 = paddingLeft;
                         } else {
-                            i8 = (i9 - paddingRight) - childAt.getMeasuredWidth();
+                            max = (i7 - paddingRight) - childAt.getMeasuredWidth();
                             paddingRight += childAt.getMeasuredWidth();
                         }
-                        if (i15 != 16) {
-                            i7 = Math.max((i10 - childAt.getMeasuredHeight()) / 2, paddingTop);
+                        if (i13 != 16) {
+                            max2 = Math.max((i8 - childAt.getMeasuredHeight()) / 2, paddingTop);
                         } else {
-                            if (i15 == 48) {
+                            if (i13 == 48) {
                                 i6 = childAt.getMeasuredHeight() + paddingTop;
-                            } else if (i15 != 80) {
+                            } else if (i13 != 80) {
                                 i6 = paddingTop;
                             } else {
-                                i7 = (i10 - paddingBottom) - childAt.getMeasuredHeight();
+                                max2 = (i8 - paddingBottom) - childAt.getMeasuredHeight();
                                 paddingBottom += childAt.getMeasuredHeight();
                             }
-                            int i16 = paddingLeft + scrollX;
-                            childAt.layout(i16, paddingTop, childAt.getMeasuredWidth() + i16, paddingTop + childAt.getMeasuredHeight());
-                            i11++;
+                            int i14 = paddingLeft + scrollX;
+                            childAt.layout(i14, paddingTop, childAt.getMeasuredWidth() + i14, paddingTop + childAt.getMeasuredHeight());
+                            i9++;
                             paddingTop = i6;
                             paddingLeft = i5;
                         }
-                        int i17 = i7;
+                        int i15 = max2;
                         i6 = paddingTop;
-                        paddingTop = i17;
-                        int i162 = paddingLeft + scrollX;
-                        childAt.layout(i162, paddingTop, childAt.getMeasuredWidth() + i162, paddingTop + childAt.getMeasuredHeight());
-                        i11++;
+                        paddingTop = i15;
+                        int i142 = paddingLeft + scrollX;
+                        childAt.layout(i142, paddingTop, childAt.getMeasuredWidth() + i142, paddingTop + childAt.getMeasuredHeight());
+                        i9++;
                         paddingTop = i6;
                         paddingLeft = i5;
                     }
-                    int i18 = i8;
+                    int i16 = max;
                     i5 = paddingLeft;
-                    paddingLeft = i18;
-                    if (i15 != 16) {
+                    paddingLeft = i16;
+                    if (i13 != 16) {
                     }
-                    int i172 = i7;
+                    int i152 = max2;
                     i6 = paddingTop;
-                    paddingTop = i172;
-                    int i1622 = paddingLeft + scrollX;
-                    childAt.layout(i1622, paddingTop, childAt.getMeasuredWidth() + i1622, paddingTop + childAt.getMeasuredHeight());
-                    i11++;
+                    paddingTop = i152;
+                    int i1422 = paddingLeft + scrollX;
+                    childAt.layout(i1422, paddingTop, childAt.getMeasuredWidth() + i1422, paddingTop + childAt.getMeasuredHeight());
+                    i9++;
                     paddingTop = i6;
                     paddingLeft = i5;
                 }
             }
         }
-        int i19 = (i9 - paddingLeft) - paddingRight;
-        for (int i20 = 0; i20 < childCount; i20++) {
-            View childAt2 = getChildAt(i20);
+        int i17 = (i7 - paddingLeft) - paddingRight;
+        for (int i18 = 0; i18 < childCount; i18++) {
+            View childAt2 = getChildAt(i18);
             if (childAt2.getVisibility() != 8) {
                 LayoutParams layoutParams2 = (LayoutParams) childAt2.getLayoutParams();
                 if (!layoutParams2.isDecor && (infoForChild = infoForChild(childAt2)) != null) {
-                    float f = i19;
-                    int i21 = ((int) (infoForChild.offset * f)) + paddingLeft;
+                    float f = i17;
+                    int i19 = ((int) (infoForChild.offset * f)) + paddingLeft;
                     if (layoutParams2.needsMeasure) {
                         layoutParams2.needsMeasure = false;
-                        childAt2.measure(View.MeasureSpec.makeMeasureSpec((int) (f * layoutParams2.widthFactor), 1073741824), View.MeasureSpec.makeMeasureSpec((i10 - paddingTop) - paddingBottom, 1073741824));
+                        childAt2.measure(View.MeasureSpec.makeMeasureSpec((int) (f * layoutParams2.widthFactor), 1073741824), View.MeasureSpec.makeMeasureSpec((i8 - paddingTop) - paddingBottom, 1073741824));
                     }
-                    childAt2.layout(i21, paddingTop, childAt2.getMeasuredWidth() + i21, childAt2.getMeasuredHeight() + paddingTop);
+                    childAt2.layout(i19, paddingTop, childAt2.getMeasuredWidth() + i19, childAt2.getMeasuredHeight() + paddingTop);
                 }
             }
         }
         this.mTopPageBounds = paddingTop;
-        this.mBottomPageBounds = i10 - paddingBottom;
-        this.mDecorChildCount = i11;
+        this.mBottomPageBounds = i8 - paddingBottom;
+        this.mDecorChildCount = i9;
         if (this.mFirstLayout) {
             z2 = false;
             scrollToItem(this.mCurItem, false, 0, false);
@@ -1281,34 +1291,34 @@ public class ViewPager extends ViewGroup {
         return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0064  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onPageScrolled(int i, float f, int i2) {
+        int max;
         int i3;
         int left;
-        int i4;
         if (this.mDecorChildCount > 0) {
             int scrollX = getScrollX();
             int paddingLeft = getPaddingLeft();
             int paddingRight = getPaddingRight();
             int width = getWidth();
             int childCount = getChildCount();
-            for (int i5 = 0; i5 < childCount; i5++) {
-                View childAt = getChildAt(i5);
+            for (int i4 = 0; i4 < childCount; i4++) {
+                View childAt = getChildAt(i4);
                 LayoutParams layoutParams = (LayoutParams) childAt.getLayoutParams();
                 if (layoutParams.isDecor) {
-                    int i6 = layoutParams.gravity & 7;
-                    if (i6 == 1) {
-                        i4 = Math.max((width - childAt.getMeasuredWidth()) / 2, paddingLeft);
+                    int i5 = layoutParams.gravity & 7;
+                    if (i5 == 1) {
+                        max = Math.max((width - childAt.getMeasuredWidth()) / 2, paddingLeft);
                     } else {
-                        if (i6 == 3) {
+                        if (i5 == 3) {
                             i3 = childAt.getWidth() + paddingLeft;
-                        } else if (i6 != 5) {
+                        } else if (i5 != 5) {
                             i3 = paddingLeft;
                         } else {
-                            i4 = (width - paddingRight) - childAt.getMeasuredWidth();
+                            max = (width - paddingRight) - childAt.getMeasuredWidth();
                             paddingRight += childAt.getMeasuredWidth();
                         }
                         left = (paddingLeft + scrollX) - childAt.getLeft();
@@ -1317,9 +1327,9 @@ public class ViewPager extends ViewGroup {
                         }
                         paddingLeft = i3;
                     }
-                    int i7 = i4;
+                    int i6 = max;
                     i3 = paddingLeft;
-                    paddingLeft = i7;
+                    paddingLeft = i6;
                     left = (paddingLeft + scrollX) - childAt.getLeft();
                     if (left != 0) {
                     }
@@ -1331,8 +1341,8 @@ public class ViewPager extends ViewGroup {
         if (this.mPageTransformer != null) {
             int scrollX2 = getScrollX();
             int childCount2 = getChildCount();
-            for (int i8 = 0; i8 < childCount2; i8++) {
-                View childAt2 = getChildAt(i8);
+            for (int i7 = 0; i7 < childCount2; i7++) {
+                View childAt2 = getChildAt(i7);
                 if (!((LayoutParams) childAt2.getLayoutParams()).isDecor) {
                     this.mPageTransformer.transformPage(childAt2, (childAt2.getLeft() - scrollX2) / getClientWidth());
                 }
@@ -1942,14 +1952,14 @@ public class ViewPager extends ViewGroup {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean arrowScroll(int i) {
+        boolean z;
         View findNextFocus;
         boolean requestFocus;
-        boolean z;
         View findFocus = findFocus();
         boolean z2 = false;
         if (findFocus != this) {
@@ -2101,18 +2111,18 @@ public class ViewPager extends ViewGroup {
         int i4 = -1;
         if ((i & 2) != 0) {
             i4 = childCount;
-            i3 = 0;
-            i2 = 1;
+            i2 = 0;
+            i3 = 1;
         } else {
-            i3 = childCount - 1;
-            i2 = -1;
+            i2 = childCount - 1;
+            i3 = -1;
         }
-        while (i3 != i4) {
-            View childAt = getChildAt(i3);
+        while (i2 != i4) {
+            View childAt = getChildAt(i2);
             if (childAt.getVisibility() == 0 && (infoForChild = infoForChild(childAt)) != null && infoForChild.position == this.mCurItem && childAt.requestFocus(i, rect)) {
                 return true;
             }
-            i3 += i2;
+            i2 += i3;
         }
         return false;
     }
@@ -2153,10 +2163,10 @@ public class ViewPager extends ViewGroup {
         return new LayoutParams(getContext(), attributeSet);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class MyAccessibilityDelegate extends AccessibilityDelegateCompat {
         MyAccessibilityDelegate() {
-            ViewPager.this = r1;
         }
 
         @Override // androidx.core.view.AccessibilityDelegateCompat
@@ -2213,11 +2223,9 @@ public class ViewPager extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public class PagerObserver extends DataSetObserver {
+    private class PagerObserver extends DataSetObserver {
         PagerObserver() {
-            ViewPager.this = r1;
         }
 
         @Override // android.database.DataSetObserver
@@ -2252,11 +2260,13 @@ public class ViewPager extends ViewGroup {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class ViewPositionComparator implements Comparator<View> {
         ViewPositionComparator() {
         }
 
+        @Override // java.util.Comparator
         public int compare(View view, View view2) {
             LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
             LayoutParams layoutParams2 = (LayoutParams) view2.getLayoutParams();

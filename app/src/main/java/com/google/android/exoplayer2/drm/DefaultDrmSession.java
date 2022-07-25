@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+/* JADX INFO: Access modifiers changed from: package-private */
 @TargetApi(18)
 /* loaded from: classes.dex */
 public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T> {
@@ -222,6 +223,7 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onProvisionResponse(Object obj, Object obj2) {
         if (obj == this.currentProvisionRequest) {
             if (this.state != 2 && !isOpen()) {
@@ -311,6 +313,7 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onKeyResponse(Object obj, Object obj2) {
         if (obj != this.currentKeyRequest || !isOpen()) {
             return;
@@ -373,14 +376,11 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         return i == 3 || i == 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
-    public class ResponseHandler extends Handler {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    private class ResponseHandler extends Handler {
         public ResponseHandler(Looper looper) {
             super(looper);
-            DefaultDrmSession.this = r1;
         }
 
         @Override // android.os.Handler
@@ -398,13 +398,12 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
     public class RequestHandler extends Handler {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public RequestHandler(Looper looper) {
             super(looper);
-            DefaultDrmSession.this = r1;
         }
 
         void post(int i, Object obj, boolean z) {
@@ -436,6 +435,8 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
             DefaultDrmSession.this.responseHandler.obtainMessage(message.what, Pair.create(requestTask.request, bArr)).sendToTarget();
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r13v3, types: [java.io.IOException] */
         private boolean maybeRetryRequest(Message message, Exception exc) {
             RequestTask requestTask = (RequestTask) message.obj;
             if (!requestTask.allowRetry) {
@@ -455,6 +456,7 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class RequestTask {
         public final boolean allowRetry;

@@ -563,7 +563,7 @@ public class ChatObject {
         }
 
         private void loadUnknownParticipants(final ArrayList<Long> arrayList, boolean z, final OnParticipantsLoad onParticipantsLoad) {
-            TLRPC$InputPeer tLRPC$InputPeer;
+            TLRPC$InputPeer tLRPC$TL_inputPeerChannel;
             final HashSet<Long> hashSet = z ? this.loadingUids : this.loadingSsrcs;
             int size = arrayList.size();
             int i = 0;
@@ -597,13 +597,13 @@ public class ChatObject {
                     long j = -longValue;
                     TLRPC$Chat chat = this.currentAccount.getMessagesController().getChat(Long.valueOf(j));
                     if (chat == null || ChatObject.isChannel(chat)) {
-                        tLRPC$InputPeer = new TLRPC$TL_inputPeerChannel();
-                        tLRPC$InputPeer.channel_id = j;
+                        tLRPC$TL_inputPeerChannel = new TLRPC$TL_inputPeerChannel();
+                        tLRPC$TL_inputPeerChannel.channel_id = j;
                     } else {
-                        tLRPC$InputPeer = new TLRPC$TL_inputPeerChat();
-                        tLRPC$InputPeer.chat_id = j;
+                        tLRPC$TL_inputPeerChannel = new TLRPC$TL_inputPeerChat();
+                        tLRPC$TL_inputPeerChannel.chat_id = j;
                     }
-                    tLRPC$TL_phone_getGroupParticipants.ids.add(tLRPC$InputPeer);
+                    tLRPC$TL_phone_getGroupParticipants.ids.add(tLRPC$TL_inputPeerChannel);
                 }
             }
             tLRPC$TL_phone_getGroupParticipants.offset = "";
@@ -720,9 +720,9 @@ public class ChatObject {
             boolean z;
             TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
             long j;
+            ArrayList<Long> arrayList;
             boolean z2;
             int i;
-            ArrayList<Long> arrayList;
             int currentTime = this.currentAccount.getConnectionsManager().getCurrentTime();
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long uptimeMillis = SystemClock.uptimeMillis();
@@ -1073,15 +1073,15 @@ public class ChatObject {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:161:0x03e2  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x03e2  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void processParticipantsUpdate(TLRPC$TL_updateGroupCallParticipants tLRPC$TL_updateGroupCallParticipants, boolean z) {
             int i;
             long j;
-            long j2;
             int i2;
+            long j2;
             boolean z2;
             TLRPC$TL_groupCallParticipantVideo tLRPC$TL_groupCallParticipantVideo;
             boolean z3;
@@ -1436,9 +1436,9 @@ public class ChatObject {
 
         public void sortParticipants() {
             TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
+            int i;
             int size;
             VideoParticipant videoParticipant;
-            int i;
             this.visibleVideoParticipants.clear();
             this.visibleParticipants.clear();
             TLRPC$Chat chat = this.currentAccount.getMessagesController().getChat(Long.valueOf(this.chatId));

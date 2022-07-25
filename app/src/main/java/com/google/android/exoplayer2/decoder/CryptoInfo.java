@@ -43,10 +43,9 @@ public final class CryptoInfo {
         return this.frameworkCryptoInfo;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(24)
     /* loaded from: classes.dex */
-    public static final class PatternHolderV24 {
+    private static final class PatternHolderV24 {
         private final MediaCodec.CryptoInfo frameworkCryptoInfo;
         private final MediaCodec.CryptoInfo.Pattern pattern;
 
@@ -55,6 +54,7 @@ public final class CryptoInfo {
             this.pattern = new MediaCodec.CryptoInfo.Pattern(0, 0);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void set(int i, int i2) {
             this.pattern.set(i, i2);
             this.frameworkCryptoInfo.setPattern(this.pattern);

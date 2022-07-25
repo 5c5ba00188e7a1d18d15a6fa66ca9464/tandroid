@@ -28,6 +28,7 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
     ArrayList<RecyclerView.ViewHolder> mRemoveAnimations = new ArrayList<>();
     ArrayList<RecyclerView.ViewHolder> mChangeAnimations = new ArrayList<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$new$0(int i, int i2) {
         if (i2 == i - 1) {
             return 0;
@@ -38,6 +39,7 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
     protected void onAllAnimationsDone() {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class MoveInfo {
         public int fromX;
@@ -55,6 +57,7 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ChangeInfo {
         public int fromX;

@@ -10,6 +10,7 @@ import com.google.android.datatransport.runtime.util.PriorityMapping;
 import com.huawei.hms.push.constant.RemoteMessageConst;
 /* loaded from: classes.dex */
 public class AlarmManagerSchedulerBroadcastReceiver extends BroadcastReceiver {
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$0() {
     }
 

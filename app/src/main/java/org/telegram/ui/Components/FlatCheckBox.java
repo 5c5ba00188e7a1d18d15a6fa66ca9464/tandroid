@@ -101,6 +101,7 @@ public class FlatCheckBox extends View {
         this.checkAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setChecked$0(ValueAnimator valueAnimator) {
         this.progress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

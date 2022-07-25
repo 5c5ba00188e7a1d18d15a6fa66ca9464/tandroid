@@ -19,9 +19,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.telegram.tgnet.ConnectionsManager;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class ModernAsyncTask<Params, Progress, Result> {
+abstract class ModernAsyncTask<Params, Progress, Result> {
     public static final Executor THREAD_POOL_EXECUTOR;
     private static InternalHandler sHandler;
     private static final BlockingQueue<Runnable> sPoolWorkQueue;
@@ -79,6 +78,7 @@ public abstract class ModernAsyncTask<Params, Progress, Result> {
         return internalHandler;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ModernAsyncTask() {
         WorkerRunnable<Params, Result> workerRunnable = new WorkerRunnable<Params, Result>() { // from class: androidx.loader.content.ModernAsyncTask.2
             @Override // java.util.concurrent.Callable
@@ -137,10 +137,9 @@ public abstract class ModernAsyncTask<Params, Progress, Result> {
         return this.mFuture.cancel(z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.loader.content.ModernAsyncTask$4 */
+    /* renamed from: androidx.loader.content.ModernAsyncTask$4  reason: invalid class name */
     /* loaded from: classes.dex */
-    public static /* synthetic */ class AnonymousClass4 {
+    static /* synthetic */ class AnonymousClass4 {
         static final /* synthetic */ int[] $SwitchMap$androidx$loader$content$ModernAsyncTask$Status;
 
         static {
@@ -184,6 +183,7 @@ public abstract class ModernAsyncTask<Params, Progress, Result> {
         this.mStatus = Status.FINISHED;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class InternalHandler extends Handler {
         InternalHandler() {
@@ -204,15 +204,15 @@ public abstract class ModernAsyncTask<Params, Progress, Result> {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static abstract class WorkerRunnable<Params, Result> implements Callable<Result> {
+    private static abstract class WorkerRunnable<Params, Result> implements Callable<Result> {
         Params[] mParams;
 
         WorkerRunnable() {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class AsyncTaskResult<Data> {
         final Data[] mData;

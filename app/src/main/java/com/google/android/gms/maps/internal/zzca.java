@@ -21,28 +21,28 @@ public final class zzca {
     private static zzf zzc;
 
     public static zzf zza(Context context) throws GooglePlayServicesNotAvailableException {
-        zzf zzfVar;
+        zzf zzeVar;
         Preconditions.checkNotNull(context);
-        zzf zzfVar2 = zzc;
-        if (zzfVar2 == null) {
+        zzf zzfVar = zzc;
+        if (zzfVar == null) {
             int isGooglePlayServicesAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context, 13400000);
             if (isGooglePlayServicesAvailable == 0) {
                 Log.i(zza, "Making Creator dynamically");
                 try {
                     IBinder iBinder = (IBinder) zzc(((ClassLoader) Preconditions.checkNotNull(zzb(context).getClassLoader())).loadClass("com.google.android.gms.maps.internal.CreatorImpl"));
                     if (iBinder == null) {
-                        zzfVar = null;
+                        zzeVar = null;
                     } else {
                         IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.maps.internal.ICreator");
                         if (queryLocalInterface instanceof zzf) {
-                            zzfVar = (zzf) queryLocalInterface;
+                            zzeVar = (zzf) queryLocalInterface;
                         } else {
-                            zzfVar = new zze(iBinder);
+                            zzeVar = new zze(iBinder);
                         }
                     }
-                    zzc = zzfVar;
+                    zzc = zzeVar;
                     try {
-                        zzfVar.zzh(ObjectWrapper.wrap(zzb(context).getResources()), GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE);
+                        zzeVar.zzh(ObjectWrapper.wrap(zzb(context).getResources()), GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE);
                         return zzc;
                     } catch (RemoteException e) {
                         throw new RuntimeRemoteException(e);
@@ -53,23 +53,23 @@ public final class zzca {
             }
             throw new GooglePlayServicesNotAvailableException(isGooglePlayServicesAvailable);
         }
-        return zzfVar2;
+        return zzfVar;
     }
 
     private static Context zzb(Context context) {
-        Context context2;
-        Context context3 = zzb;
-        if (context3 == null) {
+        Context remoteContext;
+        Context context2 = zzb;
+        if (context2 == null) {
             try {
-                context2 = DynamiteModule.load(context, DynamiteModule.PREFER_REMOTE, "com.google.android.gms.maps_dynamite").getModuleContext();
+                remoteContext = DynamiteModule.load(context, DynamiteModule.PREFER_REMOTE, "com.google.android.gms.maps_dynamite").getModuleContext();
             } catch (Exception e) {
                 Log.e(zza, "Failed to load maps module, use legacy", e);
-                context2 = GooglePlayServicesUtil.getRemoteContext(context);
+                remoteContext = GooglePlayServicesUtil.getRemoteContext(context);
             }
-            zzb = context2;
-            return context2;
+            zzb = remoteContext;
+            return remoteContext;
         }
-        return context3;
+        return context2;
     }
 
     private static <T> T zzc(Class cls) {

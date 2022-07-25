@@ -17,10 +17,12 @@ class FcmExecutors {
         return new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), new NamedThreadFactory("Firebase-Messaging-Trigger-Topics-Io"));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ScheduledExecutorService newInitExecutor() {
         return new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("Firebase-Messaging-Init"));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ExecutorService newIntentHandleExecutor() {
         zzi.zza();
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue(), new NamedThreadFactory("Firebase-Messaging-Intent-Handle"));
@@ -28,18 +30,22 @@ class FcmExecutors {
         return Executors.unconfigurableExecutorService(threadPoolExecutor);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ExecutorService newNetworkIOExecutor() {
         return Executors.newSingleThreadExecutor(new NamedThreadFactory("Firebase-Messaging-Network-Io"));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ExecutorService newTaskExecutor() {
         return Executors.newSingleThreadExecutor(new NamedThreadFactory("Firebase-Messaging-Task"));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ScheduledExecutorService newTopicsSyncExecutor() {
         return new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("Firebase-Messaging-Topics-Io"));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Executor newTopicsSyncTriggerExecutor() {
         return newCachedSingleThreadExecutor("Firebase-Messaging-Trigger-Topics-Io");
     }

@@ -1,9 +1,9 @@
 package com.google.android.datatransport.cct.internal;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AutoValue_LogResponse extends LogResponse {
+final class AutoValue_LogResponse extends LogResponse {
     private final long nextRequestWaitMillis;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_LogResponse(long j) {
         this.nextRequestWaitMillis = j;
     }

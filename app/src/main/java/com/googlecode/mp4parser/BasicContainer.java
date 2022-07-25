@@ -55,6 +55,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
         return this.boxes;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public long getContainerSize() {
         long j = 0;
         for (int i = 0; i < getBoxes().size(); i++) {
@@ -86,7 +87,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
             return true;
         }
         try {
-            this.lookahead = next();
+            this.lookahead = mo335next();
             return true;
         } catch (NoSuchElementException unused) {
             this.lookahead = EOF;
@@ -95,7 +96,8 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public Box next() {
+    /* renamed from: next */
+    public Box mo335next() {
         Box parseBox;
         Box box = this.lookahead;
         if (box != null && box != EOF) {

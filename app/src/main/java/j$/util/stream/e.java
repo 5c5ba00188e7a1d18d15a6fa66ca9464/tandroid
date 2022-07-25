@@ -6,10 +6,12 @@ abstract class e {
     protected int c;
     protected long[] d;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public e() {
         this.a = 4;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public e(int i) {
         if (i >= 0) {
             this.a = Math.max(4, 32 - Integer.numberOfLeadingZeros(i - 1));
@@ -25,6 +27,7 @@ abstract class e {
         return i == 0 ? this.b : this.d[i] + this.b;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int s(int i) {
         return 1 << ((i == 0 || i == 1) ? this.a : Math.min((this.a + i) - 1, 30));
     }

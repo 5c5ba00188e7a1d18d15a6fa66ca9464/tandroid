@@ -213,6 +213,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             AndroidUtilities.runOnUIThread(runnable);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$fetchDocument$0() {
             ArrayList<Long> arrayList = new ArrayList<>(this.toFetchDocuments);
             this.toFetchDocuments.clear();
@@ -236,6 +237,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadFromDatabase$2(ArrayList arrayList) {
             SQLiteDatabase database = MessagesStorage.getInstance(this.currentAccount).getDatabase();
             try {
@@ -269,6 +271,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadFromDatabase$1(ArrayList arrayList, HashSet hashSet) {
             processDocuments(arrayList);
             if (!hashSet.isEmpty()) {
@@ -287,6 +290,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadFromServer$4(final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$EmojiDocumentFetcher$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
@@ -296,6 +300,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadFromServer$3(ArrayList arrayList, TLObject tLObject) {
             HashSet hashSet = new HashSet(arrayList);
             if (tLObject instanceof TLRPC$Vector) {
@@ -323,14 +328,14 @@ public class AnimatedEmojiDrawable extends Drawable {
             });
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:17:0x004d A[Catch: SQLiteException -> 0x0057, TryCatch #2 {SQLiteException -> 0x0057, blocks: (B:3:0x000a, B:4:0x0011, B:6:0x0017, B:8:0x001f, B:15:0x0047, B:17:0x004d, B:18:0x0050, B:19:0x0053), top: B:27:0x000a }] */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x0050 A[SYNTHETIC] */
+        /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x004d A[Catch: SQLiteException -> 0x0057, TryCatch #2 {SQLiteException -> 0x0057, blocks: (B:3:0x000a, B:4:0x0011, B:6:0x0017, B:8:0x001f, B:16:0x004d, B:23:0x0047, B:18:0x0050, B:27:0x0053), top: B:2:0x000a }] */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x0050 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public /* synthetic */ void lambda$putToStorage$5(ArrayList arrayList) {
             NativeByteBuffer nativeByteBuffer;
-            Exception e;
             try {
                 SQLitePreparedStatement executeFast = MessagesStorage.getInstance(this.currentAccount).getDatabase().executeFast("REPLACE INTO animated_emoji VALUES(?, ?)");
                 for (int i = 0; i < arrayList.size(); i++) {
@@ -339,8 +344,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                         NativeByteBuffer nativeByteBuffer2 = null;
                         try {
                             nativeByteBuffer = new NativeByteBuffer(tLRPC$Document.getObjectSize());
-                        } catch (Exception e2) {
-                            e = e2;
+                        } catch (Exception e) {
+                            e = e;
                         }
                         try {
                             tLRPC$Document.serializeToStream(nativeByteBuffer);
@@ -348,8 +353,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                             executeFast.bindLong(1, tLRPC$Document.id);
                             executeFast.bindByteBuffer(2, nativeByteBuffer);
                             executeFast.step();
-                        } catch (Exception e3) {
-                            e = e3;
+                        } catch (Exception e2) {
+                            e = e2;
                             nativeByteBuffer2 = nativeByteBuffer;
                             e.printStackTrace();
                             nativeByteBuffer = nativeByteBuffer2;
@@ -362,8 +367,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                     }
                 }
                 executeFast.dispose();
-            } catch (SQLiteException e4) {
-                FileLog.e(e4);
+            } catch (SQLiteException e3) {
+                FileLog.e(e3);
             }
         }
 
@@ -415,6 +420,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(TLRPC$Document tLRPC$Document) {
         this.document = tLRPC$Document;
         initDocument();
@@ -441,13 +447,14 @@ public class AnimatedEmojiDrawable extends Drawable {
         return this.document;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void initDocument() {
-        SvgHelper.SvgDrawable svgDrawable;
         String str;
-        TLRPC$PhotoSize tLRPC$PhotoSize;
-        ImageLocation imageLocation;
+        SvgHelper.SvgDrawable svgThumb;
+        TLRPC$PhotoSize closestPhotoSizeWithSize;
+        SvgHelper.SvgDrawable svgDrawable;
         String str2;
-        SvgHelper.SvgDrawable svgDrawable2;
+        ImageLocation forDocument;
         int i;
         if (this.document == null || this.imageReceiver != null) {
             return;
@@ -470,18 +477,18 @@ public class AnimatedEmojiDrawable extends Drawable {
                     AnimatedEmojiDrawable.this.invalidate();
                 }
             });
-            imageLocation = ImageLocation.getForDocument(this.document);
-            str = str3 + "_" + ImageLoader.AUTOPLAY_FILTER;
-            tLRPC$PhotoSize = null;
+            forDocument = ImageLocation.getForDocument(this.document);
+            str2 = str3 + "_" + ImageLoader.AUTOPLAY_FILTER;
+            closestPhotoSizeWithSize = null;
             svgDrawable = null;
         } else {
             StringBuilder sb = new StringBuilder();
             if (this.cacheType != 0) {
-                str2 = this.cacheType + "_";
+                str = this.cacheType + "_";
             } else {
-                str2 = "";
+                str = "";
             }
-            sb.append(str2);
+            sb.append(str);
             sb.append(this.documentId);
             sb.append("@");
             sb.append(sizedp);
@@ -490,21 +497,21 @@ public class AnimatedEmojiDrawable extends Drawable {
             sb.append("_pcache");
             String sb2 = sb.toString();
             if (this.cacheType == 1 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
-                svgDrawable2 = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
-                if (svgDrawable2 != null) {
-                    svgDrawable2.overrideWidthAndHeight(512, 512);
+                svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                if (svgThumb != null) {
+                    svgThumb.overrideWidthAndHeight(512, 512);
                 }
             } else {
-                svgDrawable2 = null;
+                svgThumb = null;
             }
-            tLRPC$PhotoSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
-            svgDrawable = svgDrawable2;
-            str = sizedp + "_" + sizedp + "_pcache";
-            imageLocation = ImageLocation.getForDocument(this.document);
+            closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
+            svgDrawable = svgThumb;
+            str2 = sizedp + "_" + sizedp + "_pcache";
+            forDocument = ImageLocation.getForDocument(this.document);
         }
-        ImageLocation imageLocation2 = z ? null : imageLocation;
+        ImageLocation imageLocation = z ? null : forDocument;
         TLRPC$Document tLRPC$Document = this.document;
-        this.imageReceiver.setImage(imageLocation2, str, ImageLocation.getForDocument(tLRPC$PhotoSize, this.document), sizedp + "_" + sizedp, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
+        this.imageReceiver.setImage(imageLocation, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), sizedp + "_" + sizedp, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
         if (this.cacheType == 2) {
             this.imageReceiver.setLayerNum(7);
         }
@@ -516,6 +523,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         updateAttachState();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void invalidate() {
         if (this.views != null) {
             for (int i = 0; i < this.views.size(); i++) {
@@ -681,7 +689,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         @Override // org.telegram.messenger.ImageReceiver
-        public boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
+        protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
             Runnable runnable = this.invalidate;
             if (runnable != null) {
                 runnable.run();

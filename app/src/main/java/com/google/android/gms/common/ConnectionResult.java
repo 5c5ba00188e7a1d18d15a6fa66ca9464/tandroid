@@ -25,6 +25,7 @@ public final class ConnectionResult extends AbstractSafeParcelable {
     @RecentlyNonNull
     public static final Parcelable.Creator<ConnectionResult> CREATOR = new zza();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ConnectionResult(int i, int i2, PendingIntent pendingIntent, String str) {
         this.zza = i;
         this.zzb = i2;
@@ -66,6 +67,7 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         return this.zzd;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String zza(int i) {
         if (i != 99) {
             if (i == 1500) {

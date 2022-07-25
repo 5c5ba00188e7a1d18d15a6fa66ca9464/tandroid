@@ -7,6 +7,8 @@ import java.io.InputStream;
 public class d extends AsyncTask<Context, Integer, Boolean> {
     private static final String a = d.class.getSimpleName();
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     /* renamed from: a */
     public Boolean doInBackground(Context... contextArr) {
         InputStream inputStream;
@@ -32,6 +34,8 @@ public class d extends AsyncTask<Context, Integer, Boolean> {
         g.a(a, "onPreExecute");
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     /* renamed from: a */
     public void onPostExecute(Boolean bool) {
         if (bool.booleanValue()) {
@@ -41,6 +45,8 @@ public class d extends AsyncTask<Context, Integer, Boolean> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     /* renamed from: a */
     public void onProgressUpdate(Integer... numArr) {
         g.c(a, "onProgressUpdate");

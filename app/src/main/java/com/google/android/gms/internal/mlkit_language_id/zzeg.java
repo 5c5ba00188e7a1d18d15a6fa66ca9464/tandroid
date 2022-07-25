@@ -13,10 +13,12 @@ final class zzeg {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzee<?> zza() {
         return zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzee<?> zzb() {
         zzee<?> zzeeVar = zzb;
         if (zzeeVar != null) {

@@ -22,6 +22,7 @@ public class k extends TaskApiCall<PushClient, Void> {
         this.a = deleteTokenReq;
     }
 
+    @Override // com.huawei.hms.common.internal.TaskApiCall
     /* renamed from: a */
     public void doExecute(PushClient pushClient, ResponseErrorCode responseErrorCode, String str, TaskCompletionSource<Void> taskCompletionSource) {
         if (responseErrorCode.getErrorCode() != 0) {

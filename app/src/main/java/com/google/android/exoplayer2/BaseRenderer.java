@@ -57,6 +57,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     protected void onStopped() throws ExoPlaybackException {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onStreamChanged(Format[] formatArr, long j) throws ExoPlaybackException {
     }
 
@@ -186,19 +187,23 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         onReset();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final FormatHolder getFormatHolder() {
         this.formatHolder.clear();
         return this.formatHolder;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final Format[] getStreamFormats() {
         return this.streamFormats;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final RendererConfiguration getConfiguration() {
         return this.configuration;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final <T extends ExoMediaCrypto> DrmSession<T> getUpdatedSourceDrmSession(Format format, Format format2, DrmSessionManager<T> drmSessionManager, DrmSession<T> drmSession) throws ExoPlaybackException {
         DrmSession<T> drmSession2 = null;
         if (!(!Util.areEqual(format2.drmInitData, format == null ? null : format.drmInitData))) {
@@ -220,6 +225,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         return this.index;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final ExoPlaybackException createRendererException(Exception exc, Format format) {
         int i;
         if (format != null && !this.throwRendererExceptionIsExecuting) {
@@ -236,6 +242,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         return ExoPlaybackException.createForRenderer(exc, getIndex(), format, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final int readSource(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z) {
         int readData = this.stream.readData(formatHolder, decoderInputBuffer, z);
         if (readData == -4) {
@@ -256,14 +263,17 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         return readData;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int skipSource(long j) {
         return this.stream.skipData(j - this.streamOffsetUs);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final boolean isSourceReady() {
         return hasReadStreamToEnd() ? this.streamIsFinal : this.stream.isReady();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static boolean supportsFormatDrm(DrmSessionManager<?> drmSessionManager, DrmInitData drmInitData) {
         if (drmInitData == null) {
             return true;

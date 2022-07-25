@@ -117,7 +117,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
             processManifest();
             return;
         }
-        this.manifestDataSource = this.manifestDataSourceFactory.createDataSource();
+        this.manifestDataSource = this.manifestDataSourceFactory.mo840createDataSource();
         Loader loader = new Loader("Loader:Manifest");
         this.manifestLoader = loader;
         this.manifestLoaderErrorThrower = loader;
@@ -161,6 +161,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
         this.drmSessionManager.release();
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCompleted(ParsingLoadable<SsManifest> parsingLoadable, long j, long j2) {
         this.manifestEventDispatcher.loadCompleted(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), parsingLoadable.type, j, j2, parsingLoadable.bytesLoaded());
         this.manifest = parsingLoadable.getResult();
@@ -169,20 +170,22 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
         scheduleManifestRefresh();
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCanceled(ParsingLoadable<SsManifest> parsingLoadable, long j, long j2, boolean z) {
         this.manifestEventDispatcher.loadCanceled(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), parsingLoadable.type, j, j2, parsingLoadable.bytesLoaded());
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public Loader.LoadErrorAction onLoadError(ParsingLoadable<SsManifest> parsingLoadable, long j, long j2, IOException iOException, int i) {
-        Loader.LoadErrorAction loadErrorAction;
+        Loader.LoadErrorAction createRetryAction;
         long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(4, j2, iOException, i);
         if (retryDelayMsFor == -9223372036854775807L) {
-            loadErrorAction = Loader.DONT_RETRY_FATAL;
+            createRetryAction = Loader.DONT_RETRY_FATAL;
         } else {
-            loadErrorAction = Loader.createRetryAction(false, retryDelayMsFor);
+            createRetryAction = Loader.createRetryAction(false, retryDelayMsFor);
         }
-        this.manifestEventDispatcher.loadError(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), parsingLoadable.type, j, j2, parsingLoadable.bytesLoaded(), iOException, !loadErrorAction.isRetry());
-        return loadErrorAction;
+        this.manifestEventDispatcher.loadError(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), parsingLoadable.type, j, j2, parsingLoadable.bytesLoaded(), iOException, !createRetryAction.isRetry());
+        return createRetryAction;
     }
 
     private void processManifest() {
@@ -239,6 +242,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
         }, Math.max(0L, (this.manifestLoadStartTimestamp + 5000) - SystemClock.elapsedRealtime()));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startLoadingManifest() {
         if (this.manifestLoader.hasFatalError()) {
             return;

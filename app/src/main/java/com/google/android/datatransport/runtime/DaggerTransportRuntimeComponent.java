@@ -30,6 +30,7 @@ import com.google.android.datatransport.runtime.time.TimeModule_EventClockFactor
 import com.google.android.datatransport.runtime.time.TimeModule_UptimeClockFactory;
 import java.util.concurrent.Executor;
 import javax.inject.Provider;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DaggerTransportRuntimeComponent extends TransportRuntimeComponent {
     private Provider<SchedulerConfig> configProvider;
@@ -82,17 +83,17 @@ public final class DaggerTransportRuntimeComponent extends TransportRuntimeCompo
         this.transportRuntimeProvider = DoubleCheck.provider(TransportRuntime_Factory.create(TimeModule_EventClockFactory.create(), TimeModule_UptimeClockFactory.create(), this.defaultSchedulerProvider, this.uploaderProvider, this.workInitializerProvider));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent
-    public TransportRuntime getTransportRuntime() {
-        return this.transportRuntimeProvider.get();
+    TransportRuntime getTransportRuntime() {
+        return this.transportRuntimeProvider.mo70get();
     }
 
     @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent
     EventStore getEventStore() {
-        return this.sQLiteEventStoreProvider.get();
+        return this.sQLiteEventStoreProvider.mo70get();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Builder implements TransportRuntimeComponent.Builder {
         private Context setApplicationContext;
@@ -101,7 +102,8 @@ public final class DaggerTransportRuntimeComponent extends TransportRuntimeCompo
         }
 
         @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent.Builder
-        public Builder setApplicationContext(Context context) {
+        /* renamed from: setApplicationContext */
+        public Builder mo42setApplicationContext(Context context) {
             this.setApplicationContext = (Context) Preconditions.checkNotNull(context);
             return this;
         }

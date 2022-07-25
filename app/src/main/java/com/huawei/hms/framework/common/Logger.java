@@ -125,6 +125,7 @@ public class Logger {
         return getCallMethodInfo(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ThrowableWrapper extends Throwable {
         private static final long serialVersionUID = 7129050843360571879L;
@@ -153,6 +154,7 @@ public class Logger {
             return th;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setCause(Throwable th) {
             this.thisCause = th;
         }

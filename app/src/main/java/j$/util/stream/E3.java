@@ -3,6 +3,7 @@ package j$.util.stream;
 abstract class E3 extends h3 {
     protected boolean b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public E3(m3 m3Var) {
         super(m3Var);
     }

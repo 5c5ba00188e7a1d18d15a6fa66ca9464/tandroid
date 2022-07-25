@@ -3,15 +3,18 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
 final class O1 extends R1 implements u1 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public O1(u1 u1Var, u1 u1Var2) {
         super(u1Var, u1Var2);
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: a */
     public /* synthetic */ void i(Double[] dArr, int i) {
         o1.h(this, dArr, i);
     }
 
+    @Override // j$.util.stream.z1
     /* renamed from: f */
     public double[] c(int i) {
         return new double[i];
@@ -22,20 +25,21 @@ final class O1 extends R1 implements u1 {
         o1.k(this, consumer);
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: h */
     public /* synthetic */ u1 r(long j, long j2, j$.util.function.m mVar) {
         return o1.n(this, j, j2, mVar);
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: spliterator */
-    public j$.util.w mo69spliterator() {
+    /* renamed from: spliterator  reason: collision with other method in class */
+    public j$.util.w mo313spliterator() {
         return new f2(this);
     }
 
     @Override // j$.util.stream.A1
     /* renamed from: spliterator */
-    public j$.util.u mo69spliterator() {
+    public j$.util.u mo313spliterator() {
         return new f2(this);
     }
 }

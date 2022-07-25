@@ -76,6 +76,7 @@ public class VideoFileRenderer implements VideoSink {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: renderFrameOnRenderThread */
     public void lambda$onFrame$0(final VideoFrame videoFrame) {
         VideoFrame.Buffer buffer = videoFrame.getBuffer();
@@ -102,6 +103,7 @@ public class VideoFileRenderer implements VideoSink {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$renderFrameOnRenderThread$1(VideoFrame.I420Buffer i420Buffer, VideoFrame videoFrame) {
         YuvHelper.I420Rotate(i420Buffer.getDataY(), i420Buffer.getStrideY(), i420Buffer.getDataU(), i420Buffer.getStrideU(), i420Buffer.getDataV(), i420Buffer.getStrideV(), this.outputFrameBuffer, i420Buffer.getWidth(), i420Buffer.getHeight(), videoFrame.getRotation());
         i420Buffer.release();
@@ -137,6 +139,7 @@ public class VideoFileRenderer implements VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$release$2(CountDownLatch countDownLatch) {
         this.yuvConverter.release();
         this.eglBase.release();
@@ -144,6 +147,7 @@ public class VideoFileRenderer implements VideoSink {
         countDownLatch.countDown();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$release$3() {
         try {
             this.videoOutFile.close();

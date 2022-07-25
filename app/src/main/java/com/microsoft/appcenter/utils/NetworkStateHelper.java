@@ -111,6 +111,7 @@ public class NetworkStateHelper implements Closeable {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onNetworkAvailable(Network network) {
         AppCenterLog.debug("AppCenter", "Network " + network + " is available.");
         if (this.mConnected.compareAndSet(false, true)) {
@@ -118,6 +119,7 @@ public class NetworkStateHelper implements Closeable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onNetworkLost(Network network) {
         AppCenterLog.debug("AppCenter", "Network " + network + " is lost.");
         Network[] allNetworks = this.mConnectivityManager.getAllNetworks();
@@ -127,6 +129,7 @@ public class NetworkStateHelper implements Closeable {
         notifyNetworkStateUpdated(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleNetworkStateUpdate() {
         boolean isAnyNetworkConnected = isAnyNetworkConnected();
         if (this.mConnected.compareAndSet(!isAnyNetworkConnected, isAnyNetworkConnected)) {
@@ -162,10 +165,10 @@ public class NetworkStateHelper implements Closeable {
         this.mListeners.remove(listener);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class ConnectivityReceiver extends BroadcastReceiver {
         private ConnectivityReceiver() {
-            NetworkStateHelper.this = r1;
         }
 
         @Override // android.content.BroadcastReceiver

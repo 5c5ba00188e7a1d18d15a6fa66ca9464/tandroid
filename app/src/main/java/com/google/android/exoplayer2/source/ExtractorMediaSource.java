@@ -48,12 +48,15 @@ public final class ExtractorMediaSource extends CompositeMediaSource<Void> {
         this.progressiveMediaSource = new ProgressiveMediaSource(uri, factory, extractorsFactory, DrmSessionManager.CC.getDummyDrmSessionManager(), loadErrorHandlingPolicy, str, i, obj);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource, com.google.android.exoplayer2.source.BaseMediaSource
     public void prepareSourceInternal(TransferListener transferListener) {
         super.prepareSourceInternal(transferListener);
         prepareChildSource(null, this.progressiveMediaSource);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.source.CompositeMediaSource
     public void onChildSourceInfoRefreshed(Void r1, MediaSource mediaSource, Timeline timeline) {
         refreshSourceInfo(timeline);
     }
@@ -68,10 +71,9 @@ public final class ExtractorMediaSource extends CompositeMediaSource<Void> {
         this.progressiveMediaSource.releasePeriod(mediaPeriod);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     @Deprecated
     /* loaded from: classes.dex */
-    public static final class EventListenerWrapper implements MediaSourceEventListener {
+    private static final class EventListenerWrapper implements MediaSourceEventListener {
         private final EventListener eventListener;
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener

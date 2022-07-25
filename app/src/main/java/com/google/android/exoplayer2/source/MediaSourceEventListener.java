@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
 public interface MediaSourceEventListener {
 
-    /* renamed from: com.google.android.exoplayer2.source.MediaSourceEventListener$-CC */
+    /* renamed from: com.google.android.exoplayer2.source.MediaSourceEventListener$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
     public final /* synthetic */ class CC {
         public static void $default$onDownstreamFormatChanged(MediaSourceEventListener mediaSourceEventListener, int i, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
@@ -143,6 +143,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$mediaPeriodCreated$0(MediaSourceEventListener mediaSourceEventListener, MediaSource.MediaPeriodId mediaPeriodId) {
             mediaSourceEventListener.onMediaPeriodCreated(this.windowIndex, mediaPeriodId);
         }
@@ -162,6 +163,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$mediaPeriodReleased$1(MediaSourceEventListener mediaSourceEventListener, MediaSource.MediaPeriodId mediaPeriodId) {
             mediaSourceEventListener.onMediaPeriodReleased(this.windowIndex, mediaPeriodId);
         }
@@ -188,6 +190,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadStarted$2(MediaSourceEventListener mediaSourceEventListener, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
             mediaSourceEventListener.onLoadStarted(this.windowIndex, this.mediaPeriodId, loadEventInfo, mediaLoadData);
         }
@@ -214,6 +217,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadCompleted$3(MediaSourceEventListener mediaSourceEventListener, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
             mediaSourceEventListener.onLoadCompleted(this.windowIndex, this.mediaPeriodId, loadEventInfo, mediaLoadData);
         }
@@ -240,6 +244,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadCanceled$4(MediaSourceEventListener mediaSourceEventListener, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
             mediaSourceEventListener.onLoadCanceled(this.windowIndex, this.mediaPeriodId, loadEventInfo, mediaLoadData);
         }
@@ -266,6 +271,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadError$5(MediaSourceEventListener mediaSourceEventListener, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException iOException, boolean z) {
             mediaSourceEventListener.onLoadError(this.windowIndex, this.mediaPeriodId, loadEventInfo, mediaLoadData, iOException, z);
         }
@@ -285,6 +291,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$readingStarted$6(MediaSourceEventListener mediaSourceEventListener, MediaSource.MediaPeriodId mediaPeriodId) {
             mediaSourceEventListener.onReadingStarted(this.windowIndex, mediaPeriodId);
         }
@@ -308,6 +315,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$upstreamDiscarded$7(MediaSourceEventListener mediaSourceEventListener, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
             mediaSourceEventListener.onUpstreamDiscarded(this.windowIndex, mediaPeriodId, mediaLoadData);
         }
@@ -330,6 +338,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$downstreamFormatChanged$8(MediaSourceEventListener mediaSourceEventListener, MediaLoadData mediaLoadData) {
             mediaSourceEventListener.onDownstreamFormatChanged(this.windowIndex, this.mediaPeriodId, mediaLoadData);
         }
@@ -350,6 +359,7 @@ public interface MediaSourceEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static final class ListenerAndHandler {
             public final Handler handler;

@@ -11,6 +11,7 @@ final class DataBlock {
         this.codewords = bArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static DataBlock[] getDataBlocks(byte[] bArr, Version version, ErrorCorrectionLevel errorCorrectionLevel) {
         if (bArr.length != version.getTotalCodewords()) {
             throw new IllegalArgumentException();
@@ -67,10 +68,12 @@ final class DataBlock {
         return dataBlockArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int getNumDataCodewords() {
         return this.numDataCodewords;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public byte[] getCodewords() {
         return this.codewords;
     }

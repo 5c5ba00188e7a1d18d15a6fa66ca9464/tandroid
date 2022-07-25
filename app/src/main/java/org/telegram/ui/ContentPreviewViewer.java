@@ -208,8 +208,8 @@ public class ContentPreviewViewer {
             int i4;
             int i5;
             int min;
-            String str;
             int i6;
+            String str;
             if (ContentPreviewViewer.this.parentActivity == null) {
                 return;
             }
@@ -616,12 +616,12 @@ public class ContentPreviewViewer {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x013f  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0145  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0172  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0145  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1240,11 +1240,11 @@ public class ContentPreviewViewer {
     public void onDraw(Canvas canvas) {
         int i;
         int i2;
+        float min;
         int i3;
         Drawable drawable;
-        float f;
         WindowInsets windowInsets;
-        float f2;
+        float f;
         if (this.containerView == null || this.backgroundDrawable == null) {
             return;
         }
@@ -1254,17 +1254,17 @@ public class ContentPreviewViewer {
         if (this.blurrBitmap != null) {
             boolean z = this.menuVisible;
             if (z) {
-                float f3 = this.blurProgress;
-                if (f3 != 1.0f) {
-                    float f4 = f3 + 0.13333334f;
-                    this.blurProgress = f4;
-                    if (f4 > 1.0f) {
+                float f2 = this.blurProgress;
+                if (f2 != 1.0f) {
+                    float f3 = f2 + 0.13333334f;
+                    this.blurProgress = f3;
+                    if (f3 > 1.0f) {
                         this.blurProgress = 1.0f;
                     }
                     this.containerView.invalidate();
-                    f2 = this.blurProgress;
-                    if (f2 != 0.0f && this.blurrBitmap != null) {
-                        this.paint.setAlpha((int) (f2 * 255.0f));
+                    f = this.blurProgress;
+                    if (f != 0.0f && this.blurrBitmap != null) {
+                        this.paint.setAlpha((int) (f * 255.0f));
                         canvas.save();
                         canvas.scale(12.0f, 12.0f);
                         canvas.drawBitmap(this.blurrBitmap, 0.0f, 0.0f, this.paint);
@@ -1273,19 +1273,19 @@ public class ContentPreviewViewer {
                 }
             }
             if (!z) {
-                float f5 = this.blurProgress;
-                if (f5 != 0.0f) {
-                    float f6 = f5 - 0.13333334f;
-                    this.blurProgress = f6;
-                    if (f6 < 0.0f) {
+                float f4 = this.blurProgress;
+                if (f4 != 0.0f) {
+                    float f5 = f4 - 0.13333334f;
+                    this.blurProgress = f5;
+                    if (f5 < 0.0f) {
                         this.blurProgress = 0.0f;
                     }
                     this.containerView.invalidate();
                 }
             }
-            f2 = this.blurProgress;
-            if (f2 != 0.0f) {
-                this.paint.setAlpha((int) (f2 * 255.0f));
+            f = this.blurProgress;
+            if (f != 0.0f) {
+                this.paint.setAlpha((int) (f * 255.0f));
                 canvas.save();
                 canvas.scale(12.0f, 12.0f);
                 canvas.drawBitmap(this.blurrBitmap, 0.0f, 0.0f, this.paint);
@@ -1307,36 +1307,36 @@ public class ContentPreviewViewer {
             i3 = Math.min(this.containerView.getWidth(), this.containerView.getHeight() - i2) - AndroidUtilities.dp(40.0f);
         } else {
             if (this.drawEffect) {
-                f = Math.min(this.containerView.getWidth(), this.containerView.getHeight() - i2) - AndroidUtilities.dpf2(40.0f);
+                min = Math.min(this.containerView.getWidth(), this.containerView.getHeight() - i2) - AndroidUtilities.dpf2(40.0f);
             } else {
-                f = Math.min(this.containerView.getWidth(), this.containerView.getHeight() - i2) / 1.8f;
+                min = Math.min(this.containerView.getWidth(), this.containerView.getHeight() - i2) / 1.8f;
             }
-            i3 = (int) f;
+            i3 = (int) min;
         }
         float max = Math.max((i3 / 2) + i + (this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0), ((this.containerView.getHeight() - i2) - this.keyboardHeight) / 2);
         if (this.drawEffect) {
             max += AndroidUtilities.dp(40.0f);
         }
         canvas.translate(this.containerView.getWidth() / 2, this.moveY + max);
-        float f7 = this.showProgress;
-        int i4 = (int) (i3 * ((f7 * 0.8f) / 0.8f));
+        float f6 = this.showProgress;
+        int i4 = (int) (i3 * ((f6 * 0.8f) / 0.8f));
         if (this.drawEffect) {
-            float f8 = i4;
-            float f9 = 0.6669f * f8;
-            this.centerImage.setAlpha(f7);
-            float f10 = f8 - f9;
-            float f11 = f8 / 2.0f;
-            this.centerImage.setImageCoords((f10 - f11) - (0.0546875f * f8), (f10 / 2.0f) - f11, f9, f9);
+            float f7 = i4;
+            float f8 = 0.6669f * f7;
+            this.centerImage.setAlpha(f6);
+            float f9 = f7 - f8;
+            float f10 = f7 / 2.0f;
+            this.centerImage.setImageCoords((f9 - f10) - (0.0546875f * f7), (f9 / 2.0f) - f10, f8, f8);
             this.centerImage.draw(canvas);
             this.effectImage.setAlpha(this.showProgress);
-            float f12 = (-i4) / 2.0f;
-            this.effectImage.setImageCoords(f12, f12, f8, f8);
+            float f11 = (-i4) / 2.0f;
+            this.effectImage.setImageCoords(f11, f11, f7, f7);
             this.effectImage.draw(canvas);
         } else {
-            this.centerImage.setAlpha(f7);
-            float f13 = (-i4) / 2.0f;
-            float f14 = i4;
-            this.centerImage.setImageCoords(f13, f13, f14, f14);
+            this.centerImage.setAlpha(f6);
+            float f12 = (-i4) / 2.0f;
+            float f13 = i4;
+            this.centerImage.setImageCoords(f12, f12, f13, f13);
             this.centerImage.draw(canvas);
         }
         if (this.currentContentType == 1 && (drawable = this.slideUpDrawable) != null) {

@@ -9,6 +9,7 @@ import javax.annotation.CheckReturnValue;
 final class zzc {
     private static Context zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static synchronized void zza(Context context) {
         synchronized (zzc.class) {
             if (zzc != null) {

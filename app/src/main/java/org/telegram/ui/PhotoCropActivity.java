@@ -41,6 +41,7 @@ public class PhotoCropActivity extends BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class PhotoCropView extends FrameLayout {
         int bitmapHeight;
@@ -61,10 +62,8 @@ public class PhotoCropActivity extends BaseFragment {
         float oldX = 0.0f;
         float oldY = 0.0f;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public PhotoCropView(Context context) {
             super(context);
-            PhotoCropActivity.this = r1;
             init();
         }
 
@@ -91,7 +90,8 @@ public class PhotoCropActivity extends BaseFragment {
             });
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:52:0x00bb  */
+        /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x00bb  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -445,13 +445,12 @@ public class PhotoCropActivity extends BaseFragment {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:14:0x01b4 A[LOOP:0: B:13:0x01b2->B:14:0x01b4, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:6:0x01b4 A[LOOP:0: B:5:0x01b2->B:6:0x01b4, LOOP_END] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onDraw(Canvas canvas) {
-            Throwable th;
             int i;
             int i2;
             int i3;
@@ -463,8 +462,8 @@ public class PhotoCropActivity extends BaseFragment {
                     bitmapDrawable.setBounds(i4, i5, this.bitmapWidth + i4, this.bitmapHeight + i5);
                     try {
                         PhotoCropActivity.this.drawable.draw(canvas);
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th) {
+                        th = th;
                         FileLog.e(th);
                         canvas.drawRect(this.bitmapX, this.bitmapY, i + this.bitmapWidth, this.rectY, this.halfPaint);
                         float f = this.rectY;
@@ -501,8 +500,8 @@ public class PhotoCropActivity extends BaseFragment {
                         while (i3 < 3) {
                         }
                     }
-                } catch (Throwable th3) {
-                    th = th3;
+                } catch (Throwable th2) {
+                    th = th2;
                 }
             }
             canvas.drawRect(this.bitmapX, this.bitmapY, i + this.bitmapWidth, this.rectY, this.halfPaint);
@@ -557,7 +556,7 @@ public class PhotoCropActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
-        int i;
+        int max;
         if (this.imageToCrop == null) {
             String string = getArguments().getString("photoPath");
             Uri uri = (Uri) getArguments().getParcelable("photoUri");
@@ -568,12 +567,12 @@ public class PhotoCropActivity extends BaseFragment {
                 return false;
             }
             if (AndroidUtilities.isTablet()) {
-                i = AndroidUtilities.dp(520.0f);
+                max = AndroidUtilities.dp(520.0f);
             } else {
                 Point point = AndroidUtilities.displaySize;
-                i = Math.max(point.x, point.y);
+                max = Math.max(point.x, point.y);
             }
-            float f = i;
+            float f = max;
             Bitmap loadBitmap = ImageLoader.loadBitmap(string, uri, f, f, true);
             this.imageToCrop = loadBitmap;
             if (loadBitmap == null) {

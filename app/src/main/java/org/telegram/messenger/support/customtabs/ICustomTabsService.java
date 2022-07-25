@@ -21,9 +21,8 @@ public interface ICustomTabsService extends IInterface {
             return (queryLocalInterface == null || !(queryLocalInterface instanceof ICustomTabsService)) ? new Proxy(iBinder) : (ICustomTabsService) queryLocalInterface;
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        public static class Proxy implements ICustomTabsService {
+        private static class Proxy implements ICustomTabsService {
             private IBinder mRemote;
 
             Proxy(IBinder iBinder) {

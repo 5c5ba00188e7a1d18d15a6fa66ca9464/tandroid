@@ -249,58 +249,96 @@ public class MediaActionDrawable extends Drawable {
         gradientShader.setLocalMatrix(matrix);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:341:0x0885, code lost:
-        if (r33.nextIcon == 1) goto L342;
+    /* JADX WARN: Code restructure failed: missing block: B:241:0x0885, code lost:
+        if (r33.nextIcon == 1) goto L242;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:342:0x0887, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:242:0x0887, code lost:
         r4 = 1.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:343:0x088a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:243:0x088a, code lost:
         r4 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:345:0x088d, code lost:
-        if (r1 != 1) goto L343;
+    /* JADX WARN: Code restructure failed: missing block: B:248:0x088d, code lost:
+        if (r1 != 1) goto L243;
      */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x050f  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x051a  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x0524  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x05a2  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x05aa  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x05b3  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x05bb  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x05d8  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x05db  */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x05fc  */
-    /* JADX WARN: Removed duplicated region for block: B:244:0x067f  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x0682  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x068e  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x0694  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x06a3  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x06a6  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x06d3  */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x06d6  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x06f2  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x06ff  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x074c  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x0765  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x0768  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x077a  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x077d  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x0791  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x07df  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x07e2  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x0808  */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x084e  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x07df  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0808  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x084e  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x07e2  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x0765  */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x077a  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x0791  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x07c8  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x077d  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0768  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x06d3  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x06f2  */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x074c  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x06ff  */
+    /* JADX WARN: Removed duplicated region for block: B:293:0x06d6  */
+    /* JADX WARN: Removed duplicated region for block: B:294:0x06a6  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x0694  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x0682  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x050f  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x051a  */
+    /* JADX WARN: Removed duplicated region for block: B:344:0x0524  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x05aa  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x05b3  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x05bb  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x05d8  */
+    /* JADX WARN: Removed duplicated region for block: B:370:0x05fc  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x05db  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x05a2  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x067f  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x068e  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x06a3  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(Canvas canvas) {
+        int save;
         int i;
-        boolean z;
         float f;
+        float dp;
+        float dp2;
         float f2;
+        float f3;
+        float f4;
+        float f5;
+        float dp3;
+        float dp4;
+        float f6;
+        float f7;
+        float f8;
+        float f9;
+        float f10;
+        float f11;
+        boolean z;
+        int i2;
+        float f12;
+        float f13;
+        float f14;
+        int min;
+        float f15;
+        float centerY;
+        float centerX;
+        float f16;
+        float f17;
+        float f18;
+        float f19;
+        float centerX2;
+        int centerY2;
+        int centerY3;
+        float f20;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
+        float f21;
+        float f22;
+        float f23;
+        float f24;
         Path[] pathArr;
         Path[] pathArr2;
         Path[] pathArr3;
@@ -308,71 +346,33 @@ public class MediaActionDrawable extends Drawable {
         Drawable drawable;
         Drawable drawable2;
         Drawable drawable3;
-        Path[] pathArr5;
-        int i2;
-        Path[] pathArr6;
         Drawable drawable4;
-        Drawable drawable5;
-        int i3;
-        int i4;
-        float f3;
-        float f4;
-        float f5;
-        int i5;
-        int i6;
-        float f6;
-        float f7;
         int i7;
-        boolean z2;
+        Drawable drawable5;
+        Path[] pathArr5;
+        Drawable drawable6;
+        Path[] pathArr6;
         int i8;
         int i9;
-        int i10;
-        float f8;
-        int i11;
-        String format;
-        int i12;
-        int i13;
-        float f9;
-        Drawable drawable6;
-        float f10;
-        float f11;
-        float f12;
-        int i14;
-        float f13;
-        float f14;
-        float f15;
-        float f16;
-        float f17;
-        float f18;
-        int i15;
-        int i16;
-        int i17;
-        int i18;
-        float f19;
-        float f20;
-        int i19;
-        float f21;
-        float f22;
-        int i20;
-        float f23;
-        int i21;
-        int i22;
-        float f24;
         float f25;
+        int i10;
+        int i11;
         float f26;
+        int i12;
+        String format;
+        int i13;
+        int i14;
         float f27;
+        int i15;
+        boolean z2;
         float f28;
         float f29;
+        int i16;
         float f30;
+        int i17;
         float f31;
-        float f32;
-        float f33;
-        float f34;
-        float f35;
-        float f36;
-        float f37;
-        float f38;
-        int i23;
+        int i18;
+        int i19;
         android.graphics.Rect bounds = getBounds();
         Theme.MessageDrawable messageDrawable = this.messageDrawable;
         if (messageDrawable != null && messageDrawable.hasGradient() && !this.hasOverlayImage) {
@@ -392,639 +392,639 @@ public class MediaActionDrawable extends Drawable {
             this.paint2.setShader(null);
             this.paint3.setShader(null);
         }
-        int centerX = bounds.centerX();
-        int centerY = bounds.centerY();
-        int i24 = this.nextIcon;
-        if (i24 == 4) {
-            int i25 = this.currentIcon;
-            if (i25 != 3 && i25 != 14) {
-                i23 = canvas.save();
-                float f39 = 1.0f - this.transitionProgress;
-                canvas.scale(f39, f39, centerX, centerY);
-                i = i23;
+        int centerX3 = bounds.centerX();
+        int centerY4 = bounds.centerY();
+        int i20 = this.nextIcon;
+        if (i20 == 4) {
+            int i21 = this.currentIcon;
+            if (i21 != 3 && i21 != 14) {
+                save = canvas.save();
+                float f32 = 1.0f - this.transitionProgress;
+                canvas.scale(f32, f32, centerX3, centerY4);
+                i = save;
             }
             i = 0;
         } else {
-            if ((i24 == 6 || i24 == 10) && this.currentIcon == 4) {
-                i23 = canvas.save();
-                float f40 = this.transitionProgress;
-                canvas.scale(f40, f40, centerX, centerY);
-                i = i23;
+            if ((i20 == 6 || i20 == 10) && this.currentIcon == 4) {
+                save = canvas.save();
+                float f33 = this.transitionProgress;
+                canvas.scale(f33, f33, centerX3, centerY4);
+                i = save;
             }
             i = 0;
         }
         AndroidUtilities.dp(3.0f);
         if (this.currentIcon == 2 || this.nextIcon == 2) {
             applyShaderMatrix(false);
-            float f41 = centerY;
-            float dp = f41 - (AndroidUtilities.dp(9.0f) * this.scale);
-            float dp2 = (AndroidUtilities.dp(9.0f) * this.scale) + f41;
-            float dp3 = (AndroidUtilities.dp(12.0f) * this.scale) + f41;
-            int i26 = this.currentIcon;
-            if ((i26 == 3 || i26 == 14) && this.nextIcon == 2) {
+            float f34 = centerY4;
+            float dp5 = f34 - (AndroidUtilities.dp(9.0f) * this.scale);
+            float dp6 = (AndroidUtilities.dp(9.0f) * this.scale) + f34;
+            float dp7 = (AndroidUtilities.dp(12.0f) * this.scale) + f34;
+            int i22 = this.currentIcon;
+            if ((i22 == 3 || i22 == 14) && this.nextIcon == 2) {
                 this.paint.setAlpha((int) (Math.min(1.0f, this.transitionProgress / 0.5f) * 255.0f));
-                f25 = this.transitionProgress;
-                f24 = (AndroidUtilities.dp(12.0f) * this.scale) + f41;
+                f = this.transitionProgress;
+                dp = (AndroidUtilities.dp(12.0f) * this.scale) + f34;
             } else {
-                int i27 = this.nextIcon;
-                if (i27 != 3 && i27 != 14 && i27 != 2) {
+                int i23 = this.nextIcon;
+                if (i23 != 3 && i23 != 14 && i23 != 2) {
                     this.paint.setAlpha((int) (Math.min(1.0f, this.savedTransitionProgress / 0.5f) * 255.0f * (1.0f - this.transitionProgress)));
-                    f25 = this.savedTransitionProgress;
+                    f = this.savedTransitionProgress;
                 } else {
                     this.paint.setAlpha(255);
-                    f25 = this.transitionProgress;
+                    f = this.transitionProgress;
                 }
-                f24 = f41 + (AndroidUtilities.dp(1.0f) * this.scale);
+                dp = f34 + (AndroidUtilities.dp(1.0f) * this.scale);
             }
             if (this.animatingTransition) {
-                int i28 = this.nextIcon;
-                if (i28 == 2 || f25 <= 0.5f) {
-                    if (i28 == 2) {
-                        f33 = 1.0f - f25;
+                int i24 = this.nextIcon;
+                if (i24 == 2 || f <= 0.5f) {
+                    if (i24 == 2) {
+                        f4 = 1.0f - f;
                     } else {
-                        f33 = f25 / 0.5f;
-                        f25 = 1.0f - f33;
+                        f4 = f / 0.5f;
+                        f = 1.0f - f4;
                     }
-                    f29 = dp + ((f24 - dp) * f33);
-                    float f42 = ((dp3 - dp2) * f33) + dp2;
-                    float f43 = centerX;
-                    f30 = f43 - ((AndroidUtilities.dp(8.0f) * f25) * this.scale);
-                    f32 = f43 + (AndroidUtilities.dp(8.0f) * f25 * this.scale);
-                    dp3 = f42 - ((AndroidUtilities.dp(8.0f) * f25) * this.scale);
-                    f31 = f42;
+                    f5 = dp5 + ((dp - dp5) * f4);
+                    float f35 = ((dp7 - dp6) * f4) + dp6;
+                    float f36 = centerX3;
+                    dp3 = f36 - ((AndroidUtilities.dp(8.0f) * f) * this.scale);
+                    dp4 = f36 + (AndroidUtilities.dp(8.0f) * f * this.scale);
+                    dp7 = f35 - ((AndroidUtilities.dp(8.0f) * f) * this.scale);
+                    f6 = f35;
                 } else {
-                    float f44 = this.scale;
-                    float dp4 = (AndroidUtilities.dp(13.0f) * f44 * f44) + (this.isMini ? AndroidUtilities.dp(2.0f) : 0);
-                    float f45 = f25 - 0.5f;
-                    float f46 = f45 / 0.5f;
-                    if (f45 > 0.2f) {
-                        f34 = (f45 - 0.2f) / 0.3f;
-                        f35 = 1.0f;
+                    float f37 = this.scale;
+                    float dp8 = (AndroidUtilities.dp(13.0f) * f37 * f37) + (this.isMini ? AndroidUtilities.dp(2.0f) : 0);
+                    float f38 = f - 0.5f;
+                    float f39 = f38 / 0.5f;
+                    if (f38 > 0.2f) {
+                        f8 = (f38 - 0.2f) / 0.3f;
+                        f7 = 1.0f;
                     } else {
-                        f35 = f45 / 0.2f;
-                        f34 = 0.0f;
+                        f7 = f38 / 0.2f;
+                        f8 = 0.0f;
                     }
-                    float f47 = centerX;
-                    float f48 = f47 - dp4;
-                    float f49 = dp4 / 2.0f;
-                    this.rect.set(f48, dp3 - f49, f47, f49 + dp3);
-                    float f50 = f34 * 100.0f;
-                    canvas.drawArc(this.rect, f50, (f46 * 104.0f) - f50, false, this.paint);
-                    f29 = f24 + ((dp3 - f24) * f35);
-                    if (f34 > 0.0f) {
-                        float f51 = this.nextIcon == 14 ? 0.0f : (-45.0f) * (1.0f - f34);
-                        float dp5 = AndroidUtilities.dp(7.0f) * f34 * this.scale;
-                        int i29 = (int) (f34 * 255.0f);
-                        int i30 = this.nextIcon;
-                        if (i30 != 3 && i30 != 14 && i30 != 2) {
-                            i29 = (int) (i29 * (1.0f - Math.min(1.0f, this.transitionProgress / 0.5f)));
+                    float f40 = centerX3;
+                    float f41 = f40 - dp8;
+                    float f42 = dp8 / 2.0f;
+                    this.rect.set(f41, dp7 - f42, f40, f42 + dp7);
+                    float f43 = f8 * 100.0f;
+                    canvas.drawArc(this.rect, f43, (f39 * 104.0f) - f43, false, this.paint);
+                    f5 = dp + ((dp7 - dp) * f7);
+                    if (f8 > 0.0f) {
+                        float f44 = this.nextIcon == 14 ? 0.0f : (-45.0f) * (1.0f - f8);
+                        float dp9 = AndroidUtilities.dp(7.0f) * f8 * this.scale;
+                        int i25 = (int) (f8 * 255.0f);
+                        int i26 = this.nextIcon;
+                        if (i26 != 3 && i26 != 14 && i26 != 2) {
+                            i25 = (int) (i25 * (1.0f - Math.min(1.0f, this.transitionProgress / 0.5f)));
                         }
-                        int i31 = i29;
-                        if (f51 != 0.0f) {
+                        int i27 = i25;
+                        if (f44 != 0.0f) {
                             canvas.save();
-                            f38 = f41;
-                            f37 = f47;
-                            canvas.rotate(f51, f37, f38);
+                            f10 = f34;
+                            f11 = f40;
+                            canvas.rotate(f44, f11, f10);
                         } else {
-                            f38 = f41;
-                            f37 = f47;
+                            f10 = f34;
+                            f11 = f40;
                         }
-                        if (i31 != 0) {
-                            this.paint.setAlpha(i31);
+                        if (i27 != 0) {
+                            this.paint.setAlpha(i27);
                             if (this.nextIcon == 14) {
-                                this.paint3.setAlpha(i31);
-                                this.rect.set(centerX - AndroidUtilities.dp(3.5f), centerY - AndroidUtilities.dp(3.5f), AndroidUtilities.dp(3.5f) + centerX, centerY + AndroidUtilities.dp(3.5f));
+                                this.paint3.setAlpha(i27);
+                                this.rect.set(centerX3 - AndroidUtilities.dp(3.5f), centerY4 - AndroidUtilities.dp(3.5f), AndroidUtilities.dp(3.5f) + centerX3, centerY4 + AndroidUtilities.dp(3.5f));
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.paint3);
-                                this.paint.setAlpha((int) (i31 * 0.15f));
-                                int dp6 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
-                                this.rect.set(bounds.left + dp6, bounds.top + dp6, bounds.right - dp6, bounds.bottom - dp6);
-                                f36 = f37;
+                                this.paint.setAlpha((int) (i27 * 0.15f));
+                                int dp10 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
+                                this.rect.set(bounds.left + dp10, bounds.top + dp10, bounds.right - dp10, bounds.bottom - dp10);
+                                f9 = f11;
                                 canvas.drawArc(this.rect, 0.0f, 360.0f, false, this.paint);
-                                this.paint.setAlpha(i31);
+                                this.paint.setAlpha(i27);
                             } else {
-                                f36 = f37;
-                                float f52 = f36 - dp5;
-                                float f53 = f38 - dp5;
-                                float f54 = f36 + dp5;
-                                float f55 = f38 + dp5;
-                                canvas.drawLine(f52, f53, f54, f55, this.paint);
-                                canvas.drawLine(f54, f53, f52, f55, this.paint);
+                                f9 = f11;
+                                float f45 = f9 - dp9;
+                                float f46 = f10 - dp9;
+                                float f47 = f9 + dp9;
+                                float f48 = f10 + dp9;
+                                canvas.drawLine(f45, f46, f47, f48, this.paint);
+                                canvas.drawLine(f47, f46, f45, f48, this.paint);
                             }
                         } else {
-                            f36 = f37;
+                            f9 = f11;
                         }
-                        if (f51 != 0.0f) {
+                        if (f44 != 0.0f) {
                             canvas.restore();
                         }
                     } else {
-                        f36 = f47;
+                        f9 = f40;
                     }
-                    f31 = dp3;
-                    f32 = f36;
-                    f30 = f32;
+                    f6 = dp7;
+                    dp4 = f9;
+                    dp3 = dp4;
                 }
-                f27 = f32;
-                f26 = f31;
-                f28 = f30;
-                dp = f29;
+                dp2 = dp4;
+                f3 = f6;
+                f2 = dp3;
+                dp5 = f5;
             } else {
-                float f56 = centerX;
-                float dp7 = f56 - (AndroidUtilities.dp(8.0f) * this.scale);
-                f27 = f56 + (AndroidUtilities.dp(8.0f) * this.scale);
-                f28 = dp7;
-                dp3 = dp2 - (AndroidUtilities.dp(8.0f) * this.scale);
-                f26 = dp2;
+                float f49 = centerX3;
+                float dp11 = f49 - (AndroidUtilities.dp(8.0f) * this.scale);
+                dp2 = f49 + (AndroidUtilities.dp(8.0f) * this.scale);
+                f2 = dp11;
+                dp7 = dp6 - (AndroidUtilities.dp(8.0f) * this.scale);
+                f3 = dp6;
             }
-            if (dp != f26) {
-                float f57 = centerX;
-                canvas.drawLine(f57, dp, f57, f26, this.paint);
+            if (dp5 != f3) {
+                float f50 = centerX3;
+                canvas.drawLine(f50, dp5, f50, f3, this.paint);
             }
-            float f58 = centerX;
-            if (f28 != f58) {
-                float f59 = dp3;
-                float f60 = f26;
-                canvas.drawLine(f28, f59, f58, f60, this.paint);
-                canvas.drawLine(f27, f59, f58, f60, this.paint);
+            float f51 = centerX3;
+            if (f2 != f51) {
+                float f52 = dp7;
+                float f53 = f3;
+                canvas.drawLine(f2, f52, f51, f53, this.paint);
+                canvas.drawLine(dp2, f52, f51, f53, this.paint);
             }
         }
-        int i32 = this.currentIcon;
-        if (i32 == 3 || i32 == 14 || (i32 == 4 && ((i22 = this.nextIcon) == 14 || i22 == 3))) {
+        int i28 = this.currentIcon;
+        if (i28 == 3 || i28 == 14 || (i28 == 4 && ((i19 = this.nextIcon) == 14 || i19 == 3))) {
             z = false;
             applyShaderMatrix(false);
-            int i33 = this.nextIcon;
-            if (i33 == 2) {
-                float f61 = this.transitionProgress;
-                if (f61 <= 0.5f) {
-                    float f62 = 1.0f - (f61 / 0.5f);
-                    f17 = AndroidUtilities.dp(7.0f) * f62 * this.scale;
-                    i14 = (int) (f62 * 255.0f);
+            int i29 = this.nextIcon;
+            if (i29 == 2) {
+                float f54 = this.transitionProgress;
+                if (f54 <= 0.5f) {
+                    float f55 = 1.0f - (f54 / 0.5f);
+                    f16 = AndroidUtilities.dp(7.0f) * f55 * this.scale;
+                    min = (int) (f55 * 255.0f);
                 } else {
-                    f17 = 0.0f;
-                    i14 = 0;
+                    f16 = 0.0f;
+                    min = 0;
                 }
-                f16 = 1.0f;
-                f15 = 0.0f;
-                f14 = 0.0f;
-                f13 = 1.0f;
+                f12 = 1.0f;
+                centerX = 0.0f;
+                f18 = 0.0f;
+                f17 = 1.0f;
             } else {
-                if (i33 == 15 || i33 == 0 || i33 == 1 || i33 == 5 || i33 == 8 || i33 == 9 || i33 == 7) {
-                    i19 = 6;
+                if (i29 == 15 || i29 == 0 || i29 == 1 || i29 == 5 || i29 == 8 || i29 == 9 || i29 == 7) {
+                    i2 = 6;
                 } else {
-                    i19 = 6;
-                    if (i33 != 6) {
-                        if (i33 == 4) {
-                            f20 = 1.0f - this.transitionProgress;
-                            f17 = AndroidUtilities.dp(7.0f) * this.scale;
-                            int i34 = (int) (f20 * 255.0f);
+                    i2 = 6;
+                    if (i29 != 6) {
+                        if (i29 == 4) {
+                            f14 = 1.0f - this.transitionProgress;
+                            f16 = AndroidUtilities.dp(7.0f) * this.scale;
+                            int i30 = (int) (f14 * 255.0f);
                             if (this.currentIcon == 14) {
-                                f15 = bounds.left;
-                                i21 = bounds.top;
+                                centerX = bounds.left;
+                                centerY3 = bounds.top;
                             } else {
-                                f15 = bounds.centerX();
-                                i21 = bounds.centerY();
+                                centerX = bounds.centerX();
+                                centerY3 = bounds.centerY();
                             }
-                            i14 = i34;
-                            f16 = 1.0f;
-                            f12 = 0.0f;
-                            f19 = i21;
-                        } else if (i33 == 14 || i33 == 3) {
-                            float f63 = this.transitionProgress;
-                            float f64 = 1.0f - f63;
-                            if (this.currentIcon == 4) {
-                                f20 = f63;
-                                f22 = 0.0f;
-                            } else {
-                                f22 = f64 * 45.0f;
-                                f20 = 1.0f;
-                            }
-                            float dp8 = AndroidUtilities.dp(7.0f) * this.scale;
-                            int i35 = (int) (f63 * 255.0f);
-                            if (this.nextIcon == 14) {
-                                f23 = bounds.left;
-                                i20 = bounds.top;
-                            } else {
-                                f23 = bounds.centerX();
-                                i20 = bounds.centerY();
-                            }
-                            f12 = f22;
-                            f16 = 1.0f;
-                            f19 = i20;
-                            i14 = i35;
-                            f17 = dp8;
-                            f15 = f23;
-                        } else {
-                            f17 = AndroidUtilities.dp(7.0f) * this.scale;
-                            f16 = 1.0f;
+                            min = i30;
+                            f12 = 1.0f;
                             f15 = 0.0f;
-                            f14 = 0.0f;
-                            f13 = 1.0f;
-                            i14 = 255;
+                            centerY = centerY3;
+                        } else if (i29 == 14 || i29 == 3) {
+                            float f56 = this.transitionProgress;
+                            float f57 = 1.0f - f56;
+                            if (this.currentIcon == 4) {
+                                f14 = f56;
+                                f19 = 0.0f;
+                            } else {
+                                f19 = f57 * 45.0f;
+                                f14 = 1.0f;
+                            }
+                            float dp12 = AndroidUtilities.dp(7.0f) * this.scale;
+                            int i31 = (int) (f56 * 255.0f);
+                            if (this.nextIcon == 14) {
+                                centerX2 = bounds.left;
+                                centerY2 = bounds.top;
+                            } else {
+                                centerX2 = bounds.centerX();
+                                centerY2 = bounds.centerY();
+                            }
+                            f15 = f19;
+                            f12 = 1.0f;
+                            centerY = centerY2;
+                            min = i31;
+                            f16 = dp12;
+                            centerX = centerX2;
+                        } else {
+                            f16 = AndroidUtilities.dp(7.0f) * this.scale;
+                            f12 = 1.0f;
+                            centerX = 0.0f;
+                            f18 = 0.0f;
+                            f17 = 1.0f;
+                            min = 255;
                         }
-                        f13 = f20;
-                        f14 = f19;
-                        if (f13 != f16) {
+                        f17 = f14;
+                        f18 = centerY;
+                        if (f17 != f12) {
                             canvas.save();
-                            canvas.scale(f13, f13, f15, f14);
+                            canvas.scale(f17, f17, centerX, f18);
                         }
-                        if (f12 != 0.0f) {
+                        if (f15 != 0.0f) {
                             canvas.save();
-                            canvas.rotate(f12, centerX, centerY);
+                            canvas.rotate(f15, centerX3, centerY4);
                         }
-                        if (i14 != 0) {
-                            float f65 = i14;
-                            this.paint.setAlpha((int) (this.overrideAlpha * f65));
+                        if (min != 0) {
+                            float f58 = min;
+                            this.paint.setAlpha((int) (this.overrideAlpha * f58));
                             if (this.currentIcon == 14 || this.nextIcon == 14) {
-                                f18 = f13;
-                                i15 = i14;
-                                this.paint3.setAlpha((int) (f65 * this.overrideAlpha));
-                                this.rect.set(centerX - AndroidUtilities.dp(3.5f), centerY - AndroidUtilities.dp(3.5f), AndroidUtilities.dp(3.5f) + centerX, AndroidUtilities.dp(3.5f) + centerY);
+                                f20 = f17;
+                                i3 = min;
+                                this.paint3.setAlpha((int) (f58 * this.overrideAlpha));
+                                this.rect.set(centerX3 - AndroidUtilities.dp(3.5f), centerY4 - AndroidUtilities.dp(3.5f), AndroidUtilities.dp(3.5f) + centerX3, AndroidUtilities.dp(3.5f) + centerY4);
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.paint3);
                             } else {
-                                float f66 = centerX;
-                                float f67 = f66 - f17;
-                                float f68 = centerY;
-                                float f69 = f68 - f17;
-                                float f70 = f66 + f17;
-                                float f71 = f68 + f17;
-                                f18 = f13;
-                                i15 = i14;
-                                canvas.drawLine(f67, f69, f70, f71, this.paint);
-                                canvas.drawLine(f70, f69, f67, f71, this.paint);
+                                float f59 = centerX3;
+                                float f60 = f59 - f16;
+                                float f61 = centerY4;
+                                float f62 = f61 - f16;
+                                float f63 = f59 + f16;
+                                float f64 = f61 + f16;
+                                f20 = f17;
+                                i3 = min;
+                                canvas.drawLine(f60, f62, f63, f64, this.paint);
+                                canvas.drawLine(f63, f62, f60, f64, this.paint);
                             }
                         } else {
-                            f18 = f13;
-                            i15 = i14;
+                            f20 = f17;
+                            i3 = min;
                         }
-                        if (f12 != 0.0f) {
+                        if (f15 != 0.0f) {
                             canvas.restore();
                         }
-                        if (f18 != 1.0f) {
+                        if (f20 != 1.0f) {
                             canvas.restore();
                         }
-                        i16 = this.currentIcon;
-                        if ((i16 != 3 || i16 == 14 || (i16 == 4 && ((i18 = this.nextIcon) == 14 || i18 == 3))) && i15 != 0) {
+                        i4 = this.currentIcon;
+                        if ((i4 != 3 || i4 == 14 || (i4 == 4 && ((i6 = this.nextIcon) == 14 || i6 == 3))) && i3 != 0) {
                             float max = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
-                            int dp9 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
-                            this.rect.set(bounds.left + dp9, bounds.top + dp9, bounds.right - dp9, bounds.bottom - dp9);
-                            i17 = this.currentIcon;
-                            if (i17 != 14 || (i17 == 4 && this.nextIcon == 14)) {
-                                this.paint.setAlpha((int) (i15 * 0.15f * this.overrideAlpha));
+                            int dp13 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
+                            this.rect.set(bounds.left + dp13, bounds.top + dp13, bounds.right - dp13, bounds.bottom - dp13);
+                            i5 = this.currentIcon;
+                            if (i5 != 14 || (i5 == 4 && this.nextIcon == 14)) {
+                                this.paint.setAlpha((int) (i3 * 0.15f * this.overrideAlpha));
                                 canvas.drawArc(this.rect, 0.0f, 360.0f, false, this.paint);
-                                this.paint.setAlpha(i15);
+                                this.paint.setAlpha(i3);
                             }
                             canvas.drawArc(this.rect, this.downloadRadOffset, max, false, this.paint);
                         }
                     }
                 }
-                if (i33 == i19) {
-                    f16 = 1.0f;
-                    f21 = Math.min(1.0f, this.transitionProgress / 0.5f);
+                if (i29 == i2) {
+                    f12 = 1.0f;
+                    f13 = Math.min(1.0f, this.transitionProgress / 0.5f);
                 } else {
-                    f16 = 1.0f;
-                    f21 = this.transitionProgress;
+                    f12 = 1.0f;
+                    f13 = this.transitionProgress;
                 }
-                f20 = f16 - f21;
-                float dp10 = AndroidUtilities.dp(7.0f) * f20 * this.scale;
-                i14 = (int) (Math.min(f16, f20 * 2.0f) * 255.0f);
-                f12 = 0.0f;
-                f19 = bounds.centerY();
-                f15 = bounds.centerX();
-                f17 = dp10;
-                f13 = f20;
-                f14 = f19;
-                if (f13 != f16) {
+                f14 = f12 - f13;
+                float dp14 = AndroidUtilities.dp(7.0f) * f14 * this.scale;
+                min = (int) (Math.min(f12, f14 * 2.0f) * 255.0f);
+                f15 = 0.0f;
+                centerY = bounds.centerY();
+                centerX = bounds.centerX();
+                f16 = dp14;
+                f17 = f14;
+                f18 = centerY;
+                if (f17 != f12) {
                 }
-                if (f12 != 0.0f) {
+                if (f15 != 0.0f) {
                 }
-                if (i14 != 0) {
+                if (min != 0) {
                 }
-                if (f12 != 0.0f) {
+                if (f15 != 0.0f) {
                 }
-                if (f18 != 1.0f) {
+                if (f20 != 1.0f) {
                 }
-                i16 = this.currentIcon;
-                if (i16 != 3) {
+                i4 = this.currentIcon;
+                if (i4 != 3) {
                 }
                 float max2 = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
-                int dp92 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
-                this.rect.set(bounds.left + dp92, bounds.top + dp92, bounds.right - dp92, bounds.bottom - dp92);
-                i17 = this.currentIcon;
-                if (i17 != 14) {
+                int dp132 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
+                this.rect.set(bounds.left + dp132, bounds.top + dp132, bounds.right - dp132, bounds.bottom - dp132);
+                i5 = this.currentIcon;
+                if (i5 != 14) {
                 }
-                this.paint.setAlpha((int) (i15 * 0.15f * this.overrideAlpha));
+                this.paint.setAlpha((int) (i3 * 0.15f * this.overrideAlpha));
                 canvas.drawArc(this.rect, 0.0f, 360.0f, false, this.paint);
-                this.paint.setAlpha(i15);
+                this.paint.setAlpha(i3);
                 canvas.drawArc(this.rect, this.downloadRadOffset, max2, false, this.paint);
             }
-            f12 = 0.0f;
-            if (f13 != f16) {
+            f15 = 0.0f;
+            if (f17 != f12) {
             }
-            if (f12 != 0.0f) {
+            if (f15 != 0.0f) {
             }
-            if (i14 != 0) {
+            if (min != 0) {
             }
-            if (f12 != 0.0f) {
+            if (f15 != 0.0f) {
             }
-            if (f18 != 1.0f) {
+            if (f20 != 1.0f) {
             }
-            i16 = this.currentIcon;
-            if (i16 != 3) {
+            i4 = this.currentIcon;
+            if (i4 != 3) {
             }
             float max22 = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
-            int dp922 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
-            this.rect.set(bounds.left + dp922, bounds.top + dp922, bounds.right - dp922, bounds.bottom - dp922);
-            i17 = this.currentIcon;
-            if (i17 != 14) {
+            int dp1322 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
+            this.rect.set(bounds.left + dp1322, bounds.top + dp1322, bounds.right - dp1322, bounds.bottom - dp1322);
+            i5 = this.currentIcon;
+            if (i5 != 14) {
             }
-            this.paint.setAlpha((int) (i15 * 0.15f * this.overrideAlpha));
+            this.paint.setAlpha((int) (i3 * 0.15f * this.overrideAlpha));
             canvas.drawArc(this.rect, 0.0f, 360.0f, false, this.paint);
-            this.paint.setAlpha(i15);
+            this.paint.setAlpha(i3);
             canvas.drawArc(this.rect, this.downloadRadOffset, max22, false, this.paint);
         } else {
-            if (i32 == 10 || this.nextIcon == 10 || i32 == 13) {
-                int i36 = this.nextIcon;
-                int i37 = (i36 == 4 || i36 == 6) ? (int) ((1.0f - this.transitionProgress) * 255.0f) : 255;
-                if (i37 != 0) {
+            if (i28 == 10 || this.nextIcon == 10 || i28 == 13) {
+                int i32 = this.nextIcon;
+                int i33 = (i32 == 4 || i32 == 6) ? (int) ((1.0f - this.transitionProgress) * 255.0f) : 255;
+                if (i33 != 0) {
                     z = false;
                     applyShaderMatrix(false);
-                    this.paint.setAlpha((int) (i37 * this.overrideAlpha));
+                    this.paint.setAlpha((int) (i33 * this.overrideAlpha));
                     float max3 = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
-                    int dp11 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
-                    this.rect.set(bounds.left + dp11, bounds.top + dp11, bounds.right - dp11, bounds.bottom - dp11);
+                    int dp15 = AndroidUtilities.dp(this.isMini ? 2.0f : 4.0f);
+                    this.rect.set(bounds.left + dp15, bounds.top + dp15, bounds.right - dp15, bounds.bottom - dp15);
                     canvas.drawArc(this.rect, this.downloadRadOffset, max3, false, this.paint);
                 }
             }
             z = false;
         }
-        int i38 = this.currentIcon;
-        if (i38 == this.nextIcon) {
-            f2 = 1.0f;
-            f = 1.0f;
+        int i34 = this.currentIcon;
+        if (i34 == this.nextIcon) {
+            f24 = 1.0f;
+            f23 = 1.0f;
         } else {
-            if (i38 == 4 || i38 == 3 || i38 == 14) {
-                f10 = this.transitionProgress;
-                f11 = 1.0f - f10;
+            if (i34 == 4 || i34 == 3 || i34 == 14) {
+                f21 = this.transitionProgress;
+                f22 = 1.0f - f21;
             } else {
-                f10 = Math.min(1.0f, this.transitionProgress / 0.5f);
-                f11 = Math.max(0.0f, 1.0f - (this.transitionProgress / 0.5f));
+                f21 = Math.min(1.0f, this.transitionProgress / 0.5f);
+                f22 = Math.max(0.0f, 1.0f - (this.transitionProgress / 0.5f));
             }
-            f = f11;
-            f2 = f10;
+            f23 = f22;
+            f24 = f21;
         }
-        int i39 = this.nextIcon;
-        if (i39 == 15) {
-            pathArr2 = Theme.chat_updatePath;
-        } else if (this.currentIcon == 15) {
+        int i35 = this.nextIcon;
+        if (i35 == 15) {
             pathArr = Theme.chat_updatePath;
-            pathArr2 = null;
-            if (i39 != 5) {
-                pathArr2 = Theme.chat_filePath;
-            } else if (this.currentIcon == 5) {
+        } else if (this.currentIcon == 15) {
+            pathArr2 = Theme.chat_updatePath;
+            pathArr = null;
+            if (i35 != 5) {
                 pathArr = Theme.chat_filePath;
+            } else if (this.currentIcon == 5) {
+                pathArr2 = Theme.chat_filePath;
             }
-            pathArr3 = pathArr2;
-            pathArr4 = pathArr;
-            if (i39 != 7) {
-                drawable = Theme.chat_flameIcon;
-                drawable2 = null;
-            } else {
-                drawable2 = this.currentIcon == 7 ? Theme.chat_flameIcon : null;
+            pathArr3 = pathArr;
+            pathArr4 = pathArr2;
+            if (i35 != 7) {
+                drawable2 = Theme.chat_flameIcon;
                 drawable = null;
+            } else {
+                drawable = this.currentIcon == 7 ? Theme.chat_flameIcon : null;
+                drawable2 = null;
             }
-            if (i39 != 8) {
-                drawable = Theme.chat_gifIcon;
-            } else if (this.currentIcon == 8) {
+            if (i35 != 8) {
                 drawable2 = Theme.chat_gifIcon;
+            } else if (this.currentIcon == 8) {
+                drawable = Theme.chat_gifIcon;
             }
-            drawable3 = drawable2;
-            Drawable drawable7 = drawable;
-            if (this.currentIcon != 9 || i39 == 9) {
+            drawable3 = drawable;
+            Drawable drawable7 = drawable2;
+            if (this.currentIcon != 9 || i35 == 9) {
                 applyShaderMatrix(z);
                 this.paint.setAlpha(this.currentIcon != this.nextIcon ? 255 : (int) (this.transitionProgress * 255.0f));
-                int dp12 = centerY + AndroidUtilities.dp(7.0f);
-                int dp13 = centerX - AndroidUtilities.dp(3.0f);
+                int dp16 = centerY4 + AndroidUtilities.dp(7.0f);
+                int dp17 = centerX3 - AndroidUtilities.dp(3.0f);
                 if (this.currentIcon == this.nextIcon) {
                     canvas.save();
-                    float f72 = this.transitionProgress;
-                    drawable6 = drawable7;
-                    canvas.scale(f72, f72, centerX, centerY);
+                    float f65 = this.transitionProgress;
+                    drawable4 = drawable7;
+                    canvas.scale(f65, f65, centerX3, centerY4);
                 } else {
-                    drawable6 = drawable7;
+                    drawable4 = drawable7;
                 }
-                float f73 = dp13;
-                i2 = i;
-                float f74 = dp12;
-                drawable5 = drawable6;
-                pathArr6 = pathArr3;
-                drawable4 = drawable3;
-                pathArr5 = pathArr4;
-                canvas.drawLine(dp13 - AndroidUtilities.dp(6.0f), dp12 - AndroidUtilities.dp(6.0f), f73, f74, this.paint);
-                canvas.drawLine(f73, f74, dp13 + AndroidUtilities.dp(12.0f), dp12 - AndroidUtilities.dp(12.0f), this.paint);
+                float f66 = dp17;
+                i7 = i;
+                float f67 = dp16;
+                drawable5 = drawable4;
+                pathArr5 = pathArr3;
+                drawable6 = drawable3;
+                pathArr6 = pathArr4;
+                canvas.drawLine(dp17 - AndroidUtilities.dp(6.0f), dp16 - AndroidUtilities.dp(6.0f), f66, f67, this.paint);
+                canvas.drawLine(f66, f67, dp17 + AndroidUtilities.dp(12.0f), dp16 - AndroidUtilities.dp(12.0f), this.paint);
                 if (this.currentIcon != this.nextIcon) {
                     canvas.restore();
                 }
             } else {
                 drawable5 = drawable7;
-                pathArr5 = pathArr4;
-                i2 = i;
-                pathArr6 = pathArr3;
-                drawable4 = drawable3;
+                pathArr6 = pathArr4;
+                i7 = i;
+                pathArr5 = pathArr3;
+                drawable6 = drawable3;
             }
             if (this.currentIcon != 12 || this.nextIcon == 12) {
                 applyShaderMatrix(false);
-                i12 = this.currentIcon;
-                i13 = this.nextIcon;
-                if (i12 != i13) {
-                    f9 = 1.0f;
-                } else if (i13 == 13) {
-                    f9 = this.transitionProgress;
+                i8 = this.currentIcon;
+                i9 = this.nextIcon;
+                if (i8 != i9) {
+                    f25 = 1.0f;
+                } else if (i9 == 13) {
+                    f25 = this.transitionProgress;
                 } else {
-                    f9 = 1.0f - this.transitionProgress;
+                    f25 = 1.0f - this.transitionProgress;
                 }
-                this.paint.setAlpha(i12 != i13 ? 255 : (int) (f9 * 255.0f));
+                this.paint.setAlpha(i8 != i9 ? 255 : (int) (f25 * 255.0f));
                 AndroidUtilities.dp(7.0f);
                 AndroidUtilities.dp(3.0f);
                 if (this.currentIcon != this.nextIcon) {
                     canvas.save();
-                    canvas.scale(f9, f9, centerX, centerY);
+                    canvas.scale(f25, f25, centerX3, centerY4);
                 }
-                float dp14 = AndroidUtilities.dp(7.0f) * this.scale;
-                float f75 = centerX;
-                float f76 = f75 - dp14;
-                float f77 = centerY;
-                float f78 = f77 - dp14;
-                float f79 = f75 + dp14;
-                float f80 = f77 + dp14;
-                canvas.drawLine(f76, f78, f79, f80, this.paint);
-                canvas.drawLine(f79, f78, f76, f80, this.paint);
+                float dp18 = AndroidUtilities.dp(7.0f) * this.scale;
+                float f68 = centerX3;
+                float f69 = f68 - dp18;
+                float f70 = centerY4;
+                float f71 = f70 - dp18;
+                float f72 = f68 + dp18;
+                float f73 = f70 + dp18;
+                canvas.drawLine(f69, f71, f72, f73, this.paint);
+                canvas.drawLine(f72, f71, f69, f73, this.paint);
                 if (this.currentIcon != this.nextIcon) {
                     canvas.restore();
                 }
             }
             if (this.currentIcon != 13 || this.nextIcon == 13) {
                 applyShaderMatrix(false);
-                i9 = this.currentIcon;
-                i10 = this.nextIcon;
-                if (i9 != i10) {
-                    f8 = 1.0f;
-                } else if (i10 == 13) {
-                    f8 = this.transitionProgress;
+                i10 = this.currentIcon;
+                i11 = this.nextIcon;
+                if (i10 != i11) {
+                    f26 = 1.0f;
+                } else if (i11 == 13) {
+                    f26 = this.transitionProgress;
                 } else {
-                    f8 = 1.0f - this.transitionProgress;
+                    f26 = 1.0f - this.transitionProgress;
                 }
-                this.textPaint.setAlpha((int) (f8 * 255.0f));
-                int dp15 = AndroidUtilities.dp(5.0f) + centerY;
-                int i40 = centerX - (this.percentStringWidth / 2);
+                this.textPaint.setAlpha((int) (f26 * 255.0f));
+                int dp19 = AndroidUtilities.dp(5.0f) + centerY4;
+                int i36 = centerX3 - (this.percentStringWidth / 2);
                 if (this.currentIcon != this.nextIcon) {
                     canvas.save();
-                    canvas.scale(f8, f8, centerX, centerY);
+                    canvas.scale(f26, f26, centerX3, centerY4);
                 }
-                i11 = (int) (this.animatedDownloadProgress * 100.0f);
-                if (this.percentString != null || i11 != this.lastPercent) {
-                    this.lastPercent = i11;
-                    this.percentString = String.format("%d%%", Integer.valueOf(i11));
+                i12 = (int) (this.animatedDownloadProgress * 100.0f);
+                if (this.percentString != null || i12 != this.lastPercent) {
+                    this.lastPercent = i12;
+                    this.percentString = String.format("%d%%", Integer.valueOf(i12));
                     this.percentStringWidth = (int) Math.ceil(this.textPaint.measureText(format));
                 }
-                canvas.drawText(this.percentString, i40, dp15, this.textPaint);
+                canvas.drawText(this.percentString, i36, dp19, this.textPaint);
                 if (this.currentIcon != this.nextIcon) {
                     canvas.restore();
                 }
             }
-            i3 = this.currentIcon;
-            if (i3 != 0 || i3 == 1 || (i8 = this.nextIcon) == 0 || i8 == 1) {
-                if ((i3 == 0 || this.nextIcon != 1) && !(i3 == 1 && this.nextIcon == 0)) {
-                    i7 = 1;
+            i13 = this.currentIcon;
+            if (i13 != 0 || i13 == 1 || (i18 = this.nextIcon) == 0 || i18 == 1) {
+                if ((i13 == 0 || this.nextIcon != 1) && !(i13 == 1 && this.nextIcon == 0)) {
+                    i14 = 1;
                 } else if (this.animatingTransition) {
                     if (this.nextIcon == 0) {
-                        f7 = 1.0f - this.transitionProgress;
+                        f27 = 1.0f - this.transitionProgress;
                     } else {
-                        f7 = this.transitionProgress;
+                        f27 = this.transitionProgress;
                     }
-                    i7 = 1;
+                    i14 = 1;
                 } else {
-                    i7 = 1;
+                    i14 = 1;
                 }
-                int i41 = this.nextIcon;
-                if ((i41 == 0 || i41 == i7) && (i3 == 0 || i3 == i7)) {
-                    i4 = 255;
+                int i37 = this.nextIcon;
+                if ((i37 == 0 || i37 == i14) && (i13 == 0 || i13 == i14)) {
+                    i15 = 255;
                     this.paint2.setAlpha(255);
                     z2 = true;
                 } else {
-                    if (i41 == 4) {
+                    if (i37 == 4) {
                         this.paint2.setAlpha((int) ((1.0f - this.transitionProgress) * 255.0f));
                     } else {
-                        this.paint2.setAlpha(i3 == i41 ? 255 : (int) (this.transitionProgress * 255.0f));
+                        this.paint2.setAlpha(i13 == i37 ? 255 : (int) (this.transitionProgress * 255.0f));
                     }
                     z2 = true;
-                    i4 = 255;
+                    i15 = 255;
                 }
                 applyShaderMatrix(z2);
                 canvas.save();
-                canvas.translate(bounds.centerX() + (AndroidUtilities.dp(1.0f) * (1.0f - f7)), bounds.centerY());
-                float f81 = f7 * 500.0f;
-                int i42 = this.currentIcon;
-                float f82 = i42 == 1 ? 90.0f : 0.0f;
-                if (i42 == 0 && this.nextIcon == 1) {
-                    if (f81 < 384.0f) {
-                        f82 = CubicBezierInterpolator.EASE_BOTH.getInterpolation(f81 / 384.0f) * 95.0f;
+                canvas.translate(bounds.centerX() + (AndroidUtilities.dp(1.0f) * (1.0f - f27)), bounds.centerY());
+                float f74 = f27 * 500.0f;
+                int i38 = this.currentIcon;
+                float f75 = i38 == 1 ? 90.0f : 0.0f;
+                if (i38 == 0 && this.nextIcon == 1) {
+                    if (f74 < 384.0f) {
+                        f75 = CubicBezierInterpolator.EASE_BOTH.getInterpolation(f74 / 384.0f) * 95.0f;
                     } else {
-                        f82 = f81 < 484.0f ? 95.0f - (CubicBezierInterpolator.EASE_BOTH.getInterpolation((f81 - 384.0f) / 100.0f) * 5.0f) : 90.0f;
+                        f75 = f74 < 484.0f ? 95.0f - (CubicBezierInterpolator.EASE_BOTH.getInterpolation((f74 - 384.0f) / 100.0f) * 5.0f) : 90.0f;
                     }
-                    f81 += 100.0f;
-                } else if (i42 == 1 && this.nextIcon == 0) {
-                    if (f81 < 100.0f) {
-                        f82 = CubicBezierInterpolator.EASE_BOTH.getInterpolation(f81 / 100.0f) * (-5.0f);
+                    f74 += 100.0f;
+                } else if (i38 == 1 && this.nextIcon == 0) {
+                    if (f74 < 100.0f) {
+                        f75 = CubicBezierInterpolator.EASE_BOTH.getInterpolation(f74 / 100.0f) * (-5.0f);
                     } else {
-                        f82 = f81 < 484.0f ? (CubicBezierInterpolator.EASE_BOTH.getInterpolation((f81 - 100.0f) / 384.0f) * 95.0f) - 5.0f : 90.0f;
+                        f75 = f74 < 484.0f ? (CubicBezierInterpolator.EASE_BOTH.getInterpolation((f74 - 100.0f) / 384.0f) * 95.0f) - 5.0f : 90.0f;
                     }
                 }
-                canvas.rotate(f82);
-                int i43 = this.currentIcon;
-                if ((i43 != 0 && i43 != 1) || i43 == 4) {
-                    canvas.scale(f2, f2);
+                canvas.rotate(f75);
+                int i39 = this.currentIcon;
+                if ((i39 != 0 && i39 != 1) || i39 == 4) {
+                    canvas.scale(f24, f24);
                 }
-                Theme.playPauseAnimator.draw(canvas, this.paint2, f81);
+                Theme.playPauseAnimator.draw(canvas, this.paint2, f74);
                 canvas.scale(1.0f, -1.0f);
-                Theme.playPauseAnimator.draw(canvas, this.paint2, f81);
+                Theme.playPauseAnimator.draw(canvas, this.paint2, f74);
                 canvas.restore();
             } else {
-                i4 = 255;
+                i15 = 255;
             }
             if (this.currentIcon == 6 || this.nextIcon == 6) {
                 applyShaderMatrix(false);
                 if (this.currentIcon != 6) {
-                    float f83 = this.transitionProgress;
-                    if (f83 > 0.5f) {
-                        float f84 = (f83 - 0.5f) / 0.5f;
-                        f5 = 1.0f - Math.min(1.0f, f84 / 0.5f);
-                        f6 = f84 > 0.5f ? (f84 - 0.5f) / 0.5f : 0.0f;
+                    float f76 = this.transitionProgress;
+                    if (f76 > 0.5f) {
+                        float f77 = (f76 - 0.5f) / 0.5f;
+                        f28 = 1.0f - Math.min(1.0f, f77 / 0.5f);
+                        f31 = f77 > 0.5f ? (f77 - 0.5f) / 0.5f : 0.0f;
                     } else {
-                        f6 = 0.0f;
-                        f5 = 1.0f;
+                        f31 = 0.0f;
+                        f28 = 1.0f;
                     }
-                    this.paint.setAlpha(i4);
-                    f4 = f6;
+                    this.paint.setAlpha(i15);
+                    f29 = f31;
                 } else {
                     if (this.nextIcon != 6) {
                         this.paint.setAlpha((int) ((1.0f - this.transitionProgress) * 255.0f));
                     } else {
-                        this.paint.setAlpha(i4);
+                        this.paint.setAlpha(i15);
                     }
-                    f5 = 0.0f;
-                    f4 = 1.0f;
+                    f28 = 0.0f;
+                    f29 = 1.0f;
                 }
-                int dp16 = centerY + AndroidUtilities.dp(7.0f);
-                int dp17 = centerX - AndroidUtilities.dp(3.0f);
-                if (f5 < 1.0f) {
-                    i6 = dp17;
-                    f3 = f2;
-                    i5 = dp16;
-                    canvas.drawLine(dp17 - AndroidUtilities.dp(6.0f), dp16 - AndroidUtilities.dp(6.0f), dp17 - (AndroidUtilities.dp(6.0f) * f5), dp16 - (AndroidUtilities.dp(6.0f) * f5), this.paint);
+                int dp20 = centerY4 + AndroidUtilities.dp(7.0f);
+                int dp21 = centerX3 - AndroidUtilities.dp(3.0f);
+                if (f28 < 1.0f) {
+                    i16 = dp21;
+                    f30 = f24;
+                    i17 = dp20;
+                    canvas.drawLine(dp21 - AndroidUtilities.dp(6.0f), dp20 - AndroidUtilities.dp(6.0f), dp21 - (AndroidUtilities.dp(6.0f) * f28), dp20 - (AndroidUtilities.dp(6.0f) * f28), this.paint);
                 } else {
-                    i6 = dp17;
-                    f3 = f2;
-                    i5 = dp16;
+                    i16 = dp21;
+                    f30 = f24;
+                    i17 = dp20;
                 }
-                if (f4 > 0.0f) {
-                    float f85 = i6;
-                    float f86 = i5;
-                    canvas.drawLine(f85, f86, f85 + (AndroidUtilities.dp(12.0f) * f4), f86 - (AndroidUtilities.dp(12.0f) * f4), this.paint);
+                if (f29 > 0.0f) {
+                    float f78 = i16;
+                    float f79 = i17;
+                    canvas.drawLine(f78, f79, f78 + (AndroidUtilities.dp(12.0f) * f29), f79 - (AndroidUtilities.dp(12.0f) * f29), this.paint);
                 }
             } else {
-                f3 = f2;
+                f30 = f24;
             }
-            if (drawable4 != null && drawable4 != drawable5) {
-                int intrinsicWidth = (int) (drawable4.getIntrinsicWidth() * f);
-                int intrinsicHeight = (int) (drawable4.getIntrinsicHeight() * f);
-                drawable4.setColorFilter(this.colorFilter);
-                drawable4.setAlpha(this.currentIcon == this.nextIcon ? 255 : (int) ((1.0f - this.transitionProgress) * 255.0f));
-                int i44 = intrinsicWidth / 2;
-                int i45 = intrinsicHeight / 2;
-                drawable4.setBounds(centerX - i44, centerY - i45, i44 + centerX, i45 + centerY);
-                drawable4.draw(canvas);
+            if (drawable6 != null && drawable6 != drawable5) {
+                int intrinsicWidth = (int) (drawable6.getIntrinsicWidth() * f23);
+                int intrinsicHeight = (int) (drawable6.getIntrinsicHeight() * f23);
+                drawable6.setColorFilter(this.colorFilter);
+                drawable6.setAlpha(this.currentIcon == this.nextIcon ? 255 : (int) ((1.0f - this.transitionProgress) * 255.0f));
+                int i40 = intrinsicWidth / 2;
+                int i41 = intrinsicHeight / 2;
+                drawable6.setBounds(centerX3 - i40, centerY4 - i41, i40 + centerX3, i41 + centerY4);
+                drawable6.draw(canvas);
             }
             if (drawable5 != null) {
-                int intrinsicWidth2 = (int) (drawable5.getIntrinsicWidth() * f3);
-                int intrinsicHeight2 = (int) (drawable5.getIntrinsicHeight() * f3);
+                int intrinsicWidth2 = (int) (drawable5.getIntrinsicWidth() * f30);
+                int intrinsicHeight2 = (int) (drawable5.getIntrinsicHeight() * f30);
                 drawable5.setColorFilter(this.colorFilter);
                 drawable5.setAlpha(this.currentIcon == this.nextIcon ? 255 : (int) (this.transitionProgress * 255.0f));
-                int i46 = intrinsicWidth2 / 2;
-                int i47 = intrinsicHeight2 / 2;
-                drawable5.setBounds(centerX - i46, centerY - i47, i46 + centerX, i47 + centerY);
+                int i42 = intrinsicWidth2 / 2;
+                int i43 = intrinsicHeight2 / 2;
+                drawable5.setBounds(centerX3 - i42, centerY4 - i43, i42 + centerX3, i43 + centerY4);
                 drawable5.draw(canvas);
             }
-            Path[] pathArr7 = pathArr5;
-            Path[] pathArr8 = pathArr6;
+            Path[] pathArr7 = pathArr6;
+            Path[] pathArr8 = pathArr5;
             if (pathArr7 != null && pathArr7 != pathArr8) {
-                int dp18 = AndroidUtilities.dp(24.0f);
+                int dp22 = AndroidUtilities.dp(24.0f);
                 this.paint2.setStyle(Paint.Style.FILL_AND_STROKE);
                 this.paint2.setAlpha(this.currentIcon == this.nextIcon ? 255 : (int) ((1.0f - this.transitionProgress) * 255.0f));
                 applyShaderMatrix(true);
                 canvas.save();
-                canvas.translate(centerX, centerY);
-                canvas.scale(f, f);
-                float f87 = (-dp18) / 2;
-                canvas.translate(f87, f87);
+                canvas.translate(centerX3, centerY4);
+                canvas.scale(f23, f23);
+                float f80 = (-dp22) / 2;
+                canvas.translate(f80, f80);
                 if (pathArr7[0] != null) {
                     canvas.drawPath(pathArr7[0], this.paint2);
                 }
@@ -1034,17 +1034,17 @@ public class MediaActionDrawable extends Drawable {
                 canvas.restore();
             }
             if (pathArr8 != null) {
-                int dp19 = AndroidUtilities.dp(24.0f);
-                int i48 = this.currentIcon == this.nextIcon ? 255 : (int) (this.transitionProgress * 255.0f);
+                int dp23 = AndroidUtilities.dp(24.0f);
+                int i44 = this.currentIcon == this.nextIcon ? 255 : (int) (this.transitionProgress * 255.0f);
                 this.paint2.setStyle(Paint.Style.FILL_AND_STROKE);
-                this.paint2.setAlpha(i48);
+                this.paint2.setAlpha(i44);
                 applyShaderMatrix(true);
                 canvas.save();
-                canvas.translate(centerX, centerY);
-                float f88 = f3;
-                canvas.scale(f88, f88);
-                float f89 = (-dp19) / 2;
-                canvas.translate(f89, f89);
+                canvas.translate(centerX3, centerY4);
+                float f81 = f30;
+                canvas.scale(f81, f81);
+                float f82 = (-dp23) / 2;
+                canvas.translate(f82, f82);
                 if (pathArr8[0] != null) {
                     canvas.drawPath(pathArr8[0], this.paint2);
                 }
@@ -1052,9 +1052,9 @@ public class MediaActionDrawable extends Drawable {
                     canvas.drawPath(pathArr8[2], this.paint);
                 }
                 if (pathArr8[1] != null) {
-                    if (i48 != 255) {
+                    if (i44 != 255) {
                         int alpha = this.backPaint.getAlpha();
-                        this.backPaint.setAlpha((int) (alpha * (i48 / 255.0f)));
+                        this.backPaint.setAlpha((int) (alpha * (i44 / 255.0f)));
                         canvas.drawPath(pathArr8[1], this.backPaint);
                         this.backPaint.setAlpha(alpha);
                     } else {
@@ -1069,35 +1069,35 @@ public class MediaActionDrawable extends Drawable {
                 j = 17;
             }
             this.lastAnimationTime = currentTimeMillis;
-            int i49 = this.currentIcon;
-            if (i49 == 3 || i49 == 14 || ((i49 == 4 && this.nextIcon == 14) || i49 == 10 || i49 == 13)) {
-                float f90 = this.downloadRadOffset + (((float) (360 * j)) / 2500.0f);
-                this.downloadRadOffset = f90;
-                this.downloadRadOffset = getCircleValue(f90);
+            int i45 = this.currentIcon;
+            if (i45 == 3 || i45 == 14 || ((i45 == 4 && this.nextIcon == 14) || i45 == 10 || i45 == 13)) {
+                float f83 = this.downloadRadOffset + (((float) (360 * j)) / 2500.0f);
+                this.downloadRadOffset = f83;
+                this.downloadRadOffset = getCircleValue(f83);
                 if (this.nextIcon != 2) {
-                    float f91 = this.downloadProgress;
-                    float f92 = this.downloadProgressAnimationStart;
-                    float f93 = f91 - f92;
-                    if (f93 > 0.0f) {
-                        float f94 = this.downloadProgressTime + ((float) j);
-                        this.downloadProgressTime = f94;
-                        if (f94 >= 200.0f) {
-                            this.animatedDownloadProgress = f91;
-                            this.downloadProgressAnimationStart = f91;
+                    float f84 = this.downloadProgress;
+                    float f85 = this.downloadProgressAnimationStart;
+                    float f86 = f84 - f85;
+                    if (f86 > 0.0f) {
+                        float f87 = this.downloadProgressTime + ((float) j);
+                        this.downloadProgressTime = f87;
+                        if (f87 >= 200.0f) {
+                            this.animatedDownloadProgress = f84;
+                            this.downloadProgressAnimationStart = f84;
                             this.downloadProgressTime = 0.0f;
                         } else {
-                            this.animatedDownloadProgress = f92 + (f93 * this.interpolator.getInterpolation(f94 / 200.0f));
+                            this.animatedDownloadProgress = f85 + (f86 * this.interpolator.getInterpolation(f87 / 200.0f));
                         }
                     }
                 }
                 invalidateSelf();
             }
             if (this.animatingTransition) {
-                float f95 = this.transitionProgress;
-                if (f95 < 1.0f) {
-                    float f96 = f95 + (((float) j) / this.transitionAnimationTime);
-                    this.transitionProgress = f96;
-                    if (f96 >= 1.0f) {
+                float f88 = this.transitionProgress;
+                if (f88 < 1.0f) {
+                    float f89 = f88 + (((float) j) / this.transitionAnimationTime);
+                    this.transitionProgress = f89;
+                    if (f89 >= 1.0f) {
                         this.currentIcon = this.nextIcon;
                         this.transitionProgress = 1.0f;
                         this.animatingTransition = false;
@@ -1105,95 +1105,95 @@ public class MediaActionDrawable extends Drawable {
                     invalidateSelf();
                 }
             }
-            int i50 = i2;
-            if (i50 < 1) {
+            int i46 = i7;
+            if (i46 < 1) {
                 return;
             }
-            canvas.restoreToCount(i50);
+            canvas.restoreToCount(i46);
             return;
         } else {
-            pathArr2 = null;
+            pathArr = null;
         }
-        pathArr = null;
-        if (i39 != 5) {
+        pathArr2 = null;
+        if (i35 != 5) {
         }
-        pathArr3 = pathArr2;
-        pathArr4 = pathArr;
-        if (i39 != 7) {
+        pathArr3 = pathArr;
+        pathArr4 = pathArr2;
+        if (i35 != 7) {
         }
-        if (i39 != 8) {
+        if (i35 != 8) {
         }
-        drawable3 = drawable2;
-        Drawable drawable72 = drawable;
+        drawable3 = drawable;
+        Drawable drawable72 = drawable2;
         if (this.currentIcon != 9) {
         }
         applyShaderMatrix(z);
         this.paint.setAlpha(this.currentIcon != this.nextIcon ? 255 : (int) (this.transitionProgress * 255.0f));
-        int dp122 = centerY + AndroidUtilities.dp(7.0f);
-        int dp132 = centerX - AndroidUtilities.dp(3.0f);
+        int dp162 = centerY4 + AndroidUtilities.dp(7.0f);
+        int dp172 = centerX3 - AndroidUtilities.dp(3.0f);
         if (this.currentIcon == this.nextIcon) {
         }
-        float f732 = dp132;
-        i2 = i;
-        float f742 = dp122;
-        drawable5 = drawable6;
-        pathArr6 = pathArr3;
-        drawable4 = drawable3;
-        pathArr5 = pathArr4;
-        canvas.drawLine(dp132 - AndroidUtilities.dp(6.0f), dp122 - AndroidUtilities.dp(6.0f), f732, f742, this.paint);
-        canvas.drawLine(f732, f742, dp132 + AndroidUtilities.dp(12.0f), dp122 - AndroidUtilities.dp(12.0f), this.paint);
+        float f662 = dp172;
+        i7 = i;
+        float f672 = dp162;
+        drawable5 = drawable4;
+        pathArr5 = pathArr3;
+        drawable6 = drawable3;
+        pathArr6 = pathArr4;
+        canvas.drawLine(dp172 - AndroidUtilities.dp(6.0f), dp162 - AndroidUtilities.dp(6.0f), f662, f672, this.paint);
+        canvas.drawLine(f662, f672, dp172 + AndroidUtilities.dp(12.0f), dp162 - AndroidUtilities.dp(12.0f), this.paint);
         if (this.currentIcon != this.nextIcon) {
         }
         if (this.currentIcon != 12) {
         }
         applyShaderMatrix(false);
-        i12 = this.currentIcon;
-        i13 = this.nextIcon;
-        if (i12 != i13) {
+        i8 = this.currentIcon;
+        i9 = this.nextIcon;
+        if (i8 != i9) {
         }
-        this.paint.setAlpha(i12 != i13 ? 255 : (int) (f9 * 255.0f));
+        this.paint.setAlpha(i8 != i9 ? 255 : (int) (f25 * 255.0f));
         AndroidUtilities.dp(7.0f);
         AndroidUtilities.dp(3.0f);
         if (this.currentIcon != this.nextIcon) {
         }
-        float dp142 = AndroidUtilities.dp(7.0f) * this.scale;
-        float f752 = centerX;
-        float f762 = f752 - dp142;
-        float f772 = centerY;
-        float f782 = f772 - dp142;
-        float f792 = f752 + dp142;
-        float f802 = f772 + dp142;
-        canvas.drawLine(f762, f782, f792, f802, this.paint);
-        canvas.drawLine(f792, f782, f762, f802, this.paint);
+        float dp182 = AndroidUtilities.dp(7.0f) * this.scale;
+        float f682 = centerX3;
+        float f692 = f682 - dp182;
+        float f702 = centerY4;
+        float f712 = f702 - dp182;
+        float f722 = f682 + dp182;
+        float f732 = f702 + dp182;
+        canvas.drawLine(f692, f712, f722, f732, this.paint);
+        canvas.drawLine(f722, f712, f692, f732, this.paint);
         if (this.currentIcon != this.nextIcon) {
         }
         if (this.currentIcon != 13) {
         }
         applyShaderMatrix(false);
-        i9 = this.currentIcon;
-        i10 = this.nextIcon;
-        if (i9 != i10) {
+        i10 = this.currentIcon;
+        i11 = this.nextIcon;
+        if (i10 != i11) {
         }
-        this.textPaint.setAlpha((int) (f8 * 255.0f));
-        int dp152 = AndroidUtilities.dp(5.0f) + centerY;
-        int i402 = centerX - (this.percentStringWidth / 2);
+        this.textPaint.setAlpha((int) (f26 * 255.0f));
+        int dp192 = AndroidUtilities.dp(5.0f) + centerY4;
+        int i362 = centerX3 - (this.percentStringWidth / 2);
         if (this.currentIcon != this.nextIcon) {
         }
-        i11 = (int) (this.animatedDownloadProgress * 100.0f);
+        i12 = (int) (this.animatedDownloadProgress * 100.0f);
         if (this.percentString != null) {
         }
-        this.lastPercent = i11;
-        this.percentString = String.format("%d%%", Integer.valueOf(i11));
+        this.lastPercent = i12;
+        this.percentString = String.format("%d%%", Integer.valueOf(i12));
         this.percentStringWidth = (int) Math.ceil(this.textPaint.measureText(format));
-        canvas.drawText(this.percentString, i402, dp152, this.textPaint);
+        canvas.drawText(this.percentString, i362, dp192, this.textPaint);
         if (this.currentIcon != this.nextIcon) {
         }
-        i3 = this.currentIcon;
-        if (i3 != 0) {
+        i13 = this.currentIcon;
+        if (i13 != 0) {
         }
-        if (i3 == 0) {
+        if (i13 == 0) {
         }
-        i7 = 1;
+        i14 = 1;
     }
 
     @Override // android.graphics.drawable.Drawable

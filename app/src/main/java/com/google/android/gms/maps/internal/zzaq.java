@@ -13,20 +13,20 @@ public abstract class zzaq extends com.google.android.gms.internal.maps.zzb impl
 
     @Override // com.google.android.gms.internal.maps.zzb
     protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
-        IGoogleMapDelegate iGoogleMapDelegate;
+        IGoogleMapDelegate zzgVar;
         if (i == 1) {
             IBinder readStrongBinder = parcel.readStrongBinder();
             if (readStrongBinder == null) {
-                iGoogleMapDelegate = null;
+                zzgVar = null;
             } else {
                 IInterface queryLocalInterface = readStrongBinder.queryLocalInterface("com.google.android.gms.maps.internal.IGoogleMapDelegate");
                 if (queryLocalInterface instanceof IGoogleMapDelegate) {
-                    iGoogleMapDelegate = (IGoogleMapDelegate) queryLocalInterface;
+                    zzgVar = (IGoogleMapDelegate) queryLocalInterface;
                 } else {
-                    iGoogleMapDelegate = new zzg(readStrongBinder);
+                    zzgVar = new zzg(readStrongBinder);
                 }
             }
-            zzb(iGoogleMapDelegate);
+            zzb(zzgVar);
             parcel2.writeNoException();
             return true;
         }

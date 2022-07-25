@@ -58,6 +58,7 @@ public class UndoStore {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$notifyOfHistoryChanges$0() {
         UndoStoreDelegate undoStoreDelegate = this.delegate;
         if (undoStoreDelegate != null) {

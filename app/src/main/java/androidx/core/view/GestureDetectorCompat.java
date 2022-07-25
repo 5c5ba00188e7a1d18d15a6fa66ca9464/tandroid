@@ -12,17 +12,15 @@ import android.view.ViewConfiguration;
 public final class GestureDetectorCompat {
     private final GestureDetectorCompatImpl mImpl;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public interface GestureDetectorCompatImpl {
+    interface GestureDetectorCompatImpl {
         boolean onTouchEvent(MotionEvent ev);
 
         void setIsLongpressEnabled(boolean enabled);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class GestureDetectorCompatImplBase implements GestureDetectorCompatImpl {
+    static class GestureDetectorCompatImplBase implements GestureDetectorCompatImpl {
         private boolean mAlwaysInBiggerTapRegion;
         private boolean mAlwaysInTapRegion;
         MotionEvent mCurrentDownEvent;
@@ -47,17 +45,13 @@ public final class GestureDetectorCompat {
         private static final int TAP_TIMEOUT = ViewConfiguration.getTapTimeout();
         private static final int DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        public class GestureHandler extends Handler {
+        private class GestureHandler extends Handler {
             GestureHandler() {
-                GestureDetectorCompatImplBase.this = this$0;
             }
 
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             GestureHandler(Handler handler) {
                 super(handler.getLooper());
-                GestureDetectorCompatImplBase.this = this$0;
             }
 
             @Override // android.os.Handler
@@ -124,8 +118,8 @@ public final class GestureDetectorCompat {
             this.mIsLongpressEnabled = isLongpressEnabled;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:102:0x0208  */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x021f  */
+        /* JADX WARN: Removed duplicated region for block: B:114:0x0208  */
+        /* JADX WARN: Removed duplicated region for block: B:117:0x021f  */
         @Override // androidx.core.view.GestureDetectorCompat.GestureDetectorCompatImpl
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -134,7 +128,7 @@ public final class GestureDetectorCompat {
             boolean z;
             MotionEvent motionEvent;
             MotionEvent motionEvent2;
-            boolean z2;
+            boolean onFling;
             GestureDetector.OnDoubleTapListener onDoubleTapListener;
             int action = ev.getAction();
             if (this.mVelocityTracker == null) {
@@ -142,8 +136,8 @@ public final class GestureDetectorCompat {
             }
             this.mVelocityTracker.addMovement(ev);
             int i = action & 255;
-            boolean z3 = i == 6;
-            int actionIndex = z3 ? ev.getActionIndex() : -1;
+            boolean z2 = i == 6;
+            int actionIndex = z2 ? ev.getActionIndex() : -1;
             int pointerCount = ev.getPointerCount();
             float f = 0.0f;
             float f2 = 0.0f;
@@ -153,7 +147,7 @@ public final class GestureDetectorCompat {
                     f2 += ev.getY(i2);
                 }
             }
-            float f3 = z3 ? pointerCount - 1 : pointerCount;
+            float f3 = z2 ? pointerCount - 1 : pointerCount;
             float f4 = f / f3;
             float f5 = f2 / f3;
             if (i == 0) {
@@ -212,7 +206,7 @@ public final class GestureDetectorCompat {
                 this.mStillDown = false;
                 MotionEvent obtain = MotionEvent.obtain(ev);
                 if (this.mIsDoubleTapping) {
-                    z2 = this.mDoubleTapListener.onDoubleTapEvent(ev) | false;
+                    onFling = this.mDoubleTapListener.onDoubleTapEvent(ev) | false;
                 } else {
                     if (this.mInLongPress) {
                         this.mHandler.removeMessages(3);
@@ -222,7 +216,7 @@ public final class GestureDetectorCompat {
                         if (this.mDeferConfirmSingleTap && (onDoubleTapListener = this.mDoubleTapListener) != null) {
                             onDoubleTapListener.onSingleTapConfirmed(ev);
                         }
-                        z2 = onSingleTapUp;
+                        onFling = onSingleTapUp;
                     } else {
                         VelocityTracker velocityTracker = this.mVelocityTracker;
                         int pointerId = ev.getPointerId(0);
@@ -230,10 +224,10 @@ public final class GestureDetectorCompat {
                         float yVelocity = velocityTracker.getYVelocity(pointerId);
                         float xVelocity = velocityTracker.getXVelocity(pointerId);
                         if (Math.abs(yVelocity) > this.mMinimumFlingVelocity || Math.abs(xVelocity) > this.mMinimumFlingVelocity) {
-                            z2 = this.mListener.onFling(this.mCurrentDownEvent, ev, xVelocity, yVelocity);
+                            onFling = this.mListener.onFling(this.mCurrentDownEvent, ev, xVelocity, yVelocity);
                         }
                     }
-                    z2 = false;
+                    onFling = false;
                 }
                 MotionEvent motionEvent4 = this.mPreviousUpEvent;
                 if (motionEvent4 != null) {
@@ -296,7 +290,7 @@ public final class GestureDetectorCompat {
                     int i5 = (int) (f5 - this.mDownFocusY);
                     int i6 = (i4 * i4) + (i5 * i5);
                     if (i6 > this.mTouchSlopSquare) {
-                        z2 = this.mListener.onScroll(this.mCurrentDownEvent, ev, f6, f7);
+                        onFling = this.mListener.onScroll(this.mCurrentDownEvent, ev, f6, f7);
                         this.mLastFocusX = f4;
                         this.mLastFocusY = f5;
                         this.mAlwaysInTapRegion = false;
@@ -304,7 +298,7 @@ public final class GestureDetectorCompat {
                         this.mHandler.removeMessages(1);
                         this.mHandler.removeMessages(2);
                     } else {
-                        z2 = false;
+                        onFling = false;
                     }
                     if (i6 > this.mTouchSlopSquare) {
                         this.mAlwaysInBiggerTapRegion = false;
@@ -318,7 +312,7 @@ public final class GestureDetectorCompat {
                     return onScroll;
                 }
             }
-            return z2;
+            return onFling;
         }
 
         private void cancel() {
@@ -367,9 +361,8 @@ public final class GestureDetectorCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class GestureDetectorCompatImplJellybeanMr2 implements GestureDetectorCompatImpl {
+    static class GestureDetectorCompatImplJellybeanMr2 implements GestureDetectorCompatImpl {
         private final GestureDetector mDetector;
 
         GestureDetectorCompatImplJellybeanMr2(Context context, GestureDetector.OnGestureListener listener, Handler handler) {

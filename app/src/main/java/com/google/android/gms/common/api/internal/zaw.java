@@ -4,12 +4,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zaw implements OnCompleteListener<TResult> {
     private final /* synthetic */ TaskCompletionSource zaa;
     private final /* synthetic */ zav zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zaw(zav zavVar, TaskCompletionSource taskCompletionSource) {
         this.zab = zavVar;
         this.zaa = taskCompletionSource;

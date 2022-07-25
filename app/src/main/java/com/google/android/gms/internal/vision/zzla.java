@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzla implements zzki {
@@ -7,6 +8,7 @@ public final class zzla implements zzki {
     private final Object[] zzc;
     private final int zzd;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzla(zzkk zzkkVar, String str, Object[] objArr) {
         this.zza = zzkkVar;
         this.zzb = str;
@@ -32,10 +34,12 @@ public final class zzla implements zzki {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final String zzd() {
         return this.zzb;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final Object[] zze() {
         return this.zzc;
     }

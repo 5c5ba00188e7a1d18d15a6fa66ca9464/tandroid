@@ -122,12 +122,15 @@ public class AdjustPanLayoutHelper {
         throw null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onPanTranslationUpdate(float f, float f2, boolean z) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onTransitionEnd() {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onTransitionStart(boolean z, int i) {
     }
 
@@ -135,6 +138,7 @@ public class AdjustPanLayoutHelper {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void animateHeight(int i, int i2, boolean z) {
         if (this.ignoreOnce) {
             this.ignoreOnce = false;
@@ -170,14 +174,15 @@ public class AdjustPanLayoutHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateHeight$0(ValueAnimator valueAnimator) {
         if (!this.usingInsetAnimator) {
             updateTransition(((Float) valueAnimator.getAnimatedValue()).floatValue());
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x005b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -102,9 +102,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject3.eventId = 1L;
             messageObject3.customName = LocaleController.getString("DoubleTapPreviewSenderName", R.string.DoubleTapPreviewSenderName);
             messageObject3.customAvatarDrawable = ContextCompat.getDrawable(context, R.drawable.dino_pic);
-            messageObject2 = messageObject3;
+            messageObject = messageObject3;
             i2 = i3;
-            messageObject = null;
+            messageObject2 = null;
         } else {
             TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
             if (i == 0) {
@@ -207,8 +207,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject6.eventId = 1L;
             messageObject6.resetLayout();
             messageObject6.replyMessageObject = messageObject4;
-            messageObject2 = messageObject5;
-            messageObject = messageObject6;
+            messageObject = messageObject5;
+            messageObject2 = messageObject6;
         }
         int i5 = 0;
         while (true) {
@@ -220,11 +220,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     final /* synthetic */ int val$currentAccount;
                     final /* synthetic */ int val$type;
 
-                    /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1 */
+                    /* JADX INFO: Access modifiers changed from: package-private */
+                    /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1  reason: invalid class name and collision with other inner class name */
                     /* loaded from: classes3.dex */
                     public class C00141 extends GestureDetector.SimpleOnGestureListener {
                         C00141() {
-                            AnonymousClass1.this = r1;
                         }
 
                         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
@@ -243,11 +243,11 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                             return true;
                         }
 
-                        /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1$1 */
+                        /* JADX INFO: Access modifiers changed from: package-private */
+                        /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1$1  reason: invalid class name and collision with other inner class name */
                         /* loaded from: classes3.dex */
                         public class ViewTreeObserver$OnPreDrawListenerC00151 implements ViewTreeObserver.OnPreDrawListener {
                             ViewTreeObserver$OnPreDrawListenerC00151() {
-                                C00141.this = r1;
                             }
 
                             @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -277,6 +277,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                                 return false;
                             }
 
+                            /* JADX INFO: Access modifiers changed from: private */
                             public /* synthetic */ void lambda$onPreDraw$0(ValueAnimator valueAnimator) {
                                 getTransitionParams().animateChangeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
                                 invalidate();
@@ -285,7 +286,6 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     {
-                        ThemePreviewMessagesCell.this = this;
                         this.val$context = context;
                         this.val$currentAccount = i2;
                         this.val$type = i;
@@ -524,7 +524,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 ChatMessageCell[] chatMessageCellArr2 = this.cells;
                 chatMessageCellArr2[i5].isChat = i == 2;
                 chatMessageCellArr2[i5].setFullyDraw(true);
-                MessageObject messageObject7 = i5 == 0 ? messageObject : messageObject2;
+                MessageObject messageObject7 = i5 == 0 ? messageObject2 : messageObject;
                 if (messageObject7 != null) {
                     this.cells[i5].setMessageObject(messageObject7, null, false, false);
                     addView(this.cells[i5], LayoutHelper.createLinear(-1, -2));

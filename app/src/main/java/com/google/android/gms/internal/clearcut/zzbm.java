@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzbm extends zzbk {
     private int limit;
@@ -7,8 +8,7 @@ public final class zzbm extends zzbk {
     private int zzfw;
     private int zzfx;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzbm(byte[] bArr, int i, int i2, boolean z) {
+    private zzbm(byte[] bArr, int i, int i2, boolean z) {
         super();
         this.zzfx = Integer.MAX_VALUE;
         this.limit = i2 + i;

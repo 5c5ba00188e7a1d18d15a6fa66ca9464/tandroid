@@ -34,6 +34,7 @@ public class SpoilersTextView extends TextView {
         super(context);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(SpoilerEffect spoilerEffect, float f, float f2) {
         if (this.isSpoilersRevealed) {
             return;
@@ -50,6 +51,7 @@ public class SpoilersTextView extends TextView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         post(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -59,6 +61,7 @@ public class SpoilersTextView extends TextView {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         this.isSpoilersRevealed = true;
         invalidateSpoilers();
@@ -78,6 +81,7 @@ public class SpoilersTextView extends TextView {
         super.setText(charSequence, bufferType);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView
     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
@@ -90,6 +94,7 @@ public class SpoilersTextView extends TextView {
         invalidateSpoilers();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
         int paddingLeft = getPaddingLeft();

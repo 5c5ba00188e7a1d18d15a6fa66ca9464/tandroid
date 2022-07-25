@@ -90,15 +90,15 @@ public class WakeLock {
         return WorkSourceUtil.getNames(this.zzc);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0054, code lost:
-        if (r2 == false) goto L18;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0054, code lost:
+        if (r2 == false) goto L24;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x005c, code lost:
-        if (r13.zzl == 0) goto L22;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x005e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x005e, code lost:
         com.google.android.gms.common.stats.WakeLockTracker.getInstance().registerEvent(r13.zzh, com.google.android.gms.common.stats.StatsUtils.getEventKey(r13.zzb, r6), 7, r13.zze, r6, null, r13.zzd, zza(), r14);
         r13.zzl++;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x005c, code lost:
+        if (r13.zzl == 0) goto L14;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -130,15 +130,15 @@ public class WakeLock {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0050, code lost:
-        if (r1 != false) goto L21;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0050, code lost:
+        if (r1 != false) goto L13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0058, code lost:
-        if (r12.zzl == 1) goto L21;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x005a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x005a, code lost:
         com.google.android.gms.common.stats.WakeLockTracker.getInstance().registerEvent(r12.zzh, com.google.android.gms.common.stats.StatsUtils.getEventKey(r12.zzb, r6), 8, r12.zze, r6, null, r12.zzd, zza());
         r12.zzl--;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0058, code lost:
+        if (r12.zzl == 1) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -168,6 +168,7 @@ public class WakeLock {
         zza(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(int i) {
         if (this.zzb.isHeld()) {
             try {

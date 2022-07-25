@@ -5,6 +5,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import java.util.ArrayList;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zaal extends zaap {

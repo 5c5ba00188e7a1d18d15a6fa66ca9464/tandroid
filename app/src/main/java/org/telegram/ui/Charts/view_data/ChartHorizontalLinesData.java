@@ -13,9 +13,9 @@ public class ChartHorizontalLinesData {
         this(i, i2, z, 0.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0099  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x009c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

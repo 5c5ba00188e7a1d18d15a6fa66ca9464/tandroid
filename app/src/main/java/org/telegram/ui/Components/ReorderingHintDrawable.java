@@ -174,6 +174,7 @@ public class ReorderingHintDrawable extends Drawable {
         return this.intrinsicHeight;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public static class RectDrawable extends Drawable {
         private final RectF tempRect = new RectF();

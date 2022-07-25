@@ -46,13 +46,13 @@ public abstract class TLRPC$Chat extends TLObject {
     public int version;
 
     public static TLRPC$Chat TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$Chat tLRPC$Chat;
+        TLRPC$Chat tLRPC$TL_channel;
         switch (i) {
             case -2107528095:
-                tLRPC$Chat = new TLRPC$TL_channel();
+                tLRPC$TL_channel = new TLRPC$TL_channel();
                 break;
             case -2059962289:
-                tLRPC$Chat = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer67
+                tLRPC$TL_channel = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer67
                     public static int constructor = -2059962289;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
@@ -85,7 +85,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case -1683826688:
-                tLRPC$Chat = new TLRPC$TL_chatEmpty() { // from class: org.telegram.tgnet.TLRPC$TL_chatEmpty_layer131
+                tLRPC$TL_channel = new TLRPC$TL_chatEmpty() { // from class: org.telegram.tgnet.TLRPC$TL_chatEmpty_layer131
                     public static int constructor = -1683826688;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatEmpty, org.telegram.tgnet.TLObject
@@ -102,7 +102,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case -1588737454:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer67
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer67
                     public static int constructor = -1588737454;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -181,7 +181,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case -930515796:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer92
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer92
                     public static int constructor = -930515796;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -276,7 +276,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case -753232354:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer131
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer131
                     public static int constructor = -753232354;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -412,7 +412,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case -652419756:
-                tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_layer92
+                tLRPC$TL_channel = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_layer92
                     public static int constructor = -652419756;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
@@ -463,7 +463,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case -83047359:
-                tLRPC$Chat = new TLRPC$TL_chatForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatForbidden_old
+                tLRPC$TL_channel = new TLRPC$TL_chatForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatForbidden_old
                     public static int constructor = -83047359;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatForbidden, org.telegram.tgnet.TLObject
@@ -483,7 +483,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 120753115:
-                tLRPC$Chat = new TLRPC$TL_chatForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatForbidden_layer131
+                tLRPC$TL_channel = new TLRPC$TL_chatForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatForbidden_layer131
                     public static int constructor = 120753115;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatForbidden, org.telegram.tgnet.TLObject
@@ -501,7 +501,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 213142300:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer72
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer72
                     public static int constructor = 213142300;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -592,10 +592,10 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 399807445:
-                tLRPC$Chat = new TLRPC$TL_channelForbidden();
+                tLRPC$TL_channel = new TLRPC$TL_channelForbidden();
                 break;
             case 681420594:
-                tLRPC$Chat = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer131
+                tLRPC$TL_channel = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer131
                     public static int constructor = 681420594;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
@@ -634,10 +634,10 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 693512293:
-                tLRPC$Chat = new TLRPC$TL_chatEmpty();
+                tLRPC$TL_channel = new TLRPC$TL_chatEmpty();
                 break;
             case 763724588:
-                tLRPC$Chat = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer52
+                tLRPC$TL_channel = new TLRPC$TL_channelForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_channelForbidden_layer52
                     public static int constructor = 763724588;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelForbidden, org.telegram.tgnet.TLObject
@@ -657,7 +657,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 1004149726:
-                tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_layer131
+                tLRPC$TL_channel = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_layer131
                     public static int constructor = 1004149726;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
@@ -726,10 +726,10 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 1103884886:
-                tLRPC$Chat = new TLRPC$TL_chat();
+                tLRPC$TL_channel = new TLRPC$TL_chat();
                 break;
             case 1158377749:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer77
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer77
                     public static int constructor = 1158377749;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -824,7 +824,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 1260090630:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer48
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer48
                     public static int constructor = 1260090630;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -896,7 +896,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 1307772980:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer104
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_layer104
                     public static int constructor = 1307772980;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -1005,10 +1005,10 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 1704108455:
-                tLRPC$Chat = new TLRPC$TL_chatForbidden();
+                tLRPC$TL_channel = new TLRPC$TL_chatForbidden();
                 break;
             case 1737397639:
-                tLRPC$Chat = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_old
+                tLRPC$TL_channel = new TLRPC$TL_channel() { // from class: org.telegram.tgnet.TLRPC$TL_channel_old
                     public static int constructor = 1737397639;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channel, org.telegram.tgnet.TLObject
@@ -1071,7 +1071,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 1855757255:
-                tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_old
+                tLRPC$TL_channel = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_old
                     public static int constructor = 1855757255;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
@@ -1099,7 +1099,7 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             case 1930607688:
-                tLRPC$Chat = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_old2
+                tLRPC$TL_channel = new TLRPC$TL_chat() { // from class: org.telegram.tgnet.TLRPC$TL_chat_old2
                     public static int constructor = 1930607688;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chat, org.telegram.tgnet.TLObject
@@ -1144,18 +1144,19 @@ public abstract class TLRPC$Chat extends TLObject {
                 };
                 break;
             default:
-                tLRPC$Chat = null;
+                tLRPC$TL_channel = null;
                 break;
         }
-        if (tLRPC$Chat != null || !z) {
-            if (tLRPC$Chat != null) {
-                tLRPC$Chat.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_channel != null || !z) {
+            if (tLRPC$TL_channel != null) {
+                tLRPC$TL_channel.readParams(abstractSerializedData, z);
             }
-            return tLRPC$Chat;
+            return tLRPC$TL_channel;
         }
         throw new RuntimeException(String.format("can't parse magic %x in Chat", Integer.valueOf(i)));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static TLRPC$TL_chatBannedRights mergeBannedRights(TLRPC$TL_channelBannedRights_layer92 tLRPC$TL_channelBannedRights_layer92) {
         if (tLRPC$TL_channelBannedRights_layer92 == null) {
             return null;
@@ -1178,6 +1179,7 @@ public abstract class TLRPC$Chat extends TLObject {
         return tLRPC$TL_chatBannedRights;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static TLRPC$TL_chatAdminRights mergeAdminRights(TLRPC$TL_channelAdminRights_layer92 tLRPC$TL_channelAdminRights_layer92) {
         if (tLRPC$TL_channelAdminRights_layer92 == null) {
             return null;

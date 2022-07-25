@@ -8,6 +8,7 @@ class H2 implements S2 {
     private Object b;
     final /* synthetic */ j$.util.function.b c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public H2(j$.util.function.b bVar) {
         this.c = bVar;
     }

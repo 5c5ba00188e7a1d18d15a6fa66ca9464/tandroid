@@ -608,7 +608,7 @@ public class NotificationCompat {
 
         @Override // androidx.core.app.NotificationCompat.Style
         public void apply(NotificationBuilderWithBuilderAccessor builder) {
-            CharSequence charSequence;
+            CharSequence text;
             Notification.MessagingStyle messagingStyle;
             setGroupConversation(isGroupConversation());
             int i = Build.VERSION.SDK_INT;
@@ -647,11 +647,11 @@ public class NotificationCompat {
             if (findLatestIncomingMessage != null) {
                 Notification.Builder builder2 = builder.getBuilder();
                 if (this.mConversationTitle != null) {
-                    charSequence = makeMessageLine(findLatestIncomingMessage);
+                    text = makeMessageLine(findLatestIncomingMessage);
                 } else {
-                    charSequence = findLatestIncomingMessage.getText();
+                    text = findLatestIncomingMessage.getText();
                 }
-                builder2.setContentText(charSequence);
+                builder2.setContentText(text);
             }
             if (i < 16) {
                 return;
@@ -1187,7 +1187,8 @@ public class NotificationCompat {
             return builder.build();
         }
 
-        public WearableExtender clone() {
+        /* renamed from: clone */
+        public WearableExtender m5clone() {
             WearableExtender wearableExtender = new WearableExtender();
             wearableExtender.mActions = new ArrayList<>(this.mActions);
             wearableExtender.mFlags = this.mFlags;
@@ -1356,6 +1357,7 @@ public class NotificationCompat {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class Api29Impl {
             static Notification.BubbleMetadata toPlatform(BubbleMetadata compatMetadata) {
@@ -1373,6 +1375,7 @@ public class NotificationCompat {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class Api30Impl {
             static Notification.BubbleMetadata toPlatform(BubbleMetadata compatMetadata) {

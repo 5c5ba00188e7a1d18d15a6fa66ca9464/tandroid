@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Predicate;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class d0 implements N4 {
     private final e4 a;
@@ -9,6 +10,7 @@ public final class d0 implements N4 {
     final Predicate d;
     final j$.util.function.y e;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public d0(boolean z, e4 e4Var, Object obj, Predicate predicate, j$.util.function.y yVar) {
         this.b = z;
         this.a = e4Var;

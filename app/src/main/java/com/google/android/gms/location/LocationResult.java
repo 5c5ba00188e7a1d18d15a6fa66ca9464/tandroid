@@ -18,6 +18,7 @@ public final class LocationResult extends AbstractSafeParcelable implements Refl
     @RecentlyNonNull
     public static final Parcelable.Creator<LocationResult> CREATOR = new zzbg();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LocationResult(List<Location> list) {
         this.zzb = list;
     }

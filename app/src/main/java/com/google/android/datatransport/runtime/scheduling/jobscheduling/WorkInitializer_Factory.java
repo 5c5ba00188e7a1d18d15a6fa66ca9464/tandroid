@@ -20,8 +20,9 @@ public final class WorkInitializer_Factory implements Factory<WorkInitializer> {
     }
 
     @Override // javax.inject.Provider
-    public WorkInitializer get() {
-        return newInstance(this.executorProvider.get(), this.storeProvider.get(), this.schedulerProvider.get(), this.guardProvider.get());
+    /* renamed from: get */
+    public WorkInitializer mo70get() {
+        return newInstance(this.executorProvider.mo70get(), this.storeProvider.mo70get(), this.schedulerProvider.mo70get(), this.guardProvider.mo70get());
     }
 
     public static WorkInitializer_Factory create(Provider<Executor> provider, Provider<EventStore> provider2, Provider<WorkScheduler> provider3, Provider<SynchronizationGuard> provider4) {

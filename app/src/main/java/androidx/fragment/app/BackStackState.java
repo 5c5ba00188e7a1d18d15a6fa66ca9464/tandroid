@@ -6,17 +6,22 @@ import android.text.TextUtils;
 import android.util.Log;
 import androidx.fragment.app.BackStackRecord;
 import java.util.ArrayList;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: BackStackRecord.java */
 /* loaded from: classes.dex */
 public final class BackStackState implements Parcelable {
     public static final Parcelable.Creator<BackStackState> CREATOR = new Parcelable.Creator<BackStackState>() { // from class: androidx.fragment.app.BackStackState.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public BackStackState createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public BackStackState mo15createFromParcel(Parcel parcel) {
             return new BackStackState(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public BackStackState[] newArray(int i) {
+        /* renamed from: newArray */
+        public BackStackState[] mo16newArray(int i) {
             return new BackStackState[i];
         }
     };

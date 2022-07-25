@@ -64,6 +64,7 @@ public class MemberRequestsController extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getImporters$1(final long j, final RequestDelegate requestDelegate, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MemberRequestsController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -73,6 +74,7 @@ public class MemberRequestsController extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getImporters$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, long j, RequestDelegate requestDelegate) {
         if (tLRPC$TL_error == null) {
             this.firstImportersCache.put(j, (TLRPC$TL_messages_chatInviteImporters) tLObject);

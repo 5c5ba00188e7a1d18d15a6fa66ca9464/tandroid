@@ -4,9 +4,8 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class Atom {
+abstract class Atom {
     public final int type;
 
     public static int parseFullAtomFlags(int i) {
@@ -25,9 +24,8 @@ public abstract class Atom {
         return getAtomTypeString(this.type);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class LeafAtom extends Atom {
+    static final class LeafAtom extends Atom {
         public final ParsableByteArray data;
 
         public LeafAtom(int i, ParsableByteArray parsableByteArray) {

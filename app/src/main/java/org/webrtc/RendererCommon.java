@@ -57,8 +57,8 @@ public class RendererCommon {
             this.visibleFractionMismatchOrientation = f2;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x0056, code lost:
-            if (r8 == r2) goto L33;
+        /* JADX WARN: Code restructure failed: missing block: B:27:0x0056, code lost:
+            if (r8 == r2) goto L29;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -139,7 +139,8 @@ public class RendererCommon {
         fArr[13] = fArr[13] + 0.5f;
     }
 
-    /* renamed from: org.webrtc.RendererCommon$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.webrtc.RendererCommon$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$RendererCommon$ScalingType;
@@ -162,6 +163,7 @@ public class RendererCommon {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static float convertScalingTypeToVisibleFraction(ScalingType scalingType) {
         int i = AnonymousClass1.$SwitchMap$org$webrtc$RendererCommon$ScalingType[scalingType.ordinal()];
         if (i != 1) {

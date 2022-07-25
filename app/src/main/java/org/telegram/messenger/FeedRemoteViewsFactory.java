@@ -16,6 +16,7 @@ import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$PhotoSize;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: FeedWidgetService.java */
 /* loaded from: classes.dex */
 public class FeedRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory, NotificationCenter.NotificationCenterDelegate {
@@ -136,6 +137,7 @@ public class FeedRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDataSetChanged$0() {
         this.accountInstance.getNotificationCenter().addObserver(this, NotificationCenter.messagesDidLoad);
         if (this.classGuid == 0) {

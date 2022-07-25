@@ -97,6 +97,7 @@ public class VoIPFloatingLayout extends FrameLayout {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         this.mutedProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -174,8 +175,8 @@ public class VoIPFloatingLayout extends FrameLayout {
         this.delegate = voIPFloatingLayoutDelegate;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0025, code lost:
-        if (r1 != 3) goto L61;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0025, code lost:
+        if (r1 != 3) goto L14;
      */
     @Override // android.view.View
     /*

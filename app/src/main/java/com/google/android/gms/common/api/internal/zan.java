@@ -6,13 +6,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiActivity;
 import com.google.android.gms.common.internal.Preconditions;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
-public final class zan implements Runnable {
+final class zan implements Runnable {
     final /* synthetic */ zal zaa;
     private final zak zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zan(zal zalVar, zak zakVar) {
         this.zaa = zalVar;
         this.zab = zakVar;

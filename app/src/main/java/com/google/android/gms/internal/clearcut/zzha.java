@@ -34,6 +34,8 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         this.zzrs = -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
     /* renamed from: zzgd */
     public final zzha clone() {
         try {
@@ -342,6 +344,7 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         super.zza(zzfsVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
     public final int zzen() {
         int[] iArr;

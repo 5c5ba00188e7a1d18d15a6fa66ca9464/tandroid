@@ -9,9 +9,8 @@ public final class TaskExecutors {
     private final ExecutorService mBackground = a.a();
     private final Executor mUiThread = a.b();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class ImmediateExecutor implements Executor {
+    static final class ImmediateExecutor implements Executor {
         ImmediateExecutor() {
         }
 
@@ -25,6 +24,7 @@ public final class TaskExecutors {
         new ImmediateExecutor();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ExecutorService background() {
         return INSTANCE.mBackground;
     }

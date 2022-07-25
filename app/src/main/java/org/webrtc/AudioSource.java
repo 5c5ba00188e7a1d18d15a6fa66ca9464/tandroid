@@ -5,6 +5,7 @@ public class AudioSource extends MediaSource {
         super(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getNativeAudioSource() {
         return getNativeMediaSource();
     }

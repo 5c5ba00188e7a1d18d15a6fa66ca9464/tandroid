@@ -11,6 +11,7 @@ final class h implements v {
     final long c;
     final long d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public h(long j, long j2, long j3, long j4) {
         this.a = j;
         this.b = j2;
@@ -18,8 +19,9 @@ final class h implements v {
         this.d = j4;
     }
 
+    @Override // j$.util.v, j$.util.w, j$.util.u
     /* renamed from: a */
-    public h trySplit() {
+    public h mo350trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
         if (j2 <= j) {
@@ -39,7 +41,7 @@ final class h implements v {
         return 17728;
     }
 
-    @Override // j$.util.v
+    @Override // j$.util.w
     /* renamed from: d */
     public void forEachRemaining(q qVar) {
         qVar.getClass();
@@ -82,7 +84,7 @@ final class h implements v {
         return j$.util.a.f(this, i);
     }
 
-    @Override // j$.util.v
+    @Override // j$.util.w
     /* renamed from: i */
     public boolean tryAdvance(q qVar) {
         qVar.getClass();

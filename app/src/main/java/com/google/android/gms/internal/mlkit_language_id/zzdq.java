@@ -5,6 +5,7 @@ final class zzdq extends zzdx {
     private final int zzc;
     private final int zzd;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzdq(byte[] bArr, int i, int i2) {
         super(bArr);
         zzdn.zzb(i, i + i2, bArr.length);
@@ -32,6 +33,7 @@ final class zzdq extends zzdx {
         return this.zzb[this.zzc + i];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdx, com.google.android.gms.internal.mlkit_language_id.zzdn
     public final byte zzb(int i) {
         return this.zzb[this.zzc + i];

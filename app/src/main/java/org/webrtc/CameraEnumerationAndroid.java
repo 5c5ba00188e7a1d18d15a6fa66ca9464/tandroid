@@ -85,9 +85,8 @@ public class CameraEnumerationAndroid {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static abstract class ClosestComparator<T> implements Comparator<T> {
+    private static abstract class ClosestComparator<T> implements Comparator<T> {
         abstract int diff(T t);
 
         private ClosestComparator() {
@@ -120,6 +119,8 @@ public class CameraEnumerationAndroid {
                 super();
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // org.webrtc.CameraEnumerationAndroid.ClosestComparator
             public int diff(CaptureFormat.FramerateRange framerateRange) {
                 return progressivePenalty(framerateRange.min, 8000, 1, 4) + progressivePenalty(Math.abs((i * 1000) - framerateRange.max), MAX_FPS_DIFF_THRESHOLD, 1, 3);
             }
@@ -133,12 +134,15 @@ public class CameraEnumerationAndroid {
                 super();
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // org.webrtc.CameraEnumerationAndroid.ClosestComparator
             public int diff(Size size) {
                 return Math.abs(i - size.width) + Math.abs(i2 - size.height);
             }
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void reportCameraResolution(Histogram histogram, Size size) {
         histogram.addSample(COMMON_RESOLUTIONS.indexOf(size) + 1);
     }

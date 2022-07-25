@@ -8,6 +8,7 @@ public final class zze {
     private final String zza;
     private final String zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zze(JSONObject jSONObject, zzd zzdVar) {
         this.zza = jSONObject.optString("productId");
         this.zzb = jSONObject.optString("productType");

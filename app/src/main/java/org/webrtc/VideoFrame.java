@@ -11,7 +11,7 @@ public class VideoFrame implements RefCounted {
     /* loaded from: classes3.dex */
     public interface Buffer extends RefCounted {
 
-        /* renamed from: org.webrtc.VideoFrame$Buffer$-CC */
+        /* renamed from: org.webrtc.VideoFrame$Buffer$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static int $default$getBufferType(Buffer buffer) {
@@ -45,7 +45,7 @@ public class VideoFrame implements RefCounted {
     /* loaded from: classes3.dex */
     public interface I420Buffer extends Buffer {
 
-        /* renamed from: org.webrtc.VideoFrame$I420Buffer$-CC */
+        /* renamed from: org.webrtc.VideoFrame$I420Buffer$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static int $default$getBufferType(I420Buffer i420Buffer) {

@@ -77,6 +77,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
         setContentView(this.frameLayout);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         onBackPressed();
     }
@@ -119,6 +120,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ WindowInsets lambda$onCreate$1(View view, WindowInsets windowInsets) {
         view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
         return windowInsets;
@@ -144,9 +146,8 @@ public class OverlayActionBarLayoutDialog extends Dialog implements ActionBarLay
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static final class EmptyFragment extends BaseFragment {
+    private static final class EmptyFragment extends BaseFragment {
         private EmptyFragment() {
         }
 

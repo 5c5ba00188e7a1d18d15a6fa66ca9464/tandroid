@@ -130,6 +130,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view, int i) {
         if (getParentActivity() == null) {
             return;
@@ -172,6 +173,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(DialogInterface dialogInterface, int i) {
         generateLink(true);
     }
@@ -223,6 +225,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$3(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -232,6 +235,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z) {
         if (tLRPC$TL_error == null) {
             this.invite = (TLRPC$TL_chatInviteExported) tLObject;
@@ -250,12 +254,12 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         this.listAdapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            GroupInviteActivity.this = r1;
             this.mContext = context;
         }
 
@@ -274,18 +278,19 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View textSettingsCell;
             if (i == 0) {
-                view = new TextSettingsCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textSettingsCell = new TextSettingsCell(this.mContext);
+                textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 1) {
-                view = new TextInfoPrivacyCell(this.mContext);
+                textSettingsCell = new TextInfoPrivacyCell(this.mContext);
             } else {
-                view = new TextBlockCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textSettingsCell = new TextBlockCell(this.mContext);
+                textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(textSettingsCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

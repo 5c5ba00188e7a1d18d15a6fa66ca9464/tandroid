@@ -75,6 +75,7 @@ public class NotificationBadge {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$executeBadge$0(Intent intent) {
             ApplicationLoader.applicationContext.sendBroadcast(intent);
         }
@@ -108,6 +109,7 @@ public class NotificationBadge {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$executeBadge$0(Intent intent) {
             ApplicationLoader.applicationContext.sendBroadcast(intent);
         }
@@ -142,6 +144,7 @@ public class NotificationBadge {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$executeBadge$0(Intent intent) {
             ApplicationLoader.applicationContext.sendBroadcast(intent);
         }
@@ -173,6 +176,7 @@ public class NotificationBadge {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$executeBadge$0(Intent intent) {
             try {
                 ApplicationLoader.applicationContext.sendBroadcast(intent);
@@ -202,6 +206,7 @@ public class NotificationBadge {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$executeBadge$0(Bundle bundle) {
             try {
                 ApplicationLoader.applicationContext.getContentResolver().call(Uri.parse("content://com.huawei.android.launcher.settings/badge/"), "change_badge", (String) null, bundle);
@@ -243,6 +248,7 @@ public class NotificationBadge {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$executeBadge$0(Intent intent, Intent intent2) {
             ApplicationLoader.applicationContext.sendBroadcast(intent);
             ApplicationLoader.applicationContext.sendBroadcast(intent2);
@@ -406,6 +412,7 @@ public class NotificationBadge {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$executeBadgeByBroadcast$0(Intent intent) {
             ApplicationLoader.applicationContext.sendBroadcast(intent);
         }
@@ -497,6 +504,7 @@ public class NotificationBadge {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$executeBadge$0(Bundle bundle) {
             try {
                 ApplicationLoader.applicationContext.getContentResolver().call(this.CONTENT_URI, "setAppBadgeCount", (String) null, bundle);
@@ -619,6 +627,7 @@ public class NotificationBadge {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static boolean canResolveBroadcast(Intent intent) {
         List<ResolveInfo> queryBroadcastReceivers = ApplicationLoader.applicationContext.getPackageManager().queryBroadcastReceivers(intent, 0);
         return queryBroadcastReceivers != null && queryBroadcastReceivers.size() > 0;

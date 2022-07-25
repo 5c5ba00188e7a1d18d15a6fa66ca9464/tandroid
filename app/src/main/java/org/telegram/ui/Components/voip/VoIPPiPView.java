@@ -132,6 +132,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
     public void onVideoAvailableChange(boolean z) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         this.progressToCameraMini = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.floatingView.invalidate();
@@ -157,8 +158,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         instance.setRelativePosition(sharedPreferences.getFloat("relativeX", 1.0f), sharedPreferences.getFloat("relativeY", 0.0f));
         NotificationCenter.getGlobalInstance().addObserver(instance, NotificationCenter.didEndCall);
         windowManager.addView(instance.windowView, createWindowLayoutParams);
-        instance.currentUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
-        instance.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
+        instance.currentUserTextureView.renderer.init(VideoCapturerDevice.eglBase.mo2328getEglBaseContext(), null);
+        instance.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.mo2328getEglBaseContext(), null);
         if (i4 != 0) {
             if (i4 != 1) {
                 return;
@@ -184,6 +185,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         sharedInstance2.setSinks(voIPPiPView3.currentUserTextureView.renderer, voIPPiPView3.callingUserTextureView.renderer);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static WindowManager.LayoutParams createWindowLayoutParams(Context context, int i, int i2, float f) {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         float f2 = i2;
@@ -335,6 +337,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         updateViewState();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$1(View view) {
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
@@ -344,6 +347,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(Context context, View view) {
         boolean z = context instanceof LaunchActivity;
         if (z && !ApplicationLoader.mainInterfacePaused) {
@@ -356,6 +360,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void finishInternal() {
         this.currentUserTextureView.renderer.release();
         this.callingUserTextureView.renderer.release();
@@ -484,6 +489,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class FloatingView extends FrameLayout {
         float bottomPadding;
@@ -492,13 +498,11 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         float topPadding;
         float touchSlop;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public FloatingView(Context context) {
             super(context);
-            VoIPPiPView.this = r2;
             this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
             if (Build.VERSION.SDK_INT >= 21) {
-                setOutlineProvider(new ViewOutlineProvider(this, r2) { // from class: org.telegram.ui.Components.voip.VoIPPiPView.FloatingView.1
+                setOutlineProvider(new ViewOutlineProvider(this, VoIPPiPView.this) { // from class: org.telegram.ui.Components.voip.VoIPPiPView.FloatingView.1
                     @Override // android.view.ViewOutlineProvider
                     @TargetApi(21)
                     public void getOutline(View view, Outline outline) {
@@ -536,8 +540,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             super.dispatchDraw(canvas);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0035, code lost:
-            if (r4 != 3) goto L65;
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x0035, code lost:
+            if (r4 != 3) goto L14;
          */
         @Override // android.view.View
         /*
@@ -662,6 +666,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void getRelativePosition(float[] fArr) {
             Point point = AndroidUtilities.displaySize;
             VoIPPiPView voIPPiPView = VoIPPiPView.this;
@@ -676,6 +681,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             fArr[1] = Math.min(1.0f, Math.max(0.0f, fArr[1]));
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void expand(boolean z) {
             AndroidUtilities.cancelRunOnUIThread(VoIPPiPView.this.collapseRunnable);
             if (VoIPPiPView.instance == null || VoIPPiPView.this.expandedAnimationInProgress || VoIPPiPView.instance.expanded == z) {
@@ -753,6 +759,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$expand$1(final float f, final VoIPPiPView voIPPiPView) {
             if (VoIPPiPView.expandedInstance == null) {
                 return;
@@ -784,6 +791,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             VoIPPiPView.this.expandAnimator = ofFloat;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$expand$0(float f, float f2, VoIPPiPView voIPPiPView, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             float f3 = (f * (1.0f - floatValue)) + (f2 * floatValue);
@@ -796,6 +804,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$expand$2(float f, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             float f2 = (1.0f - floatValue) + (f * floatValue);
@@ -810,13 +819,13 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             }
         }
 
-        /* renamed from: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$3 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$3  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass3 extends AnimatorListenerAdapter {
             final /* synthetic */ boolean val$expanded;
 
             AnonymousClass3(boolean z) {
-                FloatingView.this = r1;
                 this.val$expanded = z;
             }
 
@@ -837,6 +846,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                 }, 64L);
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onAnimationEnd$0(boolean z) {
                 if (VoIPPiPView.instance == null || VoIPPiPView.expandedInstance == null) {
                     return;
@@ -872,6 +882,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             animate.alpha(f).setDuration(300L).setInterpolator(cubicBezierInterpolator).start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void swapRender(VoIPPiPView voIPPiPView, VoIPPiPView voIPPiPView2) {
             voIPPiPView2.currentUserTextureView.setStub(voIPPiPView.currentUserTextureView);
             voIPPiPView2.callingUserTextureView.setStub(voIPPiPView.callingUserTextureView);
@@ -881,8 +892,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             if (eglBase == null) {
                 return;
             }
-            voIPPiPView2.currentUserTextureView.renderer.init(eglBase.getEglBaseContext(), null);
-            voIPPiPView2.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
+            voIPPiPView2.currentUserTextureView.renderer.init(eglBase.mo2328getEglBaseContext(), null);
+            voIPPiPView2.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.mo2328getEglBaseContext(), null);
             if (VoIPService.getSharedInstance() == null) {
                 return;
             }

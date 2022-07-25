@@ -28,9 +28,9 @@ public class SubstringLayoutAnimator {
     }
 
     public void create(StaticLayout staticLayout, CharSequence charSequence, CharSequence charSequence2, TextPaint textPaint) {
+        String charSequence3;
+        String charSequence4;
         boolean z;
-        String str;
-        String str2;
         if (staticLayout == null || charSequence.equals(charSequence2)) {
             return;
         }
@@ -39,25 +39,25 @@ public class SubstringLayoutAnimator {
             valueAnimator.cancel();
         }
         if (charSequence.length() > charSequence2.length()) {
-            str2 = charSequence.toString();
-            str = charSequence2.toString();
+            charSequence3 = charSequence.toString();
+            charSequence4 = charSequence2.toString();
             z = true;
         } else {
-            str2 = charSequence2.toString();
-            str = charSequence.toString();
+            charSequence3 = charSequence2.toString();
+            charSequence4 = charSequence.toString();
             z = false;
         }
-        int indexOf = str2.indexOf(str);
+        int indexOf = charSequence3.indexOf(charSequence4);
         if (indexOf >= 0) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str2);
-            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(str2);
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence3);
+            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(charSequence3);
             if (indexOf != 0) {
                 spannableStringBuilder2.setSpan(new EmptyStubSpan(), 0, indexOf, 0);
             }
-            if (str.length() + indexOf != str2.length()) {
-                spannableStringBuilder2.setSpan(new EmptyStubSpan(), str.length() + indexOf, str2.length(), 0);
+            if (charSequence4.length() + indexOf != charSequence3.length()) {
+                spannableStringBuilder2.setSpan(new EmptyStubSpan(), charSequence4.length() + indexOf, charSequence3.length(), 0);
             }
-            spannableStringBuilder.setSpan(new EmptyStubSpan(), indexOf, str.length() + indexOf, 0);
+            spannableStringBuilder.setSpan(new EmptyStubSpan(), indexOf, charSequence4.length() + indexOf, 0);
             this.animateInLayout = new StaticLayout(spannableStringBuilder, textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             StaticLayout staticLayout2 = new StaticLayout(spannableStringBuilder2, textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.animateStableLayout = staticLayout2;
@@ -94,6 +94,7 @@ public class SubstringLayoutAnimator {
         this.valueAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$create$0(ValueAnimator valueAnimator) {
         this.hintProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.parentView.invalidate();

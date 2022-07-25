@@ -99,6 +99,7 @@ public class DefaultRenderersFactory implements RenderersFactory {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void buildAudioRenderers(Context context, int i, MediaCodecSelector mediaCodecSelector, DrmSessionManager<FrameworkMediaCrypto> drmSessionManager, boolean z, boolean z2, AudioProcessor[] audioProcessorArr, Handler handler, AudioRendererEventListener audioRendererEventListener, ArrayList<Renderer> arrayList) {
         int i2;
         arrayList.add(new MediaCodecAudioRenderer(context, mediaCodecSelector, drmSessionManager, z, z2, handler, audioRendererEventListener, new DefaultAudioSink(AudioCapabilities.getCapabilities(context), audioProcessorArr)));

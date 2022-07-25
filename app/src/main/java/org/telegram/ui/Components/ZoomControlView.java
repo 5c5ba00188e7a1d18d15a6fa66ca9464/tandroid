@@ -16,6 +16,7 @@ import org.telegram.ui.Components.AnimationProperties;
 /* loaded from: classes3.dex */
 public class ZoomControlView extends View {
     public final Property<ZoomControlView, Float> ZOOM_PROPERTY = new AnimationProperties.FloatProperty<ZoomControlView>("clipProgress") { // from class: org.telegram.ui.Components.ZoomControlView.1
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(ZoomControlView zoomControlView, float f) {
             ZoomControlView.this.zoom = f;
             if (ZoomControlView.this.delegate != null) {
@@ -24,6 +25,7 @@ public class ZoomControlView extends View {
             ZoomControlView.this.invalidate();
         }
 
+        @Override // android.util.Property
         public Float get(ZoomControlView zoomControlView) {
             return Float.valueOf(ZoomControlView.this.zoom);
         }
@@ -94,8 +96,8 @@ public class ZoomControlView extends View {
         this.delegate = zoomControlViewDelegate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01da  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x01e3  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x01da  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x01e3  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

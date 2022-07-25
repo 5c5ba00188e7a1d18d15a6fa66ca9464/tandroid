@@ -240,7 +240,7 @@ public interface VideoEncoder {
         }
     }
 
-    /* renamed from: org.webrtc.VideoEncoder$-CC */
+    /* renamed from: org.webrtc.VideoEncoder$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
     public final /* synthetic */ class CC {
         @CalledByNative

@@ -7,6 +7,7 @@ final class zzgm implements zzfx {
     private final Object[] zzc;
     private final int zzd;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzgm(zzfz zzfzVar, String str, Object[] objArr) {
         this.zza = zzfzVar;
         this.zzb = str;
@@ -32,10 +33,12 @@ final class zzgm implements zzfx {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final String zzd() {
         return this.zzb;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final Object[] zze() {
         return this.zzc;
     }

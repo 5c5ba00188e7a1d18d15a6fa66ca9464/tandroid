@@ -3,7 +3,8 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
 interface A1 {
-    A1 b(int i);
+    /* renamed from: b */
+    A1 mo316b(int i);
 
     long count();
 
@@ -18,5 +19,5 @@ interface A1 {
     A1 r(long j, long j2, j$.util.function.m mVar);
 
     /* renamed from: spliterator */
-    j$.util.u mo69spliterator();
+    j$.util.u mo313spliterator();
 }

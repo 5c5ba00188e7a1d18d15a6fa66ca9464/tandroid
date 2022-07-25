@@ -351,10 +351,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private WindowManager.LayoutParams windowLayoutParams;
     private WindowView windowView;
     public static final Property<WindowView, Float> ARTICLE_VIEWER_INNER_TRANSLATION_X = new AnimationProperties.FloatProperty<WindowView>("innerTranslationX") { // from class: org.telegram.ui.ArticleViewer.1
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(WindowView windowView, float f) {
             windowView.setInnerTranslationX(f);
         }
 
+        @Override // android.util.Property
         public Float get(WindowView windowView) {
             return Float.valueOf(windowView.getInnerTranslationX());
         }
@@ -400,10 +402,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private ArrayList<SearchResult> searchResults = new ArrayList<>();
     private int lastSearchIndex = -1;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$setParentActivity$21(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateWindowLayoutParamsForSearch() {
     }
 
@@ -441,6 +445,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return Instance != null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class TL_pageBlockRelatedArticlesChild extends TLRPC$PageBlock {
         private int num;
@@ -450,6 +455,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class TL_pageBlockRelatedArticlesShadow extends TLRPC$PageBlock {
         private TLRPC$TL_pageBlockRelatedArticles parent;
@@ -458,6 +464,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class TL_pageBlockDetailsChild extends TLRPC$PageBlock {
         private TLRPC$PageBlock block;
@@ -467,6 +474,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TL_pageBlockListParent extends TLRPC$PageBlock {
         private ArrayList<TL_pageBlockListItem> items;
@@ -481,6 +489,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TL_pageBlockListItem extends TLRPC$PageBlock {
         private TLRPC$PageBlock blockItem;
@@ -495,6 +504,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TL_pageBlockOrderedListParent extends TLRPC$PageBlock {
         private ArrayList<TL_pageBlockOrderedListItem> items;
@@ -509,6 +519,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TL_pageBlockOrderedListItem extends TLRPC$PageBlock {
         private TLRPC$PageBlock blockItem;
@@ -523,6 +534,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class TL_pageBlockEmbedPostCaption extends TLRPC$TL_pageBlockEmbedPost {
         private TLRPC$TL_pageBlockEmbedPost parent;
@@ -547,13 +559,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public int y;
 
         public DrawingText() {
-            ArticleViewer.this = r1;
         }
 
         public void draw(Canvas canvas, View view) {
-            float f;
+            float width;
             this.latestParentView = view;
-            float f2 = 0.0f;
+            float f = 0.0f;
             if (!ArticleViewer.this.searchResults.isEmpty()) {
                 SearchResult searchResult = (SearchResult) ArticleViewer.this.searchResults.get(ArticleViewer.this.currentSearchIndex);
                 if (searchResult.block != this.parentBlock || (searchResult.text != this.parentText && (!(searchResult.text instanceof String) || this.parentText != null))) {
@@ -589,12 +600,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             if (ArticleViewer.this.pressedLinkOwnerLayout == this && ArticleViewer.this.pressedLink == null && ArticleViewer.this.drawBlockSelection) {
                 if (getLineCount() == 1) {
-                    f = getLineWidth(0);
-                    f2 = getLineLeft(0);
+                    width = getLineWidth(0);
+                    f = getLineLeft(0);
                 } else {
-                    f = getWidth();
+                    width = getWidth();
                 }
-                canvas.drawRect((-AndroidUtilities.dp(2.0f)) + f2, 0.0f, f2 + f + AndroidUtilities.dp(2.0f), getHeight(), ArticleViewer.urlPaint);
+                canvas.drawRect((-AndroidUtilities.dp(2.0f)) + f, 0.0f, f + width + AndroidUtilities.dp(2.0f), getHeight(), ArticleViewer.urlPaint);
             }
             this.textLayout.draw(canvas);
         }
@@ -653,6 +664,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TextSizeCell extends FrameLayout {
         private int lastWidth;
@@ -661,10 +673,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int startFontSize = 12;
         private int endFontSize = 30;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public TextSizeCell(Context context) {
             super(context);
-            ArticleViewer.this = r8;
             setWillNotDraw(false);
             TextPaint textPaint = new TextPaint(1);
             this.textPaint = textPaint;
@@ -672,7 +682,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             SeekBarView seekBarView = new SeekBarView(context);
             this.sizeBar = seekBarView;
             seekBarView.setReportChanges(true);
-            this.sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate(r8) { // from class: org.telegram.ui.ArticleViewer.TextSizeCell.1
+            this.sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.TextSizeCell.1
                 @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                 public void onSeekBarPressed(boolean z) {
                 }
@@ -784,10 +794,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public final class CheckForTap implements Runnable {
         private CheckForTap() {
-            ArticleViewer.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -803,6 +813,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class WindowView extends FrameLayout {
         private float alpha;
@@ -822,10 +833,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int startedTrackingY;
         private VelocityTracker tracker;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public WindowView(Context context) {
             super(context);
-            ArticleViewer.this = r1;
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -1243,12 +1252,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class CheckForLongPress implements Runnable {
         public int currentPressCount;
 
         CheckForLongPress() {
-            ArticleViewer.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -1352,6 +1361,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         quoteLinePaint.setColor(Theme.getColor("chat_inReplyLine"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showCopyPopup(final String str) {
         if (this.parentActivity == null) {
             return;
@@ -1378,6 +1388,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showCopyPopup$0(String str, DialogInterface dialogInterface, int i) {
         String str2;
         if (this.parentActivity == null) {
@@ -1416,10 +1427,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         Browser.openUrl(this.parentActivity, str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showCopyPopup$1(DialogInterface dialogInterface) {
         this.links.clear();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showPopup(View view, int i, int i2, int i3) {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
@@ -1490,6 +1503,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.popupWindow.startAnimation();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$showPopup$2(View view, MotionEvent motionEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (motionEvent.getActionMasked() != 0 || (actionBarPopupWindow = this.popupWindow) == null || !actionBarPopupWindow.isShowing()) {
@@ -1503,6 +1517,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPopup$3(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() != 4 || keyEvent.getRepeatCount() != 0 || (actionBarPopupWindow = this.popupWindow) == null || !actionBarPopupWindow.isShowing()) {
@@ -1511,6 +1526,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.popupWindow.dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPopup$4(View view) {
         DrawingText drawingText = this.pressedLinkOwnerLayout;
         if (drawingText != null) {
@@ -1526,6 +1542,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.popupWindow.dismiss(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPopup$5() {
         View view = this.pressedLinkOwnerView;
         if (view != null) {
@@ -1535,6 +1552,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public TLRPC$RichText getBlockCaption(TLRPC$PageBlock tLRPC$PageBlock, int i) {
         if (i == 2) {
             TLRPC$RichText blockCaption = getBlockCaption(tLRPC$PageBlock, 0);
@@ -1654,10 +1672,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isListItemBlock(TLRPC$PageBlock tLRPC$PageBlock) {
         return (tLRPC$PageBlock instanceof TL_pageBlockListItem) || (tLRPC$PageBlock instanceof TL_pageBlockOrderedListItem);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public TLRPC$PageBlock getLastNonListPageBlock(TLRPC$PageBlock tLRPC$PageBlock) {
         if (tLRPC$PageBlock instanceof TL_pageBlockListItem) {
             TL_pageBlockListItem tL_pageBlockListItem = (TL_pageBlockListItem) tLRPC$PageBlock;
@@ -1699,6 +1719,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public TLRPC$PageBlock fixListBlock(TLRPC$PageBlock tLRPC$PageBlock, TLRPC$PageBlock tLRPC$PageBlock2) {
         if (tLRPC$PageBlock instanceof TL_pageBlockListItem) {
             ((TL_pageBlockListItem) tLRPC$PageBlock).blockItem = tLRPC$PageBlock2;
@@ -1711,6 +1732,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public TLRPC$PageBlock wrapInTableBlock(TLRPC$PageBlock tLRPC$PageBlock, TLRPC$PageBlock tLRPC$PageBlock2) {
         if (tLRPC$PageBlock instanceof TL_pageBlockListItem) {
             TL_pageBlockListItem tL_pageBlockListItem = (TL_pageBlockListItem) tLRPC$PageBlock;
@@ -1729,9 +1751,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateInterfaceForCurrentPage(TLRPC$WebPage tLRPC$WebPage, boolean z, int i) {
         TLRPC$WebPage tLRPC$WebPage2;
-        int i2;
+        int dp;
         if (tLRPC$WebPage == null || tLRPC$WebPage.cached_page == null) {
             return;
         }
@@ -1762,10 +1785,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             this.pageSwitchAnimation = new AnimatorSet();
             this.listView[0].setVisibility(0);
-            final int i3 = i == 1 ? 0 : 1;
-            this.listView[i3].setBackgroundColor(this.backgroundPaint.getColor());
+            final int i2 = i == 1 ? 0 : 1;
+            this.listView[i2].setBackgroundColor(this.backgroundPaint.getColor());
             if (Build.VERSION.SDK_INT >= 18) {
-                this.listView[i3].setLayerType(2, null);
+                this.listView[i2].setLayerType(2, null);
             }
             if (i == 1) {
                 this.pageSwitchAnimation.playTogether(ObjectAnimator.ofFloat(this.listView[0], View.TRANSLATION_X, AndroidUtilities.dp(56.0f), 0.0f), ObjectAnimator.ofFloat(this.listView[0], View.ALPHA, 0.0f, 1.0f));
@@ -1784,9 +1807,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     articleViewer.textSelectionHelper.setParentView(articleViewer.listView[0]);
                     ArticleViewer articleViewer2 = ArticleViewer.this;
                     articleViewer2.textSelectionHelper.layoutManager = articleViewer2.layoutManager[0];
-                    ArticleViewer.this.listView[i3].setBackgroundDrawable(null);
+                    ArticleViewer.this.listView[i2].setBackgroundDrawable(null);
                     if (Build.VERSION.SDK_INT >= 18) {
-                        ArticleViewer.this.listView[i3].setLayerType(0, null);
+                        ArticleViewer.this.listView[i2].setLayerType(0, null);
                     }
                     ArticleViewer.this.pageSwitchAnimation = null;
                 }
@@ -1813,10 +1836,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.adapter[z].cleanup();
         this.adapter[z].currentPage = tLRPC$WebPage2;
         int size = tLRPC$WebPage2.cached_page.blocks.size();
-        int i4 = 0;
-        while (i4 < size) {
-            TLRPC$PageBlock tLRPC$PageBlock = tLRPC$WebPage2.cached_page.blocks.get(i4);
-            if (i4 == 0) {
+        int i3 = 0;
+        while (i3 < size) {
+            TLRPC$PageBlock tLRPC$PageBlock = tLRPC$WebPage2.cached_page.blocks.get(i3);
+            if (i3 == 0) {
                 tLRPC$PageBlock.first = true;
                 if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockCover) {
                     TLRPC$TL_pageBlockCover tLRPC$TL_pageBlockCover = (TLRPC$TL_pageBlockCover) tLRPC$PageBlock;
@@ -1829,30 +1852,30 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                     }
                 }
-            } else if (i4 == 1 && this.adapter[z].channelBlock != null) {
-                i4++;
+            } else if (i3 == 1 && this.adapter[z].channelBlock != null) {
+                i3++;
             }
             WebpageAdapter[] webpageAdapterArr2 = this.adapter;
-            webpageAdapterArr2[z].addBlock(webpageAdapterArr2[z], tLRPC$PageBlock, 0, 0, i4 == size + (-1) ? i4 : 0);
-            i4++;
+            webpageAdapterArr2[z].addBlock(webpageAdapterArr2[z], tLRPC$PageBlock, 0, 0, i3 == size + (-1) ? i3 : 0);
+            i3++;
         }
         this.adapter[z].notifyDataSetChanged();
         if (this.pagesStack.size() == 1 || i == -1) {
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("articles", 0);
             String str2 = "article" + tLRPC$WebPage2.id;
-            int i5 = sharedPreferences.getInt(str2, -1);
+            int i4 = sharedPreferences.getInt(str2, -1);
             boolean z3 = sharedPreferences.getBoolean(str2 + "r", true);
             Point point = AndroidUtilities.displaySize;
             if (point.x <= point.y) {
                 z2 = false;
             }
             if (z3 == z2) {
-                i2 = sharedPreferences.getInt(str2 + "o", 0) - this.listView[z].getPaddingTop();
+                dp = sharedPreferences.getInt(str2 + "o", 0) - this.listView[z].getPaddingTop();
             } else {
-                i2 = AndroidUtilities.dp(10.0f);
+                dp = AndroidUtilities.dp(10.0f);
             }
-            if (i5 != -1) {
-                this.layoutManager[z].scrollToPositionWithOffset(i5, i2);
+            if (i4 != -1) {
+                this.layoutManager[z].scrollToPositionWithOffset(i4, dp);
             }
         } else {
             this.layoutManager[z].scrollToPositionWithOffset(0, 0);
@@ -1884,8 +1907,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 TLRPC$TL_pageBlockParagraph tLRPC$TL_pageBlockParagraph = new TLRPC$TL_pageBlockParagraph();
                 tLRPC$TL_pageBlockParagraph.text = tLRPC$TL_textAnchor.text;
                 int typeForBlock = this.adapter[0].getTypeForBlock(tLRPC$TL_pageBlockParagraph);
-                RecyclerView.ViewHolder onCreateViewHolder = this.adapter[0].onCreateViewHolder(null, typeForBlock);
-                this.adapter[0].bindBlockToHolder(typeForBlock, onCreateViewHolder, tLRPC$TL_pageBlockParagraph, 0, 0);
+                RecyclerView.ViewHolder mo1758onCreateViewHolder = this.adapter[0].mo1758onCreateViewHolder(null, typeForBlock);
+                this.adapter[0].bindBlockToHolder(typeForBlock, mo1758onCreateViewHolder, tLRPC$TL_pageBlockParagraph, 0, 0);
                 BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);
                 builder.setApplyTopPadding(false);
                 builder.setApplyBottomPadding(false);
@@ -1916,8 +1939,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 textView.setTextColor(getTextColor());
                 textView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
                 linearLayout.addView(textView, new LinearLayout.LayoutParams(-1, AndroidUtilities.dp(48.0f) + 1));
-                onCreateViewHolder.itemView.setTag("bottomSheet");
-                linearLayout.addView(onCreateViewHolder.itemView, LayoutHelper.createLinear(-1, -2, 0.0f, 7.0f, 0.0f, 0.0f));
+                mo1758onCreateViewHolder.itemView.setTag("bottomSheet");
+                linearLayout.addView(mo1758onCreateViewHolder.itemView, LayoutHelper.createLinear(-1, -2, 0.0f, 7.0f, 0.0f, 0.0f));
                 TextSelectionHelper<Cell>.TextSelectionOverlay overlayView = this.textSelectionHelperBottomSheet.getOverlayView(this.parentActivity);
                 FrameLayout frameLayout = new FrameLayout(this.parentActivity) { // from class: org.telegram.ui.ArticleViewer.5
                     @Override // android.view.ViewGroup, android.view.View
@@ -1981,9 +2004,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (num3 != null) {
                     if (num3.intValue() == -1) {
                         int typeForBlock2 = this.adapter[0].getTypeForBlock(tLRPC$PageBlock);
-                        RecyclerView.ViewHolder onCreateViewHolder2 = this.adapter[0].onCreateViewHolder(null, typeForBlock2);
-                        this.adapter[0].bindBlockToHolder(typeForBlock2, onCreateViewHolder2, tLRPC$PageBlock, 0, 0);
-                        onCreateViewHolder2.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
+                        RecyclerView.ViewHolder mo1758onCreateViewHolder2 = this.adapter[0].mo1758onCreateViewHolder(null, typeForBlock2);
+                        this.adapter[0].bindBlockToHolder(typeForBlock2, mo1758onCreateViewHolder2, tLRPC$PageBlock, 0, 0);
+                        mo1758onCreateViewHolder2.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
                         Integer num4 = (Integer) this.adapter[0].anchorsOffset.get(lowerCase);
                         if (num4.intValue() != -1) {
                             num = num4;
@@ -2125,10 +2148,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public CharSequence getText(WebpageAdapter webpageAdapter, View view, TLRPC$RichText tLRPC$RichText, TLRPC$RichText tLRPC$RichText2, TLRPC$PageBlock tLRPC$PageBlock, int i) {
         return getText(webpageAdapter.currentPage, view, tLRPC$RichText, tLRPC$RichText2, tLRPC$PageBlock, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r2v0, types: [java.lang.CharSequence, java.lang.String] */
     /* JADX WARN: Type inference failed for: r2v1, types: [java.lang.CharSequence] */
@@ -2136,8 +2161,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     public CharSequence getText(TLRPC$WebPage tLRPC$WebPage, View view, TLRPC$RichText tLRPC$RichText, TLRPC$RichText tLRPC$RichText2, TLRPC$PageBlock tLRPC$PageBlock, int i) {
         int i2;
         int i3;
-        Object obj;
-        Object obj2;
+        Object textPaintUrlSpan;
+        Object textPaintUrlSpan2;
         TextPaint textPaint = null;
         if (tLRPC$RichText2 == null) {
             return null;
@@ -2175,12 +2200,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             MetricAffectingSpan[] metricAffectingSpanArr2 = (MetricAffectingSpan[]) spannableStringBuilder2.getSpans(0, spannableStringBuilder2.length(), MetricAffectingSpan.class);
             TextPaint textPaint2 = (metricAffectingSpanArr2 == null || metricAffectingSpanArr2.length == 0) ? getTextPaint(tLRPC$RichText, tLRPC$RichText2, tLRPC$PageBlock) : null;
             if (tLRPC$TL_textUrl.webpage_id != 0) {
-                obj2 = new TextPaintWebpageUrlSpan(textPaint2, getUrl(tLRPC$RichText2));
+                textPaintUrlSpan2 = new TextPaintWebpageUrlSpan(textPaint2, getUrl(tLRPC$RichText2));
             } else {
-                obj2 = new TextPaintUrlSpan(textPaint2, getUrl(tLRPC$RichText2));
+                textPaintUrlSpan2 = new TextPaintUrlSpan(textPaint2, getUrl(tLRPC$RichText2));
             }
             if (spannableStringBuilder2.length() != 0) {
-                spannableStringBuilder2.setSpan(obj2, 0, spannableStringBuilder2.length(), 33);
+                spannableStringBuilder2.setSpan(textPaintUrlSpan2, 0, spannableStringBuilder2.length(), 33);
             }
             return spannableStringBuilder2;
         } else if (tLRPC$RichText2 instanceof TLRPC$TL_textPlain) {
@@ -2221,12 +2246,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 url = getUrl(tLRPC$RichText);
                             }
                             if ((textFlags & 512) != 0) {
-                                obj = new TextPaintWebpageUrlSpan(getTextPaint(tLRPC$RichText, lastRichText, tLRPC$PageBlock), url);
+                                textPaintUrlSpan = new TextPaintWebpageUrlSpan(getTextPaint(tLRPC$RichText, lastRichText, tLRPC$PageBlock), url);
                             } else {
-                                obj = new TextPaintUrlSpan(getTextPaint(tLRPC$RichText, lastRichText, tLRPC$PageBlock), url);
+                                textPaintUrlSpan = new TextPaintUrlSpan(getTextPaint(tLRPC$RichText, lastRichText, tLRPC$PageBlock), url);
                             }
                             if (length != spannableStringBuilder4.length()) {
-                                spannableStringBuilder4.setSpan(obj, length, spannableStringBuilder4.length(), 33);
+                                spannableStringBuilder4.setSpan(textPaintUrlSpan, length, spannableStringBuilder4.length(), 33);
                             }
                         } else if (length != spannableStringBuilder4.length()) {
                             spannableStringBuilder4.setSpan(new TextPaintSpan(getTextPaint(tLRPC$RichText, lastRichText, tLRPC$PageBlock)), length, spannableStringBuilder4.length(), 33);
@@ -2376,225 +2401,228 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return ((TLRPC$TL_textPhone) tLRPC$RichText).phone;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getTextColor() {
         return Theme.getColor("windowBackgroundWhiteBlackText");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getLinkTextColor() {
         return Theme.getColor("windowBackgroundWhiteLinkText");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int getGrayTextColor() {
         return Theme.getColor("windowBackgroundWhiteGrayText");
     }
 
     private TextPaint getTextPaint(TLRPC$RichText tLRPC$RichText, TLRPC$RichText tLRPC$RichText2, TLRPC$PageBlock tLRPC$PageBlock) {
-        int i;
-        int i2;
+        int textColor;
         SparseArray<TextPaint> sparseArray;
-        int i3;
+        int dp;
         SparseArray<TextPaint> sparseArray2;
-        int i4;
+        int dp2;
         SparseArray<TextPaint> sparseArray3;
-        int i5;
+        int dp3;
         SparseArray<TextPaint> sparseArray4;
-        int i6;
+        int dp4;
         SparseArray<TextPaint> sparseArray5;
-        int i7;
+        int dp5;
         SparseArray<TextPaint> sparseArray6;
-        int i8;
+        int dp6;
         SparseArray<TextPaint> sparseArray7;
+        int dp7;
         int textFlags = getTextFlags(tLRPC$RichText2);
-        int dp = AndroidUtilities.dp(14.0f);
-        int dp2 = AndroidUtilities.dp(SharedConfig.ivFontSize - 16);
+        int dp8 = AndroidUtilities.dp(14.0f);
+        int dp9 = AndroidUtilities.dp(SharedConfig.ivFontSize - 16);
         SparseArray<TextPaint> sparseArray8 = null;
         if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPhoto) {
             TLRPC$RichText tLRPC$RichText3 = ((TLRPC$TL_pageBlockPhoto) tLRPC$PageBlock).caption.text;
             if (tLRPC$RichText3 == tLRPC$RichText2 || tLRPC$RichText3 == tLRPC$RichText) {
                 sparseArray7 = photoCaptionTextPaints;
-                i8 = AndroidUtilities.dp(14.0f);
+                dp7 = AndroidUtilities.dp(14.0f);
             } else {
                 sparseArray7 = photoCreditTextPaints;
-                i8 = AndroidUtilities.dp(12.0f);
+                dp7 = AndroidUtilities.dp(12.0f);
             }
             sparseArray8 = sparseArray7;
-            dp = i8;
-            i = getGrayTextColor();
+            dp8 = dp7;
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockMap) {
             TLRPC$RichText tLRPC$RichText4 = ((TLRPC$TL_pageBlockMap) tLRPC$PageBlock).caption.text;
             if (tLRPC$RichText4 == tLRPC$RichText2 || tLRPC$RichText4 == tLRPC$RichText) {
                 sparseArray6 = photoCaptionTextPaints;
-                i7 = AndroidUtilities.dp(14.0f);
+                dp6 = AndroidUtilities.dp(14.0f);
             } else {
                 sparseArray6 = photoCreditTextPaints;
-                i7 = AndroidUtilities.dp(12.0f);
+                dp6 = AndroidUtilities.dp(12.0f);
             }
             sparseArray8 = sparseArray6;
-            dp = i7;
-            i = getGrayTextColor();
+            dp8 = dp6;
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockTitle) {
             sparseArray8 = titleTextPaints;
-            dp = AndroidUtilities.dp(23.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(23.0f);
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockKicker) {
             sparseArray8 = kickerTextPaints;
-            dp = AndroidUtilities.dp(14.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(14.0f);
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockAuthorDate) {
             sparseArray8 = authorTextPaints;
-            dp = AndroidUtilities.dp(14.0f);
-            i = getGrayTextColor();
+            dp8 = AndroidUtilities.dp(14.0f);
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockFooter) {
             sparseArray8 = footerTextPaints;
-            dp = AndroidUtilities.dp(14.0f);
-            i = getGrayTextColor();
+            dp8 = AndroidUtilities.dp(14.0f);
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubtitle) {
             sparseArray8 = subtitleTextPaints;
-            dp = AndroidUtilities.dp(20.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(20.0f);
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockHeader) {
             sparseArray8 = headerTextPaints;
-            dp = AndroidUtilities.dp(20.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(20.0f);
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubheader) {
             sparseArray8 = subheaderTextPaints;
-            dp = AndroidUtilities.dp(17.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(17.0f);
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockBlockquote) {
             TLRPC$TL_pageBlockBlockquote tLRPC$TL_pageBlockBlockquote = (TLRPC$TL_pageBlockBlockquote) tLRPC$PageBlock;
             if (tLRPC$TL_pageBlockBlockquote.text == tLRPC$RichText) {
                 sparseArray8 = quoteTextPaints;
-                dp = AndroidUtilities.dp(15.0f);
-                i = getTextColor();
+                dp8 = AndroidUtilities.dp(15.0f);
+                textColor = getTextColor();
             } else {
                 if (tLRPC$TL_pageBlockBlockquote.caption == tLRPC$RichText) {
                     sparseArray8 = photoCaptionTextPaints;
-                    dp = AndroidUtilities.dp(14.0f);
-                    i = getGrayTextColor();
+                    dp8 = AndroidUtilities.dp(14.0f);
+                    textColor = getGrayTextColor();
                 }
-                i = -65536;
+                textColor = -65536;
             }
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPullquote) {
             TLRPC$TL_pageBlockPullquote tLRPC$TL_pageBlockPullquote = (TLRPC$TL_pageBlockPullquote) tLRPC$PageBlock;
             if (tLRPC$TL_pageBlockPullquote.text == tLRPC$RichText) {
                 sparseArray8 = quoteTextPaints;
-                dp = AndroidUtilities.dp(15.0f);
-                i = getTextColor();
+                dp8 = AndroidUtilities.dp(15.0f);
+                textColor = getTextColor();
             } else {
                 if (tLRPC$TL_pageBlockPullquote.caption == tLRPC$RichText) {
                     sparseArray8 = photoCaptionTextPaints;
-                    dp = AndroidUtilities.dp(14.0f);
-                    i = getGrayTextColor();
+                    dp8 = AndroidUtilities.dp(14.0f);
+                    textColor = getGrayTextColor();
                 }
-                i = -65536;
+                textColor = -65536;
             }
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPreformatted) {
             sparseArray8 = preformattedTextPaints;
-            dp = AndroidUtilities.dp(14.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(14.0f);
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockParagraph) {
             sparseArray8 = paragraphTextPaints;
-            dp = AndroidUtilities.dp(16.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(16.0f);
+            textColor = getTextColor();
         } else if (isListItemBlock(tLRPC$PageBlock)) {
             sparseArray8 = listTextPaints;
-            dp = AndroidUtilities.dp(16.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(16.0f);
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockEmbed) {
             TLRPC$RichText tLRPC$RichText5 = ((TLRPC$TL_pageBlockEmbed) tLRPC$PageBlock).caption.text;
             if (tLRPC$RichText5 == tLRPC$RichText2 || tLRPC$RichText5 == tLRPC$RichText) {
                 sparseArray5 = photoCaptionTextPaints;
-                i6 = AndroidUtilities.dp(14.0f);
+                dp5 = AndroidUtilities.dp(14.0f);
             } else {
                 sparseArray5 = photoCreditTextPaints;
-                i6 = AndroidUtilities.dp(12.0f);
+                dp5 = AndroidUtilities.dp(12.0f);
             }
             sparseArray8 = sparseArray5;
-            dp = i6;
-            i = getGrayTextColor();
+            dp8 = dp5;
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSlideshow) {
             TLRPC$RichText tLRPC$RichText6 = ((TLRPC$TL_pageBlockSlideshow) tLRPC$PageBlock).caption.text;
             if (tLRPC$RichText6 == tLRPC$RichText2 || tLRPC$RichText6 == tLRPC$RichText) {
                 sparseArray4 = photoCaptionTextPaints;
-                i5 = AndroidUtilities.dp(14.0f);
+                dp4 = AndroidUtilities.dp(14.0f);
             } else {
                 sparseArray4 = photoCreditTextPaints;
-                i5 = AndroidUtilities.dp(12.0f);
+                dp4 = AndroidUtilities.dp(12.0f);
             }
             sparseArray8 = sparseArray4;
-            dp = i5;
-            i = getGrayTextColor();
+            dp8 = dp4;
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockCollage) {
             TLRPC$RichText tLRPC$RichText7 = ((TLRPC$TL_pageBlockCollage) tLRPC$PageBlock).caption.text;
             if (tLRPC$RichText7 == tLRPC$RichText2 || tLRPC$RichText7 == tLRPC$RichText) {
                 sparseArray3 = photoCaptionTextPaints;
-                i4 = AndroidUtilities.dp(14.0f);
+                dp3 = AndroidUtilities.dp(14.0f);
             } else {
                 sparseArray3 = photoCreditTextPaints;
-                i4 = AndroidUtilities.dp(12.0f);
+                dp3 = AndroidUtilities.dp(12.0f);
             }
             sparseArray8 = sparseArray3;
-            dp = i4;
-            i = getGrayTextColor();
+            dp8 = dp3;
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockEmbedPost) {
             TLRPC$TL_pageCaption tLRPC$TL_pageCaption = ((TLRPC$TL_pageBlockEmbedPost) tLRPC$PageBlock).caption;
             if (tLRPC$RichText2 == tLRPC$TL_pageCaption.text) {
                 sparseArray8 = photoCaptionTextPaints;
-                dp = AndroidUtilities.dp(14.0f);
-                i = getGrayTextColor();
+                dp8 = AndroidUtilities.dp(14.0f);
+                textColor = getGrayTextColor();
             } else if (tLRPC$RichText2 == tLRPC$TL_pageCaption.credit) {
                 sparseArray8 = photoCreditTextPaints;
-                dp = AndroidUtilities.dp(12.0f);
-                i = getGrayTextColor();
+                dp8 = AndroidUtilities.dp(12.0f);
+                textColor = getGrayTextColor();
             } else {
                 if (tLRPC$RichText2 != null) {
                     sparseArray8 = embedPostTextPaints;
-                    dp = AndroidUtilities.dp(14.0f);
-                    i = getTextColor();
+                    dp8 = AndroidUtilities.dp(14.0f);
+                    textColor = getTextColor();
                 }
-                i = -65536;
+                textColor = -65536;
             }
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockVideo) {
             if (tLRPC$RichText2 == ((TLRPC$TL_pageBlockVideo) tLRPC$PageBlock).caption.text) {
                 sparseArray2 = mediaCaptionTextPaints;
-                i3 = AndroidUtilities.dp(14.0f);
+                dp2 = AndroidUtilities.dp(14.0f);
             } else {
                 sparseArray2 = mediaCreditTextPaints;
-                i3 = AndroidUtilities.dp(12.0f);
+                dp2 = AndroidUtilities.dp(12.0f);
             }
             sparseArray8 = sparseArray2;
-            dp = i3;
-            i = getTextColor();
+            dp8 = dp2;
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockAudio) {
             if (tLRPC$RichText2 == ((TLRPC$TL_pageBlockAudio) tLRPC$PageBlock).caption.text) {
                 sparseArray = mediaCaptionTextPaints;
-                i2 = AndroidUtilities.dp(14.0f);
+                dp = AndroidUtilities.dp(14.0f);
             } else {
                 sparseArray = mediaCreditTextPaints;
-                i2 = AndroidUtilities.dp(12.0f);
+                dp = AndroidUtilities.dp(12.0f);
             }
             sparseArray8 = sparseArray;
-            dp = i2;
-            i = getTextColor();
+            dp8 = dp;
+            textColor = getTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockRelatedArticles) {
             sparseArray8 = relatedArticleTextPaints;
-            dp = AndroidUtilities.dp(15.0f);
-            i = getGrayTextColor();
+            dp8 = AndroidUtilities.dp(15.0f);
+            textColor = getGrayTextColor();
         } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockDetails) {
             sparseArray8 = detailsTextPaints;
-            dp = AndroidUtilities.dp(15.0f);
-            i = getTextColor();
+            dp8 = AndroidUtilities.dp(15.0f);
+            textColor = getTextColor();
         } else {
             if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockTable) {
                 sparseArray8 = tableTextPaints;
-                dp = AndroidUtilities.dp(15.0f);
-                i = getTextColor();
+                dp8 = AndroidUtilities.dp(15.0f);
+                textColor = getTextColor();
             }
-            i = -65536;
+            textColor = -65536;
         }
-        int i9 = textFlags & 256;
-        if (i9 != 0 || (textFlags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
-            dp -= AndroidUtilities.dp(4.0f);
+        int i = textFlags & 256;
+        if (i != 0 || (textFlags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
+            dp8 -= AndroidUtilities.dp(4.0f);
         }
         if (sparseArray8 == null) {
             if (errorTextPaint == null) {
@@ -2613,10 +2641,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockRelatedArticles) {
                 textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             } else if (this.selectedFont != 1 && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockTitle) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockKicker) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockHeader) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubtitle) && !(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubheader)) {
-                int i10 = textFlags & 1;
-                if (i10 != 0 && (textFlags & 2) != 0) {
+                int i2 = textFlags & 1;
+                if (i2 != 0 && (textFlags & 2) != 0) {
                     textPaint2.setTypeface(AndroidUtilities.getTypeface("fonts/rmediumitalic.ttf"));
-                } else if (i10 != 0) {
+                } else if (i2 != 0) {
                     textPaint2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 } else if ((textFlags & 2) != 0) {
                     textPaint2.setTypeface(AndroidUtilities.getTypeface("fonts/ritalic.ttf"));
@@ -2624,10 +2652,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else if ((tLRPC$PageBlock instanceof TLRPC$TL_pageBlockTitle) || (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockHeader) || (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubtitle) || (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockSubheader)) {
                 textPaint2.setTypeface(AndroidUtilities.getTypeface("fonts/mw_bold.ttf"));
             } else {
-                int i11 = textFlags & 1;
-                if (i11 != 0 && (textFlags & 2) != 0) {
+                int i3 = textFlags & 1;
+                if (i3 != 0 && (textFlags & 2) != 0) {
                     textPaint2.setTypeface(Typeface.create("serif", 3));
-                } else if (i11 != 0) {
+                } else if (i3 != 0) {
                     textPaint2.setTypeface(Typeface.create("serif", 1));
                 } else if ((textFlags & 2) != 0) {
                     textPaint2.setTypeface(Typeface.create("serif", 2));
@@ -2643,30 +2671,33 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             if ((textFlags & 8) != 0 || (textFlags & 512) != 0) {
                 textPaint2.setFlags(textPaint2.getFlags());
-                i = getLinkTextColor();
+                textColor = getLinkTextColor();
             }
-            if (i9 != 0) {
+            if (i != 0) {
                 textPaint2.baselineShift -= AndroidUtilities.dp(6.0f);
             } else if ((textFlags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
                 textPaint2.baselineShift += AndroidUtilities.dp(2.0f);
             }
-            textPaint2.setColor(i);
+            textPaint2.setColor(textColor);
             sparseArray8.put(textFlags, textPaint2);
         }
-        textPaint2.setTextSize(dp + dp2);
+        textPaint2.setTextSize(dp8 + dp9);
         return textPaint2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public DrawingText createLayoutForText(View view, CharSequence charSequence, TLRPC$RichText tLRPC$RichText, int i, int i2, TLRPC$PageBlock tLRPC$PageBlock, Layout.Alignment alignment, WebpageAdapter webpageAdapter) {
         return createLayoutForText(view, charSequence, tLRPC$RichText, i, 0, tLRPC$PageBlock, alignment, 0, webpageAdapter);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public DrawingText createLayoutForText(View view, CharSequence charSequence, TLRPC$RichText tLRPC$RichText, int i, int i2, TLRPC$PageBlock tLRPC$PageBlock, WebpageAdapter webpageAdapter) {
         return createLayoutForText(view, charSequence, tLRPC$RichText, i, i2, tLRPC$PageBlock, Layout.Alignment.ALIGN_NORMAL, 0, webpageAdapter);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(13:99|165|100|(3:104|(3:(2:108|178)(2:109|177)|110|105)|176)|111|167|112|(10:116|163|117|(5:120|(1:122)(1:123)|(3:(1:126)(1:127)|128|181)(2:129|180)|130|118)|179|131|169|133|(7:137|171|138|(5:141|(1:143)(1:144)|(3:(1:147)(1:148)|149|184)(2:150|183)|151|139)|182|152|153)|154)|132|169|133|(8:135|137|171|138|(1:139)|182|152|153)|154) */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0377 A[Catch: Exception -> 0x03b5, TryCatch #4 {Exception -> 0x03b5, blocks: (B:138:0x0370, B:139:0x0374, B:141:0x0377, B:143:0x038e, B:149:0x03a1, B:151:0x03a9, B:152:0x03b2), top: B:171:0x0370 }] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Can't wrap try/catch for region: R(13:51|52|53|(3:57|(3:(2:61|62)(2:64|65)|63|58)|66)|68|69|70|(10:74|75|76|(5:79|(1:81)(1:91)|(3:(1:84)(1:88)|85|86)(2:89|90)|87|77)|92|93|95|96|(7:100|102|103|(5:106|(1:108)(1:118)|(3:(1:111)(1:115)|112|113)(2:116|117)|114|104)|119|120|121)|124)|130|95|96|(8:98|100|102|103|(1:104)|119|120|121)|124) */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0377 A[Catch: Exception -> 0x03b5, TryCatch #4 {Exception -> 0x03b5, blocks: (B:103:0x0370, B:104:0x0374, B:106:0x0377, B:108:0x038e, B:112:0x03a1, B:114:0x03a9, B:120:0x03b2), top: B:102:0x0370 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2889,11 +2920,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return null;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x01cd, code lost:
-        if (r0.isShowing() == false) goto L96;
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:126:0x01cd, code lost:
+        if (r0.isShowing() == false) goto L113;
      */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x01a9  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x01d4  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x01a9  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x01d4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3045,6 +3077,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return view instanceof BlockDetailsCell ? this.pressedLink != null : this.pressedLinkOwnerLayout != null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void removePressedLink() {
         if (this.pressedLink == null && this.pressedLinkOwnerView == null) {
             return;
@@ -3060,6 +3093,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         view.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openWebpageUrl(String str, final String str2) {
         if (this.openUrlReqId != 0) {
             ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.openUrlReqId, false);
@@ -3079,6 +3113,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openWebpageUrl$7(final int i, final String str, final TLRPC$TL_messages_getWebPage tLRPC$TL_messages_getWebPage, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
@@ -3088,6 +3123,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openWebpageUrl$6(int i, TLObject tLObject, String str, TLRPC$TL_messages_getWebPage tLRPC$TL_messages_getWebPage) {
         if (this.openUrlReqId == 0 || i != this.lastReqId) {
             return;
@@ -3203,6 +3239,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePaintSize() {
         for (int i = 0; i < 2; i++) {
             this.adapter[i].notifyDataSetChanged();
@@ -3382,7 +3419,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.windowView.setClipChildren(true);
         this.windowView.setFocusable(false);
         FrameLayout frameLayout = new FrameLayout(activity) { // from class: org.telegram.ui.ArticleViewer.7
-            /* JADX WARN: Removed duplicated region for block: B:13:0x004d  */
+            /* JADX WARN: Removed duplicated region for block: B:9:0x004d  */
             @Override // android.view.ViewGroup
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -3461,6 +3498,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             final WebpageAdapter webpageAdapter = new WebpageAdapter(this.parentActivity);
             webpageAdapterArr[i2] = webpageAdapter;
             this.listView[i2] = new RecyclerListView(activity) { // from class: org.telegram.ui.ArticleViewer.8
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
                 public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                     super.onLayout(z, i3, i4, i5, i6);
@@ -3928,6 +3966,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         updatePaintColors();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ WindowInsets lambda$setParentActivity$8(View view, WindowInsets windowInsets) {
         if (Build.VERSION.SDK_INT >= 30) {
             return WindowInsets.CONSUMED;
@@ -3935,6 +3974,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return windowInsets.consumeSystemWindowInsets();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$setParentActivity$9(View view, int i) {
         if (view instanceof BlockRelatedArticlesCell) {
             BlockRelatedArticlesCell blockRelatedArticlesCell = (BlockRelatedArticlesCell) view;
@@ -3944,6 +3984,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$12(WebpageAdapter webpageAdapter, View view, int i, float f, float f2) {
         TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper = this.textSelectionHelper;
         if (articleTextSelectionHelper != null) {
@@ -4021,6 +4062,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$11(final int i, final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
@@ -4030,6 +4072,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$10(TLObject tLObject, int i, long j) {
         if (this.previewsReqId == 0) {
             return;
@@ -4048,10 +4091,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         openPreviewsChat(tLRPC$TL_contacts_resolvedPeer.users.get(0), j);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$13(View view) {
         this.listView[0].smoothScrollToPosition(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$14() {
         float currentProgress = 0.7f - this.lineProgressView.getCurrentProgress();
         if (currentProgress > 0.0f) {
@@ -4062,6 +4107,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$setParentActivity$15(TextView textView, int i, KeyEvent keyEvent) {
         if (keyEvent != null) {
             if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
@@ -4073,7 +4119,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return false;
     }
 
-    /* renamed from: org.telegram.ui.ArticleViewer$13 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.ArticleViewer$13  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass13 implements TextWatcher {
         @Override // android.text.TextWatcher
@@ -4085,7 +4132,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         AnonymousClass13() {
-            ArticleViewer.this = r1;
         }
 
         @Override // android.text.TextWatcher
@@ -4136,11 +4182,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onTextChanged$0() {
             ArticleViewer.this.clearButton.setVisibility(4);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$16(View view) {
         if (this.searchField.length() != 0) {
             this.searchField.setText("");
@@ -4149,6 +4197,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         AndroidUtilities.showKeyboard(this.searchField);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$17(View view) {
         if (this.searchContainer.getTag() != null) {
             showSearch(false);
@@ -4157,10 +4206,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$18(View view) {
         this.menuButton.toggleSubMenu();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$20(int i) {
         Activity activity;
         if (this.adapter[0].currentPage == null || (activity = this.parentActivity) == null) {
@@ -4212,6 +4263,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$19(View view) {
         int intValue = ((Integer) view.getTag()).intValue();
         this.selectedFont = intValue;
@@ -4226,18 +4278,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$22(View view) {
         scrollToSearchIndex(this.currentSearchIndex - 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$23(View view) {
         scrollToSearchIndex(this.currentSearchIndex + 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$24(CharSequence charSequence, String str, String str2, Runnable runnable) {
         TranslateAlert.showAlert(this.parentActivity, this.parentFragment, str, str2, charSequence, false, null, runnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showSearch(final boolean z) {
         FrameLayout frameLayout = this.searchContainer;
         if (frameLayout != null) {
@@ -4359,6 +4415,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showSearch$25() {
         AnimatorSet animatorSet = this.runAfterKeyboardClose;
         if (animatorSet != null) {
@@ -4394,6 +4451,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class SearchResult {
         private TLRPC$PageBlock block;
@@ -4404,6 +4462,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void processSearch(final String str) {
         Runnable runnable = this.searchRunnable;
         if (runnable != null) {
@@ -4432,6 +4491,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         AndroidUtilities.runOnUIThread(runnable2, 400L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSearch$28(final String str, final int i) {
         final HashMap hashMap = new HashMap(this.adapter[0].textToBlocks);
         final ArrayList arrayList = new ArrayList(this.adapter[0].textBlocks);
@@ -4444,18 +4504,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x005e  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0093 A[SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public /* synthetic */ void lambda$processSearch$27(ArrayList arrayList, HashMap hashMap, final String str, final int i) {
         TLRPC$PageBlock tLRPC$PageBlock;
-        AnonymousClass1 anonymousClass1;
+        String lowerCase;
         String str2;
+        AnonymousClass1 anonymousClass1;
         TLRPC$PageBlock tLRPC$PageBlock2;
-        String str3;
         final ArrayList arrayList2 = new ArrayList();
         int size = arrayList.size();
         char c = 0;
@@ -4466,62 +4522,50 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (obj instanceof TLRPC$RichText) {
                 TLRPC$RichText tLRPC$RichText = (TLRPC$RichText) obj;
                 WebpageAdapter webpageAdapter = this.adapter[c];
-                String str4 = null;
+                String str3 = null;
                 tLRPC$PageBlock = tLRPC$PageBlock3;
                 CharSequence text = getText(webpageAdapter, (View) null, tLRPC$RichText, tLRPC$RichText, tLRPC$PageBlock3, 1000);
-                str3 = str4;
+                str2 = str3;
                 if (!TextUtils.isEmpty(text)) {
-                    str2 = text.toString().toLowerCase();
-                    anonymousClass1 = str4;
-                    if (str2 == null) {
-                        int i3 = 0;
-                        while (true) {
-                            int indexOf = str2.indexOf(str, i3);
-                            if (indexOf >= 0) {
-                                int length = str.length() + indexOf;
-                                if (indexOf == 0 || AndroidUtilities.isPunctuationCharacter(str2.charAt(indexOf - 1))) {
-                                    SearchResult searchResult = new SearchResult();
-                                    searchResult.index = indexOf;
-                                    tLRPC$PageBlock2 = tLRPC$PageBlock;
-                                    searchResult.block = tLRPC$PageBlock2;
-                                    searchResult.text = obj;
-                                    arrayList2.add(searchResult);
-                                } else {
-                                    tLRPC$PageBlock2 = tLRPC$PageBlock;
-                                }
-                                tLRPC$PageBlock = tLRPC$PageBlock2;
-                                i3 = length;
-                            }
-                        }
-                    }
-                    i2++;
-                    c = 0;
+                    lowerCase = text.toString().toLowerCase();
+                    anonymousClass1 = str3;
                 }
-                str2 = str3;
-                anonymousClass1 = str3;
-                if (str2 == null) {
-                }
-                i2++;
-                c = 0;
+                lowerCase = str2;
+                anonymousClass1 = str2;
             } else {
-                String str5 = null;
+                String str4 = null;
                 tLRPC$PageBlock = tLRPC$PageBlock3;
-                str3 = str5;
+                str2 = str4;
                 if (obj instanceof String) {
-                    str2 = ((String) obj).toLowerCase();
-                    anonymousClass1 = str5;
-                    if (str2 == null) {
-                    }
-                    i2++;
-                    c = 0;
+                    lowerCase = ((String) obj).toLowerCase();
+                    anonymousClass1 = str4;
                 }
-                str2 = str3;
-                anonymousClass1 = str3;
-                if (str2 == null) {
-                }
-                i2++;
-                c = 0;
+                lowerCase = str2;
+                anonymousClass1 = str2;
             }
+            if (lowerCase != null) {
+                int i3 = 0;
+                while (true) {
+                    int indexOf = lowerCase.indexOf(str, i3);
+                    if (indexOf >= 0) {
+                        int length = str.length() + indexOf;
+                        if (indexOf == 0 || AndroidUtilities.isPunctuationCharacter(lowerCase.charAt(indexOf - 1))) {
+                            SearchResult searchResult = new SearchResult();
+                            searchResult.index = indexOf;
+                            tLRPC$PageBlock2 = tLRPC$PageBlock;
+                            searchResult.block = tLRPC$PageBlock2;
+                            searchResult.text = obj;
+                            arrayList2.add(searchResult);
+                        } else {
+                            tLRPC$PageBlock2 = tLRPC$PageBlock;
+                        }
+                        tLRPC$PageBlock = tLRPC$PageBlock2;
+                        i3 = length;
+                    }
+                }
+            }
+            i2++;
+            c = 0;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
@@ -4531,6 +4575,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSearch$26(int i, ArrayList arrayList, String str) {
         if (i == this.lastSearchIndex) {
             this.searchPanel.setAlpha(1.0f);
@@ -4543,10 +4588,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00b1 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x00ae A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00b1 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00ae A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4601,9 +4646,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     Integer num = (Integer) this.adapter[0].searchTextOffset.get(str);
                     if (num == null) {
                         int typeForBlock = this.adapter[0].getTypeForBlock(searchResult.block);
-                        RecyclerView.ViewHolder onCreateViewHolder = this.adapter[0].onCreateViewHolder(null, typeForBlock);
-                        this.adapter[0].bindBlockToHolder(typeForBlock, onCreateViewHolder, searchResult.block, 0, 0);
-                        onCreateViewHolder.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
+                        RecyclerView.ViewHolder mo1758onCreateViewHolder = this.adapter[0].mo1758onCreateViewHolder(null, typeForBlock);
+                        this.adapter[0].bindBlockToHolder(typeForBlock, mo1758onCreateViewHolder, searchResult.block, 0, 0);
+                        mo1758onCreateViewHolder.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
                         num = (Integer) this.adapter[0].searchTextOffset.get(str);
                         if (num == null) {
                             num = 0;
@@ -4626,6 +4671,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkScrollAnimated() {
         if (this.currentHeaderHeight == AndroidUtilities.dp(56.0f)) {
             return;
@@ -4641,10 +4687,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         duration.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkScrollAnimated$29(ValueAnimator valueAnimator) {
         setCurrentHeaderHeight(((Integer) valueAnimator.getAnimatedValue()).intValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setCurrentHeaderHeight(int i) {
         if (this.searchContainer.getTag() != null) {
             return;
@@ -4687,6 +4735,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkScroll(int i) {
         setCurrentHeaderHeight(this.currentHeaderHeight - i);
     }
@@ -4710,20 +4759,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return open(null, tLRPC$TL_webPage, str, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00de  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x015c  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01ed  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00e7  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01ed  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x015c  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x00de  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private boolean open(final MessageObject messageObject, TLRPC$WebPage tLRPC$WebPage, String str, boolean z) {
-        String str2;
         final TLRPC$WebPage tLRPC$WebPage2;
+        String str2;
         int lastIndexOf;
-        String str3;
+        String lowerCase;
         if (this.parentActivity == null || ((this.isVisible && !this.collapsed) || (messageObject == null && tLRPC$WebPage == null))) {
             return false;
         }
@@ -4733,20 +4782,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 TLRPC$MessageEntity tLRPC$MessageEntity = messageObject.messageOwner.entities.get(i);
                 if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUrl) {
                     try {
-                        String str4 = messageObject.messageOwner.message;
+                        String str3 = messageObject.messageOwner.message;
                         int i2 = tLRPC$MessageEntity.offset;
-                        String lowerCase = str4.substring(i2, tLRPC$MessageEntity.length + i2).toLowerCase();
+                        String lowerCase2 = str3.substring(i2, tLRPC$MessageEntity.length + i2).toLowerCase();
                         if (!TextUtils.isEmpty(tLRPC$WebPage.cached_page.url)) {
-                            str3 = tLRPC$WebPage.cached_page.url.toLowerCase();
+                            lowerCase = tLRPC$WebPage.cached_page.url.toLowerCase();
                         } else {
-                            str3 = tLRPC$WebPage.url.toLowerCase();
+                            lowerCase = tLRPC$WebPage.url.toLowerCase();
                         }
-                        if (lowerCase.contains(str3) || str3.contains(lowerCase)) {
-                            int lastIndexOf2 = lowerCase.lastIndexOf(35);
+                        if (lowerCase2.contains(lowerCase) || lowerCase.contains(lowerCase2)) {
+                            int lastIndexOf2 = lowerCase2.lastIndexOf(35);
                             if (lastIndexOf2 == -1) {
                                 break;
                             }
-                            str2 = lowerCase.substring(lastIndexOf2 + 1);
+                            str2 = lowerCase2.substring(lastIndexOf2 + 1);
                             break;
                         }
                     } catch (Exception e) {
@@ -4777,7 +4826,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             boolean addPageToStack = addPageToStack(tLRPC$WebPage2, str2, 0);
             if (z) {
-                final String str5 = (addPageToStack || str2 == null) ? null : str2;
+                final String str4 = (addPageToStack || str2 == null) ? null : str2;
                 TLRPC$TL_messages_getWebPage tLRPC$TL_messages_getWebPage = new TLRPC$TL_messages_getWebPage();
                 tLRPC$TL_messages_getWebPage.url = tLRPC$WebPage2.url;
                 TLRPC$Page tLRPC$Page = tLRPC$WebPage2.cached_page;
@@ -4790,7 +4839,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 ConnectionsManager.getInstance(i3).sendRequest(tLRPC$TL_messages_getWebPage, new RequestDelegate() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda35
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        ArticleViewer.this.lambda$open$31(tLRPC$WebPage2, messageObject, i3, str5, tLObject, tLRPC$TL_error);
+                        ArticleViewer.this.lambda$open$31(tLRPC$WebPage2, messageObject, i3, str4, tLObject, tLRPC$TL_error);
                     }
                 });
             }
@@ -4896,6 +4945,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$31(final TLRPC$WebPage tLRPC$WebPage, final MessageObject messageObject, final int i, final String str, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda30
             @Override // java.lang.Runnable
@@ -4905,6 +4955,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$30(TLObject tLObject, TLRPC$WebPage tLRPC$WebPage, MessageObject messageObject, int i, String str) {
         TLRPC$Page tLRPC$Page;
         int i2 = 0;
@@ -4967,6 +5018,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$32() {
         FrameLayout frameLayout = this.containerView;
         if (frameLayout == null || this.windowView == null) {
@@ -4979,11 +5031,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         AndroidUtilities.hideKeyboard(this.parentActivity.getCurrentFocus());
     }
 
-    /* renamed from: org.telegram.ui.ArticleViewer$23 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.ArticleViewer$23  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass23 extends AnimatorListenerAdapter {
         AnonymousClass23() {
-            ArticleViewer.this = r1;
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -4996,6 +5048,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
             NotificationCenter.getInstance(ArticleViewer.this.currentAccount).onAnimationFinish(ArticleViewer.this.allowAnimationIndex);
             if (ArticleViewer.this.animationEndRunnable != null) {
@@ -5005,6 +5058,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$33(AnimatorSet animatorSet) {
         this.allowAnimationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.allowAnimationIndex, new int[]{NotificationCenter.dialogsNeedReload, NotificationCenter.closeChats});
         animatorSet.start();
@@ -5061,6 +5115,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.progressViewAnimation.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void saveCurrentPagePosition() {
         int findFirstVisibleItemPosition;
         boolean z = false;
@@ -5210,6 +5265,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$close$36() {
         FrameLayout frameLayout = this.containerView;
         if (frameLayout == null) {
@@ -5222,6 +5278,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         onClosed();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onClosed() {
         this.isVisible = false;
         for (int i = 0; i < this.listView.length; i++) {
@@ -5243,6 +5300,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onClosed$37() {
         try {
             if (this.windowView.getParent() == null) {
@@ -5254,6 +5312,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void loadChannel(final BlockChannelCell blockChannelCell, final WebpageAdapter webpageAdapter, TLRPC$Chat tLRPC$Chat) {
         if (this.loadingChannel || TextUtils.isEmpty(tLRPC$Chat.username)) {
             return;
@@ -5270,6 +5329,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChannel$39(final WebpageAdapter webpageAdapter, final int i, final BlockChannelCell blockChannelCell, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda32
             @Override // java.lang.Runnable
@@ -5279,6 +5339,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChannel$38(WebpageAdapter webpageAdapter, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, int i, BlockChannelCell blockChannelCell) {
         this.loadingChannel = false;
         if (this.parentFragment == null || webpageAdapter.blocks.isEmpty()) {
@@ -5306,6 +5367,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         blockChannelCell.setState(4, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void joinChannel(final BlockChannelCell blockChannelCell, final TLRPC$Chat tLRPC$Chat) {
         final TLRPC$TL_channels_joinChannel tLRPC$TL_channels_joinChannel = new TLRPC$TL_channels_joinChannel();
         tLRPC$TL_channels_joinChannel.channel = MessagesController.getInputChannel(tLRPC$Chat);
@@ -5318,6 +5380,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$joinChannel$43(final BlockChannelCell blockChannelCell, final int i, final TLRPC$TL_channels_joinChannel tLRPC$TL_channels_joinChannel, final TLRPC$Chat tLRPC$Chat, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         boolean z;
         if (tLRPC$TL_error != null) {
@@ -5364,11 +5427,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         messagesStorage.updateDialogsWithDeletedMessages(-j, j, new ArrayList<>(), null, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$joinChannel$40(BlockChannelCell blockChannelCell, int i, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_channels_joinChannel tLRPC$TL_channels_joinChannel) {
         blockChannelCell.setState(0, false);
         AlertsCreator.processError(i, tLRPC$TL_error, this.parentFragment, tLRPC$TL_channels_joinChannel, Boolean.TRUE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$joinChannel$42(int i, TLRPC$Chat tLRPC$Chat) {
         MessagesController.getInstance(i).loadFullChat(tLRPC$Chat.id, 0, true);
     }
@@ -5444,10 +5509,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showDialog$44(DialogInterface dialogInterface) {
         this.visibleDialog = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static final class WebPageUtils {
         public static TLRPC$Photo getPhotoWithId(TLRPC$WebPage tLRPC$WebPage, long j) {
@@ -5517,6 +5584,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class WebpageAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC$TL_pageBlockChannel channelBlock;
@@ -5536,14 +5604,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private HashMap<String, Integer> searchTextOffset = new HashMap<>();
 
         public WebpageAdapter(Context context) {
-            ArticleViewer.this = r1;
             this.context = context;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public TLRPC$Photo getPhotoWithId(long j) {
             return WebPageUtils.getPhotoWithId(this.currentPage, j);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public TLRPC$Document getDocumentWithId(long j) {
             return WebPageUtils.getDocumentWithId(this.currentPage, j);
         }
@@ -5763,31 +5832,32 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:145:0x04e2  */
-        /* JADX WARN: Removed duplicated region for block: B:146:0x050c  */
-        /* JADX WARN: Removed duplicated region for block: B:153:0x052f  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x05a5 A[SYNTHETIC] */
-        /* JADX WARN: Type inference failed for: r1v22, types: [org.telegram.tgnet.TLRPC$PageBlock] */
-        /* JADX WARN: Type inference failed for: r1v51, types: [org.telegram.tgnet.TLRPC$PageBlock] */
+        /* JADX WARN: Removed duplicated region for block: B:144:0x04e2  */
+        /* JADX WARN: Removed duplicated region for block: B:147:0x052f  */
+        /* JADX WARN: Removed duplicated region for block: B:164:0x05a5 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:165:0x050c  */
+        /* JADX WARN: Type inference failed for: r1v14, types: [org.telegram.tgnet.TLRPC$PageBlock] */
+        /* JADX WARN: Type inference failed for: r1v41, types: [org.telegram.tgnet.TLRPC$PageBlock] */
         /* JADX WARN: Type inference failed for: r24v0, types: [org.telegram.ui.ArticleViewer$WebpageAdapter] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void addBlock(WebpageAdapter webpageAdapter, TLRPC$PageBlock tLRPC$PageBlock, int i, int i2, int i3) {
+            TLRPC$TL_pageListOrderedItemText tLRPC$TL_pageListOrderedItemText;
             TLRPC$PageListOrderedItem tLRPC$PageListOrderedItem;
             String str;
-            int i4;
             TLRPC$PageListOrderedItem tLRPC$PageListOrderedItem2;
-            int i5;
+            int i4;
             TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem;
+            int i5;
             int i6;
-            TLRPC$TL_pageListOrderedItemText tLRPC$TL_pageListOrderedItemText;
             TLRPC$TL_pageListItemText tLRPC$TL_pageListItemText;
-            TLRPC$TL_pageBlockList tLRPC$TL_pageBlockList;
             int i7;
             int i8;
             TL_pageBlockListParent tL_pageBlockListParent;
+            TLRPC$TL_pageBlockList tLRPC$TL_pageBlockList;
             String str2;
             TL_pageBlockListItem tL_pageBlockListItem;
             int i9;
@@ -5958,19 +6028,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             TL_pageBlockDetailsChild tL_pageBlockDetailsChild2 = new TL_pageBlockDetailsChild();
                             tL_pageBlockDetailsChild2.parent = ((TL_pageBlockDetailsChild) tLRPC$PageBlock).parent;
                             tL_pageBlockDetailsChild2.block = tL_pageBlockListItem2;
-                            i8 = i12;
-                            i7 = size3;
+                            i7 = i12;
+                            i8 = size3;
                             tL_pageBlockListParent = tL_pageBlockListParent2;
                             tLRPC$TL_pageBlockList = tLRPC$TL_pageBlockList2;
                             str2 = str3;
                             addBlock(webpageAdapter, tL_pageBlockDetailsChild2, i, i2 + 1, i3);
                         } else {
-                            i8 = i12;
-                            i7 = size3;
+                            i7 = i12;
+                            i8 = size3;
                             tL_pageBlockListParent = tL_pageBlockListParent2;
                             tLRPC$TL_pageBlockList = tLRPC$TL_pageBlockList2;
                             str2 = str3;
-                            addBlock(webpageAdapter, i8 == 0 ? ArticleViewer.this.fixListBlock(tLRPC$PageBlock, tL_pageBlockListItem2) : tL_pageBlockListItem2, i, i2 + 1, i3);
+                            addBlock(webpageAdapter, i7 == 0 ? ArticleViewer.this.fixListBlock(tLRPC$PageBlock, tL_pageBlockListItem2) : tL_pageBlockListItem2, i, i2 + 1, i3);
                         }
                         if (tLRPC$PageListItem2 instanceof TLRPC$TL_pageListItemBlocks) {
                             TLRPC$TL_pageListItemBlocks tLRPC$TL_pageListItemBlocks2 = (TLRPC$TL_pageListItemBlocks) tLRPC$PageListItem2;
@@ -5996,10 +6066,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 i13 = i9 + 1;
                             }
                         }
-                        i12 = i8 + 1;
+                        i12 = i7 + 1;
                         str3 = str2;
                         tL_pageBlockListParent2 = tL_pageBlockListParent;
-                        size3 = i7;
+                        size3 = i8;
                         tLRPC$TL_pageBlockList2 = tLRPC$TL_pageBlockList;
                         anonymousClass1 = null;
                     }
@@ -6164,9 +6234,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextView textView;
-            View view;
+            View blockVideoCell;
             if (i != 90) {
                 switch (i) {
                     case 0:
@@ -6185,8 +6256,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         textView = new BlockSubtitleCell(this.context, this);
                         break;
                     case 5:
-                        view = new BlockVideoCell(this.context, this, 0);
-                        textView = view;
+                        blockVideoCell = new BlockVideoCell(this.context, this, 0);
+                        textView = blockVideoCell;
                         break;
                     case 6:
                         textView = new BlockPullquoteCell(this.context, this);
@@ -6198,8 +6269,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         textView = new BlockSlideshowCell(this.context, this);
                         break;
                     case 9:
-                        view = new BlockPhotoCell(this.context, this, 0);
-                        textView = view;
+                        blockVideoCell = new BlockPhotoCell(this.context, this, 0);
+                        textView = blockVideoCell;
                         break;
                     case 10:
                         textView = new BlockAuthorDateCell(this.context, this);
@@ -6226,8 +6297,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         textView = new BlockCollageCell(this.context, this);
                         break;
                     case 18:
-                        view = new BlockChannelCell(this.context, this, 0);
-                        textView = view;
+                        blockVideoCell = new BlockChannelCell(this.context, this, 0);
+                        textView = blockVideoCell;
                         break;
                     case 19:
                         textView = new BlockAudioCell(this.context, this);
@@ -6239,8 +6310,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         textView = new BlockOrderedListItemCell(this.context, this);
                         break;
                     case org.telegram.messenger.R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                        view = new BlockMapCell(this.context, this, 0);
-                        textView = view;
+                        blockVideoCell = new BlockMapCell(this.context, this, 0);
+                        textView = blockVideoCell;
                         break;
                     case org.telegram.messenger.R.styleable.MapAttrs_zOrderOnTop /* 23 */:
                         textView = new BlockRelatedArticlesCell(this.context, this);
@@ -6298,6 +6369,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void bindBlockToHolder(int i, RecyclerView.ViewHolder viewHolder, TLRPC$PageBlock tLRPC$PageBlock, int i2, int i3) {
             TLRPC$PageBlock tLRPC$PageBlock2;
             if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockCover) {
@@ -6425,6 +6497,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             ((TextView) viewHolder.itemView).setText("unsupported block " + tLRPC$PageBlock2);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public int getTypeForBlock(TLRPC$PageBlock tLRPC$PageBlock) {
             if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockParagraph) {
                 return 0;
@@ -6552,6 +6625,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return isBlockOpened(tL_pageBlockDetailsChild2);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateRows() {
             this.localBlocks.clear();
             int size = this.blocks.size();
@@ -6564,6 +6638,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void cleanup() {
             this.currentPage = null;
             this.blocks.clear();
@@ -6628,6 +6703,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockVideoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
@@ -6659,10 +6735,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void onProgressUpload(String str, long j, long j2, boolean z) {
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockVideoCell(Context context, WebpageAdapter webpageAdapter, int i) {
             super(context);
-            ArticleViewer.this = r5;
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
             ImageReceiver imageReceiver = new ImageReceiver(this);
@@ -6674,7 +6748,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.radialProgress = radialProgress2;
             radialProgress2.setProgressColor(-1);
             this.radialProgress.setColors(1711276032, 2130706432, -1, -2500135);
-            this.TAG = DownloadController.getInstance(r5.currentAccount).generateObserverTag();
+            this.TAG = DownloadController.getInstance(ArticleViewer.this.currentAccount).generateObserverTag();
             BlockChannelCell blockChannelCell = new BlockChannelCell(context, this.parentAdapter, 1);
             this.channelCell = blockChannelCell;
             addView(blockChannelCell, LayoutHelper.createFrame(-1, -2.0f));
@@ -6702,7 +6776,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:30:0x00a3, code lost:
-            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L33;
+            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L31;
          */
         @Override // android.view.View
         /*
@@ -6751,9 +6825,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return this.photoPressed || this.buttonPressed != 0 || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.captionLayout, this.textX, this.textY) || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.creditLayout, this.textX, this.textY + this.creditOffset) || super.onTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x0046  */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x0164  */
-        /* JADX WARN: Removed duplicated region for block: B:72:0x01fc  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x0164  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x0046  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x01fc  */
         @Override // android.widget.FrameLayout, android.view.View
         @SuppressLint({"NewApi"})
         /*
@@ -6763,23 +6837,23 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int i3;
             int i4;
             TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo;
+            int dp;
             int i5;
             int i6;
             int i7;
             int i8;
             int i9;
             int i10;
-            int i11;
             boolean z;
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute;
-            int i12;
+            int i11;
             int size = View.MeasureSpec.getSize(i);
-            int i13 = this.currentType;
-            int i14 = 1;
-            if (i13 == 1) {
+            int i12 = this.currentType;
+            int i13 = 1;
+            if (i12 == 1) {
                 size = ((View) getParent()).getMeasuredWidth();
                 i4 = ((View) getParent()).getMeasuredHeight();
-            } else if (i13 == 2) {
+            } else if (i12 == 2) {
                 float f = this.groupPosition.ph;
                 Point point = AndroidUtilities.displaySize;
                 i4 = (int) Math.ceil(f * Math.max(point.x, point.y) * 0.5f);
@@ -6788,69 +6862,69 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 i4 = 0;
                 tLRPC$TL_pageBlockVideo = this.currentBlock;
                 if (tLRPC$TL_pageBlockVideo != null) {
-                    if (this.currentType == 0 && (i12 = tLRPC$TL_pageBlockVideo.level) > 0) {
-                        i7 = AndroidUtilities.dp(i12 * 14) + AndroidUtilities.dp(18.0f);
-                        this.textX = i7;
-                        i6 = i3 - (AndroidUtilities.dp(18.0f) + i7);
-                        i5 = i6;
+                    if (this.currentType == 0 && (i11 = tLRPC$TL_pageBlockVideo.level) > 0) {
+                        i6 = AndroidUtilities.dp(i11 * 14) + AndroidUtilities.dp(18.0f);
+                        this.textX = i6;
+                        i5 = i3 - (AndroidUtilities.dp(18.0f) + i6);
+                        dp = i5;
                     } else {
                         this.textX = AndroidUtilities.dp(18.0f);
-                        i5 = i3 - AndroidUtilities.dp(36.0f);
-                        i6 = i3;
-                        i7 = 0;
+                        dp = i3 - AndroidUtilities.dp(36.0f);
+                        i5 = i3;
+                        i6 = 0;
                     }
                     if (this.currentDocument != null) {
-                        int dp = AndroidUtilities.dp(48.0f);
+                        int dp2 = AndroidUtilities.dp(48.0f);
                         TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.currentDocument.thumbs, 48);
-                        int i15 = this.currentType;
-                        if (i15 == 0) {
+                        int i14 = this.currentType;
+                        if (i14 == 0) {
                             int size2 = this.currentDocument.attributes.size();
-                            int i16 = 0;
+                            int i15 = 0;
                             while (true) {
-                                if (i16 >= size2) {
+                                if (i15 >= size2) {
                                     z = false;
                                     break;
                                 }
-                                if (this.currentDocument.attributes.get(i16) instanceof TLRPC$TL_documentAttributeVideo) {
-                                    i4 = (int) ((i6 / tLRPC$DocumentAttribute.w) * tLRPC$DocumentAttribute.h);
+                                if (this.currentDocument.attributes.get(i15) instanceof TLRPC$TL_documentAttributeVideo) {
+                                    i4 = (int) ((i5 / tLRPC$DocumentAttribute.w) * tLRPC$DocumentAttribute.h);
                                     z = true;
                                     break;
                                 }
-                                i16++;
+                                i15++;
                             }
                             float f2 = closestPhotoSizeWithSize != null ? closestPhotoSizeWithSize.w : 100.0f;
                             float f3 = closestPhotoSizeWithSize != null ? closestPhotoSizeWithSize.h : 100.0f;
                             if (!z) {
-                                i4 = (int) ((i6 / f2) * f3);
+                                i4 = (int) ((i5 / f2) * f3);
                             }
                             if (this.parentBlock instanceof TLRPC$TL_pageBlockCover) {
-                                i4 = Math.min(i4, i6);
+                                i4 = Math.min(i4, i5);
                             } else {
                                 Point point2 = AndroidUtilities.displaySize;
                                 int max = (int) ((Math.max(point2.x, point2.y) - AndroidUtilities.dp(56.0f)) * 0.9f);
                                 if (i4 > max) {
-                                    int i17 = (int) ((max / f3) * f2);
-                                    i7 += ((i3 - i7) - i17) / 2;
-                                    i6 = i17;
+                                    int i16 = (int) ((max / f3) * f2);
+                                    i6 += ((i3 - i6) - i16) / 2;
+                                    i5 = i16;
                                     i4 = max;
                                 }
                             }
                             if (i4 == 0) {
                                 i4 = AndroidUtilities.dp(100.0f);
-                            } else if (i4 < dp) {
-                                i4 = dp;
+                            } else if (i4 < dp2) {
+                                i4 = dp2;
                             }
-                        } else if (i15 == 2) {
+                        } else if (i14 == 2) {
                             if ((this.groupPosition.flags & 2) == 0) {
-                                i6 -= AndroidUtilities.dp(2.0f);
+                                i5 -= AndroidUtilities.dp(2.0f);
                             }
                             if ((this.groupPosition.flags & 8) == 0) {
-                                int i18 = i6;
-                                i10 = i4;
+                                int i17 = i5;
+                                i8 = i4;
                                 i4 -= AndroidUtilities.dp(2.0f);
-                                i9 = i18;
+                                i9 = i17;
                                 this.imageView.setQualityThumbDocument(this.currentDocument);
-                                this.imageView.setImageCoords(i7, (!this.isFirst || (i11 = this.currentType) == 1 || i11 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i9, i4);
+                                this.imageView.setImageCoords(i6, (!this.isFirst || (i10 = this.currentType) == 1 || i10 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i9, i4);
                                 if (!this.isGif) {
                                     this.autoDownload = DownloadController.getInstance(ArticleViewer.this.currentAccount).canDownloadMedia(4, this.currentDocument.size);
                                     File pathToAttach = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument, true);
@@ -6866,72 +6940,72 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                     this.imageView.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument), "80_80_b", 0L, null, this.parentAdapter.currentPage, 1);
                                 }
                                 this.imageView.setAspectFit(true);
-                                float f4 = dp;
+                                float f4 = dp2;
                                 this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f4) / 2.0f));
                                 int imageY = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f4) / 2.0f));
                                 this.buttonY = imageY;
                                 RadialProgress2 radialProgress2 = this.radialProgress;
-                                int i19 = this.buttonX;
-                                radialProgress2.setProgressRect(i19, imageY, i19 + dp, dp + imageY);
-                                i8 = i10;
+                                int i18 = this.buttonX;
+                                radialProgress2.setProgressRect(i18, imageY, i18 + dp2, dp2 + imageY);
+                                i7 = i8;
                             }
                         }
-                        i9 = i6;
-                        i10 = i4;
+                        i9 = i5;
+                        i8 = i4;
                         this.imageView.setQualityThumbDocument(this.currentDocument);
-                        this.imageView.setImageCoords(i7, (!this.isFirst || (i11 = this.currentType) == 1 || i11 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i9, i4);
+                        this.imageView.setImageCoords(i6, (!this.isFirst || (i10 = this.currentType) == 1 || i10 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i9, i4);
                         if (!this.isGif) {
                         }
                         this.imageView.setAspectFit(true);
-                        float f42 = dp;
+                        float f42 = dp2;
                         this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f42) / 2.0f));
                         int imageY2 = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f42) / 2.0f));
                         this.buttonY = imageY2;
                         RadialProgress2 radialProgress22 = this.radialProgress;
-                        int i192 = this.buttonX;
-                        radialProgress22.setProgressRect(i192, imageY2, i192 + dp, dp + imageY2);
-                        i8 = i10;
+                        int i182 = this.buttonX;
+                        radialProgress22.setProgressRect(i182, imageY2, i182 + dp2, dp2 + imageY2);
+                        i7 = i8;
                     } else {
-                        i8 = i4;
+                        i7 = i4;
                     }
                     int imageY3 = (int) (this.imageView.getImageY() + this.imageView.getImageHeight() + AndroidUtilities.dp(8.0f));
                     this.textY = imageY3;
                     if (this.currentType == 0) {
                         ArticleViewer articleViewer = ArticleViewer.this;
                         TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo2 = this.currentBlock;
-                        DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockVideo2.caption.text, i5, imageY3, tLRPC$TL_pageBlockVideo2, this.parentAdapter);
+                        DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockVideo2.caption.text, dp, imageY3, tLRPC$TL_pageBlockVideo2, this.parentAdapter);
                         this.captionLayout = createLayoutForText;
                         if (createLayoutForText != null) {
-                            int dp2 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
-                            this.creditOffset = dp2;
-                            i8 += dp2 + AndroidUtilities.dp(4.0f);
+                            int dp3 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
+                            this.creditOffset = dp3;
+                            i7 += dp3 + AndroidUtilities.dp(4.0f);
                             DrawingText drawingText = this.captionLayout;
                             drawingText.x = this.textX;
                             drawingText.y = this.textY;
                         }
                         ArticleViewer articleViewer2 = ArticleViewer.this;
                         TLRPC$TL_pageBlockVideo tLRPC$TL_pageBlockVideo3 = this.currentBlock;
-                        DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockVideo3.caption.credit, i5, this.textY + this.creditOffset, tLRPC$TL_pageBlockVideo3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
+                        DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockVideo3.caption.credit, dp, this.textY + this.creditOffset, tLRPC$TL_pageBlockVideo3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                         this.creditLayout = createLayoutForText2;
                         if (createLayoutForText2 != null) {
-                            i8 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
+                            i7 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
                             DrawingText drawingText2 = this.creditLayout;
                             drawingText2.x = this.textX;
                             drawingText2.y = this.textY + this.creditOffset;
                         }
                     }
                     if (!this.isFirst && this.currentType == 0 && this.currentBlock.level <= 0) {
-                        i8 += AndroidUtilities.dp(8.0f);
+                        i7 += AndroidUtilities.dp(8.0f);
                     }
                     boolean z2 = (this.parentBlock instanceof TLRPC$TL_pageBlockCover) && this.parentAdapter.blocks.size() > 1 && (this.parentAdapter.blocks.get(1) instanceof TLRPC$TL_pageBlockChannel);
                     if (this.currentType != 2 && !z2) {
-                        i8 += AndroidUtilities.dp(8.0f);
+                        i7 += AndroidUtilities.dp(8.0f);
                     }
-                    i14 = i8;
+                    i13 = i7;
                 }
                 this.channelCell.measure(i, i2);
                 this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
-                setMeasuredDimension(i3, i14);
+                setMeasuredDimension(i3, i13);
             }
             i3 = size;
             tLRPC$TL_pageBlockVideo = this.currentBlock;
@@ -6939,7 +7013,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             this.channelCell.measure(i, i2);
             this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
-            setMeasuredDimension(i3, i14);
+            setMeasuredDimension(i3, i13);
         }
 
         @Override // android.view.View
@@ -7144,6 +7218,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockAudioCell extends View implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
@@ -7173,15 +7248,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void onProgressUpload(String str, long j, long j2, boolean z) {
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockAudioCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
             RadialProgress2 radialProgress2 = new RadialProgress2(this);
             this.radialProgress = radialProgress2;
             radialProgress2.setCircleRadius(AndroidUtilities.dp(24.0f));
-            this.TAG = DownloadController.getInstance(r1.currentAccount).generateObserverTag();
+            this.TAG = DownloadController.getInstance(ArticleViewer.this.currentAccount).generateObserverTag();
             SeekBar seekBar = new SeekBar(this);
             this.seekBar = seekBar;
             seekBar.setDelegate(new SeekBar.SeekBarDelegate() { // from class: org.telegram.ui.ArticleViewer$BlockAudioCell$$ExternalSyntheticLambda0
@@ -7197,6 +7270,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(float f) {
             MessageObject messageObject = this.currentMessageObject;
             if (messageObject == null) {
@@ -7224,14 +7298,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:20:0x0064, code lost:
-            if (r1 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L23;
+            if (r1 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L21;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x0068, code lost:
-            if (r12.buttonState == 0) goto L23;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:23:0x006a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:21:0x006a, code lost:
             r12.buttonPressed = 1;
             invalidate();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x0068, code lost:
+            if (r12.buttonState == 0) goto L21;
          */
         @Override // android.view.View
         /*
@@ -7582,6 +7656,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockEmbedPostCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private AvatarDrawable avatarDrawable = new AvatarDrawable();
@@ -7598,10 +7673,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX;
         private int textY;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockEmbedPostCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r3;
             this.parentAdapter = webpageAdapter;
             ImageReceiver imageReceiver = new ImageReceiver(this);
             this.avatarImageView = imageReceiver;
@@ -7815,10 +7888,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public int textX;
         public int textY;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockParagraphCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -7835,37 +7906,37 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // android.view.View
         @SuppressLint({"NewApi"})
         protected void onMeasure(int i, int i2) {
-            int i3;
+            int dp;
             int size = View.MeasureSpec.getSize(i);
             TLRPC$TL_pageBlockParagraph tLRPC$TL_pageBlockParagraph = this.currentBlock;
-            int i4 = 0;
+            int i3 = 0;
             if (tLRPC$TL_pageBlockParagraph != null) {
-                int i5 = tLRPC$TL_pageBlockParagraph.level;
-                if (i5 == 0) {
+                int i4 = tLRPC$TL_pageBlockParagraph.level;
+                if (i4 == 0) {
                     this.textY = AndroidUtilities.dp(8.0f);
                     this.textX = AndroidUtilities.dp(18.0f);
                 } else {
                     this.textY = 0;
-                    this.textX = AndroidUtilities.dp((i5 * 14) + 18);
+                    this.textX = AndroidUtilities.dp((i4 * 14) + 18);
                 }
                 DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.text, (size - AndroidUtilities.dp(18.0f)) - this.textX, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, this.parentAdapter);
                 this.textLayout = createLayoutForText;
                 if (createLayoutForText != null) {
                     int height = createLayoutForText.getHeight();
                     if (this.currentBlock.level > 0) {
-                        i3 = AndroidUtilities.dp(8.0f);
+                        dp = AndroidUtilities.dp(8.0f);
                     } else {
-                        i3 = AndroidUtilities.dp(16.0f);
+                        dp = AndroidUtilities.dp(16.0f);
                     }
-                    i4 = height + i3;
+                    i3 = height + dp;
                     DrawingText drawingText = this.textLayout;
                     drawingText.x = this.textX;
                     drawingText.y = this.textY;
                 }
             } else {
-                i4 = 1;
+                i3 = 1;
             }
-            setMeasuredDimension(size, i4);
+            setMeasuredDimension(size, i3);
         }
 
         @Override // android.view.View
@@ -7906,6 +7977,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockEmbedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
@@ -7921,10 +7993,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private boolean wasUserInteraction;
         private TouchyWebView webView;
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class TelegramWebviewProxy {
             private TelegramWebviewProxy() {
-                BlockEmbedCell.this = r1;
             }
 
             @JavascriptInterface
@@ -7937,6 +8009,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 });
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$postEvent$0(String str, String str2) {
                 if ("resize_frame".equals(str)) {
                     try {
@@ -7951,10 +8024,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         /* loaded from: classes3.dex */
         public class TouchyWebView extends WebView {
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             public TouchyWebView(Context context) {
                 super(context);
-                BlockEmbedCell.this = r1;
                 setFocusable(false);
             }
 
@@ -7972,14 +8043,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
         public BlockEmbedCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r5;
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
-            WebPlayerView webPlayerView = new WebPlayerView(context, false, false, new WebPlayerView.WebPlayerViewDelegate(r5) { // from class: org.telegram.ui.ArticleViewer.BlockEmbedCell.1
+            WebPlayerView webPlayerView = new WebPlayerView(context, false, false, new WebPlayerView.WebPlayerViewDelegate(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockEmbedCell.1
                 @Override // org.telegram.ui.Components.WebPlayerView.WebPlayerViewDelegate
                 public boolean checkInlinePermissions() {
                     return false;
@@ -8072,7 +8141,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
             this.videoView = webPlayerView;
             addView(webPlayerView);
-            r5.createdWebViews.add(this);
+            ArticleViewer.this.createdWebViews.add(this);
             TouchyWebView touchyWebView = new TouchyWebView(context);
             this.webView = touchyWebView;
             touchyWebView.getSettings().setJavaScriptEnabled(true);
@@ -8087,8 +8156,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.webView.getSettings().setMixedContentMode(0);
                 CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
             }
-            this.webView.setWebChromeClient(new AnonymousClass2(r5));
-            this.webView.setWebViewClient(new WebViewClient(r5) { // from class: org.telegram.ui.ArticleViewer.BlockEmbedCell.3
+            this.webView.setWebChromeClient(new AnonymousClass2(ArticleViewer.this));
+            this.webView.setWebViewClient(new WebViewClient(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockEmbedCell.3
                 @Override // android.webkit.WebViewClient
                 public void onLoadResource(WebView webView, String str) {
                     super.onLoadResource(webView, str);
@@ -8111,11 +8180,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             addView(this.webView);
         }
 
-        /* renamed from: org.telegram.ui.ArticleViewer$BlockEmbedCell$2 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.ArticleViewer$BlockEmbedCell$2  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass2 extends WebChromeClient {
             AnonymousClass2(ArticleViewer articleViewer) {
-                BlockEmbedCell.this = r1;
             }
 
             @Override // android.webkit.WebChromeClient
@@ -8139,6 +8208,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 customViewCallback.onCustomViewHidden();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onShowCustomView$0() {
                 if (ArticleViewer.this.customView != null) {
                     ArticleViewer.this.fullscreenVideoContainer.addView(ArticleViewer.this.customView, LayoutHelper.createFrame(-1, -1.0f));
@@ -8244,7 +8314,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.captionLayout, this.textX, this.textY) || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.creditLayout, this.textX, this.textY + this.creditOffset) || super.onTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:52:0x0144  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x0144  */
         @Override // android.widget.FrameLayout, android.view.View
         @SuppressLint({"NewApi"})
         /*
@@ -8256,8 +8326,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int i5;
             int i6;
             int i7;
-            DrawingText drawingText;
             int dp;
+            DrawingText drawingText;
             int size = View.MeasureSpec.getSize(i);
             TLRPC$TL_pageBlockEmbed tLRPC$TL_pageBlockEmbed = this.currentBlock;
             if (tLRPC$TL_pageBlockEmbed != null) {
@@ -8422,12 +8492,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textY;
         private DrawingText titleLayout;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockTableCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r4;
             this.parentAdapter = webpageAdapter;
-            HorizontalScrollView horizontalScrollView = new HorizontalScrollView(context, r4) { // from class: org.telegram.ui.ArticleViewer.BlockTableCell.1
+            HorizontalScrollView horizontalScrollView = new HorizontalScrollView(context, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockTableCell.1
                 @Override // android.widget.HorizontalScrollView, android.view.ViewGroup
                 public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                     boolean onInterceptTouchEvent = super.onInterceptTouchEvent(motionEvent);
@@ -8476,7 +8544,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             horizontalScrollView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
             this.scrollView.setClipToPadding(false);
             addView(this.scrollView, LayoutHelper.createFrame(-1, -2.0f));
-            TableLayout tableLayout = new TableLayout(context, this, r4.textSelectionHelper);
+            TableLayout tableLayout = new TableLayout(context, this, ArticleViewer.this.textSelectionHelper);
             this.tableLayout = tableLayout;
             tableLayout.setOrientation(0);
             this.tableLayout.setRowOrderPreserved(true);
@@ -8611,39 +8679,39 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
             int i3;
+            int dp;
             int i4;
-            int i5;
             int size = View.MeasureSpec.getSize(i);
             TLRPC$TL_pageBlockTable tLRPC$TL_pageBlockTable = this.currentBlock;
             if (tLRPC$TL_pageBlockTable != null) {
-                int i6 = tLRPC$TL_pageBlockTable.level;
-                if (i6 > 0) {
-                    int dp = AndroidUtilities.dp(i6 * 14);
-                    this.listX = dp;
-                    i4 = dp + AndroidUtilities.dp(18.0f);
-                    this.textX = i4;
+                int i5 = tLRPC$TL_pageBlockTable.level;
+                if (i5 > 0) {
+                    int dp2 = AndroidUtilities.dp(i5 * 14);
+                    this.listX = dp2;
+                    dp = dp2 + AndroidUtilities.dp(18.0f);
+                    this.textX = dp;
                 } else {
                     this.listX = 0;
                     this.textX = AndroidUtilities.dp(18.0f);
-                    i4 = AndroidUtilities.dp(36.0f);
+                    dp = AndroidUtilities.dp(36.0f);
                 }
                 ArticleViewer articleViewer = ArticleViewer.this;
                 TLRPC$TL_pageBlockTable tLRPC$TL_pageBlockTable2 = this.currentBlock;
-                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockTable2.title, size - i4, 0, tLRPC$TL_pageBlockTable2, Layout.Alignment.ALIGN_CENTER, 0, this.parentAdapter);
+                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockTable2.title, size - dp, 0, tLRPC$TL_pageBlockTable2, Layout.Alignment.ALIGN_CENTER, 0, this.parentAdapter);
                 this.titleLayout = createLayoutForText;
                 if (createLayoutForText != null) {
                     this.textY = 0;
-                    i5 = createLayoutForText.getHeight() + AndroidUtilities.dp(8.0f) + 0;
-                    this.listY = i5;
+                    i4 = createLayoutForText.getHeight() + AndroidUtilities.dp(8.0f) + 0;
+                    this.listY = i4;
                     DrawingText drawingText = this.titleLayout;
                     drawingText.x = this.textX;
                     drawingText.y = this.textY;
                 } else {
                     this.listY = AndroidUtilities.dp(8.0f);
-                    i5 = 0;
+                    i4 = 0;
                 }
                 this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size - this.listX, 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
-                i3 = i5 + this.scrollView.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
+                i3 = i4 + this.scrollView.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
                 TLRPC$TL_pageBlockTable tLRPC$TL_pageBlockTable3 = this.currentBlock;
                 if (tLRPC$TL_pageBlockTable3.level > 0 && !tLRPC$TL_pageBlockTable3.bottom) {
                     i3 += AndroidUtilities.dp(8.0f);
@@ -8655,6 +8723,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             updateChildTextPositions();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateChildTextPositions() {
             int i = this.titleLayout == null ? 0 : 1;
             int childCount = this.tableLayout.getChildCount();
@@ -8727,6 +8796,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockCollageCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
@@ -8749,9 +8819,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             private int maxSizeWidth = 1000;
 
             public GroupedMessages() {
-                BlockCollageCell.this = r1;
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             /* loaded from: classes3.dex */
             public class MessageGroupedLayoutAttempt {
                 public float[] heights;
@@ -8782,13 +8852,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 return this.maxSizeWidth / f;
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:20:0x0087  */
-            /* JADX WARN: Removed duplicated region for block: B:21:0x0089  */
-            /* JADX WARN: Removed duplicated region for block: B:24:0x008e  */
-            /* JADX WARN: Removed duplicated region for block: B:25:0x0091  */
-            /* JADX WARN: Removed duplicated region for block: B:28:0x009e  */
-            /* JADX WARN: Removed duplicated region for block: B:29:0x00a4  */
-            /* JADX WARN: Removed duplicated region for block: B:35:0x00bf  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x0087  */
+            /* JADX WARN: Removed duplicated region for block: B:18:0x008e  */
+            /* JADX WARN: Removed duplicated region for block: B:21:0x009e  */
+            /* JADX WARN: Removed duplicated region for block: B:24:0x00bf  */
+            /* JADX WARN: Removed duplicated region for block: B:28:0x00a4  */
+            /* JADX WARN: Removed duplicated region for block: B:32:0x0091  */
+            /* JADX WARN: Removed duplicated region for block: B:33:0x0089  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -8805,10 +8875,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 int i9;
                 int i10;
                 float f2;
-                TLRPC$PhotoSize tLRPC$PhotoSize;
+                TLRPC$Document documentWithId;
+                TLRPC$PhotoSize closestPhotoSizeWithSize;
                 float f3;
                 float f4;
-                TLRPC$Document documentWithId;
                 this.posArray.clear();
                 this.positions.clear();
                 int size = BlockCollageCell.this.currentBlock.items.size();
@@ -8826,10 +8896,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         if (photoWithId == null) {
                             i11++;
                         } else {
-                            tLRPC$PhotoSize = FileLoader.getClosestPhotoSizeWithSize(photoWithId.sizes, AndroidUtilities.getPhotoSize());
+                            closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photoWithId.sizes, AndroidUtilities.getPhotoSize());
                             MessageObject.GroupedMessagePosition groupedMessagePosition = new MessageObject.GroupedMessagePosition();
                             groupedMessagePosition.last = i11 != size + (-1);
-                            f3 = tLRPC$PhotoSize != null ? 1.0f : tLRPC$PhotoSize.w / tLRPC$PhotoSize.h;
+                            f3 = closestPhotoSizeWithSize != null ? 1.0f : closestPhotoSizeWithSize.w / closestPhotoSizeWithSize.h;
                             groupedMessagePosition.aspectRatio = f3;
                             if (f3 <= 1.2f) {
                                 sb.append("w");
@@ -8849,10 +8919,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                     } else {
                         if ((tLRPC$PageBlock instanceof TLRPC$TL_pageBlockVideo) && (documentWithId = BlockCollageCell.this.parentAdapter.getDocumentWithId(((TLRPC$TL_pageBlockVideo) tLRPC$PageBlock).video_id)) != null) {
-                            tLRPC$PhotoSize = FileLoader.getClosestPhotoSizeWithSize(documentWithId.thumbs, 90);
+                            closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(documentWithId.thumbs, 90);
                             MessageObject.GroupedMessagePosition groupedMessagePosition2 = new MessageObject.GroupedMessagePosition();
                             groupedMessagePosition2.last = i11 != size + (-1);
-                            if (tLRPC$PhotoSize != null) {
+                            if (closestPhotoSizeWithSize != null) {
                             }
                             groupedMessagePosition2.aspectRatio = f3;
                             if (f3 <= 1.2f) {
@@ -8904,18 +8974,18 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 if (i17 <= i13) {
                                     if (i18 <= (f7 < 0.85f ? 4 : 3) && i20 <= i13) {
                                         int i21 = i17 + i18;
-                                        i10 = i18;
-                                        i9 = i17;
+                                        i9 = i18;
+                                        i10 = i17;
                                         arrayList.add(new MessageGroupedLayoutAttempt(this, i17, i18, i20, multiHeight(fArr, 0, i17), multiHeight(fArr, i17, i21), multiHeight(fArr, i21, size2)));
-                                        i18 = i10 + 1;
-                                        i17 = i9;
+                                        i18 = i9 + 1;
+                                        i17 = i10;
                                         i13 = 3;
                                     }
                                 }
-                                i10 = i18;
-                                i9 = i17;
-                                i18 = i10 + 1;
-                                i17 = i9;
+                                i9 = i18;
+                                i10 = i17;
+                                i18 = i9 + 1;
+                                i17 = i10;
                                 i13 = 3;
                             }
                         }
@@ -8935,28 +9005,28 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                         int i27 = i26 - i25;
                                         if (i22 > 3 || i23 > 3 || i25 > 3 || i27 > 3) {
                                             i3 = i25;
-                                            i7 = i24;
-                                            i6 = i23;
-                                            i5 = size;
-                                            i4 = size2;
+                                            i4 = i24;
+                                            i5 = i23;
+                                            i6 = size;
+                                            i7 = size2;
                                             i8 = dp2;
                                         } else {
                                             int i28 = i22 + i23;
                                             int i29 = i28 + i25;
-                                            i4 = size2;
+                                            i7 = size2;
                                             i3 = i25;
-                                            i7 = i24;
-                                            i6 = i23;
-                                            i5 = size;
+                                            i4 = i24;
+                                            i5 = i23;
+                                            i6 = size;
                                             i8 = dp2;
                                             arrayList.add(new MessageGroupedLayoutAttempt(this, i22, i23, i25, i27, multiHeight(fArr, 0, i22), multiHeight(fArr, i22, i28), multiHeight(fArr, i28, i29), multiHeight(fArr, i29, size2)));
                                         }
                                         i25 = i3 + 1;
                                         dp2 = i8;
-                                        i24 = i7;
-                                        i23 = i6;
-                                        size = i5;
-                                        size2 = i4;
+                                        i24 = i4;
+                                        i23 = i5;
+                                        size = i6;
+                                        size2 = i7;
                                     }
                                 }
                                 i23++;
@@ -9162,12 +9232,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockCollageCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r9;
             this.parentAdapter = webpageAdapter;
-            RecyclerListView recyclerListView = new RecyclerListView(context, r9) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.1
+            RecyclerListView recyclerListView = new RecyclerListView(context, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.1
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View, android.view.ViewParent
                 public void requestLayout() {
                     if (BlockCollageCell.this.inLayout) {
@@ -9177,7 +9245,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
             };
             this.innerListView = recyclerListView;
-            recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration(r9) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.2
+            recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.2
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                     MessageObject.GroupedMessagePosition groupedMessagePosition;
@@ -9222,7 +9290,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     rect.bottom = -dp2;
                 }
             });
-            GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, 1000, 1, true, r9) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.3
+            GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, 1000, 1, true, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.3
                 @Override // androidx.recyclerview.widget.GridLayoutManagerFixed
                 public boolean shouldLayoutChildFromOpositeSide(View view) {
                     return false;
@@ -9253,7 +9321,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     return false;
                 }
             };
-            gridLayoutManagerFixed.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(r9) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.4
+            gridLayoutManagerFixed.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.4
                 @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
                 public int getSpanSize(int i) {
                     return BlockCollageCell.this.group.positions.get(BlockCollageCell.this.currentBlock.items.get((BlockCollageCell.this.currentBlock.items.size() - i) - 1)).spanSize;
@@ -9261,18 +9329,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
             this.innerListView.setLayoutManager(gridLayoutManagerFixed);
             RecyclerListView recyclerListView2 = this.innerListView;
-            RecyclerView.Adapter adapter = new RecyclerView.Adapter(r9) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.5
+            RecyclerView.Adapter adapter = new RecyclerView.Adapter(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.5
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                    View view;
+                /* renamed from: onCreateViewHolder */
+                public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+                    View blockPhotoCell;
                     if (i == 0) {
                         BlockCollageCell blockCollageCell = BlockCollageCell.this;
-                        view = new BlockPhotoCell(blockCollageCell.getContext(), BlockCollageCell.this.parentAdapter, 2);
+                        blockPhotoCell = new BlockPhotoCell(blockCollageCell.getContext(), BlockCollageCell.this.parentAdapter, 2);
                     } else {
                         BlockCollageCell blockCollageCell2 = BlockCollageCell.this;
-                        view = new BlockVideoCell(blockCollageCell2.getContext(), BlockCollageCell.this.parentAdapter, 2);
+                        blockPhotoCell = new BlockVideoCell(blockCollageCell2.getContext(), BlockCollageCell.this.parentAdapter, 2);
                     }
-                    return new RecyclerListView.Holder(view);
+                    return new RecyclerListView.Holder(blockPhotoCell);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -9326,38 +9395,38 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // android.widget.FrameLayout, android.view.View
         @SuppressLint({"NewApi"})
         protected void onMeasure(int i, int i2) {
+            int dp;
             int i3;
-            int i4;
-            int i5 = 1;
+            int i4 = 1;
             this.inLayout = true;
             int size = View.MeasureSpec.getSize(i);
             TLRPC$TL_pageBlockCollage tLRPC$TL_pageBlockCollage = this.currentBlock;
             if (tLRPC$TL_pageBlockCollage != null) {
-                int i6 = tLRPC$TL_pageBlockCollage.level;
-                if (i6 > 0) {
-                    int dp = AndroidUtilities.dp(i6 * 14) + AndroidUtilities.dp(18.0f);
-                    this.listX = dp;
-                    this.textX = dp;
-                    i3 = size - (dp + AndroidUtilities.dp(18.0f));
-                    i4 = i3;
+                int i5 = tLRPC$TL_pageBlockCollage.level;
+                if (i5 > 0) {
+                    int dp2 = AndroidUtilities.dp(i5 * 14) + AndroidUtilities.dp(18.0f);
+                    this.listX = dp2;
+                    this.textX = dp2;
+                    i3 = size - (dp2 + AndroidUtilities.dp(18.0f));
+                    dp = i3;
                 } else {
                     this.listX = 0;
                     this.textX = AndroidUtilities.dp(18.0f);
-                    i4 = size - AndroidUtilities.dp(36.0f);
+                    dp = size - AndroidUtilities.dp(36.0f);
                     i3 = size;
                 }
                 this.innerListView.measure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
                 int measuredHeight = this.innerListView.getMeasuredHeight();
-                int dp2 = measuredHeight + AndroidUtilities.dp(8.0f);
-                this.textY = dp2;
+                int dp3 = measuredHeight + AndroidUtilities.dp(8.0f);
+                this.textY = dp3;
                 ArticleViewer articleViewer = ArticleViewer.this;
                 TLRPC$TL_pageBlockCollage tLRPC$TL_pageBlockCollage2 = this.currentBlock;
-                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockCollage2.caption.text, i4, dp2, tLRPC$TL_pageBlockCollage2, this.parentAdapter);
+                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockCollage2.caption.text, dp, dp3, tLRPC$TL_pageBlockCollage2, this.parentAdapter);
                 this.captionLayout = createLayoutForText;
                 if (createLayoutForText != null) {
-                    int dp3 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
-                    this.creditOffset = dp3;
-                    measuredHeight += dp3 + AndroidUtilities.dp(4.0f);
+                    int dp4 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
+                    this.creditOffset = dp4;
+                    measuredHeight += dp4 + AndroidUtilities.dp(4.0f);
                     DrawingText drawingText = this.captionLayout;
                     drawingText.x = this.textX;
                     drawingText.y = this.textY;
@@ -9366,7 +9435,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 ArticleViewer articleViewer2 = ArticleViewer.this;
                 TLRPC$TL_pageBlockCollage tLRPC$TL_pageBlockCollage3 = this.currentBlock;
-                DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockCollage3.caption.credit, i4, this.textY + this.creditOffset, tLRPC$TL_pageBlockCollage3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
+                DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockCollage3.caption.credit, dp, this.textY + this.creditOffset, tLRPC$TL_pageBlockCollage3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                 this.creditLayout = createLayoutForText2;
                 if (createLayoutForText2 != null) {
                     measuredHeight += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
@@ -9374,13 +9443,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     drawingText2.x = this.textX;
                     drawingText2.y = this.textY + this.creditOffset;
                 }
-                i5 = measuredHeight + AndroidUtilities.dp(16.0f);
+                i4 = measuredHeight + AndroidUtilities.dp(16.0f);
                 TLRPC$TL_pageBlockCollage tLRPC$TL_pageBlockCollage4 = this.currentBlock;
                 if (tLRPC$TL_pageBlockCollage4.level > 0 && !tLRPC$TL_pageBlockCollage4.bottom) {
-                    i5 += AndroidUtilities.dp(8.0f);
+                    i4 += AndroidUtilities.dp(8.0f);
                 }
             }
-            setMeasuredDimension(size, i5);
+            setMeasuredDimension(size, i4);
             this.inLayout = false;
         }
 
@@ -9438,6 +9507,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockSlideshowCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
@@ -9453,16 +9523,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockSlideshowCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r2;
             this.parentAdapter = webpageAdapter;
             if (ArticleViewer.dotsPaint == null) {
                 Paint unused = ArticleViewer.dotsPaint = new Paint(1);
                 ArticleViewer.dotsPaint.setColor(-1);
             }
-            ViewPager viewPager = new ViewPager(context, r2) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.1
+            ViewPager viewPager = new ViewPager(context, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.1
                 @Override // androidx.viewpager.widget.ViewPager, android.view.View
                 public boolean onTouchEvent(MotionEvent motionEvent) {
                     return super.onTouchEvent(motionEvent);
@@ -9476,7 +9544,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
             };
             this.innerListView = viewPager;
-            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(r2) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.2
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.2
                 @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
                 public void onPageScrollStateChanged(int i) {
                 }
@@ -9499,7 +9567,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
             });
             ViewPager viewPager2 = this.innerListView;
-            PagerAdapter pagerAdapter = new PagerAdapter(r2) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.3
+            PagerAdapter pagerAdapter = new PagerAdapter(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.3
 
                 /* renamed from: org.telegram.ui.ArticleViewer$BlockSlideshowCell$3$ObjectContainer */
                 /* loaded from: classes3.dex */
@@ -9531,7 +9599,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
                 /* JADX WARN: Multi-variable type inference failed */
                 @Override // androidx.viewpager.widget.PagerAdapter
-                public Object instantiateItem(ViewGroup viewGroup, int i) {
+                /* renamed from: instantiateItem */
+                public Object mo1580instantiateItem(ViewGroup viewGroup, int i) {
                     BlockVideoCell blockVideoCell;
                     TLRPC$PageBlock tLRPC$PageBlock = BlockSlideshowCell.this.currentBlock.items.get(i);
                     if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPhoto) {
@@ -9561,7 +9630,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             viewPager2.setAdapter(pagerAdapter);
             AndroidUtilities.setViewPagerEdgeEffectColor(this.innerListView, Theme.getColor("windowBackgroundWhite"));
             addView(this.innerListView);
-            View view = new View(context, r2) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.4
+            View view = new View(context, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.4
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     int i;
@@ -9710,6 +9779,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
         private RecyclerView.ViewHolder blockLayout;
@@ -9725,10 +9795,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textY;
         private boolean verticalAlign;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockListItemCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
         }
@@ -9744,9 +9812,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (this.currentBlock.blockItem != null) {
                     int typeForBlock = this.parentAdapter.getTypeForBlock(this.currentBlock.blockItem);
                     this.currentBlockType = typeForBlock;
-                    RecyclerView.ViewHolder onCreateViewHolder = this.parentAdapter.onCreateViewHolder(this, typeForBlock);
-                    this.blockLayout = onCreateViewHolder;
-                    addView(onCreateViewHolder.itemView);
+                    RecyclerView.ViewHolder mo1758onCreateViewHolder = this.parentAdapter.mo1758onCreateViewHolder(this, typeForBlock);
+                    this.blockLayout = mo1758onCreateViewHolder;
+                    addView(mo1758onCreateViewHolder.itemView);
                 }
             }
             if (this.currentBlock.blockItem != null) {
@@ -9763,29 +9831,29 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return super.onTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:115:0x0398  */
-        /* JADX WARN: Removed duplicated region for block: B:123:0x03bb  */
-        /* JADX WARN: Removed duplicated region for block: B:131:0x03f5  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0398  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x03bb  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x03f5  */
         @Override // android.view.View
         @SuppressLint({"NewApi"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onMeasure(int i, int i2) {
+            int dp;
+            int dp2;
+            int i3;
+            BlockParagraphCell blockParagraphCell;
             DrawingText drawingText;
+            DrawingText drawingText2;
             RecyclerView.ViewHolder viewHolder;
             Iterator<TextSelectionHelper.TextLayoutBlock> it;
-            int i3;
-            int i4;
-            BlockParagraphCell blockParagraphCell;
-            DrawingText drawingText2;
-            int i5;
             int size = View.MeasureSpec.getSize(i);
             TL_pageBlockListItem tL_pageBlockListItem = this.currentBlock;
-            int i6 = 1;
+            int i4 = 1;
             if (tL_pageBlockListItem != null) {
                 this.textLayout = null;
-                int i7 = 0;
+                int i5 = 0;
                 this.textY = (tL_pageBlockListItem.index == 0 && this.currentBlock.parent.level == 0) ? AndroidUtilities.dp(10.0f) : 0;
                 this.numOffsetY = 0;
                 if (this.currentBlock.parent.lastMaxNumCalcWidth != size || this.currentBlock.parent.lastFontSize != SharedConfig.ivFontSize) {
@@ -9793,8 +9861,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.currentBlock.parent.lastFontSize = SharedConfig.ivFontSize;
                     this.currentBlock.parent.maxNumWidth = 0;
                     int size2 = this.currentBlock.parent.items.size();
-                    for (int i8 = 0; i8 < size2; i8++) {
-                        TL_pageBlockListItem tL_pageBlockListItem2 = (TL_pageBlockListItem) this.currentBlock.parent.items.get(i8);
+                    for (int i6 = 0; i6 < size2; i6++) {
+                        TL_pageBlockListItem tL_pageBlockListItem2 = (TL_pageBlockListItem) this.currentBlock.parent.items.get(i6);
                         if (tL_pageBlockListItem2.num != null) {
                             tL_pageBlockListItem2.numLayout = ArticleViewer.this.createLayoutForText(this, tL_pageBlockListItem2.num, null, size - AndroidUtilities.dp(54.0f), this.textY, this.currentBlock, this.parentAdapter);
                             this.currentBlock.parent.maxNumWidth = Math.max(this.currentBlock.parent.maxNumWidth, (int) Math.ceil(tL_pageBlockListItem2.numLayout.getLineWidth(0)));
@@ -9808,32 +9876,32 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     this.textX = AndroidUtilities.dp(18.0f);
                 }
-                int dp = (size - AndroidUtilities.dp(18.0f)) - this.textX;
+                int dp3 = (size - AndroidUtilities.dp(18.0f)) - this.textX;
                 if (this.parentAdapter.isRtl) {
-                    dp -= (AndroidUtilities.dp(6.0f) + this.currentBlock.parent.maxNumWidth) + (this.currentBlock.parent.level * AndroidUtilities.dp(12.0f));
+                    dp3 -= (AndroidUtilities.dp(6.0f) + this.currentBlock.parent.maxNumWidth) + (this.currentBlock.parent.level * AndroidUtilities.dp(12.0f));
                 }
-                int i9 = dp;
+                int i7 = dp3;
                 if (this.currentBlock.textItem != null) {
-                    DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.textItem, i9, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
+                    DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.textItem, i7, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                     this.textLayout = createLayoutForText;
                     if (createLayoutForText != null && createLayoutForText.getLineCount() > 0) {
                         if (this.currentBlock.numLayout != null && this.currentBlock.numLayout.getLineCount() > 0) {
                             this.numOffsetY = (this.currentBlock.numLayout.getLineAscent(0) + AndroidUtilities.dp(2.5f)) - this.textLayout.getLineAscent(0);
                         }
-                        i3 = this.textLayout.getHeight() + AndroidUtilities.dp(8.0f);
-                        i7 += i3;
+                        dp = this.textLayout.getHeight() + AndroidUtilities.dp(8.0f);
+                        i5 += dp;
                     }
                     if (this.currentBlock.parent.items.get(this.currentBlock.parent.items.size() - 1) == this.currentBlock) {
-                        i7 += AndroidUtilities.dp(8.0f);
+                        i5 += AndroidUtilities.dp(8.0f);
                     }
                     if (this.currentBlock.index == 0 && this.currentBlock.parent.level == 0) {
-                        i7 += AndroidUtilities.dp(10.0f);
+                        i5 += AndroidUtilities.dp(10.0f);
                     }
-                    i6 = i7;
-                    drawingText = this.textLayout;
-                    if (drawingText != null) {
-                        drawingText.x = this.textX;
-                        drawingText.y = this.textY;
+                    i4 = i5;
+                    drawingText2 = this.textLayout;
+                    if (drawingText2 != null) {
+                        drawingText2.x = this.textX;
+                        drawingText2.y = this.textY;
                     }
                     viewHolder = this.blockLayout;
                     if (viewHolder != null && (viewHolder.itemView instanceof TextSelectionHelper.ArticleSelectableView)) {
@@ -9852,53 +9920,53 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     if (this.currentBlock.blockItem != null) {
                         this.blockX = this.textX;
-                        int i10 = this.textY;
-                        this.blockY = i10;
+                        int i8 = this.textY;
+                        this.blockY = i8;
                         RecyclerView.ViewHolder viewHolder2 = this.blockLayout;
                         if (viewHolder2 != null) {
                             View view = viewHolder2.itemView;
                             if (view instanceof BlockParagraphCell) {
-                                this.blockY = i10 - AndroidUtilities.dp(8.0f);
+                                this.blockY = i8 - AndroidUtilities.dp(8.0f);
                                 if (!this.parentAdapter.isRtl) {
                                     this.blockX -= AndroidUtilities.dp(18.0f);
                                 }
-                                i9 += AndroidUtilities.dp(18.0f);
-                                i4 = 0 - AndroidUtilities.dp(8.0f);
+                                i7 += AndroidUtilities.dp(18.0f);
+                                i3 = 0 - AndroidUtilities.dp(8.0f);
                             } else {
                                 if (!(view instanceof BlockHeaderCell) && !(view instanceof BlockSubheaderCell) && !(view instanceof BlockTitleCell) && !(view instanceof BlockSubtitleCell)) {
                                     if (ArticleViewer.this.isListItemBlock(this.currentBlock.blockItem)) {
                                         this.blockX = 0;
                                         this.blockY = 0;
                                         this.textY = 0;
-                                        i4 = ((this.currentBlock.index == 0 && this.currentBlock.parent.level == 0) ? 0 - AndroidUtilities.dp(10.0f) : 0) - AndroidUtilities.dp(8.0f);
-                                        i9 = size;
+                                        i3 = ((this.currentBlock.index == 0 && this.currentBlock.parent.level == 0) ? 0 - AndroidUtilities.dp(10.0f) : 0) - AndroidUtilities.dp(8.0f);
+                                        i7 = size;
                                     } else {
                                         if (this.blockLayout.itemView instanceof BlockTableCell) {
                                             this.blockX -= AndroidUtilities.dp(18.0f);
-                                            i5 = AndroidUtilities.dp(36.0f);
+                                            dp2 = AndroidUtilities.dp(36.0f);
                                         }
-                                        i4 = 0;
+                                        i3 = 0;
                                     }
                                 } else {
                                     if (!this.parentAdapter.isRtl) {
                                         this.blockX -= AndroidUtilities.dp(18.0f);
                                     }
-                                    i5 = AndroidUtilities.dp(18.0f);
+                                    dp2 = AndroidUtilities.dp(18.0f);
                                 }
-                                i9 += i5;
-                                i4 = 0;
+                                i7 += dp2;
+                                i3 = 0;
                             }
-                            this.blockLayout.itemView.measure(View.MeasureSpec.makeMeasureSpec(i9, 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
-                            if ((this.blockLayout.itemView instanceof BlockParagraphCell) && this.currentBlock.numLayout != null && this.currentBlock.numLayout.getLineCount() > 0 && (drawingText2 = (blockParagraphCell = (BlockParagraphCell) this.blockLayout.itemView).textLayout) != null && drawingText2.getLineCount() > 0) {
+                            this.blockLayout.itemView.measure(View.MeasureSpec.makeMeasureSpec(i7, 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
+                            if ((this.blockLayout.itemView instanceof BlockParagraphCell) && this.currentBlock.numLayout != null && this.currentBlock.numLayout.getLineCount() > 0 && (drawingText = (blockParagraphCell = (BlockParagraphCell) this.blockLayout.itemView).textLayout) != null && drawingText.getLineCount() > 0) {
                                 this.numOffsetY = (this.currentBlock.numLayout.getLineAscent(0) + AndroidUtilities.dp(2.5f)) - blockParagraphCell.textLayout.getLineAscent(0);
                             }
                             if (this.currentBlock.blockItem instanceof TLRPC$TL_pageBlockDetails) {
                                 this.verticalAlign = true;
                                 this.blockY = 0;
                                 if (this.currentBlock.index == 0 && this.currentBlock.parent.level == 0) {
-                                    i4 -= AndroidUtilities.dp(10.0f);
+                                    i3 -= AndroidUtilities.dp(10.0f);
                                 }
-                                i4 -= AndroidUtilities.dp(8.0f);
+                                i3 -= AndroidUtilities.dp(8.0f);
                             } else {
                                 View view2 = this.blockLayout.itemView;
                                 if (!(view2 instanceof BlockOrderedListItemCell)) {
@@ -9913,19 +9981,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 this.textY = ((this.blockLayout.itemView.getMeasuredHeight() - this.currentBlock.numLayout.getHeight()) / 2) - AndroidUtilities.dp(4.0f);
                                 this.drawDot = false;
                             }
-                            i7 = i4 + this.blockLayout.itemView.getMeasuredHeight();
+                            i5 = i3 + this.blockLayout.itemView.getMeasuredHeight();
                         }
-                        i3 = AndroidUtilities.dp(8.0f);
-                        i7 += i3;
+                        dp = AndroidUtilities.dp(8.0f);
+                        i5 += dp;
                     }
                     if (this.currentBlock.parent.items.get(this.currentBlock.parent.items.size() - 1) == this.currentBlock) {
                     }
                     if (this.currentBlock.index == 0) {
-                        i7 += AndroidUtilities.dp(10.0f);
+                        i5 += AndroidUtilities.dp(10.0f);
                     }
-                    i6 = i7;
-                    drawingText = this.textLayout;
-                    if (drawingText != null) {
+                    i4 = i5;
+                    drawingText2 = this.textLayout;
+                    if (drawingText2 != null) {
                     }
                     viewHolder = this.blockLayout;
                     if (viewHolder != null) {
@@ -9937,7 +10005,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
             }
-            setMeasuredDimension(size, i6);
+            setMeasuredDimension(size, i4);
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -10023,6 +10091,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockOrderedListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
         private RecyclerView.ViewHolder blockLayout;
@@ -10037,10 +10106,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textY;
         private boolean verticalAlign;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockOrderedListItemCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
         }
@@ -10056,9 +10123,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (this.currentBlock.blockItem != null) {
                     int typeForBlock = this.parentAdapter.getTypeForBlock(this.currentBlock.blockItem);
                     this.currentBlockType = typeForBlock;
-                    RecyclerView.ViewHolder onCreateViewHolder = this.parentAdapter.onCreateViewHolder(this, typeForBlock);
-                    this.blockLayout = onCreateViewHolder;
-                    addView(onCreateViewHolder.itemView);
+                    RecyclerView.ViewHolder mo1758onCreateViewHolder = this.parentAdapter.mo1758onCreateViewHolder(this, typeForBlock);
+                    this.blockLayout = mo1758onCreateViewHolder;
+                    addView(mo1758onCreateViewHolder.itemView);
                 }
             }
             if (this.currentBlock.blockItem != null) {
@@ -10075,29 +10142,29 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return super.onTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:104:0x0341  */
-        /* JADX WARN: Removed duplicated region for block: B:112:0x0364  */
-        /* JADX WARN: Removed duplicated region for block: B:122:0x03b6  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0341  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x0364  */
+        /* JADX WARN: Removed duplicated region for block: B:54:0x03b6  */
         @Override // android.view.View
         @SuppressLint({"NewApi"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onMeasure(int i, int i2) {
+            int dp;
+            int dp2;
+            int i3;
+            BlockParagraphCell blockParagraphCell;
             DrawingText drawingText;
+            DrawingText drawingText2;
             RecyclerView.ViewHolder viewHolder;
             Iterator<TextSelectionHelper.TextLayoutBlock> it;
-            int i3;
-            int i4;
-            BlockParagraphCell blockParagraphCell;
-            DrawingText drawingText2;
-            int i5;
             int size = View.MeasureSpec.getSize(i);
             TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem = this.currentBlock;
-            int i6 = 1;
+            int i4 = 1;
             if (tL_pageBlockOrderedListItem != null) {
                 this.textLayout = null;
-                int i7 = 0;
+                int i5 = 0;
                 this.textY = (tL_pageBlockOrderedListItem.index == 0 && this.currentBlock.parent.level == 0) ? AndroidUtilities.dp(10.0f) : 0;
                 this.numOffsetY = 0;
                 if (this.currentBlock.parent.lastMaxNumCalcWidth != size || this.currentBlock.parent.lastFontSize != SharedConfig.ivFontSize) {
@@ -10105,8 +10172,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.currentBlock.parent.lastFontSize = SharedConfig.ivFontSize;
                     this.currentBlock.parent.maxNumWidth = 0;
                     int size2 = this.currentBlock.parent.items.size();
-                    for (int i8 = 0; i8 < size2; i8++) {
-                        TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem2 = (TL_pageBlockOrderedListItem) this.currentBlock.parent.items.get(i8);
+                    for (int i6 = 0; i6 < size2; i6++) {
+                        TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem2 = (TL_pageBlockOrderedListItem) this.currentBlock.parent.items.get(i6);
                         if (tL_pageBlockOrderedListItem2.num != null) {
                             tL_pageBlockOrderedListItem2.numLayout = ArticleViewer.this.createLayoutForText(this, tL_pageBlockOrderedListItem2.num, null, size - AndroidUtilities.dp(54.0f), this.textY, this.currentBlock, this.parentAdapter);
                             this.currentBlock.parent.maxNumWidth = Math.max(this.currentBlock.parent.maxNumWidth, (int) Math.ceil(tL_pageBlockOrderedListItem2.numLayout.getLineWidth(0)));
@@ -10120,32 +10187,32 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.textX = AndroidUtilities.dp(18.0f);
                 }
                 this.verticalAlign = false;
-                int dp = (size - AndroidUtilities.dp(18.0f)) - this.textX;
+                int dp3 = (size - AndroidUtilities.dp(18.0f)) - this.textX;
                 if (this.parentAdapter.isRtl) {
-                    dp -= (AndroidUtilities.dp(6.0f) + this.currentBlock.parent.maxNumWidth) + (this.currentBlock.parent.level * AndroidUtilities.dp(20.0f));
+                    dp3 -= (AndroidUtilities.dp(6.0f) + this.currentBlock.parent.maxNumWidth) + (this.currentBlock.parent.level * AndroidUtilities.dp(20.0f));
                 }
-                int i9 = dp;
+                int i7 = dp3;
                 if (this.currentBlock.textItem != null) {
-                    DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.textItem, i9, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
+                    DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.textItem, i7, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                     this.textLayout = createLayoutForText;
                     if (createLayoutForText != null && createLayoutForText.getLineCount() > 0) {
                         if (this.currentBlock.numLayout != null && this.currentBlock.numLayout.getLineCount() > 0) {
                             this.numOffsetY = this.currentBlock.numLayout.getLineAscent(0) - this.textLayout.getLineAscent(0);
                         }
-                        i3 = this.textLayout.getHeight() + AndroidUtilities.dp(8.0f);
-                        i7 += i3;
+                        dp = this.textLayout.getHeight() + AndroidUtilities.dp(8.0f);
+                        i5 += dp;
                     }
                     if (this.currentBlock.parent.items.get(this.currentBlock.parent.items.size() - 1) == this.currentBlock) {
-                        i7 += AndroidUtilities.dp(8.0f);
+                        i5 += AndroidUtilities.dp(8.0f);
                     }
                     if (this.currentBlock.index == 0 && this.currentBlock.parent.level == 0) {
-                        i7 += AndroidUtilities.dp(10.0f);
+                        i5 += AndroidUtilities.dp(10.0f);
                     }
-                    i6 = i7;
-                    drawingText = this.textLayout;
-                    if (drawingText != null) {
-                        drawingText.x = this.textX;
-                        drawingText.y = this.textY;
+                    i4 = i5;
+                    drawingText2 = this.textLayout;
+                    if (drawingText2 != null) {
+                        drawingText2.x = this.textX;
+                        drawingText2.y = this.textY;
                         if (this.currentBlock.numLayout != null) {
                             this.textLayout.prefix = this.currentBlock.numLayout.textLayout.getText();
                         }
@@ -10167,50 +10234,50 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     if (this.currentBlock.blockItem != null) {
                         this.blockX = this.textX;
-                        int i10 = this.textY;
-                        this.blockY = i10;
+                        int i8 = this.textY;
+                        this.blockY = i8;
                         RecyclerView.ViewHolder viewHolder2 = this.blockLayout;
                         if (viewHolder2 != null) {
                             View view = viewHolder2.itemView;
                             if (view instanceof BlockParagraphCell) {
-                                this.blockY = i10 - AndroidUtilities.dp(8.0f);
+                                this.blockY = i8 - AndroidUtilities.dp(8.0f);
                                 if (!this.parentAdapter.isRtl) {
                                     this.blockX -= AndroidUtilities.dp(18.0f);
                                 }
-                                i9 += AndroidUtilities.dp(18.0f);
-                                i4 = 0 - AndroidUtilities.dp(8.0f);
+                                i7 += AndroidUtilities.dp(18.0f);
+                                i3 = 0 - AndroidUtilities.dp(8.0f);
                             } else {
                                 if (!(view instanceof BlockHeaderCell) && !(view instanceof BlockSubheaderCell) && !(view instanceof BlockTitleCell) && !(view instanceof BlockSubtitleCell)) {
                                     if (ArticleViewer.this.isListItemBlock(this.currentBlock.blockItem)) {
                                         this.blockX = 0;
                                         this.blockY = 0;
                                         this.textY = 0;
-                                        i4 = 0 - AndroidUtilities.dp(8.0f);
-                                        i9 = size;
+                                        i3 = 0 - AndroidUtilities.dp(8.0f);
+                                        i7 = size;
                                     } else {
                                         if (this.blockLayout.itemView instanceof BlockTableCell) {
                                             this.blockX -= AndroidUtilities.dp(18.0f);
-                                            i5 = AndroidUtilities.dp(36.0f);
+                                            dp2 = AndroidUtilities.dp(36.0f);
                                         }
-                                        i4 = 0;
+                                        i3 = 0;
                                     }
                                 } else {
                                     if (!this.parentAdapter.isRtl) {
                                         this.blockX -= AndroidUtilities.dp(18.0f);
                                     }
-                                    i5 = AndroidUtilities.dp(18.0f);
+                                    dp2 = AndroidUtilities.dp(18.0f);
                                 }
-                                i9 += i5;
-                                i4 = 0;
+                                i7 += dp2;
+                                i3 = 0;
                             }
-                            this.blockLayout.itemView.measure(View.MeasureSpec.makeMeasureSpec(i9, 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
-                            if ((this.blockLayout.itemView instanceof BlockParagraphCell) && this.currentBlock.numLayout != null && this.currentBlock.numLayout.getLineCount() > 0 && (drawingText2 = (blockParagraphCell = (BlockParagraphCell) this.blockLayout.itemView).textLayout) != null && drawingText2.getLineCount() > 0) {
+                            this.blockLayout.itemView.measure(View.MeasureSpec.makeMeasureSpec(i7, 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
+                            if ((this.blockLayout.itemView instanceof BlockParagraphCell) && this.currentBlock.numLayout != null && this.currentBlock.numLayout.getLineCount() > 0 && (drawingText = (blockParagraphCell = (BlockParagraphCell) this.blockLayout.itemView).textLayout) != null && drawingText.getLineCount() > 0) {
                                 this.numOffsetY = this.currentBlock.numLayout.getLineAscent(0) - blockParagraphCell.textLayout.getLineAscent(0);
                             }
                             if (this.currentBlock.blockItem instanceof TLRPC$TL_pageBlockDetails) {
                                 this.verticalAlign = true;
                                 this.blockY = 0;
-                                i4 -= AndroidUtilities.dp(8.0f);
+                                i3 -= AndroidUtilities.dp(8.0f);
                             } else {
                                 View view2 = this.blockLayout.itemView;
                                 if (view2 instanceof BlockOrderedListItemCell) {
@@ -10222,19 +10289,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             if (this.verticalAlign && this.currentBlock.numLayout != null) {
                                 this.textY = (this.blockLayout.itemView.getMeasuredHeight() - this.currentBlock.numLayout.getHeight()) / 2;
                             }
-                            i7 = i4 + this.blockLayout.itemView.getMeasuredHeight();
+                            i5 = i3 + this.blockLayout.itemView.getMeasuredHeight();
                         }
-                        i3 = AndroidUtilities.dp(8.0f);
-                        i7 += i3;
+                        dp = AndroidUtilities.dp(8.0f);
+                        i5 += dp;
                     }
                     if (this.currentBlock.parent.items.get(this.currentBlock.parent.items.size() - 1) == this.currentBlock) {
                     }
                     if (this.currentBlock.index == 0) {
-                        i7 += AndroidUtilities.dp(10.0f);
+                        i5 += AndroidUtilities.dp(10.0f);
                     }
-                    i6 = i7;
-                    drawingText = this.textLayout;
-                    if (drawingText != null) {
+                    i4 = i5;
+                    drawingText2 = this.textLayout;
+                    if (drawingText2 != null) {
                     }
                     viewHolder = this.blockLayout;
                     if (viewHolder != null) {
@@ -10246,7 +10313,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
             }
-            setMeasuredDimension(size, i6);
+            setMeasuredDimension(size, i4);
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -10321,6 +10388,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockDetailsCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockDetails currentBlock;
@@ -10338,10 +10406,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void unscheduleDrawable(Drawable drawable, Runnable runnable) {
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockDetailsCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -10412,6 +10478,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class BlockDetailsBottomCell extends View {
         public BlockDetailsBottomCell(Context context) {
@@ -10430,6 +10497,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class BlockRelatedArticlesShadowCell extends View {
         private CombinedDrawable shadowDrawable;
@@ -10449,6 +10517,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockRelatedArticlesHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockRelatedArticles currentBlock;
@@ -10457,10 +10526,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockRelatedArticlesHeaderCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -10516,6 +10583,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockRelatedArticlesCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TL_pageBlockRelatedArticlesChild currentBlock;
@@ -10529,10 +10597,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY = AndroidUtilities.dp(10.0f);
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockRelatedArticlesCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
             ImageReceiver imageReceiver = new ImageReceiver(this);
             this.imageView = imageReceiver;
@@ -10548,8 +10614,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @SuppressLint({"DrawAllocation", "NewApi"})
         protected void onMeasure(int i, int i2) {
             int i3;
-            int i4;
             boolean z;
+            int i4;
             String str;
             int dp;
             int size = View.MeasureSpec.getSize(i);
@@ -10688,6 +10754,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockHeader currentBlock;
@@ -10696,10 +10763,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY = AndroidUtilities.dp(8.0f);
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockHeaderCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -10765,6 +10830,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class BlockDividerCell extends View {
         private RectF rect = new RectF();
@@ -10786,6 +10852,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockSubtitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockSubtitle currentBlock;
@@ -10794,10 +10861,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY = AndroidUtilities.dp(8.0f);
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockSubtitleCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -10863,6 +10928,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockPullquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockPullquote currentBlock;
@@ -10873,10 +10939,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textY = AndroidUtilities.dp(8.0f);
         private int textY2;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockPullquoteCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -10960,6 +11024,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockBlockquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockBlockquote currentBlock;
@@ -10970,10 +11035,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textY = AndroidUtilities.dp(8.0f);
         private int textY2;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockBlockquoteCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -11096,6 +11159,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockPhotoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
@@ -11130,10 +11194,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void onProgressUpload(String str, long j, long j2, boolean z) {
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockPhotoCell(Context context, WebpageAdapter webpageAdapter, int i) {
             super(context);
-            ArticleViewer.this = r4;
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
             this.channelCell = new BlockChannelCell(context, this.parentAdapter, 1);
@@ -11141,7 +11203,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.radialProgress = radialProgress2;
             radialProgress2.setProgressColor(-1);
             this.radialProgress.setColors(1711276032, 2130706432, -1, -2500135);
-            this.TAG = DownloadController.getInstance(r4.currentAccount).generateObserverTag();
+            this.TAG = DownloadController.getInstance(ArticleViewer.this.currentAccount).generateObserverTag();
             addView(this.channelCell, LayoutHelper.createFrame(-1, -2.0f));
             this.currentType = i;
         }
@@ -11179,7 +11241,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:30:0x00a3, code lost:
-            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L33;
+            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L31;
          */
         @Override // android.view.View
         /*
@@ -11229,11 +11291,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return this.photoPressed || this.buttonPressed != 0 || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.captionLayout, this.textX, this.textY) || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.creditLayout, this.textX, this.textY + this.creditOffset) || super.onTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x0047  */
-        /* JADX WARN: Removed duplicated region for block: B:59:0x0157  */
-        /* JADX WARN: Removed duplicated region for block: B:60:0x015a  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x0187  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x0189  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0157  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x0187  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x0047  */
+        /* JADX WARN: Removed duplicated region for block: B:86:0x0189  */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x015a  */
         @Override // android.widget.FrameLayout, android.view.View
         @SuppressLint({"NewApi"})
         /*
@@ -11243,26 +11305,26 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int i3;
             int i4;
             TLRPC$TL_pageBlockPhoto tLRPC$TL_pageBlockPhoto;
+            int dp;
             int i5;
             int i6;
             int i7;
             int i8;
-            int i9;
             TLRPC$PhotoSize tLRPC$PhotoSize;
+            int i9;
             int i10;
             int i11;
             int i12;
             int i13;
             int i14;
-            int i15;
             int size = View.MeasureSpec.getSize(i);
-            int i16 = this.currentType;
+            int i15 = this.currentType;
             boolean z = false;
-            int i17 = 1;
-            if (i16 == 1) {
+            int i16 = 1;
+            if (i15 == 1) {
                 size = ((View) getParent()).getMeasuredWidth();
                 i4 = ((View) getParent()).getMeasuredHeight();
-            } else if (i16 == 2) {
+            } else if (i15 == 2) {
                 float f = this.groupPosition.ph;
                 Point point = AndroidUtilities.displaySize;
                 i4 = (int) Math.ceil(f * Math.max(point.x, point.y) * 0.5f);
@@ -11272,68 +11334,68 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 tLRPC$TL_pageBlockPhoto = this.currentBlock;
                 if (tLRPC$TL_pageBlockPhoto != null) {
                     this.currentPhoto = this.parentAdapter.getPhotoWithId(tLRPC$TL_pageBlockPhoto.photo_id);
-                    int dp = AndroidUtilities.dp(48.0f);
-                    if (this.currentType == 0 && (i15 = this.currentBlock.level) > 0) {
-                        i7 = AndroidUtilities.dp(i15 * 14) + AndroidUtilities.dp(18.0f);
-                        this.textX = i7;
-                        i6 = i3 - (AndroidUtilities.dp(18.0f) + i7);
-                        i5 = i6;
+                    int dp2 = AndroidUtilities.dp(48.0f);
+                    if (this.currentType == 0 && (i14 = this.currentBlock.level) > 0) {
+                        i6 = AndroidUtilities.dp(i14 * 14) + AndroidUtilities.dp(18.0f);
+                        this.textX = i6;
+                        i5 = i3 - (AndroidUtilities.dp(18.0f) + i6);
+                        dp = i5;
                     } else {
                         this.textX = AndroidUtilities.dp(18.0f);
-                        i5 = i3 - AndroidUtilities.dp(36.0f);
-                        i6 = i3;
-                        i7 = 0;
+                        dp = i3 - AndroidUtilities.dp(36.0f);
+                        i5 = i3;
+                        i6 = 0;
                     }
                     TLRPC$Photo tLRPC$Photo = this.currentPhoto;
                     if (tLRPC$Photo == null || this.currentPhotoObject == null) {
-                        i8 = i5;
-                        i9 = i4;
+                        i7 = dp;
+                        i8 = i4;
                     } else {
                         TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 40, true);
                         this.currentPhotoObjectThumb = closestPhotoSizeWithSize;
                         if (this.currentPhotoObject == closestPhotoSizeWithSize) {
                             this.currentPhotoObjectThumb = null;
                         }
-                        int i18 = this.currentType;
-                        if (i18 == 0) {
-                            i4 = (int) ((i6 / tLRPC$PhotoSize.w) * tLRPC$PhotoSize.h);
+                        int i17 = this.currentType;
+                        if (i17 == 0) {
+                            i4 = (int) ((i5 / tLRPC$PhotoSize.w) * tLRPC$PhotoSize.h);
                             if (this.parentBlock instanceof TLRPC$TL_pageBlockCover) {
-                                i4 = Math.min(i4, i6);
+                                i4 = Math.min(i4, i5);
                             } else {
                                 Point point2 = AndroidUtilities.displaySize;
                                 int max = (int) ((Math.max(point2.x, point2.y) - AndroidUtilities.dp(56.0f)) * 0.9f);
                                 if (i4 > max) {
                                     TLRPC$PhotoSize tLRPC$PhotoSize2 = this.currentPhotoObject;
-                                    i6 = (int) ((max / tLRPC$PhotoSize2.h) * tLRPC$PhotoSize2.w);
-                                    i7 += ((i3 - i7) - i6) / 2;
+                                    i5 = (int) ((max / tLRPC$PhotoSize2.h) * tLRPC$PhotoSize2.w);
+                                    i6 += ((i3 - i6) - i5) / 2;
                                     i4 = max;
                                 }
                             }
-                            i10 = i6;
-                            i8 = i5;
-                        } else if (i18 == 2) {
+                            i9 = i5;
+                            i7 = dp;
+                        } else if (i17 == 2) {
                             if ((this.groupPosition.flags & 2) == 0) {
-                                i6 -= AndroidUtilities.dp(2.0f);
+                                i5 -= AndroidUtilities.dp(2.0f);
                             }
-                            int dp2 = (this.groupPosition.flags & 8) == 0 ? i4 - AndroidUtilities.dp(2.0f) : i4;
+                            int dp3 = (this.groupPosition.flags & 8) == 0 ? i4 - AndroidUtilities.dp(2.0f) : i4;
                             if (this.groupPosition.leftSpanOffset != 0) {
-                                i8 = i5;
-                                int ceil = (int) Math.ceil((i14 * i3) / 1000.0f);
-                                i6 -= ceil;
-                                i7 += ceil;
+                                i7 = dp;
+                                int ceil = (int) Math.ceil((i10 * i3) / 1000.0f);
+                                i5 -= ceil;
+                                i6 += ceil;
                             } else {
-                                i8 = i5;
+                                i7 = dp;
                             }
-                            int i19 = i7;
-                            i12 = i4;
-                            i4 = dp2;
-                            i10 = i6;
-                            i11 = i19;
-                            this.imageView.setImageCoords(i11, (!this.isFirst || (i13 = this.currentType) == 1 || i13 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i10, i4);
+                            int i18 = i6;
+                            i11 = i4;
+                            i4 = dp3;
+                            i9 = i5;
+                            i12 = i18;
+                            this.imageView.setImageCoords(i12, (!this.isFirst || (i13 = this.currentType) == 1 || i13 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i9, i4);
                             if (this.currentType != 0) {
                                 this.currentFilter = null;
                             } else {
-                                this.currentFilter = String.format(Locale.US, "%d_%d", Integer.valueOf(i10), Integer.valueOf(i4));
+                                this.currentFilter = String.format(Locale.US, "%d_%d", Integer.valueOf(i9), Integer.valueOf(i4));
                             }
                             this.currentThumbFilter = "80_80_b";
                             this.autoDownload = (DownloadController.getInstance(ArticleViewer.this.currentAccount).getCurrentDownloadMask() & 1) == 0;
@@ -11345,21 +11407,21 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 this.imageView.setStrippedLocation(ImageLocation.getForPhoto(this.currentPhotoObject, this.currentPhoto));
                                 this.imageView.setImage(null, this.currentFilter, ImageLocation.getForPhoto(this.currentPhotoObjectThumb, this.currentPhoto), this.currentThumbFilter, this.currentPhotoObject.size, null, this.parentAdapter.currentPage, 1);
                             }
-                            float f2 = dp;
+                            float f2 = dp2;
                             this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f2) / 2.0f));
                             int imageY = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f2) / 2.0f));
                             this.buttonY = imageY;
                             RadialProgress2 radialProgress2 = this.radialProgress;
-                            int i20 = this.buttonX;
-                            radialProgress2.setProgressRect(i20, imageY, i20 + dp, dp + imageY);
-                            i9 = i12;
+                            int i19 = this.buttonX;
+                            radialProgress2.setProgressRect(i19, imageY, i19 + dp2, dp2 + imageY);
+                            i8 = i11;
                         } else {
-                            i8 = i5;
-                            i10 = i6;
+                            i7 = dp;
+                            i9 = i5;
                         }
-                        i11 = i7;
-                        i12 = i4;
-                        this.imageView.setImageCoords(i11, (!this.isFirst || (i13 = this.currentType) == 1 || i13 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i10, i4);
+                        i12 = i6;
+                        i11 = i4;
+                        this.imageView.setImageCoords(i12, (!this.isFirst || (i13 = this.currentType) == 1 || i13 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i9, i4);
                         if (this.currentType != 0) {
                         }
                         this.currentThumbFilter = "80_80_b";
@@ -11369,44 +11431,44 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         this.imageView.setStrippedLocation(null);
                         this.imageView.setImage(ImageLocation.getForPhoto(this.currentPhotoObject, this.currentPhoto), this.currentFilter, ImageLocation.getForPhoto(this.currentPhotoObjectThumb, this.currentPhoto), this.currentThumbFilter, this.currentPhotoObject.size, null, this.parentAdapter.currentPage, 1);
-                        float f22 = dp;
+                        float f22 = dp2;
                         this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f22) / 2.0f));
                         int imageY2 = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f22) / 2.0f));
                         this.buttonY = imageY2;
                         RadialProgress2 radialProgress22 = this.radialProgress;
-                        int i202 = this.buttonX;
-                        radialProgress22.setProgressRect(i202, imageY2, i202 + dp, dp + imageY2);
-                        i9 = i12;
+                        int i192 = this.buttonX;
+                        radialProgress22.setProgressRect(i192, imageY2, i192 + dp2, dp2 + imageY2);
+                        i8 = i11;
                     }
                     int imageY3 = (int) (this.imageView.getImageY() + this.imageView.getImageHeight() + AndroidUtilities.dp(8.0f));
                     this.textY = imageY3;
                     if (this.currentType == 0) {
                         ArticleViewer articleViewer = ArticleViewer.this;
                         TLRPC$TL_pageBlockPhoto tLRPC$TL_pageBlockPhoto2 = this.currentBlock;
-                        DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockPhoto2.caption.text, i8, imageY3, tLRPC$TL_pageBlockPhoto2, this.parentAdapter);
+                        DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockPhoto2.caption.text, i7, imageY3, tLRPC$TL_pageBlockPhoto2, this.parentAdapter);
                         this.captionLayout = createLayoutForText;
                         if (createLayoutForText != null) {
-                            int dp3 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
-                            this.creditOffset = dp3;
-                            i9 += dp3 + AndroidUtilities.dp(4.0f);
+                            int dp4 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
+                            this.creditOffset = dp4;
+                            i8 += dp4 + AndroidUtilities.dp(4.0f);
                         }
-                        int i21 = i9;
+                        int i20 = i8;
                         ArticleViewer articleViewer2 = ArticleViewer.this;
                         TLRPC$TL_pageBlockPhoto tLRPC$TL_pageBlockPhoto3 = this.currentBlock;
-                        DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockPhoto3.caption.credit, i8, this.textY + this.creditOffset, tLRPC$TL_pageBlockPhoto3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, this.parentAdapter);
+                        DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockPhoto3.caption.credit, i7, this.textY + this.creditOffset, tLRPC$TL_pageBlockPhoto3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, this.parentAdapter);
                         this.creditLayout = createLayoutForText2;
-                        i9 = createLayoutForText2 != null ? i21 + AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight() : i21;
+                        i8 = createLayoutForText2 != null ? i20 + AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight() : i20;
                     }
                     if (!this.isFirst && this.currentType == 0 && this.currentBlock.level <= 0) {
-                        i9 += AndroidUtilities.dp(8.0f);
+                        i8 += AndroidUtilities.dp(8.0f);
                     }
                     if ((this.parentBlock instanceof TLRPC$TL_pageBlockCover) && this.parentAdapter.blocks != null && this.parentAdapter.blocks.size() > 1 && (this.parentAdapter.blocks.get(1) instanceof TLRPC$TL_pageBlockChannel)) {
                         z = true;
                     }
                     if (this.currentType != 2 && !z) {
-                        i9 += AndroidUtilities.dp(8.0f);
+                        i8 += AndroidUtilities.dp(8.0f);
                     }
-                    i17 = i9;
+                    i16 = i8;
                     DrawingText drawingText = this.captionLayout;
                     if (drawingText != null) {
                         drawingText.x = this.textX;
@@ -11420,7 +11482,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 this.channelCell.measure(i, i2);
                 this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
-                setMeasuredDimension(i3, i17);
+                setMeasuredDimension(i3, i16);
             }
             i3 = size;
             tLRPC$TL_pageBlockPhoto = this.currentBlock;
@@ -11428,7 +11490,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             this.channelCell.measure(i, i2);
             this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
-            setMeasuredDimension(i3, i17);
+            setMeasuredDimension(i3, i16);
         }
 
         @Override // android.view.View
@@ -11599,6 +11661,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockMapCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
@@ -11614,10 +11677,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX;
         private int textY;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockMapCell(Context context, WebpageAdapter webpageAdapter, int i) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
             this.currentType = i;
@@ -11652,10 +11713,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             return this.photoPressed || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.captionLayout, this.textX, this.textY) || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.creditLayout, this.textX, this.textY + this.creditOffset) || super.onTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:33:0x0111  */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x012b  */
-        /* JADX WARN: Removed duplicated region for block: B:39:0x0156  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x01e8  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x0111  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x0156  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x01e8  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x012b  */
         @Override // android.widget.FrameLayout, android.view.View
         @SuppressLint({"NewApi"})
         /*
@@ -11663,65 +11724,65 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         */
         protected void onMeasure(int i, int i2) {
             int i3;
+            int dp;
             int i4;
             int i5;
             int i6;
             int i7;
             int i8;
-            int i9;
             int size = View.MeasureSpec.getSize(i);
-            int i10 = this.currentType;
-            int i11 = 0;
-            int i12 = 1;
-            if (i10 == 1) {
+            int i9 = this.currentType;
+            int i10 = 0;
+            int i11 = 1;
+            if (i9 == 1) {
                 i3 = ((View) getParent()).getMeasuredWidth();
                 size = ((View) getParent()).getMeasuredHeight();
             } else {
                 i3 = size;
-                if (i10 != 2) {
+                if (i9 != 2) {
                     size = 0;
                 }
             }
             TLRPC$TL_pageBlockMap tLRPC$TL_pageBlockMap = this.currentBlock;
             if (tLRPC$TL_pageBlockMap != null) {
-                if (this.currentType == 0 && (i9 = tLRPC$TL_pageBlockMap.level) > 0) {
-                    i11 = AndroidUtilities.dp(18.0f) + AndroidUtilities.dp(i9 * 14);
-                    this.textX = i11;
-                    i5 = i3 - (AndroidUtilities.dp(18.0f) + i11);
-                    i4 = i5;
+                if (this.currentType == 0 && (i8 = tLRPC$TL_pageBlockMap.level) > 0) {
+                    i10 = AndroidUtilities.dp(18.0f) + AndroidUtilities.dp(i8 * 14);
+                    this.textX = i10;
+                    i4 = i3 - (AndroidUtilities.dp(18.0f) + i10);
+                    dp = i4;
                 } else {
                     this.textX = AndroidUtilities.dp(18.0f);
-                    i4 = i3 - AndroidUtilities.dp(36.0f);
-                    i5 = i3;
+                    dp = i3 - AndroidUtilities.dp(36.0f);
+                    i4 = i3;
                 }
                 if (this.currentType == 0) {
                     TLRPC$TL_pageBlockMap tLRPC$TL_pageBlockMap2 = this.currentBlock;
-                    size = (int) ((i5 / tLRPC$TL_pageBlockMap2.w) * tLRPC$TL_pageBlockMap2.h);
+                    size = (int) ((i4 / tLRPC$TL_pageBlockMap2.w) * tLRPC$TL_pageBlockMap2.h);
                     Point point = AndroidUtilities.displaySize;
                     int max = (int) ((Math.max(point.x, point.y) - AndroidUtilities.dp(56.0f)) * 0.9f);
                     if (size > max) {
                         TLRPC$TL_pageBlockMap tLRPC$TL_pageBlockMap3 = this.currentBlock;
-                        i5 = (int) ((max / tLRPC$TL_pageBlockMap3.h) * tLRPC$TL_pageBlockMap3.w);
-                        i11 += ((i3 - i11) - i5) / 2;
-                        i6 = max;
+                        i4 = (int) ((max / tLRPC$TL_pageBlockMap3.h) * tLRPC$TL_pageBlockMap3.w);
+                        i10 += ((i3 - i10) - i4) / 2;
+                        i5 = max;
                         ImageReceiver imageReceiver = this.imageView;
-                        float f = i11;
-                        float dp = (!this.isFirst || (i8 = this.currentType) == 1 || i8 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f);
-                        float f2 = i5;
-                        float f3 = i6;
-                        imageReceiver.setImageCoords(f, dp, f2, f3);
-                        int i13 = ArticleViewer.this.currentAccount;
+                        float f = i10;
+                        float dp2 = (!this.isFirst || (i7 = this.currentType) == 1 || i7 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f);
+                        float f2 = i4;
+                        float f3 = i5;
+                        imageReceiver.setImageCoords(f, dp2, f2, f3);
+                        int i12 = ArticleViewer.this.currentAccount;
                         TLRPC$GeoPoint tLRPC$GeoPoint = this.currentBlock.geo;
                         double d = tLRPC$GeoPoint.lat;
                         double d2 = tLRPC$GeoPoint._long;
                         float f4 = AndroidUtilities.density;
-                        String formapMapUrl = AndroidUtilities.formapMapUrl(i13, d, d2, (int) (f2 / f4), (int) (f3 / f4), true, 15, -1);
+                        String formapMapUrl = AndroidUtilities.formapMapUrl(i12, d, d2, (int) (f2 / f4), (int) (f3 / f4), true, 15, -1);
                         TLRPC$GeoPoint tLRPC$GeoPoint2 = this.currentBlock.geo;
                         float f5 = AndroidUtilities.density;
                         WebFile createWithGeoPoint = WebFile.createWithGeoPoint(tLRPC$GeoPoint2, (int) (f2 / f5), (int) (f3 / f5), 15, Math.min(2, (int) Math.ceil(f5)));
-                        i7 = MessagesController.getInstance(ArticleViewer.this.currentAccount).mapProvider;
-                        this.currentMapProvider = i7;
-                        if (i7 != 2) {
+                        i6 = MessagesController.getInstance(ArticleViewer.this.currentAccount).mapProvider;
+                        this.currentMapProvider = i6;
+                        if (i6 != 2) {
                             if (createWithGeoPoint != null) {
                                 this.imageView.setImage(ImageLocation.getForWebFile(createWithGeoPoint), null, null, null, this.parentAdapter.currentPage, 0);
                             }
@@ -11733,69 +11794,69 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         if (this.currentType == 0) {
                             ArticleViewer articleViewer = ArticleViewer.this;
                             TLRPC$TL_pageBlockMap tLRPC$TL_pageBlockMap4 = this.currentBlock;
-                            DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockMap4.caption.text, i4, imageY, tLRPC$TL_pageBlockMap4, this.parentAdapter);
+                            DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tLRPC$TL_pageBlockMap4.caption.text, dp, imageY, tLRPC$TL_pageBlockMap4, this.parentAdapter);
                             this.captionLayout = createLayoutForText;
                             if (createLayoutForText != null) {
-                                int dp2 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
-                                this.creditOffset = dp2;
-                                i6 += dp2 + AndroidUtilities.dp(4.0f);
+                                int dp3 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
+                                this.creditOffset = dp3;
+                                i5 += dp3 + AndroidUtilities.dp(4.0f);
                                 DrawingText drawingText = this.captionLayout;
                                 drawingText.x = this.textX;
                                 drawingText.y = this.textY;
                             }
                             ArticleViewer articleViewer2 = ArticleViewer.this;
                             TLRPC$TL_pageBlockMap tLRPC$TL_pageBlockMap5 = this.currentBlock;
-                            DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockMap5.caption.credit, i4, this.textY + this.creditOffset, tLRPC$TL_pageBlockMap5, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
+                            DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tLRPC$TL_pageBlockMap5.caption.credit, dp, this.textY + this.creditOffset, tLRPC$TL_pageBlockMap5, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                             this.creditLayout = createLayoutForText2;
                             if (createLayoutForText2 != null) {
-                                i6 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
+                                i5 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
                                 DrawingText drawingText2 = this.creditLayout;
                                 drawingText2.x = this.textX;
                                 drawingText2.y = this.textY + this.creditOffset;
                             }
                         }
                         if (!this.isFirst && this.currentType == 0 && this.currentBlock.level <= 0) {
-                            i6 += AndroidUtilities.dp(8.0f);
+                            i5 += AndroidUtilities.dp(8.0f);
                         }
                         if (this.currentType != 2) {
-                            i6 += AndroidUtilities.dp(8.0f);
+                            i5 += AndroidUtilities.dp(8.0f);
                         }
-                        i12 = i6;
+                        i11 = i5;
                     }
                 }
-                i6 = size;
+                i5 = size;
                 ImageReceiver imageReceiver2 = this.imageView;
-                float f6 = i11;
+                float f6 = i10;
                 if (!this.isFirst) {
                 }
-                float f22 = i5;
-                float f32 = i6;
-                imageReceiver2.setImageCoords(f6, dp, f22, f32);
-                int i132 = ArticleViewer.this.currentAccount;
+                float f22 = i4;
+                float f32 = i5;
+                imageReceiver2.setImageCoords(f6, dp2, f22, f32);
+                int i122 = ArticleViewer.this.currentAccount;
                 TLRPC$GeoPoint tLRPC$GeoPoint3 = this.currentBlock.geo;
                 double d3 = tLRPC$GeoPoint3.lat;
                 double d22 = tLRPC$GeoPoint3._long;
                 float f42 = AndroidUtilities.density;
-                String formapMapUrl2 = AndroidUtilities.formapMapUrl(i132, d3, d22, (int) (f22 / f42), (int) (f32 / f42), true, 15, -1);
+                String formapMapUrl2 = AndroidUtilities.formapMapUrl(i122, d3, d22, (int) (f22 / f42), (int) (f32 / f42), true, 15, -1);
                 TLRPC$GeoPoint tLRPC$GeoPoint22 = this.currentBlock.geo;
                 float f52 = AndroidUtilities.density;
                 WebFile createWithGeoPoint2 = WebFile.createWithGeoPoint(tLRPC$GeoPoint22, (int) (f22 / f52), (int) (f32 / f52), 15, Math.min(2, (int) Math.ceil(f52)));
-                i7 = MessagesController.getInstance(ArticleViewer.this.currentAccount).mapProvider;
-                this.currentMapProvider = i7;
-                if (i7 != 2) {
+                i6 = MessagesController.getInstance(ArticleViewer.this.currentAccount).mapProvider;
+                this.currentMapProvider = i6;
+                if (i6 != 2) {
                 }
                 int imageY2 = (int) (this.imageView.getImageY() + this.imageView.getImageHeight() + AndroidUtilities.dp(8.0f));
                 this.textY = imageY2;
                 if (this.currentType == 0) {
                 }
                 if (!this.isFirst) {
-                    i6 += AndroidUtilities.dp(8.0f);
+                    i5 += AndroidUtilities.dp(8.0f);
                 }
                 if (this.currentType != 2) {
                 }
-                i12 = i6;
+                i11 = i5;
             }
-            setMeasuredDimension(i3, i12);
+            setMeasuredDimension(i3, i11);
         }
 
         @Override // android.view.View
@@ -11876,6 +11937,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockChannelCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private int buttonWidth;
@@ -11893,10 +11955,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textY = AndroidUtilities.dp(11.0f);
         private Paint backgroundPaint = new Paint();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockChannelCell(Context context, WebpageAdapter webpageAdapter, int i) {
             super(context);
-            ArticleViewer.this = r3;
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
             this.currentType = i;
@@ -11923,6 +11983,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             addView(contextProgressView, LayoutHelper.createFrame(39, 39, 53));
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             if (this.currentState != 0) {
                 return;
@@ -12124,6 +12185,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockAuthorDateCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockAuthorDate currentBlock;
@@ -12132,10 +12194,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX;
         private int textY = AndroidUtilities.dp(8.0f);
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockAuthorDateCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -12150,12 +12210,18 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r15v23, types: [java.lang.String] */
-        /* JADX WARN: Type inference failed for: r15v25, types: [java.lang.String] */
+        /* JADX WARN: Type inference failed for: r15v10, types: [android.text.Spannable] */
+        /* JADX WARN: Type inference failed for: r15v11 */
+        /* JADX WARN: Type inference failed for: r15v26 */
+        /* JADX WARN: Type inference failed for: r15v27 */
+        /* JADX WARN: Type inference failed for: r15v28 */
+        /* JADX WARN: Type inference failed for: r15v8, types: [java.lang.CharSequence] */
+        /* JADX WARN: Type inference failed for: r15v9 */
+        /* JADX WARN: Type inference failed for: r4v9, types: [android.text.Spannable$Factory] */
         @Override // android.view.View
         protected void onMeasure(int i, int i2) {
             Spannable spannable;
-            Spannable spannable2;
+            ?? r15;
             int indexOf;
             int size = View.MeasureSpec.getSize(i);
             TLRPC$TL_pageBlockAuthorDate tLRPC$TL_pageBlockAuthorDate = this.currentBlock;
@@ -12167,32 +12233,32 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 CharSequence text = articleViewer.getText(webpageAdapter, this, tLRPC$RichText, tLRPC$RichText, tLRPC$TL_pageBlockAuthorDate, size);
                 MetricAffectingSpan[] metricAffectingSpanArr = null;
                 if (text instanceof Spannable) {
-                    Spannable spannable3 = (Spannable) text;
-                    metricAffectingSpanArr = (MetricAffectingSpan[]) spannable3.getSpans(0, text.length(), MetricAffectingSpan.class);
-                    spannable = spannable3;
+                    Spannable spannable2 = (Spannable) text;
+                    metricAffectingSpanArr = (MetricAffectingSpan[]) spannable2.getSpans(0, text.length(), MetricAffectingSpan.class);
+                    spannable = spannable2;
                 } else {
                     spannable = null;
                 }
                 if (this.currentBlock.published_date != 0 && !TextUtils.isEmpty(text)) {
-                    spannable2 = LocaleController.formatString("ArticleDateByAuthor", R.string.ArticleDateByAuthor, LocaleController.getInstance().chatFullDate.format(this.currentBlock.published_date * 1000), text);
+                    r15 = LocaleController.formatString("ArticleDateByAuthor", R.string.ArticleDateByAuthor, LocaleController.getInstance().chatFullDate.format(this.currentBlock.published_date * 1000), text);
                 } else if (!TextUtils.isEmpty(text)) {
-                    spannable2 = LocaleController.formatString("ArticleByAuthor", R.string.ArticleByAuthor, text);
+                    r15 = LocaleController.formatString("ArticleByAuthor", R.string.ArticleByAuthor, text);
                 } else {
-                    spannable2 = LocaleController.getInstance().chatFullDate.format(this.currentBlock.published_date * 1000);
+                    r15 = LocaleController.getInstance().chatFullDate.format(this.currentBlock.published_date * 1000);
                 }
                 if (metricAffectingSpanArr != null) {
                     try {
-                        if (metricAffectingSpanArr.length > 0 && (indexOf = TextUtils.indexOf(spannable2, text)) != -1) {
-                            spannable2 = Spannable.Factory.getInstance().newSpannable(spannable2);
+                        if (metricAffectingSpanArr.length > 0 && (indexOf = TextUtils.indexOf((CharSequence) r15, text)) != -1) {
+                            r15 = Spannable.Factory.getInstance().newSpannable(r15);
                             for (int i4 = 0; i4 < metricAffectingSpanArr.length; i4++) {
-                                spannable2.setSpan(metricAffectingSpanArr[i4], spannable.getSpanStart(metricAffectingSpanArr[i4]) + indexOf, spannable.getSpanEnd(metricAffectingSpanArr[i4]) + indexOf, 33);
+                                r15.setSpan(metricAffectingSpanArr[i4], spannable.getSpanStart(metricAffectingSpanArr[i4]) + indexOf, spannable.getSpanEnd(metricAffectingSpanArr[i4]) + indexOf, 33);
                             }
                         }
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
                 }
-                DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, spannable2, null, size - AndroidUtilities.dp(36.0f), this.textY, this.currentBlock, this.parentAdapter);
+                DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, r15, null, size - AndroidUtilities.dp(36.0f), this.textY, this.currentBlock, this.parentAdapter);
                 this.textLayout = createLayoutForText;
                 if (createLayoutForText != null) {
                     int dp = AndroidUtilities.dp(16.0f) + this.textLayout.getHeight() + 0;
@@ -12244,6 +12310,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockTitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockTitle currentBlock;
@@ -12252,10 +12319,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockTitleCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -12328,6 +12393,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockKickerCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockKicker currentBlock;
@@ -12336,10 +12402,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockKickerCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -12402,6 +12466,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockFooterCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockFooter currentBlock;
@@ -12410,10 +12475,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY = AndroidUtilities.dp(8.0f);
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockFooterCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -12430,37 +12493,37 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // android.view.View
         @SuppressLint({"NewApi"})
         protected void onMeasure(int i, int i2) {
-            int i3;
+            int dp;
             int size = View.MeasureSpec.getSize(i);
             TLRPC$TL_pageBlockFooter tLRPC$TL_pageBlockFooter = this.currentBlock;
-            int i4 = 0;
+            int i3 = 0;
             if (tLRPC$TL_pageBlockFooter != null) {
-                int i5 = tLRPC$TL_pageBlockFooter.level;
-                if (i5 == 0) {
+                int i4 = tLRPC$TL_pageBlockFooter.level;
+                if (i4 == 0) {
                     this.textY = AndroidUtilities.dp(8.0f);
                     this.textX = AndroidUtilities.dp(18.0f);
                 } else {
                     this.textY = 0;
-                    this.textX = AndroidUtilities.dp((i5 * 14) + 18);
+                    this.textX = AndroidUtilities.dp((i4 * 14) + 18);
                 }
                 DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.text, (size - AndroidUtilities.dp(18.0f)) - this.textX, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                 this.textLayout = createLayoutForText;
                 if (createLayoutForText != null) {
                     int height = createLayoutForText.getHeight();
                     if (this.currentBlock.level > 0) {
-                        i3 = AndroidUtilities.dp(8.0f);
+                        dp = AndroidUtilities.dp(8.0f);
                     } else {
-                        i3 = AndroidUtilities.dp(16.0f);
+                        dp = AndroidUtilities.dp(16.0f);
                     }
-                    i4 = height + i3;
+                    i3 = height + dp;
                     DrawingText drawingText = this.textLayout;
                     drawingText.x = this.textX;
                     drawingText.y = this.textY;
                 }
             } else {
-                i4 = 1;
+                i3 = 1;
             }
-            setMeasuredDimension(size, i4);
+            setMeasuredDimension(size, i3);
         }
 
         @Override // android.view.View
@@ -12490,6 +12553,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockPreformattedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockPreformatted currentBlock;
@@ -12498,12 +12562,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private View textContainer;
         private DrawingText textLayout;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockPreformattedCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r4;
             this.parentAdapter = webpageAdapter;
-            HorizontalScrollView horizontalScrollView = new HorizontalScrollView(context, r4) { // from class: org.telegram.ui.ArticleViewer.BlockPreformattedCell.1
+            HorizontalScrollView horizontalScrollView = new HorizontalScrollView(context, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockPreformattedCell.1
                 @Override // android.widget.HorizontalScrollView, android.view.ViewGroup
                 public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                     if (BlockPreformattedCell.this.textContainer.getMeasuredWidth() > getMeasuredWidth()) {
@@ -12524,7 +12586,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.scrollView = horizontalScrollView;
             horizontalScrollView.setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
             addView(this.scrollView, LayoutHelper.createFrame(-1, -2.0f));
-            this.textContainer = new View(context, r4) { // from class: org.telegram.ui.ArticleViewer.BlockPreformattedCell.2
+            this.textContainer = new View(context, ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockPreformattedCell.2
                 @Override // android.view.View
                 protected void onMeasure(int i, int i2) {
                     int i3 = 0;
@@ -12588,6 +12650,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             setWillNotDraw(false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view, int i, int i2, int i3, int i4) {
             TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper = ArticleViewer.this.textSelectionHelper;
             if (articleTextSelectionHelper == null || !articleTextSelectionHelper.isSelectionMode()) {
@@ -12632,6 +12695,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlockSubheaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC$TL_pageBlockSubheader currentBlock;
@@ -12640,10 +12704,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX = AndroidUtilities.dp(18.0f);
         private int textY = AndroidUtilities.dp(8.0f);
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BlockSubheaderCell(Context context, WebpageAdapter webpageAdapter) {
             super(context);
-            ArticleViewer.this = r1;
             this.parentAdapter = webpageAdapter;
         }
 
@@ -12709,6 +12771,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ReportCell extends FrameLayout {
         private boolean hasViews;
@@ -12756,10 +12819,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void drawTextSelection(Canvas canvas, TextSelectionHelper.ArticleSelectableView articleSelectableView) {
         drawTextSelection(canvas, articleSelectableView, 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void drawTextSelection(Canvas canvas, TextSelectionHelper.ArticleSelectableView articleSelectableView, int i) {
         TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper;
         View view = (View) articleSelectableView;
@@ -12771,28 +12836,28 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     public boolean openPhoto(TLRPC$PageBlock tLRPC$PageBlock, WebpageAdapter webpageAdapter) {
+        int indexOf;
         List list;
-        int i;
         if (!(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockVideo) || WebPageUtils.isVideo(webpageAdapter.currentPage, tLRPC$PageBlock)) {
             ArrayList arrayList = new ArrayList(webpageAdapter.photoBlocks);
-            i = webpageAdapter.photoBlocks.indexOf(tLRPC$PageBlock);
+            indexOf = webpageAdapter.photoBlocks.indexOf(tLRPC$PageBlock);
             list = arrayList;
         } else {
             list = Collections.singletonList(tLRPC$PageBlock);
-            i = 0;
+            indexOf = 0;
         }
         PhotoViewer photoViewer = PhotoViewer.getInstance();
         photoViewer.setParentActivity(this.parentActivity);
-        return photoViewer.openPhoto(i, new RealPageBlocksAdapter(webpageAdapter.currentPage, list), new PageBlocksPhotoViewerProvider(list));
+        return photoViewer.openPhoto(indexOf, new RealPageBlocksAdapter(webpageAdapter.currentPage, list), new PageBlocksPhotoViewerProvider(list));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class RealPageBlocksAdapter implements PhotoViewer.PageBlocksAdapter {
         private final TLRPC$WebPage page;
         private final List<TLRPC$PageBlock> pageBlocks;
 
         private RealPageBlocksAdapter(TLRPC$WebPage tLRPC$WebPage, List<TLRPC$PageBlock> list) {
-            ArticleViewer.this = r1;
             this.page = tLRPC$WebPage;
             this.pageBlocks = list;
         }
@@ -12843,7 +12908,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:9:0x002b  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x002b  */
         @Override // org.telegram.ui.PhotoViewer.PageBlocksAdapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -12937,13 +13002,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class PageBlocksPhotoViewerProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         private final List<TLRPC$PageBlock> pageBlocks;
         private final int[] tempArr = new int[2];
 
         public PageBlocksPhotoViewerProvider(List<TLRPC$PageBlock> list) {
-            ArticleViewer.this = r1;
             this.pageBlocks = list;
         }
 

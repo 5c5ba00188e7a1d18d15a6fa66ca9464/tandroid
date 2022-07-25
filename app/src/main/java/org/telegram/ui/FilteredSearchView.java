@@ -160,7 +160,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
-            ImageReceiver imageReceiver;
+            ImageReceiver photoImage;
             View pinnedHeader;
             MessageObject messageObject2;
             if (messageObject == null) {
@@ -173,45 +173,45 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 int[] iArr = new int[2];
                 if (childAt instanceof SharedPhotoVideoCell) {
                     SharedPhotoVideoCell sharedPhotoVideoCell = (SharedPhotoVideoCell) childAt;
-                    imageReceiver = null;
+                    photoImage = null;
                     for (int i3 = 0; i3 < 6 && (messageObject2 = sharedPhotoVideoCell.getMessageObject(i3)) != null; i3++) {
                         if (messageObject2.getId() == messageObject.getId()) {
                             BackupImageView imageView = sharedPhotoVideoCell.getImageView(i3);
-                            ImageReceiver imageReceiver2 = imageView.getImageReceiver();
+                            ImageReceiver imageReceiver = imageView.getImageReceiver();
                             imageView.getLocationInWindow(iArr);
-                            imageReceiver = imageReceiver2;
+                            photoImage = imageReceiver;
                         }
                     }
                 } else if (childAt instanceof SharedDocumentCell) {
                     SharedDocumentCell sharedDocumentCell = (SharedDocumentCell) childAt;
                     if (sharedDocumentCell.getMessage().getId() == messageObject.getId()) {
                         BackupImageView imageView2 = sharedDocumentCell.getImageView();
-                        ImageReceiver imageReceiver3 = imageView2.getImageReceiver();
+                        ImageReceiver imageReceiver2 = imageView2.getImageReceiver();
                         imageView2.getLocationInWindow(iArr);
-                        imageReceiver = imageReceiver3;
+                        photoImage = imageReceiver2;
                     }
-                    imageReceiver = null;
+                    photoImage = null;
                 } else {
                     if (childAt instanceof ContextLinkCell) {
                         ContextLinkCell contextLinkCell = (ContextLinkCell) childAt;
                         MessageObject messageObject3 = (MessageObject) contextLinkCell.getParentObject();
                         if (messageObject3 != null && messageObject3.getId() == messageObject.getId()) {
-                            imageReceiver = contextLinkCell.getPhotoImage();
+                            photoImage = contextLinkCell.getPhotoImage();
                             contextLinkCell.getLocationInWindow(iArr);
                         }
                     }
-                    imageReceiver = null;
+                    photoImage = null;
                 }
-                if (imageReceiver != null) {
+                if (photoImage != null) {
                     PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
                     placeProviderObject.viewX = iArr[0];
                     placeProviderObject.viewY = iArr[1] - (Build.VERSION.SDK_INT >= 21 ? 0 : AndroidUtilities.statusBarHeight);
                     placeProviderObject.parentView = recyclerListView;
                     recyclerListView.getLocationInWindow(iArr);
                     placeProviderObject.animatingImageViewYOffset = -iArr[1];
-                    placeProviderObject.imageReceiver = imageReceiver;
+                    placeProviderObject.imageReceiver = photoImage;
                     placeProviderObject.allowTakeAnimation = false;
-                    placeProviderObject.radius = imageReceiver.getRoundRadius();
+                    placeProviderObject.radius = photoImage.getRoundRadius();
                     placeProviderObject.thumb = placeProviderObject.imageReceiver.getBitmapSafe();
                     placeProviderObject.parentView.getLocationInWindow(iArr);
                     placeProviderObject.clipTopAddition = 0;
@@ -277,6 +277,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         void toggleItemSelection(MessageObject messageObject, View view, int i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         hideFloatingDateView(true);
     }
@@ -288,6 +289,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         this.parentActivity = parentActivity;
         setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         BlurredRecyclerView blurredRecyclerView = new BlurredRecyclerView(parentActivity) { // from class: org.telegram.ui.FilteredSearchView.3
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 if (getAdapter() == FilteredSearchView.this.sharedPhotoVideoAdapter) {
@@ -382,6 +384,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         this.emptyView.setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view, int i) {
         if (view instanceof SharedDocumentCell) {
             onItemClick(i, view, ((SharedDocumentCell) view).getMessage(), 0);
@@ -397,11 +400,11 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
-    /* renamed from: org.telegram.ui.FilteredSearchView$6 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.FilteredSearchView$6  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass6 extends RecyclerView.OnScrollListener {
         AnonymousClass6() {
-            FilteredSearchView.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -450,6 +453,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onScrolled$0() {
             FilteredSearchView filteredSearchView = FilteredSearchView.this;
             filteredSearchView.search(filteredSearchView.currentSearchDialogId, filteredSearchView.currentSearchMinDate, filteredSearchView.currentSearchMaxDate, filteredSearchView.currentSearchFilter, filteredSearchView.currentIncludeFolder, filteredSearchView.lastMessagesSearchString, false);
@@ -458,9 +462,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v0 */
-    /* JADX WARN: Type inference failed for: r4v1, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r4v3, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r4v4, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r4v1, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r4v3, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r4v5, types: [android.text.SpannableStringBuilder] */
     public static CharSequence createFromInfoString(MessageObject messageObject) {
         if (arrowSpan == null) {
@@ -591,6 +595,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     public /* synthetic */ void lambda$search$4(final long j, final String str, final FiltersView.MediaFilterData mediaFilterData, final int i, final long j2, long j3, final boolean z, boolean z2, String str2, final int i2) {
         ArrayList<MessageObject> arrayList;
@@ -660,6 +665,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$search$3(final int i, final String str, final int i2, final boolean z, final FiltersView.MediaFilterData mediaFilterData, final long j, final long j2, final ArrayList arrayList, final ArrayList arrayList2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         final ArrayList arrayList3 = new ArrayList();
         if (tLRPC$TL_error == null) {
@@ -679,9 +685,10 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$search$2(int i, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, final int i2, boolean z, String str, ArrayList arrayList, FiltersView.MediaFilterData mediaFilterData, long j, long j2, ArrayList arrayList2, ArrayList arrayList3) {
         boolean z2;
-        String str2;
+        String string;
         if (i != this.requestIndex) {
             return;
         }
@@ -733,18 +740,18 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle", R.string.SearchEmptyViewTitle));
                     int i4 = mediaFilterData.filterType;
                     if (i4 == 1) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleFiles", R.string.SearchEmptyViewFilteredSubtitleFiles);
+                        string = LocaleController.getString("SearchEmptyViewFilteredSubtitleFiles", R.string.SearchEmptyViewFilteredSubtitleFiles);
                     } else if (i4 == 0) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleMedia", R.string.SearchEmptyViewFilteredSubtitleMedia);
+                        string = LocaleController.getString("SearchEmptyViewFilteredSubtitleMedia", R.string.SearchEmptyViewFilteredSubtitleMedia);
                     } else if (i4 == 2) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleLinks", R.string.SearchEmptyViewFilteredSubtitleLinks);
+                        string = LocaleController.getString("SearchEmptyViewFilteredSubtitleLinks", R.string.SearchEmptyViewFilteredSubtitleLinks);
                     } else if (i4 == 3) {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleMusic", R.string.SearchEmptyViewFilteredSubtitleMusic);
+                        string = LocaleController.getString("SearchEmptyViewFilteredSubtitleMusic", R.string.SearchEmptyViewFilteredSubtitleMusic);
                     } else {
-                        str2 = LocaleController.getString("SearchEmptyViewFilteredSubtitleVoice", R.string.SearchEmptyViewFilteredSubtitleVoice);
+                        string = LocaleController.getString("SearchEmptyViewFilteredSubtitleVoice", R.string.SearchEmptyViewFilteredSubtitleVoice);
                     }
                     this.emptyView.subtitle.setVisibility(0);
-                    this.emptyView.subtitle.setText(str2);
+                    this.emptyView.subtitle.setText(string);
                 } else {
                     this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", R.string.SearchEmptyViewTitle2));
                     this.emptyView.subtitle.setVisibility(0);
@@ -888,8 +895,8 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         this.emptyView.setKeyboardHeight(i, z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x0026, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r5, org.telegram.messenger.UserConfig.selectedAccount) != false) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x0026, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r5, org.telegram.messenger.UserConfig.selectedAccount) != false) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -931,6 +938,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         adapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SharedPhotoVideoAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
@@ -941,7 +949,6 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         public SharedPhotoVideoAdapter(Context context) {
-            FilteredSearchView.this = r1;
             this.mContext = context;
         }
 
@@ -953,9 +960,11 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             return ((int) Math.ceil(FilteredSearchView.this.messages.size() / FilteredSearchView.this.columnsCount)) + (!FilteredSearchView.this.endReached ? 1 : 0);
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            FlickerLoadingView flickerLoadingView;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout frameLayout;
             if (i == 0) {
                 SharedPhotoVideoCell sharedPhotoVideoCell = new SharedPhotoVideoCell(this.mContext, 1);
                 sharedPhotoVideoCell.setDelegate(new SharedPhotoVideoCell.SharedPhotoVideoCellDelegate() { // from class: org.telegram.ui.FilteredSearchView.SharedPhotoVideoAdapter.1
@@ -973,24 +982,24 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                         return true;
                     }
                 });
-                flickerLoadingView = sharedPhotoVideoCell;
+                frameLayout = sharedPhotoVideoCell;
             } else if (i == 2) {
-                GraySectionCell graySectionCell = new GraySectionCell(this.mContext);
+                FrameLayout graySectionCell = new GraySectionCell(this.mContext);
                 graySectionCell.setBackgroundColor(Theme.getColor("graySection") & (-218103809));
-                flickerLoadingView = graySectionCell;
+                frameLayout = graySectionCell;
             } else {
-                FlickerLoadingView flickerLoadingView2 = new FlickerLoadingView(this.mContext) { // from class: org.telegram.ui.FilteredSearchView.SharedPhotoVideoAdapter.2
+                FlickerLoadingView flickerLoadingView = new FlickerLoadingView(this.mContext) { // from class: org.telegram.ui.FilteredSearchView.SharedPhotoVideoAdapter.2
                     @Override // org.telegram.ui.Components.FlickerLoadingView
                     public int getColumnsCount() {
                         return FilteredSearchView.this.columnsCount;
                     }
                 };
-                flickerLoadingView2.setIsSingleCell(true);
-                flickerLoadingView2.setViewType(2);
-                flickerLoadingView = flickerLoadingView2;
+                flickerLoadingView.setIsSingleCell(true);
+                flickerLoadingView.setViewType(2);
+                frameLayout = flickerLoadingView;
             }
-            flickerLoadingView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(flickerLoadingView);
+            frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(frameLayout);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1043,6 +1052,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onItemClick(int i, View view, MessageObject messageObject, int i2) {
         if (messageObject == null) {
             return;
@@ -1128,13 +1138,15 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
         private final SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new AnonymousClass1();
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        public Object getItem(int i, int i2) {
+        /* renamed from: getItem */
+        public Object mo1747getItem(int i, int i2) {
             return null;
         }
 
@@ -1148,11 +1160,11 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             return true;
         }
 
-        /* renamed from: org.telegram.ui.FilteredSearchView$SharedLinksAdapter$1 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.FilteredSearchView$SharedLinksAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass1 implements SharedLinkCell.SharedLinkCellDelegate {
             AnonymousClass1() {
-                SharedLinksAdapter.this = r1;
             }
 
             @Override // org.telegram.ui.Cells.SharedLinkCell.SharedLinkCellDelegate
@@ -1182,6 +1194,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 FilteredSearchView.this.parentFragment.showDialog(builder.create());
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onLinkPress$0(String str, DialogInterface dialogInterface, int i) {
                 if (i == 0) {
                     FilteredSearchView.this.openUrl(str);
@@ -1198,7 +1211,6 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         public SharedLinksAdapter(Context context) {
-            FilteredSearchView.this = r1;
             this.mContext = context;
         }
 
@@ -1251,7 +1263,8 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             GraySectionCell graySectionCell;
             if (i == 0) {
                 graySectionCell = new GraySectionCell(this.mContext);
@@ -1321,13 +1334,15 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SharedDocumentsAdapter extends RecyclerListView.SectionsAdapter {
         private int currentType;
         private Context mContext;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        public Object getItem(int i, int i2) {
+        /* renamed from: getItem */
+        public Object mo1747getItem(int i, int i2) {
             return null;
         }
 
@@ -1342,7 +1357,6 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         public SharedDocumentsAdapter(Context context, int i) {
-            FilteredSearchView.this = r1;
             this.mContext = context;
             this.currentType = i;
         }
@@ -1393,8 +1407,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View graySectionCell;
             SharedDocumentCell sharedDocumentCell;
             if (i != 0) {
                 if (i == 1) {
@@ -1410,7 +1425,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     flickerLoadingView.setIsSingleCell(true);
                     sharedDocumentCell = flickerLoadingView;
                 } else {
-                    view = new SharedAudioCell(this.mContext, 1, null) { // from class: org.telegram.ui.FilteredSearchView.SharedDocumentsAdapter.1
+                    graySectionCell = new SharedAudioCell(this.mContext, 1, null) { // from class: org.telegram.ui.FilteredSearchView.SharedDocumentsAdapter.1
                         @Override // org.telegram.ui.Cells.SharedAudioCell
                         public boolean needPlayMessage(MessageObject messageObject) {
                             if (messageObject.isVoice() || messageObject.isRoundVideo()) {
@@ -1434,12 +1449,12 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                         }
                     };
                 }
-                view = sharedDocumentCell;
+                graySectionCell = sharedDocumentCell;
             } else {
-                view = new GraySectionCell(this.mContext);
+                graySectionCell = new GraySectionCell(this.mContext);
             }
-            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(view);
+            graySectionCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(graySectionCell);
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
@@ -1522,6 +1537,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openUrl(String str) {
         if (AndroidUtilities.shouldShowUrlInAlert(str)) {
             AlertsCreator.showOpenUrlAlert(this.parentFragment, str, true, true);
@@ -1530,6 +1546,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openWebView(TLRPC$WebPage tLRPC$WebPage, MessageObject messageObject) {
         EmbedBottomSheet.show(this.parentActivity, messageObject, this.provider, tLRPC$WebPage.site_name, tLRPC$WebPage.description, tLRPC$WebPage.url, tLRPC$WebPage.embed_url, tLRPC$WebPage.embed_width, tLRPC$WebPage.embed_height, false);
     }
@@ -1561,6 +1578,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean onItemLongClick(MessageObject messageObject, View view, int i) {
         if (!this.uiCallback.actionModeShowing()) {
             this.uiCallback.showActionMode();
@@ -1603,6 +1621,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class OnlyUserFiltersAdapter extends RecyclerListView.SelectionAdapter {
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -1611,12 +1630,12 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         OnlyUserFiltersAdapter() {
-            FilteredSearchView.this = r1;
         }
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             DialogCell dialogCell;
             if (i == 0) {
                 dialogCell = new DialogCell(null, viewGroup.getContext(), true, false);
@@ -1714,6 +1733,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         this.uiCallback = uiCallback;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showFloatingDateView() {
         AndroidUtilities.cancelRunOnUIThread(this.hideFloatingDateRunnable);
         AndroidUtilities.runOnUIThread(this.hideFloatingDateRunnable, 650L);

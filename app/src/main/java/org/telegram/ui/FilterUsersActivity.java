@@ -144,6 +144,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
@@ -152,39 +153,37 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         private AnimatorSet currentAnimation;
         private View removingSpan;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SpansContainer(Context context) {
             super(context);
-            FilterUsersActivity.this = r1;
         }
 
         @Override // android.view.View
         protected void onMeasure(int i, int i2) {
-            int i3;
+            int min;
             int childCount = getChildCount();
             int size = View.MeasureSpec.getSize(i);
             int dp = size - AndroidUtilities.dp(26.0f);
             int dp2 = AndroidUtilities.dp(10.0f);
             int dp3 = AndroidUtilities.dp(10.0f);
+            int i3 = 0;
             int i4 = 0;
-            int i5 = 0;
-            for (int i6 = 0; i6 < childCount; i6++) {
-                View childAt = getChildAt(i6);
+            for (int i5 = 0; i5 < childCount; i5++) {
+                View childAt = getChildAt(i5);
                 if (childAt instanceof GroupCreateSpan) {
                     childAt.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
-                    if (childAt != this.removingSpan && childAt.getMeasuredWidth() + i4 > dp) {
+                    if (childAt != this.removingSpan && childAt.getMeasuredWidth() + i3 > dp) {
                         dp2 += childAt.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
+                        i3 = 0;
+                    }
+                    if (childAt.getMeasuredWidth() + i4 > dp) {
+                        dp3 += childAt.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
                         i4 = 0;
                     }
-                    if (childAt.getMeasuredWidth() + i5 > dp) {
-                        dp3 += childAt.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
-                        i5 = 0;
-                    }
-                    int dp4 = AndroidUtilities.dp(13.0f) + i4;
+                    int dp4 = AndroidUtilities.dp(13.0f) + i3;
                     if (!this.animationStarted) {
                         View view = this.removingSpan;
                         if (childAt == view) {
-                            childAt.setTranslationX(AndroidUtilities.dp(13.0f) + i5);
+                            childAt.setTranslationX(AndroidUtilities.dp(13.0f) + i4);
                             childAt.setTranslationY(dp3);
                         } else if (view != null) {
                             float f = dp4;
@@ -201,28 +200,28 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                         }
                     }
                     if (childAt != this.removingSpan) {
-                        i4 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
+                        i3 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
                     }
-                    i5 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
+                    i4 += childAt.getMeasuredWidth() + AndroidUtilities.dp(9.0f);
                 }
             }
             if (AndroidUtilities.isTablet()) {
-                i3 = AndroidUtilities.dp(372.0f) / 3;
+                min = AndroidUtilities.dp(372.0f) / 3;
             } else {
                 Point point = AndroidUtilities.displaySize;
-                i3 = (Math.min(point.x, point.y) - AndroidUtilities.dp(158.0f)) / 3;
+                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(158.0f)) / 3;
             }
-            if (dp - i4 < i3) {
+            if (dp - i3 < min) {
                 dp2 += AndroidUtilities.dp(40.0f);
-                i4 = 0;
+                i3 = 0;
             }
-            if (dp - i5 < i3) {
+            if (dp - i4 < min) {
                 dp3 += AndroidUtilities.dp(40.0f);
             }
-            FilterUsersActivity.this.editText.measure(View.MeasureSpec.makeMeasureSpec(dp - i4, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
+            FilterUsersActivity.this.editText.measure(View.MeasureSpec.makeMeasureSpec(dp - i3, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
             if (!this.animationStarted) {
                 int dp5 = dp3 + AndroidUtilities.dp(42.0f);
-                int dp6 = i4 + AndroidUtilities.dp(16.0f);
+                int dp6 = i3 + AndroidUtilities.dp(16.0f);
                 FilterUsersActivity.this.fieldY = dp2;
                 if (this.currentAnimation == null) {
                     FilterUsersActivity.this.containerHeight = dp5;
@@ -395,9 +394,9 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
-        Object obj;
-        String str;
+        Object chat;
         int i;
+        String str;
         this.searching = false;
         this.searchWas = false;
         this.allSpans.clear();
@@ -424,25 +423,25 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.FilterUsersActivity.2
             @Override // android.view.View
             protected void onMeasure(int i2, int i3) {
-                int i4;
+                int dp;
                 int size = View.MeasureSpec.getSize(i2);
                 int size2 = View.MeasureSpec.getSize(i3);
                 setMeasuredDimension(size, size2);
                 float f = 56.0f;
                 if (AndroidUtilities.isTablet() || size2 > size) {
-                    i4 = AndroidUtilities.dp(144.0f);
+                    dp = AndroidUtilities.dp(144.0f);
                 } else {
-                    i4 = AndroidUtilities.dp(56.0f);
+                    dp = AndroidUtilities.dp(56.0f);
                 }
-                FilterUsersActivity.this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(i4, Integer.MIN_VALUE));
+                FilterUsersActivity.this.scrollView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE));
                 FilterUsersActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - FilterUsersActivity.this.scrollView.getMeasuredHeight(), 1073741824));
                 FilterUsersActivity.this.emptyView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - FilterUsersActivity.this.scrollView.getMeasuredHeight(), 1073741824));
                 if (FilterUsersActivity.this.floatingButton != null) {
                     if (Build.VERSION.SDK_INT < 21) {
                         f = 60.0f;
                     }
-                    int dp = AndroidUtilities.dp(f);
-                    FilterUsersActivity.this.floatingButton.measure(View.MeasureSpec.makeMeasureSpec(dp, 1073741824), View.MeasureSpec.makeMeasureSpec(dp, 1073741824));
+                    int dp2 = AndroidUtilities.dp(f);
+                    FilterUsersActivity.this.floatingButton.measure(View.MeasureSpec.makeMeasureSpec(dp2, 1073741824), View.MeasureSpec.makeMeasureSpec(dp2, 1073741824));
                 }
             }
 
@@ -732,12 +731,12 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             for (int i5 = 0; i5 < size; i5++) {
                 Long l = this.initialIds.get(i5);
                 if (l.longValue() > 0) {
-                    obj = getMessagesController().getUser(l);
+                    chat = getMessagesController().getUser(l);
                 } else {
-                    obj = getMessagesController().getChat(Long.valueOf(-l.longValue()));
+                    chat = getMessagesController().getChat(Long.valueOf(-l.longValue()));
                 }
-                if (obj != null) {
-                    GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(this.editText.getContext(), obj);
+                if (chat != null) {
+                    GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(this.editText.getContext(), chat);
                     this.spansContainer.addSpan(groupCreateSpan2, false);
                     groupCreateSpan2.setOnClickListener(this);
                 }
@@ -747,12 +746,14 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         this.editText.clearFocus();
         this.editText.requestFocus();
         AndroidUtilities.showKeyboard(this.editText);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(Context context, View view, int i) {
         long j;
         int i2;
@@ -831,6 +832,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         onDonePressed(true);
     }
@@ -891,6 +893,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         return this.containerHeight;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkVisibleRows() {
         long j;
         int childCount = this.listView.getChildCount();
@@ -991,6 +994,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean onDonePressed(boolean z) {
         ArrayList<Long> arrayList = new ArrayList<>();
         for (int i = 0; i < this.selectedContacts.size(); i++) {
@@ -1006,6 +1010,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void closeSearch() {
         this.searching = false;
         this.searchWas = false;
@@ -1016,6 +1021,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         this.emptyView.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateHint() {
         int i = getUserConfig().isPremium() ? getMessagesController().dialogFiltersChatsLimitPremium : getMessagesController().dialogFiltersChatsLimitDefault;
         int i2 = this.selectedCount;
@@ -1047,17 +1053,16 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
 
         public GroupCreateAdapter(Context context) {
-            FilterUsersActivity.this = r9;
-            this.usersStartRow = r9.isInclude ? 7 : 5;
+            this.usersStartRow = FilterUsersActivity.this.isInclude ? 7 : 5;
             this.context = context;
-            ArrayList<TLRPC$Dialog> allDialogs = r9.getMessagesController().getAllDialogs();
+            ArrayList<TLRPC$Dialog> allDialogs = FilterUsersActivity.this.getMessagesController().getAllDialogs();
             int size = allDialogs.size();
             boolean z = false;
             for (int i = 0; i < size; i++) {
                 TLRPC$Dialog tLRPC$Dialog = allDialogs.get(i);
                 if (!DialogObject.isEncryptedDialog(tLRPC$Dialog.id)) {
                     if (DialogObject.isUserDialog(tLRPC$Dialog.id)) {
-                        TLRPC$User user = r9.getMessagesController().getUser(Long.valueOf(tLRPC$Dialog.id));
+                        TLRPC$User user = FilterUsersActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$Dialog.id));
                         if (user != null) {
                             this.contacts.add(user);
                             if (UserObject.isUserSelf(user)) {
@@ -1065,7 +1070,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                             }
                         }
                     } else {
-                        TLRPC$Chat chat = r9.getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id));
+                        TLRPC$Chat chat = FilterUsersActivity.this.getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id));
                         if (chat != null) {
                             this.contacts.add(chat);
                         }
@@ -1073,7 +1078,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                 }
             }
             if (!z) {
-                this.contacts.add(0, r9.getMessagesController().getUser(Long.valueOf(r9.getUserConfig().clientUserId)));
+                this.contacts.add(0, FilterUsersActivity.this.getMessagesController().getUser(Long.valueOf(FilterUsersActivity.this.getUserConfig().clientUserId)));
             }
             SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false);
             this.searchAdapterHelper = searchAdapterHelper;
@@ -1106,6 +1111,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(int i) {
             if (this.searchRunnable == null && !this.searchAdapterHelper.isSearchInProgress()) {
                 FilterUsersActivity.this.emptyView.showTextView();
@@ -1136,34 +1142,47 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View groupCreateUserCell;
             if (i == 1) {
-                view = new GroupCreateUserCell(this.context, 1, 0, true);
+                groupCreateUserCell = new GroupCreateUserCell(this.context, 1, 0, true);
             } else {
-                view = new GraySectionCell(this.context);
+                groupCreateUserCell = new GraySectionCell(this.context);
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(groupCreateUserCell);
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:102:0x0224  */
-        /* JADX WARN: Removed duplicated region for block: B:115:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x01ce  */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x01d4  */
-        /* JADX WARN: Removed duplicated region for block: B:91:0x01e4  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x01ce  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x01e4  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x0224  */
+        /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x01d4  */
+        /* JADX WARN: Type inference failed for: r1v2, types: [org.telegram.ui.Cells.GroupCreateUserCell] */
+        /* JADX WARN: Type inference failed for: r7v0 */
+        /* JADX WARN: Type inference failed for: r7v1 */
+        /* JADX WARN: Type inference failed for: r7v2, types: [java.lang.CharSequence] */
+        /* JADX WARN: Type inference failed for: r7v3, types: [java.lang.StringBuilder] */
+        /* JADX WARN: Type inference failed for: r7v4 */
+        /* JADX WARN: Type inference failed for: r7v5 */
+        /* JADX WARN: Type inference failed for: r7v6 */
+        /* JADX WARN: Type inference failed for: r7v7 */
+        /* JADX WARN: Type inference failed for: r7v8 */
+        /* JADX WARN: Type inference failed for: r7v9 */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             TLObject tLObject;
-            CharSequence charSequence;
-            long j;
-            String str;
+            String string;
             int i2;
+            String str;
+            CharSequence charSequence;
+            TLObject tLObject2;
+            long j;
             String str2;
-            String str3;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType != 1) {
                 if (itemViewType != 2) {
@@ -1178,8 +1197,11 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                     return;
                 }
             }
-            GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-            StringBuilder sb = null;
+            ?? r1 = (GroupCreateUserCell) viewHolder.itemView;
+            ?? r7 = 0;
+            r7 = 0;
+            r7 = 0;
+            r7 = 0;
             if (this.searching) {
                 int size = this.searchResult.size();
                 int size2 = this.searchAdapterHelper.getGlobalSearch().size();
@@ -1193,25 +1215,25 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                 }
                 if (tLObject != null) {
                     if (tLObject instanceof TLRPC$User) {
-                        str3 = ((TLRPC$User) tLObject).username;
+                        str2 = ((TLRPC$User) tLObject).username;
                     } else {
-                        str3 = ((TLRPC$Chat) tLObject).username;
+                        str2 = ((TLRPC$Chat) tLObject).username;
                     }
                     if (i < size) {
-                        CharSequence charSequence2 = this.searchResultNames.get(i);
-                        charSequence = charSequence2;
-                        if (charSequence2 != null) {
-                            charSequence = charSequence2;
-                            if (!TextUtils.isEmpty(str3)) {
-                                String charSequence3 = charSequence2.toString();
-                                charSequence = charSequence2;
-                                if (charSequence3.startsWith("@" + str3)) {
-                                    sb = charSequence2;
+                        charSequence = this.searchResultNames.get(i);
+                        tLObject2 = tLObject;
+                        if (charSequence != null) {
+                            tLObject2 = tLObject;
+                            if (!TextUtils.isEmpty(str2)) {
+                                tLObject2 = tLObject;
+                                if (charSequence.toString().startsWith("@" + str2)) {
+                                    r7 = charSequence;
                                     charSequence = null;
+                                    tLObject2 = tLObject;
                                 }
                             }
                         }
-                    } else if (i > size && !TextUtils.isEmpty(str3)) {
+                    } else if (i > size && !TextUtils.isEmpty(str2)) {
                         String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
                         if (lastFoundUsername.startsWith("@")) {
                             lastFoundUsername = lastFoundUsername.substring(1);
@@ -1219,8 +1241,8 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                         try {
                             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                             spannableStringBuilder.append((CharSequence) "@");
-                            spannableStringBuilder.append((CharSequence) str3);
-                            int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str3, lastFoundUsername);
+                            spannableStringBuilder.append((CharSequence) str2);
+                            int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str2, lastFoundUsername);
                             if (indexOfIgnoreCase != -1) {
                                 int length = lastFoundUsername.length();
                                 if (indexOfIgnoreCase == 0) {
@@ -1231,37 +1253,39 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                                 spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor("windowBackgroundWhiteBlueText4")), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
                             }
                             charSequence = null;
-                            sb = spannableStringBuilder;
+                            r7 = spannableStringBuilder;
+                            tLObject2 = tLObject;
                         } catch (Exception unused) {
                             charSequence = null;
-                            sb = str3;
+                            r7 = str2;
+                            tLObject2 = tLObject;
                         }
                     }
-                    if (!(tLObject instanceof TLRPC$User)) {
-                        j = ((TLRPC$User) tLObject).id;
+                    if (!(tLObject2 instanceof TLRPC$User)) {
+                        j = ((TLRPC$User) tLObject2).id;
                     } else {
-                        j = tLObject instanceof TLRPC$Chat ? -((TLRPC$Chat) tLObject).id : 0L;
+                        j = tLObject2 instanceof TLRPC$Chat ? -((TLRPC$Chat) tLObject2).id : 0L;
                     }
                     if (!this.searching) {
-                        sb = new StringBuilder();
+                        r7 = new StringBuilder();
                         ArrayList<MessagesController.DialogFilter> arrayList = FilterUsersActivity.this.getMessagesController().dialogFilters;
                         int size4 = arrayList.size();
                         for (int i3 = 0; i3 < size4; i3++) {
                             MessagesController.DialogFilter dialogFilter = arrayList.get(i3);
                             if (dialogFilter.includesDialog(FilterUsersActivity.this.getAccountInstance(), j)) {
-                                if (sb.length() > 0) {
-                                    sb.append(", ");
+                                if (r7.length() > 0) {
+                                    r7.append(", ");
                                 }
-                                sb.append(dialogFilter.name);
+                                r7.append(dialogFilter.name);
                             }
                         }
                     }
-                    groupCreateUserCell.setObject(tLObject, charSequence, sb);
+                    r1.setObject(tLObject2, charSequence, r7);
                     if (j != 0) {
                         return;
                     }
-                    groupCreateUserCell.setChecked(FilterUsersActivity.this.selectedContacts.indexOfKey(j) >= 0, false);
-                    groupCreateUserCell.setCheckBoxEnabled(true);
+                    r1.setChecked(FilterUsersActivity.this.selectedContacts.indexOfKey(j) >= 0, false);
+                    r1.setCheckBoxEnabled(true);
                     return;
                 }
             } else {
@@ -1269,52 +1293,53 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                 if (i < i4) {
                     if (FilterUsersActivity.this.isInclude) {
                         if (i == 1) {
-                            str2 = LocaleController.getString("FilterContacts", R.string.FilterContacts);
+                            string = LocaleController.getString("FilterContacts", R.string.FilterContacts);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
                             str = "contacts";
                         } else if (i == 2) {
-                            str2 = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
+                            string = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
                             str = "non_contacts";
                         } else if (i == 3) {
-                            str2 = LocaleController.getString("FilterGroups", R.string.FilterGroups);
+                            string = LocaleController.getString("FilterGroups", R.string.FilterGroups);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
                             str = "groups";
                         } else if (i == 4) {
-                            str2 = LocaleController.getString("FilterChannels", R.string.FilterChannels);
+                            string = LocaleController.getString("FilterChannels", R.string.FilterChannels);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
                             str = "channels";
                         } else {
-                            str2 = LocaleController.getString("FilterBots", R.string.FilterBots);
+                            string = LocaleController.getString("FilterBots", R.string.FilterBots);
                             i2 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
                             str = "bots";
                         }
                     } else if (i == 1) {
-                        str2 = LocaleController.getString("FilterMuted", R.string.FilterMuted);
+                        string = LocaleController.getString("FilterMuted", R.string.FilterMuted);
                         i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
                         str = "muted";
                     } else if (i == 2) {
-                        str2 = LocaleController.getString("FilterRead", R.string.FilterRead);
+                        string = LocaleController.getString("FilterRead", R.string.FilterRead);
                         i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
                         str = "read";
                     } else {
-                        str2 = LocaleController.getString("FilterArchived", R.string.FilterArchived);
+                        string = LocaleController.getString("FilterArchived", R.string.FilterArchived);
                         i2 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_ARCHIVED;
                         str = "archived";
                     }
-                    groupCreateUserCell.setObject(str, str2, null);
-                    groupCreateUserCell.setChecked((FilterUsersActivity.this.filterFlags & i2) == i2, false);
-                    groupCreateUserCell.setCheckBoxEnabled(true);
+                    r1.setObject(str, string, null);
+                    r1.setChecked((FilterUsersActivity.this.filterFlags & i2) == i2, false);
+                    r1.setCheckBoxEnabled(true);
                     return;
                 }
                 tLObject = this.contacts.get(i - i4);
             }
             charSequence = null;
-            if (!(tLObject instanceof TLRPC$User)) {
+            tLObject2 = tLObject;
+            if (!(tLObject2 instanceof TLRPC$User)) {
             }
             if (!this.searching) {
             }
-            groupCreateUserCell.setObject(tLObject, charSequence, sb);
+            r1.setObject(tLObject2, charSequence, r7);
             if (j != 0) {
             }
         }
@@ -1377,6 +1402,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             dispatchQueue.postRunnable(runnable, 300L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$3(final String str) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterUsersActivity$GroupCreateAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -1386,6 +1412,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$2(final String str) {
             this.searchAdapterHelper.queryServerSearch(str, true, true, true, true, false, 0L, false, 0, 0);
             DispatchQueue dispatchQueue = Utilities.searchQueue;
@@ -1399,6 +1426,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             dispatchQueue.postRunnable(runnable);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$1(String str) {
             String str2;
             int i;
@@ -1518,6 +1546,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$4(ArrayList arrayList, ArrayList arrayList2) {
             if (!this.searching) {
                 return;
@@ -1587,6 +1616,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$3() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

@@ -39,4 +39,16 @@ final class D extends H implements t {
         fVar.getClass();
         return false;
     }
+
+    @Override // j$.util.H, j$.util.t, j$.util.w, j$.util.u
+    /* renamed from: trySplit */
+    public /* bridge */ /* synthetic */ t mo350trySplit() {
+        return null;
+    }
+
+    @Override // j$.util.H, j$.util.t, j$.util.w, j$.util.u
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ w mo350trySplit() {
+        return null;
+    }
 }

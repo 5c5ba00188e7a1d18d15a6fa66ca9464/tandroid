@@ -75,23 +75,23 @@ public final class DefaultExtractorInput implements ExtractorInput {
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
     public int peek(byte[] bArr, int i, int i2) throws IOException, InterruptedException {
-        int i3;
+        int min;
         ensureSpaceForPeek(i2);
-        int i4 = this.peekBufferLength;
-        int i5 = this.peekBufferPosition;
-        int i6 = i4 - i5;
-        if (i6 == 0) {
-            i3 = readFromDataSource(this.peekBuffer, i5, i2, 0, true);
-            if (i3 == -1) {
+        int i3 = this.peekBufferLength;
+        int i4 = this.peekBufferPosition;
+        int i5 = i3 - i4;
+        if (i5 == 0) {
+            min = readFromDataSource(this.peekBuffer, i4, i2, 0, true);
+            if (min == -1) {
                 return -1;
             }
-            this.peekBufferLength += i3;
+            this.peekBufferLength += min;
         } else {
-            i3 = Math.min(i2, i6);
+            min = Math.min(i2, i5);
         }
-        System.arraycopy(this.peekBuffer, this.peekBufferPosition, bArr, i, i3);
-        this.peekBufferPosition += i3;
-        return i3;
+        System.arraycopy(this.peekBuffer, this.peekBufferPosition, bArr, i, min);
+        this.peekBufferPosition += min;
+        return min;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput

@@ -197,6 +197,7 @@ public class PremiumButtonView extends FrameLayout {
         this.overlayAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateOverlayProgress() {
         this.overlayTextView.setAlpha(this.overlayProgress);
         this.overlayTextView.setTranslationY(AndroidUtilities.dp(12.0f) * (1.0f - this.overlayProgress));
@@ -231,6 +232,7 @@ public class PremiumButtonView extends FrameLayout {
         this.iconView.setVisibility(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setIcon$0() {
         this.iconView.getAnimatedDrawable().setCurrentFrame(0, true);
         this.iconView.playAnimation();

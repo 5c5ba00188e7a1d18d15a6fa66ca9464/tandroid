@@ -18,6 +18,7 @@ import org.webrtc.EncodedImage;
 import org.webrtc.ThreadUtils;
 import org.webrtc.VideoEncoder;
 import org.webrtc.VideoFrame;
+/* JADX INFO: Access modifiers changed from: package-private */
 @TargetApi(19)
 /* loaded from: classes3.dex */
 public class HardwareVideoEncoder implements VideoEncoder {
@@ -95,6 +96,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
         return rateAllocation;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class BusyCount {
         private int count;
@@ -174,10 +176,10 @@ public class HardwareVideoEncoder implements VideoEncoder {
         return initEncodeInternal();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x008d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x008d, code lost:
         if (r5 == 1) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x008f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x008f, code lost:
         org.webrtc.Logging.w(org.webrtc.HardwareVideoEncoder.TAG, "Unknown profile level id: " + r1);
      */
     /*
@@ -281,8 +283,8 @@ public class HardwareVideoEncoder implements VideoEncoder {
 
     @Override // org.webrtc.VideoEncoder
     public VideoCodecStatus encode(VideoFrame videoFrame, VideoEncoder.EncodeInfo encodeInfo) {
-        VideoCodecStatus videoCodecStatus;
         VideoCodecStatus resetCodec;
+        VideoCodecStatus encodeByteBuffer;
         this.encodeThreadChecker.checkIsOnValidThread();
         if (this.codec == null) {
             return VideoCodecStatus.UNINITIALIZED;
@@ -311,14 +313,14 @@ public class HardwareVideoEncoder implements VideoEncoder {
         int height2 = ((buffer.getHeight() * buffer.getWidth()) * 3) / 2;
         this.outputBuilders.offer(EncodedImage.builder().setCaptureTimeNs(videoFrame.getTimestampNs()).setEncodedWidth(videoFrame.getBuffer().getWidth()).setEncodedHeight(videoFrame.getBuffer().getHeight()).setRotation(videoFrame.getRotation()));
         if (this.useSurfaceMode) {
-            videoCodecStatus = encodeTextureBuffer(videoFrame);
+            encodeByteBuffer = encodeTextureBuffer(videoFrame);
         } else {
-            videoCodecStatus = encodeByteBuffer(videoFrame, buffer, height2);
+            encodeByteBuffer = encodeByteBuffer(videoFrame, buffer, height2);
         }
-        if (videoCodecStatus != VideoCodecStatus.OK) {
+        if (encodeByteBuffer != VideoCodecStatus.OK) {
             this.outputBuilders.pollLast();
         }
-        return videoCodecStatus;
+        return encodeByteBuffer;
     }
 
     private VideoCodecStatus encodeTextureBuffer(VideoFrame videoFrame) {
@@ -430,7 +432,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
     }
 
     protected void deliverEncodedImage() {
-        ByteBuffer byteBuffer;
+        ByteBuffer slice;
         EncodedImage.FrameType frameType;
         VideoCodecMimeType videoCodecMimeType;
         this.outputThreadChecker.checkIsOnValidThread();
@@ -445,14 +447,14 @@ public class HardwareVideoEncoder implements VideoEncoder {
                 this.outputBuffers = this.codec.getOutputBuffers();
                 return;
             }
-            ByteBuffer byteBuffer2 = this.outputBuffers[dequeueOutputBuffer];
-            byteBuffer2.position(bufferInfo.offset);
-            byteBuffer2.limit(bufferInfo.offset + bufferInfo.size);
+            ByteBuffer byteBuffer = this.outputBuffers[dequeueOutputBuffer];
+            byteBuffer.position(bufferInfo.offset);
+            byteBuffer.limit(bufferInfo.offset + bufferInfo.size);
             if ((bufferInfo.flags & 2) != 0) {
                 Logging.d(TAG, "Config frame generated. Offset: " + bufferInfo.offset + ". Size: " + bufferInfo.size);
                 ByteBuffer allocateDirect = ByteBuffer.allocateDirect(bufferInfo.size);
                 this.configBuffer = allocateDirect;
-                allocateDirect.put(byteBuffer2);
+                allocateDirect.put(byteBuffer);
                 return;
             }
             this.bitrateAdjuster.reportEncodedFrame(bufferInfo.size);
@@ -471,13 +473,13 @@ public class HardwareVideoEncoder implements VideoEncoder {
                     this.configBuffer = ByteBuffer.allocateDirect(bufferInfo.size);
                 }
                 Logging.d(TAG, "Prepending config frame of size " + this.configBuffer.capacity() + " to output buffer with offset " + bufferInfo.offset + ", size " + bufferInfo.size);
-                byteBuffer = ByteBuffer.allocateDirect(bufferInfo.size + this.configBuffer.capacity());
+                slice = ByteBuffer.allocateDirect(bufferInfo.size + this.configBuffer.capacity());
                 this.configBuffer.rewind();
-                byteBuffer.put(this.configBuffer);
-                byteBuffer.put(byteBuffer2);
-                byteBuffer.rewind();
+                slice.put(this.configBuffer);
+                slice.put(byteBuffer);
+                slice.rewind();
             } else {
-                byteBuffer = byteBuffer2.slice();
+                slice = byteBuffer.slice();
             }
             if (z) {
                 frameType = EncodedImage.FrameType.VideoFrameKey;
@@ -485,7 +487,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
                 frameType = EncodedImage.FrameType.VideoFrameDelta;
             }
             this.outputBuffersBusyCount.increment();
-            EncodedImage createEncodedImage = this.outputBuilders.poll().setBuffer(byteBuffer, new Runnable() { // from class: org.webrtc.HardwareVideoEncoder$$ExternalSyntheticLambda0
+            EncodedImage createEncodedImage = this.outputBuilders.poll().setBuffer(slice, new Runnable() { // from class: org.webrtc.HardwareVideoEncoder$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     HardwareVideoEncoder.this.lambda$deliverEncodedImage$0(dequeueOutputBuffer);
@@ -498,6 +500,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$deliverEncodedImage$0(int i) {
         try {
             this.codec.releaseOutputBuffer(i, false);
@@ -507,6 +510,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
         this.outputBuffersBusyCount.decrement();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void releaseCodecOnOutputThread() {
         this.outputThreadChecker.checkIsOnValidThread();
         Logging.d(TAG, "Releasing MediaCodec on output thread");
@@ -548,6 +552,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
         this.yuvFormat.fillBuffer(byteBuffer, buffer);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public enum YuvFormat {
         I420 { // from class: org.webrtc.HardwareVideoEncoder.YuvFormat.1

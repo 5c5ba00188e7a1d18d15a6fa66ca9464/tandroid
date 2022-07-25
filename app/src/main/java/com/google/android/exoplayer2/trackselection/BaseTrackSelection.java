@@ -132,6 +132,7 @@ public abstract class BaseTrackSelection implements TrackSelection {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final boolean isBlacklisted(int i, long j) {
         return this.blacklistUntilTimes[i] > j;
     }
@@ -154,12 +155,12 @@ public abstract class BaseTrackSelection implements TrackSelection {
         return this.group == baseTrackSelection.group && Arrays.equals(this.tracks, baseTrackSelection.tracks);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class DecreasingBandwidthComparator implements Comparator<Format> {
+    private static final class DecreasingBandwidthComparator implements Comparator<Format> {
         private DecreasingBandwidthComparator() {
         }
 
+        @Override // java.util.Comparator
         public int compare(Format format, Format format2) {
             return format2.bitrate - format.bitrate;
         }

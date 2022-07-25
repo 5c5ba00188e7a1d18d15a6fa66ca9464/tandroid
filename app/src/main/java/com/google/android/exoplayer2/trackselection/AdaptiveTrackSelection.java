@@ -27,6 +27,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
     private int reason;
     private int selectedIndex;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface BandwidthProvider {
         long getAllocatedBandwidth();
@@ -251,6 +252,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         return this.minDurationForQualityIncreaseUs;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class DefaultBandwidthProvider implements BandwidthProvider {
         private long[][] allocationCheckpoints;
@@ -290,6 +292,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static long[][][] getAllocationCheckpoints(long[][] jArr) {
         int i;
         double[][] logArrayValues = getLogArrayValues(jArr);

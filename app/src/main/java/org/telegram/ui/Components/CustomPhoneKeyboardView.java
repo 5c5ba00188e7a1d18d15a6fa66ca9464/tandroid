@@ -40,6 +40,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$3(View view) {
     }
 
@@ -48,6 +49,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         EditText editText = this.editText;
         if (editText != null) {
@@ -65,6 +67,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         this.postedLongClick = false;
         this.runningLongClick = true;
@@ -150,6 +153,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         addView(imageView2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(String str, View view) {
         if (this.editText == null) {
             return;
@@ -248,6 +252,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Drawable getButtonDrawable() {
         return Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("listSelectorSDK21"), ColorUtils.setAlphaComponent(Theme.getColor("listSelectorSDK21"), 60));
     }
@@ -265,9 +270,8 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static final class NumberButtonView extends View {
+    private static final class NumberButtonView extends View {
         private String mNumber;
         private String mSymbols;
         private TextPaint numberTextPaint = new TextPaint(1);
@@ -284,6 +288,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
             updateColors();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
             this.numberTextPaint.setColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             this.symbolsTextPaint.setColor(Theme.getColor("windowBackgroundWhiteHintText"));

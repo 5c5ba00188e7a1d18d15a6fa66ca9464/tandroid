@@ -187,16 +187,16 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 super.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:17:0x009c  */
-            /* JADX WARN: Removed duplicated region for block: B:19:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x009c  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x00ed  */
+            /* JADX WARN: Removed duplicated region for block: B:18:? A[RETURN, SYNTHETIC] */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             protected void onDraw(Canvas canvas) {
-                int i;
                 float f;
+                int i;
                 int dp = (InviteLinkBottomSheet.this.scrollOffsetY - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop) - AndroidUtilities.dp(8.0f);
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(36.0f) + ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop;
                 if (Build.VERSION.SDK_INT >= 21) {
@@ -273,6 +273,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 super.requestLayout();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             public void onMeasure(int i, int i2) {
                 if (this.lastH != View.MeasureSpec.getSize(i2)) {
@@ -367,6 +368,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         updateColors();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, HashMap hashMap, final BaseFragment baseFragment, View view, int i) {
         if (i == this.creatorRow && tLRPC$TL_chatInviteExported.admin_id == UserConfig.getInstance(this.currentAccount).clientUserId) {
             return;
@@ -401,6 +403,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(TLRPC$User tLRPC$User, BaseFragment baseFragment) {
         Bundle bundle = new Bundle();
         bundle.putLong("user_id", tLRPC$User.id);
@@ -484,6 +487,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadCreator$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.4
             @Override // java.lang.Runnable
@@ -497,10 +501,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00c9  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00c9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -620,10 +624,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.adapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
-            InviteLinkBottomSheet.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -663,9 +667,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View timerPrivacyCell;
             HeaderCell headerCell;
-            View view;
             Context context = viewGroup.getContext();
             switch (i) {
                 case 1:
@@ -682,11 +687,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     headerCell = linkActionView;
                     break;
                 case 4:
-                    view = new TimerPrivacyCell(context);
+                    timerPrivacyCell = new TimerPrivacyCell(context);
                     CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(context, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     combinedDrawable.setFullsize(true);
-                    view.setBackground(combinedDrawable);
-                    headerCell = view;
+                    timerPrivacyCell.setBackground(combinedDrawable);
+                    headerCell = timerPrivacyCell;
                     break;
                 case 5:
                     FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
@@ -705,11 +710,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     };
                     break;
                 case 7:
-                    view = new ShadowSectionCell(context, 12);
+                    timerPrivacyCell = new ShadowSectionCell(context, 12);
                     CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"), 0, 0);
                     combinedDrawable2.setFullsize(true);
-                    view.setBackgroundDrawable(combinedDrawable2);
-                    headerCell = view;
+                    timerPrivacyCell.setBackgroundDrawable(combinedDrawable2);
+                    headerCell = timerPrivacyCell;
                     break;
                 case 8:
                     headerCell = new EmptyHintRow(InviteLinkBottomSheet.this, context);
@@ -726,7 +731,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
             return new RecyclerListView.Holder(headerCell);
         }
 
-        /* renamed from: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass1 implements LinkActionView.Delegate {
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -735,7 +741,6 @@ public class InviteLinkBottomSheet extends BottomSheet {
             }
 
             AnonymousClass1() {
-                Adapter.this = r1;
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -760,6 +765,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 InviteLinkBottomSheet.this.dismiss();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$revokeLink$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
@@ -769,6 +775,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 });
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$revokeLink$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
                 if (tLRPC$TL_error == null) {
                     if (tLObject instanceof TLRPC$TL_messages_exportedChatInviteReplaced) {
@@ -860,6 +867,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 InviteLinkBottomSheet.this.dismiss();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$removeLink$3(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
@@ -869,6 +877,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 });
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$removeLink$2(TLRPC$TL_error tLRPC$TL_error) {
                 InviteLinkBottomSheet inviteLinkBottomSheet;
                 InviteDelegate inviteDelegate;
@@ -883,8 +892,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int i2;
             int i3;
-            String str;
             TLRPC$User tLRPC$User;
+            String str;
             String string;
             int itemViewType = viewHolder.getItemViewType();
             String str2 = null;
@@ -1046,6 +1055,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
             RecyclerListView recyclerListView = this.listView;
@@ -1177,6 +1187,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$4(final List list, final boolean z, final boolean z2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -1186,6 +1197,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$3(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, List list, boolean z, boolean z2) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_messages_chatInviteImporters tLRPC$TL_messages_chatInviteImporters = (TLRPC$TL_messages_chatInviteImporters) tLObject;
@@ -1208,6 +1220,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.inviteDelegate = inviteDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TimerPrivacyCell extends TextInfoPrivacyCell {
         boolean timer;
@@ -1223,10 +1236,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
             }
         };
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public TimerPrivacyCell(Context context) {
             super(context);
-            InviteLinkBottomSheet.this = r1;
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -1253,6 +1264,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class EmptyHintRow extends FrameLayout {
         TextView textView;

@@ -30,8 +30,6 @@ public abstract class FileUtil {
 
         @Override // java.lang.Runnable
         public void run() {
-            Throwable th;
-            IOException e;
             File file = this.a;
             if (file == null) {
                 HMSLog.e("FileUtil", "In writeFile Failed to get local file.");
@@ -54,25 +52,25 @@ public abstract class FileUtil {
                             try {
                                 randomAccessFile2.seek(length);
                                 randomAccessFile = randomAccessFile2;
-                            } catch (IOException e2) {
-                                e = e2;
+                            } catch (IOException e) {
+                                e = e;
                                 randomAccessFile = randomAccessFile2;
                                 HMSLog.e("FileUtil", "writeFile exception:", e);
                                 IOUtils.closeQuietly(randomAccessFile);
                                 return;
-                            } catch (Throwable th2) {
-                                th = th2;
+                            } catch (Throwable th) {
+                                th = th;
                                 randomAccessFile = randomAccessFile2;
                                 IOUtils.closeQuietly(randomAccessFile);
                                 throw th;
                             }
                         }
                         randomAccessFile.writeBytes(this.c + System.getProperty("line.separator"));
-                    } catch (Throwable th3) {
-                        th = th3;
+                    } catch (Throwable th2) {
+                        th = th2;
                     }
-                } catch (IOException e3) {
-                    e = e3;
+                } catch (IOException e2) {
+                    e = e2;
                 }
                 IOUtils.closeQuietly(randomAccessFile);
                 return;

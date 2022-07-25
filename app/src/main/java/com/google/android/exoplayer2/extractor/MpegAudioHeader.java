@@ -92,19 +92,19 @@ public final class MpegAudioHeader {
         int i11 = (i >>> 9) & 1;
         int frameSizeInSamples = getFrameSizeInSamples(i2, i3);
         if (i3 == 3) {
-            i7 = i2 == 3 ? BITRATE_V1_L1[i4 - 1] : BITRATE_V2_L1[i4 - 1];
-            i8 = (((i7 * 12) / i10) + i11) * 4;
+            i6 = i2 == 3 ? BITRATE_V1_L1[i4 - 1] : BITRATE_V2_L1[i4 - 1];
+            i8 = (((i6 * 12) / i10) + i11) * 4;
         } else {
             if (i2 == 3) {
-                i7 = i3 == 2 ? BITRATE_V1_L2[i4 - 1] : BITRATE_V1_L3[i4 - 1];
-                i6 = (i7 * 144) / i10;
+                i6 = i3 == 2 ? BITRATE_V1_L2[i4 - 1] : BITRATE_V1_L3[i4 - 1];
+                i7 = (i6 * 144) / i10;
             } else {
-                i7 = BITRATE_V2[i4 - 1];
-                i6 = ((i3 == 1 ? 72 : 144) * i7) / i10;
+                i6 = BITRATE_V2[i4 - 1];
+                i7 = ((i3 == 1 ? 72 : 144) * i6) / i10;
             }
-            i8 = i6 + i11;
+            i8 = i7 + i11;
         }
-        mpegAudioHeader.setValues(i2, MIME_TYPE_BY_LAYER[3 - i3], i8, i10, ((i >> 6) & 3) == 3 ? 1 : 2, i7, frameSizeInSamples);
+        mpegAudioHeader.setValues(i2, MIME_TYPE_BY_LAYER[3 - i3], i8, i10, ((i >> 6) & 3) == 3 ? 1 : 2, i6, frameSizeInSamples);
         return true;
     }
 

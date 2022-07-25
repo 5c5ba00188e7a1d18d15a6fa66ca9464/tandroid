@@ -144,8 +144,7 @@ public class GroupCallRecordAlert extends BottomSheet {
             private Paint[] gradientPaint;
 
             {
-                GroupCallRecordAlert.this = this;
-                this.gradientPaint = new Paint[this.titles.length];
+                this.gradientPaint = new Paint[GroupCallRecordAlert.this.titles.length];
                 int i3 = 0;
                 while (true) {
                     Paint[] paintArr = this.gradientPaint;
@@ -158,8 +157,8 @@ public class GroupCallRecordAlert extends BottomSheet {
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:14:0x002f  */
-            /* JADX WARN: Removed duplicated region for block: B:15:0x004b  */
+            /* JADX WARN: Removed duplicated region for block: B:10:0x002f  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x004b  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -173,22 +172,22 @@ public class GroupCallRecordAlert extends BottomSheet {
                     int i10 = -9015575;
                     if (i9 == 0) {
                         i10 = -11033346;
-                        i8 = -9015575;
+                        i7 = -9015575;
                     } else if (i9 == 1) {
                         i10 = -8919716;
-                        i8 = -11089922;
+                        i7 = -11089922;
                     } else {
-                        i8 = -1026983;
-                        i7 = -1792170;
-                        if (i7 == 0) {
-                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i10, i8, i7}, (float[]) null, Shader.TileMode.CLAMP);
+                        i7 = -1026983;
+                        i8 = -1792170;
+                        if (i8 == 0) {
+                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i10, i7, i8}, (float[]) null, Shader.TileMode.CLAMP);
                         } else {
-                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i10, i8}, (float[]) null, Shader.TileMode.CLAMP);
+                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i10, i7}, (float[]) null, Shader.TileMode.CLAMP);
                         }
                         this.gradientPaint[i9].setShader(linearGradient);
                     }
-                    i7 = 0;
-                    if (i7 == 0) {
+                    i8 = 0;
+                    if (i8 == 0) {
                     }
                     this.gradientPaint[i9].setShader(linearGradient);
                 }
@@ -267,15 +266,18 @@ public class GroupCallRecordAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         onStartRecord(this.currentPage);
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(int i, View view) {
         this.viewPager.setCurrentItem(i, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateTitlesLayout() {
         TextView[] textViewArr = this.titles;
         int i = this.currentPage;
@@ -317,6 +319,7 @@ public class GroupCallRecordAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Adapter extends PagerAdapter {
         @Override // androidx.viewpager.widget.PagerAdapter
@@ -329,7 +332,6 @@ public class GroupCallRecordAlert extends BottomSheet {
         }
 
         private Adapter() {
-            GroupCallRecordAlert.this = r1;
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
@@ -338,7 +340,8 @@ public class GroupCallRecordAlert extends BottomSheet {
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
-        public Object instantiateItem(ViewGroup viewGroup, final int i) {
+        /* renamed from: instantiateItem */
+        public Object mo1580instantiateItem(ViewGroup viewGroup, final int i) {
             ImageView imageView = new ImageView(GroupCallRecordAlert.this.getContext()) { // from class: org.telegram.ui.Components.GroupCallRecordAlert.Adapter.1
                 @Override // android.view.View
                 public void onInitializeAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
@@ -376,6 +379,7 @@ public class GroupCallRecordAlert extends BottomSheet {
             return imageView;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$instantiateItem$0(int i, View view) {
             GroupCallRecordAlert.this.onStartRecord(i);
             GroupCallRecordAlert.this.dismiss();

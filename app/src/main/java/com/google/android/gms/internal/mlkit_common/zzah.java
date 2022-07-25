@@ -1,17 +1,18 @@
 package com.google.android.gms.internal.mlkit_common;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:common@@17.0.0 */
 /* loaded from: classes.dex */
-public final class zzah<E> extends zzad<E> {
+final class zzah<E> extends zzad<E> {
     static final zzad<Object> zza = new zzah(new Object[0], 0);
     private final transient Object[] zzb;
     private final transient int zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzah(Object[] objArr, int i) {
         this.zzb = objArr;
         this.zzc = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzac
     public final int zzc() {
         return 0;
@@ -22,6 +23,7 @@ public final class zzah<E> extends zzad<E> {
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzac
     public final Object[] zzb() {
         return this.zzb;

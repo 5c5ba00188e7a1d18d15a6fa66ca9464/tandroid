@@ -14,8 +14,9 @@ public final class MetadataBackendRegistry_Factory implements Factory<MetadataBa
     }
 
     @Override // javax.inject.Provider
-    public MetadataBackendRegistry get() {
-        return newInstance(this.applicationContextProvider.get(), this.creationContextFactoryProvider.get());
+    /* renamed from: get */
+    public MetadataBackendRegistry mo70get() {
+        return newInstance(this.applicationContextProvider.mo70get(), this.creationContextFactoryProvider.mo70get());
     }
 
     public static MetadataBackendRegistry_Factory create(Provider<Context> provider, Provider<CreationContextFactory> provider2) {

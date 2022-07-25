@@ -8,6 +8,7 @@ import android.os.RemoteException;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public class zaa extends Binder implements IInterface {
+    /* JADX INFO: Access modifiers changed from: protected */
     public zaa(String str) {
         attachInterface(this, str);
     }

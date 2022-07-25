@@ -72,9 +72,7 @@ public class PhoneFormat {
     }
 
     public void init(String str) {
-        Throwable th;
         InputStream inputStream;
-        Exception e;
         ByteArrayOutputStream byteArrayOutputStream;
         ByteArrayOutputStream byteArrayOutputStream2 = null;
         try {
@@ -82,17 +80,17 @@ public class PhoneFormat {
             try {
                 try {
                     byteArrayOutputStream = new ByteArrayOutputStream();
-                } catch (Exception e2) {
-                    e = e2;
+                } catch (Exception e) {
+                    e = e;
                 }
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
-        } catch (Exception e3) {
-            e = e3;
+        } catch (Exception e2) {
+            e = e2;
             inputStream = null;
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             inputStream = null;
         }
         try {
@@ -111,13 +109,13 @@ public class PhoneFormat {
             wrap.order(ByteOrder.LITTLE_ENDIAN);
             try {
                 byteArrayOutputStream.close();
-            } catch (Exception e4) {
-                FileLog.e(e4);
+            } catch (Exception e3) {
+                FileLog.e(e3);
             }
             try {
                 inputStream.close();
-            } catch (Exception e5) {
-                FileLog.e(e5);
+            } catch (Exception e4) {
+                FileLog.e(e4);
             }
             if (str != null && str.length() != 0) {
                 this.defaultCountry = str;
@@ -130,15 +128,15 @@ public class PhoneFormat {
             this.countryCallingCode = new HashMap<>(255);
             parseDataHeader();
             this.initialzed = true;
-        } catch (Exception e6) {
-            e = e6;
+        } catch (Exception e5) {
+            e = e5;
             byteArrayOutputStream2 = byteArrayOutputStream;
             e.printStackTrace();
             if (byteArrayOutputStream2 != null) {
                 try {
                     byteArrayOutputStream2.close();
-                } catch (Exception e7) {
-                    FileLog.e(e7);
+                } catch (Exception e6) {
+                    FileLog.e(e6);
                 }
             }
             if (inputStream == null) {
@@ -146,24 +144,24 @@ public class PhoneFormat {
             }
             try {
                 inputStream.close();
-            } catch (Exception e8) {
-                FileLog.e(e8);
+            } catch (Exception e7) {
+                FileLog.e(e7);
             }
-        } catch (Throwable th4) {
-            th = th4;
+        } catch (Throwable th3) {
+            th = th3;
             byteArrayOutputStream2 = byteArrayOutputStream;
             if (byteArrayOutputStream2 != null) {
                 try {
                     byteArrayOutputStream2.close();
-                } catch (Exception e9) {
-                    FileLog.e(e9);
+                } catch (Exception e8) {
+                    FileLog.e(e8);
                 }
             }
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (Exception e10) {
-                    FileLog.e(e10);
+                } catch (Exception e9) {
+                    FileLog.e(e9);
                 }
             }
             throw th;
@@ -234,17 +232,17 @@ public class PhoneFormat {
         return (short) 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0015, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x000d, code lost:
+        if (r5 != r1) goto L13;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x000f, code lost:
+        return "";
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0015, code lost:
         return new java.lang.String(r2, r5, r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x000c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x000c, code lost:
         r1 = r1 - r5;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x000d, code lost:
-        if (r5 != r1) goto L10;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x000f, code lost:
-        return "";
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -270,8 +268,8 @@ public class PhoneFormat {
 
     public CallingCodeInfo callingCodeInfo(String str) {
         Integer num;
-        int i;
         byte[] bArr;
+        int i;
         PhoneFormat phoneFormat = this;
         CallingCodeInfo callingCodeInfo = phoneFormat.callingCodeData.get(str);
         if (callingCodeInfo != null || (num = phoneFormat.callingCodeOffsets.get(str)) == null) {

@@ -89,7 +89,7 @@ public class AdminLogFilterAlert extends BottomSheet {
             tLRPC$TL_channelAdminLogEventsFilter2.invites = tLRPC$TL_channelAdminLogEventsFilter.invites;
         }
         if (longSparseArray != null) {
-            this.selectedAdmins = longSparseArray.clone();
+            this.selectedAdmins = longSparseArray.m2clone();
         }
         this.isMegagroup = z;
         if (z) {
@@ -246,6 +246,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.adapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter;
         TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter2;
@@ -397,6 +398,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         this.delegate.didSelectRights(this.currentFilter, this.selectedAdmins);
         dismiss();
@@ -414,6 +416,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.delegate = adminLogFilterAlertDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"NewApi"})
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
@@ -440,12 +443,12 @@ public class AdminLogFilterAlert extends BottomSheet {
         this.containerView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
         public ListAdapter(Context context) {
-            AdminLogFilterAlert.this = r1;
             this.context = context;
         }
 
@@ -468,23 +471,24 @@ public class AdminLogFilterAlert extends BottomSheet {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout checkBoxCell;
             FrameLayout frameLayout;
-            FrameLayout frameLayout2;
             if (i == 0) {
-                frameLayout2 = new CheckBoxCell(this.context, 1, 21, ((BottomSheet) AdminLogFilterAlert.this).resourcesProvider);
+                checkBoxCell = new CheckBoxCell(this.context, 1, 21, ((BottomSheet) AdminLogFilterAlert.this).resourcesProvider);
             } else if (i == 1) {
                 View shadowSectionCell = new ShadowSectionCell(this.context, 18);
-                frameLayout2 = new FrameLayout(this.context);
-                frameLayout2.addView(shadowSectionCell, LayoutHelper.createFrame(-1, -1.0f));
-                frameLayout2.setBackgroundColor(Theme.getColor("dialogBackgroundGray"));
+                checkBoxCell = new FrameLayout(this.context);
+                checkBoxCell.addView(shadowSectionCell, LayoutHelper.createFrame(-1, -1.0f));
+                checkBoxCell.setBackgroundColor(Theme.getColor("dialogBackgroundGray"));
             } else if (i == 2) {
-                frameLayout2 = new CheckBoxUserCell(this.context, true);
+                checkBoxCell = new CheckBoxUserCell(this.context, true);
             } else {
                 frameLayout = null;
                 return new RecyclerListView.Holder(frameLayout);
             }
-            frameLayout = frameLayout2;
+            frameLayout = checkBoxCell;
             return new RecyclerListView.Holder(frameLayout);
         }
 

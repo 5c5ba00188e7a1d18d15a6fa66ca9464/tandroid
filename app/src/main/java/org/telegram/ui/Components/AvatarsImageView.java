@@ -13,6 +13,7 @@ public class AvatarsImageView extends View {
         this.avatarsDarawable = new AvatarsDarawable(this, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);

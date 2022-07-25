@@ -4,6 +4,7 @@ import java.util.Locale;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class SendException extends Exception {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public SendException(String str) {
         super(str);
         parseErrorCode(str);

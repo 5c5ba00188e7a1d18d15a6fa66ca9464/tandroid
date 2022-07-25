@@ -556,6 +556,7 @@ public class AnalyticsCollector implements Player.EventListener, MetadataOutput,
         return generateEventTime(currentTimeline, i, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class MediaPeriodQueueTracker {
         private boolean isSeeking;
@@ -687,6 +688,7 @@ public class AnalyticsCollector implements Player.EventListener, MetadataOutput,
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class MediaPeriodInfo {
         public final MediaSource.MediaPeriodId mediaPeriodId;

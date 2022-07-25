@@ -16,9 +16,8 @@ import org.webrtc.ThreadUtils;
 import org.webrtc.VideoDecoder;
 import org.webrtc.VideoFrame;
 import org.webrtc.VideoSink;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
-public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
+class AndroidVideoDecoder implements VideoDecoder, VideoSink {
     private static final int DEQUEUE_INPUT_TIMEOUT_US = 500000;
     private static final int DEQUEUE_OUTPUT_BUFFER_TIMEOUT_US = 100000;
     private static final int MEDIA_CODEC_RELEASE_TIMEOUT_MS = 5000;
@@ -69,6 +68,7 @@ public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         VideoSink.CC.$default$setParentSink(this, videoSink);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class FrameInfo {
         final long decodeStartTimeMs;
@@ -80,6 +80,7 @@ public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class DecodedTextureMetadata {
         final Integer decodeTimeMs;
@@ -91,6 +92,7 @@ public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AndroidVideoDecoder(MediaCodecWrapperFactory mediaCodecWrapperFactory, String str, VideoCodecMimeType videoCodecMimeType, int i, EglBase.Context context) {
         if (!isSupportedColorFormat(i)) {
             throw new IllegalArgumentException("Unsupported color format: " + i);
@@ -370,7 +372,7 @@ public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         int i4;
         int i5;
         int i6;
-        VideoFrame.Buffer buffer;
+        VideoFrame.Buffer copyNV12ToI420Buffer;
         synchronized (this.dimensionLock) {
             i3 = this.width;
             i4 = this.height;
@@ -388,12 +390,12 @@ public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         byteBuffer.limit(bufferInfo.offset + bufferInfo.size);
         ByteBuffer slice = byteBuffer.slice();
         if (this.colorFormat == 19) {
-            buffer = copyI420Buffer(slice, i8, i6, i3, i4);
+            copyNV12ToI420Buffer = copyI420Buffer(slice, i8, i6, i3, i4);
         } else {
-            buffer = copyNV12ToI420Buffer(slice, i8, i6, i3, i4);
+            copyNV12ToI420Buffer = copyNV12ToI420Buffer(slice, i8, i6, i3, i4);
         }
         this.codec.releaseOutputBuffer(i, false);
-        VideoFrame videoFrame = new VideoFrame(buffer, i2, bufferInfo.presentationTimeUs * 1000);
+        VideoFrame videoFrame = new VideoFrame(copyNV12ToI420Buffer, i2, bufferInfo.presentationTimeUs * 1000);
         this.callback.onDecodedFrame(videoFrame, num, null);
         videoFrame.release();
     }
@@ -445,28 +447,28 @@ public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
     }
 
     private void reformat(MediaFormat mediaFormat) {
-        int i;
-        int i2;
+        int integer;
+        int integer2;
         this.outputThreadChecker.checkIsOnValidThread();
         Logging.d(TAG, "Decoder format changed: " + mediaFormat.toString());
         if (mediaFormat.containsKey(MEDIA_FORMAT_KEY_CROP_LEFT) && mediaFormat.containsKey(MEDIA_FORMAT_KEY_CROP_RIGHT) && mediaFormat.containsKey(MEDIA_FORMAT_KEY_CROP_BOTTOM) && mediaFormat.containsKey(MEDIA_FORMAT_KEY_CROP_TOP)) {
-            i2 = (mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_RIGHT) + 1) - mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_LEFT);
-            i = (mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_BOTTOM) + 1) - mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_TOP);
+            integer = (mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_RIGHT) + 1) - mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_LEFT);
+            integer2 = (mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_BOTTOM) + 1) - mediaFormat.getInteger(MEDIA_FORMAT_KEY_CROP_TOP);
         } else {
-            i2 = mediaFormat.getInteger("width");
-            i = mediaFormat.getInteger("height");
+            integer = mediaFormat.getInteger("width");
+            integer2 = mediaFormat.getInteger("height");
         }
         synchronized (this.dimensionLock) {
-            if (i2 != this.width || i != this.height) {
+            if (integer != this.width || integer2 != this.height) {
                 if (this.hasDecodedFirstFrame) {
-                    stopOnOutputThread(new RuntimeException("Unexpected size change. Configured " + this.width + "*" + this.height + ". New " + i2 + "*" + i));
+                    stopOnOutputThread(new RuntimeException("Unexpected size change. Configured " + this.width + "*" + this.height + ". New " + integer + "*" + integer2));
                     return;
                 }
-                if (i2 > 0 && i > 0) {
-                    this.width = i2;
-                    this.height = i;
+                if (integer > 0 && integer2 > 0) {
+                    this.width = integer;
+                    this.height = integer2;
                 }
-                Logging.w(TAG, "Unexpected format dimensions. Configured " + this.width + "*" + this.height + ". New " + i2 + "*" + i + ". Skip it");
+                Logging.w(TAG, "Unexpected format dimensions. Configured " + this.width + "*" + this.height + ". New " + integer + "*" + integer2 + ". Skip it");
                 return;
             }
             if (this.surfaceTextureHelper == null && mediaFormat.containsKey("color-format")) {
@@ -491,6 +493,7 @@ public class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void releaseCodecOnOutputThread() {
         this.outputThreadChecker.checkIsOnValidThread();
         Logging.d(TAG, "Releasing MediaCodec on output thread");

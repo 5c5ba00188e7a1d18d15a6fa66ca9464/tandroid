@@ -5,7 +5,8 @@ import com.microsoft.appcenter.ingestion.models.one.CommonSchemaLog;
 import java.util.Collection;
 /* loaded from: classes.dex */
 public interface LogFactory {
-    Log create();
+    /* renamed from: create */
+    Log mo247create();
 
     Collection<CommonSchemaLog> toCommonSchemaLogs(Log log);
 }

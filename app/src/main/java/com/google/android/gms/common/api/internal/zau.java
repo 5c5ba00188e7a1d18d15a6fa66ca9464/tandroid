@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
 import java.util.concurrent.locks.Lock;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zau implements zabn {
@@ -75,6 +76,7 @@ public final class zau implements zabn {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zau(zas zasVar, zar zarVar) {
         this(zasVar);
     }

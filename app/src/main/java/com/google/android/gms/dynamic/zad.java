@@ -11,6 +11,7 @@ final class zad implements View.OnClickListener {
     private final /* synthetic */ Context zaa;
     private final /* synthetic */ Intent zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zad(Context context, Intent intent) {
         this.zaa = context;
         this.zab = intent;

@@ -18,10 +18,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-public class ImageDownload implements Closeable {
+class ImageDownload implements Closeable {
     private volatile InputStream connectionInputStream;
     private Task<Bitmap> task;
     private final URL url;

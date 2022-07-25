@@ -25,7 +25,6 @@ public class BksUtil {
     private static final String[] p = {"B92825C2BD5D6D6D1E7F39EECD17843B7D9016F611136B75441BC6F4D3F00F05", "E49D5C2C0E11B3B1B96CA56C6DE2A14EC7DAB5CCC3B5F300D03E5B4DBA44F539"};
 
     private static void a(InputStream inputStream, Context context) {
-        Throwable th;
         FileOutputStream fileOutputStream;
         if (inputStream == null || context == null) {
             return;
@@ -43,8 +42,8 @@ public class BksUtil {
             try {
                 g.c("BksUtil", "write output stream ");
                 fileOutputStream = new FileOutputStream(file);
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
         } catch (IOException unused) {
         }
@@ -63,8 +62,8 @@ public class BksUtil {
             fileOutputStream2 = fileOutputStream;
             g.b("BksUtil", " IOException");
             f.a((OutputStream) fileOutputStream2);
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             fileOutputStream2 = fileOutputStream;
             f.a((OutputStream) fileOutputStream2);
             throw th;
@@ -80,7 +79,6 @@ public class BksUtil {
     }
 
     public static synchronized InputStream getBksFromTss(Context context) {
-        Throwable th;
         InputStream inputStream;
         ByteArrayInputStream byteArrayInputStream;
         String a;
@@ -119,8 +117,8 @@ public class BksUtil {
                             byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
                         } catch (Exception unused) {
                         }
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th) {
+                        th = th;
                     }
                     try {
                         a = i.a("bks_hash", "", a2);
@@ -132,8 +130,8 @@ public class BksUtil {
                         f.a((OutputStream) byteArrayOutputStream);
                         f.a((InputStream) byteArrayInputStream2);
                         return getFilesBksIS(a2);
-                    } catch (Throwable th3) {
-                        th = th3;
+                    } catch (Throwable th2) {
+                        th = th2;
                         byteArrayInputStream2 = byteArrayInputStream;
                         f.a(inputStream);
                         f.a((OutputStream) byteArrayOutputStream);
@@ -142,8 +140,8 @@ public class BksUtil {
                     }
                 } catch (Exception unused3) {
                     inputStream = null;
-                } catch (Throwable th4) {
-                    th = th4;
+                } catch (Throwable th3) {
+                    th = th3;
                     inputStream = null;
                 }
                 if (c(a2) && a.equals(b)) {

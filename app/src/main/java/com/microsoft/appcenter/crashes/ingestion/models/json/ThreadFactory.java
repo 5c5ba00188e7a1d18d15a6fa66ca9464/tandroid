@@ -15,8 +15,10 @@ public class ThreadFactory implements ModelFactory<Thread> {
         return sInstance;
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.microsoft.appcenter.ingestion.models.json.ModelFactory
-    public Thread create() {
+    /* renamed from: create */
+    public Thread mo246create() {
         return new Thread();
     }
 

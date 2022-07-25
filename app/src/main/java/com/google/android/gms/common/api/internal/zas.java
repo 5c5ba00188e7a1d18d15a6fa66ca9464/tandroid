@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.Lock;
 import javax.annotation.concurrent.GuardedBy;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zas implements zabo {
@@ -232,6 +233,7 @@ public final class zas implements zabo {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final void zah() {
         ConnectionResult connectionResult;
@@ -299,6 +301,7 @@ public final class zas implements zabo {
         this.zag.clear();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final void zaa(int i, boolean z) {
         this.zab.zaa(i, z);
@@ -325,6 +328,7 @@ public final class zas implements zabo {
         return PendingIntent.getActivity(this.zaa, System.identityHashCode(this.zab), this.zah.getSignInIntent(), 134217728);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zaa(Bundle bundle) {
         Bundle bundle2 = this.zai;
         if (bundle2 == null) {

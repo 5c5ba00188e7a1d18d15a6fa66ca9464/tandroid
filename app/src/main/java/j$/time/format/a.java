@@ -161,6 +161,7 @@ public final class a {
         l4.u(2, cVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public a(f fVar, Locale locale, r rVar, int i, Set set, j$.time.chrono.b bVar) {
         if (fVar != null) {
             this.a = fVar;
@@ -178,6 +179,7 @@ public final class a {
         throw new NullPointerException("printerParser");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public f a(boolean z) {
         return this.a.a(z);
     }

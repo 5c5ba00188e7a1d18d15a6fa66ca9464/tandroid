@@ -278,6 +278,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setItem$0(long j, ChatThemeBottomSheet.ChatThemeItem chatThemeItem, int i, Pair pair) {
         if (pair == null || ((Long) pair.first).longValue() != j) {
             return;
@@ -291,6 +292,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setItem$1(ChatThemeBottomSheet.ChatThemeItem chatThemeItem, TLRPC$WallPaper tLRPC$WallPaper, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         Bitmap bitmap;
         ImageReceiver.BitmapHolder bitmapSafe = imageReceiver.getBitmapSafe();
@@ -308,6 +310,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setItem$3(final ChatThemeBottomSheet.ChatThemeItem chatThemeItem) {
         final Bitmap bitmap = SvgHelper.getBitmap(R.raw.default_pattern, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(140.0f), -16777216, AndroidUtilities.density);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda3
@@ -318,6 +321,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setItem$2(ChatThemeBottomSheet.ChatThemeItem chatThemeItem, Bitmap bitmap) {
         Drawable drawable = chatThemeItem.previewDrawable;
         if (drawable instanceof MotionBackgroundDrawable) {
@@ -377,6 +381,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         this.isSelected = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setSelected$4(ValueAnimator valueAnimator) {
         this.selectionProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -466,21 +471,21 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             int i6 = tLRPC$WallPaperSettings.background_color;
             int i7 = tLRPC$WallPaperSettings.second_background_color;
             int i8 = tLRPC$WallPaperSettings.third_background_color;
-            i3 = tLRPC$WallPaperSettings.fourth_background_color;
-            i5 = i7;
-            i2 = i6;
-            i4 = i8;
+            i4 = tLRPC$WallPaperSettings.fourth_background_color;
+            i2 = i7;
+            i5 = i6;
+            i3 = i8;
         } else {
-            i5 = 0;
-            i4 = 0;
-            i3 = 0;
             i2 = 0;
+            i3 = 0;
+            i4 = 0;
+            i5 = 0;
         }
-        if (i5 != 0) {
-            motionBackgroundDrawable = new MotionBackgroundDrawable(i2, i5, i4, i3, true);
+        if (i2 != 0) {
+            motionBackgroundDrawable = new MotionBackgroundDrawable(i5, i2, i3, i4, true);
             this.patternColor = motionBackgroundDrawable.getPatternColor();
         } else {
-            motionBackgroundDrawable = new MotionBackgroundDrawable(i2, i2, i2, i2, true);
+            motionBackgroundDrawable = new MotionBackgroundDrawable(i5, i5, i5, i5, true);
             this.patternColor = -16777216;
         }
         this.chatThemeItem.previewDrawable = motionBackgroundDrawable;
@@ -530,6 +535,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         return motionBackgroundDrawable;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public StaticLayout getNoThemeStaticLayout() {
         StaticLayout staticLayout = this.textLayout;
         if (staticLayout != null) {
@@ -545,6 +551,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         return createStaticLayout2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getThemedColor(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
@@ -571,6 +578,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$playEmojiAnimation$5() {
         this.animationCancelRunnable = null;
         this.backupImageView.animate().scaleX(1.0f).scaleY(1.0f).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
@@ -584,6 +592,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ThemeDrawable {
         Drawable previewDrawable;
@@ -592,7 +601,6 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         private final Paint inBubblePaint = new Paint(1);
 
         ThemeDrawable() {
-            ThemeSmallPreviewView.this = r3;
             Paint paint = new Paint(1);
             this.strokePaint = paint;
             paint.setStyle(Paint.Style.STROKE);

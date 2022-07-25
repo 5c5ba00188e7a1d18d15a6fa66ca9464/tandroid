@@ -142,8 +142,8 @@ public class Switch extends View {
     }
 
     public void setDrawRipple(boolean z) {
-        String str;
         Theme.ResourcesProvider resourcesProvider;
+        String str;
         int i = Build.VERSION.SDK_INT;
         if (i < 21 || z == this.drawRipple) {
             return;
@@ -360,32 +360,32 @@ public class Switch extends View {
         invalidate();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x00a8, code lost:
-        if (r12 == 0) goto L20;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x00aa, code lost:
-        r16 = 0.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x00ad, code lost:
-        r16 = 1.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00b2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x00a8, code lost:
         if (r12 == 0) goto L21;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x01f1, code lost:
-        if (r1 == 0) goto L69;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x00aa, code lost:
+        r16 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x01f3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x00ad, code lost:
+        r16 = 1.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x00b2, code lost:
+        if (r12 == 0) goto L47;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x01f1, code lost:
+        if (r1 == 0) goto L73;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x01f3, code lost:
         r6 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x01f5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x01f5, code lost:
         r6 = 1.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x01fb, code lost:
-        if (r1 == 0) goto L70;
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x01fb, code lost:
+        if (r1 == 0) goto L95;
      */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x03d4  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x03dd  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x03d4  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x03dd  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

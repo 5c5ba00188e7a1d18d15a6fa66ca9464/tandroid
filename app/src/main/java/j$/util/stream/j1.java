@@ -6,6 +6,7 @@ abstract class j1 implements m3 {
     boolean a;
     boolean b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public j1(k1 k1Var) {
         boolean z;
         z = k1Var.b;

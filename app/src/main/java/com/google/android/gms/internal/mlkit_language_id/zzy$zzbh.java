@@ -107,18 +107,21 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(String str) {
         str.getClass();
         this.zzc |= 1;
         this.zzd = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(String str) {
         str.getClass();
         this.zzc |= 2;
         this.zze = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzc(String str) {
         str.getClass();
         this.zzc |= 8;
@@ -129,12 +132,14 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
         return this.zzh;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzd(String str) {
         str.getClass();
         this.zzc |= 16;
         this.zzh = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(Iterable<String> iterable) {
         zzew<String> zzewVar = this.zzk;
         if (!zzewVar.zza()) {
@@ -143,17 +148,20 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
         zzde.zza(iterable, this.zzk);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zze(String str) {
         str.getClass();
         this.zzc |= ConnectionsManager.RequestFlagNeedQuickAck;
         this.zzl = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(boolean z) {
         this.zzc |= 256;
         this.zzm = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(boolean z) {
         this.zzc |= 512;
         this.zzn = true;
@@ -167,6 +175,7 @@ public final class zzy$zzbh extends zzeo<zzy$zzbh, zza> implements zzgb {
         return zzo.zza(zzy_zzbh);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzbh>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {

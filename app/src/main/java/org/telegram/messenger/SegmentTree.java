@@ -142,6 +142,7 @@ public class SegmentTree {
         this.array[node.from] = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Node {
         int from;

@@ -8,6 +8,7 @@ import com.google.android.gms.location.LocationListener;
 final class zzat implements ListenerHolder.Notifier<LocationListener> {
     final /* synthetic */ Location zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzat(zzau zzauVar, Location location) {
         this.zza = location;
     }

@@ -4,10 +4,10 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzmj extends zzme {
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x00b6, code lost:
         return -1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0061, code lost:
         return -1;
      */
     @Override // com.google.android.gms.internal.vision.zzme
@@ -111,6 +111,7 @@ final class zzmj extends zzme {
         throw new ArrayIndexOutOfBoundsException(String.format("Array length=%d, index=%d, limit=%d", Integer.valueOf(bArr.length), Integer.valueOf(i2), Integer.valueOf(i3)));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzme
     public final String zzb(byte[] bArr, int i, int i2) throws zzjk {
         boolean zzd;
@@ -188,6 +189,7 @@ final class zzmj extends zzme {
         return new String(cArr, 0, i5);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzme
     public final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         char c;

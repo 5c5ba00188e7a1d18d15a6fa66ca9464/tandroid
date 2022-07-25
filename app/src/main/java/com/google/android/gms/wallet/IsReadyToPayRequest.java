@@ -24,7 +24,6 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     /* loaded from: classes.dex */
     public final class Builder {
         /* synthetic */ Builder(zzo zzoVar) {
-            IsReadyToPayRequest.this = r1;
         }
 
         @RecentlyNonNull
@@ -61,6 +60,7 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public IsReadyToPayRequest(ArrayList<Integer> arrayList, String str, String str2, ArrayList<Integer> arrayList2, boolean z, String str3) {
         this.zza = arrayList;
         this.zzb = str;

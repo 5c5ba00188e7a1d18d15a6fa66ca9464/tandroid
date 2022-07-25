@@ -130,7 +130,7 @@ public class ThreadUtils {
             @Override // java.lang.Runnable
             public void run() {
                 try {
-                    c1Result.value = callable.call();
+                    C1Result.this.value = callable.call();
                 } catch (Exception e2) {
                     c1CaughtException.e = e2;
                 }
@@ -146,7 +146,8 @@ public class ThreadUtils {
         return c1Result.value;
     }
 
-    /* renamed from: org.webrtc.ThreadUtils$1CaughtException */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.webrtc.ThreadUtils$1CaughtException  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class C1CaughtException {
         Exception e;
@@ -155,7 +156,8 @@ public class ThreadUtils {
         }
     }
 
-    /* renamed from: org.webrtc.ThreadUtils$1Result */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.webrtc.ThreadUtils$1Result  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class C1Result {
         public V value;

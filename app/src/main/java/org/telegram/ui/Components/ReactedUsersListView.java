@@ -83,6 +83,7 @@ public class ReactedUsersListView extends FrameLayout {
         this.filter = tLRPC$TL_reactionCount == null ? null : tLRPC$TL_reactionCount.reaction;
         this.predictiveCount = tLRPC$TL_reactionCount == null ? 6 : tLRPC$TL_reactionCount.count;
         this.listView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ReactedUsersListView.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             public void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
@@ -101,7 +102,8 @@ public class ReactedUsersListView extends FrameLayout {
         RecyclerListView recyclerListView = this.listView;
         RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.Components.ReactedUsersListView.2
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i2) {
                 return new RecyclerListView.Holder(new ReactedUserHolderView(context));
             }
 
@@ -144,6 +146,7 @@ public class ReactedUsersListView extends FrameLayout {
         addView(this.loadingView, LayoutHelper.createFrame(-1, -1.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         OnProfileSelectedListener onProfileSelectedListener = this.onProfileSelectedListener;
         if (onProfileSelectedListener != null) {
@@ -183,6 +186,7 @@ public class ReactedUsersListView extends FrameLayout {
         load();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"NotifyDataSetChanged"})
     public void load() {
         this.isLoading = true;
@@ -209,6 +213,7 @@ public class ReactedUsersListView extends FrameLayout {
         }, 64);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$4(final TLObject tLObject) {
         NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -218,6 +223,7 @@ public class ReactedUsersListView extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$5(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -227,6 +233,7 @@ public class ReactedUsersListView extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$3(TLObject tLObject) {
         if (tLObject instanceof TLRPC$TL_messages_messageReactionsList) {
             TLRPC$TL_messages_messageReactionsList tLRPC$TL_messages_messageReactionsList = (TLRPC$TL_messages_messageReactionsList) tLObject;
@@ -280,32 +287,36 @@ public class ReactedUsersListView extends FrameLayout {
         this.isLoading = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$load$1(TLRPC$TL_messagePeerReaction tLRPC$TL_messagePeerReaction) {
         return tLRPC$TL_messagePeerReaction.reaction != null ? 0 : 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$2(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.listView.setAlpha(floatValue);
         this.loadingView.setAlpha(1.0f - floatValue);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateHeight() {
-        int i;
+        int dp;
         if (this.onHeightChangedListener != null) {
             int size = this.userReactions.size();
             if (size == 0) {
                 size = this.predictiveCount;
             }
             if (this.listView.getMeasuredHeight() != 0) {
-                i = Math.min(this.listView.getMeasuredHeight(), AndroidUtilities.dp(size * 48));
+                dp = Math.min(this.listView.getMeasuredHeight(), AndroidUtilities.dp(size * 48));
             } else {
-                i = AndroidUtilities.dp(size * 48);
+                dp = AndroidUtilities.dp(size * 48);
             }
-            this.onHeightChangedListener.onHeightChanged(this, i);
+            this.onHeightChangedListener.onHeightChanged(this, dp);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getLoadCount() {
         return this.filter == null ? 100 : 50;
     }
@@ -318,10 +329,8 @@ public class ReactedUsersListView extends FrameLayout {
         BackupImageView reactView;
         TextView titleView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         ReactedUserHolderView(Context context) {
             super(context);
-            ReactedUsersListView.this = r10;
             setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(48.0f)));
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarView = backupImageView;

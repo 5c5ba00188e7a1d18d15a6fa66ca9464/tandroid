@@ -49,12 +49,14 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
         this.mLifecycleCallbacks.add(applicationLifecycleCallbacks);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void dispatchPauseIfNeeded() {
         if (this.mResumedCounter == 0) {
             this.mPauseSent = true;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void dispatchStopIfNeeded() {
         if (this.mStartedCounter != 0 || !this.mPauseSent) {
             return;

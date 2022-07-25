@@ -18,23 +18,23 @@ class CrossProcessLock {
         this.lock = fileLock;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0043 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x003c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0043 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static CrossProcessLock acquire(Context context, String str) {
-        FileLock fileLock;
         FileChannel fileChannel;
-        Throwable e;
+        FileLock fileLock;
         try {
             fileChannel = new RandomAccessFile(new File(context.getFilesDir(), str), "rw").getChannel();
             try {
                 fileLock = fileChannel.lock();
                 try {
                     return new CrossProcessLock(fileChannel, fileLock);
-                } catch (IOException e2) {
-                    e = e2;
+                } catch (IOException e) {
+                    e = e;
                     Log.e("CrossProcessLock", "encountered error while creating and acquiring the lock, ignoring", e);
                     if (fileLock != null) {
                         try {
@@ -49,7 +49,15 @@ class CrossProcessLock {
                         }
                     }
                     return null;
-                } catch (Error e3) {
+                } catch (Error e2) {
+                    e = e2;
+                    Log.e("CrossProcessLock", "encountered error while creating and acquiring the lock, ignoring", e);
+                    if (fileLock != null) {
+                    }
+                    if (fileChannel != null) {
+                    }
+                    return null;
+                } catch (OverlappingFileLockException e3) {
                     e = e3;
                     Log.e("CrossProcessLock", "encountered error while creating and acquiring the lock, ignoring", e);
                     if (fileLock != null) {
@@ -57,26 +65,19 @@ class CrossProcessLock {
                     if (fileChannel != null) {
                     }
                     return null;
-                } catch (OverlappingFileLockException e4) {
-                    e = e4;
-                    Log.e("CrossProcessLock", "encountered error while creating and acquiring the lock, ignoring", e);
-                    if (fileLock != null) {
-                    }
-                    if (fileChannel != null) {
-                    }
-                    return null;
                 }
-            } catch (IOException | Error | OverlappingFileLockException e5) {
-                e = e5;
+            } catch (IOException | Error | OverlappingFileLockException e4) {
+                e = e4;
                 fileLock = null;
             }
-        } catch (IOException | Error | OverlappingFileLockException e6) {
-            e = e6;
+        } catch (IOException | Error | OverlappingFileLockException e5) {
+            e = e5;
             fileChannel = null;
             fileLock = null;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void releaseAndClose() {
         try {
             this.lock.release();

@@ -47,6 +47,7 @@ public class AttachBotIntroTopView extends View {
         this.paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
         duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AttachBotIntroTopView$$ExternalSyntheticLambda0
@@ -58,6 +59,7 @@ public class AttachBotIntroTopView extends View {
         duration.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         this.imageReceiver.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
         invalidate();

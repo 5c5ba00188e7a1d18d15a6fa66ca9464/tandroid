@@ -8,6 +8,7 @@ import android.os.RemoteException;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public class zza extends Binder implements IInterface {
+    /* JADX INFO: Access modifiers changed from: protected */
     public zza(String str) {
         attachInterface(this, str);
     }

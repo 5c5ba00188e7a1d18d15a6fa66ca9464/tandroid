@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.support.log.HMSLog;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: ReportAaidToken.java */
 /* loaded from: classes.dex */
 public class m extends Thread {

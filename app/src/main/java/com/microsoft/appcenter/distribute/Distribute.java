@@ -151,6 +151,7 @@ public class Distribute extends AbstractAppCenterService {
         super.onStarted(context, channel, str, str2, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void startFromBackground(Context context) {
         if (this.mAppSecret == null) {
             AppCenterLog.debug("AppCenterDistribute", "Called before onStart, init storage");
@@ -243,6 +244,7 @@ public class Distribute extends AbstractAppCenterService {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleCheckForUpdate() {
         this.mManualCheckForUpdateRequested = true;
         if (tryResetWorkflow()) {
@@ -273,6 +275,7 @@ public class Distribute extends AbstractAppCenterService {
         SharedPreferencesManager.remove("Distribute.download_time");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void resumeDistributeWorkflow() {
         String string;
         AppCenterLog.debug("AppCenterDistribute", "Resume distribute workflow...");
@@ -412,6 +415,7 @@ public class Distribute extends AbstractAppCenterService {
         getLatestReleaseDetails(str2, str);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void completeWorkflow(ReleaseDetails releaseDetails) {
         if (releaseDetails == this.mReleaseDetails) {
             completeWorkflow();
@@ -425,6 +429,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void completeWorkflow() {
         cancelNotification();
         SharedPreferencesManager.remove("Distribute.release_details");
@@ -444,6 +449,7 @@ public class Distribute extends AbstractAppCenterService {
         this.mManualCheckForUpdateRequested = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void storeUpdateSetupFailedParameter(String str, String str2) {
         if (this.mContext == null) {
             AppCenterLog.debug("AppCenterDistribute", "Update setup failed parameter received before onStart, keep it in memory.");
@@ -457,6 +463,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void storeTesterAppUpdateSetupFailedParameter(String str, String str2) {
         if (this.mContext == null) {
             AppCenterLog.debug("AppCenterDistribute", "Tester app update setup failed parameter received before onStart, keep it in memory.");
@@ -470,6 +477,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void storeRedirectionParameters(String str, String str2, String str3) {
         if (this.mContext == null) {
             AppCenterLog.debug("AppCenterDistribute", "Redirection parameters received before onStart, keep them in memory.");
@@ -555,6 +563,7 @@ public class Distribute extends AbstractAppCenterService {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleApiCallFailure(Object obj, Exception exc) {
         if (this.mCheckReleaseCallId == obj) {
             completeWorkflow();
@@ -582,6 +591,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleApiCallSuccess(Object obj, String str, ReleaseDetails releaseDetails, String str2) {
         String string = SharedPreferencesManager.getString("Distribute.downloaded_release_hash");
         if (!TextUtils.isEmpty(string)) {
@@ -743,7 +753,7 @@ public class Distribute extends AbstractAppCenterService {
     }
 
     private synchronized void showUpdateDialog() {
-        String str;
+        String string;
         DistributeListener distributeListener = this.mListener;
         if (distributeListener == null && this.mUsingDefaultUpdateDialog == null) {
             this.mUsingDefaultUpdateDialog = Boolean.TRUE;
@@ -765,11 +775,11 @@ public class Distribute extends AbstractAppCenterService {
             builder.setTitle(R$string.appcenter_distribute_update_dialog_title);
             final ReleaseDetails releaseDetails = this.mReleaseDetails;
             if (releaseDetails.isMandatoryUpdate()) {
-                str = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_mandatory);
+                string = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_mandatory);
             } else {
-                str = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_optional);
+                string = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_optional);
             }
-            builder.setMessage(formatAppNameAndVersion(str));
+            builder.setMessage(formatAppNameAndVersion(string));
             builder.setPositiveButton(R$string.appcenter_distribute_update_dialog_download, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.6
                 @Override // android.content.DialogInterface.OnClickListener
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -799,6 +809,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void viewReleaseNotes(ReleaseDetails releaseDetails) {
         try {
             this.mForegroundActivity.startActivity(new Intent("android.intent.action.VIEW", releaseDetails.getReleaseNotesUrl()));
@@ -807,6 +818,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void storeUpdateSetupFailedPackageHash(DialogInterface dialogInterface) {
         if (this.mUpdateSetupFailedDialog == dialogInterface) {
             SharedPreferencesManager.putString("Distribute.update_setup_failed_package_hash", DistributeUtils.computeReleaseHash(this.mPackageInfo));
@@ -815,6 +827,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleUpdateFailedDialogReinstallAction(DialogInterface dialogInterface) {
         String appendUri;
         if (this.mUpdateSetupFailedDialog == dialogInterface) {
@@ -893,6 +906,7 @@ public class Distribute extends AbstractAppCenterService {
         SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void goToUnknownAppsSettings(ReleaseDetails releaseDetails) {
         Intent intent;
         if (Build.VERSION.SDK_INT >= 26) {
@@ -911,6 +925,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void postponeRelease(ReleaseDetails releaseDetails) {
         if (releaseDetails == this.mReleaseDetails) {
             AppCenterLog.debug("AppCenterDistribute", "Postpone updates for a day.");
@@ -943,6 +958,7 @@ public class Distribute extends AbstractAppCenterService {
         Toast.makeText(this.mContext, R$string.appcenter_distribute_dialog_actioned_on_disabled_toast, 0).show();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void resumeApp(Context context) {
         if (this.mForegroundActivity == null) {
             Intent intent = new Intent(context, DeepLinkActivity.class);
@@ -951,8 +967,9 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean notifyDownload(ReleaseDetails releaseDetails, Intent intent) {
-        Notification.Builder builder;
+        Notification.Builder oldNotificationBuilder;
         if (releaseDetails != this.mReleaseDetails) {
             return true;
         }
@@ -961,15 +978,15 @@ public class Distribute extends AbstractAppCenterService {
             NotificationManager notificationManager = (NotificationManager) this.mContext.getSystemService(RemoteMessageConst.NOTIFICATION);
             if (Build.VERSION.SDK_INT >= 26) {
                 notificationManager.createNotificationChannel(new NotificationChannel("appcenter.distribute", this.mContext.getString(R$string.appcenter_distribute_notification_category), 3));
-                builder = new Notification.Builder(this.mContext, "appcenter.distribute");
+                oldNotificationBuilder = new Notification.Builder(this.mContext, "appcenter.distribute");
             } else {
-                builder = getOldNotificationBuilder();
+                oldNotificationBuilder = getOldNotificationBuilder();
             }
             Context context = this.mContext;
             int i = R$string.appcenter_distribute_install_ready_title;
-            builder.setTicker(context.getString(i)).setContentTitle(this.mContext.getString(i)).setContentText(getInstallReadyMessage()).setSmallIcon(this.mContext.getApplicationInfo().icon).setContentIntent(PendingIntent.getActivities(this.mContext, 0, new Intent[]{intent}, 0));
-            builder.setStyle(new Notification.BigTextStyle().bigText(getInstallReadyMessage()));
-            Notification build = builder.build();
+            oldNotificationBuilder.setTicker(context.getString(i)).setContentTitle(this.mContext.getString(i)).setContentText(getInstallReadyMessage()).setSmallIcon(this.mContext.getApplicationInfo().icon).setContentIntent(PendingIntent.getActivities(this.mContext, 0, new Intent[]{intent}, 0));
+            oldNotificationBuilder.setStyle(new Notification.BigTextStyle().bigText(getInstallReadyMessage()));
+            Notification build = oldNotificationBuilder.build();
             build.flags |= 16;
             notificationManager.notify(DistributeUtils.getNotificationId(), build);
             SharedPreferencesManager.putInt("Distribute.download_state", 3);
@@ -1026,6 +1043,7 @@ public class Distribute extends AbstractAppCenterService {
         return String.format(str, AppNameHelper.getAppName(this.mContext), this.mReleaseDetails.getShortVersion(), Integer.valueOf(this.mReleaseDetails.getVersion()));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void installMandatoryUpdate(ReleaseDetails releaseDetails) {
         if (releaseDetails == this.mReleaseDetails) {
             resumeDownload();
@@ -1034,6 +1052,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void resumeDownload() {
         ReleaseDownloader releaseDownloader = this.mReleaseDownloader;
         if (releaseDownloader != null) {
@@ -1042,6 +1061,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setDownloading(ReleaseDetails releaseDetails, long j) {
         if (releaseDetails != this.mReleaseDetails) {
             return;
@@ -1050,6 +1070,7 @@ public class Distribute extends AbstractAppCenterService {
         SharedPreferencesManager.putLong("Distribute.download_time", j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setInstalling(ReleaseDetails releaseDetails) {
         if (releaseDetails != this.mReleaseDetails) {
             return;

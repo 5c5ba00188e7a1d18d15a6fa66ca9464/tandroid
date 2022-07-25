@@ -175,7 +175,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             HintDialogCell hintDialogCell = new HintDialogCell(this.mContext, this.drawChecked);
             hintDialogCell.setLayoutParams(new RecyclerView.LayoutParams(AndroidUtilities.dp(80.0f), AndroidUtilities.dp(86.0f)));
             return new RecyclerListView.Holder(hintDialogCell);
@@ -356,6 +357,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchMessagesInternal$1(final String str, final int i, final int i2, final TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         final ArrayList arrayList = new ArrayList();
         if (tLRPC$TL_error == null) {
@@ -384,6 +386,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchMessagesInternal$0(int i, int i2, TLRPC$TL_error tLRPC$TL_error, String str, TLObject tLObject, TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal, ArrayList arrayList) {
         if (i == this.lastReqId && (i2 <= 0 || i2 == this.lastSearchId)) {
             this.waitingResponseCount--;
@@ -467,6 +470,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadRecentSearch$5(int i, int i2, final OnRecentSearchLoaded onRecentSearchLoaded) {
         boolean z;
         try {
@@ -564,6 +568,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$loadRecentSearch$3(RecentSearchObject recentSearchObject, RecentSearchObject recentSearchObject2) {
         int i = recentSearchObject.date;
         int i2 = recentSearchObject2.date;
@@ -594,6 +599,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$putRecentSearch$6(long j) {
         try {
             SQLitePreparedStatement executeFast = MessagesStorage.getInstance(this.currentAccount).getDatabase().executeFast("REPLACE INTO search_recent VALUES(?, ?)");
@@ -643,6 +649,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearRecentSearch$7(StringBuilder sb) {
         try {
             sb.insert(0, "DELETE FROM search_recent WHERE ");
@@ -668,6 +675,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$removeRecentSearch$8(long j) {
         try {
             SQLiteDatabase database = MessagesStorage.getInstance(this.currentAccount).getDatabase();
@@ -681,6 +689,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.searchAdapterHelper.addHashtagsFromMessage(charSequence);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: setRecentSearch */
     public void lambda$loadRecentSearch$2(ArrayList<RecentSearchObject> arrayList, LongSparseArray<RecentSearchObject> longSparseArray) {
         this.recentSearchObjects = arrayList;
@@ -717,6 +726,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDialogsInternal$10(String str, int i, String str2) {
         ArrayList<Object> arrayList = new ArrayList<>();
         ArrayList<CharSequence> arrayList2 = new ArrayList<>();
@@ -736,6 +746,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDialogsInternal$9() {
         FilteredSearchView.Delegate delegate = this.filtersDelegate;
         if (delegate != null) {
@@ -752,6 +763,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateSearchResults$12(int i, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3) {
         final long j;
         boolean z;
@@ -831,6 +843,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.delegate.runResultsEnterAnimation();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateSearchResults$11(long j, Object obj, int i) {
         if (i != -1) {
             TLRPC$TL_dialog tLRPC$TL_dialog = new TLRPC$TL_dialog();
@@ -946,6 +959,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDialogs$14(final String str, final int i, final String str2) {
         this.searchRunnable = null;
         searchDialogsInternal(str, i);
@@ -959,6 +973,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         AndroidUtilities.runOnUIThread(runnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDialogs$13(int i, String str, String str2) {
         this.searchRunnable2 = null;
         if (i != this.lastSearchId) {
@@ -1042,7 +1057,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     public Object getItem(int i) {
         int i2;
-        Object obj;
+        Object chat;
         if (!this.searchResultHashtags.isEmpty()) {
             if (i <= 0) {
                 return null;
@@ -1056,14 +1071,14 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             if (i > i4 && (i2 = (i - 1) - i4) < arrayList.size()) {
                 TLObject tLObject = arrayList.get(i2).object;
                 if (tLObject instanceof TLRPC$User) {
-                    obj = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC$User) tLObject).id));
-                    if (obj == null) {
+                    chat = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC$User) tLObject).id));
+                    if (chat == null) {
                         return tLObject;
                     }
-                } else if (!(tLObject instanceof TLRPC$Chat) || (obj = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(((TLRPC$Chat) tLObject).id))) == null) {
+                } else if (!(tLObject instanceof TLRPC$Chat) || (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(((TLRPC$Chat) tLObject).id))) == null) {
                     return tLObject;
                 }
-                return obj;
+                return chat;
             }
             i -= getRecentItemsCount();
         }
@@ -1156,6 +1171,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return (itemViewType == 1 || itemViewType == 3) ? false : true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateViewHolder$15(View view, int i) {
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
         if (dialogsSearchAdapterDelegate != null) {
@@ -1163,6 +1179,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onCreateViewHolder$16(View view, int i) {
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
         if (dialogsSearchAdapterDelegate != null) {
@@ -1172,21 +1189,21 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return true;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
         RecyclerListView recyclerListView;
-        DialogCell dialogCell;
+        FlickerLoadingView flickerLoadingView;
         if (i == 0) {
             recyclerListView = new ProfileSearchCell(this.mContext);
         } else if (i != 1) {
             if (i == 2) {
-                dialogCell = new DialogCell(null, this.mContext, false, true);
+                flickerLoadingView = new DialogCell(null, this.mContext, false, true);
             } else if (i == 3) {
-                FlickerLoadingView flickerLoadingView = new FlickerLoadingView(this.mContext);
-                flickerLoadingView.setViewType(1);
-                flickerLoadingView.setIsSingleCell(true);
-                dialogCell = flickerLoadingView;
+                FlickerLoadingView flickerLoadingView2 = new FlickerLoadingView(this.mContext);
+                flickerLoadingView2.setViewType(1);
+                flickerLoadingView2.setIsSingleCell(true);
+                flickerLoadingView = flickerLoadingView2;
             } else if (i == 4) {
                 recyclerListView = new HashtagSearchCell(this.mContext);
             } else if (i == 5) {
@@ -1236,7 +1253,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             } else {
                 recyclerListView = new TextCell(this.mContext, 16, false);
             }
-            recyclerListView = dialogCell;
+            recyclerListView = flickerLoadingView;
         } else {
             recyclerListView = new GraySectionCell(this.mContext);
         }
@@ -1248,48 +1265,48 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return new RecyclerListView.Holder(recyclerListView);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:154:0x035d, code lost:
-        if (r6.startsWith("@" + r4.username) != false) goto L157;
+    /* JADX WARN: Code restructure failed: missing block: B:147:0x035d, code lost:
+        if (r6.startsWith("@" + r4.username) != false) goto L148;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0367  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x0434  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x043f  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x045c  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x045e  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x0479  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x047b  */
-    /* JADX WARN: Type inference failed for: r2v17 */
-    /* JADX WARN: Type inference failed for: r2v19, types: [android.text.SpannableStringBuilder] */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0367  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x043f  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x045c  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0479  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x047b  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x045e  */
+    /* JADX WARN: Type inference failed for: r2v20, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v23, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v24 */
-    /* JADX WARN: Type inference failed for: r2v3 */
+    /* JADX WARN: Type inference failed for: r2v4 */
+    /* JADX WARN: Type inference failed for: r2v5 */
     /* JADX WARN: Type inference failed for: r2v50 */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        TLRPC$EncryptedChat tLRPC$EncryptedChat;
-        String str;
-        TLRPC$Chat tLRPC$Chat;
         TLRPC$User tLRPC$User;
+        TLRPC$Chat tLRPC$Chat;
+        String str;
+        TLRPC$EncryptedChat tLRPC$EncryptedChat;
         boolean z;
+        boolean z2;
         SpannableStringBuilder spannableStringBuilder;
         ?? r2;
         String str2;
         String str3;
-        boolean z2;
+        boolean z3;
         String str4;
-        CharSequence charSequence;
+        CharSequence formatPluralString;
         String str5;
         int indexOfIgnoreCase;
-        boolean z3;
         String str6;
         int i2;
-        String str7;
-        String str8;
+        String string;
         int i3;
+        String str7;
         final int i4 = i;
         int itemViewType = viewHolder.getItemViewType();
         int i5 = 4;
@@ -1388,7 +1405,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             if (i7 < 0 || i7 >= size3) {
                 int i8 = i7 - size3;
                 if (i8 >= 0 && i8 < i5) {
-                    String string = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
+                    String string2 = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
                     if (this.searchAdapterHelper.getGlobalSearch().size() > 3) {
                         z4 = this.globalSearchCollapsed;
                         runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda17
@@ -1398,12 +1415,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                             }
                         };
                     }
-                    str7 = string;
+                    string = string2;
                 } else {
-                    str7 = LocaleController.getString("SearchMessages", R.string.SearchMessages);
+                    string = LocaleController.getString("SearchMessages", R.string.SearchMessages);
                 }
             } else {
-                str7 = LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch);
+                string = LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch);
                 if (this.searchAdapterHelper.getPhoneSearch().size() > 3) {
                     z4 = this.phoneCollapsed;
                     runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda18
@@ -1415,17 +1432,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 }
             }
             if (runnable == null) {
-                graySectionCell.setText(str7);
+                graySectionCell.setText(string);
                 return;
             }
             if (z4) {
                 i3 = R.string.ShowMore;
-                str8 = "ShowMore";
+                str7 = "ShowMore";
             } else {
                 i3 = R.string.ShowLess;
-                str8 = "ShowLess";
+                str7 = "ShowLess";
             }
-            graySectionCell.setText(str7, LocaleController.getString(str8, i3), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda0
+            graySectionCell.setText(string, LocaleController.getString(str7, i3), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     runnable.run();
@@ -1496,12 +1513,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             profileSearchCell.useSeparator = (i4 == (getItemCount() - getRecentItemsCount()) - 1 || i4 == ((i9 + size5) + size6) - 1 || i4 == (((size5 + i5) + size7) + size6) - 1) ? false : true;
         }
         if (i4 >= 0 && i4 < this.searchResult.size() && tLRPC$User == null) {
-            CharSequence charSequence2 = this.searchResultNames.get(i4);
-            if (charSequence2 != 0 && tLRPC$User != null && (str6 = tLRPC$User.username) != null && str6.length() > 0) {
-                String charSequence3 = charSequence2.toString();
-                z3 = charSequence2;
+            CharSequence charSequence = this.searchResultNames.get(i4);
+            if (charSequence != 0 && tLRPC$User != null && (str6 = tLRPC$User.username) != null && str6.length() > 0) {
+                String charSequence2 = charSequence.toString();
+                z2 = charSequence;
             }
-            spannableStringBuilder = charSequence2;
+            spannableStringBuilder = charSequence;
             r2 = 0;
             if (r2 == 0) {
                 String lastFoundUsername = z ? this.filteredRecentQuery : this.searchAdapterHelper.getLastFoundUsername();
@@ -1543,37 +1560,37 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             profileSearchCell.setChecked(false, false);
             if (tLRPC$User == null && tLRPC$User.id == this.selfUserId) {
                 str2 = LocaleController.getString("SavedMessages", R.string.SavedMessages);
-                z2 = true;
+                z3 = true;
                 str3 = null;
             } else {
                 str2 = spannableStringBuilder;
                 str3 = str;
-                z2 = false;
+                z3 = false;
             }
             if (tLRPC$Chat != null && tLRPC$Chat.participants_count != 0) {
                 if (!ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
-                    charSequence = LocaleController.formatPluralString("Subscribers", tLRPC$Chat.participants_count, new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Subscribers", tLRPC$Chat.participants_count, new Object[0]);
                 } else {
-                    charSequence = LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]);
                 }
                 if (!(str3 instanceof SpannableStringBuilder)) {
-                    ((SpannableStringBuilder) str3).append((CharSequence) ", ").append(charSequence);
+                    ((SpannableStringBuilder) str3).append((CharSequence) ", ").append(formatPluralString);
                 } else {
                     if (!TextUtils.isEmpty(str3)) {
-                        charSequence = TextUtils.concat(str3, ", ", charSequence);
+                        formatPluralString = TextUtils.concat(str3, ", ", formatPluralString);
                     }
-                    str4 = charSequence;
-                    profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str2, str4, true, z2);
+                    str4 = formatPluralString;
+                    profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str2, str4, true, z3);
                     profileSearchCell.setChecked(this.delegate.isSelected(profileSearchCell.getDialogId()), dialogId == profileSearchCell.getDialogId());
                 }
             }
             str4 = str3;
-            profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str2, str4, true, z2);
+            profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str2, str4, true, z3);
             profileSearchCell.setChecked(this.delegate.isSelected(profileSearchCell.getDialogId()), dialogId == profileSearchCell.getDialogId());
         }
-        z3 = false;
+        z2 = false;
         spannableStringBuilder = null;
-        r2 = z3;
+        r2 = z2;
         if (r2 == 0) {
         }
         str = r2;
@@ -1582,19 +1599,20 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         str2 = spannableStringBuilder;
         str3 = str;
-        z2 = false;
+        z3 = false;
         if (tLRPC$Chat != null) {
             if (!ChatObject.isChannel(tLRPC$Chat)) {
             }
-            charSequence = LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]);
+            formatPluralString = LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]);
             if (!(str3 instanceof SpannableStringBuilder)) {
             }
         }
         str4 = str3;
-        profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str2, str4, true, z2);
+        profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str2, str4, true, z3);
         profileSearchCell.setChecked(this.delegate.isSelected(profileSearchCell.getDialogId()), dialogId == profileSearchCell.getDialogId());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$17(View view) {
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
         if (dialogsSearchAdapterDelegate != null) {
@@ -1602,6 +1620,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$18(View view) {
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
         if (dialogsSearchAdapterDelegate != null) {
@@ -1609,6 +1628,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$19(View view) {
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
         if (dialogsSearchAdapterDelegate != null) {
@@ -1616,9 +1636,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$20(GraySectionCell graySectionCell) {
-        String str;
         int i;
+        String str;
         boolean z = !this.phoneCollapsed;
         this.phoneCollapsed = z;
         if (z) {
@@ -1632,9 +1653,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$23(ArrayList arrayList, final int i, GraySectionCell graySectionCell) {
-        String str;
         int i2;
+        String str;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         if (elapsedRealtime - this.lastShowMoreUpdate < 300) {
             return;
@@ -1716,10 +1738,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.showMoreAnimation = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$21(int i) {
         notifyItemChanged(i + 3);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$22(View view) {
         this.showMoreAnimation = false;
         this.showMoreHeader = null;

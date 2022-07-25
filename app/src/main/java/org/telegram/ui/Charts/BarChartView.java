@@ -9,6 +9,7 @@ import org.telegram.ui.Charts.view_data.BarViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 /* loaded from: classes3.dex */
 public class BarChartView extends BaseChartView<ChartData, BarViewData> {
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void drawSelection(Canvas canvas) {
     }
@@ -24,16 +25,16 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
         this.useAlphaSignature = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0093  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void drawChart(Canvas canvas) {
         float f;
+        float f2;
         int i;
         int i2;
-        float f2;
         T t = this.chartData;
         if (t != 0) {
             float f3 = this.chartWidth;
@@ -202,11 +203,14 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
         }
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public BarViewData createLineViewData(ChartData.Line line) {
+    /* renamed from: createLineViewData */
+    public BarViewData mo1029createLineViewData(ChartData.Line line) {
         return new BarViewData(line);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
     public void onDraw(Canvas canvas) {
         tick();

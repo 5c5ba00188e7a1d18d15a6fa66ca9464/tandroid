@@ -33,11 +33,13 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
     }
 
     @Override // android.content.BroadcastReceiver
-    public final void onReceive(Context context, Intent intent) {
+    public final void onReceive(final Context context, final Intent intent) {
         if (intent == null) {
             return;
         }
-        getBroadcastExecutor().execute(new Runnable(this, intent, context, isOrderedBroadcast(), goAsync()) { // from class: com.google.android.gms.cloudmessaging.zzd
+        final boolean isOrderedBroadcast = isOrderedBroadcast();
+        final BroadcastReceiver.PendingResult goAsync = goAsync();
+        getBroadcastExecutor().execute(new Runnable(this, intent, context, isOrderedBroadcast, goAsync) { // from class: com.google.android.gms.cloudmessaging.zzd
             private final CloudMessagingReceiver zza;
             private final Intent zzb;
             private final Context zzc;
@@ -88,21 +90,21 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
     }
 
     private final int zzb(Context context, Intent intent) {
-        Task<Void> task;
+        Task<Void> zza;
         if (intent.getExtras() == null) {
             return 500;
         }
         String stringExtra = intent.getStringExtra("google.message_id");
         if (TextUtils.isEmpty(stringExtra)) {
-            task = Tasks.forResult(null);
+            zza = Tasks.forResult(null);
         } else {
             Bundle bundle = new Bundle();
             bundle.putString("google.message_id", stringExtra);
-            task = zze.zza(context).zza(2, bundle);
+            zza = zze.zza(context).zza(2, bundle);
         }
         int onMessageReceive = onMessageReceive(context, new CloudMessage(intent));
         try {
-            Tasks.await(task, TimeUnit.SECONDS.toMillis(1L), TimeUnit.MILLISECONDS);
+            Tasks.await(zza, TimeUnit.SECONDS.toMillis(1L), TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             String valueOf = String.valueOf(e);
             StringBuilder sb = new StringBuilder(valueOf.length() + 20);
@@ -113,18 +115,19 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
         return onMessageReceive;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zza(Intent intent, Context context, boolean z, BroadcastReceiver.PendingResult pendingResult) {
-        int i;
+        int zzb;
         try {
             Parcelable parcelableExtra = intent.getParcelableExtra("wrapped_intent");
             Intent intent2 = parcelableExtra instanceof Intent ? (Intent) parcelableExtra : null;
             if (intent2 != null) {
-                i = zza(context, intent2);
+                zzb = zza(context, intent2);
             } else {
-                i = zzb(context, intent);
+                zzb = zzb(context, intent);
             }
             if (z) {
-                pendingResult.setResultCode(i);
+                pendingResult.setResultCode(zzb);
             }
         } finally {
             pendingResult.finish();

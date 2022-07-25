@@ -8,6 +8,7 @@ final class zzfc implements Iterator<String>, j$.util.Iterator {
     private final /* synthetic */ zzfa zzpe;
     private Iterator<String> zzpf;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzfc(zzfa zzfaVar) {
         zzcx zzcxVar;
         this.zzpe = zzfaVar;
@@ -26,7 +27,8 @@ final class zzfc implements Iterator<String>, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         return this.zzpf.next();
     }
 

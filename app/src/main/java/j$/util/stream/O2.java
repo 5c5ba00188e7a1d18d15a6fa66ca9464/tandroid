@@ -7,6 +7,7 @@ class O2 extends T2 implements S2, k3 {
     final /* synthetic */ j$.util.function.v c;
     final /* synthetic */ j$.util.function.b d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public O2(j$.util.function.y yVar, j$.util.function.v vVar, j$.util.function.b bVar) {
         this.b = yVar;
         this.c = vVar;
@@ -35,6 +36,7 @@ class O2 extends T2 implements S2, k3 {
         return consumer.getClass();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Integer num) {
         o1.b(this, num);

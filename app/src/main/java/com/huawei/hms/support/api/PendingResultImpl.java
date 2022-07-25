@@ -41,10 +41,10 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
     private String transId = null;
     private boolean isNeedReport = true;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class a implements DatagramTransport.a {
         a() {
-            PendingResultImpl.this = r1;
         }
 
         @Override // com.huawei.hms.support.api.transport.DatagramTransport.a
@@ -54,12 +54,12 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class b implements DatagramTransport.a {
         final /* synthetic */ AtomicBoolean a;
 
         b(AtomicBoolean atomicBoolean) {
-            PendingResultImpl.this = r1;
             this.a = atomicBoolean;
         }
 
@@ -72,13 +72,13 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class c implements DatagramTransport.a {
         final /* synthetic */ d a;
         final /* synthetic */ ResultCallback b;
 
         c(d dVar, ResultCallback resultCallback) {
-            PendingResultImpl.this = r1;
             this.a = dVar;
             this.b = resultCallback;
         }
@@ -91,6 +91,7 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static class d<R extends Result> extends Handler {
         public d(Looper looper) {
@@ -181,13 +182,14 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     public void setResult(int i, IMessageEntity iMessageEntity) {
         Status status;
         HMSLog.i(TAG, "setResult:" + i);
         Status commonStatus = iMessageEntity instanceof AbstractMessageEntity ? ((AbstractMessageEntity) iMessageEntity).getCommonStatus() : null;
         if (i == 0) {
-            this.result = onComplete(iMessageEntity);
+            this.result = mo234onComplete(iMessageEntity);
         } else {
             this.result = onError(i);
         }
@@ -274,7 +276,8 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
         return false;
     }
 
-    public abstract R onComplete(T t);
+    /* renamed from: onComplete */
+    public abstract R mo234onComplete(T t);
 
     protected R onError(int i) {
         Type genericSuperclass = getClass().getGenericSuperclass();

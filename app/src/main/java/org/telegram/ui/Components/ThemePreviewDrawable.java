@@ -27,9 +27,9 @@ public class ThemePreviewDrawable extends BitmapDrawable {
 
     private static Bitmap createPreview(File file, DocumentObject.ThemeDocument themeDocument) {
         boolean z;
-        int i;
+        Drawable createDitheredGradientBitmapDrawable;
         MotionBackgroundDrawable motionBackgroundDrawable;
-        Drawable drawable;
+        int patternColor;
         boolean z2;
         Bitmap bitmap;
         Bitmap decodeFile;
@@ -63,16 +63,16 @@ public class ThemePreviewDrawable extends BitmapDrawable {
         Drawable mutate4 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.preview_mic).mutate();
         Theme.setDrawableColor(mutate4, previewColor4);
         Theme.MessageDrawable[] messageDrawableArr = new Theme.MessageDrawable[2];
-        int i2 = 0;
-        while (i2 < 2) {
-            Drawable drawable2 = mutate2;
+        int i = 0;
+        while (i < 2) {
+            Drawable drawable = mutate2;
             boolean z3 = true;
             Paint paint2 = paint;
-            int i3 = previewColor;
-            if (i2 != 1) {
+            int i2 = previewColor;
+            if (i != 1) {
                 z3 = false;
             }
-            messageDrawableArr[i2] = new Theme.MessageDrawable(2, z3, false) { // from class: org.telegram.ui.Components.ThemePreviewDrawable.1
+            messageDrawableArr[i] = new Theme.MessageDrawable(2, z3, false) { // from class: org.telegram.ui.Components.ThemePreviewDrawable.1
                 @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
                 protected int getColor(String str) {
                     Integer num6 = (Integer) hashMap.get(str);
@@ -87,34 +87,34 @@ public class ThemePreviewDrawable extends BitmapDrawable {
                     return (Integer) hashMap.get(str);
                 }
             };
-            Theme.setDrawableColor(messageDrawableArr[i2], i2 == 1 ? previewColor6 : previewColor5);
-            i2++;
-            mutate2 = drawable2;
+            Theme.setDrawableColor(messageDrawableArr[i], i == 1 ? previewColor6 : previewColor5);
+            i++;
+            mutate2 = drawable;
             paint = paint2;
-            previewColor = i3;
+            previewColor = i2;
         }
         Paint paint3 = paint;
-        int i4 = previewColor;
-        Drawable drawable3 = mutate2;
+        int i3 = previewColor;
+        Drawable drawable2 = mutate2;
         if (num != null) {
             if (num2 == null) {
-                drawable = new ColorDrawable(num.intValue());
-                i = AndroidUtilities.getPatternColor(num.intValue());
+                createDitheredGradientBitmapDrawable = new ColorDrawable(num.intValue());
+                patternColor = AndroidUtilities.getPatternColor(num.intValue());
                 motionBackgroundDrawable = null;
             } else {
                 if (num3.intValue() != 0) {
                     motionBackgroundDrawable = new MotionBackgroundDrawable(num.intValue(), num2.intValue(), num3.intValue(), num4.intValue(), true);
-                    drawable = null;
+                    createDitheredGradientBitmapDrawable = null;
                 } else {
-                    drawable = BackgroundGradientDrawable.createDitheredGradientBitmapDrawable(num5.intValue(), new int[]{num.intValue(), num2.intValue()}, createBitmap.getWidth(), createBitmap.getHeight() - 120);
+                    createDitheredGradientBitmapDrawable = BackgroundGradientDrawable.createDitheredGradientBitmapDrawable(num5.intValue(), new int[]{num.intValue(), num2.intValue()}, createBitmap.getWidth(), createBitmap.getHeight() - 120);
                     motionBackgroundDrawable = null;
                 }
-                i = AndroidUtilities.getPatternColor(AndroidUtilities.getAverageColor(num.intValue(), num2.intValue()));
+                patternColor = AndroidUtilities.getPatternColor(AndroidUtilities.getAverageColor(num.intValue(), num2.intValue()));
             }
-            if (drawable != null) {
+            if (createDitheredGradientBitmapDrawable != null) {
                 z2 = false;
-                drawable.setBounds(0, 120, createBitmap.getWidth(), createBitmap.getHeight() - 120);
-                drawable.draw(canvas);
+                createDitheredGradientBitmapDrawable.setBounds(0, 120, createBitmap.getWidth(), createBitmap.getHeight() - 120);
+                createDitheredGradientBitmapDrawable.draw(canvas);
             } else {
                 z2 = false;
             }
@@ -134,11 +134,11 @@ public class ThemePreviewDrawable extends BitmapDrawable {
                     }
                     options.inJustDecodeBounds = false;
                     if (min > 1.0f && (f > 560 || f2 > 678)) {
-                        int i5 = 1;
+                        int i4 = 1;
                         do {
-                            i5 *= 2;
-                        } while (i5 * 2 < min);
-                        options.inSampleSize = i5;
+                            i4 *= 2;
+                        } while (i4 * 2 < min);
+                        options.inSampleSize = i4;
                     } else {
                         options.inSampleSize = (int) min;
                     }
@@ -153,7 +153,7 @@ public class ThemePreviewDrawable extends BitmapDrawable {
                     } else {
                         Paint paint4 = new Paint(2);
                         if (themeDocument.accent.patternIntensity >= 0.0f) {
-                            paint4.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
+                            paint4.setColorFilter(new PorterDuffColorFilter(patternColor, PorterDuff.Mode.SRC_IN));
                         }
                         paint4.setAlpha(255);
                         float max = Math.max(560 / bitmap.getWidth(), 678 / bitmap.getHeight());
@@ -180,18 +180,18 @@ public class ThemePreviewDrawable extends BitmapDrawable {
             createDefaultWallpaper.setBounds(0, 120, createBitmap.getWidth(), createBitmap.getHeight() - 120);
             createDefaultWallpaper.draw(canvas);
         }
-        paint3.setColor(i4);
+        paint3.setColor(i3);
         canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3);
         if (mutate != null) {
             int intrinsicHeight = (120 - mutate.getIntrinsicHeight()) / 2;
             mutate.setBounds(13, intrinsicHeight, mutate.getIntrinsicWidth() + 13, mutate.getIntrinsicHeight() + intrinsicHeight);
             mutate.draw(canvas);
         }
-        if (drawable3 != null) {
-            int width = (createBitmap.getWidth() - drawable3.getIntrinsicWidth()) - 10;
-            int intrinsicHeight2 = (120 - drawable3.getIntrinsicHeight()) / 2;
-            drawable3.setBounds(width, intrinsicHeight2, drawable3.getIntrinsicWidth() + width, drawable3.getIntrinsicHeight() + intrinsicHeight2);
-            drawable3.draw(canvas);
+        if (drawable2 != null) {
+            int width = (createBitmap.getWidth() - drawable2.getIntrinsicWidth()) - 10;
+            int intrinsicHeight2 = (120 - drawable2.getIntrinsicHeight()) / 2;
+            drawable2.setBounds(width, intrinsicHeight2, drawable2.getIntrinsicWidth() + width, drawable2.getIntrinsicHeight() + intrinsicHeight2);
+            drawable2.draw(canvas);
         }
         messageDrawableArr[1].setBounds(161, 216, createBitmap.getWidth() - 20, 308);
         messageDrawableArr[1].setTop(0, 560, 522, false, false);

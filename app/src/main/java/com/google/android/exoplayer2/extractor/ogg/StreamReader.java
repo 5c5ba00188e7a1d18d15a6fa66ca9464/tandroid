@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class StreamReader {
     private long currentGranule;
@@ -28,6 +29,7 @@ public abstract class StreamReader {
 
     protected abstract boolean readHeaders(ParsableByteArray parsableByteArray, long j, SetupData setupData) throws IOException, InterruptedException;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class SetupData {
         Format format;
@@ -37,12 +39,14 @@ public abstract class StreamReader {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void init(ExtractorOutput extractorOutput, TrackOutput trackOutput) {
         this.extractorOutput = extractorOutput;
         this.trackOutput = trackOutput;
         reset(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void reset(boolean z) {
         if (z) {
             this.setupData = new SetupData();
@@ -55,6 +59,7 @@ public abstract class StreamReader {
         this.currentGranule = 0L;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void seek(long j, long j2) {
         this.oggPacket.reset();
         if (j == 0) {
@@ -68,6 +73,7 @@ public abstract class StreamReader {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException, InterruptedException {
         int i = this.state;
         if (i != 0) {
@@ -128,7 +134,7 @@ public abstract class StreamReader {
             onSeekEnd(-(read + 2));
         }
         if (!this.seekMapSet) {
-            this.extractorOutput.seekMap(this.oggSeeker.createSeekMap());
+            this.extractorOutput.seekMap(this.oggSeeker.mo94createSeekMap());
             this.seekMapSet = true;
         }
         if (this.lengthOfReadPacket > 0 || this.oggPacket.populate(extractorInput)) {
@@ -151,18 +157,22 @@ public abstract class StreamReader {
         return -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public long convertGranuleToTime(long j) {
         return (j * 1000000) / this.sampleRate;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public long convertTimeToGranule(long j) {
         return (this.sampleRate * j) / 1000000;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onSeekEnd(long j) {
         this.currentGranule = j;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class UnseekableOggSeeker implements OggSeeker {
         @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
@@ -178,7 +188,8 @@ public abstract class StreamReader {
         }
 
         @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-        public SeekMap createSeekMap() {
+        /* renamed from: createSeekMap */
+        public SeekMap mo94createSeekMap() {
             return new SeekMap.Unseekable(-9223372036854775807L);
         }
     }

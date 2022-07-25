@@ -47,16 +47,15 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
         return zab;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
     @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
     public class zaa extends zas {
         private final Context zaa;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public zaa(Context context) {
             super(Looper.myLooper() == null ? Looper.getMainLooper() : Looper.myLooper());
-            GoogleApiAvailability.this = r1;
             this.zaa = context.getApplicationContext();
         }
 

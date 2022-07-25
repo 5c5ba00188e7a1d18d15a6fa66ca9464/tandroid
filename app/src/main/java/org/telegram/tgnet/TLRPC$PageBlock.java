@@ -10,37 +10,37 @@ public abstract class TLRPC$PageBlock extends TLObject {
     public TLObject thumbObject;
 
     public static TLRPC$PageBlock TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$PageBlock tLRPC$PageBlock;
+        TLRPC$PageBlock tLRPC$TL_pageBlockAudio;
         switch (i) {
             case -2143067670:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockAudio();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockAudio();
                 break;
             case -1879401953:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockSubtitle();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockSubtitle();
                 break;
             case -1702174239:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockOrderedList();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockOrderedList();
                 break;
             case -1538310410:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockMap();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockMap();
                 break;
             case -1468953147:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockEmbed();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockEmbed();
                 break;
             case -1162877472:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockAuthorDate();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockAuthorDate();
                 break;
             case -1085412734:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockTable();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockTable();
                 break;
             case -1076861716:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockHeader();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockHeader();
                 break;
             case -1066346178:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockPreformatted();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockPreformatted();
                 break;
             case -840826671:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockEmbed() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockEmbed_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockEmbed() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockEmbed_layer82
                     public static int constructor = -840826671;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockEmbed, org.telegram.tgnet.TLObject
@@ -94,10 +94,10 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case -837994576:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockAnchor();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockAnchor();
                 break;
             case -650782469:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockEmbed() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockEmbed_layer60
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockEmbed() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockEmbed_layer60
                     public static int constructor = -650782469;
                     public boolean allow_scrolling;
                     public TLRPC$RichText caption;
@@ -150,7 +150,7 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case -640214938:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockVideo() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockVideo_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockVideo() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockVideo_layer82
                     public static int constructor = -640214938;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockVideo, org.telegram.tgnet.TLObject
@@ -184,7 +184,7 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case -618614392:
-                tLRPC$PageBlock = new TLRPC$PageBlock() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockDivider
+                tLRPC$TL_pageBlockAudio = new TLRPC$PageBlock() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockDivider
                     public static int constructor = -618614392;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -194,10 +194,10 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case -454524911:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockList();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockList();
                 break;
             case -372860542:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockPhoto() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockPhoto_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockPhoto() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockPhoto_layer82
                     public static int constructor = -372860542;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockPhoto, org.telegram.tgnet.TLObject
@@ -218,19 +218,19 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case -283684427:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockChannel();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockChannel();
                 break;
             case -248793375:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockSubheader();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockSubheader();
                 break;
             case -229005301:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockEmbedPost();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockEmbedPost();
                 break;
             case 52401552:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockSlideshow();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockSlideshow();
                 break;
             case 145955919:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockCollage() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockCollage_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockCollage() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockCollage_layer82
                     public static int constructor = 145955919;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockCollage, org.telegram.tgnet.TLObject
@@ -270,7 +270,7 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case 319588707:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockSlideshow() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockSlideshow_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockSlideshow() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockSlideshow_layer82
                     public static int constructor = 319588707;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockSlideshow, org.telegram.tgnet.TLObject
@@ -310,7 +310,7 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case 324435594:
-                tLRPC$PageBlock = new TLRPC$PageBlock() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockUnsupported
+                tLRPC$TL_pageBlockAudio = new TLRPC$PageBlock() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockUnsupported
                     public static int constructor = 324435594;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -320,19 +320,19 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case 370236054:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockRelatedArticles();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockRelatedArticles();
                 break;
             case 391759200:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockPhoto();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockPhoto();
                 break;
             case 504660880:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockKicker();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockKicker();
                 break;
             case 641563686:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockBlockquote();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockBlockquote();
                 break;
             case 690781161:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockEmbedPost() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockEmbedPost_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockEmbedPost() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockEmbedPost_layer82
                     public static int constructor = 690781161;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockEmbedPost, org.telegram.tgnet.TLObject
@@ -382,7 +382,7 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case 834148991:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockAudio() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockAudio_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockAudio() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockAudio_layer82
                     public static int constructor = 834148991;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockAudio, org.telegram.tgnet.TLObject
@@ -403,10 +403,10 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case 972174080:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockCover();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockCover();
                 break;
             case 978896884:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockList() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockList_layer82
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockList() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockList_layer82
                     public static int constructor = 978896884;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockList, org.telegram.tgnet.TLObject
@@ -445,7 +445,7 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case 1029399794:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockAuthorDate() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockAuthorDate_layer60
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockAuthorDate() { // from class: org.telegram.tgnet.TLRPC$TL_pageBlockAuthorDate_layer60
                     public static int constructor = 1029399794;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_pageBlockAuthorDate, org.telegram.tgnet.TLObject
@@ -466,35 +466,35 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 };
                 break;
             case 1182402406:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockParagraph();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockParagraph();
                 break;
             case 1216809369:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockFooter();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockFooter();
                 break;
             case 1329878739:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockPullquote();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockPullquote();
                 break;
             case 1705048653:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockCollage();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockCollage();
                 break;
             case 1890305021:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockTitle();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockTitle();
                 break;
             case 1987480557:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockDetails();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockDetails();
                 break;
             case 2089805750:
-                tLRPC$PageBlock = new TLRPC$TL_pageBlockVideo();
+                tLRPC$TL_pageBlockAudio = new TLRPC$TL_pageBlockVideo();
                 break;
             default:
-                tLRPC$PageBlock = null;
+                tLRPC$TL_pageBlockAudio = null;
                 break;
         }
-        if (tLRPC$PageBlock != null || !z) {
-            if (tLRPC$PageBlock != null) {
-                tLRPC$PageBlock.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_pageBlockAudio != null || !z) {
+            if (tLRPC$TL_pageBlockAudio != null) {
+                tLRPC$TL_pageBlockAudio.readParams(abstractSerializedData, z);
             }
-            return tLRPC$PageBlock;
+            return tLRPC$TL_pageBlockAudio;
         }
         throw new RuntimeException(String.format("can't parse magic %x in PageBlock", Integer.valueOf(i)));
     }

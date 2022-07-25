@@ -179,6 +179,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         return put;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$drawExactBoundsSize$0(View view, Disposable disposable) {
         this.disposables.remove(view);
         disposable.dispose();
@@ -260,6 +261,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDitheringInternal$2(final IntSize intSize, final Runnable[] runnableArr, final int i, final Listener[] listenerArr) {
         try {
             final Bitmap createDitheredGradientBitmap = createDitheredGradientBitmap(getOrientation(), this.colors, intSize.width, intSize.height);
@@ -280,6 +282,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDitheringInternal$1(Runnable[] runnableArr, Bitmap bitmap, IntSize intSize, int i, Listener[] listenerArr) {
         if (!this.ditheringRunnables.contains(runnableArr)) {
             if (bitmap == null) {
@@ -318,6 +321,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         listenerArr[0] = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDitheringInternal$3(Listener[] listenerArr, Runnable[] runnableArr, IntSize[] intSizeArr) {
         listenerArr[0] = null;
         if (this.ditheringRunnables.contains(runnableArr)) {
@@ -367,7 +371,8 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         return bitmap;
     }
 
-    /* renamed from: org.telegram.ui.Components.BackgroundGradientDrawable$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.BackgroundGradientDrawable$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public static /* synthetic */ class AnonymousClass2 {
         static final /* synthetic */ int[] $SwitchMap$android$graphics$drawable$GradientDrawable$Orientation;

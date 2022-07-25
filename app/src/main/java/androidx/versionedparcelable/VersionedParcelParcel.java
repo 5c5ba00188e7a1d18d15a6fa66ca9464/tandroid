@@ -17,6 +17,7 @@ class VersionedParcelParcel extends VersionedParcel {
     private final SparseIntArray mPositionLookup;
     private final String mPrefix;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public VersionedParcelParcel(Parcel parcel) {
         this(parcel, parcel.dataPosition(), parcel.dataSize(), "", new ArrayMap(), new ArrayMap(), new ArrayMap());
     }

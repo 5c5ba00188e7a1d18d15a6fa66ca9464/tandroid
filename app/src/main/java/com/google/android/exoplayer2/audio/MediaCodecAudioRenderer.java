@@ -184,6 +184,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.eventDispatcher.decoderInitialized(str, j, j2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     public void onInputFormatChanged(FormatHolder formatHolder) throws ExoPlaybackException {
         super.onInputFormatChanged(formatHolder);
@@ -194,21 +195,21 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     protected void onOutputFormatChanged(MediaCodec mediaCodec, MediaFormat mediaFormat) throws ExoPlaybackException {
+        int pcmEncoding;
         int i;
         int[] iArr;
         int i2;
-        int i3;
         MediaFormat mediaFormat2 = this.passthroughMediaFormat;
         if (mediaFormat2 != null) {
             i = getPassthroughEncoding(mediaFormat2.getInteger("channel-count"), mediaFormat2.getString("mime"));
             mediaFormat = mediaFormat2;
         } else {
             if (mediaFormat.containsKey("v-bits-per-sample")) {
-                i3 = Util.getPcmEncoding(mediaFormat.getInteger("v-bits-per-sample"));
+                pcmEncoding = Util.getPcmEncoding(mediaFormat.getInteger("v-bits-per-sample"));
             } else {
-                i3 = getPcmEncoding(this.inputFormat);
+                pcmEncoding = getPcmEncoding(this.inputFormat);
             }
-            i = i3;
+            i = pcmEncoding;
         }
         int integer = mediaFormat.getInteger("channel-count");
         int integer2 = mediaFormat.getInteger("sample-rate");
@@ -216,8 +217,8 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
             iArr = null;
         } else {
             iArr = new int[i2];
-            for (int i4 = 0; i4 < this.inputFormat.channelCount; i4++) {
-                iArr[i4] = i4;
+            for (int i3 = 0; i3 < this.inputFormat.channelCount; i3++) {
+                iArr[i3] = i3;
             }
         }
         int[] iArr2 = iArr;
@@ -244,6 +245,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onEnabled(boolean z) throws ExoPlaybackException {
         super.onEnabled(z);
@@ -256,6 +258,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
     public void onStreamChanged(Format[] formatArr, long j) throws ExoPlaybackException {
         super.onStreamChanged(formatArr, j);
@@ -270,6 +273,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onPositionReset(long j, boolean z) throws ExoPlaybackException {
         super.onPositionReset(j, z);
@@ -281,12 +285,14 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.pendingStreamChangeCount = 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onStarted() {
         super.onStarted();
         this.audioSink.play();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onStopped() {
         updateCurrentPosition();
@@ -294,6 +300,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         super.onStopped();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onDisabled() {
         try {
@@ -313,6 +320,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onReset() {
         try {
@@ -514,11 +522,9 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         return 2;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class AudioSinkListener implements AudioSink.Listener {
+    private final class AudioSinkListener implements AudioSink.Listener {
         private AudioSinkListener() {
-            MediaCodecAudioRenderer.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.audio.AudioSink.Listener

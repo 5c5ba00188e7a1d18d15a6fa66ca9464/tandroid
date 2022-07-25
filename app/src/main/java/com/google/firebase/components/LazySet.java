@@ -5,6 +5,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class LazySet<T> implements Provider<Set<T>> {
     private volatile Set<T> actualSet = null;
@@ -14,12 +15,14 @@ public class LazySet<T> implements Provider<Set<T>> {
         this.providers.addAll(collection);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static LazySet<?> fromCollection(Collection<Provider<?>> collection) {
         return new LazySet<>((Set) collection);
     }
 
     @Override // com.google.firebase.inject.Provider
-    public Set<T> get() {
+    /* renamed from: get  reason: collision with other method in class */
+    public Set<T> mo190get() {
         if (this.actualSet == null) {
             synchronized (this) {
                 if (this.actualSet == null) {
@@ -31,17 +34,18 @@ public class LazySet<T> implements Provider<Set<T>> {
         return Collections.unmodifiableSet(this.actualSet);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void add(Provider<T> provider) {
         if (this.actualSet == null) {
             this.providers.add(provider);
         } else {
-            this.actualSet.add(provider.get());
+            this.actualSet.add(provider.mo190get());
         }
     }
 
     private synchronized void updateSet() {
         for (Provider<T> provider : this.providers) {
-            this.actualSet.add(provider.get());
+            this.actualSet.add(provider.mo190get());
         }
         this.providers = null;
     }

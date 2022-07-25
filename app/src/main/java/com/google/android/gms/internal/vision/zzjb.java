@@ -28,6 +28,7 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         final zzf zzd;
     }
 
+    /* JADX WARN: Failed to restore enum class, 'enum' modifier removed */
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public static final class zzg {
@@ -45,6 +46,7 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract Object zza(int i, Object obj, Object obj2);
 
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
@@ -52,6 +54,7 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
     public static abstract class zzc<MessageType extends zzc<MessageType, BuilderType>, BuilderType> extends zzjb<MessageType, BuilderType> implements zzkm {
         protected zziu<zzf> zzc = zziu.zza();
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public final zziu<zzf> zza() {
             if (this.zzc.zzc()) {
                 this.zzc = (zziu) this.zzc.clone();
@@ -81,17 +84,20 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         protected boolean zzb = false;
         private final MessageType zzc;
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public zzb(MessageType messagetype) {
             this.zzc = messagetype;
             this.zza = (MessageType) messagetype.zza(zzg.zzd, null, null);
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public void zzb() {
             MessageType messagetype = (MessageType) this.zza.zza(zzg.zzd, null, null);
             zza(messagetype, this.zza);
             this.zza = messagetype;
         }
 
+        @Override // com.google.android.gms.internal.vision.zzkn
         /* renamed from: zzc */
         public MessageType zze() {
             if (this.zzb) {
@@ -103,6 +109,7 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
             return this.zza;
         }
 
+        @Override // com.google.android.gms.internal.vision.zzkn
         /* renamed from: zzd */
         public final MessageType zzf() {
             MessageType messagetype = (MessageType) zze();
@@ -166,10 +173,9 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
-    public static final class zzf implements zziw<zzf> {
+    static final class zzf implements zziw<zzf> {
         final int zzb;
         final zzml zzc;
         final boolean zzd;
@@ -226,6 +232,7 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         return zzky.zza().zza((zzky) this).zza(this, (zzjb) obj);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final <MessageType extends zzjb<MessageType, BuilderType>, BuilderType extends zzb<MessageType, BuilderType>> BuilderType zzj() {
         return (BuilderType) zza(zzg.zze, (Object) null, (Object) null);
     }
@@ -235,15 +242,13 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         return zza(this, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzhf
-    public final int zzi() {
+    final int zzi() {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzhf
-    public final void zzb(int i) {
+    final void zzb(int i) {
         this.zzc = i;
     }
 
@@ -260,34 +265,38 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T extends zzjb<?, ?>> T zza(Class<T> cls) {
-        T t = zzd.get(cls);
-        if (t == null) {
+        zzjb<?, ?> zzjbVar = zzd.get(cls);
+        if (zzjbVar == null) {
             try {
                 Class.forName(cls.getName(), true, cls.getClassLoader());
-                t = zzd.get(cls);
+                zzjbVar = zzd.get(cls);
             } catch (ClassNotFoundException e) {
                 throw new IllegalStateException("Class initialization cannot fail.", e);
             }
         }
-        if (t == null) {
-            t = (T) ((zzjb) zzma.zza(cls)).zza(zzg.zzf, (Object) null, (Object) null);
-            if (t == null) {
+        if (zzjbVar == null) {
+            zzjbVar = (T) ((zzjb) zzma.zza(cls)).zza(zzg.zzf, (Object) null, (Object) null);
+            if (zzjbVar == null) {
                 throw new IllegalStateException();
             }
-            zzd.put(cls, t);
+            zzd.put(cls, zzjbVar);
         }
-        return (T) t;
+        return (T) zzjbVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <T extends zzjb<?, ?>> void zza(Class<T> cls, T t) {
         zzd.put(cls, t);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static Object zza(zzkk zzkkVar, String str, Object[] objArr) {
         return new zzla(zzkkVar, str, objArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Object zza(Method method, Object obj, Object... objArr) {
         try {
             return method.invoke(obj, objArr);
@@ -320,15 +329,18 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         return zzd2;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.vision.zzjj, com.google.android.gms.internal.vision.zzjd] */
     public static zzjj zzn() {
         return zzjd.zzd();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <E> zzjl<E> zzo() {
         return zzlb.zzd();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <E> zzjl<E> zza(zzjl<E> zzjlVar) {
         int size = zzjlVar.size();
         return zzjlVar.zza(size == 0 ? 10 : size << 1);

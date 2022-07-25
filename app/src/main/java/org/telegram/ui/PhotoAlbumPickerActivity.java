@@ -111,10 +111,12 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         void startPhotoSelectActivity();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$1(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -224,11 +226,12 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:38:0x00a5  */
-            /* JADX WARN: Removed duplicated region for block: B:45:0x00bf  */
-            /* JADX WARN: Removed duplicated region for block: B:49:0x00d4  */
-            /* JADX WARN: Removed duplicated region for block: B:53:0x00e6  */
-            /* JADX WARN: Removed duplicated region for block: B:54:0x00ef  */
+            /* JADX INFO: Access modifiers changed from: protected */
+            /* JADX WARN: Removed duplicated region for block: B:32:0x00a5  */
+            /* JADX WARN: Removed duplicated region for block: B:39:0x00d4  */
+            /* JADX WARN: Removed duplicated region for block: B:43:0x00e6  */
+            /* JADX WARN: Removed duplicated region for block: B:45:0x00ef  */
+            /* JADX WARN: Removed duplicated region for block: B:52:0x00bf  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -240,11 +243,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 int i8;
                 int i9;
                 int i10;
-                int i11;
-                int i12;
-                int i13 = i3 - i;
-                if (this.lastNotifyWidth != i13) {
-                    this.lastNotifyWidth = i13;
+                int measuredHeight;
+                int measuredHeight2;
+                int i11 = i3 - i;
+                if (this.lastNotifyWidth != i11) {
+                    this.lastNotifyWidth = i11;
                     if (PhotoAlbumPickerActivity.this.sendPopupWindow != null && PhotoAlbumPickerActivity.this.sendPopupWindow.isShowing()) {
                         PhotoAlbumPickerActivity.this.sendPopupWindow.dismiss();
                     }
@@ -253,66 +256,66 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 int measureKeyboardHeight = SharedConfig.smoothKeyboard ? 0 : measureKeyboardHeight();
                 int emojiPadding = (measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : PhotoAlbumPickerActivity.this.commentTextView.getEmojiPadding();
                 setBottomClip(emojiPadding);
-                for (int i14 = 0; i14 < childCount; i14++) {
-                    View childAt = getChildAt(i14);
+                for (int i12 = 0; i12 < childCount; i12++) {
+                    View childAt = getChildAt(i12);
                     if (childAt.getVisibility() != 8) {
                         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                         int measuredWidth = childAt.getMeasuredWidth();
-                        int measuredHeight = childAt.getMeasuredHeight();
-                        int i15 = layoutParams.gravity;
-                        if (i15 == -1) {
-                            i15 = 51;
+                        int measuredHeight3 = childAt.getMeasuredHeight();
+                        int i13 = layoutParams.gravity;
+                        if (i13 == -1) {
+                            i13 = 51;
                         }
-                        int i16 = i15 & 7;
-                        int i17 = i15 & 112;
-                        int i18 = i16 & 7;
-                        if (i18 == 1) {
-                            i12 = ((i13 - measuredWidth) / 2) + layoutParams.leftMargin;
-                            i11 = layoutParams.rightMargin;
-                        } else if (i18 == 5) {
-                            i12 = (i13 - measuredWidth) - layoutParams.rightMargin;
-                            i11 = getPaddingRight();
+                        int i14 = i13 & 7;
+                        int i15 = i13 & 112;
+                        int i16 = i14 & 7;
+                        if (i16 == 1) {
+                            i5 = ((i11 - measuredWidth) / 2) + layoutParams.leftMargin;
+                            i6 = layoutParams.rightMargin;
+                        } else if (i16 == 5) {
+                            i5 = (i11 - measuredWidth) - layoutParams.rightMargin;
+                            i6 = getPaddingRight();
                         } else {
-                            i5 = layoutParams.leftMargin + getPaddingLeft();
-                            if (i17 == 16) {
-                                if (i17 == 48) {
-                                    i6 = layoutParams.topMargin + getPaddingTop();
-                                } else if (i17 == 80) {
-                                    i9 = ((i4 - emojiPadding) - i2) - measuredHeight;
-                                    i10 = layoutParams.bottomMargin;
+                            i7 = layoutParams.leftMargin + getPaddingLeft();
+                            if (i15 == 16) {
+                                if (i15 == 48) {
+                                    i10 = layoutParams.topMargin + getPaddingTop();
+                                } else if (i15 == 80) {
+                                    i8 = ((i4 - emojiPadding) - i2) - measuredHeight3;
+                                    i9 = layoutParams.bottomMargin;
                                 } else {
-                                    i6 = layoutParams.topMargin;
+                                    i10 = layoutParams.topMargin;
                                 }
                                 if (PhotoAlbumPickerActivity.this.commentTextView != null && PhotoAlbumPickerActivity.this.commentTextView.isPopupView(childAt)) {
                                     if (!AndroidUtilities.isTablet()) {
-                                        i8 = getMeasuredHeight();
-                                        i7 = childAt.getMeasuredHeight();
+                                        measuredHeight = getMeasuredHeight();
+                                        measuredHeight2 = childAt.getMeasuredHeight();
                                     } else {
-                                        i8 = getMeasuredHeight() + measureKeyboardHeight;
-                                        i7 = childAt.getMeasuredHeight();
+                                        measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
+                                        measuredHeight2 = childAt.getMeasuredHeight();
                                     }
-                                    i6 = i8 - i7;
+                                    i10 = measuredHeight - measuredHeight2;
                                 }
-                                childAt.layout(i5, i6, measuredWidth + i5, measuredHeight + i6);
+                                childAt.layout(i7, i10, measuredWidth + i7, measuredHeight3 + i10);
                             } else {
-                                i9 = ((((i4 - emojiPadding) - i2) - measuredHeight) / 2) + layoutParams.topMargin;
-                                i10 = layoutParams.bottomMargin;
+                                i8 = ((((i4 - emojiPadding) - i2) - measuredHeight3) / 2) + layoutParams.topMargin;
+                                i9 = layoutParams.bottomMargin;
                             }
-                            i6 = i9 - i10;
+                            i10 = i8 - i9;
                             if (PhotoAlbumPickerActivity.this.commentTextView != null) {
                                 if (!AndroidUtilities.isTablet()) {
                                 }
-                                i6 = i8 - i7;
+                                i10 = measuredHeight - measuredHeight2;
                             }
-                            childAt.layout(i5, i6, measuredWidth + i5, measuredHeight + i6);
+                            childAt.layout(i7, i10, measuredWidth + i7, measuredHeight3 + i10);
                         }
-                        i5 = i12 - i11;
-                        if (i17 == 16) {
+                        i7 = i5 - i6;
+                        if (i15 == 16) {
                         }
-                        i6 = i9 - i10;
+                        i10 = i8 - i9;
                         if (PhotoAlbumPickerActivity.this.commentTextView != null) {
                         }
-                        childAt.layout(i5, i6, measuredWidth + i5, measuredHeight + i6);
+                        childAt.layout(i7, i10, measuredWidth + i7, measuredHeight3 + i10);
                     }
                 }
                 notifyHeightChanged();
@@ -491,6 +494,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity != null && chatActivity.isInScheduleMode()) {
@@ -506,11 +510,13 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(boolean z, int i) {
         sendSelectedPhotos(this.selectedPhotos, this.selectedPhotosOrder, z, i);
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$7(View view) {
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity != null && this.maxSelectedPhotos != 1) {
@@ -590,6 +596,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() != 4 || keyEvent.getRepeatCount() != 0 || (actionBarPopupWindow = this.sendPopupWindow) == null || !actionBarPopupWindow.isShowing()) {
@@ -598,6 +605,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.sendPopupWindow.dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(int i, View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.sendPopupWindow;
         if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
@@ -616,6 +624,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(boolean z, int i) {
         sendSelectedPhotos(this.selectedPhotos, this.selectedPhotosOrder, z, i);
         finishFragment();
@@ -700,6 +709,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.delegate = photoAlbumPickerActivityDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendSelectedPhotos(HashMap<Object, Object> hashMap, ArrayList<Object> arrayList, boolean z, int i) {
         if (hashMap.isEmpty() || this.delegate == null || this.sendPressed) {
             return;
@@ -776,6 +786,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void fixLayoutInternal() {
         if (getParentActivity() == null) {
             return;
@@ -830,6 +841,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePhotosButton() {
         if (this.selectedPhotos.size() == 0) {
             this.selectedCountView.setPivotX(0.0f);
@@ -841,6 +853,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         showCommentTextView(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openPhotoPicker(MediaController.AlbumEntry albumEntry, int i) {
         if (albumEntry != null) {
             PhotoPickerActivity photoPickerActivity = new PhotoPickerActivity(i, albumEntry, this.selectedPhotos, this.selectedPhotosOrder, this.selectPhotoType, this.allowCaption, this.chatActivity, false);
@@ -941,6 +954,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         presentFragment(photoPickerActivity2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
@@ -956,7 +970,6 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         }
 
         public ListAdapter(Context context) {
-            PhotoAlbumPickerActivity.this = r1;
             this.mContext = context;
         }
 
@@ -969,7 +982,8 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             PhotoPickerAlbumsCell photoPickerAlbumsCell = new PhotoPickerAlbumsCell(this.mContext);
             photoPickerAlbumsCell.setDelegate(new PhotoPickerAlbumsCell.PhotoPickerAlbumsCellDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$ListAdapter$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Cells.PhotoPickerAlbumsCell.PhotoPickerAlbumsCellDelegate
@@ -980,6 +994,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             return new RecyclerListView.Holder(photoPickerAlbumsCell);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(MediaController.AlbumEntry albumEntry) {
             PhotoAlbumPickerActivity.this.openPhotoPicker(albumEntry, 0);
         }

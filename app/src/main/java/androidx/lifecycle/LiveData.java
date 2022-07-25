@@ -106,6 +106,7 @@ public abstract class LiveData<T> {
         remove.activeStateChanged(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void postValue(T t) {
         boolean z;
         synchronized (this.mDataLock) {
@@ -118,6 +119,7 @@ public abstract class LiveData<T> {
         ArchTaskExecutor.getInstance().postToMainThread(this.mPostValueRunnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setValue(T t) {
         assertMainThread("setValue");
         this.mVersion++;
@@ -137,15 +139,12 @@ public abstract class LiveData<T> {
         return this.mActiveCount > 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public class LifecycleBoundObserver extends LiveData<T>.ObserverWrapper implements GenericLifecycleObserver {
+    class LifecycleBoundObserver extends LiveData<T>.ObserverWrapper implements GenericLifecycleObserver {
         final LifecycleOwner mOwner;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         LifecycleBoundObserver(LifecycleOwner lifecycleOwner, Observer<? super T> observer) {
             super(observer);
-            LiveData.this = r1;
             this.mOwner = lifecycleOwner;
         }
 
@@ -174,6 +173,7 @@ public abstract class LiveData<T> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public abstract class ObserverWrapper {
         boolean mActive;
@@ -190,7 +190,6 @@ public abstract class LiveData<T> {
         abstract boolean shouldBeActive();
 
         ObserverWrapper(Observer<? super T> observer) {
-            LiveData.this = r1;
             this.mObserver = observer;
         }
 

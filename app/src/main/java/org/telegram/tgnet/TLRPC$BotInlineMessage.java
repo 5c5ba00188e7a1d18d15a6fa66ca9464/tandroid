@@ -23,13 +23,13 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
     public String venue_type;
 
     public static TLRPC$BotInlineMessage TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$BotInlineMessage tLRPC$BotInlineMessage;
+        TLRPC$BotInlineMessage tLRPC$TL_botInlineMessageMediaVenue;
         switch (i) {
             case -1970903652:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaVenue();
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaVenue();
                 break;
             case -1937807902:
-                tLRPC$BotInlineMessage = new TLRPC$BotInlineMessage() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageText
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$BotInlineMessage() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageText
                     public static int constructor = -1937807902;
 
                     @Override // org.telegram.tgnet.TLObject
@@ -82,7 +82,7 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                 };
                 break;
             case -1222451611:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaGeo() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaGeo_layer119
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaGeo() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaGeo_layer119
                     public static int constructor = -1222451611;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaGeo, org.telegram.tgnet.TLObject
@@ -108,10 +108,10 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                 };
                 break;
             case 85477117:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaGeo();
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaGeo();
                 break;
             case 175419739:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaAuto() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaAuto_layer74
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaAuto() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaAuto_layer74
                     public static int constructor = 175419739;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaAuto, org.telegram.tgnet.TLObject
@@ -135,13 +135,13 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                 };
                 break;
             case 416402882:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaContact();
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaContact();
                 break;
             case 894081801:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaInvoice();
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaInvoice();
                 break;
             case 904770772:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaContact() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaContact_layer81
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaContact() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaContact_layer81
                     public static int constructor = 904770772;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaContact, org.telegram.tgnet.TLObject
@@ -169,7 +169,7 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                 };
                 break;
             case 982505656:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaGeo() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaGeo_layer71
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaGeo() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaGeo_layer71
                     public static int constructor = 982505656;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaGeo, org.telegram.tgnet.TLObject
@@ -193,7 +193,7 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                 };
                 break;
             case 1130767150:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaVenue() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaVenue_layer77
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaVenue() { // from class: org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaVenue_layer77
                     public static int constructor = 1130767150;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_botInlineMessageMediaVenue, org.telegram.tgnet.TLObject
@@ -225,17 +225,17 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                 };
                 break;
             case 1984755728:
-                tLRPC$BotInlineMessage = new TLRPC$TL_botInlineMessageMediaAuto();
+                tLRPC$TL_botInlineMessageMediaVenue = new TLRPC$TL_botInlineMessageMediaAuto();
                 break;
             default:
-                tLRPC$BotInlineMessage = null;
+                tLRPC$TL_botInlineMessageMediaVenue = null;
                 break;
         }
-        if (tLRPC$BotInlineMessage != null || !z) {
-            if (tLRPC$BotInlineMessage != null) {
-                tLRPC$BotInlineMessage.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_botInlineMessageMediaVenue != null || !z) {
+            if (tLRPC$TL_botInlineMessageMediaVenue != null) {
+                tLRPC$TL_botInlineMessageMediaVenue.readParams(abstractSerializedData, z);
             }
-            return tLRPC$BotInlineMessage;
+            return tLRPC$TL_botInlineMessageMediaVenue;
         }
         throw new RuntimeException(String.format("can't parse magic %x in BotInlineMessage", Integer.valueOf(i)));
     }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class NotificationCompatBuilder implements NotificationBuilderWithBuilderAccessor {
     private RemoteViews mBigContentView;
@@ -28,6 +29,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     private final List<Bundle> mActionExtrasList = new ArrayList();
     private final Bundle mExtras = new Bundle();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public NotificationCompatBuilder(NotificationCompat.Builder b) {
         Icon icon;
         List<String> list;
@@ -209,6 +211,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         return this.mBuilder;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Context getContext() {
         return this.mContext;
     }

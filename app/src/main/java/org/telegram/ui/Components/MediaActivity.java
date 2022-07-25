@@ -111,6 +111,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 return super.dispatchTouchEvent(motionEvent);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
             public void drawList(Canvas canvas, boolean z2) {
                 MediaActivity.this.sharedMediaLayout.drawListForBlur(canvas);
@@ -295,6 +296,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         return sizeNotifierFrameLayout;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateMediaCount() {
         int closestTab = this.sharedMediaLayout.getClosestTab();
         int[] lastMediaCount = this.sharedMediaPreloader.getLastMediaCount();
@@ -341,6 +343,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         updateMediaCount();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: updateColors */
     public void lambda$getThemeDescriptions$0() {
         this.actionBar.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));

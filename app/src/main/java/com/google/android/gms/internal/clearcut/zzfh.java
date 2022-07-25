@@ -63,6 +63,7 @@ final class zzfh extends zzfg {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x001d, code lost:
         return r10 + r0;
      */
@@ -93,7 +94,7 @@ final class zzfh extends zzfg {
                     bArr[i9] = (byte) ((charAt2 & '?') | ConnectionsManager.RequestFlagNeedQuickAck);
                 } else if ((charAt2 >= 55296 && 57343 >= charAt2) || i8 > i6 - 3) {
                     if (i8 > i6 - 4) {
-                        if (55296 <= charAt2 && charAt2 <= 57343 && ((i3 = i7 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i3)))) {
+                        if (55296 <= charAt2 && charAt2 <= 57343 && ((i4 = i7 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
                             throw new zzfi(i7, length);
                         }
                         StringBuilder sb = new StringBuilder(37);
@@ -127,20 +128,21 @@ final class zzfh extends zzfg {
                     bArr[i8] = (byte) ((charAt2 >>> '\f') | 480);
                     int i15 = i14 + 1;
                     bArr[i14] = (byte) (((charAt2 >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck);
-                    i4 = i15 + 1;
+                    i3 = i15 + 1;
                     bArr[i15] = (byte) ((charAt2 & '?') | ConnectionsManager.RequestFlagNeedQuickAck);
                 }
                 i7++;
             } else {
-                i4 = i8 + 1;
+                i3 = i8 + 1;
                 bArr[i8] = (byte) charAt2;
             }
-            i8 = i4;
+            i8 = i3;
             i7++;
         }
         return i8;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzfg
     public final void zzb(CharSequence charSequence, ByteBuffer byteBuffer) {
         zzfg.zzc(charSequence, byteBuffer);

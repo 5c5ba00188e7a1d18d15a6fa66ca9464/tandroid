@@ -42,9 +42,9 @@ public class StickerSetNameCell extends FrameLayout {
 
     public StickerSetNameCell(Context context, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        FrameLayout.LayoutParams layoutParams;
-        FrameLayout.LayoutParams layoutParams2;
-        FrameLayout.LayoutParams layoutParams3;
+        FrameLayout.LayoutParams createFrame;
+        FrameLayout.LayoutParams createFrame2;
+        FrameLayout.LayoutParams createFrame3;
         this.resourcesProvider = resourcesProvider;
         this.isEmoji = z;
         TextView textView = new TextView(context);
@@ -62,11 +62,11 @@ public class StickerSetNameCell extends FrameLayout {
         }
         float f = 17.0f;
         if (z2) {
-            layoutParams = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388659, z ? 11.0f : 17.0f, z ? 10.0f : 2.0f, z ? 15.0f : 57.0f, 0.0f);
+            createFrame = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388659, z ? 11.0f : 17.0f, z ? 10.0f : 2.0f, z ? 15.0f : 57.0f, 0.0f);
         } else {
-            layoutParams = LayoutHelper.createFrame(-2, -2.0f, 51, z ? 11.0f : f, z ? 10.0f : 2.0f, z ? 15.0f : 57.0f, 0.0f);
+            createFrame = LayoutHelper.createFrame(-2, -2.0f, 51, z ? 11.0f : f, z ? 10.0f : 2.0f, z ? 15.0f : 57.0f, 0.0f);
         }
-        addView(this.textView, layoutParams);
+        addView(this.textView, createFrame);
         TextView textView2 = new TextView(context);
         this.urlTextView = textView2;
         textView2.setTextColor(getThemedColor("chat_emojiPanelStickerSetName"));
@@ -75,21 +75,21 @@ public class StickerSetNameCell extends FrameLayout {
         this.urlTextView.setSingleLine(true);
         this.urlTextView.setVisibility(4);
         if (z2) {
-            layoutParams2 = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388661, 12.0f, 6.0f, 17.0f, 0.0f);
+            createFrame2 = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388661, 12.0f, 6.0f, 17.0f, 0.0f);
         } else {
-            layoutParams2 = LayoutHelper.createFrame(-2, -2.0f, 53, 12.0f, 6.0f, 17.0f, 0.0f);
+            createFrame2 = LayoutHelper.createFrame(-2, -2.0f, 53, 12.0f, 6.0f, 17.0f, 0.0f);
         }
-        addView(this.urlTextView, layoutParams2);
+        addView(this.urlTextView, createFrame2);
         ImageView imageView = new ImageView(context);
         this.buttonView = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.buttonView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_emojiPanelStickerSetNameIcon"), PorterDuff.Mode.MULTIPLY));
         if (z2) {
-            layoutParams3 = LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388661, 0.0f, 0.0f, 11.0f, 0.0f);
+            createFrame3 = LayoutHelper.createFrameRelatively(24.0f, 24.0f, 8388661, 0.0f, 0.0f, 11.0f, 0.0f);
         } else {
-            layoutParams3 = LayoutHelper.createFrame(24, 24.0f, 53, 0.0f, 0.0f, 11.0f, 0.0f);
+            createFrame3 = LayoutHelper.createFrame(24, 24.0f, 53, 0.0f, 0.0f, 11.0f, 0.0f);
         }
-        addView(this.buttonView, layoutParams3);
+        addView(this.buttonView, createFrame3);
     }
 
     public void setUrl(CharSequence charSequence, int i) {

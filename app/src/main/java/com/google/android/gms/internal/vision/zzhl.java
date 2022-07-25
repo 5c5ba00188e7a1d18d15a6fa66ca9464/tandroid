@@ -1,9 +1,11 @@
 package com.google.android.gms.internal.vision;
 
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzhl {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(byte[] bArr, int i, zzhn zzhnVar) {
         int i2 = i + 1;
         byte b = bArr[i];
@@ -14,6 +16,7 @@ public final class zzhl {
         return zza(b, bArr, i2, zzhnVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, zzhn zzhnVar) {
         int i3 = i & 127;
         int i4 = i2 + 1;
@@ -54,6 +57,7 @@ public final class zzhl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(byte[] bArr, int i, zzhn zzhnVar) {
         byte b;
         int i2 = i + 1;
@@ -77,22 +81,27 @@ public final class zzhl {
         return i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(byte[] bArr, int i) {
         return ((bArr[i + 3] & 255) << 24) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static long zzb(byte[] bArr, int i) {
         return ((bArr[i + 7] & 255) << 56) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40) | ((bArr[i + 6] & 255) << 48);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static double zzc(byte[] bArr, int i) {
         return Double.longBitsToDouble(zzb(bArr, i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static float zzd(byte[] bArr, int i) {
         return Float.intBitsToFloat(zza(bArr, i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzc(byte[] bArr, int i, zzhn zzhnVar) throws zzjk {
         int zza = zza(bArr, i, zzhnVar);
         int i2 = zzhnVar.zza;
@@ -107,6 +116,7 @@ public final class zzhl {
         throw zzjk.zzb();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzd(byte[] bArr, int i, zzhn zzhnVar) throws zzjk {
         int zza = zza(bArr, i, zzhnVar);
         int i2 = zzhnVar.zza;
@@ -121,6 +131,7 @@ public final class zzhl {
         throw zzjk.zzb();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zze(byte[] bArr, int i, zzhn zzhnVar) throws zzjk {
         int zza = zza(bArr, i, zzhnVar);
         int i2 = zzhnVar.zza;
@@ -138,6 +149,7 @@ public final class zzhl {
         return zza + i2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(zzlc zzlcVar, byte[] bArr, int i, int i2, zzhn zzhnVar) throws IOException {
         int i3 = i + 1;
         int i4 = bArr[i];
@@ -157,6 +169,7 @@ public final class zzhl {
         return i6;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(zzlc zzlcVar, byte[] bArr, int i, int i2, int i3, zzhn zzhnVar) throws IOException {
         zzko zzkoVar = (zzko) zzlcVar;
         Object zza = zzkoVar.zza();
@@ -166,6 +179,7 @@ public final class zzhl {
         return zza2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, int i3, zzjl<?> zzjlVar, zzhn zzhnVar) {
         zzjd zzjdVar = (zzjd) zzjlVar;
         int zza = zza(bArr, i2, zzhnVar);
@@ -181,6 +195,7 @@ public final class zzhl {
         return zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(byte[] bArr, int i, zzjl<?> zzjlVar, zzhn zzhnVar) throws IOException {
         zzjd zzjdVar = (zzjd) zzjlVar;
         int zza = zza(bArr, i, zzhnVar);
@@ -195,6 +210,7 @@ public final class zzhl {
         throw zzjk.zza();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(zzlc<?> zzlcVar, int i, byte[] bArr, int i2, int i3, zzjl<?> zzjlVar, zzhn zzhnVar) throws IOException {
         int zza = zza(zzlcVar, bArr, i2, i3, zzhnVar);
         zzjlVar.add(zzhnVar.zzc);
@@ -209,6 +225,7 @@ public final class zzhl {
         return zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, int i3, zzlx zzlxVar, zzhn zzhnVar) throws zzjk {
         if ((i >>> 3) != 0) {
             int i4 = i & 7;
@@ -269,6 +286,7 @@ public final class zzhl {
         throw zzjk.zzd();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, int i3, zzhn zzhnVar) throws zzjk {
         if ((i >>> 3) != 0) {
             int i4 = i & 7;

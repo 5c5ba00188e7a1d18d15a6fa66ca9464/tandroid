@@ -5,10 +5,12 @@ final class zzkj {
     private static final zzkh zza = zzc();
     private static final zzkh zzb = new zzkg();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzkh zza() {
         return zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzkh zzb() {
         return zzb;
     }

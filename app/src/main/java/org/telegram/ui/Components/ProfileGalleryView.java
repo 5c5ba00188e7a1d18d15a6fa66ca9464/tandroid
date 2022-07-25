@@ -113,6 +113,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class Item {
         private AvatarImageView imageView;
@@ -713,8 +714,8 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0187, code lost:
-        if (r4 != false) goto L72;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0187, code lost:
+        if (r4 != false) goto L54;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
@@ -901,7 +902,6 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         private final ArrayList<BackupImageView> imageViews = new ArrayList<>();
 
         public ViewPagerAdapter(Context context, ProfileActivity.AvatarImageView avatarImageView, ActionBar actionBar) {
-            ProfileGalleryView.this = r1;
             this.context = context;
             this.parentAvatarImageView = avatarImageView;
             Paint paint = new Paint(1);
@@ -929,13 +929,14 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             return indexOf;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:77:0x0292  */
-        /* JADX WARN: Removed duplicated region for block: B:79:0x0295  */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x0292  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0295  */
         @Override // androidx.viewpager.widget.PagerAdapter
+        /* renamed from: instantiateItem  reason: collision with other method in class */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public Item instantiateItem(ViewGroup viewGroup, int i) {
+        public Item mo1580instantiateItem(ViewGroup viewGroup, int i) {
             boolean z;
             Item item = this.objects.get(i);
             int realPosition = getRealPosition(i);
@@ -1186,6 +1187,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         this.createThumbFromParent = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AvatarImageView extends BackupImageView {
         public boolean isVideo;
@@ -1197,13 +1199,11 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         private final int radialProgressSize = AndroidUtilities.dp(64.0f);
         private long firstDrawTime = -1;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AvatarImageView(Context context, int i, Paint paint) {
             super(context);
-            ProfileGalleryView.this = r3;
             this.position = i;
             this.placeholderPaint = paint;
-            setLayerNum(r3.imagesLayerNum);
+            setLayerNum(ProfileGalleryView.this.imagesLayerNum);
         }
 
         @Override // android.view.View
@@ -1219,6 +1219,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
         public void onDraw(Canvas canvas) {
             ProfileGalleryView profileGalleryView;
@@ -1305,6 +1306,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onDraw$0(ValueAnimator valueAnimator) {
             this.radialProgress.setOverrideAlpha(AndroidUtilities.lerp(this.radialProgressHideAnimatorStartValue, 0.0f, valueAnimator.getAnimatedFraction()));
         }
@@ -1326,6 +1328,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         this.invalidateWithParent = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TextureStubView extends View {
         public TextureStubView(ProfileGalleryView profileGalleryView, Context context) {

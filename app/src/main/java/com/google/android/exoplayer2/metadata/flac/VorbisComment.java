@@ -9,13 +9,17 @@ import com.huawei.hms.framework.common.ContainerUtils;
 /* loaded from: classes.dex */
 public final class VorbisComment implements Metadata.Entry {
     public static final Parcelable.Creator<VorbisComment> CREATOR = new Parcelable.Creator<VorbisComment>() { // from class: com.google.android.exoplayer2.metadata.flac.VorbisComment.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public VorbisComment createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public VorbisComment mo102createFromParcel(Parcel parcel) {
             return new VorbisComment(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public VorbisComment[] newArray(int i) {
+        /* renamed from: newArray */
+        public VorbisComment[] mo103newArray(int i) {
             return new VorbisComment[i];
         }
     };

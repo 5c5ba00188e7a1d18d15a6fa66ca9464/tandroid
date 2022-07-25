@@ -9,10 +9,9 @@ import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public abstract class zziz<T extends zzio> {
+abstract class zziz<T extends zzio> {
     private static final Logger zza = Logger.getLogger(zzii.class.getName());
     private static String zzb = "com.google.protobuf.BlazeGeneratedExtensionRegistryLiteLoader";
 
@@ -21,21 +20,22 @@ public abstract class zziz<T extends zzio> {
 
     protected abstract T zza();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T extends zzio> T zza(Class<T> cls) {
-        String str;
+        String format;
         ClassLoader classLoader = zziz.class.getClassLoader();
         if (cls.equals(zzio.class)) {
-            str = zzb;
+            format = zzb;
         } else if (!cls.getPackage().equals(zziz.class.getPackage())) {
             throw new IllegalArgumentException(cls.getName());
         } else {
-            str = String.format("%s.BlazeGenerated%sLoader", cls.getPackage().getName(), cls.getSimpleName());
+            format = String.format("%s.BlazeGenerated%sLoader", cls.getPackage().getName(), cls.getSimpleName());
         }
         try {
             try {
                 try {
                     try {
-                        return cls.cast(((zziz) Class.forName(str, true, classLoader).getConstructor(new Class[0]).newInstance(new Object[0])).zza());
+                        return cls.cast(((zziz) Class.forName(format, true, classLoader).getConstructor(new Class[0]).newInstance(new Object[0])).zza());
                     } catch (IllegalAccessException e) {
                         throw new IllegalStateException(e);
                     }

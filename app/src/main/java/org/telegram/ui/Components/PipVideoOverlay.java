@@ -111,6 +111,7 @@ public class PipVideoOverlay {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(PipVideoOverlay pipVideoOverlay, float f) {
         WindowManager.LayoutParams layoutParams = pipVideoOverlay.windowLayoutParams;
         pipVideoOverlay.pipX = f;
@@ -122,6 +123,7 @@ public class PipVideoOverlay {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$3(PipVideoOverlay pipVideoOverlay, float f) {
         WindowManager.LayoutParams layoutParams = pipVideoOverlay.windowLayoutParams;
         pipVideoOverlay.pipY = f;
@@ -133,6 +135,7 @@ public class PipVideoOverlay {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4() {
         VideoPlayer videoPlayer;
         PhotoViewer photoViewer = this.photoViewer;
@@ -147,6 +150,7 @@ public class PipVideoOverlay {
         AndroidUtilities.runOnUIThread(this.progressRunnable, 500L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5() {
         PhotoViewer photoViewer = this.photoViewer;
         if (photoViewer != null && photoViewer.getVideoPlayerRewinder().rewindCount > 0) {
@@ -170,6 +174,7 @@ public class PipVideoOverlay {
         instance.onUpdateRewindProgressUiInternal(j, f, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onUpdateRewindProgressUiInternal(long j, float f, boolean z) {
         this.videoForwardDrawable.setTime(0L);
         if (z) {
@@ -204,6 +209,7 @@ public class PipVideoOverlay {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onLongClick() {
         PhotoViewer photoViewer = this.photoViewer;
         if (photoViewer == null || photoViewer.getVideoPlayer() == null || this.isDismissing || this.isVideoCompleted || this.isScrolling || this.scaleGestureDetector.isInProgress() || !this.canLongClick) {
@@ -232,6 +238,7 @@ public class PipVideoOverlay {
         this.postedDismissControls = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public PipConfig getPipConfig() {
         if (this.pipConfig == null) {
             android.graphics.Point point = AndroidUtilities.displaySize;
@@ -244,6 +251,7 @@ public class PipVideoOverlay {
         return instance.isVisible;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getSuggestedWidth() {
         return getSuggestedWidth(getRatio());
     }
@@ -263,6 +271,7 @@ public class PipVideoOverlay {
         return (int) (min * f2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getSuggestedHeight() {
         return getSuggestedHeight(getRatio());
     }
@@ -281,6 +290,7 @@ public class PipVideoOverlay {
         return this.aspectRatio.floatValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void toggleControls(boolean z) {
         float[] fArr = new float[2];
         float f = 0.0f;
@@ -307,6 +317,7 @@ public class PipVideoOverlay {
         this.controlsAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$toggleControls$6(ValueAnimator valueAnimator) {
         this.controlsView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
@@ -373,6 +384,7 @@ public class PipVideoOverlay {
         animatorSet.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onDismissedInternal() {
         try {
             if (this.controlsView.getParent() != null) {
@@ -393,6 +405,7 @@ public class PipVideoOverlay {
         AndroidUtilities.cancelRunOnUIThread(this.longClickCallback);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void cancelRewind() {
         PhotoViewer photoViewer = this.photoViewer;
         if (photoViewer != null && photoViewer.getVideoPlayerRewinder().rewindCount > 0) {
@@ -800,19 +813,21 @@ public class PipVideoOverlay {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showInternal$7(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         getPipConfig().setPipX(f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showInternal$8(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         getPipConfig().setPipY(f);
     }
 
-    /* renamed from: org.telegram.ui.Components.PipVideoOverlay$3 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.PipVideoOverlay$3  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass3 implements ScaleGestureDetector.OnScaleGestureListener {
         AnonymousClass3() {
-            PipVideoOverlay.this = r1;
         }
 
         @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
@@ -848,6 +863,7 @@ public class PipVideoOverlay {
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onScale$0() {
             PipVideoOverlay.this.contentView.invalidate();
             PipVideoOverlay.this.contentFrameLayout.requestLayout();
@@ -898,6 +914,7 @@ public class PipVideoOverlay {
             updateLayout();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateLayout() {
             PipVideoOverlay pipVideoOverlay = PipVideoOverlay.this;
             WindowManager.LayoutParams layoutParams = pipVideoOverlay.windowLayoutParams;
@@ -916,7 +933,8 @@ public class PipVideoOverlay {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.PipVideoOverlay$4 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.PipVideoOverlay$4  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass4 extends GestureDetectorFixDoubleTap.OnGestureListener {
         private float startPipX;
@@ -924,7 +942,6 @@ public class PipVideoOverlay {
         final /* synthetic */ int val$touchSlop;
 
         AnonymousClass4(int i) {
-            PipVideoOverlay.this = r1;
             this.val$touchSlop = i;
         }
 
@@ -964,7 +981,7 @@ public class PipVideoOverlay {
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:41:0x00ab  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x00ab  */
         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1107,6 +1124,7 @@ public class PipVideoOverlay {
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onScroll$0(float f, DynamicAnimation dynamicAnimation, boolean z, float f2, float f3) {
             if (!z) {
                 SpringForce spring = PipVideoOverlay.this.pipXSpring.getSpring();
@@ -1117,6 +1135,7 @@ public class PipVideoOverlay {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showInternal$10(boolean z, View view) {
         boolean z2 = true;
         if (Build.VERSION.SDK_INT >= 21) {
@@ -1146,6 +1165,7 @@ public class PipVideoOverlay {
         photoViewer.exitFromPip();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showInternal$11(View view) {
         VideoPlayer videoPlayer;
         PhotoViewer photoViewer = this.photoViewer;
@@ -1178,15 +1198,14 @@ public class PipVideoOverlay {
         return layoutParams;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public final class VideoProgressView extends View {
         private Paint progressPaint = new Paint();
         private Paint bufferPaint = new Paint();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public VideoProgressView(Context context) {
             super(context);
-            PipVideoOverlay.this = r3;
             this.progressPaint.setColor(-1);
             this.progressPaint.setStyle(Paint.Style.STROKE);
             this.progressPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -1217,6 +1236,7 @@ public class PipVideoOverlay {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static final class PipConfig {
         private SharedPreferences mPrefs;
@@ -1226,22 +1246,27 @@ public class PipVideoOverlay {
             this.mPrefs = context.getSharedPreferences("pip_layout_" + i + "_" + i2, 0);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setPipX(float f) {
             this.mPrefs.edit().putFloat("x", f).apply();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setPipY(float f) {
             this.mPrefs.edit().putFloat("y", f).apply();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public float getScaleFactor() {
             return this.mPrefs.getFloat("scale_factor", 1.0f);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public float getPipX() {
             return this.mPrefs.getFloat("x", -1.0f);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public float getPipY() {
             return this.mPrefs.getFloat("y", -1.0f);
         }

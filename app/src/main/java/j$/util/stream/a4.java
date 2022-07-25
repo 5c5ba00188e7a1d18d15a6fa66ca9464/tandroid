@@ -4,6 +4,8 @@ import j$.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Spliterator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class a4 extends e implements Consumer, Iterable, j$.lang.e {
     protected Object[] e = new Object[16];
@@ -110,13 +112,19 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
 
     @Override // java.lang.Iterable
     public Iterator iterator() {
-        return j$.util.L.i(mo71spliterator());
+        return j$.util.L.i(mo317spliterator());
     }
 
     @Override // java.lang.Iterable, j$.lang.e
     /* renamed from: spliterator */
-    public j$.util.u mo71spliterator() {
+    public j$.util.u mo317spliterator() {
         return new S3(this, 0, this.c, 0, this.b);
+    }
+
+    @Override // java.lang.Iterable, j$.lang.e
+    /* renamed from: spliterator  reason: collision with other method in class */
+    public /* synthetic */ Spliterator mo317spliterator() {
+        return j$.wrappers.h.a(mo317spliterator());
     }
 
     protected long t() {
@@ -133,6 +141,7 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
         return "SpinedBuffer:" + arrayList.toString();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void u(long j) {
         Object[][] objArr;
         int i;

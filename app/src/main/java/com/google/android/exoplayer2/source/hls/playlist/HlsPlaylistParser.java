@@ -85,8 +85,10 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         this.masterPlaylist = hlsMasterPlaylist;
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-    public HlsPlaylist parse(Uri uri, InputStream inputStream) throws IOException {
+    /* renamed from: parse */
+    public HlsPlaylist mo164parse(Uri uri, InputStream inputStream) throws IOException {
         String trim;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         ArrayDeque arrayDeque = new ArrayDeque();
@@ -150,22 +152,22 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         char c;
         String str2;
         String str3;
+        int parseInt;
         String str4;
-        int i;
-        int i2;
         String str5;
-        float f;
-        int i3;
-        int i4;
+        int i;
         String str6;
-        HashSet hashSet;
+        int i2;
+        int i3;
+        float f;
         HashMap hashMap;
+        HashSet hashSet;
         ArrayList arrayList;
         ArrayList arrayList2;
         ArrayList arrayList3;
         boolean z;
+        int i4;
         int i5;
-        int i6;
         String str7 = str;
         HashMap hashMap2 = new HashMap();
         HashMap hashMap3 = new HashMap();
@@ -212,16 +214,16 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                         String parseOptionalStringAttr2 = parseOptionalStringAttr(next, REGEX_RESOLUTION, hashMap3);
                         if (parseOptionalStringAttr2 != null) {
                             String[] split = parseOptionalStringAttr2.split("x");
-                            int parseInt = Integer.parseInt(split[0]);
-                            int parseInt2 = Integer.parseInt(split[1]);
-                            if (parseInt <= 0 || parseInt2 <= 0) {
+                            int parseInt2 = Integer.parseInt(split[0]);
+                            int parseInt3 = Integer.parseInt(split[1]);
+                            if (parseInt2 <= 0 || parseInt3 <= 0) {
+                                parseInt3 = -1;
                                 parseInt2 = -1;
-                                parseInt = -1;
                             }
-                            i5 = parseInt2;
-                            i6 = parseInt;
+                            i5 = parseInt3;
+                            i4 = parseInt2;
                         } else {
-                            i6 = -1;
+                            i4 = -1;
                             i5 = -1;
                         }
                         String parseOptionalStringAttr3 = parseOptionalStringAttr(next, REGEX_FRAME_RATE, hashMap3);
@@ -235,7 +237,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                         }
                         Uri resolveToUri = UriUtil.resolveToUri(str7, replaceVariableReferences(lineIterator.next(), hashMap3));
                         arrayList2 = arrayList10;
-                        arrayList4.add(new HlsMasterPlaylist.Variant(resolveToUri, Format.createVideoContainerFormat(Integer.toString(arrayList4.size()), null, "application/x-mpegURL", null, parseOptionalStringAttr, null, parseIntAttr, i6, i5, parseFloat, null, 0, 0), parseOptionalStringAttr4, parseOptionalStringAttr5, parseOptionalStringAttr6, parseOptionalStringAttr7));
+                        arrayList4.add(new HlsMasterPlaylist.Variant(resolveToUri, Format.createVideoContainerFormat(Integer.toString(arrayList4.size()), null, "application/x-mpegURL", null, parseOptionalStringAttr, null, parseIntAttr, i4, i5, parseFloat, null, 0, 0), parseOptionalStringAttr4, parseOptionalStringAttr5, parseOptionalStringAttr6, parseOptionalStringAttr7));
                         ArrayList arrayList12 = (ArrayList) hashMap2.get(resolveToUri);
                         if (arrayList12 == null) {
                             arrayList12 = new ArrayList();
@@ -272,9 +274,9 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         boolean z4 = z2;
         ArrayList arrayList16 = new ArrayList();
         HashSet hashSet2 = new HashSet();
-        int i7 = 0;
-        while (i7 < arrayList4.size()) {
-            HlsMasterPlaylist.Variant variant = (HlsMasterPlaylist.Variant) arrayList4.get(i7);
+        int i6 = 0;
+        while (i6 < arrayList4.size()) {
+            HlsMasterPlaylist.Variant variant = (HlsMasterPlaylist.Variant) arrayList4.get(i6);
             if (hashSet2.add(variant.url)) {
                 Assertions.checkState(variant.format.metadata == null);
                 hashMap = hashMap2;
@@ -284,15 +286,15 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                 hashMap = hashMap2;
                 hashSet = hashSet2;
             }
-            i7++;
+            i6++;
             hashSet2 = hashSet;
             hashMap2 = hashMap;
         }
         List list = null;
         Format format = null;
-        int i8 = 0;
-        while (i8 < arrayList9.size()) {
-            String str8 = (String) arrayList9.get(i8);
+        int i7 = 0;
+        while (i7 < arrayList9.size()) {
+            String str8 = (String) arrayList9.get(i7);
             String parseStringAttr = parseStringAttr(str8, REGEX_GROUP_ID, hashMap3);
             String parseStringAttr2 = parseStringAttr(str8, REGEX_NAME, hashMap3);
             String parseOptionalStringAttr8 = parseOptionalStringAttr(str8, REGEX_URI, hashMap3);
@@ -350,29 +352,29 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                     HlsMasterPlaylist.Variant variantWithSubtitleGroup = getVariantWithSubtitleGroup(arrayList4, parseStringAttr);
                     if (variantWithSubtitleGroup != null) {
                         String codecsOfType = Util.getCodecsOfType(variantWithSubtitleGroup.format.codecs, 3);
-                        str3 = MimeTypes.getMediaMimeType(codecsOfType);
-                        str2 = codecsOfType;
+                        str2 = MimeTypes.getMediaMimeType(codecsOfType);
+                        str3 = codecsOfType;
                     } else {
-                        str3 = null;
                         str2 = null;
+                        str3 = null;
                     }
-                    arrayList7.add(new HlsMasterPlaylist.Rendition(resolveToUri2, Format.createTextContainerFormat(sb2, parseStringAttr2, "application/x-mpegURL", str3 == null ? "text/vtt" : str3, str2, -1, parseSelectionFlags, parseRoleFlags, parseOptionalStringAttr9).copyWithMetadata(metadata), parseStringAttr, parseStringAttr2));
+                    arrayList7.add(new HlsMasterPlaylist.Rendition(resolveToUri2, Format.createTextContainerFormat(sb2, parseStringAttr2, "application/x-mpegURL", str2 == null ? "text/vtt" : str2, str3, -1, parseSelectionFlags, parseRoleFlags, parseOptionalStringAttr9).copyWithMetadata(metadata), parseStringAttr, parseStringAttr2));
                     break;
                 case 1:
                     String parseStringAttr4 = parseStringAttr(str8, REGEX_INSTREAM_ID, hashMap3);
                     if (parseStringAttr4.startsWith("CC")) {
-                        i = Integer.parseInt(parseStringAttr4.substring(2));
+                        parseInt = Integer.parseInt(parseStringAttr4.substring(2));
                         str4 = "application/cea-608";
                     } else {
-                        i = Integer.parseInt(parseStringAttr4.substring(7));
+                        parseInt = Integer.parseInt(parseStringAttr4.substring(7));
                         str4 = "application/cea-708";
                     }
-                    int i9 = i;
+                    int i8 = parseInt;
                     String str9 = str4;
                     if (list == null) {
                         list = new ArrayList();
                     }
-                    list.add(Format.createTextContainerFormat(sb2, parseStringAttr2, null, str9, null, -1, parseSelectionFlags, parseRoleFlags, parseOptionalStringAttr9, i9));
+                    list.add(Format.createTextContainerFormat(sb2, parseStringAttr2, null, str9, null, -1, parseSelectionFlags, parseRoleFlags, parseOptionalStringAttr9, i8));
                     break;
                 case 2:
                     HlsMasterPlaylist.Variant variantWithAudioGroup = getVariantWithAudioGroup(arrayList4, parseStringAttr);
@@ -380,24 +382,24 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                     String mediaMimeType = codecsOfType2 != null ? MimeTypes.getMediaMimeType(codecsOfType2) : null;
                     String parseOptionalStringAttr10 = parseOptionalStringAttr(str8, REGEX_CHANNELS, hashMap3);
                     if (parseOptionalStringAttr10 != null) {
-                        int parseInt3 = Integer.parseInt(Util.splitAtFirst(parseOptionalStringAttr10, "/")[0]);
+                        int parseInt4 = Integer.parseInt(Util.splitAtFirst(parseOptionalStringAttr10, "/")[0]);
                         if ("audio/eac3".equals(mediaMimeType) && parseOptionalStringAttr10.endsWith("/JOC")) {
                             mediaMimeType = "audio/eac3-joc";
                         }
                         str5 = mediaMimeType;
-                        i2 = parseInt3;
+                        i = parseInt4;
                     } else {
                         str5 = mediaMimeType;
-                        i2 = -1;
+                        i = -1;
                     }
-                    Format createAudioContainerFormat = Format.createAudioContainerFormat(sb2, parseStringAttr2, "application/x-mpegURL", str5, codecsOfType2, null, -1, i2, -1, null, parseSelectionFlags, parseRoleFlags, parseOptionalStringAttr9);
+                    Format createAudioContainerFormat = Format.createAudioContainerFormat(sb2, parseStringAttr2, "application/x-mpegURL", str5, codecsOfType2, null, -1, i, -1, null, parseSelectionFlags, parseRoleFlags, parseOptionalStringAttr9);
                     if (resolveToUri2 != null) {
                         arrayList6.add(new HlsMasterPlaylist.Rendition(resolveToUri2, createAudioContainerFormat.copyWithMetadata(metadata), parseStringAttr, parseStringAttr2));
                         break;
                     } else {
                         format = createAudioContainerFormat;
                         continue;
-                        i8++;
+                        i7++;
                         str7 = str;
                         arrayList9 = arrayList17;
                         arrayList16 = arrayList18;
@@ -409,25 +411,25 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                     if (variantWithVideoGroup != null) {
                         Format format3 = variantWithVideoGroup.format;
                         String codecsOfType3 = Util.getCodecsOfType(format3.codecs, 2);
-                        int i10 = format3.width;
-                        int i11 = format3.height;
+                        int i9 = format3.width;
+                        int i10 = format3.height;
                         f = format3.frameRate;
                         str6 = codecsOfType3;
-                        i4 = i10;
-                        i3 = i11;
+                        i2 = i9;
+                        i3 = i10;
                     } else {
                         str6 = null;
-                        i4 = -1;
+                        i2 = -1;
                         i3 = -1;
                         f = -1.0f;
                     }
-                    Format copyWithMetadata = Format.createVideoContainerFormat(sb2, parseStringAttr2, "application/x-mpegURL", str6 != null ? MimeTypes.getMediaMimeType(str6) : null, str6, null, -1, i4, i3, f, null, parseSelectionFlags, parseRoleFlags).copyWithMetadata(metadata);
+                    Format copyWithMetadata = Format.createVideoContainerFormat(sb2, parseStringAttr2, "application/x-mpegURL", str6 != null ? MimeTypes.getMediaMimeType(str6) : null, str6, null, -1, i2, i3, f, null, parseSelectionFlags, parseRoleFlags).copyWithMetadata(metadata);
                     if (resolveToUri2 != null) {
                         arrayList5.add(new HlsMasterPlaylist.Rendition(resolveToUri2, copyWithMetadata, parseStringAttr, parseStringAttr2));
                     }
             }
             format = format2;
-            i8++;
+            i7++;
             str7 = str;
             arrayList9 = arrayList17;
             arrayList16 = arrayList18;
@@ -474,9 +476,9 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
     private static HlsMediaPlaylist parseMediaPlaylist(HlsMasterPlaylist hlsMasterPlaylist, LineIterator lineIterator, String str) throws IOException {
         long j;
         long j2;
-        String str2;
-        String str3;
+        String hexString;
         TreeMap treeMap;
+        String str2;
         DrmInitData drmInitData;
         HlsMasterPlaylist hlsMasterPlaylist2 = hlsMasterPlaylist;
         boolean z = hlsMasterPlaylist2.hasIndependentSegments;
@@ -484,17 +486,17 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         TreeMap treeMap2 = new TreeMap();
-        String str4 = "";
+        String str3 = "";
         char c = 0;
         int i = 1;
         boolean z2 = z;
         long j3 = -9223372036854775807L;
         long j4 = -9223372036854775807L;
-        String str5 = str4;
+        String str4 = str3;
         boolean z3 = false;
         int i2 = 0;
+        String str5 = null;
         String str6 = null;
-        String str7 = null;
         long j5 = 0;
         int i3 = 0;
         long j6 = 0;
@@ -505,7 +507,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         long j8 = 0;
         DrmInitData drmInitData3 = null;
         boolean z5 = false;
-        String str8 = null;
+        String str7 = null;
         long j9 = -1;
         int i5 = 0;
         long j10 = 0;
@@ -535,16 +537,16 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                         if (split.length > i) {
                             j7 = Long.parseLong(split[i]);
                         }
-                        j = parseLong;
-                        j2 = j7;
+                        j2 = parseLong;
+                        j = j7;
                     } else {
-                        j2 = j7;
-                        j = j9;
+                        j = j7;
+                        j2 = j9;
                     }
-                    if (str6 != null && str8 == null) {
+                    if (str5 != null && str7 == null) {
                         throw new ParserException("The encryption IV attribute must be present when an initialization segment is encrypted with METHOD=AES-128.");
                     }
-                    segment = new HlsMediaPlaylist.Segment(parseStringAttr2, j2, j, str6, str8);
+                    segment = new HlsMediaPlaylist.Segment(parseStringAttr2, j, j2, str5, str7);
                     c = 0;
                     j7 = 0;
                     j9 = -1;
@@ -560,46 +562,46 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                         if (next.startsWith("#EXT-X-DEFINE")) {
                             String parseOptionalStringAttr2 = parseOptionalStringAttr(next, REGEX_IMPORT, hashMap);
                             if (parseOptionalStringAttr2 != null) {
-                                String str9 = hlsMasterPlaylist2.variableDefinitions.get(parseOptionalStringAttr2);
-                                if (str9 != null) {
-                                    hashMap.put(parseOptionalStringAttr2, str9);
+                                String str8 = hlsMasterPlaylist2.variableDefinitions.get(parseOptionalStringAttr2);
+                                if (str8 != null) {
+                                    hashMap.put(parseOptionalStringAttr2, str8);
                                 }
                             } else {
                                 hashMap.put(parseStringAttr(next, REGEX_NAME, hashMap), parseStringAttr(next, REGEX_VALUE, hashMap));
                             }
                         } else if (next.startsWith("#EXTINF")) {
-                            str5 = parseOptionalStringAttr(next, REGEX_MEDIA_TITLE, str4, hashMap);
+                            str4 = parseOptionalStringAttr(next, REGEX_MEDIA_TITLE, str3, hashMap);
                             j11 = (long) (parseDoubleAttr(next, REGEX_MEDIA_DURATION) * 1000000.0d);
                         } else if (next.startsWith("#EXT-X-KEY")) {
                             String parseStringAttr3 = parseStringAttr(next, REGEX_METHOD, hashMap);
                             String parseOptionalStringAttr3 = parseOptionalStringAttr(next, REGEX_KEYFORMAT, "identity", hashMap);
                             if ("NONE".equals(parseStringAttr3)) {
                                 treeMap2.clear();
-                                str6 = null;
+                                str5 = null;
                                 drmInitData3 = null;
-                                str8 = null;
+                                str7 = null;
                             } else {
                                 String parseOptionalStringAttr4 = parseOptionalStringAttr(next, REGEX_IV, hashMap);
                                 if ("identity".equals(parseOptionalStringAttr3)) {
                                     if ("AES-128".equals(parseStringAttr3)) {
-                                        str6 = parseStringAttr(next, REGEX_URI, hashMap);
-                                        str8 = parseOptionalStringAttr4;
+                                        str5 = parseStringAttr(next, REGEX_URI, hashMap);
+                                        str7 = parseOptionalStringAttr4;
                                     }
-                                    str8 = parseOptionalStringAttr4;
-                                    str6 = null;
+                                    str7 = parseOptionalStringAttr4;
+                                    str5 = null;
                                 } else {
-                                    if (str7 == null) {
-                                        str7 = parseEncryptionScheme(parseStringAttr3);
+                                    if (str6 == null) {
+                                        str6 = parseEncryptionScheme(parseStringAttr3);
                                     }
                                     DrmInitData.SchemeData parseDrmSchemeData = parseDrmSchemeData(next, parseOptionalStringAttr3, hashMap);
                                     if (parseDrmSchemeData != null) {
                                         treeMap2.put(parseOptionalStringAttr3, parseDrmSchemeData);
-                                        str8 = parseOptionalStringAttr4;
-                                        str6 = null;
+                                        str7 = parseOptionalStringAttr4;
+                                        str5 = null;
                                         drmInitData3 = null;
                                     }
-                                    str8 = parseOptionalStringAttr4;
-                                    str6 = null;
+                                    str7 = parseOptionalStringAttr4;
+                                    str5 = null;
                                 }
                             }
                         } else if (next.startsWith("#EXT-X-BYTERANGE")) {
@@ -627,37 +629,37 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                             c = 0;
                             z4 = true;
                         } else if (!next.startsWith("#")) {
-                            if (str6 == null) {
-                                str2 = null;
+                            if (str5 == null) {
+                                hexString = null;
                             } else {
-                                str2 = str8 != null ? str8 : Long.toHexString(j8);
+                                hexString = str7 != null ? str7 : Long.toHexString(j8);
                             }
                             long j12 = j8 + 1;
                             long j13 = j9 == -1 ? 0L : j7;
                             if (drmInitData3 != null || treeMap2.isEmpty()) {
                                 treeMap = treeMap2;
-                                str3 = str4;
+                                str2 = str3;
                                 drmInitData = drmInitData3;
                             } else {
                                 DrmInitData.SchemeData[] schemeDataArr = (DrmInitData.SchemeData[]) treeMap2.values().toArray(new DrmInitData.SchemeData[0]);
-                                drmInitData = new DrmInitData(str7, schemeDataArr);
+                                drmInitData = new DrmInitData(str6, schemeDataArr);
                                 if (drmInitData2 == null) {
                                     DrmInitData.SchemeData[] schemeDataArr2 = new DrmInitData.SchemeData[schemeDataArr.length];
                                     treeMap = treeMap2;
-                                    str3 = str4;
+                                    str2 = str3;
                                     int i6 = 0;
                                     while (i6 < schemeDataArr.length) {
                                         schemeDataArr2[i6] = schemeDataArr[i6].copyWithData(null);
                                         i6++;
                                         schemeDataArr = schemeDataArr;
                                     }
-                                    drmInitData2 = new DrmInitData(str7, schemeDataArr2);
+                                    drmInitData2 = new DrmInitData(str6, schemeDataArr2);
                                 } else {
                                     treeMap = treeMap2;
-                                    str3 = str4;
+                                    str2 = str3;
                                 }
                             }
-                            arrayList.add(new HlsMediaPlaylist.Segment(replaceVariableReferences(next, hashMap), segment, str5, j11, i5, j10, drmInitData, str6, str2, j13, j9, z5));
+                            arrayList.add(new HlsMediaPlaylist.Segment(replaceVariableReferences(next, hashMap), segment, str4, j11, i5, j10, drmInitData, str5, hexString, j13, j9, z5));
                             j10 += j11;
                             if (j9 != -1) {
                                 j13 += j9;
@@ -668,15 +670,15 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                             j8 = j12;
                             drmInitData3 = drmInitData;
                             treeMap2 = treeMap;
+                            str3 = str2;
                             str4 = str3;
-                            str5 = str4;
                             c = 0;
                             i = 1;
                             z5 = false;
                         }
                         hlsMasterPlaylist2 = hlsMasterPlaylist;
                         treeMap2 = treeMap2;
-                        str4 = str4;
+                        str3 = str3;
                         c = 0;
                         i = 1;
                     }
@@ -800,6 +802,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         return Pattern.compile(str + "=(NO" + HiAnalyticsConstant.REPORT_VAL_SEPARATOR + "YES)");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class LineIterator {
         private final Queue<String> extraLines;

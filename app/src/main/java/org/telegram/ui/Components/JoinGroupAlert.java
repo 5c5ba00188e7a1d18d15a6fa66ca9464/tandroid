@@ -48,12 +48,12 @@ public class JoinGroupAlert extends BottomSheet {
 
     public JoinGroupAlert(Context context, TLObject tLObject, String str, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
         super(context, false, resourcesProvider);
-        int i;
         String str2;
-        String str3;
+        int i;
         int i2;
-        String str4;
+        String str3;
         int i3;
+        String str4;
         setApplyBottomPadding(false);
         setApplyTopPadding(false);
         fixNavigationBar(getThemedColor("windowBackgroundWhite"));
@@ -252,10 +252,12 @@ public class JoinGroupAlert extends BottomSheet {
         linearLayout.addView(textView6, LayoutHelper.createLinear(-1, -2, 48, 24, 17, 24, 15));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(final boolean z, View view) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
@@ -289,6 +291,7 @@ public class JoinGroupAlert extends BottomSheet {
         }, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         if (!isDismissed()) {
             this.requestTextView.setVisibility(4);
@@ -296,6 +299,7 @@ public class JoinGroupAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$3(final boolean z, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null && "INVITE_REQUEST_SENT".equals(tLRPC$TL_error.text)) {
             setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda1
@@ -309,10 +313,12 @@ public class JoinGroupAlert extends BottomSheet {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(boolean z, DialogInterface dialogInterface) {
         showBulletin(getContext(), this.fragment, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(final boolean z, final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
@@ -322,6 +328,7 @@ public class JoinGroupAlert extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(TLRPC$TL_error tLRPC$TL_error, final boolean z, TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite) {
         BaseFragment baseFragment = this.fragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
@@ -342,14 +349,17 @@ public class JoinGroupAlert extends BottomSheet {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(boolean z, DialogInterface dialogInterface) {
         showBulletin(getContext(), this.fragment, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(View view) {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$11(View view) {
         dismiss();
         final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite = new TLRPC$TL_messages_importChatInvite();
@@ -362,6 +372,7 @@ public class JoinGroupAlert extends BottomSheet {
         }, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10(final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC$Updates) tLObject, false);
@@ -374,6 +385,7 @@ public class JoinGroupAlert extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite) {
         BaseFragment baseFragment = this.fragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
@@ -403,22 +415,21 @@ public class JoinGroupAlert extends BottomSheet {
     }
 
     public static void showBulletin(Context context, BaseFragment baseFragment, boolean z) {
-        String str;
+        String string;
         Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(context, baseFragment.getResourceProvider());
         twoLineLottieLayout.imageView.setAnimation(R.raw.timer_3, 28, 28);
         twoLineLottieLayout.titleTextView.setText(LocaleController.getString("RequestToJoinSent", R.string.RequestToJoinSent));
         if (z) {
-            str = LocaleController.getString("RequestToJoinChannelSentDescription", R.string.RequestToJoinChannelSentDescription);
+            string = LocaleController.getString("RequestToJoinChannelSentDescription", R.string.RequestToJoinChannelSentDescription);
         } else {
-            str = LocaleController.getString("RequestToJoinGroupSentDescription", R.string.RequestToJoinGroupSentDescription);
+            string = LocaleController.getString("RequestToJoinGroupSentDescription", R.string.RequestToJoinGroupSentDescription);
         }
-        twoLineLottieLayout.subtitleTextView.setText(str);
+        twoLineLottieLayout.subtitleTextView.setText(string);
         Bulletin.make(baseFragment, twoLineLottieLayout, 2750).show();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class UsersAdapter extends RecyclerListView.SelectionAdapter {
+    private class UsersAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -437,7 +448,6 @@ public class JoinGroupAlert extends BottomSheet {
         }
 
         public UsersAdapter(Context context) {
-            JoinGroupAlert.this = r1;
             this.context = context;
         }
 
@@ -448,7 +458,8 @@ public class JoinGroupAlert extends BottomSheet {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             JoinSheetUserCell joinSheetUserCell = new JoinSheetUserCell(this.context);
             joinSheetUserCell.setLayoutParams(new RecyclerView.LayoutParams(AndroidUtilities.dp(100.0f), AndroidUtilities.dp(90.0f)));
             return new RecyclerListView.Holder(joinSheetUserCell);

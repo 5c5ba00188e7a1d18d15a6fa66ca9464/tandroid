@@ -106,65 +106,65 @@ public class ExperimentTokens extends AbstractSafeParcelable {
     }
 
     public String toString() {
-        String str;
-        StringBuilder sb = new StringBuilder("ExperimentTokens");
-        sb.append("(");
-        String str2 = this.zzp;
-        if (str2 == null) {
-            str = "null";
+        String sb;
+        StringBuilder sb2 = new StringBuilder("ExperimentTokens");
+        sb2.append("(");
+        String str = this.zzp;
+        if (str == null) {
+            sb = "null";
         } else {
-            StringBuilder sb2 = new StringBuilder(String.valueOf(str2).length() + 2);
-            sb2.append("'");
-            sb2.append(str2);
-            sb2.append("'");
-            str = sb2.toString();
+            StringBuilder sb3 = new StringBuilder(String.valueOf(str).length() + 2);
+            sb3.append("'");
+            sb3.append(str);
+            sb3.append("'");
+            sb = sb3.toString();
         }
-        sb.append(str);
-        sb.append(", ");
+        sb2.append(sb);
+        sb2.append(", ");
         byte[] bArr = this.zzq;
-        sb.append("direct");
-        sb.append(ContainerUtils.KEY_VALUE_DELIMITER);
+        sb2.append("direct");
+        sb2.append(ContainerUtils.KEY_VALUE_DELIMITER);
         if (bArr == null) {
-            sb.append("null");
+            sb2.append("null");
         } else {
-            sb.append("'");
-            sb.append(Base64.encodeToString(bArr, 3));
-            sb.append("'");
+            sb2.append("'");
+            sb2.append(Base64.encodeToString(bArr, 3));
+            sb2.append("'");
         }
-        sb.append(", ");
-        zza(sb, "GAIA", this.zzr);
-        sb.append(", ");
-        zza(sb, "PSEUDO", this.zzs);
-        sb.append(", ");
-        zza(sb, "ALWAYS", this.zzt);
-        sb.append(", ");
-        zza(sb, "OTHER", this.zzu);
-        sb.append(", ");
+        sb2.append(", ");
+        zza(sb2, "GAIA", this.zzr);
+        sb2.append(", ");
+        zza(sb2, "PSEUDO", this.zzs);
+        sb2.append(", ");
+        zza(sb2, "ALWAYS", this.zzt);
+        sb2.append(", ");
+        zza(sb2, "OTHER", this.zzu);
+        sb2.append(", ");
         int[] iArr = this.zzv;
-        sb.append("weak");
-        sb.append(ContainerUtils.KEY_VALUE_DELIMITER);
+        sb2.append("weak");
+        sb2.append(ContainerUtils.KEY_VALUE_DELIMITER);
         if (iArr == null) {
-            sb.append("null");
+            sb2.append("null");
         } else {
-            sb.append("(");
+            sb2.append("(");
             int length = iArr.length;
             boolean z = true;
             int i = 0;
             while (i < length) {
                 int i2 = iArr[i];
                 if (!z) {
-                    sb.append(", ");
+                    sb2.append(", ");
                 }
-                sb.append(i2);
+                sb2.append(i2);
                 i++;
                 z = false;
             }
-            sb.append(")");
+            sb2.append(")");
         }
-        sb.append(", ");
-        zza(sb, "directs", this.zzw);
-        sb.append(")");
-        return sb.toString();
+        sb2.append(", ");
+        zza(sb2, "directs", this.zzw);
+        sb2.append(")");
+        return sb2.toString();
     }
 
     @Override // android.os.Parcelable

@@ -362,6 +362,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         this.mSmoothScrollingEnabled = smoothScrollingEnabled;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
@@ -371,6 +372,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -708,10 +710,10 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         super.scrollTo(scrollX, scrollY);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0083 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:38:0x005a  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0061  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0083 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1016,6 +1018,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         child.measure(FrameLayout.getChildMeasureSpec(parentWidthMeasureSpec, getPaddingLeft() + getPaddingRight(), child.getLayoutParams().width), View.MeasureSpec.makeMeasureSpec(0, 0));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup
     public void measureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed) {
         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) child.getLayoutParams();
@@ -1108,6 +1111,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         return z;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
         int i;
         int i2;
@@ -1156,19 +1160,19 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override // android.view.ViewGroup
     protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
-        View view;
+        View findNextFocusFromRect;
         if (direction == 2) {
             direction = 130;
         } else if (direction == 1) {
             direction = 33;
         }
         if (previouslyFocusedRect == null) {
-            view = FocusFinder.getInstance().findNextFocus(this, null, direction);
+            findNextFocusFromRect = FocusFinder.getInstance().findNextFocus(this, null, direction);
         } else {
-            view = FocusFinder.getInstance().findNextFocusFromRect(this, previouslyFocusedRect, direction);
+            findNextFocusFromRect = FocusFinder.getInstance().findNextFocusFromRect(this, previouslyFocusedRect, direction);
         }
-        if (view != null && !isOffScreen(view)) {
-            return view.requestFocus(direction, previouslyFocusedRect);
+        if (findNextFocusFromRect != null && !isOffScreen(findNextFocusFromRect)) {
+            return findNextFocusFromRect.requestFocus(direction, previouslyFocusedRect);
         }
         return false;
     }
@@ -1185,6 +1189,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         super.requestLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -1290,28 +1295,28 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override // android.view.View
     public void draw(Canvas canvas) {
-        int i;
+        int paddingLeft;
         super.draw(canvas);
         if (this.mEdgeGlowTop != null) {
             int scrollY = getScrollY();
-            int i2 = 0;
+            int i = 0;
             if (!this.mEdgeGlowTop.isFinished()) {
                 int save = canvas.save();
                 int width = getWidth();
                 int height = getHeight();
                 int min = Math.min(0, scrollY);
-                int i3 = Build.VERSION.SDK_INT;
-                if (i3 < 21 || getClipToPadding()) {
+                int i2 = Build.VERSION.SDK_INT;
+                if (i2 < 21 || getClipToPadding()) {
                     width -= getPaddingLeft() + getPaddingRight();
-                    i = getPaddingLeft() + 0;
+                    paddingLeft = getPaddingLeft() + 0;
                 } else {
-                    i = 0;
+                    paddingLeft = 0;
                 }
-                if (i3 >= 21 && getClipToPadding()) {
+                if (i2 >= 21 && getClipToPadding()) {
                     height -= getPaddingTop() + getPaddingBottom();
                     min += getPaddingTop();
                 }
-                canvas.translate(i, min);
+                canvas.translate(paddingLeft, min);
                 this.mEdgeGlowTop.setSize(width, height);
                 if (this.mEdgeGlowTop.draw(canvas)) {
                     ViewCompat.postInvalidateOnAnimation(this);
@@ -1325,16 +1330,16 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
             int width2 = getWidth();
             int height2 = getHeight();
             int max = Math.max(getScrollRange(), scrollY) + height2;
-            int i4 = Build.VERSION.SDK_INT;
-            if (i4 < 21 || getClipToPadding()) {
+            int i3 = Build.VERSION.SDK_INT;
+            if (i3 < 21 || getClipToPadding()) {
                 width2 -= getPaddingLeft() + getPaddingRight();
-                i2 = 0 + getPaddingLeft();
+                i = 0 + getPaddingLeft();
             }
-            if (i4 >= 21 && getClipToPadding()) {
+            if (i3 >= 21 && getClipToPadding()) {
                 height2 -= getPaddingTop() + getPaddingBottom();
                 max -= getPaddingBottom();
             }
-            canvas.translate(i2 - width2, max);
+            canvas.translate(i - width2, max);
             canvas.rotate(180.0f, width2, 0.0f);
             this.mEdgeGlowBottom.setSize(width2, height2);
             if (this.mEdgeGlowBottom.draw(canvas)) {
@@ -1363,16 +1368,21 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         return savedState;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class SavedState extends View.BaseSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() { // from class: androidx.core.widget.NestedScrollView.SavedState.1
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public SavedState createFromParcel(Parcel in) {
+            /* renamed from: createFromParcel */
+            public SavedState mo10createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
 
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            public SavedState[] newArray(int size) {
+            /* renamed from: newArray */
+            public SavedState[] mo11newArray(int size) {
                 return new SavedState[size];
             }
         };
@@ -1398,9 +1408,8 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class AccessibilityDelegate extends AccessibilityDelegateCompat {
+    static class AccessibilityDelegate extends AccessibilityDelegateCompat {
         AccessibilityDelegate() {
         }
 

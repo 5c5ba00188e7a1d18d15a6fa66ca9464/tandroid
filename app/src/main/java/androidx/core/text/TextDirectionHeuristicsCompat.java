@@ -7,6 +7,7 @@ public final class TextDirectionHeuristicsCompat {
     public static final TextDirectionHeuristicCompat LTR = new TextDirectionHeuristicInternal(null, false);
     public static final TextDirectionHeuristicCompat RTL = new TextDirectionHeuristicInternal(null, true);
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface TextDirectionAlgorithm {
         int checkRtl(CharSequence cs, int start, int count);
@@ -46,9 +47,8 @@ public final class TextDirectionHeuristicsCompat {
         TextDirectionHeuristicLocale textDirectionHeuristicLocale = TextDirectionHeuristicLocale.INSTANCE;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static abstract class TextDirectionHeuristicImpl implements TextDirectionHeuristicCompat {
+    private static abstract class TextDirectionHeuristicImpl implements TextDirectionHeuristicCompat {
         private final TextDirectionAlgorithm mAlgorithm;
 
         protected abstract boolean defaultIsRtl();

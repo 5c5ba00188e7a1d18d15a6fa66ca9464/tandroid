@@ -71,17 +71,20 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
             return (zza) ((zzcg.zza) zzbiv.zza(zzcg.zzg.zzkh, (Object) null, (Object) null));
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zzm(String str) {
             str.getClass();
             this.zzbb |= 2;
             this.zzbis = str;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zzp(long j) {
             this.zzbb |= 4;
             this.zzbit = j;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zzq(long j) {
             this.zzbb |= 8;
             this.zzbiu = j;
@@ -91,6 +94,7 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
             return this.zzya;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz<com.google.android.gms.internal.clearcut.zzgw$zza$zzb>, com.google.android.gms.internal.clearcut.zzcg$zzb] */
         @Override // com.google.android.gms.internal.clearcut.zzcg
         public final Object zza(int i, Object obj, Object obj2) {
@@ -163,6 +167,7 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
         return (zzgw$zza) zzcg.zzb(zzbir, bArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzcg$zzb, com.google.android.gms.internal.clearcut.zzdz<com.google.android.gms.internal.clearcut.zzgw$zza>] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {

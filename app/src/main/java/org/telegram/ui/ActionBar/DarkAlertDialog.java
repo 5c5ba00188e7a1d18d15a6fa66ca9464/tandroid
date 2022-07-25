@@ -8,6 +8,7 @@ public class DarkAlertDialog extends AlertDialog {
         super(context, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     @Override // org.telegram.ui.ActionBar.AlertDialog
     public int getThemedColor(String str) {

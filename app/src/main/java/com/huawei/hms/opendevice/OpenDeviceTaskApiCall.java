@@ -26,6 +26,7 @@ public class OpenDeviceTaskApiCall extends TaskApiCall<OpenDeviceHmsClient, Odid
         return 50002300;
     }
 
+    @Override // com.huawei.hms.common.internal.TaskApiCall
     public void doExecute(OpenDeviceHmsClient openDeviceHmsClient, ResponseErrorCode responseErrorCode, String str, TaskCompletionSource<OdidResult> taskCompletionSource) {
         if (responseErrorCode == null) {
             taskCompletionSource.setException(new ApiException(new Status(1)));

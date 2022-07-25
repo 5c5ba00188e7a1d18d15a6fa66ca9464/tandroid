@@ -100,7 +100,6 @@ public abstract class BaseGmsClient<T extends IInterface> {
     /* loaded from: classes.dex */
     protected class LegacyClientCallbackAdapter implements ConnectionProgressReportCallbacks {
         public LegacyClientCallbackAdapter() {
-            BaseGmsClient.this = r1;
         }
 
         @Override // com.google.android.gms.common.internal.BaseGmsClient.ConnectionProgressReportCallbacks
@@ -176,14 +175,11 @@ public abstract class BaseGmsClient<T extends IInterface> {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
     /* loaded from: classes.dex */
-    public final class zzb extends com.google.android.gms.internal.common.zzi {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    final class zzb extends com.google.android.gms.internal.common.zzi {
         public zzb(Looper looper) {
             super(looper);
-            BaseGmsClient.this = r1;
         }
 
         @Override // android.os.Handler
@@ -267,13 +263,12 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
     /* loaded from: classes.dex */
     public final class zzg extends zza {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public zzg(int i, Bundle bundle) {
             super(i, null);
-            BaseGmsClient.this = r1;
         }
 
         @Override // com.google.android.gms.common.internal.BaseGmsClient.zza
@@ -293,6 +288,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
     /* loaded from: classes.dex */
     public abstract class zzc<TListener> {
@@ -300,7 +296,6 @@ public abstract class BaseGmsClient<T extends IInterface> {
         private boolean zzb = false;
 
         public zzc(TListener tlistener) {
-            BaseGmsClient.this = r1;
             this.zza = tlistener;
         }
 
@@ -357,12 +352,11 @@ public abstract class BaseGmsClient<T extends IInterface> {
         private final int zza;
 
         public zzd(int i) {
-            BaseGmsClient.this = r1;
             this.zza = i;
         }
 
         @Override // android.content.ServiceConnection
-        public final void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        public final void onServiceConnected(ComponentName componentName, final IBinder iBinder) {
             IGmsServiceBroker iGmsServiceBroker;
             if (iBinder == null) {
                 BaseGmsClient.this.zza(16);
@@ -457,15 +451,14 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
     /* loaded from: classes.dex */
     public final class zzf extends zza {
         private final IBinder zza;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public zzf(int i, IBinder iBinder, Bundle bundle) {
             super(i, bundle);
-            BaseGmsClient.this = r1;
             this.zza = iBinder;
         }
 
@@ -509,17 +502,14 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
     /* loaded from: classes.dex */
-    public abstract class zza extends zzc<Boolean> {
+    private abstract class zza extends zzc<Boolean> {
         private final int zza;
         private final Bundle zzb;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         protected zza(int i, Bundle bundle) {
             super(Boolean.TRUE);
-            BaseGmsClient.this = r2;
             this.zza = i;
             this.zzb = bundle;
         }
@@ -556,6 +546,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public BaseGmsClient(@RecentlyNonNull Context context, @RecentlyNonNull Looper looper, @RecentlyNonNull GmsClientSupervisor gmsClientSupervisor, @RecentlyNonNull GoogleApiAvailabilityLight googleApiAvailabilityLight, int i, BaseConnectionCallbacks baseConnectionCallbacks, BaseOnConnectionFailedListener baseOnConnectionFailedListener, String str) {
         this.zzl = (Context) Preconditions.checkNotNull(context, "Context must not be null");
         Looper looper2 = (Looper) Preconditions.checkNotNull(looper, "Looper must not be null");
@@ -577,6 +568,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         this.zzaa = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(com.google.android.gms.common.internal.zzc zzcVar) {
         this.zzad = zzcVar;
         if (usesClientTelemetry()) {
@@ -617,6 +609,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         this.zzi = System.currentTimeMillis();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     public final void zza(int i, T t) {
         zzl zzlVar;
@@ -678,6 +671,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final boolean zza(int i, int i2, T t) {
         synchronized (this.zzp) {
             if (this.zzv != i) {
@@ -751,6 +745,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         handler.sendMessage(handler.obtainMessage(6, this.zzc.get(), i));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(int i) {
         int i2;
         if (zzb()) {
@@ -788,6 +783,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         handler.sendMessage(handler.obtainMessage(7, i2, -1, new zzg(i, null)));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void checkConnected() {
         if (isConnected()) {
             return;
@@ -809,7 +805,6 @@ public abstract class BaseGmsClient<T extends IInterface> {
     }
 
     public void getRemoteService(IAccountAccessor iAccountAccessor, @RecentlyNonNull Set<Scope> set) {
-        Throwable e;
         Bundle getServiceRequestExtraArgs = getGetServiceRequestExtraArgs();
         GetServiceRequest getServiceRequest = new GetServiceRequest(this.zzy, this.zzaa);
         getServiceRequest.zza = this.zzl.getPackageName();
@@ -843,17 +838,17 @@ public abstract class BaseGmsClient<T extends IInterface> {
                     Log.w("GmsClient", "mServiceBroker is null, client disconnected");
                 }
             }
-        } catch (DeadObjectException e2) {
-            Log.w("GmsClient", "IGmsServiceBroker.getService failed", e2);
+        } catch (DeadObjectException e) {
+            Log.w("GmsClient", "IGmsServiceBroker.getService failed", e);
             triggerConnectionSuspended(3);
-        } catch (RemoteException e3) {
-            e = e3;
+        } catch (RemoteException e2) {
+            e = e2;
             Log.w("GmsClient", "IGmsServiceBroker.getService failed", e);
             onPostInitHandler(8, null, null, this.zzc.get());
-        } catch (SecurityException e4) {
-            throw e4;
-        } catch (RuntimeException e5) {
-            e = e5;
+        } catch (SecurityException e3) {
+            throw e3;
+        } catch (RuntimeException e4) {
+            e = e4;
             Log.w("GmsClient", "IGmsServiceBroker.getService failed", e);
             onPostInitHandler(8, null, null, this.zzc.get());
         }
@@ -955,6 +950,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final boolean zzc() {
         if (!this.zzac && !TextUtils.isEmpty(getServiceDescriptor()) && !TextUtils.isEmpty(getLocalStartServiceAction())) {
             try {

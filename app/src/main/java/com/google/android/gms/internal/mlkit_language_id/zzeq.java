@@ -16,11 +16,13 @@ public final class zzeq {
         return z ? 1231 : 1237;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t) {
         t.getClass();
         return t;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t, String str) {
         if (t != null) {
             return t;
@@ -45,6 +47,7 @@ public final class zzeq {
         return zza2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, int i3) {
         for (int i4 = i2; i4 < i2 + i3; i4++) {
             i = (i * 31) + bArr[i4];
@@ -52,6 +55,7 @@ public final class zzeq {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zza(zzfz zzfzVar) {
         if (zzfzVar instanceof zzdg) {
             zzdg zzdgVar = (zzdg) zzfzVar;
@@ -60,6 +64,7 @@ public final class zzeq {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Object zza(Object obj, Object obj2) {
         return ((zzfz) obj).zzm().zza((zzfz) obj2).zzf();
     }

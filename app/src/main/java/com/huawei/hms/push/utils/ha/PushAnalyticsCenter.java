@@ -3,9 +3,8 @@ package com.huawei.hms.push.utils.ha;
 public class PushAnalyticsCenter {
     public PushBaseAnalytics a;
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class a {
+    private static class a {
         public static PushAnalyticsCenter a = new PushAnalyticsCenter();
     }
 

@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.RuntimeRemoteException;
 public final class Projection {
     private final IProjectionDelegate zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Projection(IProjectionDelegate iProjectionDelegate) {
         this.zza = iProjectionDelegate;
     }

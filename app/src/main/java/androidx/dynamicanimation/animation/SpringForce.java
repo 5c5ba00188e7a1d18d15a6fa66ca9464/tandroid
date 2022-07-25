@@ -82,54 +82,56 @@ public final class SpringForce {
         this.mInitialized = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DynamicAnimation.MassState updateValues(double d, double d2, long j) {
+        double cos;
         double d3;
-        double d4;
         init();
-        double d5 = j;
-        Double.isNaN(d5);
-        double d6 = d5 / 1000.0d;
-        double d7 = d - this.mFinalPosition;
-        double d8 = this.mDampingRatio;
-        if (d8 > 1.0d) {
-            double d9 = this.mGammaMinus;
-            double d10 = this.mGammaPlus;
-            double d11 = d7 - (((d9 * d7) - d2) / (d9 - d10));
-            double d12 = ((d7 * d9) - d2) / (d9 - d10);
-            d4 = (Math.pow(2.718281828459045d, d9 * d6) * d11) + (Math.pow(2.718281828459045d, this.mGammaPlus * d6) * d12);
-            double d13 = this.mGammaMinus;
-            double pow = d11 * d13 * Math.pow(2.718281828459045d, d13 * d6);
-            double d14 = this.mGammaPlus;
-            d3 = pow + (d12 * d14 * Math.pow(2.718281828459045d, d14 * d6));
-        } else if (d8 == 1.0d) {
-            double d15 = this.mNaturalFreq;
-            double d16 = d2 + (d15 * d7);
-            double d17 = d7 + (d16 * d6);
-            d4 = Math.pow(2.718281828459045d, (-d15) * d6) * d17;
-            double pow2 = d17 * Math.pow(2.718281828459045d, (-this.mNaturalFreq) * d6);
-            double d18 = this.mNaturalFreq;
-            d3 = (d16 * Math.pow(2.718281828459045d, (-d18) * d6)) + (pow2 * (-d18));
+        double d4 = j;
+        Double.isNaN(d4);
+        double d5 = d4 / 1000.0d;
+        double d6 = d - this.mFinalPosition;
+        double d7 = this.mDampingRatio;
+        if (d7 > 1.0d) {
+            double d8 = this.mGammaMinus;
+            double d9 = this.mGammaPlus;
+            double d10 = d6 - (((d8 * d6) - d2) / (d8 - d9));
+            double d11 = ((d6 * d8) - d2) / (d8 - d9);
+            d3 = (Math.pow(2.718281828459045d, d8 * d5) * d10) + (Math.pow(2.718281828459045d, this.mGammaPlus * d5) * d11);
+            double d12 = this.mGammaMinus;
+            double pow = d10 * d12 * Math.pow(2.718281828459045d, d12 * d5);
+            double d13 = this.mGammaPlus;
+            cos = pow + (d11 * d13 * Math.pow(2.718281828459045d, d13 * d5));
+        } else if (d7 == 1.0d) {
+            double d14 = this.mNaturalFreq;
+            double d15 = d2 + (d14 * d6);
+            double d16 = d6 + (d15 * d5);
+            d3 = Math.pow(2.718281828459045d, (-d14) * d5) * d16;
+            double pow2 = d16 * Math.pow(2.718281828459045d, (-this.mNaturalFreq) * d5);
+            double d17 = this.mNaturalFreq;
+            cos = (d15 * Math.pow(2.718281828459045d, (-d17) * d5)) + (pow2 * (-d17));
         } else {
-            double d19 = 1.0d / this.mDampedFreq;
-            double d20 = this.mNaturalFreq;
-            double d21 = d19 * ((d8 * d20 * d7) + d2);
-            double pow3 = Math.pow(2.718281828459045d, (-d8) * d20 * d6) * ((Math.cos(this.mDampedFreq * d6) * d7) + (Math.sin(this.mDampedFreq * d6) * d21));
-            double d22 = this.mNaturalFreq;
-            double d23 = this.mDampingRatio;
-            double d24 = (-d22) * pow3 * d23;
-            double pow4 = Math.pow(2.718281828459045d, (-d23) * d22 * d6);
+            double d18 = 1.0d / this.mDampedFreq;
+            double d19 = this.mNaturalFreq;
+            double d20 = d18 * ((d7 * d19 * d6) + d2);
+            double pow3 = Math.pow(2.718281828459045d, (-d7) * d19 * d5) * ((Math.cos(this.mDampedFreq * d5) * d6) + (Math.sin(this.mDampedFreq * d5) * d20));
+            double d21 = this.mNaturalFreq;
+            double d22 = this.mDampingRatio;
+            double d23 = (-d21) * pow3 * d22;
+            double pow4 = Math.pow(2.718281828459045d, (-d22) * d21 * d5);
+            double d24 = this.mDampedFreq;
+            double sin = (-d24) * d6 * Math.sin(d24 * d5);
             double d25 = this.mDampedFreq;
-            double sin = (-d25) * d7 * Math.sin(d25 * d6);
-            double d26 = this.mDampedFreq;
-            d3 = d24 + (pow4 * (sin + (d21 * d26 * Math.cos(d26 * d6))));
-            d4 = pow3;
+            cos = d23 + (pow4 * (sin + (d20 * d25 * Math.cos(d25 * d5))));
+            d3 = pow3;
         }
         DynamicAnimation.MassState massState = this.mMassState;
-        massState.mValue = (float) (d4 + this.mFinalPosition);
-        massState.mVelocity = (float) d3;
+        massState.mValue = (float) (d3 + this.mFinalPosition);
+        massState.mVelocity = (float) cos;
         return massState;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setValueThreshold(double d) {
         double abs = Math.abs(d);
         this.mValueThreshold = abs;

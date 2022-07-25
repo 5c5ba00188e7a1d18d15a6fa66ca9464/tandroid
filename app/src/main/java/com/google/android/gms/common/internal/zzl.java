@@ -14,18 +14,22 @@ public final class zzl {
         this.zze = z2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final String zza() {
         return this.zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final String zzb() {
         return this.zzb;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final int zzc() {
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzd() {
         return this.zze;
     }

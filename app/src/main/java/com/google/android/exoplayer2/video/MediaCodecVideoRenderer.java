@@ -166,6 +166,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return Collections.unmodifiableList(decoderInfosSortedByFormatSupport);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onEnabled(boolean z) throws ExoPlaybackException {
         super.onEnabled(z);
@@ -180,6 +181,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         this.frameReleaseTimeHelper.enable();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
     public void onStreamChanged(Format[] formatArr, long j) throws ExoPlaybackException {
         if (this.outputStreamOffsetUs == -9223372036854775807L) {
@@ -199,6 +201,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         super.onStreamChanged(formatArr, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onPositionReset(long j, boolean z) throws ExoPlaybackException {
         super.onPositionReset(j, z);
@@ -235,6 +238,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onStarted() {
         super.onStarted();
@@ -243,6 +247,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         this.lastRenderTimeUs = SystemClock.elapsedRealtime() * 1000;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onStopped() {
         this.joiningDeadlineMs = -9223372036854775807L;
@@ -250,6 +255,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         super.onStopped();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onDisabled() {
         this.lastInputTimeUs = -9223372036854775807L;
@@ -267,6 +273,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
     public void onReset() {
         try {
@@ -404,6 +411,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     public void releaseCodec() {
         try {
@@ -413,6 +421,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     public boolean flushOrReleaseCodec() {
         try {
@@ -444,6 +453,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         this.codecHandlesHdr10PlusOutOfBandMetadata = ((MediaCodecInfo) Assertions.checkNotNull(getCodecInfo())).isHdr10PlusOutOfBandMetadataSupported();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     public void onInputFormatChanged(FormatHolder formatHolder) throws ExoPlaybackException {
         super.onInputFormatChanged(formatHolder);
@@ -467,21 +477,21 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     protected void onOutputFormatChanged(MediaCodec mediaCodec, MediaFormat mediaFormat) {
-        int i;
-        int i2;
+        int integer;
+        int integer2;
         this.currentMediaFormat = mediaFormat;
         boolean z = mediaFormat.containsKey("crop-right") && mediaFormat.containsKey("crop-left") && mediaFormat.containsKey("crop-bottom") && mediaFormat.containsKey("crop-top");
         if (z) {
-            i = (mediaFormat.getInteger("crop-right") - mediaFormat.getInteger("crop-left")) + 1;
+            integer = (mediaFormat.getInteger("crop-right") - mediaFormat.getInteger("crop-left")) + 1;
         } else {
-            i = mediaFormat.getInteger("width");
+            integer = mediaFormat.getInteger("width");
         }
         if (z) {
-            i2 = (mediaFormat.getInteger("crop-bottom") - mediaFormat.getInteger("crop-top")) + 1;
+            integer2 = (mediaFormat.getInteger("crop-bottom") - mediaFormat.getInteger("crop-top")) + 1;
         } else {
-            i2 = mediaFormat.getInteger("height");
+            integer2 = mediaFormat.getInteger("height");
         }
-        processOutputFormat(mediaCodec, i, i2);
+        processOutputFormat(mediaCodec, integer, integer2);
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
@@ -613,6 +623,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         onProcessedOutputBuffer(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onProcessedTunneledEndOfStream() {
         setPendingOutputEndOfStream();
     }
@@ -1013,7 +1024,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return "NVIDIA".equals(Util.MANUFACTURER);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:422:0x0655 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0655 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2092,6 +2103,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return deviceNeedsSetOutputSurfaceWorkaround;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static final class CodecMaxValues {
         public final int height;
@@ -2105,13 +2117,13 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
     /* loaded from: classes.dex */
     public final class OnFrameRenderedListenerV23 implements MediaCodec.OnFrameRenderedListener, Handler.Callback {
         private final Handler handler;
 
         public OnFrameRenderedListenerV23(MediaCodec mediaCodec) {
-            MediaCodecVideoRenderer.this = r1;
             Handler handler = new Handler(this);
             this.handler = handler;
             mediaCodec.setOnFrameRenderedListener(this, handler);

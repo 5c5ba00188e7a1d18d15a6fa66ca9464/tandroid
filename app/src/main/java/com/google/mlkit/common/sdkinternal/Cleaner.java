@@ -22,6 +22,7 @@ public class Cleaner {
     private Cleaner() {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.mlkit:common@@17.0.0 */
     /* loaded from: classes.dex */
     public static class zza extends PhantomReference<Object> implements Cleanable {
@@ -48,7 +49,9 @@ public class Cleaner {
         ThreadFactory threadFactory = com.google.mlkit.common.sdkinternal.zza.zza;
         Cleaner cleaner = new Cleaner();
         cleaner.register(cleaner, zzc.zza);
-        threadFactory.newThread(new Runnable(cleaner.zza, cleaner.zzb) { // from class: com.google.mlkit.common.sdkinternal.zzb
+        final ReferenceQueue<Object> referenceQueue = cleaner.zza;
+        final Set<zza> set = cleaner.zzb;
+        threadFactory.newThread(new Runnable(referenceQueue, set) { // from class: com.google.mlkit.common.sdkinternal.zzb
             private final ReferenceQueue zza;
             private final Set zzb;
 

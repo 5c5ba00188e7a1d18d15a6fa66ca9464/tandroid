@@ -1,4 +1,5 @@
 package j$.util.stream;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class x2 {
     private static final A1 a = new Z1(null);
@@ -9,6 +10,7 @@ public abstract class x2 {
     private static final long[] f = new long[0];
     private static final double[] g = new double[0];
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static s1 d(long j, j$.util.function.m mVar) {
         return (j < 0 || j >= 2147483639) ? new t2() : new b2(j, mVar);
     }
@@ -69,6 +71,7 @@ public abstract class x2 {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static A1 i(e4 e4Var, A1 a1, A1 a12) {
         int i = B1.a[e4Var.ordinal()];
         if (i != 1) {
@@ -86,10 +89,12 @@ public abstract class x2 {
         return new S1(a1, a12);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static p1 j(long j) {
         return (j < 0 || j >= 2147483639) ? new V1() : new U1(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static A1 k(e4 e4Var) {
         int i = B1.a[e4Var.ordinal()];
         if (i != 1) {
@@ -159,10 +164,12 @@ public abstract class x2 {
         return y1Var;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static q1 p(long j) {
         return (j < 0 || j >= 2147483639) ? new e2() : new d2(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static r1 q(long j) {
         return (j < 0 || j >= 2147483639) ? new n2() : new m2(j);
     }

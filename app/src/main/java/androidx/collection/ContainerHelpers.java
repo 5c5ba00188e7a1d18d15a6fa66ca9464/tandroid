@@ -27,6 +27,7 @@ class ContainerHelpers {
         return obj == obj2 || (obj != null && obj.equals(obj2));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int binarySearch(int[] iArr, int i, int i2) {
         int i3 = i - 1;
         int i4 = 0;
@@ -44,6 +45,7 @@ class ContainerHelpers {
         return i4 ^ (-1);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int binarySearch(long[] jArr, int i, long j) {
         int i2 = i - 1;
         int i3 = 0;

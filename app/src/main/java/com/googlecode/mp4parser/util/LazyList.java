@@ -41,13 +41,12 @@ public class LazyList<E> extends AbstractList<E> {
         return new AnonymousClass1();
     }
 
-    /* renamed from: com.googlecode.mp4parser.util.LazyList$1 */
+    /* renamed from: com.googlecode.mp4parser.util.LazyList$1  reason: invalid class name */
     /* loaded from: classes.dex */
     class AnonymousClass1 implements Iterator<E>, j$.util.Iterator {
         int pos = 0;
 
         AnonymousClass1() {
-            LazyList.this = r1;
         }
 
         @Override // j$.util.Iterator
@@ -61,7 +60,8 @@ public class LazyList<E> extends AbstractList<E> {
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
-        public E next() {
+        /* renamed from: next */
+        public E mo335next() {
             if (this.pos < LazyList.this.underlying.size()) {
                 List<E> list = LazyList.this.underlying;
                 int i = this.pos;
@@ -70,7 +70,7 @@ public class LazyList<E> extends AbstractList<E> {
             }
             LazyList lazyList = LazyList.this;
             lazyList.underlying.add(lazyList.elementSource.next());
-            return (E) next();
+            return (E) mo335next();
         }
 
         @Override // java.util.Iterator, j$.util.Iterator

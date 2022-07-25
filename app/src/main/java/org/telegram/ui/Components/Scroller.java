@@ -118,7 +118,7 @@ public class Scroller {
     }
 
     public boolean computeScrollOffset() {
-        float f;
+        float interpolation;
         if (this.mFinished) {
             return false;
         }
@@ -127,31 +127,31 @@ public class Scroller {
         if (currentAnimationTimeMillis < i) {
             int i2 = this.mMode;
             if (i2 == 0) {
-                float f2 = currentAnimationTimeMillis * this.mDurationReciprocal;
+                float f = currentAnimationTimeMillis * this.mDurationReciprocal;
                 Interpolator interpolator = this.mInterpolator;
                 if (interpolator == null) {
-                    f = viscousFluid(f2);
+                    interpolation = viscousFluid(f);
                 } else {
-                    f = interpolator.getInterpolation(f2);
+                    interpolation = interpolator.getInterpolation(f);
                 }
-                this.mCurrX = this.mStartX + Math.round(this.mDeltaX * f);
-                this.mCurrY = this.mStartY + Math.round(f * this.mDeltaY);
+                this.mCurrX = this.mStartX + Math.round(this.mDeltaX * interpolation);
+                this.mCurrY = this.mStartY + Math.round(interpolation * this.mDeltaY);
             } else if (i2 == 1) {
-                float f3 = currentAnimationTimeMillis / i;
-                int i3 = (int) (f3 * 100.0f);
-                float f4 = i3 / 100.0f;
+                float f2 = currentAnimationTimeMillis / i;
+                int i3 = (int) (f2 * 100.0f);
+                float f3 = i3 / 100.0f;
                 int i4 = i3 + 1;
                 float[] fArr = SPLINE;
-                float f5 = fArr[i3];
-                float f6 = f5 + (((f3 - f4) / ((i4 / 100.0f) - f4)) * (fArr[i4] - f5));
+                float f4 = fArr[i3];
+                float f5 = f4 + (((f2 - f3) / ((i4 / 100.0f) - f3)) * (fArr[i4] - f4));
                 int i5 = this.mStartX;
-                int round = i5 + Math.round((this.mFinalX - i5) * f6);
+                int round = i5 + Math.round((this.mFinalX - i5) * f5);
                 this.mCurrX = round;
                 int min = Math.min(round, this.mMaxX);
                 this.mCurrX = min;
                 this.mCurrX = Math.max(min, this.mMinX);
                 int i6 = this.mStartY;
-                int round2 = i6 + Math.round(f6 * (this.mFinalY - i6));
+                int round2 = i6 + Math.round(f5 * (this.mFinalY - i6));
                 this.mCurrY = round2;
                 int min2 = Math.min(round2, this.mMaxY);
                 this.mCurrY = min2;
@@ -183,9 +183,9 @@ public class Scroller {
         this.mDurationReciprocal = 1.0f / this.mDuration;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00aa  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00aa  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00a3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -194,7 +194,7 @@ public class Scroller {
         int i10;
         float sqrt;
         if (!this.mFlywheel || this.mFinished) {
-            i10 = i3;
+            i9 = i3;
         } else {
             float currVelocity = getCurrVelocity();
             float f = this.mFinalX - this.mStartX;
@@ -202,18 +202,18 @@ public class Scroller {
             float sqrt2 = (float) Math.sqrt((f * f) + (f2 * f2));
             float f3 = (f / sqrt2) * currVelocity;
             float f4 = (f2 / sqrt2) * currVelocity;
-            i10 = i3;
-            float f5 = i10;
+            i9 = i3;
+            float f5 = i9;
             if (Math.signum(f5) == Math.signum(f3)) {
-                i9 = i4;
-                float f6 = i9;
+                i10 = i4;
+                float f6 = i10;
                 if (Math.signum(f6) == Math.signum(f4)) {
-                    i10 = (int) (f5 + f3);
-                    i9 = (int) (f6 + f4);
+                    i9 = (int) (f5 + f3);
+                    i10 = (int) (f6 + f4);
                 }
                 this.mMode = 1;
                 this.mFinished = false;
-                sqrt = (float) Math.sqrt((i10 * i10) + (i9 * i9));
+                sqrt = (float) Math.sqrt((i9 * i9) + (i10 * i10));
                 this.mVelocity = sqrt;
                 double log = Math.log((START_TENSION * sqrt) / 800.0f);
                 double d = DECELERATION_RATE;
@@ -223,9 +223,9 @@ public class Scroller {
                 this.mStartX = i;
                 this.mStartY = i2;
                 float f7 = 1.0f;
-                float f8 = sqrt != 0.0f ? 1.0f : i10 / sqrt;
+                float f8 = sqrt != 0.0f ? 1.0f : i9 / sqrt;
                 if (sqrt != 0.0f) {
-                    f7 = i9 / sqrt;
+                    f7 = i10 / sqrt;
                 }
                 double d2 = 800.0f;
                 float f9 = DECELERATION_RATE;
@@ -252,10 +252,10 @@ public class Scroller {
                 this.mFinalY = Math.max(min2, this.mMinY);
             }
         }
-        i9 = i4;
+        i10 = i4;
         this.mMode = 1;
         this.mFinished = false;
-        sqrt = (float) Math.sqrt((i10 * i10) + (i9 * i9));
+        sqrt = (float) Math.sqrt((i9 * i9) + (i10 * i10));
         this.mVelocity = sqrt;
         double log2 = Math.log((START_TENSION * sqrt) / 800.0f);
         double d5 = DECELERATION_RATE;
@@ -295,14 +295,14 @@ public class Scroller {
     }
 
     static float viscousFluid(float f) {
-        float f2;
-        float f3 = f * sViscousFluidScale;
-        if (f3 < 1.0f) {
-            f2 = f3 - (1.0f - ((float) Math.exp(-f3)));
+        float exp;
+        float f2 = f * sViscousFluidScale;
+        if (f2 < 1.0f) {
+            exp = f2 - (1.0f - ((float) Math.exp(-f2)));
         } else {
-            f2 = ((1.0f - ((float) Math.exp(1.0f - f3))) * 0.63212055f) + 0.36787945f;
+            exp = ((1.0f - ((float) Math.exp(1.0f - f2))) * 0.63212055f) + 0.36787945f;
         }
-        return f2 * sViscousFluidNormalize;
+        return exp * sViscousFluidNormalize;
     }
 
     public void abortAnimation() {

@@ -186,8 +186,8 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
     }
 
     private static Cue createCue(String str, SsaStyle ssaStyle, SsaStyle.Overrides overrides, float f, float f2) {
-        float f3;
-        float f4;
+        float computeDefaultLineOrPosition;
+        float computeDefaultLineOrPosition2;
         int i = overrides.alignment;
         if (i == -1) {
             i = ssaStyle != null ? ssaStyle.alignment : -1;
@@ -196,13 +196,13 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
         int lineAnchor = toLineAnchor(i);
         PointF pointF = overrides.position;
         if (pointF != null && f2 != -3.4028235E38f && f != -3.4028235E38f) {
-            f4 = pointF.y / f2;
-            f3 = pointF.x / f;
+            computeDefaultLineOrPosition2 = pointF.y / f2;
+            computeDefaultLineOrPosition = pointF.x / f;
         } else {
-            f3 = computeDefaultLineOrPosition(positionAnchor);
-            f4 = computeDefaultLineOrPosition(lineAnchor);
+            computeDefaultLineOrPosition = computeDefaultLineOrPosition(positionAnchor);
+            computeDefaultLineOrPosition2 = computeDefaultLineOrPosition(lineAnchor);
         }
-        return new Cue(str, toTextAlignment(i), f4, 0, lineAnchor, f3, positionAnchor, -3.4028235E38f);
+        return new Cue(str, toTextAlignment(i), computeDefaultLineOrPosition2, 0, lineAnchor, computeDefaultLineOrPosition, positionAnchor, -3.4028235E38f);
     }
 
     private static Layout.Alignment toTextAlignment(int i) {

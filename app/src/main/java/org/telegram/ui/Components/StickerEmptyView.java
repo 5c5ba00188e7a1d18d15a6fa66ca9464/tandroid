@@ -114,6 +114,7 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         this.stickerView.getImageReceiver().startAnimation();
     }
@@ -199,6 +200,7 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         this.stickerView.getImageReceiver().clearImage();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -214,10 +216,11 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setSticker() {
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet;
-        String str;
         TLRPC$Document tLRPC$Document;
+        String str;
         int i;
         TLRPC$Document tLRPC$Document2 = null;
         if (this.stickerType == 2) {

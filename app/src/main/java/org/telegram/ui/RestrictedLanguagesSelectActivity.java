@@ -216,6 +216,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view, int i) {
         LocaleController.LocaleInfo localeInfo;
         if (getParentActivity() == null || this.parentLayout == null || !(view instanceof TextCheckbox2Cell)) {
@@ -275,10 +276,12 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(String str, String str2) {
         return str2 != null && str2.equals(str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$3(View view, int i) {
         final LocaleController.LocaleInfo localeInfo;
         if (getParentActivity() != null && this.parentLayout != null && (view instanceof TextCheckbox2Cell)) {
@@ -314,6 +317,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(LocaleController.LocaleInfo localeInfo, DialogInterface dialogInterface, int i) {
         if (LocaleController.getInstance().deleteLanguage(localeInfo, this.currentAccount)) {
             fillLanguages();
@@ -364,6 +368,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         Collections.sort(this.sortedLanguages, comparator);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$fillLanguages$4(LocaleController.LocaleInfo localeInfo, LocaleController.LocaleInfo localeInfo2, LocaleController.LocaleInfo localeInfo3) {
         if (localeInfo2 == localeInfo) {
             return -1;
@@ -433,18 +438,19 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateSearchResults$5(ArrayList arrayList) {
         this.searchResult = arrayList;
         this.searchListViewAdapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private boolean search;
 
         public ListAdapter(Context context, boolean z) {
-            RestrictedLanguagesSelectActivity.this = r1;
             this.mContext = context;
             this.search = z;
         }
@@ -467,9 +473,10 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextCheckbox2Cell textCheckbox2Cell;
+            View view;
             if (i == 0) {
                 TextCheckbox2Cell textCheckbox2Cell2 = new TextCheckbox2Cell(this.mContext);
                 textCheckbox2Cell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
@@ -487,25 +494,25 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:12:0x0043, code lost:
-            if (r10 == (org.telegram.ui.RestrictedLanguagesSelectActivity.this.searchResult.size() - 1)) goto L13;
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x0043, code lost:
+            if (r10 == (r8.this$0.searchResult.size() - 1)) goto L15;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x0045, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x0045, code lost:
             r10 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0047, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x0047, code lost:
             r10 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:16:0x0060, code lost:
-            if (r10 == (org.telegram.ui.RestrictedLanguagesSelectActivity.this.sortedLanguages.size() - 1)) goto L13;
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x0060, code lost:
+            if (r10 == (r8.this$0.sortedLanguages.size() - 1)) goto L15;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            boolean z;
             LocaleController.LocaleInfo localeInfo;
+            boolean z;
             int itemViewType = viewHolder.getItemViewType();
             boolean z2 = true;
             if (itemViewType != 0) {

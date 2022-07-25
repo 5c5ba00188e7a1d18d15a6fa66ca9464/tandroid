@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import j$.util.u;
 /* loaded from: classes2.dex */
 final class g2 extends i2 implements u.a {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public g2(w1 w1Var) {
         super(w1Var);
     }

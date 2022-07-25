@@ -93,10 +93,10 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
     private Handler x = null;
     private Handler y = null;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class a implements Handler.Callback {
         a() {
-            HuaweiApiClientImpl.this = r1;
         }
 
         @Override // android.os.Handler.Callback
@@ -113,10 +113,10 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class b implements Handler.Callback {
         b() {
-            HuaweiApiClientImpl.this = r1;
         }
 
         @Override // android.os.Handler.Callback
@@ -164,20 +164,22 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
 
         @Override // com.huawei.hms.support.api.PendingResultImpl
-        public Status onComplete(IMessageEntity iMessageEntity) {
+        /* renamed from: onComplete  reason: avoid collision after fix types in other method */
+        public Status mo234onComplete(IMessageEntity iMessageEntity) {
             return new Status(0);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class e implements ResultCallback<ResolveResult<ConnectResp>> {
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes.dex */
         public class a implements Runnable {
             final /* synthetic */ ResolveResult a;
 
             a(ResolveResult resolveResult) {
-                e.this = r1;
                 this.a = resolveResult;
             }
 
@@ -188,9 +190,9 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
 
         private e() {
-            HuaweiApiClientImpl.this = r1;
         }
 
+        @Override // com.huawei.hms.support.api.client.ResultCallback
         /* renamed from: a */
         public void onResult(ResolveResult<ConnectResp> resolveResult) {
             new Handler(Looper.getMainLooper()).post(new a(resolveResult));
@@ -201,15 +203,16 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class f implements ResultCallback<ResolveResult<DisconnectResp>> {
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes.dex */
         public class a implements Runnable {
             final /* synthetic */ ResolveResult a;
 
             a(ResolveResult resolveResult) {
-                f.this = r1;
                 this.a = resolveResult;
             }
 
@@ -220,9 +223,9 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
 
         private f() {
-            HuaweiApiClientImpl.this = r1;
         }
 
+        @Override // com.huawei.hms.support.api.client.ResultCallback
         /* renamed from: a */
         public void onResult(ResolveResult<DisconnectResp> resolveResult) {
             new Handler(Looper.getMainLooper()).post(new a(resolveResult));
@@ -233,12 +236,13 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class g implements ResultCallback<ResolveResult<JosGetNoticeResp>> {
         private g() {
-            HuaweiApiClientImpl.this = r1;
         }
 
+        @Override // com.huawei.hms.support.api.client.ResultCallback
         /* renamed from: a */
         public void onResult(ResolveResult<JosGetNoticeResp> resolveResult) {
             JosGetNoticeResp value;
@@ -758,6 +762,7 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         this.n = map;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setAutoLifecycleClientId(int i) {
         this.a = i;
     }
@@ -804,6 +809,7 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void c(int i) {
         this.k.set(i);
         if (i == 1 || i == 3 || i == 2) {
@@ -854,6 +860,7 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         return new ConnectInfo(getApiNameList(), this.l, packageSignature, subAppInfo == null ? null : subAppInfo.getSubAppID());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void b() {
         n();
         if (this.w != null) {
@@ -921,12 +928,14 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void b(ResolveResult<DisconnectResp> resolveResult) {
         HMSLog.i("HuaweiApiClientImpl", "Enter onDisconnectionResult, disconnect from server result: " + resolveResult.getStatus().getStatusCode());
         n();
         c(1);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void a(ResolveResult<ConnectResp> resolveResult) {
         HMSLog.i("HuaweiApiClientImpl", "Enter onConnectionResult");
         if (this.f != null && this.k.get() == 2) {

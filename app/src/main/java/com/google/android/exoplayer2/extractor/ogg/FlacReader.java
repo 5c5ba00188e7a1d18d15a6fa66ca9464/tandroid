@@ -12,9 +12,8 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.Arrays;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class FlacReader extends StreamReader {
+final class FlacReader extends StreamReader {
     private FlacOggSeeker flacOggSeeker;
     private FlacStreamMetadata streamMetadata;
 
@@ -22,6 +21,7 @@ public final class FlacReader extends StreamReader {
         return parsableByteArray.bytesLeft() >= 5 && parsableByteArray.readUnsignedByte() == 127 && parsableByteArray.readUnsignedInt() == 1179402563;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     public void reset(boolean z) {
         super.reset(z);
@@ -83,7 +83,6 @@ public final class FlacReader extends StreamReader {
         private long pendingSeekGranule = -1;
 
         public FlacOggSeeker() {
-            FlacReader.this = r3;
         }
 
         public void setFirstFrameOffset(long j) {
@@ -109,7 +108,8 @@ public final class FlacReader extends StreamReader {
         }
 
         @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-        public SeekMap createSeekMap() {
+        /* renamed from: createSeekMap */
+        public SeekMap mo94createSeekMap() {
             Assertions.checkState(this.firstFrameOffset != -1);
             return new FlacSeekTableSeekMap(FlacReader.this.streamMetadata, this.firstFrameOffset);
         }

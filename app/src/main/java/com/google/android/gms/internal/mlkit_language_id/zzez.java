@@ -8,6 +8,7 @@ public class zzez extends IOException {
         super(str);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzey zza() {
         return new zzey("Protocol message tag had invalid wire type.");
     }

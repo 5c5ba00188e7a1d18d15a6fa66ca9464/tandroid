@@ -329,14 +329,14 @@ public class TranslateAlert extends Dialog {
         this.loaded = false;
         if (tLRPC$InputPeer != null) {
             if (str == null || !str.equals("und")) {
-                i4 = i;
-                i3 = i2;
+                i3 = i;
+                i4 = i2;
                 str3 = str;
             } else {
-                i4 = i;
-                i3 = i2;
+                i3 = i;
+                i4 = i2;
             }
-            translateText(i4, tLRPC$InputPeer, i3, str3, str2);
+            translateText(i3, tLRPC$InputPeer, i4, str3, str2);
         }
         this.onLinkPress = onLinkPress;
         this.noforwards = z;
@@ -542,6 +542,7 @@ public class TranslateAlert extends Dialog {
                 super.onNestedScroll(view4, i8, i9, i10, i11);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.view.View
             public void onScrollChanged(int i8, int i9, int i10, int i11) {
                 super.onScrollChanged(i8, i9, i10, i11);
@@ -713,8 +714,8 @@ public class TranslateAlert extends Dialog {
 
     @Override // android.app.Dialog, android.view.Window.Callback
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        float round;
         float f;
-        float f2;
         ClickableSpan[] clickableSpanArr;
         try {
             float x = motionEvent.getX();
@@ -795,46 +796,46 @@ public class TranslateAlert extends Dialog {
                     super.dispatchTouchEvent(motionEvent);
                     return true;
                 } else if (this.maybeScrolling && (motionEvent.getAction() == 2 || motionEvent.getAction() == 1)) {
-                    float f3 = this.fromY - y;
+                    float f2 = this.fromY - y;
                     if (this.fromScrollRect) {
-                        f3 = -Math.max(0.0f, (-(this.fromScrollViewY + AndroidUtilities.dp(48.0f))) - f3);
-                        if (f3 < 0.0f) {
+                        f2 = -Math.max(0.0f, (-(this.fromScrollViewY + AndroidUtilities.dp(48.0f))) - f2);
+                        if (f2 < 0.0f) {
                             this.scrolling = true;
                             this.allTextsView.setTextIsSelectable(false);
                         }
-                    } else if (Math.abs(f3) > AndroidUtilities.dp(4.0f) && !this.fromScrollRect) {
+                    } else if (Math.abs(f2) > AndroidUtilities.dp(4.0f) && !this.fromScrollRect) {
                         this.scrolling = true;
                         this.allTextsView.setTextIsSelectable(false);
                         this.scrollView.stopNestedScroll();
                         this.allowScroll = false;
                     }
-                    float f4 = AndroidUtilities.displayMetrics.heightPixels;
-                    float min = Math.min(minHeight(), this.heightMaxPercent * f4);
-                    float f5 = -1.0f;
-                    float f6 = f4 - min;
-                    float min2 = ((1.0f - (-Math.min(Math.max(this.fromScrollY, -1.0f), 0.0f))) * min) + (Math.min(1.0f, Math.max(this.fromScrollY, 0.0f)) * f6) + f3;
-                    float f7 = min2 > min ? (min2 - min) / f6 : -(1.0f - (min2 / min));
+                    float f3 = AndroidUtilities.displayMetrics.heightPixels;
+                    float min = Math.min(minHeight(), this.heightMaxPercent * f3);
+                    float f4 = -1.0f;
+                    float f5 = f3 - min;
+                    float min2 = ((1.0f - (-Math.min(Math.max(this.fromScrollY, -1.0f), 0.0f))) * min) + (Math.min(1.0f, Math.max(this.fromScrollY, 0.0f)) * f5) + f2;
+                    float f6 = min2 > min ? (min2 - min) / f5 : -(1.0f - (min2 / min));
                     if (!canExpand()) {
-                        f7 = Math.min(f7, 0.0f);
+                        f6 = Math.min(f6, 0.0f);
                     }
                     updateCanExpand();
                     if (this.scrolling) {
-                        setScrollY(f7);
+                        setScrollY(f6);
                         if (motionEvent.getAction() == 1) {
                             this.scrolling = false;
                             this.allTextsView.setTextIsSelectable(!this.noforwards);
                             this.maybeScrolling = false;
                             this.allowScroll = true;
-                            if (Math.abs(f3) > AndroidUtilities.dp(16.0f)) {
-                                float round = Math.round(this.fromScrollY);
-                                if (f7 > this.fromScrollY) {
-                                    f5 = 1.0f;
+                            if (Math.abs(f2) > AndroidUtilities.dp(16.0f)) {
+                                float round2 = Math.round(this.fromScrollY);
+                                if (f6 > this.fromScrollY) {
+                                    f4 = 1.0f;
                                 }
-                                f = round + (f5 * ((float) Math.ceil(Math.abs(f2 - f7))));
+                                round = round2 + (f4 * ((float) Math.ceil(Math.abs(f - f6))));
                             } else {
-                                f = Math.round(this.fromScrollY);
+                                round = Math.round(this.fromScrollY);
                             }
-                            scrollYTo(f, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda7
+                            scrollYTo(round, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda7
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     TranslateAlert.this.lambda$dispatchTouchEvent$4();
@@ -1194,8 +1195,8 @@ public class TranslateAlert extends Dialog {
     }
 
     public /* synthetic */ void lambda$fetchTranslation$12(CharSequence charSequence, final OnTranslationSuccess onTranslationSuccess, long j, final OnTranslationFail onTranslationFail) {
-        HttpURLConnection httpURLConnection;
         Exception exc;
+        HttpURLConnection httpURLConnection;
         final String str;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         String str2 = null;

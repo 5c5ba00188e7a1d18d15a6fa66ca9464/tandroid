@@ -81,6 +81,7 @@ public class ReactionsLayoutInBubble {
     int currentAccount = UserConfig.selectedAccount;
     private float touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$static$0(TLRPC$User tLRPC$User, TLRPC$User tLRPC$User2) {
         return (int) (tLRPC$User.id - tLRPC$User2.id);
     }
@@ -448,8 +449,7 @@ public class ReactionsLayoutInBubble {
 
         public ReactionButton(TLRPC$TL_reactionCount tLRPC$TL_reactionCount) {
             TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
-            ReactionsLayoutInBubble.this = r12;
-            this.counterDrawable = new CounterView.CounterDrawable(r12.parentView, false, null);
+            this.counterDrawable = new CounterView.CounterDrawable(ReactionsLayoutInBubble.this.parentView, false, null);
             this.reactionCount = tLRPC$TL_reactionCount;
             String str = tLRPC$TL_reactionCount.reaction;
             this.reaction = str;
@@ -458,7 +458,7 @@ public class ReactionsLayoutInBubble {
             this.realCount = i;
             this.key = str;
             this.countText = Integer.toString(i);
-            this.imageReceiver.setParentView(r12.parentView);
+            this.imageReceiver.setParentView(ReactionsLayoutInBubble.this.parentView);
             boolean z = tLRPC$TL_reactionCount.chosen;
             this.isSelected = z;
             CounterView.CounterDrawable counterDrawable = this.counterDrawable;
@@ -466,19 +466,19 @@ public class ReactionsLayoutInBubble {
             counterDrawable.shortFormat = true;
             String str2 = "chat_outReactionButtonBackground";
             if (z) {
-                this.backgroundColor = Theme.getColor(r12.messageObject.isOutOwner() ? str2 : "chat_inReactionButtonBackground", r12.resourcesProvider);
-                this.textColor = Theme.getColor(r12.messageObject.isOutOwner() ? "chat_outReactionButtonTextSelected" : "chat_inReactionButtonTextSelected", r12.resourcesProvider);
-                this.serviceTextColor = Theme.getColor(!r12.messageObject.isOutOwner() ? "chat_inReactionButtonBackground" : str2, r12.resourcesProvider);
-                this.serviceBackgroundColor = Theme.getColor(r12.messageObject.isOutOwner() ? "chat_outBubble" : "chat_inBubble");
+                this.backgroundColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? str2 : "chat_inReactionButtonBackground", ReactionsLayoutInBubble.this.resourcesProvider);
+                this.textColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outReactionButtonTextSelected" : "chat_inReactionButtonTextSelected", ReactionsLayoutInBubble.this.resourcesProvider);
+                this.serviceTextColor = Theme.getColor(!ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_inReactionButtonBackground" : str2, ReactionsLayoutInBubble.this.resourcesProvider);
+                this.serviceBackgroundColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outBubble" : "chat_inBubble");
             } else {
-                this.textColor = Theme.getColor(r12.messageObject.isOutOwner() ? "chat_outReactionButtonText" : "chat_inReactionButtonText", r12.resourcesProvider);
-                int color = Theme.getColor(!r12.messageObject.isOutOwner() ? "chat_inReactionButtonBackground" : str2, r12.resourcesProvider);
+                this.textColor = Theme.getColor(ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_outReactionButtonText" : "chat_inReactionButtonText", ReactionsLayoutInBubble.this.resourcesProvider);
+                int color = Theme.getColor(!ReactionsLayoutInBubble.this.messageObject.isOutOwner() ? "chat_inReactionButtonBackground" : str2, ReactionsLayoutInBubble.this.resourcesProvider);
                 this.backgroundColor = color;
                 this.backgroundColor = ColorUtils.setAlphaComponent(color, (int) (Color.alpha(color) * 0.156f));
-                this.serviceTextColor = Theme.getColor("chat_serviceText", r12.resourcesProvider);
+                this.serviceTextColor = Theme.getColor("chat_serviceText", ReactionsLayoutInBubble.this.resourcesProvider);
                 this.serviceBackgroundColor = 0;
             }
-            if (this.reaction != null && (tLRPC$TL_availableReaction = MediaDataController.getInstance(r12.currentAccount).getReactionsMap().get(this.reaction)) != null) {
+            if (this.reaction != null && (tLRPC$TL_availableReaction = MediaDataController.getInstance(ReactionsLayoutInBubble.this.currentAccount).getReactionsMap().get(this.reaction)) != null) {
                 this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastframe", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon, "windowBackgroundGray", 1.0f), "webp", tLRPC$TL_availableReaction, 1);
             }
             this.counterDrawable.setSize(AndroidUtilities.dp(26.0f), AndroidUtilities.dp(100.0f));
@@ -712,16 +712,19 @@ public class ReactionsLayoutInBubble {
         return this.pressed;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$chekTouchEvent$1(ReactionButton reactionButton) {
         this.parentView.getDelegate().didPressReaction(this.parentView, reactionButton.reactionCount, true);
         this.longPressRunnable = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean hasGradientService() {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         return resourcesProvider != null ? resourcesProvider.hasGradientService() : Theme.hasGradientService();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public Paint getThemedPaint(String str) {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Paint paint2 = resourcesProvider != null ? resourcesProvider.getPaint(str) : null;
@@ -742,6 +745,7 @@ public class ReactionsLayoutInBubble {
         return this.totalHeight;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ButtonsComparator implements Comparator<ReactionButton> {
         int currentAccount;
@@ -749,6 +753,7 @@ public class ReactionsLayoutInBubble {
         private ButtonsComparator() {
         }
 
+        @Override // java.util.Comparator
         public int compare(ReactionButton reactionButton, ReactionButton reactionButton2) {
             int i = reactionButton.realCount;
             int i2 = reactionButton2.realCount;

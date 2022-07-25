@@ -8,6 +8,7 @@ import com.google.android.gms.location.LocationResult;
 final class zzap implements ListenerHolder.Notifier<LocationCallback> {
     final /* synthetic */ LocationResult zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzap(zzar zzarVar, LocationResult locationResult) {
         this.zza = locationResult;
     }

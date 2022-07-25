@@ -17,9 +17,8 @@ public class ExecutorsEnhance {
         return new FinalizableDelegatedExecutorService(new ThreadPoolExcutorEnhance(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), threadFactory));
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class FinalizableDelegatedExecutorService extends DelegatedExecutorService {
+    private static class FinalizableDelegatedExecutorService extends DelegatedExecutorService {
         FinalizableDelegatedExecutorService(ExecutorService executorService) {
             super(executorService);
         }
@@ -29,9 +28,8 @@ public class ExecutorsEnhance {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class DelegatedExecutorService extends AbstractExecutorService {
+    private static class DelegatedExecutorService extends AbstractExecutorService {
         private final ExecutorService executorService;
 
         DelegatedExecutorService(ExecutorService executorService) {

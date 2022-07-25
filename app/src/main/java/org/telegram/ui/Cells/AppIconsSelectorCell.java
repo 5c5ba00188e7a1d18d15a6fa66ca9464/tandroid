@@ -58,7 +58,8 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         setLayoutManager(linearLayoutManager);
         setAdapter(new RecyclerView.Adapter() { // from class: org.telegram.ui.Cells.AppIconsSelectorCell.1
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i2) {
                 return new RecyclerListView.Holder(new IconHolderView(viewGroup.getContext()));
             }
 
@@ -104,6 +105,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         updateIconsVisibility();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(BaseFragment baseFragment, Context context, View view, int i) {
         IconHolderView iconHolderView = (IconHolderView) view;
         LauncherIconController.LauncherIcon launcherIcon = this.availableIcons.get(i);
@@ -116,6 +118,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                     return (i4 - i2) + AndroidUtilities.dp(16.0f);
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.LinearSmoothScroller
                 public float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
                     return super.calculateSpeedPerPixel(displayMetrics) * 3.0f;
@@ -159,23 +162,27 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         invalidateItemDecorations();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.premiumStatusChangedGlobal);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -189,6 +196,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static final class IconHolderView extends LinearLayout {
         private Paint fillPaint;
@@ -236,6 +244,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setSelected(boolean z, boolean z2) {
             float f = z ? 1.0f : 0.0f;
             float f2 = this.progress;
@@ -256,10 +265,12 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setSelected$0(ValueAnimator valueAnimator) {
             setProgress(((Float) valueAnimator.getAnimatedValue()).floatValue());
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void bind(LauncherIconController.LauncherIcon launcherIcon) {
             this.iconView.setImageResource(launcherIcon.background);
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.titleView.getLayoutParams();

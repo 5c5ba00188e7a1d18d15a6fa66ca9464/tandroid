@@ -59,36 +59,37 @@ public class DispatchQueuePoolBackground {
     }
 
     private void execute(ArrayList<Runnable> arrayList) {
-        final DispatchQueue dispatchQueue;
+        final DispatchQueue remove;
         for (int i = 0; i < arrayList.size(); i++) {
             final Runnable runnable = arrayList.get(i);
             if (runnable != null) {
                 if (!this.busyQueues.isEmpty() && (this.totalTasksCount / 2 <= this.busyQueues.size() || (this.queues.isEmpty() && this.createdCount >= this.maxCount))) {
-                    dispatchQueue = this.busyQueues.remove(0);
+                    remove = this.busyQueues.remove(0);
                 } else if (this.queues.isEmpty()) {
-                    dispatchQueue = new DispatchQueue("DispatchQueuePoolThreadSafety" + this.guid + "_" + Utilities.random.nextInt());
-                    dispatchQueue.setPriority(10);
+                    remove = new DispatchQueue("DispatchQueuePoolThreadSafety" + this.guid + "_" + Utilities.random.nextInt());
+                    remove.setPriority(10);
                     this.createdCount = this.createdCount + 1;
                 } else {
-                    dispatchQueue = this.queues.remove(0);
+                    remove = this.queues.remove(0);
                 }
                 if (!this.cleanupScheduled) {
                     Utilities.globalQueue.postRunnable(this.cleanupRunnable, 30000L);
                     this.cleanupScheduled = true;
                 }
                 this.totalTasksCount++;
-                this.busyQueues.add(dispatchQueue);
-                this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
-                dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda2
+                this.busyQueues.add(remove);
+                this.busyQueuesMap.put(remove.index, this.busyQueuesMap.get(remove.index, 0) + 1);
+                remove.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        DispatchQueuePoolBackground.this.lambda$execute$1(runnable, dispatchQueue);
+                        DispatchQueuePoolBackground.this.lambda$execute$1(runnable, remove);
                     }
                 });
             }
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
         runnable.run();
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda3
@@ -99,6 +100,7 @@ public class DispatchQueuePoolBackground {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$execute$0(DispatchQueue dispatchQueue) {
         this.totalTasksCount--;
         int i = this.busyQueuesMap.get(dispatchQueue.index) - 1;
@@ -127,6 +129,7 @@ public class DispatchQueuePoolBackground {
         updateTaskCollection.add(runnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void finishCollectUpdateRunnables() {
         ArrayList<Runnable> arrayList = updateTaskCollection;
         if (arrayList == null || arrayList.isEmpty()) {
@@ -146,6 +149,7 @@ public class DispatchQueuePoolBackground {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$finishCollectUpdateRunnables$3(final ArrayList arrayList) {
         backgroundQueue.execute(arrayList);
         arrayList.clear();
@@ -157,6 +161,7 @@ public class DispatchQueuePoolBackground {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$finishCollectUpdateRunnables$2(ArrayList arrayList) {
         freeCollections.add(arrayList);
     }

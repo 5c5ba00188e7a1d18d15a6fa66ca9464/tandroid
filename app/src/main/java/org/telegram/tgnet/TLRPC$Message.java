@@ -2792,18 +2792,18 @@ public abstract class TLRPC$Message extends TLObject {
         throw new RuntimeException(String.format("can't parse magic %x in Message", Integer.valueOf(i)));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x005d, code lost:
-        if (r9 == r13) goto L40;
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x005d, code lost:
+        if (r9 == r13) goto L92;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0067, code lost:
-        if (r11.send_state != 3) goto L45;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x006b, code lost:
+        if (r11.legacy != false) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x006b, code lost:
-        if (r11.legacy != false) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x0067, code lost:
+        if (r11.send_state != 3) goto L37;
      */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0063  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2894,6 +2894,7 @@ public abstract class TLRPC$Message extends TLObject {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void writeAttachPath(AbstractSerializedData abstractSerializedData) {
         HashMap<String, String> hashMap;
         HashMap<String, String> hashMap2;

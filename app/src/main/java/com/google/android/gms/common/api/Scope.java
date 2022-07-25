@@ -15,6 +15,7 @@ public final class Scope extends AbstractSafeParcelable implements ReflectedParc
     private final int zza;
     private final String zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Scope(int i, String str) {
         Preconditions.checkNotEmpty(str, "scopeUri must not be null or empty");
         this.zza = i;

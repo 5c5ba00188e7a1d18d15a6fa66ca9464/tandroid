@@ -38,6 +38,7 @@ public final class zze extends AbstractSafeParcelable {
         this.zzz = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zze(zzr zzrVar, byte[] bArr, int[] iArr, String[] strArr, int[] iArr2, byte[][] bArr2, boolean z, ExperimentTokens[] experimentTokensArr) {
         this.zzag = zzrVar;
         this.zzah = bArr;

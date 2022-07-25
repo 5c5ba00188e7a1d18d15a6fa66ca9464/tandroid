@@ -2,15 +2,24 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class U1 extends T1 implements p1 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public U1(long j) {
         super(j);
     }
 
     @Override // j$.util.stream.p1, j$.util.stream.s1
     /* renamed from: a */
-    public u1 mo70a() {
+    public /* bridge */ /* synthetic */ A1 mo315a() {
+        mo315a();
+        return this;
+    }
+
+    @Override // j$.util.stream.p1, j$.util.stream.s1
+    /* renamed from: a  reason: collision with other method in class */
+    public u1 mo315a() {
         if (this.b >= this.a.length) {
             return this;
         }
@@ -52,6 +61,7 @@ public final class U1 extends T1 implements p1 {
         return new j$.util.function.e(this, fVar);
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: l */
     public /* synthetic */ void accept(Double d) {
         o1.a(this, d);

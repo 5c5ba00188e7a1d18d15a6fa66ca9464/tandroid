@@ -35,10 +35,10 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
     private Handler mConnectTimeoutHandler = null;
     private Handler selfDestroyHandler = null;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class a implements Handler.Callback {
         a() {
-            BindingFailedResolution.this = r1;
         }
 
         @Override // android.os.Handler.Callback
@@ -51,10 +51,10 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class b implements Handler.Callback {
         b() {
-            BindingFailedResolution.this = r1;
         }
 
         @Override // android.os.Handler.Callback
@@ -68,10 +68,10 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class c implements AbstractDialog.Callback {
         c() {
-            BindingFailedResolution.this = r1;
         }
 
         @Override // com.huawei.hms.ui.AbstractDialog.Callback
@@ -89,6 +89,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class d extends AbstractPromptDialog {
         private d() {
@@ -140,6 +141,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void finishBridgeActivity(int i) {
         Activity activity = getActivity();
         if (activity == null || activity.isFinishing()) {
@@ -153,6 +155,7 @@ public class BindingFailedResolution implements IBridgeActivityDelegate, Service
         activity.finish();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void fireStartResult(boolean z) {
         if (this.isStarting) {
             this.isStarting = false;

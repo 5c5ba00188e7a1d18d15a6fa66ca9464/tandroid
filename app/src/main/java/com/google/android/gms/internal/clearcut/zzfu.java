@@ -16,6 +16,7 @@ public class zzfu<M extends zzfu<M>> extends zzfz {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzfz
     public int zzen() {
         if (this.zzrj != null) {
@@ -26,6 +27,7 @@ public class zzfu<M extends zzfu<M>> extends zzfz {
         return 0;
     }
 
+    @Override // com.google.android.gms.internal.clearcut.zzfz
     /* renamed from: zzeo */
     public M clone() throws CloneNotSupportedException {
         M m = (M) super.clone();

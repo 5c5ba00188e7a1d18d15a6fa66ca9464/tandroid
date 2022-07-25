@@ -242,6 +242,7 @@ public class StorageDiagramView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void update(boolean z) {
         final ClearViewData[] clearViewDataArr = this.data;
         if (clearViewDataArr == null) {
@@ -323,6 +324,7 @@ public class StorageDiagramView extends View {
         this.valueAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$update$0(ClearViewData[] clearViewDataArr, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         for (int i = 0; i < clearViewDataArr.length; i++) {
@@ -331,6 +333,7 @@ public class StorageDiagramView extends View {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateDescription() {
         if (this.data == null) {
             return;

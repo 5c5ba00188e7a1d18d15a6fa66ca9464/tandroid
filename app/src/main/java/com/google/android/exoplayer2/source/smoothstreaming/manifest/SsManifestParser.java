@@ -39,8 +39,10 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         }
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-    public SsManifest parse(Uri uri, InputStream inputStream) throws IOException {
+    /* renamed from: parse */
+    public SsManifest mo164parse(Uri uri, InputStream inputStream) throws IOException {
         try {
             XmlPullParser newPullParser = this.xmlParserFactory.newPullParser();
             newPullParser.setInput(inputStream, null);
@@ -57,6 +59,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static abstract class ElementParser {
         private final String baseUri;
@@ -227,6 +230,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class SmoothStreamingMediaParser extends ElementParser {
         private long duration;
@@ -289,6 +293,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ProtectionParser extends ElementParser {
         private boolean inProtectionHeader;
@@ -361,6 +366,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class StreamIndexParser extends ElementParser {
         private final String baseUri;
@@ -486,6 +492,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class QualityLevelParser extends ElementParser {
         private Format format;

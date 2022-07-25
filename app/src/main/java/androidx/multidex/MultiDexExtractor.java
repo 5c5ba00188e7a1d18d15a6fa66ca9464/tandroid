@@ -29,6 +29,7 @@ final class MultiDexExtractor implements Closeable {
     private final File sourceApk;
     private final long sourceCrc;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ExtractedDex extends File {
         public long crc = -1;
@@ -38,8 +39,8 @@ final class MultiDexExtractor implements Closeable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public MultiDexExtractor(File file, File file2) throws IOException {
-        Throwable e;
         Log.i("MultiDex", "MultiDexExtractor(" + file.getPath() + ", " + file2.getPath() + ")");
         this.sourceApk = file;
         this.dexDir = file2;
@@ -54,28 +55,29 @@ final class MultiDexExtractor implements Closeable {
                 Log.i("MultiDex", "Blocking on lock " + file3.getPath());
                 this.cacheLock = channel.lock();
                 Log.i("MultiDex", file3.getPath() + " locked");
-            } catch (IOException e2) {
+            } catch (IOException e) {
+                e = e;
+                closeQuietly(this.lockChannel);
+                throw e;
+            } catch (Error e2) {
                 e = e2;
                 closeQuietly(this.lockChannel);
                 throw e;
-            } catch (Error e3) {
+            } catch (RuntimeException e3) {
                 e = e3;
                 closeQuietly(this.lockChannel);
                 throw e;
-            } catch (RuntimeException e4) {
-                e = e4;
-                closeQuietly(this.lockChannel);
-                throw e;
             }
-        } catch (IOException | Error | RuntimeException e5) {
+        } catch (IOException | Error | RuntimeException e4) {
             closeQuietly(this.lockRaf);
-            throw e5;
+            throw e4;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public List<? extends File> load(Context context, String str, boolean z) throws IOException {
+        List<ExtractedDex> performExtractions;
         List<ExtractedDex> list;
-        List<ExtractedDex> list2;
         Log.i("MultiDex", "MultiDexExtractor.load(" + this.sourceApk.getPath() + ", " + z + ", " + str + ")");
         if (!this.cacheLock.isValid()) {
             throw new IllegalStateException("MultiDexExtractor was closed");
@@ -85,8 +87,8 @@ final class MultiDexExtractor implements Closeable {
                 list = loadExistingExtractions(context, str);
             } catch (IOException e) {
                 Log.w("MultiDex", "Failed to reload existing extracted secondary dex files, falling back to fresh extraction", e);
-                list2 = performExtractions();
-                putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, list2);
+                performExtractions = performExtractions();
+                putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, performExtractions);
             }
             Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
             return list;
@@ -96,9 +98,9 @@ final class MultiDexExtractor implements Closeable {
         } else {
             Log.i("MultiDex", "Detected that extraction must be performed.");
         }
-        list2 = performExtractions();
-        putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, list2);
-        list = list2;
+        performExtractions = performExtractions();
+        putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, performExtractions);
+        list = performExtractions;
         Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
         return list;
     }

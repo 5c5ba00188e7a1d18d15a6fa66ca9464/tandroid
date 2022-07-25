@@ -418,8 +418,8 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0077  */
-    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0077  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

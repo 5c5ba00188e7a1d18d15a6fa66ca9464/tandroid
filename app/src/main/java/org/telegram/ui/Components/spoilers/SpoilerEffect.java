@@ -84,6 +84,7 @@ public class SpoilerEffect extends Drawable {
     private int mAlpha = 255;
     private TimeInterpolator rippleInterpolator = SpoilerEffect$$ExternalSyntheticLambda0.INSTANCE;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ float lambda$new$0(float f) {
         return f;
     }
@@ -198,6 +199,7 @@ public class SpoilerEffect extends Drawable {
         invalidateSelf();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startRipple$1(int i, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.rippleProgress = floatValue;
@@ -515,12 +517,12 @@ public class SpoilerEffect extends Drawable {
     public static void addSpoilers(View view, Layout layout, Spanned spanned, Stack<SpoilerEffect> stack, List<SpoilerEffect> list) {
         int i;
         int i2;
-        int i3;
         TextStyleSpan[] textStyleSpanArr;
+        int i3;
         int i4;
-        int i5;
         float f;
         float f2;
+        int i5;
         int i6 = 0;
         while (i6 < layout.getLineCount()) {
             float lineLeft = layout.getLineLeft(i6);
@@ -540,41 +542,41 @@ public class SpoilerEffect extends Drawable {
                     int max = Math.max(lineStart, spanStart);
                     int min = Math.min(lineEnd, spanEnd);
                     if (min - max != 0) {
-                        i5 = i7;
-                        i4 = length;
+                        i = i7;
+                        i2 = length;
                         textStyleSpanArr = textStyleSpanArr2;
                         i3 = lineEnd;
-                        i2 = lineStart;
-                        f2 = lineBottom;
-                        f = lineTop;
-                        i = i6;
+                        i4 = lineStart;
+                        f = lineBottom;
+                        f2 = lineTop;
+                        i5 = i6;
                         addSpoilersInternal(view, spanned, layout, lineStart, lineEnd, lineLeft, lineTop, lineRight, lineBottom, max, min, stack, list);
-                        i7 = i5 + 1;
-                        lineBottom = f2;
-                        lineTop = f;
-                        length = i4;
+                        i7 = i + 1;
+                        lineBottom = f;
+                        lineTop = f2;
+                        length = i2;
                         textStyleSpanArr2 = textStyleSpanArr;
                         lineEnd = i3;
-                        lineStart = i2;
-                        i6 = i;
+                        lineStart = i4;
+                        i6 = i5;
                     }
                 }
-                i5 = i7;
-                i4 = length;
+                i = i7;
+                i2 = length;
                 textStyleSpanArr = textStyleSpanArr2;
                 i3 = lineEnd;
-                i2 = lineStart;
-                f2 = lineBottom;
-                f = lineTop;
-                i = i6;
-                i7 = i5 + 1;
-                lineBottom = f2;
-                lineTop = f;
-                length = i4;
+                i4 = lineStart;
+                f = lineBottom;
+                f2 = lineTop;
+                i5 = i6;
+                i7 = i + 1;
+                lineBottom = f;
+                lineTop = f2;
+                length = i2;
                 textStyleSpanArr2 = textStyleSpanArr;
                 lineEnd = i3;
-                lineStart = i2;
-                i6 = i;
+                lineStart = i4;
+                i6 = i5;
             }
             i6++;
         }
@@ -655,8 +657,8 @@ public class SpoilerEffect extends Drawable {
 
     @SuppressLint({"WrongConstant"})
     public static void renderWithRipple(View view, boolean z, int i, int i2, AtomicReference<Layout> atomicReference, Layout layout, List<SpoilerEffect> list, Canvas canvas, boolean z2) {
-        int i3;
         TextStyleSpan[] textStyleSpanArr;
+        int i3;
         if (list.isEmpty()) {
             layout.draw(canvas);
             return;
@@ -684,7 +686,7 @@ public class SpoilerEffect extends Drawable {
 
                                 @Override // android.text.style.ReplacementSpan
                                 public int getSize(Paint paint, CharSequence charSequence, int i6, int i7, Paint.FontMetricsInt fontMetricsInt) {
-                                    return emojiSpan.getSize(paint, charSequence, i6, i7, fontMetricsInt);
+                                    return Emoji.EmojiSpan.this.getSize(paint, charSequence, i6, i7, fontMetricsInt);
                                 }
                             }, spannable.getSpanStart(emojiSpan), spannable.getSpanEnd(emojiSpan), spannable.getSpanFlags(textStyleSpan));
                             spannableStringBuilder.removeSpan(emojiSpan);
@@ -778,6 +780,7 @@ public class SpoilerEffect extends Drawable {
         canvas.restore();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class Particle {
         private int alpha;

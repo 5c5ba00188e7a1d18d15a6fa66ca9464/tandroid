@@ -5,15 +5,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import com.microsoft.appcenter.distribute.ReleaseDetails;
 import com.microsoft.appcenter.utils.AppCenterLog;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DownloadManagerRequestTask extends AsyncTask<Void, Void, Void> {
+class DownloadManagerRequestTask extends AsyncTask<Void, Void, Void> {
     private final DownloadManagerReleaseDownloader mDownloader;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DownloadManagerRequestTask(DownloadManagerReleaseDownloader downloadManagerReleaseDownloader) {
         this.mDownloader = downloadManagerReleaseDownloader;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Void doInBackground(Void... voidArr) {
         ReleaseDetails releaseDetails = this.mDownloader.getReleaseDetails();
         Uri downloadUrl = releaseDetails.getDownloadUrl();

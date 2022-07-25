@@ -179,7 +179,7 @@ public final class ColorParser {
     }
 
     private static int parseColorInternal(String str, boolean z) {
-        int i;
+        int parseInt;
         Assertions.checkArgument(!TextUtils.isEmpty(str));
         String replace = str.replace(" ", "");
         if (replace.charAt(0) == '#') {
@@ -196,11 +196,11 @@ public final class ColorParser {
             Matcher matcher = (z ? RGBA_PATTERN_FLOAT_ALPHA : RGBA_PATTERN_INT_ALPHA).matcher(replace);
             if (matcher.matches()) {
                 if (z) {
-                    i = (int) (Float.parseFloat(matcher.group(4)) * 255.0f);
+                    parseInt = (int) (Float.parseFloat(matcher.group(4)) * 255.0f);
                 } else {
-                    i = Integer.parseInt(matcher.group(4), 10);
+                    parseInt = Integer.parseInt(matcher.group(4), 10);
                 }
-                return argb(i, Integer.parseInt(matcher.group(1), 10), Integer.parseInt(matcher.group(2), 10), Integer.parseInt(matcher.group(3), 10));
+                return argb(parseInt, Integer.parseInt(matcher.group(1), 10), Integer.parseInt(matcher.group(2), 10), Integer.parseInt(matcher.group(3), 10));
             }
         } else if (replace.startsWith("rgb")) {
             Matcher matcher2 = RGB_PATTERN.matcher(replace);

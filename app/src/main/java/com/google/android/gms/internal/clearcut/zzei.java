@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
     private boolean zzgu;
@@ -27,6 +28,7 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         this.zzop = Collections.emptyMap();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzei(int i, zzej zzejVar) {
         this(i);
     }
@@ -57,10 +59,12 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return -(i + 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <FieldDescriptorType extends zzca<FieldDescriptorType>> zzei<FieldDescriptorType, Object> zzaj(int i) {
         return new zzej(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final V zzal(int i) {
         zzdu();
         V v = (V) this.zzom.remove(i).getValue();
@@ -72,6 +76,7 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return v;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzdu() {
         if (!this.zzgu) {
             return;
@@ -227,6 +232,7 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return this.zzon.isEmpty() ? zzem.zzdx() : this.zzon.entrySet();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final Set<Map.Entry<K, V>> zzdt() {
         if (this.zzoq == null) {
             this.zzoq = new zzel(this, null);

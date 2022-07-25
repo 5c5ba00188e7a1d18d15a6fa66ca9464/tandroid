@@ -54,6 +54,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         void didAddToContacts();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -273,6 +274,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             this.lastNameField.requestFocus();
@@ -283,6 +285,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 6) {
             this.doneButton.performClick();
@@ -291,6 +294,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         CheckBoxCell checkBoxCell = this.checkBoxCell;
         checkBoxCell.setChecked(!checkBoxCell.isChecked(), true);
@@ -403,6 +407,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$4() {
         TLRPC$User user;
         if (this.avatarImage == null || (user = getMessagesController().getUser(Long.valueOf(this.user_id))) == null) {

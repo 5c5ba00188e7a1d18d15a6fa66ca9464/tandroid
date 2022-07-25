@@ -18,6 +18,7 @@ final class A3 extends d {
         this.m = a3.m;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public A3(c cVar, y2 y2Var, j$.util.u uVar, j$.util.function.m mVar, long j, long j2) {
         super(y2Var, uVar);
         this.j = cVar;
@@ -39,6 +40,7 @@ final class A3 extends d {
         return m >= j ? m : m + a32.m(j);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public Object a() {
         long j = -1;
@@ -50,18 +52,19 @@ final class A3 extends d {
             m3 H0 = this.j.H0(this.a.s0(), t0);
             y2 y2Var = this.a;
             y2Var.o0(y2Var.v0(H0), this.b);
-            return t0.mo70a();
+            return t0.mo315a();
         }
         y2 y2Var2 = this.a;
         s1 t02 = y2Var2.t0(-1L, this.k);
         y2Var2.u0(t02, this.b);
-        A1 mo70a = t02.mo70a();
-        this.n = mo70a.count();
+        A1 mo315a = t02.mo315a();
+        this.n = mo315a.count();
         this.o = true;
         this.b = null;
-        return mo70a;
+        return mo315a;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public f f(j$.util.u uVar) {
         return new A3(this, uVar);
@@ -75,12 +78,14 @@ final class A3 extends d {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.d
     /* renamed from: n */
     public final A1 k() {
         return x2.k(this.j.B0());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0065  */
     @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
     /*
         Code decompiled incorrectly, please refer to instructions dump.

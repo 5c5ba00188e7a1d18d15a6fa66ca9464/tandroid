@@ -274,10 +274,12 @@ public class SampleQueue implements TrackOutput {
         commitSample(j2, i, (this.sampleDataQueue.getTotalBytesWritten() - i2) - i3, i2, cryptoData);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void invalidateUpstreamFormatAdjustment() {
         this.pendingUpstreamFormatAdjustment = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Format getAdjustedUpstreamFormat(Format format) {
         long j = this.sampleOffsetUs;
         if (j != 0) {
@@ -516,7 +518,7 @@ public class SampleQueue implements TrackOutput {
     }
 
     private void onFormatResult(Format format, FormatHolder formatHolder) {
-        DrmSession<?> drmSession;
+        DrmSession<?> acquirePlaceholderSession;
         formatHolder.format = format;
         Format format2 = this.downstreamFormat;
         boolean z = format2 == null;
@@ -531,18 +533,18 @@ public class SampleQueue implements TrackOutput {
         if (!z && Util.areEqual(drmInitData, drmInitData2)) {
             return;
         }
-        DrmSession<?> drmSession2 = this.currentDrmSession;
+        DrmSession<?> drmSession = this.currentDrmSession;
         if (drmInitData2 != null) {
-            drmSession = this.drmSessionManager.acquireSession(this.playbackLooper, drmInitData2);
+            acquirePlaceholderSession = this.drmSessionManager.acquireSession(this.playbackLooper, drmInitData2);
         } else {
-            drmSession = this.drmSessionManager.acquirePlaceholderSession(this.playbackLooper, MimeTypes.getTrackType(format.sampleMimeType));
+            acquirePlaceholderSession = this.drmSessionManager.acquirePlaceholderSession(this.playbackLooper, MimeTypes.getTrackType(format.sampleMimeType));
         }
-        this.currentDrmSession = drmSession;
-        formatHolder.drmSession = drmSession;
-        if (drmSession2 == null) {
+        this.currentDrmSession = acquirePlaceholderSession;
+        formatHolder.drmSession = acquirePlaceholderSession;
+        if (drmSession == null) {
             return;
         }
-        drmSession2.release();
+        drmSession.release();
     }
 
     private boolean mayReadSample(int i) {
@@ -619,6 +621,7 @@ public class SampleQueue implements TrackOutput {
         return i2 < i3 ? i2 : i2 - i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class SampleExtrasHolder {
         public TrackOutput.CryptoData cryptoData;

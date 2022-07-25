@@ -15,8 +15,8 @@ import java.io.InputStream;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class AGCUtils {
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0069 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x0069 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x006a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

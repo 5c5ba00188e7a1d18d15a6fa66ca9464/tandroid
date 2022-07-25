@@ -4,7 +4,7 @@ import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
 /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
-/* renamed from: com.google.android.gms.internal.auth-api.zbc */
+/* renamed from: com.google.android.gms.internal.auth-api.zbc  reason: invalid package */
 /* loaded from: classes.dex */
 public final class zbc {
     static {

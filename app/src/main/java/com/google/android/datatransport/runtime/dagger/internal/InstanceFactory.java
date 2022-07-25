@@ -18,7 +18,8 @@ public final class InstanceFactory<T> implements Factory<T>, Lazy<T> {
     }
 
     @Override // javax.inject.Provider
-    public T get() {
+    /* renamed from: get */
+    public T mo70get() {
         return this.instance;
     }
 }

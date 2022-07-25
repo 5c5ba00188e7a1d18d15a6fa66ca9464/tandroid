@@ -43,6 +43,7 @@ public class InitReport {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void submitAllEvents() {
         try {
             for (Runnable runnable : eventsToReport) {

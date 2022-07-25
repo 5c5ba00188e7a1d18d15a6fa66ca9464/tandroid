@@ -67,12 +67,14 @@ public class LanguageDetector {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$detectLanguage$0(StringCallback stringCallback, String str) {
         if (stringCallback != null) {
             stringCallback.run(str);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$detectLanguage$1(ExceptionCallback exceptionCallback, Exception exc) {
         if (exceptionCallback != null) {
             exceptionCallback.run(exc);

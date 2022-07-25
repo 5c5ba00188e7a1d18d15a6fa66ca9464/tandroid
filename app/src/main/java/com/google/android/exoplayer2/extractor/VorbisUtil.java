@@ -311,6 +311,7 @@ public final class VorbisUtil {
         return (long) Math.floor(Math.pow(j, 1.0d / d));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CodeBook {
         public CodeBook(int i, int i2, long[] jArr, int i3, boolean z) {

@@ -238,6 +238,7 @@ public class LegendSignatureView extends FrameLayout {
         this.useWeek = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class Holder {
         TextView percentage;

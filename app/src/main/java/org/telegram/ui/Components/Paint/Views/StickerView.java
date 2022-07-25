@@ -35,12 +35,11 @@ public class StickerView extends EntityView {
     protected void didSetAnimatedSticker(RLottieDrawable rLottieDrawable) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class FrameLayoutDrawer extends FrameLayout {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public FrameLayoutDrawer(Context context) {
             super(context);
-            StickerView.this = r1;
             setWillNotDraw(false);
         }
 
@@ -96,6 +95,7 @@ public class StickerView extends EntityView {
         updatePosition();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         RLottieDrawable lottieAnimation;
         if (!z || z2 || (lottieAnimation = imageReceiver.getLottieAnimation()) == null) {
@@ -136,6 +136,7 @@ public class StickerView extends EntityView {
         return this.mirrored;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     public void updatePosition() {
         Size size = this.baseSize;
@@ -188,7 +189,8 @@ public class StickerView extends EntityView {
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected EntityView.SelectionView createSelectionView() {
+    /* renamed from: createSelectionView */
+    protected EntityView.SelectionView mo1526createSelectionView() {
         return new StickerViewSelectionView(this, getContext());
     }
 

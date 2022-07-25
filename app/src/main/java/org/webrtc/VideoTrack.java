@@ -48,6 +48,7 @@ public class VideoTrack extends MediaStreamTrack {
         super.dispose();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getNativeVideoTrack() {
         return getNativeMediaStreamTrack();
     }

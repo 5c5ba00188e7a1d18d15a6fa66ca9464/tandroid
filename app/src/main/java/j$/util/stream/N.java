@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Function;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class N extends c1 {
     public final /* synthetic */ int l = 1;
@@ -12,6 +13,7 @@ public class N extends c1 {
         this.m = hVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
         switch (this.l) {

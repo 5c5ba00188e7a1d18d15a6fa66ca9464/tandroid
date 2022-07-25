@@ -116,22 +116,26 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(String str) {
         str.getClass();
         this.zzc |= 1;
         this.zzd = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(long j) {
         this.zzc |= 16;
         this.zzi = j;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(long j) {
         this.zzc |= 32;
         this.zzj = j;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(Iterable<? extends zzfi$zzn> iterable) {
         zzjl<zzfi$zzn> zzjlVar = this.zzk;
         if (!zzjlVar.zza()) {
@@ -144,6 +148,7 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
         return zzl.zzj();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zzf>, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {

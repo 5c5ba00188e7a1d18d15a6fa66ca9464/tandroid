@@ -90,21 +90,25 @@ public class AutoDeletePopupWrapper {
         this.windowLayout.addView((View) textView, LayoutHelper.createLinear(-1, -2));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(RemoteMessageConst.DEFAULT_TTL, 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(604800, 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(2678400, 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(Context context, Theme.ResourcesProvider resourcesProvider, final Callback callback, View view) {
         dismiss();
         AlertsCreator.createAutoDeleteDatePickerDialog(context, resourcesProvider, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.AutoDeletePopupWrapper$$ExternalSyntheticLambda7
@@ -115,10 +119,12 @@ public class AutoDeletePopupWrapper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$4(Callback callback, boolean z, int i) {
         callback.setAutoDeleteHistory(i * 60, i == 0 ? 71 : 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(0, 71);

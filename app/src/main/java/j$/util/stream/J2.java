@@ -8,6 +8,7 @@ class J2 extends T2 implements S2 {
     final /* synthetic */ BiConsumer c;
     final /* synthetic */ j$.util.function.b d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public J2(j$.util.function.y yVar, BiConsumer biConsumer, j$.util.function.b bVar) {
         this.b = yVar;
         this.c = biConsumer;

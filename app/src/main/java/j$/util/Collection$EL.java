@@ -20,7 +20,7 @@ public final /* synthetic */ class Collection$EL {
 
     public static u b(Collection collection) {
         if (collection instanceof b) {
-            return ((b) collection).mo71spliterator();
+            return ((b) collection).mo317spliterator();
         }
         if (collection instanceof LinkedHashSet) {
             LinkedHashSet linkedHashSet = (LinkedHashSet) collection;

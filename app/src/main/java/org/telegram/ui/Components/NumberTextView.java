@@ -69,19 +69,19 @@ public class NumberTextView extends View {
     /* JADX WARN: Code restructure failed: missing block: B:13:0x004e, code lost:
         r7 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0050, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x0050, code lost:
         r7 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0072, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x0072, code lost:
         if (r22 > r21.currentNumber) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setNumber(int i, boolean z) {
+        String format;
+        String format2;
         boolean z2;
-        String str;
-        String str2;
         if (this.currentNumber != i || !z) {
             ObjectAnimator objectAnimator = this.animator;
             if (objectAnimator != null) {
@@ -93,24 +93,24 @@ public class NumberTextView extends View {
             this.letters.clear();
             if (this.addNumber) {
                 Locale locale = Locale.US;
-                str = String.format(locale, "#%d", Integer.valueOf(this.currentNumber));
-                str2 = String.format(locale, "#%d", Integer.valueOf(i));
+                format = String.format(locale, "#%d", Integer.valueOf(this.currentNumber));
+                format2 = String.format(locale, "#%d", Integer.valueOf(i));
             } else {
                 Locale locale2 = Locale.US;
-                str = String.format(locale2, "%d", Integer.valueOf(this.currentNumber));
-                str2 = String.format(locale2, "%d", Integer.valueOf(i));
+                format = String.format(locale2, "%d", Integer.valueOf(this.currentNumber));
+                format2 = String.format(locale2, "%d", Integer.valueOf(i));
             }
-            this.textWidth = this.textPaint.measureText(str2);
-            float measureText = this.textPaint.measureText(str);
+            this.textWidth = this.textPaint.measureText(format2);
+            float measureText = this.textPaint.measureText(format);
             this.oldTextWidth = measureText;
             boolean z3 = this.center && this.textWidth != measureText;
             this.currentNumber = i;
             this.progress = 0.0f;
             int i2 = 0;
-            while (i2 < str2.length()) {
+            while (i2 < format2.length()) {
                 int i3 = i2 + 1;
-                String substring = str2.substring(i2, i3);
-                String substring2 = (this.oldLetters.isEmpty() || i2 >= str.length()) ? null : str.substring(i2, i3);
+                String substring = format2.substring(i2, i3);
+                String substring2 = (this.oldLetters.isEmpty() || i2 >= format.length()) ? null : format.substring(i2, i3);
                 if (!z3 && substring2 != null && substring2.equals(substring)) {
                     this.letters.add(this.oldLetters.get(i2));
                     this.oldLetters.set(i2, null);
@@ -181,14 +181,14 @@ public class NumberTextView extends View {
         float height = this.letters.get(0).getHeight();
         float dp = this.addNumber ? AndroidUtilities.dp(4.0f) : height;
         if (this.center) {
-            f2 = (getMeasuredWidth() - this.textWidth) / 2.0f;
-            f = ((getMeasuredWidth() - this.oldTextWidth) / 2.0f) - f2;
+            f = (getMeasuredWidth() - this.textWidth) / 2.0f;
+            f2 = ((getMeasuredWidth() - this.oldTextWidth) / 2.0f) - f;
         } else {
-            f2 = 0.0f;
             f = 0.0f;
+            f2 = 0.0f;
         }
         canvas.save();
-        canvas.translate(getPaddingLeft() + f2, (getMeasuredHeight() - height) / 2.0f);
+        canvas.translate(getPaddingLeft() + f, (getMeasuredHeight() - height) / 2.0f);
         int max = Math.max(this.letters.size(), this.oldLetters.size());
         int i = 0;
         while (i < max) {
@@ -203,7 +203,7 @@ public class NumberTextView extends View {
                 if (staticLayout2 != null) {
                     this.textPaint.setAlpha((int) (f3 * 255.0f));
                     canvas.save();
-                    canvas.translate(f, (this.progress - 1.0f) * dp);
+                    canvas.translate(f2, (this.progress - 1.0f) * dp);
                     staticLayout2.draw(canvas);
                     canvas.restore();
                     if (staticLayout != null) {
@@ -217,7 +217,7 @@ public class NumberTextView extends View {
                 if (staticLayout2 != null) {
                     this.textPaint.setAlpha((int) ((-f3) * 255.0f));
                     canvas.save();
-                    canvas.translate(f, (this.progress + 1.0f) * dp);
+                    canvas.translate(f2, (this.progress + 1.0f) * dp);
                     staticLayout2.draw(canvas);
                     canvas.restore();
                 }
@@ -238,7 +238,7 @@ public class NumberTextView extends View {
             canvas.restore();
             canvas.translate(staticLayout != null ? staticLayout.getLineWidth(0) : staticLayout2.getLineWidth(0) + AndroidUtilities.dp(1.0f), 0.0f);
             if (staticLayout != null && staticLayout2 != null) {
-                f += staticLayout2.getLineWidth(0) - staticLayout.getLineWidth(0);
+                f2 += staticLayout2.getLineWidth(0) - staticLayout.getLineWidth(0);
             }
             i++;
         }

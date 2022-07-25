@@ -163,6 +163,7 @@ public class ContextCompat {
         return LegacyServiceMapHolder.SERVICES.get(serviceClass);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class LegacyServiceMapHolder {
         static final HashMap<Class<?>, String> SERVICES;
@@ -237,9 +238,8 @@ public class ContextCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static void startActivities(Context obj, Intent[] intents, Bundle options) {
             obj.startActivities(intents, options);
         }
@@ -249,9 +249,8 @@ public class ContextCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class Api19Impl {
+    static class Api19Impl {
         static File[] getExternalCacheDirs(Context obj) {
             return obj.getExternalCacheDirs();
         }
@@ -265,9 +264,8 @@ public class ContextCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static Drawable getDrawable(Context obj, int id) {
             return obj.getDrawable(id);
         }
@@ -281,6 +279,7 @@ public class ContextCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static ColorStateList getColorStateList(Context obj, int id) {
@@ -300,9 +299,8 @@ public class ContextCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static File getDataDir(Context obj) {
             return obj.getDataDir();
         }

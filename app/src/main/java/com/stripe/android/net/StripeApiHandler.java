@@ -95,23 +95,22 @@ public class StripeApiHandler {
 
     private static HttpURLConnection createPostConnection(String str, String str2, RequestOptions requestOptions) throws IOException {
         OutputStream outputStream;
-        Throwable th;
         HttpURLConnection createStripeConnection = createStripeConnection(str, requestOptions);
         createStripeConnection.setDoOutput(true);
         createStripeConnection.setRequestMethod("POST");
         createStripeConnection.setRequestProperty("Content-Type", String.format("application/x-www-form-urlencoded;charset=%s", "UTF-8"));
         try {
             outputStream = createStripeConnection.getOutputStream();
-        } catch (Throwable th2) {
-            th = th2;
+        } catch (Throwable th) {
+            th = th;
             outputStream = null;
         }
         try {
             outputStream.write(str2.getBytes("UTF-8"));
             outputStream.close();
             return createStripeConnection;
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             if (outputStream != null) {
                 outputStream.close();
             }
@@ -133,8 +132,8 @@ public class StripeApiHandler {
         return httpURLConnection;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -292,20 +291,20 @@ public class StripeApiHandler {
         return URLEncoder.encode(str, "UTF-8");
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0028, code lost:
-        if (r0 != 1) goto L17;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0028, code lost:
+        if (r0 != 1) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x002a, code lost:
         r6 = createPostConnection(r7, r8, r9);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x003e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x003e, code lost:
         throw new com.stripe.android.exception.APIConnectionException(java.lang.String.format("Unrecognized HTTP method %s. This indicates a bug in the Stripe bindings. Please contact support@stripe.com for assistance.", r6));
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static StripeResponse makeURLConnectionRequest(String str, String str2, String str3, RequestOptions requestOptions) throws APIConnectionException {
-        String str4;
+        String responseBody;
         char c = 65535;
         HttpURLConnection httpURLConnection = null;
         try {
@@ -318,16 +317,16 @@ public class StripeApiHandler {
                 } else if (str.equals("GET")) {
                     c = 0;
                 }
-                HttpURLConnection httpURLConnection2 = createGetConnection(str2, str3, requestOptions);
-                HttpURLConnection httpURLConnection3 = httpURLConnection2;
-                int responseCode = httpURLConnection3.getResponseCode();
+                HttpURLConnection createGetConnection = createGetConnection(str2, str3, requestOptions);
+                HttpURLConnection httpURLConnection2 = createGetConnection;
+                int responseCode = httpURLConnection2.getResponseCode();
                 if (responseCode >= 200 && responseCode < 300) {
-                    str4 = getResponseBody(httpURLConnection3.getInputStream());
+                    responseBody = getResponseBody(httpURLConnection2.getInputStream());
                 } else {
-                    str4 = getResponseBody(httpURLConnection3.getErrorStream());
+                    responseBody = getResponseBody(httpURLConnection2.getErrorStream());
                 }
-                StripeResponse stripeResponse = new StripeResponse(responseCode, str4, httpURLConnection3.getHeaderFields());
-                httpURLConnection3.disconnect();
+                StripeResponse stripeResponse = new StripeResponse(responseCode, responseBody, httpURLConnection2.getHeaderFields());
+                httpURLConnection2.disconnect();
                 return stripeResponse;
             } catch (IOException e) {
                 throw new APIConnectionException(String.format("IOException during API request to Stripe (%s): %s Please check your internet connection and try again. If this problem persists, you should check Stripe's service status at https://twitter.com/stripestatus, or let us know at support@stripe.com.", getApiUrl(), e.getMessage()), e);
@@ -346,6 +345,7 @@ public class StripeApiHandler {
         return next;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Parameter {
         public final String key;

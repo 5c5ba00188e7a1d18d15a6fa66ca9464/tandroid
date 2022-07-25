@@ -8,6 +8,7 @@ class G2 extends T2 implements S2 {
     final /* synthetic */ BiFunction c;
     final /* synthetic */ j$.util.function.b d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public G2(Object obj, BiFunction biFunction, j$.util.function.b bVar) {
         this.b = obj;
         this.c = biFunction;

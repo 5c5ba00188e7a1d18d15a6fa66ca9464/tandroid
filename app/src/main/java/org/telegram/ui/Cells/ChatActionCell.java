@@ -331,22 +331,22 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     public void setCustomDate(int i, boolean z, boolean z2) {
-        String str;
+        String formatDateChat;
         int i2 = this.customDate;
         if (i2 == i || i2 / 3600 == i / 3600) {
             return;
         }
         if (z) {
-            str = i == 2147483646 ? LocaleController.getString("MessageScheduledUntilOnline", R.string.MessageScheduledUntilOnline) : LocaleController.formatString("MessageScheduledOn", R.string.MessageScheduledOn, LocaleController.formatDateChat(i));
+            formatDateChat = i == 2147483646 ? LocaleController.getString("MessageScheduledUntilOnline", R.string.MessageScheduledUntilOnline) : LocaleController.formatString("MessageScheduledOn", R.string.MessageScheduledOn, LocaleController.formatDateChat(i));
         } else {
-            str = LocaleController.formatDateChat(i);
+            formatDateChat = LocaleController.formatDateChat(i);
         }
         this.customDate = i;
         CharSequence charSequence = this.customText;
-        if (charSequence != null && TextUtils.equals(str, charSequence)) {
+        if (charSequence != null && TextUtils.equals(formatDateChat, charSequence)) {
             return;
         }
-        this.customText = str;
+        this.customText = formatDateChat;
         this.accessibilityText = null;
         updateTextInternal(z2);
     }
@@ -386,8 +386,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setMessageObject(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x026e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -624,9 +624,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:66:0x00e3  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0156  */
-    /* JADX WARN: Removed duplicated region for block: B:94:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00e3  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0156  */
+    /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"ClickableViewAccessibility"})
     /*
@@ -1043,11 +1043,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         Paint paint3;
         int i4;
         float f;
+        float f2;
         int i5;
         int i6;
         int i7;
         int i8;
-        float f2;
         float f3;
         int i9;
         int i10;
@@ -1137,8 +1137,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 int i22 = (i17 == i20 || intValue2 >= i4 || i17 == 0 || intValue2 >= i12) ? i19 : dp5;
                 if (i17 == 0 || intValue2 > i12) {
                     f2 = f4;
-                    i6 = lineCount;
-                    i5 = i12;
+                    i5 = lineCount;
+                    i6 = i12;
                     i7 = measuredWidth;
                     i8 = lineBottom;
                     this.rect.set((f5 - dp4) - dp, dp3, i16 + f5, (dp * 2) + dp3);
@@ -1149,13 +1149,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         i8 = lineBottom;
                         float f6 = i16 + f5;
                         i7 = measuredWidth;
-                        i6 = lineCount;
-                        i5 = i12;
+                        i5 = lineCount;
+                        i6 = i12;
                         this.rect.set(f6, dp3, (i22 * 2) + f6, i10 + dp3);
                         this.backgroundPath.arcTo(this.rect, -90.0f, -90.0f);
                     } else {
-                        i6 = lineCount;
-                        i5 = i12;
+                        i5 = lineCount;
+                        i6 = i12;
                         i7 = measuredWidth;
                         i8 = lineBottom;
                     }
@@ -1168,7 +1168,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     dp3 -= AndroidUtilities.dp(3.0f);
                     i21 -= AndroidUtilities.dp(3.0f);
                 }
-                if (i17 != 0 && intValue2 < i5) {
+                if (i17 != 0 && intValue2 < i6) {
                     dp3 -= AndroidUtilities.dp(f3);
                     i21 -= AndroidUtilities.dp(f3);
                 }
@@ -1188,7 +1188,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 f4 = f2;
                 i18 = i8;
                 measuredWidth = i7;
-                lineCount = i6;
+                lineCount = i5;
             }
             paint = themedPaint;
             int i23 = dp2;

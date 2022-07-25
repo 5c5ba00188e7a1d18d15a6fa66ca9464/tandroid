@@ -156,8 +156,8 @@ public final class FlacStreamMetadata {
     }
 
     public Format getFormat(byte[] bArr, Metadata metadata) {
-        int i;
         Metadata metadata2;
+        int i;
         bArr[4] = Byte.MIN_VALUE;
         int i2 = this.maxFrameSize;
         if (i2 > 0) {

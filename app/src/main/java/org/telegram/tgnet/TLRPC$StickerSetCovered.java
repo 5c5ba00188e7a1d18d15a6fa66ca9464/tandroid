@@ -8,11 +8,11 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
     public TLRPC$StickerSet set;
 
     public static TLRPC$StickerSetCovered TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
+        TLRPC$StickerSetCovered tLRPC$TL_stickerSetFullCovered;
         if (i == 451763941) {
-            tLRPC$StickerSetCovered = new TLRPC$TL_stickerSetFullCovered();
+            tLRPC$TL_stickerSetFullCovered = new TLRPC$TL_stickerSetFullCovered();
         } else if (i == 872932635) {
-            tLRPC$StickerSetCovered = new TLRPC$StickerSetCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetMultiCovered
+            tLRPC$TL_stickerSetFullCovered = new TLRPC$StickerSetCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetMultiCovered
                 public static int constructor = 872932635;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -48,7 +48,7 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
                 }
             };
         } else {
-            tLRPC$StickerSetCovered = i != 1678812626 ? null : new TLRPC$StickerSetCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetCovered
+            tLRPC$TL_stickerSetFullCovered = i != 1678812626 ? null : new TLRPC$StickerSetCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetCovered
                 public static int constructor = 1678812626;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -65,11 +65,11 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
                 }
             };
         }
-        if (tLRPC$StickerSetCovered != null || !z) {
-            if (tLRPC$StickerSetCovered != null) {
-                tLRPC$StickerSetCovered.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_stickerSetFullCovered != null || !z) {
+            if (tLRPC$TL_stickerSetFullCovered != null) {
+                tLRPC$TL_stickerSetFullCovered.readParams(abstractSerializedData, z);
             }
-            return tLRPC$StickerSetCovered;
+            return tLRPC$TL_stickerSetFullCovered;
         }
         throw new RuntimeException(String.format("can't parse magic %x in StickerSetCovered", Integer.valueOf(i)));
     }

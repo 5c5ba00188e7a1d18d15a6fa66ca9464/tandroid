@@ -64,38 +64,40 @@ public class ConfigFetchHandler {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: fetchIfCacheExpiredAndNotThrottled */
     public Task<FetchResponse> lambda$fetch$0(Task<ConfigContainer> task, long j) {
-        Task task2;
+        Task continueWithTask;
         final Date date = new Date(this.clock.currentTimeMillis());
         if (task.isSuccessful() && areCachedFetchConfigsValid(j, date)) {
             return Tasks.forResult(FetchResponse.forLocalStorageUsed(date));
         }
         Date backoffEndTimeInMillis = getBackoffEndTimeInMillis(date);
         if (backoffEndTimeInMillis != null) {
-            task2 = Tasks.forException(new FirebaseRemoteConfigFetchThrottledException(createThrottledMessage(backoffEndTimeInMillis.getTime() - date.getTime()), backoffEndTimeInMillis.getTime()));
+            continueWithTask = Tasks.forException(new FirebaseRemoteConfigFetchThrottledException(createThrottledMessage(backoffEndTimeInMillis.getTime() - date.getTime()), backoffEndTimeInMillis.getTime()));
         } else {
             final Task<String> id = this.firebaseInstallations.getId();
             final Task<InstallationTokenResult> token = this.firebaseInstallations.getToken(false);
-            task2 = Tasks.whenAllComplete(id, token).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda1
+            continueWithTask = Tasks.whenAllComplete(id, token).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda1
                 @Override // com.google.android.gms.tasks.Continuation
-                public final Object then(Task task3) {
+                public final Object then(Task task2) {
                     Task lambda$fetchIfCacheExpiredAndNotThrottled$1;
-                    lambda$fetchIfCacheExpiredAndNotThrottled$1 = ConfigFetchHandler.this.lambda$fetchIfCacheExpiredAndNotThrottled$1(id, token, date, task3);
+                    lambda$fetchIfCacheExpiredAndNotThrottled$1 = ConfigFetchHandler.this.lambda$fetchIfCacheExpiredAndNotThrottled$1(id, token, date, task2);
                     return lambda$fetchIfCacheExpiredAndNotThrottled$1;
                 }
             });
         }
-        return task2.continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda2
+        return continueWithTask.continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda2
             @Override // com.google.android.gms.tasks.Continuation
-            public final Object then(Task task3) {
+            public final Object then(Task task2) {
                 Task lambda$fetchIfCacheExpiredAndNotThrottled$2;
-                lambda$fetchIfCacheExpiredAndNotThrottled$2 = ConfigFetchHandler.this.lambda$fetchIfCacheExpiredAndNotThrottled$2(date, task3);
+                lambda$fetchIfCacheExpiredAndNotThrottled$2 = ConfigFetchHandler.this.lambda$fetchIfCacheExpiredAndNotThrottled$2(date, task2);
                 return lambda$fetchIfCacheExpiredAndNotThrottled$2;
             }
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Task lambda$fetchIfCacheExpiredAndNotThrottled$1(Task task, Task task2, Date date, Task task3) throws Exception {
         if (!task.isSuccessful()) {
             return Tasks.forException(new FirebaseRemoteConfigClientException("Firebase Installations failed to get installation ID for fetch.", task.getException()));
@@ -106,6 +108,7 @@ public class ConfigFetchHandler {
         return fetchFromBackendAndCacheResponse((String) task.getResult(), ((InstallationTokenResult) task2.getResult()).getToken(), date);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Task lambda$fetchIfCacheExpiredAndNotThrottled$2(Date date, Task task) throws Exception {
         updateLastFetchStatusAndTime(task, date);
         return task;
@@ -238,11 +241,11 @@ public class ConfigFetchHandler {
 
     private Map<String, String> getUserProperties() {
         HashMap hashMap = new HashMap();
-        AnalyticsConnector analyticsConnector = this.analyticsConnector.get();
-        if (analyticsConnector == null) {
+        AnalyticsConnector mo190get = this.analyticsConnector.mo190get();
+        if (mo190get == null) {
             return hashMap;
         }
-        for (Map.Entry<String, Object> entry : analyticsConnector.getUserProperties(false).entrySet()) {
+        for (Map.Entry<String, Object> entry : mo190get.getUserProperties(false).entrySet()) {
             hashMap.put(entry.getKey(), entry.getValue().toString());
         }
         return hashMap;

@@ -10,6 +10,7 @@ import org.json.JSONException;
 /* loaded from: classes.dex */
 public final class JSONDateUtils {
     private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>() { // from class: com.microsoft.appcenter.ingestion.models.json.JSONDateUtils.1
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // java.lang.ThreadLocal
         public DateFormat initialValue() {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);

@@ -9,6 +9,7 @@ import javax.crypto.SecretKey;
 class f implements g {
     private SecretKey a;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public f(String str, String str2, String str3, String str4) throws InvalidKeySpecException, NoSuchAlgorithmException, IllegalArgumentException {
         if (str == null || str2 == null || str3 == null || str4 == null) {
             return;

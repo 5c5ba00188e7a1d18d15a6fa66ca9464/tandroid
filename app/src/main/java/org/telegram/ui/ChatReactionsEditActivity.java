@@ -49,8 +49,8 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         this.chatId = bundle.getLong("chat_id", 0L);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
-        if (r0 == null) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x004c, code lost:
+        if (r0 == null) goto L9;
      */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -119,7 +119,8 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
                 if (i != 0) {
                     if (i != 1) {
                         return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
@@ -167,10 +168,12 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         return this.contentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         setCheckedEnableReactionCell(!this.enableReactionsCell.isChecked());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view, int i) {
         if (i <= 1) {
             return;
@@ -251,6 +254,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         }, "windowBackgroundWhite", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText2", "listSelectorSDK21", "windowBackgroundGray", "windowBackgroundWhiteGrayText4", "windowBackgroundWhiteRedText4", "windowBackgroundChecked", "windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"NotifyDataSetChanged"})
     public void updateColors() {
         this.contentView.setBackgroundColor(Theme.getColor("windowBackgroundGray"));

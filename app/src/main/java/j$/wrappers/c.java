@@ -38,6 +38,18 @@ public final /* synthetic */ class c implements p.a {
         return this.a.hasNext();
     }
 
+    @Override // j$.util.p.a, java.util.Iterator
+    /* renamed from: next */
+    public /* synthetic */ Integer mo337next() {
+        return this.a.next();
+    }
+
+    @Override // j$.util.p.a, java.util.Iterator
+    /* renamed from: next  reason: collision with other method in class */
+    public /* synthetic */ Object mo337next() {
+        return this.a.next();
+    }
+
     @Override // j$.util.p.a
     public /* synthetic */ int nextInt() {
         return this.a.nextInt();

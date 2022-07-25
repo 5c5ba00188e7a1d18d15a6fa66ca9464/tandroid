@@ -117,6 +117,7 @@ final class AudioTimestampPoller {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(19)
     /* loaded from: classes.dex */
     public static final class AudioTimestampV19 {

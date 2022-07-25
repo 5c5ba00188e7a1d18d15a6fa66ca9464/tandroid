@@ -15,19 +15,21 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.net.ssl.HttpsURLConnection;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
+class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
     private final Uri mDownloadUri;
     private final HttpConnectionReleaseDownloader mDownloader;
     private final File mTargetFile;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public HttpConnectionDownloadFileTask(HttpConnectionReleaseDownloader httpConnectionReleaseDownloader, Uri uri, File file) {
         this.mDownloader = httpConnectionReleaseDownloader;
         this.mDownloadUri = uri;
         this.mTargetFile = file;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Void doInBackground(Void... voidArr) {
         TrafficStats.setThreadStatsTag(-667034599);
         try {
@@ -63,7 +65,6 @@ public class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> 
     }
 
     private long downloadFile(URLConnection uRLConnection) throws IOException {
-        Throwable th;
         FileOutputStream fileOutputStream;
         BufferedInputStream bufferedInputStream = null;
         try {
@@ -74,18 +75,18 @@ public class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> 
                     long copyStream = copyStream(bufferedInputStream2, fileOutputStream, uRLConnection.getContentLength());
                     close(bufferedInputStream2, fileOutputStream);
                     return copyStream;
-                } catch (Throwable th2) {
-                    th = th2;
+                } catch (Throwable th) {
+                    th = th;
                     bufferedInputStream = bufferedInputStream2;
                     close(bufferedInputStream, fileOutputStream);
                     throw th;
                 }
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th2) {
+                th = th2;
                 fileOutputStream = null;
             }
-        } catch (Throwable th4) {
-            th = th4;
+        } catch (Throwable th3) {
+            th = th3;
             fileOutputStream = null;
         }
     }

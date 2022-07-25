@@ -55,6 +55,7 @@ public abstract class zzr extends AbstractCollection implements Serializable {
         return toArray(zza);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int zza(Object[] objArr, int i) {
         throw null;
     }
@@ -63,6 +64,7 @@ public abstract class zzr extends AbstractCollection implements Serializable {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int zzc() {
         throw new UnsupportedOperationException();
     }
@@ -71,11 +73,14 @@ public abstract class zzr extends AbstractCollection implements Serializable {
         throw null;
     }
 
+    @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
     /* renamed from: zze */
     public abstract zzah iterator();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract boolean zzf();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @CheckForNull
     public Object[] zzg() {
         return null;

@@ -3,6 +3,7 @@ package j$.time.format;
 final class e implements g {
     private final char a;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public e(char c) {
         this.a = c;
     }

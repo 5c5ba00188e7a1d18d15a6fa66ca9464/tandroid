@@ -21,14 +21,14 @@ public class c extends a {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x006e A[Catch: JSONException -> 0x0088, LOOP:1: B:20:0x0068->B:22:0x006e, LOOP_END, TryCatch #0 {JSONException -> 0x0088, blocks: (B:3:0x0007, B:4:0x0012, B:6:0x0018, B:8:0x0043, B:10:0x0049, B:12:0x004f, B:13:0x0054, B:14:0x0059, B:16:0x0060, B:20:0x0068, B:22:0x006e, B:23:0x007a, B:24:0x0081), top: B:30:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x006e A[Catch: JSONException -> 0x0088, LOOP:1: B:15:0x0068->B:17:0x006e, LOOP_END, TryCatch #0 {JSONException -> 0x0088, blocks: (B:3:0x0007, B:4:0x0012, B:6:0x0018, B:8:0x0043, B:10:0x0059, B:12:0x0060, B:15:0x0068, B:17:0x006e, B:19:0x007a, B:22:0x0081, B:27:0x0049, B:29:0x004f, B:30:0x0054), top: B:2:0x0007 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private List<com.huawei.hms.framework.network.grs.local.model.b> a(JSONObject jSONObject) {
+        JSONArray jSONArray;
         HashSet hashSet;
         int i;
-        JSONArray jSONArray;
         try {
             ArrayList arrayList = new ArrayList(16);
             Iterator<String> keys = jSONObject.keys();
@@ -125,8 +125,8 @@ public class c extends a {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00a2 A[Catch: JSONException -> 0x0120, TryCatch #0 {JSONException -> 0x0120, blocks: (B:3:0x000c, B:4:0x001d, B:6:0x0023, B:8:0x0039, B:10:0x0042, B:11:0x0056, B:13:0x005c, B:15:0x006d, B:16:0x0072, B:18:0x0078, B:20:0x007f, B:22:0x0086, B:23:0x009c, B:25:0x00a2, B:27:0x00b6, B:29:0x00bc, B:31:0x00cd, B:32:0x00e1, B:34:0x00ec, B:35:0x00f1, B:37:0x00f7, B:38:0x00fb, B:39:0x0100, B:40:0x0105, B:42:0x010c, B:43:0x0113), top: B:49:0x000c }] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x010c A[Catch: JSONException -> 0x0120, TryCatch #0 {JSONException -> 0x0120, blocks: (B:3:0x000c, B:4:0x001d, B:6:0x0023, B:8:0x0039, B:10:0x0042, B:11:0x0056, B:13:0x005c, B:15:0x006d, B:16:0x0072, B:18:0x0078, B:20:0x007f, B:22:0x0086, B:23:0x009c, B:25:0x00a2, B:27:0x00b6, B:29:0x00bc, B:31:0x00cd, B:32:0x00e1, B:34:0x00ec, B:35:0x00f1, B:37:0x00f7, B:38:0x00fb, B:39:0x0100, B:40:0x0105, B:42:0x010c, B:43:0x0113), top: B:49:0x000c }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00a2 A[Catch: JSONException -> 0x0120, TryCatch #0 {JSONException -> 0x0120, blocks: (B:3:0x000c, B:4:0x001d, B:6:0x0023, B:9:0x0039, B:12:0x0042, B:13:0x0056, B:15:0x005c, B:17:0x006d, B:19:0x0086, B:20:0x009c, B:22:0x00a2, B:24:0x00b6, B:31:0x00bc, B:35:0x00cd, B:36:0x0072, B:38:0x0078, B:39:0x007f, B:42:0x00e1, B:44:0x00ec, B:45:0x00fb, B:46:0x0105, B:48:0x010c, B:49:0x0113, B:53:0x00f1, B:55:0x00f7, B:56:0x0100), top: B:2:0x000c }] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x010c A[Catch: JSONException -> 0x0120, TryCatch #0 {JSONException -> 0x0120, blocks: (B:3:0x000c, B:4:0x001d, B:6:0x0023, B:9:0x0039, B:12:0x0042, B:13:0x0056, B:15:0x005c, B:17:0x006d, B:19:0x0086, B:20:0x009c, B:22:0x00a2, B:24:0x00b6, B:31:0x00bc, B:35:0x00cd, B:36:0x0072, B:38:0x0078, B:39:0x007f, B:42:0x00e1, B:44:0x00ec, B:45:0x00fb, B:46:0x0105, B:48:0x010c, B:49:0x0113, B:53:0x00f1, B:55:0x00f7, B:56:0x0100), top: B:2:0x000c }] */
     @Override // com.huawei.hms.framework.network.grs.f.a
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -134,10 +134,10 @@ public class c extends a {
     public int e(String str) {
         JSONObject jSONObject;
         String str2;
+        String string;
         Iterator<String> keys;
-        String str3;
-        String str4 = "countryGroup";
-        String str5 = "countryOrAreaGroup";
+        String str3 = "countryGroup";
+        String str4 = "countryOrAreaGroup";
         try {
             JSONObject jSONObject2 = new JSONObject(str).getJSONObject("services");
             Iterator<String> keys2 = jSONObject2.keys();
@@ -155,40 +155,40 @@ public class c extends a {
                         while (i < jSONArray.length()) {
                             JSONObject jSONObject4 = (JSONObject) jSONArray.get(i);
                             com.huawei.hms.framework.network.grs.local.model.d dVar = new com.huawei.hms.framework.network.grs.local.model.d();
-                            if (jSONObject4.has(str5)) {
-                                str3 = jSONObject4.getString(str5);
-                            } else if (jSONObject4.has(str4)) {
-                                str3 = jSONObject4.getString(str4);
+                            if (jSONObject4.has(str4)) {
+                                string = jSONObject4.getString(str4);
+                            } else if (jSONObject4.has(str3)) {
+                                string = jSONObject4.getString(str3);
                             } else {
                                 Logger.v("LocalManagerV1", "maybe this service routeBy is unconditional.");
                                 str2 = "no-country";
                                 dVar.a(str2);
                                 JSONObject jSONObject5 = jSONObject4.getJSONObject("addresses");
-                                String str6 = str4;
+                                String str5 = str3;
                                 ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap(16);
                                 keys = jSONObject5.keys();
                                 while (keys.hasNext()) {
                                     Iterator<String> it = keys;
                                     String next2 = keys.next();
-                                    String string = jSONObject5.getString(next2);
-                                    if (TextUtils.isEmpty(next2) || TextUtils.isEmpty(string)) {
+                                    String string2 = jSONObject5.getString(next2);
+                                    if (TextUtils.isEmpty(next2) || TextUtils.isEmpty(string2)) {
                                         keys = it;
                                     } else {
                                         concurrentHashMap.put(next2, jSONObject5.getString(next2));
                                         keys = it;
-                                        str5 = str5;
+                                        str4 = str4;
                                     }
                                 }
                                 dVar.a(concurrentHashMap);
                                 cVar.a(dVar.b(), dVar);
                                 i++;
-                                str4 = str6;
-                                str5 = str5;
+                                str3 = str5;
+                                str4 = str4;
                             }
-                            str2 = str3;
+                            str2 = string;
                             dVar.a(str2);
                             JSONObject jSONObject52 = jSONObject4.getJSONObject("addresses");
-                            String str62 = str4;
+                            String str52 = str3;
                             ConcurrentHashMap concurrentHashMap2 = new ConcurrentHashMap(16);
                             keys = jSONObject52.keys();
                             while (keys.hasNext()) {
@@ -196,11 +196,11 @@ public class c extends a {
                             dVar.a(concurrentHashMap2);
                             cVar.a(dVar.b(), dVar);
                             i++;
-                            str4 = str62;
-                            str5 = str5;
+                            str3 = str52;
+                            str4 = str4;
                         }
+                        String str6 = str3;
                         String str7 = str4;
-                        String str8 = str5;
                         List<com.huawei.hms.framework.network.grs.local.model.b> list = null;
                         if (jSONObject3.has("countryOrAreaGroups")) {
                             jSONObject = jSONObject3.getJSONObject("countryOrAreaGroups");
@@ -213,16 +213,16 @@ public class c extends a {
                                 this.a = new com.huawei.hms.framework.network.grs.local.model.a();
                             }
                             this.a.a(next, cVar);
+                            str3 = str6;
                             str4 = str7;
-                            str5 = str8;
                         }
                         list = a((JSONArray) null, jSONObject);
                         cVar.a(list);
                         if (this.a == null) {
                         }
                         this.a.a(next, cVar);
+                        str3 = str6;
                         str4 = str7;
-                        str5 = str8;
                     }
                 }
             }

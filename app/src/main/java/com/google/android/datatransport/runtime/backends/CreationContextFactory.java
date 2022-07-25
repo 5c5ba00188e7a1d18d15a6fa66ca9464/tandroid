@@ -8,12 +8,14 @@ class CreationContextFactory {
     private final Clock monotonicClock;
     private final Clock wallClock;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CreationContextFactory(Context context, Clock clock, Clock clock2) {
         this.applicationContext = context;
         this.wallClock = clock;
         this.monotonicClock = clock2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CreationContext create(String str) {
         return CreationContext.create(this.applicationContext, this.wallClock, this.monotonicClock, str);
     }

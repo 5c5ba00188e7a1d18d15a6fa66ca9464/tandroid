@@ -137,6 +137,7 @@ public class Painting {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$paintStroke$0(Path path, boolean z, Runnable runnable) {
         RectF rectF;
         this.activePath = path;
@@ -196,6 +197,7 @@ public class Painting {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$commitStroke$1(int i) {
         PaintingDelegate paintingDelegate;
         registerUndo(this.activeStrokeBounds);
@@ -242,6 +244,7 @@ public class Painting {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearStroke$2() {
         GLES20.glBindFramebuffer(36160, getReusableFramebuffer());
         GLES20.glFramebufferTexture2D(36160, 36064, 3553, getPaintTexture(), 0);
@@ -274,6 +277,7 @@ public class Painting {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: restoreSlice */
     public void lambda$registerUndo$3(final Slice slice) {
         this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda5
@@ -284,6 +288,7 @@ public class Painting {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$restoreSlice$4(Slice slice) {
         PaintingDelegate paintingDelegate;
         ByteBuffer data = slice.getData();
@@ -435,6 +440,7 @@ public class Painting {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPause$5(Runnable runnable) {
         this.paused = true;
         this.backupSlice = new Slice(getPaintingData(getBounds(), true).data, getBounds(), this.delegate.requestDispatchQueue());

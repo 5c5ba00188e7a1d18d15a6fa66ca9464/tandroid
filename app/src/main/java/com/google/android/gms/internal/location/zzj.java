@@ -19,6 +19,7 @@ public final class zzj extends AbstractSafeParcelable {
     static final zzs zzb = new zzs();
     public static final Parcelable.Creator<zzj> CREATOR = new zzk();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzj(zzs zzsVar, List<ClientIdentity> list, String str) {
         this.zzc = zzsVar;
         this.zzd = list;

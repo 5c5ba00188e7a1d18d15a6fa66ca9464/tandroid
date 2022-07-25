@@ -103,6 +103,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
         updateSelected(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -126,42 +127,42 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     }
 
     private void updateButtonState(Object obj, boolean z, boolean z2) {
-        File file;
-        String str;
+        File httpFilePath;
+        String name;
         boolean z3 = obj instanceof TLRPC$TL_wallPaper;
         if (z3 || (obj instanceof MediaController.SearchImage)) {
             if (z3) {
                 TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
-                str = FileLoader.getAttachFileName(tLRPC$TL_wallPaper.document);
-                if (TextUtils.isEmpty(str)) {
+                name = FileLoader.getAttachFileName(tLRPC$TL_wallPaper.document);
+                if (TextUtils.isEmpty(name)) {
                     return;
                 }
-                file = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_wallPaper.document, true);
+                httpFilePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$TL_wallPaper.document, true);
             } else {
                 MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
                 TLRPC$Photo tLRPC$Photo = searchImage.photo;
                 if (tLRPC$Photo != null) {
                     TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, this.maxWallpaperSize, true);
                     File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true);
-                    str = FileLoader.getAttachFileName(closestPhotoSizeWithSize);
-                    file = pathToAttach;
+                    name = FileLoader.getAttachFileName(closestPhotoSizeWithSize);
+                    httpFilePath = pathToAttach;
                 } else {
-                    file = ImageLoader.getHttpFilePath(searchImage.imageUrl, "jpg");
-                    str = file.getName();
+                    httpFilePath = ImageLoader.getHttpFilePath(searchImage.imageUrl, "jpg");
+                    name = httpFilePath.getName();
                 }
-                if (TextUtils.isEmpty(str)) {
+                if (TextUtils.isEmpty(name)) {
                     return;
                 }
             }
-            if (file.exists()) {
+            if (httpFilePath.exists()) {
                 DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
                 this.radialProgress.setProgress(1.0f, z2);
                 this.radialProgress.setIcon(6, z, z2);
                 return;
             }
-            DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(str, null, this);
-            FileLoader.getInstance(this.currentAccount).isLoadingFile(str);
-            Float fileProgress = ImageLoader.getInstance().getFileProgress(str);
+            DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(name, null, this);
+            FileLoader.getInstance(this.currentAccount).isLoadingFile(name);
+            Float fileProgress = ImageLoader.getInstance().getFileProgress(name);
             if (fileProgress != null) {
                 this.radialProgress.setProgress(fileProgress.floatValue(), z2);
             } else {
@@ -173,6 +174,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
         this.radialProgress.setIcon(6, z, z2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
     @SuppressLint({"DrawAllocation"})
     public void onDraw(Canvas canvas) {

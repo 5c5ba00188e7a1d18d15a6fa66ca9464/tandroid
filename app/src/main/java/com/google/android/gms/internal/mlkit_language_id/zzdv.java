@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzdv {
@@ -20,6 +21,7 @@ public final class zzdv {
         return this.zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzdv(int i, zzdm zzdmVar) {
         this(i);
     }

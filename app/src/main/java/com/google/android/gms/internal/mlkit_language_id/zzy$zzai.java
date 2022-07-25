@@ -35,6 +35,7 @@ public final class zzy$zzai extends zzeo<zzy$zzai, zza> implements zzgb {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void zza(float f) {
         this.zzc |= 4;
         this.zzf = f;
@@ -44,6 +45,7 @@ public final class zzy$zzai extends zzeo<zzy$zzai, zza> implements zzgb {
         return zzg.zzh();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzai>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {

@@ -34,6 +34,7 @@ public final class FfmpegLibrary {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String getCodecName(String str) {
         str.hashCode();
         char c = 65535;

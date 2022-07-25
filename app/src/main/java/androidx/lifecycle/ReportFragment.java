@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle;
 public class ReportFragment extends Fragment {
     private ActivityInitializationListener mProcessListener;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface ActivityInitializationListener {
         void onCreate();

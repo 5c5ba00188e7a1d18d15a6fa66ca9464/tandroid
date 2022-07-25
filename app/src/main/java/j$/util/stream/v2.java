@@ -27,9 +27,9 @@ class v2 extends w2 {
     w2 b(int i, int i2) {
         switch (this.c) {
             case 0:
-                return new v2(this, ((z1) this.a).b(i), i2);
+                return new v2(this, ((z1) this.a).mo316b(i), i2);
             default:
-                return new v2(this, this.a.b(i), i2);
+                return new v2(this, this.a.mo316b(i), i2);
         }
     }
 

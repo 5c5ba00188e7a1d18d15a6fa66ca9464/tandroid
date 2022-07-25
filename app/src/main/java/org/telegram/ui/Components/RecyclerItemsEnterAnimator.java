@@ -73,14 +73,14 @@ public class RecyclerItemsEnterAnimator {
         this.listView.getViewTreeObserver().addOnPreDrawListener(anonymousClass2);
     }
 
-    /* renamed from: org.telegram.ui.Components.RecyclerItemsEnterAnimator$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.RecyclerItemsEnterAnimator$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ int val$finalFrom;
         final /* synthetic */ View val$finalProgressView;
 
         AnonymousClass2(View view, int i) {
-            RecyclerItemsEnterAnimator.this = r1;
             this.val$finalProgressView = view;
             this.val$finalFrom = i;
         }
@@ -138,6 +138,7 @@ public class RecyclerItemsEnterAnimator {
             return false;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPreDraw$0(int i, ValueAnimator valueAnimator) {
             RecyclerItemsEnterAnimator.this.listAlphaItems.put(i, (Float) valueAnimator.getAnimatedValue());
             RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = RecyclerItemsEnterAnimator.this;

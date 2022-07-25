@@ -129,6 +129,7 @@ public class Camera1Enumerator implements CameraEnumerator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static List<Size> convertSizes(List<Camera.Size> list) {
         ArrayList arrayList = new ArrayList();
         for (Camera.Size size : list) {
@@ -137,6 +138,7 @@ public class Camera1Enumerator implements CameraEnumerator {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static List<CameraEnumerationAndroid.CaptureFormat.FramerateRange> convertFramerates(List<int[]> list) {
         ArrayList arrayList = new ArrayList();
         for (int[] iArr : list) {
@@ -145,6 +147,7 @@ public class Camera1Enumerator implements CameraEnumerator {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int getCameraIndex(String str) {
         Logging.d(TAG, "getCameraIndex: " + str);
         for (int i = 0; i < Camera.getNumberOfCameras(); i++) {

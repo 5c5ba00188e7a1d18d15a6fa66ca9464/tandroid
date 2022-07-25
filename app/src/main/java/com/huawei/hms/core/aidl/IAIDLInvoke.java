@@ -12,6 +12,7 @@ public interface IAIDLInvoke extends IInterface {
     /* loaded from: classes.dex */
     public static abstract class Stub extends Binder implements IAIDLInvoke {
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class a implements IAIDLInvoke {
             public static IAIDLInvoke b;

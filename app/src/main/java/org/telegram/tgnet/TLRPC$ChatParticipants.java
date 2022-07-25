@@ -11,13 +11,13 @@ public abstract class TLRPC$ChatParticipants extends TLObject {
     public int version;
 
     public static TLRPC$ChatParticipants TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$ChatParticipants tLRPC$ChatParticipants;
+        TLRPC$ChatParticipants tLRPC$TL_chatParticipantsForbidden;
         switch (i) {
             case -2023500831:
-                tLRPC$ChatParticipants = new TLRPC$TL_chatParticipantsForbidden();
+                tLRPC$TL_chatParticipantsForbidden = new TLRPC$TL_chatParticipantsForbidden();
                 break;
             case -57668565:
-                tLRPC$ChatParticipants = new TLRPC$TL_chatParticipantsForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipantsForbidden_layer131
+                tLRPC$TL_chatParticipantsForbidden = new TLRPC$TL_chatParticipantsForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipantsForbidden_layer131
                     public static int constructor = -57668565;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatParticipantsForbidden, org.telegram.tgnet.TLObject
@@ -41,7 +41,7 @@ public abstract class TLRPC$ChatParticipants extends TLObject {
                 };
                 break;
             case 265468810:
-                tLRPC$ChatParticipants = new TLRPC$TL_chatParticipantsForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipantsForbidden_old
+                tLRPC$TL_chatParticipantsForbidden = new TLRPC$TL_chatParticipantsForbidden() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipantsForbidden_old
                     public static int constructor = 265468810;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatParticipantsForbidden, org.telegram.tgnet.TLObject
@@ -57,10 +57,10 @@ public abstract class TLRPC$ChatParticipants extends TLObject {
                 };
                 break;
             case 1018991608:
-                tLRPC$ChatParticipants = new TLRPC$TL_chatParticipants();
+                tLRPC$TL_chatParticipantsForbidden = new TLRPC$TL_chatParticipants();
                 break;
             case 1061556205:
-                tLRPC$ChatParticipants = new TLRPC$TL_chatParticipants() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipants_layer131
+                tLRPC$TL_chatParticipantsForbidden = new TLRPC$TL_chatParticipants() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipants_layer131
                     public static int constructor = 1061556205;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatParticipants, org.telegram.tgnet.TLObject
@@ -99,7 +99,7 @@ public abstract class TLRPC$ChatParticipants extends TLObject {
                 };
                 break;
             case 2017571861:
-                tLRPC$ChatParticipants = new TLRPC$TL_chatParticipants() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipants_old
+                tLRPC$TL_chatParticipantsForbidden = new TLRPC$TL_chatParticipants() { // from class: org.telegram.tgnet.TLRPC$TL_chatParticipants_old
                     public static int constructor = 2017571861;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_chatParticipants, org.telegram.tgnet.TLObject
@@ -140,14 +140,14 @@ public abstract class TLRPC$ChatParticipants extends TLObject {
                 };
                 break;
             default:
-                tLRPC$ChatParticipants = null;
+                tLRPC$TL_chatParticipantsForbidden = null;
                 break;
         }
-        if (tLRPC$ChatParticipants != null || !z) {
-            if (tLRPC$ChatParticipants != null) {
-                tLRPC$ChatParticipants.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_chatParticipantsForbidden != null || !z) {
+            if (tLRPC$TL_chatParticipantsForbidden != null) {
+                tLRPC$TL_chatParticipantsForbidden.readParams(abstractSerializedData, z);
             }
-            return tLRPC$ChatParticipants;
+            return tLRPC$TL_chatParticipantsForbidden;
         }
         throw new RuntimeException(String.format("can't parse magic %x in ChatParticipants", Integer.valueOf(i)));
     }

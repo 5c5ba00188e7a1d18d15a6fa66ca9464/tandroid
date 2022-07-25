@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class S3 implements j$.util.u {
     int a;
@@ -11,6 +12,7 @@ public class S3 implements j$.util.u {
     Object[] e;
     final /* synthetic */ a4 f;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public S3(a4 a4Var, int i, int i2, int i3, int i4) {
         this.f = a4Var;
         this.a = i;
@@ -109,7 +111,8 @@ public class S3 implements j$.util.u {
     }
 
     @Override // j$.util.u
-    public j$.util.u trySplit() {
+    /* renamed from: trySplit */
+    public j$.util.u mo350trySplit() {
         int i = this.a;
         int i2 = this.b;
         if (i < i2) {

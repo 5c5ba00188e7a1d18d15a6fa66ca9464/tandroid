@@ -3,6 +3,7 @@ package j$.util.stream;
 final class i4 extends j4 implements j$.util.function.q {
     final long[] c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public i4(int i) {
         this.c = new long[i];
     }

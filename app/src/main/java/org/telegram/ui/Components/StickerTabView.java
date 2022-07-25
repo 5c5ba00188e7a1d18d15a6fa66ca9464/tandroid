@@ -84,6 +84,7 @@ public class StickerTabView extends FrameLayout {
         this.textView.setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
         TextView textView = this.textView;
         if (textView == null || textView.getLayout() == null) {

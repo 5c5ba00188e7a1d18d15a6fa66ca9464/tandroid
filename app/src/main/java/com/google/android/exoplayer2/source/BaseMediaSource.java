@@ -28,6 +28,7 @@ public abstract class BaseMediaSource implements MediaSource {
 
     protected abstract void releaseSourceInternal();
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void refreshSourceInfo(Timeline timeline) {
         this.timeline = timeline;
         Iterator<MediaSource.MediaSourceCaller> it = this.mediaSourceCallers.iterator();
@@ -36,19 +37,23 @@ public abstract class BaseMediaSource implements MediaSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
         return this.eventDispatcher.withParameters(0, mediaPeriodId, 0L);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId, long j) {
         Assertions.checkArgument(mediaPeriodId != null);
         return this.eventDispatcher.withParameters(0, mediaPeriodId, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final MediaSourceEventListener.EventDispatcher createEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
         return this.eventDispatcher.withParameters(i, mediaPeriodId, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final boolean isEnabled() {
         return !this.enabledMediaSourceCallers.isEmpty();
     }

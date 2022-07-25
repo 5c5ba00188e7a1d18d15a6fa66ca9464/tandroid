@@ -6,11 +6,13 @@ abstract class w2 extends CountedCompleter {
     protected final A1 a;
     protected final int b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public w2(A1 a1, int i) {
         this.a = a1;
         this.b = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public w2(w2 w2Var, A1 a1, int i) {
         super(w2Var);
         this.a = a1;

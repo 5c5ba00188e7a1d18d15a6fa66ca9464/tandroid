@@ -226,6 +226,7 @@ public class FiltersView extends RecyclerListView {
         setSelectorDrawableColor(getThemedColor("listSelectorSDK21"));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824));
@@ -239,7 +240,7 @@ public class FiltersView extends RecyclerListView {
     }
 
     public void setUsersAndDates(ArrayList<Object> arrayList, ArrayList<DateData> arrayList2, boolean z) {
-        String str;
+        String formatName;
         this.oldItems.clear();
         this.oldItems.addAll(this.usersFilters);
         this.usersFilters.clear();
@@ -249,20 +250,20 @@ public class FiltersView extends RecyclerListView {
                 if (obj instanceof TLRPC$User) {
                     TLRPC$User tLRPC$User = (TLRPC$User) obj;
                     if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == tLRPC$User.id) {
-                        str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                        formatName = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                     } else {
-                        str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name, 10);
+                        formatName = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name, 10);
                     }
-                    MediaFilterData mediaFilterData = new MediaFilterData(R.drawable.search_users_filled, str, null, 4);
+                    MediaFilterData mediaFilterData = new MediaFilterData(R.drawable.search_users_filled, formatName, null, 4);
                     mediaFilterData.setUser(tLRPC$User);
                     this.usersFilters.add(mediaFilterData);
                 } else if (obj instanceof TLRPC$Chat) {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj;
-                    String str2 = tLRPC$Chat.title;
-                    if (str2.length() > 12) {
-                        str2 = String.format("%s...", str2.substring(0, 10));
+                    String str = tLRPC$Chat.title;
+                    if (str.length() > 12) {
+                        str = String.format("%s...", str.substring(0, 10));
                     }
-                    MediaFilterData mediaFilterData2 = new MediaFilterData(R.drawable.search_users_filled, str2, null, 4);
+                    MediaFilterData mediaFilterData2 = new MediaFilterData(R.drawable.search_users_filled, str, null, 4);
                     mediaFilterData2.setUser(tLRPC$Chat);
                     this.usersFilters.add(mediaFilterData2);
                 }
@@ -568,20 +569,19 @@ public class FiltersView extends RecyclerListView {
         setSelectorDrawableColor(getThemedColor("listSelectorSDK21"));
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             return true;
         }
 
         private Adapter() {
-            FiltersView.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder  reason: collision with other method in class */
+        public ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             ViewHolder viewHolder = new ViewHolder(FiltersView.this, new FilterView(viewGroup.getContext(), ((RecyclerListView) FiltersView.this).resourcesProvider));
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-2, AndroidUtilities.dp(32.0f));
             ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(6.0f);
@@ -621,6 +621,7 @@ public class FiltersView extends RecyclerListView {
             updateColors();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
             setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(28.0f), getThemedColor("groupcreate_spanBackground")));
             this.titleView.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
@@ -684,6 +685,7 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ViewHolder extends RecyclerView.ViewHolder {
         FilterView filterView;

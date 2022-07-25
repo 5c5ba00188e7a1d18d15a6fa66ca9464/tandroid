@@ -161,10 +161,8 @@ public class ActionBarLayout extends FrameLayout {
         private Rect rect = new Rect();
         private Paint backgroundPaint = new Paint();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public LayoutContainer(Context context) {
             super(context);
-            ActionBarLayout.this = r1;
             setWillNotDraw(false);
         }
 
@@ -185,15 +183,15 @@ public class ActionBarLayout extends FrameLayout {
                 if (childAt == view || !(childAt instanceof ActionBar) || childAt.getVisibility() != 0) {
                     i3++;
                 } else if (((ActionBar) childAt).getCastShadows()) {
-                    i2 = childAt.getMeasuredHeight();
-                    i = (int) childAt.getY();
+                    i = childAt.getMeasuredHeight();
+                    i2 = (int) childAt.getY();
                 }
             }
-            i2 = 0;
             i = 0;
+            i2 = 0;
             boolean drawChild = super.drawChild(canvas, view, j);
-            if (i2 != 0 && ActionBarLayout.headerShadowDrawable != null) {
-                int i4 = i + i2;
+            if (i != 0 && ActionBarLayout.headerShadowDrawable != null) {
+                int i4 = i2 + i;
                 ActionBarLayout.headerShadowDrawable.setBounds(0, i4, getMeasuredWidth(), ActionBarLayout.headerShadowDrawable.getIntrinsicHeight() + i4);
                 ActionBarLayout.headerShadowDrawable.draw(canvas);
             }
@@ -294,8 +292,8 @@ public class ActionBarLayout extends FrameLayout {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x0036, code lost:
-            if (r5 != org.telegram.ui.ActionBar.ActionBarLayout.this.containerView) goto L18;
+        /* JADX WARN: Code restructure failed: missing block: B:21:0x0036, code lost:
+            if (r5 != r5.this$0.containerView) goto L10;
          */
         @Override // android.view.ViewGroup, android.view.View
         /*
@@ -396,6 +394,7 @@ public class ActionBarLayout extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processMenuButtonsTouch$0(ValueAnimator valueAnimator) {
             Theme.moveUpDrawable.setAlpha(((Float) valueAnimator.getAnimatedValue()).intValue());
             if (ActionBarLayout.this.drawerLayoutContainer != null) {
@@ -745,6 +744,7 @@ public class ActionBarLayout extends FrameLayout {
         this.delegate = actionBarLayoutDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onSlideAnimationEnd(boolean z) {
         ViewGroup viewGroup;
         ViewGroup viewGroup2;
@@ -1002,6 +1002,7 @@ public class ActionBarLayout extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onAnimationEndCheck(boolean z) {
         onCloseAnimationEnd();
         onOpenAnimationEnd();
@@ -1109,6 +1110,7 @@ public class ActionBarLayout extends FrameLayout {
         return presentFragment(baseFragment, z, false, true, false, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startLayoutAnimation(final boolean z, final boolean z2, final boolean z3) {
         if (z2) {
             this.animationProgress = 0.0f;
@@ -1117,7 +1119,7 @@ public class ActionBarLayout extends FrameLayout {
         Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarLayout.2
             @Override // java.lang.Runnable
             public void run() {
-                float f;
+                float interpolation;
                 if (ActionBarLayout.this.animationRunnable != this) {
                     return;
                 }
@@ -1150,40 +1152,40 @@ public class ActionBarLayout extends FrameLayout {
                     ActionBarLayout.this.newFragment.setNavigationBarColor(ColorUtils.blendARGB(valueOf.intValue(), num.intValue(), MathUtils.clamp((ActionBarLayout.this.animationProgress * 2.0f) - (z ? 1.0f : 0.0f), 0.0f, 1.0f)));
                 }
                 if (!z3) {
-                    f = ActionBarLayout.this.decelerateInterpolator.getInterpolation(ActionBarLayout.this.animationProgress);
+                    interpolation = ActionBarLayout.this.decelerateInterpolator.getInterpolation(ActionBarLayout.this.animationProgress);
                 } else {
-                    f = z ? ActionBarLayout.this.overshootInterpolator.getInterpolation(ActionBarLayout.this.animationProgress) : CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(ActionBarLayout.this.animationProgress);
+                    interpolation = z ? ActionBarLayout.this.overshootInterpolator.getInterpolation(ActionBarLayout.this.animationProgress) : CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(ActionBarLayout.this.animationProgress);
                 }
                 if (z) {
-                    float clamp = MathUtils.clamp(f, 0.0f, 1.0f);
+                    float clamp = MathUtils.clamp(interpolation, 0.0f, 1.0f);
                     ActionBarLayout.this.containerView.setAlpha(clamp);
                     if (z3) {
-                        float f2 = (0.3f * f) + 0.7f;
-                        ActionBarLayout.this.containerView.setScaleX(f2);
-                        ActionBarLayout.this.containerView.setScaleY(f2);
+                        float f = (0.3f * interpolation) + 0.7f;
+                        ActionBarLayout.this.containerView.setScaleX(f);
+                        ActionBarLayout.this.containerView.setScaleY(f);
                         if (ActionBarLayout.this.previewMenu != null) {
-                            float f3 = 1.0f - f;
-                            ActionBarLayout.this.containerView.setTranslationY(AndroidUtilities.dp(40.0f) * f3);
-                            ActionBarLayout.this.previewMenu.setTranslationY((-AndroidUtilities.dp(70.0f)) * f3);
-                            float f4 = (f * 0.05f) + 0.95f;
-                            ActionBarLayout.this.previewMenu.setScaleX(f4);
-                            ActionBarLayout.this.previewMenu.setScaleY(f4);
+                            float f2 = 1.0f - interpolation;
+                            ActionBarLayout.this.containerView.setTranslationY(AndroidUtilities.dp(40.0f) * f2);
+                            ActionBarLayout.this.previewMenu.setTranslationY((-AndroidUtilities.dp(70.0f)) * f2);
+                            float f3 = (interpolation * 0.05f) + 0.95f;
+                            ActionBarLayout.this.previewMenu.setScaleX(f3);
+                            ActionBarLayout.this.previewMenu.setScaleY(f3);
                         }
                         ActionBarLayout.this.previewBackgroundDrawable.setAlpha((int) (46.0f * clamp));
                         Theme.moveUpDrawable.setAlpha((int) (clamp * 255.0f));
                         ActionBarLayout.this.containerView.invalidate();
                         ActionBarLayout.this.invalidate();
                     } else {
-                        ActionBarLayout.this.containerView.setTranslationX(AndroidUtilities.dp(48.0f) * (1.0f - f));
+                        ActionBarLayout.this.containerView.setTranslationX(AndroidUtilities.dp(48.0f) * (1.0f - interpolation));
                     }
                 } else {
-                    float f5 = 1.0f - f;
-                    float clamp2 = MathUtils.clamp(f5, 0.0f, 1.0f);
+                    float f4 = 1.0f - interpolation;
+                    float clamp2 = MathUtils.clamp(f4, 0.0f, 1.0f);
                     ActionBarLayout.this.containerViewBack.setAlpha(clamp2);
                     if (z3) {
-                        float f6 = (f5 * 0.1f) + 0.9f;
-                        ActionBarLayout.this.containerViewBack.setScaleX(f6);
-                        ActionBarLayout.this.containerViewBack.setScaleY(f6);
+                        float f5 = (f4 * 0.1f) + 0.9f;
+                        ActionBarLayout.this.containerViewBack.setScaleX(f5);
+                        ActionBarLayout.this.containerViewBack.setScaleY(f5);
                         ActionBarLayout.this.previewBackgroundDrawable.setAlpha((int) (46.0f * clamp2));
                         if (ActionBarLayout.this.previewMenu == null) {
                             Theme.moveUpDrawable.setAlpha((int) (clamp2 * 255.0f));
@@ -1191,7 +1193,7 @@ public class ActionBarLayout extends FrameLayout {
                         ActionBarLayout.this.containerView.invalidate();
                         ActionBarLayout.this.invalidate();
                     } else {
-                        ActionBarLayout.this.containerViewBack.setTranslationX(AndroidUtilities.dp(48.0f) * f);
+                        ActionBarLayout.this.containerViewBack.setTranslationX(AndroidUtilities.dp(48.0f) * interpolation);
                     }
                 }
                 if (ActionBarLayout.this.animationProgress < 1.0f) {
@@ -1530,6 +1532,7 @@ public class ActionBarLayout extends FrameLayout {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$presentFragment$0(BaseFragment baseFragment, BaseFragment baseFragment2) {
         if (baseFragment != null) {
             baseFragment.onTransitionAnimationEnd(false, false);
@@ -1538,6 +1541,7 @@ public class ActionBarLayout extends FrameLayout {
         baseFragment2.onBecomeFullyVisible();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$presentFragment$1(boolean z, ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout, boolean z2, BaseFragment baseFragment, BaseFragment baseFragment2) {
         if (z) {
             this.inPreviewMode = true;
@@ -1556,6 +1560,7 @@ public class ActionBarLayout extends FrameLayout {
         baseFragment2.onBecomeFullyVisible();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$presentFragment$2() {
         onAnimationEndCheck(false);
     }
@@ -1620,8 +1625,8 @@ public class ActionBarLayout extends FrameLayout {
         onFragmentStackChanged();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x002f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x002f  */
+    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1863,6 +1868,7 @@ public class ActionBarLayout extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$closeLastFragment$3(BaseFragment baseFragment, BaseFragment baseFragment2) {
         ViewGroup viewGroup;
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = this.previewMenu;
@@ -1885,10 +1891,12 @@ public class ActionBarLayout extends FrameLayout {
         baseFragment2.onBecomeFullyVisible();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$closeLastFragment$4() {
         onAnimationEndCheck(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$closeLastFragment$5(BaseFragment baseFragment) {
         removeFragmentFromStackInternal(baseFragment);
         setVisibility(8);
@@ -2434,6 +2442,7 @@ public class ActionBarLayout extends FrameLayout {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class StartColorsProvider implements Theme.ResourcesProvider {
         HashMap<String, Integer> colors;

@@ -30,7 +30,6 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
     /* loaded from: classes.dex */
     public final class Builder {
         /* synthetic */ Builder(zzw zzwVar) {
-            PaymentDataRequest.this = r1;
         }
 
         @RecentlyNonNull
@@ -82,6 +81,7 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public PaymentDataRequest(boolean z, boolean z2, CardRequirements cardRequirements, boolean z3, ShippingAddressRequirements shippingAddressRequirements, ArrayList<Integer> arrayList, PaymentMethodTokenizationParameters paymentMethodTokenizationParameters, TransactionInfo transactionInfo, boolean z4, String str, Bundle bundle) {
         this.zza = z;
         this.zzb = z2;

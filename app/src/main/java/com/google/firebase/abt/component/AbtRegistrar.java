@@ -18,6 +18,7 @@ public class AbtRegistrar implements ComponentRegistrar {
         return Arrays.asList(Component.builder(AbtComponent.class).add(Dependency.required(Context.class)).add(Dependency.optionalProvider(AnalyticsConnector.class)).factory(AbtRegistrar$$ExternalSyntheticLambda0.INSTANCE).build(), LibraryVersionComponent.create("fire-abt", "21.0.0"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ AbtComponent lambda$getComponents$0(ComponentContainer componentContainer) {
         return new AbtComponent((Context) componentContainer.get(Context.class), componentContainer.getProvider(AnalyticsConnector.class));
     }

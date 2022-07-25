@@ -91,6 +91,7 @@ public final class BulletinFactory {
             this.plural = true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public String getText(int i) {
             if (this.plural) {
                 return LocaleController.formatPluralString(this.localeKey, i, new Object[0]);
@@ -98,6 +99,7 @@ public final class BulletinFactory {
             return LocaleController.getString(this.localeKey, this.localeRes);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public enum Icon {
             SAVED_TO_DOWNLOADS(R.raw.ic_download, 2, "Box", "Arrow"),
@@ -297,55 +299,55 @@ public final class BulletinFactory {
         return createMuteBulletin(baseFragment, i, 0, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0080  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0089  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0080  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0089  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static Bulletin createMuteBulletin(BaseFragment baseFragment, int i, int i2, Theme.ResourcesProvider resourcesProvider) {
+        String formatString;
         boolean z;
         boolean z2;
-        String str;
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
         if (i == 0) {
-            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 1, new Object[0]));
+            formatString = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 1, new Object[0]));
         } else if (i == 1) {
-            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 8, new Object[0]));
+            formatString = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 8, new Object[0]));
         } else if (i == 2) {
-            str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Days", 2, new Object[0]));
+            formatString = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Days", 2, new Object[0]));
         } else if (i != 3) {
             if (i == 4) {
-                str = LocaleController.getString("NotificationsUnmutedHint", R.string.NotificationsUnmutedHint);
-                z2 = false;
+                formatString = LocaleController.getString("NotificationsUnmutedHint", R.string.NotificationsUnmutedHint);
                 z = false;
-                if (z2) {
+                z2 = false;
+                if (z) {
                 }
-                lottieLayout.textView.setText(str);
+                lottieLayout.textView.setText(formatString);
                 return Bulletin.make(baseFragment, lottieLayout, 1500);
             } else if (i != 5) {
                 throw new IllegalArgumentException();
             } else {
-                str = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(i2));
-                z2 = true;
+                formatString = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(i2));
                 z = true;
-                if (z2) {
+                z2 = true;
+                if (z) {
                     lottieLayout.setAnimation(R.raw.mute_for, new String[0]);
-                } else if (z) {
+                } else if (z2) {
                     lottieLayout.setAnimation(R.raw.ic_mute, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
                 } else {
                     lottieLayout.setAnimation(R.raw.ic_unmute, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
                 }
-                lottieLayout.textView.setText(str);
+                lottieLayout.textView.setText(formatString);
                 return Bulletin.make(baseFragment, lottieLayout, 1500);
             }
         } else {
-            str = LocaleController.getString("NotificationsMutedHint", R.string.NotificationsMutedHint);
+            formatString = LocaleController.getString("NotificationsMutedHint", R.string.NotificationsMutedHint);
         }
-        z2 = false;
-        z = true;
-        if (z2) {
+        z = false;
+        z2 = true;
+        if (z) {
         }
-        lottieLayout.textView.setText(str);
+        lottieLayout.textView.setText(formatString);
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
@@ -401,14 +403,14 @@ public final class BulletinFactory {
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x00ae  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x00ae  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static Bulletin createInviteSentBulletin(Context context, FrameLayout frameLayout, int i, long j, int i2, int i3, int i4) {
-        int i5;
+        SpannableStringBuilder replaceTags;
         SpannableStringBuilder spannableStringBuilder;
-        SpannableStringBuilder spannableStringBuilder2;
+        int i5;
         final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
         if (i <= 1) {
             if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
@@ -426,13 +428,13 @@ public final class BulletinFactory {
                 }
                 return Bulletin.make(frameLayout, lottieLayout, 1500);
             }
-            spannableStringBuilder2 = DialogObject.isChatDialog(j) ? AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j)).title)) : AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j)))));
+            replaceTags = DialogObject.isChatDialog(j) ? AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j)).title)) : AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j)))));
             lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         } else {
-            spannableStringBuilder2 = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
+            replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
             lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         }
-        spannableStringBuilder = spannableStringBuilder2;
+        spannableStringBuilder = replaceTags;
         i5 = 300;
         lottieLayout.textView.setText(spannableStringBuilder);
         if (i5 > 0) {
@@ -440,14 +442,14 @@ public final class BulletinFactory {
         return Bulletin.make(frameLayout, lottieLayout, 1500);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0107  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static Bulletin createForwardedBulletin(Context context, FrameLayout frameLayout, int i, long j, int i2, int i3, int i4) {
-        int i5;
+        SpannableStringBuilder replaceTags;
         SpannableStringBuilder spannableStringBuilder;
-        SpannableStringBuilder spannableStringBuilder2;
+        int i5;
         final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
         if (i <= 1) {
             if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
@@ -471,17 +473,17 @@ public final class BulletinFactory {
             }
             if (DialogObject.isChatDialog(j)) {
                 TLRPC$Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j));
-                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", R.string.FwdMessageToGroup, chat.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", R.string.FwdMessagesToGroup, chat.title));
+                replaceTags = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToGroup", R.string.FwdMessageToGroup, chat.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToGroup", R.string.FwdMessagesToGroup, chat.title));
             } else {
                 TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j));
-                spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", R.string.FwdMessageToUser, UserObject.getFirstName(user))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", R.string.FwdMessagesToUser, UserObject.getFirstName(user)));
+                replaceTags = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToUser", R.string.FwdMessageToUser, UserObject.getFirstName(user))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToUser", R.string.FwdMessagesToUser, UserObject.getFirstName(user)));
             }
             lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         } else {
-            spannableStringBuilder2 = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", R.string.FwdMessageToChats, LocaleController.formatPluralString("Chats", i, new Object[0]))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", R.string.FwdMessagesToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
+            replaceTags = i2 <= 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", R.string.FwdMessageToChats, LocaleController.formatPluralString("Chats", i, new Object[0]))) : AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", R.string.FwdMessagesToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
             lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         }
-        spannableStringBuilder = spannableStringBuilder2;
+        spannableStringBuilder = replaceTags;
         i5 = 300;
         lottieLayout.textView.setText(spannableStringBuilder);
         if (i5 > 0) {
@@ -503,16 +505,16 @@ public final class BulletinFactory {
     }
 
     public static Bulletin createBanBulletin(BaseFragment baseFragment, boolean z) {
-        String str;
+        String string;
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), baseFragment.getResourceProvider());
         if (z) {
             lottieLayout.setAnimation(R.raw.ic_ban, "Hand");
-            str = LocaleController.getString("UserBlocked", R.string.UserBlocked);
+            string = LocaleController.getString("UserBlocked", R.string.UserBlocked);
         } else {
             lottieLayout.setAnimation(R.raw.ic_unban, "Main", "Finger 1", "Finger 2", "Finger 3", "Finger 4");
-            str = LocaleController.getString("UserUnblocked", R.string.UserUnblocked);
+            string = LocaleController.getString("UserUnblocked", R.string.UserUnblocked);
         }
-        lottieLayout.textView.setText(AndroidUtilities.replaceTags(str));
+        lottieLayout.textView.setText(AndroidUtilities.replaceTags(string));
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
@@ -543,13 +545,13 @@ public final class BulletinFactory {
     }
 
     public static Bulletin createSoundEnabledBulletin(BaseFragment baseFragment, int i, Theme.ResourcesProvider resourcesProvider) {
-        String str;
+        String string;
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
         boolean z = true;
         if (i == 0) {
-            str = LocaleController.getString("SoundOnHint", R.string.SoundOnHint);
+            string = LocaleController.getString("SoundOnHint", R.string.SoundOnHint);
         } else if (i == 1) {
-            str = LocaleController.getString("SoundOffHint", R.string.SoundOffHint);
+            string = LocaleController.getString("SoundOffHint", R.string.SoundOffHint);
             z = false;
         } else {
             throw new IllegalArgumentException();
@@ -559,7 +561,7 @@ public final class BulletinFactory {
         } else {
             lottieLayout.setAnimation(R.raw.sound_off, new String[0]);
         }
-        lottieLayout.textView.setText(str);
+        lottieLayout.textView.setText(string);
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 }

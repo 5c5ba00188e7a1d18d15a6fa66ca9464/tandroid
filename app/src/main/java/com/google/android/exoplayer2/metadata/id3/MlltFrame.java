@@ -7,13 +7,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class MlltFrame extends Id3Frame {
     public static final Parcelable.Creator<MlltFrame> CREATOR = new Parcelable.Creator<MlltFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.MlltFrame.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public MlltFrame createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public MlltFrame mo123createFromParcel(Parcel parcel) {
             return new MlltFrame(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public MlltFrame[] newArray(int i) {
+        /* renamed from: newArray */
+        public MlltFrame[] mo124newArray(int i) {
             return new MlltFrame[i];
         }
     };

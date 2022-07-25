@@ -37,6 +37,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     public void checkIsRunning() {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onAllAnimationsDone() {
     }
 
@@ -47,6 +48,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         boolean z = BuildVars.DEBUG_VERSION;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static class MoveInfo {
         public int fromX;
@@ -64,6 +66,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static class ChangeInfo {
         public int fromX;
@@ -78,6 +81,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             this.newHolder = viewHolder2;
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public ChangeInfo(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2, int i, int i2, int i3, int i4) {
             this(viewHolder, viewHolder2);
             this.fromX = i;
@@ -280,6 +284,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void animateMoveImpl(final RecyclerView.ViewHolder viewHolder, MoveInfo moveInfo) {
         int i = moveInfo.fromX;
         int i2 = moveInfo.fromY;
@@ -334,6 +339,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         }).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateMoveImpl$0(RecyclerView.ViewHolder viewHolder, ValueAnimator valueAnimator) {
         onMoveAnimationUpdate(viewHolder);
     }
@@ -426,6 +432,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void endChangeAnimationIfNecessary(ChangeInfo changeInfo) {
         RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
         if (viewHolder != null) {
@@ -547,6 +554,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         return !this.mPendingAdditions.isEmpty() || !this.mPendingChanges.isEmpty() || !this.mPendingMoves.isEmpty() || !this.mPendingRemovals.isEmpty() || !this.mMoveAnimations.isEmpty() || !this.mRemoveAnimations.isEmpty() || !this.mAddAnimations.isEmpty() || !this.mChangeAnimations.isEmpty() || !this.mMovesList.isEmpty() || !this.mAdditionsList.isEmpty() || !this.mChangesList.isEmpty();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void dispatchFinishedWhenDone() {
         if (!isRunning()) {
             dispatchAnimationsFinished();
@@ -635,6 +643,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         dispatchAnimationsFinished();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void cancelAll(List<RecyclerView.ViewHolder> list) {
         for (int size = list.size() - 1; size >= 0; size--) {
             list.get(size).itemView.animate().cancel();

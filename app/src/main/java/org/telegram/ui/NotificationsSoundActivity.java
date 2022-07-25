@@ -99,6 +99,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     SparseArray<Tone> selectedTones = new SparseArray<>();
     int currentType = -1;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -240,16 +241,17 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         return this.fragmentView;
     }
 
-    /* renamed from: org.telegram.ui.NotificationsSoundActivity$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.NotificationsSoundActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$deleteSelectedMessages$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         }
 
         AnonymousClass1(Context context) {
-            NotificationsSoundActivity.this = r1;
             this.val$context = context;
         }
 
@@ -310,6 +312,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$1(DialogInterface dialogInterface, int i) {
             deleteSelectedMessages();
             dialogInterface.dismiss();
@@ -360,7 +363,8 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0098 A[Catch: Exception -> 0x00d1, TryCatch #0 {Exception -> 0x00d1, blocks: (B:15:0x003c, B:17:0x0044, B:18:0x005a, B:20:0x005e, B:22:0x0062, B:23:0x007b, B:25:0x007f, B:27:0x0085, B:32:0x0098, B:34:0x00a6, B:36:0x00ac, B:37:0x00c5), top: B:43:0x003c }] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0098 A[Catch: Exception -> 0x00d1, TryCatch #0 {Exception -> 0x00d1, blocks: (B:15:0x003c, B:17:0x0044, B:21:0x005a, B:23:0x005e, B:25:0x0062, B:26:0x007b, B:28:0x007f, B:30:0x0085, B:34:0x0098, B:36:0x00a6, B:38:0x00ac, B:39:0x00c5), top: B:14:0x003c }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -437,6 +441,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(View view, int i) {
         if (view instanceof ToneCell) {
             ToneCell toneCell = (ToneCell) view;
@@ -446,6 +451,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void hideActionMode() {
         this.selectedTones.clear();
         Adapter adapter = this.adapter;
@@ -553,6 +559,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         updateRows();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRows() {
         this.serverTonesHeaderRow = -1;
         this.serverTonesStartRow = -1;
@@ -601,10 +608,10 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         getNotificationCenter().postNotificationName(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
-            NotificationsSoundActivity.this = r1;
         }
 
         /* synthetic */ Adapter(NotificationsSoundActivity notificationsSoundActivity, AnonymousClass1 anonymousClass1) {
@@ -649,29 +656,29 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             return null;
         }
 
-        /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            HeaderCell headerCell;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            CreationTextCell creationTextCell;
             Context context = viewGroup.getContext();
             if (i == 0) {
-                ToneCell toneCell = new ToneCell(context, NotificationsSoundActivity.this.resourcesProvider);
+                View toneCell = new ToneCell(context, NotificationsSoundActivity.this.resourcesProvider);
                 toneCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite", NotificationsSoundActivity.this.resourcesProvider));
-                headerCell = toneCell;
+                creationTextCell = toneCell;
             } else if (i == 2) {
-                CreationTextCell creationTextCell = new CreationTextCell(context, NotificationsSoundActivity.this.resourcesProvider);
-                creationTextCell.startPadding = 61;
-                creationTextCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite", NotificationsSoundActivity.this.resourcesProvider));
-                headerCell = creationTextCell;
+                CreationTextCell creationTextCell2 = new CreationTextCell(context, NotificationsSoundActivity.this.resourcesProvider);
+                creationTextCell2.startPadding = 61;
+                creationTextCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite", NotificationsSoundActivity.this.resourcesProvider));
+                creationTextCell = creationTextCell2;
             } else if (i != 3) {
-                HeaderCell headerCell2 = new HeaderCell(context, NotificationsSoundActivity.this.resourcesProvider);
-                headerCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite", NotificationsSoundActivity.this.resourcesProvider));
-                headerCell = headerCell2;
+                View headerCell = new HeaderCell(context, NotificationsSoundActivity.this.resourcesProvider);
+                headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite", NotificationsSoundActivity.this.resourcesProvider));
+                creationTextCell = headerCell;
             } else {
-                headerCell = new ShadowSectionCell(context, NotificationsSoundActivity.this.resourcesProvider);
+                creationTextCell = new ShadowSectionCell(context, NotificationsSoundActivity.this.resourcesProvider);
             }
-            headerCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(headerCell);
+            creationTextCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(creationTextCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -761,6 +768,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ToneCell extends FrameLayout {
         private CheckBox2 checkBox;
@@ -923,45 +931,45 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
         SharedPreferences.Editor edit = getNotificationsSettings().edit();
         if (this.dialogId != 0) {
-            str3 = "sound_" + this.dialogId;
+            str = "sound_" + this.dialogId;
             str2 = "sound_path_" + this.dialogId;
-            str = "sound_document_id_" + this.dialogId;
+            str3 = "sound_document_id_" + this.dialogId;
             edit.putBoolean("sound_enabled_" + this.dialogId, true);
         } else {
             int i = this.currentType;
             if (i == 1) {
-                str3 = "GlobalSound";
+                str = "GlobalSound";
                 str2 = "GlobalSoundPath";
-                str = "GlobalSoundDocId";
+                str3 = "GlobalSoundDocId";
             } else if (i == 0) {
-                str3 = "GroupSound";
+                str = "GroupSound";
                 str2 = "GroupSoundPath";
-                str = "GroupSoundDocId";
+                str3 = "GroupSoundDocId";
             } else if (i != 2) {
                 throw new RuntimeException("Unsupported type");
             } else {
-                str3 = "ChannelSound";
+                str = "ChannelSound";
                 str2 = "ChannelSoundPath";
-                str = "ChannelSoundDocId";
+                str3 = "ChannelSoundDocId";
             }
         }
         Tone tone = this.selectedTone;
         if (tone.fromServer && (tLRPC$Document = tone.document) != null) {
-            edit.putLong(str, tLRPC$Document.id);
-            edit.putString(str3, this.selectedTone.title);
+            edit.putLong(str3, tLRPC$Document.id);
+            edit.putString(str, this.selectedTone.title);
             edit.putString(str2, "NoSound");
         } else if (tone.uri != null) {
-            edit.putString(str3, tone.title);
+            edit.putString(str, tone.title);
             edit.putString(str2, this.selectedTone.uri);
-            edit.remove(str);
+            edit.remove(str3);
         } else if (tone.isSystemDefault) {
-            edit.putString(str3, "Default");
+            edit.putString(str, "Default");
             edit.putString(str2, "Default");
-            edit.remove(str);
+            edit.remove(str3);
         } else {
-            edit.putString(str3, "NoSound");
+            edit.putString(str, "NoSound");
             edit.putString(str2, "NoSound");
-            edit.remove(str);
+            edit.remove(str3);
         }
         edit.apply();
         if (this.dialogId != 0) {
@@ -1023,6 +1031,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         this.chatAttachAlert.dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class Tone {
         TLRPC$Document document;

@@ -13,10 +13,12 @@ public final class Component<T> {
     private final Set<Class<?>> publishedEvents;
     private final int type;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Object lambda$intoSet$2(Object obj, ComponentContainer componentContainer) {
         return obj;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Object lambda$of$1(Object obj, ComponentContainer componentContainer) {
         return obj;
     }
@@ -153,6 +155,7 @@ public final class Component<T> {
             return this;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public Builder<T> intoSet() {
             this.type = 1;
             return this;

@@ -25,6 +25,7 @@ final class OpusReader extends StreamReader {
         return Arrays.equals(bArr2, bArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     public void reset(boolean z) {
         super.reset(z);

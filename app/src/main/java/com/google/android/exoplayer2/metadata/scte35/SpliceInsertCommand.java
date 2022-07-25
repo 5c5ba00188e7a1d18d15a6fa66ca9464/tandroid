@@ -11,13 +11,17 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SpliceInsertCommand extends SpliceCommand {
     public static final Parcelable.Creator<SpliceInsertCommand> CREATOR = new Parcelable.Creator<SpliceInsertCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceInsertCommand.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public SpliceInsertCommand createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public SpliceInsertCommand mo133createFromParcel(Parcel parcel) {
             return new SpliceInsertCommand(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public SpliceInsertCommand[] newArray(int i) {
+        /* renamed from: newArray */
+        public SpliceInsertCommand[] mo134newArray(int i) {
             return new SpliceInsertCommand[i];
         }
     };
@@ -73,19 +77,20 @@ public final class SpliceInsertCommand extends SpliceCommand {
         this.availsExpected = parcel.readInt();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static SpliceInsertCommand parseFromSection(ParsableByteArray parsableByteArray, long j, TimestampAdjuster timestampAdjuster) {
+        List list;
         boolean z;
+        boolean z2;
+        long j2;
+        boolean z3;
+        long j3;
         int i;
         int i2;
         int i3;
-        long j2;
-        boolean z2;
-        List list;
-        long j3;
-        boolean z3;
         boolean z4;
-        long j4;
         boolean z5;
+        long j4;
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
         boolean z6 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         List emptyList = Collections.emptyList();
@@ -115,30 +120,30 @@ public final class SpliceInsertCommand extends SpliceCommand {
                 z5 = false;
                 j4 = -9223372036854775807L;
             }
-            i3 = parsableByteArray.readUnsignedShort();
-            z = z8;
+            i = parsableByteArray.readUnsignedShort();
+            z4 = z8;
             i2 = parsableByteArray.readUnsignedByte();
-            i = parsableByteArray.readUnsignedByte();
+            i3 = parsableByteArray.readUnsignedByte();
             list = emptyList;
             long j5 = parseSpliceTime;
-            z2 = z5;
-            j2 = j4;
-            z3 = z10;
-            z4 = z7;
-            j3 = j5;
+            z3 = z5;
+            j3 = j4;
+            z2 = z10;
+            z = z7;
+            j2 = j5;
         } else {
             list = emptyList;
-            z4 = false;
-            z3 = false;
-            j3 = -9223372036854775807L;
+            z = false;
             z2 = false;
             j2 = -9223372036854775807L;
-            i3 = 0;
-            i2 = 0;
+            z3 = false;
+            j3 = -9223372036854775807L;
             i = 0;
-            z = false;
+            i2 = 0;
+            i3 = 0;
+            z4 = false;
         }
-        return new SpliceInsertCommand(readUnsignedInt, z6, z4, z, z3, j3, timestampAdjuster.adjustTsTimestamp(j3), list, z2, j2, i3, i2, i);
+        return new SpliceInsertCommand(readUnsignedInt, z6, z, z4, z2, j2, timestampAdjuster.adjustTsTimestamp(j2), list, z3, j3, i, i2, i3);
     }
 
     /* loaded from: classes.dex */

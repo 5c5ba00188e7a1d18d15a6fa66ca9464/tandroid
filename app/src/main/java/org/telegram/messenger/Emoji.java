@@ -74,6 +74,7 @@ public class Emoji {
         paint.setColor(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiLoaded, new Object[0]);
     }
@@ -85,6 +86,7 @@ public class Emoji {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void loadEmoji(final byte b, final short s) {
         if (emojiBmp[b][s] == null) {
             boolean[][] zArr = loadingEmoji;
@@ -101,6 +103,7 @@ public class Emoji {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadEmoji$1(byte b, short s) {
         loadEmojiInternal(b, s);
         loadingEmoji[b][s] = false;
@@ -143,39 +146,37 @@ public class Emoji {
         int i = 0;
         while (i < length) {
             char charAt = str.charAt(i);
-            if (charAt >= 55356 && charAt <= 55358) {
-                if (charAt != 55356 || i >= length - 1) {
-                    i++;
-                } else {
-                    int i2 = i + 1;
-                    char charAt2 = str.charAt(i2);
-                    if (charAt2 == 56879 || charAt2 == 56324 || charAt2 == 56858 || charAt2 == 56703) {
-                        StringBuilder sb = new StringBuilder();
-                        i += 2;
-                        sb.append(str.substring(0, i));
-                        sb.append("️");
-                        sb.append(str.substring(i));
-                        str = sb.toString();
-                        length++;
-                    } else {
-                        i = i2;
-                    }
+            if (charAt < 55356 || charAt > 55358) {
+                if (charAt == 8419) {
+                    return str;
                 }
-                i++;
-            } else if (charAt == 8419) {
-                return str;
-            } else {
                 if (charAt >= 8252 && charAt <= 12953 && EmojiData.emojiToFE0FMap.containsKey(Character.valueOf(charAt))) {
-                    StringBuilder sb2 = new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
                     i++;
+                    sb.append(str.substring(0, i));
+                    sb.append("️");
+                    sb.append(str.substring(i));
+                    str = sb.toString();
+                    length++;
+                }
+            } else if (charAt != 55356 || i >= length - 1) {
+                i++;
+            } else {
+                int i2 = i + 1;
+                char charAt2 = str.charAt(i2);
+                if (charAt2 == 56879 || charAt2 == 56324 || charAt2 == 56858 || charAt2 == 56703) {
+                    StringBuilder sb2 = new StringBuilder();
+                    i += 2;
                     sb2.append(str.substring(0, i));
                     sb2.append("️");
                     sb2.append(str.substring(i));
                     str = sb2.toString();
                     length++;
+                } else {
+                    i = i2;
                 }
-                i++;
             }
+            i++;
         }
         return str;
     }
@@ -262,26 +263,26 @@ public class Emoji {
 
         @Override // android.graphics.drawable.Drawable
         public void draw(Canvas canvas) {
-            Rect rect2;
+            Rect bounds;
             if (!isLoaded()) {
                 DrawableInfo drawableInfo = this.info;
                 Emoji.loadEmoji(drawableInfo.page, drawableInfo.page2);
                 Emoji.placeholderPaint.setColor(this.placeholderColor);
-                Rect bounds = getBounds();
-                canvas.drawCircle(bounds.centerX(), bounds.centerY(), bounds.width() * 0.4f, Emoji.placeholderPaint);
+                Rect bounds2 = getBounds();
+                canvas.drawCircle(bounds2.centerX(), bounds2.centerY(), bounds2.width() * 0.4f, Emoji.placeholderPaint);
                 return;
             }
             if (this.fullSize) {
-                rect2 = getDrawRect();
+                bounds = getDrawRect();
             } else {
-                rect2 = getBounds();
+                bounds = getBounds();
             }
-            if (canvas.quickReject(rect2.left, rect2.top, rect2.right, rect2.bottom, Canvas.EdgeType.AA)) {
+            if (canvas.quickReject(bounds.left, bounds.top, bounds.right, bounds.bottom, Canvas.EdgeType.AA)) {
                 return;
             }
             Bitmap[][] bitmapArr = Emoji.emojiBmp;
             DrawableInfo drawableInfo2 = this.info;
-            canvas.drawBitmap(bitmapArr[drawableInfo2.page][drawableInfo2.page2], (Rect) null, rect2, paint);
+            canvas.drawBitmap(bitmapArr[drawableInfo2.page][drawableInfo2.page2], (Rect) null, bounds, paint);
         }
 
         @Override // android.graphics.drawable.Drawable
@@ -303,6 +304,7 @@ public class Emoji {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class DrawableInfo {
         public int emojiIndex;
@@ -348,32 +350,32 @@ public class Emoji {
         return parseEmojis(charSequence, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0171  */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x017a A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x003f, B:18:0x004a, B:27:0x0064, B:29:0x0073, B:37:0x0087, B:38:0x008a, B:42:0x0096, B:44:0x009f, B:48:0x00a9, B:56:0x00bd, B:67:0x00de, B:72:0x00ee, B:74:0x00f6, B:79:0x0108, B:81:0x010e, B:83:0x0119, B:87:0x0127, B:88:0x0134, B:90:0x013b, B:92:0x0145, B:96:0x0154, B:98:0x0165, B:102:0x016e, B:108:0x017a, B:110:0x017e, B:114:0x018b, B:116:0x0191, B:130:0x01bd, B:132:0x01c1, B:141:0x01d7, B:145:0x01e2, B:147:0x01e9, B:149:0x01ed, B:151:0x01f8, B:155:0x0206, B:158:0x0216, B:159:0x021d), top: B:170:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x01e0 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x01e9 A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x003f, B:18:0x004a, B:27:0x0064, B:29:0x0073, B:37:0x0087, B:38:0x008a, B:42:0x0096, B:44:0x009f, B:48:0x00a9, B:56:0x00bd, B:67:0x00de, B:72:0x00ee, B:74:0x00f6, B:79:0x0108, B:81:0x010e, B:83:0x0119, B:87:0x0127, B:88:0x0134, B:90:0x013b, B:92:0x0145, B:96:0x0154, B:98:0x0165, B:102:0x016e, B:108:0x017a, B:110:0x017e, B:114:0x018b, B:116:0x0191, B:130:0x01bd, B:132:0x01c1, B:141:0x01d7, B:145:0x01e2, B:147:0x01e9, B:149:0x01ed, B:151:0x01f8, B:155:0x0206, B:158:0x0216, B:159:0x021d), top: B:170:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x00f6 A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x003f, B:18:0x004a, B:27:0x0064, B:29:0x0073, B:37:0x0087, B:38:0x008a, B:42:0x0096, B:44:0x009f, B:48:0x00a9, B:56:0x00bd, B:67:0x00de, B:72:0x00ee, B:74:0x00f6, B:79:0x0108, B:81:0x010e, B:83:0x0119, B:87:0x0127, B:88:0x0134, B:90:0x013b, B:92:0x0145, B:96:0x0154, B:98:0x0165, B:102:0x016e, B:108:0x017a, B:110:0x017e, B:114:0x018b, B:116:0x0191, B:130:0x01bd, B:132:0x01c1, B:141:0x01d7, B:145:0x01e2, B:147:0x01e9, B:149:0x01ed, B:151:0x01f8, B:155:0x0206, B:158:0x0216, B:159:0x021d), top: B:170:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0108 A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x003f, B:18:0x004a, B:27:0x0064, B:29:0x0073, B:37:0x0087, B:38:0x008a, B:42:0x0096, B:44:0x009f, B:48:0x00a9, B:56:0x00bd, B:67:0x00de, B:72:0x00ee, B:74:0x00f6, B:79:0x0108, B:81:0x010e, B:83:0x0119, B:87:0x0127, B:88:0x0134, B:90:0x013b, B:92:0x0145, B:96:0x0154, B:98:0x0165, B:102:0x016e, B:108:0x017a, B:110:0x017e, B:114:0x018b, B:116:0x0191, B:130:0x01bd, B:132:0x01c1, B:141:0x01d7, B:145:0x01e2, B:147:0x01e9, B:149:0x01ed, B:151:0x01f8, B:155:0x0206, B:158:0x0216, B:159:0x021d), top: B:170:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0171  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x00f6 A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0108, B:21:0x010e, B:23:0x0119, B:27:0x0127, B:31:0x017a, B:33:0x017e, B:37:0x018b, B:39:0x0191, B:41:0x01d7, B:59:0x01bd, B:61:0x01c1, B:74:0x01e2, B:76:0x01e9, B:78:0x01ed, B:80:0x01f8, B:84:0x0206, B:87:0x0216, B:88:0x021d, B:94:0x0134, B:96:0x013b, B:98:0x0145, B:102:0x0154, B:104:0x0165, B:109:0x016e, B:115:0x003f, B:117:0x004a, B:124:0x0073, B:132:0x0087, B:133:0x008a, B:137:0x0096, B:139:0x009f, B:143:0x00a9, B:147:0x00bd, B:163:0x00f6, B:167:0x00de, B:172:0x00ee), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x0100  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0108 A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0108, B:21:0x010e, B:23:0x0119, B:27:0x0127, B:31:0x017a, B:33:0x017e, B:37:0x018b, B:39:0x0191, B:41:0x01d7, B:59:0x01bd, B:61:0x01c1, B:74:0x01e2, B:76:0x01e9, B:78:0x01ed, B:80:0x01f8, B:84:0x0206, B:87:0x0216, B:88:0x021d, B:94:0x0134, B:96:0x013b, B:98:0x0145, B:102:0x0154, B:104:0x0165, B:109:0x016e, B:115:0x003f, B:117:0x004a, B:124:0x0073, B:132:0x0087, B:133:0x008a, B:137:0x0096, B:139:0x009f, B:143:0x00a9, B:147:0x00bd, B:163:0x00f6, B:167:0x00de, B:172:0x00ee), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x017a A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0108, B:21:0x010e, B:23:0x0119, B:27:0x0127, B:31:0x017a, B:33:0x017e, B:37:0x018b, B:39:0x0191, B:41:0x01d7, B:59:0x01bd, B:61:0x01c1, B:74:0x01e2, B:76:0x01e9, B:78:0x01ed, B:80:0x01f8, B:84:0x0206, B:87:0x0216, B:88:0x021d, B:94:0x0134, B:96:0x013b, B:98:0x0145, B:102:0x0154, B:104:0x0165, B:109:0x016e, B:115:0x003f, B:117:0x004a, B:124:0x0073, B:132:0x0087, B:133:0x008a, B:137:0x0096, B:139:0x009f, B:143:0x00a9, B:147:0x00bd, B:163:0x00f6, B:167:0x00de, B:172:0x00ee), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x01e0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01e9 A[Catch: Exception -> 0x0244, TryCatch #0 {Exception -> 0x0244, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0108, B:21:0x010e, B:23:0x0119, B:27:0x0127, B:31:0x017a, B:33:0x017e, B:37:0x018b, B:39:0x0191, B:41:0x01d7, B:59:0x01bd, B:61:0x01c1, B:74:0x01e2, B:76:0x01e9, B:78:0x01ed, B:80:0x01f8, B:84:0x0206, B:87:0x0216, B:88:0x021d, B:94:0x0134, B:96:0x013b, B:98:0x0145, B:102:0x0154, B:104:0x0165, B:109:0x016e, B:115:0x003f, B:117:0x004a, B:124:0x0073, B:132:0x0087, B:133:0x008a, B:137:0x0096, B:139:0x009f, B:143:0x00a9, B:147:0x00bd, B:163:0x00f6, B:167:0x00de, B:172:0x00ee), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0214  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0238  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static ArrayList<EmojiSpanRange> parseEmojis(CharSequence charSequence, int[] iArr) {
         int i;
         boolean z;
+        char charAt;
         int i2;
         boolean z2;
         int i3;
         int i4;
         int i5;
         int i6;
-        char charAt;
+        char charAt2;
         long j;
         int i7;
-        char charAt2;
         ArrayList<EmojiSpanRange> arrayList = new ArrayList<>();
         if (charSequence != null && charSequence.length() > 0) {
             StringBuilder sb = new StringBuilder(16);
@@ -452,7 +454,7 @@ public class Emoji {
                                         }
                                         if (z3 && (i5 = i3 + 2) < i2) {
                                             i6 = i3 + 1;
-                                            if (charSequence.charAt(i6) == 55356 && (charAt = charSequence.charAt(i5)) >= 57339 && charAt <= 57343) {
+                                            if (charSequence.charAt(i6) == 55356 && (charAt2 = charSequence.charAt(i5)) >= 57339 && charAt2 <= 57343) {
                                                 sb.append(charSequence.subSequence(i6, i3 + 3));
                                                 i10 += 2;
                                                 i3 = i5;
@@ -631,9 +633,9 @@ public class Emoji {
                                 length = i2;
                                 j3 = j422222;
                                 j2 = 0;
-                            } else if (i8 > 0 && (((charAt2 = charSequence.charAt(i11)) >= MAX_RECENT_EMOJI_COUNT && charAt2 <= '9') || charAt2 == '#' || charAt2 == '*')) {
+                            } else if (i8 > 0 && (((charAt = charSequence.charAt(i11)) >= MAX_RECENT_EMOJI_COUNT && charAt <= '9') || charAt == '#' || charAt == '*')) {
                                 i10 = (i8 - i11) + 1;
-                                sb.append(charAt2);
+                                sb.append(charAt);
                                 sb.append(charAt3);
                                 i9 = i11;
                                 z3 = true;
@@ -703,7 +705,7 @@ public class Emoji {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r7v0, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r7v2, types: [java.lang.CharSequence, android.text.Spannable] */
+    /* JADX WARN: Type inference failed for: r7v4, types: [java.lang.CharSequence, android.text.Spannable] */
     /* JADX WARN: Type inference failed for: r7v6 */
     /* JADX WARN: Type inference failed for: r7v7 */
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z, int[] iArr) {
@@ -868,6 +870,7 @@ public class Emoji {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$sortEmoji$2(String str, String str2) {
         Integer num = emojiUseHistory.get(str);
         Integer num2 = emojiUseHistory.get(str2);

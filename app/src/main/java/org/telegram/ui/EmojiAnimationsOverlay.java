@@ -100,6 +100,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         this.threadMsgId = i2;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onAttachedToWindow() {
         this.attached = true;
         checkStickerPack();
@@ -108,6 +109,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.updateInterfaces);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onDetachedFromWindow() {
         this.attached = false;
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
@@ -194,6 +196,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void findViewAndShowAnimation(int i, int i2) {
         if (!this.attached) {
             return;
@@ -450,8 +453,8 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
     private boolean showAnimationForCell(ChatMessageCell chatMessageCell, int i, boolean z, boolean z2) {
         final MessageObject messageObject;
         String stickerEmoji;
-        TLRPC$VideoSize tLRPC$VideoSize;
         TLRPC$Document tLRPC$Document;
+        TLRPC$VideoSize tLRPC$VideoSize;
         boolean z3;
         Runnable runnable;
         int i2 = i;
@@ -608,6 +611,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showAnimationForCell$1(final MessageObject messageObject, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -617,11 +621,13 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showAnimationForCell$2() {
         sendCurrentTaps();
         this.sentInteractionsRunnable = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: showStickerSetBulletin */
     public void lambda$showAnimationForCell$0(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final MessageObject messageObject) {
         if (MessagesController.getInstance(this.currentAccount).premiumLocked || this.chatActivity.getParentActivity() == null) {
@@ -644,6 +650,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         make.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showStickerSetBulletin$3(MessageObject messageObject) {
         Activity parentActivity = this.chatActivity.getParentActivity();
         ChatActivity chatActivity = this.chatActivity;
@@ -654,14 +661,14 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         this.chatActivity.showDialog(stickersAlert);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0029, code lost:
-        if (r9.charAt(r3) <= 57343) goto L18;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0029, code lost:
+        if (r9.charAt(r3) <= 57343) goto L11;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0043, code lost:
-        if (r9.charAt(r3) != 9794) goto L19;
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0043, code lost:
+        if (r9.charAt(r3) != 9794) goto L21;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r9v6, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r9v4, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r9v8, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -763,6 +770,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         return y > f && y < ((float) i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class DrawingObject {
         TLRPC$Document document;

@@ -13,6 +13,7 @@ class a {
     a() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void a(Activity activity) {
         synchronized (c) {
             for (Activity activity2 : this.a) {
@@ -24,6 +25,7 @@ class a {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void b(Activity activity) {
         synchronized (c) {
             this.a.remove(activity);

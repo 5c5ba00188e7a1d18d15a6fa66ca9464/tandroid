@@ -5,6 +5,7 @@ import j$.util.function.Consumer;
 final class n0 extends o0 {
     final Consumer b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public n0(Consumer consumer, boolean z) {
         super(z);
         this.b = consumer;

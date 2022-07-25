@@ -141,103 +141,103 @@ public final class NalUnitUtil {
         return (bArr[i + 3] & 126) >> 1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00e8  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0149  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0149  */
     /* JADX WARN: Type inference failed for: r16v0, types: [int, boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static SpsData parseSpsNalUnit(byte[] bArr, int i, int i2) {
-        boolean z;
+        int readUnsignedExpGolombCodedInt;
+        boolean readBit;
         int i3;
-        boolean z2;
-        int i4;
-        ?? readBit;
+        boolean z;
+        ?? readBit2;
         float f;
         int readBits;
+        int i4;
         int i5;
         int i6;
-        int i7;
         ParsableNalUnitBitArray parsableNalUnitBitArray = new ParsableNalUnitBitArray(bArr, i, i2);
         parsableNalUnitBitArray.skipBits(8);
         int readBits2 = parsableNalUnitBitArray.readBits(8);
         int readBits3 = parsableNalUnitBitArray.readBits(8);
         int readBits4 = parsableNalUnitBitArray.readBits(8);
-        int readUnsignedExpGolombCodedInt = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
-        int i8 = 1;
+        int readUnsignedExpGolombCodedInt2 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
+        int i7 = 1;
         if (readBits2 == 100 || readBits2 == 110 || readBits2 == 122 || readBits2 == 244 || readBits2 == 44 || readBits2 == 83 || readBits2 == 86 || readBits2 == 118 || readBits2 == 128 || readBits2 == 138) {
-            i3 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
-            z = i3 == 3 ? parsableNalUnitBitArray.readBit() : false;
+            readUnsignedExpGolombCodedInt = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
+            readBit = readUnsignedExpGolombCodedInt == 3 ? parsableNalUnitBitArray.readBit() : false;
             parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             parsableNalUnitBitArray.skipBit();
             if (parsableNalUnitBitArray.readBit()) {
-                int i9 = i3 != 3 ? 8 : 12;
-                int i10 = 0;
-                while (i10 < i9) {
+                int i8 = readUnsignedExpGolombCodedInt != 3 ? 8 : 12;
+                int i9 = 0;
+                while (i9 < i8) {
                     if (parsableNalUnitBitArray.readBit()) {
-                        skipScalingList(parsableNalUnitBitArray, i10 < 6 ? 16 : 64);
+                        skipScalingList(parsableNalUnitBitArray, i9 < 6 ? 16 : 64);
                     }
-                    i10++;
+                    i9++;
                 }
             }
         } else {
-            i3 = 1;
-            z = false;
+            readUnsignedExpGolombCodedInt = 1;
+            readBit = false;
         }
-        int readUnsignedExpGolombCodedInt2 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 4;
-        int readUnsignedExpGolombCodedInt3 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
-        if (readUnsignedExpGolombCodedInt3 == 0) {
-            i4 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 4;
-        } else if (readUnsignedExpGolombCodedInt3 == 1) {
-            boolean readBit2 = parsableNalUnitBitArray.readBit();
+        int readUnsignedExpGolombCodedInt3 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 4;
+        int readUnsignedExpGolombCodedInt4 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
+        if (readUnsignedExpGolombCodedInt4 == 0) {
+            i3 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 4;
+        } else if (readUnsignedExpGolombCodedInt4 == 1) {
+            boolean readBit3 = parsableNalUnitBitArray.readBit();
             parsableNalUnitBitArray.readSignedExpGolombCodedInt();
             parsableNalUnitBitArray.readSignedExpGolombCodedInt();
-            long readUnsignedExpGolombCodedInt4 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
-            for (int i11 = 0; i11 < readUnsignedExpGolombCodedInt4; i11++) {
+            long readUnsignedExpGolombCodedInt5 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
+            for (int i10 = 0; i10 < readUnsignedExpGolombCodedInt5; i10++) {
                 parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             }
-            z2 = readBit2;
-            i4 = 0;
+            z = readBit3;
+            i3 = 0;
             parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             parsableNalUnitBitArray.skipBit();
-            int readUnsignedExpGolombCodedInt5 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1;
-            readBit = parsableNalUnitBitArray.readBit();
-            int readUnsignedExpGolombCodedInt6 = (2 - (readBit == true ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
-            if (readBit == 0) {
+            int readUnsignedExpGolombCodedInt6 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1;
+            readBit2 = parsableNalUnitBitArray.readBit();
+            int readUnsignedExpGolombCodedInt7 = (2 - (readBit2 == true ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
+            if (readBit2 == 0) {
                 parsableNalUnitBitArray.skipBit();
             }
             parsableNalUnitBitArray.skipBit();
-            int i12 = readUnsignedExpGolombCodedInt5 * 16;
-            int i13 = readUnsignedExpGolombCodedInt6 * 16;
+            int i11 = readUnsignedExpGolombCodedInt6 * 16;
+            int i12 = readUnsignedExpGolombCodedInt7 * 16;
             if (parsableNalUnitBitArray.readBit()) {
-                int readUnsignedExpGolombCodedInt7 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
                 int readUnsignedExpGolombCodedInt8 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
                 int readUnsignedExpGolombCodedInt9 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
                 int readUnsignedExpGolombCodedInt10 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
-                if (i3 == 0) {
-                    i5 = 2 - readBit;
+                int readUnsignedExpGolombCodedInt11 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
+                if (readUnsignedExpGolombCodedInt == 0) {
+                    i6 = 2 - readBit2;
                 } else {
-                    if (i3 == 3) {
-                        i7 = 1;
-                        i6 = 1;
+                    if (readUnsignedExpGolombCodedInt == 3) {
+                        i4 = 1;
+                        i5 = 1;
                     } else {
-                        i7 = 1;
-                        i6 = 2;
+                        i4 = 1;
+                        i5 = 2;
                     }
-                    if (i3 == i7) {
-                        i7 = 2;
+                    if (readUnsignedExpGolombCodedInt == i4) {
+                        i4 = 2;
                     }
-                    i5 = (2 - readBit) * i7;
-                    i8 = i6;
+                    i6 = (2 - readBit2) * i4;
+                    i7 = i5;
                 }
-                i12 -= (readUnsignedExpGolombCodedInt7 + readUnsignedExpGolombCodedInt8) * i8;
-                i13 -= (readUnsignedExpGolombCodedInt9 + readUnsignedExpGolombCodedInt10) * i5;
+                i11 -= (readUnsignedExpGolombCodedInt8 + readUnsignedExpGolombCodedInt9) * i7;
+                i12 -= (readUnsignedExpGolombCodedInt10 + readUnsignedExpGolombCodedInt11) * i6;
             }
-            int i14 = i13;
-            int i15 = i12;
+            int i13 = i12;
+            int i14 = i11;
             float f2 = 1.0f;
             if (parsableNalUnitBitArray.readBit() && parsableNalUnitBitArray.readBit()) {
                 readBits = parsableNalUnitBitArray.readBits(8);
@@ -256,37 +256,37 @@ public final class NalUnitUtil {
                         Log.w("NalUnitUtil", "Unexpected aspect_ratio_idc value: " + readBits);
                     }
                 }
-                return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt, i15, i14, f, z, readBit, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt3, i4, z2);
+                return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt2, i14, i13, f, readBit, readBit2, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i3, z);
             }
             f = 1.0f;
-            return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt, i15, i14, f, z, readBit, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt3, i4, z2);
+            return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt2, i14, i13, f, readBit, readBit2, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i3, z);
         } else {
-            i4 = 0;
+            i3 = 0;
         }
-        z2 = false;
+        z = false;
         parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
         parsableNalUnitBitArray.skipBit();
-        int readUnsignedExpGolombCodedInt52 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1;
-        readBit = parsableNalUnitBitArray.readBit();
-        int readUnsignedExpGolombCodedInt62 = (2 - (readBit == true ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
-        if (readBit == 0) {
+        int readUnsignedExpGolombCodedInt62 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1;
+        readBit2 = parsableNalUnitBitArray.readBit();
+        int readUnsignedExpGolombCodedInt72 = (2 - (readBit2 == true ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
+        if (readBit2 == 0) {
         }
         parsableNalUnitBitArray.skipBit();
-        int i122 = readUnsignedExpGolombCodedInt52 * 16;
-        int i132 = readUnsignedExpGolombCodedInt62 * 16;
+        int i112 = readUnsignedExpGolombCodedInt62 * 16;
+        int i122 = readUnsignedExpGolombCodedInt72 * 16;
         if (parsableNalUnitBitArray.readBit()) {
         }
-        int i142 = i132;
-        int i152 = i122;
+        int i132 = i122;
+        int i142 = i112;
         float f22 = 1.0f;
         if (parsableNalUnitBitArray.readBit()) {
             readBits = parsableNalUnitBitArray.readBits(8);
             if (readBits != 255) {
             }
-            return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt, i152, i142, f, z, readBit, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt3, i4, z2);
+            return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt2, i142, i132, f, readBit, readBit2, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i3, z);
         }
         f = 1.0f;
-        return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt, i152, i142, f, z, readBit, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt3, i4, z2);
+        return new SpsData(readBits2, readBits3, readBits4, readUnsignedExpGolombCodedInt2, i142, i132, f, readBit, readBit2, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i3, z);
     }
 
     public static PpsData parsePpsNalUnit(byte[] bArr, int i, int i2) {
@@ -298,7 +298,7 @@ public final class NalUnitUtil {
         return new PpsData(readUnsignedExpGolombCodedInt, readUnsignedExpGolombCodedInt2, parsableNalUnitBitArray.readBit());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x0097, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0097, code lost:
         r8 = true;
      */
     /*

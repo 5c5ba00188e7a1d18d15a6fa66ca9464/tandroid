@@ -49,19 +49,19 @@ public class CreationTextCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-        int i5;
-        int i6 = i3 - i;
+        int dp;
+        int i5 = i3 - i;
         int textHeight = ((i4 - i2) - this.textView.getTextHeight()) / 2;
         if (LocaleController.isRTL) {
-            i5 = (getMeasuredWidth() - this.textView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.startPadding : 25.0f);
+            dp = (getMeasuredWidth() - this.textView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.startPadding : 25.0f);
         } else {
-            i5 = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.startPadding : 25.0f);
+            dp = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? this.startPadding : 25.0f);
         }
         SimpleTextView simpleTextView = this.textView;
-        simpleTextView.layout(i5, textHeight, simpleTextView.getMeasuredWidth() + i5, this.textView.getMeasuredHeight() + textHeight);
-        int dp = !LocaleController.isRTL ? (AndroidUtilities.dp(this.startPadding) - this.imageView.getMeasuredWidth()) / 2 : (i6 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(25.0f);
+        simpleTextView.layout(dp, textHeight, simpleTextView.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight);
+        int dp2 = !LocaleController.isRTL ? (AndroidUtilities.dp(this.startPadding) - this.imageView.getMeasuredWidth()) / 2 : (i5 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(25.0f);
         ImageView imageView = this.imageView;
-        imageView.layout(dp, 0, imageView.getMeasuredWidth() + dp, this.imageView.getMeasuredHeight());
+        imageView.layout(dp2, 0, imageView.getMeasuredWidth() + dp2, this.imageView.getMeasuredHeight());
     }
 
     @Override // android.view.View

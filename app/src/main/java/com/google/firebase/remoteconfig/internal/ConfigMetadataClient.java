@@ -20,10 +20,12 @@ public class ConfigMetadataClient {
         return this.frcMetadata.getLong("fetch_timeout_in_seconds", 60L);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Date getLastSuccessfulFetchTime() {
         return new Date(this.frcMetadata.getLong("last_fetch_time_in_millis", -1L));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String getLastFetchETag() {
         return this.frcMetadata.getString("last_fetch_etag", null);
     }
@@ -38,30 +40,35 @@ public class ConfigMetadataClient {
         return build;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void updateLastFetchAsSuccessfulAt(Date date) {
         synchronized (this.frcInfoLock) {
             this.frcMetadata.edit().putInt("last_fetch_status", -1).putLong("last_fetch_time_in_millis", date.getTime()).apply();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void updateLastFetchAsFailed() {
         synchronized (this.frcInfoLock) {
             this.frcMetadata.edit().putInt("last_fetch_status", 1).apply();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void updateLastFetchAsThrottled() {
         synchronized (this.frcInfoLock) {
             this.frcMetadata.edit().putInt("last_fetch_status", 2).apply();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setLastFetchETag(String str) {
         synchronized (this.frcInfoLock) {
             this.frcMetadata.edit().putString("last_fetch_etag", str).apply();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public BackoffMetadata getBackoffMetadata() {
         BackoffMetadata backoffMetadata;
         synchronized (this.backoffMetadataLock) {
@@ -70,16 +77,19 @@ public class ConfigMetadataClient {
         return backoffMetadata;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setBackoffMetadata(int i, Date date) {
         synchronized (this.backoffMetadataLock) {
             this.frcMetadata.edit().putInt("num_failed_fetches", i).putLong("backoff_end_time_in_millis", date.getTime()).apply();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void resetBackoff() {
         setBackoffMetadata(0, NO_BACKOFF_TIME);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class BackoffMetadata {
         private Date backoffEndTime;
@@ -90,10 +100,12 @@ public class ConfigMetadataClient {
             this.backoffEndTime = date;
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public int getNumFailedFetches() {
             return this.numFailedFetches;
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public Date getBackoffEndTime() {
             return this.backoffEndTime;
         }

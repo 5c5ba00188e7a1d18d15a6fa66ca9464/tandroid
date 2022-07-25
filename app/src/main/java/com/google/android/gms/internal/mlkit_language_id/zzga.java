@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzga {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String zza(zzfz zzfzVar, String str) {
         StringBuilder sb = new StringBuilder();
         sb.append("# ");
@@ -19,27 +21,27 @@ public final class zzga {
         return sb.toString();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x01e5, code lost:
-        if (((java.lang.Boolean) r6).booleanValue() == false) goto L84;
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x021b, code lost:
+        if (((java.lang.Double) r6).doubleValue() == 0.0d) goto L82;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x01e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x01e5, code lost:
+        if (((java.lang.Boolean) r6).booleanValue() == false) goto L82;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x01e7, code lost:
         r4 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x01f8, code lost:
-        if (((java.lang.Integer) r6).intValue() == 0) goto L84;
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x01f8, code lost:
+        if (((java.lang.Integer) r6).intValue() == 0) goto L82;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0209, code lost:
-        if (((java.lang.Float) r6).floatValue() == 0.0f) goto L84;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x021b, code lost:
-        if (((java.lang.Double) r6).doubleValue() == 0.0d) goto L84;
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x0209, code lost:
+        if (((java.lang.Float) r6).floatValue() == 0.0f) goto L82;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static void zza(zzfz zzfzVar, StringBuilder sb, int i) {
         Method[] declaredMethods;
-        boolean z;
+        boolean equals;
         HashMap hashMap = new HashMap();
         HashMap hashMap2 = new HashMap();
         TreeSet<String> treeSet = new TreeSet();
@@ -54,7 +56,7 @@ public final class zzga {
         }
         for (String str : treeSet) {
             String substring = str.startsWith("get") ? str.substring(3) : str;
-            boolean z2 = true;
+            boolean z = true;
             if (substring.endsWith("List") && !substring.endsWith("OrBuilderList") && !substring.equals("List")) {
                 String valueOf = String.valueOf(substring.substring(0, 1).toLowerCase());
                 String valueOf2 = String.valueOf(substring.substring(1, substring.length() - 4));
@@ -92,23 +94,23 @@ public final class zzga {
                                 if (!(zza instanceof Float)) {
                                     if (!(zza instanceof Double)) {
                                         if (zza instanceof String) {
-                                            z = zza.equals("");
+                                            equals = zza.equals("");
                                         } else if (zza instanceof zzdn) {
-                                            z = zza.equals(zzdn.zza);
+                                            equals = zza.equals(zzdn.zza);
                                         } else {
-                                            z = !(zza instanceof zzfz) ? false : false;
+                                            equals = !(zza instanceof zzfz) ? false : false;
                                         }
                                     }
                                 }
                             }
                         }
-                        if (z) {
-                            z2 = false;
+                        if (equals) {
+                            z = false;
                         }
                     } else {
-                        z2 = ((Boolean) zzeo.zza(method5, zzfzVar, new Object[0])).booleanValue();
+                        z = ((Boolean) zzeo.zza(method5, zzfzVar, new Object[0])).booleanValue();
                     }
-                    if (z2) {
+                    if (z) {
                         zza(sb, i, zza(concat3), zza);
                     }
                 }
@@ -127,6 +129,7 @@ public final class zzga {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final void zza(StringBuilder sb, int i, String str, Object obj) {
         if (obj instanceof List) {
             for (Object obj2 : (List) obj) {

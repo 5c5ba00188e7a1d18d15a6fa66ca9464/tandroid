@@ -2,9 +2,9 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class C4 extends D4 implements j$.util.u {
+final class C4 extends D4 implements j$.util.u {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public C4(j$.util.u uVar, long j, long j2) {
         super(uVar, j, j2, 0L, Math.min(uVar.estimateSize(), j2));
     }

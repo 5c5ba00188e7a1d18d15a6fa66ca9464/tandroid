@@ -152,6 +152,7 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LocationRequest(int i, long j, long j2, boolean z, long j3, int i2, float f, long j4, boolean z2) {
         this.zza = i;
         this.zzb = j;

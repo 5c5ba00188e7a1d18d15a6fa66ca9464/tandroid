@@ -55,6 +55,7 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
         return RendererCapabilities.CC.create(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
     public void onStreamChanged(Format[] formatArr, long j) {
         this.decoder = this.decoderFactory.createDecoder(formatArr[0]);

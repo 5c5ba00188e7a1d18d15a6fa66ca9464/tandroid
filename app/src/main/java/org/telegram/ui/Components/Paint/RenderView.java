@@ -80,7 +80,8 @@ public class RenderView extends TextureView {
         });
     }
 
-    /* renamed from: org.telegram.ui.Components.Paint.RenderView$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.Paint.RenderView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -88,7 +89,6 @@ public class RenderView extends TextureView {
         }
 
         AnonymousClass1() {
-            RenderView.this = r1;
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -122,6 +122,7 @@ public class RenderView extends TextureView {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSurfaceTextureSizeChanged$0() {
             if (RenderView.this.internal != null) {
                 RenderView.this.internal.requestRender();
@@ -141,6 +142,7 @@ public class RenderView extends TextureView {
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSurfaceTextureDestroyed$1() {
             RenderView.this.internal.shutdown();
             RenderView.this.internal = null;
@@ -213,6 +215,7 @@ public class RenderView extends TextureView {
         painting.setBrush(brush);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateTransform() {
         Matrix matrix = new Matrix();
         float f = 1.0f;
@@ -260,12 +263,14 @@ public class RenderView extends TextureView {
         setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$shutdown$0() {
         this.painting.cleanResources(this.transformedBitmap);
         this.internal.shutdown();
         this.internal = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class CanvasInternal extends DispatchQueue {
         private int bufferHeight;
@@ -280,10 +285,8 @@ public class RenderView extends TextureView {
         private Runnable scheduledRunnable;
         private SurfaceTexture surfaceTexture;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public CanvasInternal(SurfaceTexture surfaceTexture) {
             super("CanvasInternal");
-            RenderView.this = r1;
             this.surfaceTexture = surfaceTexture;
         }
 
@@ -384,6 +387,7 @@ public class RenderView extends TextureView {
             RenderView.this.transformedBitmap = true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean setCurrentContext() {
             if (!this.initialized) {
                 return false;
@@ -397,11 +401,11 @@ public class RenderView extends TextureView {
             return egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext);
         }
 
-        /* renamed from: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$1 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$1  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass1 implements Runnable {
             AnonymousClass1() {
-                CanvasInternal.this = r1;
             }
 
             @Override // java.lang.Runnable
@@ -432,6 +436,7 @@ public class RenderView extends TextureView {
                 CanvasInternal.this.ready = true;
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$run$0() {
                 RenderView.this.delegate.onFirstDraw();
             }
@@ -442,6 +447,7 @@ public class RenderView extends TextureView {
             this.bufferHeight = i2;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$requestRender$0() {
             this.drawRunnable.run();
         }
@@ -471,6 +477,7 @@ public class RenderView extends TextureView {
             postRunnable(runnable2, 1L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$scheduleRedraw$1() {
             this.scheduledRunnable = null;
             this.drawRunnable.run();
@@ -506,6 +513,7 @@ public class RenderView extends TextureView {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$shutdown$2() {
             finish();
             Looper myLooper = Looper.myLooper();
@@ -534,6 +542,7 @@ public class RenderView extends TextureView {
             return bitmapArr[0];
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$getTexture$3(Bitmap[] bitmapArr, CountDownLatch countDownLatch) {
             Painting.PaintingData paintingData = RenderView.this.painting.getPaintingData(new RectF(0.0f, 0.0f, RenderView.this.painting.getSize().width, RenderView.this.painting.getSize().height), false);
             if (paintingData != null) {
@@ -564,6 +573,7 @@ public class RenderView extends TextureView {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$performInContext$1(Runnable runnable) {
         CanvasInternal canvasInternal = this.internal;
         if (canvasInternal == null || !canvasInternal.initialized) {

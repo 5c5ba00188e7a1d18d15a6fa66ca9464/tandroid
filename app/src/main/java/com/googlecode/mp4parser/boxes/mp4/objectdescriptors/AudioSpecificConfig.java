@@ -295,7 +295,6 @@ public class AudioSpecificConfig extends BaseDescriptor {
 
         public ELDSpecificConfig(int i, BitReaderBuffer bitReaderBuffer) {
             int i2;
-            AudioSpecificConfig.this = r4;
             bitReaderBuffer.readBool();
             bitReaderBuffer.readBool();
             bitReaderBuffer.readBool();

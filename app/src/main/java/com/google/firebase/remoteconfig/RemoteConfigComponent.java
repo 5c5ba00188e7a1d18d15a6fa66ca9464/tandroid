@@ -39,10 +39,12 @@ public class RemoteConfigComponent {
     private final FirebaseInstallationsApi firebaseInstallations;
     private final Map<String, FirebaseRemoteConfig> frcNamespaceInstances;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ AnalyticsConnector lambda$getFetchHandler$0() {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public RemoteConfigComponent(Context context, FirebaseApp firebaseApp, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Provider<AnalyticsConnector> provider) {
         this(context, Executors.newCachedThreadPool(), firebaseApp, firebaseInstallationsApi, firebaseABTesting, provider, true);
     }
@@ -67,6 +69,7 @@ public class RemoteConfigComponent {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FirebaseRemoteConfig getDefault() {
         return get("firebase");
     }

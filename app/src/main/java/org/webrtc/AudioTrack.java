@@ -11,6 +11,7 @@ public class AudioTrack extends MediaStreamTrack {
         nativeSetVolume(getNativeAudioTrack(), d);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getNativeAudioTrack() {
         return getNativeMediaStreamTrack();
     }

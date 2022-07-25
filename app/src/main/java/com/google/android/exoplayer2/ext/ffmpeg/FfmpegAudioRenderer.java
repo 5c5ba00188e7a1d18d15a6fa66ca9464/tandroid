@@ -53,8 +53,10 @@ public final class FfmpegAudioRenderer extends SimpleDecoderAudioRenderer {
         return !BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData) ? 2 : 4;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
-    public FfmpegDecoder createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws FfmpegDecoderException {
+    /* renamed from: createDecoder  reason: collision with other method in class */
+    public FfmpegDecoder mo90createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws FfmpegDecoderException {
         int i = format.maxInputSize;
         FfmpegDecoder ffmpegDecoder = new FfmpegDecoder(16, 16, i != -1 ? i : DEFAULT_INPUT_BUFFER_SIZE, format, shouldUseFloatOutput(format));
         this.decoder = ffmpegDecoder;

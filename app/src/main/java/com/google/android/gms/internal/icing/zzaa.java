@@ -6,6 +6,7 @@ import android.os.RemoteException;
 /* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzaa extends zza {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzaa(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.appdatasearch.internal.ILightweightAppDataSearch");
     }

@@ -8,6 +8,7 @@ import javax.annotation.concurrent.GuardedBy;
 final class zaai extends zaay {
     private final /* synthetic */ BaseGmsClient.ConnectionProgressReportCallbacks zaa;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zaai(zaag zaagVar, zaaw zaawVar, BaseGmsClient.ConnectionProgressReportCallbacks connectionProgressReportCallbacks) {
         super(zaawVar);

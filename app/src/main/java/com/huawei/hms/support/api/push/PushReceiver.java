@@ -21,6 +21,7 @@ import org.json.JSONObject;
 /* loaded from: classes.dex */
 public final class PushReceiver extends BroadcastReceiver {
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class a implements Runnable {
         public Context a;
@@ -79,6 +80,7 @@ public final class PushReceiver extends BroadcastReceiver {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class b implements Runnable {
         public Context a;

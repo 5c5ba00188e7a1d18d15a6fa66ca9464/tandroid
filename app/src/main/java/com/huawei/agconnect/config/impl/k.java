@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class k extends j {
     private final Map<String, String> a = new HashMap();
@@ -13,6 +14,7 @@ public class k extends j {
     private g c;
     private boolean d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public k(Context context, String str) {
         super(context, str);
         this.d = true;

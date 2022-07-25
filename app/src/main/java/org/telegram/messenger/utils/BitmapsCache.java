@@ -185,6 +185,7 @@ public class BitmapsCache {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCache$0(Bitmap[] bitmapArr, int i, ByteArrayOutputStream[] byteArrayOutputStreamArr, int i2, RandomAccessFile randomAccessFile, ArrayList arrayList, CountDownLatch[] countDownLatchArr) {
         bitmapArr[i].compress(Bitmap.CompressFormat.WEBP, this.compressQuality, byteArrayOutputStreamArr[i]);
         int i3 = byteArrayOutputStreamArr[i].count;
@@ -216,13 +217,11 @@ public class BitmapsCache {
         return frame;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:61:0x00d0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00d0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public int getFrame(int i, Bitmap bitmap) {
-        IOException e;
-        Throwable th;
         RandomAccessFile randomAccessFile;
         if (this.error) {
             return -1;
@@ -253,8 +252,8 @@ public class BitmapsCache {
                                 randomAccessFile.close();
                                 return -1;
                             }
-                        } catch (Throwable th2) {
-                            th = th2;
+                        } catch (Throwable th) {
+                            th = th;
                             randomAccessFile2 = randomAccessFile;
                             throw th;
                         }
@@ -282,26 +281,26 @@ public class BitmapsCache {
                         if (randomAccessFile2 != null) {
                             try {
                                 randomAccessFile2.close();
-                            } catch (IOException e2) {
-                                e2.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                         return -1;
-                    } catch (IOException e3) {
-                        e = e3;
+                    } catch (IOException e2) {
+                        e = e2;
                         randomAccessFile2 = randomAccessFile;
                         FileLog.e(e);
                         if (randomAccessFile2 != null) {
                         }
                         return -1;
                     }
-                } catch (Throwable th3) {
-                    th = th3;
+                } catch (Throwable th2) {
+                    th = th2;
                 }
             }
         } catch (FileNotFoundException unused2) {
-        } catch (IOException e4) {
-            e = e4;
+        } catch (IOException e3) {
+            e = e3;
         }
     }
 
@@ -322,6 +321,7 @@ public class BitmapsCache {
         this.recycled = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class FrameOffset {
         int frameOffset;

@@ -35,11 +35,12 @@ public abstract class EnhancedIntentService extends Service {
         }
     }
 
-    public Task<Void> processIntent(Intent intent) {
+    /* JADX INFO: Access modifiers changed from: private */
+    public Task<Void> processIntent(final Intent intent) {
         if (handleIntentOnMainThread(intent)) {
             return Tasks.forResult(null);
         }
-        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
         this.executor.execute(new Runnable(this, intent, taskCompletionSource) { // from class: com.google.firebase.messaging.EnhancedIntentService$$Lambda$0
             private final EnhancedIntentService arg$1;
             private final Intent arg$2;
@@ -68,10 +69,12 @@ public abstract class EnhancedIntentService extends Service {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void lambda$onStartCommand$1$EnhancedIntentService(Intent intent, Task task) {
         finishTask(intent);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void lambda$processIntent$0$EnhancedIntentService(Intent intent, TaskCompletionSource taskCompletionSource) {
         try {
             handleIntent(intent);
@@ -103,7 +106,7 @@ public abstract class EnhancedIntentService extends Service {
     }
 
     @Override // android.app.Service
-    public final int onStartCommand(Intent intent, int i, int i2) {
+    public final int onStartCommand(final Intent intent, int i, int i2) {
         synchronized (this.lock) {
             this.lastStartId = i2;
             this.runningTasks++;

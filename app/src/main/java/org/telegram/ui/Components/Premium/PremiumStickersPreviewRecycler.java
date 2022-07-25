@@ -70,6 +70,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$new$0(StickerView stickerView, StickerView stickerView2) {
         return (int) ((stickerView.progress * 100.0f) - (stickerView2.progress * 100.0f));
     }
@@ -128,6 +129,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         setStickers();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view, int i) {
         if (view != null) {
             drawEffectForView(view, true);
@@ -136,6 +138,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onMeasure(int i, int i2) {
         if (View.MeasureSpec.getSize(i2) > View.MeasureSpec.getSize(i)) {
@@ -146,6 +149,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         super.onMeasure(i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void scheduleAutoScroll() {
         if (!this.autoPlayEnabled) {
             return;
@@ -154,6 +158,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         AndroidUtilities.runOnUIThread(this.autoScrollRunnable, 2700L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void drawEffectForView(View view, boolean z) {
         this.hasSelectedView = view != null;
         for (int i = 0; i < getChildCount(); i++) {
@@ -166,6 +171,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
@@ -188,6 +194,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLayout$2() {
         int size = 1073741823 - (1073741823 % this.premiumStickers.size());
         LinearLayoutManager linearLayoutManager = this.layoutManager;
@@ -196,6 +203,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         drawEffectForView(null, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         if (!this.isVisible) {
@@ -248,9 +256,8 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
             return Integer.MAX_VALUE;
@@ -262,11 +269,11 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         }
 
         private Adapter() {
-            PremiumStickersPreviewRecycler.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             StickerView stickerView = new StickerView(viewGroup.getContext());
             stickerView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
             return new RecyclerListView.Holder(stickerView);
@@ -283,6 +290,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -290,6 +298,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         scheduleAutoScroll();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -310,6 +319,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class StickerView extends FrameLayout {
         boolean animateImage = true;
@@ -347,11 +357,9 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
             return f2;
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public StickerView(Context context) {
             super(context);
-            PremiumStickersPreviewRecycler.this = r3;
-            this.view = new View(context, r3) { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler.StickerView.1
+            this.view = new View(context, PremiumStickersPreviewRecycler.this) { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler.StickerView.1
                 @Override // android.view.View
                 public void draw(Canvas canvas) {
                     super.draw(canvas);

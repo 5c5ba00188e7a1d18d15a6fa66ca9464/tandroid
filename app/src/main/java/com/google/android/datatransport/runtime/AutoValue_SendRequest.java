@@ -30,15 +30,13 @@ final class AutoValue_SendRequest extends SendRequest {
         return this.transportName;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.SendRequest
-    public Event<?> getEvent() {
+    Event<?> getEvent() {
         return this.event;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.SendRequest
-    public Transformer<?, byte[]> getTransformer() {
+    Transformer<?, byte[]> getTransformer() {
         return this.transformer;
     }
 
@@ -66,9 +64,8 @@ final class AutoValue_SendRequest extends SendRequest {
         return ((((((((this.transportContext.hashCode() ^ 1000003) * 1000003) ^ this.transportName.hashCode()) * 1000003) ^ this.event.hashCode()) * 1000003) ^ this.transformer.hashCode()) * 1000003) ^ this.encoding.hashCode();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends SendRequest.Builder {
+    static final class Builder extends SendRequest.Builder {
         private Encoding encoding;
         private Event<?> event;
         private Transformer<?, byte[]> transformer;
@@ -93,9 +90,8 @@ final class AutoValue_SendRequest extends SendRequest {
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
-        public SendRequest.Builder setEvent(Event<?> event) {
+        SendRequest.Builder setEvent(Event<?> event) {
             if (event == null) {
                 throw new NullPointerException("Null event");
             }
@@ -103,9 +99,8 @@ final class AutoValue_SendRequest extends SendRequest {
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
-        public SendRequest.Builder setTransformer(Transformer<?, byte[]> transformer) {
+        SendRequest.Builder setTransformer(Transformer<?, byte[]> transformer) {
             if (transformer == null) {
                 throw new NullPointerException("Null transformer");
             }
@@ -113,9 +108,8 @@ final class AutoValue_SendRequest extends SendRequest {
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
-        public SendRequest.Builder setEncoding(Encoding encoding) {
+        SendRequest.Builder setEncoding(Encoding encoding) {
             if (encoding == null) {
                 throw new NullPointerException("Null encoding");
             }

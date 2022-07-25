@@ -11,6 +11,7 @@ public class WorkInitializer {
     private final WorkScheduler scheduler;
     private final EventStore store;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public WorkInitializer(Executor executor, EventStore eventStore, WorkScheduler workScheduler, SynchronizationGuard synchronizationGuard) {
         this.executor = executor;
         this.store = eventStore;
@@ -27,6 +28,7 @@ public class WorkInitializer {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$ensureContextsScheduled$1() {
         this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer$$ExternalSyntheticLambda0
             @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
@@ -38,6 +40,7 @@ public class WorkInitializer {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$ensureContextsScheduled$0() {
         for (TransportContext transportContext : this.store.loadActiveContexts()) {
             this.scheduler.schedule(transportContext, 1);

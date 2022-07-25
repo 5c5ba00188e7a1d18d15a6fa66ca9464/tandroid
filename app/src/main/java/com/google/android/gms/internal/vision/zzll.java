@@ -7,6 +7,7 @@ final class zzll {
     private static final Iterator<Object> zza = new zzlk();
     private static final Iterable<Object> zzb = new zzln();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> Iterable<T> zza() {
         return (Iterable<T>) zzb;
     }

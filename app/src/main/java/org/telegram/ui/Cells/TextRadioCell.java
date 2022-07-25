@@ -32,11 +32,13 @@ public class TextRadioCell extends FrameLayout {
 
     static {
         new AnimationProperties.FloatProperty<TextRadioCell>("animationProgress") { // from class: org.telegram.ui.Cells.TextRadioCell.1
+            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
             public void setValue(TextRadioCell textRadioCell, float f) {
                 textRadioCell.setAnimationProgress(f);
                 textRadioCell.invalidate();
             }
 
+            @Override // android.util.Property
             public Float get(TextRadioCell textRadioCell) {
                 return Float.valueOf(textRadioCell.animationProgress);
             }
@@ -154,6 +156,7 @@ public class TextRadioCell extends FrameLayout {
         super.setBackgroundColor(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setAnimationProgress(float f) {
         this.animationProgress = f;
         Math.max(this.lastTouchX, getMeasuredWidth() - this.lastTouchX);
@@ -173,8 +176,8 @@ public class TextRadioCell extends FrameLayout {
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        String str;
         int i;
+        String str;
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         accessibilityNodeInfo.setCheckable(true);
         accessibilityNodeInfo.setChecked(this.radioButton.isChecked());

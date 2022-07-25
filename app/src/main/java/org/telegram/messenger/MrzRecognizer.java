@@ -183,20 +183,20 @@ public class MrzRecognizer {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:181:0x0252 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0271 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x01f4  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x03c6  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x03f4  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0252 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0271 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0253  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x03c6  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x03f4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static Result recognizeMRZ(Bitmap bitmap) {
-        Bitmap bitmap2;
-        float f;
+        float max;
+        Bitmap createScaledBitmap;
         int i;
         int i2;
         int i3;
@@ -207,16 +207,16 @@ public class MrzRecognizer {
         String replace2;
         Matrix matrix;
         Matrix matrix2;
-        Bitmap bitmap3 = bitmap;
+        Bitmap bitmap2 = bitmap;
         if (bitmap.getWidth() > 512 || bitmap.getHeight() > 512) {
-            f = 512.0f / Math.max(bitmap.getWidth(), bitmap.getHeight());
-            bitmap2 = Bitmap.createScaledBitmap(bitmap3, Math.round(bitmap.getWidth() * f), Math.round(bitmap.getHeight() * f), true);
+            max = 512.0f / Math.max(bitmap.getWidth(), bitmap.getHeight());
+            createScaledBitmap = Bitmap.createScaledBitmap(bitmap2, Math.round(bitmap.getWidth() * max), Math.round(bitmap.getHeight() * max), true);
         } else {
-            f = 1.0f;
-            bitmap2 = bitmap3;
+            max = 1.0f;
+            createScaledBitmap = bitmap2;
         }
-        int[] findCornerPoints = findCornerPoints(bitmap2);
-        float f2 = 1.0f / f;
+        int[] findCornerPoints = findCornerPoints(createScaledBitmap);
+        float f = 1.0f / max;
         if (findCornerPoints != null) {
             Point point = new Point(findCornerPoints[0], findCornerPoints[1]);
             Point point2 = new Point(findCornerPoints[2], findCornerPoints[3]);
@@ -241,17 +241,17 @@ public class MrzRecognizer {
             if (d >= 1.35d && d <= 1.75d && d3 >= 1.35d && d3 <= 1.75d && d2 >= 1.35d && d2 <= 1.75d && d4 >= 1.35d && d4 <= 1.75d) {
                 Bitmap createBitmap = Bitmap.createBitmap(1024, (int) Math.round(1024.0d / ((((d + d2) + d3) + d4) / 4.0d)), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(createBitmap);
-                float[] fArr = {point2.x * f2, point2.y * f2, point.x * f2, point.y * f2, point5.x * f2, point5.y * f2, point6.x * f2, point6.y * f2};
+                float[] fArr = {point2.x * f, point2.y * f, point.x * f, point.y * f, point5.x * f, point5.y * f, point6.x * f, point6.y * f};
                 Matrix matrix3 = new Matrix();
                 matrix3.setPolyToPoly(fArr, 0, new float[]{0.0f, 0.0f, createBitmap.getWidth(), 0.0f, createBitmap.getWidth(), createBitmap.getHeight(), 0.0f, createBitmap.getHeight()}, 0, 4);
-                canvas.drawBitmap(bitmap3, matrix3, new Paint(2));
-                bitmap3 = createBitmap;
+                canvas.drawBitmap(bitmap2, matrix3, new Paint(2));
+                bitmap2 = createBitmap;
             }
         } else if (bitmap.getWidth() > 1500 || bitmap.getHeight() > 1500) {
-            float max = 1500.0f / Math.max(bitmap.getWidth(), bitmap.getHeight());
+            float max2 = 1500.0f / Math.max(bitmap.getWidth(), bitmap.getHeight());
             i = 1;
-            bitmap3 = Bitmap.createScaledBitmap(bitmap3, Math.round(bitmap.getWidth() * max), Math.round(bitmap.getHeight() * max), true);
-            Bitmap bitmap4 = null;
+            bitmap2 = Bitmap.createScaledBitmap(bitmap2, Math.round(bitmap.getWidth() * max2), Math.round(bitmap.getHeight() * max2), true);
+            Bitmap bitmap3 = null;
             Rect[][] rectArr = null;
             i2 = 0;
             i3 = 0;
@@ -262,16 +262,16 @@ public class MrzRecognizer {
                     break;
                 }
                 if (i2 == i) {
-                    matrix2 = new Matrix();
-                    matrix2.setRotate(1.0f, bitmap3.getWidth() / 2, bitmap3.getHeight() / 2);
+                    matrix = new Matrix();
+                    matrix.setRotate(1.0f, bitmap2.getWidth() / 2, bitmap2.getHeight() / 2);
                 } else if (i2 == 2) {
-                    matrix2 = new Matrix();
-                    matrix2.setRotate(-1.0f, bitmap3.getWidth() / 2, bitmap3.getHeight() / 2);
+                    matrix = new Matrix();
+                    matrix.setRotate(-1.0f, bitmap2.getWidth() / 2, bitmap2.getHeight() / 2);
                 } else {
-                    matrix = null;
-                    Bitmap createBitmap2 = matrix == null ? Bitmap.createBitmap(bitmap3, 0, 0, bitmap3.getWidth(), bitmap3.getHeight(), matrix, true) : bitmap3;
-                    bitmap4 = Bitmap.createBitmap(createBitmap2.getWidth(), createBitmap2.getHeight(), Bitmap.Config.ALPHA_8);
-                    rectArr = binarizeAndFindCharacters(createBitmap2, bitmap4);
+                    matrix2 = null;
+                    Bitmap createBitmap2 = matrix2 == null ? Bitmap.createBitmap(bitmap2, 0, 0, bitmap2.getWidth(), bitmap2.getHeight(), matrix2, true) : bitmap2;
+                    bitmap3 = Bitmap.createBitmap(createBitmap2.getWidth(), createBitmap2.getHeight(), Bitmap.Config.ALPHA_8);
+                    rectArr = binarizeAndFindCharacters(createBitmap2, bitmap3);
                     if (rectArr != null) {
                         return null;
                     }
@@ -288,11 +288,11 @@ public class MrzRecognizer {
                     i2++;
                     i = 1;
                 }
-                matrix = matrix2;
-                if (matrix == null) {
+                matrix2 = matrix;
+                if (matrix2 == null) {
                 }
-                bitmap4 = Bitmap.createBitmap(createBitmap2.getWidth(), createBitmap2.getHeight(), Bitmap.Config.ALPHA_8);
-                rectArr = binarizeAndFindCharacters(createBitmap2, bitmap4);
+                bitmap3 = Bitmap.createBitmap(createBitmap2.getWidth(), createBitmap2.getHeight(), Bitmap.Config.ALPHA_8);
+                rectArr = binarizeAndFindCharacters(createBitmap2, bitmap3);
                 if (rectArr != null) {
                 }
             }
@@ -315,7 +315,7 @@ public class MrzRecognizer {
                     int i11 = i10 * 10;
                     int i12 = i7 * 15;
                     rect.set(i11, i12, i11 + 10, i12 + 15);
-                    canvas2.drawBitmap(bitmap4, rect2, rect, paint);
+                    canvas2.drawBitmap(bitmap3, rect2, rect, paint);
                     i10++;
                     i9++;
                     length = length;
@@ -477,7 +477,7 @@ public class MrzRecognizer {
             return result;
         }
         i = 1;
-        Bitmap bitmap42 = null;
+        Bitmap bitmap32 = null;
         Rect[][] rectArr4 = null;
         i2 = 0;
         i3 = 0;

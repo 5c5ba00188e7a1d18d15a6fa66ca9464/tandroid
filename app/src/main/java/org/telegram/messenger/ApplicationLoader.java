@@ -232,6 +232,7 @@ public class ApplicationLoader extends Application {
         }, 1000L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initPushServices$3() {
         boolean checkPlayServices = checkPlayServices();
         hasPlayServices = checkPlayServices;
@@ -269,6 +270,7 @@ public class ApplicationLoader extends Application {
         PushListenerController.sendRegistrationToServer(2, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$initPushServices$1() {
         try {
             SharedConfig.pushStringGetTimeStart = SystemClock.elapsedRealtime();
@@ -278,6 +280,7 @@ public class ApplicationLoader extends Application {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$initPushServices$0(Task task) {
         SharedConfig.pushStringGetTimeEnd = SystemClock.elapsedRealtime();
         if (!task.isSuccessful()) {
@@ -295,6 +298,7 @@ public class ApplicationLoader extends Application {
         PushListenerController.sendRegistrationToServer(2, str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initPushServices$2() {
         try {
             String token = HmsInstanceId.getInstance(this).getToken(BuildVars.HUAWEI_APP_ID, HmsMessaging.DEFAULT_TOKEN_SCOPE);
@@ -338,6 +342,7 @@ public class ApplicationLoader extends Application {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void ensureCurrentNetworkGet(boolean z) {
         if (z || currentNetworkInfo == null) {
             try {

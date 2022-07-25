@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.RemoteException;
 /* loaded from: classes.dex */
 public final class zzo extends zza implements zzn {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzo(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.clearcut.internal.IClearcutLoggerService");
     }

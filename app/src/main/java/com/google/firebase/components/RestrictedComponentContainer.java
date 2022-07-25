@@ -5,6 +5,7 @@ import com.google.firebase.inject.Provider;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class RestrictedComponentContainer extends AbstractComponentContainer {
     private final Set<Class<?>> allowedDirectInterfaces;
@@ -14,6 +15,7 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
     private final Set<Class<?>> allowedSetProviderInterfaces;
     private final ComponentContainer delegateContainer;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public RestrictedComponentContainer(Component<?> component, ComponentContainer componentContainer) {
         HashSet hashSet = new HashSet();
         HashSet hashSet2 = new HashSet();

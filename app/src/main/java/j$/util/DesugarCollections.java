@@ -25,6 +25,7 @@ public class DesugarCollections {
     private static final Constructor e;
     private static final Constructor f;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes2.dex */
     public static class a implements java.util.Map, Serializable, Map {
         private final java.util.Map a;
@@ -333,7 +334,6 @@ public class DesugarCollections {
         @Override // java.util.Map, j$.util.Map
         public Collection values() {
             Collection collection;
-            Throwable e;
             Collection collection2;
             synchronized (this.b) {
                 try {
@@ -345,14 +345,14 @@ public class DesugarCollections {
                         } else {
                             try {
                                 collection2 = (Collection) DesugarCollections.e.newInstance(values, obj);
-                            } catch (IllegalAccessException e2) {
+                            } catch (IllegalAccessException e) {
+                                e = e;
+                                throw new Error("Unable to instantiate a synchronized list.", e);
+                            } catch (InstantiationException e2) {
                                 e = e2;
                                 throw new Error("Unable to instantiate a synchronized list.", e);
-                            } catch (InstantiationException e3) {
+                            } catch (InvocationTargetException e3) {
                                 e = e3;
-                                throw new Error("Unable to instantiate a synchronized list.", e);
-                            } catch (InvocationTargetException e4) {
-                                e = e4;
                                 throw new Error("Unable to instantiate a synchronized list.", e);
                             }
                         }
@@ -410,6 +410,7 @@ public class DesugarCollections {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean c(Collection collection, Predicate predicate) {
         boolean removeIf;
         Field field = c;
@@ -430,6 +431,7 @@ public class DesugarCollections {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void d(List list, Comparator comparator) {
         Field field = c;
         if (field == null) {

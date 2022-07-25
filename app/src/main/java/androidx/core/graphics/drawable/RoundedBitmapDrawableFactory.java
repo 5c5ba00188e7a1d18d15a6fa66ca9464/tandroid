@@ -8,9 +8,8 @@ import androidx.core.view.GravityCompat;
 /* loaded from: classes.dex */
 public final class RoundedBitmapDrawableFactory {
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class DefaultRoundedBitmapDrawable extends RoundedBitmapDrawable {
+    private static class DefaultRoundedBitmapDrawable extends RoundedBitmapDrawable {
         DefaultRoundedBitmapDrawable(Resources res, Bitmap bitmap) {
             super(res, bitmap);
         }

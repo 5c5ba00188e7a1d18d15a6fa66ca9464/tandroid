@@ -68,14 +68,14 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface, int i) {
         this.parentFragment.presentFragment(new StickersActivity(this.currentType));
         dialogInterface.dismiss();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         Context context;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -84,7 +84,6 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         }
 
         public ListAdapter(Context context) {
-            StickersArchiveAlert.this = r1;
             this.context = context;
         }
 
@@ -94,7 +93,8 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             ArchivedStickerSetCell archivedStickerSetCell = new ArchivedStickerSetCell(this.context, false);
             archivedStickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(82.0f)));
             return new RecyclerListView.Holder(archivedStickerSetCell);

@@ -23,6 +23,7 @@ public class ChatListCell extends LinearLayout {
     protected void didSelectChatType(boolean z) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListView extends FrameLayout {
         private RadioButton button;
@@ -66,8 +67,8 @@ public class ChatListCell extends LinearLayout {
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
-            String str;
             int i;
+            String str;
             float f;
             int color = Theme.getColor("switchTrack");
             int red = Color.red(color);
@@ -131,8 +132,8 @@ public class ChatListCell extends LinearLayout {
 
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            String str;
             int i;
+            String str;
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             accessibilityNodeInfo.setClassName(RadioButton.class.getName());
             accessibilityNodeInfo.setChecked(this.button.isChecked());
@@ -172,6 +173,7 @@ public class ChatListCell extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(boolean z, View view) {
         for (int i = 0; i < 2; i++) {
             this.listView[i].button.setChecked(this.listView[i] == view, true);

@@ -4,6 +4,7 @@ import dalvik.system.PathClassLoader;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 final class zzc extends PathClassLoader {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzc(String str, ClassLoader classLoader) {
         super(str, classLoader);
     }

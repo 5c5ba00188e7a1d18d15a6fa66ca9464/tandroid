@@ -170,6 +170,7 @@ public class VideoPlayerSeekBar {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTouch$0() {
         this.pressedDelayed = false;
     }
@@ -323,6 +324,7 @@ public class VideoPlayerSeekBar {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$updateTimestamps$1(Pair pair, Pair pair2) {
         if (((Float) pair.first).floatValue() > ((Float) pair2.first).floatValue()) {
             return 1;
@@ -398,7 +400,7 @@ public class VideoPlayerSeekBar {
             float f11 = this.bufferedAnimationValue;
             float f12 = (f10 * (1.0f - f11)) + (this.bufferedProgress * f11);
             if (f12 > 0.0f) {
-                this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f12 * (this.width - i2)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
+                this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f12 * (this.width - i)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
                 setPaintColor(this.selected ? this.backgroundSelectedColor : this.cacheColor, 1.0f - this.transitionProgress);
                 drawProgressBar(canvas, this.rect, paint);
             }
@@ -434,7 +436,7 @@ public class VideoPlayerSeekBar {
         if (f5 > 0.0f) {
             RectF rectF3 = this.rect;
             float f14 = rectF3.left;
-            rectF3.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (this.width - i), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
+            rectF3.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (this.width - i2), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
             RectF rectF4 = this.rect;
             rectF4.left = AndroidUtilities.lerp(f14, rectF4.right, 1.0f - f5);
             if (this.transitionProgress > 0.0f && this.rect.width() > 0.0f) {

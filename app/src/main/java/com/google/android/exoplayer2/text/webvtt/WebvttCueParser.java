@@ -52,6 +52,7 @@ public final class WebvttCueParser {
         return parseCue(readLine.trim(), matcher2, parsableByteArray, builder, this.textBuilder, list);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void parseCueSettingsList(String str, WebvttCue.Builder builder) {
         Matcher matcher = CUE_SETTING_PATTERN.matcher(str);
         while (matcher.find()) {
@@ -75,6 +76,7 @@ public final class WebvttCueParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void parseCueText(String str, String str2, WebvttCue.Builder builder, List<WebvttCssStyle> list) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         ArrayDeque arrayDeque = new ArrayDeque();
@@ -533,6 +535,7 @@ public final class WebvttCueParser {
         Collections.sort(list2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class StyleMatch implements Comparable<StyleMatch> {
         public final int score;
@@ -543,11 +546,13 @@ public final class WebvttCueParser {
             this.style = webvttCssStyle;
         }
 
+        @Override // java.lang.Comparable
         public int compareTo(StyleMatch styleMatch) {
             return this.score - styleMatch.score;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class StartTag {
         private static final String[] NO_CLASSES = new String[0];

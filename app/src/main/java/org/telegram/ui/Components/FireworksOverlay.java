@@ -61,6 +61,7 @@ public class FireworksOverlay extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Particle {
         byte colorType;
@@ -76,9 +77,9 @@ public class FireworksOverlay extends View {
         float y;
 
         private Particle() {
-            FireworksOverlay.this = r1;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void draw(Canvas canvas) {
             byte b = this.type;
             if (b == 0) {
@@ -106,6 +107,7 @@ public class FireworksOverlay extends View {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean update(int i) {
             float f = i / 16.0f;
             float f2 = this.x;
@@ -313,6 +315,7 @@ public class FireworksOverlay extends View {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDraw$0() {
         if (!this.started) {
             setLayerType(0, null);

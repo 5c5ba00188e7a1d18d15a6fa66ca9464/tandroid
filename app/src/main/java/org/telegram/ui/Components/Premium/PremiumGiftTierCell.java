@@ -116,6 +116,7 @@ public class PremiumGiftTierCell extends ViewGroup {
         checkRtlAndLayout(this.pricePerMonthView);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         if (this.isDrawingGradient) {

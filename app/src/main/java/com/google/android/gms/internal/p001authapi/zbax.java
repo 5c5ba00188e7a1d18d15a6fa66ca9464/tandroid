@@ -3,7 +3,7 @@ package com.google.android.gms.internal.p001authapi;
 import android.util.Base64;
 import java.util.Random;
 /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
-/* renamed from: com.google.android.gms.internal.auth-api.zbax */
+/* renamed from: com.google.android.gms.internal.auth-api.zbax  reason: invalid package */
 /* loaded from: classes.dex */
 public final class zbax {
     private static final Random zba = new Random();

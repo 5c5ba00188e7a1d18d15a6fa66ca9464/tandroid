@@ -23,6 +23,7 @@ public class ChartPickerDelegate {
     public float minDistance = 0.1f;
     CapturesData[] capturedStates = {null, null};
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public interface Listener {
         void invalidate();
@@ -69,6 +70,7 @@ public class ChartPickerDelegate {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class CapturesData {
         ValueAnimator a;
@@ -81,7 +83,6 @@ public class ChartPickerDelegate {
         public final int state;
 
         public CapturesData(int i) {
-            ChartPickerDelegate.this = r1;
             this.state = i;
         }
 
@@ -99,6 +100,7 @@ public class ChartPickerDelegate {
             this.a.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$captured$0(ValueAnimator valueAnimator) {
             this.aValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             ChartPickerDelegate.this.view.invalidate();
@@ -347,6 +349,7 @@ public class ChartPickerDelegate {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$uncapture$0(float f, float f2, float f3, float f4, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.pickerStart = f + ((f2 - f) * floatValue);

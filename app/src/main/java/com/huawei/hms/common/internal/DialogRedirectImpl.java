@@ -8,6 +8,7 @@ public class DialogRedirectImpl extends DialogRedirect {
     private final Intent intent;
     private final int requestCode;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DialogRedirectImpl(Intent intent, Activity activity, int i) {
         this.intent = intent;
         this.activity = activity;

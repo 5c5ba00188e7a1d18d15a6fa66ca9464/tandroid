@@ -2,7 +2,7 @@ package org.webrtc;
 /* loaded from: classes3.dex */
 public interface VideoDecoder {
 
-    /* renamed from: org.webrtc.VideoDecoder$-CC */
+    /* renamed from: org.webrtc.VideoDecoder$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
     public final /* synthetic */ class CC {
         @CalledByNative

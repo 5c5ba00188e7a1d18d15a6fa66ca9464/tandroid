@@ -8,6 +8,7 @@ public abstract class LuminanceSource {
 
     public abstract byte[] getRow(int i, byte[] bArr);
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public LuminanceSource(int i, int i2) {
         this.width = i;
         this.height = i2;

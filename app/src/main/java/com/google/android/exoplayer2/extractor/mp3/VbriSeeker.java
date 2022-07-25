@@ -19,14 +19,14 @@ final class VbriSeeker implements Seeker {
     }
 
     public static VbriSeeker create(long j, long j2, MpegAudioHeader mpegAudioHeader, ParsableByteArray parsableByteArray) {
-        int i;
+        int readUnsignedByte;
         parsableByteArray.skipBytes(10);
         int readInt = parsableByteArray.readInt();
         if (readInt <= 0) {
             return null;
         }
-        int i2 = mpegAudioHeader.sampleRate;
-        long scaleLargeTimestamp = Util.scaleLargeTimestamp(readInt, 1000000 * (i2 >= 32000 ? 1152 : 576), i2);
+        int i = mpegAudioHeader.sampleRate;
+        long scaleLargeTimestamp = Util.scaleLargeTimestamp(readInt, 1000000 * (i >= 32000 ? 1152 : 576), i);
         int readUnsignedShort = parsableByteArray.readUnsignedShort();
         int readUnsignedShort2 = parsableByteArray.readUnsignedShort();
         int readUnsignedShort3 = parsableByteArray.readUnsignedShort();
@@ -34,28 +34,28 @@ final class VbriSeeker implements Seeker {
         long j3 = j2 + mpegAudioHeader.frameSize;
         long[] jArr = new long[readUnsignedShort];
         long[] jArr2 = new long[readUnsignedShort];
-        int i3 = 0;
+        int i2 = 0;
         long j4 = j2;
-        while (i3 < readUnsignedShort) {
-            int i4 = readUnsignedShort2;
+        while (i2 < readUnsignedShort) {
+            int i3 = readUnsignedShort2;
             long j5 = j3;
-            jArr[i3] = (i3 * scaleLargeTimestamp) / readUnsignedShort;
-            jArr2[i3] = Math.max(j4, j5);
+            jArr[i2] = (i2 * scaleLargeTimestamp) / readUnsignedShort;
+            jArr2[i2] = Math.max(j4, j5);
             if (readUnsignedShort3 == 1) {
-                i = parsableByteArray.readUnsignedByte();
+                readUnsignedByte = parsableByteArray.readUnsignedByte();
             } else if (readUnsignedShort3 == 2) {
-                i = parsableByteArray.readUnsignedShort();
+                readUnsignedByte = parsableByteArray.readUnsignedShort();
             } else if (readUnsignedShort3 == 3) {
-                i = parsableByteArray.readUnsignedInt24();
+                readUnsignedByte = parsableByteArray.readUnsignedInt24();
             } else if (readUnsignedShort3 != 4) {
                 return null;
             } else {
-                i = parsableByteArray.readUnsignedIntToInt();
+                readUnsignedByte = parsableByteArray.readUnsignedIntToInt();
             }
-            j4 += i * i4;
-            i3++;
+            j4 += readUnsignedByte * i3;
+            i2++;
             j3 = j5;
-            readUnsignedShort2 = i4;
+            readUnsignedShort2 = i3;
         }
         if (j != -1 && j != j4) {
             Log.w("VbriSeeker", "VBRI data size mismatch: " + j + ", " + j4);

@@ -69,9 +69,8 @@ final class AutoValue_TokenResult extends TokenResult {
         return i2 ^ i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends TokenResult.Builder {
+    static final class Builder extends TokenResult.Builder {
         private TokenResult.ResponseCode responseCode;
         private String token;
         private Long tokenExpirationTimestamp;

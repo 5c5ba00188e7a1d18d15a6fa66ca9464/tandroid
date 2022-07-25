@@ -1,8 +1,10 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class S1 extends C1 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public S1(A1 a1, A1 a12) {
         super(a1, a12);
     }
@@ -42,7 +44,7 @@ public final class S1 extends C1 {
 
     @Override // j$.util.stream.A1
     /* renamed from: spliterator */
-    public j$.util.u mo69spliterator() {
+    public j$.util.u mo313spliterator() {
         return new j2(this);
     }
 

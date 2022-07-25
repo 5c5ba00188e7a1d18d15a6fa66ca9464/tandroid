@@ -13,8 +13,8 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class ReadAllMentionsMenu {
     public static ActionBarPopupWindow show(int i, Activity activity, FrameLayout frameLayout, View view, Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
-        String str;
         int i2;
+        String str;
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(activity);
         actionBarPopupWindowLayout.setMinimumWidth(AndroidUtilities.dp(200.0f));
         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem((Context) activity, true, true, resourcesProvider);
@@ -49,6 +49,7 @@ public class ReadAllMentionsMenu {
         return actionBarPopupWindow;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$show$0(Runnable runnable, View view) {
         if (runnable != null) {
             runnable.run();

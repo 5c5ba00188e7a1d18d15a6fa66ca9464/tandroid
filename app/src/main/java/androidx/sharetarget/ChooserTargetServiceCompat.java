@@ -102,6 +102,7 @@ public class ChooserTargetServiceCompat extends ChooserTargetService {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class ShortcutHolder implements Comparable<ShortcutHolder> {
         private final ShortcutInfoCompat mShortcut;
@@ -120,6 +121,7 @@ public class ChooserTargetServiceCompat extends ChooserTargetService {
             return this.mTargetClass;
         }
 
+        @Override // java.lang.Comparable
         public int compareTo(ShortcutHolder other) {
             return getShortcut().getRank() - other.getShortcut().getRank();
         }

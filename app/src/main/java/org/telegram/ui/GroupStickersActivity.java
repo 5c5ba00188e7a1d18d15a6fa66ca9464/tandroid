@@ -201,6 +201,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         if (getParentActivity() == null) {
             return;
@@ -387,6 +388,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveStickerSet$2(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -396,6 +398,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveStickerSet$1(TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = this.selectedStickerSet;
@@ -421,15 +424,16 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x002d A[LOOP:0: B:15:0x002d->B:20:0x0044, LOOP_START, PHI: r1 
-      PHI: (r1v1 int) = (r1v0 int), (r1v2 int) binds: [B:14:0x002b, B:20:0x0044] A[DONT_GENERATE, DONT_INLINE]] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0047 A[ORIG_RETURN, RETURN] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0047 A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x002d A[LOOP:0: B:6:0x002d->B:10:0x0044, LOOP_START, PHI: r1 
+      PHI: (r1v1 int) = (r1v0 int), (r1v2 int) binds: [B:5:0x002b, B:10:0x0044] A[DONT_GENERATE, DONT_INLINE]] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void updateSelectedStickerSetIndex() {
-        long j;
         TLRPC$StickerSet tLRPC$StickerSet;
+        long j;
         ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(this.currentAccount).getStickerSets(0);
         this.selectedStickerSetIndex = -1;
         if (!this.removeStickerSet) {
@@ -485,6 +489,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private Runnable lastCallback;
@@ -495,7 +500,6 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         private List<TLRPC$TL_messages_stickerSet> localSearchEntries = new ArrayList();
 
         public SearchAdapter(Context context) {
-            GroupStickersActivity.this = r1;
             this.mContext = context;
             setHasStableIds(true);
         }
@@ -512,6 +516,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             return -1L;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         @SuppressLint({"NotifyDataSetChanged"})
         public void onSearchStickers(final String str) {
             if (this.reqId != 0) {
@@ -551,6 +556,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             AndroidUtilities.runOnUIThread(runnable2, 300L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSearchStickers$2(final String str) {
             this.lastQuery = str;
             final TLRPC$TL_messages_searchStickerSets tLRPC$TL_messages_searchStickerSets = new TLRPC$TL_messages_searchStickerSets();
@@ -563,6 +569,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             }, 66);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSearchStickers$1(TLRPC$TL_messages_searchStickerSets tLRPC$TL_messages_searchStickerSets, final String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (ObjectsCompat$$ExternalSyntheticBackport0.m(this.lastQuery, tLRPC$TL_messages_searchStickerSets.q) && (tLObject instanceof TLRPC$TL_messages_foundStickerSets)) {
                 final ArrayList arrayList = new ArrayList();
@@ -594,6 +601,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSearchStickers$0(List list, List list2, String str) {
             this.searchEntries = list;
             this.localSearchEntries = list2;
@@ -605,7 +613,8 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             StickerSetCell stickerSetCell;
             if (i == 0) {
                 StickerSetCell stickerSetCell2 = new StickerSetCell(this.mContext, 3);
@@ -659,12 +668,12 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            GroupStickersActivity.this = r1;
             this.mContext = context;
         }
 
@@ -723,20 +732,21 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View stickerSetCell;
             if (i == 0) {
-                view = new StickerSetCell(this.mContext, 3);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                stickerSetCell = new StickerSetCell(this.mContext, 3);
+                stickerSetCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 1) {
-                view = new TextInfoPrivacyCell(this.mContext);
-                view.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                stickerSetCell = new TextInfoPrivacyCell(this.mContext);
+                stickerSetCell.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
             } else {
-                view = new HeaderCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                stickerSetCell = new HeaderCell(this.mContext);
+                stickerSetCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             }
-            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(view);
+            stickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(stickerSetCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

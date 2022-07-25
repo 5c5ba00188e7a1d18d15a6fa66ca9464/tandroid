@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.IOException;
 import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzgr {
@@ -144,6 +145,7 @@ public final class zzgr {
         zzibVar.zzb(i, list, zzgpVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(List<Long> list) {
         int i;
         int size = list.size();
@@ -168,6 +170,7 @@ public final class zzgr {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, List<Long> list, boolean z) {
         if (list.size() == 0) {
             return 0;
@@ -175,6 +178,7 @@ public final class zzgr {
         return zza(list) + (list.size() * zzea.zze(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(List<Long> list) {
         int i;
         int size = list.size();
@@ -199,6 +203,7 @@ public final class zzgr {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, List<Long> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -207,6 +212,7 @@ public final class zzgr {
         return zzb(list) + (size * zzea.zze(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzc(List<Long> list) {
         int i;
         int size = list.size();
@@ -231,6 +237,7 @@ public final class zzgr {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzc(int i, List<Long> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -239,6 +246,7 @@ public final class zzgr {
         return zzc(list) + (size * zzea.zze(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzd(List<Integer> list) {
         int i;
         int size = list.size();
@@ -263,6 +271,7 @@ public final class zzgr {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzd(int i, List<Integer> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -271,6 +280,7 @@ public final class zzgr {
         return zzd(list) + (size * zzea.zze(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zze(List<Integer> list) {
         int i;
         int size = list.size();
@@ -295,6 +305,7 @@ public final class zzgr {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zze(int i, List<Integer> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -303,6 +314,7 @@ public final class zzgr {
         return zze(list) + (size * zzea.zze(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzf(List<Integer> list) {
         int i;
         int size = list.size();
@@ -327,6 +339,7 @@ public final class zzgr {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzf(int i, List<Integer> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -335,6 +348,7 @@ public final class zzgr {
         return zzf(list) + (size * zzea.zze(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzg(List<Integer> list) {
         int i;
         int size = list.size();
@@ -359,6 +373,7 @@ public final class zzgr {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzg(int i, List<Integer> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -367,10 +382,12 @@ public final class zzgr {
         return zzg(list) + (size * zzea.zze(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzh(List<?> list) {
         return list.size() << 2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzh(int i, List<?> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -379,10 +396,12 @@ public final class zzgr {
         return size * zzea.zzi(i, 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzi(List<?> list) {
         return list.size() << 3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzi(int i, List<?> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -391,10 +410,12 @@ public final class zzgr {
         return size * zzea.zzg(i, 0L);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzj(List<?> list) {
         return list.size();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzj(int i, List<?> list, boolean z) {
         int size = list.size();
         if (size == 0) {
@@ -403,42 +424,44 @@ public final class zzgr {
         return size * zzea.zzb(i, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, List<?> list) {
-        int i2;
-        int i3;
+        int zzb2;
+        int zzb3;
         int size = list.size();
-        int i4 = 0;
+        int i2 = 0;
         if (size == 0) {
             return 0;
         }
         int zze = zzea.zze(i) * size;
         if (list instanceof zzfg) {
             zzfg zzfgVar = (zzfg) list;
-            while (i4 < size) {
-                Object zza2 = zzfgVar.zza(i4);
+            while (i2 < size) {
+                Object zza2 = zzfgVar.zza(i2);
                 if (zza2 instanceof zzdn) {
-                    i3 = zzea.zzb((zzdn) zza2);
+                    zzb3 = zzea.zzb((zzdn) zza2);
                 } else {
-                    i3 = zzea.zzb((String) zza2);
+                    zzb3 = zzea.zzb((String) zza2);
                 }
-                zze += i3;
-                i4++;
+                zze += zzb3;
+                i2++;
             }
         } else {
-            while (i4 < size) {
-                Object obj = list.get(i4);
+            while (i2 < size) {
+                Object obj = list.get(i2);
                 if (obj instanceof zzdn) {
-                    i2 = zzea.zzb((zzdn) obj);
+                    zzb2 = zzea.zzb((zzdn) obj);
                 } else {
-                    i2 = zzea.zzb((String) obj);
+                    zzb2 = zzea.zzb((String) obj);
                 }
-                zze += i2;
-                i4++;
+                zze += zzb2;
+                i2++;
             }
         }
         return zze;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, Object obj, zzgp zzgpVar) {
         if (obj instanceof zzfe) {
             return zzea.zza(i, (zzfe) obj);
@@ -446,25 +469,27 @@ public final class zzgr {
         return zzea.zzb(i, (zzfz) obj, zzgpVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, List<?> list, zzgp zzgpVar) {
-        int i2;
+        int zza2;
         int size = list.size();
         if (size == 0) {
             return 0;
         }
         int zze = zzea.zze(i) * size;
-        for (int i3 = 0; i3 < size; i3++) {
-            Object obj = list.get(i3);
+        for (int i2 = 0; i2 < size; i2++) {
+            Object obj = list.get(i2);
             if (obj instanceof zzfe) {
-                i2 = zzea.zza((zzfe) obj);
+                zza2 = zzea.zza((zzfe) obj);
             } else {
-                i2 = zzea.zza((zzfz) obj, zzgpVar);
+                zza2 = zzea.zza((zzfz) obj, zzgpVar);
             }
-            zze += i2;
+            zze += zza2;
         }
         return zze;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, List<zzdn> list) {
         int size = list.size();
         if (size == 0) {
@@ -477,6 +502,7 @@ public final class zzgr {
         return zze;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, List<zzfz> list, zzgp zzgpVar) {
         int size = list.size();
         if (size == 0) {
@@ -529,6 +555,7 @@ public final class zzgr {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zza(Object obj, Object obj2) {
         if (obj != obj2) {
             return obj != null && obj.equals(obj2);
@@ -536,10 +563,12 @@ public final class zzgr {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> void zza(zzfs zzfsVar, T t, T t2, long j) {
         zzhn.zza(t, j, zzfsVar.zza(zzhn.zzf(t, j), zzhn.zzf(t2, j)));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T, FT extends zzel<FT>> void zza(zzee<FT> zzeeVar, T t, T t2) {
         zzej<FT> zza2 = zzeeVar.zza(t2);
         if (!zza2.zza.isEmpty()) {
@@ -547,6 +576,7 @@ public final class zzgr {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T, UT, UB> void zza(zzhh<UT, UB> zzhhVar, T t, T t2) {
         zzhhVar.zza(t, zzhhVar.zzb(zzhhVar.zza(t), zzhhVar.zza(t2)));
     }

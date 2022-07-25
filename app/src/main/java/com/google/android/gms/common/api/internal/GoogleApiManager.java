@@ -91,6 +91,7 @@ public class GoogleApiManager implements Handler.Callback {
         return googleApiManager;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
     /* loaded from: classes.dex */
     public static class zab {
@@ -125,6 +126,7 @@ public class GoogleApiManager implements Handler.Callback {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
     /* loaded from: classes.dex */
     public class zac implements zach, BaseGmsClient.ConnectionProgressReportCallbacks {
@@ -135,7 +137,6 @@ public class GoogleApiManager implements Handler.Callback {
         private boolean zaf = false;
 
         public zac(Api.Client client, ApiKey<?> apiKey) {
-            GoogleApiManager.this = r1;
             this.zab = client;
             this.zac = apiKey;
         }
@@ -165,6 +166,7 @@ public class GoogleApiManager implements Handler.Callback {
             zaa();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zaa() {
             IAccountAccessor iAccountAccessor;
             if (!this.zaf || (iAccountAccessor = this.zad) == null) {
@@ -192,15 +194,14 @@ public class GoogleApiManager implements Handler.Callback {
         private final zav zae = new zav();
 
         public zaa(GoogleApi<O> googleApi) {
-            GoogleApiManager.this = r4;
-            Api.Client zaa = googleApi.zaa(r4.zat.getLooper(), this);
+            Api.Client zaa = googleApi.zaa(GoogleApiManager.this.zat.getLooper(), this);
             this.zac = zaa;
             this.zad = googleApi.getApiKey();
             this.zah = googleApi.zaa();
             if (!zaa.requiresSignIn()) {
                 this.zai = null;
             } else {
-                this.zai = googleApi.zaa(r4.zak, r4.zat);
+                this.zai = googleApi.zaa(GoogleApiManager.this.zak, GoogleApiManager.this.zat);
             }
         }
 
@@ -213,6 +214,7 @@ public class GoogleApiManager implements Handler.Callback {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zao() {
             zad();
             zac(ConnectionResult.RESULT_SUCCESS);
@@ -235,6 +237,7 @@ public class GoogleApiManager implements Handler.Callback {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zaa(int i) {
             zad();
             this.zaj = true;
@@ -475,6 +478,7 @@ public class GoogleApiManager implements Handler.Callback {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zaa(Status status) {
             Preconditions.checkHandlerThread(GoogleApiManager.this.zat);
             zaa(status, (Exception) null, false);
@@ -519,6 +523,7 @@ public class GoogleApiManager implements Handler.Callback {
             return zaa(true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final boolean zaa(boolean z) {
             Preconditions.checkHandlerThread(GoogleApiManager.this.zat);
             if (!this.zac.isConnected() || this.zag.size() != 0) {
@@ -616,6 +621,7 @@ public class GoogleApiManager implements Handler.Callback {
             return null;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zaa(zab zabVar) {
             if (this.zak.contains(zabVar) && !this.zaj) {
                 if (!this.zac.isConnected()) {
@@ -626,6 +632,7 @@ public class GoogleApiManager implements Handler.Callback {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public final void zab(zab zabVar) {
             Feature[] zac;
             if (this.zak.remove(zabVar)) {
@@ -650,10 +657,12 @@ public class GoogleApiManager implements Handler.Callback {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public final int zam() {
             return this.zam;
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public final void zan() {
             this.zam++;
         }
@@ -710,6 +719,7 @@ public class GoogleApiManager implements Handler.Callback {
         return zaaVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final zaa zaa(ApiKey<?> apiKey) {
         return this.zap.get(apiKey);
     }
@@ -732,6 +742,7 @@ public class GoogleApiManager implements Handler.Callback {
         handler.sendMessage(handler.obtainMessage(4, new zabu(zahVar, this.zao.get(), googleApi)));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zad() {
         if (this.zaf) {
             return false;
@@ -972,6 +983,7 @@ public class GoogleApiManager implements Handler.Callback {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Status zab(ApiKey<?> apiKey, ConnectionResult connectionResult) {
         String zaa2 = apiKey.zaa();
         String valueOf = String.valueOf(connectionResult);
@@ -983,6 +995,7 @@ public class GoogleApiManager implements Handler.Callback {
         return new Status(connectionResult, sb.toString());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa(com.google.android.gms.common.internal.zao zaoVar, int i, long j, int i2) {
         Handler handler = this.zat;
         handler.sendMessage(handler.obtainMessage(18, new zabq(zaoVar, i, j, i2)));

@@ -25,6 +25,7 @@ public class NotificationRepeat extends IntentService {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onHandleIntent$0(int i) {
         NotificationsController.getInstance(i).repeatNotificationMaybe();
     }

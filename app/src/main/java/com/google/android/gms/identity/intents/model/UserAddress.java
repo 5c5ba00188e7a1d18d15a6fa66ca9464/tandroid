@@ -27,6 +27,7 @@ public final class UserAddress extends AbstractSafeParcelable implements Reflect
     UserAddress() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public UserAddress(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, String str11, String str12, boolean z, String str13, String str14) {
         this.name = str;
         this.zzl = str2;

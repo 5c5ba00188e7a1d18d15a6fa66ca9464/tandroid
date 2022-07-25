@@ -198,6 +198,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onFirstFrameRendered$0() {
             this.isFirstFrameRendered = true;
             this.rendererEvents.onFirstFrameRendered();
@@ -274,7 +275,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         View view;
         float f;
         float f2;
-        float f3;
+        float min;
         if (this.orientationHelper == null || this.rotatedFrameWidth == 0 || this.rotatedFrameHeight == 0 || (view = (View) getParent()) == null) {
             return;
         }
@@ -291,19 +292,19 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             f = measuredHeight;
         }
         if (f2 < f) {
-            f3 = Math.max(f2 / measuredWidth, f / measuredHeight);
+            min = Math.max(f2 / measuredWidth, f / measuredHeight);
         } else {
-            f3 = Math.min(f2 / measuredWidth, f / measuredHeight);
+            min = Math.min(f2 / measuredWidth, f / measuredHeight);
         }
-        float f4 = f2 * f3;
-        float f5 = f * f3;
-        if (Math.abs((f4 / f5) - (measuredWidth2 / measuredHeight2)) < 0.1f) {
-            f3 *= Math.max(measuredWidth2 / f4, measuredHeight2 / f5);
+        float f3 = f2 * min;
+        float f4 = f * min;
+        if (Math.abs((f3 / f4) - (measuredWidth2 / measuredHeight2)) < 0.1f) {
+            min *= Math.max(measuredWidth2 / f3, measuredHeight2 / f4);
         }
         if (orientation == 270) {
             orientation = -90;
         }
-        animate().scaleX(f3).scaleY(f3).rotation(-orientation).setDuration(180L).start();
+        animate().scaleX(min).scaleY(min).rotation(-orientation).setDuration(180L).start();
     }
 
     public void setMirror(boolean z) {
@@ -350,18 +351,18 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
 
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
-        Point point;
+        Point measure;
         ThreadUtils.checkIsOnMainThread();
         if (!this.isCamera && this.rotateTextureWithScreen) {
             updateVideoSizes();
         }
         int i3 = this.maxTextureSize;
         if (i3 > 0) {
-            point = this.videoLayoutMeasure.measure(this.isCamera, View.MeasureSpec.makeMeasureSpec(Math.min(i3, View.MeasureSpec.getSize(i)), View.MeasureSpec.getMode(i)), View.MeasureSpec.makeMeasureSpec(Math.min(this.maxTextureSize, View.MeasureSpec.getSize(i2)), View.MeasureSpec.getMode(i2)), this.rotatedFrameWidth, this.rotatedFrameHeight);
+            measure = this.videoLayoutMeasure.measure(this.isCamera, View.MeasureSpec.makeMeasureSpec(Math.min(i3, View.MeasureSpec.getSize(i)), View.MeasureSpec.getMode(i)), View.MeasureSpec.makeMeasureSpec(Math.min(this.maxTextureSize, View.MeasureSpec.getSize(i2)), View.MeasureSpec.getMode(i2)), this.rotatedFrameWidth, this.rotatedFrameHeight);
         } else {
-            point = this.videoLayoutMeasure.measure(this.isCamera, i, i2, this.rotatedFrameWidth, this.rotatedFrameHeight);
+            measure = this.videoLayoutMeasure.measure(this.isCamera, i, i2, this.rotatedFrameWidth, this.rotatedFrameHeight);
         }
-        setMeasuredDimension(point.x, point.y);
+        setMeasuredDimension(measure.x, measure.y);
         if (this.rotatedFrameWidth != 0 && this.rotatedFrameHeight != 0) {
             this.eglRenderer.setLayoutAspectRatio(getMeasuredWidth() / getMeasuredHeight());
         }
@@ -455,17 +456,17 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         return this.eglRenderer.isFirstFrameRendered;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0023, code lost:
-        if (r10 == 0) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0023, code lost:
+        if (r10 == 0) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0036, code lost:
-        if (r10 != (-180)) goto L38;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0056, code lost:
-        if (r10 != (-180)) goto L38;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0059, code lost:
         r10 = r8;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0036, code lost:
+        if (r10 != (-180)) goto L30;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0056, code lost:
+        if (r10 != (-180)) goto L30;
      */
     @Override // org.webrtc.RendererCommon.RendererEvents
     /*
@@ -485,30 +486,30 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             }
             if (this.useCameraRotation) {
                 int i6 = this.screenRotation;
-                i5 = i6 == 0 ? i2 : i;
+                i4 = i6 == 0 ? i2 : i;
             } else {
                 int i7 = this.textureRotation;
-                i5 = (i7 == 0 || i7 == 180 || i7 == -180) ? i : i2;
+                i4 = (i7 == 0 || i7 == 180 || i7 == -180) ? i : i2;
                 if (i7 != 0) {
                     if (i7 != 180) {
                     }
                 }
-                i4 = i2;
+                i5 = i2;
             }
         } else {
             if (this.isCamera) {
                 this.eglRenderer.setRotation(-OrientationHelper.cameraRotation);
             }
             int i8 = i3 - OrientationHelper.cameraOrientation;
-            i5 = (i8 == 0 || i8 == 180 || i8 == -180) ? i : i2;
+            i4 = (i8 == 0 || i8 == 180 || i8 == -180) ? i : i2;
             if (i8 != 0) {
                 if (i8 != 180) {
                 }
             }
-            i4 = i2;
+            i5 = i2;
         }
-        final int i9 = i4;
-        final int i10 = i5;
+        final int i9 = i5;
+        final int i10 = i4;
         synchronized (this.eglRenderer.layoutLock) {
             Runnable runnable = this.updateScreenRunnable;
             if (runnable != null) {
@@ -525,6 +526,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFrameResolutionChanged$0(int i, int i2, int i3, int i4) {
         this.updateScreenRunnable = null;
         this.videoWidth = i;
@@ -588,6 +590,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateVideoSizes$1(int i, int i2) {
         this.updateScreenRunnable = null;
         this.rotatedFrameWidth = i;

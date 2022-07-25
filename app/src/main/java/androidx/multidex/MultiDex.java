@@ -160,6 +160,7 @@ public final class MultiDex {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Field findField(Object obj, String str) throws NoSuchFieldException {
         for (Class<?> cls = obj.getClass(); cls != null; cls = cls.getSuperclass()) {
             try {
@@ -174,6 +175,7 @@ public final class MultiDex {
         throw new NoSuchFieldException("Field " + str + " not found in " + obj.getClass());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Method findMethod(Object obj, String str, Class<?>... clsArr) throws NoSuchMethodException {
         for (Class<?> cls = obj.getClass(); cls != null; cls = cls.getSuperclass()) {
             try {
@@ -188,6 +190,7 @@ public final class MultiDex {
         throw new NoSuchMethodException("Method " + str + " with parameters " + Arrays.asList(clsArr) + " not found in " + obj.getClass());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void expandFieldArray(Object obj, String str, Object[] objArr) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         Field findField = findField(obj, str);
         Object[] objArr2 = (Object[]) findField.get(obj);
@@ -248,6 +251,7 @@ public final class MultiDex {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class V19 {
         static void install(ClassLoader classLoader, List<? extends File> list, File file) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException, IOException {
@@ -282,19 +286,20 @@ public final class MultiDex {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class V14 {
         private static final int EXTRACTED_SUFFIX_LENGTH = 4;
         private final ElementConstructor elementConstructor;
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public interface ElementConstructor {
             Object newInstance(File file, DexFile dexFile) throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, IOException;
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        public static class ICSElementConstructor implements ElementConstructor {
+        private static class ICSElementConstructor implements ElementConstructor {
             private final Constructor<?> elementConstructor;
 
             ICSElementConstructor(Class<?> cls) throws SecurityException, NoSuchMethodException {
@@ -309,9 +314,8 @@ public final class MultiDex {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        public static class JBMR11ElementConstructor implements ElementConstructor {
+        private static class JBMR11ElementConstructor implements ElementConstructor {
             private final Constructor<?> elementConstructor;
 
             JBMR11ElementConstructor(Class<?> cls) throws SecurityException, NoSuchMethodException {
@@ -326,9 +330,8 @@ public final class MultiDex {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        public static class JBMR2ElementConstructor implements ElementConstructor {
+        private static class JBMR2ElementConstructor implements ElementConstructor {
             private final Constructor<?> elementConstructor;
 
             JBMR2ElementConstructor(Class<?> cls) throws SecurityException, NoSuchMethodException {
@@ -355,18 +358,18 @@ public final class MultiDex {
         }
 
         private V14() throws ClassNotFoundException, SecurityException, NoSuchMethodException {
-            ElementConstructor elementConstructor;
+            ElementConstructor jBMR2ElementConstructor;
             Class<?> cls = Class.forName("dalvik.system.DexPathList$Element");
             try {
                 try {
-                    elementConstructor = new ICSElementConstructor(cls);
+                    jBMR2ElementConstructor = new ICSElementConstructor(cls);
                 } catch (NoSuchMethodException unused) {
-                    elementConstructor = new JBMR11ElementConstructor(cls);
+                    jBMR2ElementConstructor = new JBMR11ElementConstructor(cls);
                 }
             } catch (NoSuchMethodException unused2) {
-                elementConstructor = new JBMR2ElementConstructor(cls);
+                jBMR2ElementConstructor = new JBMR2ElementConstructor(cls);
             }
-            this.elementConstructor = elementConstructor;
+            this.elementConstructor = jBMR2ElementConstructor;
         }
 
         private Object[] makeDexElements(List<? extends File> list) throws IOException, SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
@@ -386,6 +389,7 @@ public final class MultiDex {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class V4 {
         static void install(ClassLoader classLoader, List<? extends File> list) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, IOException {

@@ -165,6 +165,7 @@ public final class DashMediaSource extends BaseMediaSource {
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         processManifest(false);
     }
@@ -177,7 +178,7 @@ public final class DashMediaSource extends BaseMediaSource {
             processManifest(false);
             return;
         }
-        this.dataSource = this.manifestDataSourceFactory.createDataSource();
+        this.dataSource = this.manifestDataSourceFactory.mo840createDataSource();
         this.loader = new Loader("Loader:DashMediaSource");
         this.handler = new Handler();
         startLoadingManifest();
@@ -242,8 +243,8 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0099  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00b9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -318,15 +319,15 @@ public final class DashMediaSource extends BaseMediaSource {
     }
 
     Loader.LoadErrorAction onManifestLoadError(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2, IOException iOException, int i) {
-        Loader.LoadErrorAction loadErrorAction;
+        Loader.LoadErrorAction createRetryAction;
         long retryDelayMsFor = this.loadErrorHandlingPolicy.getRetryDelayMsFor(4, j2, iOException, i);
         if (retryDelayMsFor == -9223372036854775807L) {
-            loadErrorAction = Loader.DONT_RETRY_FATAL;
+            createRetryAction = Loader.DONT_RETRY_FATAL;
         } else {
-            loadErrorAction = Loader.createRetryAction(false, retryDelayMsFor);
+            createRetryAction = Loader.createRetryAction(false, retryDelayMsFor);
         }
-        this.manifestEventDispatcher.loadError(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), parsingLoadable.type, j, j2, parsingLoadable.bytesLoaded(), iOException, !loadErrorAction.isRetry());
-        return loadErrorAction;
+        this.manifestEventDispatcher.loadError(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), parsingLoadable.type, j, j2, parsingLoadable.bytesLoaded(), iOException, !createRetryAction.isRetry());
+        return createRetryAction;
     }
 
     void onUtcTimestampLoadCompleted(ParsingLoadable<Long> parsingLoadable, long j, long j2) {
@@ -383,7 +384,7 @@ public final class DashMediaSource extends BaseMediaSource {
         long j;
         boolean z2;
         long j2;
-        long j3;
+        long periodDurationUs;
         for (int i = 0; i < this.periodsById.size(); i++) {
             int keyAt = this.periodsById.keyAt(i);
             if (keyAt >= this.firstPeriodId) {
@@ -393,59 +394,59 @@ public final class DashMediaSource extends BaseMediaSource {
         int periodCount = this.manifest.getPeriodCount() - 1;
         PeriodSeekInfo createPeriodSeekInfo = PeriodSeekInfo.createPeriodSeekInfo(this.manifest.getPeriod(0), this.manifest.getPeriodDurationUs(0));
         PeriodSeekInfo createPeriodSeekInfo2 = PeriodSeekInfo.createPeriodSeekInfo(this.manifest.getPeriod(periodCount), this.manifest.getPeriodDurationUs(periodCount));
-        long j4 = createPeriodSeekInfo.availableStartTimeUs;
-        long j5 = createPeriodSeekInfo2.availableEndTimeUs;
+        long j3 = createPeriodSeekInfo.availableStartTimeUs;
+        long j4 = createPeriodSeekInfo2.availableEndTimeUs;
         if (!this.manifest.dynamic || createPeriodSeekInfo2.isIndexExplicit) {
-            j = j4;
+            j = j3;
             z2 = false;
         } else {
-            j5 = Math.min((getNowUnixTimeUs() - C.msToUs(this.manifest.availabilityStartTimeMs)) - C.msToUs(this.manifest.getPeriod(periodCount).startMs), j5);
-            long j6 = this.manifest.timeShiftBufferDepthMs;
-            if (j6 != -9223372036854775807L) {
-                long msToUs = j5 - C.msToUs(j6);
+            j4 = Math.min((getNowUnixTimeUs() - C.msToUs(this.manifest.availabilityStartTimeMs)) - C.msToUs(this.manifest.getPeriod(periodCount).startMs), j4);
+            long j5 = this.manifest.timeShiftBufferDepthMs;
+            if (j5 != -9223372036854775807L) {
+                long msToUs = j4 - C.msToUs(j5);
                 while (msToUs < 0 && periodCount > 0) {
                     periodCount--;
                     msToUs += this.manifest.getPeriodDurationUs(periodCount);
                 }
                 if (periodCount == 0) {
-                    j3 = Math.max(j4, msToUs);
+                    periodDurationUs = Math.max(j3, msToUs);
                 } else {
-                    j3 = this.manifest.getPeriodDurationUs(0);
+                    periodDurationUs = this.manifest.getPeriodDurationUs(0);
                 }
-                j4 = j3;
+                j3 = periodDurationUs;
             }
-            j = j4;
+            j = j3;
             z2 = true;
         }
-        long j7 = j5 - j;
+        long j6 = j4 - j;
         for (int i2 = 0; i2 < this.manifest.getPeriodCount() - 1; i2++) {
-            j7 += this.manifest.getPeriodDurationUs(i2);
+            j6 += this.manifest.getPeriodDurationUs(i2);
         }
         DashManifest dashManifest = this.manifest;
         if (dashManifest.dynamic) {
-            long j8 = this.livePresentationDelayMs;
+            long j7 = this.livePresentationDelayMs;
             if (!this.livePresentationDelayOverridesManifest) {
-                long j9 = dashManifest.suggestedPresentationDelayMs;
-                if (j9 != -9223372036854775807L) {
-                    j8 = j9;
+                long j8 = dashManifest.suggestedPresentationDelayMs;
+                if (j8 != -9223372036854775807L) {
+                    j7 = j8;
                 }
             }
-            long msToUs2 = j7 - C.msToUs(j8);
+            long msToUs2 = j6 - C.msToUs(j7);
             if (msToUs2 < 5000000) {
-                msToUs2 = Math.min(5000000L, j7 / 2);
+                msToUs2 = Math.min(5000000L, j6 / 2);
             }
             j2 = msToUs2;
         } else {
             j2 = 0;
         }
         DashManifest dashManifest2 = this.manifest;
-        long j10 = dashManifest2.availabilityStartTimeMs;
-        long usToMs = j10 != -9223372036854775807L ? j10 + dashManifest2.getPeriod(0).startMs + C.usToMs(j) : -9223372036854775807L;
+        long j9 = dashManifest2.availabilityStartTimeMs;
+        long usToMs = j9 != -9223372036854775807L ? j9 + dashManifest2.getPeriod(0).startMs + C.usToMs(j) : -9223372036854775807L;
         DashManifest dashManifest3 = this.manifest;
-        refreshSourceInfo(new DashTimeline(dashManifest3.availabilityStartTimeMs, usToMs, this.firstPeriodId, j, j7, j2, dashManifest3, this.tag));
+        refreshSourceInfo(new DashTimeline(dashManifest3.availabilityStartTimeMs, usToMs, this.firstPeriodId, j, j6, j2, dashManifest3, this.tag));
         if (!this.sideloadedManifest) {
             this.handler.removeCallbacks(this.simulateManifestRefreshRunnable);
-            long j11 = 5000;
+            long j10 = 5000;
             if (z2) {
                 this.handler.postDelayed(this.simulateManifestRefreshRunnable, 5000L);
             }
@@ -456,14 +457,14 @@ public final class DashMediaSource extends BaseMediaSource {
                 if (!dashManifest4.dynamic) {
                     return;
                 }
-                long j12 = dashManifest4.minUpdatePeriodMs;
-                if (j12 == -9223372036854775807L) {
+                long j11 = dashManifest4.minUpdatePeriodMs;
+                if (j11 == -9223372036854775807L) {
                     return;
                 }
-                if (j12 != 0) {
-                    j11 = j12;
+                if (j11 != 0) {
+                    j10 = j11;
                 }
-                scheduleManifestRefresh(Math.max(0L, (this.manifestLoadStartTimestampMs + j11) - SystemClock.elapsedRealtime()));
+                scheduleManifestRefresh(Math.max(0L, (this.manifestLoadStartTimestampMs + j10) - SystemClock.elapsedRealtime()));
             }
         }
     }
@@ -472,6 +473,7 @@ public final class DashMediaSource extends BaseMediaSource {
         this.handler.postDelayed(this.refreshManifestRunnable, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startLoadingManifest() {
         Uri uri;
         this.handler.removeCallbacks(this.refreshManifestRunnable);
@@ -504,6 +506,7 @@ public final class DashMediaSource extends BaseMediaSource {
         return C.msToUs(System.currentTimeMillis());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class PeriodSeekInfo {
         public final long availableEndTimeUs;
@@ -577,6 +580,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class DashTimeline extends Timeline {
         private final int firstPeriodId;
@@ -675,11 +679,9 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class DefaultPlayerEmsgCallback implements PlayerEmsgHandler.PlayerEmsgCallback {
+    private final class DefaultPlayerEmsgCallback implements PlayerEmsgHandler.PlayerEmsgCallback {
         private DefaultPlayerEmsgCallback() {
-            DashMediaSource.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.source.dash.PlayerEmsgHandler.PlayerEmsgCallback
@@ -693,55 +695,65 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public final class ManifestCallback implements Loader.Callback<ParsingLoadable<DashManifest>> {
         private ManifestCallback() {
-            DashMediaSource.this = r1;
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public void onLoadCompleted(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2) {
             DashMediaSource.this.onManifestLoadCompleted(parsingLoadable, j, j2);
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public void onLoadCanceled(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2, boolean z) {
             DashMediaSource.this.onLoadCanceled(parsingLoadable, j, j2);
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public Loader.LoadErrorAction onLoadError(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2, IOException iOException, int i) {
             return DashMediaSource.this.onManifestLoadError(parsingLoadable, j, j2, iOException, i);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public final class UtcTimestampCallback implements Loader.Callback<ParsingLoadable<Long>> {
         private UtcTimestampCallback() {
-            DashMediaSource.this = r1;
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public void onLoadCompleted(ParsingLoadable<Long> parsingLoadable, long j, long j2) {
             DashMediaSource.this.onUtcTimestampLoadCompleted(parsingLoadable, j, j2);
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public void onLoadCanceled(ParsingLoadable<Long> parsingLoadable, long j, long j2, boolean z) {
             DashMediaSource.this.onLoadCanceled(parsingLoadable, j, j2);
         }
 
+        @Override // com.google.android.exoplayer2.upstream.Loader.Callback
         public Loader.LoadErrorAction onLoadError(ParsingLoadable<Long> parsingLoadable, long j, long j2, IOException iOException, int i) {
             return DashMediaSource.this.onUtcTimestampLoadError(parsingLoadable, j, j2, iOException);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class XsDateTimeParser implements ParsingLoadable.Parser<Long> {
         private XsDateTimeParser() {
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-        public Long parse(Uri uri, InputStream inputStream) throws IOException {
+        /* renamed from: parse */
+        public Long mo164parse(Uri uri, InputStream inputStream) throws IOException {
             return Long.valueOf(Util.parseXsDateTime(new BufferedReader(new InputStreamReader(inputStream)).readLine()));
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class Iso8601Parser implements ParsingLoadable.Parser<Long> {
         private static final Pattern TIMESTAMP_WITH_TIMEZONE_PATTERN = Pattern.compile("(.+?)(Z|((\\+|-|−)(\\d\\d)(:?(\\d\\d))?))");
@@ -749,8 +761,10 @@ public final class DashMediaSource extends BaseMediaSource {
         Iso8601Parser() {
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-        public Long parse(Uri uri, InputStream inputStream) throws IOException {
+        /* renamed from: parse */
+        public Long mo164parse(Uri uri, InputStream inputStream) throws IOException {
             String readLine = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8"))).readLine();
             try {
                 Matcher matcher = TIMESTAMP_WITH_TIMEZONE_PATTERN.matcher(readLine);
@@ -774,11 +788,9 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public final class ManifestLoadErrorThrower implements LoaderErrorThrower {
+    final class ManifestLoadErrorThrower implements LoaderErrorThrower {
         ManifestLoadErrorThrower() {
-            DashMediaSource.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.upstream.LoaderErrorThrower

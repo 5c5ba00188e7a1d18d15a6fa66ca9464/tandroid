@@ -89,6 +89,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void drawList(Canvas canvas, boolean z) {
     }
 
@@ -301,6 +302,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         checkLayerType();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBackgroundImage$0(int i, int i2, float f) {
         this.translationX = i;
         this.translationY = i2;
@@ -343,6 +345,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         this.paused = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
@@ -385,6 +388,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$notifyHeightChanged$1(boolean z) {
         SizeNotifierFrameLayoutDelegate sizeNotifierFrameLayoutDelegate = this.delegate;
         if (sizeNotifierFrameLayoutDelegate != null) {
@@ -457,6 +461,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         this.backgroundView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkSnowflake(Canvas canvas) {
         if (Theme.canStartHolidayAnimation()) {
             if (this.snowflakesEffect == null) {
@@ -473,6 +478,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Drawable getNewDrawable() {
         return Theme.getCachedWallpaperNonBlocking();
     }
@@ -566,13 +572,13 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         blurQueue.postRunnable(blurBackgroundTask);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class BlurBackgroundTask implements Runnable {
         BlurBitmap finalBitmap;
         int radius;
 
         private BlurBackgroundTask() {
-            SizeNotifierFrameLayout.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -607,6 +613,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$2() {
             SizeNotifierFrameLayout sizeNotifierFrameLayout = SizeNotifierFrameLayout.this;
             if (!sizeNotifierFrameLayout.blurIsRunning) {
@@ -668,11 +675,13 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             }, 16L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0(ValueAnimator valueAnimator) {
             SizeNotifierFrameLayout.this.blurCrossfadeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             SizeNotifierFrameLayout.this.invalidateBlurredViews();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$1() {
             SizeNotifierFrameLayout sizeNotifierFrameLayout = SizeNotifierFrameLayout.this;
             sizeNotifierFrameLayout.blurGeneratingTuskIsRunning = false;
@@ -690,6 +699,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         return getMeasuredHeight();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         if (this.blurIsRunning) {
@@ -698,6 +708,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         super.dispatchDraw(canvas);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -708,6 +719,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         this.invalidateBlur = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -824,6 +836,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class BlurBitmap {
         Bitmap bottomBitmap;

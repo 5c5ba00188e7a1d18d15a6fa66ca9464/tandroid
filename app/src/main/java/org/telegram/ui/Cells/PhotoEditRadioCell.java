@@ -48,6 +48,7 @@ public class PhotoEditRadioCell extends FrameLayout {
         addView(this.tintButtonsContainer, LayoutHelper.createFrame(-1, 40.0f, 51, 96.0f, 0.0f, 24.0f, 0.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         RadioButton radioButton = (RadioButton) view;
         if (this.currentType == 0) {

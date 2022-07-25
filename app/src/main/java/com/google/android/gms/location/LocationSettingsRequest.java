@@ -39,6 +39,7 @@ public final class LocationSettingsRequest extends AbstractSafeParcelable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LocationSettingsRequest(List<LocationRequest> list, boolean z, boolean z2, zzbj zzbjVar) {
         this.zza = list;
         this.zzb = z;

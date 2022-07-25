@@ -14,5 +14,6 @@ public interface v extends w {
     boolean i(j$.util.function.q qVar);
 
     @Override // j$.util.w, j$.util.u
-    v trySplit();
+    /* renamed from: trySplit */
+    v mo350trySplit();
 }

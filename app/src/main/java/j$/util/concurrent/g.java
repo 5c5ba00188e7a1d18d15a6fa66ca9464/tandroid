@@ -11,6 +11,7 @@ final class g implements u.a {
     final int c;
     final int d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public g(long j, long j2, int i, int i2) {
         this.a = j;
         this.b = j2;
@@ -18,8 +19,9 @@ final class g implements u.a {
         this.d = i2;
     }
 
+    @Override // j$.util.u.a, j$.util.w, j$.util.u
     /* renamed from: a */
-    public g trySplit() {
+    public g mo350trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
         if (j2 <= j) {
@@ -34,7 +36,7 @@ final class g implements u.a {
         return j$.util.a.k(this, consumer);
     }
 
-    @Override // j$.util.u.a
+    @Override // j$.util.w
     /* renamed from: c */
     public void forEachRemaining(l lVar) {
         lVar.getClass();
@@ -67,7 +69,7 @@ final class g implements u.a {
         j$.util.a.c(this, consumer);
     }
 
-    @Override // j$.util.u.a
+    @Override // j$.util.w
     /* renamed from: g */
     public boolean tryAdvance(l lVar) {
         lVar.getClass();

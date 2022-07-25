@@ -7,13 +7,17 @@ import com.google.android.exoplayer2.util.TimestampAdjuster;
 /* loaded from: classes.dex */
 public final class TimeSignalCommand extends SpliceCommand {
     public static final Parcelable.Creator<TimeSignalCommand> CREATOR = new Parcelable.Creator<TimeSignalCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.TimeSignalCommand.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TimeSignalCommand createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public TimeSignalCommand mo139createFromParcel(Parcel parcel) {
             return new TimeSignalCommand(parcel.readLong(), parcel.readLong());
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TimeSignalCommand[] newArray(int i) {
+        /* renamed from: newArray */
+        public TimeSignalCommand[] mo140newArray(int i) {
             return new TimeSignalCommand[i];
         }
     };
@@ -25,11 +29,13 @@ public final class TimeSignalCommand extends SpliceCommand {
         this.playbackPositionUs = j2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static TimeSignalCommand parseFromSection(ParsableByteArray parsableByteArray, long j, TimestampAdjuster timestampAdjuster) {
         long parseSpliceTime = parseSpliceTime(parsableByteArray, j);
         return new TimeSignalCommand(parseSpliceTime, timestampAdjuster.adjustTsTimestamp(parseSpliceTime));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static long parseSpliceTime(ParsableByteArray parsableByteArray, long j) {
         long readUnsignedByte = parsableByteArray.readUnsignedByte();
         if ((128 & readUnsignedByte) != 0) {

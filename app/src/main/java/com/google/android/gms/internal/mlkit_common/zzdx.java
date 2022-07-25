@@ -18,6 +18,7 @@ public final class zzdx {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ zza zza(ComponentContainer componentContainer) {
         return new zza((zzds) componentContainer.get(zzds.class), (SharedPrefManager) componentContainer.get(SharedPrefManager.class));
     }

@@ -8,10 +8,9 @@ import com.google.android.gms.common.internal.Preconditions;
 /* loaded from: classes.dex */
 public final class PendingResults {
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
     /* loaded from: classes.dex */
-    public static final class zac<R extends Result> extends BasePendingResult<R> {
+    private static final class zac<R extends Result> extends BasePendingResult<R> {
         private final R zab;
 
         public zac(GoogleApiClient googleApiClient, R r) {
@@ -19,6 +18,7 @@ public final class PendingResults {
             this.zab = r;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // com.google.android.gms.common.api.internal.BasePendingResult
         public final R createFailedResult(Status status) {
             return this.zab;

@@ -3,6 +3,7 @@ package j$.time.format;
 final class m implements g {
     private final String a;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public m(String str) {
         this.a = str;
     }

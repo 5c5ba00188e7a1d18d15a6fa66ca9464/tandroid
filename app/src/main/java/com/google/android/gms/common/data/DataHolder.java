@@ -30,6 +30,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
     private boolean zai = false;
     private boolean zaj = true;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DataHolder(int i, String[] strArr, CursorWindow[] cursorWindowArr, int i2, Bundle bundle) {
         this.zaa = i;
         this.zab = strArr;
@@ -73,6 +74,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
             new HashMap();
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public /* synthetic */ Builder(String[] strArr, String str, zab zabVar) {
             this(strArr, null);
         }

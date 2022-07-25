@@ -63,6 +63,7 @@ final class zzmh extends zzme {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzme
     public final String zzb(byte[] bArr, int i, int i2) throws zzjk {
         boolean zzd;
@@ -141,6 +142,7 @@ final class zzmh extends zzme {
         return new String(cArr, 0, i5);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x001d, code lost:
         return r10 + r0;
      */
@@ -190,7 +192,7 @@ final class zzmh extends zzme {
                             }
                         }
                         throw new zzmg(i7 - 1, length);
-                    } else if (55296 <= charAt2 && charAt2 <= 57343 && ((i3 = i7 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i3)))) {
+                    } else if (55296 <= charAt2 && charAt2 <= 57343 && ((i4 = i7 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
                         throw new zzmg(i7, length);
                     } else {
                         StringBuilder sb = new StringBuilder(37);
@@ -205,15 +207,15 @@ final class zzmh extends zzme {
                     bArr[i8] = (byte) ((charAt2 >>> '\f') | 480);
                     int i15 = i14 + 1;
                     bArr[i14] = (byte) (((charAt2 >>> 6) & 63) | ConnectionsManager.RequestFlagNeedQuickAck);
-                    i4 = i15 + 1;
+                    i3 = i15 + 1;
                     bArr[i15] = (byte) ((charAt2 & '?') | ConnectionsManager.RequestFlagNeedQuickAck);
                 }
                 i7++;
             } else {
-                i4 = i8 + 1;
+                i3 = i8 + 1;
                 bArr[i8] = (byte) charAt2;
             }
-            i8 = i4;
+            i8 = i3;
             i7++;
         }
         return i8;

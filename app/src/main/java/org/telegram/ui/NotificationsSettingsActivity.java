@@ -116,6 +116,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         public int notify;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -255,19 +256,20 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0121, code lost:
-        if (r4.deleted != false) goto L34;
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0121, code lost:
+        if (r4.deleted != false) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x014c, code lost:
-        if (r4.deleted != false) goto L34;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x014e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x014e, code lost:
         r7 = r15;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0264  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x027e A[LOOP:3: B:108:0x027c->B:109:0x027e, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0225  */
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x014c, code lost:
+        if (r4.deleted != false) goto L30;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0264  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x027e A[LOOP:3: B:114:0x027c->B:115:0x027e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0225  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -282,9 +284,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         int size3;
         int i3;
         int size4;
-        Exception e;
-        long j;
         ArrayList<TLRPC$User> arrayList4;
+        long j;
         SharedPreferences sharedPreferences;
         final ArrayList arrayList5 = new ArrayList();
         final ArrayList arrayList6 = new ArrayList();
@@ -402,8 +403,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         arrayList3 = arrayList16;
                         try {
                             MessagesStorage.getInstance(this.currentAccount).getUsersInternal(TextUtils.join(",", arrayList8), arrayList3);
-                        } catch (Exception e2) {
-                            e = e2;
+                        } catch (Exception e) {
+                            e = e;
                             arrayList2 = arrayList;
                             FileLog.e(e);
                             size = arrayList2.size();
@@ -427,8 +428,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                                 }
                             });
                         }
-                    } catch (Exception e3) {
-                        e = e3;
+                    } catch (Exception e2) {
+                        e = e2;
                         arrayList3 = arrayList16;
                         arrayList2 = arrayList;
                         FileLog.e(e);
@@ -460,8 +461,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     arrayList2 = arrayList;
                     try {
                         MessagesStorage.getInstance(this.currentAccount).getChatsInternal(TextUtils.join(",", arrayList9), arrayList2);
-                    } catch (Exception e4) {
-                        e = e4;
+                    } catch (Exception e3) {
+                        e = e3;
                         FileLog.e(e);
                         size = arrayList2.size();
                         while (i < size) {
@@ -487,8 +488,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 } else {
                     arrayList2 = arrayList;
                 }
-            } catch (Exception e5) {
-                e = e5;
+            } catch (Exception e4) {
+                e = e4;
                 arrayList2 = arrayList;
                 arrayList3 = arrayList16;
             }
@@ -541,6 +542,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadExceptions$0(ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6) {
         MessagesController.getInstance(this.currentAccount).putUsers(arrayList, true);
         MessagesController.getInstance(this.currentAccount).putChats(arrayList2, true);
@@ -611,6 +613,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$8(View view, final int i, float f, float f2) {
         ArrayList<NotificationException> arrayList;
         if (getParentActivity() == null) {
@@ -832,6 +835,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         ((TextCheckCell) view).setChecked(!z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(DialogInterface dialogInterface, int i) {
         if (this.reseting) {
             return;
@@ -857,6 +861,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -866,6 +871,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2() {
         getMessagesController().enableJoined = true;
         this.reseting = false;
@@ -881,10 +887,12 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         getMessagesStorage().updateMutedDialogsFiltersCounters();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(int i) {
         this.adapter.notifyItemChanged(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$7(int i, DialogInterface dialogInterface, int i2) {
         int i3 = 5;
         if (i2 != 1) {
@@ -931,34 +939,34 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
 
     private void showExceptionsAlert(int i) {
         final ArrayList<NotificationException> arrayList;
-        String str;
+        String formatPluralString;
         if (i == this.privateRow) {
             arrayList = this.exceptionUsers;
             if (arrayList != null && !arrayList.isEmpty()) {
-                str = LocaleController.formatPluralString("ChatsException", arrayList.size(), new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("ChatsException", arrayList.size(), new Object[0]);
             }
-            str = null;
+            formatPluralString = null;
         } else if (i == this.groupRow) {
             arrayList = this.exceptionChats;
             if (arrayList != null && !arrayList.isEmpty()) {
-                str = LocaleController.formatPluralString("Groups", arrayList.size(), new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Groups", arrayList.size(), new Object[0]);
             }
-            str = null;
+            formatPluralString = null;
         } else {
             arrayList = this.exceptionChannels;
             if (arrayList != null && !arrayList.isEmpty()) {
-                str = LocaleController.formatPluralString("Channels", arrayList.size(), new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Channels", arrayList.size(), new Object[0]);
             }
-            str = null;
+            formatPluralString = null;
         }
-        if (str == null) {
+        if (formatPluralString == null) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         if (arrayList.size() == 1) {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsSingleAlert", R.string.NotificationsExceptionsSingleAlert, str)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsSingleAlert", R.string.NotificationsExceptionsSingleAlert, formatPluralString)));
         } else {
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsAlert", R.string.NotificationsExceptionsAlert, str)));
+            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NotificationsExceptionsAlert", R.string.NotificationsExceptionsAlert, formatPluralString)));
         }
         builder.setTitle(LocaleController.getString("NotificationsExceptions", R.string.NotificationsExceptions));
         builder.setNeutralButton(LocaleController.getString("ViewExceptions", R.string.ViewExceptions), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda2
@@ -971,6 +979,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showExceptionsAlert$9(ArrayList arrayList, DialogInterface dialogInterface, int i) {
         presentFragment(new NotificationsCustomSettingsActivity(-1, arrayList));
     }
@@ -991,12 +1000,12 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            NotificationsSettingsActivity.this = r1;
             this.mContext = context;
         }
 
@@ -1012,34 +1021,35 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View headerCell;
             View view;
-            View view2;
             if (i == 0) {
-                view2 = new HeaderCell(this.mContext);
-                view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                headerCell = new HeaderCell(this.mContext);
+                headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 1) {
-                view2 = new TextCheckCell(this.mContext);
-                view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                headerCell = new TextCheckCell(this.mContext);
+                headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 2) {
-                view2 = new TextDetailSettingsCell(this.mContext);
-                view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                headerCell = new TextDetailSettingsCell(this.mContext);
+                headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 3) {
-                view2 = new NotificationsCheckCell(this.mContext);
-                view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                headerCell = new NotificationsCheckCell(this.mContext);
+                headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else {
                 if (i == 4) {
                     view = new ShadowSectionCell(this.mContext);
                 } else if (i == 5) {
-                    view2 = new TextSettingsCell(this.mContext);
-                    view2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                    headerCell = new TextSettingsCell(this.mContext);
+                    headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 } else {
                     view = new TextInfoPrivacyCell(this.mContext);
                     view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 }
                 return new RecyclerListView.Holder(view);
             }
-            view = view2;
+            view = headerCell;
             return new RecyclerListView.Holder(view);
         }
 
@@ -1048,7 +1058,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             String string;
             ArrayList arrayList;
             int i2;
-            String str;
+            String formatPluralString;
             switch (viewHolder.getItemViewType()) {
                 case 0:
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
@@ -1174,7 +1184,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         arrayList = NotificationsSettingsActivity.this.exceptionUsers;
                         i2 = notificationsSettings2.getInt("EnableAll2", 0);
                     }
-                    String str2 = string;
+                    String str = string;
                     boolean z = i2 < currentTime;
                     int i3 = (!z && i2 - 31536000 < currentTime) ? 2 : 0;
                     StringBuilder sb = new StringBuilder();
@@ -1194,7 +1204,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     } else {
                         sb.append(LocaleController.getString("TapToChange", R.string.TapToChange));
                     }
-                    notificationsCheckCell.setTextAndValueAndCheck(str2, sb, z, i3, i != NotificationsSettingsActivity.this.channelsRow);
+                    notificationsCheckCell.setTextAndValueAndCheck(str, sb, z, i3, i != NotificationsSettingsActivity.this.channelsRow);
                     return;
                 case 4:
                     if (i == NotificationsSettingsActivity.this.resetNotificationsSectionRow) {
@@ -1214,13 +1224,13 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                             }
                             int i4 = notificationsSettings3.getInt("repeat_messages", 60);
                             if (i4 == 0) {
-                                str = LocaleController.getString("RepeatNotificationsNever", R.string.RepeatNotificationsNever);
+                                formatPluralString = LocaleController.getString("RepeatNotificationsNever", R.string.RepeatNotificationsNever);
                             } else if (i4 < 60) {
-                                str = LocaleController.formatPluralString("Minutes", i4, new Object[0]);
+                                formatPluralString = LocaleController.formatPluralString("Minutes", i4, new Object[0]);
                             } else {
-                                str = LocaleController.formatPluralString("Hours", i4 / 60, new Object[0]);
+                                formatPluralString = LocaleController.formatPluralString("Hours", i4 / 60, new Object[0]);
                             }
-                            textSettingsCell.setTextAndValue(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications), str, false);
+                            textSettingsCell.setTextAndValue(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications), formatPluralString, false);
                             return;
                         }
                         int i5 = notificationsSettings3.getInt("vibrate_calls", 0);

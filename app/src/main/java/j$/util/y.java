@@ -11,6 +11,7 @@ class y implements p.a, j$.util.function.l, Iterator {
     int b;
     final /* synthetic */ u.a c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public y(u.a aVar) {
         this.c = aVar;
     }
@@ -21,7 +22,7 @@ class y implements p.a, j$.util.function.l, Iterator {
         this.b = i;
     }
 
-    @Override // j$.util.p.a
+    @Override // j$.util.p
     /* renamed from: c */
     public void forEachRemaining(j$.util.function.l lVar) {
         lVar.getClass();
@@ -60,7 +61,8 @@ class y implements p.a, j$.util.function.l, Iterator {
     }
 
     @Override // j$.util.p.a, java.util.Iterator
-    public Integer next() {
+    /* renamed from: next */
+    public Integer mo337next() {
         if (!N.a) {
             return Integer.valueOf(nextInt());
         }

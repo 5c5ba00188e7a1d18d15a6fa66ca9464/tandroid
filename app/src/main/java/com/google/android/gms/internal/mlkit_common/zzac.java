@@ -15,6 +15,7 @@ public abstract class zzac<E> extends AbstractCollection<E> implements Serializa
 
     public abstract zzak<E> zza();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @NullableDecl
     public Object[] zzb() {
         return null;
@@ -42,6 +43,7 @@ public abstract class zzac<E> extends AbstractCollection<E> implements Serializa
         return tArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int zzc() {
         throw new UnsupportedOperationException();
     }

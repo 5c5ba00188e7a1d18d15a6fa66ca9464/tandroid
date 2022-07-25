@@ -31,6 +31,7 @@ public final class CardInfo extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CardInfo(String str, String str2, String str3, int i, UserAddress userAddress) {
         this.zza = str;
         this.zzb = str2;

@@ -13,9 +13,8 @@ public abstract class zzbn extends zzba {
     private static final boolean zzfy = zzfd.zzed();
     zzbp zzfz;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class zza extends zzbn {
+    static class zza extends zzbn {
         private final byte[] buffer;
         private final int limit;
         private final int offset;
@@ -81,9 +80,8 @@ public abstract class zzbn extends zzba {
             zzb(zzdoVar);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
             zzb(i, 2);
             zzas zzasVar = (zzas) zzdoVar;
             int zzs = zzasVar.zzs();
@@ -345,6 +343,7 @@ public abstract class zzbn extends zzba {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class zzb extends zza {
         private final ByteBuffer zzga;
@@ -387,6 +386,7 @@ public abstract class zzbn extends zzba {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class zzd extends zzbn {
         private final ByteBuffer zzgc;
@@ -450,9 +450,8 @@ public abstract class zzbn extends zzba {
             zzb(zzdoVar);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
             zzb(i, 2);
             zza(zzdoVar, zzefVar);
         }
@@ -628,6 +627,7 @@ public abstract class zzbn extends zzba {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class zze extends zzbn {
         private final ByteBuffer zzgc;
@@ -707,9 +707,8 @@ public abstract class zzbn extends zzba {
             zzb(zzdoVar);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.android.gms.internal.clearcut.zzbn
-        public final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
+        final void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException {
             zzb(i, 2);
             zza(zzdoVar, zzefVar);
         }
@@ -963,6 +962,7 @@ public abstract class zzbn extends zzba {
         return (zzr(1) << 1) + zzh(2, i) + zza(3, zzcvVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, zzdo zzdoVar, zzef zzefVar) {
         return zzr(i) + zzb(zzdoVar, zzefVar);
     }
@@ -976,6 +976,7 @@ public abstract class zzbn extends zzba {
         return zzt(size) + size;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(zzdo zzdoVar, zzef zzefVar) {
         zzas zzasVar = (zzas) zzdoVar;
         int zzs = zzasVar.zzs();
@@ -1000,6 +1001,7 @@ public abstract class zzbn extends zzba {
         return zzr(i) + zzc(zzdoVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Deprecated
     public static int zzc(int i, zzdo zzdoVar, zzef zzefVar) {
         int zzr = zzr(i) << 1;
@@ -1105,13 +1107,13 @@ public abstract class zzbn extends zzba {
     }
 
     public static int zzh(String str) {
-        int i;
+        int length;
         try {
-            i = zzff.zza(str);
+            length = zzff.zza(str);
         } catch (zzfi unused) {
-            i = str.getBytes(zzci.UTF_8).length;
+            length = str.getBytes(zzci.UTF_8).length;
         }
-        return zzt(i) + i;
+        return zzt(length) + length;
     }
 
     public static int zzi(int i, int i2) {
@@ -1215,6 +1217,7 @@ public abstract class zzbn extends zzba {
 
     public abstract void zza(int i, zzdo zzdoVar) throws IOException;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract void zza(int i, zzdo zzdoVar, zzef zzefVar) throws IOException;
 
     public abstract void zza(int i, String str) throws IOException;

@@ -147,9 +147,11 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkSecretValues$28(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         this.postedErrorColorTimeout = false;
         this.passwordOutlineView.animateError(0.0f);
@@ -199,33 +201,33 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0218  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0265  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x02c3  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x02c6  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x032c  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x032f  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x035a  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x040e  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x045e  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0469  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0474  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0477  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0524  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0533  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x053d  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x054c  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x056d  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0580  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0265  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x02c3  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x032c  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x035a  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x040b  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x042f  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0474  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0524  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x053d  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x056d  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0580  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x054c  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0533  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0477  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x045e  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x040e  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x032f  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x02c6  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0267  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0218  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -322,9 +324,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 });
                 this.passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda10
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView32, int i3, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView3, int i3, KeyEvent keyEvent) {
                         boolean lambda$createView$2;
-                        lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView32, i3, keyEvent);
+                        lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView3, i3, keyEvent);
                         return lambda$createView$2;
                     }
                 });
@@ -676,10 +678,12 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view, boolean z) {
         this.passwordOutlineView.animateSelection(z ? 1.0f : 0.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5 || i == 6) {
             processDone();
@@ -688,18 +692,22 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         onPasswordForgot();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         cancelPasswordReset();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(View view) {
         processDone();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$7(View view, int i) {
         if (i == this.setPasswordRow || i == this.changePasswordRow) {
             TwoStepVerificationSetupActivity twoStepVerificationSetupActivity = new TwoStepVerificationSetupActivity(this.currentAccount, 0, this.currentPassword);
@@ -739,6 +747,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(DialogInterface dialogInterface, int i) {
         clearPassword();
     }
@@ -776,6 +785,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancelPasswordReset$10(DialogInterface dialogInterface, int i) {
         getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_declinePasswordReset
             public static int constructor = 1284770294;
@@ -797,6 +807,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancelPasswordReset$9(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
@@ -806,6 +817,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancelPasswordReset$8(TLObject tLObject) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             this.currentPassword.pending_reset_date = 0;
@@ -839,6 +851,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resetPassword$13(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
@@ -848,8 +861,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resetPassword$12(TLObject tLObject) {
-        String str;
+        String formatPluralString;
         needHideProgress();
         if (tLObject instanceof TLRPC$TL_account_resetPasswordOk) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
@@ -869,31 +883,33 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         } else {
             int currentTime = ((TLRPC$TL_account_resetPasswordFailedWait) tLObject).retry_date - getConnectionsManager().getCurrentTime();
             if (currentTime > 86400) {
-                str = LocaleController.formatPluralString("Days", currentTime / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Days", currentTime / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
             } else if (currentTime > 3600) {
-                str = LocaleController.formatPluralString("Hours", currentTime / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Hours", currentTime / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
             } else if (currentTime > 60) {
-                str = LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]);
             } else {
-                str = LocaleController.formatPluralString("Seconds", Math.max(1, currentTime), new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Seconds", Math.max(1, currentTime), new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("ResetPassword", R.string.ResetPassword), LocaleController.formatString("ResetPasswordWait", R.string.ResetPasswordWait, str));
+            showAlertWithText(LocaleController.getString("ResetPassword", R.string.ResetPassword), LocaleController.formatString("ResetPasswordWait", R.string.ResetPasswordWait, formatPluralString));
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resetPassword$11(DialogInterface dialogInterface) {
         getNotificationCenter().postNotificationName(NotificationCenter.didSetOrRemoveTwoStepPassword, new Object[0]);
         finishFragment();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x011a  */
-    /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:30:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void updateBottomButton() {
         TextView textView;
-        String str;
+        String format;
         if (this.passwordEntered) {
             return;
         }
@@ -903,13 +919,13 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             if (currentTime <= i) {
                 int max = Math.max(1, i - getConnectionsManager().getCurrentTime());
                 if (max > 86400) {
-                    str = LocaleController.formatPluralString("Days", max / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
+                    format = LocaleController.formatPluralString("Days", max / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
                 } else if (max >= 3600) {
-                    str = LocaleController.formatPluralString("Hours", max / 3600, new Object[0]);
+                    format = LocaleController.formatPluralString("Hours", max / 3600, new Object[0]);
                 } else {
-                    str = String.format(Locale.US, "%02d:%02d", Integer.valueOf(max / 60), Integer.valueOf(max % 60));
+                    format = String.format(Locale.US, "%02d:%02d", Integer.valueOf(max / 60), Integer.valueOf(max % 60));
                 }
-                this.resetWaitView.setText(LocaleController.formatString("RestorePasswordResetIn", R.string.RestorePasswordResetIn, str));
+                this.resetWaitView.setText(LocaleController.formatString("RestorePasswordResetIn", R.string.RestorePasswordResetIn, format));
                 this.resetWaitView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText6"));
                 if (this.bottomButton.getVisibility() != 8) {
                     this.bottomButton.setVisibility(8);
@@ -1004,6 +1020,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPasswordForgot$15(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
@@ -1013,8 +1030,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPasswordForgot$14(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        String str;
+        String formatPluralString;
         needHideProgress();
         if (tLRPC$TL_error == null) {
             TLRPC$TL_account_password tLRPC$TL_account_password = this.currentPassword;
@@ -1031,20 +1049,22 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
             int intValue = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
             if (intValue < 60) {
-                str = LocaleController.formatPluralString("Seconds", intValue, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Seconds", intValue, new Object[0]);
             } else {
-                str = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str));
+            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, formatPluralString));
         } else {
             showAlertWithText(LocaleController.getString("AppName", R.string.AppName), tLRPC$TL_error.text);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPasswordForgot$16(DialogInterface dialogInterface, int i) {
         resetPassword();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPasswordForgot$17(DialogInterface dialogInterface, int i) {
         resetPassword();
     }
@@ -1123,6 +1143,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }, 10);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadPasswordInfo$19(final boolean z, final boolean z2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
@@ -1132,6 +1153,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadPasswordInfo$18(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z, boolean z2) {
         if (tLRPC$TL_error == null) {
             this.loading = false;
@@ -1151,6 +1173,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         updateRows();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         super.onTransitionAnimationEnd(z, z2);
@@ -1275,6 +1298,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateRows$20() {
         EditTextBoldCursor editTextBoldCursor;
         if (isFinishing() || this.destroyed || (editTextBoldCursor = this.passwordEditText) == null) {
@@ -1364,6 +1388,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearPassword$27(TLRPC$TL_account_updatePasswordSettings tLRPC$TL_account_updatePasswordSettings) {
         if (tLRPC$TL_account_updatePasswordSettings.password == null) {
             if (this.currentPassword.current_algo == null) {
@@ -1385,6 +1410,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }, 10);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearPassword$22(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
@@ -1394,6 +1420,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearPassword$21(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
@@ -1404,6 +1431,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearPassword$26(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
@@ -1413,8 +1441,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearPassword$25(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
-        String str;
+        String formatPluralString;
         if (tLRPC$TL_error != null && "SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda34
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -1436,17 +1465,18 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
                 int intValue = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
                 if (intValue < 60) {
-                    str = LocaleController.formatPluralString("Seconds", intValue, new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Seconds", intValue, new Object[0]);
                 } else {
-                    str = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
                 }
-                showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str));
+                showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, formatPluralString));
                 return;
             }
             showAlertWithText(LocaleController.getString("AppName", R.string.AppName), tLRPC$TL_error.text);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearPassword$24(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
@@ -1456,6 +1486,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearPassword$23(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
@@ -1476,26 +1507,26 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     }
 
     private boolean checkSecretValues(byte[] bArr, TLRPC$TL_account_passwordSettings tLRPC$TL_account_passwordSettings) {
-        byte[] bArr2;
+        byte[] computeSHA512;
         TLRPC$TL_secureSecretSettings tLRPC$TL_secureSecretSettings = tLRPC$TL_account_passwordSettings.secure_settings;
         if (tLRPC$TL_secureSecretSettings != null) {
             this.currentSecret = tLRPC$TL_secureSecretSettings.secure_secret;
             TLRPC$SecurePasswordKdfAlgo tLRPC$SecurePasswordKdfAlgo = tLRPC$TL_secureSecretSettings.secure_algo;
             if (tLRPC$SecurePasswordKdfAlgo instanceof TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
-                bArr2 = Utilities.computePBKDF2(bArr, ((TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) tLRPC$SecurePasswordKdfAlgo).salt);
+                computeSHA512 = Utilities.computePBKDF2(bArr, ((TLRPC$TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) tLRPC$SecurePasswordKdfAlgo).salt);
             } else if (!(tLRPC$SecurePasswordKdfAlgo instanceof TLRPC$TL_securePasswordKdfAlgoSHA512)) {
                 return false;
             } else {
-                byte[] bArr3 = ((TLRPC$TL_securePasswordKdfAlgoSHA512) tLRPC$SecurePasswordKdfAlgo).salt;
-                bArr2 = Utilities.computeSHA512(bArr3, bArr, bArr3);
+                byte[] bArr2 = ((TLRPC$TL_securePasswordKdfAlgoSHA512) tLRPC$SecurePasswordKdfAlgo).salt;
+                computeSHA512 = Utilities.computeSHA512(bArr2, bArr, bArr2);
             }
             this.currentSecretId = tLRPC$TL_account_passwordSettings.secure_settings.secure_secret_id;
-            byte[] bArr4 = new byte[32];
-            System.arraycopy(bArr2, 0, bArr4, 0, 32);
-            byte[] bArr5 = new byte[16];
-            System.arraycopy(bArr2, 32, bArr5, 0, 16);
-            byte[] bArr6 = this.currentSecret;
-            Utilities.aesCbcEncryptionByteArraySafe(bArr6, bArr4, bArr5, 0, bArr6.length, 0, 0);
+            byte[] bArr3 = new byte[32];
+            System.arraycopy(computeSHA512, 0, bArr3, 0, 32);
+            byte[] bArr4 = new byte[16];
+            System.arraycopy(computeSHA512, 32, bArr4, 0, 16);
+            byte[] bArr5 = this.currentSecret;
+            Utilities.aesCbcEncryptionByteArraySafe(bArr5, bArr3, bArr4, 0, bArr5.length, 0, 0);
             TLRPC$TL_secureSecretSettings tLRPC$TL_secureSecretSettings2 = tLRPC$TL_account_passwordSettings.secure_settings;
             if (PassportActivity.checkSecret(tLRPC$TL_secureSecretSettings2.secure_secret, Long.valueOf(tLRPC$TL_secureSecretSettings2.secure_secret_id))) {
                 return true;
@@ -1539,6 +1570,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$35(final byte[] bArr) {
         TLRPC$TL_account_getPasswordSettings tLRPC$TL_account_getPasswordSettings = new TLRPC$TL_account_getPasswordSettings();
         TLRPC$PasswordKdfAlgo tLRPC$PasswordKdfAlgo = this.currentPassword.current_algo;
@@ -1568,6 +1600,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         requestDelegate.run(null, tLRPC$TL_error2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$34(final byte[] bArr, final byte[] bArr2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda27
@@ -1586,6 +1619,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$30(byte[] bArr, TLObject tLObject, final byte[] bArr2) {
         final boolean checkSecretValues = checkSecretValues(bArr, (TLRPC$TL_account_passwordSettings) tLObject);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda25
@@ -1596,6 +1630,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$29(boolean z, byte[] bArr) {
         if (this.delegate == null || !z) {
             needHideProgress();
@@ -1627,8 +1662,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", R.string.UpdateAppAlert), true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$33(TLRPC$TL_error tLRPC$TL_error) {
-        String str;
+        String formatPluralString;
         if ("SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda33
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -1644,16 +1680,17 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         } else if (tLRPC$TL_error.text.startsWith("FLOOD_WAIT")) {
             int intValue = Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue();
             if (intValue < 60) {
-                str = LocaleController.formatPluralString("Seconds", intValue, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Seconds", intValue, new Object[0]);
             } else {
-                str = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
             }
-            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, str));
+            showAlertWithText(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, formatPluralString));
         } else {
             showAlertWithText(LocaleController.getString("AppName", R.string.AppName), tLRPC$TL_error.text);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$32(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
@@ -1663,6 +1700,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$31(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
@@ -1693,18 +1731,19 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFieldError$36() {
         AndroidUtilities.cancelRunOnUIThread(this.errorColorTimeout);
         AndroidUtilities.runOnUIThread(this.errorColorTimeout, 1500L);
         this.postedErrorColorTimeout = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            TwoStepVerificationActivity.this = r1;
             this.mContext = context;
         }
 
@@ -1722,15 +1761,16 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View textSettingsCell;
             if (i == 0) {
-                view = new TextSettingsCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textSettingsCell = new TextSettingsCell(this.mContext);
+                textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else {
-                view = new TextInfoPrivacyCell(this.mContext);
+                textSettingsCell = new TextInfoPrivacyCell(this.mContext);
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(textSettingsCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1823,6 +1863,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         return super.onBackPressed();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showSetForcePasswordAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("Warning", R.string.Warning));
@@ -1837,6 +1878,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         ((TextView) builder.show().getButton(-2)).setTextColor(Theme.getColor("dialogTextRed2"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showSetForcePasswordAlert$37(DialogInterface dialogInterface, int i) {
         finishFragment();
     }

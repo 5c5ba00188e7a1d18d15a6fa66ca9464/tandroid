@@ -16,6 +16,7 @@ public abstract class GmsClientSupervisor {
     private static final Object zzb = new Object();
     private static GmsClientSupervisor zzc;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract boolean zza(zza zzaVar, ServiceConnection serviceConnection, String str);
 
     protected abstract void zzb(zza zzaVar, ServiceConnection serviceConnection, String str);
@@ -34,6 +35,7 @@ public abstract class GmsClientSupervisor {
         return zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
     /* loaded from: classes.dex */
     public static final class zza {

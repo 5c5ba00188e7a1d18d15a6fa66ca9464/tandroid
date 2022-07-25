@@ -20,17 +20,17 @@ public abstract class TLRPC$Dialog extends TLObject {
     public int unread_reactions_count;
 
     public static TLRPC$Dialog TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$Dialog tLRPC$Dialog;
+        TLRPC$Dialog tLRPC$TL_dialog;
         if (i == -1460809483) {
-            tLRPC$Dialog = new TLRPC$TL_dialog();
+            tLRPC$TL_dialog = new TLRPC$TL_dialog();
         } else {
-            tLRPC$Dialog = i != 1908216652 ? null : new TLRPC$TL_dialogFolder();
+            tLRPC$TL_dialog = i != 1908216652 ? null : new TLRPC$TL_dialogFolder();
         }
-        if (tLRPC$Dialog != null || !z) {
-            if (tLRPC$Dialog != null) {
-                tLRPC$Dialog.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_dialog != null || !z) {
+            if (tLRPC$TL_dialog != null) {
+                tLRPC$TL_dialog.readParams(abstractSerializedData, z);
             }
-            return tLRPC$Dialog;
+            return tLRPC$TL_dialog;
         }
         throw new RuntimeException(String.format("can't parse magic %x in Dialog", Integer.valueOf(i)));
     }

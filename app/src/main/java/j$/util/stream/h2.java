@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
 final class h2 extends i2 implements j$.util.v {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public h2(y1 y1Var) {
         super(y1Var);
     }

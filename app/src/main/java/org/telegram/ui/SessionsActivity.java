@@ -112,6 +112,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     private ArrayList<TLObject> passwordSessions = new ArrayList<>();
     private int repeatLoad = 0;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -197,10 +198,11 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$13(View view, final int i) {
         CharSequence charSequence;
         TLRPC$TL_authorization tLRPC$TL_authorization;
-        String str;
+        String string;
         boolean z = true;
         if (i == this.ttlRow) {
             if (getParentActivity() == null) {
@@ -240,13 +242,13 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             if (this.currentType == 0) {
                 builder2.setMessage(LocaleController.getString("AreYouSureSessions", R.string.AreYouSureSessions));
                 builder2.setTitle(LocaleController.getString("AreYouSureSessionsTitle", R.string.AreYouSureSessionsTitle));
-                str = LocaleController.getString("Terminate", R.string.Terminate);
+                string = LocaleController.getString("Terminate", R.string.Terminate);
             } else {
                 builder2.setMessage(LocaleController.getString("AreYouSureWebSessions", R.string.AreYouSureWebSessions));
                 builder2.setTitle(LocaleController.getString("TerminateWebSessionsTitle", R.string.TerminateWebSessionsTitle));
-                str = LocaleController.getString("Disconnect", R.string.Disconnect);
+                string = LocaleController.getString("Disconnect", R.string.Disconnect);
             }
-            builder2.setPositiveButton(str, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda1
+            builder2.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i5) {
                     SessionsActivity.this.lambda$createView$6(dialogInterface, i5);
@@ -287,7 +289,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 TLRPC$TL_webAuthorization tLRPC$TL_webAuthorization = (TLRPC$TL_webAuthorization) this.sessions.get(i - this.otherSessionsStartRow);
                 builder3.setMessage(LocaleController.formatString("TerminateWebSessionText", R.string.TerminateWebSessionText, tLRPC$TL_webAuthorization.domain));
                 builder3.setTitle(LocaleController.getString("TerminateWebSessionTitle", R.string.TerminateWebSessionTitle));
-                CharSequence string = LocaleController.getString("Disconnect", R.string.Disconnect);
+                CharSequence string2 = LocaleController.getString("Disconnect", R.string.Disconnect);
                 FrameLayout frameLayout = new FrameLayout(getParentActivity());
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$TL_webAuthorization.bot_id));
                 String firstName = user != null ? UserObject.getFirstName(user) : "";
@@ -304,7 +306,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 });
                 builder3.setCustomViewOffset(16);
                 builder3.setView(frameLayout);
-                charSequence = string;
+                charSequence = string2;
             }
             builder3.setPositiveButton(charSequence, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
@@ -323,6 +325,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(AlertDialog.Builder builder, View view) {
         int i;
         builder.getDismissRunnable().run();
@@ -346,6 +349,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         getConnectionsManager().sendRequest(tLRPC$TL_account_setAuthorizationTTL, SessionsActivity$$ExternalSyntheticLambda19.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(DialogInterface dialogInterface, int i) {
         if (this.currentType == 0) {
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_auth_resetAuthorizations
@@ -388,6 +392,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
@@ -406,6 +411,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (getParentActivity() != null && tLRPC$TL_error == null && (tLObject instanceof TLRPC$TL_boolTrue)) {
             BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, LocaleController.getString("AllSessionsTerminated", R.string.AllSessionsTerminated)).show();
@@ -413,6 +419,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
@@ -422,6 +429,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         if (getParentActivity() == null) {
             return;
@@ -434,6 +442,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         lambda$loadSessions$17(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$7(boolean[] zArr, View view) {
         if (!view.isEnabled()) {
             return;
@@ -442,6 +451,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12(int i, boolean[] zArr, DialogInterface dialogInterface, int i2) {
         final TLRPC$TL_authorization tLRPC$TL_authorization;
         if (getParentActivity() == null) {
@@ -482,6 +492,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         MessagesController.getInstance(this.currentAccount).blockPeer(tLRPC$TL_webAuthorization.bot_id);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$9(final AlertDialog alertDialog, final TLRPC$TL_authorization tLRPC$TL_authorization, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
@@ -491,6 +502,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$8(AlertDialog alertDialog, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_authorization tLRPC$TL_authorization) {
         try {
             alertDialog.dismiss();
@@ -509,6 +521,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$11(final AlertDialog alertDialog, final TLRPC$TL_webAuthorization tLRPC$TL_webAuthorization, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
@@ -518,6 +531,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$10(AlertDialog alertDialog, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_webAuthorization tLRPC$TL_webAuthorization) {
         try {
             alertDialog.dismiss();
@@ -535,13 +549,12 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* renamed from: org.telegram.ui.SessionsActivity$3 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.SessionsActivity$3  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass3 extends UndoView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass3(Context context) {
             super(context);
-            SessionsActivity.this = r1;
         }
 
         @Override // org.telegram.ui.Components.UndoView
@@ -560,6 +573,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             super.hide(z, i);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$hide$1(final TLRPC$TL_authorization tLRPC$TL_authorization, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -569,6 +583,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$hide$0(TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_authorization tLRPC$TL_authorization) {
             if (tLRPC$TL_error == null) {
                 SessionsActivity.this.sessions.remove(tLRPC$TL_authorization);
@@ -582,14 +597,15 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* renamed from: org.telegram.ui.SessionsActivity$4 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.SessionsActivity$4  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass4 implements SessionBottomSheet.Callback {
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onSessionTerminated$0() {
         }
 
         AnonymousClass4() {
-            SessionsActivity.this = r1;
         }
 
         @Override // org.telegram.ui.SessionBottomSheet.Callback
@@ -605,6 +621,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             ConnectionsManager.getInstance(((BaseFragment) SessionsActivity.this).currentAccount).sendRequest(tLRPC$TL_account_resetAuthorization, SessionsActivity$4$$ExternalSyntheticLambda1.INSTANCE);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onSessionTerminated$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(SessionsActivity$4$$ExternalSyntheticLambda0.INSTANCE);
         }
@@ -626,6 +643,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyHidden() {
         UndoView undoView = this.undoView;
@@ -650,6 +668,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: loadSessions */
     public void lambda$loadSessions$17(final boolean z) {
         if (this.loading) {
@@ -699,6 +718,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }), this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSessions$16(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
@@ -708,6 +728,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSessions$15(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, final boolean z) {
         this.loading = false;
         this.listAdapter.getItemCount();
@@ -749,6 +770,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSessions$19(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
@@ -758,6 +780,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSessions$18(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, final boolean z) {
         this.loading = false;
         if (tLRPC$TL_error == null) {
@@ -787,6 +810,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRows() {
         this.rowCount = 0;
         this.currentSessionSectionRow = -1;
@@ -892,12 +916,12 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         this.ttlDivideRow = i16;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            SessionsActivity.this = r1;
             this.mContext = context;
             setHasStableIds(true);
         }
@@ -914,26 +938,27 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View textCell;
             if (i == 0) {
-                view = new TextCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textCell = new TextCell(this.mContext);
+                textCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 1) {
-                view = new TextInfoPrivacyCell(this.mContext);
+                textCell = new TextInfoPrivacyCell(this.mContext);
             } else if (i == 2) {
-                view = new HeaderCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textCell = new HeaderCell(this.mContext);
+                textCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 5) {
-                view = new ScanQRCodeView(this.mContext);
+                textCell = new ScanQRCodeView(this.mContext);
             } else if (i == 6) {
-                view = new TextSettingsCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textCell = new TextSettingsCell(this.mContext);
+                textCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else {
-                view = new SessionCell(this.mContext, SessionsActivity.this.currentType);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                textCell = new SessionCell(this.mContext, SessionsActivity.this.currentType);
+                textCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(textCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1146,19 +1171,18 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ScanQRCodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         BackupImageView imageView;
         TextView textView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ScanQRCodeView(Context context) {
             super(context);
-            SessionsActivity.this = r12;
             BackupImageView backupImageView = new BackupImageView(context);
             this.imageView = backupImageView;
             addView(backupImageView, LayoutHelper.createFrame(120, 120.0f, 1, 0.0f, 16.0f, 0.0f, 0.0f));
-            this.imageView.setOnClickListener(new View.OnClickListener(r12) { // from class: org.telegram.ui.SessionsActivity.ScanQRCodeView.1
+            this.imageView.setOnClickListener(new View.OnClickListener(SessionsActivity.this) { // from class: org.telegram.ui.SessionsActivity.ScanQRCodeView.1
                 @Override // android.view.View.OnClickListener
                 public void onClick(View view) {
                     if (ScanQRCodeView.this.imageView.getImageReceiver().getLottieAnimation() == null || ScanQRCodeView.this.imageView.getImageReceiver().getLottieAnimation().isRunning()) {
@@ -1224,6 +1248,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             setSticker();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             if (SessionsActivity.this.getParentActivity() == null) {
                 return;
@@ -1285,7 +1310,8 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* renamed from: org.telegram.ui.SessionsActivity$5 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.SessionsActivity$5  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass5 implements CameraScanActivity.CameraScanActivityDelegate {
         private TLObject response = null;
@@ -1297,7 +1323,6 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
 
         AnonymousClass5() {
-            SessionsActivity.this = r1;
         }
 
         @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
@@ -1326,6 +1351,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didFindQr$0() {
             String str;
             String str2 = this.error.text;
@@ -1350,6 +1376,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processQr$4(String str, final Runnable runnable) {
             try {
                 byte[] decode = Base64.decode(str.substring(17).replaceAll("\\/", "_").replaceAll("\\+", "-"), 8);
@@ -1373,6 +1400,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processQr$2(final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
@@ -1382,17 +1410,20 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processQr$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, Runnable runnable) {
             this.response = tLObject;
             this.error = tLRPC$TL_error;
             runnable.run();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processQr$3() {
             AlertsCreator.showSimpleAlert(SessionsActivity.this, LocaleController.getString("AuthAnotherClient", R.string.AuthAnotherClient), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openCameraScanActivity() {
         CameraScanActivity.showAsSheet(this, false, 2, new AnonymousClass5());
     }
@@ -1446,6 +1477,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onRequestPermissionsResultFragment$20(DialogInterface dialogInterface, int i) {
         try {
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");

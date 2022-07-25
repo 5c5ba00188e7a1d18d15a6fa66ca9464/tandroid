@@ -25,6 +25,7 @@ public abstract class BaseMediaChunk extends MediaChunk {
         return this.firstSampleIndices[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final BaseMediaChunkOutput getOutput() {
         return this.output;
     }

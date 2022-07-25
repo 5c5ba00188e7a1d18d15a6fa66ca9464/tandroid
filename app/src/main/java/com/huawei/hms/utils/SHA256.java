@@ -20,7 +20,6 @@ public abstract class SHA256 {
     }
 
     public static byte[] digest(File file) {
-        Throwable th;
         MessageDigest messageDigest;
         BufferedInputStream bufferedInputStream;
         int i;
@@ -29,8 +28,8 @@ public abstract class SHA256 {
             try {
                 messageDigest = MessageDigest.getInstance("SHA-256");
                 bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
             }
         } catch (IOException | NoSuchAlgorithmException unused) {
         }
@@ -51,8 +50,8 @@ public abstract class SHA256 {
             IOUtils.closeQuietly((InputStream) bufferedInputStream2);
             bufferedInputStream2 = bufferedInputStream2;
             return new byte[0];
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             bufferedInputStream2 = bufferedInputStream;
             IOUtils.closeQuietly((InputStream) bufferedInputStream2);
             throw th;

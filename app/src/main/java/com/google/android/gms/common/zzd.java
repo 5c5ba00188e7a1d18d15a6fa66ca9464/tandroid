@@ -14,6 +14,7 @@ import java.util.Arrays;
 abstract class zzd extends zzo {
     private int zza;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public zzd(byte[] bArr) {
         Preconditions.checkArgument(bArr.length == 25);
         this.zza = Arrays.hashCode(bArr);
@@ -51,6 +52,7 @@ abstract class zzd extends zzo {
         return hashCode();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static byte[] zza(String str) {
         try {
             return str.getBytes("ISO-8859-1");

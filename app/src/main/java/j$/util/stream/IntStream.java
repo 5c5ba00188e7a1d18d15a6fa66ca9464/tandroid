@@ -47,7 +47,7 @@ public interface IntStream extends g {
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    p.a mo66iterator();
+    p.a mo331iterator();
 
     Object k0(j$.util.function.y yVar, j$.util.function.v vVar, BiConsumer biConsumer);
 
@@ -58,19 +58,22 @@ public interface IntStream extends g {
     j$.util.k min();
 
     @Override // 
-    IntStream parallel();
+    /* renamed from: parallel */
+    IntStream mo332parallel();
 
     IntStream q(j$.wrappers.b0 b0Var);
 
     @Override // 
-    IntStream sequential();
+    /* renamed from: sequential */
+    IntStream mo333sequential();
 
     IntStream skip(long j);
 
     IntStream sorted();
 
     @Override // j$.util.stream.g
-    u.a spliterator();
+    /* renamed from: spliterator */
+    u.a mo334spliterator();
 
     int sum();
 

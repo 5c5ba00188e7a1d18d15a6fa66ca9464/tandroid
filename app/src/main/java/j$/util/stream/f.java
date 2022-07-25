@@ -12,6 +12,7 @@ abstract class f extends CountedCompleter {
     protected f e;
     private Object f;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public f(f fVar, j$.util.u uVar) {
         super(fVar);
         this.b = uVar;
@@ -19,6 +20,7 @@ abstract class f extends CountedCompleter {
         this.c = fVar.c;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public f(y2 y2Var, j$.util.u uVar) {
         super(null);
         this.a = y2Var;
@@ -34,19 +36,22 @@ abstract class f extends CountedCompleter {
         return 1L;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract Object a();
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Object b() {
         return this.f;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public f c() {
         return (f) getCompleter();
     }
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.u trySplit;
+        j$.util.u mo350trySplit;
         j$.util.u uVar = this.b;
         long estimateSize = uVar.estimateSize();
         long j = this.c;
@@ -56,14 +61,14 @@ abstract class f extends CountedCompleter {
         }
         boolean z = false;
         f fVar = this;
-        while (estimateSize > j && (trySplit = uVar.trySplit()) != null) {
-            f f = fVar.f(trySplit);
+        while (estimateSize > j && (mo350trySplit = uVar.mo350trySplit()) != null) {
+            f f = fVar.f(mo350trySplit);
             fVar.d = f;
             f f2 = fVar.f(uVar);
             fVar.e = f2;
             fVar.setPendingCount(1);
             if (z) {
-                uVar = trySplit;
+                uVar = mo350trySplit;
                 fVar = f;
                 f = f2;
             } else {
@@ -77,16 +82,20 @@ abstract class f extends CountedCompleter {
         fVar.tryComplete();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean d() {
         return this.d == null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean e() {
         return c() == null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract f f(j$.util.u uVar);
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void g(Object obj) {
         this.f = obj;
     }

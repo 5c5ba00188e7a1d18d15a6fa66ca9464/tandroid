@@ -31,11 +31,13 @@ public class TextCheckbox2Cell extends FrameLayout {
 
     static {
         new AnimationProperties.FloatProperty<TextCheckbox2Cell>("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckbox2Cell.1
+            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
             public void setValue(TextCheckbox2Cell textCheckbox2Cell, float f) {
                 textCheckbox2Cell.setAnimationProgress(f);
                 textCheckbox2Cell.invalidate();
             }
 
+            @Override // android.util.Property
             public Float get(TextCheckbox2Cell textCheckbox2Cell) {
                 return Float.valueOf(textCheckbox2Cell.animationProgress);
             }
@@ -155,6 +157,7 @@ public class TextCheckbox2Cell extends FrameLayout {
         super.setBackgroundColor(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setAnimationProgress(float f) {
         this.animationProgress = f;
         Math.max(this.lastTouchX, getMeasuredWidth() - this.lastTouchX);

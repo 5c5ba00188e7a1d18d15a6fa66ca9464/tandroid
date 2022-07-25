@@ -8,6 +8,7 @@ final class zabh implements Runnable {
     private final /* synthetic */ ConnectionResult zaa;
     private final /* synthetic */ GoogleApiManager.zaa zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zabh(GoogleApiManager.zaa zaaVar, ConnectionResult connectionResult) {
         this.zab = zaaVar;
         this.zaa = connectionResult;

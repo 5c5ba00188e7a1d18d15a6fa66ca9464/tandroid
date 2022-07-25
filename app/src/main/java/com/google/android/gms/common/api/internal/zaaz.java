@@ -98,6 +98,7 @@ public final class zaaz implements zabo, zap {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zah() {
         this.zaf.lock();
         try {
@@ -109,6 +110,7 @@ public final class zaaz implements zabo, zap {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zai() {
         this.zaf.lock();
         try {
@@ -121,6 +123,7 @@ public final class zaaz implements zabo, zap {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa(ConnectionResult connectionResult) {
         this.zaf.lock();
         try {
@@ -175,10 +178,12 @@ public final class zaaz implements zabo, zap {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa(zaay zaayVar) {
         this.zaj.sendMessage(this.zaj.obtainMessage(1, zaayVar));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa(RuntimeException runtimeException) {
         this.zaj.sendMessage(this.zaj.obtainMessage(2, runtimeException));
     }

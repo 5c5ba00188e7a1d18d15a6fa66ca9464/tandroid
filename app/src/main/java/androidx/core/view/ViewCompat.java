@@ -402,6 +402,7 @@ public class ViewCompat {
         return ((WindowManager) view.getContext().getSystemService("window")).getDefaultDisplay();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean dispatchUnhandledKeyEventBeforeHierarchy(View root, KeyEvent evt) {
         if (Build.VERSION.SDK_INT >= 28) {
             return false;
@@ -409,6 +410,7 @@ public class ViewCompat {
         return UnhandledKeyEventManager.at(root).preDispatch(evt);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean dispatchUnhandledKeyEventBeforeCallback(View root, KeyEvent evt) {
         if (Build.VERSION.SDK_INT >= 28) {
             return false;
@@ -426,15 +428,22 @@ public class ViewCompat {
 
     private static AccessibilityViewProperty<Boolean> screenReaderFocusableProperty() {
         return new AccessibilityViewProperty<Boolean>(R$id.tag_screen_reader_focusable, Boolean.class, 28) { // from class: androidx.core.view.ViewCompat.2
+            /* JADX INFO: Access modifiers changed from: package-private */
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            public Boolean frameworkGet(View view) {
+            /* renamed from: frameworkGet */
+            public Boolean mo9frameworkGet(View view) {
                 return Boolean.valueOf(view.isScreenReaderFocusable());
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public void frameworkSet(View view, Boolean value) {
                 view.setScreenReaderFocusable(value.booleanValue());
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public boolean shouldUpdate(Boolean oldValue, Boolean newValue) {
                 return !booleanNullToFalseEquals(oldValue, newValue);
             }
@@ -447,15 +456,22 @@ public class ViewCompat {
 
     private static AccessibilityViewProperty<CharSequence> paneTitleProperty() {
         return new AccessibilityViewProperty<CharSequence>(R$id.tag_accessibility_pane_title, CharSequence.class, 8, 28) { // from class: androidx.core.view.ViewCompat.3
+            /* JADX INFO: Access modifiers changed from: package-private */
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            public CharSequence frameworkGet(View view) {
+            /* renamed from: frameworkGet */
+            public CharSequence mo9frameworkGet(View view) {
                 return view.getAccessibilityPaneTitle();
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public void frameworkSet(View view, CharSequence value) {
                 view.setAccessibilityPaneTitle(value);
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public boolean shouldUpdate(CharSequence oldValue, CharSequence newValue) {
                 return !TextUtils.equals(oldValue, newValue);
             }
@@ -464,15 +480,22 @@ public class ViewCompat {
 
     private static AccessibilityViewProperty<CharSequence> stateDescriptionProperty() {
         return new AccessibilityViewProperty<CharSequence>(R$id.tag_state_description, CharSequence.class, 64, 30) { // from class: androidx.core.view.ViewCompat.4
+            /* JADX INFO: Access modifiers changed from: package-private */
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            public CharSequence frameworkGet(View view) {
+            /* renamed from: frameworkGet */
+            public CharSequence mo9frameworkGet(View view) {
                 return view.getStateDescription();
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public void frameworkSet(View view, CharSequence value) {
                 view.setStateDescription(value);
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public boolean shouldUpdate(CharSequence oldValue, CharSequence newValue) {
                 return !TextUtils.equals(oldValue, newValue);
             }
@@ -493,21 +516,29 @@ public class ViewCompat {
 
     private static AccessibilityViewProperty<Boolean> accessibilityHeadingProperty() {
         return new AccessibilityViewProperty<Boolean>(R$id.tag_accessibility_heading, Boolean.class, 28) { // from class: androidx.core.view.ViewCompat.5
+            /* JADX INFO: Access modifiers changed from: package-private */
+            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            public Boolean frameworkGet(View view) {
+            /* renamed from: frameworkGet */
+            public Boolean mo9frameworkGet(View view) {
                 return Boolean.valueOf(view.isAccessibilityHeading());
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public void frameworkSet(View view, Boolean value) {
                 view.setAccessibilityHeading(value.booleanValue());
             }
 
+            /* JADX INFO: Access modifiers changed from: package-private */
+            @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
             public boolean shouldUpdate(Boolean oldValue, Boolean newValue) {
                 return !booleanNullToFalseEquals(oldValue, newValue);
             }
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static abstract class AccessibilityViewProperty<T> {
         private final int mContentChangeType;
@@ -515,7 +546,8 @@ public class ViewCompat {
         private final int mTagKey;
         private final Class<T> mType;
 
-        abstract T frameworkGet(View view);
+        /* renamed from: frameworkGet */
+        abstract T mo9frameworkGet(View view);
 
         abstract void frameworkSet(View view, T value);
 
@@ -545,7 +577,7 @@ public class ViewCompat {
 
         T get(View view) {
             if (frameworkAvailable()) {
-                return frameworkGet(view);
+                return mo9frameworkGet(view);
             }
             if (!extrasAvailable()) {
                 return null;
@@ -658,9 +690,8 @@ public class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class UnhandledKeyEventManager {
+    static class UnhandledKeyEventManager {
         private static final ArrayList<WeakReference<View>> sViewsWithListeners = new ArrayList<>();
         private WeakHashMap<View, Boolean> mViewsContainingListeners = null;
         private SparseArray<WeakReference<View>> mCapturedKeys = null;
@@ -788,9 +819,8 @@ public class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Api21Impl {
+    private static class Api21Impl {
         public static WindowInsetsCompat getRootWindowInsets(View v) {
             return WindowInsetsCompat.Api21ReflectionHolder.getRootWindowInsets(v);
         }
@@ -835,9 +865,8 @@ public class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Api23Impl {
+    private static class Api23Impl {
         public static WindowInsetsCompat getRootWindowInsets(View v) {
             WindowInsets rootWindowInsets = v.getRootWindowInsets();
             if (rootWindowInsets == null) {

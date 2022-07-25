@@ -66,7 +66,7 @@ public class SystemUtils {
         return i > 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x003c  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x003c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

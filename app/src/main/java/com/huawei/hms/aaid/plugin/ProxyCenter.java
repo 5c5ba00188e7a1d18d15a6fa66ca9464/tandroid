@@ -3,6 +3,7 @@ package com.huawei.hms.aaid.plugin;
 public class ProxyCenter {
     public PushProxy proxy;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class a {
         public static ProxyCenter a = new ProxyCenter();

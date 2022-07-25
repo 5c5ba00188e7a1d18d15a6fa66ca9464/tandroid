@@ -698,6 +698,7 @@ public class MessageObject {
         private int maxSizeWidth = 800;
         public final TransitionParams transitionParams = new TransitionParams();
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class MessageGroupedLayoutAttempt {
             public float[] heights;
@@ -728,21 +729,21 @@ public class MessageObject {
             return this.maxSizeWidth / f;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x006a, code lost:
-            if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) == false) goto L27;
+        /* JADX WARN: Code restructure failed: missing block: B:31:0x006a, code lost:
+            if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageMediaInvoice) == false) goto L32;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void calculate() {
             int i;
+            byte b;
             int i2;
-            int i3;
             float f;
+            int i3;
             int i4;
-            int i5;
             float f2;
-            int i6;
+            int i5;
             this.posArray.clear();
             this.positions.clear();
             this.maxSizeWidth = 800;
@@ -753,14 +754,14 @@ public class MessageObject {
             StringBuilder sb = new StringBuilder();
             this.hasSibling = false;
             this.hasCaption = false;
-            int i7 = 0;
+            int i6 = 0;
             boolean z = false;
             float f3 = 1.0f;
             boolean z2 = false;
             boolean z3 = false;
-            while (i7 < size) {
-                MessageObject messageObject = this.messages.get(i7);
-                if (i7 == 0) {
+            while (i6 < size) {
+                MessageObject messageObject = this.messages.get(i6);
+                if (i6 == 0) {
                     z3 = messageObject.isOutOwner();
                     if (!z3) {
                         TLRPC$Message tLRPC$Message = messageObject.messageOwner;
@@ -787,7 +788,7 @@ public class MessageObject {
                 }
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
                 GroupedMessagePosition groupedMessagePosition = new GroupedMessagePosition();
-                groupedMessagePosition.last = i7 == size + (-1);
+                groupedMessagePosition.last = i6 == size + (-1);
                 float f4 = closestPhotoSizeWithSize == null ? 1.0f : closestPhotoSizeWithSize.w / closestPhotoSizeWithSize.h;
                 groupedMessagePosition.aspectRatio = f4;
                 if (f4 > 1.2f) {
@@ -807,26 +808,26 @@ public class MessageObject {
                 if (messageObject.caption != null) {
                     this.hasCaption = true;
                 }
-                i7++;
+                i6++;
             }
             if (this.isDocuments) {
-                for (int i8 = 0; i8 < size; i8++) {
-                    GroupedMessagePosition groupedMessagePosition2 = this.posArray.get(i8);
-                    int i9 = groupedMessagePosition2.flags | 3;
-                    groupedMessagePosition2.flags = i9;
-                    if (i8 == 0) {
-                        groupedMessagePosition2.flags = i9 | 4;
-                    } else if (i8 == size - 1) {
-                        groupedMessagePosition2.flags = i9 | 8;
+                for (int i7 = 0; i7 < size; i7++) {
+                    GroupedMessagePosition groupedMessagePosition2 = this.posArray.get(i7);
+                    int i8 = groupedMessagePosition2.flags | 3;
+                    groupedMessagePosition2.flags = i8;
+                    if (i7 == 0) {
+                        groupedMessagePosition2.flags = i8 | 4;
+                    } else if (i7 == size - 1) {
+                        groupedMessagePosition2.flags = i8 | 8;
                         groupedMessagePosition2.last = true;
                     }
                     groupedMessagePosition2.edge = true;
                     groupedMessagePosition2.aspectRatio = 1.0f;
                     groupedMessagePosition2.minX = (byte) 0;
                     groupedMessagePosition2.maxX = (byte) 0;
-                    byte b = (byte) i8;
-                    groupedMessagePosition2.minY = b;
-                    groupedMessagePosition2.maxY = b;
+                    byte b2 = (byte) i7;
+                    groupedMessagePosition2.minY = b2;
+                    groupedMessagePosition2.maxY = b2;
                     groupedMessagePosition2.spanSize = 1000;
                     groupedMessagePosition2.pw = this.maxSizeWidth;
                     groupedMessagePosition2.ph = 100.0f;
@@ -843,90 +844,90 @@ public class MessageObject {
             Point point = AndroidUtilities.displaySize;
             int dp2 = (int) (AndroidUtilities.dp(120.0f) / (Math.min(point.x, point.y) / this.maxSizeWidth));
             Point point2 = AndroidUtilities.displaySize;
-            int i10 = this.maxSizeWidth;
-            int dp3 = (int) (AndroidUtilities.dp(40.0f) / (Math.min(point2.x, point2.y) / i10));
-            float f6 = i10 / 814.0f;
+            int i9 = this.maxSizeWidth;
+            int dp3 = (int) (AndroidUtilities.dp(40.0f) / (Math.min(point2.x, point2.y) / i9));
+            float f6 = i9 / 814.0f;
             float f7 = f3 / size;
             float dp4 = AndroidUtilities.dp(100.0f) / 814.0f;
             if (z2 || !(size == 2 || size == 3 || size == 4)) {
                 int size2 = this.posArray.size();
                 float[] fArr = new float[size2];
-                for (int i11 = 0; i11 < size; i11++) {
+                for (int i10 = 0; i10 < size; i10++) {
                     if (f7 > 1.1f) {
-                        fArr[i11] = Math.max(1.0f, this.posArray.get(i11).aspectRatio);
+                        fArr[i10] = Math.max(1.0f, this.posArray.get(i10).aspectRatio);
                     } else {
-                        fArr[i11] = Math.min(1.0f, this.posArray.get(i11).aspectRatio);
+                        fArr[i10] = Math.min(1.0f, this.posArray.get(i10).aspectRatio);
                     }
-                    fArr[i11] = Math.max(0.66667f, Math.min(1.7f, fArr[i11]));
+                    fArr[i10] = Math.max(0.66667f, Math.min(1.7f, fArr[i10]));
                 }
                 ArrayList arrayList = new ArrayList();
-                for (int i12 = 1; i12 < size2; i12++) {
-                    int i13 = size2 - i12;
-                    if (i12 <= 3 && i13 <= 3) {
-                        arrayList.add(new MessageGroupedLayoutAttempt(i12, i13, multiHeight(fArr, 0, i12), multiHeight(fArr, i12, size2)));
+                for (int i11 = 1; i11 < size2; i11++) {
+                    int i12 = size2 - i11;
+                    if (i11 <= 3 && i12 <= 3) {
+                        arrayList.add(new MessageGroupedLayoutAttempt(i11, i12, multiHeight(fArr, 0, i11), multiHeight(fArr, i11, size2)));
                     }
                 }
-                for (int i14 = 1; i14 < size2 - 1; i14++) {
-                    int i15 = 1;
+                for (int i13 = 1; i13 < size2 - 1; i13++) {
+                    int i14 = 1;
                     while (true) {
-                        int i16 = size2 - i14;
-                        if (i15 < i16) {
-                            int i17 = i16 - i15;
-                            if (i14 <= 3) {
-                                if (i15 <= (f7 < 0.85f ? 4 : 3) && i17 <= 3) {
-                                    int i18 = i14 + i15;
-                                    arrayList.add(new MessageGroupedLayoutAttempt(i14, i15, i17, multiHeight(fArr, 0, i14), multiHeight(fArr, i14, i18), multiHeight(fArr, i18, size2)));
+                        int i15 = size2 - i13;
+                        if (i14 < i15) {
+                            int i16 = i15 - i14;
+                            if (i13 <= 3) {
+                                if (i14 <= (f7 < 0.85f ? 4 : 3) && i16 <= 3) {
+                                    int i17 = i13 + i14;
+                                    arrayList.add(new MessageGroupedLayoutAttempt(i13, i14, i16, multiHeight(fArr, 0, i13), multiHeight(fArr, i13, i17), multiHeight(fArr, i17, size2)));
                                 }
                             }
-                            i15++;
+                            i14++;
                         }
                     }
                 }
-                for (int i19 = 1; i19 < size2 - 2; i19++) {
-                    int i20 = 1;
+                for (int i18 = 1; i18 < size2 - 2; i18++) {
+                    int i19 = 1;
                     while (true) {
-                        int i21 = size2 - i19;
-                        if (i20 < i21) {
-                            int i22 = 1;
+                        int i20 = size2 - i18;
+                        if (i19 < i20) {
+                            int i21 = 1;
                             while (true) {
-                                int i23 = i21 - i20;
-                                if (i22 < i23) {
-                                    int i24 = i23 - i22;
-                                    if (i19 > 3 || i20 > 3 || i22 > 3 || i24 > 3) {
-                                        i4 = i21;
+                                int i22 = i20 - i19;
+                                if (i21 < i22) {
+                                    int i23 = i22 - i21;
+                                    if (i18 > 3 || i19 > 3 || i21 > 3 || i23 > 3) {
+                                        i3 = i20;
                                     } else {
-                                        int i25 = i19 + i20;
-                                        i4 = i21;
-                                        int i26 = i25 + i22;
-                                        arrayList.add(new MessageGroupedLayoutAttempt(i19, i20, i22, i24, multiHeight(fArr, 0, i19), multiHeight(fArr, i19, i25), multiHeight(fArr, i25, i26), multiHeight(fArr, i26, size2)));
+                                        int i24 = i18 + i19;
+                                        i3 = i20;
+                                        int i25 = i24 + i21;
+                                        arrayList.add(new MessageGroupedLayoutAttempt(i18, i19, i21, i23, multiHeight(fArr, 0, i18), multiHeight(fArr, i18, i24), multiHeight(fArr, i24, i25), multiHeight(fArr, i25, size2)));
                                     }
-                                    i22++;
-                                    i21 = i4;
+                                    i21++;
+                                    i20 = i3;
                                 }
                             }
-                            i20++;
+                            i19++;
                         }
                     }
                 }
                 float f8 = (this.maxSizeWidth / 3) * 4;
-                int i27 = 0;
+                int i26 = 0;
                 MessageGroupedLayoutAttempt messageGroupedLayoutAttempt = null;
                 float f9 = 0.0f;
-                while (i27 < arrayList.size()) {
-                    MessageGroupedLayoutAttempt messageGroupedLayoutAttempt2 = (MessageGroupedLayoutAttempt) arrayList.get(i27);
+                while (i26 < arrayList.size()) {
+                    MessageGroupedLayoutAttempt messageGroupedLayoutAttempt2 = (MessageGroupedLayoutAttempt) arrayList.get(i26);
                     float f10 = Float.MAX_VALUE;
-                    int i28 = 0;
+                    int i27 = 0;
                     float f11 = 0.0f;
                     while (true) {
                         float[] fArr2 = messageGroupedLayoutAttempt2.heights;
-                        if (i28 >= fArr2.length) {
+                        if (i27 >= fArr2.length) {
                             break;
                         }
-                        f11 += fArr2[i28];
-                        if (fArr2[i28] < f10) {
-                            f10 = fArr2[i28];
+                        f11 += fArr2[i27];
+                        if (fArr2[i27] < f10) {
+                            f10 = fArr2[i27];
                         }
-                        i28++;
+                        i27++;
                     }
                     float abs = Math.abs(f11 - f8);
                     int[] iArr = messageGroupedLayoutAttempt2.lineCounts;
@@ -950,122 +951,121 @@ public class MessageObject {
                         f9 = abs;
                         messageGroupedLayoutAttempt = messageGroupedLayoutAttempt2;
                     }
-                    i27++;
+                    i26++;
                     arrayList = arrayList2;
                     f8 = f12;
                 }
                 if (messageGroupedLayoutAttempt == null) {
                     return;
                 }
+                int i28 = 0;
+                byte b3 = 0;
                 int i29 = 0;
-                int i30 = 0;
-                int i31 = 0;
                 while (true) {
                     int[] iArr2 = messageGroupedLayoutAttempt.lineCounts;
-                    if (i29 >= iArr2.length) {
+                    if (i28 >= iArr2.length) {
                         break;
                     }
-                    int i32 = iArr2[i29];
-                    float f13 = messageGroupedLayoutAttempt.heights[i29];
-                    int i33 = i32 - 1;
-                    int i34 = this.maxSizeWidth;
+                    int i30 = iArr2[i28];
+                    float f13 = messageGroupedLayoutAttempt.heights[i28];
+                    int i31 = this.maxSizeWidth;
+                    int i32 = i30 - 1;
+                    b3 = Math.max((int) b3, i32);
+                    int i33 = i31;
                     GroupedMessagePosition groupedMessagePosition3 = null;
-                    int i35 = i31;
-                    int i36 = 0;
-                    int i37 = Math.max(i30 == 1 ? 1 : 0, i33);
-                    while (i36 < i32) {
+                    int i34 = i29;
+                    int i35 = 0;
+                    while (i35 < i30) {
                         float[] fArr3 = fArr;
-                        int i38 = (int) (fArr[i35] * f13);
-                        i34 -= i38;
-                        int i39 = i37;
-                        GroupedMessagePosition groupedMessagePosition4 = this.posArray.get(i35);
-                        int i40 = i32;
-                        int i41 = i29 == 0 ? 4 : 0;
-                        if (i29 == messageGroupedLayoutAttempt.lineCounts.length - 1) {
-                            i41 |= 8;
+                        int i36 = (int) (fArr[i34] * f13);
+                        i33 -= i36;
+                        int i37 = b3;
+                        GroupedMessagePosition groupedMessagePosition4 = this.posArray.get(i34);
+                        int i38 = i30;
+                        int i39 = i28 == 0 ? 4 : 0;
+                        if (i28 == messageGroupedLayoutAttempt.lineCounts.length - 1) {
+                            i39 |= 8;
                         }
-                        if (i36 == 0) {
-                            i41 |= 1;
+                        if (i35 == 0) {
+                            i39 |= 1;
                             if (z3) {
                                 groupedMessagePosition3 = groupedMessagePosition4;
                             }
                         }
-                        if (i36 == i33) {
-                            i41 |= 2;
+                        if (i35 == i32) {
+                            i39 |= 2;
                             if (!z3) {
-                                i3 = i41;
+                                i2 = i39;
                                 groupedMessagePosition3 = groupedMessagePosition4;
-                                groupedMessagePosition4.set(i36, i36, i29, i29, i38, Math.max(dp4, f13 / 814.0f), i3);
+                                groupedMessagePosition4.set(i35, i35, i28, i28, i36, Math.max(dp4, f13 / 814.0f), i2);
+                                i34++;
                                 i35++;
-                                i36++;
-                                i37 = i39;
+                                b3 = i37;
                                 fArr = fArr3;
-                                i32 = i40;
+                                i30 = i38;
                             }
                         }
-                        i3 = i41;
-                        groupedMessagePosition4.set(i36, i36, i29, i29, i38, Math.max(dp4, f13 / 814.0f), i3);
+                        i2 = i39;
+                        groupedMessagePosition4.set(i35, i35, i28, i28, i36, Math.max(dp4, f13 / 814.0f), i2);
+                        i34++;
                         i35++;
-                        i36++;
-                        i37 = i39;
+                        b3 = i37;
                         fArr = fArr3;
-                        i32 = i40;
+                        i30 = i38;
                     }
-                    boolean z4 = i37 == 1 ? 1 : 0;
-                    groupedMessagePosition3.pw += i34;
-                    groupedMessagePosition3.spanSize += i34;
-                    i29++;
-                    i31 = i35;
+                    groupedMessagePosition3.pw += i33;
+                    groupedMessagePosition3.spanSize += i33;
+                    i28++;
+                    i29 = i34;
                     fArr = fArr;
-                    i30 = i37;
                 }
-                i2 = i30;
+                b = b3;
             } else if (size == 2) {
                 GroupedMessagePosition groupedMessagePosition5 = this.posArray.get(0);
                 GroupedMessagePosition groupedMessagePosition6 = this.posArray.get(1);
                 String sb2 = sb.toString();
                 if (sb2.equals("ww")) {
-                    i6 = dp2;
+                    i5 = dp2;
                     double d = f6;
                     Double.isNaN(d);
                     if (f7 > d * 1.4d) {
                         float f14 = groupedMessagePosition5.aspectRatio;
                         float f15 = groupedMessagePosition6.aspectRatio;
                         if (f14 - f15 < 0.2d) {
-                            int i42 = this.maxSizeWidth;
-                            float round = Math.round(Math.min(i42 / f14, Math.min(i42 / f15, 407.0f))) / 814.0f;
+                            int i40 = this.maxSizeWidth;
+                            float round = Math.round(Math.min(i40 / f14, Math.min(i40 / f15, 407.0f))) / 814.0f;
                             groupedMessagePosition5.set(0, 0, 0, 0, this.maxSizeWidth, round, 7);
                             groupedMessagePosition6.set(0, 0, 1, 1, this.maxSizeWidth, round, 11);
-                            i5 = 0;
-                            i2 = i5;
+                            i4 = 0;
+                            b = i4;
                         }
                     }
                 } else {
-                    i6 = dp2;
+                    i5 = dp2;
                 }
                 if (sb2.equals("ww") || sb2.equals("qq")) {
-                    int i43 = this.maxSizeWidth / 2;
-                    float f16 = i43;
+                    int i41 = this.maxSizeWidth / 2;
+                    float f16 = i41;
                     float round2 = Math.round(Math.min(f16 / groupedMessagePosition5.aspectRatio, Math.min(f16 / groupedMessagePosition6.aspectRatio, 814.0f))) / 814.0f;
-                    groupedMessagePosition5.set(0, 0, 0, 0, i43, round2, 13);
-                    groupedMessagePosition6.set(1, 1, 0, 0, i43, round2, 14);
-                    i5 = 1;
-                    i2 = i5;
+                    groupedMessagePosition5.set(0, 0, 0, 0, i41, round2, 13);
+                    groupedMessagePosition6.set(1, 1, 0, 0, i41, round2, 14);
+                    i4 = 1;
+                    b = i4;
                 } else {
-                    int i44 = this.maxSizeWidth;
+                    int i42 = this.maxSizeWidth;
                     float f17 = groupedMessagePosition5.aspectRatio;
-                    int max = (int) Math.max(i44 * 0.4f, Math.round((i44 / f17) / ((1.0f / f17) + (1.0f / groupedMessagePosition6.aspectRatio))));
-                    int i45 = this.maxSizeWidth - max;
-                    int i46 = i6;
-                    if (i45 < i46) {
-                        max -= i46 - i45;
-                        i45 = i46;
+                    int max = (int) Math.max(i42 * 0.4f, Math.round((i42 / f17) / ((1.0f / f17) + (1.0f / groupedMessagePosition6.aspectRatio))));
+                    int i43 = this.maxSizeWidth - max;
+                    int i44 = i5;
+                    if (i43 < i44) {
+                        max -= i44 - i43;
+                        i43 = i44;
                     }
-                    float min = Math.min(814.0f, Math.round(Math.min(i45 / groupedMessagePosition5.aspectRatio, max / groupedMessagePosition6.aspectRatio))) / 814.0f;
-                    groupedMessagePosition5.set(0, 0, 0, 0, i45, min, 13);
+                    float min = Math.min(814.0f, Math.round(Math.min(i43 / groupedMessagePosition5.aspectRatio, max / groupedMessagePosition6.aspectRatio))) / 814.0f;
+                    groupedMessagePosition5.set(0, 0, 0, 0, i43, min, 13);
                     groupedMessagePosition6.set(1, 1, 0, 0, max, min, 14);
-                    i5 = 1;
-                    i2 = i5;
+                    i4 = 1;
+                    b = i4;
                 }
             } else if (size == 3) {
                 GroupedMessagePosition groupedMessagePosition7 = this.posArray.get(0);
@@ -1081,30 +1081,30 @@ public class MessageObject {
                     groupedMessagePosition8.set(1, 1, 0, 0, max2, f19, 6);
                     float f20 = min2 / 814.0f;
                     groupedMessagePosition9.set(0, 1, 1, 1, max2, f20, 10);
-                    int i47 = this.maxSizeWidth;
-                    groupedMessagePosition9.spanSize = i47;
+                    int i45 = this.maxSizeWidth;
+                    groupedMessagePosition9.spanSize = i45;
                     groupedMessagePosition7.siblingHeights = new float[]{f20, f19};
                     if (z3) {
-                        groupedMessagePosition7.spanSize = i47 - max2;
+                        groupedMessagePosition7.spanSize = i45 - max2;
                     } else {
-                        groupedMessagePosition8.spanSize = i47 - round3;
+                        groupedMessagePosition8.spanSize = i45 - round3;
                         groupedMessagePosition9.leftSpanOffset = round3;
                     }
                     this.hasSibling = true;
                 } else {
                     float round4 = Math.round(Math.min(this.maxSizeWidth / groupedMessagePosition7.aspectRatio, 537.24005f)) / 814.0f;
                     groupedMessagePosition7.set(0, 1, 0, 0, this.maxSizeWidth, round4, 7);
-                    int i48 = this.maxSizeWidth / 2;
-                    float f21 = i48;
+                    int i46 = this.maxSizeWidth / 2;
+                    float f21 = i46;
                     float min3 = Math.min(814.0f - round4, Math.round(Math.min(f21 / groupedMessagePosition8.aspectRatio, f21 / groupedMessagePosition9.aspectRatio))) / 814.0f;
                     if (min3 < dp4) {
                         min3 = dp4;
                     }
                     float f22 = min3;
-                    groupedMessagePosition8.set(0, 0, 1, 1, i48, f22, 9);
-                    groupedMessagePosition9.set(1, 1, 1, 1, i48, f22, 10);
+                    groupedMessagePosition8.set(0, 0, 1, 1, i46, f22, 9);
+                    groupedMessagePosition9.set(1, 1, 1, 1, i46, f22, 10);
                 }
-                i2 = 1;
+                b = 1;
             } else {
                 GroupedMessagePosition groupedMessagePosition10 = this.posArray.get(0);
                 GroupedMessagePosition groupedMessagePosition11 = this.posArray.get(1);
@@ -1117,25 +1117,25 @@ public class MessageObject {
                     float f23 = dp2;
                     int max3 = (int) Math.max(f23, Math.min(this.maxSizeWidth * 0.4f, groupedMessagePosition11.aspectRatio * round6));
                     int max4 = (int) Math.max(Math.max(f23, this.maxSizeWidth * 0.33f), groupedMessagePosition13.aspectRatio * round6);
-                    int i49 = (this.maxSizeWidth - max3) - max4;
-                    if (i49 < AndroidUtilities.dp(58.0f)) {
-                        int dp5 = AndroidUtilities.dp(58.0f) - i49;
-                        i49 = AndroidUtilities.dp(58.0f);
-                        int i50 = dp5 / 2;
-                        max3 -= i50;
-                        max4 -= dp5 - i50;
+                    int i47 = (this.maxSizeWidth - max3) - max4;
+                    if (i47 < AndroidUtilities.dp(58.0f)) {
+                        int dp5 = AndroidUtilities.dp(58.0f) - i47;
+                        i47 = AndroidUtilities.dp(58.0f);
+                        int i48 = dp5 / 2;
+                        max3 -= i48;
+                        max4 -= dp5 - i48;
                     }
-                    int i51 = max3;
+                    int i49 = max3;
                     float min4 = Math.min(814.0f - round5, round6) / 814.0f;
                     if (min4 < dp4) {
                         min4 = dp4;
                     }
                     float f24 = min4;
-                    groupedMessagePosition11.set(0, 0, 1, 1, i51, f24, 9);
-                    groupedMessagePosition12.set(1, 1, 1, 1, i49, f24, 8);
+                    groupedMessagePosition11.set(0, 0, 1, 1, i49, f24, 9);
+                    groupedMessagePosition12.set(1, 1, 1, 1, i47, f24, 8);
                     groupedMessagePosition13.set(2, 2, 1, 1, max4, f24, 10);
-                    i5 = 2;
-                    i2 = i5;
+                    i4 = 2;
+                    b = i4;
                 } else {
                     int max5 = Math.max(dp2, Math.round(814.0f / (((1.0f / groupedMessagePosition11.aspectRatio) + (1.0f / groupedMessagePosition12.aspectRatio)) + (1.0f / groupedMessagePosition13.aspectRatio))));
                     float f25 = dp;
@@ -1149,23 +1149,23 @@ public class MessageObject {
                     groupedMessagePosition12.set(0, 1, 1, 1, max5, min6, 2);
                     groupedMessagePosition12.spanSize = this.maxSizeWidth;
                     groupedMessagePosition13.set(0, 1, 2, 2, max5, f27, 10);
-                    int i52 = this.maxSizeWidth;
-                    groupedMessagePosition13.spanSize = i52;
+                    int i50 = this.maxSizeWidth;
+                    groupedMessagePosition13.spanSize = i50;
                     if (z3) {
-                        groupedMessagePosition10.spanSize = i52 - max5;
+                        groupedMessagePosition10.spanSize = i50 - max5;
                     } else {
-                        groupedMessagePosition11.spanSize = i52 - round7;
+                        groupedMessagePosition11.spanSize = i50 - round7;
                         groupedMessagePosition12.leftSpanOffset = round7;
                         groupedMessagePosition13.leftSpanOffset = round7;
                     }
                     groupedMessagePosition10.siblingHeights = new float[]{min5, min6, f27};
                     this.hasSibling = true;
-                    i5 = 1;
-                    i2 = i5;
+                    i4 = 1;
+                    b = i4;
                 }
             }
-            for (int i53 = 0; i53 < size; i53++) {
-                GroupedMessagePosition groupedMessagePosition14 = this.posArray.get(i53);
+            for (int i51 = 0; i51 < size; i51++) {
+                GroupedMessagePosition groupedMessagePosition14 = this.posArray.get(i51);
                 if (z3) {
                     if (groupedMessagePosition14.minX == 0) {
                         groupedMessagePosition14.spanSize += i;
@@ -1174,30 +1174,30 @@ public class MessageObject {
                         groupedMessagePosition14.edge = true;
                     }
                 } else {
-                    if (groupedMessagePosition14.maxX == i2 || (groupedMessagePosition14.flags & 2) != 0) {
+                    if (groupedMessagePosition14.maxX == b || (groupedMessagePosition14.flags & 2) != 0) {
                         groupedMessagePosition14.spanSize += i;
                     }
                     if ((groupedMessagePosition14.flags & 1) != 0) {
                         groupedMessagePosition14.edge = true;
                     }
                 }
-                MessageObject messageObject2 = this.messages.get(i53);
+                MessageObject messageObject2 = this.messages.get(i51);
                 if (!z3 && messageObject2.needDrawAvatarInternal()) {
                     if (groupedMessagePosition14.edge) {
-                        int i54 = groupedMessagePosition14.spanSize;
-                        if (i54 != 1000) {
-                            groupedMessagePosition14.spanSize = i54 + 108;
+                        int i52 = groupedMessagePosition14.spanSize;
+                        if (i52 != 1000) {
+                            groupedMessagePosition14.spanSize = i52 + 108;
                         }
                         groupedMessagePosition14.pw += 108;
                     } else {
                         if ((groupedMessagePosition14.flags & 2) != 0) {
-                            int i55 = groupedMessagePosition14.spanSize;
-                            if (i55 != 1000) {
-                                groupedMessagePosition14.spanSize = i55 - 108;
+                            int i53 = groupedMessagePosition14.spanSize;
+                            if (i53 != 1000) {
+                                groupedMessagePosition14.spanSize = i53 - 108;
                             } else {
-                                int i56 = groupedMessagePosition14.leftSpanOffset;
-                                if (i56 != 0) {
-                                    groupedMessagePosition14.leftSpanOffset = i56 + 108;
+                                int i54 = groupedMessagePosition14.leftSpanOffset;
+                                if (i54 != 0) {
+                                    groupedMessagePosition14.leftSpanOffset = i54 + 108;
                                 }
                             }
                         }
@@ -1297,8 +1297,8 @@ public class MessageObject {
     }
 
     public MessageObject(int i, TLRPC$Message tLRPC$Message, MessageObject messageObject, AbstractMap<Long, TLRPC$User> abstractMap, AbstractMap<Long, TLRPC$Chat> abstractMap2, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2, boolean z, boolean z2, long j) {
-        LongSparseArray<TLRPC$Chat> longSparseArray3;
         AbstractMap<Long, TLRPC$Chat> abstractMap3;
+        LongSparseArray<TLRPC$Chat> longSparseArray3;
         TLRPC$User tLRPC$User;
         TextPaint textPaint;
         AnimatedEmojiSpan[] animatedEmojiSpanArr;
@@ -1479,30 +1479,30 @@ public class MessageObject {
 
     private void checkEmojiOnly(int[] iArr) {
         TextPaint textPaint;
-        int i;
+        int dp;
         if (iArr == null || iArr[0] < 1 || iArr[0] > 3) {
             return;
         }
-        int i2 = iArr[0];
-        if (i2 == 1) {
+        int i = iArr[0];
+        if (i == 1) {
             textPaint = Theme.chat_msgTextPaintOneEmoji;
-            i = AndroidUtilities.dp(32.0f);
+            dp = AndroidUtilities.dp(32.0f);
             this.emojiOnlyCount = 1;
-        } else if (i2 == 2) {
+        } else if (i == 2) {
             textPaint = Theme.chat_msgTextPaintTwoEmoji;
-            int dp = AndroidUtilities.dp(28.0f);
+            int dp2 = AndroidUtilities.dp(28.0f);
             this.emojiOnlyCount = 2;
-            i = dp;
+            dp = dp2;
         } else {
             textPaint = Theme.chat_msgTextPaintThreeEmoji;
-            i = AndroidUtilities.dp(24.0f);
+            dp = AndroidUtilities.dp(24.0f);
             this.emojiOnlyCount = 3;
         }
         CharSequence charSequence = this.messageText;
         Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
         if (emojiSpanArr != null && emojiSpanArr.length > 0) {
             for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
-                emojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), i);
+                emojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), dp);
             }
         }
         CharSequence charSequence2 = this.messageText;
@@ -1511,83 +1511,83 @@ public class MessageObject {
             return;
         }
         for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
-            animatedEmojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), i, 0);
+            animatedEmojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), dp, 0);
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:432:0x0bd6, code lost:
-        if (r9.id == r11.id) goto L434;
+    /* JADX WARN: Code restructure failed: missing block: B:473:0x0bd6, code lost:
+        if (r9.id == r11.id) goto L492;
      */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x04dc  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x04ec A[LOOP:0: B:169:0x04a9->B:190:0x04ec, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:447:0x0c09  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x0c19  */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x0c2e  */
-    /* JADX WARN: Removed duplicated region for block: B:733:0x147b  */
-    /* JADX WARN: Removed duplicated region for block: B:736:0x14c9  */
-    /* JADX WARN: Removed duplicated region for block: B:738:0x14cc  */
-    /* JADX WARN: Removed duplicated region for block: B:748:0x153e  */
-    /* JADX WARN: Removed duplicated region for block: B:751:0x1545  */
-    /* JADX WARN: Removed duplicated region for block: B:771:0x0504 A[EDGE_INSN: B:771:0x0504->B:192:0x0504 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:772:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x147b  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x14c9  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x14cc  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x04dc  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x04ec A[LOOP:0: B:208:0x04a9->B:221:0x04ec, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x0504 A[EDGE_INSN: B:222:0x0504->B:223:0x0504 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x1545  */
+    /* JADX WARN: Removed duplicated region for block: B:480:0x0c2e  */
+    /* JADX WARN: Removed duplicated region for block: B:48:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:490:0x0c09  */
+    /* JADX WARN: Removed duplicated region for block: B:491:0x0c19  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x153e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public MessageObject(int i, TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent, ArrayList<MessageObject> arrayList, HashMap<String, ArrayList<MessageObject>> hashMap, TLRPC$Chat tLRPC$Chat, int[] iArr, boolean z) {
+        TLRPC$Chat tLRPC$Chat2;
         TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2;
         String str;
-        TLRPC$Chat tLRPC$Chat2;
-        TLRPC$TL_message tLRPC$TL_message;
-        ArrayList<MessageObject> arrayList2;
-        int[] iArr2;
-        TextPaint textPaint;
         TLRPC$ChannelParticipant tLRPC$ChannelParticipant;
         TLRPC$ChannelParticipant tLRPC$ChannelParticipant2;
-        TLRPC$User tLRPC$User;
+        TLRPC$User user;
+        String string;
         StringBuilder sb;
+        int i2;
         String str2;
         String str3;
-        int i2;
-        String str4;
         TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent3;
-        String str5;
+        String str4;
+        TLRPC$TL_message tLRPC$TL_message;
         char c;
-        String str6;
-        TLObject tLObject;
-        TLObject tLObject2;
-        TLObject tLObject3;
+        String formatPluralString;
+        TLObject chat;
+        TLObject chat2;
+        TLObject chat3;
         char c2;
-        String str7;
-        String str8;
+        String formatPluralString2;
+        String str5;
         boolean z2;
         TLRPC$Document tLRPC$Document;
         TLRPC$Peer tLRPC$Peer;
-        String str9;
         int i3;
-        String str10;
+        String str6;
         int i4;
-        String str11;
+        String str7;
         int i5;
-        String str12;
+        String str8;
         int i6;
+        String str9;
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
-        String str13;
-        TLObject tLObject4;
-        String str14;
+        String str10;
+        TLObject chat4;
+        String string2;
         StringBuilder sb2;
         boolean z3;
         char c3;
+        String formatPluralString3;
         int i7;
-        String str15;
         int i8;
         boolean z4;
-        TLObject tLObject5;
+        TLObject chat5;
+        ArrayList<MessageObject> arrayList2;
+        int[] iArr2;
+        TextPaint textPaint;
         MessageObject messageObject = this;
         messageObject.type = 1000;
         messageObject.forceSeekTo = -1.0f;
         messageObject.currentEvent = tLRPC$TL_channelAdminLogEvent;
         messageObject.currentAccount = i;
-        TLRPC$User user = tLRPC$TL_channelAdminLogEvent.user_id > 0 ? MessagesController.getInstance(i).getUser(Long.valueOf(tLRPC$TL_channelAdminLogEvent.user_id)) : null;
+        TLRPC$User user2 = tLRPC$TL_channelAdminLogEvent.user_id > 0 ? MessagesController.getInstance(i).getUser(Long.valueOf(tLRPC$TL_channelAdminLogEvent.user_id)) : null;
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         gregorianCalendar.setTimeInMillis(tLRPC$TL_channelAdminLogEvent.date * 1000);
         int i9 = gregorianCalendar.get(6);
@@ -1599,11 +1599,11 @@ public class MessageObject {
         tLRPC$TL_peerChannel.channel_id = tLRPC$Chat.id;
         TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent.action;
         if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeTitle) {
-            String str16 = ((TLRPC$TL_channelAdminLogEventActionChangeTitle) tLRPC$ChannelAdminLogEventAction).new_value;
+            String str11 = ((TLRPC$TL_channelAdminLogEventActionChangeTitle) tLRPC$ChannelAdminLogEventAction).new_value;
             if (tLRPC$Chat.megagroup) {
-                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedGroupTitle", org.telegram.messenger.beta.R.string.EventLogEditedGroupTitle, str16), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedGroupTitle", org.telegram.messenger.beta.R.string.EventLogEditedGroupTitle, str11), "un1", user2);
             } else {
-                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedChannelTitle", org.telegram.messenger.beta.R.string.EventLogEditedChannelTitle, str16), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogEditedChannelTitle", org.telegram.messenger.beta.R.string.EventLogEditedChannelTitle, str11), "un1", user2);
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangePhoto) {
             TLRPC$TL_channelAdminLogEventActionChangePhoto tLRPC$TL_channelAdminLogEventActionChangePhoto = (TLRPC$TL_channelAdminLogEventActionChangePhoto) tLRPC$ChannelAdminLogEventAction;
@@ -1612,30 +1612,30 @@ public class MessageObject {
             if (tLRPC$TL_channelAdminLogEventActionChangePhoto.new_photo instanceof TLRPC$TL_photoEmpty) {
                 tLRPC$TL_messageService.action = new TLRPC$TL_messageActionChatDeletePhoto();
                 if (tLRPC$Chat.megagroup) {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedWGroupPhoto", org.telegram.messenger.beta.R.string.EventLogRemovedWGroupPhoto), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedWGroupPhoto", org.telegram.messenger.beta.R.string.EventLogRemovedWGroupPhoto), "un1", user2);
                 } else {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedChannelPhoto", org.telegram.messenger.beta.R.string.EventLogRemovedChannelPhoto), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedChannelPhoto", org.telegram.messenger.beta.R.string.EventLogRemovedChannelPhoto), "un1", user2);
                 }
             } else {
                 tLRPC$TL_messageService.action = new TLRPC$TL_messageActionChatEditPhoto();
                 messageObject.messageOwner.action.photo = tLRPC$TL_channelAdminLogEventActionChangePhoto.new_photo;
                 if (tLRPC$Chat.megagroup) {
                     if (isVideoAvatar()) {
-                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupVideo", org.telegram.messenger.beta.R.string.EventLogEditedGroupVideo), "un1", user);
+                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupVideo", org.telegram.messenger.beta.R.string.EventLogEditedGroupVideo), "un1", user2);
                     } else {
-                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupPhoto", org.telegram.messenger.beta.R.string.EventLogEditedGroupPhoto), "un1", user);
+                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupPhoto", org.telegram.messenger.beta.R.string.EventLogEditedGroupPhoto), "un1", user2);
                     }
                 } else if (isVideoAvatar()) {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelVideo", org.telegram.messenger.beta.R.string.EventLogEditedChannelVideo), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelVideo", org.telegram.messenger.beta.R.string.EventLogEditedChannelVideo), "un1", user2);
                 } else {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelPhoto", org.telegram.messenger.beta.R.string.EventLogEditedChannelPhoto), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelPhoto", org.telegram.messenger.beta.R.string.EventLogEditedChannelPhoto), "un1", user2);
                 }
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoin) {
             if (tLRPC$Chat.megagroup) {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", org.telegram.messenger.beta.R.string.EventLogGroupJoined), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", org.telegram.messenger.beta.R.string.EventLogGroupJoined), "un1", user2);
             } else {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", org.telegram.messenger.beta.R.string.EventLogChannelJoined), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", org.telegram.messenger.beta.R.string.EventLogChannelJoined), "un1", user2);
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantLeave) {
             TLRPC$TL_messageService tLRPC$TL_messageService2 = new TLRPC$TL_messageService();
@@ -1643,9 +1643,9 @@ public class MessageObject {
             tLRPC$TL_messageService2.action = new TLRPC$TL_messageActionChatDeleteUser();
             messageObject.messageOwner.action.user_id = tLRPC$TL_channelAdminLogEvent.user_id;
             if (tLRPC$Chat.megagroup) {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftGroup", org.telegram.messenger.beta.R.string.EventLogLeftGroup), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftGroup", org.telegram.messenger.beta.R.string.EventLogLeftGroup), "un1", user2);
             } else {
-                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftChannel", org.telegram.messenger.beta.R.string.EventLogLeftChannel), "un1", user);
+                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogLeftChannel", org.telegram.messenger.beta.R.string.EventLogLeftChannel), "un1", user2);
             }
         } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantInvite) {
             TLRPC$TL_messageService tLRPC$TL_messageService3 = new TLRPC$TL_messageService();
@@ -1653,21 +1653,21 @@ public class MessageObject {
             tLRPC$TL_messageService3.action = new TLRPC$TL_messageActionChatAddUser();
             long peerId = getPeerId(((TLRPC$TL_channelAdminLogEventActionParticipantInvite) tLRPC$ChannelAdminLogEventAction).participant.peer);
             if (peerId > 0) {
-                tLObject5 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId));
+                chat5 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId));
             } else {
-                tLObject5 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId));
+                chat5 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId));
             }
             TLRPC$Peer tLRPC$Peer2 = messageObject.messageOwner.from_id;
             if ((tLRPC$Peer2 instanceof TLRPC$TL_peerUser) && peerId == tLRPC$Peer2.user_id) {
                 if (tLRPC$Chat.megagroup) {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", org.telegram.messenger.beta.R.string.EventLogGroupJoined), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogGroupJoined", org.telegram.messenger.beta.R.string.EventLogGroupJoined), "un1", user2);
                 } else {
-                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", org.telegram.messenger.beta.R.string.EventLogChannelJoined), "un1", user);
+                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChannelJoined", org.telegram.messenger.beta.R.string.EventLogChannelJoined), "un1", user2);
                 }
             } else {
-                CharSequence replaceWithLink = replaceWithLink(LocaleController.getString("EventLogAdded", org.telegram.messenger.beta.R.string.EventLogAdded), "un2", tLObject5);
+                CharSequence replaceWithLink = replaceWithLink(LocaleController.getString("EventLogAdded", org.telegram.messenger.beta.R.string.EventLogAdded), "un2", chat5);
                 messageObject.messageText = replaceWithLink;
-                messageObject.messageText = replaceWithLink(replaceWithLink, "un1", user);
+                messageObject.messageText = replaceWithLink(replaceWithLink, "un1", user2);
             }
         } else {
             if ((tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) || ((tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleBan) && (((TLRPC$TL_channelAdminLogEventActionParticipantToggleBan) tLRPC$ChannelAdminLogEventAction).prev_participant instanceof TLRPC$TL_channelParticipantAdmin) && (((TLRPC$TL_channelAdminLogEventActionParticipantToggleBan) tLRPC$ChannelAdminLogEventAction).new_participant instanceof TLRPC$TL_channelParticipant))) {
@@ -1676,37 +1676,37 @@ public class MessageObject {
                 str = "";
                 if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) {
                     TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin = (TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) tLRPC$ChannelAdminLogEventAction;
-                    tLRPC$ChannelParticipant2 = tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.prev_participant;
-                    tLRPC$ChannelParticipant = tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.new_participant;
+                    tLRPC$ChannelParticipant = tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.prev_participant;
+                    tLRPC$ChannelParticipant2 = tLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin.new_participant;
                 } else {
                     TLRPC$TL_channelAdminLogEventActionParticipantToggleBan tLRPC$TL_channelAdminLogEventActionParticipantToggleBan = (TLRPC$TL_channelAdminLogEventActionParticipantToggleBan) tLRPC$ChannelAdminLogEventAction;
-                    tLRPC$ChannelParticipant2 = tLRPC$TL_channelAdminLogEventActionParticipantToggleBan.prev_participant;
-                    tLRPC$ChannelParticipant = tLRPC$TL_channelAdminLogEventActionParticipantToggleBan.new_participant;
+                    tLRPC$ChannelParticipant = tLRPC$TL_channelAdminLogEventActionParticipantToggleBan.prev_participant;
+                    tLRPC$ChannelParticipant2 = tLRPC$TL_channelAdminLogEventActionParticipantToggleBan.new_participant;
                 }
                 messageObject.messageOwner = new TLRPC$TL_message();
-                long peerId2 = getPeerId(tLRPC$ChannelParticipant2.peer);
+                long peerId2 = getPeerId(tLRPC$ChannelParticipant.peer);
                 if (peerId2 > 0) {
-                    tLRPC$User = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId2));
+                    user = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId2));
                 } else {
-                    tLRPC$User = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(-peerId2));
+                    user = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(-peerId2));
                 }
-                if (!(tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator) && (tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator)) {
-                    String string = LocaleController.getString("EventLogChangedOwnership", org.telegram.messenger.beta.R.string.EventLogChangedOwnership);
-                    sb = new StringBuilder(String.format(string, messageObject.getUserName(tLRPC$User, messageObject.messageOwner.entities, string.indexOf("%1$s"))));
+                if (!(tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator) && (tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator)) {
+                    String string3 = LocaleController.getString("EventLogChangedOwnership", org.telegram.messenger.beta.R.string.EventLogChangedOwnership);
+                    sb = new StringBuilder(String.format(string3, messageObject.getUserName(user, messageObject.messageOwner.entities, string3.indexOf("%1$s"))));
                 } else {
-                    TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights = tLRPC$ChannelParticipant2.admin_rights;
-                    TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2 = tLRPC$ChannelParticipant.admin_rights;
+                    TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights = tLRPC$ChannelParticipant.admin_rights;
+                    TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2 = tLRPC$ChannelParticipant2.admin_rights;
                     tLRPC$TL_chatAdminRights = tLRPC$TL_chatAdminRights == null ? new TLRPC$TL_chatAdminRights() : tLRPC$TL_chatAdminRights;
                     tLRPC$TL_chatAdminRights2 = tLRPC$TL_chatAdminRights2 == null ? new TLRPC$TL_chatAdminRights() : tLRPC$TL_chatAdminRights2;
                     if (tLRPC$TL_chatAdminRights2.other) {
-                        str2 = LocaleController.getString("EventLogPromotedNoRights", org.telegram.messenger.beta.R.string.EventLogPromotedNoRights);
+                        string = LocaleController.getString("EventLogPromotedNoRights", org.telegram.messenger.beta.R.string.EventLogPromotedNoRights);
                     } else {
-                        str2 = LocaleController.getString("EventLogPromoted", org.telegram.messenger.beta.R.string.EventLogPromoted);
+                        string = LocaleController.getString("EventLogPromoted", org.telegram.messenger.beta.R.string.EventLogPromoted);
                     }
-                    StringBuilder sb3 = new StringBuilder(String.format(str2, messageObject.getUserName(tLRPC$User, messageObject.messageOwner.entities, str2.indexOf("%1$s"))));
+                    StringBuilder sb3 = new StringBuilder(String.format(string, messageObject.getUserName(user, messageObject.messageOwner.entities, string.indexOf("%1$s"))));
                     sb3.append("\n");
-                    if (!TextUtils.equals(tLRPC$ChannelParticipant2.rank, tLRPC$ChannelParticipant.rank)) {
-                        if (TextUtils.isEmpty(tLRPC$ChannelParticipant.rank)) {
+                    if (!TextUtils.equals(tLRPC$ChannelParticipant.rank, tLRPC$ChannelParticipant2.rank)) {
+                        if (TextUtils.isEmpty(tLRPC$ChannelParticipant2.rank)) {
                             sb3.append('\n');
                             sb3.append('-');
                             sb3.append(' ');
@@ -1715,7 +1715,7 @@ public class MessageObject {
                             sb3.append('\n');
                             sb3.append('+');
                             sb3.append(' ');
-                            sb3.append(LocaleController.formatString("EventLogPromotedTitle", org.telegram.messenger.beta.R.string.EventLogPromotedTitle, tLRPC$ChannelParticipant.rank));
+                            sb3.append(LocaleController.formatString("EventLogPromotedTitle", org.telegram.messenger.beta.R.string.EventLogPromotedTitle, tLRPC$ChannelParticipant2.rank));
                         }
                     }
                     if (tLRPC$TL_chatAdminRights.change_info != tLRPC$TL_chatAdminRights2.change_info) {
@@ -1724,12 +1724,12 @@ public class MessageObject {
                         sb3.append(' ');
                         if (tLRPC$Chat2.megagroup) {
                             i2 = org.telegram.messenger.beta.R.string.EventLogPromotedChangeGroupInfo;
-                            str3 = "EventLogPromotedChangeGroupInfo";
+                            str2 = "EventLogPromotedChangeGroupInfo";
                         } else {
                             i2 = org.telegram.messenger.beta.R.string.EventLogPromotedChangeChannelInfo;
-                            str3 = "EventLogPromotedChangeChannelInfo";
+                            str2 = "EventLogPromotedChangeChannelInfo";
                         }
-                        sb3.append(LocaleController.getString(str3, i2));
+                        sb3.append(LocaleController.getString(str2, i2));
                     }
                     if (!tLRPC$Chat2.megagroup) {
                         if (tLRPC$TL_chatAdminRights.post_messages != tLRPC$TL_chatAdminRights2.post_messages) {
@@ -1887,12 +1887,12 @@ public class MessageObject {
                     long peerId3 = getPeerId(tLRPC$TL_channelAdminLogEventActionParticipantToggleBan2.prev_participant.peer);
                     if (peerId3 > 0) {
                         messageObject = this;
-                        tLObject4 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId3));
-                        str13 = "Minutes";
+                        chat4 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId3));
+                        str10 = "Minutes";
                     } else {
                         messageObject = this;
-                        str13 = "Minutes";
-                        tLObject4 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId3));
+                        str10 = "Minutes";
+                        chat4 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId3));
                     }
                     TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights3 = tLRPC$TL_channelAdminLogEventActionParticipantToggleBan2.prev_participant.banned_rights;
                     TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights4 = tLRPC$TL_channelAdminLogEventActionParticipantToggleBan2.new_participant.banned_rights;
@@ -1904,67 +1904,67 @@ public class MessageObject {
                             int i14 = i12 - (((i13 * 60) * 60) * 24);
                             int i15 = (i14 / 60) / 60;
                             int i16 = (i14 - ((i15 * 60) * 60)) / 60;
-                            str4 = "";
+                            str3 = "";
                             int i17 = 0;
                             int i18 = 0;
                             for (int i19 = 3; i17 < i19; i19 = 3) {
                                 if (i17 == 0) {
                                     if (i13 != 0) {
-                                        str15 = LocaleController.formatPluralString("Days", i13, new Object[0]);
-                                        i8 = i18 + 1;
-                                        i7 = i8;
-                                        if (str15 != null) {
+                                        formatPluralString3 = LocaleController.formatPluralString("Days", i13, new Object[0]);
+                                        i7 = i18 + 1;
+                                        i8 = i7;
+                                        if (formatPluralString3 != null) {
                                             if (sb2.length() > 0) {
                                                 sb2.append(", ");
                                             }
-                                            sb2.append(str15);
+                                            sb2.append(formatPluralString3);
                                         }
-                                        if (i7 == 2) {
+                                        if (i8 == 2) {
                                             break;
                                         }
                                         i17++;
-                                        i18 = i7;
+                                        i18 = i8;
                                     }
-                                    i7 = i18;
-                                    str15 = null;
-                                    if (str15 != null) {
+                                    i8 = i18;
+                                    formatPluralString3 = null;
+                                    if (formatPluralString3 != null) {
                                     }
-                                    if (i7 == 2) {
+                                    if (i8 == 2) {
                                     }
                                 } else {
                                     if (i17 == 1) {
                                         if (i15 != 0) {
-                                            i8 = i18 + 1;
-                                            str15 = LocaleController.formatPluralString("Hours", i15, new Object[0]);
-                                            i7 = i8;
-                                            if (str15 != null) {
+                                            i7 = i18 + 1;
+                                            formatPluralString3 = LocaleController.formatPluralString("Hours", i15, new Object[0]);
+                                            i8 = i7;
+                                            if (formatPluralString3 != null) {
                                             }
-                                            if (i7 == 2) {
+                                            if (i8 == 2) {
                                             }
                                         }
                                     } else if (i16 != 0) {
-                                        str15 = LocaleController.formatPluralString(str13, i16, new Object[0]);
-                                        i8 = i18 + 1;
-                                        i7 = i8;
-                                        if (str15 != null) {
+                                        formatPluralString3 = LocaleController.formatPluralString(str10, i16, new Object[0]);
+                                        i7 = i18 + 1;
+                                        i8 = i7;
+                                        if (formatPluralString3 != null) {
                                         }
-                                        if (i7 == 2) {
+                                        if (i8 == 2) {
                                         }
                                     }
-                                    i7 = i18;
-                                    str15 = null;
-                                    if (str15 != null) {
+                                    i8 = i18;
+                                    formatPluralString3 = null;
+                                    if (formatPluralString3 != null) {
                                     }
-                                    if (i7 == 2) {
+                                    if (i8 == 2) {
                                     }
                                 }
                             }
                         } else {
-                            str4 = "";
+                            str3 = "";
                             sb2 = new StringBuilder(LocaleController.getString("UserRestrictionsUntilForever", org.telegram.messenger.beta.R.string.UserRestrictionsUntilForever));
                         }
-                        String string2 = LocaleController.getString("EventLogRestrictedUntil", org.telegram.messenger.beta.R.string.EventLogRestrictedUntil);
-                        StringBuilder sb5 = new StringBuilder(String.format(string2, messageObject.getUserName(tLObject4, messageObject.messageOwner.entities, string2.indexOf("%1$s")), sb2.toString()));
+                        String string4 = LocaleController.getString("EventLogRestrictedUntil", org.telegram.messenger.beta.R.string.EventLogRestrictedUntil);
+                        StringBuilder sb5 = new StringBuilder(String.format(string4, messageObject.getUserName(chat4, messageObject.messageOwner.entities, string4.indexOf("%1$s")), sb2.toString()));
                         tLRPC$TL_chatBannedRights3 = tLRPC$TL_chatBannedRights3 == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights3;
                         tLRPC$TL_chatBannedRights4 = tLRPC$TL_chatBannedRights4 == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights4;
                         if (tLRPC$TL_chatBannedRights3.view_messages != tLRPC$TL_chatBannedRights4.view_messages) {
@@ -2061,55 +2061,55 @@ public class MessageObject {
                         }
                         messageObject.messageText = sb5.toString();
                     } else {
-                        str4 = "";
+                        str3 = "";
                         if (tLRPC$TL_chatBannedRights4 != null && (tLRPC$TL_chatBannedRights3 == null || tLRPC$TL_chatBannedRights4.view_messages)) {
-                            str14 = LocaleController.getString("EventLogChannelRestricted", org.telegram.messenger.beta.R.string.EventLogChannelRestricted);
+                            string2 = LocaleController.getString("EventLogChannelRestricted", org.telegram.messenger.beta.R.string.EventLogChannelRestricted);
                         } else {
-                            str14 = LocaleController.getString("EventLogChannelUnrestricted", org.telegram.messenger.beta.R.string.EventLogChannelUnrestricted);
+                            string2 = LocaleController.getString("EventLogChannelUnrestricted", org.telegram.messenger.beta.R.string.EventLogChannelUnrestricted);
                         }
-                        messageObject.messageText = String.format(str14, messageObject.getUserName(tLObject4, messageObject.messageOwner.entities, str14.indexOf("%1$s")));
+                        messageObject.messageText = String.format(string2, messageObject.getUserName(chat4, messageObject.messageOwner.entities, string2.indexOf("%1$s")));
                     }
                 } else {
-                    str4 = "";
+                    str3 = "";
                     if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionUpdatePinned) {
                         TLRPC$TL_channelAdminLogEventActionUpdatePinned tLRPC$TL_channelAdminLogEventActionUpdatePinned = (TLRPC$TL_channelAdminLogEventActionUpdatePinned) tLRPC$ChannelAdminLogEventAction;
                         tLRPC$TL_message = tLRPC$TL_channelAdminLogEventActionUpdatePinned.message;
-                        if (user != null && user.id == 136817688 && (tLRPC$MessageFwdHeader = tLRPC$TL_message.fwd_from) != null && (tLRPC$MessageFwdHeader.from_id instanceof TLRPC$TL_peerChannel)) {
-                            TLRPC$Chat chat = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(tLRPC$TL_channelAdminLogEventActionUpdatePinned.message.fwd_from.from_id.channel_id));
+                        if (user2 != null && user2.id == 136817688 && (tLRPC$MessageFwdHeader = tLRPC$TL_message.fwd_from) != null && (tLRPC$MessageFwdHeader.from_id instanceof TLRPC$TL_peerChannel)) {
+                            TLRPC$Chat chat6 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(tLRPC$TL_channelAdminLogEventActionUpdatePinned.message.fwd_from.from_id.channel_id));
                             TLRPC$Message tLRPC$Message = tLRPC$TL_channelAdminLogEventActionUpdatePinned.message;
                             if ((tLRPC$Message instanceof TLRPC$TL_messageEmpty) || !tLRPC$Message.pinned) {
-                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", org.telegram.messenger.beta.R.string.EventLogUnpinnedMessages), "un1", chat);
+                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", org.telegram.messenger.beta.R.string.EventLogUnpinnedMessages), "un1", chat6);
                             } else {
-                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", org.telegram.messenger.beta.R.string.EventLogPinnedMessages), "un1", chat);
+                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", org.telegram.messenger.beta.R.string.EventLogPinnedMessages), "un1", chat6);
                             }
                         } else if ((tLRPC$TL_message instanceof TLRPC$TL_messageEmpty) || !tLRPC$TL_message.pinned) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", org.telegram.messenger.beta.R.string.EventLogUnpinnedMessages), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogUnpinnedMessages", org.telegram.messenger.beta.R.string.EventLogUnpinnedMessages), "un1", user2);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", org.telegram.messenger.beta.R.string.EventLogPinnedMessages), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogPinnedMessages", org.telegram.messenger.beta.R.string.EventLogPinnedMessages), "un1", user2);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionStopPoll) {
                         tLRPC$TL_message = ((TLRPC$TL_channelAdminLogEventActionStopPoll) tLRPC$ChannelAdminLogEventAction).message;
                         TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$TL_message.media;
                         if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) && ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia).poll.quiz) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopQuiz", org.telegram.messenger.beta.R.string.EventLogStopQuiz), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopQuiz", org.telegram.messenger.beta.R.string.EventLogStopQuiz), "un1", user2);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopPoll", org.telegram.messenger.beta.R.string.EventLogStopPoll), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStopPoll", org.telegram.messenger.beta.R.string.EventLogStopPoll), "un1", user2);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleSignatures) {
                         if (((TLRPC$TL_channelAdminLogEventActionToggleSignatures) tLRPC$ChannelAdminLogEventAction).new_value) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOn", org.telegram.messenger.beta.R.string.EventLogToggledSignaturesOn), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOn", org.telegram.messenger.beta.R.string.EventLogToggledSignaturesOn), "un1", user2);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOff", org.telegram.messenger.beta.R.string.EventLogToggledSignaturesOff), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSignaturesOff", org.telegram.messenger.beta.R.string.EventLogToggledSignaturesOff), "un1", user2);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleInvites) {
                         if (((TLRPC$TL_channelAdminLogEventActionToggleInvites) tLRPC$ChannelAdminLogEventAction).new_value) {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOn", org.telegram.messenger.beta.R.string.EventLogToggledInvitesOn), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOn", org.telegram.messenger.beta.R.string.EventLogToggledInvitesOn), "un1", user2);
                         } else {
-                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOff", org.telegram.messenger.beta.R.string.EventLogToggledInvitesOff), "un1", user);
+                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesOff", org.telegram.messenger.beta.R.string.EventLogToggledInvitesOff), "un1", user2);
                         }
                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) {
                         tLRPC$TL_message = ((TLRPC$TL_channelAdminLogEventActionDeleteMessage) tLRPC$ChannelAdminLogEventAction).message;
-                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogDeletedMessages", org.telegram.messenger.beta.R.string.EventLogDeletedMessages), "un1", user);
+                        messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogDeletedMessages", org.telegram.messenger.beta.R.string.EventLogDeletedMessages), "un1", user2);
                     } else {
                         if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeLinkedChat) {
                             long j = ((TLRPC$TL_channelAdminLogEventActionChangeLinkedChat) tLRPC$ChannelAdminLogEventAction).new_value;
@@ -2117,45 +2117,45 @@ public class MessageObject {
                             tLRPC$Chat2 = tLRPC$Chat;
                             if (tLRPC$Chat2.megagroup) {
                                 if (j == 0) {
-                                    TLRPC$Chat chat2 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j2));
-                                    CharSequence replaceWithLink2 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedChannel", org.telegram.messenger.beta.R.string.EventLogRemovedLinkedChannel), "un1", user);
+                                    TLRPC$Chat chat7 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j2));
+                                    CharSequence replaceWithLink2 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedChannel", org.telegram.messenger.beta.R.string.EventLogRemovedLinkedChannel), "un1", user2);
                                     messageObject.messageText = replaceWithLink2;
-                                    messageObject.messageText = replaceWithLink(replaceWithLink2, "un2", chat2);
+                                    messageObject.messageText = replaceWithLink(replaceWithLink2, "un2", chat7);
                                 } else {
-                                    TLRPC$Chat chat3 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j));
-                                    CharSequence replaceWithLink3 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedChannel", org.telegram.messenger.beta.R.string.EventLogChangedLinkedChannel), "un1", user);
+                                    TLRPC$Chat chat8 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j));
+                                    CharSequence replaceWithLink3 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedChannel", org.telegram.messenger.beta.R.string.EventLogChangedLinkedChannel), "un1", user2);
                                     messageObject.messageText = replaceWithLink3;
-                                    messageObject.messageText = replaceWithLink(replaceWithLink3, "un2", chat3);
+                                    messageObject.messageText = replaceWithLink(replaceWithLink3, "un2", chat8);
                                 }
                             } else if (j == 0) {
-                                TLRPC$Chat chat4 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j2));
-                                CharSequence replaceWithLink4 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedGroup", org.telegram.messenger.beta.R.string.EventLogRemovedLinkedGroup), "un1", user);
+                                TLRPC$Chat chat9 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j2));
+                                CharSequence replaceWithLink4 = replaceWithLink(LocaleController.getString("EventLogRemovedLinkedGroup", org.telegram.messenger.beta.R.string.EventLogRemovedLinkedGroup), "un1", user2);
                                 messageObject.messageText = replaceWithLink4;
-                                messageObject.messageText = replaceWithLink(replaceWithLink4, "un2", chat4);
+                                messageObject.messageText = replaceWithLink(replaceWithLink4, "un2", chat9);
                             } else {
-                                TLRPC$Chat chat5 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j));
-                                CharSequence replaceWithLink5 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedGroup", org.telegram.messenger.beta.R.string.EventLogChangedLinkedGroup), "un1", user);
+                                TLRPC$Chat chat10 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(j));
+                                CharSequence replaceWithLink5 = replaceWithLink(LocaleController.getString("EventLogChangedLinkedGroup", org.telegram.messenger.beta.R.string.EventLogChangedLinkedGroup), "un1", user2);
                                 messageObject.messageText = replaceWithLink5;
-                                messageObject.messageText = replaceWithLink(replaceWithLink5, "un2", chat5);
+                                messageObject.messageText = replaceWithLink(replaceWithLink5, "un2", chat10);
                             }
                         } else {
                             tLRPC$Chat2 = tLRPC$Chat;
                             if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionTogglePreHistoryHidden) {
                                 if (((TLRPC$TL_channelAdminLogEventActionTogglePreHistoryHidden) tLRPC$ChannelAdminLogEventAction).new_value) {
-                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOff", org.telegram.messenger.beta.R.string.EventLogToggledInvitesHistoryOff), "un1", user);
+                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOff", org.telegram.messenger.beta.R.string.EventLogToggledInvitesHistoryOff), "un1", user2);
                                 } else {
-                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOn", org.telegram.messenger.beta.R.string.EventLogToggledInvitesHistoryOn), "un1", user);
+                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledInvitesHistoryOn", org.telegram.messenger.beta.R.string.EventLogToggledInvitesHistoryOn), "un1", user2);
                                 }
                             } else {
                                 if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeAbout) {
                                     if (tLRPC$Chat2.megagroup) {
                                         i6 = org.telegram.messenger.beta.R.string.EventLogEditedGroupDescription;
-                                        str12 = "EventLogEditedGroupDescription";
+                                        str9 = "EventLogEditedGroupDescription";
                                     } else {
                                         i6 = org.telegram.messenger.beta.R.string.EventLogEditedChannelDescription;
-                                        str12 = "EventLogEditedChannelDescription";
+                                        str9 = "EventLogEditedChannelDescription";
                                     }
-                                    messageObject.messageText = replaceWithLink(LocaleController.getString(str12, i6), "un1", user);
+                                    messageObject.messageText = replaceWithLink(LocaleController.getString(str9, i6), "un1", user2);
                                     tLRPC$TL_message = new TLRPC$TL_message();
                                     tLRPC$TL_message.out = false;
                                     tLRPC$TL_message.unread = false;
@@ -2173,27 +2173,27 @@ public class MessageObject {
                                         tLRPC$TL_messageMediaWebPage.webpage = new TLRPC$TL_webPage();
                                         TLRPC$WebPage tLRPC$WebPage = tLRPC$TL_message.media.webpage;
                                         tLRPC$WebPage.flags = 10;
-                                        str5 = str4;
-                                        tLRPC$WebPage.display_url = str5;
-                                        tLRPC$WebPage.url = str5;
+                                        str4 = str3;
+                                        tLRPC$WebPage.display_url = str4;
+                                        tLRPC$WebPage.url = str4;
                                         tLRPC$WebPage.site_name = LocaleController.getString("EventLogPreviousGroupDescription", org.telegram.messenger.beta.R.string.EventLogPreviousGroupDescription);
                                         tLRPC$TL_message.media.webpage.description = ((TLRPC$TL_channelAdminLogEventActionChangeAbout) tLRPC$TL_channelAdminLogEvent3.action).prev_value;
                                     } else {
-                                        str5 = str4;
+                                        str4 = str3;
                                         tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
                                     }
                                 } else {
                                     tLRPC$TL_channelAdminLogEvent3 = tLRPC$TL_channelAdminLogEvent;
-                                    str5 = str4;
+                                    str4 = str3;
                                     if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeTheme) {
                                         if (tLRPC$Chat2.megagroup) {
                                             i5 = org.telegram.messenger.beta.R.string.EventLogEditedGroupTheme;
-                                            str11 = "EventLogEditedGroupTheme";
+                                            str8 = "EventLogEditedGroupTheme";
                                         } else {
                                             i5 = org.telegram.messenger.beta.R.string.EventLogEditedChannelTheme;
-                                            str11 = "EventLogEditedChannelTheme";
+                                            str8 = "EventLogEditedChannelTheme";
                                         }
-                                        messageObject.messageText = replaceWithLink(LocaleController.getString(str11, i5), "un1", user);
+                                        messageObject.messageText = replaceWithLink(LocaleController.getString(str8, i5), "un1", user2);
                                         tLRPC$TL_message = new TLRPC$TL_message();
                                         tLRPC$TL_message.out = false;
                                         tLRPC$TL_message.unread = false;
@@ -2210,33 +2210,33 @@ public class MessageObject {
                                             tLRPC$TL_messageMediaWebPage2.webpage = new TLRPC$TL_webPage();
                                             TLRPC$WebPage tLRPC$WebPage2 = tLRPC$TL_message.media.webpage;
                                             tLRPC$WebPage2.flags = 10;
-                                            tLRPC$WebPage2.display_url = str5;
-                                            tLRPC$WebPage2.url = str5;
+                                            tLRPC$WebPage2.display_url = str4;
+                                            tLRPC$WebPage2.url = str4;
                                             tLRPC$WebPage2.site_name = LocaleController.getString("EventLogPreviousGroupTheme", org.telegram.messenger.beta.R.string.EventLogPreviousGroupTheme);
                                             tLRPC$TL_message.media.webpage.description = ((TLRPC$TL_channelAdminLogEventActionChangeTheme) tLRPC$TL_channelAdminLogEvent3.action).prev_value;
                                         } else {
                                             tLRPC$TL_message.media = new TLRPC$TL_messageMediaEmpty();
                                         }
                                     } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeUsername) {
-                                        String str17 = ((TLRPC$TL_channelAdminLogEventActionChangeUsername) tLRPC$ChannelAdminLogEventAction).new_value;
-                                        if (!TextUtils.isEmpty(str17)) {
+                                        String str12 = ((TLRPC$TL_channelAdminLogEventActionChangeUsername) tLRPC$ChannelAdminLogEventAction).new_value;
+                                        if (!TextUtils.isEmpty(str12)) {
                                             if (tLRPC$Chat2.megagroup) {
                                                 i4 = org.telegram.messenger.beta.R.string.EventLogChangedGroupLink;
-                                                str10 = "EventLogChangedGroupLink";
+                                                str7 = "EventLogChangedGroupLink";
                                             } else {
                                                 i4 = org.telegram.messenger.beta.R.string.EventLogChangedChannelLink;
-                                                str10 = "EventLogChangedChannelLink";
+                                                str7 = "EventLogChangedChannelLink";
                                             }
-                                            messageObject.messageText = replaceWithLink(LocaleController.getString(str10, i4), "un1", user);
+                                            messageObject.messageText = replaceWithLink(LocaleController.getString(str7, i4), "un1", user2);
                                         } else {
                                             if (tLRPC$Chat2.megagroup) {
                                                 i3 = org.telegram.messenger.beta.R.string.EventLogRemovedGroupLink;
-                                                str9 = "EventLogRemovedGroupLink";
+                                                str6 = "EventLogRemovedGroupLink";
                                             } else {
                                                 i3 = org.telegram.messenger.beta.R.string.EventLogRemovedChannelLink;
-                                                str9 = "EventLogRemovedChannelLink";
+                                                str6 = "EventLogRemovedChannelLink";
                                             }
-                                            messageObject.messageText = replaceWithLink(LocaleController.getString(str9, i3), "un1", user);
+                                            messageObject.messageText = replaceWithLink(LocaleController.getString(str6, i3), "un1", user2);
                                         }
                                         TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
                                         tLRPC$TL_message2.out = false;
@@ -2246,10 +2246,10 @@ public class MessageObject {
                                         tLRPC$TL_peerUser3.user_id = tLRPC$TL_channelAdminLogEvent3.user_id;
                                         tLRPC$TL_message2.peer_id = tLRPC$TL_peerChannel;
                                         tLRPC$TL_message2.date = tLRPC$TL_channelAdminLogEvent3.date;
-                                        if (!TextUtils.isEmpty(str17)) {
-                                            tLRPC$TL_message2.message = "https://" + MessagesController.getInstance(messageObject.currentAccount).linkPrefix + "/" + str17;
+                                        if (!TextUtils.isEmpty(str12)) {
+                                            tLRPC$TL_message2.message = "https://" + MessagesController.getInstance(messageObject.currentAccount).linkPrefix + "/" + str12;
                                         } else {
-                                            tLRPC$TL_message2.message = str5;
+                                            tLRPC$TL_message2.message = str4;
                                         }
                                         TLRPC$TL_messageEntityUrl tLRPC$TL_messageEntityUrl = new TLRPC$TL_messageEntityUrl();
                                         tLRPC$TL_messageEntityUrl.offset = 0;
@@ -2261,8 +2261,8 @@ public class MessageObject {
                                             tLRPC$TL_messageMediaWebPage3.webpage = new TLRPC$TL_webPage();
                                             TLRPC$WebPage tLRPC$WebPage3 = tLRPC$TL_message2.media.webpage;
                                             tLRPC$WebPage3.flags = 10;
-                                            tLRPC$WebPage3.display_url = str5;
-                                            tLRPC$WebPage3.url = str5;
+                                            tLRPC$WebPage3.display_url = str4;
+                                            tLRPC$WebPage3.url = str4;
                                             tLRPC$WebPage3.site_name = LocaleController.getString("EventLogPreviousLink", org.telegram.messenger.beta.R.string.EventLogPreviousLink);
                                             tLRPC$TL_message2.media.webpage.description = "https://" + MessagesController.getInstance(messageObject.currentAccount).linkPrefix + "/" + ((TLRPC$TL_channelAdminLogEventActionChangeUsername) tLRPC$TL_channelAdminLogEvent3.action).prev_value;
                                         } else {
@@ -2293,19 +2293,19 @@ public class MessageObject {
                                                     TLRPC$MessageMedia tLRPC$MessageMedia3 = tLRPC$Message2.media;
                                                     TLRPC$Photo tLRPC$Photo = tLRPC$MessageMedia3.photo;
                                                     if (tLRPC$Photo == null || (r11 = tLRPC$Message3.media.photo) == null) {
-                                                        str8 = str5;
+                                                        str5 = str4;
                                                     } else {
-                                                        str8 = str5;
+                                                        str5 = str4;
                                                     }
                                                     TLRPC$Document tLRPC$Document2 = tLRPC$MessageMedia3.document;
                                                     if (tLRPC$Document2 == null || (tLRPC$Document = tLRPC$Message3.media.document) == null || tLRPC$Document2.id == tLRPC$Document.id) {
                                                         z2 = false;
                                                         if (!z2 && z5) {
-                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMediaCaption", org.telegram.messenger.beta.R.string.EventLogEditedMediaCaption), "un1", user);
+                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMediaCaption", org.telegram.messenger.beta.R.string.EventLogEditedMediaCaption), "un1", user2);
                                                         } else if (!z5) {
-                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedCaption", org.telegram.messenger.beta.R.string.EventLogEditedCaption), "un1", user);
+                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedCaption", org.telegram.messenger.beta.R.string.EventLogEditedCaption), "un1", user2);
                                                         } else {
-                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMedia", org.telegram.messenger.beta.R.string.EventLogEditedMedia), "un1", user);
+                                                            messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMedia", org.telegram.messenger.beta.R.string.EventLogEditedMedia), "un1", user2);
                                                         }
                                                         TLRPC$MessageMedia tLRPC$MessageMedia4 = tLRPC$Message2.media;
                                                         tLRPC$TL_message.media = tLRPC$MessageMedia4;
@@ -2320,7 +2320,7 @@ public class MessageObject {
                                                         }
                                                     }
                                                 } else {
-                                                    str8 = str5;
+                                                    str5 = str4;
                                                 }
                                                 z2 = true;
                                                 if (!z2) {
@@ -2332,8 +2332,8 @@ public class MessageObject {
                                                 if (z5) {
                                                 }
                                             } else {
-                                                str8 = str5;
-                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMessages", org.telegram.messenger.beta.R.string.EventLogEditedMessages), "un1", user);
+                                                str5 = str4;
+                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEditedMessages", org.telegram.messenger.beta.R.string.EventLogEditedMessages), "un1", user2);
                                                 if (tLRPC$Message2.action instanceof TLRPC$TL_messageActionGroupCall) {
                                                     tLRPC$Message2.media = new TLRPC$TL_messageMediaEmpty();
                                                     tLRPC$TL_message = tLRPC$Message2;
@@ -2354,120 +2354,120 @@ public class MessageObject {
                                             TLRPC$WebPage tLRPC$WebPage4 = tLRPC$TL_message.media.webpage;
                                             if (tLRPC$WebPage4 != null) {
                                                 tLRPC$WebPage4.flags = 10;
-                                                str = str8;
+                                                str = str5;
                                                 tLRPC$WebPage4.display_url = str;
                                                 tLRPC$WebPage4.url = str;
                                             } else {
-                                                str = str8;
+                                                str = str5;
                                             }
                                         } else {
-                                            str = str5;
+                                            str = str4;
                                             if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeStickerSet) {
                                                 TLRPC$InputStickerSet tLRPC$InputStickerSet = ((TLRPC$TL_channelAdminLogEventActionChangeStickerSet) tLRPC$ChannelAdminLogEventAction).new_stickerset;
                                                 TLRPC$InputStickerSet tLRPC$InputStickerSet2 = ((TLRPC$TL_channelAdminLogEventActionChangeStickerSet) tLRPC$ChannelAdminLogEventAction).new_stickerset;
                                                 if (tLRPC$InputStickerSet == null || (tLRPC$InputStickerSet instanceof TLRPC$TL_inputStickerSetEmpty)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedStickersSet", org.telegram.messenger.beta.R.string.EventLogRemovedStickersSet), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedStickersSet", org.telegram.messenger.beta.R.string.EventLogRemovedStickersSet), "un1", user2);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChangedStickersSet", org.telegram.messenger.beta.R.string.EventLogChangedStickersSet), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogChangedStickersSet", org.telegram.messenger.beta.R.string.EventLogChangedStickersSet), "un1", user2);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeLocation) {
                                                 TLRPC$ChannelLocation tLRPC$ChannelLocation = ((TLRPC$TL_channelAdminLogEventActionChangeLocation) tLRPC$ChannelAdminLogEventAction).new_value;
                                                 if (tLRPC$ChannelLocation instanceof TLRPC$TL_channelLocationEmpty) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedLocation", org.telegram.messenger.beta.R.string.EventLogRemovedLocation), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogRemovedLocation", org.telegram.messenger.beta.R.string.EventLogRemovedLocation), "un1", user2);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogChangedLocation", org.telegram.messenger.beta.R.string.EventLogChangedLocation, ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogChangedLocation", org.telegram.messenger.beta.R.string.EventLogChangedLocation, ((TLRPC$TL_channelLocation) tLRPC$ChannelLocation).address), "un1", user2);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleSlowMode) {
                                                 int i20 = ((TLRPC$TL_channelAdminLogEventActionToggleSlowMode) tLRPC$ChannelAdminLogEventAction).new_value;
                                                 if (i20 == 0) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSlowmodeOff", org.telegram.messenger.beta.R.string.EventLogToggledSlowmodeOff), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogToggledSlowmodeOff", org.telegram.messenger.beta.R.string.EventLogToggledSlowmodeOff), "un1", user2);
                                                 } else {
                                                     if (i20 < 60) {
                                                         c2 = 0;
-                                                        str7 = LocaleController.formatPluralString("Seconds", i20, new Object[0]);
+                                                        formatPluralString2 = LocaleController.formatPluralString("Seconds", i20, new Object[0]);
                                                     } else {
                                                         c2 = 0;
                                                         if (i20 < 3600) {
-                                                            str7 = LocaleController.formatPluralString("Minutes", i20 / 60, new Object[0]);
+                                                            formatPluralString2 = LocaleController.formatPluralString("Minutes", i20 / 60, new Object[0]);
                                                         } else {
-                                                            str7 = LocaleController.formatPluralString("Hours", (i20 / 60) / 60, new Object[0]);
+                                                            formatPluralString2 = LocaleController.formatPluralString("Hours", (i20 / 60) / 60, new Object[0]);
                                                         }
                                                     }
                                                     Object[] objArr = new Object[1];
-                                                    objArr[c2] = str7;
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogToggledSlowmodeOn", org.telegram.messenger.beta.R.string.EventLogToggledSlowmodeOn, objArr), "un1", user);
+                                                    objArr[c2] = formatPluralString2;
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("EventLogToggledSlowmodeOn", org.telegram.messenger.beta.R.string.EventLogToggledSlowmodeOn, objArr), "un1", user2);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionStartGroupCall) {
                                                 if (ChatObject.isChannel(tLRPC$Chat) && (!tLRPC$Chat2.megagroup || tLRPC$Chat2.gigagroup)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedLiveStream", org.telegram.messenger.beta.R.string.EventLogStartedLiveStream), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedLiveStream", org.telegram.messenger.beta.R.string.EventLogStartedLiveStream), "un1", user2);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedVoiceChat", org.telegram.messenger.beta.R.string.EventLogStartedVoiceChat), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogStartedVoiceChat", org.telegram.messenger.beta.R.string.EventLogStartedVoiceChat), "un1", user2);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionDiscardGroupCall) {
                                                 if (ChatObject.isChannel(tLRPC$Chat) && (!tLRPC$Chat2.megagroup || tLRPC$Chat2.gigagroup)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedLiveStream", org.telegram.messenger.beta.R.string.EventLogEndedLiveStream), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedLiveStream", org.telegram.messenger.beta.R.string.EventLogEndedLiveStream), "un1", user2);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedVoiceChat", org.telegram.messenger.beta.R.string.EventLogEndedVoiceChat), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogEndedVoiceChat", org.telegram.messenger.beta.R.string.EventLogEndedVoiceChat), "un1", user2);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantMute) {
                                                 long peerId4 = getPeerId(((TLRPC$TL_channelAdminLogEventActionParticipantMute) tLRPC$ChannelAdminLogEventAction).participant.peer);
                                                 if (peerId4 > 0) {
-                                                    tLObject3 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId4));
+                                                    chat3 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId4));
                                                 } else {
-                                                    tLObject3 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId4));
+                                                    chat3 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId4));
                                                 }
-                                                CharSequence replaceWithLink6 = replaceWithLink(LocaleController.getString("EventLogVoiceChatMuted", org.telegram.messenger.beta.R.string.EventLogVoiceChatMuted), "un1", user);
+                                                CharSequence replaceWithLink6 = replaceWithLink(LocaleController.getString("EventLogVoiceChatMuted", org.telegram.messenger.beta.R.string.EventLogVoiceChatMuted), "un1", user2);
                                                 messageObject.messageText = replaceWithLink6;
-                                                messageObject.messageText = replaceWithLink(replaceWithLink6, "un2", tLObject3);
+                                                messageObject.messageText = replaceWithLink(replaceWithLink6, "un2", chat3);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantUnmute) {
                                                 long peerId5 = getPeerId(((TLRPC$TL_channelAdminLogEventActionParticipantUnmute) tLRPC$ChannelAdminLogEventAction).participant.peer);
                                                 if (peerId5 > 0) {
-                                                    tLObject2 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId5));
+                                                    chat2 = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId5));
                                                 } else {
-                                                    tLObject2 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId5));
+                                                    chat2 = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId5));
                                                 }
-                                                CharSequence replaceWithLink7 = replaceWithLink(LocaleController.getString("EventLogVoiceChatUnmuted", org.telegram.messenger.beta.R.string.EventLogVoiceChatUnmuted), "un1", user);
+                                                CharSequence replaceWithLink7 = replaceWithLink(LocaleController.getString("EventLogVoiceChatUnmuted", org.telegram.messenger.beta.R.string.EventLogVoiceChatUnmuted), "un1", user2);
                                                 messageObject.messageText = replaceWithLink7;
-                                                messageObject.messageText = replaceWithLink(replaceWithLink7, "un2", tLObject2);
+                                                messageObject.messageText = replaceWithLink(replaceWithLink7, "un2", chat2);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleGroupCallSetting) {
                                                 if (((TLRPC$TL_channelAdminLogEventActionToggleGroupCallSetting) tLRPC$ChannelAdminLogEventAction).join_muted) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatNotAllowedToSpeak", org.telegram.messenger.beta.R.string.EventLogVoiceChatNotAllowedToSpeak), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatNotAllowedToSpeak", org.telegram.messenger.beta.R.string.EventLogVoiceChatNotAllowedToSpeak), "un1", user2);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatAllowedToSpeak", org.telegram.messenger.beta.R.string.EventLogVoiceChatAllowedToSpeak), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogVoiceChatAllowedToSpeak", org.telegram.messenger.beta.R.string.EventLogVoiceChatAllowedToSpeak), "un1", user2);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) {
                                                 TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite tLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite = (TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) tLRPC$ChannelAdminLogEventAction;
-                                                messageObject.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", org.telegram.messenger.beta.R.string.ActionInviteUser), "un1", user);
+                                                messageObject.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", org.telegram.messenger.beta.R.string.ActionInviteUser), "un1", user2);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleNoForwards) {
                                                 TLRPC$TL_channelAdminLogEventActionToggleNoForwards tLRPC$TL_channelAdminLogEventActionToggleNoForwards = (TLRPC$TL_channelAdminLogEventActionToggleNoForwards) tLRPC$ChannelAdminLogEventAction;
                                                 boolean z6 = ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat2.megagroup;
                                                 if (tLRPC$TL_channelAdminLogEventActionToggleNoForwards.new_value) {
                                                     if (z6) {
-                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedChannel", org.telegram.messenger.beta.R.string.ActionForwardsRestrictedChannel), "un1", user);
+                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedChannel", org.telegram.messenger.beta.R.string.ActionForwardsRestrictedChannel), "un1", user2);
                                                     } else {
-                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedGroup", org.telegram.messenger.beta.R.string.ActionForwardsRestrictedGroup), "un1", user);
+                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsRestrictedGroup", org.telegram.messenger.beta.R.string.ActionForwardsRestrictedGroup), "un1", user2);
                                                     }
                                                 } else if (z6) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledChannel", org.telegram.messenger.beta.R.string.ActionForwardsEnabledChannel), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledChannel", org.telegram.messenger.beta.R.string.ActionForwardsEnabledChannel), "un1", user2);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledGroup", org.telegram.messenger.beta.R.string.ActionForwardsEnabledGroup), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.getString("ActionForwardsEnabledGroup", org.telegram.messenger.beta.R.string.ActionForwardsEnabledGroup), "un1", user2);
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionExportedInviteDelete) {
-                                                CharSequence replaceWithLink8 = replaceWithLink(LocaleController.formatString("ActionDeletedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionDeletedInviteLinkClickable, new Object[0]), "un1", user);
+                                                CharSequence replaceWithLink8 = replaceWithLink(LocaleController.formatString("ActionDeletedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionDeletedInviteLinkClickable, new Object[0]), "un1", user2);
                                                 messageObject.messageText = replaceWithLink8;
                                                 messageObject.messageText = replaceWithLink(replaceWithLink8, "un2", ((TLRPC$TL_channelAdminLogEventActionExportedInviteDelete) tLRPC$ChannelAdminLogEventAction).invite);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke) {
                                                 TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke = (TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke) tLRPC$ChannelAdminLogEventAction;
-                                                CharSequence replaceWithLink9 = replaceWithLink(LocaleController.formatString("ActionRevokedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionRevokedInviteLinkClickable, tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite.link), "un1", user);
+                                                CharSequence replaceWithLink9 = replaceWithLink(LocaleController.formatString("ActionRevokedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionRevokedInviteLinkClickable, tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite.link), "un1", user2);
                                                 messageObject.messageText = replaceWithLink9;
                                                 messageObject.messageText = replaceWithLink(replaceWithLink9, "un2", tLRPC$TL_channelAdminLogEventActionExportedInviteRevoke.invite);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionExportedInviteEdit) {
                                                 TLRPC$TL_channelAdminLogEventActionExportedInviteEdit tLRPC$TL_channelAdminLogEventActionExportedInviteEdit = (TLRPC$TL_channelAdminLogEventActionExportedInviteEdit) tLRPC$ChannelAdminLogEventAction;
-                                                String str18 = tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.prev_invite.link;
-                                                if (str18 != null && str18.equals(tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.new_invite.link)) {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkToSameClickable", org.telegram.messenger.beta.R.string.ActionEditedInviteLinkToSameClickable, new Object[0]), "un1", user);
+                                                String str13 = tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.prev_invite.link;
+                                                if (str13 != null && str13.equals(tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.new_invite.link)) {
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkToSameClickable", org.telegram.messenger.beta.R.string.ActionEditedInviteLinkToSameClickable, new Object[0]), "un1", user2);
                                                 } else {
-                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionEditedInviteLinkClickable, new Object[0]), "un1", user);
+                                                    messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionEditedInviteLinkClickable", org.telegram.messenger.beta.R.string.ActionEditedInviteLinkClickable, new Object[0]), "un1", user2);
                                                 }
                                                 CharSequence replaceWithLink10 = replaceWithLink(messageObject.messageText, "un2", tLRPC$TL_channelAdminLogEventActionExportedInviteEdit.prev_invite);
                                                 messageObject.messageText = replaceWithLink10;
@@ -2476,18 +2476,18 @@ public class MessageObject {
                                                 TLRPC$TL_channelAdminLogEventActionParticipantVolume tLRPC$TL_channelAdminLogEventActionParticipantVolume = (TLRPC$TL_channelAdminLogEventActionParticipantVolume) tLRPC$ChannelAdminLogEventAction;
                                                 long peerId6 = getPeerId(tLRPC$TL_channelAdminLogEventActionParticipantVolume.participant.peer);
                                                 if (peerId6 > 0) {
-                                                    tLObject = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId6));
+                                                    chat = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(peerId6));
                                                 } else {
-                                                    tLObject = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId6));
+                                                    chat = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-peerId6));
                                                 }
                                                 double participantVolume = ChatObject.getParticipantVolume(tLRPC$TL_channelAdminLogEventActionParticipantVolume.participant);
                                                 Double.isNaN(participantVolume);
                                                 double d = participantVolume / 100.0d;
                                                 Object[] objArr2 = new Object[1];
                                                 objArr2[0] = Integer.valueOf((int) (d > 0.0d ? Math.max(d, 1.0d) : 0.0d));
-                                                CharSequence replaceWithLink11 = replaceWithLink(LocaleController.formatString("ActionVolumeChanged", org.telegram.messenger.beta.R.string.ActionVolumeChanged, objArr2), "un1", user);
+                                                CharSequence replaceWithLink11 = replaceWithLink(LocaleController.formatString("ActionVolumeChanged", org.telegram.messenger.beta.R.string.ActionVolumeChanged, objArr2), "un1", user2);
                                                 messageObject.messageText = replaceWithLink11;
-                                                messageObject.messageText = replaceWithLink(replaceWithLink11, "un2", tLObject);
+                                                messageObject.messageText = replaceWithLink(replaceWithLink11, "un2", chat);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL) {
                                                 TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL tLRPC$TL_channelAdminLogEventActionChangeHistoryTTL = (TLRPC$TL_channelAdminLogEventActionChangeHistoryTTL) tLRPC$ChannelAdminLogEventAction;
                                                 if (!tLRPC$Chat2.megagroup) {
@@ -2500,35 +2500,35 @@ public class MessageObject {
                                                 } else {
                                                     int i22 = tLRPC$TL_channelAdminLogEventActionChangeHistoryTTL.new_value;
                                                     if (i22 == 0) {
-                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", org.telegram.messenger.beta.R.string.ActionTTLDisabled), "un1", user);
+                                                        messageObject.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", org.telegram.messenger.beta.R.string.ActionTTLDisabled), "un1", user2);
                                                     } else {
                                                         if (i22 > 86400) {
                                                             c = 0;
-                                                            str6 = LocaleController.formatPluralString("Days", i22 / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
+                                                            formatPluralString = LocaleController.formatPluralString("Days", i22 / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
                                                         } else {
                                                             c = 0;
                                                             if (i22 >= 3600) {
-                                                                str6 = LocaleController.formatPluralString("Hours", i22 / 3600, new Object[0]);
+                                                                formatPluralString = LocaleController.formatPluralString("Hours", i22 / 3600, new Object[0]);
                                                             } else if (i22 >= 60) {
-                                                                str6 = LocaleController.formatPluralString("Minutes", i22 / 60, new Object[0]);
+                                                                formatPluralString = LocaleController.formatPluralString("Minutes", i22 / 60, new Object[0]);
                                                             } else {
-                                                                str6 = LocaleController.formatPluralString("Seconds", i22, new Object[0]);
+                                                                formatPluralString = LocaleController.formatPluralString("Seconds", i22, new Object[0]);
                                                             }
                                                         }
                                                         Object[] objArr3 = new Object[1];
-                                                        objArr3[c] = str6;
-                                                        messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", org.telegram.messenger.beta.R.string.ActionTTLChanged, objArr3), "un1", user);
+                                                        objArr3[c] = formatPluralString;
+                                                        messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", org.telegram.messenger.beta.R.string.ActionTTLChanged, objArr3), "un1", user2);
                                                     }
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest) {
                                                 TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest = (TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest) tLRPC$ChannelAdminLogEventAction;
                                                 TLRPC$ExportedChatInvite tLRPC$ExportedChatInvite = tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.invite;
                                                 if (((tLRPC$ExportedChatInvite instanceof TLRPC$TL_chatInviteExported) && "https://t.me/+PublicChat".equals(((TLRPC$TL_chatInviteExported) tLRPC$ExportedChatInvite).link)) || (tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.invite instanceof TLRPC$TL_chatInvitePublicJoinRequests)) {
-                                                    CharSequence replaceWithLink12 = replaceWithLink(LocaleController.getString("JoinedViaRequestApproved", org.telegram.messenger.beta.R.string.JoinedViaRequestApproved), "un1", user);
+                                                    CharSequence replaceWithLink12 = replaceWithLink(LocaleController.getString("JoinedViaRequestApproved", org.telegram.messenger.beta.R.string.JoinedViaRequestApproved), "un1", user2);
                                                     messageObject.messageText = replaceWithLink12;
                                                     messageObject.messageText = replaceWithLink(replaceWithLink12, "un2", MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.approved_by)));
                                                 } else {
-                                                    CharSequence replaceWithLink13 = replaceWithLink(LocaleController.getString("JoinedViaInviteLinkApproved", org.telegram.messenger.beta.R.string.JoinedViaInviteLinkApproved), "un1", user);
+                                                    CharSequence replaceWithLink13 = replaceWithLink(LocaleController.getString("JoinedViaInviteLinkApproved", org.telegram.messenger.beta.R.string.JoinedViaInviteLinkApproved), "un1", user2);
                                                     messageObject.messageText = replaceWithLink13;
                                                     CharSequence replaceWithLink14 = replaceWithLink(replaceWithLink13, "un2", tLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest.invite);
                                                     messageObject.messageText = replaceWithLink14;
@@ -2536,10 +2536,10 @@ public class MessageObject {
                                                 }
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionSendMessage) {
                                                 tLRPC$TL_message = ((TLRPC$TL_channelAdminLogEventActionSendMessage) tLRPC$ChannelAdminLogEventAction).message;
-                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogSendMessages", org.telegram.messenger.beta.R.string.EventLogSendMessages), "un1", user);
+                                                messageObject.messageText = replaceWithLink(LocaleController.getString("EventLogSendMessages", org.telegram.messenger.beta.R.string.EventLogSendMessages), "un1", user2);
                                             } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) {
                                                 tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
-                                                messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionReactionsChanged", org.telegram.messenger.beta.R.string.ActionReactionsChanged, TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$ChannelAdminLogEventAction).prev_value), TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$TL_channelAdminLogEvent2.action).new_value)), "un1", user);
+                                                messageObject.messageText = replaceWithLink(LocaleController.formatString("ActionReactionsChanged", org.telegram.messenger.beta.R.string.ActionReactionsChanged, TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$ChannelAdminLogEventAction).prev_value), TextUtils.join(", ", ((TLRPC$TL_channelAdminLogEventActionChangeAvailableReactions) tLRPC$TL_channelAdminLogEvent2.action).new_value)), "un1", user2);
                                             } else {
                                                 tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
                                                 messageObject.messageText = "unsupported " + tLRPC$TL_channelAdminLogEvent2.action;
@@ -2576,7 +2576,7 @@ public class MessageObject {
                                             iArr2 = null;
                                             tLRPC$TL_message.reply_to = null;
                                             tLRPC$TL_message.flags = i25 & (-32769);
-                                            MessageObject messageObject2 = new MessageObject(messageObject.currentAccount, (TLRPC$Message) tLRPC$TL_message, (AbstractMap<Long, TLRPC$User>) null, (AbstractMap<Long, TLRPC$Chat>) null, true, true, messageObject.eventId);
+                                            MessageObject messageObject2 = new MessageObject(messageObject.currentAccount, tLRPC$TL_message, (AbstractMap<Long, TLRPC$User>) null, (AbstractMap<Long, TLRPC$Chat>) null, true, true, messageObject.eventId);
                                             if (messageObject2.contentType >= 0) {
                                                 if (mediaController.isPlayingMessage(messageObject2)) {
                                                     MessageObject playingMessageObject = mediaController.getPlayingMessageObject();
@@ -2629,16 +2629,16 @@ public class MessageObject {
                                             messageObject.audioProgress = playingMessageObject2.audioProgress;
                                             messageObject.audioProgressSec = playingMessageObject2.audioProgressSec;
                                         }
-                                        messageObject.generateLayout(user);
+                                        messageObject.generateLayout(user2);
                                         messageObject.layoutCreated = true;
                                         messageObject.generateThumbs(false);
                                         checkMediaExistance();
                                         return;
                                     }
                                 }
-                                String str19 = str5;
+                                String str14 = str4;
                                 tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent3;
-                                str = str19;
+                                str = str14;
                                 if (messageObject.messageOwner == null) {
                                 }
                                 messageObject.messageOwner.message = messageObject.messageText.toString();
@@ -2665,11 +2665,11 @@ public class MessageObject {
                             }
                         }
                         tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
-                        str = str4;
+                        str = str3;
                     }
                     tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
                     tLRPC$Chat2 = tLRPC$Chat;
-                    str = str4;
+                    str = str3;
                     if (messageObject.messageOwner == null) {
                     }
                     messageObject.messageOwner.message = messageObject.messageText.toString();
@@ -2696,7 +2696,7 @@ public class MessageObject {
                 }
                 tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
                 tLRPC$Chat2 = tLRPC$Chat;
-                str = str4;
+                str = str3;
             }
             tLRPC$TL_message = null;
             if (messageObject.messageOwner == null) {
@@ -2756,51 +2756,51 @@ public class MessageObject {
         String str;
         String str2;
         long j;
-        long j2;
         String str3;
-        String str4;
+        long j2;
+        String formatName;
         if (tLObject == null) {
-            str = null;
-            j = 0;
-            str2 = "";
+            str3 = null;
+            j2 = 0;
+            str = "";
         } else {
             if (tLObject instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                 if (tLRPC$User.deleted) {
-                    str4 = LocaleController.getString("HiddenName", org.telegram.messenger.beta.R.string.HiddenName);
+                    formatName = LocaleController.getString("HiddenName", org.telegram.messenger.beta.R.string.HiddenName);
                 } else {
-                    str4 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                    formatName = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                 }
-                str2 = str4;
-                str3 = tLRPC$User.username;
-                j2 = tLRPC$User.id;
+                str = formatName;
+                str2 = tLRPC$User.username;
+                j = tLRPC$User.id;
             } else {
                 TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-                str2 = tLRPC$Chat.title;
-                str3 = tLRPC$Chat.username;
-                j2 = -tLRPC$Chat.id;
+                str = tLRPC$Chat.title;
+                str2 = tLRPC$Chat.username;
+                j = -tLRPC$Chat.id;
             }
-            str = str3;
-            j = j2;
+            str3 = str2;
+            j2 = j;
         }
         if (i >= 0) {
             TLRPC$TL_messageEntityMentionName tLRPC$TL_messageEntityMentionName = new TLRPC$TL_messageEntityMentionName();
-            tLRPC$TL_messageEntityMentionName.user_id = j;
+            tLRPC$TL_messageEntityMentionName.user_id = j2;
             tLRPC$TL_messageEntityMentionName.offset = i;
-            tLRPC$TL_messageEntityMentionName.length = str2.length();
+            tLRPC$TL_messageEntityMentionName.length = str.length();
             arrayList.add(tLRPC$TL_messageEntityMentionName);
         }
-        if (!TextUtils.isEmpty(str)) {
+        if (!TextUtils.isEmpty(str3)) {
             if (i >= 0) {
                 TLRPC$TL_messageEntityMentionName tLRPC$TL_messageEntityMentionName2 = new TLRPC$TL_messageEntityMentionName();
-                tLRPC$TL_messageEntityMentionName2.user_id = j;
-                tLRPC$TL_messageEntityMentionName2.offset = i + str2.length() + 2;
-                tLRPC$TL_messageEntityMentionName2.length = str.length() + 1;
+                tLRPC$TL_messageEntityMentionName2.user_id = j2;
+                tLRPC$TL_messageEntityMentionName2.offset = i + str.length() + 2;
+                tLRPC$TL_messageEntityMentionName2.length = str3.length() + 1;
                 arrayList.add(tLRPC$TL_messageEntityMentionName2);
             }
-            return String.format("%1$s (@%2$s)", str2, str);
+            return String.format("%1$s (@%2$s)", str, str3);
         }
-        return str2;
+        return str;
     }
 
     public void applyNewText() {
@@ -3162,8 +3162,8 @@ public class MessageObject {
     }
 
     public static void updatePollResults(TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll, TLRPC$PollResults tLRPC$PollResults) {
-        byte[] bArr;
         ArrayList arrayList;
+        byte[] bArr;
         ArrayList<TLRPC$TL_pollAnswerVoters> arrayList2;
         if (tLRPC$TL_messageMediaPoll == null || tLRPC$PollResults == null) {
             return;
@@ -3257,6 +3257,7 @@ public class MessageObject {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAnimatedEmojiDocument$1(final TLRPC$Document tLRPC$Document) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessageObject$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -3266,6 +3267,7 @@ public class MessageObject {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAnimatedEmojiDocument$0(TLRPC$Document tLRPC$Document) {
         this.emojiAnimatedSticker = tLRPC$Document;
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.animatedEmojiDocumentLoaded, this);
@@ -3494,7 +3496,7 @@ public class MessageObject {
 
     public void measureInlineBotButtons() {
         int i;
-        CharSequence charSequence;
+        CharSequence replaceEmoji;
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
         if (this.isRestrictedMessage) {
             return;
@@ -3522,15 +3524,15 @@ public class MessageObject {
                     sb2.append(i2);
                     sb2.append(i4);
                     if ((tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonBuy) && (this.messageOwner.media.flags & 4) != 0) {
-                        charSequence = LocaleController.getString("PaymentReceipt", org.telegram.messenger.beta.R.string.PaymentReceipt);
+                        replaceEmoji = LocaleController.getString("PaymentReceipt", org.telegram.messenger.beta.R.string.PaymentReceipt);
                     } else {
                         String str = tLRPC$KeyboardButton.text;
                         if (str == null) {
                             str = "";
                         }
-                        charSequence = Emoji.replaceEmoji(str, Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
+                        replaceEmoji = Emoji.replaceEmoji(str, Theme.chat_msgBotButtonPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false);
                     }
-                    StaticLayout staticLayout = new StaticLayout(charSequence, Theme.chat_msgBotButtonPaint, AndroidUtilities.dp(2000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                    StaticLayout staticLayout = new StaticLayout(replaceEmoji, Theme.chat_msgBotButtonPaint, AndroidUtilities.dp(2000.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                     if (staticLayout.getLineCount() > 0) {
                         float lineWidth = staticLayout.getLineWidth(0);
                         float lineLeft = staticLayout.getLineLeft(0);
@@ -3599,45 +3601,45 @@ public class MessageObject {
         return tLRPC$Chat == null ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)) : tLRPC$Chat;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x002a  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002c  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0037  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x05bd  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x05dd  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0640  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x0657  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x06a3  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x06b0  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x077e  */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x07b8  */
-    /* JADX WARN: Removed duplicated region for block: B:500:0x0d76  */
-    /* JADX WARN: Removed duplicated region for block: B:597:0x0f9d  */
-    /* JADX WARN: Removed duplicated region for block: B:617:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x05bd  */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x05dd  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x0640  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x0657  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x06a3  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x06b0  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x077e  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x07b8  */
+    /* JADX WARN: Removed duplicated region for block: B:511:0x0f9d  */
+    /* JADX WARN: Removed duplicated region for block: B:514:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:515:0x0d76  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x002c  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x002a  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0037  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateMessageText(AbstractMap<Long, TLRPC$User> abstractMap, AbstractMap<Long, TLRPC$Chat> abstractMap2, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2) {
         TLRPC$User tLRPC$User;
-        TLRPC$User tLRPC$User2;
+        TLRPC$Chat chat;
         TLRPC$Message tLRPC$Message;
-        String str;
-        String str2;
-        String str3;
+        String string;
+        String formatString;
+        String formatString2;
         TLRPC$Chat tLRPC$Chat;
         TLRPC$Chat tLRPC$Chat2;
         TLRPC$Chat tLRPC$Chat3;
         TLRPC$Chat tLRPC$Chat4;
         TLRPC$Chat tLRPC$Chat5;
-        TLObject tLObject;
-        TLObject tLObject2;
-        String str4;
+        TLObject chat2;
+        TLObject chat3;
+        String formatPluralString;
         TLRPC$Peer tLRPC$Peer = this.messageOwner.from_id;
         if (tLRPC$Peer instanceof TLRPC$TL_peerUser) {
-            tLRPC$User2 = getUser(abstractMap, longSparseArray, tLRPC$Peer.user_id);
+            tLRPC$User = getUser(abstractMap, longSparseArray, tLRPC$Peer.user_id);
         } else if (tLRPC$Peer instanceof TLRPC$TL_peerChannel) {
-            tLRPC$User = getChat(abstractMap2, longSparseArray2, tLRPC$Peer.channel_id);
-            tLRPC$User2 = null;
-            TLRPC$User tLRPC$User3 = tLRPC$User2 == null ? tLRPC$User2 : tLRPC$User;
+            chat = getChat(abstractMap2, longSparseArray2, tLRPC$Peer.channel_id);
+            tLRPC$User = null;
+            TLRPC$Chat tLRPC$Chat6 = tLRPC$User == null ? tLRPC$User : chat;
             tLRPC$Message = this.messageOwner;
             if (!(tLRPC$Message instanceof TLRPC$TL_messageService)) {
                 TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message.action;
@@ -3654,34 +3656,34 @@ public class MessageObject {
                         if (i != 0) {
                             int i2 = i / RemoteMessageConst.DEFAULT_TTL;
                             if (i2 > 0) {
-                                str4 = LocaleController.formatPluralString("Days", i2, new Object[0]);
+                                formatPluralString = LocaleController.formatPluralString("Days", i2, new Object[0]);
                             } else {
                                 int i3 = i / 3600;
                                 if (i3 > 0) {
-                                    str4 = LocaleController.formatPluralString("Hours", i3, new Object[0]);
+                                    formatPluralString = LocaleController.formatPluralString("Hours", i3, new Object[0]);
                                 } else {
                                     int i4 = i / 60;
                                     if (i4 > 0) {
-                                        str4 = LocaleController.formatPluralString("Minutes", i4, new Object[0]);
+                                        formatPluralString = LocaleController.formatPluralString("Minutes", i4, new Object[0]);
                                     } else {
-                                        str4 = LocaleController.formatPluralString("Seconds", i, new Object[0]);
+                                        formatPluralString = LocaleController.formatPluralString("Seconds", i, new Object[0]);
                                     }
                                 }
                             }
                             if ((this.messageOwner.peer_id instanceof TLRPC$TL_peerChat) || isSupergroup()) {
                                 if (isOut()) {
-                                    this.messageText = LocaleController.formatString("ActionGroupCallEndedByYou", org.telegram.messenger.beta.R.string.ActionGroupCallEndedByYou, str4);
+                                    this.messageText = LocaleController.formatString("ActionGroupCallEndedByYou", org.telegram.messenger.beta.R.string.ActionGroupCallEndedByYou, formatPluralString);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.formatString("ActionGroupCallEndedBy", org.telegram.messenger.beta.R.string.ActionGroupCallEndedBy, str4), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.formatString("ActionGroupCallEndedBy", org.telegram.messenger.beta.R.string.ActionGroupCallEndedBy, formatPluralString), "un1", tLRPC$Chat6);
                                 }
                             } else {
-                                this.messageText = LocaleController.formatString("ActionChannelCallEnded", org.telegram.messenger.beta.R.string.ActionChannelCallEnded, str4);
+                                this.messageText = LocaleController.formatString("ActionChannelCallEnded", org.telegram.messenger.beta.R.string.ActionChannelCallEnded, formatPluralString);
                             }
                         } else if ((tLRPC$Message.peer_id instanceof TLRPC$TL_peerChat) || isSupergroup()) {
                             if (isOut()) {
                                 this.messageText = LocaleController.getString("ActionGroupCallStartedByYou", org.telegram.messenger.beta.R.string.ActionGroupCallStartedByYou);
                             } else {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallStarted", org.telegram.messenger.beta.R.string.ActionGroupCallStarted), "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallStarted", org.telegram.messenger.beta.R.string.ActionGroupCallStarted), "un1", tLRPC$Chat6);
                             }
                         } else {
                             this.messageText = LocaleController.getString("ActionChannelCallJustStarted", org.telegram.messenger.beta.R.string.ActionChannelCallJustStarted);
@@ -3696,43 +3698,43 @@ public class MessageObject {
                             if (isOut()) {
                                 this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallYouInvited", org.telegram.messenger.beta.R.string.ActionGroupCallYouInvited), "un2", user);
                             } else if (j == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallInvitedYou", org.telegram.messenger.beta.R.string.ActionGroupCallInvitedYou), "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallInvitedYou", org.telegram.messenger.beta.R.string.ActionGroupCallInvitedYou), "un1", tLRPC$Chat6);
                             } else {
                                 CharSequence replaceWithLink = replaceWithLink(LocaleController.getString("ActionGroupCallInvited", org.telegram.messenger.beta.R.string.ActionGroupCallInvited), "un2", user);
                                 this.messageText = replaceWithLink;
-                                this.messageText = replaceWithLink(replaceWithLink, "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(replaceWithLink, "un1", tLRPC$Chat6);
                             }
                         } else if (isOut()) {
                             this.messageText = replaceWithLink(LocaleController.getString("ActionGroupCallYouInvited", org.telegram.messenger.beta.R.string.ActionGroupCallYouInvited), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                         } else {
                             CharSequence replaceWithLink2 = replaceWithLink(LocaleController.getString("ActionGroupCallInvited", org.telegram.messenger.beta.R.string.ActionGroupCallInvited), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                             this.messageText = replaceWithLink2;
-                            this.messageText = replaceWithLink(replaceWithLink2, "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(replaceWithLink2, "un1", tLRPC$Chat6);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGeoProximityReached) {
                         TLRPC$TL_messageActionGeoProximityReached tLRPC$TL_messageActionGeoProximityReached = (TLRPC$TL_messageActionGeoProximityReached) tLRPC$MessageAction;
                         long peerId = getPeerId(tLRPC$TL_messageActionGeoProximityReached.from_id);
                         if (peerId > 0) {
-                            tLObject = getUser(abstractMap, longSparseArray, peerId);
+                            chat2 = getUser(abstractMap, longSparseArray, peerId);
                         } else {
-                            tLObject = getChat(abstractMap2, longSparseArray2, -peerId);
+                            chat2 = getChat(abstractMap2, longSparseArray2, -peerId);
                         }
                         long peerId2 = getPeerId(tLRPC$TL_messageActionGeoProximityReached.to_id);
                         long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
                         if (peerId2 == clientUserId) {
-                            this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinRadius", org.telegram.messenger.beta.R.string.ActionUserWithinRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", tLObject);
+                            this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinRadius", org.telegram.messenger.beta.R.string.ActionUserWithinRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", chat2);
                         } else {
                             if (peerId2 > 0) {
-                                tLObject2 = getUser(abstractMap, longSparseArray, peerId2);
+                                chat3 = getUser(abstractMap, longSparseArray, peerId2);
                             } else {
-                                tLObject2 = getChat(abstractMap2, longSparseArray2, -peerId2);
+                                chat3 = getChat(abstractMap2, longSparseArray2, -peerId2);
                             }
                             if (peerId == clientUserId) {
-                                this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinYouRadius", org.telegram.messenger.beta.R.string.ActionUserWithinYouRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", tLObject2);
+                                this.messageText = replaceWithLink(LocaleController.formatString("ActionUserWithinYouRadius", org.telegram.messenger.beta.R.string.ActionUserWithinYouRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un1", chat3);
                             } else {
-                                CharSequence replaceWithLink3 = replaceWithLink(LocaleController.formatString("ActionUserWithinOtherRadius", org.telegram.messenger.beta.R.string.ActionUserWithinOtherRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un2", tLObject2);
+                                CharSequence replaceWithLink3 = replaceWithLink(LocaleController.formatString("ActionUserWithinOtherRadius", org.telegram.messenger.beta.R.string.ActionUserWithinOtherRadius, LocaleController.formatDistance(tLRPC$TL_messageActionGeoProximityReached.distance, 2)), "un2", chat3);
                                 this.messageText = replaceWithLink3;
-                                this.messageText = replaceWithLink(replaceWithLink3, "un1", tLObject);
+                                this.messageText = replaceWithLink(replaceWithLink3, "un1", chat2);
                             }
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionCustomAction) {
@@ -3741,7 +3743,7 @@ public class MessageObject {
                         if (isOut()) {
                             this.messageText = LocaleController.getString("ActionYouCreateGroup", org.telegram.messenger.beta.R.string.ActionYouCreateGroup);
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionCreateGroup", org.telegram.messenger.beta.R.string.ActionCreateGroup), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionCreateGroup", org.telegram.messenger.beta.R.string.ActionCreateGroup), "un1", tLRPC$Chat6);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatDeleteUser) {
                         if (isFromUser()) {
@@ -3750,7 +3752,7 @@ public class MessageObject {
                                 if (isOut()) {
                                     this.messageText = LocaleController.getString("ActionYouLeftUser", org.telegram.messenger.beta.R.string.ActionYouLeftUser);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionLeftUser", org.telegram.messenger.beta.R.string.ActionLeftUser), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionLeftUser", org.telegram.messenger.beta.R.string.ActionLeftUser), "un1", tLRPC$Chat6);
                                 }
                             }
                         }
@@ -3758,11 +3760,11 @@ public class MessageObject {
                         if (isOut()) {
                             this.messageText = replaceWithLink(LocaleController.getString("ActionYouKickUser", org.telegram.messenger.beta.R.string.ActionYouKickUser), "un2", user2);
                         } else if (this.messageOwner.action.user_id == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionKickUserYou", org.telegram.messenger.beta.R.string.ActionKickUserYou), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionKickUserYou", org.telegram.messenger.beta.R.string.ActionKickUserYou), "un1", tLRPC$Chat6);
                         } else {
                             CharSequence replaceWithLink4 = replaceWithLink(LocaleController.getString("ActionKickUser", org.telegram.messenger.beta.R.string.ActionKickUser), "un2", user2);
                             this.messageText = replaceWithLink4;
-                            this.messageText = replaceWithLink(replaceWithLink4, "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(replaceWithLink4, "un1", tLRPC$Chat6);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatAddUser) {
                         long j2 = tLRPC$MessageAction.user_id;
@@ -3772,57 +3774,57 @@ public class MessageObject {
                         if (j2 != 0) {
                             TLRPC$User user3 = getUser(abstractMap, longSparseArray, j2);
                             long j3 = this.messageOwner.peer_id.channel_id;
-                            TLRPC$Chat chat = j3 != 0 ? getChat(abstractMap2, longSparseArray2, j3) : null;
+                            TLRPC$Chat chat4 = j3 != 0 ? getChat(abstractMap2, longSparseArray2, j3) : null;
                             TLRPC$Peer tLRPC$Peer2 = this.messageOwner.from_id;
                             if (tLRPC$Peer2 != null && j2 == tLRPC$Peer2.user_id) {
-                                if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                                if (ChatObject.isChannel(chat4) && !chat4.megagroup) {
                                     this.messageText = LocaleController.getString("ChannelJoined", org.telegram.messenger.beta.R.string.ChannelJoined);
                                 } else if (this.messageOwner.peer_id.channel_id != 0) {
                                     if (j2 == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                                         this.messageText = LocaleController.getString("ChannelMegaJoined", org.telegram.messenger.beta.R.string.ChannelMegaJoined);
                                     } else {
-                                        this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelfMega", org.telegram.messenger.beta.R.string.ActionAddUserSelfMega), "un1", tLRPC$User3);
+                                        this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelfMega", org.telegram.messenger.beta.R.string.ActionAddUserSelfMega), "un1", tLRPC$Chat6);
                                     }
                                 } else if (isOut()) {
                                     this.messageText = LocaleController.getString("ActionAddUserSelfYou", org.telegram.messenger.beta.R.string.ActionAddUserSelfYou);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelf", org.telegram.messenger.beta.R.string.ActionAddUserSelf), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserSelf", org.telegram.messenger.beta.R.string.ActionAddUserSelf), "un1", tLRPC$Chat6);
                                 }
                             } else if (isOut()) {
                                 this.messageText = replaceWithLink(LocaleController.getString("ActionYouAddUser", org.telegram.messenger.beta.R.string.ActionYouAddUser), "un2", user3);
                             } else if (j2 == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                                 if (this.messageOwner.peer_id.channel_id != 0) {
-                                    if (chat != null && chat.megagroup) {
-                                        this.messageText = replaceWithLink(LocaleController.getString("MegaAddedBy", org.telegram.messenger.beta.R.string.MegaAddedBy), "un1", tLRPC$User3);
+                                    if (chat4 != null && chat4.megagroup) {
+                                        this.messageText = replaceWithLink(LocaleController.getString("MegaAddedBy", org.telegram.messenger.beta.R.string.MegaAddedBy), "un1", tLRPC$Chat6);
                                     } else {
-                                        this.messageText = replaceWithLink(LocaleController.getString("ChannelAddedBy", org.telegram.messenger.beta.R.string.ChannelAddedBy), "un1", tLRPC$User3);
+                                        this.messageText = replaceWithLink(LocaleController.getString("ChannelAddedBy", org.telegram.messenger.beta.R.string.ChannelAddedBy), "un1", tLRPC$Chat6);
                                     }
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserYou", org.telegram.messenger.beta.R.string.ActionAddUserYou), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionAddUserYou", org.telegram.messenger.beta.R.string.ActionAddUserYou), "un1", tLRPC$Chat6);
                                 }
                             } else {
                                 CharSequence replaceWithLink5 = replaceWithLink(LocaleController.getString("ActionAddUser", org.telegram.messenger.beta.R.string.ActionAddUser), "un2", user3);
                                 this.messageText = replaceWithLink5;
-                                this.messageText = replaceWithLink(replaceWithLink5, "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(replaceWithLink5, "un1", tLRPC$Chat6);
                             }
                         } else if (isOut()) {
                             this.messageText = replaceWithLink(LocaleController.getString("ActionYouAddUser", org.telegram.messenger.beta.R.string.ActionYouAddUser), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                         } else {
                             CharSequence replaceWithLink6 = replaceWithLink(LocaleController.getString("ActionAddUser", org.telegram.messenger.beta.R.string.ActionAddUser), "un2", this.messageOwner.action.users, abstractMap, longSparseArray);
                             this.messageText = replaceWithLink6;
-                            this.messageText = replaceWithLink(replaceWithLink6, "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(replaceWithLink6, "un1", tLRPC$Chat6);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatJoinedByLink) {
                         if (isOut()) {
                             this.messageText = LocaleController.getString("ActionInviteYou", org.telegram.messenger.beta.R.string.ActionInviteYou);
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", org.telegram.messenger.beta.R.string.ActionInviteUser), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", org.telegram.messenger.beta.R.string.ActionInviteUser), "un1", tLRPC$Chat6);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGiftPremium) {
-                        if ((tLRPC$User3 instanceof TLRPC$User) && tLRPC$User3.self) {
+                        if ((tLRPC$Chat6 instanceof TLRPC$User) && ((TLRPC$User) tLRPC$Chat6).self) {
                             this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString((int) org.telegram.messenger.beta.R.string.ActionGiftOutbound)), "un1", getUser(abstractMap, longSparseArray, tLRPC$Message.peer_id.user_id));
                         } else {
-                            this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString((int) org.telegram.messenger.beta.R.string.ActionGiftInbound)), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString((int) org.telegram.messenger.beta.R.string.ActionGiftInbound)), "un1", tLRPC$Chat6);
                         }
                         int indexOf = this.messageText.toString().indexOf("un2");
                         if (indexOf != -1) {
@@ -3849,9 +3851,9 @@ public class MessageObject {
                                         this.messageText = LocaleController.getString("ActionYouChangedPhoto", org.telegram.messenger.beta.R.string.ActionYouChangedPhoto);
                                     }
                                 } else if (isVideoAvatar()) {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedVideo", org.telegram.messenger.beta.R.string.ActionChangedVideo), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedVideo", org.telegram.messenger.beta.R.string.ActionChangedVideo), "un1", tLRPC$Chat6);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedPhoto", org.telegram.messenger.beta.R.string.ActionChangedPhoto), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedPhoto", org.telegram.messenger.beta.R.string.ActionChangedPhoto), "un1", tLRPC$Chat6);
                                 }
                             }
                         }
@@ -3871,7 +3873,7 @@ public class MessageObject {
                                 } else if (!isOut()) {
                                     this.messageText = LocaleController.getString("ActionYouChangedTitle", org.telegram.messenger.beta.R.string.ActionYouChangedTitle).replace("un2", this.messageOwner.action.title);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedTitle", org.telegram.messenger.beta.R.string.ActionChangedTitle).replace("un2", this.messageOwner.action.title), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionChangedTitle", org.telegram.messenger.beta.R.string.ActionChangedTitle).replace("un2", this.messageOwner.action.title), "un1", tLRPC$Chat6);
                                 }
                             }
                         }
@@ -3891,7 +3893,7 @@ public class MessageObject {
                                 } else if (!isOut()) {
                                     this.messageText = LocaleController.getString("ActionYouRemovedPhoto", org.telegram.messenger.beta.R.string.ActionYouRemovedPhoto);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionRemovedPhoto", org.telegram.messenger.beta.R.string.ActionRemovedPhoto), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionRemovedPhoto", org.telegram.messenger.beta.R.string.ActionRemovedPhoto), "un1", tLRPC$Chat6);
                                 }
                             }
                         }
@@ -3905,12 +3907,12 @@ public class MessageObject {
                             if (isOut()) {
                                 this.messageText = LocaleController.formatString("MessageLifetimeChangedOutgoing", org.telegram.messenger.beta.R.string.MessageLifetimeChangedOutgoing, LocaleController.formatTTLString(this.messageOwner.action.ttl));
                             } else {
-                                this.messageText = LocaleController.formatString("MessageLifetimeChanged", org.telegram.messenger.beta.R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User2), LocaleController.formatTTLString(this.messageOwner.action.ttl));
+                                this.messageText = LocaleController.formatString("MessageLifetimeChanged", org.telegram.messenger.beta.R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User), LocaleController.formatTTLString(this.messageOwner.action.ttl));
                             }
                         } else if (isOut()) {
                             this.messageText = LocaleController.getString("MessageLifetimeYouRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeYouRemoved);
                         } else {
-                            this.messageText = LocaleController.formatString("MessageLifetimeRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User2));
+                            this.messageText = LocaleController.formatString("MessageLifetimeRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User));
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetMessagesTTL) {
                         TLRPC$TL_messageActionSetMessagesTTL tLRPC$TL_messageActionSetMessagesTTL = (TLRPC$TL_messageActionSetMessagesTTL) tLRPC$MessageAction;
@@ -3930,12 +3932,12 @@ public class MessageObject {
                                     if (isOut()) {
                                         this.messageText = LocaleController.formatString("ActionTTLYouChanged", org.telegram.messenger.beta.R.string.ActionTTLYouChanged, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period));
                                     } else {
-                                        this.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", org.telegram.messenger.beta.R.string.ActionTTLChanged, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period)), "un1", tLRPC$User3);
+                                        this.messageText = replaceWithLink(LocaleController.formatString("ActionTTLChanged", org.telegram.messenger.beta.R.string.ActionTTLChanged, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period)), "un1", tLRPC$Chat6);
                                     }
                                 } else if (isOut()) {
                                     this.messageText = LocaleController.getString("ActionTTLYouDisabled", org.telegram.messenger.beta.R.string.ActionTTLYouDisabled);
                                 } else {
-                                    this.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", org.telegram.messenger.beta.R.string.ActionTTLDisabled), "un1", tLRPC$User3);
+                                    this.messageText = replaceWithLink(LocaleController.getString("ActionTTLDisabled", org.telegram.messenger.beta.R.string.ActionTTLDisabled), "un1", tLRPC$Chat6);
                                 }
                             }
                         }
@@ -3946,25 +3948,25 @@ public class MessageObject {
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
                         long j8 = tLRPC$Message.date * 1000;
-                        String formatString = (LocaleController.getInstance().formatterDay == null || LocaleController.getInstance().formatterYear == null) ? "" + this.messageOwner.date : LocaleController.formatString("formatDateAtTime", org.telegram.messenger.beta.R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(j8), LocaleController.getInstance().formatterDay.format(j8));
+                        String formatString3 = (LocaleController.getInstance().formatterDay == null || LocaleController.getInstance().formatterYear == null) ? "" + this.messageOwner.date : LocaleController.formatString("formatDateAtTime", org.telegram.messenger.beta.R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(j8), LocaleController.getInstance().formatterDay.format(j8));
                         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                         if (currentUser == null) {
                             currentUser = getUser(abstractMap, longSparseArray, this.messageOwner.peer_id.user_id);
                         }
                         String firstName = currentUser != null ? UserObject.getFirstName(currentUser) : "";
                         TLRPC$MessageAction tLRPC$MessageAction3 = this.messageOwner.action;
-                        this.messageText = LocaleController.formatString("NotificationUnrecognizedDevice", org.telegram.messenger.beta.R.string.NotificationUnrecognizedDevice, firstName, formatString, tLRPC$MessageAction3.title, tLRPC$MessageAction3.address);
+                        this.messageText = LocaleController.formatString("NotificationUnrecognizedDevice", org.telegram.messenger.beta.R.string.NotificationUnrecognizedDevice, firstName, formatString3, tLRPC$MessageAction3.title, tLRPC$MessageAction3.address);
                     } else if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionUserJoined) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionContactSignUp)) {
-                        this.messageText = LocaleController.formatString("NotificationContactJoined", org.telegram.messenger.beta.R.string.NotificationContactJoined, UserObject.getUserName(tLRPC$User2));
+                        this.messageText = LocaleController.formatString("NotificationContactJoined", org.telegram.messenger.beta.R.string.NotificationContactJoined, UserObject.getUserName(tLRPC$User));
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionUserUpdatedPhoto) {
-                        this.messageText = LocaleController.formatString("NotificationContactNewPhoto", org.telegram.messenger.beta.R.string.NotificationContactNewPhoto, UserObject.getUserName(tLRPC$User2));
+                        this.messageText = LocaleController.formatString("NotificationContactNewPhoto", org.telegram.messenger.beta.R.string.NotificationContactNewPhoto, UserObject.getUserName(tLRPC$User));
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageEncryptedAction) {
                         TLRPC$DecryptedMessageAction tLRPC$DecryptedMessageAction = tLRPC$MessageAction.encryptedAction;
                         if (tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionScreenshotMessages) {
                             if (isOut()) {
                                 this.messageText = LocaleController.formatString("ActionTakeScreenshootYou", org.telegram.messenger.beta.R.string.ActionTakeScreenshootYou, new Object[0]);
                             } else {
-                                this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", org.telegram.messenger.beta.R.string.ActionTakeScreenshoot), "un1", tLRPC$User3);
+                                this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", org.telegram.messenger.beta.R.string.ActionTakeScreenshoot), "un1", tLRPC$Chat6);
                             }
                         } else if (tLRPC$DecryptedMessageAction instanceof TLRPC$TL_decryptedMessageActionSetMessageTTL) {
                             TLRPC$TL_decryptedMessageActionSetMessageTTL tLRPC$TL_decryptedMessageActionSetMessageTTL = (TLRPC$TL_decryptedMessageActionSetMessageTTL) tLRPC$DecryptedMessageAction;
@@ -3972,19 +3974,19 @@ public class MessageObject {
                                 if (isOut()) {
                                     this.messageText = LocaleController.formatString("MessageLifetimeChangedOutgoing", org.telegram.messenger.beta.R.string.MessageLifetimeChangedOutgoing, LocaleController.formatTTLString(tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds));
                                 } else {
-                                    this.messageText = LocaleController.formatString("MessageLifetimeChanged", org.telegram.messenger.beta.R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User2), LocaleController.formatTTLString(tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds));
+                                    this.messageText = LocaleController.formatString("MessageLifetimeChanged", org.telegram.messenger.beta.R.string.MessageLifetimeChanged, UserObject.getFirstName(tLRPC$User), LocaleController.formatTTLString(tLRPC$TL_decryptedMessageActionSetMessageTTL.ttl_seconds));
                                 }
                             } else if (isOut()) {
                                 this.messageText = LocaleController.getString("MessageLifetimeYouRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeYouRemoved);
                             } else {
-                                this.messageText = LocaleController.formatString("MessageLifetimeRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User2));
+                                this.messageText = LocaleController.formatString("MessageLifetimeRemoved", org.telegram.messenger.beta.R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User));
                             }
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionScreenshotTaken) {
                         if (isOut()) {
                             this.messageText = LocaleController.formatString("ActionTakeScreenshootYou", org.telegram.messenger.beta.R.string.ActionTakeScreenshootYou, new Object[0]);
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", org.telegram.messenger.beta.R.string.ActionTakeScreenshoot), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("ActionTakeScreenshoot", org.telegram.messenger.beta.R.string.ActionTakeScreenshoot), "un1", tLRPC$Chat6);
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionCreatedBroadcastList) {
                         this.messageText = LocaleController.formatString("YouCreatedBroadcastList", org.telegram.messenger.beta.R.string.YouCreatedBroadcastList, new Object[0]);
@@ -4010,11 +4012,11 @@ public class MessageObject {
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChannelMigrateFrom) {
                         this.messageText = LocaleController.getString("ActionMigrateFromGroup", org.telegram.messenger.beta.R.string.ActionMigrateFromGroup);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPinMessage) {
-                        generatePinMessageText(tLRPC$User2, tLRPC$User2 == null ? getChat(abstractMap2, longSparseArray2, tLRPC$Message.peer_id.channel_id) : null);
+                        generatePinMessageText(tLRPC$User, tLRPC$User == null ? getChat(abstractMap2, longSparseArray2, tLRPC$Message.peer_id.channel_id) : null);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionHistoryClear) {
                         this.messageText = LocaleController.getString("HistoryCleared", org.telegram.messenger.beta.R.string.HistoryCleared);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore) {
-                        generateGameMessageText(tLRPC$User2);
+                        generateGameMessageText(tLRPC$User);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPhoneCall) {
                         TLRPC$TL_messageActionPhoneCall tLRPC$TL_messageActionPhoneCall = (TLRPC$TL_messageActionPhoneCall) tLRPC$MessageAction;
                         boolean z = tLRPC$TL_messageActionPhoneCall.reason instanceof TLRPC$TL_phoneCallDiscardReasonMissed;
@@ -4050,9 +4052,9 @@ public class MessageObject {
                         int i6 = tLRPC$TL_messageActionPhoneCall.duration;
                         if (i6 > 0) {
                             String formatCallDuration = LocaleController.formatCallDuration(i6);
-                            String formatString2 = LocaleController.formatString("CallMessageWithDuration", org.telegram.messenger.beta.R.string.CallMessageWithDuration, this.messageText, formatCallDuration);
-                            this.messageText = formatString2;
-                            String charSequence = formatString2.toString();
+                            String formatString4 = LocaleController.formatString("CallMessageWithDuration", org.telegram.messenger.beta.R.string.CallMessageWithDuration, this.messageText, formatCallDuration);
+                            this.messageText = formatString4;
+                            String charSequence = formatString4.toString();
                             int indexOf2 = charSequence.indexOf(formatCallDuration);
                             if (indexOf2 != -1) {
                                 SpannableString spannableString = new SpannableString(this.messageText);
@@ -4070,12 +4072,12 @@ public class MessageObject {
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent) {
                         generatePaymentSentMessageText(getUser(abstractMap, longSparseArray, getDialogId()));
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionBotAllowed) {
-                        String str5 = ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).domain;
-                        String string = LocaleController.getString("ActionBotAllowed", org.telegram.messenger.beta.R.string.ActionBotAllowed);
-                        int indexOf3 = string.indexOf("%1$s");
-                        SpannableString spannableString2 = new SpannableString(String.format(string, str5));
+                        String str = ((TLRPC$TL_messageActionBotAllowed) tLRPC$MessageAction).domain;
+                        String string2 = LocaleController.getString("ActionBotAllowed", org.telegram.messenger.beta.R.string.ActionBotAllowed);
+                        int indexOf3 = string2.indexOf("%1$s");
+                        SpannableString spannableString2 = new SpannableString(String.format(string2, str));
                         if (indexOf3 >= 0) {
-                            spannableString2.setSpan(new URLSpanNoUnderlineBold("http://" + str5), indexOf3, str5.length() + indexOf3, 33);
+                            spannableString2.setSpan(new URLSpanNoUnderlineBold("http://" + str), indexOf3, str.length() + indexOf3, 33);
                         }
                         this.messageText = spannableString2;
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSecureValuesSent) {
@@ -4120,34 +4122,34 @@ public class MessageObject {
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionWebViewDataSent) {
                         this.messageText = LocaleController.formatString("ActionBotWebViewData", org.telegram.messenger.beta.R.string.ActionBotWebViewData, ((TLRPC$TL_messageActionWebViewDataSent) tLRPC$MessageAction).text);
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetChatTheme) {
-                        String str6 = ((TLRPC$TL_messageActionSetChatTheme) tLRPC$MessageAction).emoticon;
-                        String firstName2 = UserObject.getFirstName(tLRPC$User2);
-                        boolean isUserSelf = UserObject.isUserSelf(tLRPC$User2);
-                        if (TextUtils.isEmpty(str6)) {
+                        String str2 = ((TLRPC$TL_messageActionSetChatTheme) tLRPC$MessageAction).emoticon;
+                        String firstName2 = UserObject.getFirstName(tLRPC$User);
+                        boolean isUserSelf = UserObject.isUserSelf(tLRPC$User);
+                        if (TextUtils.isEmpty(str2)) {
                             if (isUserSelf) {
-                                str3 = LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.beta.R.string.ChatThemeDisabledYou, new Object[0]);
+                                formatString2 = LocaleController.formatString("ChatThemeDisabledYou", org.telegram.messenger.beta.R.string.ChatThemeDisabledYou, new Object[0]);
                             } else {
-                                str3 = LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.beta.R.string.ChatThemeDisabled, firstName2, str6);
+                                formatString2 = LocaleController.formatString("ChatThemeDisabled", org.telegram.messenger.beta.R.string.ChatThemeDisabled, firstName2, str2);
                             }
-                            this.messageText = str3;
+                            this.messageText = formatString2;
                         } else {
                             if (isUserSelf) {
-                                str2 = LocaleController.formatString("ChatThemeChangedYou", org.telegram.messenger.beta.R.string.ChatThemeChangedYou, str6);
+                                formatString = LocaleController.formatString("ChatThemeChangedYou", org.telegram.messenger.beta.R.string.ChatThemeChangedYou, str2);
                             } else {
-                                str2 = LocaleController.formatString("ChatThemeChangedTo", org.telegram.messenger.beta.R.string.ChatThemeChangedTo, firstName2, str6);
+                                formatString = LocaleController.formatString("ChatThemeChangedTo", org.telegram.messenger.beta.R.string.ChatThemeChangedTo, firstName2, str2);
                             }
-                            this.messageText = str2;
+                            this.messageText = formatString;
                         }
                     } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatJoinedByRequest) {
-                        if (UserObject.isUserSelf(tLRPC$User2)) {
+                        if (UserObject.isUserSelf(tLRPC$User)) {
                             if (ChatObject.isChannelAndNotMegaGroup(this.messageOwner.peer_id.channel_id, this.currentAccount)) {
-                                str = LocaleController.getString("RequestToJoinChannelApproved", org.telegram.messenger.beta.R.string.RequestToJoinChannelApproved);
+                                string = LocaleController.getString("RequestToJoinChannelApproved", org.telegram.messenger.beta.R.string.RequestToJoinChannelApproved);
                             } else {
-                                str = LocaleController.getString("RequestToJoinGroupApproved", org.telegram.messenger.beta.R.string.RequestToJoinGroupApproved);
+                                string = LocaleController.getString("RequestToJoinGroupApproved", org.telegram.messenger.beta.R.string.RequestToJoinGroupApproved);
                             }
-                            this.messageText = str;
+                            this.messageText = string;
                         } else {
-                            this.messageText = replaceWithLink(LocaleController.getString("UserAcceptedToGroupAction", org.telegram.messenger.beta.R.string.UserAcceptedToGroupAction), "un1", tLRPC$User3);
+                            this.messageText = replaceWithLink(LocaleController.getString("UserAcceptedToGroupAction", org.telegram.messenger.beta.R.string.UserAcceptedToGroupAction), "un1", tLRPC$Chat6);
                         }
                     }
                 }
@@ -4226,10 +4228,10 @@ public class MessageObject {
                         }
                     }
                 } else {
-                    String str7 = this.messageOwner.message;
-                    if (str7 != null) {
+                    String str3 = this.messageOwner.message;
+                    if (str3 != null) {
                         try {
-                            if (str7.length() > 200) {
+                            if (str3.length() > 200) {
                                 this.messageText = AndroidUtilities.BAD_CHARS_MESSAGE_LONG_PATTERN.matcher(this.messageOwner.message).replaceAll("\u200c");
                             } else {
                                 this.messageText = AndroidUtilities.BAD_CHARS_MESSAGE_PATTERN.matcher(this.messageOwner.message).replaceAll("\u200c");
@@ -4238,7 +4240,7 @@ public class MessageObject {
                             this.messageText = this.messageOwner.message;
                         }
                     } else {
-                        this.messageText = str7;
+                        this.messageText = str3;
                     }
                 }
             }
@@ -4248,10 +4250,10 @@ public class MessageObject {
             this.messageText = "";
             return;
         } else {
-            tLRPC$User2 = null;
+            tLRPC$User = null;
         }
-        tLRPC$User = null;
-        if (tLRPC$User2 == null) {
+        chat = null;
+        if (tLRPC$User == null) {
         }
         tLRPC$Message = this.messageOwner;
         if (!(tLRPC$Message instanceof TLRPC$TL_messageService)) {
@@ -4881,33 +4883,27 @@ public class MessageObject {
                     if (charAt == ':') {
                         if (i3 == 0) {
                             i3 = 1;
-                            i++;
-                            c = charAt;
                         }
                         i3 = 0;
-                        i++;
-                        c = charAt;
-                    } else {
-                        if (charAt != '/') {
-                            if (charAt == '.') {
-                                if (i4 == 0 && c != ' ') {
-                                    i4++;
-                                }
-                            } else if (charAt != ' ' && c == '.' && i4 == 1) {
-                                return true;
+                    } else if (charAt != '/') {
+                        if (charAt == '.') {
+                            if (i4 == 0 && c != ' ') {
+                                i4++;
                             }
-                            i4 = 0;
-                        } else if (i3 == 2) {
+                        } else if (charAt != ' ' && c == '.' && i4 == 1) {
                             return true;
-                        } else {
-                            if (i3 == 1) {
-                                i3++;
-                            }
-                            i3 = 0;
                         }
-                        i++;
-                        c = charAt;
+                        i4 = 0;
+                    } else if (i3 == 2) {
+                        return true;
+                    } else {
+                        if (i3 == 1) {
+                            i3++;
+                        }
+                        i3 = 0;
                     }
+                    i++;
+                    c = charAt;
                 }
                 return true;
             }
@@ -4915,8 +4911,8 @@ public class MessageObject {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:49:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5014,11 +5010,11 @@ public class MessageObject {
         return isVoice() && (tLRPC$Message = this.messageOwner) != null && tLRPC$Message.voiceTranscriptionOpen && tLRPC$Message.voiceTranscription != null && (tLRPC$Message.voiceTranscriptionFinal || TranscribeButton.isTranscribing(this)) && UserConfig.getInstance(this.currentAccount).isPremium();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x0089, code lost:
-        if (r10.messageOwner.send_state == 0) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0089, code lost:
+        if (r10.messageOwner.send_state == 0) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x008f, code lost:
-        if (r10.messageOwner.id >= 0) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x008f, code lost:
+        if (r10.messageOwner.id >= 0) goto L36;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5075,20 +5071,20 @@ public class MessageObject {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01bb A[Catch: Exception -> 0x0214, TryCatch #0 {Exception -> 0x0214, blocks: (B:9:0x0011, B:11:0x0015, B:12:0x001d, B:13:0x0024, B:15:0x0028, B:16:0x0030, B:17:0x0037, B:19:0x003b, B:20:0x0043, B:21:0x0049, B:22:0x004c, B:24:0x0052, B:28:0x0061, B:32:0x0071, B:33:0x0073, B:42:0x0086, B:45:0x008c, B:46:0x00ae, B:49:0x00d4, B:50:0x00f5, B:51:0x0116, B:54:0x011e, B:58:0x012d, B:60:0x0136, B:62:0x0147, B:65:0x0186, B:70:0x0199, B:75:0x01a8, B:77:0x01b2, B:80:0x01b6, B:82:0x01bb, B:87:0x01c7, B:88:0x01de, B:89:0x01f4, B:92:0x01fa, B:94:0x0204, B:96:0x0207, B:97:0x020d), top: B:102:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01c5  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01f8  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x01f8  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x01bb A[Catch: Exception -> 0x0214, TryCatch #0 {Exception -> 0x0214, blocks: (B:10:0x0011, B:12:0x0015, B:13:0x001d, B:14:0x0049, B:15:0x004c, B:17:0x0052, B:20:0x0061, B:24:0x0071, B:25:0x0073, B:31:0x008c, B:35:0x01fa, B:37:0x0204, B:39:0x0207, B:40:0x020d, B:44:0x00ae, B:47:0x00d4, B:48:0x00f5, B:49:0x0116, B:52:0x011e, B:55:0x012d, B:58:0x0136, B:69:0x0086, B:72:0x0147, B:75:0x0186, B:79:0x0199, B:82:0x01a8, B:84:0x01b2, B:87:0x01b6, B:89:0x01bb, B:94:0x01c7, B:95:0x01f4, B:96:0x01de, B:104:0x0024, B:106:0x0028, B:107:0x0030, B:108:0x0037, B:110:0x003b, B:111:0x0043), top: B:6:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01c4  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x01c5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static void addUrlsByPattern(boolean z, CharSequence charSequence, boolean z2, int i, int i2, boolean z3) {
         Matcher matcher;
-        URLSpanNoUnderline uRLSpanNoUnderline;
-        ClickableSpan[] clickableSpanArr;
         String str;
         URLSpan[] uRLSpanArr;
         int i3;
+        URLSpanNoUnderline uRLSpanNoUnderline;
+        ClickableSpan[] clickableSpanArr;
         if (charSequence == null) {
             return;
         }
@@ -5359,11 +5355,11 @@ public class MessageObject {
         return spannableString;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x017b  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x022a  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x03e9  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x03fd A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x022f A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x03e9  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x03fd A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x017b  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x022f A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5607,6 +5603,7 @@ public class MessageObject {
         return z7;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$addEntitiesToText$2(TLRPC$MessageEntity tLRPC$MessageEntity, TLRPC$MessageEntity tLRPC$MessageEntity2) {
         int i = tLRPC$MessageEntity.offset;
         int i2 = tLRPC$MessageEntity2.offset;
@@ -5719,35 +5716,35 @@ public class MessageObject {
         return i;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(22:76|(1:78)(1:79)|80|(3:82|(1:(1:(2:86|(1:88))(1:89))(1:90))|91)(5:92|(1:94)(12:95|237|96|(5:105|106|226|107|108)(5:99|100|228|101|102)|216|109|110|(3:112|224|113)|114|115|(3:117|222|118)|121)|210|242|211)|122|(1:124)|125|220|126|127|(2:233|131)|218|138|141|(1:143)|144|(1:146)|147|(6:149|(14:235|151|152|239|155|158|(1:160)(1:161)|162|(1:164)(1:165)|(4:231|169|170|(4:172|175|245|176))|174|175|245|176)|244|177|(1:(1:180))(2:(1:182)|183)|184)(3:185|(5:187|(1:189)|190|(1:192)(1:193)|194)(1:195)|196)|197|243|211) */
-    /* JADX WARN: Code restructure failed: missing block: B:133:0x0308, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:134:0x0309, code lost:
-        r8 = 0.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:139:0x031b, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(22:69|(1:71)(1:233)|72|(3:74|(1:(1:(2:78|(1:80))(1:81))(1:82))|83)(5:177|(1:179)(12:182|183|184|(5:222|223|224|225|226)(5:187|188|189|190|191)|192|193|194|(3:196|197|198)|203|204|(3:206|207|208)|212)|180|181|155)|84|(1:86)|87|88|89|90|(2:94|95)|101|102|103|(1:105)|106|(1:108)|109|(6:111|(14:113|114|115|116|117|118|(1:120)(1:140)|121|(1:123)(1:139)|(4:127|128|129|(4:131|132|133|134))|138|132|133|134)|147|148|(1:(1:151))(2:(1:157)|158)|152)(3:159|(5:161|(1:163)|164|(1:166)(1:169)|167)(1:170)|168)|153|154|155) */
+    /* JADX WARN: Code restructure failed: missing block: B:172:0x031b, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:140:0x031c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:173:0x031c, code lost:
         org.telegram.messenger.FileLog.e(r0);
         r0 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0077, code lost:
-        if ((r0.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaUnsupported) == false) goto L40;
+    /* JADX WARN: Code restructure failed: missing block: B:175:0x0308, code lost:
+        r0 = e;
      */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x032a  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x032f  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0340  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x00fa  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0106 A[Catch: Exception -> 0x0487, TryCatch #7 {Exception -> 0x0487, blocks: (B:65:0x0100, B:67:0x0106, B:68:0x0124), top: B:230:0x0100 }] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0124 A[Catch: Exception -> 0x0487, TRY_LEAVE, TryCatch #7 {Exception -> 0x0487, blocks: (B:65:0x0100, B:67:0x0106, B:68:0x0124), top: B:230:0x0100 }] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0145  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0147  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0159  */
+    /* JADX WARN: Code restructure failed: missing block: B:176:0x0309, code lost:
+        r8 = 0.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0077, code lost:
+        if ((r0.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaUnsupported) == false) goto L245;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x032f  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0340  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0147  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0124 A[Catch: Exception -> 0x0487, TRY_LEAVE, TryCatch #9 {Exception -> 0x0487, blocks: (B:61:0x0100, B:63:0x0106, B:238:0x0124), top: B:60:0x0100 }] */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x00fd  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00fa  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0106 A[Catch: Exception -> 0x0487, TryCatch #9 {Exception -> 0x0487, blocks: (B:61:0x0100, B:63:0x0106, B:238:0x0124), top: B:60:0x0100 }] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0159  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5760,42 +5757,41 @@ public class MessageObject {
         int lineCount;
         int ceil;
         int i2;
-        int i3;
-        StaticLayout staticLayout2;
+        int min;
         boolean z2;
-        TextPaint textPaint2;
+        int i3;
         int i4;
         int i5;
-        int i6;
-        StaticLayout staticLayout3;
-        int i7;
+        StaticLayout staticLayout2;
+        TextPaint textPaint2;
         TextLayoutBlock textLayoutBlock;
-        int ceil2;
+        int i6;
+        int i7;
         int i8;
         int i9;
+        StaticLayout staticLayout3;
+        int ceil2;
         int i10;
+        int i11;
+        int i12;
         float f;
         float f2;
         StaticLayout staticLayout4;
         float f3;
         float f4;
         float f5;
-        int i11;
-        int i12;
-        boolean z3;
         int i13;
-        Exception e;
         int i14;
-        int i15;
+        boolean z3;
         MessageObject messageObject;
         if (this.type != 0 || this.messageOwner.peer_id == null || TextUtils.isEmpty(this.messageText)) {
             return;
         }
         generateLinkDescription();
         this.textLayoutBlocks = new ArrayList<>();
-        int i16 = 0;
+        int i15 = 0;
         this.textWidth = 0;
-        int i17 = 1;
+        int i16 = 1;
         try {
             if (!(this.messageOwner.send_state != 0 ? false : !tLRPC$Message.entities.isEmpty())) {
                 if (this.eventId == 0) {
@@ -5831,7 +5827,7 @@ public class MessageObject {
                 }
                 TextPaint textPaint3 = textPaint;
                 i = Build.VERSION.SDK_INT;
-                int i18 = 24;
+                int i17 = 24;
                 if (i < 24) {
                     CharSequence charSequence = this.messageText;
                     staticLayout = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint3, maxMessageTextWidth).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
@@ -5842,51 +5838,51 @@ public class MessageObject {
                 this.linesCount = staticLayout.getLineCount();
                 ceil = i < 24 ? 1 : (int) Math.ceil(lineCount / 10.0f);
                 float f6 = 0.0f;
-                int i19 = 0;
+                int i18 = 0;
                 float f7 = 0.0f;
-                for (i2 = 0; i2 < ceil; i2 = i5 + 1) {
-                    int i20 = Build.VERSION.SDK_INT;
-                    if (i20 >= i18) {
-                        i3 = this.linesCount;
+                for (i2 = 0; i2 < ceil; i2 = i4 + 1) {
+                    int i19 = Build.VERSION.SDK_INT;
+                    if (i19 >= i17) {
+                        min = this.linesCount;
                     } else {
-                        i3 = Math.min(10, this.linesCount - i19);
+                        min = Math.min(10, this.linesCount - i18);
                     }
-                    int i21 = i3;
+                    int i20 = min;
                     TextLayoutBlock textLayoutBlock2 = new TextLayoutBlock();
-                    if (ceil == i17) {
+                    if (ceil == i16) {
                         textLayoutBlock2.textLayout = staticLayout;
                         textLayoutBlock2.textYOffset = f6;
-                        textLayoutBlock2.charactersOffset = i16;
+                        textLayoutBlock2.charactersOffset = i15;
                         textLayoutBlock2.charactersEnd = staticLayout.getText().length();
-                        int i22 = this.emojiOnlyCount;
-                        if (i22 != 0) {
-                            if (i22 == i17) {
+                        int i21 = this.emojiOnlyCount;
+                        if (i21 != 0) {
+                            if (i21 == i16) {
                                 this.textHeight -= AndroidUtilities.dp(5.3f);
                                 textLayoutBlock2.textYOffset -= AndroidUtilities.dp(5.3f);
-                            } else if (i22 == 2) {
+                            } else if (i21 == 2) {
                                 this.textHeight -= AndroidUtilities.dp(4.5f);
                                 textLayoutBlock2.textYOffset -= AndroidUtilities.dp(4.5f);
-                            } else if (i22 == 3) {
+                            } else if (i21 == 3) {
                                 this.textHeight -= AndroidUtilities.dp(4.2f);
                                 textLayoutBlock2.textYOffset -= AndroidUtilities.dp(4.2f);
                             }
                         }
                         textLayoutBlock2.height = this.textHeight;
                         textLayoutBlock = textLayoutBlock2;
-                        i7 = i21;
-                        i6 = i19;
-                        i5 = i2;
-                        i4 = ceil;
+                        i6 = i20;
+                        i9 = i18;
+                        i4 = i2;
+                        i5 = ceil;
                         staticLayout3 = staticLayout;
                         textPaint2 = textPaint3;
                     } else {
-                        int lineStart = staticLayout.getLineStart(i19);
-                        int lineEnd = staticLayout.getLineEnd((i19 + i21) - 1);
+                        int lineStart = staticLayout.getLineStart(i18);
+                        int lineEnd = staticLayout.getLineEnd((i18 + i20) - 1);
                         if (lineEnd < lineStart) {
                             z2 = addEntitiesToText;
-                            i13 = i19;
-                            i5 = i2;
-                            i4 = ceil;
+                            i3 = i18;
+                            i4 = i2;
+                            i5 = ceil;
                             staticLayout2 = staticLayout;
                             textPaint2 = textPaint3;
                         } else {
@@ -5894,313 +5890,313 @@ public class MessageObject {
                             textLayoutBlock2.charactersEnd = lineEnd;
                             try {
                                 SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(this.messageText.subSequence(lineStart, lineEnd));
-                                if (addEntitiesToText && i20 >= i18) {
-                                    StaticLayout.Builder obtain = StaticLayout.Builder.obtain(valueOf, i16, valueOf.length(), textPaint3, AndroidUtilities.dp(2.0f) + maxMessageTextWidth);
-                                    i17 = 1;
+                                if (addEntitiesToText && i19 >= i17) {
+                                    StaticLayout.Builder obtain = StaticLayout.Builder.obtain(valueOf, i15, valueOf.length(), textPaint3, AndroidUtilities.dp(2.0f) + maxMessageTextWidth);
+                                    i16 = 1;
                                     try {
-                                        textLayoutBlock2.textLayout = obtain.setBreakStrategy(1).setHyphenationFrequency(i16).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
+                                        textLayoutBlock2.textLayout = obtain.setBreakStrategy(1).setHyphenationFrequency(i15).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
                                         textLayoutBlock = textLayoutBlock2;
-                                        i7 = i21;
-                                        i6 = i19;
-                                        i15 = i2;
-                                        i14 = ceil;
+                                        i6 = i20;
+                                        i9 = i18;
+                                        i7 = i2;
+                                        i8 = ceil;
                                         staticLayout3 = staticLayout;
                                         textPaint2 = textPaint3;
-                                    } catch (Exception e2) {
-                                        e = e2;
+                                    } catch (Exception e) {
+                                        e = e;
                                         z2 = addEntitiesToText;
-                                        i13 = i19;
-                                        i5 = i2;
-                                        i4 = ceil;
+                                        i3 = i18;
+                                        i4 = i2;
+                                        i5 = ceil;
                                         staticLayout2 = staticLayout;
                                         textPaint2 = textPaint3;
                                         FileLog.e(e);
-                                        i19 = i13;
-                                        ceil = i4;
+                                        i18 = i3;
+                                        ceil = i5;
                                         textPaint3 = textPaint2;
                                         addEntitiesToText = z2;
                                         staticLayout = staticLayout2;
-                                        i16 = 0;
+                                        i15 = 0;
                                         f6 = 0.0f;
-                                        i18 = 24;
+                                        i17 = 24;
                                     }
                                 } else {
                                     int length = valueOf.length();
                                     textLayoutBlock = textLayoutBlock2;
-                                    i7 = i21;
-                                    i15 = i2;
-                                    i13 = i19;
-                                    i14 = ceil;
+                                    i6 = i20;
+                                    i7 = i2;
+                                    i3 = i18;
+                                    i8 = ceil;
                                     staticLayout2 = staticLayout;
                                     textPaint2 = textPaint3;
                                     try {
                                         textLayoutBlock.textLayout = new StaticLayout(valueOf, 0, length, textPaint3, maxMessageTextWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                                        i6 = i13;
+                                        i9 = i3;
                                         staticLayout3 = staticLayout2;
-                                    } catch (Exception e3) {
-                                        e = e3;
+                                    } catch (Exception e2) {
+                                        e = e2;
                                         z2 = addEntitiesToText;
-                                        i5 = i15;
-                                        i4 = i14;
-                                        i17 = 1;
+                                        i4 = i7;
+                                        i5 = i8;
+                                        i16 = 1;
                                         FileLog.e(e);
-                                        i19 = i13;
-                                        ceil = i4;
+                                        i18 = i3;
+                                        ceil = i5;
                                         textPaint3 = textPaint2;
                                         addEntitiesToText = z2;
                                         staticLayout = staticLayout2;
-                                        i16 = 0;
+                                        i15 = 0;
                                         f6 = 0.0f;
-                                        i18 = 24;
+                                        i17 = 24;
                                     }
                                 }
                                 try {
-                                    float lineTop = staticLayout3.getLineTop(i6);
+                                    float lineTop = staticLayout3.getLineTop(i9);
                                     textLayoutBlock.textYOffset = lineTop;
-                                    i5 = i15;
-                                    if (i5 != 0) {
+                                    i4 = i7;
+                                    if (i4 != 0) {
                                         try {
                                             textLayoutBlock.height = (int) (lineTop - f7);
-                                        } catch (Exception e4) {
-                                            e = e4;
+                                        } catch (Exception e3) {
+                                            e = e3;
                                             z2 = addEntitiesToText;
                                             staticLayout2 = staticLayout3;
-                                            i13 = i6;
-                                            i4 = i14;
-                                            i17 = 1;
+                                            i3 = i9;
+                                            i5 = i8;
+                                            i16 = 1;
                                             FileLog.e(e);
-                                            i19 = i13;
-                                            ceil = i4;
+                                            i18 = i3;
+                                            ceil = i5;
                                             textPaint3 = textPaint2;
                                             addEntitiesToText = z2;
                                             staticLayout = staticLayout2;
-                                            i16 = 0;
+                                            i15 = 0;
                                             f6 = 0.0f;
-                                            i18 = 24;
+                                            i17 = 24;
                                         }
                                     }
-                                    int i23 = textLayoutBlock.height;
+                                    int i22 = textLayoutBlock.height;
                                     StaticLayout staticLayout5 = textLayoutBlock.textLayout;
-                                    textLayoutBlock.height = Math.max(i23, staticLayout5.getLineBottom(staticLayout5.getLineCount() - 1));
+                                    textLayoutBlock.height = Math.max(i22, staticLayout5.getLineBottom(staticLayout5.getLineCount() - 1));
                                     float f8 = textLayoutBlock.textYOffset;
-                                    i4 = i14;
-                                    if (i5 == i4 - 1) {
-                                        i7 = Math.max(i7, textLayoutBlock.textLayout.getLineCount());
+                                    i5 = i8;
+                                    if (i4 == i5 - 1) {
+                                        i6 = Math.max(i6, textLayoutBlock.textLayout.getLineCount());
                                         try {
                                             this.textHeight = Math.max(this.textHeight, (int) (textLayoutBlock.textYOffset + textLayoutBlock.textLayout.getHeight()));
-                                        } catch (Exception e5) {
-                                            FileLog.e(e5);
+                                        } catch (Exception e4) {
+                                            FileLog.e(e4);
                                         }
                                     }
                                     f7 = f8;
-                                } catch (Exception e6) {
-                                    e = e6;
+                                } catch (Exception e5) {
+                                    e = e5;
                                     z2 = addEntitiesToText;
                                     staticLayout2 = staticLayout3;
-                                    i13 = i6;
-                                    i5 = i15;
-                                    i4 = i14;
-                                    i17 = 1;
+                                    i3 = i9;
+                                    i4 = i7;
+                                    i5 = i8;
+                                    i16 = 1;
                                     FileLog.e(e);
-                                    i19 = i13;
-                                    ceil = i4;
+                                    i18 = i3;
+                                    ceil = i5;
                                     textPaint3 = textPaint2;
                                     addEntitiesToText = z2;
                                     staticLayout = staticLayout2;
-                                    i16 = 0;
+                                    i15 = 0;
                                     f6 = 0.0f;
-                                    i18 = 24;
+                                    i17 = 24;
                                 }
-                            } catch (Exception e7) {
-                                e = e7;
+                            } catch (Exception e6) {
+                                e = e6;
                                 z2 = addEntitiesToText;
-                                i13 = i19;
-                                i5 = i2;
-                                i4 = ceil;
+                                i3 = i18;
+                                i4 = i2;
+                                i5 = ceil;
                                 staticLayout2 = staticLayout;
                                 textPaint2 = textPaint3;
-                                i17 = 1;
+                                i16 = 1;
                             }
                         }
-                        i19 = i13;
-                        ceil = i4;
+                        i18 = i3;
+                        ceil = i5;
                         textPaint3 = textPaint2;
                         addEntitiesToText = z2;
                         staticLayout = staticLayout2;
-                        i16 = 0;
+                        i15 = 0;
                         f6 = 0.0f;
-                        i18 = 24;
+                        i17 = 24;
                     }
                     textLayoutBlock.spoilers.clear();
                     if (!this.isSpoilersRevealed) {
                         SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, null, textLayoutBlock.spoilers);
                     }
                     this.textLayoutBlocks.add(textLayoutBlock);
-                    float f9 = textLayoutBlock.textLayout.getLineLeft(i7 - 1);
+                    float f9 = textLayoutBlock.textLayout.getLineLeft(i6 - 1);
                     float f10 = 0.0f;
-                    if (i5 == 0 && f9 >= 0.0f) {
+                    if (i4 == 0 && f9 >= 0.0f) {
                         try {
                             this.textXOffset = f9;
-                        } catch (Exception e8) {
-                            Exception e9 = e8;
-                            if (i5 == 0) {
+                        } catch (Exception e7) {
+                            e = e7;
+                            if (i4 == 0) {
                                 this.textXOffset = f10;
                             }
-                            FileLog.e(e9);
+                            FileLog.e(e);
                             f9 = 0.0f;
-                            float f11 = textLayoutBlock.textLayout.getLineWidth(i7 - 1);
+                            float f11 = textLayoutBlock.textLayout.getLineWidth(i6 - 1);
                             ceil2 = (int) Math.ceil(f11);
                             if (ceil2 > maxMessageTextWidth + 80) {
                             }
-                            i8 = i4 - 1;
-                            if (i5 == i8) {
+                            i10 = i5 - 1;
+                            if (i4 == i10) {
                             }
                             float f12 = ceil2;
                             int ceil3 = (int) Math.ceil(Math.max(f10, f9) + f12);
-                            if (i7 <= 1) {
+                            if (i6 <= 1) {
                             }
-                            i19 = i9 + i10;
-                            ceil = i4;
+                            i18 = i12 + i11;
+                            ceil = i5;
                             textPaint3 = textPaint2;
                             addEntitiesToText = z2;
                             staticLayout = staticLayout2;
-                            i16 = 0;
+                            i15 = 0;
                             f6 = 0.0f;
-                            i18 = 24;
+                            i17 = 24;
                         }
                     }
-                    float f112 = textLayoutBlock.textLayout.getLineWidth(i7 - 1);
+                    float f112 = textLayoutBlock.textLayout.getLineWidth(i6 - 1);
                     ceil2 = (int) Math.ceil(f112);
                     if (ceil2 > maxMessageTextWidth + 80) {
                         ceil2 = maxMessageTextWidth;
                     }
-                    i8 = i4 - 1;
-                    if (i5 == i8) {
+                    i10 = i5 - 1;
+                    if (i4 == i10) {
                         this.lastLineWidth = ceil2;
                     }
                     float f122 = ceil2;
                     int ceil32 = (int) Math.ceil(Math.max(f10, f9) + f122);
-                    if (i7 <= 1) {
-                        int i24 = ceil2;
+                    if (i6 <= 1) {
+                        int i23 = ceil2;
                         z2 = addEntitiesToText;
-                        int i25 = ceil32;
-                        int i26 = 0;
+                        int i24 = ceil32;
+                        int i25 = 0;
                         float f13 = 0.0f;
                         float f14 = 0.0f;
                         boolean z4 = false;
-                        while (i26 < i7) {
+                        while (i25 < i6) {
                             try {
-                                f = textLayoutBlock.textLayout.getLineWidth(i26);
-                            } catch (Exception e10) {
-                                FileLog.e(e10);
+                                f = textLayoutBlock.textLayout.getLineWidth(i25);
+                            } catch (Exception e8) {
+                                FileLog.e(e8);
                                 f = 0.0f;
                             }
                             try {
-                                f2 = textLayoutBlock.textLayout.getLineLeft(i26);
-                            } catch (Exception e11) {
-                                FileLog.e(e11);
+                                f2 = textLayoutBlock.textLayout.getLineLeft(i25);
+                            } catch (Exception e9) {
+                                FileLog.e(e9);
                                 f2 = 0.0f;
                             }
                             float f15 = f2;
                             if (f > maxMessageTextWidth + 20) {
                                 staticLayout4 = staticLayout3;
-                                f3 = 0.0f;
-                                f4 = maxMessageTextWidth;
                                 f5 = 0.0f;
+                                f3 = maxMessageTextWidth;
+                                f4 = 0.0f;
                             } else {
                                 staticLayout4 = staticLayout3;
-                                f4 = f;
-                                f5 = f15;
-                                f3 = 0.0f;
+                                f3 = f;
+                                f4 = f15;
+                                f5 = 0.0f;
                             }
-                            if (f5 > f3) {
-                                i12 = i7;
-                                this.textXOffset = Math.min(this.textXOffset, f5);
-                                i11 = i6;
+                            if (f4 > f5) {
+                                i13 = i6;
+                                this.textXOffset = Math.min(this.textXOffset, f4);
+                                i14 = i9;
                                 textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                                 this.hasRtl = true;
                             } else {
-                                i12 = i7;
-                                i11 = i6;
+                                i13 = i6;
+                                i14 = i9;
                                 textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
                             }
-                            if (!z4 && f5 == 0.0f) {
+                            if (!z4 && f4 == 0.0f) {
                                 try {
                                 } catch (Exception unused) {
                                     z4 = true;
                                 }
-                                if (textLayoutBlock.textLayout.getParagraphDirection(i26) == 1) {
+                                if (textLayoutBlock.textLayout.getParagraphDirection(i25) == 1) {
                                     z3 = true;
                                     z4 = z3;
-                                    f14 = Math.max(f14, f4);
-                                    float f16 = f5 + f4;
+                                    f14 = Math.max(f14, f3);
+                                    float f16 = f4 + f3;
                                     f13 = Math.max(f13, f16);
-                                    i24 = Math.max(i24, (int) Math.ceil(f4));
-                                    i25 = Math.max(i25, (int) Math.ceil(f16));
-                                    i26++;
-                                    i7 = i12;
-                                    i6 = i11;
+                                    i23 = Math.max(i23, (int) Math.ceil(f3));
+                                    i24 = Math.max(i24, (int) Math.ceil(f16));
+                                    i25++;
+                                    i6 = i13;
+                                    i9 = i14;
                                     staticLayout3 = staticLayout4;
                                 }
                             }
                             z3 = z4;
                             z4 = z3;
-                            f14 = Math.max(f14, f4);
-                            float f162 = f5 + f4;
+                            f14 = Math.max(f14, f3);
+                            float f162 = f4 + f3;
                             f13 = Math.max(f13, f162);
-                            i24 = Math.max(i24, (int) Math.ceil(f4));
-                            i25 = Math.max(i25, (int) Math.ceil(f162));
-                            i26++;
-                            i7 = i12;
-                            i6 = i11;
+                            i23 = Math.max(i23, (int) Math.ceil(f3));
+                            i24 = Math.max(i24, (int) Math.ceil(f162));
+                            i25++;
+                            i6 = i13;
+                            i9 = i14;
                             staticLayout3 = staticLayout4;
                         }
-                        i10 = i7;
+                        i11 = i6;
                         staticLayout2 = staticLayout3;
-                        i9 = i6;
+                        i12 = i9;
                         if (!z4) {
-                            if (i5 == i8) {
-                                this.lastLineWidth = i24;
+                            if (i4 == i10) {
+                                this.lastLineWidth = i23;
                             }
                             f13 = f14;
-                        } else if (i5 == i8) {
+                        } else if (i4 == i10) {
                             this.lastLineWidth = ceil32;
                         }
                         this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f13));
-                        i17 = 1;
+                        i16 = 1;
                     } else {
                         z2 = addEntitiesToText;
-                        i10 = i7;
+                        i11 = i6;
                         staticLayout2 = staticLayout3;
-                        i9 = i6;
+                        i12 = i9;
                         if (f9 > 0.0f) {
-                            float min = Math.min(this.textXOffset, f9);
-                            this.textXOffset = min;
-                            if (min == 0.0f) {
+                            float min2 = Math.min(this.textXOffset, f9);
+                            this.textXOffset = min2;
+                            if (min2 == 0.0f) {
                                 ceil2 = (int) (f122 + f9);
                             }
-                            i17 = 1;
-                            this.hasRtl = i4 != 1;
+                            i16 = 1;
+                            this.hasRtl = i5 != 1;
                             textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                         } else {
-                            i17 = 1;
+                            i16 = 1;
                             textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
                         }
                         this.textWidth = Math.max(this.textWidth, Math.min(maxMessageTextWidth, ceil2));
                     }
-                    i19 = i9 + i10;
-                    ceil = i4;
+                    i18 = i12 + i11;
+                    ceil = i5;
                     textPaint3 = textPaint2;
                     addEntitiesToText = z2;
                     staticLayout = staticLayout2;
-                    i16 = 0;
+                    i15 = 0;
                     f6 = 0.0f;
-                    i18 = 24;
+                    i17 = 24;
                 }
                 return;
             }
             i = Build.VERSION.SDK_INT;
-            int i182 = 24;
+            int i172 = 24;
             if (i < 24) {
             }
             this.textHeight = staticLayout.getHeight();
@@ -6208,13 +6204,13 @@ public class MessageObject {
             if (i < 24) {
             }
             float f62 = 0.0f;
-            int i192 = 0;
+            int i182 = 0;
             float f72 = 0.0f;
             while (i2 < ceil) {
             }
             return;
-        } catch (Exception e12) {
-            FileLog.e(e12);
+        } catch (Exception e10) {
+            FileLog.e(e10);
             return;
         }
         z = false;
@@ -6293,6 +6289,7 @@ public class MessageObject {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean needDrawAvatarInternal() {
         if (this.customAvatarDrawable != null) {
             return true;
@@ -7090,44 +7087,44 @@ public class MessageObject {
     public int getApproximateHeight() {
         int i;
         int i2;
-        int i3;
+        int min;
         TLRPC$PhotoSize closestPhotoSizeWithSize;
-        int i4;
-        int i5 = this.type;
-        int i6 = 0;
-        if (i5 == 0) {
-            int i7 = this.textHeight;
+        int min2;
+        int i3 = this.type;
+        int i4 = 0;
+        if (i3 == 0) {
+            int i5 = this.textHeight;
             TLRPC$MessageMedia tLRPC$MessageMedia = this.messageOwner.media;
             if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && (tLRPC$MessageMedia.webpage instanceof TLRPC$TL_webPage)) {
-                i6 = AndroidUtilities.dp(100.0f);
+                i4 = AndroidUtilities.dp(100.0f);
             }
-            int i8 = i7 + i6;
-            return isReply() ? i8 + AndroidUtilities.dp(42.0f) : i8;
-        } else if (i5 == 2) {
+            int i6 = i5 + i4;
+            return isReply() ? i6 + AndroidUtilities.dp(42.0f) : i6;
+        } else if (i3 == 2) {
             return AndroidUtilities.dp(72.0f);
         } else {
-            if (i5 == 12) {
+            if (i3 == 12) {
                 return AndroidUtilities.dp(71.0f);
             }
-            if (i5 == 9) {
+            if (i3 == 9) {
                 return AndroidUtilities.dp(100.0f);
             }
-            if (i5 == 4) {
+            if (i3 == 4) {
                 return AndroidUtilities.dp(114.0f);
             }
-            if (i5 == 14) {
+            if (i3 == 14) {
                 return AndroidUtilities.dp(82.0f);
             }
-            if (i5 == 10) {
+            if (i3 == 10) {
                 return AndroidUtilities.dp(30.0f);
             }
-            if (i5 == 11 || i5 == 18) {
+            if (i3 == 11 || i3 == 18) {
                 return AndroidUtilities.dp(50.0f);
             }
-            if (i5 == 5) {
+            if (i3 == 5) {
                 return AndroidUtilities.roundMessageSize;
             }
-            if (i5 == 13 || i5 == 15) {
+            if (i3 == 13 || i3 == 15) {
                 float f = AndroidUtilities.displaySize.y * 0.4f;
                 if (AndroidUtilities.isTablet()) {
                     i = AndroidUtilities.getMinTabletSide();
@@ -7138,61 +7135,61 @@ public class MessageObject {
                 TLRPC$Document document = getDocument();
                 if (document != null) {
                     int size = document.attributes.size();
-                    for (int i9 = 0; i9 < size; i9++) {
-                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i9);
+                    for (int i7 = 0; i7 < size; i7++) {
+                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i7);
                         if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) {
-                            i6 = tLRPC$DocumentAttribute.w;
+                            i4 = tLRPC$DocumentAttribute.w;
                             i2 = tLRPC$DocumentAttribute.h;
                             break;
                         }
                     }
                 }
                 i2 = 0;
-                if (i6 == 0) {
+                if (i4 == 0) {
                     i2 = (int) f;
-                    i6 = AndroidUtilities.dp(100.0f) + i2;
+                    i4 = AndroidUtilities.dp(100.0f) + i2;
                 }
                 float f3 = i2;
                 if (f3 > f) {
-                    i6 = (int) (i6 * (f / f3));
+                    i4 = (int) (i4 * (f / f3));
                     i2 = (int) f;
                 }
-                float f4 = i6;
+                float f4 = i4;
                 if (f4 > f2) {
                     i2 = (int) (i2 * (f2 / f4));
                 }
                 return i2 + AndroidUtilities.dp(14.0f);
             }
             if (AndroidUtilities.isTablet()) {
-                i3 = AndroidUtilities.getMinTabletSide();
+                min = AndroidUtilities.getMinTabletSide();
             } else {
                 Point point = AndroidUtilities.displaySize;
-                i3 = Math.min(point.x, point.y);
+                min = Math.min(point.x, point.y);
             }
-            int i10 = (int) (i3 * 0.7f);
-            int dp = AndroidUtilities.dp(100.0f) + i10;
-            if (i10 > AndroidUtilities.getPhotoSize()) {
-                i10 = AndroidUtilities.getPhotoSize();
+            int i8 = (int) (min * 0.7f);
+            int dp = AndroidUtilities.dp(100.0f) + i8;
+            if (i8 > AndroidUtilities.getPhotoSize()) {
+                i8 = AndroidUtilities.getPhotoSize();
             }
             if (dp > AndroidUtilities.getPhotoSize()) {
                 dp = AndroidUtilities.getPhotoSize();
             }
             if (FileLoader.getClosestPhotoSizeWithSize(this.photoThumbs, AndroidUtilities.getPhotoSize()) != null) {
-                int i11 = (int) (closestPhotoSizeWithSize.h / (closestPhotoSizeWithSize.w / i10));
-                if (i11 == 0) {
-                    i11 = AndroidUtilities.dp(100.0f);
+                int i9 = (int) (closestPhotoSizeWithSize.h / (closestPhotoSizeWithSize.w / i8));
+                if (i9 == 0) {
+                    i9 = AndroidUtilities.dp(100.0f);
                 }
-                if (i11 <= dp) {
-                    dp = i11 < AndroidUtilities.dp(120.0f) ? AndroidUtilities.dp(120.0f) : i11;
+                if (i9 <= dp) {
+                    dp = i9 < AndroidUtilities.dp(120.0f) ? AndroidUtilities.dp(120.0f) : i9;
                 }
                 if (needDrawBluredPreview()) {
                     if (AndroidUtilities.isTablet()) {
-                        i4 = AndroidUtilities.getMinTabletSide();
+                        min2 = AndroidUtilities.getMinTabletSide();
                     } else {
                         Point point2 = AndroidUtilities.displaySize;
-                        i4 = Math.min(point2.x, point2.y);
+                        min2 = Math.min(point2.x, point2.y);
                     }
-                    dp = (int) (i4 * 0.5f);
+                    dp = (int) (min2 * 0.5f);
                 }
             }
             return dp + AndroidUtilities.dp(14.0f);
@@ -7507,17 +7504,17 @@ public class MessageObject {
         return getMusicAuthor(true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x003d, code lost:
-        if (r5.round_message != false) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x003d, code lost:
+        if (r5.round_message != false) goto L10;
      */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0158 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0158 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public String getMusicAuthor(boolean z) {
-        TLRPC$Chat tLRPC$Chat;
         TLRPC$User user;
+        TLRPC$Chat chat;
         String str;
         TLRPC$Document document = getDocument();
         if (document != null) {
@@ -7547,9 +7544,9 @@ public class MessageObject {
                             TLRPC$Message tLRPC$Message = this.messageOwner;
                             TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = tLRPC$Message.fwd_from;
                             if (tLRPC$MessageFwdHeader2 != null && (tLRPC$MessageFwdHeader2.from_id instanceof TLRPC$TL_peerChannel)) {
-                                tLRPC$Chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.fwd_from.from_id.channel_id));
+                                chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.fwd_from.from_id.channel_id));
                             } else if (tLRPC$MessageFwdHeader2 != null && (tLRPC$MessageFwdHeader2.from_id instanceof TLRPC$TL_peerChat)) {
-                                tLRPC$Chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.fwd_from.from_id.chat_id));
+                                chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.fwd_from.from_id.chat_id));
                             } else {
                                 if (tLRPC$MessageFwdHeader2 != null && (tLRPC$MessageFwdHeader2.from_id instanceof TLRPC$TL_peerUser)) {
                                     user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.messageOwner.fwd_from.from_id.user_id));
@@ -7558,24 +7555,24 @@ public class MessageObject {
                                 } else {
                                     TLRPC$Peer tLRPC$Peer2 = tLRPC$Message.from_id;
                                     if (tLRPC$Peer2 instanceof TLRPC$TL_peerChat) {
-                                        tLRPC$Chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.from_id.chat_id));
+                                        chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.from_id.chat_id));
                                     } else if (tLRPC$Peer2 instanceof TLRPC$TL_peerChannel) {
-                                        tLRPC$Chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.from_id.channel_id));
+                                        chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.from_id.channel_id));
                                     } else if (tLRPC$Peer2 == null && tLRPC$Message.peer_id.channel_id != 0) {
-                                        tLRPC$Chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.peer_id.channel_id));
+                                        chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.messageOwner.peer_id.channel_id));
                                     } else {
                                         user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.messageOwner.from_id.user_id));
                                     }
                                 }
                                 TLRPC$User tLRPC$User2 = user;
-                                tLRPC$Chat = null;
+                                chat = null;
                                 tLRPC$User = tLRPC$User2;
                             }
                             if (tLRPC$User != null) {
                                 return UserObject.getUserName(tLRPC$User);
                             }
-                            if (tLRPC$Chat != null) {
-                                return tLRPC$Chat.title;
+                            if (chat != null) {
+                                return chat.title;
                             }
                         }
                         return LocaleController.getString("FromYou", org.telegram.messenger.beta.R.string.FromYou);
@@ -7597,7 +7594,7 @@ public class MessageObject {
         return isForwardedMessage(this.messageOwner);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0020, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0020, code lost:
         if (r1.channel_id == r0.channel_id) goto L17;
      */
     /*
@@ -8026,8 +8023,8 @@ public class MessageObject {
     }
 
     public void checkMediaExistance(boolean z) {
-        TLRPC$Photo tLRPC$Photo;
         int i;
+        TLRPC$Photo tLRPC$Photo;
         this.attachPathExists = false;
         this.mediaExists = false;
         if (this.type == 1 && FileLoader.getClosestPhotoSizeWithSize(this.photoThumbs, AndroidUtilities.getPhotoSize()) != null) {
@@ -8221,6 +8218,7 @@ public class MessageObject {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$handleFoundWords$3(String str, String str2) {
         return str2.length() - str.length();
     }

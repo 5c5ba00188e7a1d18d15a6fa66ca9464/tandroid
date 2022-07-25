@@ -42,7 +42,7 @@ public class SlideChooseView extends View {
     /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* renamed from: org.telegram.ui.Components.SlideChooseView$Callback$-CC */
+        /* renamed from: org.telegram.ui.Components.SlideChooseView$Callback$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static void $default$onTouchEnd(Callback callback) {
@@ -89,7 +89,8 @@ public class SlideChooseView extends View {
             }
 
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-            protected CharSequence getContentDescription(View view) {
+            /* renamed from: getContentDescription */
+            protected CharSequence mo2109getContentDescription(View view) {
                 if (SlideChooseView.this.selectedIndex < SlideChooseView.this.optionsStr.length) {
                     return SlideChooseView.this.optionsStr[SlideChooseView.this.selectedIndex];
                 }
@@ -180,6 +181,7 @@ public class SlideChooseView extends View {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setOption(int i) {
         if (this.selectedIndex != i) {
             try {
@@ -209,12 +211,12 @@ public class SlideChooseView extends View {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        int i;
         float f;
+        int i;
         int dp;
         int dp2;
-        int i2;
         float f2;
+        int i2;
         float f3 = this.selectedIndexAnimatedHolder.set(this.selectedIndex);
         float f4 = 0.0f;
         float f5 = 1.0f;

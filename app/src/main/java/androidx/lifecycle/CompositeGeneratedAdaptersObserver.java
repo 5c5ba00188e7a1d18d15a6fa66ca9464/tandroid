@@ -5,6 +5,7 @@ import androidx.lifecycle.Lifecycle;
 public class CompositeGeneratedAdaptersObserver implements GenericLifecycleObserver {
     private final GeneratedAdapter[] mGeneratedAdapters;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public CompositeGeneratedAdaptersObserver(GeneratedAdapter[] generatedAdapterArr) {
         this.mGeneratedAdapters = generatedAdapterArr;
     }

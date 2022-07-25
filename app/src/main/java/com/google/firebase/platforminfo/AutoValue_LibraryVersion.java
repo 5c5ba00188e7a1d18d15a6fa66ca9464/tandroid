@@ -1,12 +1,12 @@
 package com.google.firebase.platforminfo;
 
 import javax.annotation.Nonnull;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AutoValue_LibraryVersion extends LibraryVersion {
+final class AutoValue_LibraryVersion extends LibraryVersion {
     private final String libraryName;
     private final String version;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_LibraryVersion(String str, String str2) {
         if (str == null) {
             throw new NullPointerException("Null libraryName");

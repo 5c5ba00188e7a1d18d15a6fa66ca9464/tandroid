@@ -230,10 +230,10 @@ public class LocaleController {
         return i != 1 ? i != 2 ? i != 4 ? i != 8 ? i != 16 ? "other" : "many" : "few" : "two" : "one" : "zero";
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class TimeZoneChangedReceiver extends BroadcastReceiver {
         private TimeZoneChangedReceiver() {
-            LocaleController.this = r1;
         }
 
         @Override // android.content.BroadcastReceiver
@@ -246,6 +246,7 @@ public class LocaleController {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onReceive$0() {
             if (!LocaleController.this.formatterDayMonth.getTimeZone().equals(TimeZone.getDefault())) {
                 LocaleController.getInstance().recreateFormatters();
@@ -561,10 +562,12 @@ public class LocaleController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         loadRemoteLanguages(UserConfig.selectedAccount);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         this.currentSystemLocale = getSystemLocaleStringIso639();
     }
@@ -977,7 +980,6 @@ public class LocaleController {
     }
 
     private HashMap<String, String> getLocaleFileStrings(File file, boolean z) {
-        Exception e;
         this.reloadLastFile = false;
         FileInputStream fileInputStream = null;
         try {
@@ -1026,20 +1028,20 @@ public class LocaleController {
                     }
                     try {
                         fileInputStream2.close();
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
+                    } catch (Exception e) {
+                        FileLog.e(e);
                     }
                     return hashMap;
-                } catch (Exception e3) {
-                    e = e3;
+                } catch (Exception e2) {
+                    e = e2;
                     fileInputStream = fileInputStream2;
                     FileLog.e(e);
                     this.reloadLastFile = true;
                     if (fileInputStream != null) {
                         try {
                             fileInputStream.close();
-                        } catch (Exception e4) {
-                            FileLog.e(e4);
+                        } catch (Exception e3) {
+                            FileLog.e(e3);
                         }
                     }
                     return new HashMap<>();
@@ -1049,14 +1051,14 @@ public class LocaleController {
                     if (fileInputStream != null) {
                         try {
                             fileInputStream.close();
-                        } catch (Exception e5) {
-                            FileLog.e(e5);
+                        } catch (Exception e4) {
+                            FileLog.e(e4);
                         }
                     }
                     throw th;
                 }
-            } catch (Exception e6) {
-                e = e6;
+            } catch (Exception e5) {
+                e = e5;
             }
         } catch (Throwable th2) {
             th = th2;
@@ -1069,7 +1071,7 @@ public class LocaleController {
 
     public void applyLanguage(final LocaleInfo localeInfo, boolean z, boolean z2, boolean z3, final boolean z4, final int i) {
         boolean z5;
-        String[] strArr;
+        String[] split;
         Locale locale;
         if (localeInfo == null) {
             return;
@@ -1113,16 +1115,16 @@ public class LocaleController {
         }
         try {
             if (!TextUtils.isEmpty(localeInfo.pluralLangCode)) {
-                strArr = localeInfo.pluralLangCode.split("_");
+                split = localeInfo.pluralLangCode.split("_");
             } else if (!TextUtils.isEmpty(localeInfo.baseLangCode)) {
-                strArr = localeInfo.baseLangCode.split("_");
+                split = localeInfo.baseLangCode.split("_");
             } else {
-                strArr = localeInfo.shortName.split("_");
+                split = localeInfo.shortName.split("_");
             }
-            if (strArr.length == 1) {
-                locale = new Locale(strArr[0]);
+            if (split.length == 1) {
+                locale = new Locale(split[0]);
             } else {
-                locale = new Locale(strArr[0], strArr[1]);
+                locale = new Locale(split[0], split[1]);
             }
             if (z) {
                 this.languageOverride = localeInfo.shortName;
@@ -1145,7 +1147,7 @@ public class LocaleController {
                 this.currentPluralRules = this.allRules.get(this.currentLocaleInfo.pluralLangCode);
             }
             if (this.currentPluralRules == null) {
-                PluralRules pluralRules = this.allRules.get(strArr[0]);
+                PluralRules pluralRules = this.allRules.get(split[0]);
                 this.currentPluralRules = pluralRules;
                 if (pluralRules == null) {
                     PluralRules pluralRules2 = this.allRules.get(this.currentLocale.getLanguage());
@@ -1192,14 +1194,17 @@ public class LocaleController {
         MediaDataController.getInstance(i).loadAttachMenuBots(false, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyLanguage$2(LocaleInfo localeInfo, int i) {
         applyRemoteLanguage(localeInfo, null, true, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyLanguage$3(int i, boolean z) {
         reloadCurrentRemoteLocale(i, null, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$applyLanguage$4() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.reloadInterface, new Object[0]);
     }
@@ -2472,15 +2477,15 @@ public class LocaleController {
     }
 
     public void recreateFormatters() {
-        String str;
-        int i;
-        String str2;
-        int i2;
-        String str3;
-        int i3;
-        String str4;
-        int i4;
         LocaleInfo localeInfo;
+        int i;
+        String str;
+        int i2;
+        String str2;
+        int i3;
+        String str3;
+        int i4;
+        String str4;
         Locale locale = this.currentLocale;
         if (locale == null) {
             locale = Locale.getDefault();
@@ -2764,8 +2769,8 @@ public class LocaleController {
     /* renamed from: saveRemoteLocaleStrings */
     public void lambda$applyRemoteLanguage$8(final LocaleInfo localeInfo, final TLRPC$TL_langPackDifference tLRPC$TL_langPackDifference, int i) {
         final int i2;
-        File file;
-        HashMap<String, String> hashMap;
+        File pathToBaseFile;
+        HashMap<String, String> localeFileStrings;
         if (tLRPC$TL_langPackDifference == null || tLRPC$TL_langPackDifference.strings.isEmpty() || localeInfo == null || localeInfo.isLocal()) {
             return;
         }
@@ -2779,75 +2784,76 @@ public class LocaleController {
             return;
         }
         if (i2 == 0) {
-            file = localeInfo.getPathToFile();
+            pathToBaseFile = localeInfo.getPathToFile();
         } else {
-            file = localeInfo.getPathToBaseFile();
+            pathToBaseFile = localeInfo.getPathToBaseFile();
         }
         try {
             if (tLRPC$TL_langPackDifference.from_version == 0) {
-                hashMap = new HashMap<>();
+                localeFileStrings = new HashMap<>();
             } else {
-                hashMap = getLocaleFileStrings(file, true);
+                localeFileStrings = getLocaleFileStrings(pathToBaseFile, true);
             }
             for (int i3 = 0; i3 < tLRPC$TL_langPackDifference.strings.size(); i3++) {
                 TLRPC$LangPackString tLRPC$LangPackString = tLRPC$TL_langPackDifference.strings.get(i3);
                 if (tLRPC$LangPackString instanceof TLRPC$TL_langPackString) {
-                    hashMap.put(tLRPC$LangPackString.key, escapeString(tLRPC$LangPackString.value));
+                    localeFileStrings.put(tLRPC$LangPackString.key, escapeString(tLRPC$LangPackString.value));
                 } else if (tLRPC$LangPackString instanceof TLRPC$TL_langPackStringPluralized) {
                     String str = tLRPC$LangPackString.key + "_zero";
                     String str2 = tLRPC$LangPackString.zero_value;
                     String str3 = "";
-                    hashMap.put(str, str2 != null ? escapeString(str2) : str3);
+                    localeFileStrings.put(str, str2 != null ? escapeString(str2) : str3);
                     String str4 = tLRPC$LangPackString.key + "_one";
                     String str5 = tLRPC$LangPackString.one_value;
-                    hashMap.put(str4, str5 != null ? escapeString(str5) : str3);
+                    localeFileStrings.put(str4, str5 != null ? escapeString(str5) : str3);
                     String str6 = tLRPC$LangPackString.key + "_two";
                     String str7 = tLRPC$LangPackString.two_value;
-                    hashMap.put(str6, str7 != null ? escapeString(str7) : str3);
+                    localeFileStrings.put(str6, str7 != null ? escapeString(str7) : str3);
                     String str8 = tLRPC$LangPackString.key + "_few";
                     String str9 = tLRPC$LangPackString.few_value;
-                    hashMap.put(str8, str9 != null ? escapeString(str9) : str3);
+                    localeFileStrings.put(str8, str9 != null ? escapeString(str9) : str3);
                     String str10 = tLRPC$LangPackString.key + "_many";
                     String str11 = tLRPC$LangPackString.many_value;
-                    hashMap.put(str10, str11 != null ? escapeString(str11) : str3);
+                    localeFileStrings.put(str10, str11 != null ? escapeString(str11) : str3);
                     String str12 = tLRPC$LangPackString.key + "_other";
                     String str13 = tLRPC$LangPackString.other_value;
                     if (str13 != null) {
                         str3 = escapeString(str13);
                     }
-                    hashMap.put(str12, str3);
+                    localeFileStrings.put(str12, str3);
                 } else if (tLRPC$LangPackString instanceof TLRPC$TL_langPackStringDeleted) {
-                    hashMap.remove(tLRPC$LangPackString.key);
+                    localeFileStrings.remove(tLRPC$LangPackString.key);
                 }
             }
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("save locale file to " + file);
+                FileLog.d("save locale file to " + pathToBaseFile);
             }
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathToBaseFile));
             bufferedWriter.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
             bufferedWriter.write("<resources>\n");
-            for (Map.Entry<String, String> entry : hashMap.entrySet()) {
+            for (Map.Entry<String, String> entry : localeFileStrings.entrySet()) {
                 bufferedWriter.write(String.format("<string name=\"%1$s\">%2$s</string>\n", entry.getKey(), entry.getValue()));
             }
             bufferedWriter.write("</resources>");
             bufferedWriter.close();
             boolean hasBaseLang = localeInfo.hasBaseLang();
-            final HashMap<String, String> localeFileStrings = getLocaleFileStrings(hasBaseLang ? localeInfo.getPathToBaseFile() : localeInfo.getPathToFile());
+            final HashMap<String, String> localeFileStrings2 = getLocaleFileStrings(hasBaseLang ? localeInfo.getPathToBaseFile() : localeInfo.getPathToFile());
             if (hasBaseLang) {
-                localeFileStrings.putAll(getLocaleFileStrings(localeInfo.getPathToFile()));
+                localeFileStrings2.putAll(getLocaleFileStrings(localeInfo.getPathToFile()));
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LocaleController.this.lambda$saveRemoteLocaleStrings$5(i2, localeInfo, tLRPC$TL_langPackDifference, localeFileStrings);
+                    LocaleController.this.lambda$saveRemoteLocaleStrings$5(i2, localeInfo, tLRPC$TL_langPackDifference, localeFileStrings2);
                 }
             });
         } catch (Exception unused) {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveRemoteLocaleStrings$5(int i, LocaleInfo localeInfo, TLRPC$TL_langPackDifference tLRPC$TL_langPackDifference, HashMap hashMap) {
-        String[] strArr;
+        String[] split;
         Locale locale;
         if (i == 0) {
             localeInfo.version = tLRPC$TL_langPackDifference.version;
@@ -2858,16 +2864,16 @@ public class LocaleController {
         try {
             if (this.currentLocaleInfo == localeInfo) {
                 if (!TextUtils.isEmpty(localeInfo.pluralLangCode)) {
-                    strArr = localeInfo.pluralLangCode.split("_");
+                    split = localeInfo.pluralLangCode.split("_");
                 } else if (!TextUtils.isEmpty(localeInfo.baseLangCode)) {
-                    strArr = localeInfo.baseLangCode.split("_");
+                    split = localeInfo.baseLangCode.split("_");
                 } else {
-                    strArr = localeInfo.shortName.split("_");
+                    split = localeInfo.shortName.split("_");
                 }
-                if (strArr.length == 1) {
-                    locale = new Locale(strArr[0]);
+                if (split.length == 1) {
+                    locale = new Locale(split[0]);
                 } else {
-                    locale = new Locale(strArr[0], strArr[1]);
+                    locale = new Locale(split[0], split[1]);
                 }
                 this.languageOverride = localeInfo.shortName;
                 SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
@@ -2939,6 +2945,7 @@ public class LocaleController {
         }, 8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadRemoteLanguages$7(final boolean z, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda9
@@ -2950,6 +2957,7 @@ public class LocaleController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadRemoteLanguages$6(TLObject tLObject, boolean z, int i) {
         this.loadingRemoteLanguages = false;
         TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
@@ -3077,6 +3085,7 @@ public class LocaleController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyRemoteLanguage$9(final LocaleInfo localeInfo, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda5
@@ -3088,6 +3097,7 @@ public class LocaleController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyRemoteLanguage$11(final LocaleInfo localeInfo, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda7
@@ -3099,6 +3109,7 @@ public class LocaleController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyRemoteLanguage$13(final LocaleInfo localeInfo, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda8
@@ -3110,6 +3121,7 @@ public class LocaleController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyRemoteLanguage$15(final LocaleInfo localeInfo, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LocaleController$$ExternalSyntheticLambda6
@@ -3152,7 +3164,7 @@ public class LocaleController {
             this.ruTranslitChars.put("д", "d");
             this.ruTranslitChars.put("е", e.a);
             HashMap<String, String> hashMap2 = this.ruTranslitChars;
-            str2 = ImageLoader.AUTOPLAY_FILTER;
+            str3 = ImageLoader.AUTOPLAY_FILTER;
             hashMap2.put("ё", "yo");
             this.ruTranslitChars.put("ж", "zh");
             this.ruTranslitChars.put("з", "z");
@@ -3164,19 +3176,19 @@ public class LocaleController {
             this.ruTranslitChars.put("н", "n");
             this.ruTranslitChars.put("о", "o");
             this.ruTranslitChars.put("п", "p");
-            str3 = "m";
-            str10 = "r";
-            this.ruTranslitChars.put("р", str10);
-            str4 = "z";
+            str2 = "m";
+            str4 = "r";
+            this.ruTranslitChars.put("р", str4);
+            str5 = "z";
             this.ruTranslitChars.put("с", "s");
-            str5 = "v";
+            str8 = "v";
             this.ruTranslitChars.put("т", "t");
             str9 = "u";
             this.ruTranslitChars.put("у", str9);
-            str6 = "s";
+            str10 = "s";
             this.ruTranslitChars.put("ф", "f");
-            str8 = "h";
-            this.ruTranslitChars.put("х", str8);
+            str6 = "h";
+            this.ruTranslitChars.put("х", str6);
             str7 = "p";
             this.ruTranslitChars.put("ц", "ts");
             this.ruTranslitChars.put("ч", "ch");
@@ -3189,15 +3201,15 @@ public class LocaleController {
             this.ruTranslitChars.put("ю", "yu");
             this.ruTranslitChars.put("я", "ya");
         } else {
-            str3 = "m";
-            str2 = ImageLoader.AUTOPLAY_FILTER;
-            str10 = "r";
-            str4 = "z";
-            str8 = "h";
+            str2 = "m";
+            str3 = ImageLoader.AUTOPLAY_FILTER;
+            str4 = "r";
+            str5 = "z";
+            str6 = "h";
             str7 = "p";
-            str5 = "v";
+            str8 = "v";
             str9 = "u";
-            str6 = "s";
+            str10 = "s";
         }
         if (this.translitChars == null) {
             HashMap<String, String> hashMap3 = new HashMap<>(487);
@@ -3209,7 +3221,7 @@ public class LocaleController {
             this.translitChars.put("ᴓ", "o");
             this.translitChars.put("ø", "o");
             this.translitChars.put("ḁ", "a");
-            this.translitChars.put("ʯ", str8);
+            this.translitChars.put("ʯ", str6);
             this.translitChars.put("ŷ", "y");
             this.translitChars.put("ʞ", "k");
             this.translitChars.put("ừ", str9);
@@ -3219,11 +3231,11 @@ public class LocaleController {
             this.translitChars.put("ḽ", "l");
             this.translitChars.put("ɪ", i.TAG);
             this.translitChars.put("ḇ", "b");
-            this.translitChars.put("ʀ", str10);
+            this.translitChars.put("ʀ", str4);
             this.translitChars.put("ě", e.a);
             this.translitChars.put("ﬃ", "ffi");
             this.translitChars.put("ơ", "o");
-            this.translitChars.put("ⱹ", str10);
+            this.translitChars.put("ⱹ", str4);
             this.translitChars.put("ồ", "o");
             this.translitChars.put("ǐ", i.TAG);
             String str12 = str7;
@@ -3235,17 +3247,17 @@ public class LocaleController {
             this.translitChars.put("ʙ", "b");
             this.translitChars.put("ḛ", e.a);
             this.translitChars.put("ƈ", c.a);
-            this.translitChars.put("ɦ", str8);
+            this.translitChars.put("ɦ", str6);
             this.translitChars.put("ᵬ", "b");
-            String str13 = str8;
-            String str14 = str6;
+            String str13 = str6;
+            String str14 = str10;
             this.translitChars.put("ṣ", str14);
             this.translitChars.put("đ", "d");
             this.translitChars.put("ỗ", "o");
             this.translitChars.put("ɟ", "j");
             this.translitChars.put("ẚ", "a");
             this.translitChars.put("ɏ", "y");
-            this.translitChars.put("ʌ", str5);
+            this.translitChars.put("ʌ", str8);
             this.translitChars.put("ꝓ", str12);
             this.translitChars.put("ﬁ", "fi");
             this.translitChars.put("ᶄ", "k");
@@ -3254,19 +3266,19 @@ public class LocaleController {
             this.translitChars.put("ė", e.a);
             this.translitChars.put("ᴋ", "k");
             this.translitChars.put("ċ", c.a);
-            this.translitChars.put("ʁ", str10);
+            this.translitChars.put("ʁ", str4);
             this.translitChars.put("ƕ", "hv");
             this.translitChars.put("ƀ", "b");
             this.translitChars.put("ṍ", "o");
             this.translitChars.put("ȣ", "ou");
             this.translitChars.put("ǰ", "j");
-            String str15 = str2;
+            String str15 = str3;
             this.translitChars.put("ᶃ", str15);
             this.translitChars.put("ṋ", "n");
             this.translitChars.put("ɉ", "j");
             this.translitChars.put("ǧ", str15);
             this.translitChars.put("ǳ", "dz");
-            String str16 = str4;
+            String str16 = str5;
             this.translitChars.put("ź", str16);
             this.translitChars.put("ꜷ", "au");
             this.translitChars.put("ǖ", str11);
@@ -3275,7 +3287,7 @@ public class LocaleController {
             this.translitChars.put("ɐ", "a");
             this.translitChars.put("ą", "a");
             this.translitChars.put("õ", "o");
-            this.translitChars.put("ɻ", str10);
+            this.translitChars.put("ɻ", str4);
             this.translitChars.put("ꝍ", "o");
             this.translitChars.put("ǟ", "a");
             this.translitChars.put("ȴ", "l");
@@ -3292,7 +3304,7 @@ public class LocaleController {
             this.translitChars.put("ỷ", "y");
             this.translitChars.put("ȳ", "y");
             this.translitChars.put("ṩ", str14);
-            this.translitChars.put("ɽ", str10);
+            this.translitChars.put("ɽ", str4);
             this.translitChars.put("ĝ", str15);
             this.translitChars.put("ᴝ", str11);
             this.translitChars.put("ḳ", "k");
@@ -3307,7 +3319,7 @@ public class LocaleController {
             this.translitChars.put("ă", "a");
             this.translitChars.put("ǘ", str11);
             this.translitChars.put("ꞅ", str14);
-            this.translitChars.put("ᵣ", str10);
+            this.translitChars.put("ᵣ", str4);
             this.translitChars.put("ᴀ", "a");
             this.translitChars.put("ƃ", "b");
             this.translitChars.put("ḩ", str13);
@@ -3320,11 +3332,11 @@ public class LocaleController {
             this.translitChars.put("ƣ", "oi");
             this.translitChars.put("ꝑ", str12);
             this.translitChars.put("ħ", str13);
-            String str17 = str5;
+            String str17 = str8;
             this.translitChars.put("ⱴ", str17);
             this.translitChars.put("ẇ", "w");
             this.translitChars.put("ǹ", "n");
-            String str18 = str3;
+            String str18 = str2;
             this.translitChars.put("ɯ", str18);
             this.translitChars.put("ɡ", str15);
             this.translitChars.put("ɴ", "n");
@@ -3341,7 +3353,7 @@ public class LocaleController {
             this.translitChars.put("ǣ", "ae");
             this.translitChars.put("ꝡ", "vy");
             this.translitChars.put("ﬀ", "ff");
-            this.translitChars.put("ᶉ", str10);
+            this.translitChars.put("ᶉ", str4);
             this.translitChars.put("ô", "o");
             this.translitChars.put("ǿ", "o");
             this.translitChars.put("ṳ", str11);
@@ -3357,7 +3369,7 @@ public class LocaleController {
             this.translitChars.put("ĩ", i.TAG);
             this.translitChars.put("ṵ", str11);
             this.translitChars.put("ŧ", "t");
-            this.translitChars.put("ɾ", str10);
+            this.translitChars.put("ɾ", str4);
             this.translitChars.put("ƙ", "k");
             this.translitChars.put("ṫ", "t");
             this.translitChars.put("ꝗ", "q");
@@ -3366,7 +3378,7 @@ public class LocaleController {
             this.translitChars.put("ƚ", "l");
             this.translitChars.put("ᶂ", "f");
             this.translitChars.put("ᵴ", str14);
-            this.translitChars.put("ꞃ", str10);
+            this.translitChars.put("ꞃ", str4);
             this.translitChars.put("ᶌ", str17);
             this.translitChars.put("ɵ", "o");
             this.translitChars.put("ḉ", c.a);
@@ -3378,7 +3390,7 @@ public class LocaleController {
             this.translitChars.put("ầ", "a");
             this.translitChars.put("ǉ", "lj");
             this.translitChars.put("ɓ", "b");
-            this.translitChars.put("ɼ", str10);
+            this.translitChars.put("ɼ", str4);
             this.translitChars.put("ò", "o");
             this.translitChars.put("ẘ", "w");
             this.translitChars.put("ɗ", "d");
@@ -3420,7 +3432,7 @@ public class LocaleController {
             this.translitChars.put("ê", e.a);
             this.translitChars.put("ǚ", str11);
             this.translitChars.put("ġ", str15);
-            this.translitChars.put("ṙ", str10);
+            this.translitChars.put("ṙ", str4);
             this.translitChars.put("ƞ", "n");
             this.translitChars.put("ḗ", e.a);
             this.translitChars.put("ẝ", str14);
@@ -3451,14 +3463,14 @@ public class LocaleController {
             this.translitChars.put("ɫ", "l");
             this.translitChars.put("ᴢ", str16);
             this.translitChars.put("ɱ", str18);
-            this.translitChars.put("ṝ", str10);
+            this.translitChars.put("ṝ", str4);
             this.translitChars.put("ṽ", str17);
             this.translitChars.put("ũ", str11);
             this.translitChars.put("ß", "ss");
             this.translitChars.put("ĥ", str13);
             this.translitChars.put("ᵵ", "t");
             this.translitChars.put("ʐ", str16);
-            this.translitChars.put("ṟ", str10);
+            this.translitChars.put("ṟ", str4);
             this.translitChars.put("ɲ", "n");
             this.translitChars.put("à", "a");
             this.translitChars.put("ẙ", "y");
@@ -3505,7 +3517,7 @@ public class LocaleController {
             this.translitChars.put("ẍ", "x");
             this.translitChars.put("ủ", str11);
             this.translitChars.put("ỉ", i.TAG);
-            this.translitChars.put("ᴚ", str10);
+            this.translitChars.put("ᴚ", str4);
             this.translitChars.put("ś", str14);
             this.translitChars.put("ꝋ", "o");
             this.translitChars.put("ỹ", "y");
@@ -3547,11 +3559,11 @@ public class LocaleController {
             this.translitChars.put("ẩ", "a");
             this.translitChars.put("ṅ", "n");
             this.translitChars.put("ɨ", i.TAG);
-            this.translitChars.put("ᴙ", str10);
+            this.translitChars.put("ᴙ", str4);
             this.translitChars.put("ǎ", "a");
             this.translitChars.put("ſ", str14);
             this.translitChars.put("ȫ", "o");
-            this.translitChars.put("ɿ", str10);
+            this.translitChars.put("ɿ", str4);
             this.translitChars.put("ƭ", "t");
             this.translitChars.put("ḯ", i.TAG);
             this.translitChars.put("ǽ", "ae");
@@ -3568,7 +3580,7 @@ public class LocaleController {
             this.translitChars.put("ᵭ", "d");
             this.translitChars.put("ﬆ", "st");
             this.translitChars.put("ḷ", "l");
-            this.translitChars.put("ŕ", str10);
+            this.translitChars.put("ŕ", str4);
             this.translitChars.put("ᴕ", "ou");
             this.translitChars.put("ʈ", "t");
             this.translitChars.put("ā", "a");
@@ -3601,9 +3613,9 @@ public class LocaleController {
             this.translitChars.put("ḑ", "d");
             this.translitChars.put("ḹ", "l");
             this.translitChars.put("œ", "oe");
-            this.translitChars.put("ᵳ", str10);
+            this.translitChars.put("ᵳ", str4);
             this.translitChars.put("ļ", "l");
-            this.translitChars.put("ȑ", str10);
+            this.translitChars.put("ȑ", str4);
             this.translitChars.put("ȭ", "o");
             this.translitChars.put("ᵰ", "n");
             this.translitChars.put("ᴁ", "ae");
@@ -3612,7 +3624,7 @@ public class LocaleController {
             this.translitChars.put("ƥ", str12);
             this.translitChars.put("ỏ", "o");
             this.translitChars.put("į", i.TAG);
-            this.translitChars.put("ȓ", str10);
+            this.translitChars.put("ȓ", str4);
             this.translitChars.put("ǆ", "dz");
             this.translitChars.put("ḡ", str15);
             this.translitChars.put("ṻ", str11);
@@ -3621,21 +3633,21 @@ public class LocaleController {
             this.translitChars.put("ẃ", "w");
             this.translitChars.put("ț", "t");
             this.translitChars.put("ń", "n");
-            this.translitChars.put("ɍ", str10);
+            this.translitChars.put("ɍ", str4);
             this.translitChars.put("ȃ", "a");
             this.translitChars.put("ü", str11);
             this.translitChars.put("ꞁ", "l");
             this.translitChars.put("ᴐ", "o");
             this.translitChars.put("ớ", "o");
             this.translitChars.put("ᴃ", "b");
-            this.translitChars.put("ɹ", str10);
-            this.translitChars.put("ᵲ", str10);
+            this.translitChars.put("ɹ", str4);
+            this.translitChars.put("ᵲ", str4);
             this.translitChars.put("ʏ", "y");
             this.translitChars.put("ᵮ", "f");
             this.translitChars.put("ⱨ", str13);
             this.translitChars.put("ŏ", "o");
             this.translitChars.put("ú", str11);
-            this.translitChars.put("ṛ", str10);
+            this.translitChars.put("ṛ", str4);
             this.translitChars.put("ʮ", str13);
             this.translitChars.put("ó", "o");
             this.translitChars.put("ů", str11);
@@ -3650,9 +3662,9 @@ public class LocaleController {
             this.translitChars.put("ử", str11);
             this.translitChars.put("í", i.TAG);
             this.translitChars.put("ɔ", "o");
-            this.translitChars.put("ɺ", str10);
+            this.translitChars.put("ɺ", str4);
             this.translitChars.put("ɢ", str15);
-            this.translitChars.put("ř", str10);
+            this.translitChars.put("ř", str4);
             this.translitChars.put("ẖ", str13);
             this.translitChars.put("ű", str11);
             this.translitChars.put("ȍ", "o");
@@ -3675,7 +3687,7 @@ public class LocaleController {
             this.translitChars.put("ȩ", e.a);
             this.translitChars.put("â", "a");
             this.translitChars.put("ş", str14);
-            this.translitChars.put("ŗ", str10);
+            this.translitChars.put("ŗ", str4);
             this.translitChars.put("ʋ", str17);
             this.translitChars.put("ₐ", "a");
             this.translitChars.put("ↄ", c.a);

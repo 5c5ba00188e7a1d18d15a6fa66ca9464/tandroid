@@ -134,6 +134,7 @@ public final class Loader implements LoaderErrorThrower {
         loadTask.maybeThrowError(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"HandlerLeak"})
     /* loaded from: classes.dex */
     public final class LoadTask<T extends Loadable> extends Handler implements Runnable {
@@ -147,10 +148,8 @@ public final class Loader implements LoaderErrorThrower {
         private volatile boolean released;
         private final long startTimeMs;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public LoadTask(Looper looper, T t, Callback<T> callback, int i, long j) {
             super(looper);
-            Loader.this = r1;
             this.loadable = t;
             this.callback = callback;
             this.defaultMinRetryCount = i;
@@ -262,7 +261,7 @@ public final class Loader implements LoaderErrorThrower {
 
         @Override // android.os.Handler
         public void handleMessage(Message message) {
-            long j;
+            long retryDelayMillis;
             if (this.released) {
                 return;
             }
@@ -274,16 +273,16 @@ public final class Loader implements LoaderErrorThrower {
             } else {
                 finish();
                 long elapsedRealtime = SystemClock.elapsedRealtime();
-                long j2 = elapsedRealtime - this.startTimeMs;
+                long j = elapsedRealtime - this.startTimeMs;
                 Callback callback = (Callback) Assertions.checkNotNull(this.callback);
                 if (this.canceled) {
-                    callback.onLoadCanceled(this.loadable, elapsedRealtime, j2, false);
+                    callback.onLoadCanceled(this.loadable, elapsedRealtime, j, false);
                     return;
                 }
                 int i2 = message.what;
                 if (i2 == 1) {
                     try {
-                        callback.onLoadCompleted(this.loadable, elapsedRealtime, j2);
+                        callback.onLoadCompleted(this.loadable, elapsedRealtime, j);
                     } catch (RuntimeException e) {
                         Log.e("LoadTask", "Unexpected exception handling load completed", e);
                         Loader.this.fatalError = new UnexpectedLoaderException(e);
@@ -294,7 +293,7 @@ public final class Loader implements LoaderErrorThrower {
                     this.currentError = iOException;
                     int i3 = this.errorCount + 1;
                     this.errorCount = i3;
-                    LoadErrorAction onLoadError = callback.onLoadError(this.loadable, elapsedRealtime, j2, iOException, i3);
+                    LoadErrorAction onLoadError = callback.onLoadError(this.loadable, elapsedRealtime, j, iOException, i3);
                     if (onLoadError.type != 3) {
                         if (onLoadError.type == 2) {
                             return;
@@ -303,11 +302,11 @@ public final class Loader implements LoaderErrorThrower {
                             this.errorCount = 1;
                         }
                         if (onLoadError.retryDelayMillis != -9223372036854775807L) {
-                            j = onLoadError.retryDelayMillis;
+                            retryDelayMillis = onLoadError.retryDelayMillis;
                         } else {
-                            j = getRetryDelayMillis();
+                            retryDelayMillis = getRetryDelayMillis();
                         }
-                        start(j);
+                        start(retryDelayMillis);
                         return;
                     }
                     Loader.this.fatalError = this.currentError;
@@ -329,6 +328,7 @@ public final class Loader implements LoaderErrorThrower {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class ReleaseTask implements Runnable {
         private final ReleaseCallback callback;

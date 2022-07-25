@@ -11,6 +11,7 @@ import androidx.fragment.app.BackStackRecord;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentTransition {
     private static final int[] INVERSE_OPS = {0, 3, 0, 1, 5, 4, 7, 6, 9, 8};
@@ -30,6 +31,7 @@ public class FragmentTransition {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void startTransitions(FragmentManagerImpl fragmentManagerImpl, ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2, int i, int i2, boolean z) {
         if (fragmentManagerImpl.mCurState < 1) {
             return;
@@ -268,48 +270,48 @@ public class FragmentTransition {
     }
 
     private static Object getSharedElementTransition(FragmentTransitionImpl fragmentTransitionImpl, Fragment fragment, Fragment fragment2, boolean z) {
-        Object obj;
+        Object sharedElementEnterTransition;
         if (fragment == null || fragment2 == null) {
             return null;
         }
         if (z) {
-            obj = fragment2.getSharedElementReturnTransition();
+            sharedElementEnterTransition = fragment2.getSharedElementReturnTransition();
         } else {
-            obj = fragment.getSharedElementEnterTransition();
+            sharedElementEnterTransition = fragment.getSharedElementEnterTransition();
         }
-        return fragmentTransitionImpl.wrapTransitionInSet(fragmentTransitionImpl.cloneTransition(obj));
+        return fragmentTransitionImpl.wrapTransitionInSet(fragmentTransitionImpl.cloneTransition(sharedElementEnterTransition));
     }
 
     private static Object getEnterTransition(FragmentTransitionImpl fragmentTransitionImpl, Fragment fragment, boolean z) {
-        Object obj;
+        Object enterTransition;
         if (fragment == null) {
             return null;
         }
         if (z) {
-            obj = fragment.getReenterTransition();
+            enterTransition = fragment.getReenterTransition();
         } else {
-            obj = fragment.getEnterTransition();
+            enterTransition = fragment.getEnterTransition();
         }
-        return fragmentTransitionImpl.cloneTransition(obj);
+        return fragmentTransitionImpl.cloneTransition(enterTransition);
     }
 
     private static Object getExitTransition(FragmentTransitionImpl fragmentTransitionImpl, Fragment fragment, boolean z) {
-        Object obj;
+        Object exitTransition;
         if (fragment == null) {
             return null;
         }
         if (z) {
-            obj = fragment.getReturnTransition();
+            exitTransition = fragment.getReturnTransition();
         } else {
-            obj = fragment.getExitTransition();
+            exitTransition = fragment.getExitTransition();
         }
-        return fragmentTransitionImpl.cloneTransition(obj);
+        return fragmentTransitionImpl.cloneTransition(exitTransition);
     }
 
     private static Object configureSharedElementsReordered(final FragmentTransitionImpl fragmentTransitionImpl, ViewGroup viewGroup, View view, ArrayMap<String, String> arrayMap, FragmentContainerTransition fragmentContainerTransition, ArrayList<View> arrayList, ArrayList<View> arrayList2, Object obj, Object obj2) {
         Object obj3;
-        final Rect rect;
         final View view2;
+        final Rect rect;
         final Fragment fragment = fragmentContainerTransition.lastIn;
         final Fragment fragment2 = fragmentContainerTransition.firstOut;
         if (fragment != null) {
@@ -357,7 +359,7 @@ public class FragmentTransition {
         OneShotPreDrawListener.add(viewGroup, new Runnable() { // from class: androidx.fragment.app.FragmentTransition.3
             @Override // java.lang.Runnable
             public void run() {
-                FragmentTransition.callSharedElementStartEnd(fragment, fragment2, z, captureInSharedElements, false);
+                FragmentTransition.callSharedElementStartEnd(Fragment.this, fragment2, z, captureInSharedElements, false);
                 View view3 = view2;
                 if (view3 != null) {
                     fragmentTransitionImpl.getBoundsOnScreen(view3, rect);
@@ -377,9 +379,9 @@ public class FragmentTransition {
     }
 
     private static Object configureSharedElementsOrdered(final FragmentTransitionImpl fragmentTransitionImpl, ViewGroup viewGroup, final View view, final ArrayMap<String, String> arrayMap, final FragmentContainerTransition fragmentContainerTransition, final ArrayList<View> arrayList, final ArrayList<View> arrayList2, final Object obj, Object obj2) {
+        Object sharedElementTransition;
         ArrayMap<String, String> arrayMap2;
         Object obj3;
-        Object obj4;
         Rect rect;
         final Fragment fragment = fragmentContainerTransition.lastIn;
         final Fragment fragment2 = fragmentContainerTransition.firstOut;
@@ -389,55 +391,55 @@ public class FragmentTransition {
         final boolean z = fragmentContainerTransition.lastInIsPop;
         if (arrayMap.isEmpty()) {
             arrayMap2 = arrayMap;
-            obj3 = null;
+            sharedElementTransition = null;
         } else {
-            obj3 = getSharedElementTransition(fragmentTransitionImpl, fragment, fragment2, z);
+            sharedElementTransition = getSharedElementTransition(fragmentTransitionImpl, fragment, fragment2, z);
             arrayMap2 = arrayMap;
         }
-        ArrayMap<String, View> captureOutSharedElements = captureOutSharedElements(fragmentTransitionImpl, arrayMap2, obj3, fragmentContainerTransition);
+        ArrayMap<String, View> captureOutSharedElements = captureOutSharedElements(fragmentTransitionImpl, arrayMap2, sharedElementTransition, fragmentContainerTransition);
         if (arrayMap.isEmpty()) {
-            obj4 = null;
+            obj3 = null;
         } else {
             arrayList.addAll(captureOutSharedElements.values());
-            obj4 = obj3;
+            obj3 = sharedElementTransition;
         }
-        if (obj == null && obj2 == null && obj4 == null) {
+        if (obj == null && obj2 == null && obj3 == null) {
             return null;
         }
         callSharedElementStartEnd(fragment, fragment2, z, captureOutSharedElements, true);
-        if (obj4 != null) {
+        if (obj3 != null) {
             rect = new Rect();
-            fragmentTransitionImpl.setSharedElementTargets(obj4, view, arrayList);
-            setOutEpicenter(fragmentTransitionImpl, obj4, obj2, captureOutSharedElements, fragmentContainerTransition.firstOutIsPop, fragmentContainerTransition.firstOutTransaction);
+            fragmentTransitionImpl.setSharedElementTargets(obj3, view, arrayList);
+            setOutEpicenter(fragmentTransitionImpl, obj3, obj2, captureOutSharedElements, fragmentContainerTransition.firstOutIsPop, fragmentContainerTransition.firstOutTransaction);
             if (obj != null) {
                 fragmentTransitionImpl.setEpicenter(obj, rect);
             }
         } else {
             rect = null;
         }
-        final Object obj5 = obj4;
+        final Object obj4 = obj3;
         final Rect rect2 = rect;
         OneShotPreDrawListener.add(viewGroup, new Runnable() { // from class: androidx.fragment.app.FragmentTransition.4
             @Override // java.lang.Runnable
             public void run() {
-                ArrayMap<String, View> captureInSharedElements = FragmentTransition.captureInSharedElements(fragmentTransitionImpl, arrayMap, obj5, fragmentContainerTransition);
+                ArrayMap<String, View> captureInSharedElements = FragmentTransition.captureInSharedElements(FragmentTransitionImpl.this, arrayMap, obj4, fragmentContainerTransition);
                 if (captureInSharedElements != null) {
                     arrayList2.addAll(captureInSharedElements.values());
                     arrayList2.add(view);
                 }
                 FragmentTransition.callSharedElementStartEnd(fragment, fragment2, z, captureInSharedElements, false);
-                Object obj6 = obj5;
-                if (obj6 != null) {
-                    fragmentTransitionImpl.swapSharedElementTargets(obj6, arrayList, arrayList2);
+                Object obj5 = obj4;
+                if (obj5 != null) {
+                    FragmentTransitionImpl.this.swapSharedElementTargets(obj5, arrayList, arrayList2);
                     View inEpicenterView = FragmentTransition.getInEpicenterView(captureInSharedElements, fragmentContainerTransition, obj, z);
                     if (inEpicenterView == null) {
                         return;
                     }
-                    fragmentTransitionImpl.getBoundsOnScreen(inEpicenterView, rect2);
+                    FragmentTransitionImpl.this.getBoundsOnScreen(inEpicenterView, rect2);
                 }
             }
         });
-        return obj4;
+        return obj3;
     }
 
     private static ArrayMap<String, View> captureOutSharedElements(FragmentTransitionImpl fragmentTransitionImpl, ArrayMap<String, String> arrayMap, Object obj, FragmentContainerTransition fragmentContainerTransition) {
@@ -598,23 +600,23 @@ public class FragmentTransition {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0041, code lost:
-        if (r10.mAdded != false) goto L66;
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x0092, code lost:
+        if (r10.mHidden == false) goto L64;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0076, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x0041, code lost:
+        if (r10.mAdded != false) goto L64;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x0094, code lost:
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x0092, code lost:
-        if (r10.mHidden == false) goto L66;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x0094, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0076, code lost:
         r1 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x00b0 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x00d5 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x00e7 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:98:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00b0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00d5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00e7 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:56:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -623,9 +625,9 @@ public class FragmentTransition {
         boolean z3;
         boolean z4;
         boolean z5;
+        boolean z6;
         FragmentContainerTransition fragmentContainerTransition;
         FragmentManagerImpl fragmentManagerImpl;
-        boolean z6;
         Fragment fragment = op.fragment;
         if (fragment == null || (i = fragment.mContainerId) == 0) {
             return;
@@ -636,25 +638,25 @@ public class FragmentTransition {
             if (i2 != 3) {
                 if (i2 == 4) {
                     boolean z8 = !z2 ? false : false;
-                    z3 = z8;
-                    z5 = false;
-                    z4 = true;
+                    z5 = z8;
+                    z4 = false;
+                    z6 = true;
                     FragmentContainerTransition fragmentContainerTransition2 = sparseArray.get(i);
                     if (z7) {
                     }
                     fragmentContainerTransition = fragmentContainerTransition2;
                     if (!z2) {
                     }
-                    if (z3) {
+                    if (z5) {
                     }
                     if (!z2) {
                     }
                 } else if (i2 != 5) {
                     if (i2 != 6) {
                         if (i2 != 7) {
-                            z5 = false;
                             z4 = false;
-                            z3 = false;
+                            z6 = false;
+                            z5 = false;
                             FragmentContainerTransition fragmentContainerTransition22 = sparseArray.get(i);
                             if (z7) {
                                 fragmentContainerTransition22 = ensureContainer(fragmentContainerTransition22, sparseArray, i);
@@ -663,7 +665,7 @@ public class FragmentTransition {
                                 fragmentContainerTransition22.lastInTransaction = backStackRecord;
                             }
                             fragmentContainerTransition = fragmentContainerTransition22;
-                            if (!z2 && z5) {
+                            if (!z2 && z4) {
                                 if (fragmentContainerTransition != null && fragmentContainerTransition.firstOut == fragment) {
                                     fragmentContainerTransition.firstOut = null;
                                 }
@@ -673,13 +675,13 @@ public class FragmentTransition {
                                     fragmentManagerImpl.moveToState(fragment, 1, 0, 0, false);
                                 }
                             }
-                            if (z3 && (fragmentContainerTransition == null || fragmentContainerTransition.firstOut == null)) {
+                            if (z5 && (fragmentContainerTransition == null || fragmentContainerTransition.firstOut == null)) {
                                 fragmentContainerTransition = ensureContainer(fragmentContainerTransition, sparseArray, i);
                                 fragmentContainerTransition.firstOut = fragment;
                                 fragmentContainerTransition.firstOutIsPop = z;
                                 fragmentContainerTransition.firstOutTransaction = backStackRecord;
                             }
-                            if (!z2 || !z4 || fragmentContainerTransition == null || fragmentContainerTransition.lastIn != fragment) {
+                            if (!z2 || !z6 || fragmentContainerTransition == null || fragmentContainerTransition.lastIn != fragment) {
                                 return;
                             }
                             fragmentContainerTransition.lastIn = null;
@@ -691,11 +693,11 @@ public class FragmentTransition {
                         if (!fragment.mHidden) {
                         }
                     }
-                    z6 = false;
-                    z7 = z6;
-                    z5 = true;
-                    z4 = false;
                     z3 = false;
+                    z7 = z3;
+                    z4 = true;
+                    z6 = false;
+                    z5 = false;
                     FragmentContainerTransition fragmentContainerTransition222 = sparseArray.get(i);
                     if (z7) {
                     }
@@ -710,7 +712,7 @@ public class FragmentTransition {
                             fragmentManagerImpl.moveToState(fragment, 1, 0, 0, false);
                         }
                     }
-                    if (z3) {
+                    if (z5) {
                         fragmentContainerTransition = ensureContainer(fragmentContainerTransition, sparseArray, i);
                         fragmentContainerTransition.firstOut = fragment;
                         fragmentContainerTransition.firstOutIsPop = z;
@@ -721,18 +723,18 @@ public class FragmentTransition {
                     }
                     return;
                 } else {
-                    z6 = fragment.mHidden;
-                    z7 = z6;
-                    z5 = true;
-                    z4 = false;
-                    z3 = false;
+                    z3 = fragment.mHidden;
+                    z7 = z3;
+                    z4 = true;
+                    z6 = false;
+                    z5 = false;
                     FragmentContainerTransition fragmentContainerTransition2222 = sparseArray.get(i);
                     if (z7) {
                     }
                     fragmentContainerTransition = fragmentContainerTransition2222;
                     if (!z2) {
                     }
-                    if (z3) {
+                    if (z5) {
                     }
                     if (!z2) {
                     }
@@ -740,51 +742,51 @@ public class FragmentTransition {
             }
             if (!z2) {
             }
-            z3 = z8;
-            z5 = false;
-            z4 = true;
+            z5 = z8;
+            z4 = false;
+            z6 = true;
             FragmentContainerTransition fragmentContainerTransition22222 = sparseArray.get(i);
             if (z7) {
             }
             fragmentContainerTransition = fragmentContainerTransition22222;
             if (!z2) {
             }
-            if (z3) {
+            if (z5) {
             }
             if (!z2) {
             }
         }
         if (z2) {
-            z6 = fragment.mIsNewlyAdded;
-            z7 = z6;
-            z5 = true;
-            z4 = false;
-            z3 = false;
+            z3 = fragment.mIsNewlyAdded;
+            z7 = z3;
+            z4 = true;
+            z6 = false;
+            z5 = false;
             FragmentContainerTransition fragmentContainerTransition222222 = sparseArray.get(i);
             if (z7) {
             }
             fragmentContainerTransition = fragmentContainerTransition222222;
             if (!z2) {
             }
-            if (z3) {
+            if (z5) {
             }
             if (!z2) {
             }
         } else {
             if (!fragment.mAdded) {
             }
-            z6 = false;
-            z7 = z6;
-            z5 = true;
-            z4 = false;
             z3 = false;
+            z7 = z3;
+            z4 = true;
+            z6 = false;
+            z5 = false;
             FragmentContainerTransition fragmentContainerTransition2222222 = sparseArray.get(i);
             if (z7) {
             }
             fragmentContainerTransition = fragmentContainerTransition2222222;
             if (!z2) {
             }
-            if (z3) {
+            if (z5) {
             }
             if (!z2) {
             }
@@ -800,6 +802,7 @@ public class FragmentTransition {
         return fragmentContainerTransition;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class FragmentContainerTransition {
         public Fragment firstOut;

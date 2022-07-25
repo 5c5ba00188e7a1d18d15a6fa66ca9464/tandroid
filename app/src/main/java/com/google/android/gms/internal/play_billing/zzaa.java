@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public final class zzaa extends zzu {
@@ -6,6 +7,7 @@ public final class zzaa extends zzu {
     final transient Object[] zzb;
     private final transient int zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzaa(Object[] objArr, int i) {
         this.zzb = objArr;
         this.zzc = i;
@@ -24,9 +26,8 @@ public final class zzaa extends zzu {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzu, com.google.android.gms.internal.play_billing.zzr
-    public final int zza(Object[] objArr, int i) {
+    final int zza(Object[] objArr, int i) {
         System.arraycopy(this.zzb, 0, objArr, 0, this.zzc);
         return this.zzc;
     }
@@ -36,21 +37,18 @@ public final class zzaa extends zzu {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
-    public final int zzc() {
+    final int zzc() {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
-    public final boolean zzf() {
+    final boolean zzf() {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
-    public final Object[] zzg() {
+    final Object[] zzg() {
         return this.zzb;
     }
 }

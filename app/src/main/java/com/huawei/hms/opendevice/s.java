@@ -71,7 +71,6 @@ public abstract class s {
     }
 
     public static String a(String str) {
-        Throwable th;
         InputStreamReader inputStreamReader;
         File file = new File(str);
         StringBuilder sb = new StringBuilder();
@@ -100,8 +99,8 @@ public abstract class s {
                             IOUtils.closeQuietly((Reader) inputStreamReader);
                             IOUtils.closeQuietly((Reader) bufferedReader);
                             return sb.toString();
-                        } catch (Throwable th2) {
-                            th = th2;
+                        } catch (Throwable th) {
+                            th = th;
                             bufferedReader = bufferedReader2;
                             IOUtils.closeQuietly((Reader) inputStreamReader);
                             IOUtils.closeQuietly((Reader) bufferedReader);
@@ -113,15 +112,15 @@ public abstract class s {
                 } catch (FileNotFoundException unused3) {
                 } catch (IOException unused4) {
                 }
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th2) {
+                th = th2;
             }
         } catch (FileNotFoundException unused5) {
             inputStreamReader = null;
         } catch (IOException unused6) {
             inputStreamReader = null;
-        } catch (Throwable th4) {
-            th = th4;
+        } catch (Throwable th3) {
+            th = th3;
             inputStreamReader = null;
         }
         return sb.toString();

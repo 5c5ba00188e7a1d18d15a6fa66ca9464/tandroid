@@ -12,21 +12,24 @@ import com.microsoft.appcenter.utils.NetworkStateHelper;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.util.UUID;
 import org.json.JSONException;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DistributeUtils {
+class DistributeUtils {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int getNotificationId() {
         return Distribute.class.getName().hashCode();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int getStoredDownloadState() {
         return SharedPreferencesManager.getInt("Distribute.download_state", 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String computeReleaseHash(PackageInfo packageInfo) {
         return HashUtils.sha256(packageInfo.packageName + ":" + packageInfo.versionName + ":" + DeviceInfoHelper.getVersionCode(packageInfo));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void updateSetupUsingTesterApp(Activity activity, PackageInfo packageInfo) {
         String computeReleaseHash = computeReleaseHash(packageInfo);
         String uuid = UUID.randomUUID().toString();
@@ -38,6 +41,7 @@ public class DistributeUtils {
         activity.startActivity(intent);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void updateSetupUsingBrowser(Activity activity, String str, String str2, PackageInfo packageInfo) {
         if (!NetworkStateHelper.getSharedInstance(activity).isNetworkConnected()) {
             AppCenterLog.info("AppCenterDistribute", "Postpone enabling in app updates via browser as network is disconnected.");
@@ -52,6 +56,7 @@ public class DistributeUtils {
         BrowserUtils.openBrowser(str3, activity);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ReleaseDetails loadCachedReleaseDetails() {
         String string = SharedPreferencesManager.getString("Distribute.release_details");
         if (string != null) {

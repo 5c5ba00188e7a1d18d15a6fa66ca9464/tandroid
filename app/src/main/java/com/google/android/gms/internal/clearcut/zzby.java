@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
+final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
     private static final zzby zzgw = new zzby(true);
     private boolean zzgu;
     private boolean zzgv = false;
@@ -58,18 +57,18 @@ public final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:12:0x0026, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcj) == false) goto L8;
+        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcj) == false) goto L7;
      */
     /* JADX WARN: Code restructure failed: missing block: B:16:0x002f, code lost:
-        if ((r3 instanceof byte[]) == false) goto L8;
+        if ((r3 instanceof byte[]) == false) goto L7;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcr) == false) goto L8;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x001b, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcr) == false) goto L7;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x001e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x001e, code lost:
         r0 = false;
      */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0046 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0046 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:26:0x0047  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -301,6 +300,7 @@ public final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
         return zzbyVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final Iterator<Map.Entry<FieldDescriptorType, Object>> descendingIterator() {
         return this.zzgv ? new zzcu(this.zzgt.zzdt().iterator()) : this.zzgt.zzdt().iterator();
     }
@@ -319,6 +319,7 @@ public final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
         return this.zzgt.hashCode();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean isEmpty() {
         return this.zzgt.isEmpty();
     }

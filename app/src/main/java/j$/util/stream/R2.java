@@ -7,6 +7,7 @@ class R2 implements S2, l3 {
     private long b;
     final /* synthetic */ j$.util.function.o c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public R2(j$.util.function.o oVar) {
         this.c = oVar;
     }
@@ -38,6 +39,7 @@ class R2 implements S2, l3 {
         return consumer.getClass();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Long l) {
         o1.c(this, l);

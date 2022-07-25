@@ -14,6 +14,7 @@ public final class d {
     private static Map<Class<?>, Object> b = new HashMap();
     private Map<Class<?>, Service> c = new HashMap();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public d(List<Service> list, Context context) {
         new HashMap();
         a(list, context);
@@ -44,15 +45,14 @@ public final class d {
         Log.e("ServiceRepository", sb.toString());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x005b A[Catch: InvocationTargetException -> 0x0076, InstantiationException -> 0x007a, IllegalAccessException -> 0x007e, TryCatch #2 {IllegalAccessException -> 0x007e, InstantiationException -> 0x007a, InvocationTargetException -> 0x0076, blocks: (B:20:0x0049, B:22:0x005b, B:23:0x0064, B:24:0x006c), top: B:33:0x0049 }] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0064 A[Catch: InvocationTargetException -> 0x0076, InstantiationException -> 0x007a, IllegalAccessException -> 0x007e, TryCatch #2 {IllegalAccessException -> 0x007e, InstantiationException -> 0x007a, InvocationTargetException -> 0x0076, blocks: (B:20:0x0049, B:22:0x005b, B:23:0x0064, B:24:0x006c), top: B:33:0x0049 }] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x005b A[Catch: InvocationTargetException -> 0x0076, InstantiationException -> 0x007a, IllegalAccessException -> 0x007e, TryCatch #2 {IllegalAccessException -> 0x007e, InstantiationException -> 0x007a, InvocationTargetException -> 0x0076, blocks: (B:22:0x0049, B:26:0x005b, B:27:0x006c, B:30:0x0064), top: B:21:0x0049 }] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0064 A[Catch: InvocationTargetException -> 0x0076, InstantiationException -> 0x007a, IllegalAccessException -> 0x007e, TryCatch #2 {IllegalAccessException -> 0x007e, InstantiationException -> 0x007a, InvocationTargetException -> 0x0076, blocks: (B:22:0x0049, B:26:0x005b, B:27:0x006c, B:30:0x0064), top: B:21:0x0049 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void a(List<Service> list, Context context) {
-        String str;
-        Exception e;
         Map<Class<?>, Service> map;
+        String str;
         if (list == null) {
             return;
         }
@@ -65,16 +65,16 @@ public final class d {
                     try {
                         Constructor a2 = a(service.getType(), Context.class);
                         b.put(service.getInterface(), a2 == null ? a2.newInstance(context) : service.getType().newInstance());
-                    } catch (IllegalAccessException e2) {
-                        e = e2;
+                    } catch (IllegalAccessException e) {
+                        e = e;
                         str = "AccessException";
                         a(str, e);
-                    } catch (InstantiationException e3) {
-                        e = e3;
+                    } catch (InstantiationException e2) {
+                        e = e2;
                         str = "InstantiationException";
                         a(str, e);
-                    } catch (InvocationTargetException e4) {
-                        e = e4;
+                    } catch (InvocationTargetException e3) {
+                        e = e3;
                         str = "TargetException";
                         a(str, e);
                     }

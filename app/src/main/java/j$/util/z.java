@@ -9,6 +9,7 @@ class z implements r, j$.util.function.q, Iterator {
     long b;
     final /* synthetic */ v c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public z(v vVar) {
         this.c = vVar;
     }
@@ -19,7 +20,7 @@ class z implements r, j$.util.function.q, Iterator {
         this.b = j;
     }
 
-    @Override // j$.util.r
+    @Override // j$.util.p
     /* renamed from: d */
     public void forEachRemaining(j$.util.function.q qVar) {
         qVar.getClass();
@@ -58,7 +59,8 @@ class z implements r, j$.util.function.q, Iterator {
     }
 
     @Override // j$.util.r, java.util.Iterator
-    public Long next() {
+    /* renamed from: next */
+    public Long mo339next() {
         if (!N.a) {
             return Long.valueOf(nextLong());
         }

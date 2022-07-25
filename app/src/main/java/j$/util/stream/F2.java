@@ -7,6 +7,7 @@ class F2 extends T2 implements S2, j3 {
     final /* synthetic */ j$.util.function.u c;
     final /* synthetic */ j$.util.function.b d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public F2(j$.util.function.y yVar, j$.util.function.u uVar, j$.util.function.b bVar) {
         this.b = yVar;
         this.c = uVar;
@@ -35,6 +36,7 @@ class F2 extends T2 implements S2, j3 {
         return consumer.getClass();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Double d) {
         o1.a(this, d);

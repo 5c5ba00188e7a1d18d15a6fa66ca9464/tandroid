@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_common;
 
 import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:common@@17.0.0 */
 /* loaded from: classes.dex */
 public final class zzai extends zzad<E> {
@@ -8,6 +9,7 @@ public final class zzai extends zzad<E> {
     private final transient int zzb;
     private final /* synthetic */ zzad zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzai(zzad zzadVar, int i, int i2) {
         this.zzc = zzadVar;
         this.zza = i;
@@ -19,11 +21,13 @@ public final class zzai extends zzad<E> {
         return this.zzb;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzac
     public final Object[] zzb() {
         return this.zzc.zzb();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzac
     public final int zzc() {
         return this.zzc.zzc() + this.zza;

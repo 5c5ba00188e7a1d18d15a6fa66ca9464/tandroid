@@ -39,6 +39,7 @@ public class Logging {
         return logger;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void injectLoggable(Loggable loggable2, Severity severity) {
         if (loggable2 != null) {
             loggable = loggable2;
@@ -46,6 +47,7 @@ public class Logging {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void deleteInjectedLoggable() {
         loggable = null;
     }
@@ -122,7 +124,8 @@ public class Logging {
         }
     }
 
-    /* renamed from: org.webrtc.Logging$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.webrtc.Logging$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$Logging$Severity;

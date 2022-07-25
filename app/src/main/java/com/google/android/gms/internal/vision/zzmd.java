@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzmd {
@@ -8,6 +9,7 @@ public final class zzmd {
         return zza.zza(bArr, 0, bArr.length);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(int i) {
         if (i > -12) {
             return -1;
@@ -15,6 +17,7 @@ public final class zzmd {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(int i, int i2) {
         if (i > -12 || i2 > -65) {
             return -1;
@@ -22,6 +25,7 @@ public final class zzmd {
         return i ^ (i2 << 8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzb(int i, int i2, int i3) {
         if (i > -12 || i2 > -65 || i3 > -65) {
             return -1;
@@ -33,6 +37,7 @@ public final class zzmd {
         return zza.zza(bArr, i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzd(byte[] bArr, int i, int i2) {
         byte b = bArr[i - 1];
         int i3 = i2 - i;
@@ -48,6 +53,7 @@ public final class zzmd {
         return zzb(b);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(CharSequence charSequence) {
         int length = charSequence.length();
         int i = 0;
@@ -93,21 +99,23 @@ public final class zzmd {
         throw new IllegalArgumentException(sb.toString());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         return zza.zza(charSequence, bArr, i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String zzb(byte[] bArr, int i, int i2) throws zzjk {
         return zza.zzb(bArr, i, i2);
     }
 
     static {
-        zzme zzmeVar;
+        zzme zzmhVar;
         if ((zzma.zza() && zzma.zzb()) && !zzhi.zza()) {
-            zzmeVar = new zzmj();
+            zzmhVar = new zzmj();
         } else {
-            zzmeVar = new zzmh();
+            zzmhVar = new zzmh();
         }
-        zza = zzmeVar;
+        zza = zzmhVar;
     }
 }

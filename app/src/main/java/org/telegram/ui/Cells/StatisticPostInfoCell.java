@@ -76,7 +76,7 @@ public class StatisticPostInfoCell extends FrameLayout {
     }
 
     public void setData(StatisticActivity.RecentPostInfo recentPostInfo) {
-        String str;
+        String charSequence;
         MessageObject messageObject = recentPostInfo.message;
         ArrayList<TLRPC$PhotoSize> arrayList = messageObject.photoThumbs;
         if (arrayList != null) {
@@ -87,15 +87,15 @@ public class StatisticPostInfoCell extends FrameLayout {
             this.imageView.setRoundRadius(AndroidUtilities.dp(46.0f) >> 1);
         }
         if (messageObject.isMusic()) {
-            str = String.format("%s, %s", messageObject.getMusicTitle().trim(), messageObject.getMusicAuthor().trim());
+            charSequence = String.format("%s, %s", messageObject.getMusicTitle().trim(), messageObject.getMusicAuthor().trim());
         } else {
-            CharSequence charSequence = messageObject.caption;
-            if (charSequence == null) {
-                charSequence = messageObject.messageText;
+            CharSequence charSequence2 = messageObject.caption;
+            if (charSequence2 == null) {
+                charSequence2 = messageObject.messageText;
             }
-            str = charSequence.toString();
+            charSequence = charSequence2.toString();
         }
-        this.message.setText(str.replace("\n", " ").trim());
+        this.message.setText(charSequence.replace("\n", " ").trim());
         this.views.setText(String.format(LocaleController.getPluralString("Views", recentPostInfo.counters.views), AndroidUtilities.formatCount(recentPostInfo.counters.views)));
         this.date.setText(LocaleController.formatDateAudio(recentPostInfo.message.messageOwner.date, false));
         this.shares.setText(String.format(LocaleController.getPluralString("Shares", recentPostInfo.counters.forwards), AndroidUtilities.formatCount(recentPostInfo.counters.forwards)));

@@ -115,9 +115,8 @@ public class OneCollectorChannelListener extends AbstractChannelListener {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class EpochAndSeq {
+    private static class EpochAndSeq {
         final String epoch;
         long seq;
 

@@ -16,8 +16,9 @@ public final class SchemaManager_Factory implements Factory<SchemaManager> {
     }
 
     @Override // javax.inject.Provider
-    public SchemaManager get() {
-        return newInstance(this.contextProvider.get(), this.dbNameProvider.get(), this.schemaVersionProvider.get().intValue());
+    /* renamed from: get */
+    public SchemaManager mo70get() {
+        return newInstance(this.contextProvider.mo70get(), this.dbNameProvider.mo70get(), this.schemaVersionProvider.mo70get().intValue());
     }
 
     public static SchemaManager_Factory create(Provider<Context> provider, Provider<String> provider2, Provider<Integer> provider3) {

@@ -15,6 +15,7 @@ import org.telegram.tgnet.ConnectionsManager;
 final class DecodedBitStreamParser {
     private static final char[] ALPHANUMERIC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".toCharArray();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     public static DecoderResult decode(byte[] bArr, Version version, ErrorCorrectionLevel errorCorrectionLevel, Map<DecodeHintType, ?> map) throws FormatException {
         Mode forBits;
@@ -102,10 +103,9 @@ final class DecodedBitStreamParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.google.zxing.qrcode.decoder.DecodedBitStreamParser$1 */
+    /* renamed from: com.google.zxing.qrcode.decoder.DecodedBitStreamParser$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public static /* synthetic */ class AnonymousClass1 {
+    static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$zxing$qrcode$decoder$Mode;
 
         static {
@@ -199,7 +199,7 @@ final class DecodedBitStreamParser {
     }
 
     private static void decodeByteSegment(BitSource bitSource, StringBuilder sb, int i, CharacterSetECI characterSetECI, Collection<byte[]> collection, Map<DecodeHintType, ?> map) throws FormatException {
-        String str;
+        String name;
         if (i * 8 > bitSource.available()) {
             throw FormatException.getFormatInstance();
         }
@@ -208,12 +208,12 @@ final class DecodedBitStreamParser {
             bArr[i2] = (byte) bitSource.readBits(8);
         }
         if (characterSetECI == null) {
-            str = StringUtils.guessEncoding(bArr, map);
+            name = StringUtils.guessEncoding(bArr, map);
         } else {
-            str = characterSetECI.name();
+            name = characterSetECI.name();
         }
         try {
-            sb.append(new String(bArr, str));
+            sb.append(new String(bArr, name));
             collection.add(bArr);
         } catch (UnsupportedEncodingException unused) {
             throw FormatException.getFormatInstance();

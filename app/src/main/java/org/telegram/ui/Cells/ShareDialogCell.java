@@ -78,6 +78,7 @@ public class ShareDialogCell extends FrameLayout {
         setBackground(Theme.createRadSelectorDrawable(Theme.getColor("listSelectorSDK21"), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f)));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(float f) {
         float progress = 1.0f - (this.checkBox.getProgress() * 0.143f);
         this.imageView.setScaleX(progress);

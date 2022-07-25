@@ -10,6 +10,7 @@ final class zzly implements ListIterator<String>, Iterator {
     private final /* synthetic */ int zzb;
     private final /* synthetic */ zzlz zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzly(zzlz zzlzVar, int i) {
         zzjv zzjvVar;
         this.zzc = zzlzVar;
@@ -64,7 +65,8 @@ final class zzly implements ListIterator<String>, Iterator {
     }
 
     @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         return this.zza.next();
     }
 }

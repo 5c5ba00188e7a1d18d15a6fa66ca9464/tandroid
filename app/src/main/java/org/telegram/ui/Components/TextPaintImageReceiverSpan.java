@@ -32,6 +32,7 @@ public class TextPaintImageReceiverSpan extends ReplacementSpan {
         this.alignTop = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         if (!imageReceiver.canInvertBitmap()) {
             return;

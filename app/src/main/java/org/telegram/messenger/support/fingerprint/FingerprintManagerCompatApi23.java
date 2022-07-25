@@ -79,6 +79,7 @@ public final class FingerprintManagerCompatApi23 {
         return new FingerprintManager.CryptoObject(cryptoObject.getMac());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static CryptoObject unwrapCryptoObject(FingerprintManager.CryptoObject cryptoObject) {
         if (cryptoObject == null) {
             return null;
@@ -99,22 +100,22 @@ public final class FingerprintManagerCompatApi23 {
         return new FingerprintManager.AuthenticationCallback() { // from class: org.telegram.messenger.support.fingerprint.FingerprintManagerCompatApi23.1
             @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
             public void onAuthenticationError(int i, CharSequence charSequence) {
-                authenticationCallback.onAuthenticationError(i, charSequence);
+                AuthenticationCallback.this.onAuthenticationError(i, charSequence);
             }
 
             @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
             public void onAuthenticationHelp(int i, CharSequence charSequence) {
-                authenticationCallback.onAuthenticationHelp(i, charSequence);
+                AuthenticationCallback.this.onAuthenticationHelp(i, charSequence);
             }
 
             @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
             public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult authenticationResult) {
-                authenticationCallback.onAuthenticationSucceeded(new AuthenticationResultInternal(FingerprintManagerCompatApi23.unwrapCryptoObject(authenticationResult.getCryptoObject())));
+                AuthenticationCallback.this.onAuthenticationSucceeded(new AuthenticationResultInternal(FingerprintManagerCompatApi23.unwrapCryptoObject(authenticationResult.getCryptoObject())));
             }
 
             @Override // android.hardware.fingerprint.FingerprintManager.AuthenticationCallback
             public void onAuthenticationFailed() {
-                authenticationCallback.onAuthenticationFailed();
+                AuthenticationCallback.this.onAuthenticationFailed();
             }
         };
     }

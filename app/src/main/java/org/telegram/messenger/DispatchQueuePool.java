@@ -52,31 +52,32 @@ public class DispatchQueuePool {
     }
 
     public void execute(final Runnable runnable) {
-        final DispatchQueue dispatchQueue;
+        final DispatchQueue remove;
         if (!this.busyQueues.isEmpty() && (this.totalTasksCount / 2 <= this.busyQueues.size() || (this.queues.isEmpty() && this.createdCount >= this.maxCount))) {
-            dispatchQueue = this.busyQueues.remove(0);
+            remove = this.busyQueues.remove(0);
         } else if (this.queues.isEmpty()) {
-            dispatchQueue = new DispatchQueue("DispatchQueuePool" + this.guid + "_" + Utilities.random.nextInt());
-            dispatchQueue.setPriority(10);
+            remove = new DispatchQueue("DispatchQueuePool" + this.guid + "_" + Utilities.random.nextInt());
+            remove.setPriority(10);
             this.createdCount = this.createdCount + 1;
         } else {
-            dispatchQueue = this.queues.remove(0);
+            remove = this.queues.remove(0);
         }
         if (!this.cleanupScheduled) {
             AndroidUtilities.runOnUIThread(this.cleanupRunnable, 30000L);
             this.cleanupScheduled = true;
         }
         this.totalTasksCount++;
-        this.busyQueues.add(dispatchQueue);
-        this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
-        dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda0
+        this.busyQueues.add(remove);
+        this.busyQueuesMap.put(remove.index, this.busyQueuesMap.get(remove.index, 0) + 1);
+        remove.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                DispatchQueuePool.this.lambda$execute$1(runnable, dispatchQueue);
+                DispatchQueuePool.this.lambda$execute$1(runnable, remove);
             }
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
         runnable.run();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda1
@@ -87,6 +88,7 @@ public class DispatchQueuePool {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$execute$0(DispatchQueue dispatchQueue) {
         this.totalTasksCount--;
         int i = this.busyQueuesMap.get(dispatchQueue.index) - 1;

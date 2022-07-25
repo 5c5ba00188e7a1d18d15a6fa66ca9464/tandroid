@@ -37,22 +37,27 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
     int lastStartIndex = -1;
     int lastEndIndex = -1;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void drawBottomLine(Canvas canvas) {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void drawBottomSignature(Canvas canvas) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void drawHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void drawSelection(Canvas canvas) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
     public void drawSignaturesToHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
     }
@@ -76,9 +81,9 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         int i;
         float f;
         float f2;
-        int i2;
-        Canvas canvas2;
         float f3;
+        Canvas canvas2;
+        int i2;
         int i3;
         float f4;
         int i4;
@@ -327,9 +332,9 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                         int[] iArr = lineViewData2.line.y;
                         if (i5 == i4) {
                             if (iArr[i3] != 0) {
-                                f2 = lineViewData2.alpha;
+                                f = lineViewData2.alpha;
                                 int i8 = this.pikerHeight;
-                                float f8 = f2 * i8;
+                                float f8 = f * i8;
                                 float[] fArr = lineViewData2.linesPath;
                                 int i9 = lineViewData2.linesPathBottomSize;
                                 i = length;
@@ -338,7 +343,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                                 fArr[i9] = f3;
                                 int i11 = i10 + 1;
                                 lineViewData2.linesPathBottomSize = i11;
-                                f = f5;
+                                f2 = f5;
                                 fArr[i10] = (i8 - f8) - f7;
                                 int i12 = i11 + 1;
                                 lineViewData2.linesPathBottomSize = i12;
@@ -347,9 +352,9 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                                 fArr[i12] = i8 - f7;
                                 f7 += f8;
                             }
-                            f2 = 0.0f;
+                            f = 0.0f;
                             int i82 = this.pikerHeight;
-                            float f82 = f2 * i82;
+                            float f82 = f * i82;
                             float[] fArr2 = lineViewData2.linesPath;
                             int i92 = lineViewData2.linesPathBottomSize;
                             i = length;
@@ -358,7 +363,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                             fArr2[i92] = f3;
                             int i112 = i102 + 1;
                             lineViewData2.linesPathBottomSize = i112;
-                            f = f5;
+                            f2 = f5;
                             fArr2[i102] = (i82 - f82) - f7;
                             int i122 = i112 + 1;
                             lineViewData2.linesPathBottomSize = i122;
@@ -370,12 +375,12 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                             if (f5 != f4) {
                                 if (z) {
                                     float f9 = lineViewData2.alpha;
-                                    f2 = (iArr[i3] / f5) * f9 * f9;
+                                    f = (iArr[i3] / f5) * f9 * f9;
                                 } else {
-                                    f2 = lineViewData2.alpha * (iArr[i3] / f5);
+                                    f = lineViewData2.alpha * (iArr[i3] / f5);
                                 }
                                 int i822 = this.pikerHeight;
-                                float f822 = f2 * i822;
+                                float f822 = f * i822;
                                 float[] fArr22 = lineViewData2.linesPath;
                                 int i922 = lineViewData2.linesPathBottomSize;
                                 i = length;
@@ -384,7 +389,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                                 fArr22[i922] = f3;
                                 int i1122 = i1022 + 1;
                                 lineViewData2.linesPathBottomSize = i1122;
-                                f = f5;
+                                f2 = f5;
                                 fArr22[i1022] = (i822 - f822) - f7;
                                 int i1222 = i1122 + 1;
                                 lineViewData2.linesPathBottomSize = i1222;
@@ -393,9 +398,9 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                                 fArr22[i1222] = i822 - f7;
                                 f7 += f822;
                             }
-                            f2 = 0.0f;
+                            f = 0.0f;
                             int i8222 = this.pikerHeight;
-                            float f8222 = f2 * i8222;
+                            float f8222 = f * i8222;
                             float[] fArr222 = lineViewData2.linesPath;
                             int i9222 = lineViewData2.linesPathBottomSize;
                             i = length;
@@ -404,7 +409,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                             fArr222[i9222] = f3;
                             int i11222 = i10222 + 1;
                             lineViewData2.linesPathBottomSize = i11222;
-                            f = f5;
+                            f2 = f5;
                             fArr222[i10222] = (i8222 - f8222) - f7;
                             int i12222 = i11222 + 1;
                             lineViewData2.linesPathBottomSize = i12222;
@@ -415,11 +420,11 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                         }
                     } else {
                         i = length;
-                        f = f5;
+                        f2 = f5;
                     }
                     i7++;
                     length = i;
-                    f5 = f;
+                    f5 = f2;
                     f4 = 0.0f;
                     i4 = 1;
                 }
@@ -434,6 +439,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         }
     }
 
+    @Override // org.telegram.ui.Charts.BaseChartView
     public void setData(StackLinearChartData stackLinearChartData) {
         super.setData((PieChartView) stackLinearChartData);
         if (stackLinearChartData != null) {
@@ -444,7 +450,8 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
     }
 
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
-    public PieChartViewData createLineViewData(ChartData.Line line) {
+    /* renamed from: createLineViewData */
+    public PieChartViewData mo1029createLineViewData(ChartData.Line line) {
         return new PieChartViewData(line);
     }
 
@@ -527,6 +534,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         moveLegend();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView, android.view.View
     public void onDraw(Canvas canvas) {
         if (this.chartData != 0) {
@@ -558,6 +566,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
@@ -691,6 +700,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateCharValues$0(PieChartViewData pieChartViewData, ValueAnimator valueAnimator) {
         pieChartViewData.drawingPart = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

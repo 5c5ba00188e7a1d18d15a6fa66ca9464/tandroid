@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.util.EnumMap;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* JADX WARN: Init of enum DISTINCT can be incorrect */
 /* JADX WARN: Init of enum ORDERED can be incorrect */
 /* JADX WARN: Init of enum SHORT_CIRCUIT can be incorrect */
@@ -107,6 +108,7 @@ public enum d4 {
         this.e = 3 << i3;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int a(int i2, int i3) {
         return i2 | (i3 & (i2 == 0 ? i : ((((j & i2) << 1) | i2) | ((k & i2) >> 1)) ^ (-1)));
     }
@@ -120,6 +122,7 @@ public enum d4 {
         return i2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int c(j$.util.u uVar) {
         int characteristics = uVar.characteristics();
         return ((characteristics & 4) == 0 || uVar.getComparator() == null) ? f & characteristics : f & characteristics & (-5);
@@ -132,14 +135,17 @@ public enum d4 {
         return b4Var;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int g(int i2) {
         return i2 & ((i2 ^ (-1)) >> 1) & j;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean d(int i2) {
         return (i2 & this.e) == this.c;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean e(int i2) {
         int i3 = this.e;
         return (i2 & i3) == i3;

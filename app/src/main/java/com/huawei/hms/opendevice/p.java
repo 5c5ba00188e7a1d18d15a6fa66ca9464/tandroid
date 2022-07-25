@@ -61,16 +61,16 @@ public abstract class p {
     }
 
     public static String c(Context context) {
-        String str;
+        String parent;
         if (Build.VERSION.SDK_INT >= 24) {
-            str = context.createDeviceProtectedStorageContext().getDataDir() + "";
+            parent = context.createDeviceProtectedStorageContext().getDataDir() + "";
         } else {
-            str = context.getFilesDir().getParent();
+            parent = context.getFilesDir().getParent();
         }
-        if (TextUtils.isEmpty(str)) {
+        if (TextUtils.isEmpty(parent)) {
             HMSLog.e("CommFun", "get storage root path of the current user failed.");
         }
-        return str;
+        return parent;
     }
 
     public static long d(Context context) {

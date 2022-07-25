@@ -34,6 +34,7 @@ public final class LocaleListCompat {
         return this.mImpl.size();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Locale forLanguageTagCompat(String str) {
         if (str.contains("-")) {
             String[] split = str.split("-", -1);

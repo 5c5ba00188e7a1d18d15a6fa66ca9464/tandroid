@@ -10,6 +10,7 @@ public class DoubleLinearChartData extends ChartData {
         super(jSONObject);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.data.ChartData
     public void measure() {
         super.measure();

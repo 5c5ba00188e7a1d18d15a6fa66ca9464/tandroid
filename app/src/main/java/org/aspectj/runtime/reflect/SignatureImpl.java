@@ -14,6 +14,7 @@ abstract class SignatureImpl implements Signature {
     Cache stringCache;
     private String stringRep;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface Cache {
         String get(int i);
@@ -23,6 +24,7 @@ abstract class SignatureImpl implements Signature {
 
     protected abstract String createToString(StringMaker stringMaker);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public SignatureImpl(int i, String str, Class cls) {
         this.modifiers = -1;
         this.modifiers = i;
@@ -30,8 +32,9 @@ abstract class SignatureImpl implements Signature {
         this.declaringType = cls;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x001e  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0026  */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0026  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -125,10 +128,12 @@ abstract class SignatureImpl implements Signature {
         return Integer.parseInt(extractString(i), 16);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Class extractType(int i) {
         return Factory.makeClass(extractString(i), getLookupClassLoader());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Class[] extractTypes(int i) {
         StringTokenizer stringTokenizer = new StringTokenizer(extractString(i), ":");
         int countTokens = stringTokenizer.countTokens();
@@ -139,6 +144,7 @@ abstract class SignatureImpl implements Signature {
         return clsArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CacheImpl implements Cache {
         private SoftReference toStringCacheRef;

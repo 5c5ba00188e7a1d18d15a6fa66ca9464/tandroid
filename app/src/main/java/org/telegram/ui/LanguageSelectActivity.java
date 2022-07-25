@@ -171,6 +171,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view, int i) {
         LocaleController.LocaleInfo localeInfo;
         try {
@@ -236,10 +237,12 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(String str, String str2) {
         return str2 != null && str2.equals(str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$3(View view, int i) {
         final LocaleController.LocaleInfo localeInfo;
         try {
@@ -284,6 +287,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(LocaleController.LocaleInfo localeInfo, DialogInterface dialogInterface, int i) {
         if (LocaleController.getInstance().deleteLanguage(localeInfo, this.currentAccount)) {
             fillLanguages();
@@ -317,6 +321,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$4() {
         this.listAdapter.notifyDataSetChanged();
     }
@@ -347,6 +352,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         Collections.sort(this.unofficialLanguages, comparator);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$fillLanguages$5(LocaleController.LocaleInfo localeInfo, LocaleController.LocaleInfo localeInfo2, LocaleController.LocaleInfo localeInfo3) {
         if (localeInfo2 == localeInfo) {
             return -1;
@@ -397,6 +403,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSearch$6(String str) {
         if (str.trim().toLowerCase().length() == 0) {
             updateSearchResults(new ArrayList<>());
@@ -430,11 +437,13 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateSearchResults$7(ArrayList arrayList) {
         this.searchResult = arrayList;
         this.searchListViewAdapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class TranslateSettings extends LinearLayout {
         private TextSettingsCell doNotTranslateCell;
@@ -446,10 +455,8 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         private ValueAnimator doNotTranslateCellAnimation = null;
         private SharedPreferences preferences = MessagesController.getGlobalMainSettings();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public TranslateSettings(Context context) {
             super(context);
-            LanguageSelectActivity.this = r12;
             setFocusable(false);
             setOrientation(1);
             HeaderCell headerCell = new HeaderCell(context);
@@ -505,10 +512,12 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             update();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             this.preferences.edit().putBoolean("translate_button", !getValue()).apply();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1(View view) {
             LanguageSelectActivity.this.presentFragment(new RestrictedLanguagesSelectActivity());
             update();
@@ -582,6 +591,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             this.doNotTranslateCellAnimation.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$update$2(ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             this.doNotTranslateCell.setAlpha(floatValue);
@@ -658,13 +668,13 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private boolean search;
 
         public ListAdapter(Context context, boolean z) {
-            LanguageSelectActivity.this = r1;
             this.mContext = context;
             this.search = z;
         }
@@ -694,9 +704,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextRadioCell textRadioCell;
+            View view;
             if (i == 0) {
                 TextRadioCell textRadioCell2 = new TextRadioCell(this.mContext);
                 textRadioCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
@@ -718,28 +729,28 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x0088, code lost:
-            if (r12 == (org.telegram.ui.LanguageSelectActivity.this.searchResult.size() - 1)) goto L26;
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x0088, code lost:
+            if (r12 == (r10.this$0.searchResult.size() - 1)) goto L30;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:26:0x008a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x008a, code lost:
             r12 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:27:0x008c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:40:0x008c, code lost:
             r12 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x00bf, code lost:
-            if (r12 == (org.telegram.ui.LanguageSelectActivity.this.unofficialLanguages.size() - 1)) goto L26;
+        /* JADX WARN: Code restructure failed: missing block: B:47:0x00bf, code lost:
+            if (r12 == (r10.this$0.unofficialLanguages.size() - 1)) goto L30;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x00f1, code lost:
-            if (r12 == (org.telegram.ui.LanguageSelectActivity.this.sortedLanguages.size() - 1)) goto L26;
+        /* JADX WARN: Code restructure failed: missing block: B:52:0x00f1, code lost:
+            if (r12 == (r10.this$0.sortedLanguages.size() - 1)) goto L30;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            boolean z;
             LocaleController.LocaleInfo localeInfo;
+            boolean z;
             int itemViewType = viewHolder.getItemViewType();
             boolean z2 = false;
             int i2 = 0;

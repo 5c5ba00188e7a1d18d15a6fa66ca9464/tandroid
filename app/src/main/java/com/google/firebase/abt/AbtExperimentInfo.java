@@ -29,6 +29,7 @@ public class AbtExperimentInfo {
         this.timeToLiveInMillis = j2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static AbtExperimentInfo fromMap(Map<String, String> map) throws AbtException {
         validateExperimentInfoMap(map);
         try {
@@ -40,6 +41,7 @@ public class AbtExperimentInfo {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String getExperimentId() {
         return this.experimentId;
     }
@@ -62,6 +64,7 @@ public class AbtExperimentInfo {
         throw new AbtException(String.format("The following keys are missing from the experiment info map: %s", arrayList));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AnalyticsConnector.ConditionalUserProperty toConditionalUserProperty(String str) {
         AnalyticsConnector.ConditionalUserProperty conditionalUserProperty = new AnalyticsConnector.ConditionalUserProperty();
         getStartTimeInMillisSinceEpoch();

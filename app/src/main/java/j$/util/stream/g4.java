@@ -3,6 +3,7 @@ package j$.util.stream;
 final class g4 extends j4 implements j$.util.function.f {
     final double[] c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public g4(int i) {
         this.c = new double[i];
     }
@@ -15,6 +16,7 @@ final class g4 extends j4 implements j$.util.function.f {
         dArr[i] = d;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.j4
     public void b(Object obj, long j) {
         j$.util.function.f fVar = (j$.util.function.f) obj;

@@ -8,6 +8,7 @@ import java.util.Map;
 @AutoValue
 /* loaded from: classes.dex */
 public abstract class EventInternal {
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract Map<String, String> getAutoMetadata();
 
     public abstract Integer getCode();

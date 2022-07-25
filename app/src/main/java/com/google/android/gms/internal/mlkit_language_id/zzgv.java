@@ -2,10 +2,9 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Iterator;
 import java.util.Map;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzgv extends zzhb {
+final class zzgv extends zzhb {
     private final /* synthetic */ zzgq zza;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -19,6 +18,7 @@ public final class zzgv extends zzhb {
         return new zzgs(this.zza, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzgv(zzgq zzgqVar, zzgt zzgtVar) {
         this(zzgqVar);
     }

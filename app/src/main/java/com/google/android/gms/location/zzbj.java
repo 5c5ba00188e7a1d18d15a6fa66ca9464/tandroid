@@ -13,6 +13,7 @@ public final class zzbj extends AbstractSafeParcelable {
     private final String zzb;
     private final String zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzbj(String str, String str2, String str3) {
         this.zzc = str;
         this.zza = str2;

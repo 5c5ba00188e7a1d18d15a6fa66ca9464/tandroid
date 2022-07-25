@@ -59,6 +59,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
     private static ArrayList<BaseFragment> mainFragmentsStack = new ArrayList<>();
     private static ArrayList<BaseFragment> layerFragmentsStack = new ArrayList<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onCreate$1(View view) {
     }
 
@@ -175,6 +176,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         needLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onCreate$0(View view, MotionEvent motionEvent) {
         if (!this.actionBarLayout.fragmentsStack.isEmpty() && motionEvent.getAction() == 1) {
             float x = motionEvent.getX();
@@ -197,6 +199,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showPasscodeActivity() {
         if (this.passcodeView == null) {
             return;
@@ -220,6 +223,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPasscodeActivity$2() {
         SharedConfig.isWaitingForPasscodeEnter = false;
         Intent intent = this.passcodeSaveIntent;
@@ -247,6 +251,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean checkPasscode(Intent intent, boolean z, boolean z2, boolean z3, int i, int i2) {
         if (z3 || (!AndroidUtilities.needShowPasscode(true) && !SharedConfig.isWaitingForPasscodeEnter)) {
             return true;
@@ -357,6 +362,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$3(int i, Intent intent, boolean z, boolean z2, boolean z3, int i2) {
         if (i2 != i) {
             switchToAccount(i2);
@@ -364,15 +370,18 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         handleIntent(intent, z, z2, z3, i2, 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$4(DialogInterface dialogInterface) {
         setResult(0);
         finish();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$handleIntent$5(int i, int[] iArr, DialogInterface dialogInterface) {
         ConnectionsManager.getInstance(i).cancelRequest(iArr[0], true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$10(int[] iArr, final int i, final AlertDialog alertDialog, final TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm, final String str, final String str2, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         final TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm = (TLRPC$TL_account_authorizationForm) tLObject;
         if (tLRPC$TL_account_authorizationForm != null) {
@@ -392,6 +401,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$7(final AlertDialog alertDialog, final int i, final TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm, final TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm, final String str, final String str2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
@@ -401,6 +411,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$6(AlertDialog alertDialog, TLObject tLObject, int i, TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm, TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm, String str, String str2) {
         try {
             alertDialog.dismiss();
@@ -427,6 +438,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$9(AlertDialog alertDialog, final TLRPC$TL_error tLRPC$TL_error) {
         try {
             alertDialog.dismiss();
@@ -456,6 +468,7 @@ public class ExternalActionActivity extends Activity implements ActionBarLayout.
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$8(TLRPC$TL_error tLRPC$TL_error, DialogInterface dialogInterface) {
         setResult(1, new Intent().putExtra("error", tLRPC$TL_error.text));
         finish();

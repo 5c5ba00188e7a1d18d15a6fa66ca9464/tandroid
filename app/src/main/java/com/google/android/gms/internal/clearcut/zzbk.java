@@ -1,14 +1,14 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
 public abstract class zzbk {
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzbk() {
+    private zzbk() {
     }
 
     public static long zza(long j) {
         return (-(j & 1)) ^ (j >>> 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zzbk zza(byte[] bArr, int i, int i2, boolean z) {
         zzbm zzbmVar = new zzbm(bArr, 0, i2, false);
         try {

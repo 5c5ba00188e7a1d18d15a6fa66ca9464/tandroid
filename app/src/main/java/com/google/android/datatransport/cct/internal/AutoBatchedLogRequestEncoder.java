@@ -43,6 +43,7 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         private BatchedLogRequestEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(BatchedLogRequest batchedLogRequest, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(LOGREQUEST_DESCRIPTOR, batchedLogRequest.getLogRequests());
         }
@@ -62,9 +63,10 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         private LogRequestEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(LogRequest logRequest, ObjectEncoderContext objectEncoderContext) throws IOException {
-            objectEncoderContext.add(REQUESTTIMEMS_DESCRIPTOR, logRequest.getRequestTimeMs());
-            objectEncoderContext.add(REQUESTUPTIMEMS_DESCRIPTOR, logRequest.getRequestUptimeMs());
+            objectEncoderContext.mo196add(REQUESTTIMEMS_DESCRIPTOR, logRequest.getRequestTimeMs());
+            objectEncoderContext.mo196add(REQUESTUPTIMEMS_DESCRIPTOR, logRequest.getRequestUptimeMs());
             objectEncoderContext.add(CLIENTINFO_DESCRIPTOR, logRequest.getClientInfo());
             objectEncoderContext.add(LOGSOURCE_DESCRIPTOR, logRequest.getLogSource());
             objectEncoderContext.add(LOGSOURCENAME_DESCRIPTOR, logRequest.getLogSourceName());
@@ -82,6 +84,7 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         private ClientInfoEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(ClientInfo clientInfo, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(CLIENTTYPE_DESCRIPTOR, clientInfo.getClientType());
             objectEncoderContext.add(ANDROIDCLIENTINFO_DESCRIPTOR, clientInfo.getAndroidClientInfo());
@@ -107,6 +110,7 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         private AndroidClientInfoEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(AndroidClientInfo androidClientInfo, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(SDKVERSION_DESCRIPTOR, androidClientInfo.getSdkVersion());
             objectEncoderContext.add(MODEL_DESCRIPTOR, androidClientInfo.getModel());
@@ -137,13 +141,14 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         private LogEventEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(LogEvent logEvent, ObjectEncoderContext objectEncoderContext) throws IOException {
-            objectEncoderContext.add(EVENTTIMEMS_DESCRIPTOR, logEvent.getEventTimeMs());
+            objectEncoderContext.mo196add(EVENTTIMEMS_DESCRIPTOR, logEvent.getEventTimeMs());
             objectEncoderContext.add(EVENTCODE_DESCRIPTOR, logEvent.getEventCode());
-            objectEncoderContext.add(EVENTUPTIMEMS_DESCRIPTOR, logEvent.getEventUptimeMs());
+            objectEncoderContext.mo196add(EVENTUPTIMEMS_DESCRIPTOR, logEvent.getEventUptimeMs());
             objectEncoderContext.add(SOURCEEXTENSION_DESCRIPTOR, logEvent.getSourceExtension());
             objectEncoderContext.add(SOURCEEXTENSIONJSONPROTO3_DESCRIPTOR, logEvent.getSourceExtensionJsonProto3());
-            objectEncoderContext.add(TIMEZONEOFFSETSECONDS_DESCRIPTOR, logEvent.getTimezoneOffsetSeconds());
+            objectEncoderContext.mo196add(TIMEZONEOFFSETSECONDS_DESCRIPTOR, logEvent.getTimezoneOffsetSeconds());
             objectEncoderContext.add(NETWORKCONNECTIONINFO_DESCRIPTOR, logEvent.getNetworkConnectionInfo());
         }
     }
@@ -157,6 +162,7 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         private NetworkConnectionInfoEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(NetworkConnectionInfo networkConnectionInfo, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(NETWORKTYPE_DESCRIPTOR, networkConnectionInfo.getNetworkType());
             objectEncoderContext.add(MOBILESUBTYPE_DESCRIPTOR, networkConnectionInfo.getMobileSubtype());

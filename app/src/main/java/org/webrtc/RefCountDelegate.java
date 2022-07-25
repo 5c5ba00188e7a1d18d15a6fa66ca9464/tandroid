@@ -32,6 +32,7 @@ class RefCountDelegate implements RefCounted {
         throw new IllegalStateException("release() called on an object with refcount < 1");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean safeRetain() {
         int i = this.refCount.get();
         while (i != 0) {

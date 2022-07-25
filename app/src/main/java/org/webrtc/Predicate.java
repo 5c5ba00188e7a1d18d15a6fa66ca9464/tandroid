@@ -9,7 +9,7 @@ public interface Predicate<T> {
 
     boolean test(T t);
 
-    /* renamed from: org.webrtc.Predicate$-CC */
+    /* renamed from: org.webrtc.Predicate$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
     public final /* synthetic */ class CC {
         public static Predicate $default$or(final Predicate _this, final Predicate predicate) {
@@ -31,7 +31,7 @@ public interface Predicate<T> {
 
                 @Override // org.webrtc.Predicate
                 public boolean test(T t) {
-                    return _this.test(t) || predicate.test(t);
+                    return Predicate.this.test(t) || predicate.test(t);
                 }
             };
         }
@@ -55,7 +55,7 @@ public interface Predicate<T> {
 
                 @Override // org.webrtc.Predicate
                 public boolean test(T t) {
-                    return _this.test(t) && predicate.test(t);
+                    return Predicate.this.test(t) && predicate.test(t);
                 }
             };
         }
@@ -79,7 +79,7 @@ public interface Predicate<T> {
 
                 @Override // org.webrtc.Predicate
                 public boolean test(T t) {
-                    return !_this.test(t);
+                    return !Predicate.this.test(t);
                 }
             };
         }

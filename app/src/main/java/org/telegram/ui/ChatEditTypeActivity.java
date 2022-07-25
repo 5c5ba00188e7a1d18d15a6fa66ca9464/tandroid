@@ -114,8 +114,8 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         this.isForcePublic = z;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0048, code lost:
-        if (r0 == null) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x0048, code lost:
+        if (r0 == null) goto L9;
      */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -162,6 +162,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         return super.onFragmentCreate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFragmentCreate$1(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
@@ -171,6 +172,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFragmentCreate$0(TLRPC$TL_error tLRPC$TL_error) {
         boolean z = tLRPC$TL_error == null || !tLRPC$TL_error.text.equals("CHANNELS_ADMIN_PUBLIC_TOO_MUCH");
         this.canCreatePublic = z;
@@ -209,6 +211,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyVisible() {
         EditTextBoldCursor editTextBoldCursor;
@@ -499,6 +502,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         if (this.isPrivate) {
             return;
@@ -507,6 +511,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         updatePrivatePublic();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         if (!this.isPrivate) {
             return;
@@ -519,12 +524,14 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         updatePrivatePublic();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         ManageLinksActivity manageLinksActivity = new ManageLinksActivity(this.chatId, 0L, 0);
         manageLinksActivity.setInfo(this.info, this.invite);
         presentFragment(manageLinksActivity);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(View view) {
         boolean z = !this.isSaveRestricted;
         this.isSaveRestricted = z;
@@ -546,6 +553,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         showDialog(limitReachedBottomSheet);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showPremiumIncreaseLimitDialog$6() {
         this.canCreatePublic = true;
         updatePrivatePublic();
@@ -576,6 +584,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void processDone() {
         if (this.currentChat.noforwards != this.isSaveRestricted) {
             MessagesController messagesController = getMessagesController();
@@ -591,8 +600,8 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         finishFragment();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0029  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003d  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0029  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x003d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -640,6 +649,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$tryUpdateJoinSettings$7(long j) {
         if (j != 0) {
             this.chatId = j;
@@ -686,6 +696,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$trySetUsername$8(long j) {
         if (j != 0) {
             this.chatId = j;
@@ -708,6 +719,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$14(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
@@ -717,6 +729,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$13(TLObject tLObject) {
         this.loadingAdminedChannels = false;
         if (tLObject == null || getParentActivity() == null) {
@@ -746,6 +759,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         updatePrivatePublic();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$12(View view) {
         final TLRPC$Chat currentChannel = ((AdminedChannelCell) view.getParent()).getCurrentChannel();
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
@@ -765,6 +779,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$11(TLRPC$Chat tLRPC$Chat, DialogInterface dialogInterface, int i) {
         TLRPC$TL_channels_updateUsername tLRPC$TL_channels_updateUsername = new TLRPC$TL_channels_updateUsername();
         tLRPC$TL_channels_updateUsername.channel = MessagesController.getInputChannel(tLRPC$Chat);
@@ -777,6 +792,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }, 64);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$10(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda7
@@ -788,6 +804,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$9() {
         this.canCreatePublic = true;
         if (this.usernameTextView.length() > 0) {
@@ -797,10 +814,10 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     }
 
     private void updatePrivatePublic() {
-        String str;
         int i;
-        String str2;
+        String str;
         int i2;
+        String str2;
         if (this.sectionCell2 == null) {
             return;
         }
@@ -909,6 +926,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         checkDoneButton();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkDoneButton() {
         if (this.isPrivate || this.usernameTextView.length() > 0) {
             this.doneButton.setEnabled(true);
@@ -919,6 +937,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         this.doneButton.setAlpha(0.5f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean checkUserName(final String str) {
         if (str != null && str.length() > 0) {
             this.checkTextView.setVisibility(0);
@@ -987,6 +1006,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$17(final String str) {
         TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
         tLRPC$TL_channels_checkUsername.username = str;
@@ -999,6 +1019,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$16(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
@@ -1008,6 +1029,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$15(String str, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
         this.checkReqId = 0;
         String str2 = this.lastCheckName;
@@ -1030,6 +1052,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         this.lastNameAvailable = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void generateLink(final boolean z) {
         TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
         tLRPC$TL_messages_exportChatInvite.legacy_revoke_permanent = true;
@@ -1042,6 +1065,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }), this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$19(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
@@ -1051,6 +1075,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$18(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z) {
         String str = null;
         if (tLRPC$TL_error == null) {
@@ -1164,6 +1189,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$20() {
         LinearLayout linearLayout = this.adminnedChannelsLayout;
         if (linearLayout != null) {

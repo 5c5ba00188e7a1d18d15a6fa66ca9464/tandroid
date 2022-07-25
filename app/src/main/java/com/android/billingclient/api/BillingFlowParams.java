@@ -25,7 +25,7 @@ public class BillingFlowParams {
         private SubscriptionUpdateParams.Builder zzf;
 
         public BillingFlowParams build() {
-            com.google.android.gms.internal.play_billing.zzu zzuVar;
+            com.google.android.gms.internal.play_billing.zzu zzl;
             ArrayList arrayList = this.zzd;
             boolean z = true;
             boolean z2 = arrayList != null && !arrayList.isEmpty();
@@ -89,11 +89,11 @@ public class BillingFlowParams {
                     billingFlowParams.zzg = this.zze;
                     List list2 = this.zzc;
                     if (list2 != null) {
-                        zzuVar = com.google.android.gms.internal.play_billing.zzu.zzk(list2);
+                        zzl = com.google.android.gms.internal.play_billing.zzu.zzk(list2);
                     } else {
-                        zzuVar = com.google.android.gms.internal.play_billing.zzu.zzl();
+                        zzl = com.google.android.gms.internal.play_billing.zzu.zzl();
                     }
-                    billingFlowParams.zze = zzuVar;
+                    billingFlowParams.zze = zzl;
                     return billingFlowParams;
                 }
                 throw new IllegalArgumentException("Set SkuDetails or ProductDetailsParams, not both.");
@@ -252,6 +252,7 @@ public class BillingFlowParams {
         return this.zzg;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzo() {
         return (this.zzb == null && this.zzc == null && this.zzd.zza() == 0 && !this.zza && !this.zzg) ? false : true;
     }

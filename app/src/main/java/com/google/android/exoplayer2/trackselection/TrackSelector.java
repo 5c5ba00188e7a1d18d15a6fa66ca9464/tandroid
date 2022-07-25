@@ -23,6 +23,7 @@ public abstract class TrackSelector {
         this.bandwidthMeter = bandwidthMeter;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final BandwidthMeter getBandwidthMeter() {
         return (BandwidthMeter) Assertions.checkNotNull(this.bandwidthMeter);
     }

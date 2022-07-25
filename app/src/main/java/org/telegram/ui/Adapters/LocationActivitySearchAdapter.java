@@ -37,7 +37,8 @@ public class LocationActivitySearchAdapter extends BaseLocationAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new RecyclerListView.Holder(new LocationCell(this.mContext, false, null));
     }
 

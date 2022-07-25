@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public enum zza {
@@ -33,6 +34,7 @@ public enum zza {
         this.zzq = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static zza zza(int i) {
         zzx zzxVar = zzo;
         Integer valueOf = Integer.valueOf(i);

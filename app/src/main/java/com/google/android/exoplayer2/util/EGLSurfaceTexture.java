@@ -153,17 +153,17 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
     }
 
     private static EGLSurface createEGLSurface(EGLDisplay eGLDisplay, EGLConfig eGLConfig, EGLContext eGLContext, int i) {
-        EGLSurface eGLSurface;
+        EGLSurface eglCreatePbufferSurface;
         if (i == 1) {
-            eGLSurface = EGL14.EGL_NO_SURFACE;
+            eglCreatePbufferSurface = EGL14.EGL_NO_SURFACE;
         } else {
-            eGLSurface = EGL14.eglCreatePbufferSurface(eGLDisplay, eGLConfig, i == 2 ? new int[]{12375, 1, 12374, 1, 12992, 1, 12344} : new int[]{12375, 1, 12374, 1, 12344}, 0);
-            if (eGLSurface == null) {
+            eglCreatePbufferSurface = EGL14.eglCreatePbufferSurface(eGLDisplay, eGLConfig, i == 2 ? new int[]{12375, 1, 12374, 1, 12992, 1, 12344} : new int[]{12375, 1, 12374, 1, 12344}, 0);
+            if (eglCreatePbufferSurface == null) {
                 throw new GlException("eglCreatePbufferSurface failed");
             }
         }
-        if (EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, eGLContext)) {
-            return eGLSurface;
+        if (EGL14.eglMakeCurrent(eGLDisplay, eglCreatePbufferSurface, eglCreatePbufferSurface, eGLContext)) {
+            return eglCreatePbufferSurface;
         }
         throw new GlException("eglMakeCurrent failed");
     }

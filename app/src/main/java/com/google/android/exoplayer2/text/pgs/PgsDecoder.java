@@ -83,6 +83,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
         return cue;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CueBuilder {
         private int bitmapHeight;
@@ -95,6 +96,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
         private final ParsableByteArray bitmapData = new ParsableByteArray();
         private final int[] colors = new int[256];
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void parsePaletteSection(ParsableByteArray parsableByteArray, int i) {
             if (i % 5 != 2) {
                 return;
@@ -126,6 +128,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             this.colorsSet = true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void parseBitmapSection(ParsableByteArray parsableByteArray, int i) {
             int readUnsignedInt24;
             if (i < 4) {
@@ -152,6 +155,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             this.bitmapData.setPosition(position + min);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void parseIdentifierSection(ParsableByteArray parsableByteArray, int i) {
             if (i < 19) {
                 return;

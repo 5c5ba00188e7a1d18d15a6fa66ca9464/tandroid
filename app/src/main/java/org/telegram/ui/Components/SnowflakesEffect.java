@@ -22,6 +22,7 @@ public class SnowflakesEffect {
     private ArrayList<Particle> particles = new ArrayList<>();
     private ArrayList<Particle> freeParticles = new ArrayList<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Particle {
         float alpha;
@@ -36,7 +37,6 @@ public class SnowflakesEffect {
         float y;
 
         private Particle() {
-            SnowflakesEffect.this = r1;
         }
 
         public void draw(Canvas canvas) {

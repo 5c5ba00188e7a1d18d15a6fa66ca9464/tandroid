@@ -120,6 +120,7 @@ public class DispatchQueueMainThreadSync extends Thread {
         this.isRecycled = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$recycle$0() {
         this.handler.getLooper().quit();
     }
@@ -148,6 +149,7 @@ public class DispatchQueueMainThreadSync extends Thread {
         Looper.loop();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$run$1(Message message) {
         handleMessage(message);
         return true;
@@ -161,6 +163,7 @@ public class DispatchQueueMainThreadSync extends Thread {
         return this.handler;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class PostponedTask {
         long delay;
@@ -168,13 +171,11 @@ public class DispatchQueueMainThreadSync extends Thread {
         Runnable runnable;
 
         public PostponedTask(Message message, int i) {
-            DispatchQueueMainThreadSync.this = r1;
             this.message = message;
             this.delay = i;
         }
 
         public PostponedTask(Runnable runnable, long j) {
-            DispatchQueueMainThreadSync.this = r1;
             this.runnable = runnable;
             this.delay = j;
         }

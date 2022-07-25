@@ -26,6 +26,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         this.needSnapToTop = false;
         this.isEmptyViewVisible = false;
         MemberRequestsDelegate memberRequestsDelegate = new MemberRequestsDelegate(baseFragment, this.container, j, false) { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Delegates.MemberRequestsDelegate
             public void onImportersChanged(String str, boolean z, boolean z2) {
                 if (!hasAllImporters()) {
@@ -87,6 +88,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         return f2 >= ((float) (this.scrollOffsetY + this.frameLayout.getMeasuredHeight()));
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
     public void setTranslationY(int i) {
         super.setTranslationY(i);
@@ -96,6 +98,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         this.membersSearchEmptyView.setTranslationY(f);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
@@ -110,6 +113,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         super.updateLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
     public void search(String str) {
         super.search(str);
@@ -154,6 +158,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSearchViewTouched$1(final EditTextBoldCursor editTextBoldCursor) {
         setFocusable(true);
         editTextBoldCursor.requestFocus();

@@ -20,7 +20,7 @@ public class a {
         this.b = name.length();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x00a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00a1, code lost:
         return new java.lang.String(r1, r2, r8.f - r2);
      */
     /*
@@ -324,7 +324,7 @@ public class a {
     }
 
     public List<String> b(String str) {
-        String str2;
+        String f;
         this.c = 0;
         this.d = 0;
         this.e = 0;
@@ -340,17 +340,17 @@ public class a {
             if (i < this.b) {
                 char c = this.g[i];
                 if (c == '\"') {
-                    str2 = f();
+                    f = f();
                 } else if (c != '#') {
-                    str2 = (c == '+' || c == ',' || c == ';') ? "" : a();
+                    f = (c == '+' || c == ',' || c == ';') ? "" : a();
                 } else {
-                    str2 = d();
+                    f = d();
                 }
                 if (str.equalsIgnoreCase(e)) {
                     if (emptyList.isEmpty()) {
                         emptyList = new ArrayList<>();
                     }
-                    emptyList.add(str2);
+                    emptyList.add(f);
                 }
                 int i2 = this.c;
                 if (i2 < this.b) {

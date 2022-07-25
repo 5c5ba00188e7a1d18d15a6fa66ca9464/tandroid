@@ -60,11 +60,12 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
     }
 
     @Override // com.google.mlkit.nl.languageid.LanguageIdentifier
-    public Task<String> identifyLanguage(String str) {
+    public Task<String> identifyLanguage(final String str) {
         Preconditions.checkNotNull(str, "Text can not be null");
-        LanguageIdentificationJni languageIdentificationJni = this.zzd.get();
+        final LanguageIdentificationJni languageIdentificationJni = this.zzd.get();
         Preconditions.checkState(languageIdentificationJni != null, "LanguageIdentification has been closed");
-        return languageIdentificationJni.zza(this.zzc, new Callable(this, languageIdentificationJni, str, true ^ languageIdentificationJni.isLoaded()) { // from class: com.google.mlkit.nl.languageid.zzd
+        final boolean isLoaded = true ^ languageIdentificationJni.isLoaded();
+        return languageIdentificationJni.zza(this.zzc, new Callable(this, languageIdentificationJni, str, isLoaded) { // from class: com.google.mlkit.nl.languageid.zzd
             private final LanguageIdentifierImpl zza;
             private final LanguageIdentificationJni zzb;
             private final String zzc;
@@ -96,8 +97,9 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         andSet.unpin(this.zzc);
     }
 
-    private final void zza(long j, boolean z, zzy$zzau.zzd zzdVar, zzy$zzau.zzc zzcVar, zzai zzaiVar) {
-        this.zzb.zza(new zzcv.zza(this, SystemClock.elapsedRealtime() - j, z, zzaiVar, zzdVar, zzcVar) { // from class: com.google.mlkit.nl.languageid.zzf
+    private final void zza(long j, final boolean z, final zzy$zzau.zzd zzdVar, final zzy$zzau.zzc zzcVar, final zzai zzaiVar) {
+        final long elapsedRealtime = SystemClock.elapsedRealtime() - j;
+        this.zzb.zza(new zzcv.zza(this, elapsedRealtime, z, zzaiVar, zzdVar, zzcVar) { // from class: com.google.mlkit.nl.languageid.zzf
             private final LanguageIdentifierImpl zza;
             private final long zzb;
             private final boolean zzc;
@@ -122,6 +124,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         }, zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_DETECT);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ zzy$zzad.zza zza(long j, boolean z, zzai zzaiVar, zzy$zzau.zzd zzdVar, zzy$zzau.zzc zzcVar) {
         zzy$zzau.zza zza = zzy$zzau.zza().zza(this.zza.zza()).zza(zzy$zzaf.zza().zza(j).zza(z).zza(zzaiVar));
         if (zzdVar != null) {
@@ -133,6 +136,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         return zzy$zzad.zzb().zza(true).zza(zza);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ String zza(LanguageIdentificationJni languageIdentificationJni, String str, boolean z) throws Exception {
         zzy$zzau.zzc zzcVar;
         Float zzb = this.zza.zzb();

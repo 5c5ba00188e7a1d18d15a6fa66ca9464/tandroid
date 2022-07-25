@@ -151,6 +151,7 @@ public class ActionBar extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         Runnable runnable;
         if (!isSearchFieldVisible() && (runnable = this.titleActionRunnable) != null) {
@@ -180,6 +181,7 @@ public class ActionBar extends FrameLayout {
         this.backButtonImageView.setContentDescription(LocaleController.getString("AccDescrGoBack", R.string.AccDescrGoBack));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createBackButtonImage$1(View view) {
         if (!this.actionModeVisible && this.isSearchFieldVisible) {
             closeSearchField();
@@ -254,6 +256,7 @@ public class ActionBar extends FrameLayout {
         return (onTouchListener != null && onTouchListener.onTouch(this, motionEvent)) || super.onInterceptTouchEvent(motionEvent);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean shouldClipChild(View view) {
         if (this.clipContent) {
             SimpleTextView[] simpleTextViewArr = this.titleTextView;
@@ -264,6 +267,7 @@ public class ActionBar extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup
     public boolean drawChild(Canvas canvas, View view, long j) {
         Drawable currentHolidayDrawable;
@@ -1137,16 +1141,17 @@ public class ActionBar extends FrameLayout {
         super.requestLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
     public void onMeasure(int i, int i2) {
-        int i3;
+        int dp;
         SimpleTextView simpleTextView;
         SimpleTextView simpleTextView2;
-        int i4;
+        int makeMeasureSpec;
         int size = View.MeasureSpec.getSize(i);
         View.MeasureSpec.getSize(i2);
         int currentActionBarHeight = getCurrentActionBarHeight();
-        int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(currentActionBarHeight, 1073741824);
+        int makeMeasureSpec2 = View.MeasureSpec.makeMeasureSpec(currentActionBarHeight, 1073741824);
         this.ignoreLayoutRequest = true;
         View view = this.actionModeTop;
         if (view != null) {
@@ -1160,21 +1165,21 @@ public class ActionBar extends FrameLayout {
         setMeasuredDimension(size, currentActionBarHeight + (this.occupyStatusBar ? AndroidUtilities.statusBarHeight : 0) + this.extraHeight);
         ImageView imageView = this.backButtonImageView;
         if (imageView != null && imageView.getVisibility() != 8) {
-            this.backButtonImageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(54.0f), 1073741824), makeMeasureSpec);
-            i3 = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 80.0f : 72.0f);
+            this.backButtonImageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(54.0f), 1073741824), makeMeasureSpec2);
+            dp = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 80.0f : 72.0f);
         } else {
-            i3 = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 26.0f : 18.0f);
+            dp = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 26.0f : 18.0f);
         }
         ActionBarMenu actionBarMenu2 = this.menu;
         if (actionBarMenu2 != null && actionBarMenu2.getVisibility() != 8) {
             float f = 74.0f;
             if (this.menu.searchFieldVisible() && !this.isSearchFieldVisible) {
-                this.menu.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), makeMeasureSpec);
+                this.menu.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), makeMeasureSpec2);
                 int itemsMeasuredWidth = this.menu.getItemsMeasuredWidth();
                 if (!AndroidUtilities.isTablet()) {
                     f = 66.0f;
                 }
-                i4 = View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(f)) + this.menu.getItemsMeasuredWidth(), 1073741824);
+                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(f)) + this.menu.getItemsMeasuredWidth(), 1073741824);
                 if (!this.isMenuOffsetSuppressed) {
                     this.menu.translateXItems(-itemsMeasuredWidth);
                 }
@@ -1182,41 +1187,41 @@ public class ActionBar extends FrameLayout {
                 if (!AndroidUtilities.isTablet()) {
                     f = 66.0f;
                 }
-                i4 = View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(f), 1073741824);
+                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(f), 1073741824);
                 if (!this.isMenuOffsetSuppressed) {
                     this.menu.translateXItems(0.0f);
                 }
             } else {
-                i4 = View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE);
+                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE);
                 if (!this.isMenuOffsetSuppressed) {
                     this.menu.translateXItems(0.0f);
                 }
             }
-            this.menu.measure(i4, makeMeasureSpec);
+            this.menu.measure(makeMeasureSpec, makeMeasureSpec2);
         }
-        for (int i5 = 0; i5 < 2; i5++) {
+        for (int i3 = 0; i3 < 2; i3++) {
             SimpleTextView[] simpleTextViewArr = this.titleTextView;
-            if ((simpleTextViewArr[0] != null && simpleTextViewArr[0].getVisibility() != 8) || ((simpleTextView2 = this.subtitleTextView) != null && simpleTextView2.getVisibility() != 8)) {
+            if ((simpleTextViewArr[0] != null && simpleTextViewArr[0].getVisibility() != 8) || ((simpleTextView = this.subtitleTextView) != null && simpleTextView.getVisibility() != 8)) {
                 ActionBarMenu actionBarMenu3 = this.menu;
-                int measuredWidth = (((size - (actionBarMenu3 != null ? actionBarMenu3.getMeasuredWidth() : 0)) - AndroidUtilities.dp(16.0f)) - i3) - this.titleRightMargin;
+                int measuredWidth = (((size - (actionBarMenu3 != null ? actionBarMenu3.getMeasuredWidth() : 0)) - AndroidUtilities.dp(16.0f)) - dp) - this.titleRightMargin;
                 boolean z = this.fromBottom;
-                int i6 = 18;
-                if (((z && i5 == 0) || (!z && i5 == 1)) && this.overlayTitleAnimation && this.titleAnimationRunning) {
-                    SimpleTextView simpleTextView3 = this.titleTextView[i5];
+                int i4 = 18;
+                if (((z && i3 == 0) || (!z && i3 == 1)) && this.overlayTitleAnimation && this.titleAnimationRunning) {
+                    SimpleTextView simpleTextView3 = this.titleTextView[i3];
                     if (AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) {
-                        i6 = 20;
+                        i4 = 20;
                     }
-                    simpleTextView3.setTextSize(i6);
+                    simpleTextView3.setTextSize(i4);
                 } else {
                     SimpleTextView[] simpleTextViewArr2 = this.titleTextView;
-                    if (simpleTextViewArr2[0] != null && simpleTextViewArr2[0].getVisibility() != 8 && (simpleTextView = this.subtitleTextView) != null && simpleTextView.getVisibility() != 8) {
+                    if (simpleTextViewArr2[0] != null && simpleTextViewArr2[0].getVisibility() != 8 && (simpleTextView2 = this.subtitleTextView) != null && simpleTextView2.getVisibility() != 8) {
                         SimpleTextView[] simpleTextViewArr3 = this.titleTextView;
-                        if (simpleTextViewArr3[i5] != null) {
-                            SimpleTextView simpleTextView4 = simpleTextViewArr3[i5];
+                        if (simpleTextViewArr3[i3] != null) {
+                            SimpleTextView simpleTextView4 = simpleTextViewArr3[i3];
                             if (AndroidUtilities.isTablet()) {
-                                i6 = 20;
+                                i4 = 20;
                             }
-                            simpleTextView4.setTextSize(i6);
+                            simpleTextView4.setTextSize(i4);
                         }
                         this.subtitleTextView.setTextSize(AndroidUtilities.isTablet() ? 16 : 14);
                         SimpleTextView simpleTextView5 = this.additionalSubtitleTextView;
@@ -1225,12 +1230,12 @@ public class ActionBar extends FrameLayout {
                         }
                     } else {
                         SimpleTextView[] simpleTextViewArr4 = this.titleTextView;
-                        if (simpleTextViewArr4[i5] != null && simpleTextViewArr4[i5].getVisibility() != 8) {
-                            SimpleTextView simpleTextView6 = this.titleTextView[i5];
+                        if (simpleTextViewArr4[i3] != null && simpleTextViewArr4[i3].getVisibility() != 8) {
+                            SimpleTextView simpleTextView6 = this.titleTextView[i3];
                             if (AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) {
-                                i6 = 20;
+                                i4 = 20;
                             }
-                            simpleTextView6.setTextSize(i6);
+                            simpleTextView6.setTextSize(i4);
                         }
                         SimpleTextView simpleTextView7 = this.subtitleTextView;
                         if (simpleTextView7 != null && simpleTextView7.getVisibility() != 8) {
@@ -1243,16 +1248,16 @@ public class ActionBar extends FrameLayout {
                     }
                 }
                 SimpleTextView[] simpleTextViewArr5 = this.titleTextView;
-                if (simpleTextViewArr5[i5] != null && simpleTextViewArr5[i5].getVisibility() != 8) {
-                    this.titleTextView[i5].measure(View.MeasureSpec.makeMeasureSpec(measuredWidth, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), Integer.MIN_VALUE));
+                if (simpleTextViewArr5[i3] != null && simpleTextViewArr5[i3].getVisibility() != 8) {
+                    this.titleTextView[i3].measure(View.MeasureSpec.makeMeasureSpec(measuredWidth, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), Integer.MIN_VALUE));
                     if (this.centerScale) {
-                        CharSequence text = this.titleTextView[i5].getText();
+                        CharSequence text = this.titleTextView[i3].getText();
                         SimpleTextView[] simpleTextViewArr6 = this.titleTextView;
-                        simpleTextViewArr6[i5].setPivotX(simpleTextViewArr6[i5].getTextPaint().measureText(text, 0, text.length()) / 2.0f);
-                        this.titleTextView[i5].setPivotY(AndroidUtilities.dp(24.0f) >> 1);
+                        simpleTextViewArr6[i3].setPivotX(simpleTextViewArr6[i3].getTextPaint().measureText(text, 0, text.length()) / 2.0f);
+                        this.titleTextView[i3].setPivotY(AndroidUtilities.dp(24.0f) >> 1);
                     } else {
-                        this.titleTextView[i5].setPivotX(0.0f);
-                        this.titleTextView[i5].setPivotY(0.0f);
+                        this.titleTextView[i3].setPivotX(0.0f);
+                        this.titleTextView[i3].setPivotY(0.0f);
                     }
                 }
                 SimpleTextView simpleTextView9 = this.subtitleTextView;
@@ -1266,8 +1271,8 @@ public class ActionBar extends FrameLayout {
             }
         }
         int childCount = getChildCount();
-        for (int i7 = 0; i7 < childCount; i7++) {
-            View childAt = getChildAt(i7);
+        for (int i5 = 0; i5 < childCount; i5++) {
+            View childAt = getChildAt(i5);
             if (childAt.getVisibility() != 8) {
                 SimpleTextView[] simpleTextViewArr7 = this.titleTextView;
                 if (childAt != simpleTextViewArr7[0] && childAt != simpleTextViewArr7[1] && childAt != this.subtitleTextView && childAt != this.menu && childAt != this.backButtonImageView && childAt != this.additionalSubtitleTextView) {
@@ -1281,119 +1286,119 @@ public class ActionBar extends FrameLayout {
         this.isMenuOffsetSuppressed = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0201  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x020e  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0201  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x020e  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        int dp;
         int i5;
         int i6;
         int i7;
         int i8;
         int i9;
         int i10;
-        int i11;
-        int i12;
-        int i13 = this.occupyStatusBar ? AndroidUtilities.statusBarHeight : 0;
+        int currentActionBarHeight;
+        int i11 = this.occupyStatusBar ? AndroidUtilities.statusBarHeight : 0;
         ImageView imageView = this.backButtonImageView;
         if (imageView != null && imageView.getVisibility() != 8) {
             ImageView imageView2 = this.backButtonImageView;
-            imageView2.layout(0, i13, imageView2.getMeasuredWidth(), this.backButtonImageView.getMeasuredHeight() + i13);
-            i5 = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 80.0f : 72.0f);
+            imageView2.layout(0, i11, imageView2.getMeasuredWidth(), this.backButtonImageView.getMeasuredHeight() + i11);
+            dp = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 80.0f : 72.0f);
         } else {
-            i5 = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 26.0f : 18.0f);
+            dp = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 26.0f : 18.0f);
         }
         ActionBarMenu actionBarMenu = this.menu;
         if (actionBarMenu != null && actionBarMenu.getVisibility() != 8) {
-            int dp = this.menu.searchFieldVisible() ? AndroidUtilities.dp(AndroidUtilities.isTablet() ? 74.0f : 66.0f) : (i3 - i) - this.menu.getMeasuredWidth();
+            int dp2 = this.menu.searchFieldVisible() ? AndroidUtilities.dp(AndroidUtilities.isTablet() ? 74.0f : 66.0f) : (i3 - i) - this.menu.getMeasuredWidth();
             ActionBarMenu actionBarMenu2 = this.menu;
-            actionBarMenu2.layout(dp, i13, actionBarMenu2.getMeasuredWidth() + dp, this.menu.getMeasuredHeight() + i13);
+            actionBarMenu2.layout(dp2, i11, actionBarMenu2.getMeasuredWidth() + dp2, this.menu.getMeasuredHeight() + i11);
         }
-        for (int i14 = 0; i14 < 2; i14++) {
+        for (int i12 = 0; i12 < 2; i12++) {
             SimpleTextView[] simpleTextViewArr = this.titleTextView;
-            if (simpleTextViewArr[i14] != null && simpleTextViewArr[i14].getVisibility() != 8) {
+            if (simpleTextViewArr[i12] != null && simpleTextViewArr[i12].getVisibility() != 8) {
                 boolean z2 = this.fromBottom;
-                if (((z2 && i14 == 0) || (!z2 && i14 == 1)) && this.overlayTitleAnimation && this.titleAnimationRunning) {
-                    i12 = (getCurrentActionBarHeight() - this.titleTextView[i14].getTextHeight()) / 2;
+                if (((z2 && i12 == 0) || (!z2 && i12 == 1)) && this.overlayTitleAnimation && this.titleAnimationRunning) {
+                    currentActionBarHeight = (getCurrentActionBarHeight() - this.titleTextView[i12].getTextHeight()) / 2;
                 } else {
                     SimpleTextView simpleTextView = this.subtitleTextView;
                     if (simpleTextView != null && simpleTextView.getVisibility() != 8) {
-                        i12 = (((getCurrentActionBarHeight() / 2) - this.titleTextView[i14].getTextHeight()) / 2) + AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 3.0f : 2.0f);
+                        currentActionBarHeight = (((getCurrentActionBarHeight() / 2) - this.titleTextView[i12].getTextHeight()) / 2) + AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 3.0f : 2.0f);
                     } else {
-                        i12 = (getCurrentActionBarHeight() - this.titleTextView[i14].getTextHeight()) / 2;
+                        currentActionBarHeight = (getCurrentActionBarHeight() - this.titleTextView[i12].getTextHeight()) / 2;
                     }
                 }
                 SimpleTextView[] simpleTextViewArr2 = this.titleTextView;
-                int i15 = i12 + i13;
-                simpleTextViewArr2[i14].layout(i5, i15, simpleTextViewArr2[i14].getMeasuredWidth() + i5, this.titleTextView[i14].getTextHeight() + i15);
+                int i13 = currentActionBarHeight + i11;
+                simpleTextViewArr2[i12].layout(dp, i13, simpleTextViewArr2[i12].getMeasuredWidth() + dp, this.titleTextView[i12].getTextHeight() + i13);
             }
         }
         SimpleTextView simpleTextView2 = this.subtitleTextView;
         if (simpleTextView2 != null && simpleTextView2.getVisibility() != 8) {
-            int currentActionBarHeight = (getCurrentActionBarHeight() / 2) + (((getCurrentActionBarHeight() / 2) - this.subtitleTextView.getTextHeight()) / 2);
+            int currentActionBarHeight2 = (getCurrentActionBarHeight() / 2) + (((getCurrentActionBarHeight() / 2) - this.subtitleTextView.getTextHeight()) / 2);
             if (!AndroidUtilities.isTablet()) {
-                int i16 = getResources().getConfiguration().orientation;
+                int i14 = getResources().getConfiguration().orientation;
             }
-            int dp2 = currentActionBarHeight - AndroidUtilities.dp(1.0f);
+            int dp3 = currentActionBarHeight2 - AndroidUtilities.dp(1.0f);
             SimpleTextView simpleTextView3 = this.subtitleTextView;
-            int i17 = dp2 + i13;
-            simpleTextView3.layout(i5, i17, simpleTextView3.getMeasuredWidth() + i5, this.subtitleTextView.getTextHeight() + i17);
+            int i15 = dp3 + i11;
+            simpleTextView3.layout(dp, i15, simpleTextView3.getMeasuredWidth() + dp, this.subtitleTextView.getTextHeight() + i15);
         }
         SimpleTextView simpleTextView4 = this.additionalSubtitleTextView;
         if (simpleTextView4 != null && simpleTextView4.getVisibility() != 8) {
-            int currentActionBarHeight2 = (getCurrentActionBarHeight() / 2) + (((getCurrentActionBarHeight() / 2) - this.additionalSubtitleTextView.getTextHeight()) / 2);
+            int currentActionBarHeight3 = (getCurrentActionBarHeight() / 2) + (((getCurrentActionBarHeight() / 2) - this.additionalSubtitleTextView.getTextHeight()) / 2);
             if (!AndroidUtilities.isTablet()) {
-                int i18 = getResources().getConfiguration().orientation;
+                int i16 = getResources().getConfiguration().orientation;
             }
-            int dp3 = currentActionBarHeight2 - AndroidUtilities.dp(1.0f);
+            int dp4 = currentActionBarHeight3 - AndroidUtilities.dp(1.0f);
             SimpleTextView simpleTextView5 = this.additionalSubtitleTextView;
-            int i19 = i13 + dp3;
-            simpleTextView5.layout(i5, i19, simpleTextView5.getMeasuredWidth() + i5, this.additionalSubtitleTextView.getTextHeight() + i19);
+            int i17 = i11 + dp4;
+            simpleTextView5.layout(dp, i17, simpleTextView5.getMeasuredWidth() + dp, this.additionalSubtitleTextView.getTextHeight() + i17);
         }
         int childCount = getChildCount();
-        for (int i20 = 0; i20 < childCount; i20++) {
-            View childAt = getChildAt(i20);
+        for (int i18 = 0; i18 < childCount; i18++) {
+            View childAt = getChildAt(i18);
             if (childAt.getVisibility() != 8) {
                 SimpleTextView[] simpleTextViewArr3 = this.titleTextView;
                 if (childAt != simpleTextViewArr3[0] && childAt != simpleTextViewArr3[1] && childAt != this.subtitleTextView && childAt != this.menu && childAt != this.backButtonImageView && childAt != this.additionalSubtitleTextView) {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                     int measuredWidth = childAt.getMeasuredWidth();
                     int measuredHeight = childAt.getMeasuredHeight();
-                    int i21 = layoutParams.gravity;
-                    if (i21 == -1) {
-                        i21 = 51;
+                    int i19 = layoutParams.gravity;
+                    if (i19 == -1) {
+                        i19 = 51;
                     }
-                    int i22 = i21 & 7;
-                    int i23 = i21 & 112;
-                    int i24 = i22 & 7;
-                    if (i24 == 1) {
-                        i11 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
-                        i10 = layoutParams.rightMargin;
-                    } else if (i24 == 5) {
-                        i11 = i3 - measuredWidth;
-                        i10 = layoutParams.rightMargin;
+                    int i20 = i19 & 7;
+                    int i21 = i19 & 112;
+                    int i22 = i20 & 7;
+                    if (i22 == 1) {
+                        i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
+                        i6 = layoutParams.rightMargin;
+                    } else if (i22 == 5) {
+                        i5 = i3 - measuredWidth;
+                        i6 = layoutParams.rightMargin;
                     } else {
-                        i6 = layoutParams.leftMargin;
-                        if (i23 != 16) {
+                        i7 = layoutParams.leftMargin;
+                        if (i21 != 16) {
                             i8 = (((i4 - i2) - measuredHeight) / 2) + layoutParams.topMargin;
                             i9 = layoutParams.bottomMargin;
-                        } else if (i23 == 80) {
+                        } else if (i21 == 80) {
                             i8 = (i4 - i2) - measuredHeight;
                             i9 = layoutParams.bottomMargin;
                         } else {
-                            i7 = layoutParams.topMargin;
-                            childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                            i10 = layoutParams.topMargin;
+                            childAt.layout(i7, i10, measuredWidth + i7, measuredHeight + i10);
                         }
-                        i7 = i8 - i9;
-                        childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                        i10 = i8 - i9;
+                        childAt.layout(i7, i10, measuredWidth + i7, measuredHeight + i10);
                     }
-                    i6 = i11 - i10;
-                    if (i23 != 16) {
+                    i7 = i5 - i6;
+                    if (i21 != 16) {
                     }
-                    i7 = i8 - i9;
-                    childAt.layout(i6, i7, measuredWidth + i6, measuredHeight + i7);
+                    i10 = i8 - i9;
+                    childAt.layout(i7, i10, measuredWidth + i7, measuredHeight + i10);
                 }
             }
         }
@@ -1406,6 +1411,7 @@ public class ActionBar extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onPause() {
         ActionBarMenu actionBarMenu = this.menu;
         if (actionBarMenu != null) {
@@ -1422,13 +1428,13 @@ public class ActionBar extends FrameLayout {
         this.lastRunnable = runnable;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0155  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0155  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setTitleOverlayText(String str, int i, Runnable runnable) {
-        SpannableString spannableString;
         boolean z;
+        SpannableString spannableString;
         int indexOf;
         if (!this.allowOverlayTitle || this.parentFragment.parentLayout == null) {
             return;
@@ -1819,6 +1825,7 @@ public class ActionBar extends FrameLayout {
         setBackground(null);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         if (this.blurredBackground && this.actionBarColor != 0) {

@@ -28,7 +28,6 @@ public class HMSBIInitializer {
     /* loaded from: classes.dex */
     public class a implements IQueryUrlCallBack {
         public a() {
-            HMSBIInitializer.this = r1;
         }
 
         @Override // com.huawei.hms.framework.network.grs.IQueryUrlCallBack
@@ -56,9 +55,9 @@ public class HMSBIInitializer {
     /* loaded from: classes.dex */
     public class b extends AsyncTask<String, Integer, Void> {
         public b() {
-            HMSBIInitializer.this = r1;
         }
 
+        @Override // android.os.AsyncTask
         /* renamed from: a */
         public Void doInBackground(String... strArr) {
             HMSBIInitializer.this.a(strArr[0]);
@@ -93,14 +92,14 @@ public class HMSBIInitializer {
     }
 
     public void initBI() {
-        boolean z;
+        boolean initFlag;
         if (!this.c) {
-            z = HmsHiAnalyticsUtils.getInitFlag();
+            initFlag = HmsHiAnalyticsUtils.getInitFlag();
         } else {
-            z = HiAnalyticsManager.getInitFlag(HiAnalyticsConstant.HA_SERVICE_TAG);
+            initFlag = HiAnalyticsManager.getInitFlag(HiAnalyticsConstant.HA_SERVICE_TAG);
         }
-        HMSLog.i("HMSBIInitializer", "Builder->biInitFlag :" + z);
-        if (!z && !com.huawei.hms.stats.a.c(this.a) && this.b.compareAndSet(false, true)) {
+        HMSLog.i("HMSBIInitializer", "Builder->biInitFlag :" + initFlag);
+        if (!initFlag && !com.huawei.hms.stats.a.c(this.a) && this.b.compareAndSet(false, true)) {
             String issueCountryCode = GrsApp.getInstance().getIssueCountryCode(this.a);
             if (!TextUtils.isEmpty(issueCountryCode)) {
                 issueCountryCode = issueCountryCode.toUpperCase(Locale.ENGLISH);

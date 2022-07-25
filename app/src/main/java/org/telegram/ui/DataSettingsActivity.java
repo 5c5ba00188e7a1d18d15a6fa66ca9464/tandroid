@@ -253,10 +253,11 @@ public class DataSettingsActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(Context context, View view, final int i, float f, float f2) {
+        DownloadController.Preset preset;
         String str;
         String str2;
-        DownloadController.Preset preset;
         DownloadController.Preset preset2;
         int i2;
         int i3 = this.saveToGalleryGroupsRow;
@@ -282,31 +283,31 @@ public class DataSettingsActivity extends BaseFragment {
                 NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) view;
                 boolean isChecked = notificationsCheckCell.isChecked();
                 if (i == this.mobileRow) {
-                    preset2 = DownloadController.getInstance(this.currentAccount).mobilePreset;
-                    preset = DownloadController.getInstance(this.currentAccount).mediumPreset;
-                    str2 = "mobilePreset";
-                    str = "currentMobilePreset";
+                    preset = DownloadController.getInstance(this.currentAccount).mobilePreset;
+                    preset2 = DownloadController.getInstance(this.currentAccount).mediumPreset;
+                    str = "mobilePreset";
+                    str2 = "currentMobilePreset";
                 } else if (i == this.wifiRow) {
-                    preset2 = DownloadController.getInstance(this.currentAccount).wifiPreset;
-                    preset = DownloadController.getInstance(this.currentAccount).highPreset;
-                    str2 = "wifiPreset";
-                    str = "currentWifiPreset";
+                    preset = DownloadController.getInstance(this.currentAccount).wifiPreset;
+                    preset2 = DownloadController.getInstance(this.currentAccount).highPreset;
+                    str = "wifiPreset";
+                    str2 = "currentWifiPreset";
                     i6 = 1;
                 } else {
-                    preset2 = DownloadController.getInstance(this.currentAccount).roamingPreset;
-                    str2 = "roamingPreset";
-                    str = "currentRoamingPreset";
-                    preset = DownloadController.getInstance(this.currentAccount).lowPreset;
+                    preset = DownloadController.getInstance(this.currentAccount).roamingPreset;
+                    str = "roamingPreset";
+                    str2 = "currentRoamingPreset";
+                    preset2 = DownloadController.getInstance(this.currentAccount).lowPreset;
                     i6 = 2;
                 }
-                if (!isChecked && preset2.enabled) {
-                    preset2.set(preset);
+                if (!isChecked && preset.enabled) {
+                    preset.set(preset2);
                 } else {
-                    preset2.enabled = !preset2.enabled;
+                    preset.enabled = !preset.enabled;
                 }
                 SharedPreferences.Editor edit = MessagesController.getMainSettings(this.currentAccount).edit();
-                edit.putString(str2, preset2.toString());
-                edit.putInt(str, 3);
+                edit.putString(str, preset.toString());
+                edit.putInt(str2, 3);
                 edit.commit();
                 notificationsCheckCell.setChecked(!isChecked);
                 RecyclerView.ViewHolder findContainingViewHolder = this.listView.findContainingViewHolder(view);
@@ -470,34 +471,35 @@ public class DataSettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(DialogInterface dialogInterface, int i) {
-        String str;
         DownloadController.Preset preset;
         DownloadController.Preset preset2;
+        String str;
         SharedPreferences.Editor edit = MessagesController.getMainSettings(this.currentAccount).edit();
         for (int i2 = 0; i2 < 3; i2++) {
             if (i2 == 0) {
-                preset2 = DownloadController.getInstance(this.currentAccount).mobilePreset;
-                preset = DownloadController.getInstance(this.currentAccount).mediumPreset;
+                preset = DownloadController.getInstance(this.currentAccount).mobilePreset;
+                preset2 = DownloadController.getInstance(this.currentAccount).mediumPreset;
                 str = "mobilePreset";
             } else if (i2 == 1) {
-                preset2 = DownloadController.getInstance(this.currentAccount).wifiPreset;
-                preset = DownloadController.getInstance(this.currentAccount).highPreset;
+                preset = DownloadController.getInstance(this.currentAccount).wifiPreset;
+                preset2 = DownloadController.getInstance(this.currentAccount).highPreset;
                 str = "wifiPreset";
             } else {
-                preset2 = DownloadController.getInstance(this.currentAccount).roamingPreset;
-                preset = DownloadController.getInstance(this.currentAccount).lowPreset;
+                preset = DownloadController.getInstance(this.currentAccount).roamingPreset;
+                preset2 = DownloadController.getInstance(this.currentAccount).lowPreset;
                 str = "roamingPreset";
             }
-            preset2.set(preset);
-            preset2.enabled = preset.isEnabled();
+            preset.set(preset2);
+            preset.enabled = preset2.isEnabled();
             DownloadController.getInstance(this.currentAccount).currentMobilePreset = 3;
             edit.putInt("currentMobilePreset", 3);
             DownloadController.getInstance(this.currentAccount).currentWifiPreset = 3;
             edit.putInt("currentWifiPreset", 3);
             DownloadController.getInstance(this.currentAccount).currentRoamingPreset = 3;
             edit.putInt("currentRoamingPreset", 3);
-            edit.putString(str, preset2.toString());
+            edit.putString(str, preset.toString());
         }
         edit.commit();
         DownloadController.getInstance(this.currentAccount).checkAutodownloadSettings();
@@ -507,6 +509,7 @@ public class DataSettingsActivity extends BaseFragment {
         this.listAdapter.notifyItemRangeChanged(this.mobileRow, 4);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(SharedPreferences sharedPreferences, int i, DialogInterface dialogInterface, int i2) {
         int i3 = 3;
         if (i2 == 0) {
@@ -523,6 +526,7 @@ public class DataSettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(String str, AlertDialog.Builder builder, View view) {
         SharedConfig.storageCacheDir = str;
         SharedConfig.saveConfig();
@@ -531,6 +535,7 @@ public class DataSettingsActivity extends BaseFragment {
         this.listAdapter.notifyItemChanged(this.storageNumRow);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(DialogInterface dialogInterface, int i) {
         getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_messages_clearAllDrafts
             public static int constructor = 2119757468;
@@ -552,10 +557,12 @@ public class DataSettingsActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3() {
         getMediaDataController().clearAllDrafts(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -565,6 +572,7 @@ public class DataSettingsActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onDialogDismiss(Dialog dialog) {
         DownloadController.getInstance(this.currentAccount).checkAutodownloadSettings();
@@ -579,12 +587,12 @@ public class DataSettingsActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            DataSettingsActivity.this = r1;
             this.mContext = context;
         }
 
@@ -889,28 +897,29 @@ public class DataSettingsActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View shadowSectionCell;
             if (i == 0) {
-                view = new ShadowSectionCell(this.mContext);
+                shadowSectionCell = new ShadowSectionCell(this.mContext);
             } else if (i == 1) {
-                view = new TextSettingsCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new TextSettingsCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 2) {
-                view = new HeaderCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new HeaderCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 3) {
-                view = new TextCheckCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new TextCheckCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 4) {
-                view = new TextInfoPrivacyCell(this.mContext);
-                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                shadowSectionCell = new TextInfoPrivacyCell(this.mContext);
+                shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
             } else {
-                view = new NotificationsCheckCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new NotificationsCheckCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             }
-            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(view);
+            shadowSectionCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(shadowSectionCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

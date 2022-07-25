@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 abstract class zzfg {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zzc(CharSequence charSequence, ByteBuffer byteBuffer) {
         int length = charSequence.length();
         int position = byteBuffer.position();
@@ -101,10 +102,13 @@ abstract class zzfg {
 
     abstract int zzb(int i, byte[] bArr, int i2, int i3);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract int zzb(CharSequence charSequence, byte[] bArr, int i, int i2);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract void zzb(CharSequence charSequence, ByteBuffer byteBuffer);
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zze(byte[] bArr, int i, int i2) {
         return zzb(0, bArr, i, i2) == 0;
     }

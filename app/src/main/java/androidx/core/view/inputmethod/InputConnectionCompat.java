@@ -20,7 +20,6 @@ public final class InputConnectionCompat {
 
     static boolean handlePerformPrivateCommand(String action, Bundle data, OnCommitContentListener onCommitContentListener) {
         boolean z;
-        Throwable th;
         ResultReceiver resultReceiver;
         boolean z2 = false;
         z2 = false;
@@ -52,15 +51,15 @@ public final class InputConnectionCompat {
                     resultReceiver.send(i2, null);
                 }
                 return z2;
-            } catch (Throwable th2) {
-                th = th2;
+            } catch (Throwable th) {
+                th = th;
                 if (resultReceiver != null) {
                     resultReceiver.send(0, null);
                 }
                 throw th;
             }
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             resultReceiver = null;
         }
     }

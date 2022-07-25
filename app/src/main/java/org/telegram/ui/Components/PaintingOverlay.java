@@ -231,6 +231,7 @@ public class PaintingOverlay extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setEntities$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         RLottieDrawable lottieAnimation;
         if (!z || z2 || (lottieAnimation = imageReceiver.getLottieAnimation()) == null) {

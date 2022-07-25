@@ -5,6 +5,7 @@ import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Comparator;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class J implements u {
     private final Collection a;
@@ -83,7 +84,8 @@ public class J implements u {
     }
 
     @Override // j$.util.u
-    public u trySplit() {
+    /* renamed from: trySplit */
+    public u mo350trySplit() {
         long j;
         java.util.Iterator it = this.b;
         if (it == null) {

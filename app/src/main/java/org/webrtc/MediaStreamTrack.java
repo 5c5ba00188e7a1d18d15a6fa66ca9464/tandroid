@@ -54,6 +54,7 @@ public class MediaStreamTrack {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static MediaStreamTrack createMediaStreamTrack(long j) {
         if (j == 0) {
             return null;
@@ -106,6 +107,7 @@ public class MediaStreamTrack {
         this.nativeTrack = 0L;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getNativeMediaStreamTrack() {
         checkMediaStreamTrackExists();
         return this.nativeTrack;

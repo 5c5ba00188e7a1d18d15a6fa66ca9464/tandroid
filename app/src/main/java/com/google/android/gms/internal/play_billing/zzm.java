@@ -5,16 +5,16 @@ import javax.annotation.CheckForNull;
 /* loaded from: classes.dex */
 public final class zzm {
     public static int zza(int i, int i2, String str) {
-        String str2;
+        String zza;
         if (i < 0 || i >= i2) {
             if (i < 0) {
-                str2 = zzn.zza("%s (%s) must not be negative", "index", Integer.valueOf(i));
+                zza = zzn.zza("%s (%s) must not be negative", "index", Integer.valueOf(i));
             } else if (i2 < 0) {
                 throw new IllegalArgumentException("negative size: " + i2);
             } else {
-                str2 = zzn.zza("%s (%s) must be less than size (%s)", "index", Integer.valueOf(i), Integer.valueOf(i2));
+                zza = zzn.zza("%s (%s) must be less than size (%s)", "index", Integer.valueOf(i), Integer.valueOf(i2));
             }
-            throw new IndexOutOfBoundsException(str2);
+            throw new IndexOutOfBoundsException(zza);
         }
         return i;
     }
@@ -34,14 +34,14 @@ public final class zzm {
     }
 
     public static void zzd(int i, int i2, int i3) {
-        String str;
+        String zze;
         if (i < 0 || i2 < i || i2 > i3) {
             if (i < 0 || i > i3) {
-                str = zze(i, i3, "start index");
+                zze = zze(i, i3, "start index");
             } else {
-                str = (i2 < 0 || i2 > i3) ? zze(i2, i3, "end index") : zzn.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
+                zze = (i2 < 0 || i2 > i3) ? zze(i2, i3, "end index") : zzn.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
             }
-            throw new IndexOutOfBoundsException(str);
+            throw new IndexOutOfBoundsException(zze);
         }
     }
 

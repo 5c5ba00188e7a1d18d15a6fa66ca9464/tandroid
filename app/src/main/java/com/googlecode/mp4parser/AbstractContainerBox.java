@@ -24,8 +24,9 @@ public class AbstractContainerBox extends BasicContainer implements Box {
         return containerSize + ((this.largeBox || 8 + containerSize >= 4294967296L) ? 16 : 8);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ByteBuffer getHeader() {
-        ByteBuffer byteBuffer;
+        ByteBuffer wrap;
         if (this.largeBox || getSize() >= 4294967296L) {
             byte[] bArr = new byte[16];
             bArr[3] = 1;
@@ -33,15 +34,15 @@ public class AbstractContainerBox extends BasicContainer implements Box {
             bArr[5] = this.type.getBytes()[1];
             bArr[6] = this.type.getBytes()[2];
             bArr[7] = this.type.getBytes()[3];
-            byteBuffer = ByteBuffer.wrap(bArr);
-            byteBuffer.position(8);
-            IsoTypeWriter.writeUInt64(byteBuffer, getSize());
+            wrap = ByteBuffer.wrap(bArr);
+            wrap.position(8);
+            IsoTypeWriter.writeUInt64(wrap, getSize());
         } else {
-            byteBuffer = ByteBuffer.wrap(new byte[]{0, 0, 0, 0, this.type.getBytes()[0], this.type.getBytes()[1], this.type.getBytes()[2], this.type.getBytes()[3]});
-            IsoTypeWriter.writeUInt32(byteBuffer, getSize());
+            wrap = ByteBuffer.wrap(new byte[]{0, 0, 0, 0, this.type.getBytes()[0], this.type.getBytes()[1], this.type.getBytes()[2], this.type.getBytes()[3]});
+            IsoTypeWriter.writeUInt32(wrap, getSize());
         }
-        byteBuffer.rewind();
-        return byteBuffer;
+        wrap.rewind();
+        return wrap;
     }
 
     public void getBox(WritableByteChannel writableByteChannel) throws IOException {

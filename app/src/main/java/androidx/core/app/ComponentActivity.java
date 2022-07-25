@@ -19,6 +19,7 @@ public class ComponentActivity extends Activity implements LifecycleOwner, KeyEv
         new SimpleArrayMap();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
     @SuppressLint({"RestrictedApi"})
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class ComponentActivity extends Activity implements LifecycleOwner, KeyEv
         ReportFragment.injectIfNeededIn(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
     public void onSaveInstanceState(Bundle outState) {
         this.mLifecycleRegistry.markState(Lifecycle.State.CREATED);

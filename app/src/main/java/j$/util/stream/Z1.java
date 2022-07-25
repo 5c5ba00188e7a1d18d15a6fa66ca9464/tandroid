@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
 class Z1 extends a2 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Z1(B1 b1) {
     }
 
@@ -16,7 +17,7 @@ class Z1 extends a2 {
 
     @Override // j$.util.stream.A1
     /* renamed from: spliterator */
-    public j$.util.u mo69spliterator() {
+    public j$.util.u mo313spliterator() {
         return j$.util.L.e();
     }
 }

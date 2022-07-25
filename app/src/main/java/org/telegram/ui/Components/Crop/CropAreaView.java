@@ -69,9 +69,8 @@ public class CropAreaView extends ViewGroup {
     private float minWidth = AndroidUtilities.dp(32.0f);
     private GridType gridType = GridType.NONE;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public interface AreaViewListener {
+    interface AreaViewListener {
         void onAreaChange();
 
         void onAreaChangeBegan();
@@ -79,9 +78,8 @@ public class CropAreaView extends ViewGroup {
         void onAreaChangeEnded();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public enum Control {
+    private enum Control {
         NONE,
         TOP_LEFT,
         TOP_RIGHT,
@@ -93,6 +91,7 @@ public class CropAreaView extends ViewGroup {
         RIGHT
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public enum GridType {
         NONE,
@@ -640,20 +639,20 @@ public class CropAreaView extends ViewGroup {
         float f9 = f6 + (measuredHeight / 2.0f);
         if (Math.abs(1.0f - f) < 1.0E-4d) {
             float f10 = min / 2.0f;
-            f2 = measuredWidth3 - f10;
+            f5 = measuredWidth3 - f10;
             f4 = f9 - f10;
-            f3 = measuredWidth3 + f10;
-            f5 = f9 + f10;
+            f2 = measuredWidth3 + f10;
+            f3 = f9 + f10;
         } else {
             if (f - measuredWidth <= 1.0E-4d) {
                 float f11 = f8 * f;
                 if (f11 <= measuredWidth2) {
                     float f12 = f11 / 2.0f;
-                    f2 = measuredWidth3 - f12;
+                    f5 = measuredWidth3 - f12;
                     float f13 = f8 / 2.0f;
                     float f14 = f9 - f13;
-                    f3 = measuredWidth3 + f12;
-                    f5 = f9 + f13;
+                    f2 = measuredWidth3 + f12;
+                    f3 = f9 + f13;
                     f4 = f14;
                 }
             }
@@ -661,12 +660,12 @@ public class CropAreaView extends ViewGroup {
             float f16 = measuredWidth3 - f15;
             float f17 = (measuredWidth2 / f) / 2.0f;
             float f18 = f9 - f17;
-            f3 = measuredWidth3 + f15;
-            f5 = f9 + f17;
+            f2 = measuredWidth3 + f15;
+            f3 = f9 + f17;
             f4 = f18;
-            f2 = f16;
+            f5 = f16;
         }
-        rectF.set(f2, f4, f3, f5);
+        rectF.set(f5, f4, f2, f3);
     }
 
     @Override // android.view.ViewGroup
@@ -933,10 +932,9 @@ public class CropAreaView extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Crop.CropAreaView$3 */
+    /* renamed from: org.telegram.ui.Components.Crop.CropAreaView$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public static /* synthetic */ class AnonymousClass3 {
+    static /* synthetic */ class AnonymousClass3 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$Crop$CropAreaView$Control;
 
         static {

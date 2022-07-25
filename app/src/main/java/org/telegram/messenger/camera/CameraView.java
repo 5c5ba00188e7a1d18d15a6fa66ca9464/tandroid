@@ -265,8 +265,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         CameraSession cameraSession;
-        int i3;
-        int i4;
+        int width;
+        int height;
         int size = View.MeasureSpec.getSize(i);
         int size2 = View.MeasureSpec.getSize(i2);
         if (this.previewSize != null && (cameraSession = this.cameraSession) != null) {
@@ -275,23 +275,23 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
             this.measurementsCount++;
             if (this.cameraSession.getWorldAngle() == 90 || this.cameraSession.getWorldAngle() == 270) {
-                i4 = this.previewSize.getWidth();
-                i3 = this.previewSize.getHeight();
+                width = this.previewSize.getWidth();
+                height = this.previewSize.getHeight();
             } else {
-                i4 = this.previewSize.getHeight();
-                i3 = this.previewSize.getWidth();
+                width = this.previewSize.getHeight();
+                height = this.previewSize.getWidth();
             }
-            float f = i4;
-            float f2 = i3;
+            float f = width;
+            float f2 = height;
             float max = Math.max(View.MeasureSpec.getSize(i) / f, View.MeasureSpec.getSize(i2) / f2);
             ViewGroup.LayoutParams layoutParams = this.blurredStubView.getLayoutParams();
-            int i5 = (int) (f * max);
-            this.textureView.getLayoutParams().width = i5;
-            layoutParams.width = i5;
+            int i3 = (int) (f * max);
+            this.textureView.getLayoutParams().width = i3;
+            layoutParams.width = i3;
             ViewGroup.LayoutParams layoutParams2 = this.blurredStubView.getLayoutParams();
-            int i6 = (int) (max * f2);
-            this.textureView.getLayoutParams().height = i6;
-            layoutParams2.height = i6;
+            int i4 = (int) (max * f2);
+            this.textureView.getLayoutParams().height = i4;
+            layoutParams2.height = i4;
         }
         super.onMeasure(i, i2);
         checkPreviewMatrix();
@@ -301,20 +301,20 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
 
     public float getTextureHeight(float f, float f2) {
         CameraSession cameraSession;
-        int i;
-        int i2;
+        int width;
+        int height;
         if (this.previewSize == null || (cameraSession = this.cameraSession) == null) {
             return f2;
         }
         if (cameraSession.getWorldAngle() == 90 || this.cameraSession.getWorldAngle() == 270) {
-            i2 = this.previewSize.getWidth();
-            i = this.previewSize.getHeight();
+            width = this.previewSize.getWidth();
+            height = this.previewSize.getHeight();
         } else {
-            i2 = this.previewSize.getHeight();
-            i = this.previewSize.getWidth();
+            width = this.previewSize.getHeight();
+            height = this.previewSize.getWidth();
         }
-        float f3 = f / i2;
-        float f4 = i;
+        float f3 = f / width;
+        float f4 = height;
         return (int) (Math.max(f3, f2 / f4) * f4);
     }
 
@@ -454,6 +454,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSurfaceTextureDestroyed$0() {
         this.cameraThread = null;
     }
@@ -479,6 +480,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.clipBottom = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread == null || cameraGLThread.currentSession == null) {
@@ -647,6 +649,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         performHapticFeedback(3, 2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         if (this.flipAnimator != null) {
@@ -695,10 +698,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         private Integer cameraId = 0;
         final int[] array = new int[1];
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public CameraGLThread(SurfaceTexture surfaceTexture) {
             super("CameraGLThread");
-            CameraView.this = r3;
             this.surfaceTexture = surfaceTexture;
         }
 
@@ -830,6 +831,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$initGL$0(SurfaceTexture surfaceTexture) {
             requestRender();
         }
@@ -953,6 +955,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onDraw$1() {
             CameraView.this.onFirstFrameRendered();
         }
@@ -1045,6 +1048,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$handleMessage$2(SurfaceTexture surfaceTexture) {
             requestRender();
         }
@@ -1080,6 +1084,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onFirstFrameRendered() {
         if (this.blurredStubView.getVisibility() == 0) {
             this.blurredStubView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.3
@@ -1092,6 +1097,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int loadShader(int i, String str) {
         int glCreateShader = GLES20.glCreateShader(i);
         GLES20.glShaderSource(glCreateShader, str);
@@ -1108,6 +1114,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         return glCreateShader;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void createCamera(final SurfaceTexture surfaceTexture) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -1117,6 +1124,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$4(SurfaceTexture surfaceTexture) {
         if (this.cameraThread == null) {
             return;
@@ -1149,6 +1157,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$2() {
         if (this.cameraSession != null) {
             if (BuildVars.LOGS_ENABLED) {
@@ -1159,10 +1168,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$3() {
         this.cameraThread.setCurrentSession(this.cameraSession);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class VideoRecorder implements Runnable {
         private static final String AUDIO_MIME_TYPE = "audio/mp4a-latm";
@@ -1223,7 +1234,6 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         private int zeroTimeStamps;
 
         private VideoRecorder() {
-            CameraView.this = r5;
             this.videoConvertFirstWrite = true;
             this.eglDisplay = EGL14.EGL_NO_DISPLAY;
             this.eglContext = EGL14.EGL_NO_CONTEXT;
@@ -1241,8 +1251,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             this.buffers = new ArrayBlockingQueue<>(10);
             this.keyframeThumbs = new ArrayList<>();
             this.recorderRunnable = new Runnable() { // from class: org.telegram.messenger.camera.CameraView.VideoRecorder.1
-                /* JADX WARN: Code restructure failed: missing block: B:12:0x002d, code lost:
-                    if (org.telegram.messenger.camera.CameraView.VideoRecorder.this.sendWhenDone == 0) goto L48;
+                /* JADX WARN: Code restructure failed: missing block: B:11:0x002d, code lost:
+                    if (r13.this$1.sendWhenDone == 0) goto L57;
                  */
                 @Override // java.lang.Runnable
                 /*
@@ -1400,8 +1410,9 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:103:0x00fb A[EDGE_INSN: B:103:0x00fb->B:41:0x00fb ?: BREAK  , SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x00c8  */
+        /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x00c8  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x00fb A[EDGE_INSN: B:34:0x00fb->B:49:0x00fb ?: BREAK  , SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1540,6 +1551,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void handleVideoFrameAvailable(long j, Integer num) {
             try {
                 drainEncoder(false);
@@ -1605,6 +1617,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             EGL14.eglSwapBuffers(this.eglDisplay, this.eglSurface);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void handleStopRecording(int i) {
             if (this.running) {
                 this.sendWhenDone = i;
@@ -1671,11 +1684,13 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$handleStopRecording$0() {
             CameraView.this.cameraSession.stopVideoRecording();
             CameraView.this.onRecordingFinishRunnable.run();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void prepareEncoder() {
             try {
                 int minBufferSize = AudioRecord.getMinBufferSize(CameraView.audioSampleRate, 16, 2);
@@ -1795,103 +1810,103 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             return this.surface;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:101:0x01a8, code lost:
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L103;
+        /* JADX WARN: Code restructure failed: missing block: B:100:0x01a4, code lost:
+            if (r2 != (-3)) goto L101;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:102:0x01aa, code lost:
-            r1 = r17.audioEncoder.getOutputBuffers();
+        /* JADX WARN: Code restructure failed: missing block: B:102:0x01b3, code lost:
+            if (r2 != (-2)) goto L103;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:105:0x01b3, code lost:
-            if (r2 != (-2)) goto L169;
+        /* JADX WARN: Code restructure failed: missing block: B:105:0x01cc, code lost:
+            if (r2 < 0) goto L128;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:106:0x01b5, code lost:
-            r2 = r17.audioEncoder.getOutputFormat();
+        /* JADX WARN: Code restructure failed: missing block: B:108:0x01d0, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L127;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:107:0x01bd, code lost:
-            if (r17.audioTrackIndex != (-5)) goto L172;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:108:0x01bf, code lost:
-            r17.audioTrackIndex = r17.mediaMuxer.addTrack(r2, true);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:111:0x01cc, code lost:
-            if (r2 < 0) goto L183;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:113:0x01d0, code lost:
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L115;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:114:0x01d2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:109:0x01d2, code lost:
             r8 = r1[r2];
          */
-        /* JADX WARN: Code restructure failed: missing block: B:115:0x01d5, code lost:
-            r8 = r17.audioEncoder.getOutputBuffer(r2);
+        /* JADX WARN: Code restructure failed: missing block: B:110:0x01db, code lost:
+            if (r8 == null) goto L124;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:116:0x01db, code lost:
-            if (r8 == null) goto L178;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:117:0x01dd, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:111:0x01dd, code lost:
             r13 = r17.audioBufferInfo;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:118:0x01e3, code lost:
-            if ((r13.flags & 2) == 0) goto L120;
+        /* JADX WARN: Code restructure failed: missing block: B:112:0x01e3, code lost:
+            if ((r13.flags & 2) == 0) goto L114;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:119:0x01e5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:113:0x01e5, code lost:
             r13.size = 0;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:121:0x01e9, code lost:
-            if (r13.size == 0) goto L123;
+        /* JADX WARN: Code restructure failed: missing block: B:115:0x01e9, code lost:
+            if (r13.size == 0) goto L117;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:122:0x01eb, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:116:0x01eb, code lost:
             r17.mediaMuxer.writeSampleData(r17.audioTrackIndex, r8, r13, false);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:123:0x01f2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:117:0x01f2, code lost:
             r17.audioEncoder.releaseOutputBuffer(r2, false);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:124:0x01fd, code lost:
-            if ((r17.audioBufferInfo.flags & 4) == 0) goto L184;
+        /* JADX WARN: Code restructure failed: missing block: B:118:0x01fd, code lost:
+            if ((r17.audioBufferInfo.flags & 4) == 0) goto L122;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:125:0x01ff, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:120:?, code lost:
             return;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:127:0x0217, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:126:0x0217, code lost:
             throw new java.lang.RuntimeException("encoderOutputBuffer " + r2 + " was null");
          */
-        /* JADX WARN: Code restructure failed: missing block: B:186:?, code lost:
-            return;
+        /* JADX WARN: Code restructure failed: missing block: B:127:0x01d5, code lost:
+            r8 = r17.audioEncoder.getOutputBuffer(r2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:187:?, code lost:
-            return;
+        /* JADX WARN: Code restructure failed: missing block: B:130:0x01b5, code lost:
+            r2 = r17.audioEncoder.getOutputFormat();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:88:0x0182, code lost:
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L185;
+        /* JADX WARN: Code restructure failed: missing block: B:131:0x01bd, code lost:
+            if (r17.audioTrackIndex != (-5)) goto L135;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:89:0x0184, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:133:0x01bf, code lost:
+            r17.audioTrackIndex = r17.mediaMuxer.addTrack(r2, true);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:140:0x01a8, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L142;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:141:0x01aa, code lost:
             r1 = r17.audioEncoder.getOutputBuffers();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:90:0x018a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:144:0x0196, code lost:
+            if (r18 == false) goto L152;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:146:0x019a, code lost:
+            if (r17.running != false) goto L151;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:148:0x019e, code lost:
+            if (r17.sendWhenDone != 0) goto L151;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:150:?, code lost:
+            return;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:153:0x01ff, code lost:
+            return;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:94:0x0182, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L96;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:95:0x0184, code lost:
+            r1 = r17.audioEncoder.getOutputBuffers();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:97:0x018a, code lost:
             r2 = r17.audioEncoder.dequeueOutputBuffer(r17.audioBufferInfo, 0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:91:0x0194, code lost:
-            if (r2 != (-1)) goto L98;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:92:0x0196, code lost:
-            if (r18 == false) goto L173;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:94:0x019a, code lost:
-            if (r17.running != false) goto L97;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:96:0x019e, code lost:
-            if (r17.sendWhenDone != 0) goto L97;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:99:0x01a4, code lost:
-            if (r2 != (-3)) goto L104;
+        /* JADX WARN: Code restructure failed: missing block: B:98:0x0194, code lost:
+            if (r2 != (-1)) goto L99;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void drainEncoder(boolean z) throws Exception {
+            ByteBuffer outputBuffer;
             ByteBuffer byteBuffer;
             ByteBuffer byteBuffer2;
-            ByteBuffer byteBuffer3;
             if (z) {
                 this.videoEncoder.signalEndOfInputStream();
             }
@@ -1919,11 +1934,11 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                     continue;
                 } else {
                     if (Build.VERSION.SDK_INT < 21) {
-                        byteBuffer = outputBuffers[dequeueOutputBuffer];
+                        outputBuffer = outputBuffers[dequeueOutputBuffer];
                     } else {
-                        byteBuffer = this.videoEncoder.getOutputBuffer(dequeueOutputBuffer);
+                        outputBuffer = this.videoEncoder.getOutputBuffer(dequeueOutputBuffer);
                     }
-                    if (byteBuffer == null) {
+                    if (outputBuffer == null) {
                         throw new RuntimeException("encoderOutputBuffer " + dequeueOutputBuffer + " was null");
                     }
                     MediaCodec.BufferInfo bufferInfo = this.videoBufferInfo;
@@ -1938,9 +1953,9 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                             }
                             if (this.firstEncode && (i2 & 1) != 0) {
                                 if (bufferInfo.size > 100) {
-                                    byteBuffer.position(bufferInfo.offset);
+                                    outputBuffer.position(bufferInfo.offset);
                                     byte[] bArr = new byte[100];
-                                    byteBuffer.get(bArr);
+                                    outputBuffer.get(bArr);
                                     int i4 = 0;
                                     int i5 = 0;
                                     while (true) {
@@ -1959,20 +1974,20 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                                 }
                                 this.firstEncode = false;
                             }
-                            this.mediaMuxer.writeSampleData(this.videoTrackIndex, byteBuffer, this.videoBufferInfo, true);
+                            this.mediaMuxer.writeSampleData(this.videoTrackIndex, outputBuffer, this.videoBufferInfo, true);
                         } else if (this.videoTrackIndex == -5) {
                             byte[] bArr2 = new byte[i];
-                            byteBuffer.limit(bufferInfo.offset + i);
-                            byteBuffer.position(this.videoBufferInfo.offset);
-                            byteBuffer.get(bArr2);
+                            outputBuffer.limit(bufferInfo.offset + i);
+                            outputBuffer.position(this.videoBufferInfo.offset);
+                            outputBuffer.get(bArr2);
                             int i6 = this.videoBufferInfo.size - 1;
                             while (i6 >= 0 && i6 > 3) {
                                 if (bArr2[i6] == b && bArr2[i6 - 1] == 0 && bArr2[i6 - 2] == 0) {
                                     int i7 = i6 - 3;
                                     if (bArr2[i7] == 0) {
-                                        byteBuffer3 = ByteBuffer.allocate(i7);
+                                        byteBuffer = ByteBuffer.allocate(i7);
                                         byteBuffer2 = ByteBuffer.allocate(this.videoBufferInfo.size - i7);
-                                        byteBuffer3.put(bArr2, 0, i7).position(0);
+                                        byteBuffer.put(bArr2, 0, i7).position(0);
                                         byteBuffer2.put(bArr2, i7, this.videoBufferInfo.size - i7).position(0);
                                         break;
                                     }
@@ -1980,11 +1995,11 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                                 i6--;
                                 b = 1;
                             }
-                            byteBuffer3 = null;
+                            byteBuffer = null;
                             byteBuffer2 = null;
                             MediaFormat createVideoFormat = MediaFormat.createVideoFormat("video/avc", this.videoWidth, this.videoHeight);
-                            if (byteBuffer3 != null && byteBuffer2 != null) {
-                                createVideoFormat.setByteBuffer("csd-0", byteBuffer3);
+                            if (byteBuffer != null && byteBuffer2 != null) {
+                                createVideoFormat.setByteBuffer("csd-0", byteBuffer);
                                 createVideoFormat.setByteBuffer("csd-1", byteBuffer2);
                             }
                             this.videoTrackIndex = this.mediaMuxer.addTrack(createVideoFormat, false);
@@ -2017,6 +2032,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class EncoderHandler extends Handler {
         private WeakReference<VideoRecorder> mWeakEncoder;

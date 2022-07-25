@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class HeartBeatInfoStorage {
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd/MM/yyyy z");
@@ -15,6 +16,7 @@ public class HeartBeatInfoStorage {
         context.getSharedPreferences("FirebaseAppHeartBeatStorage", 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static synchronized HeartBeatInfoStorage getInstance(Context context) {
         HeartBeatInfoStorage heartBeatInfoStorage;
         synchronized (HeartBeatInfoStorage.class) {
@@ -33,6 +35,7 @@ public class HeartBeatInfoStorage {
         return !simpleDateFormat.format(date).equals(simpleDateFormat.format(date2));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean shouldSendSdkHeartBeat(String str, long j) {
         if (this.sharedPreferences.contains(str)) {
             if (!isSameDateUtc(this.sharedPreferences.getLong(str, -1L), j)) {
@@ -45,6 +48,7 @@ public class HeartBeatInfoStorage {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean shouldSendGlobalHeartBeat(long j) {
         return shouldSendSdkHeartBeat("fire-global", j);
     }

@@ -27,6 +27,7 @@ public interface INotificationSideChannel extends IInterface {
             return new Proxy(obj);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
         public static class Proxy implements INotificationSideChannel {
             public static INotificationSideChannel sDefaultImpl;

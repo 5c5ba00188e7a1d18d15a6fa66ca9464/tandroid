@@ -142,6 +142,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         super.onCreate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreate$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         if (!z || TextUtils.isEmpty(this.loadingFilePath)) {
             return;
@@ -221,13 +222,13 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
 
     @SuppressLint({"NewApi"})
     private void createNotification(MessageObject messageObject, boolean z) {
-        float f;
         String str;
+        float f;
         int i;
         String str2;
         String str3;
-        String str4;
         int i2;
+        String str4;
         String musicTitle = messageObject.getMusicTitle();
         String musicAuthor = messageObject.getMusicAuthor();
         AudioInfo audioInfo = MediaController.getInstance().getAudioInfo();
@@ -279,12 +280,12 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 f = 1.0f;
                 this.playbackState.setState(6, 0L, 1.0f).setActions(0L);
                 builder.addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_previous, string2, broadcast).build()).addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.loading_animation2, LocaleController.getString("Loading", org.telegram.messenger.beta.R.string.Loading), (PendingIntent) null).build()).addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_next, string, broadcast3).build());
-                str3 = musicTitle;
-                str2 = musicAuthor;
+                str2 = musicTitle;
+                str3 = musicAuthor;
             } else {
                 f = 1.0f;
-                str3 = musicTitle;
-                str2 = musicAuthor;
+                str2 = musicTitle;
+                str3 = musicAuthor;
                 this.playbackState.setState(z2 ? 3 : 2, MediaController.getInstance().getPlayingMessageObject().audioProgressSec * 1000, z2 ? 1.0f : 0.0f).setActions(822L);
                 if (z2) {
                     i2 = org.telegram.messenger.beta.R.string.AccActionPause;
@@ -296,8 +297,8 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 builder.addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_previous, string2, broadcast).build()).addAction(new Notification.Action.Builder(z2 ? org.telegram.messenger.beta.R.drawable.ic_action_pause : org.telegram.messenger.beta.R.drawable.ic_action_play, LocaleController.getString(str4, i2), broadcast2).build()).addAction(new Notification.Action.Builder((int) org.telegram.messenger.beta.R.drawable.ic_action_next, string, broadcast3).build());
             }
             this.mediaSession.setPlaybackState(this.playbackState.build());
-            musicAuthor = str2;
-            str = str3;
+            musicAuthor = str3;
+            str = str2;
             this.mediaSession.setMetadata(new MediaMetadata.Builder().putBitmap("android.media.metadata.ALBUM_ART", cover).putString("android.media.metadata.ALBUM_ARTIST", musicAuthor).putString("android.media.metadata.ARTIST", musicAuthor).putLong("android.media.metadata.DURATION", duration).putString("android.media.metadata.TITLE", str).putString("android.media.metadata.ALBUM", audioInfo != null ? audioInfo.getAlbum() : null).build());
             builder.setVisibility(1);
             Notification build = builder.build();
@@ -453,6 +454,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePlaybackState(long j) {
         if (Build.VERSION.SDK_INT < 21) {
             return;

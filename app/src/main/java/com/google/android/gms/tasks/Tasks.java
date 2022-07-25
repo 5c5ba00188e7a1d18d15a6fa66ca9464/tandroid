@@ -17,6 +17,7 @@ import javax.annotation.concurrent.GuardedBy;
 /* loaded from: classes.dex */
 public final class Tasks {
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
     /* loaded from: classes.dex */
     public interface zza<T> extends OnCanceledListener, OnFailureListener, OnSuccessListener<T> {
@@ -28,10 +29,9 @@ public final class Tasks {
         return zzuVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
     /* loaded from: classes.dex */
-    public static final class zzb implements zza {
+    private static final class zzb implements zza {
         private final CountDownLatch zza;
 
         private zzb() {
@@ -72,6 +72,7 @@ public final class Tasks {
         return zzuVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
     /* loaded from: classes.dex */
     public static final class zzc implements zza {

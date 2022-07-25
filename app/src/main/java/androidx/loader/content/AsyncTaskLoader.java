@@ -26,15 +26,17 @@ public abstract class AsyncTaskLoader<D> extends Loader<D> {
     public void onCanceled(D d) {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public final class LoadTask extends ModernAsyncTask<Void, Void, D> implements Runnable {
         private final CountDownLatch mDone = new CountDownLatch(1);
         boolean waiting;
 
         LoadTask() {
-            AsyncTaskLoader.this = r2;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // androidx.loader.content.ModernAsyncTask
         public D doInBackground(Void... voidArr) {
             try {
                 return (D) AsyncTaskLoader.this.onLoadInBackground();
@@ -81,6 +83,7 @@ public abstract class AsyncTaskLoader<D> extends Loader<D> {
         this.mExecutor = executor;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.loader.content.Loader
     public void onForceLoad() {
         super.onForceLoad();

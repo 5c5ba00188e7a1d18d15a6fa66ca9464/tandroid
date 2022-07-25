@@ -14,6 +14,7 @@ class TLS1_2SocketFactory extends SSLSocketFactory {
     private static final String[] ENABLED_PROTOCOLS = {"TLSv1.2"};
     private final SSLSocketFactory delegate;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TLS1_2SocketFactory() {
         SSLSocketFactory sSLSocketFactory = null;
         try {

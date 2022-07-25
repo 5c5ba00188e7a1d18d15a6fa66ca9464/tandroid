@@ -182,6 +182,7 @@ public class AppCenter {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handlerAppCenterOperation(final Runnable runnable, final Runnable runnable2) {
         if (checkPrecondition()) {
             Runnable runnable3 = new Runnable() { // from class: com.microsoft.appcenter.AppCenter.7
@@ -207,6 +208,7 @@ public class AppCenter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void finishConfiguration(boolean z) {
         Constants.loadFromContext(this.mApplication);
         FileManager.initialize(this.mApplication);
@@ -252,6 +254,7 @@ public class AppCenter {
         AppCenterLog.debug("AppCenter", "App Center initialized.");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void applyStorageMaxSize() {
         boolean maxStorageSize = this.mChannel.setMaxStorageSize(this.mMaxStorageSizeInBytes);
         DefaultAppCenterFuture<Boolean> defaultAppCenterFuture = this.mSetMaxStorageSizeFuture;
@@ -345,6 +348,7 @@ public class AppCenter {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void finishStartServices(Iterable<AppCenterService> iterable, Iterable<AppCenterService> iterable2, boolean z) {
         for (AppCenterService appCenterService : iterable) {
             appCenterService.onConfigurationUpdated(this.mAppSecret, this.mTransmissionTargetToken);
@@ -406,6 +410,7 @@ public class AppCenter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isInstanceEnabled() {
         return SharedPreferencesManager.getBoolean("enabled", true);
     }

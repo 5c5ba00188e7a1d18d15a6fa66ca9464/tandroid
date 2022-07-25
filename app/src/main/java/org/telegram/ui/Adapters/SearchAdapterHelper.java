@@ -72,7 +72,7 @@ public class SearchAdapterHelper {
     /* loaded from: classes3.dex */
     public interface SearchAdapterHelperDelegate {
 
-        /* renamed from: org.telegram.ui.Adapters.SearchAdapterHelper$SearchAdapterHelperDelegate$-CC */
+        /* renamed from: org.telegram.ui.Adapters.SearchAdapterHelper$SearchAdapterHelperDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
         public final /* synthetic */ class CC {
             public static boolean $default$canApplySearchResults(SearchAdapterHelperDelegate searchAdapterHelperDelegate, int i) {
@@ -242,6 +242,7 @@ public class SearchAdapterHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$0(String str, boolean z, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_channels_channelParticipants tLRPC$TL_channels_channelParticipants = (TLRPC$TL_channels_channelParticipants) tLObject;
@@ -265,12 +266,13 @@ public class SearchAdapterHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$1(int i, boolean z, boolean z2, boolean z3, boolean z4, String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        TLRPC$User tLRPC$User;
         TLRPC$Chat tLRPC$Chat;
+        TLRPC$User tLRPC$User;
         ArrayList<TLRPC$Peer> arrayList;
-        TLRPC$User tLRPC$User2;
         TLRPC$Chat tLRPC$Chat2;
+        TLRPC$User tLRPC$User2;
         if (!this.delegate.canApplySearchResults(i) || tLRPC$TL_error != null) {
             return;
         }
@@ -367,6 +369,7 @@ public class SearchAdapterHelper {
         this.lastFoundUsername = str.toLowerCase();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$3(final ArrayList arrayList, final int i, final AtomicInteger atomicInteger, final AtomicInteger atomicInteger2, final ArrayList arrayList2, final int i2, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -376,6 +379,7 @@ public class SearchAdapterHelper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$queryServerSearch$2(ArrayList arrayList, int i, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, AtomicInteger atomicInteger, AtomicInteger atomicInteger2, ArrayList arrayList2, int i2, Runnable runnable) {
         arrayList.set(i, new Pair(tLObject, tLRPC$TL_error));
         Integer valueOf = Integer.valueOf(atomicInteger.get());
@@ -444,6 +448,7 @@ public class SearchAdapterHelper {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadRecentHashtags$6() {
         try {
             SQLiteCursor queryFinalized = MessagesStorage.getInstance(this.currentAccount).getDatabase().queryFinalized("SELECT id, date FROM hashtag_recent_v2 WHERE 1", new Object[0]);
@@ -469,6 +474,7 @@ public class SearchAdapterHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$loadRecentHashtags$4(HashtagObject hashtagObject, HashtagObject hashtagObject2) {
         int i = hashtagObject.date;
         int i2 = hashtagObject2.date;
@@ -624,6 +630,7 @@ public class SearchAdapterHelper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$putRecentHashtags$7(ArrayList arrayList) {
         int i;
         try {
@@ -707,6 +714,7 @@ public class SearchAdapterHelper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearRecentHashtags$8() {
         try {
             MessagesStorage.getInstance(this.currentAccount).getDatabase().executeFast("DELETE FROM hashtag_recent_v2 WHERE 1").stepThis().dispose();

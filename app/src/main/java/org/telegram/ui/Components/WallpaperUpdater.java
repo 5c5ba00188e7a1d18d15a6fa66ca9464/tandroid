@@ -66,6 +66,7 @@ public class WallpaperUpdater {
         builder.show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showAlert$0(boolean z, DialogInterface dialogInterface, int i) {
         try {
             if (i != 0) {
@@ -142,6 +143,7 @@ public class WallpaperUpdater {
         this.parentActivity.startActivityForResult(intent, 11);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList) {
         try {
             if (arrayList.isEmpty()) {
@@ -171,25 +173,25 @@ public class WallpaperUpdater {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0075 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0075 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r10v12, types: [org.telegram.ui.Components.WallpaperUpdater$WallpaperUpdaterDelegate] */
-    /* JADX WARN: Type inference failed for: r8v16, types: [android.graphics.Bitmap] */
+    /* JADX WARN: Type inference failed for: r8v19, types: [android.graphics.Bitmap] */
     /* JADX WARN: Type inference failed for: r9v1 */
-    /* JADX WARN: Type inference failed for: r9v12, types: [java.io.OutputStream, java.io.FileOutputStream] */
-    /* JADX WARN: Type inference failed for: r9v14 */
-    /* JADX WARN: Type inference failed for: r9v15 */
-    /* JADX WARN: Type inference failed for: r9v16 */
+    /* JADX WARN: Type inference failed for: r9v10 */
+    /* JADX WARN: Type inference failed for: r9v11 */
+    /* JADX WARN: Type inference failed for: r9v12, types: [java.io.FileOutputStream] */
+    /* JADX WARN: Type inference failed for: r9v13 */
+    /* JADX WARN: Type inference failed for: r9v16, types: [java.io.OutputStream, java.io.FileOutputStream] */
     /* JADX WARN: Type inference failed for: r9v17 */
     /* JADX WARN: Type inference failed for: r9v18 */
     /* JADX WARN: Type inference failed for: r9v19 */
     /* JADX WARN: Type inference failed for: r9v7 */
-    /* JADX WARN: Type inference failed for: r9v8, types: [java.io.FileOutputStream] */
     /* JADX WARN: Type inference failed for: r9v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onActivityResult(int i, int i2, Intent intent) {
-        Exception e;
+        Throwable th;
         if (i2 == -1) {
             ?? r9 = 10;
             r9 = 10;
@@ -208,8 +210,8 @@ public class WallpaperUpdater {
                                 this.delegate.didSelectWallpaper(this.currentWallpaperPath, loadBitmap, false);
                                 r9.close();
                                 r9 = r9;
-                            } catch (Exception e2) {
-                                e = e2;
+                            } catch (Exception e) {
+                                e = e;
                                 FileLog.e(e);
                                 if (r9 != 0) {
                                     r9.close();
@@ -217,29 +219,29 @@ public class WallpaperUpdater {
                                 }
                                 this.currentPicturePath = null;
                             }
-                        } catch (Throwable th) {
-                            th = th;
+                        } catch (Throwable th2) {
+                            th = th2;
                             fileOutputStream = r9;
                             if (fileOutputStream != null) {
                                 try {
                                     fileOutputStream.close();
-                                } catch (Exception e3) {
-                                    FileLog.e(e3);
+                                } catch (Exception e2) {
+                                    FileLog.e(e2);
                                 }
                             }
                             throw th;
                         }
-                    } catch (Exception e4) {
-                        e = e4;
+                    } catch (Exception e3) {
+                        e = e3;
                         r9 = 0;
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th3) {
+                        th = th3;
                         if (fileOutputStream != null) {
                         }
                         throw th;
                     }
-                } catch (Exception e5) {
-                    FileLog.e(e5);
+                } catch (Exception e4) {
+                    FileLog.e(e4);
                 }
                 this.currentPicturePath = null;
             } else if (i != 11 || intent == null || intent.getData() == null) {
@@ -250,8 +252,8 @@ public class WallpaperUpdater {
                     Bitmap loadBitmap2 = ImageLoader.loadBitmap(null, intent.getData(), (float) realScreenSize2.x, (float) realScreenSize2.y, true);
                     loadBitmap2.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(this.currentWallpaperPath));
                     this.delegate.didSelectWallpaper(this.currentWallpaperPath, loadBitmap2, false);
-                } catch (Exception e6) {
-                    FileLog.e(e6);
+                } catch (Exception e5) {
+                    FileLog.e(e5);
                 }
             }
         }

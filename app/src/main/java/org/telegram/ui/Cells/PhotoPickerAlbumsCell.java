@@ -29,18 +29,15 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
         void didSelectAlbum(MediaController.AlbumEntry albumEntry);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class AlbumView extends FrameLayout {
+    private class AlbumView extends FrameLayout {
         private TextView countTextView;
         private BackupImageView imageView;
         private TextView nameTextView;
         private View selector;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AlbumView(Context context) {
             super(context);
-            PhotoPickerAlbumsCell.this = r18;
             BackupImageView backupImageView = new BackupImageView(context);
             this.imageView = backupImageView;
             addView(backupImageView, LayoutHelper.createFrame(-1, -1.0f));
@@ -105,6 +102,7 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         PhotoPickerAlbumsCellDelegate photoPickerAlbumsCellDelegate = this.delegate;
         if (photoPickerAlbumsCellDelegate != null) {
@@ -157,21 +155,21 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        int i3;
+        int dp;
         if (AndroidUtilities.isTablet()) {
-            i3 = ((AndroidUtilities.dp(490.0f) - AndroidUtilities.dp(12.0f)) - ((this.albumsCount - 1) * AndroidUtilities.dp(4.0f))) / this.albumsCount;
+            dp = ((AndroidUtilities.dp(490.0f) - AndroidUtilities.dp(12.0f)) - ((this.albumsCount - 1) * AndroidUtilities.dp(4.0f))) / this.albumsCount;
         } else {
-            i3 = ((AndroidUtilities.displaySize.x - AndroidUtilities.dp(12.0f)) - ((this.albumsCount - 1) * AndroidUtilities.dp(4.0f))) / this.albumsCount;
+            dp = ((AndroidUtilities.displaySize.x - AndroidUtilities.dp(12.0f)) - ((this.albumsCount - 1) * AndroidUtilities.dp(4.0f))) / this.albumsCount;
         }
-        for (int i4 = 0; i4 < this.albumsCount; i4++) {
-            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.albumViews[i4].getLayoutParams();
+        for (int i3 = 0; i3 < this.albumsCount; i3++) {
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.albumViews[i3].getLayoutParams();
             layoutParams.topMargin = AndroidUtilities.dp(4.0f);
-            layoutParams.leftMargin = (AndroidUtilities.dp(4.0f) + i3) * i4;
-            layoutParams.width = i3;
-            layoutParams.height = i3;
+            layoutParams.leftMargin = (AndroidUtilities.dp(4.0f) + dp) * i3;
+            layoutParams.width = dp;
+            layoutParams.height = dp;
             layoutParams.gravity = 51;
-            this.albumViews[i4].setLayoutParams(layoutParams);
+            this.albumViews[i3].setLayoutParams(layoutParams);
         }
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(4.0f) + i3, 1073741824));
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(4.0f) + dp, 1073741824));
     }
 }

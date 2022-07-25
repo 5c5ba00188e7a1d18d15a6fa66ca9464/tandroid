@@ -9,13 +9,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class IcyInfo implements Metadata.Entry {
     public static final Parcelable.Creator<IcyInfo> CREATOR = new Parcelable.Creator<IcyInfo>() { // from class: com.google.android.exoplayer2.metadata.icy.IcyInfo.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public IcyInfo createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public IcyInfo mo106createFromParcel(Parcel parcel) {
             return new IcyInfo(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public IcyInfo[] newArray(int i) {
+        /* renamed from: newArray */
+        public IcyInfo[] mo107newArray(int i) {
             return new IcyInfo[i];
         }
     };

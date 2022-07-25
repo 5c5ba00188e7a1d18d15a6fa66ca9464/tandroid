@@ -100,6 +100,7 @@ public class RtpSender {
         this.nativeRtpSender = 0L;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public long getNativeRtpSender() {
         checkRtpSenderExists();
         return this.nativeRtpSender;

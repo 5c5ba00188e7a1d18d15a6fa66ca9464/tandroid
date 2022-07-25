@@ -7,7 +7,7 @@ public final class zzt {
     static final zzn zza;
 
     static {
-        zzn zznVar;
+        zzn zzrVar;
         Integer num = null;
         try {
             try {
@@ -17,9 +17,9 @@ public final class zzt {
                 e.printStackTrace(System.err);
             }
             if (num == null || num.intValue() < 19) {
-                zznVar = !Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic") ? new zzq() : new zzr();
+                zzrVar = !Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic") ? new zzq() : new zzr();
             } else {
-                zznVar = new zzs();
+                zzrVar = new zzs();
             }
         } catch (Throwable th) {
             PrintStream printStream = System.err;
@@ -30,9 +30,9 @@ public final class zzt {
             sb.append("will be used. The error is: ");
             printStream.println(sb.toString());
             th.printStackTrace(System.err);
-            zznVar = new zzr();
+            zzrVar = new zzr();
         }
-        zza = zznVar;
+        zza = zzrVar;
         if (num == null) {
             return;
         }

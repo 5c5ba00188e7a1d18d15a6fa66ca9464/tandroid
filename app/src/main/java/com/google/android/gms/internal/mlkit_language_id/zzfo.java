@@ -4,6 +4,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 final class zzfo implements zzfw {
     private zzfw[] zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzfo(zzfw... zzfwVarArr) {
         this.zza = zzfwVarArr;
     }

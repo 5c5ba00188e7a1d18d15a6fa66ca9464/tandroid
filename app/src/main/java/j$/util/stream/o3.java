@@ -5,6 +5,7 @@ class o3 extends i3 {
     long c;
     final /* synthetic */ p3 d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public o3(p3 p3Var, m3 m3Var) {
         super(m3Var);

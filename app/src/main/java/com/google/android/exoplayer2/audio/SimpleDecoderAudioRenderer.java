@@ -56,7 +56,8 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         return false;
     }
 
-    protected abstract SimpleDecoder<DecoderInputBuffer, ? extends SimpleOutputBuffer, ? extends AudioDecoderException> createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws AudioDecoderException;
+    /* renamed from: createDecoder */
+    protected abstract SimpleDecoder<DecoderInputBuffer, ? extends SimpleOutputBuffer, ? extends AudioDecoderException> mo90createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws AudioDecoderException;
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
     public MediaClock getMediaClock() {
@@ -120,6 +121,7 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         return RendererCapabilities.CC.create(supportsFormatInternal, 8, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final boolean supportsOutput(int i, int i2) {
         return this.audioSink.supportsOutput(i, i2);
     }
@@ -168,12 +170,12 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
 
     private boolean drainOutputBuffer() throws ExoPlaybackException, AudioDecoderException, AudioSink.ConfigurationException, AudioSink.InitializationException, AudioSink.WriteException {
         if (this.outputBuffer == null) {
-            SimpleOutputBuffer dequeueOutputBuffer = this.decoder.dequeueOutputBuffer();
-            this.outputBuffer = dequeueOutputBuffer;
-            if (dequeueOutputBuffer == null) {
+            SimpleOutputBuffer mo167dequeueOutputBuffer = this.decoder.mo167dequeueOutputBuffer();
+            this.outputBuffer = mo167dequeueOutputBuffer;
+            if (mo167dequeueOutputBuffer == null) {
                 return false;
             }
-            int i = dequeueOutputBuffer.skippedOutputBufferCount;
+            int i = mo167dequeueOutputBuffer.skippedOutputBufferCount;
             if (i > 0) {
                 this.decoderCounters.skippedOutputBufferCount += i;
                 this.audioSink.handleDiscontinuity();
@@ -213,9 +215,9 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
             return false;
         }
         if (this.inputBuffer == null) {
-            DecoderInputBuffer dequeueInputBuffer = simpleDecoder.dequeueInputBuffer();
-            this.inputBuffer = dequeueInputBuffer;
-            if (dequeueInputBuffer == null) {
+            DecoderInputBuffer mo166dequeueInputBuffer = simpleDecoder.mo166dequeueInputBuffer();
+            this.inputBuffer = mo166dequeueInputBuffer;
+            if (mo166dequeueInputBuffer == null) {
                 return false;
             }
         }
@@ -413,7 +415,7 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         try {
             long elapsedRealtime = SystemClock.elapsedRealtime();
             TraceUtil.beginSection("createAudioDecoder");
-            this.decoder = createDecoder(this.inputFormat, exoMediaCrypto);
+            this.decoder = mo90createDecoder(this.inputFormat, exoMediaCrypto);
             TraceUtil.endSection();
             long elapsedRealtime2 = SystemClock.elapsedRealtime();
             this.eventDispatcher.decoderInitialized(this.decoder.getName(), elapsedRealtime2, elapsedRealtime2 - elapsedRealtime);
@@ -493,11 +495,9 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class AudioSinkListener implements AudioSink.Listener {
+    private final class AudioSinkListener implements AudioSink.Listener {
         private AudioSinkListener() {
-            SimpleDecoderAudioRenderer.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.audio.AudioSink.Listener

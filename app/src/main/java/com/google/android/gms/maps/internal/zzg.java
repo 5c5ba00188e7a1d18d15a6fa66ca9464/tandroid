@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
 /* loaded from: classes.dex */
 public final class zzg extends com.google.android.gms.internal.maps.zza implements IGoogleMapDelegate {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzg(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.internal.IGoogleMapDelegate");
     }
@@ -73,40 +74,40 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final IProjectionDelegate getProjection() throws RemoteException {
-        IProjectionDelegate iProjectionDelegate;
+        IProjectionDelegate zzbsVar;
         Parcel zzH = zzH(26, zza());
         IBinder readStrongBinder = zzH.readStrongBinder();
         if (readStrongBinder == null) {
-            iProjectionDelegate = null;
+            zzbsVar = null;
         } else {
             IInterface queryLocalInterface = readStrongBinder.queryLocalInterface("com.google.android.gms.maps.internal.IProjectionDelegate");
             if (queryLocalInterface instanceof IProjectionDelegate) {
-                iProjectionDelegate = (IProjectionDelegate) queryLocalInterface;
+                zzbsVar = (IProjectionDelegate) queryLocalInterface;
             } else {
-                iProjectionDelegate = new zzbs(readStrongBinder);
+                zzbsVar = new zzbs(readStrongBinder);
             }
         }
         zzH.recycle();
-        return iProjectionDelegate;
+        return zzbsVar;
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final IUiSettingsDelegate getUiSettings() throws RemoteException {
-        IUiSettingsDelegate iUiSettingsDelegate;
+        IUiSettingsDelegate zzbyVar;
         Parcel zzH = zzH(25, zza());
         IBinder readStrongBinder = zzH.readStrongBinder();
         if (readStrongBinder == null) {
-            iUiSettingsDelegate = null;
+            zzbyVar = null;
         } else {
             IInterface queryLocalInterface = readStrongBinder.queryLocalInterface("com.google.android.gms.maps.internal.IUiSettingsDelegate");
             if (queryLocalInterface instanceof IUiSettingsDelegate) {
-                iUiSettingsDelegate = (IUiSettingsDelegate) queryLocalInterface;
+                zzbyVar = (IUiSettingsDelegate) queryLocalInterface;
             } else {
-                iUiSettingsDelegate = new zzby(readStrongBinder);
+                zzbyVar = new zzby(readStrongBinder);
             }
         }
         zzH.recycle();
-        return iUiSettingsDelegate;
+        return zzbyVar;
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate

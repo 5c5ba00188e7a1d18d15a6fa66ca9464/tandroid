@@ -12,6 +12,7 @@ import org.telegram.messenger.audioinfo.mp3.MP3Frame;
 public class MP3Info extends AudioInfo {
     static final Logger LOGGER = Logger.getLogger(MP3Info.class.getName());
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface StopReadCondition {
         boolean stopRead(MP3Input mP3Input) throws IOException;

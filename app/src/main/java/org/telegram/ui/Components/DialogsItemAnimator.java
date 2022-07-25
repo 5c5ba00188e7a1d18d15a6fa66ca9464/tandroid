@@ -40,6 +40,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         throw null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class MoveInfo {
         public int fromX;
@@ -61,6 +62,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         this.listView = recyclerListView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ChangeInfo {
         public int fromX;
@@ -137,6 +139,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runPendingAnimations$0(ArrayList arrayList) {
         Iterator it = arrayList.iterator();
         while (it.hasNext()) {
@@ -147,6 +150,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         this.mMovesList.remove(arrayList);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runPendingAnimations$1(ArrayList arrayList) {
         Iterator it = arrayList.iterator();
         while (it.hasNext()) {
@@ -156,6 +160,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         this.mChangesList.remove(arrayList);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runPendingAnimations$2(ArrayList arrayList) {
         Iterator it = arrayList.iterator();
         while (it.hasNext()) {

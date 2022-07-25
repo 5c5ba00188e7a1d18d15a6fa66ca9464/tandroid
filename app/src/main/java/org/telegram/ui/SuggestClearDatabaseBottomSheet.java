@@ -73,6 +73,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         setCustomView(scrollView);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final BaseFragment baseFragment, View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
         builder.setTitle(LocaleController.getString("LocalDatabaseClearTextTitle", R.string.LocalDatabaseClearTextTitle));
@@ -92,6 +93,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
         if (baseFragment.getParentActivity() == null) {
             return;

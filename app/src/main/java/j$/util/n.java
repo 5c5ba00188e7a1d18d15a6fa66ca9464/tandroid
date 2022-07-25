@@ -8,7 +8,8 @@ public interface n extends p {
     void forEachRemaining(Consumer consumer);
 
     @Override // java.util.Iterator, j$.util.Iterator
-    Double next();
+    /* renamed from: next */
+    Double mo335next();
 
     double nextDouble();
 }

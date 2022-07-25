@@ -10,7 +10,7 @@ import java.util.Set;
 /* loaded from: classes2.dex */
 public interface Map<K, V> {
 
-    /* renamed from: j$.util.Map$-CC */
+    /* renamed from: j$.util.Map$-CC  reason: invalid class name */
     /* loaded from: classes2.dex */
     public final /* synthetic */ class CC {
         /* JADX WARN: Multi-variable type inference failed */

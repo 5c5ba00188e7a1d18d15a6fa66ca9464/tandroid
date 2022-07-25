@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class FlacDecoderJni {
     private static final int TEMP_BUFFER_SIZE = 8192;
@@ -145,21 +146,21 @@ public final class FlacDecoderJni {
     }
 
     public void decodeSample(ByteBuffer byteBuffer) throws IOException, InterruptedException, FlacFrameDecodeException {
-        int i;
+        int flacDecodeToArray;
         byteBuffer.clear();
         if (byteBuffer.isDirect()) {
-            i = flacDecodeToBuffer(this.nativeDecoderContext, byteBuffer);
+            flacDecodeToArray = flacDecodeToBuffer(this.nativeDecoderContext, byteBuffer);
         } else {
-            i = flacDecodeToArray(this.nativeDecoderContext, byteBuffer.array());
+            flacDecodeToArray = flacDecodeToArray(this.nativeDecoderContext, byteBuffer.array());
         }
-        if (i < 0) {
+        if (flacDecodeToArray < 0) {
             if (!isDecoderAtEndOfInput()) {
-                throw new FlacFrameDecodeException("Cannot decode FLAC frame", i);
+                throw new FlacFrameDecodeException("Cannot decode FLAC frame", flacDecodeToArray);
             }
             byteBuffer.limit(0);
             return;
         }
-        byteBuffer.limit(i);
+        byteBuffer.limit(flacDecodeToArray);
     }
 
     public long getDecodePosition() {

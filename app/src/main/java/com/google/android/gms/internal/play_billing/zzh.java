@@ -10,6 +10,7 @@ public class zzh implements IInterface {
     private final IBinder zza;
     private final String zzb = "com.android.vending.billing.IInAppBillingService";
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public zzh(IBinder iBinder, String str) {
         this.zza = iBinder;
     }
@@ -19,12 +20,14 @@ public class zzh implements IInterface {
         return this.zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final Parcel zzo() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.zzb);
         return obtain;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final Parcel zzp(int i, Parcel parcel) throws RemoteException {
         parcel = Parcel.obtain();
         try {

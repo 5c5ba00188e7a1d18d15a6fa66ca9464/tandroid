@@ -66,6 +66,7 @@ public final class CommonNotificationBuilder {
         return PendingIntent.getBroadcast(context, generatePendingIntentRequestCode(), new Intent("com.google.firebase.MESSAGING_EVENT").setComponent(new ComponentName(context, "com.google.firebase.iid.FirebaseInstanceIdReceiver")).putExtra("wrapped_intent", intent), getPendingIntentFlags(1073741824));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static DisplayNotificationInfo createNotificationInfo(Context context, NotificationParams notificationParams) {
         Bundle manifestMetadata = getManifestMetadata(context.getPackageManager(), context.getPackageName());
         return createNotificationInfo(context, context.getPackageName(), notificationParams, getOrCreateChannel(context, notificationParams.getNotificationChannelId(), manifestMetadata), context.getResources(), context.getPackageManager(), manifestMetadata);
@@ -157,7 +158,7 @@ public final class CommonNotificationBuilder {
 
     @TargetApi(AvailableCode.ERROR_NO_ACTIVITY)
     public static String getOrCreateChannel(Context context, String str, Bundle bundle) {
-        String str2;
+        String string;
         if (Build.VERSION.SDK_INT < 26) {
             return null;
         }
@@ -174,10 +175,10 @@ public final class CommonNotificationBuilder {
                     sb.append(") has not been created by the app. Manifest configuration, or default, value will be used.");
                     Log.w("FirebaseMessaging", sb.toString());
                 }
-                String string = bundle.getString("com.google.firebase.messaging.default_notification_channel_id");
-                if (!TextUtils.isEmpty(string)) {
-                    if (notificationManager.getNotificationChannel(string) != null) {
-                        return string;
+                String string2 = bundle.getString("com.google.firebase.messaging.default_notification_channel_id");
+                if (!TextUtils.isEmpty(string2)) {
+                    if (notificationManager.getNotificationChannel(string2) != null) {
+                        return string2;
                     }
                     Log.w("FirebaseMessaging", "Notification Channel set in AndroidManifest.xml has not been created by the app. Default value will be used.");
                 } else {
@@ -187,11 +188,11 @@ public final class CommonNotificationBuilder {
                     int identifier = context.getResources().getIdentifier("fcm_fallback_notification_channel_label", "string", context.getPackageName());
                     if (identifier == 0) {
                         Log.e("FirebaseMessaging", "String resource \"fcm_fallback_notification_channel_label\" is not found. Using default string channel name.");
-                        str2 = "Misc";
+                        string = "Misc";
                     } else {
-                        str2 = context.getString(identifier);
+                        string = context.getString(identifier);
                     }
-                    notificationManager.createNotificationChannel(new NotificationChannel("fcm_fallback_notification_channel", str2, 3));
+                    notificationManager.createNotificationChannel(new NotificationChannel("fcm_fallback_notification_channel", string, 3));
                 }
                 return "fcm_fallback_notification_channel";
             }

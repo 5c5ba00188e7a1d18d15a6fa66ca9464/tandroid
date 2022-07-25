@@ -2,9 +2,8 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class K implements v {
+final class K implements v {
     private final long[] a;
     private int b;
     private final int c;
@@ -27,7 +26,7 @@ public final class K implements v {
         return this.d;
     }
 
-    @Override // j$.util.v
+    @Override // j$.util.w
     /* renamed from: d */
     public void forEachRemaining(j$.util.function.q qVar) {
         int i;
@@ -76,7 +75,7 @@ public final class K implements v {
         return a.f(this, i);
     }
 
-    @Override // j$.util.v
+    @Override // j$.util.w
     /* renamed from: i */
     public boolean tryAdvance(j$.util.function.q qVar) {
         qVar.getClass();
@@ -91,7 +90,8 @@ public final class K implements v {
     }
 
     @Override // j$.util.v, j$.util.w, j$.util.u
-    public v trySplit() {
+    /* renamed from: trySplit  reason: collision with other method in class */
+    public v mo350trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;
         if (i >= i2) {

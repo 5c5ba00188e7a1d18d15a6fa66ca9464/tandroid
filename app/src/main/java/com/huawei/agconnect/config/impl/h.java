@@ -13,6 +13,7 @@ import org.json.JSONObject;
 class h implements d {
     private final JSONObject a;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public h(InputStream inputStream, String str) {
         this.a = a(inputStream);
         a(str);

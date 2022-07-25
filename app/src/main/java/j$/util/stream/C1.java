@@ -5,6 +5,7 @@ abstract class C1 implements A1 {
     protected final A1 b;
     private final long c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public C1(A1 a1, A1 a12) {
         this.a = a1;
         this.b = a12;
@@ -12,7 +13,8 @@ abstract class C1 implements A1 {
     }
 
     @Override // j$.util.stream.A1
-    public A1 b(int i) {
+    /* renamed from: b */
+    public A1 mo316b(int i) {
         if (i == 0) {
             return this.a;
         }
@@ -20,6 +22,12 @@ abstract class C1 implements A1 {
             throw new IndexOutOfBoundsException();
         }
         return this.b;
+    }
+
+    @Override // j$.util.stream.A1
+    /* renamed from: b  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ z1 mo316b(int i) {
+        return (z1) mo316b(i);
     }
 
     @Override // j$.util.stream.A1

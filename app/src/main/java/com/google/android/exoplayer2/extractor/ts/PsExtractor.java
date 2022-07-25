@@ -167,9 +167,8 @@ public final class PsExtractor implements Extractor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class PesReader {
+    private static final class PesReader {
         private boolean dtsFlag;
         private int extendedHeaderLength;
         private final ElementaryStreamReader pesPayloadReader;

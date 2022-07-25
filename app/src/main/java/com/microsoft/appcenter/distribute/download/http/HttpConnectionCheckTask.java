@@ -2,15 +2,17 @@ package com.microsoft.appcenter.distribute.download.http;
 
 import android.os.AsyncTask;
 import java.io.File;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class HttpConnectionCheckTask extends AsyncTask<Void, Void, Void> {
+class HttpConnectionCheckTask extends AsyncTask<Void, Void, Void> {
     private final HttpConnectionReleaseDownloader mDownloader;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public HttpConnectionCheckTask(HttpConnectionReleaseDownloader httpConnectionReleaseDownloader) {
         this.mDownloader = httpConnectionReleaseDownloader;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Void doInBackground(Void... voidArr) {
         File targetFile = this.mDownloader.getTargetFile();
         if (targetFile == null) {

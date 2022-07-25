@@ -4,12 +4,14 @@ import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzbc implements Iterator, j$.util.Iterator {
     private final int limit;
     private int position = 0;
     private final /* synthetic */ zzbb zzfl;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzbc(zzbb zzbbVar) {
         this.zzfl = zzbbVar;
         this.limit = zzbbVar.size();
@@ -37,7 +39,8 @@ public final class zzbc implements Iterator, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         return Byte.valueOf(nextByte());
     }
 

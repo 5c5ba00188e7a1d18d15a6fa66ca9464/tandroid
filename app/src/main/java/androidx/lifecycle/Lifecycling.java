@@ -12,6 +12,7 @@ public class Lifecycling {
     private static Map<Class, Integer> sCallbackCache = new HashMap();
     private static Map<Class, List<Constructor<? extends GeneratedAdapter>>> sClassToAdapters = new HashMap();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static GenericLifecycleObserver getCallback(Object obj) {
         if (obj instanceof FullLifecycleObserver) {
             return new FullLifecycleObserverAdapter((FullLifecycleObserver) obj);

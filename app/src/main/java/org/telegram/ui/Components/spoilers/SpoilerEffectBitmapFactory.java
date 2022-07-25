@@ -44,6 +44,7 @@ public class SpoilerEffectBitmapFactory {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Paint getPaint() {
         if (this.shaderBitmap == null) {
             int i = this.size;
@@ -100,6 +101,7 @@ public class SpoilerEffectBitmapFactory {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUpdate$1(final Bitmap bitmap) {
         if (bitmap == null) {
             int i = this.size;
@@ -129,6 +131,7 @@ public class SpoilerEffectBitmapFactory {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUpdate$0(Bitmap bitmap) {
         this.bufferBitmap = this.shaderBitmap;
         this.shaderBitmap = bitmap;

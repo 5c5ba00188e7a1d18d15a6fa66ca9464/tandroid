@@ -7,6 +7,7 @@ public abstract class Binarizer {
 
     public abstract BitMatrix getBlackMatrix() throws NotFoundException;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Binarizer(LuminanceSource luminanceSource) {
         this.source = luminanceSource;
     }

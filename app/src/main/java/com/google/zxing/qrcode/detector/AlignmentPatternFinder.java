@@ -17,6 +17,7 @@ final class AlignmentPatternFinder {
     private final List<AlignmentPattern> possibleCenters = new ArrayList(5);
     private final int[] crossCheckStateCount = new int[3];
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AlignmentPatternFinder(BitMatrix bitMatrix, int i, int i2, int i3, int i4, float f, ResultPointCallback resultPointCallback) {
         this.image = bitMatrix;
         this.startX = i;
@@ -27,6 +28,7 @@ final class AlignmentPatternFinder {
         this.resultPointCallback = resultPointCallback;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public AlignmentPattern find() throws NotFoundException {
         AlignmentPattern handlePossibleCenter;
         AlignmentPattern handlePossibleCenter2;
@@ -92,44 +94,44 @@ final class AlignmentPatternFinder {
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0062, code lost:
-        if (r2[1] <= r12) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0062, code lost:
+        if (r2[1] <= r12) goto L35;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0065, code lost:
-        if (r10 >= r1) goto L57;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0065, code lost:
+        if (r10 >= r1) goto L54;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x006b, code lost:
-        if (r0.get(r11, r10) != false) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x006b, code lost:
+        if (r0.get(r11, r10) != false) goto L53;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x006f, code lost:
-        if (r2[2] > r12) goto L59;
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x006f, code lost:
+        if (r2[2] > r12) goto L41;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0071, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0071, code lost:
         r2[2] = r2[2] + 1;
         r10 = r10 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x007b, code lost:
-        if (r2[2] <= r12) goto L41;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x007b, code lost:
+        if (r2[2] <= r12) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x007d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x007d, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x008f, code lost:
-        if ((java.lang.Math.abs(((r2[0] + r2[1]) + r2[2]) - r13) * 5) < (r13 * 2)) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x008f, code lost:
+        if ((java.lang.Math.abs(((r2[0] + r2[1]) + r2[2]) - r13) * 5) < (r13 * 2)) goto L48;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0091, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x0091, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0096, code lost:
-        if (foundPatternCross(r2) == false) goto L62;
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0096, code lost:
+        if (foundPatternCross(r2) == false) goto L52;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x009c, code lost:
         return centerFromEnd(r2, r10);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:62:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:?, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:?, code lost:
         return Float.NaN;
      */
     /*

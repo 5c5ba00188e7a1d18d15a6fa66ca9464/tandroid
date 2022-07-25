@@ -37,6 +37,7 @@ public class c {
     private String l = "";
     private long m = 1;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class a implements Callable<d> {
         final /* synthetic */ ExecutorService a;
@@ -44,14 +45,15 @@ public class c {
         final /* synthetic */ com.huawei.hms.framework.network.grs.e.c c;
 
         a(ExecutorService executorService, String str, com.huawei.hms.framework.network.grs.e.c cVar) {
-            c.this = r1;
             this.a = executorService;
             this.b = str;
             this.c = cVar;
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // java.util.concurrent.Callable
-        public d call() {
+        /* renamed from: call */
+        public d mo226call() {
             return c.this.b(this.a, this.b, this.c);
         }
     }
@@ -65,14 +67,12 @@ public class c {
         d();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x009a A[LOOP:0: B:3:0x0006->B:33:0x009a, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0092 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x009a A[LOOP:0: B:2:0x0006->B:13:0x009a, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0092 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private d a(ExecutorService executorService, List<String> list, String str, com.huawei.hms.framework.network.grs.e.c cVar) {
-        ExecutionException e;
-        InterruptedException e2;
         d dVar;
         d dVar2 = null;
         int i = 0;
@@ -87,19 +87,19 @@ public class c {
                 this.e.put(str2, submit);
                 try {
                     dVar = submit.get(this.m, TimeUnit.SECONDS);
-                } catch (InterruptedException e3) {
-                    e2 = e3;
+                } catch (InterruptedException e) {
+                    e = e;
                 } catch (CancellationException unused) {
-                } catch (ExecutionException e4) {
-                    e = e4;
+                } catch (ExecutionException e2) {
+                    e = e2;
                 } catch (TimeoutException unused2) {
                 }
                 if (dVar != null) {
                     try {
-                    } catch (InterruptedException e5) {
-                        e2 = e5;
+                    } catch (InterruptedException e3) {
+                        e = e3;
                         dVar2 = dVar;
-                        Logger.w(n, "the current thread was interrupted while waiting", e2);
+                        Logger.w(n, "the current thread was interrupted while waiting", e);
                         if (!z) {
                         }
                     } catch (CancellationException unused3) {
@@ -107,8 +107,8 @@ public class c {
                         Logger.i(n, "{requestServer} the computation was cancelled");
                         if (!z) {
                         }
-                    } catch (ExecutionException e6) {
-                        e = e6;
+                    } catch (ExecutionException e4) {
+                        e = e4;
                         dVar2 = dVar;
                         Logger.w(n, "the computation threw an ExecutionException", e);
                         z = false;
@@ -155,25 +155,24 @@ public class c {
     private d b(d dVar) {
         String str;
         String str2;
-        Throwable e;
         for (Map.Entry<String, Future<d>> entry : this.e.entrySet()) {
             if (dVar != null && (dVar.o() || dVar.m())) {
                 break;
             }
             try {
                 dVar = entry.getValue().get(40000L, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e2) {
-                e = e2;
-                str2 = n;
-                str = "{checkResponse} when check result, find InterruptedException, check others";
-                Logger.w(str2, str, e);
+            } catch (InterruptedException e) {
+                e = e;
+                str = n;
+                str2 = "{checkResponse} when check result, find InterruptedException, check others";
+                Logger.w(str, str2, e);
             } catch (CancellationException unused) {
                 Logger.i(n, "{checkResponse} when check result, find CancellationException, check others");
-            } catch (ExecutionException e3) {
-                e = e3;
-                str2 = n;
-                str = "{checkResponse} when check result, find ExecutionException, check others";
-                Logger.w(str2, str, e);
+            } catch (ExecutionException e2) {
+                e = e2;
+                str = n;
+                str2 = "{checkResponse} when check result, find ExecutionException, check others";
+                Logger.w(str, str2, e);
             } catch (TimeoutException unused2) {
                 Logger.w(n, "{checkResponse} when check result, find TimeoutException, cancel current request task");
                 if (!entry.getValue().isCancelled()) {
@@ -184,6 +183,7 @@ public class c {
         return dVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public d b(ExecutorService executorService, String str, com.huawei.hms.framework.network.grs.e.c cVar) {
         long elapsedRealtime = SystemClock.elapsedRealtime();
         d a2 = a(executorService, this.i, str, cVar);
@@ -270,34 +270,33 @@ public class c {
     public d a(ExecutorService executorService, String str, com.huawei.hms.framework.network.grs.e.c cVar) {
         String str2;
         String str3;
-        Throwable e;
         if (!this.h.isEmpty() || !this.i.isEmpty()) {
             try {
                 com.huawei.hms.framework.network.grs.g.k.d b = b();
                 return (d) executorService.submit(new a(executorService, str, cVar)).get(b != null ? b.d() : 10, TimeUnit.SECONDS);
-            } catch (InterruptedException e2) {
-                e = e2;
-                str3 = n;
-                str2 = "{submitExcutorTaskWithTimeout} the current thread was interrupted while waiting";
-                Logger.w(str3, str2, e);
+            } catch (InterruptedException e) {
+                e = e;
+                str2 = n;
+                str3 = "{submitExcutorTaskWithTimeout} the current thread was interrupted while waiting";
+                Logger.w(str2, str3, e);
                 return null;
             } catch (CancellationException unused) {
                 Logger.i(n, "{submitExcutorTaskWithTimeout} the computation was cancelled");
                 return null;
-            } catch (ExecutionException e3) {
-                e = e3;
-                str3 = n;
-                str2 = "{submitExcutorTaskWithTimeout} the computation threw an ExecutionException";
-                Logger.w(str3, str2, e);
+            } catch (ExecutionException e2) {
+                e = e2;
+                str2 = n;
+                str3 = "{submitExcutorTaskWithTimeout} the computation threw an ExecutionException";
+                Logger.w(str2, str3, e);
                 return null;
             } catch (TimeoutException unused2) {
                 Logger.w(n, "{submitExcutorTaskWithTimeout} the wait timed out");
                 return null;
-            } catch (Exception e4) {
-                e = e4;
-                str3 = n;
-                str2 = "{submitExcutorTaskWithTimeout} catch Exception";
-                Logger.w(str3, str2, e);
+            } catch (Exception e3) {
+                e = e3;
+                str2 = n;
+                str3 = "{submitExcutorTaskWithTimeout} catch Exception";
+                Logger.w(str2, str3, e);
                 return null;
             }
         }

@@ -27,6 +27,7 @@ final class VorbisReader extends StreamReader {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     public void reset(boolean z) {
         super.reset(z);
@@ -39,6 +40,7 @@ final class VorbisReader extends StreamReader {
         this.seenFirstAudioPacket = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     public void onSeekEnd(long j) {
         super.onSeekEnd(j);
@@ -117,6 +119,7 @@ final class VorbisReader extends StreamReader {
         return vorbisSetup.idHeader.blockSize1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class VorbisSetup {
         public final int iLogModes;

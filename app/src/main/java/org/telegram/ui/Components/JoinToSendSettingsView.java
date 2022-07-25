@@ -101,6 +101,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         updateToggleValue(this.toggleValue);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         final boolean z = this.isJoinToSend;
         boolean z2 = !z;
@@ -116,6 +117,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final boolean z, final boolean z2) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
@@ -125,11 +127,13 @@ public class JoinToSendSettingsView extends LinearLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(boolean z, boolean z2) {
         lambda$new$3(z);
         setJoinToSend(z2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
         final boolean z = this.isJoinRequest;
         boolean z2 = !z;
@@ -143,6 +147,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(final boolean z) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -232,6 +237,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         this.toggleAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setJoinToSend$6(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.toggleValue = floatValue;
@@ -260,14 +266,14 @@ public class JoinToSendSettingsView extends LinearLayout {
     }
 
     private int calcHeight() {
-        float f;
-        float measuredHeight = this.joinHeaderCell.getMeasuredHeight();
+        float measuredHeight;
+        float measuredHeight2 = this.joinHeaderCell.getMeasuredHeight();
         if (this.joinToSendCell.getVisibility() == 0) {
-            f = this.joinToSendCell.getMeasuredHeight() + (this.joinRequestCell.getMeasuredHeight() * this.toggleValue);
+            measuredHeight = this.joinToSendCell.getMeasuredHeight() + (this.joinRequestCell.getMeasuredHeight() * this.toggleValue);
         } else {
-            f = this.joinRequestCell.getMeasuredHeight();
+            measuredHeight = this.joinRequestCell.getMeasuredHeight();
         }
-        return (int) (measuredHeight + f + AndroidUtilities.lerp(this.joinToSendInfoCell.getMeasuredHeight(), this.joinRequestInfoCell.getMeasuredHeight(), this.toggleValue));
+        return (int) (measuredHeight2 + measuredHeight + AndroidUtilities.lerp(this.joinToSendInfoCell.getMeasuredHeight(), this.joinRequestInfoCell.getMeasuredHeight(), this.toggleValue));
     }
 
     @Override // android.widget.LinearLayout, android.view.View

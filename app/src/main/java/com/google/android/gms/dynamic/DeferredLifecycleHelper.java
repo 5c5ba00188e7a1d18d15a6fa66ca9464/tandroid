@@ -20,6 +20,7 @@ public abstract class DeferredLifecycleHelper<T extends LifecycleDelegate> {
     private LinkedList<zaa> zac;
     private final OnDelegateCreatedListener<T> zad = new com.google.android.gms.dynamic.zaa(this);
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
     /* loaded from: classes.dex */
     public interface zaa {

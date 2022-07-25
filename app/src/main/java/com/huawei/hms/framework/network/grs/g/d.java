@@ -81,31 +81,30 @@ public class d {
     }
 
     private void b(Map<String, String> map) {
-        long j;
-        NumberFormatException e;
+        long time;
         if (map.containsKey("Cache-Control")) {
             String str = map.get("Cache-Control");
             if (!TextUtils.isEmpty(str) && str.contains("max-age=")) {
                 try {
-                    j = Long.parseLong(str.substring(str.indexOf("max-age=") + 8));
+                    time = Long.parseLong(str.substring(str.indexOf("max-age=") + 8));
                     try {
-                        Logger.v(o, "Cache-Control value{%s}", Long.valueOf(j));
-                    } catch (NumberFormatException e2) {
-                        e = e2;
+                        Logger.v(o, "Cache-Control value{%s}", Long.valueOf(time));
+                    } catch (NumberFormatException e) {
+                        e = e;
                         Logger.w(o, "getExpireTime addHeadersToResult NumberFormatException", e);
-                        if (j > 0) {
+                        if (time > 0) {
                         }
-                        j = 86400;
-                        long j2 = j * 1000;
-                        Logger.i(o, "convert expireTime{%s}", Long.valueOf(j2));
-                        c(String.valueOf(j2 + System.currentTimeMillis()));
+                        time = 86400;
+                        long j = time * 1000;
+                        Logger.i(o, "convert expireTime{%s}", Long.valueOf(j));
+                        c(String.valueOf(j + System.currentTimeMillis()));
                     }
-                } catch (NumberFormatException e3) {
-                    e = e3;
-                    j = 0;
+                } catch (NumberFormatException e2) {
+                    e = e2;
+                    time = 0;
                 }
             }
-            j = 0;
+            time = 0;
         } else {
             if (map.containsKey("Expires")) {
                 String str2 = map.get("Expires");
@@ -116,21 +115,21 @@ public class d {
                     str3 = map.get("Date");
                 }
                 try {
-                    j = (simpleDateFormat.parse(str2).getTime() - (TextUtils.isEmpty(str3) ? new Date() : simpleDateFormat.parse(str3)).getTime()) / 1000;
-                } catch (ParseException e4) {
-                    Logger.w(o, "getExpireTime ParseException.", e4);
+                    time = (simpleDateFormat.parse(str2).getTime() - (TextUtils.isEmpty(str3) ? new Date() : simpleDateFormat.parse(str3)).getTime()) / 1000;
+                } catch (ParseException e3) {
+                    Logger.w(o, "getExpireTime ParseException.", e3);
                 }
             } else {
                 Logger.i(o, "response headers neither contains Cache-Control nor Expires.");
             }
-            j = 0;
+            time = 0;
         }
-        if (j > 0 || j > 2592000) {
-            j = 86400;
+        if (time > 0 || time > 2592000) {
+            time = 86400;
         }
-        long j22 = j * 1000;
-        Logger.i(o, "convert expireTime{%s}", Long.valueOf(j22));
-        c(String.valueOf(j22 + System.currentTimeMillis()));
+        long j2 = time * 1000;
+        Logger.i(o, "convert expireTime{%s}", Long.valueOf(j2));
+        c(String.valueOf(j2 + System.currentTimeMillis()));
     }
 
     private void c(int i) {
@@ -176,8 +175,8 @@ public class d {
         this.g = str;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0052, code lost:
-        if (r9.getInt("resultCode") == 0) goto L20;
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0052, code lost:
+        if (r9.getInt("resultCode") == 0) goto L17;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

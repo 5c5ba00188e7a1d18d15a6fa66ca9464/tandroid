@@ -36,7 +36,8 @@ public interface EglBase {
 
     void detachCurrent();
 
-    Context getEglBaseContext();
+    /* renamed from: getEglBaseContext */
+    Context mo2328getEglBaseContext();
 
     boolean hasBackgroundSurface();
 
@@ -58,7 +59,7 @@ public interface EglBase {
 
     void swapBuffers(boolean z);
 
-    /* renamed from: org.webrtc.EglBase$-CC */
+    /* renamed from: org.webrtc.EglBase$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
     public final /* synthetic */ class CC {
         static {

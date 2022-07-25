@@ -24,12 +24,14 @@ import org.xmlpull.v1.XmlSerializer;
 /* loaded from: classes.dex */
 class ShortcutsInfoSerialization {
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class ShortcutContainer {
         final String mBitmapPath;
         final String mResourceName;
         final ShortcutInfoCompat mShortcutInfo;
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public ShortcutContainer(ShortcutInfoCompat shortcut, String resourceName, String bitmapPath) {
             this.mShortcutInfo = shortcut;
             this.mResourceName = resourceName;
@@ -37,15 +39,15 @@ class ShortcutsInfoSerialization {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void saveAsXml(List<ShortcutContainer> shortcutsList, File output) {
-        Exception e;
         FileOutputStream startWrite;
         AtomicFile atomicFile = new AtomicFile(output);
         FileOutputStream fileOutputStream = null;
         try {
             startWrite = atomicFile.startWrite();
-        } catch (Exception e2) {
-            e = e2;
+        } catch (Exception e) {
+            e = e;
         }
         try {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(startWrite);
@@ -61,8 +63,8 @@ class ShortcutsInfoSerialization {
             bufferedOutputStream.flush();
             startWrite.flush();
             atomicFile.finishWrite(startWrite);
-        } catch (Exception e3) {
-            e = e3;
+        } catch (Exception e2) {
+            e = e2;
             fileOutputStream = startWrite;
             Log.e("ShortcutInfoCompatSaver", "Failed to write to file " + atomicFile.getBaseFile(), e);
             atomicFile.failWrite(fileOutputStream);
@@ -70,6 +72,7 @@ class ShortcutsInfoSerialization {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Map<String, ShortcutContainer> loadFromXml(File input, Context context) {
         FileInputStream fileInputStream;
         ShortcutContainer parseShortcutContainer;

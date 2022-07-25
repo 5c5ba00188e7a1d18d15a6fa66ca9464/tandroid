@@ -211,26 +211,26 @@ public class ChatNotificationsPopupWrapper {
             i = color;
         }
         if (isDialogMuted) {
-            i2 = 0;
             i3 = 0;
+            i2 = 0;
         } else {
             SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
-            i3 = notificationsSettings.getInt("last_selected_mute_until_time", 0);
-            i2 = notificationsSettings.getInt("last_selected_mute_until_time2", 0);
+            i2 = notificationsSettings.getInt("last_selected_mute_until_time", 0);
+            i3 = notificationsSettings.getInt("last_selected_mute_until_time2", 0);
         }
-        if (i3 != 0) {
-            this.muteForLastSelected1Time = i3;
+        if (i2 != 0) {
+            this.muteForLastSelected1Time = i2;
             this.muteForLastSelected.setVisibility(0);
-            this.muteForLastSelected.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i3));
-            this.muteForLastSelected.setText(formatMuteForTime(i3));
+            this.muteForLastSelected.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i2));
+            this.muteForLastSelected.setText(formatMuteForTime(i2));
         } else {
             this.muteForLastSelected.setVisibility(8);
         }
-        if (i2 != 0) {
-            this.muteForLastSelected2Time = i2;
+        if (i3 != 0) {
+            this.muteForLastSelected2Time = i3;
             this.muteForLastSelected2.setVisibility(0);
-            this.muteForLastSelected2.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i2));
-            this.muteForLastSelected2.setText(formatMuteForTime(i2));
+            this.muteForLastSelected2.getImageView().setImageDrawable(TimerDrawable.getTtlIcon(i3));
+            this.muteForLastSelected2.setText(formatMuteForTime(i3));
         } else {
             this.muteForLastSelected2.setVisibility(8);
         }

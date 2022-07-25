@@ -108,12 +108,12 @@ public class ClearHistoryAlert extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00e2  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0108  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0474  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0483  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00d9  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0474  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0483  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x00e2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

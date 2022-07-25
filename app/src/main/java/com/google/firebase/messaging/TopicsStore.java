@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Executor;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class TopicsStore {
@@ -35,10 +36,12 @@ public final class TopicsStore {
         this.topicOperationsQueue = SharedPreferencesQueue.createInstance(this.sharedPreferences, "topic_operation_queue", ",", this.syncExecutor);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized TopicOperation getNextTopicOperation() {
         return TopicOperation.from(this.topicOperationsQueue.peek());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean removeTopicOperation(TopicOperation topicOperation) {
         return this.topicOperationsQueue.remove(topicOperation.serialize());
     }

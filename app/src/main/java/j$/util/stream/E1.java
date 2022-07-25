@@ -3,17 +3,18 @@ package j$.util.stream;
 import j$.util.Collection$EL;
 import j$.util.function.Consumer;
 import java.util.Collection;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class E1 implements A1 {
+final class E1 implements A1 {
     private final Collection a;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public E1(Collection collection) {
         this.a = collection;
     }
 
     @Override // j$.util.stream.A1
-    public A1 b(int i) {
+    /* renamed from: b */
+    public A1 mo316b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -53,9 +54,9 @@ public final class E1 implements A1 {
 
     @Override // j$.util.stream.A1
     /* renamed from: spliterator */
-    public j$.util.u mo69spliterator() {
+    public j$.util.u mo313spliterator() {
         Collection collection = this.a;
-        return (collection instanceof j$.util.b ? ((j$.util.b) collection).stream() : j$.util.a.i(collection)).spliterator();
+        return (collection instanceof j$.util.b ? ((j$.util.b) collection).mo266stream() : j$.util.a.i(collection)).mo334spliterator();
     }
 
     public String toString() {

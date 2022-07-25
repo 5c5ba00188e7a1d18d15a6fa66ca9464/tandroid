@@ -2,6 +2,7 @@ package org.webrtc;
 
 import android.graphics.Matrix;
 import org.webrtc.VideoFrame;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
 public interface CameraSession {
 
@@ -33,7 +34,7 @@ public interface CameraSession {
 
     void stop();
 
-    /* renamed from: org.webrtc.CameraSession$-CC */
+    /* renamed from: org.webrtc.CameraSession$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
     public final /* synthetic */ class CC {
         public static VideoFrame.TextureBuffer createTextureBufferWithModifiedTransformMatrix(TextureBufferImpl textureBufferImpl, boolean z, int i) {

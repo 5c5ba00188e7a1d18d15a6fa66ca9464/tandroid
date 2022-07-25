@@ -211,7 +211,6 @@ public class AccessibilityNodeInfoCompat {
         }
 
         public boolean perform(View view, Bundle arguments) {
-            Exception e;
             AccessibilityViewCommand.CommandArguments newInstance;
             if (this.mCommand != null) {
                 AccessibilityViewCommand.CommandArguments commandArguments = null;
@@ -219,14 +218,14 @@ public class AccessibilityNodeInfoCompat {
                 if (cls != null) {
                     try {
                         newInstance = cls.getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
-                    } catch (Exception e2) {
-                        e = e2;
+                    } catch (Exception e) {
+                        e = e;
                     }
                     try {
                         newInstance.setBundle(arguments);
                         commandArguments = newInstance;
-                    } catch (Exception e3) {
-                        e = e3;
+                    } catch (Exception e2) {
+                        e = e2;
                         commandArguments = newInstance;
                         Class<? extends AccessibilityViewCommand.CommandArguments> cls2 = this.mViewCommandArgumentClass;
                         String name = cls2 == null ? "null" : cls2.getName();

@@ -65,6 +65,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
     private boolean switchLayoutManagerOnEnd = false;
     private float listViewPadding = (int) Math.min(AndroidUtilities.dp(126.0f), AndroidUtilities.displaySize.y * 0.22f);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$updateListViewTranslation$3(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
     }
 
@@ -189,6 +190,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 return this.size;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
             public int getFlowItemCount() {
                 if (MentionsContainerView.this.adapter.getBotContextSwitch() != null) {
@@ -329,22 +331,22 @@ public class MentionsContainerView extends BlurredFrameLayout {
 
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
-        float f;
         PaddedListAdapter paddedListAdapter;
+        float min;
         PaddedListAdapter paddedListAdapter2;
         boolean isReversed = isReversed();
         this.containerPadding = AndroidUtilities.dp(((this.adapter.isStickers() || this.adapter.isBotContext()) && this.adapter.isMediaLayout() && this.adapter.getBotContextSwitch() == null ? 2 : 0) + 2);
         float dp = AndroidUtilities.dp(4.0f);
         if (isReversed) {
-            float min = Math.min(Math.max(0.0f, (this.paddedAdapter.paddingViewAttached ? paddedListAdapter2.paddingView.getTop() : getHeight()) + this.listView.getTranslationY()) + this.containerPadding, (1.0f - this.hideT) * getHeight());
+            float min2 = Math.min(Math.max(0.0f, (this.paddedAdapter.paddingViewAttached ? paddedListAdapter2.paddingView.getTop() : getHeight()) + this.listView.getTranslationY()) + this.containerPadding, (1.0f - this.hideT) * getHeight());
             android.graphics.Rect rect = this.rect;
             this.containerTop = 0.0f;
             int measuredWidth = getMeasuredWidth();
-            this.containerBottom = min;
-            rect.set(0, (int) 0.0f, measuredWidth, (int) min);
-            f = Math.min(dp, Math.abs(getMeasuredHeight() - this.containerBottom));
-            if (f > 0.0f) {
-                this.rect.top -= (int) f;
+            this.containerBottom = min2;
+            rect.set(0, (int) 0.0f, measuredWidth, (int) min2);
+            min = Math.min(dp, Math.abs(getMeasuredHeight() - this.containerBottom));
+            if (min > 0.0f) {
+                this.rect.top -= (int) min;
             }
         } else {
             if (this.listView.getLayoutManager() == this.gridLayoutManager) {
@@ -360,12 +362,12 @@ public class MentionsContainerView extends BlurredFrameLayout {
             float measuredHeight = getMeasuredHeight();
             this.containerBottom = measuredHeight;
             rect2.set(0, (int) max2, measuredWidth2, (int) measuredHeight);
-            f = Math.min(dp, Math.abs(this.containerTop));
-            if (f > 0.0f) {
-                this.rect.bottom += (int) f;
+            min = Math.min(dp, Math.abs(this.containerTop));
+            if (min > 0.0f) {
+                this.rect.bottom += (int) min;
             }
         }
-        float f2 = f;
+        float f = min;
         if (this.paint == null) {
             Paint paint = new Paint(1);
             this.paint = paint;
@@ -375,7 +377,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         Integer num = this.color;
         paint2.setColor(num != null ? num.intValue() : getThemedColor("chat_messagePanelBackground"));
         if (SharedConfig.chatBlurEnabled() && this.sizeNotifierFrameLayout != null) {
-            if (f2 > 0.0f) {
+            if (f > 0.0f) {
                 canvas.save();
                 Path path = this.path;
                 if (path == null) {
@@ -385,17 +387,17 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 }
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(this.rect);
-                this.path.addRoundRect(rectF, f2, f2, Path.Direction.CW);
+                this.path.addRoundRect(rectF, f, f, Path.Direction.CW);
                 canvas.clipPath(this.path);
             }
             this.sizeNotifierFrameLayout.drawBlurRect(canvas, getY(), this.rect, this.paint, isReversed);
-            if (f2 > 0.0f) {
+            if (f > 0.0f) {
                 canvas.restore();
             }
         } else {
             RectF rectF2 = AndroidUtilities.rectTmp;
             rectF2.set(this.rect);
-            canvas.drawRoundRect(rectF2, f2, f2, this.paint);
+            canvas.drawRoundRect(rectF2, f, f, this.paint);
         }
         canvas.save();
         canvas.clipRect(this.rect);
@@ -420,6 +422,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
         super.requestLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         updateListViewTranslation(!this.shown, true);
     }
@@ -463,7 +466,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
     }
 
     private void updateListViewTranslation(final boolean z, boolean z2) {
-        float f;
+        float computeVerticalScrollRange;
         SpringAnimation springAnimation;
         if (this.listView == null || this.paddedAdapter == null) {
             return;
@@ -473,17 +476,17 @@ public class MentionsContainerView extends BlurredFrameLayout {
         }
         boolean isReversed = isReversed();
         if (z) {
-            f = (-this.containerPadding) - AndroidUtilities.dp(6.0f);
+            computeVerticalScrollRange = (-this.containerPadding) - AndroidUtilities.dp(6.0f);
         } else {
-            f = (this.listView.computeVerticalScrollRange() - this.paddedAdapter.getPadding()) + this.containerPadding;
+            computeVerticalScrollRange = (this.listView.computeVerticalScrollRange() - this.paddedAdapter.getPadding()) + this.containerPadding;
         }
-        float f2 = 0.0f;
-        float f3 = this.listViewPadding;
-        float max = isReversed ? -Math.max(0.0f, f3 - f) : Math.max(0.0f, f3 - f) + (-f3);
+        float f = 0.0f;
+        float f2 = this.listViewPadding;
+        float max = isReversed ? -Math.max(0.0f, f2 - computeVerticalScrollRange) : Math.max(0.0f, f2 - computeVerticalScrollRange) + (-f2);
         if (z && !isReversed) {
             max += this.listView.computeVerticalScrollOffset();
         }
-        final float f4 = max;
+        final float f3 = max;
         setVisibility(0);
         SpringAnimation springAnimation2 = this.listViewTranslationAnimator;
         if (springAnimation2 != null) {
@@ -493,9 +496,9 @@ public class MentionsContainerView extends BlurredFrameLayout {
         if (z2) {
             this.listViewHiding = z;
             final float translationY = this.listView.getTranslationY();
-            final float f5 = this.hideT;
-            final float f6 = z ? 1.0f : 0.0f;
-            if (translationY == f4) {
+            final float f4 = this.hideT;
+            final float f5 = z ? 1.0f : 0.0f;
+            if (translationY == f3) {
                 this.listViewTranslationAnimator = null;
                 if (!z) {
                     i = 0;
@@ -511,19 +514,19 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 return;
             }
             int i2 = UserConfig.selectedAccount;
-            SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f4).setDampingRatio(1.0f).setStiffness(550.0f));
+            SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f3).setDampingRatio(1.0f).setStiffness(550.0f));
             this.listViewTranslationAnimator = spring;
             spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-                public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f7, float f8) {
-                    MentionsContainerView.this.lambda$updateListViewTranslation$1(f5, f6, translationY, f4, dynamicAnimation, f7, f8);
+                public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f6, float f7) {
+                    MentionsContainerView.this.lambda$updateListViewTranslation$1(f4, f5, translationY, f3, dynamicAnimation, f6, f7);
                 }
             });
             if (z) {
                 this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
                     @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                    public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f7, float f8) {
-                        MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f7, f8);
+                    public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
+                        MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f6, f7);
                     }
                 });
             }
@@ -532,21 +535,23 @@ public class MentionsContainerView extends BlurredFrameLayout {
             return;
         }
         if (z) {
-            f2 = 1.0f;
+            f = 1.0f;
         }
-        this.hideT = f2;
-        this.listView.setTranslationY(f4);
+        this.hideT = f;
+        this.listView.setTranslationY(f3);
         if (!z) {
             return;
         }
         setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateListViewTranslation$1(float f, float f2, float f3, float f4, DynamicAnimation dynamicAnimation, float f5, float f6) {
         this.listView.setTranslationY(f5);
         this.hideT = AndroidUtilities.lerp(f, f2, (f5 - f3) / (f4 - f3));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateListViewTranslation$2(boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
         if (!z2) {
             this.listViewTranslationAnimator = null;
@@ -568,11 +573,9 @@ public class MentionsContainerView extends BlurredFrameLayout {
         private int lastHeight;
         private int lastWidth;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public MentionsListView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
-            MentionsContainerView.this = r1;
-            setOnScrollListener(new RecyclerView.OnScrollListener(r1) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.1
+            setOnScrollListener(new RecyclerView.OnScrollListener(MentionsContainerView.this) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.1
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrollStateChanged(RecyclerView recyclerView, int i) {
                     boolean z = false;
@@ -593,7 +596,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
                     MentionsContainerView.this.adapter.searchForContextBotForNextOffset();
                 }
             });
-            addItemDecoration(new RecyclerView.ItemDecoration(r1) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.2
+            addItemDecoration(new RecyclerView.ItemDecoration(MentionsContainerView.this) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.2
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 public void getItemOffsets(android.graphics.Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                     int childAdapterPosition;
@@ -663,6 +666,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
             super.requestLayout();
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
         public void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5;
@@ -700,6 +704,7 @@ public class MentionsContainerView extends BlurredFrameLayout {
             MentionsContainerView.this.invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
         public void onMeasure(int i, int i2) {
             int size = View.MeasureSpec.getSize(i2);

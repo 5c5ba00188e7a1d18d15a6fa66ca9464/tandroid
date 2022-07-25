@@ -7,6 +7,7 @@ abstract class zzf extends zzd {
     private static final WeakReference<byte[]> zzb = new WeakReference<>(null);
     private WeakReference<byte[]> zza = zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzf(byte[] bArr) {
         super(bArr);
     }

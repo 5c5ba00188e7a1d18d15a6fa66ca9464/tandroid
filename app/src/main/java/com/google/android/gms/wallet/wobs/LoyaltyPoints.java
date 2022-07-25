@@ -27,6 +27,7 @@ public final class LoyaltyPoints extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LoyaltyPoints(String str, LoyaltyPointsBalance loyaltyPointsBalance, TimeInterval timeInterval) {
         this.zza = str;
         this.zzb = loyaltyPointsBalance;

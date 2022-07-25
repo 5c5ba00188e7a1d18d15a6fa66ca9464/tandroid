@@ -4,6 +4,7 @@ class h1 extends j1 implements l3 {
     final /* synthetic */ k1 c;
     final /* synthetic */ j$.wrappers.j0 d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public h1(k1 k1Var, j$.wrappers.j0 j0Var) {
         super(k1Var);
@@ -27,6 +28,7 @@ class h1 extends j1 implements l3 {
         }
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Long l) {
         o1.c(this, l);

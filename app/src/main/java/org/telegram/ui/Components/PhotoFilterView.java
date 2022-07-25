@@ -228,8 +228,8 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x04d5  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x04d7  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x04d7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -549,12 +549,14 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         ((FrameLayout.LayoutParams) this.curvesControl.getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(FilterGLThread filterGLThread) {
         this.eglThread = filterGLThread;
         filterGLThread.setFilterGLThreadDelegate(this);
     }
 
-    /* renamed from: org.telegram.ui.Components.PhotoFilterView$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.PhotoFilterView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -562,7 +564,6 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
 
         AnonymousClass1() {
-            PhotoFilterView.this = r1;
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -590,6 +591,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSurfaceTextureSizeChanged$0() {
             if (PhotoFilterView.this.eglThread != null) {
                 PhotoFilterView.this.eglThread.requestRender(false, true, false);
@@ -607,6 +609,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Point point, float f, float f2, float f3) {
         this.blurExcludeSize = f2;
         this.blurExcludePoint = point;
@@ -618,6 +621,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
         FilterGLThread filterGLThread = this.eglThread;
         if (filterGLThread != null) {
@@ -625,6 +629,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         this.selectedTool = 0;
         this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogFloatingButton"), PorterDuff.Mode.MULTIPLY));
@@ -633,6 +638,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         switchMode();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(View view) {
         this.selectedTool = 1;
         this.tuneItem.setColorFilter((ColorFilter) null);
@@ -641,6 +647,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         switchMode();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
         this.selectedTool = 2;
         this.tuneItem.setColorFilter((ColorFilter) null);
@@ -649,6 +656,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         switchMode();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(View view) {
         int intValue = ((Integer) view.getTag()).intValue();
         this.curvesToolValue.activeType = intValue;
@@ -660,6 +668,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.curvesControl.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(View view) {
         this.blurType = 0;
         updateSelectedBlurType();
@@ -670,6 +679,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(View view) {
         this.blurType = 1;
         updateSelectedBlurType();
@@ -681,6 +691,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9(View view) {
         this.blurType = 2;
         updateSelectedBlurType();
@@ -877,57 +888,57 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     }
 
     private void fixLayout(int i, int i2) {
-        int i3;
+        float width;
+        int height;
         float f;
         float f2;
         float f3;
+        float ceil;
         float f4;
-        float f5;
-        float f6;
         int dp = i - AndroidUtilities.dp(28.0f);
         int dp2 = AndroidUtilities.dp(214.0f);
-        int i4 = Build.VERSION.SDK_INT;
-        int i5 = i2 - (dp2 + ((i4 < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight));
+        int i3 = Build.VERSION.SDK_INT;
+        int i4 = i2 - (dp2 + ((i3 < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight));
         Bitmap bitmap = this.bitmapToEdit;
         if (bitmap != null) {
-            int i6 = this.orientation;
-            if (i6 % 360 == 90 || i6 % 360 == 270) {
-                f = bitmap.getHeight();
-                i3 = this.bitmapToEdit.getWidth();
+            int i5 = this.orientation;
+            if (i5 % 360 == 90 || i5 % 360 == 270) {
+                width = bitmap.getHeight();
+                height = this.bitmapToEdit.getWidth();
             } else {
-                f = bitmap.getWidth();
-                i3 = this.bitmapToEdit.getHeight();
+                width = bitmap.getWidth();
+                height = this.bitmapToEdit.getHeight();
             }
         } else {
-            f = this.textureView.getWidth();
-            i3 = this.textureView.getHeight();
+            width = this.textureView.getWidth();
+            height = this.textureView.getHeight();
         }
-        float f7 = dp;
-        float f8 = i5;
-        if (f7 / f > f8 / i3) {
-            f6 = (int) Math.ceil(f * f4);
-            f5 = f8;
+        float f5 = dp;
+        float f6 = i4;
+        if (f5 / width > f6 / height) {
+            f4 = (int) Math.ceil(width * f3);
+            ceil = f6;
         } else {
-            f5 = (int) Math.ceil(f2 * f3);
-            f6 = f7;
+            ceil = (int) Math.ceil(f * f2);
+            f4 = f5;
         }
-        int ceil = (int) Math.ceil(((f7 - f6) / 2.0f) + AndroidUtilities.dp(14.0f));
-        int ceil2 = (int) Math.ceil(((f8 - f5) / 2.0f) + AndroidUtilities.dp(14.0f) + ((i4 < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight));
-        int i7 = (int) f6;
-        int i8 = (int) f5;
+        int ceil2 = (int) Math.ceil(((f5 - f4) / 2.0f) + AndroidUtilities.dp(14.0f));
+        int ceil3 = (int) Math.ceil(((f6 - ceil) / 2.0f) + AndroidUtilities.dp(14.0f) + ((i3 < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight));
+        int i6 = (int) f4;
+        int i7 = (int) ceil;
         if (this.ownsTextureView) {
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.textureView.getLayoutParams();
-            layoutParams.leftMargin = ceil;
-            layoutParams.topMargin = ceil2;
-            layoutParams.width = i7;
-            layoutParams.height = i8;
+            layoutParams.leftMargin = ceil2;
+            layoutParams.topMargin = ceil3;
+            layoutParams.width = i6;
+            layoutParams.height = i7;
         }
-        float f9 = i7;
-        float f10 = i8;
-        this.curvesControl.setActualArea(ceil, ceil2 - ((i4 < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight), f9, f10);
-        this.blurControl.setActualAreaSize(f9, f10);
-        ((FrameLayout.LayoutParams) this.blurControl.getLayoutParams()).height = AndroidUtilities.dp(38.0f) + i5;
-        ((FrameLayout.LayoutParams) this.curvesControl.getLayoutParams()).height = i5 + AndroidUtilities.dp(28.0f);
+        float f7 = i6;
+        float f8 = i7;
+        this.curvesControl.setActualArea(ceil2, ceil3 - ((i3 < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight), f7, f8);
+        this.blurControl.setActualAreaSize(f7, f8);
+        ((FrameLayout.LayoutParams) this.blurControl.getLayoutParams()).height = AndroidUtilities.dp(38.0f) + i4;
+        ((FrameLayout.LayoutParams) this.curvesControl.getLayoutParams()).height = i4 + AndroidUtilities.dp(28.0f);
         if (AndroidUtilities.isTablet()) {
             int dp3 = AndroidUtilities.dp(86.0f) * 10;
             FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) this.recyclerListView.getLayoutParams();
@@ -1127,7 +1138,6 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
 
         public ToolsAdapter(Context context) {
-            PhotoFilterView.this = r1;
             this.mContext = context;
         }
 
@@ -1138,7 +1148,8 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             PhotoEditRadioCell photoEditRadioCell;
             if (i == 0) {
                 PhotoEditToolCell photoEditToolCell = new PhotoEditToolCell(this.mContext, PhotoFilterView.this.resourcesProvider);
@@ -1162,6 +1173,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             return new RecyclerListView.Holder(photoEditRadioCell);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(int i, int i2) {
             if (i == PhotoFilterView.this.enhanceTool) {
                 PhotoFilterView.this.enhanceValue = i2;
@@ -1193,6 +1205,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$1(View view) {
             PhotoEditRadioCell photoEditRadioCell = (PhotoEditRadioCell) view;
             if (((Integer) photoEditRadioCell.getTag()).intValue() == PhotoFilterView.this.tintShadowsTool) {

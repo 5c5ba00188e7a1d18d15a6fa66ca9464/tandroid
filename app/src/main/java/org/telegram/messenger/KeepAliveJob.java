@@ -14,6 +14,7 @@ public class KeepAliveJob extends JobIntentService {
         Utilities.globalQueue.postRunnable(KeepAliveJob$$ExternalSyntheticLambda1.INSTANCE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$startJob$0() {
         if (startingJob || countDownLatch != null) {
             return;
@@ -30,6 +31,7 @@ public class KeepAliveJob extends JobIntentService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void finishJobInternal() {
         synchronized (sync) {
             if (countDownLatch != null) {

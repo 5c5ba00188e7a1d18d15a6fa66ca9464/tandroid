@@ -20,6 +20,7 @@ import org.webrtc.Camera2Session;
 import org.webrtc.CameraEnumerationAndroid;
 import org.webrtc.CameraSession;
 import org.webrtc.VideoSink;
+/* JADX INFO: Access modifiers changed from: package-private */
 @TargetApi(21)
 /* loaded from: classes3.dex */
 public class Camera2Session implements CameraSession {
@@ -50,16 +51,17 @@ public class Camera2Session implements CameraSession {
     private final Handler cameraThreadHandler = new Handler();
     private OrientationHelper orientationHelper = new OrientationHelper();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public enum SessionState {
         RUNNING,
         STOPPED
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class CameraStateCallback extends CameraDevice.StateCallback {
         private CameraStateCallback() {
-            Camera2Session.this = r1;
         }
 
         private String getErrorDescription(int i) {
@@ -123,10 +125,10 @@ public class Camera2Session implements CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class CaptureSessionCallback extends CameraCaptureSession.StateCallback {
         private CaptureSessionCallback() {
-            Camera2Session.this = r1;
         }
 
         @Override // android.hardware.camera2.CameraCaptureSession.StateCallback
@@ -169,6 +171,7 @@ public class Camera2Session implements CameraSession {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onConfigured$0(VideoFrame videoFrame) {
             Camera2Session.this.checkIsOnCameraThread();
             if (Camera2Session.this.state == SessionState.RUNNING) {
@@ -308,6 +311,7 @@ public class Camera2Session implements CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void stopInternal() {
         Logging.d(TAG, "Stop internal");
         checkIsOnCameraThread();
@@ -334,6 +338,7 @@ public class Camera2Session implements CameraSession {
         Logging.d(TAG, "Stop done");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reportError(String str) {
         checkIsOnCameraThread();
         Logging.e(TAG, "Error: " + str);
@@ -347,6 +352,7 @@ public class Camera2Session implements CameraSession {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getFrameOrientation() {
         int orientation = this.orientationHelper.getOrientation();
         OrientationHelper.cameraOrientation = orientation;
@@ -357,6 +363,7 @@ public class Camera2Session implements CameraSession {
         return (this.cameraOrientation + orientation) % 360;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkIsOnCameraThread() {
         if (Thread.currentThread() == this.cameraThreadHandler.getLooper().getThread()) {
             return;

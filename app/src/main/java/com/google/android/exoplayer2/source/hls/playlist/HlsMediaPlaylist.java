@@ -21,8 +21,15 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
     public final int version;
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public HlsPlaylist copy(List<StreamKey> list) {
+    /* renamed from: copy */
+    public HlsPlaylist mo163copy(List<StreamKey> list) {
         return this;
+    }
+
+    @Override // com.google.android.exoplayer2.offline.FilterableManifest
+    /* renamed from: copy  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ HlsPlaylist mo163copy(List list) {
+        return mo163copy((List<StreamKey>) list);
     }
 
     /* loaded from: classes.dex */
@@ -57,6 +64,7 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
             this.hasGapTag = z;
         }
 
+        @Override // java.lang.Comparable
         public int compareTo(Long l) {
             if (this.relativeStartTimeUs > l.longValue()) {
                 return 1;

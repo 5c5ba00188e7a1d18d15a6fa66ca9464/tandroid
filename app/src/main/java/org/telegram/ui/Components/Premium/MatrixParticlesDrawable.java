@@ -21,6 +21,7 @@ public class MatrixParticlesDrawable {
     Rect drawingRect = new Rect();
     Paint paint = new Paint();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void init() {
         this.size = AndroidUtilities.dp(16.0f);
         TextPaint textPaint = new TextPaint(65);
@@ -42,10 +43,11 @@ public class MatrixParticlesDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void onDraw(Canvas canvas) {
-        Particle particle;
         int i;
         int i2;
+        Particle particle;
         int width = this.drawingRect.width() / this.size;
         int height = this.drawingRect.height() / this.size;
         if (width == 0 || height == 0) {
@@ -132,9 +134,8 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Particle {
+    private class Particle {
         int len;
         long time;
         int y;
@@ -156,15 +157,13 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class MatrixTextParticle {
+    private class MatrixTextParticle {
         int index;
         int nextIndex;
         long nextUpdateTime;
 
         private MatrixTextParticle() {
-            MatrixParticlesDrawable.this = r1;
         }
 
         public void init(long j) {

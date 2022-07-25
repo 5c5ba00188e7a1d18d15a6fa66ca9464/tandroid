@@ -112,6 +112,7 @@ public final class zaaf implements zaaw {
         this.zau.add(zaba.zaa().submit(new zaag(this, hashMap)));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final boolean zad() {
         int i = this.zah - 1;
@@ -134,6 +135,7 @@ public final class zaaf implements zaaw {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final void zaa(com.google.android.gms.signin.internal.zak zakVar) {
         if (!zab(0)) {
@@ -165,6 +167,7 @@ public final class zaaf implements zaaw {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final void zae() {
         if (this.zah != 0) {
@@ -262,8 +265,9 @@ public final class zaaf implements zaaw {
         zab(new ConnectionResult(8, null));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0022, code lost:
-        if ((r5.hasResolution() || r4.zad.getErrorResolutionIntent(r5.getErrorCode()) != null) != false) goto L11;
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0022, code lost:
+        if ((r5.hasResolution() || r4.zad.getErrorResolutionIntent(r5.getErrorCode()) != null) != false) goto L15;
      */
     @GuardedBy("mLock")
     /*
@@ -284,6 +288,7 @@ public final class zaaf implements zaaw {
         this.zaa.zab.put(api.zac(), connectionResult);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final void zag() {
         this.zam = false;
@@ -295,11 +300,13 @@ public final class zaaf implements zaaw {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final boolean zaa(ConnectionResult connectionResult) {
         return this.zal && !connectionResult.hasResolution();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final void zab(ConnectionResult connectionResult) {
         zah();
@@ -333,6 +340,7 @@ public final class zaaf implements zaaw {
         this.zau.clear();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final Set<Scope> zai() {
         if (this.zar == null) {
             return Collections.emptySet();
@@ -347,6 +355,7 @@ public final class zaaf implements zaaw {
         return hashSet;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @GuardedBy("mLock")
     public final boolean zab(int i) {
         if (this.zag != i) {

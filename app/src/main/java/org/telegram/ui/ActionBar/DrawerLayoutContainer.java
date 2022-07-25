@@ -90,6 +90,7 @@ public class DrawerLayoutContainer extends FrameLayout {
         this.shadowLeft = getResources().getDrawable(R.drawable.menu_shadow);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ WindowInsets lambda$new$0(View view, WindowInsets windowInsets) {
         int i = Build.VERSION.SDK_INT;
         if (i >= 30) {
@@ -265,6 +266,7 @@ public class DrawerLayoutContainer extends FrameLayout {
         animatorSet.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onDrawerAnimationEnd(boolean z) {
         this.startedTracking = false;
         this.currentAnimation = null;
@@ -405,10 +407,10 @@ public class DrawerLayoutContainer extends FrameLayout {
         return super.dispatchTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x019d, code lost:
-        if (r9 != r8.drawerLayout.getMeasuredWidth()) goto L98;
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x019d, code lost:
+        if (r9 != r8.drawerLayout.getMeasuredWidth()) goto L115;
      */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x020a  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x020a  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -550,6 +552,7 @@ public class DrawerLayoutContainer extends FrameLayout {
         super.requestDisallowInterceptTouchEvent(z);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         this.inLayout = true;
@@ -744,9 +747,8 @@ public class DrawerLayoutContainer extends FrameLayout {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class PreviewForegroundDrawable extends Drawable {
+    private static class PreviewForegroundDrawable extends Drawable {
         private final GradientDrawable bottomDrawable;
         private final GradientDrawable topDrawable;
 

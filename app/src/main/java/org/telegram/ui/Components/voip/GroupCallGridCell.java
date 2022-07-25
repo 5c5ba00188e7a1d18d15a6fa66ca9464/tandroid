@@ -25,7 +25,7 @@ public class GroupCallGridCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        int i3;
+        int size;
         if (this.isTabletGrid) {
             ((View) getParent()).getMeasuredWidth();
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(this.gridAdapter.getItemHeight(this.position), 1073741824));
@@ -33,11 +33,11 @@ public class GroupCallGridCell extends FrameLayout {
         }
         float f = GroupCallActivity.isLandscapeMode ? 3.0f : 2.0f;
         if (getParent() != null) {
-            i3 = ((View) getParent()).getMeasuredWidth();
+            size = ((View) getParent()).getMeasuredWidth();
         } else {
-            i3 = View.MeasureSpec.getSize(i);
+            size = View.MeasureSpec.getSize(i);
         }
-        float f2 = i3;
+        float f2 = size;
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((int) ((GroupCallActivity.isTabletMode ? f2 / 2.0f : f2 / f) + AndroidUtilities.dp(4.0f)), 1073741824));
     }
 
@@ -57,12 +57,14 @@ public class GroupCallGridCell extends FrameLayout {
         return this.renderer;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attached = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();

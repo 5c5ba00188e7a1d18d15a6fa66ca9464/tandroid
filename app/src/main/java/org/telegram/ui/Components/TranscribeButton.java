@@ -102,6 +102,7 @@ public class TranscribeButton {
         this.loadingFloat = new AnimatedFloat(chatMessageCell, 250L, CubicBezierInterpolator.EASE_OUT_QUINT);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         this.outIconDrawable.stop();
         this.inIconDrawable.stop();
@@ -110,6 +111,7 @@ public class TranscribeButton {
         this.inIconDrawable.setCurrentFrame(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         this.inIconDrawable.stop();
         this.outIconDrawable.stop();
@@ -366,9 +368,8 @@ public class TranscribeButton {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class LoadingPointsDrawable extends Drawable {
+    private static class LoadingPointsDrawable extends Drawable {
         private int lastColor;
         private RLottieDrawable lottie;
         private Paint paint;
@@ -391,7 +392,7 @@ public class TranscribeButton {
             float textSize = textPaint.getTextSize() * 0.89f;
             RLottieDrawable rLottieDrawable = new RLottieDrawable(this, R.raw.dots_loading, "dots_loading", (int) textSize, (int) (textSize * 1.25f)) { // from class: org.telegram.ui.Components.TranscribeButton.LoadingPointsDrawable.1
                 @Override // org.telegram.ui.Components.RLottieDrawable
-                public boolean hasParentView() {
+                protected boolean hasParentView() {
                     return true;
                 }
             };
@@ -486,6 +487,7 @@ public class TranscribeButton {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$transcribePressed$2(int i, MessageObject messageObject) {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(i);
         int i2 = NotificationCenter.voiceTranscriptionUpdate;
@@ -493,6 +495,7 @@ public class TranscribeButton {
         notificationCenter.postNotificationName(i2, messageObject, null, null, bool, bool);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$transcribePressed$4(final MessageObject messageObject, long j, int i, long j2, int i2, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         final long j3;
         boolean z;
@@ -535,6 +538,7 @@ public class TranscribeButton {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$transcribePressed$5(int i, MessageObject messageObject) {
         NotificationCenter.getInstance(i).postNotificationName(NotificationCenter.voiceTranscriptionUpdate, messageObject, null, null, Boolean.FALSE, null);
     }
@@ -569,6 +573,7 @@ public class TranscribeButton {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$finishTranscription$6(MessageObject messageObject, long j, String str) {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(messageObject.currentAccount);
         int i = NotificationCenter.voiceTranscriptionUpdate;

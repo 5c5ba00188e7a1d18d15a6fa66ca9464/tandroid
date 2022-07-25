@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class FormatCache<F extends Format> {
     static final int NONE = -1;
@@ -47,33 +48,36 @@ public abstract class FormatCache<F extends Format> {
         return getInstance(getPatternForStyle(num, num2, locale), timeZone, locale);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public F getDateTimeInstance(int i, int i2, TimeZone timeZone, Locale locale) {
         return getDateTimeInstance(Integer.valueOf(i), Integer.valueOf(i2), timeZone, locale);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public F getDateInstance(int i, TimeZone timeZone, Locale locale) {
         return getDateTimeInstance(Integer.valueOf(i), (Integer) null, timeZone, locale);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public F getTimeInstance(int i, TimeZone timeZone, Locale locale) {
         return getDateTimeInstance((Integer) null, Integer.valueOf(i), timeZone, locale);
     }
 
     static String getPatternForStyle(Integer num, Integer num2, Locale locale) {
-        DateFormat dateFormat;
+        DateFormat dateTimeInstance;
         MultipartKey multipartKey = new MultipartKey(num, num2, locale);
         ConcurrentMap<MultipartKey, String> concurrentMap = cDateTimeInstanceCache;
         String str = concurrentMap.get(multipartKey);
         if (str == null) {
             try {
                 if (num == null) {
-                    dateFormat = DateFormat.getTimeInstance(num2.intValue(), locale);
+                    dateTimeInstance = DateFormat.getTimeInstance(num2.intValue(), locale);
                 } else if (num2 == null) {
-                    dateFormat = DateFormat.getDateInstance(num.intValue(), locale);
+                    dateTimeInstance = DateFormat.getDateInstance(num.intValue(), locale);
                 } else {
-                    dateFormat = DateFormat.getDateTimeInstance(num.intValue(), num2.intValue(), locale);
+                    dateTimeInstance = DateFormat.getDateTimeInstance(num.intValue(), num2.intValue(), locale);
                 }
-                String pattern = ((SimpleDateFormat) dateFormat).toPattern();
+                String pattern = ((SimpleDateFormat) dateTimeInstance).toPattern();
                 String putIfAbsent = concurrentMap.putIfAbsent(multipartKey, pattern);
                 return putIfAbsent != null ? putIfAbsent : pattern;
             } catch (ClassCastException unused) {
@@ -83,6 +87,7 @@ public abstract class FormatCache<F extends Format> {
         return str;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class MultipartKey {
         private int hashCode;

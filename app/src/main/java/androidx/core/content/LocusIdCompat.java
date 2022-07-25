@@ -59,9 +59,8 @@ public final class LocusIdCompat {
         return length + "_chars";
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Api29Impl {
+    private static class Api29Impl {
         static LocusId create(final String id) {
             return new LocusId(id);
         }

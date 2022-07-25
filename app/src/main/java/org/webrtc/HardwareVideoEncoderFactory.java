@@ -137,7 +137,8 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
         return false;
     }
 
-    /* renamed from: org.webrtc.HardwareVideoEncoderFactory$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.webrtc.HardwareVideoEncoderFactory$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoCodecMimeType;

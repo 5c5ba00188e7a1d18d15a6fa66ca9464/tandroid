@@ -11,7 +11,6 @@ final class zze {
     @NullableDecl
     zze zzc;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zze() {
+    private zze() {
     }
 }

@@ -13,9 +13,11 @@ final class TransportImpl<T> implements Transport<T> {
     private final TransportContext transportContext;
     private final TransportInternal transportInternal;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$send$0(Exception exc) {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TransportImpl(TransportContext transportContext, String str, Encoding encoding, Transformer<T, byte[]> transformer, TransportInternal transportInternal) {
         this.transportContext = transportContext;
         this.name = str;

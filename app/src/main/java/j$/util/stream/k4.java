@@ -5,6 +5,7 @@ import j$.util.function.Consumer;
 final class k4 extends l4 implements Consumer {
     final Object[] b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public k4(int i) {
         this.b = new Object[i];
     }

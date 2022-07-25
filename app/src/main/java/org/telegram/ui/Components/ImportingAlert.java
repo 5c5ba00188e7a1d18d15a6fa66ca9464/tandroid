@@ -99,6 +99,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         if (this.completed) {
             this.imageView.getAnimatedDrawable().setAutoRepeat(0);
@@ -205,6 +206,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.stickersImportProgressChanged);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         dismiss();
     }

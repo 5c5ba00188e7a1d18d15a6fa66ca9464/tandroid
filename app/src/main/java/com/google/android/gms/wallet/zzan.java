@@ -23,6 +23,7 @@ public final class zzan extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzan(String str, Bundle bundle) {
         this.zza = str;
         this.zzb = bundle;

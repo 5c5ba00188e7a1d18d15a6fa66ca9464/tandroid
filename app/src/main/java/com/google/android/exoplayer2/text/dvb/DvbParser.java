@@ -212,17 +212,17 @@ final class DvbParser {
             int readBits3 = parsableBitArray.readBits(16);
             int readBits4 = parsableBitArray.readBits(16);
             int readBits5 = parsableBitArray.readBits(16);
-            i = parsableBitArray.readBits(16);
-            i3 = readBits4;
-            i2 = readBits5;
-            i4 = readBits3;
+            i2 = parsableBitArray.readBits(16);
+            i = readBits4;
+            i4 = readBits5;
+            i3 = readBits3;
         } else {
-            i3 = readBits;
-            i = readBits2;
+            i = readBits;
+            i2 = readBits2;
+            i3 = 0;
             i4 = 0;
-            i2 = 0;
         }
-        return new DisplayDefinition(readBits, readBits2, i4, i3, i2, i);
+        return new DisplayDefinition(readBits, readBits2, i3, i, i4, i2);
     }
 
     private static PageComposition parsePageComposition(ParsableBitArray parsableBitArray, int i) {
@@ -242,106 +242,106 @@ final class DvbParser {
     }
 
     private static RegionComposition parseRegionComposition(ParsableBitArray parsableBitArray, int i) {
-        int i2;
-        int i3;
-        int readBits = parsableBitArray.readBits(8);
+        int readBits;
+        int readBits2;
+        int readBits3 = parsableBitArray.readBits(8);
         parsableBitArray.skipBits(4);
         boolean readBit = parsableBitArray.readBit();
         parsableBitArray.skipBits(3);
-        int i4 = 16;
-        int readBits2 = parsableBitArray.readBits(16);
-        int readBits3 = parsableBitArray.readBits(16);
-        int readBits4 = parsableBitArray.readBits(3);
-        int readBits5 = parsableBitArray.readBits(3);
-        int i5 = 2;
+        int i2 = 16;
+        int readBits4 = parsableBitArray.readBits(16);
+        int readBits5 = parsableBitArray.readBits(16);
+        int readBits6 = parsableBitArray.readBits(3);
+        int readBits7 = parsableBitArray.readBits(3);
+        int i3 = 2;
         parsableBitArray.skipBits(2);
-        int readBits6 = parsableBitArray.readBits(8);
-        int readBits7 = parsableBitArray.readBits(8);
-        int readBits8 = parsableBitArray.readBits(4);
-        int readBits9 = parsableBitArray.readBits(2);
+        int readBits8 = parsableBitArray.readBits(8);
+        int readBits9 = parsableBitArray.readBits(8);
+        int readBits10 = parsableBitArray.readBits(4);
+        int readBits11 = parsableBitArray.readBits(2);
         parsableBitArray.skipBits(2);
-        int i6 = i - 10;
+        int i4 = i - 10;
         SparseArray sparseArray = new SparseArray();
-        while (i6 > 0) {
-            int readBits10 = parsableBitArray.readBits(i4);
-            int readBits11 = parsableBitArray.readBits(i5);
-            int readBits12 = parsableBitArray.readBits(i5);
-            int readBits13 = parsableBitArray.readBits(12);
-            int i7 = readBits9;
+        while (i4 > 0) {
+            int readBits12 = parsableBitArray.readBits(i2);
+            int readBits13 = parsableBitArray.readBits(i3);
+            int readBits14 = parsableBitArray.readBits(i3);
+            int readBits15 = parsableBitArray.readBits(12);
+            int i5 = readBits11;
             parsableBitArray.skipBits(4);
-            int readBits14 = parsableBitArray.readBits(12);
-            i6 -= 6;
-            if (readBits11 == 1 || readBits11 == 2) {
-                i6 -= 2;
-                i3 = parsableBitArray.readBits(8);
-                i2 = parsableBitArray.readBits(8);
+            int readBits16 = parsableBitArray.readBits(12);
+            i4 -= 6;
+            if (readBits13 == 1 || readBits13 == 2) {
+                i4 -= 2;
+                readBits = parsableBitArray.readBits(8);
+                readBits2 = parsableBitArray.readBits(8);
             } else {
-                i3 = 0;
-                i2 = 0;
+                readBits = 0;
+                readBits2 = 0;
             }
-            sparseArray.put(readBits10, new RegionObject(readBits11, readBits12, readBits13, readBits14, i3, i2));
-            readBits9 = i7;
-            i5 = 2;
-            i4 = 16;
+            sparseArray.put(readBits12, new RegionObject(readBits13, readBits14, readBits15, readBits16, readBits, readBits2));
+            readBits11 = i5;
+            i3 = 2;
+            i2 = 16;
         }
-        return new RegionComposition(readBits, readBit, readBits2, readBits3, readBits4, readBits5, readBits6, readBits7, readBits8, readBits9, sparseArray);
+        return new RegionComposition(readBits3, readBit, readBits4, readBits5, readBits6, readBits7, readBits8, readBits9, readBits10, readBits11, sparseArray);
     }
 
     private static ClutDefinition parseClutDefinition(ParsableBitArray parsableBitArray, int i) {
+        int readBits;
         int i2;
+        int readBits2;
+        int readBits3;
         int i3;
-        int i4;
-        int i5;
-        int i6;
-        int i7 = 8;
-        int readBits = parsableBitArray.readBits(8);
+        int i4 = 8;
+        int readBits4 = parsableBitArray.readBits(8);
         parsableBitArray.skipBits(8);
-        int i8 = 2;
-        int i9 = i - 2;
+        int i5 = 2;
+        int i6 = i - 2;
         int[] generateDefault2BitClutEntries = generateDefault2BitClutEntries();
         int[] generateDefault4BitClutEntries = generateDefault4BitClutEntries();
         int[] generateDefault8BitClutEntries = generateDefault8BitClutEntries();
-        while (i9 > 0) {
-            int readBits2 = parsableBitArray.readBits(i7);
-            int readBits3 = parsableBitArray.readBits(i7);
-            int i10 = i9 - 2;
-            int[] iArr = (readBits3 & ConnectionsManager.RequestFlagNeedQuickAck) != 0 ? generateDefault2BitClutEntries : (readBits3 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
-            if ((readBits3 & 1) != 0) {
-                i5 = parsableBitArray.readBits(i7);
-                i4 = parsableBitArray.readBits(i7);
-                i3 = parsableBitArray.readBits(i7);
-                i2 = parsableBitArray.readBits(i7);
-                i6 = i10 - 4;
+        while (i6 > 0) {
+            int readBits5 = parsableBitArray.readBits(i4);
+            int readBits6 = parsableBitArray.readBits(i4);
+            int i7 = i6 - 2;
+            int[] iArr = (readBits6 & ConnectionsManager.RequestFlagNeedQuickAck) != 0 ? generateDefault2BitClutEntries : (readBits6 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
+            if ((readBits6 & 1) != 0) {
+                readBits3 = parsableBitArray.readBits(i4);
+                i3 = parsableBitArray.readBits(i4);
+                readBits = parsableBitArray.readBits(i4);
+                readBits2 = parsableBitArray.readBits(i4);
+                i2 = i7 - 4;
             } else {
-                int readBits4 = parsableBitArray.readBits(4) << 4;
-                i3 = parsableBitArray.readBits(4) << 4;
-                i6 = i10 - 2;
-                i2 = parsableBitArray.readBits(i8) << 6;
-                i5 = parsableBitArray.readBits(6) << i8;
-                i4 = readBits4;
+                int readBits7 = parsableBitArray.readBits(4) << 4;
+                readBits = parsableBitArray.readBits(4) << 4;
+                i2 = i7 - 2;
+                readBits2 = parsableBitArray.readBits(i5) << 6;
+                readBits3 = parsableBitArray.readBits(6) << i5;
+                i3 = readBits7;
             }
-            if (i5 == 0) {
-                i4 = 0;
+            if (readBits3 == 0) {
                 i3 = 0;
-                i2 = 255;
+                readBits = 0;
+                readBits2 = 255;
             }
-            double d = i5;
-            double d2 = i4 - 128;
+            double d = readBits3;
+            double d2 = i3 - 128;
             Double.isNaN(d2);
             Double.isNaN(d);
-            double d3 = i3 - 128;
+            double d3 = readBits - 128;
             Double.isNaN(d3);
             Double.isNaN(d);
             Double.isNaN(d2);
             Double.isNaN(d3);
             Double.isNaN(d);
-            iArr[readBits2] = getColor((byte) (255 - (i2 & 255)), Util.constrainValue((int) (d + (1.402d * d2)), 0, 255), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, 255), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, 255));
-            i9 = i6;
-            readBits = readBits;
-            i7 = 8;
-            i8 = 2;
+            iArr[readBits5] = getColor((byte) (255 - (readBits2 & 255)), Util.constrainValue((int) (d + (1.402d * d2)), 0, 255), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, 255), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, 255));
+            i6 = i2;
+            readBits4 = readBits4;
+            i4 = 8;
+            i5 = 2;
         }
-        return new ClutDefinition(readBits, generateDefault2BitClutEntries, generateDefault4BitClutEntries, generateDefault8BitClutEntries);
+        return new ClutDefinition(readBits4, generateDefault2BitClutEntries, generateDefault4BitClutEntries, generateDefault8BitClutEntries);
     }
 
     private static ObjectData parseObjectData(ParsableBitArray parsableBitArray) {
@@ -537,16 +537,16 @@ final class DvbParser {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0063 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0083 A[LOOP:0: B:3:0x0009->B:33:0x0083, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0082 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0083 A[LOOP:0: B:2:0x0009->B:13:0x0083, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0082 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0063 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0067  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static int paint2BitPixelCodeString(ParsableBitArray parsableBitArray, int[] iArr, byte[] bArr, int i, int i2, Paint paint, Canvas canvas) {
-        int i3;
         boolean z;
+        int i3;
         int readBits;
         int readBits2;
         int i4 = i;
@@ -622,16 +622,15 @@ final class DvbParser {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0070 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x008e A[LOOP:0: B:3:0x0009->B:36:0x008e, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x008d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x008e A[LOOP:0: B:2:0x0009->B:13:0x008e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x008d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0074  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static int paint4BitPixelCodeString(ParsableBitArray parsableBitArray, int[] iArr, byte[] bArr, int i, int i2, Paint paint, Canvas canvas) {
-        int i3;
         boolean z;
+        int i3;
         int readBits;
         int i4 = i;
         boolean z2 = false;
@@ -639,83 +638,65 @@ final class DvbParser {
             byte readBits2 = parsableBitArray.readBits(4);
             if (readBits2 != 0) {
                 z = z2;
-            } else if (!parsableBitArray.readBit()) {
-                int readBits3 = parsableBitArray.readBits(3);
-                if (readBits3 != 0) {
-                    z = z2;
-                    i3 = readBits3 + 2;
-                    readBits2 = 0;
-                    if (i3 != 0 && paint != null) {
-                        if (bArr != null) {
-                            readBits2 = bArr[readBits2];
-                        }
-                        paint.setColor(iArr[readBits2]);
-                        canvas.drawRect(i4, i2, i4 + i3, i2 + 1, paint);
-                    }
-                    i4 += i3;
-                    if (!z) {
-                        return i4;
-                    }
-                    z2 = z;
-                } else {
-                    readBits2 = 0;
-                    z = true;
-                    i3 = 0;
-                    if (i3 != 0) {
-                        if (bArr != null) {
-                        }
-                        paint.setColor(iArr[readBits2]);
-                        canvas.drawRect(i4, i2, i4 + i3, i2 + 1, paint);
-                    }
-                    i4 += i3;
-                    if (!z) {
-                    }
-                }
             } else {
                 if (!parsableBitArray.readBit()) {
-                    readBits = parsableBitArray.readBits(2) + 4;
-                    readBits2 = parsableBitArray.readBits(4);
-                } else {
-                    int readBits4 = parsableBitArray.readBits(2);
-                    if (readBits4 == 0) {
+                    int readBits3 = parsableBitArray.readBits(3);
+                    if (readBits3 != 0) {
                         z = z2;
+                        i3 = readBits3 + 2;
                         readBits2 = 0;
-                    } else if (readBits4 == 1) {
-                        z = z2;
-                        readBits2 = 0;
-                        i3 = 2;
-                        if (i3 != 0) {
-                        }
-                        i4 += i3;
-                        if (!z) {
-                        }
-                    } else if (readBits4 == 2) {
-                        readBits = parsableBitArray.readBits(4) + 9;
-                        readBits2 = parsableBitArray.readBits(4);
-                    } else if (readBits4 != 3) {
-                        z = z2;
-                        readBits2 = 0;
-                        i3 = 0;
-                        if (i3 != 0) {
-                        }
-                        i4 += i3;
-                        if (!z) {
-                        }
                     } else {
-                        readBits = parsableBitArray.readBits(8) + 25;
-                        readBits2 = parsableBitArray.readBits(4);
+                        readBits2 = 0;
+                        z = true;
+                        i3 = 0;
                     }
+                } else {
+                    if (!parsableBitArray.readBit()) {
+                        readBits = parsableBitArray.readBits(2) + 4;
+                        readBits2 = parsableBitArray.readBits(4);
+                    } else {
+                        int readBits4 = parsableBitArray.readBits(2);
+                        if (readBits4 == 0) {
+                            z = z2;
+                            readBits2 = 0;
+                        } else if (readBits4 == 1) {
+                            z = z2;
+                            readBits2 = 0;
+                            i3 = 2;
+                        } else if (readBits4 == 2) {
+                            readBits = parsableBitArray.readBits(4) + 9;
+                            readBits2 = parsableBitArray.readBits(4);
+                        } else if (readBits4 != 3) {
+                            z = z2;
+                            readBits2 = 0;
+                            i3 = 0;
+                        } else {
+                            readBits = parsableBitArray.readBits(8) + 25;
+                            readBits2 = parsableBitArray.readBits(4);
+                        }
+                    }
+                    z = z2;
+                    i3 = readBits;
                 }
-                z = z2;
-                i3 = readBits;
-                if (i3 != 0) {
+                if (i3 != 0 && paint != null) {
+                    if (bArr != null) {
+                        readBits2 = bArr[readBits2];
+                    }
+                    paint.setColor(iArr[readBits2]);
+                    canvas.drawRect(i4, i2, i4 + i3, i2 + 1, paint);
                 }
                 i4 += i3;
                 if (!z) {
+                    return i4;
                 }
+                z2 = z;
             }
             i3 = 1;
             if (i3 != 0) {
+                if (bArr != null) {
+                }
+                paint.setColor(iArr[readBits2]);
+                canvas.drawRect(i4, i2, i4 + i3, i2 + 1, paint);
             }
             i4 += i3;
             if (!z) {
@@ -724,41 +705,41 @@ final class DvbParser {
     }
 
     private static int paint8BitPixelCodeString(ParsableBitArray parsableBitArray, int[] iArr, byte[] bArr, int i, int i2, Paint paint, Canvas canvas) {
-        int i3;
         boolean z;
-        int i4 = i;
+        int readBits;
+        int i3 = i;
         boolean z2 = false;
         while (true) {
-            byte readBits = parsableBitArray.readBits(8);
-            if (readBits != 0) {
+            byte readBits2 = parsableBitArray.readBits(8);
+            if (readBits2 != 0) {
                 z = z2;
-                i3 = 1;
+                readBits = 1;
             } else if (!parsableBitArray.readBit()) {
-                int readBits2 = parsableBitArray.readBits(7);
-                if (readBits2 != 0) {
+                int readBits3 = parsableBitArray.readBits(7);
+                if (readBits3 != 0) {
                     z = z2;
-                    i3 = readBits2;
-                    readBits = 0;
+                    readBits = readBits3;
+                    readBits2 = 0;
                 } else {
-                    readBits = 0;
+                    readBits2 = 0;
                     z = true;
-                    i3 = 0;
+                    readBits = 0;
                 }
             } else {
                 z = z2;
-                i3 = parsableBitArray.readBits(7);
-                readBits = parsableBitArray.readBits(8);
+                readBits = parsableBitArray.readBits(7);
+                readBits2 = parsableBitArray.readBits(8);
             }
-            if (i3 != 0 && paint != null) {
+            if (readBits != 0 && paint != null) {
                 if (bArr != null) {
-                    readBits = bArr[readBits];
+                    readBits2 = bArr[readBits2];
                 }
-                paint.setColor(iArr[readBits]);
-                canvas.drawRect(i4, i2, i4 + i3, i2 + 1, paint);
+                paint.setColor(iArr[readBits2]);
+                canvas.drawRect(i3, i2, i3 + readBits, i2 + 1, paint);
             }
-            i4 += i3;
+            i3 += readBits;
             if (z) {
-                return i4;
+                return i3;
             }
             z2 = z;
         }
@@ -772,6 +753,7 @@ final class DvbParser {
         return bArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class SubtitleService {
         public final int ancillaryPageId;
@@ -800,6 +782,7 @@ final class DvbParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class DisplayDefinition {
         public final int height;
@@ -819,6 +802,7 @@ final class DvbParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class PageComposition {
         public final SparseArray<PageRegion> regions;
@@ -832,6 +816,7 @@ final class DvbParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class PageRegion {
         public final int horizontalAddress;
@@ -843,6 +828,7 @@ final class DvbParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class RegionComposition {
         public final int clutId;
@@ -877,6 +863,7 @@ final class DvbParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class RegionObject {
         public final int horizontalPosition;
@@ -888,6 +875,7 @@ final class DvbParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class ClutDefinition {
         public final int[] clutEntries2Bit;
@@ -903,6 +891,7 @@ final class DvbParser {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class ObjectData {
         public final byte[] bottomFieldData;

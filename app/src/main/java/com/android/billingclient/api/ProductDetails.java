@@ -129,6 +129,7 @@ public final class ProductDetails {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ProductDetails(String str) throws JSONException {
         this.zza = str;
         JSONObject jSONObject = new JSONObject(str);
@@ -210,6 +211,7 @@ public final class ProductDetails {
         return this.zzb.optString("packageName");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final String zzb() {
         return this.zzh;
     }

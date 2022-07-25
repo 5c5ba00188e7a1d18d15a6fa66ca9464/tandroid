@@ -184,6 +184,7 @@ public class GroupCreateUserCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setChecked$0(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         float f = this.isChecked ? 1.0f - (0.18f * floatValue) : 0.82f + (0.18f * floatValue);
@@ -230,7 +231,7 @@ public class GroupCreateUserCell extends FrameLayout {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00d7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x00d7, code lost:
         if (r14.equals("archived") == false) goto L15;
      */
     /*

@@ -5,6 +5,7 @@ public class RunnableEnhance implements Runnable {
     private String parentName = Thread.currentThread().getName();
     private Runnable proxy;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public RunnableEnhance(Runnable runnable) {
         this.proxy = runnable;
     }

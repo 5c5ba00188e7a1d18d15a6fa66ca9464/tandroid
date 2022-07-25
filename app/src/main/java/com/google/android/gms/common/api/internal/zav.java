@@ -14,16 +14,19 @@ public final class zav {
     private final Map<BasePendingResult<?>, Boolean> zaa = DesugarCollections.synchronizedMap(new WeakHashMap());
     private final Map<TaskCompletionSource<?>, Boolean> zab = DesugarCollections.synchronizedMap(new WeakHashMap());
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa(BasePendingResult<? extends Result> basePendingResult, boolean z) {
         this.zaa.put(basePendingResult, Boolean.valueOf(z));
         basePendingResult.addStatusListener(new zax(this, basePendingResult));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final <TResult> void zaa(TaskCompletionSource<TResult> taskCompletionSource, boolean z) {
         this.zab.put(taskCompletionSource, Boolean.valueOf(z));
         taskCompletionSource.getTask().addOnCompleteListener(new zaw(this, taskCompletionSource));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zaa() {
         return !this.zaa.isEmpty() || !this.zab.isEmpty();
     }
@@ -32,6 +35,7 @@ public final class zav {
         zaa(false, GoogleApiManager.zaa);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaa(int i, String str) {
         StringBuilder sb = new StringBuilder("The connection to Google Play services was lost");
         if (i == 1) {

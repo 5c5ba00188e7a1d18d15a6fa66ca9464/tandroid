@@ -113,6 +113,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     private int actionBarColor = getColor("windowBackgroundWhite");
     private Drawable actionBarShadow = ContextCompat.getDrawable(getContext(), R.drawable.header_shadow).mutate();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(BotWebViewSheet botWebViewSheet, float f) {
         botWebViewSheet.actionBarTransitionProgress = f;
         botWebViewSheet.frameLayout.invalidate();
@@ -120,6 +121,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         botWebViewSheet.updateLightStatusBar();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4() {
         if (!this.dismissed) {
             TLRPC$TL_messages_prolongWebView tLRPC$TL_messages_prolongWebView = new TLRPC$TL_messages_prolongWebView();
@@ -141,6 +143,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
@@ -150,6 +153,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(TLRPC$TL_error tLRPC$TL_error) {
         if (this.dismissed) {
             return;
@@ -165,8 +169,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         super(context, R.style.TransparentDialog);
         this.resourcesProvider = resourcesProvider;
         this.swipeContainer = new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer(context) { // from class: org.telegram.ui.Components.BotWebViewSheet.1
-            /* JADX WARN: Removed duplicated region for block: B:10:0x001f  */
-            /* JADX WARN: Removed duplicated region for block: B:25:0x0081  */
+            /* JADX WARN: Removed duplicated region for block: B:23:0x0081  */
+            /* JADX WARN: Removed duplicated region for block: B:8:0x001f  */
             @Override // android.widget.FrameLayout, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -237,7 +241,6 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.dimPaint.setColor(1073741824);
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.BotWebViewSheet.3
             {
-                BotWebViewSheet.this = this;
                 setWillNotDraw(false);
             }
 
@@ -348,6 +351,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.frameLayout.addView(this.radialProgressView, LayoutHelper.createFrame(28, 28.0f, 85, 0.0f, 0.0f, 10.0f, 10.0f));
         this.radialProgressAutoAnimator = VerticalPositionAutoAnimator.attach(this.radialProgressView);
         ActionBar actionBar = new ActionBar(this, context, resourcesProvider) { // from class: org.telegram.ui.Components.BotWebViewSheet.6
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.ActionBar.ActionBar, android.widget.FrameLayout, android.view.View
             public void onMeasure(int i, int i2) {
                 if (AndroidUtilities.isTablet() && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isSmallTablet()) {
@@ -421,7 +425,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         setContentView(this.frameLayout, new ViewGroup.LayoutParams(-1, -1));
     }
 
-    /* renamed from: org.telegram.ui.Components.BotWebViewSheet$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.BotWebViewSheet$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 implements BotWebViewContainer.Delegate {
         private boolean sentWebViewData;
@@ -434,7 +439,6 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
 
         AnonymousClass2(Context context, Theme.ResourcesProvider resourcesProvider) {
-            BotWebViewSheet.this = r1;
             this.val$context = context;
             this.val$resourcesProvider = resourcesProvider;
         }
@@ -468,6 +472,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSendWebViewData$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (tLObject instanceof TLRPC$TL_updates) {
                 MessagesController.getInstance(BotWebViewSheet.this.currentAccount).processUpdates((TLRPC$TL_updates) tLObject, false);
@@ -496,6 +501,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             duration.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWebAppSetActionBarColor$1(int i, int i2, ValueAnimator valueAnimator) {
             BotWebViewSheet.this.actionBarColor = ColorUtils.blendARGB(i, i2, ((Float) valueAnimator.getAnimatedValue()).floatValue());
             BotWebViewSheet.this.frameLayout.invalidate();
@@ -516,6 +522,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             duration.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWebAppSetBackgroundColor$2(int i, int i2, ValueAnimator valueAnimator) {
             BotWebViewSheet.this.backgroundPaint.setColor(ColorUtils.blendARGB(i, i2, ((Float) valueAnimator.getAnimatedValue()).floatValue()));
             BotWebViewSheet.this.frameLayout.invalidate();
@@ -553,6 +560,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWebAppOpenInvoice$3(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
             overlayActionBarLayoutDialog.dismiss();
             BotWebViewSheet.this.webViewContainer.onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
@@ -619,6 +627,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(int i, boolean z) {
         if (i > AndroidUtilities.dp(20.0f)) {
             ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
@@ -626,10 +635,12 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(View view) {
         this.webViewContainer.onMainButtonPressed();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(Float f) {
         this.progressView.setLoadProgressAnimated(f.floatValue());
         if (f.floatValue() == 1.0f) {
@@ -651,10 +662,12 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(ValueAnimator valueAnimator) {
         this.progressView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9() {
         if (this.swipeContainer.getSwipeOffsetY() > 0.0f) {
             this.dimPaint.setAlpha((int) ((1.0f - MathUtils.clamp(this.swipeContainer.getSwipeOffsetY() / this.swipeContainer.getHeight(), 0.0f, 1.0f)) * 64.0f));
@@ -676,16 +689,19 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         System.currentTimeMillis();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10() {
         this.webViewContainer.invalidateViewPortHeight(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$11() {
         if (!onCheckDismissByUser()) {
             this.swipeContainer.stickTo(0.0f);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Boolean lambda$new$12(Void r2) {
         return Boolean.valueOf(this.frameLayout.getKeyboardHeight() >= AndroidUtilities.dp(20.0f));
     }
@@ -760,6 +776,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewTheme);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ WindowInsets lambda$onCreate$13(View view, WindowInsets windowInsets) {
         view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
         return windowInsets;
@@ -913,6 +930,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$15(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
@@ -922,6 +940,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$14(TLObject tLObject, int i) {
         if (tLObject instanceof TLRPC$TL_webViewResultUrl) {
             TLRPC$TL_webViewResultUrl tLRPC$TL_webViewResultUrl = (TLRPC$TL_webViewResultUrl) tLObject;
@@ -932,6 +951,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$17(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
@@ -941,6 +961,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$16(TLObject tLObject, int i) {
         if (tLObject instanceof TLRPC$TL_simpleWebViewResultUrl) {
             this.queryId = 0L;
@@ -949,6 +970,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$19(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BotWebViewSheet$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
@@ -958,6 +980,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestWebView$18(TLObject tLObject, int i) {
         if (tLObject instanceof TLRPC$TL_webViewResultUrl) {
             TLRPC$TL_webViewResultUrl tLRPC$TL_webViewResultUrl = (TLRPC$TL_webViewResultUrl) tLObject;
@@ -968,15 +991,16 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getColor(String str) {
-        Integer num;
+        Integer valueOf;
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         if (resourcesProvider != null) {
-            num = resourcesProvider.getColor(str);
+            valueOf = resourcesProvider.getColor(str);
         } else {
-            num = Integer.valueOf(Theme.getColor(str));
+            valueOf = Integer.valueOf(Theme.getColor(str));
         }
-        return num != null ? num.intValue() : Theme.getColor(str);
+        return valueOf != null ? valueOf.intValue() : Theme.getColor(str);
     }
 
     @Override // android.app.Dialog
@@ -1024,6 +1048,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCheckDismissByUser$20(DialogInterface dialogInterface, int i) {
         dismiss();
     }
@@ -1046,6 +1071,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dismiss$21(Runnable runnable) {
         super.dismiss();
         if (runnable != null) {

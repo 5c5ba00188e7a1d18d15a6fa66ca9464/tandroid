@@ -64,6 +64,7 @@ public final class Version {
         return VERSIONS[i - 1];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Version decodeVersionInformation(int i) {
         int i2 = 0;
         int i3 = 0;
@@ -89,6 +90,7 @@ public final class Version {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public BitMatrix buildFunctionPattern() {
         int dimensionForVersion = getDimensionForVersion();
         BitMatrix bitMatrix = new BitMatrix(dimensionForVersion);

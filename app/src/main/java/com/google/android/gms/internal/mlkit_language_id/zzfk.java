@@ -2,16 +2,17 @@ package com.google.android.gms.internal.mlkit_language_id;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzfk extends zzfj {
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzfk() {
+    private zzfk() {
         super();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj
     public final void zza(Object obj, long j) {
         zzb(obj, j).b_();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.List] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj

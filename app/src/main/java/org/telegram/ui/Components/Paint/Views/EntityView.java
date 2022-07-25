@@ -41,7 +41,8 @@ public class EntityView extends FrameLayout {
         boolean onEntitySelected(EntityView entityView);
     }
 
-    protected SelectionView createSelectionView() {
+    /* renamed from: createSelectionView */
+    protected SelectionView mo1526createSelectionView() {
         return null;
     }
 
@@ -95,6 +96,7 @@ public class EntityView extends FrameLayout {
         return this.delegate.allowInteraction(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean onTouchMove(float f, float f2) {
         float scaleX = ((View) getParent()).getScaleX();
         float f3 = (f - this.previousLocationX) / scaleX;
@@ -109,6 +111,7 @@ public class EntityView extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onTouchUp() {
         EntityViewDelegate entityViewDelegate;
         if (!this.recognizedLongPress && !this.hasPanned && !this.hasTransformed && !this.announcedSelection && (entityViewDelegate = this.delegate) != null) {
@@ -121,8 +124,8 @@ public class EntityView extends FrameLayout {
         this.announcedSelection = false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0031, code lost:
-        if (r3 != 6) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0031, code lost:
+        if (r3 != 6) goto L16;
      */
     @Override // android.view.View
     /*
@@ -168,6 +171,7 @@ public class EntityView extends FrameLayout {
         updatePosition();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void updatePosition() {
         setX(this.position.x - (getMeasuredWidth() / 2.0f));
         setY(this.position.y - (getMeasuredHeight() / 2.0f));
@@ -201,10 +205,10 @@ public class EntityView extends FrameLayout {
     }
 
     public void select(ViewGroup viewGroup) {
-        SelectionView createSelectionView = createSelectionView();
-        this.selectionView = createSelectionView;
-        viewGroup.addView(createSelectionView);
-        createSelectionView.updatePosition();
+        SelectionView mo1526createSelectionView = mo1526createSelectionView();
+        this.selectionView = mo1526createSelectionView;
+        viewGroup.addView(mo1526createSelectionView);
+        mo1526createSelectionView.updatePosition();
     }
 
     public void deselect() {
@@ -237,10 +241,8 @@ public class EntityView extends FrameLayout {
             throw null;
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SelectionView(Context context) {
             super(context);
-            EntityView.this = r2;
             setWillNotDraw(false);
             this.paint.setColor(-1);
             this.dotPaint.setColor(-12793105);
@@ -260,10 +262,10 @@ public class EntityView extends FrameLayout {
             setRotation(EntityView.this.getRotation());
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:11:0x002c, code lost:
-            if (r1 != 6) goto L38;
+        /* JADX WARN: Code restructure failed: missing block: B:10:0x002c, code lost:
+            if (r1 != 6) goto L11;
          */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x0132  */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x0132  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.

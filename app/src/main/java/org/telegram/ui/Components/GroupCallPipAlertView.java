@@ -172,6 +172,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         addView(voIPButtonsLayout, LayoutHelper.createLinear(-1, -2, 0, 6, 0, 6, 0));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (VoIPService.getSharedInstance() != null) {
             Intent action = new Intent(getContext(), LaunchActivity.class).setAction("voip_chat");
@@ -180,6 +181,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Context context, View view) {
         if (VoIPService.getSharedInstance() == null) {
             return;
@@ -187,6 +189,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         VoIPService.getSharedInstance().toggleSpeakerphoneOrShowRouteSheet(getContext(), Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(context));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(Context context, View view) {
         if (VoIPService.getSharedInstance() != null) {
             if (VoIPService.getSharedInstance().mutedByAdmin()) {
@@ -207,6 +210,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(final Context context, View view) {
         GroupCallActivity.onLeaveClick(getContext(), new Runnable() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -216,13 +220,13 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         }, Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(context));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0055  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0085  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0207  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0055  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x006c  */
     @Override // android.widget.LinearLayout, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -231,27 +235,27 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
     protected void onDraw(Canvas canvas) {
         boolean z;
         int i;
-        float f;
-        float f2;
+        float translationX;
+        float measuredHeight;
         int i2;
         boolean z2 = VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute() || this.mutedByAdmin;
         if (z2) {
-            float f3 = this.muteProgress;
-            if (f3 != 1.0f) {
-                float f4 = f3 + 0.10666667f;
-                this.muteProgress = f4;
-                if (f4 >= 1.0f) {
+            float f = this.muteProgress;
+            if (f != 1.0f) {
+                float f2 = f + 0.10666667f;
+                this.muteProgress = f2;
+                if (f2 >= 1.0f) {
                     this.muteProgress = 1.0f;
                 }
                 this.invalidateGradient = true;
                 invalidate();
                 z = this.mutedByAdmin;
                 if (z) {
-                    float f5 = this.mutedByAdminProgress;
-                    if (f5 != 1.0f) {
-                        float f6 = f5 + 0.10666667f;
-                        this.mutedByAdminProgress = f6;
-                        if (f6 >= 1.0f) {
+                    float f3 = this.mutedByAdminProgress;
+                    if (f3 != 1.0f) {
+                        float f4 = f3 + 0.10666667f;
+                        this.mutedByAdminProgress = f4;
+                        if (f4 >= 1.0f) {
                             this.mutedByAdminProgress = 1.0f;
                         }
                         this.invalidateGradient = true;
@@ -278,51 +282,51 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
                         canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), this.paint);
                         i = this.position;
                         if (i == 0) {
-                            f2 = this.cy - getTranslationY();
-                            f = 0.0f;
+                            measuredHeight = this.cy - getTranslationY();
+                            translationX = 0.0f;
                         } else if (i == 1) {
-                            f2 = this.cy - getTranslationY();
-                            f = getMeasuredWidth();
+                            measuredHeight = this.cy - getTranslationY();
+                            translationX = getMeasuredWidth();
                         } else if (i == 2) {
-                            f = this.cx - getTranslationX();
-                            f2 = 0.0f;
+                            translationX = this.cx - getTranslationX();
+                            measuredHeight = 0.0f;
                         } else {
-                            f = this.cx - getTranslationX();
-                            f2 = getMeasuredHeight();
+                            translationX = this.cx - getTranslationX();
+                            measuredHeight = getMeasuredHeight();
                         }
-                        setPivotX(f);
-                        setPivotY(f2);
+                        setPivotX(translationX);
+                        setPivotY(measuredHeight);
                         canvas.save();
                         i2 = this.position;
                         if (i2 == 0) {
-                            canvas.clipRect(f - AndroidUtilities.dp(15.0f), f2 - AndroidUtilities.dp(15.0f), f, AndroidUtilities.dp(15.0f) + f2);
+                            canvas.clipRect(translationX - AndroidUtilities.dp(15.0f), measuredHeight - AndroidUtilities.dp(15.0f), translationX, AndroidUtilities.dp(15.0f) + measuredHeight);
                             canvas.translate(AndroidUtilities.dp(3.0f), 0.0f);
-                            canvas.rotate(45.0f, f, f2);
+                            canvas.rotate(45.0f, translationX, measuredHeight);
                         } else if (i2 == 1) {
-                            canvas.clipRect(f, f2 - AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f) + f, AndroidUtilities.dp(15.0f) + f2);
+                            canvas.clipRect(translationX, measuredHeight - AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f) + translationX, AndroidUtilities.dp(15.0f) + measuredHeight);
                             canvas.translate(-AndroidUtilities.dp(3.0f), 0.0f);
-                            canvas.rotate(45.0f, f, f2);
+                            canvas.rotate(45.0f, translationX, measuredHeight);
                         } else if (i2 == 2) {
-                            canvas.clipRect(f - AndroidUtilities.dp(15.0f), f2 - AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f) + f, f2);
-                            canvas.rotate(45.0f, f, f2);
+                            canvas.clipRect(translationX - AndroidUtilities.dp(15.0f), measuredHeight - AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f) + translationX, measuredHeight);
+                            canvas.rotate(45.0f, translationX, measuredHeight);
                             canvas.translate(0.0f, AndroidUtilities.dp(3.0f));
                         } else {
-                            canvas.clipRect(f - AndroidUtilities.dp(15.0f), f2, AndroidUtilities.dp(15.0f) + f, AndroidUtilities.dp(15.0f) + f2);
-                            canvas.rotate(45.0f, f, f2);
+                            canvas.clipRect(translationX - AndroidUtilities.dp(15.0f), measuredHeight, AndroidUtilities.dp(15.0f) + translationX, AndroidUtilities.dp(15.0f) + measuredHeight);
+                            canvas.rotate(45.0f, translationX, measuredHeight);
                             canvas.translate(0.0f, -AndroidUtilities.dp(3.0f));
                         }
-                        this.rectF.set(f - AndroidUtilities.dp(10.0f), f2 - AndroidUtilities.dp(10.0f), f + AndroidUtilities.dp(10.0f), f2 + AndroidUtilities.dp(10.0f));
+                        this.rectF.set(translationX - AndroidUtilities.dp(10.0f), measuredHeight - AndroidUtilities.dp(10.0f), translationX + AndroidUtilities.dp(10.0f), measuredHeight + AndroidUtilities.dp(10.0f));
                         canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.paint);
                         canvas.restore();
                         super.onDraw(canvas);
                     }
                 }
                 if (!z) {
-                    float f7 = this.mutedByAdminProgress;
-                    if (f7 != 0.0f) {
-                        float f8 = f7 - 0.10666667f;
-                        this.mutedByAdminProgress = f8;
-                        if (f8 < 0.0f) {
+                    float f5 = this.mutedByAdminProgress;
+                    if (f5 != 0.0f) {
+                        float f6 = f5 - 0.10666667f;
+                        this.mutedByAdminProgress = f6;
+                        if (f6 < 0.0f) {
                             this.mutedByAdminProgress = 0.0f;
                         }
                         this.invalidateGradient = true;
@@ -337,24 +341,24 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
                 i = this.position;
                 if (i == 0) {
                 }
-                setPivotX(f);
-                setPivotY(f2);
+                setPivotX(translationX);
+                setPivotY(measuredHeight);
                 canvas.save();
                 i2 = this.position;
                 if (i2 == 0) {
                 }
-                this.rectF.set(f - AndroidUtilities.dp(10.0f), f2 - AndroidUtilities.dp(10.0f), f + AndroidUtilities.dp(10.0f), f2 + AndroidUtilities.dp(10.0f));
+                this.rectF.set(translationX - AndroidUtilities.dp(10.0f), measuredHeight - AndroidUtilities.dp(10.0f), translationX + AndroidUtilities.dp(10.0f), measuredHeight + AndroidUtilities.dp(10.0f));
                 canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.paint);
                 canvas.restore();
                 super.onDraw(canvas);
             }
         }
         if (!z2) {
-            float f9 = this.muteProgress;
-            if (f9 != 0.0f) {
-                float f10 = f9 - 0.10666667f;
-                this.muteProgress = f10;
-                if (f10 < 0.0f) {
+            float f7 = this.muteProgress;
+            if (f7 != 0.0f) {
+                float f8 = f7 - 0.10666667f;
+                this.muteProgress = f8;
+                if (f8 < 0.0f) {
                     this.muteProgress = 0.0f;
                 }
                 this.invalidateGradient = true;
@@ -374,13 +378,13 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         i = this.position;
         if (i == 0) {
         }
-        setPivotX(f);
-        setPivotY(f2);
+        setPivotX(translationX);
+        setPivotY(measuredHeight);
         canvas.save();
         i2 = this.position;
         if (i2 == 0) {
         }
-        this.rectF.set(f - AndroidUtilities.dp(10.0f), f2 - AndroidUtilities.dp(10.0f), f + AndroidUtilities.dp(10.0f), f2 + AndroidUtilities.dp(10.0f));
+        this.rectF.set(translationX - AndroidUtilities.dp(10.0f), measuredHeight - AndroidUtilities.dp(10.0f), translationX + AndroidUtilities.dp(10.0f), measuredHeight + AndroidUtilities.dp(10.0f));
         canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.paint);
         canvas.restore();
         super.onDraw(canvas);
@@ -454,8 +458,8 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
 
     private void updateButtons(boolean z) {
         VoIPService sharedInstance;
-        String str;
         int i;
+        String str;
         if (this.soundButton == null || this.muteButton == null || (sharedInstance = VoIPService.getSharedInstance()) == null) {
             return;
         }

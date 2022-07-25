@@ -136,56 +136,55 @@ public class MessageBackgroundDrawable extends Drawable {
         this.paint.setAlpha(i);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0049, code lost:
-        if (r6 >= 0.0f) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0049, code lost:
+        if (r6 >= 0.0f) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0056, code lost:
-        if (r6 >= 0.0f) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0056, code lost:
+        if (r6 >= 0.0f) goto L36;
      */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00b0  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(Canvas canvas) {
+        float interpolation;
         float f;
-        float f2;
-        float f3 = this.currentAnimationProgress;
-        if (f3 == 1.0f) {
+        float f2 = this.currentAnimationProgress;
+        if (f2 == 1.0f) {
             android.graphics.Rect bounds = getBounds();
             Paint paint = this.customPaint;
             if (paint == null) {
                 paint = this.paint;
             }
             canvas.drawRect(bounds, paint);
-        } else if (f3 != 0.0f) {
+        } else if (f2 != 0.0f) {
             if (this.isSelected) {
-                f = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(f3);
+                interpolation = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(f2);
             } else {
-                f = 1.0f - CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(1.0f - f3);
+                interpolation = 1.0f - CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(1.0f - f2);
             }
             android.graphics.Rect bounds2 = getBounds();
             float centerX = bounds2.centerX();
             float centerY = bounds2.centerY();
-            float f4 = this.touchOverrideX;
-            if (f4 >= 0.0f) {
-                f2 = this.touchOverrideY;
+            float f3 = this.touchOverrideX;
+            if (f3 >= 0.0f) {
+                f = this.touchOverrideY;
             }
-            f4 = this.touchX;
-            if (f4 >= 0.0f) {
-                f2 = this.touchY;
+            f3 = this.touchX;
+            if (f3 >= 0.0f) {
+                f = this.touchY;
             }
-            f2 = centerY;
-            f4 = centerX;
-            float f5 = 1.0f - f;
-            float f6 = centerX + ((f4 - centerX) * f5);
-            float f7 = centerY + (f5 * (f2 - centerY));
-            float f8 = this.finalRadius * f;
+            f = centerY;
+            f3 = centerX;
+            float f4 = 1.0f - interpolation;
+            float f5 = centerX + ((f3 - centerX) * f4);
+            float f6 = centerY + (f4 * (f - centerY));
+            float f7 = this.finalRadius * interpolation;
             Paint paint2 = this.customPaint;
             if (paint2 == null) {
                 paint2 = this.paint;
             }
-            canvas.drawCircle(f6, f7, f8, paint2);
+            canvas.drawCircle(f5, f6, f7, paint2);
         }
         if (this.animationInProgress) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -196,34 +195,26 @@ public class MessageBackgroundDrawable extends Drawable {
             this.lastAnimationTime = elapsedRealtime;
             boolean z = true;
             if (this.isSelected) {
-                float f9 = this.currentAnimationProgress + (((float) j) / 240.0f);
-                this.currentAnimationProgress = f9;
-                if (f9 >= 1.0f) {
+                float f8 = this.currentAnimationProgress + (((float) j) / 240.0f);
+                this.currentAnimationProgress = f8;
+                if (f8 >= 1.0f) {
                     this.currentAnimationProgress = 1.0f;
-                    if (z) {
-                        this.touchX = -1.0f;
-                        this.touchY = -1.0f;
-                        this.touchOverrideX = -1.0f;
-                        this.touchOverrideY = -1.0f;
-                        this.animationInProgress = false;
-                    }
-                    invalidate();
                 }
                 z = false;
-                if (z) {
+            } else {
+                float f9 = this.currentAnimationProgress - (((float) j) / 240.0f);
+                this.currentAnimationProgress = f9;
+                if (f9 <= 0.0f) {
+                    this.currentAnimationProgress = 0.0f;
                 }
-                invalidate();
+                z = false;
             }
-            float f10 = this.currentAnimationProgress - (((float) j) / 240.0f);
-            this.currentAnimationProgress = f10;
-            if (f10 <= 0.0f) {
-                this.currentAnimationProgress = 0.0f;
-                if (z) {
-                }
-                invalidate();
-            }
-            z = false;
             if (z) {
+                this.touchX = -1.0f;
+                this.touchY = -1.0f;
+                this.touchOverrideX = -1.0f;
+                this.touchOverrideY = -1.0f;
+                this.animationInProgress = false;
             }
             invalidate();
         }

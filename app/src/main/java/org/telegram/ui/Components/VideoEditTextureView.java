@@ -85,6 +85,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
         videoEditTextureViewDelegate.onEGLThreadAvailable(this.eglThread);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSurfaceTextureAvailable$0(SurfaceTexture surfaceTexture) {
         if (this.currentVideoPlayer == null) {
             return;
@@ -107,6 +108,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSurfaceTextureSizeChanged$1() {
         FilterGLThread filterGLThread = this.eglThread;
         if (filterGLThread != null) {

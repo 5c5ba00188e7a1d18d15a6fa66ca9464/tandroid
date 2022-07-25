@@ -4,7 +4,7 @@ import j$.util.function.Function;
 import j$.util.function.ToIntFunction;
 import java.util.Collections;
 import java.util.Comparator;
-/* renamed from: j$.util.Comparator$-CC */
+/* renamed from: j$.util.Comparator$-CC  reason: invalid class name */
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Comparator$CC {
     public static Comparator a() {

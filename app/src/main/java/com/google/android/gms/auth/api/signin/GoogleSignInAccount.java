@@ -71,6 +71,7 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
         return new GoogleSignInAccount(3, str, str2, str3, str4, uri, null, (l == null ? Long.valueOf(zaa.currentTimeMillis() / 1000) : l).longValue(), Preconditions.checkNotEmpty(str7), new ArrayList((Collection) Preconditions.checkNotNull(set)), str5, str6);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GoogleSignInAccount(int i, String str, String str2, String str3, String str4, Uri uri, String str5, long j, String str6, List<Scope> list, String str7, String str8) {
         this.zab = i;
         this.zac = str;

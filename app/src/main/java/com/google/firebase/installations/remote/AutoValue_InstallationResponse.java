@@ -94,9 +94,8 @@ final class AutoValue_InstallationResponse extends InstallationResponse {
         return hashCode4 ^ i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends InstallationResponse.Builder {
+    static final class Builder extends InstallationResponse.Builder {
         private TokenResult authToken;
         private String fid;
         private String refreshToken;

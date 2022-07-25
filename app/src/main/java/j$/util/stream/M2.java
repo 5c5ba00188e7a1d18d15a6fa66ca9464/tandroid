@@ -7,6 +7,7 @@ class M2 implements S2, k3 {
     final /* synthetic */ int b;
     final /* synthetic */ j$.util.function.j c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public M2(int i, j$.util.function.j jVar) {
         this.b = i;
         this.c = jVar;
@@ -34,6 +35,7 @@ class M2 implements S2, k3 {
         return consumer.getClass();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Integer num) {
         o1.b(this, num);

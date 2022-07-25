@@ -1,9 +1,11 @@
 package j$.wrappers;
 
 import j$.util.stream.e1;
+import java.util.Iterator;
 import java.util.LongSummaryStatistics;
 import java.util.OptionalDouble;
 import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongConsumer;
@@ -113,6 +115,17 @@ public final /* synthetic */ class O0 implements LongStream {
         return this.a.isParallel();
     }
 
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    public /* synthetic */ Iterator<Long> iterator() {
+        return this.a.mo331iterator();
+    }
+
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    /* renamed from: iterator */
+    public /* synthetic */ Iterator<Long> iterator2() {
+        return f.a(this.a.mo331iterator());
+    }
+
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream limit(long j) {
         return n0(this.a.limit(j));
@@ -159,6 +172,18 @@ public final /* synthetic */ class O0 implements LongStream {
         return I0.n0(this.a.onClose(runnable));
     }
 
+    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    public /* synthetic */ LongStream parallel() {
+        return I0.n0(this.a.mo332parallel());
+    }
+
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    /* renamed from: parallel */
+    public /* synthetic */ LongStream parallel2() {
+        return n0(this.a.mo332parallel());
+    }
+
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream peek(LongConsumer longConsumer) {
         return n0(this.a.p(f0.b(longConsumer)));
@@ -174,6 +199,18 @@ public final /* synthetic */ class O0 implements LongStream {
         return j$.util.a.w(this.a.g(d0.a(longBinaryOperator)));
     }
 
+    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    public /* synthetic */ LongStream sequential() {
+        return I0.n0(this.a.mo333sequential());
+    }
+
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    /* renamed from: sequential */
+    public /* synthetic */ LongStream sequential2() {
+        return n0(this.a.mo333sequential());
+    }
+
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream skip(long j) {
         return n0(this.a.skip(j));
@@ -182,6 +219,17 @@ public final /* synthetic */ class O0 implements LongStream {
     @Override // java.util.stream.LongStream
     public /* synthetic */ LongStream sorted() {
         return n0(this.a.sorted());
+    }
+
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    public /* synthetic */ Spliterator<Long> spliterator() {
+        return n.a(this.a.mo334spliterator());
+    }
+
+    @Override // java.util.stream.LongStream, java.util.stream.BaseStream
+    /* renamed from: spliterator */
+    public /* synthetic */ Spliterator<Long> spliterator2() {
+        return h.a(this.a.mo334spliterator());
     }
 
     @Override // java.util.stream.LongStream

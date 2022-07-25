@@ -29,11 +29,13 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
             return this;
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public Builder withLastFetchStatus(int i) {
             this.builderLastFetchStatus = i;
             return this;
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public Builder withConfigSettings(FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
             this.builderConfigSettings = firebaseRemoteConfigSettings;
             return this;
@@ -44,6 +46,7 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Builder newBuilder() {
         return new Builder();
     }

@@ -107,11 +107,11 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         return i;
     }
 
-    /* renamed from: org.telegram.ui.Adapters.StickersSearchAdapter$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Adapters.StickersSearchAdapter$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 implements Runnable {
         AnonymousClass1() {
-            StickersSearchAdapter.this = r1;
         }
 
         private void clear() {
@@ -129,10 +129,10 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:16:0x0073, code lost:
-            if (r5.charAt(r9) <= 57343) goto L23;
+            if (r5.charAt(r9) <= 57343) goto L17;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x008d, code lost:
-            if (r5.charAt(r9) != 9794) goto L24;
+        /* JADX WARN: Code restructure failed: missing block: B:26:0x008d, code lost:
+            if (r5.charAt(r9) != 9794) goto L27;
          */
         @Override // java.lang.Runnable
         /*
@@ -274,6 +274,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             StickersSearchAdapter.this.notifyDataSetChanged();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0(int i, HashMap hashMap, ArrayList arrayList, String str) {
             if (i != StickersSearchAdapter.this.emojiSearchId) {
                 return;
@@ -298,6 +299,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             StickersSearchAdapter.this.notifyDataSetChanged();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$2(final TLRPC$TL_messages_searchStickerSets tLRPC$TL_messages_searchStickerSets, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (tLObject instanceof TLRPC$TL_messages_foundStickerSets) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda1
@@ -309,6 +311,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$1(TLRPC$TL_messages_searchStickerSets tLRPC$TL_messages_searchStickerSets, TLObject tLObject) {
             if (tLRPC$TL_messages_searchStickerSets.q.equals(StickersSearchAdapter.this.searchQuery)) {
                 clear();
@@ -320,6 +323,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$4(final TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, final ArrayList arrayList, final LongSparseArray longSparseArray, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -329,6 +333,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$3(TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, TLObject tLObject, ArrayList arrayList, LongSparseArray longSparseArray) {
             if (tLRPC$TL_messages_getStickers.emoticon.equals(StickersSearchAdapter.this.searchQuery)) {
                 StickersSearchAdapter.this.reqId2 = 0;
@@ -411,6 +416,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         return obj instanceof TLRPC$StickerSetCovered ? 3 : 2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
         FeaturedStickerSetInfoCell featuredStickerSetInfoCell = (FeaturedStickerSetInfoCell) view.getParent();
         TLRPC$StickerSetCovered stickerSet = featuredStickerSetInfoCell.getStickerSet();
@@ -426,9 +432,10 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view;
         LinearLayout linearLayout;
-        StickerSetNameCell stickerSetNameCell;
         if (i == 0) {
             StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this, this.context, false) { // from class: org.telegram.ui.Adapters.StickersSearchAdapter.2
                 @Override // android.widget.FrameLayout, android.view.View
@@ -437,18 +444,18 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 }
             };
             stickerEmojiCell.getImageView().setLayerNum(3);
-            stickerSetNameCell = stickerEmojiCell;
+            view = stickerEmojiCell;
         } else {
             if (i == 1) {
                 linearLayout = new EmptyCell(this.context);
             } else if (i == 2) {
-                stickerSetNameCell = new StickerSetNameCell(this.context, false, true, this.resourcesProvider);
+                view = new StickerSetNameCell(this.context, false, true, this.resourcesProvider);
             } else if (i == 3) {
                 FeaturedStickerSetInfoCell featuredStickerSetInfoCell = new FeaturedStickerSetInfoCell(this.context, 17, true, true, this.resourcesProvider);
                 featuredStickerSetInfoCell.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        StickersSearchAdapter.this.lambda$onCreateViewHolder$0(view);
+                    public final void onClick(View view2) {
+                        StickersSearchAdapter.this.lambda$onCreateViewHolder$0(view2);
                     }
                 });
                 linearLayout = featuredStickerSetInfoCell;
@@ -479,7 +486,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
             return new RecyclerListView.Holder(linearLayout);
         }
-        linearLayout = stickerSetNameCell;
+        linearLayout = view;
         return new RecyclerListView.Holder(linearLayout);
     }
 
@@ -538,76 +545,76 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x003f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x003f, code lost:
         r1 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0040, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0040, code lost:
         r2 = r7.primaryInstallingStickerSets;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0044, code lost:
-        if (r1 >= r2.length) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0044, code lost:
+        if (r1 >= r2.length) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
-        if (r2[r1] != null) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0048, code lost:
+        if (r2[r1] != null) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x004a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x004e, code lost:
+        r1 = r1 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x004a, code lost:
         r2[r1] = r8;
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x004e, code lost:
-        r1 = r1 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0052, code lost:
+        if (r1 != false) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0051, code lost:
-        r1 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0054, code lost:
+        if (r9 == null) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0052, code lost:
-        if (r1 != false) goto L27;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0054, code lost:
-        if (r9 == null) goto L27;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0056, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0056, code lost:
         r9.setAddDrawProgress(true, true);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0059, code lost:
         r7.installingStickerSets.put(r8.set.id, r8);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0062, code lost:
-        if (r9 == null) goto L30;
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0062, code lost:
+        if (r9 == null) goto L28;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0064, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0064, code lost:
         r7.delegate.onStickerSetAdd(r9.getStickerSet(), r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x006e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0098, code lost:
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x006e, code lost:
         r9 = r7.positionsToSets.size();
         r1 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0075, code lost:
-        if (r1 >= r9) goto L46;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0075, code lost:
+        if (r1 >= r9) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0077, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0077, code lost:
         r2 = r7.positionsToSets.get(r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x007f, code lost:
-        if (r2 == null) goto L48;
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x007f, code lost:
+        if (r2 == null) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x008b, code lost:
-        if (r2.set.id != r8.set.id) goto L49;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x008b, code lost:
+        if (r2.set.id != r8.set.id) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x008d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x008d, code lost:
         notifyItemChanged(r1, 0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0095, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:?, code lost:
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0095, code lost:
         r1 = r1 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0098, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:?, code lost:
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:?, code lost:
-        return;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0051, code lost:
+        r1 = false;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -682,13 +689,13 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         }
         if (z2 || !z7) {
-            z4 = z;
-            z3 = false;
+            z3 = z;
+            z4 = false;
         } else {
-            z4 = z;
-            z3 = true;
+            z3 = z;
+            z4 = true;
         }
-        featuredStickerSetInfoCell.setAddDrawProgress(z3, z4);
+        featuredStickerSetInfoCell.setAddDrawProgress(z4, z3);
         mediaDataController.preloadStickerSetThumb(tLRPC$StickerSetCovered);
         if (i <= 0) {
             z5 = false;

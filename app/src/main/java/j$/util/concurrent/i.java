@@ -24,26 +24,28 @@ public class i extends Random {
     boolean c = true;
 
     static {
-        long j;
+        long i;
         if (((Boolean) AccessController.doPrivileged(new d())).booleanValue()) {
             byte[] seed = SecureRandom.getSeed(8);
-            j = seed[0] & 255;
-            for (int i = 1; i < 8; i++) {
-                j = (j << 8) | (seed[i] & 255);
+            i = seed[0] & 255;
+            for (int i2 = 1; i2 < 8; i2++) {
+                i = (i << 8) | (seed[i2] & 255);
             }
         } else {
-            j = i(System.nanoTime()) ^ i(System.currentTimeMillis());
+            i = i(System.nanoTime()) ^ i(System.currentTimeMillis());
         }
-        e = new AtomicLong(j);
+        e = new AtomicLong(i);
         f = new ThreadLocal();
         g = new e();
         new ObjectStreamField("rnd", Long.TYPE);
         new ObjectStreamField("initialized", Boolean.TYPE);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public i(d dVar) {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final int a(int i) {
         int i2 = i ^ (i << 13);
         int i3 = i2 ^ (i2 >>> 17);
@@ -60,10 +62,12 @@ public class i extends Random {
         return iVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final int c() {
         return ((i) g.get()).b;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final void g() {
         int addAndGet = d.addAndGet(-1640531527);
         if (addAndGet == 0) {
@@ -86,6 +90,7 @@ public class i extends Random {
         return j3 ^ (j3 >>> 33);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final double d(double d2, double d3) {
         double nextLong = nextLong() >>> 11;
         Double.isNaN(nextLong);
@@ -102,6 +107,7 @@ public class i extends Random {
         return M0.n0(o1.r(new f(0L, Long.MAX_VALUE, Double.MAX_VALUE, 0.0d), false));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final int e(int i, int i2) {
         int i3;
         int h = h(j());
@@ -133,6 +139,7 @@ public class i extends Random {
         return h;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final long f(long j, long j2) {
         long i = i(j());
         if (j < j2) {

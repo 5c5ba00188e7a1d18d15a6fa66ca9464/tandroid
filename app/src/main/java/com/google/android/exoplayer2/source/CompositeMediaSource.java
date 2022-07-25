@@ -27,6 +27,7 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* renamed from: onChildSourceInfoRefreshed */
     public abstract void lambda$prepareChildSource$0(T t, MediaSource mediaSource, Timeline timeline);
 
@@ -34,6 +35,7 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
     public void prepareSourceInternal(TransferListener transferListener) {
         this.mediaTransferListener = transferListener;
@@ -70,6 +72,7 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         this.childSources.clear();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public final void prepareChildSource(final T t, MediaSource mediaSource) {
         Assertions.checkArgument(!this.childSources.containsKey(t));
         MediaSource.MediaSourceCaller mediaSourceCaller = new MediaSource.MediaSourceCaller() { // from class: com.google.android.exoplayer2.source.CompositeMediaSource$$ExternalSyntheticLambda0
@@ -87,9 +90,8 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class MediaSourceAndListener {
+    private static final class MediaSourceAndListener {
         public final MediaSource.MediaSourceCaller caller;
         public final MediaSourceEventListener eventListener;
         public final MediaSource mediaSource;
@@ -101,15 +103,13 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class ForwardingEventListener implements MediaSourceEventListener {
+    private final class ForwardingEventListener implements MediaSourceEventListener {
         private MediaSourceEventListener.EventDispatcher eventDispatcher;
         private final T id;
 
         public ForwardingEventListener(T t) {
-            CompositeMediaSource.this = r2;
-            this.eventDispatcher = r2.createEventDispatcher(null);
+            this.eventDispatcher = CompositeMediaSource.this.createEventDispatcher(null);
             this.id = t;
         }
 

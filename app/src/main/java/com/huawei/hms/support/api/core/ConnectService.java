@@ -22,14 +22,16 @@ import com.huawei.hms.support.log.HMSLog;
 /* loaded from: classes.dex */
 public final class ConnectService {
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class a extends PendingResultImpl<ResolveResult<ConnectResp>, ConnectResp> {
         a(ApiClient apiClient, String str, IMessageEntity iMessageEntity) {
             super(apiClient, str, iMessageEntity);
         }
 
+        @Override // com.huawei.hms.support.api.PendingResultImpl
         /* renamed from: a */
-        public ResolveResult<ConnectResp> onComplete(ConnectResp connectResp) {
+        public ResolveResult<ConnectResp> mo234onComplete(ConnectResp connectResp) {
             ResolveResult<ConnectResp> resolveResult = new ResolveResult<>(connectResp);
             resolveResult.setStatus(Status.SUCCESS);
             HMSLog.d("connectservice", "connect - onComplete: success");
@@ -42,14 +44,16 @@ public final class ConnectService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class b extends PendingResultImpl<ResolveResult<ConnectResp>, ConnectResp> {
         b(ApiClient apiClient, String str, IMessageEntity iMessageEntity) {
             super(apiClient, str, iMessageEntity);
         }
 
+        @Override // com.huawei.hms.support.api.PendingResultImpl
         /* renamed from: a */
-        public ResolveResult<ConnectResp> onComplete(ConnectResp connectResp) {
+        public ResolveResult<ConnectResp> mo234onComplete(ConnectResp connectResp) {
             ResolveResult<ConnectResp> resolveResult = new ResolveResult<>(connectResp);
             resolveResult.setStatus(Status.SUCCESS);
             HMSLog.d("connectservice", "forceConnect - onComplete: success");
@@ -62,14 +66,16 @@ public final class ConnectService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class c extends PendingResultImpl<ResolveResult<JosGetNoticeResp>, JosGetNoticeResp> {
         c(ApiClient apiClient, String str, IMessageEntity iMessageEntity) {
             super(apiClient, str, iMessageEntity);
         }
 
+        @Override // com.huawei.hms.support.api.PendingResultImpl
         /* renamed from: a */
-        public ResolveResult<JosGetNoticeResp> onComplete(JosGetNoticeResp josGetNoticeResp) {
+        public ResolveResult<JosGetNoticeResp> mo234onComplete(JosGetNoticeResp josGetNoticeResp) {
             if (josGetNoticeResp == null) {
                 HMSLog.e("connectservice", "JosNoticeResp is null");
                 return null;

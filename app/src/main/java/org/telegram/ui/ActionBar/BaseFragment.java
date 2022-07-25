@@ -83,10 +83,12 @@ public abstract class BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public Animator getCustomSlideTransition(boolean z, boolean z2, float f) {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public int getPreviewHeight() {
         return -1;
     }
@@ -99,6 +101,7 @@ public abstract class BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean hideKeyboardOnShow() {
         return true;
     }
@@ -118,16 +121,19 @@ public abstract class BaseFragment {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onBecomeFullyHidden() {
     }
 
     public void onConfigurationChanged(Configuration configuration) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public AnimatorSet onCustomTransitionAnimation(boolean z, Runnable runnable) {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onDialogDismiss(Dialog dialog) {
     }
 
@@ -138,27 +144,33 @@ public abstract class BaseFragment {
     public void onLowMemory() {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onPreviewOpenAnimationEnd() {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onRemoveFromParent() {
     }
 
     public void onRequestPermissionsResultFragment(int i, String[] strArr, int[] iArr) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onSlideProgress(boolean z, float f) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onTransitionAnimationProgress(boolean z, float f) {
     }
 
     public void onUserLeaveHint() {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void prepareFragmentToSlide(boolean z, boolean z2) {
     }
 
@@ -171,6 +183,7 @@ public abstract class BaseFragment {
     public void setProgressToDrawerOpened(float f) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean shouldOverrideSlideTransition(boolean z, boolean z2) {
         return false;
     }
@@ -221,6 +234,7 @@ public abstract class BaseFragment {
         return this.inPreviewMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setInPreviewMode(boolean z) {
         this.inPreviewMode = z;
         ActionBar actionBar = this.actionBar;
@@ -237,10 +251,12 @@ public abstract class BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setInMenuMode(boolean z) {
         this.inMenuMode = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void clearViews() {
         View view = this.fragmentView;
         if (view != null) {
@@ -275,6 +291,7 @@ public abstract class BaseFragment {
         this.fragmentView = createView(this.parentLayout.getContext());
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setParentLayout(ActionBarLayout actionBarLayout) {
         ViewGroup viewGroup;
         if (this.parentLayout != actionBarLayout) {
@@ -326,6 +343,7 @@ public abstract class BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ActionBar createActionBar(Context context) {
         ActionBar actionBar = new ActionBar(context, getResourceProvider());
         actionBar.setBackgroundColor(getThemedColor("actionBarDefault"));
@@ -378,6 +396,7 @@ public abstract class BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean isFinishing() {
         return this.finishing;
     }
@@ -401,6 +420,7 @@ public abstract class BaseFragment {
         AndroidUtilities.setLightStatusBar(window, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void resumeDelayedFragmentAnimation() {
         ActionBarLayout actionBarLayout = this.parentLayout;
         if (actionBarLayout != null) {
@@ -499,6 +519,7 @@ public abstract class BaseFragment {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void setParentActivityTitle(CharSequence charSequence) {
         Activity parentActivity = getParentActivity();
         if (parentActivity != null) {
@@ -542,12 +563,14 @@ public abstract class BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onTransitionAnimationStart(boolean z, boolean z2) {
         if (z) {
             this.fragmentBeginToShow = true;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onBecomeFullyVisible() {
         ActionBar actionBar;
         if (!((AccessibilityManager) ApplicationLoader.applicationContext.getSystemService("accessibility")).isEnabled() || (actionBar = getActionBar()) == null) {
@@ -598,6 +621,7 @@ public abstract class BaseFragment {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showDialog$0(DialogInterface.OnDismissListener onDismissListener, DialogInterface dialogInterface) {
         if (onDismissListener != null) {
             onDismissListener.onDismiss(dialogInterface);
@@ -628,6 +652,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getMessagesController();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ContactsController getContactsController() {
         return getAccountInstance().getContactsController();
     }
@@ -644,6 +669,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getLocationController();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public NotificationsController getNotificationsController() {
         return getAccountInstance().getNotificationsController();
     }
@@ -660,6 +686,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getFileLoader();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public SecretChatHelper getSecretChatHelper() {
         return getAccountInstance().getSecretChatHelper();
     }
@@ -668,6 +695,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getDownloadController();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public SharedPreferences getNotificationsSettings() {
         return getAccountInstance().getNotificationsSettings();
     }
@@ -702,10 +730,9 @@ public abstract class BaseFragment {
         return actionBarLayoutArr;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ActionBar.BaseFragment$1 */
+    /* renamed from: org.telegram.ui.ActionBar.BaseFragment$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends BottomSheet {
+    class AnonymousClass1 extends BottomSheet {
         final /* synthetic */ ActionBarLayout[] val$actionBarLayout;
         final /* synthetic */ BaseFragment val$fragment;
 
@@ -794,17 +821,17 @@ public abstract class BaseFragment {
     }
 
     public boolean isLightStatusBar() {
-        int i;
+        int color;
         if (!hasForceLightStatusBar() || Theme.getCurrentTheme().isDark()) {
             Theme.ResourcesProvider resourceProvider = getResourceProvider();
             ActionBar actionBar = this.actionBar;
             String str = (actionBar == null || !actionBar.isActionModeShowed()) ? "actionBarDefault" : "actionBarActionModeDefault";
             if (resourceProvider != null) {
-                i = resourceProvider.getColorOrDefault(str);
+                color = resourceProvider.getColorOrDefault(str);
             } else {
-                i = Theme.getColor(str, null, true);
+                color = Theme.getColor(str, null, true);
             }
-            return ColorUtils.calculateLuminance(i) > 0.699999988079071d;
+            return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
         }
         return true;
     }

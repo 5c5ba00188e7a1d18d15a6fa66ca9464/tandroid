@@ -7,6 +7,7 @@ final class zzf implements Runnable {
     private final /* synthetic */ Task zza;
     private final /* synthetic */ zzd zzb;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzf(zzd zzdVar, Task task) {
         this.zzb = zzdVar;
         this.zza = task;
@@ -31,15 +32,15 @@ final class zzf implements Runnable {
             task.addOnCanceledListener(executor, this.zzb);
         } catch (RuntimeExecutionException e) {
             if (e.getCause() instanceof Exception) {
-                zzuVar2 = this.zzb.zzc;
-                zzuVar2.zza((Exception) e.getCause());
+                zzuVar3 = this.zzb.zzc;
+                zzuVar3.zza((Exception) e.getCause());
                 return;
             }
-            zzuVar = this.zzb.zzc;
-            zzuVar.zza((Exception) e);
+            zzuVar2 = this.zzb.zzc;
+            zzuVar2.zza((Exception) e);
         } catch (Exception e2) {
-            zzuVar3 = this.zzb.zzc;
-            zzuVar3.zza(e2);
+            zzuVar = this.zzb.zzc;
+            zzuVar.zza(e2);
         }
     }
 }

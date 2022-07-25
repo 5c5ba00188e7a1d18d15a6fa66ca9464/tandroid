@@ -178,9 +178,8 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
         return hashCode11 ^ i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends AndroidClientInfo.Builder {
+    static final class Builder extends AndroidClientInfo.Builder {
         private String applicationBuild;
         private String country;
         private String device;

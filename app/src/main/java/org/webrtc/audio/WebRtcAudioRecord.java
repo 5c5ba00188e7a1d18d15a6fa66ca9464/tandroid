@@ -25,6 +25,7 @@ import org.webrtc.CalledByNative;
 import org.webrtc.Logging;
 import org.webrtc.ThreadUtils;
 import org.webrtc.audio.JavaAudioDeviceModule;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
 public class WebRtcAudioRecord {
     private static final int AUDIO_RECORD_START = 0;
@@ -69,16 +70,15 @@ public class WebRtcAudioRecord {
 
     private native void nativeCacheDirectBufferAddress(long j, ByteBuffer byteBuffer);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public native void nativeDataIsRecorded(long j, int i);
 
     /* loaded from: classes3.dex */
     private class AudioRecordThread extends Thread {
         private volatile boolean keepAlive = true;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AudioRecordThread(String str) {
             super(str);
-            WebRtcAudioRecord.this = r1;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -256,6 +256,7 @@ public class WebRtcAudioRecord {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
     public void setPreferredDevice(AudioDeviceInfo audioDeviceInfo) {
         StringBuilder sb = new StringBuilder();
@@ -359,6 +360,7 @@ public class WebRtcAudioRecord {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void assertTrue(boolean z) {
         if (z) {
             return;
@@ -401,6 +403,7 @@ public class WebRtcAudioRecord {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reportWebRtcAudioRecordError(String str) {
         Logging.e(TAG, "Run-time recording error: " + str);
         WebRtcAudioUtils.logAudioState(TAG, this.context, this.audioManager);
@@ -410,6 +413,7 @@ public class WebRtcAudioRecord {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void doAudioRecordStateCallback(int i) {
         Logging.d(TAG, "doAudioRecordStateCallback: " + audioStateToString(i));
         JavaAudioDeviceModule.AudioRecordStateCallback audioRecordStateCallback = this.stateCallback;
@@ -460,6 +464,7 @@ public class WebRtcAudioRecord {
         this.future = this.executor.schedule(callable, 100L, TimeUnit.MILLISECONDS);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ String lambda$scheduleLogRecordingConfigurationsTask$0(AudioRecord audioRecord) throws Exception {
         if (this.audioRecord == audioRecord) {
             logRecordingConfigurations(audioRecord, true);
@@ -545,6 +550,7 @@ public class WebRtcAudioRecord {
         return audioDeviceInfo.getId() == audioDeviceInfo2.getId() && audioDeviceInfo.getType() == audioDeviceInfo2.getType();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ScheduledExecutorService newDefaultScheduler() {
         final AtomicInteger atomicInteger = new AtomicInteger(0);
         return Executors.newScheduledThreadPool(0, new ThreadFactory() { // from class: org.webrtc.audio.WebRtcAudioRecord.1

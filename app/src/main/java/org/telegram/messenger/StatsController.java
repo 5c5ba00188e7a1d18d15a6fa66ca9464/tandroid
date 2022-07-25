@@ -22,8 +22,11 @@ public class StatsController extends BaseController {
     private RandomAccessFile statsFile;
     private static DispatchQueue statsSaveQueue = new DispatchQueue("statsSaveQueue");
     private static final ThreadLocal<Long> lastStatsSaveTime = new ThreadLocal<Long>() { // from class: org.telegram.messenger.StatsController.1
+        /* JADX INFO: Access modifiers changed from: protected */
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // java.lang.ThreadLocal
-        public Long initialValue() {
+        /* renamed from: initialValue */
+        public Long mo817initialValue() {
             return Long.valueOf(System.currentTimeMillis() - 1000);
         }
     };
@@ -73,6 +76,7 @@ public class StatsController extends BaseController {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: private */
     public byte[] intToBytes(int i) {
         byte[] bArr = this.buffer;
         bArr[0] = (byte) (i >>> 24);
@@ -86,6 +90,7 @@ public class StatsController extends BaseController {
         return (bArr[3] & 255) | (bArr[0] << 24) | ((bArr[1] & 255) << 16) | ((bArr[2] & 255) << 8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public byte[] longToBytes(long j) {
         byte[] bArr = this.buffer;
         bArr[0] = (byte) (j >>> 56);
@@ -119,8 +124,8 @@ public class StatsController extends BaseController {
         return statsController;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:50:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:49:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

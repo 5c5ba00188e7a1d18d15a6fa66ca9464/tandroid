@@ -9,9 +9,11 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ColorCutQuantizer {
     private static final Comparator<Vbox> VBOX_COMPARATOR_VOLUME = new Comparator<Vbox>() { // from class: androidx.palette.graphics.ColorCutQuantizer.1
+        @Override // java.util.Comparator
         public int compare(Vbox vbox, Vbox vbox2) {
             return vbox2.getVolume() - vbox.getVolume();
         }
@@ -38,6 +40,7 @@ public final class ColorCutQuantizer {
         return (i >> 10) & 31;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ColorCutQuantizer(int[] iArr, int i, Palette.Filter[] filterArr) {
         this.mFilters = filterArr;
         int[] iArr2 = new int[32768];
@@ -76,6 +79,7 @@ public final class ColorCutQuantizer {
         this.mQuantizedColors = quantizePixels(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public List<Palette.Swatch> getQuantizedColors() {
         return this.mQuantizedColors;
     }
@@ -106,6 +110,7 @@ public final class ColorCutQuantizer {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class Vbox {
         private int mLowerIndex;
@@ -119,7 +124,6 @@ public final class ColorCutQuantizer {
         private int mUpperIndex;
 
         Vbox(int i, int i2) {
-            ColorCutQuantizer.this = r1;
             this.mLowerIndex = i;
             this.mUpperIndex = i2;
             fitBox();

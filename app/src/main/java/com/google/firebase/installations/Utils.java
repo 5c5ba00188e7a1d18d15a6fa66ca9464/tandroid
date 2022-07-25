@@ -40,10 +40,12 @@ public final class Utils {
         return this.clock.currentTimeMillis();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isValidAppIdFormat(String str) {
         return str.contains(":");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isValidApiKeyFormat(String str) {
         return API_KEY_FORMAT.matcher(str).matches();
     }

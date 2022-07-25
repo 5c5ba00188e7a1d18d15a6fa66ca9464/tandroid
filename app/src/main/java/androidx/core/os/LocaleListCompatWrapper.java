@@ -3,9 +3,8 @@ package androidx.core.os;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class LocaleListCompatWrapper implements LocaleListInterface {
+final class LocaleListCompatWrapper implements LocaleListInterface {
     private static final Locale[] sEmptyList = new Locale[0];
     private final Locale[] mList;
 
@@ -93,6 +92,7 @@ public final class LocaleListCompatWrapper implements LocaleListInterface {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public LocaleListCompatWrapper(Locale... list) {
         if (list.length == 0) {
             this.mList = sEmptyList;

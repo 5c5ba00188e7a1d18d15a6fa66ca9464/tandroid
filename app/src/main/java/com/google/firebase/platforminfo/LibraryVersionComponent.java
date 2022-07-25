@@ -28,6 +28,7 @@ public class LibraryVersionComponent {
         }).build();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ LibraryVersion lambda$fromContext$0(String str, VersionExtractor versionExtractor, ComponentContainer componentContainer) {
         return LibraryVersion.create(str, versionExtractor.extract((Context) componentContainer.get(Context.class)));
     }

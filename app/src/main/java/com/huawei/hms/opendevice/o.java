@@ -31,18 +31,18 @@ public class o {
     }
 
     public static synchronized String c(Context context) {
-        String str;
+        String uuid;
         synchronized (o.class) {
             PushPreferences pushPreferences = new PushPreferences(context, "aaid");
             if (pushPreferences.containsKey("aaid")) {
-                str = pushPreferences.getString("aaid");
+                uuid = pushPreferences.getString("aaid");
             } else {
-                str = UUID.randomUUID().toString();
-                pushPreferences.saveString("aaid", str);
+                uuid = UUID.randomUUID().toString();
+                pushPreferences.saveString("aaid", uuid);
                 pushPreferences.saveLong("creationTime", Long.valueOf(System.currentTimeMillis()));
             }
         }
-        return str;
+        return uuid;
     }
 
     public static String d(Context context) {

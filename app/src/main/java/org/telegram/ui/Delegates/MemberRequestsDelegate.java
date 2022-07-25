@@ -182,10 +182,10 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
     }
 
     public StickerEmptyView getEmptyView() {
-        String str;
         int i;
-        String str2;
+        String str;
         int i2;
+        String str2;
         if (this.emptyView == null) {
             StickerEmptyView stickerEmptyView = new StickerEmptyView(this.fragment.getParentActivity(), null, 2, this.fragment.getResourceProvider());
             this.emptyView = stickerEmptyView;
@@ -268,6 +268,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onItemClick$1(MemberRequestCell memberRequestCell) {
         TLRPC$TL_chatInviteImporter importer = memberRequestCell.getImporter();
         this.importer = importer;
@@ -300,6 +301,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onItemClick$0(DialogInterface dialogInterface) {
         this.previewDialog = null;
     }
@@ -391,6 +393,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMembers$5(boolean z) {
         TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter;
         final boolean isEmpty = TextUtils.isEmpty(this.query);
@@ -421,10 +424,12 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMembers$2() {
         setViewVisible(this.loadingView, true, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMembers$4(final boolean z, final Runnable runnable, final String str, final boolean z2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
@@ -434,6 +439,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMembers$3(boolean z, Runnable runnable, String str, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, boolean z2) {
         this.isLoading = false;
         this.isDataLoaded = true;
@@ -490,6 +496,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         this.recyclerView.getChildAt(extraFirstHolders).setEnabled(z);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onImportersChanged(String str, boolean z, boolean z2) {
         boolean z3;
         if (TextUtils.isEmpty(str)) {
@@ -531,6 +538,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public boolean hasAllImporters() {
         return !this.allImporters.isEmpty();
     }
@@ -552,6 +560,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hideChatJoinRequest$7(final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, final boolean z, final TLRPC$User tLRPC$User, final TLRPC$TL_messages_hideChatJoinRequest tLRPC$TL_messages_hideChatJoinRequest, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC$TL_updates) tLObject, false);
@@ -564,8 +573,9 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hideChatJoinRequest$6(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, boolean z, TLRPC$User tLRPC$User, TLRPC$TL_messages_hideChatJoinRequest tLRPC$TL_messages_hideChatJoinRequest) {
-        String str;
+        String formatString;
         int i = 0;
         if (tLRPC$TL_error == null) {
             TLRPC$TL_updates tLRPC$TL_updates = (TLRPC$TL_updates) tLObject;
@@ -591,12 +601,12 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                 multiLineLayout.imageView.setForUserOrChat(tLRPC$User, new AvatarDrawable(tLRPC$User));
                 String firstName = UserObject.getFirstName(tLRPC$User);
                 if (this.isChannel) {
-                    str = LocaleController.formatString("HasBeenAddedToChannel", R.string.HasBeenAddedToChannel, firstName);
+                    formatString = LocaleController.formatString("HasBeenAddedToChannel", R.string.HasBeenAddedToChannel, firstName);
                 } else {
-                    str = LocaleController.formatString("HasBeenAddedToGroup", R.string.HasBeenAddedToGroup, firstName);
+                    formatString = LocaleController.formatString("HasBeenAddedToGroup", R.string.HasBeenAddedToGroup, firstName);
                 }
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
-                int indexOf = str.indexOf(firstName);
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(formatString);
+                int indexOf = formatString.indexOf(firstName);
                 spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), indexOf, firstName.length() + indexOf, 18);
                 multiLineLayout.textView.setText(spannableStringBuilder);
                 if (this.allImporters.isEmpty()) {
@@ -619,6 +629,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this.fragment, tLRPC$TL_messages_hideChatJoinRequest, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void hidePreview() {
         this.previewDialog.dismiss();
         this.importer = null;
@@ -648,14 +659,15 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         view.setVisibility(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
-            MemberRequestsDelegate.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerListView.Holder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder  reason: collision with other method in class */
+        public RecyclerListView.Holder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             MemberRequestCell memberRequestCell;
             if (i == 1) {
                 View view = new View(viewGroup.getContext());
@@ -756,6 +768,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public int extraFirstHolders() {
             return !MemberRequestsDelegate.this.isShowLastItemDivider ? 1 : 0;
         }
@@ -765,6 +778,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class PreviewDialog extends Dialog {
         private float animationProgress;
@@ -782,12 +796,10 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         private final int shadowPaddingTop;
         private final ProfileGalleryView viewPager;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public PreviewDialog(Context context, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider, boolean z) {
             super(context, R.style.TransparentDialog2);
             int i;
             String str;
-            MemberRequestsDelegate.this = r9;
             Drawable mutate = getContext().getResources().getDrawable(R.drawable.popup_fixed_alert2).mutate();
             this.pagerShadowDrawable = mutate;
             TextView textView = new TextView(getContext());
@@ -906,7 +918,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             this.contentView = viewGroup;
             setCancelable(true);
             viewGroup.setVisibility(4);
-            int color = Theme.getColor("actionBarDefaultSubmenuBackground", r9.fragment.getResourceProvider());
+            int color = Theme.getColor("actionBarDefaultSubmenuBackground", MemberRequestsDelegate.this.fragment.getResourceProvider());
             mutate.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
             mutate.setCallback(viewGroup);
             Rect rect = new Rect();
@@ -917,7 +929,8 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             this.popupLayout = actionBarPopupWindowLayout;
             actionBarPopupWindowLayout.setBackgroundColor(color);
             viewGroup.addView(actionBarPopupWindowLayout);
-            AvatarPreviewPagerIndicator avatarPreviewPagerIndicator = new AvatarPreviewPagerIndicator(this, getContext(), r9) { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate.PreviewDialog.1
+            AvatarPreviewPagerIndicator avatarPreviewPagerIndicator = new AvatarPreviewPagerIndicator(this, getContext(), MemberRequestsDelegate.this) { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate.PreviewDialog.1
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.AvatarPreviewPagerIndicator, android.view.View
                 public void onDraw(Canvas canvas) {
                     if (this.profileGalleryView.getRealCount() > 1) {
@@ -926,18 +939,18 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                 }
             };
             this.pagerIndicator = avatarPreviewPagerIndicator;
-            ProfileGalleryView profileGalleryView = new ProfileGalleryView(context, r9.fragment.getActionBar(), recyclerListView, avatarPreviewPagerIndicator);
+            ProfileGalleryView profileGalleryView = new ProfileGalleryView(context, MemberRequestsDelegate.this.fragment.getActionBar(), recyclerListView, avatarPreviewPagerIndicator);
             this.viewPager = profileGalleryView;
             profileGalleryView.setCreateThumbFromParent(true);
             viewGroup.addView(profileGalleryView);
             avatarPreviewPagerIndicator.setProfileGalleryView(profileGalleryView);
             viewGroup.addView(avatarPreviewPagerIndicator);
             textView.setMaxLines(1);
-            textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", r9.fragment.getResourceProvider()));
+            textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", MemberRequestsDelegate.this.fragment.getResourceProvider()));
             textView.setTextSize(16.0f);
             textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             viewGroup.addView(textView);
-            textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText", r9.fragment.getResourceProvider()));
+            textView2.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText", MemberRequestsDelegate.this.fragment.getResourceProvider()));
             textView2.setTextSize(14.0f);
             viewGroup.addView(textView2);
             ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(context, true, false);
@@ -982,6 +995,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter = this.importer;
             if (tLRPC$TL_chatInviteImporter != null) {
@@ -990,6 +1004,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             MemberRequestsDelegate.this.hidePreview();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1(View view) {
             if (this.importer != null) {
                 MemberRequestsDelegate.this.isNeedRestoreList = true;
@@ -1001,6 +1016,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2(View view) {
             TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter = this.importer;
             if (tLRPC$TL_chatInviteImporter != null) {
@@ -1053,6 +1069,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             }, 80L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$show$3() {
             updateBackgroundBitmap();
             runAnimation(true);
@@ -1115,6 +1132,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             this.animator.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$runAnimation$4(float f, float f2, float f3, float f4, int i, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             this.animationProgress = floatValue;
@@ -1155,6 +1173,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             return createBitmap;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateBackgroundBitmap() {
             BitmapDrawable bitmapDrawable = this.backgroundDrawable;
             int alpha = (bitmapDrawable == null || Build.VERSION.SDK_INT < 19) ? 255 : bitmapDrawable.getAlpha();
@@ -1164,6 +1183,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             getWindow().setBackgroundDrawable(this.backgroundDrawable);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public int getContentHeight() {
             int measuredHeight = this.viewPager.getMeasuredHeight() + AndroidUtilities.dp(12.0f) + this.nameText.getMeasuredHeight();
             if (this.bioText.getVisibility() != 8) {

@@ -39,6 +39,7 @@ public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
         private ProtoEncoderDoNotUseEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(ProtoEncoderDoNotUse protoEncoderDoNotUse, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(CLIENTMETRICS_DESCRIPTOR, protoEncoderDoNotUse.getClientMetrics());
         }
@@ -55,6 +56,7 @@ public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
         private ClientMetricsEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(ClientMetrics clientMetrics, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(WINDOW_DESCRIPTOR, clientMetrics.getWindowInternal());
             objectEncoderContext.add(LOGSOURCEMETRICS_DESCRIPTOR, clientMetrics.getLogSourceMetricsList());
@@ -72,9 +74,10 @@ public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
         private TimeWindowEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(TimeWindow timeWindow, ObjectEncoderContext objectEncoderContext) throws IOException {
-            objectEncoderContext.add(STARTMS_DESCRIPTOR, timeWindow.getStartMs());
-            objectEncoderContext.add(ENDMS_DESCRIPTOR, timeWindow.getEndMs());
+            objectEncoderContext.mo196add(STARTMS_DESCRIPTOR, timeWindow.getStartMs());
+            objectEncoderContext.mo196add(ENDMS_DESCRIPTOR, timeWindow.getEndMs());
         }
     }
 
@@ -87,6 +90,7 @@ public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
         private LogSourceMetricsEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(LogSourceMetrics logSourceMetrics, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(LOGSOURCE_DESCRIPTOR, logSourceMetrics.getLogSource());
             objectEncoderContext.add(LOGEVENTDROPPED_DESCRIPTOR, logSourceMetrics.getLogEventDroppedList());
@@ -102,8 +106,9 @@ public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
         private LogEventDroppedEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(LogEventDropped logEventDropped, ObjectEncoderContext objectEncoderContext) throws IOException {
-            objectEncoderContext.add(EVENTSDROPPEDCOUNT_DESCRIPTOR, logEventDropped.getEventsDroppedCount());
+            objectEncoderContext.mo196add(EVENTSDROPPEDCOUNT_DESCRIPTOR, logEventDropped.getEventsDroppedCount());
             objectEncoderContext.add(REASON_DESCRIPTOR, logEventDropped.getReason());
         }
     }
@@ -116,6 +121,7 @@ public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
         private GlobalMetricsEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(GlobalMetrics globalMetrics, ObjectEncoderContext objectEncoderContext) throws IOException {
             objectEncoderContext.add(STORAGEMETRICS_DESCRIPTOR, globalMetrics.getStorageMetricsInternal());
         }
@@ -130,9 +136,10 @@ public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
         private StorageMetricsEncoder() {
         }
 
+        @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(StorageMetrics storageMetrics, ObjectEncoderContext objectEncoderContext) throws IOException {
-            objectEncoderContext.add(CURRENTCACHESIZEBYTES_DESCRIPTOR, storageMetrics.getCurrentCacheSizeBytes());
-            objectEncoderContext.add(MAXCACHESIZEBYTES_DESCRIPTOR, storageMetrics.getMaxCacheSizeBytes());
+            objectEncoderContext.mo196add(CURRENTCACHESIZEBYTES_DESCRIPTOR, storageMetrics.getCurrentCacheSizeBytes());
+            objectEncoderContext.mo196add(MAXCACHESIZEBYTES_DESCRIPTOR, storageMetrics.getMaxCacheSizeBytes());
         }
     }
 }

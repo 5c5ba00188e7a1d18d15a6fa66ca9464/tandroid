@@ -15,9 +15,9 @@ public final class AvcConfig {
     public final int width;
 
     public static AvcConfig parse(ParsableByteArray parsableByteArray) throws ParserException {
-        float f;
         int i;
         int i2;
+        float f;
         try {
             parsableByteArray.skipBytes(4);
             int readUnsignedByte = (parsableByteArray.readUnsignedByte() & 3) + 1;
@@ -38,14 +38,14 @@ public final class AvcConfig {
                 int i5 = parseSpsNalUnit.width;
                 int i6 = parseSpsNalUnit.height;
                 f = parseSpsNalUnit.pixelWidthAspectRatio;
-                i2 = i5;
-                i = i6;
+                i = i5;
+                i2 = i6;
             } else {
-                i2 = -1;
                 i = -1;
+                i2 = -1;
                 f = 1.0f;
             }
-            return new AvcConfig(arrayList, readUnsignedByte, i2, i, f);
+            return new AvcConfig(arrayList, readUnsignedByte, i, i2, f);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new ParserException("Error parsing AVC config", e);
         }

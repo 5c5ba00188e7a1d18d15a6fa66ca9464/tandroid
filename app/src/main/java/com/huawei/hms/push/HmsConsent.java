@@ -34,7 +34,7 @@ public class HmsConsent {
 
     public final Task<Void> a(boolean z) {
         TaskCompletionSource taskCompletionSource;
-        int i;
+        int externalCode;
         String reportEntry = PushBiUtil.reportEntry(this.b, PushNaming.PUSH_CONSENT);
         try {
             if (s.d(this.b)) {
@@ -47,16 +47,16 @@ public class HmsConsent {
         } catch (ApiException e) {
             TaskCompletionSource taskCompletionSource2 = new TaskCompletionSource();
             taskCompletionSource2.setException(e);
-            i = e.getStatusCode();
+            externalCode = e.getStatusCode();
             taskCompletionSource = taskCompletionSource2;
-            PushBiUtil.reportExit(this.b, PushNaming.PUSH_CONSENT, reportEntry, i);
+            PushBiUtil.reportExit(this.b, PushNaming.PUSH_CONSENT, reportEntry, externalCode);
             return taskCompletionSource.getTask();
         } catch (Exception unused) {
             taskCompletionSource = new TaskCompletionSource();
             ErrorEnum errorEnum = ErrorEnum.ERROR_INTERNAL_ERROR;
             taskCompletionSource.setException(errorEnum.toApiException());
-            i = errorEnum.getExternalCode();
-            PushBiUtil.reportExit(this.b, PushNaming.PUSH_CONSENT, reportEntry, i);
+            externalCode = errorEnum.getExternalCode();
+            PushBiUtil.reportExit(this.b, PushNaming.PUSH_CONSENT, reportEntry, externalCode);
             return taskCompletionSource.getTask();
         }
     }

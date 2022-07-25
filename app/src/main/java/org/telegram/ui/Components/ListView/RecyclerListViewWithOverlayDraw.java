@@ -21,6 +21,7 @@ public class RecyclerListViewWithOverlayDraw extends RecyclerListView {
         super(context);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         this.invalidated = false;

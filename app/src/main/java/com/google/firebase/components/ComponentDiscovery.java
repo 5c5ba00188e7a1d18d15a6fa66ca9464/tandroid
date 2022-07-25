@@ -18,9 +18,8 @@ public final class ComponentDiscovery<T> {
     private final T context;
     private final RegistrarNameRetriever<T> retriever;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public interface RegistrarNameRetriever<T> {
+    interface RegistrarNameRetriever<T> {
         List<String> retrieve(T t);
     }
 
@@ -54,7 +53,8 @@ public final class ComponentDiscovery<T> {
         for (final String str : this.retriever.retrieve(this.context)) {
             arrayList.add(new Provider() { // from class: com.google.firebase.components.ComponentDiscovery$$ExternalSyntheticLambda0
                 @Override // com.google.firebase.inject.Provider
-                public final Object get() {
+                /* renamed from: get */
+                public final Object mo190get() {
                     ComponentRegistrar instantiate;
                     instantiate = ComponentDiscovery.instantiate(str);
                     return instantiate;
@@ -64,6 +64,7 @@ public final class ComponentDiscovery<T> {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static ComponentRegistrar instantiate(String str) {
         try {
             Class<?> cls = Class.forName(str);
@@ -85,15 +86,15 @@ public final class ComponentDiscovery<T> {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class MetadataRegistrarNameRetriever implements RegistrarNameRetriever<Context> {
+    private static class MetadataRegistrarNameRetriever implements RegistrarNameRetriever<Context> {
         private final Class<? extends Service> discoveryService;
 
         private MetadataRegistrarNameRetriever(Class<? extends Service> cls) {
             this.discoveryService = cls;
         }
 
+        @Override // com.google.firebase.components.ComponentDiscovery.RegistrarNameRetriever
         public List<String> retrieve(Context context) {
             Bundle metadata = getMetadata(context);
             if (metadata == null) {

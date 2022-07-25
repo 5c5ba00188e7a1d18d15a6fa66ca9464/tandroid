@@ -93,6 +93,7 @@ public class ColorPicker extends FrameLayout {
         setLocation(this.location);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         ColorPickerDelegate colorPickerDelegate = this.delegate;
         if (colorPickerDelegate != null) {
@@ -100,6 +101,7 @@ public class ColorPicker extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         ColorPickerDelegate colorPickerDelegate = this.delegate;
         if (colorPickerDelegate != null) {

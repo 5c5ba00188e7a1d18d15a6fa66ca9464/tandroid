@@ -31,6 +31,7 @@ public class OutlineTextContainerView extends FrameLayout {
     private float strokeWidthRegular = Math.max(2, AndroidUtilities.dp(0.5f));
     private float strokeWidthSelected = AndroidUtilities.dp(1.5f);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(OutlineTextContainerView outlineTextContainerView, float f) {
         outlineTextContainerView.selectionProgress = f;
         if (!outlineTextContainerView.forceUseCenter) {
@@ -42,6 +43,7 @@ public class OutlineTextContainerView extends FrameLayout {
         outlineTextContainerView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$3(OutlineTextContainerView outlineTextContainerView, float f) {
         outlineTextContainerView.errorProgress = f;
         outlineTextContainerView.updateColor();

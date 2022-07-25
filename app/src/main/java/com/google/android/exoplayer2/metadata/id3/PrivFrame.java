@@ -7,13 +7,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class PrivFrame extends Id3Frame {
     public static final Parcelable.Creator<PrivFrame> CREATOR = new Parcelable.Creator<PrivFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.PrivFrame.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PrivFrame createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public PrivFrame mo125createFromParcel(Parcel parcel) {
             return new PrivFrame(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PrivFrame[] newArray(int i) {
+        /* renamed from: newArray */
+        public PrivFrame[] mo126newArray(int i) {
             return new PrivFrame[i];
         }
     };

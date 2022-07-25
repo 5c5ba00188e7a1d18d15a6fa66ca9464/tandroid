@@ -40,6 +40,18 @@ public final /* synthetic */ class f implements PrimitiveIterator.OfLong {
         return this.a.hasNext();
     }
 
+    @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
+    public /* synthetic */ Long next() {
+        return this.a.mo339next();
+    }
+
+    /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.r] */
+    @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
+    /* renamed from: next */
+    public /* synthetic */ Object mo340next() {
+        return this.a.mo335next();
+    }
+
     @Override // java.util.PrimitiveIterator.OfLong
     public /* synthetic */ long nextLong() {
         return this.a.nextLong();

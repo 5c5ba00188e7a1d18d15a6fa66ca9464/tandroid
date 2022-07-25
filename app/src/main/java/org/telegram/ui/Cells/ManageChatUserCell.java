@@ -115,6 +115,7 @@ public class ManageChatUserCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         this.delegate.onOptionsButtonCheck(this, true);
     }
@@ -250,11 +251,11 @@ public class ManageChatUserCell extends FrameLayout {
         this.dividerColor = str;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:111:0x0190, code lost:
-        if (r12.equals(r6) == false) goto L114;
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x0190, code lost:
+        if (r12.equals(r6) == false) goto L105;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0067, code lost:
-        if (r12.equals(r11.lastName) == false) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0067, code lost:
+        if (r12.equals(r11.lastName) == false) goto L37;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

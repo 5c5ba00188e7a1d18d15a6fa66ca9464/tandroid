@@ -155,13 +155,14 @@ public class DataAutoDownloadActivity extends BaseFragment {
         return this.fragmentView;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x005c  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x005e  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x006b  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0085  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00bf  */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x005c  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x006b  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x007c  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x005e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -170,17 +171,17 @@ public class DataAutoDownloadActivity extends BaseFragment {
         DownloadController.Preset currentRoamingPreset;
         String str;
         String str2;
-        boolean z;
         final TextCheckCell[] textCheckCellArr;
         DownloadController.Preset preset;
+        boolean z;
         boolean z2;
-        boolean z3;
         MaxFileSizeCell[] maxFileSizeCellArr;
-        int i3;
+        boolean z3;
         DownloadController.Preset preset2;
+        int i3;
         int i4 = 4;
-        int i5 = 0;
         boolean z4 = false;
+        int i5 = 0;
         if (i == this.autoDownloadRow) {
             int i6 = this.currentPresetNum;
             if (i6 != 3) {
@@ -295,10 +296,10 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 int i9 = 0;
                 while (true) {
                     if (i9 >= this.typePreset.mask.length) {
-                        z = false;
+                        z3 = false;
                         break;
                     } else if ((preset4.mask[i9] & i2) != 0) {
-                        z = true;
+                        z3 = true;
                         break;
                     } else {
                         i9++;
@@ -311,7 +312,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                     }
                     if (isChecked2) {
                         iArr[i5] = iArr[i5] & (i2 ^ (-1));
-                    } else if (!z) {
+                    } else if (!z3) {
                         iArr[i5] = iArr[i5] | i2;
                     }
                     i5++;
@@ -478,26 +479,26 @@ public class DataAutoDownloadActivity extends BaseFragment {
                     int i12 = 0;
                     while (true) {
                         if (i12 >= 4) {
-                            z2 = false;
+                            z = false;
                             break;
                         } else if (textCheckBoxCellArr[i12].isChecked()) {
-                            z2 = true;
+                            z = true;
                             break;
                         } else {
                             i12++;
                         }
                     }
-                    if (!z2) {
-                        z3 = false;
+                    if (!z) {
+                        z2 = false;
                         maxFileSizeCellArr4[0].setEnabled(false, null);
                         textCheckCellArr[0].setEnabled(false, null);
                     } else {
-                        z3 = false;
+                        z2 = false;
                     }
                     if (preset.sizes[typeToIndex] <= 2097152) {
-                        char c = z3 ? 1 : 0;
-                        char c2 = z3 ? 1 : 0;
-                        textCheckCellArr[c].setEnabled(z3, null);
+                        char c = z2 ? 1 : 0;
+                        char c2 = z2 ? 1 : 0;
+                        textCheckCellArr[c].setEnabled(z2, null);
                     }
                 }
                 FrameLayout frameLayout = new FrameLayout(getParentActivity());
@@ -537,6 +538,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(TextCheckBoxCell textCheckBoxCell, TextCheckBoxCell[] textCheckBoxCellArr, int i, MaxFileSizeCell[] maxFileSizeCellArr, TextCheckCell[] textCheckCellArr, final AnimatorSet[] animatorSetArr, View view) {
         if (!view.isEnabled()) {
             return;
@@ -580,14 +582,17 @@ public class DataAutoDownloadActivity extends BaseFragment {
         animatorSetArr[0].start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$1(TextCheckCell[] textCheckCellArr, View view) {
         textCheckCellArr[0].setChecked(!textCheckCellArr[0].isChecked());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$2(BottomSheet.Builder builder, View view) {
         builder.getDismissRunnable().run();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(TextCheckBoxCell[] textCheckBoxCellArr, int i, MaxFileSizeCell[] maxFileSizeCellArr, int i2, TextCheckCell[] textCheckCellArr, int i3, String str, String str2, BottomSheet.Builder builder, View view, View view2) {
         int i4 = this.currentPresetNum;
         if (i4 != 3) {
@@ -701,6 +706,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$fillPresets$5(DownloadController.Preset preset, DownloadController.Preset preset2) {
         int typeToIndex = DownloadController.typeToIndex(4);
         int typeToIndex2 = DownloadController.typeToIndex(8);
@@ -801,12 +807,12 @@ public class DataAutoDownloadActivity extends BaseFragment {
         this.typeSectionRow = -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            DataAutoDownloadActivity.this = r1;
             this.mContext = context;
         }
 
@@ -817,8 +823,8 @@ public class DataAutoDownloadActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            String str;
             int i2;
+            String string;
             StringBuilder sb;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
@@ -828,12 +834,12 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 }
                 textCheckCell.setDrawCheckRipple(true);
                 textCheckCell.setTextAndCheck(LocaleController.getString("AutoDownloadMedia", R.string.AutoDownloadMedia), DataAutoDownloadActivity.this.typePreset.enabled, false);
-                String str2 = "windowBackgroundChecked";
-                textCheckCell.setTag(DataAutoDownloadActivity.this.typePreset.enabled ? str2 : "windowBackgroundUnchecked");
+                String str = "windowBackgroundChecked";
+                textCheckCell.setTag(DataAutoDownloadActivity.this.typePreset.enabled ? str : "windowBackgroundUnchecked");
                 if (!DataAutoDownloadActivity.this.typePreset.enabled) {
-                    str2 = "windowBackgroundUnchecked";
+                    str = "windowBackgroundUnchecked";
                 }
-                textCheckCell.setBackgroundColor(Theme.getColor(str2));
+                textCheckCell.setBackgroundColor(Theme.getColor(str));
             } else if (itemViewType == 2) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i != DataAutoDownloadActivity.this.usageHeaderRow) {
@@ -890,14 +896,14 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) viewHolder.itemView;
                 if (i != DataAutoDownloadActivity.this.photosRow) {
                     if (i == DataAutoDownloadActivity.this.videosRow) {
-                        str = LocaleController.getString("AutoDownloadVideos", R.string.AutoDownloadVideos);
+                        string = LocaleController.getString("AutoDownloadVideos", R.string.AutoDownloadVideos);
                         i2 = 4;
                     } else {
                         i2 = 8;
-                        str = LocaleController.getString("AutoDownloadFiles", R.string.AutoDownloadFiles);
+                        string = LocaleController.getString("AutoDownloadFiles", R.string.AutoDownloadFiles);
                     }
                 } else {
-                    str = LocaleController.getString("AutoDownloadPhotos", R.string.AutoDownloadPhotos);
+                    string = LocaleController.getString("AutoDownloadPhotos", R.string.AutoDownloadPhotos);
                     i2 = 1;
                 }
                 DownloadController.Preset currentMobilePreset = DataAutoDownloadActivity.this.currentType == 0 ? DownloadController.getInstance(((BaseFragment) DataAutoDownloadActivity.this).currentAccount).getCurrentMobilePreset() : DataAutoDownloadActivity.this.currentType == 1 ? DownloadController.getInstance(((BaseFragment) DataAutoDownloadActivity.this).currentAccount).getCurrentWiFiPreset() : DownloadController.getInstance(((BaseFragment) DataAutoDownloadActivity.this).currentAccount).getCurrentRoamingPreset();
@@ -947,7 +953,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                 if (DataAutoDownloadActivity.this.animateChecked) {
                     notificationsCheckCell.setChecked(i4 != 0);
                 }
-                notificationsCheckCell.setTextAndValueAndCheck(str, sb2, i4 != 0, 0, true, i != DataAutoDownloadActivity.this.filesRow);
+                notificationsCheckCell.setTextAndValueAndCheck(string, sb2, i4 != 0, 0, true, i != DataAutoDownloadActivity.this.filesRow);
             }
         }
 
@@ -957,6 +963,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
             return adapterPosition == DataAutoDownloadActivity.this.photosRow || adapterPosition == DataAutoDownloadActivity.this.videosRow || adapterPosition == DataAutoDownloadActivity.this.filesRow;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(int i) {
             DownloadController.Preset preset = (DownloadController.Preset) DataAutoDownloadActivity.this.presets.get(i);
             if (preset == DataAutoDownloadActivity.this.lowPreset) {
@@ -989,23 +996,24 @@ public class DataAutoDownloadActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            TextInfoPrivacyCell textInfoPrivacyCell;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            SlideChooseView slideChooseView;
             if (i == 0) {
                 TextCheckCell textCheckCell = new TextCheckCell(this.mContext);
                 textCheckCell.setColors("windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
                 textCheckCell.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 textCheckCell.setHeight(56);
-                textInfoPrivacyCell = textCheckCell;
+                slideChooseView = textCheckCell;
             } else if (i == 1) {
-                textInfoPrivacyCell = new ShadowSectionCell(this.mContext);
+                slideChooseView = new ShadowSectionCell(this.mContext);
             } else if (i == 2) {
-                HeaderCell headerCell = new HeaderCell(this.mContext);
+                View headerCell = new HeaderCell(this.mContext);
                 headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                textInfoPrivacyCell = headerCell;
+                slideChooseView = headerCell;
             } else if (i == 3) {
-                SlideChooseView slideChooseView = new SlideChooseView(this.mContext);
-                slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.DataAutoDownloadActivity$ListAdapter$$ExternalSyntheticLambda0
+                SlideChooseView slideChooseView2 = new SlideChooseView(this.mContext);
+                slideChooseView2.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.DataAutoDownloadActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // org.telegram.ui.Components.SlideChooseView.Callback
                     public final void onOptionSelected(int i2) {
                         DataAutoDownloadActivity.ListAdapter.this.lambda$onCreateViewHolder$0(i2);
@@ -1016,19 +1024,19 @@ public class DataAutoDownloadActivity extends BaseFragment {
                         SlideChooseView.Callback.CC.$default$onTouchEnd(this);
                     }
                 });
-                slideChooseView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                textInfoPrivacyCell = slideChooseView;
+                slideChooseView2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                slideChooseView = slideChooseView2;
             } else if (i == 4) {
-                NotificationsCheckCell notificationsCheckCell = new NotificationsCheckCell(this.mContext);
+                View notificationsCheckCell = new NotificationsCheckCell(this.mContext);
                 notificationsCheckCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                textInfoPrivacyCell = notificationsCheckCell;
+                slideChooseView = notificationsCheckCell;
             } else {
-                TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(this.mContext);
-                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-                textInfoPrivacyCell = textInfoPrivacyCell2;
+                View textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
+                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                slideChooseView = textInfoPrivacyCell;
             }
-            textInfoPrivacyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(textInfoPrivacyCell);
+            slideChooseView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(slideChooseView);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1049,6 +1057,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePresetChoseView(SlideChooseView slideChooseView) {
         String[] strArr = new String[this.presets.size()];
         for (int i = 0; i < this.presets.size(); i++) {

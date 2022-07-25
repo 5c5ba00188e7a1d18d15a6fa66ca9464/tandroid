@@ -87,6 +87,7 @@ public class EllipsizeSpanAnimator {
         return ofInt;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createEllipsizeAnimator$0(TextAlphaSpan textAlphaSpan, ValueAnimator valueAnimator) {
         textAlphaSpan.setAlpha(((Integer) valueAnimator.getAnimatedValue()).intValue());
         for (int i = 0; i < this.ellipsizedViews.size(); i++) {
@@ -110,6 +111,7 @@ public class EllipsizeSpanAnimator {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class TextAlphaSpan extends CharacterStyle {
         private int alpha = 0;

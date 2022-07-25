@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.u;
 /* loaded from: classes2.dex */
 abstract class B3 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static j$.util.u b(e4 e4Var, j$.util.u uVar, long j, long j2) {
         long d = d(j, j2);
         int i = z3.a[e4Var.ordinal()];
@@ -21,6 +22,7 @@ abstract class B3 {
         return new C4(uVar, j, d);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static long c(long j, long j2, long j3) {
         if (j >= 0) {
             return Math.max(-1L, Math.min(j - j2, j3));
@@ -28,6 +30,7 @@ abstract class B3 {
         return -1L;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static long d(long j, long j2) {
         long j3 = j2 >= 0 ? j + j2 : Long.MAX_VALUE;
         if (j3 >= 0) {

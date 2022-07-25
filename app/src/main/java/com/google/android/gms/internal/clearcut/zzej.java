@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzej extends zzei<FieldDescriptorType, Object> {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzej(int i) {
         super(i, null);
     }

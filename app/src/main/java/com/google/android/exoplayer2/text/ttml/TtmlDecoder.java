@@ -72,7 +72,13 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         TtsExtent ttsExtent2 = ttsExtent;
                         FrameAndTickRate frameAndTickRate3 = frameAndTickRate2;
                         CellResolution cellResolution2 = cellResolution;
-                        if (isSupportedTag(name)) {
+                        if (!isSupportedTag(name)) {
+                            Log.i("TtmlDecoder", "Ignoring unsupported tag: " + newPullParser.getName());
+                            i2++;
+                            frameAndTickRate2 = frameAndTickRate3;
+                            ttsExtent = ttsExtent2;
+                            cellResolution = cellResolution2;
+                        } else {
                             if ("head".equals(name)) {
                                 ttmlSubtitle = ttmlSubtitle2;
                                 frameAndTickRate = frameAndTickRate3;
@@ -94,13 +100,6 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                             frameAndTickRate2 = frameAndTickRate;
                             ttsExtent = ttsExtent2;
                             cellResolution = cellResolution2;
-                        } else {
-                            Log.i("TtmlDecoder", "Ignoring unsupported tag: " + newPullParser.getName());
-                            i2++;
-                            frameAndTickRate2 = frameAndTickRate3;
-                            ttsExtent = ttsExtent2;
-                            cellResolution = cellResolution2;
-                            newPullParser.next();
                         }
                     } else {
                         ttmlSubtitle = ttmlSubtitle2;
@@ -109,9 +108,9 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         } else if (eventType == 3) {
                             ttmlSubtitle2 = newPullParser.getName().equals("tt") ? new TtmlSubtitle((TtmlNode) arrayDeque.peek(), hashMap, hashMap2, hashMap3) : ttmlSubtitle;
                             arrayDeque.pop();
-                            newPullParser.next();
                         }
                     }
+                    newPullParser.next();
                 } else {
                     ttmlSubtitle = ttmlSubtitle2;
                     if (eventType == 2) {
@@ -239,8 +238,8 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         float f;
         float parseFloat2;
         float parseFloat3;
-        int i;
         float f2;
+        int i;
         String attributeValue = XmlPullParserUtil.getAttributeValue(xmlPullParser, "id");
         if (attributeValue == null) {
             return null;
@@ -337,11 +336,11 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x012e, code lost:
-        if (r3.equals("linethrough") == false) goto L50;
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x012e, code lost:
+        if (r3.equals("linethrough") == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x0194, code lost:
-        if (r3.equals("start") == false) goto L69;
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x0194, code lost:
+        if (r3.equals("start") == false) goto L56;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -759,7 +758,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00b3, code lost:
         if (r13.equals("ms") == false) goto L21;
      */
     /*
@@ -864,6 +863,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         throw new SubtitleDecoderException("Malformed time expression: " + str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class FrameAndTickRate {
         final float effectiveFrameRate;
@@ -877,6 +877,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CellResolution {
         final int rows;
@@ -886,6 +887,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class TtsExtent {
         final int height;

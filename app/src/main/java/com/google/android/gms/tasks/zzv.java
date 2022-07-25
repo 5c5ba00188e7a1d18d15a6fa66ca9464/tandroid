@@ -10,6 +10,7 @@ public final class zzv {
         return zzb.zza(executor);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ Executor zzb(Executor executor) {
         return executor;
     }

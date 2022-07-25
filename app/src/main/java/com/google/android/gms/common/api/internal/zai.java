@@ -18,6 +18,7 @@ public class zai extends zal {
         return zaiVar != null ? zaiVar : new zai(fragment);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
     /* loaded from: classes.dex */
     public class zaa implements GoogleApiClient.OnConnectionFailedListener {
@@ -26,7 +27,6 @@ public class zai extends zal {
         public final GoogleApiClient.OnConnectionFailedListener zac;
 
         public zaa(int i, GoogleApiClient googleApiClient, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
-            zai.this = r1;
             this.zaa = i;
             this.zab = googleApiClient;
             this.zac = onConnectionFailedListener;
@@ -133,6 +133,7 @@ public class zai extends zal {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.api.internal.zal
     public final void zaa(ConnectionResult connectionResult, int i) {
         Log.w("AutoManageHelper", "Unresolved error while connecting client. Stopping auto-manage.");

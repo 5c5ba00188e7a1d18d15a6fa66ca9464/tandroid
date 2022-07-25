@@ -140,7 +140,7 @@ public class FirebaseApp {
 
     public boolean isDataCollectionDefaultEnabled() {
         checkNotDeleted();
-        return this.dataCollectionConfigStorage.get().isEnabled();
+        return this.dataCollectionConfigStorage.mo190get().isEnabled();
     }
 
     protected FirebaseApp(final Context context, String str, FirebaseOptions firebaseOptions) {
@@ -151,7 +151,8 @@ public class FirebaseApp {
         this.componentRuntime = ComponentRuntime.builder(UI_EXECUTOR).addLazyComponentRegistrars(ComponentDiscovery.forContext(context, ComponentDiscoveryService.class).discoverLazy()).addComponentRegistrar(new FirebaseCommonRegistrar()).addComponent(Component.of(context, Context.class, new Class[0])).addComponent(Component.of(this, FirebaseApp.class, new Class[0])).addComponent(Component.of(firebaseOptions, FirebaseOptions.class, new Class[0])).build();
         this.dataCollectionConfigStorage = new Lazy<>(new Provider() { // from class: com.google.firebase.FirebaseApp$$ExternalSyntheticLambda0
             @Override // com.google.firebase.inject.Provider
-            public final Object get() {
+            /* renamed from: get */
+            public final Object mo190get() {
                 DataCollectionConfigStorage lambda$new$0;
                 lambda$new$0 = FirebaseApp.this.lambda$new$0(context);
                 return lambda$new$0;
@@ -159,6 +160,7 @@ public class FirebaseApp {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ DataCollectionConfigStorage lambda$new$0(Context context) {
         return new DataCollectionConfigStorage(context, getPersistenceKey(), (Publisher) this.componentRuntime.get(Publisher.class));
     }
@@ -171,6 +173,7 @@ public class FirebaseApp {
         return "[DEFAULT]".equals(getName());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyBackgroundStateChangeListeners(boolean z) {
         Log.d("FirebaseApp", "Notifying background state change listeners.");
         for (BackgroundStateChangeListener backgroundStateChangeListener : this.backgroundStateChangeListeners) {
@@ -182,6 +185,7 @@ public class FirebaseApp {
         return Base64Utils.encodeUrlSafeNoPadding(getName().getBytes(Charset.defaultCharset())) + "+" + Base64Utils.encodeUrlSafeNoPadding(getOptions().getApplicationId().getBytes(Charset.defaultCharset()));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void initializeAllApis() {
         if (!UserManagerCompat.isUserUnlocked(this.applicationContext)) {
             Log.i("FirebaseApp", "Device in Direct Boot Mode: postponing initialization of Firebase APIs for app " + getName());
@@ -196,6 +200,7 @@ public class FirebaseApp {
         return str.trim();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(24)
     /* loaded from: classes.dex */
     public static class UserUnlockReceiver extends BroadcastReceiver {
@@ -206,6 +211,7 @@ public class FirebaseApp {
             this.applicationContext = context;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static void ensureReceiverRegistered(Context context) {
             if (INSTANCE.get() == null) {
                 UserUnlockReceiver userUnlockReceiver = new UserUnlockReceiver(context);
@@ -231,6 +237,7 @@ public class FirebaseApp {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @TargetApi(14)
     /* loaded from: classes.dex */
     public static class GlobalBackgroundStateListener implements BackgroundDetector.BackgroundStateChangeListener {
@@ -239,6 +246,7 @@ public class FirebaseApp {
         private GlobalBackgroundStateListener() {
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static void ensureBackgroundStateListenerRegistered(Context context) {
             if (!PlatformVersion.isAtLeastIceCreamSandwich() || !(context.getApplicationContext() instanceof Application)) {
                 return;

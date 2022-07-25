@@ -6,6 +6,7 @@ import android.os.IInterface;
 public class zza implements IInterface {
     private final IBinder zza;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public zza(IBinder iBinder, String str) {
         this.zza = iBinder;
     }

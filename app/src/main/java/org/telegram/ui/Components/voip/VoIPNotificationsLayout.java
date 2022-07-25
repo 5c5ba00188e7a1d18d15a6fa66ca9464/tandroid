@@ -101,6 +101,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
         }, 700L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$lock$0() {
         this.lockAnimation = false;
         runDelayed();
@@ -171,6 +172,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
         return (childCount > 0 ? AndroidUtilities.dp(16.0f) : 0) + (childCount * AndroidUtilities.dp(32.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class NotificationView extends FrameLayout {
         ImageView iconView;
@@ -201,6 +203,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
             }, 400L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$startAnimation$0() {
             if (Build.VERSION.SDK_INT >= 19) {
                 TransitionSet transitionSet = new TransitionSet();

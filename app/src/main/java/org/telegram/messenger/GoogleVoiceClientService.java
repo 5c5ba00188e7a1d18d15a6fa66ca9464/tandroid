@@ -20,6 +20,7 @@ public class GoogleVoiceClientService extends SearchActionVerificationClientServ
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$performAction$0(Intent intent) {
         try {
             int i = UserConfig.selectedAccount;

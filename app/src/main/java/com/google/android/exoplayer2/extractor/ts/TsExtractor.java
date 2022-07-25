@@ -269,6 +269,7 @@ public final class TsExtractor implements Extractor {
         this.id3Reader = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class PatReader implements SectionPayloadReader {
         private final ParsableBitArray patScratch = new ParsableBitArray(new byte[4]);
@@ -278,7 +279,6 @@ public final class TsExtractor implements Extractor {
         }
 
         public PatReader() {
-            TsExtractor.this = r2;
         }
 
         @Override // com.google.android.exoplayer2.extractor.ts.SectionPayloadReader
@@ -318,7 +318,6 @@ public final class TsExtractor implements Extractor {
         }
 
         public PmtReader(int i) {
-            TsExtractor.this = r2;
             this.pid = i;
         }
 
@@ -436,16 +435,12 @@ public final class TsExtractor implements Extractor {
                                 if (readUnsignedInt == 1212503619) {
                                     i3 = 36;
                                 }
-                                parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
                             }
                             i3 = 172;
-                            parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
                         }
                         i3 = 135;
-                        parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
                     }
                     i3 = 129;
-                    parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
                 } else {
                     if (readUnsignedByte != 106) {
                         if (readUnsignedByte != 122) {
@@ -468,14 +463,12 @@ public final class TsExtractor implements Extractor {
                                 }
                                 i3 = 89;
                             }
-                            parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
                         }
                         i3 = 135;
-                        parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
                     }
                     i3 = 129;
-                    parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
                 }
+                parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
             }
             parsableByteArray.setPosition(i2);
             return new TsPayloadReader.EsInfo(i3, str, arrayList, Arrays.copyOfRange(parsableByteArray.data, position, i2));

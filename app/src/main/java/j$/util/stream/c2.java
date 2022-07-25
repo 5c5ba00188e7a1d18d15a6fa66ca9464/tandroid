@@ -2,11 +2,13 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class c2 implements w1 {
     final int[] a;
     int b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public c2(long j) {
         if (j < 2147483639) {
             this.a = new int[(int) j];
@@ -16,13 +18,15 @@ public class c2 implements w1 {
         throw new IllegalArgumentException("Stream size exceeds max array size");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public c2(int[] iArr) {
         this.a = iArr;
         this.b = iArr.length;
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    public z1 b(int i) {
+    /* renamed from: b  reason: collision with other method in class */
+    public z1 mo316b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -44,6 +48,7 @@ public class c2 implements w1 {
         return length == i ? iArr : Arrays.copyOf(iArr, i);
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: f */
     public /* synthetic */ void i(Integer[] numArr, int i) {
         o1.i(this, numArr, i);
@@ -62,6 +67,7 @@ public class c2 implements w1 {
         }
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: j */
     public /* synthetic */ w1 r(long j, long j2, j$.util.function.m mVar) {
         return o1.o(this, j, j2, mVar);
@@ -78,8 +84,8 @@ public class c2 implements w1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: spliterator */
-    public j$.util.w mo69spliterator() {
+    /* renamed from: spliterator  reason: collision with other method in class */
+    public j$.util.w mo313spliterator() {
         return j$.util.L.k(this.a, 0, this.b, 1040);
     }
 
@@ -88,8 +94,15 @@ public class c2 implements w1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
+    /* renamed from: b */
+    public /* bridge */ /* synthetic */ A1 mo316b(int i) {
+        mo316b(i);
+        throw null;
+    }
+
+    @Override // j$.util.stream.z1, j$.util.stream.A1
     /* renamed from: spliterator */
-    public j$.util.u mo69spliterator() {
+    public j$.util.u mo313spliterator() {
         return j$.util.L.k(this.a, 0, this.b, 1040);
     }
 }

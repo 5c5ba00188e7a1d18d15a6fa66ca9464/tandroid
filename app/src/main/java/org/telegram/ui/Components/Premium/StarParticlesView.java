@@ -92,6 +92,7 @@ public class StarParticlesView extends View {
         animatorSet.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$flingParticles$0(ValueAnimator valueAnimator) {
         this.drawable.speedScale = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
@@ -358,7 +359,6 @@ public class StarParticlesView extends View {
             private float y2;
 
             public Particle() {
-                Drawable.this = r1;
             }
 
             public void updatePoint() {
@@ -480,14 +480,14 @@ public class StarParticlesView extends View {
                         for (int i3 = 0; i3 < Drawable.this.particles.size(); i3++) {
                             Drawable drawable2 = Drawable.this;
                             if (drawable2.startFromCenter) {
-                                f2 = drawable2.particles.get(i3).x2 - abs3;
-                                f = Drawable.this.particles.get(i3).y2;
+                                f = drawable2.particles.get(i3).x2 - abs3;
+                                f2 = Drawable.this.particles.get(i3).y2;
                             } else {
-                                f2 = drawable2.particles.get(i3).x - abs3;
-                                f = Drawable.this.particles.get(i3).y;
+                                f = drawable2.particles.get(i3).x - abs3;
+                                f2 = Drawable.this.particles.get(i3).y;
                             }
-                            float f5 = f - abs4;
-                            float f6 = (f2 * f2) + (f5 * f5);
+                            float f5 = f2 - abs4;
+                            float f6 = (f * f) + (f5 * f5);
                             if (f6 < f4) {
                                 f4 = f6;
                             }

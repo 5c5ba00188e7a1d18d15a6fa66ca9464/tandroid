@@ -8,6 +8,7 @@ public abstract class zzas<MessageType extends zzas<MessageType, BuilderType>, B
     private static boolean zzey = false;
     protected int zzex = 0;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void zzf(int i) {
         throw new UnsupportedOperationException();
     }
@@ -30,6 +31,7 @@ public abstract class zzas<MessageType extends zzas<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int zzs() {
         throw new UnsupportedOperationException();
     }

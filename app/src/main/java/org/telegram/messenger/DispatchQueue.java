@@ -113,6 +113,7 @@ public class DispatchQueue extends Thread {
         Looper.loop();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$run$0(Message message) {
         handleMessage(message);
         return true;

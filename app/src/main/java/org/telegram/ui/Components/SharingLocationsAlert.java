@@ -183,6 +183,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         this.adapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         int i2 = i - 1;
         if (i2 < 0 || i2 >= LocationController.getLocationsCount()) {
@@ -192,6 +193,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         for (int i = 0; i < 4; i++) {
             LocationController.getInstance(i).removeAllLocationSharings();
@@ -199,10 +201,12 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"NewApi"})
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
@@ -240,6 +244,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public LocationController.SharingLocationInfo getLocation(int i) {
         for (int i2 = 0; i2 < 4; i2++) {
             ArrayList<LocationController.SharingLocationInfo> arrayList = LocationController.getInstance(i2).sharingLocationsUI;
@@ -258,9 +263,8 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.liveLocationsChanged);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -269,7 +273,6 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         }
 
         public ListAdapter(Context context) {
-            SharingLocationsAlert.this = r1;
             this.context = context;
         }
 
@@ -284,12 +287,13 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            FrameLayout frameLayout;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout sharingLiveLocationCell;
             if (i == 0) {
-                frameLayout = new SharingLiveLocationCell(this.context, false, 54, ((BottomSheet) SharingLocationsAlert.this).resourcesProvider);
+                sharingLiveLocationCell = new SharingLiveLocationCell(this.context, false, 54, ((BottomSheet) SharingLocationsAlert.this).resourcesProvider);
             } else {
-                frameLayout = new FrameLayout(this, this.context) { // from class: org.telegram.ui.Components.SharingLocationsAlert.ListAdapter.1
+                sharingLiveLocationCell = new FrameLayout(this, this.context) { // from class: org.telegram.ui.Components.SharingLocationsAlert.ListAdapter.1
                     @Override // android.widget.FrameLayout, android.view.View
                     protected void onMeasure(int i2, int i3) {
                         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f) + 1, 1073741824));
@@ -300,15 +304,15 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
                         canvas.drawLine(0.0f, AndroidUtilities.dp(40.0f), getMeasuredWidth(), AndroidUtilities.dp(40.0f), Theme.dividerPaint);
                     }
                 };
-                frameLayout.setWillNotDraw(false);
+                sharingLiveLocationCell.setWillNotDraw(false);
                 SharingLocationsAlert.this.textView = new TextView(this.context);
                 SharingLocationsAlert.this.textView.setTextColor(SharingLocationsAlert.this.getThemedColor("dialogIcon"));
                 SharingLocationsAlert.this.textView.setTextSize(1, 14.0f);
                 SharingLocationsAlert.this.textView.setGravity(17);
                 SharingLocationsAlert.this.textView.setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
-                frameLayout.addView(SharingLocationsAlert.this.textView, LayoutHelper.createFrame(-1, 40.0f));
+                sharingLiveLocationCell.addView(SharingLocationsAlert.this.textView, LayoutHelper.createFrame(-1, 40.0f));
             }
-            return new RecyclerListView.Holder(frameLayout);
+            return new RecyclerListView.Holder(sharingLiveLocationCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

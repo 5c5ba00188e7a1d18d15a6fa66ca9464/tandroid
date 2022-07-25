@@ -11,19 +11,19 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
     public boolean single_use;
 
     public static TLRPC$ReplyMarkup TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$ReplyMarkup tLRPC$ReplyMarkup;
+        TLRPC$ReplyMarkup tLRPC$TL_replyKeyboardMarkup;
         switch (i) {
             case -2049074735:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardMarkup();
+                tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyKeyboardMarkup();
                 break;
             case -2035021048:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardForceReply();
+                tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyKeyboardForceReply();
                 break;
             case -1606526075:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardHide();
+                tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyKeyboardHide();
                 break;
             case -200242528:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardForceReply() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply_layer129
+                tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyKeyboardForceReply() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply_layer129
                     public static int constructor = -200242528;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply, org.telegram.tgnet.TLObject
@@ -50,7 +50,7 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
                 };
                 break;
             case 889353612:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyKeyboardMarkup() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup_layer129
+                tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyKeyboardMarkup() { // from class: org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup_layer129
                     public static int constructor = 889353612;
 
                     @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardMarkup, org.telegram.tgnet.TLObject
@@ -97,17 +97,17 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
                 };
                 break;
             case 1218642516:
-                tLRPC$ReplyMarkup = new TLRPC$TL_replyInlineMarkup();
+                tLRPC$TL_replyKeyboardMarkup = new TLRPC$TL_replyInlineMarkup();
                 break;
             default:
-                tLRPC$ReplyMarkup = null;
+                tLRPC$TL_replyKeyboardMarkup = null;
                 break;
         }
-        if (tLRPC$ReplyMarkup != null || !z) {
-            if (tLRPC$ReplyMarkup != null) {
-                tLRPC$ReplyMarkup.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_replyKeyboardMarkup != null || !z) {
+            if (tLRPC$TL_replyKeyboardMarkup != null) {
+                tLRPC$TL_replyKeyboardMarkup.readParams(abstractSerializedData, z);
             }
-            return tLRPC$ReplyMarkup;
+            return tLRPC$TL_replyKeyboardMarkup;
         }
         throw new RuntimeException(String.format("can't parse magic %x in ReplyMarkup", Integer.valueOf(i)));
     }

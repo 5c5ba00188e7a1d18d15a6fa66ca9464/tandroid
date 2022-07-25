@@ -69,17 +69,13 @@ public class GestureDetector2 {
         ViewConfiguration.getLongPressTimeout();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class GestureHandler extends Handler {
+    private class GestureHandler extends Handler {
         GestureHandler() {
-            GestureDetector2.this = r1;
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         GestureHandler(Handler handler) {
             super(handler.getLooper());
-            GestureDetector2.this = r1;
         }
 
         @Override // android.os.Handler
@@ -122,32 +118,32 @@ public class GestureDetector2 {
     }
 
     private void init(Context context) {
+        int scaledTouchSlop;
         int i;
         int i2;
-        int i3;
         if (this.mListener == null) {
             throw new NullPointerException("OnGestureListener must not be null");
         }
         this.mIsLongpressEnabled = true;
         if (context == null) {
             i = ViewConfiguration.getTouchSlop();
-            i3 = 100;
+            i2 = 100;
             this.mMinimumFlingVelocity = ViewConfiguration.getMinimumFlingVelocity();
             this.mMaximumFlingVelocity = ViewConfiguration.getMaximumFlingVelocity();
-            i2 = i;
+            scaledTouchSlop = i;
         } else {
             ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
-            int scaledTouchSlop = viewConfiguration.getScaledTouchSlop();
-            i2 = viewConfiguration.getScaledTouchSlop();
+            int scaledTouchSlop2 = viewConfiguration.getScaledTouchSlop();
+            scaledTouchSlop = viewConfiguration.getScaledTouchSlop();
             int scaledDoubleTapSlop = viewConfiguration.getScaledDoubleTapSlop();
             this.mMinimumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
             this.mMaximumFlingVelocity = viewConfiguration.getScaledMaximumFlingVelocity();
-            i = scaledTouchSlop;
-            i3 = scaledDoubleTapSlop;
+            i = scaledTouchSlop2;
+            i2 = scaledDoubleTapSlop;
         }
         this.mTouchSlopSquare = i * i;
-        this.mDoubleTapTouchSlopSquare = i2 * i2;
-        this.mDoubleTapSlopSquare = i3 * i3;
+        this.mDoubleTapTouchSlopSquare = scaledTouchSlop * scaledTouchSlop;
+        this.mDoubleTapSlopSquare = i2 * i2;
     }
 
     public void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
@@ -158,8 +154,8 @@ public class GestureDetector2 {
         this.mIsLongpressEnabled = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:154:0x02ca  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02e0  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x02ca  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x02e0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -167,10 +163,10 @@ public class GestureDetector2 {
         boolean z;
         MotionEvent motionEvent2;
         MotionEvent motionEvent3;
-        boolean z2;
+        boolean onFling;
         OnDoubleTapListener onDoubleTapListener;
-        boolean z3;
         int i;
+        boolean z2;
         int action = motionEvent.getAction();
         MotionEvent motionEvent4 = this.mCurrentMotionEvent;
         if (motionEvent4 != null) {
@@ -182,8 +178,8 @@ public class GestureDetector2 {
         }
         this.mVelocityTracker.addMovement(motionEvent);
         int i2 = action & 255;
-        boolean z4 = i2 == 6;
-        int actionIndex = z4 ? motionEvent.getActionIndex() : -1;
+        boolean z3 = i2 == 6;
+        int actionIndex = z3 ? motionEvent.getActionIndex() : -1;
         int pointerCount = motionEvent.getPointerCount();
         float f = 0.0f;
         float f2 = 0.0f;
@@ -193,7 +189,7 @@ public class GestureDetector2 {
                 f2 += motionEvent.getY(i3);
             }
         }
-        float f3 = z4 ? pointerCount - 1 : pointerCount;
+        float f3 = z3 ? pointerCount - 1 : pointerCount;
         float f4 = f / f3;
         float f5 = f2 / f3;
         if (i2 == 0) {
@@ -259,7 +255,7 @@ public class GestureDetector2 {
             MotionEvent obtain = MotionEvent.obtain(motionEvent);
             if (this.mIsDoubleTapping) {
                 OnDoubleTapListener onDoubleTapListener3 = this.mDoubleTapListener;
-                z2 = (onDoubleTapListener3 != null && onDoubleTapListener3.onDoubleTapEvent(motionEvent)) | false;
+                onFling = (onDoubleTapListener3 != null && onDoubleTapListener3.onDoubleTapEvent(motionEvent)) | false;
             } else {
                 if (this.mInLongPress) {
                     this.mHandler.removeMessages(3);
@@ -269,7 +265,7 @@ public class GestureDetector2 {
                     if (this.mDeferConfirmSingleTap && (onDoubleTapListener = this.mDoubleTapListener) != null) {
                         onDoubleTapListener.onSingleTapConfirmed(motionEvent);
                     }
-                    z2 = onSingleTapUp;
+                    onFling = onSingleTapUp;
                 } else if (!this.mIgnoreNextUpEvent) {
                     VelocityTracker velocityTracker = this.mVelocityTracker;
                     int pointerId = motionEvent.getPointerId(0);
@@ -277,10 +273,10 @@ public class GestureDetector2 {
                     float yVelocity = velocityTracker.getYVelocity(pointerId);
                     float xVelocity = velocityTracker.getXVelocity(pointerId);
                     if (Math.abs(yVelocity) > this.mMinimumFlingVelocity || Math.abs(xVelocity) > this.mMinimumFlingVelocity) {
-                        z2 = this.mListener.onFling(this.mCurrentDownEvent, motionEvent, xVelocity, yVelocity);
+                        onFling = this.mListener.onFling(this.mCurrentDownEvent, motionEvent, xVelocity, yVelocity);
                     }
                 }
-                z2 = false;
+                onFling = false;
             }
             MotionEvent motionEvent6 = this.mPreviousUpEvent;
             if (motionEvent6 != null) {
@@ -342,9 +338,9 @@ public class GestureDetector2 {
             float f7 = this.mLastFocusY - f5;
             if (this.mIsDoubleTapping) {
                 OnDoubleTapListener onDoubleTapListener4 = this.mDoubleTapListener;
-                z2 = (onDoubleTapListener4 != null && onDoubleTapListener4.onDoubleTapEvent(motionEvent)) | false;
+                onFling = (onDoubleTapListener4 != null && onDoubleTapListener4.onDoubleTapEvent(motionEvent)) | false;
                 i = classification;
-                z3 = hasMessages2;
+                z2 = hasMessages2;
             } else {
                 if (this.mAlwaysInTapRegion) {
                     int i7 = (int) (f4 - this.mDownFocusX);
@@ -355,21 +351,21 @@ public class GestureDetector2 {
                         if (i9 > i10) {
                             this.mHandler.removeMessages(2);
                             i = classification;
-                            z3 = hasMessages2;
+                            z2 = hasMessages2;
                             long longPressTimeout = ViewConfiguration.getLongPressTimeout();
                             Handler handler2 = this.mHandler;
                             handler2.sendMessageAtTime(handler2.obtainMessage(2, 0, 0), motionEvent.getDownTime() + (((float) longPressTimeout) * 2.0f));
                         } else {
                             i = classification;
-                            z3 = hasMessages2;
+                            z2 = hasMessages2;
                         }
                         i10 = (int) (i10 * 4.0f);
                     } else {
                         i = classification;
-                        z3 = hasMessages2;
+                        z2 = hasMessages2;
                     }
                     if (i9 > i10) {
-                        z2 = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
+                        onFling = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
                         this.mLastFocusX = f4;
                         this.mLastFocusY = f5;
                         this.mAlwaysInTapRegion = false;
@@ -377,33 +373,33 @@ public class GestureDetector2 {
                         this.mHandler.removeMessages(1);
                         this.mHandler.removeMessages(2);
                     } else {
-                        z2 = false;
+                        onFling = false;
                     }
                     if (i9 > this.mDoubleTapTouchSlopSquare) {
                         this.mAlwaysInBiggerTapRegion = false;
                     }
                 } else {
                     i = classification;
-                    z3 = hasMessages2;
+                    z2 = hasMessages2;
                     if (Math.abs(f6) >= 1.0f || Math.abs(f7) >= 1.0f) {
-                        z2 = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
+                        onFling = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
                         this.mLastFocusX = f4;
                         this.mLastFocusY = f5;
                     } else {
-                        z2 = false;
+                        onFling = false;
                     }
                 }
                 i6 = 29;
             }
             if (i5 >= i6) {
-                if ((i == 2) && z3) {
+                if ((i == 2) && z2) {
                     this.mHandler.removeMessages(2);
                     Handler handler3 = this.mHandler;
                     handler3.sendMessage(handler3.obtainMessage(2, 0, 0));
                 }
             }
         }
-        return z2;
+        return onFling;
     }
 
     private void cancel() {
@@ -448,6 +444,7 @@ public class GestureDetector2 {
         return (x * x) + (y * y) < this.mDoubleTapSlopSquare;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void dispatchLongPress() {
         this.mHandler.removeMessages(3);
         this.mDeferConfirmSingleTap = false;

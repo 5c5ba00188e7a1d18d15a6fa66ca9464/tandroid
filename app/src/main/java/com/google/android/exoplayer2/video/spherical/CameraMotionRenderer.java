@@ -42,6 +42,7 @@ public class CameraMotionRenderer extends BaseRenderer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
     public void onStreamChanged(Format[] formatArr, long j) throws ExoPlaybackException {
         this.offsetUs = j;

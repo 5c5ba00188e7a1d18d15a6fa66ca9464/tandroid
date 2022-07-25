@@ -192,6 +192,7 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ResolvedDomain {
         public ArrayList<String> addresses;
@@ -240,9 +241,9 @@ public class ConnectionsManager extends BaseController {
         String file2 = filesDirFixed.toString();
         boolean isPushConnectionEnabled = isPushConnectionEnabled();
         try {
-            str4 = LocaleController.getSystemLocaleStringIso639().toLowerCase();
+            str5 = LocaleController.getSystemLocaleStringIso639().toLowerCase();
             String lowerCase = LocaleController.getLocaleStringIso639().toLowerCase();
-            str2 = Build.MANUFACTURER + Build.MODEL;
+            str3 = Build.MANUFACTURER + Build.MODEL;
             PackageInfo packageInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
             String str6 = packageInfo.versionName + " (" + packageInfo.versionCode + ")";
             if (BuildVars.DEBUG_PRIVATE_VERSION) {
@@ -250,21 +251,21 @@ public class ConnectionsManager extends BaseController {
             } else if (BuildVars.DEBUG_VERSION) {
                 str6 = str6 + " beta";
             }
-            str5 = "SDK " + Build.VERSION.SDK_INT;
+            str = "SDK " + Build.VERSION.SDK_INT;
             String str7 = str6;
-            str = lowerCase;
-            str3 = str7;
+            str4 = lowerCase;
+            str2 = str7;
         } catch (Exception unused) {
-            str5 = "SDK " + Build.VERSION.SDK_INT;
-            str3 = "App version unknown";
-            str2 = "Android unknown";
-            str = "";
-            str4 = "en";
+            str = "SDK " + Build.VERSION.SDK_INT;
+            str2 = "App version unknown";
+            str3 = "Android unknown";
+            str4 = "";
+            str5 = "en";
         }
-        String str8 = str4.trim().length() == 0 ? "en" : str4;
-        String str9 = str2.trim().length() == 0 ? "Android unknown" : str2;
-        str3 = str3.trim().length() == 0 ? "App version unknown" : str3;
-        String str10 = str5.trim().length() == 0 ? "SDK Unknown" : str5;
+        String str8 = str5.trim().length() == 0 ? "en" : str5;
+        String str9 = str3.trim().length() == 0 ? "Android unknown" : str3;
+        str2 = str2.trim().length() == 0 ? "App version unknown" : str2;
+        String str10 = str.trim().length() == 0 ? "SDK Unknown" : str;
         getUserConfig().loadConfig();
         String regId = getRegId();
         String certificateSHA256Fingerprint = AndroidUtilities.getCertificateSHA256Fingerprint();
@@ -275,7 +276,7 @@ public class ConnectionsManager extends BaseController {
             sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig" + this.currentAccount, 0);
         }
         this.forceTryIpV6 = sharedPreferences.getBoolean("forceTryIpV6", false);
-        init(BuildVars.BUILD_VERSION, 144, BuildVars.APP_ID, str9, str10, str3, str, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
+        init(BuildVars.BUILD_VERSION, 144, BuildVars.APP_ID, str9, str10, str2, str4, str8, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), isPushConnectionEnabled);
     }
 
     private String getRegId() {
@@ -353,8 +354,8 @@ public class ConnectionsManager extends BaseController {
         return andIncrement;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendRequest$2(final TLObject tLObject, int i, final RequestDelegate requestDelegate, final RequestDelegateTimestamp requestDelegateTimestamp, QuickAckDelegate quickAckDelegate, WriteToSocketDelegate writeToSocketDelegate, int i2, int i3, int i4, boolean z) {
-        Exception e;
         NativeByteBuffer nativeByteBuffer;
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("send request " + tLObject + " with token = " + i);
@@ -363,8 +364,8 @@ public class ConnectionsManager extends BaseController {
             nativeByteBuffer = new NativeByteBuffer(tLObject.getObjectSize());
             tLObject.serializeToStream(nativeByteBuffer);
             tLObject.freeResources();
-        } catch (Exception e2) {
-            e = e2;
+        } catch (Exception e) {
+            e = e;
         }
         try {
             native_sendRequest(this.currentAccount, nativeByteBuffer.address, new RequestDelegateInternal() { // from class: org.telegram.tgnet.ConnectionsManager$$ExternalSyntheticLambda13
@@ -373,15 +374,16 @@ public class ConnectionsManager extends BaseController {
                     ConnectionsManager.lambda$sendRequest$1(TLObject.this, requestDelegate, requestDelegateTimestamp, j, i5, str, i6, j2);
                 }
             }, quickAckDelegate, writeToSocketDelegate, i2, i3, i4, z, i);
-        } catch (Exception e3) {
-            e = e3;
+        } catch (Exception e2) {
+            e = e2;
             FileLog.e(e);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$sendRequest$1(TLObject tLObject, final RequestDelegate requestDelegate, final RequestDelegateTimestamp requestDelegateTimestamp, long j, int i, String str, int i2, final long j2) {
-        final TLRPC$TL_error tLRPC$TL_error;
         final TLObject tLObject2;
+        final TLRPC$TL_error tLRPC$TL_error;
         try {
             if (j != 0) {
                 NativeByteBuffer wrap = NativeByteBuffer.wrap(j);
@@ -418,6 +420,7 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$sendRequest$0(RequestDelegate requestDelegate, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error, RequestDelegateTimestamp requestDelegateTimestamp, long j) {
         if (requestDelegate != null) {
             requestDelegate.run(tLObject, tLRPC$TL_error);
@@ -617,10 +620,12 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onUnparsedMessageReceived$3(int i, TLObject tLObject) {
         AccountInstance.getInstance(i).getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onUpdate$4(int i) {
         AccountInstance.getInstance(i).getMessagesController().updateTimerProc();
     }
@@ -634,6 +639,7 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onSessionCreated$5(int i) {
         AccountInstance.getInstance(i).getMessagesController().getDifference();
     }
@@ -656,6 +662,7 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onConnectionStateChanged$6(int i, int i2) {
         getInstance(i).connectionState = i2;
         AccountInstance.getInstance(i).getNotificationCenter().postNotificationName(NotificationCenter.didUpdateConnectionState, new Object[0]);
@@ -670,6 +677,7 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onLogout$7(int i) {
         AccountInstance accountInstance = AccountInstance.getInstance(i);
         if (accountInstance.getUserConfig().getClientUserId() != 0) {
@@ -705,6 +713,7 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onRequestNewServerIpAndPort$9(final int i, final int i2) {
         final boolean isNetworkOnline = ApplicationLoader.isNetworkOnline();
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$$ExternalSyntheticLambda7
@@ -715,6 +724,7 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onRequestNewServerIpAndPort$8(int i, boolean z, int i2) {
         if (currentTask != null || ((i == 0 && Math.abs(lastDnsRequestTime - System.currentTimeMillis()) < 10000) || !z)) {
             if (!BuildVars.LOGS_ENABLED) {
@@ -755,6 +765,7 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onProxyError$10() {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needShowAlert, 3);
     }
@@ -772,6 +783,7 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getHostByName$11(String str, long j) {
         ResolvedDomain resolvedDomain = dnsCache.get(str);
         if (resolvedDomain != null && SystemClock.elapsedRealtime() - resolvedDomain.ttl < 300000) {
@@ -820,6 +832,7 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onUpdateConfig$12(int i, TLRPC$TL_config tLRPC$TL_config) {
         AccountInstance.getInstance(i).getMessagesController().updateConfig(tLRPC$TL_config);
     }
@@ -869,6 +882,7 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setIsUpdating$13(boolean z) {
         if (this.isUpdating == z) {
             return;
@@ -952,6 +966,7 @@ public class ConnectionsManager extends BaseController {
         return (byte) 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ResolveHostByNameTask extends AsyncTask<Void, Void, ResolvedDomain> {
         private ArrayList<Long> addresses = new ArrayList<>();
@@ -968,14 +983,15 @@ public class ConnectionsManager extends BaseController {
             this.addresses.add(Long.valueOf(j));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:74:0x00ce A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX INFO: Access modifiers changed from: protected */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x00ce A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public ResolvedDomain doInBackground(Void... voidArr) {
-            Throwable th;
-            ByteArrayOutputStream byteArrayOutputStream;
             InputStream inputStream;
+            ByteArrayOutputStream byteArrayOutputStream;
             boolean z;
             JSONObject jSONObject;
             JSONArray jSONArray;
@@ -1000,15 +1016,15 @@ public class ConnectionsManager extends BaseController {
                             byteArrayOutputStream.write(bArr, 0, read);
                         }
                         jSONObject = new JSONObject(new String(byteArrayOutputStream.toByteArray()));
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th) {
+                        th = th;
                         try {
                             FileLog.e(th, false);
                             if (inputStream != null) {
                                 try {
                                     inputStream.close();
-                                } catch (Throwable th3) {
-                                    FileLog.e(th3, false);
+                                } catch (Throwable th2) {
+                                    FileLog.e(th2, false);
                                 }
                             }
                             if (byteArrayOutputStream != null) {
@@ -1021,12 +1037,12 @@ public class ConnectionsManager extends BaseController {
                             if (!z) {
                             }
                             return null;
-                        } catch (Throwable th4) {
+                        } catch (Throwable th3) {
                             if (inputStream != null) {
                                 try {
                                     inputStream.close();
-                                } catch (Throwable th5) {
-                                    FileLog.e(th5, false);
+                                } catch (Throwable th4) {
+                                    FileLog.e(th4, false);
                                 }
                             }
                             if (byteArrayOutputStream != null) {
@@ -1035,15 +1051,15 @@ public class ConnectionsManager extends BaseController {
                                 } catch (Exception unused2) {
                                 }
                             }
-                            throw th4;
+                            throw th3;
                         }
                     }
-                } catch (Throwable th6) {
-                    th = th6;
+                } catch (Throwable th5) {
+                    th = th5;
                     byteArrayOutputStream = null;
                 }
-            } catch (Throwable th7) {
-                th = th7;
+            } catch (Throwable th6) {
+                th = th6;
                 inputStream = null;
                 byteArrayOutputStream = null;
             }
@@ -1055,8 +1071,8 @@ public class ConnectionsManager extends BaseController {
                 ResolvedDomain resolvedDomain = new ResolvedDomain(arrayList, SystemClock.elapsedRealtime());
                 try {
                     inputStream.close();
-                } catch (Throwable th8) {
-                    FileLog.e(th8, false);
+                } catch (Throwable th7) {
+                    FileLog.e(th7, false);
                 }
                 try {
                     byteArrayOutputStream.close();
@@ -1066,8 +1082,8 @@ public class ConnectionsManager extends BaseController {
             }
             try {
                 inputStream.close();
-            } catch (Throwable th9) {
-                FileLog.e(th9, false);
+            } catch (Throwable th8) {
+                FileLog.e(th8, false);
             }
             try {
                 byteArrayOutputStream.close();
@@ -1087,6 +1103,8 @@ public class ConnectionsManager extends BaseController {
             return null;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public void onPostExecute(ResolvedDomain resolvedDomain) {
             int i = 0;
             if (resolvedDomain != null) {
@@ -1107,6 +1125,7 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class DnsTxtLoadTask extends AsyncTask<Void, Void, NativeByteBuffer> {
         private int currentAccount;
@@ -1116,8 +1135,9 @@ public class ConnectionsManager extends BaseController {
             this.currentAccount = i;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public NativeByteBuffer doInBackground(Void... voidArr) {
-            Throwable th;
             int read;
             ByteArrayOutputStream byteArrayOutputStream = null;
             InputStream inputStream = null;
@@ -1165,8 +1185,8 @@ public class ConnectionsManager extends BaseController {
                         if (inputStream != null) {
                             try {
                                 inputStream.close();
-                            } catch (Throwable th2) {
-                                FileLog.e(th2, false);
+                            } catch (Throwable th) {
+                                FileLog.e(th, false);
                             }
                         }
                         try {
@@ -1174,8 +1194,8 @@ public class ConnectionsManager extends BaseController {
                         } catch (Exception unused) {
                         }
                         return nativeByteBuffer;
-                    } catch (Throwable th3) {
-                        th = th3;
+                    } catch (Throwable th2) {
+                        th = th2;
                         byteArrayOutputStream = byteArrayOutputStream2;
                         try {
                             FileLog.e(th, false);
@@ -1190,8 +1210,8 @@ public class ConnectionsManager extends BaseController {
                             if (inputStream != null) {
                                 try {
                                     inputStream.close();
-                                } catch (Throwable th4) {
-                                    FileLog.e(th4, false);
+                                } catch (Throwable th3) {
+                                    FileLog.e(th3, false);
                                 }
                             }
                             if (byteArrayOutputStream != null) {
@@ -1202,13 +1222,14 @@ public class ConnectionsManager extends BaseController {
                             }
                         }
                     }
-                } catch (Throwable th5) {
-                    th = th5;
+                } catch (Throwable th4) {
+                    th = th4;
                 }
             }
             return null;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ int lambda$doInBackground$0(String str, String str2) {
             int length = str.length();
             int length2 = str2.length();
@@ -1218,6 +1239,8 @@ public class ConnectionsManager extends BaseController {
             return length < length2 ? 1 : 0;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public void onPostExecute(final NativeByteBuffer nativeByteBuffer) {
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$DnsTxtLoadTask$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -1227,6 +1250,7 @@ public class ConnectionsManager extends BaseController {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPostExecute$1(NativeByteBuffer nativeByteBuffer) {
             AsyncTask unused = ConnectionsManager.currentTask = null;
             if (nativeByteBuffer != null) {
@@ -1244,6 +1268,7 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class GoogleDnsLoadTask extends AsyncTask<Void, Void, NativeByteBuffer> {
         private int currentAccount;
@@ -1253,10 +1278,11 @@ public class ConnectionsManager extends BaseController {
             this.currentAccount = i;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public NativeByteBuffer doInBackground(Void... voidArr) {
-            InputStream inputStream;
             ByteArrayOutputStream byteArrayOutputStream;
-            Throwable th;
+            InputStream inputStream;
             InputStream inputStream2;
             ByteArrayOutputStream byteArrayOutputStream2;
             int read;
@@ -1276,13 +1302,13 @@ public class ConnectionsManager extends BaseController {
                 try {
                     this.responseDate = (int) (openConnection.getDate() / 1000);
                     byteArrayOutputStream2 = new ByteArrayOutputStream();
-                } catch (Throwable th2) {
-                    th = th2;
+                } catch (Throwable th) {
+                    th = th;
                     inputStream = inputStream2;
                     byteArrayOutputStream = null;
                 }
-            } catch (Throwable th3) {
-                th = th3;
+            } catch (Throwable th2) {
+                th = th2;
                 byteArrayOutputStream = null;
                 inputStream = null;
             }
@@ -1311,8 +1337,8 @@ public class ConnectionsManager extends BaseController {
                 if (inputStream2 != null) {
                     try {
                         inputStream2.close();
-                    } catch (Throwable th4) {
-                        FileLog.e(th4);
+                    } catch (Throwable th3) {
+                        FileLog.e(th3);
                     }
                 }
                 try {
@@ -1320,17 +1346,17 @@ public class ConnectionsManager extends BaseController {
                 } catch (Exception unused) {
                 }
                 return nativeByteBuffer;
-            } catch (Throwable th5) {
+            } catch (Throwable th4) {
                 byteArrayOutputStream = byteArrayOutputStream2;
-                th = th5;
+                th = th4;
                 inputStream = inputStream2;
                 try {
                     FileLog.e(th);
                     if (inputStream != null) {
                         try {
                             inputStream.close();
-                        } catch (Throwable th6) {
-                            FileLog.e(th6);
+                        } catch (Throwable th5) {
+                            FileLog.e(th5);
                         }
                     }
                     if (byteArrayOutputStream != null) {
@@ -1340,12 +1366,12 @@ public class ConnectionsManager extends BaseController {
                         }
                     }
                     return null;
-                } catch (Throwable th7) {
+                } catch (Throwable th6) {
                     if (inputStream != null) {
                         try {
                             inputStream.close();
-                        } catch (Throwable th8) {
-                            FileLog.e(th8);
+                        } catch (Throwable th7) {
+                            FileLog.e(th7);
                         }
                     }
                     if (byteArrayOutputStream != null) {
@@ -1354,11 +1380,12 @@ public class ConnectionsManager extends BaseController {
                         } catch (Exception unused3) {
                         }
                     }
-                    throw th7;
+                    throw th6;
                 }
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ int lambda$doInBackground$0(String str, String str2) {
             int length = str.length();
             int length2 = str2.length();
@@ -1368,6 +1395,8 @@ public class ConnectionsManager extends BaseController {
             return length < length2 ? 1 : 0;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public void onPostExecute(final NativeByteBuffer nativeByteBuffer) {
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$GoogleDnsLoadTask$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -1377,6 +1406,7 @@ public class ConnectionsManager extends BaseController {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPostExecute$1(NativeByteBuffer nativeByteBuffer) {
             AsyncTask unused = ConnectionsManager.currentTask = null;
             if (nativeByteBuffer != null) {
@@ -1394,6 +1424,7 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class MozillaDnsLoadTask extends AsyncTask<Void, Void, NativeByteBuffer> {
         private int currentAccount;
@@ -1403,10 +1434,11 @@ public class ConnectionsManager extends BaseController {
             this.currentAccount = i;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public NativeByteBuffer doInBackground(Void... voidArr) {
-            InputStream inputStream;
             ByteArrayOutputStream byteArrayOutputStream;
-            Throwable th;
+            InputStream inputStream;
             int read;
             try {
                 String str = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0 ? "tapv3.stel.com" : AccountInstance.getInstance(this.currentAccount).getMessagesController().dcDomainName;
@@ -1450,8 +1482,8 @@ public class ConnectionsManager extends BaseController {
                         if (inputStream2 != null) {
                             try {
                                 inputStream2.close();
-                            } catch (Throwable th2) {
-                                FileLog.e(th2);
+                            } catch (Throwable th) {
+                                FileLog.e(th);
                             }
                         }
                         try {
@@ -1459,17 +1491,17 @@ public class ConnectionsManager extends BaseController {
                         } catch (Exception unused) {
                         }
                         return nativeByteBuffer;
-                    } catch (Throwable th3) {
+                    } catch (Throwable th2) {
                         byteArrayOutputStream = byteArrayOutputStream2;
-                        th = th3;
+                        th = th2;
                         inputStream = inputStream2;
                         try {
                             FileLog.e(th);
                             if (inputStream != null) {
                                 try {
                                     inputStream.close();
-                                } catch (Throwable th4) {
-                                    FileLog.e(th4);
+                                } catch (Throwable th3) {
+                                    FileLog.e(th3);
                                 }
                             }
                             if (byteArrayOutputStream != null) {
@@ -1479,12 +1511,12 @@ public class ConnectionsManager extends BaseController {
                                 }
                             }
                             return null;
-                        } catch (Throwable th5) {
+                        } catch (Throwable th4) {
                             if (inputStream != null) {
                                 try {
                                     inputStream.close();
-                                } catch (Throwable th6) {
-                                    FileLog.e(th6);
+                                } catch (Throwable th5) {
+                                    FileLog.e(th5);
                                 }
                             }
                             if (byteArrayOutputStream != null) {
@@ -1493,21 +1525,22 @@ public class ConnectionsManager extends BaseController {
                                 } catch (Exception unused3) {
                                 }
                             }
-                            throw th5;
+                            throw th4;
                         }
                     }
-                } catch (Throwable th7) {
-                    th = th7;
+                } catch (Throwable th6) {
+                    th = th6;
                     inputStream = inputStream2;
                     byteArrayOutputStream = null;
                 }
-            } catch (Throwable th8) {
-                th = th8;
+            } catch (Throwable th7) {
+                th = th7;
                 byteArrayOutputStream = null;
                 inputStream = null;
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ int lambda$doInBackground$0(String str, String str2) {
             int length = str.length();
             int length2 = str2.length();
@@ -1517,6 +1550,8 @@ public class ConnectionsManager extends BaseController {
             return length < length2 ? 1 : 0;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public void onPostExecute(final NativeByteBuffer nativeByteBuffer) {
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$MozillaDnsLoadTask$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -1526,6 +1561,7 @@ public class ConnectionsManager extends BaseController {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPostExecute$1(NativeByteBuffer nativeByteBuffer) {
             AsyncTask unused = ConnectionsManager.currentTask = null;
             if (nativeByteBuffer != null) {
@@ -1538,11 +1574,14 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class FirebaseTask extends AsyncTask<Void, Void, NativeByteBuffer> {
         private int currentAccount;
         private FirebaseRemoteConfig firebaseRemoteConfig;
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public void onPostExecute(NativeByteBuffer nativeByteBuffer) {
         }
 
@@ -1550,6 +1589,8 @@ public class ConnectionsManager extends BaseController {
             this.currentAccount = i;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // android.os.AsyncTask
         public NativeByteBuffer doInBackground(Void... voidArr) {
             try {
                 if (ConnectionsManager.native_isTestBackend(this.currentAccount) != 0) {
@@ -1580,6 +1621,7 @@ public class ConnectionsManager extends BaseController {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$doInBackground$2(Task task) {
             final boolean isSuccessful = task.isSuccessful();
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$FirebaseTask$$ExternalSyntheticLambda3
@@ -1590,6 +1632,7 @@ public class ConnectionsManager extends BaseController {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$doInBackground$1(boolean z) {
             if (z) {
                 this.firebaseRemoteConfig.activate().addOnCompleteListener(new OnCompleteListener() { // from class: org.telegram.tgnet.ConnectionsManager$FirebaseTask$$ExternalSyntheticLambda0
@@ -1601,6 +1644,7 @@ public class ConnectionsManager extends BaseController {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$doInBackground$0(Task task) {
             AsyncTask unused = ConnectionsManager.currentTask = null;
             String string = this.firebaseRemoteConfig.getString("ipconfigv3");
@@ -1627,6 +1671,7 @@ public class ConnectionsManager extends BaseController {
             AsyncTask unused2 = ConnectionsManager.currentTask = dnsTxtLoadTask;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$doInBackground$3() {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("failed to get firebase result");

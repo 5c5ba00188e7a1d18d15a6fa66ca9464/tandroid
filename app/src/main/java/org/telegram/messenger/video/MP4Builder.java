@@ -165,6 +165,7 @@ public class MP4Builder {
         return new FileTypeBox("isom", 512L, linkedList);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class InterleaveChunkMdat implements Box {
         private long contentSize;

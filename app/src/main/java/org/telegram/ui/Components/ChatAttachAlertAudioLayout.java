@@ -85,6 +85,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         void didSelectAudio(ArrayList<MessageObject> arrayList, CharSequence charSequence, boolean z, int i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -181,6 +182,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                         return super.calculateDyToMakeVisible(view, i2) - (ChatAttachAlertAudioLayout.this.listView.getPaddingTop() - AndroidUtilities.dp(7.0f));
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
                     public int calculateTimeForDeceleration(int i2) {
                         return super.calculateTimeForDeceleration(i2) * 2;
@@ -235,10 +237,12 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         updateEmptyView();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view, int i) {
         onItemClick(view);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$2(View view, int i) {
         onItemClick(view);
         return true;
@@ -252,6 +256,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         NotificationCenter.getInstance(this.parentAlert.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onHide() {
         if (this.playingAudio != null && MediaController.getInstance().isPlayingMessage(this.playingAudio)) {
@@ -260,6 +265,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.playingAudio = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyViewPosition() {
         View childAt;
         if (this.currentEmptyView.getVisibility() == 0 && (childAt = this.listView.getChildAt(0)) != null) {
@@ -268,8 +274,9 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyView() {
-        boolean z;
+        boolean isEmpty;
         int i = 8;
         if (this.loadingAudio) {
             this.currentEmptyView = this.progressView;
@@ -287,12 +294,12 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         SearchAdapter searchAdapter = this.searchAdapter;
         if (adapter != searchAdapter) {
-            z = this.audioEntries.isEmpty();
+            isEmpty = this.audioEntries.isEmpty();
         } else {
-            z = searchAdapter.searchResult.isEmpty();
+            isEmpty = searchAdapter.searchResult.isEmpty();
         }
         View view = this.currentEmptyView;
-        if (z) {
+        if (isEmpty) {
             i = 0;
         }
         view.setVisibility(i);
@@ -308,6 +315,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.listView.smoothScrollToPosition(0);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getCurrentItemTop() {
         if (this.listView.getChildCount() <= 0) {
@@ -338,6 +346,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.parentAlert.getSheetContainer().invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public boolean onDismiss() {
         if (this.playingAudio != null && MediaController.getInstance().isPlayingMessage(this.playingAudio)) {
@@ -346,6 +355,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         return super.onDismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getListTopPadding() {
         return this.listView.getPaddingTop();
@@ -387,6 +397,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.listAdapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onHidden() {
         this.selectedAudios.clear();
@@ -513,6 +524,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         chatAttachAlert.updateCountButton(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getSelectedItemsCount() {
         return this.selectedAudios.size();
@@ -545,13 +557,12 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v23 */
     /* JADX WARN: Type inference failed for: r4v4 */
     public /* synthetic */ void lambda$loadAudio$4() {
         final ArrayList arrayList;
-        Exception e;
-        Throwable th;
         int i = 2;
         int i2 = 4;
         int i3 = 5;
@@ -626,8 +637,8 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                                 i2 = 4;
                                 i3 = 5;
                                 arrayList = arrayList4;
-                            } catch (Throwable th2) {
-                                th = th2;
+                            } catch (Throwable th) {
+                                th = th;
                                 if (query != null) {
                                     try {
                                         query.close();
@@ -636,11 +647,11 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                                 }
                                 throw th;
                             }
-                        } catch (Throwable th3) {
-                            th = th3;
+                        } catch (Throwable th2) {
+                            th = th2;
                         }
-                    } catch (Exception e2) {
-                        e = e2;
+                    } catch (Exception e) {
+                        e = e;
                         FileLog.e(e);
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda2
                             @Override // java.lang.Runnable
@@ -649,14 +660,14 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                             }
                         });
                     }
-                } catch (Throwable th4) {
-                    th = th4;
+                } catch (Throwable th3) {
+                    th = th3;
                 }
             }
             arrayList = arrayList2;
             query.close();
-        } catch (Exception e3) {
-            e = e3;
+        } catch (Exception e2) {
+            e = e2;
             arrayList = arrayList2;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda2
@@ -667,12 +678,14 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAudio$3(ArrayList arrayList) {
         this.loadingAudio = false;
         this.audioEntries = arrayList;
         this.listAdapter.notifyDataSetChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
@@ -683,7 +696,6 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         public ListAdapter(Context context) {
-            ChatAttachAlertAudioLayout.this = r1;
             this.mContext = context;
         }
 
@@ -698,7 +710,8 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 0) {
                 SharedAudioCell sharedAudioCell = new SharedAudioCell(this.mContext, ChatAttachAlertAudioLayout.this.resourcesProvider) { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout.ListAdapter.1
@@ -760,7 +773,6 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         private Runnable searchRunnable;
 
         public SearchAdapter(Context context) {
-            ChatAttachAlertAudioLayout.this = r1;
             this.mContext = context;
         }
 
@@ -792,6 +804,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
             AndroidUtilities.runOnUIThread(runnable2, 300L);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$search$1(final String str, final int i) {
             final ArrayList arrayList = new ArrayList(ChatAttachAlertAudioLayout.this.audioEntries);
             Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$SearchAdapter$$ExternalSyntheticLambda2
@@ -802,6 +815,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$search$0(String str, ArrayList arrayList, int i) {
             String str2;
             String lowerCase = str.trim().toLowerCase();
@@ -851,6 +865,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$2(int i, String str, ArrayList arrayList) {
             if (i != this.lastSearchId) {
                 return;
@@ -882,7 +897,8 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 0) {
                 SharedAudioCell sharedAudioCell = new SharedAudioCell(this.mContext, ChatAttachAlertAudioLayout.this.resourcesProvider) { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout.SearchAdapter.1
@@ -930,6 +946,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onContainerTranslationUpdated(float f) {
         this.currentPanTranslationProgress = f;

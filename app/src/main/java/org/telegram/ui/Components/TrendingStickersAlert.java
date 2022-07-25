@@ -91,6 +91,7 @@ public class TrendingStickersAlert extends BottomSheet {
         return this.layout;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout() {
         if (this.layout.update()) {
             this.scrollOffsetY = this.layout.getContentTopOffset();
@@ -124,6 +125,7 @@ public class TrendingStickersAlert extends BottomSheet {
         this.allowNestedScroll = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AlertContainerView extends SizeNotifierFrameLayout {
         private ValueAnimator statusBarAnimator;
@@ -134,13 +136,11 @@ public class TrendingStickersAlert extends BottomSheet {
         private float statusBarAlpha = 0.0f;
         private float[] radii = new float[8];
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AlertContainerView(Context context) {
             super(context);
-            TrendingStickersAlert.this = r3;
             setWillNotDraw(false);
-            setPadding(((BottomSheet) r3).backgroundPaddingLeft, 0, ((BottomSheet) r3).backgroundPaddingLeft, 0);
-            setDelegate(new SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate(r3) { // from class: org.telegram.ui.Components.TrendingStickersAlert.AlertContainerView.1
+            setPadding(((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, 0, ((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, 0);
+            setDelegate(new SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate(TrendingStickersAlert.this) { // from class: org.telegram.ui.Components.TrendingStickersAlert.AlertContainerView.1
                 private boolean lastIsWidthGreater;
                 private int lastKeyboardHeight;
 
@@ -190,6 +190,7 @@ public class TrendingStickersAlert extends BottomSheet {
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         public void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5 = Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0;
@@ -246,6 +247,7 @@ public class TrendingStickersAlert extends BottomSheet {
             canvas.restore();
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         public void dispatchDraw(Canvas canvas) {
             super.dispatchDraw(canvas);
@@ -336,6 +338,7 @@ public class TrendingStickersAlert extends BottomSheet {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setStatusBarVisible$0(ValueAnimator valueAnimator) {
             this.statusBarAlpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             invalidate();

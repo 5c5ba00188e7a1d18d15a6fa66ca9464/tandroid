@@ -8,11 +8,11 @@ public abstract class TLRPC$photos_Photos extends TLObject {
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
     public static TLRPC$photos_Photos TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$photos_Photos tLRPC$photos_Photos;
+        TLRPC$photos_Photos tLRPC$TL_photos_photos;
         if (i == -1916114267) {
-            tLRPC$photos_Photos = new TLRPC$TL_photos_photos();
+            tLRPC$TL_photos_photos = new TLRPC$TL_photos_photos();
         } else {
-            tLRPC$photos_Photos = i != 352657236 ? null : new TLRPC$photos_Photos() { // from class: org.telegram.tgnet.TLRPC$TL_photos_photosSlice
+            tLRPC$TL_photos_photos = i != 352657236 ? null : new TLRPC$photos_Photos() { // from class: org.telegram.tgnet.TLRPC$TL_photos_photosSlice
                 public static int constructor = 352657236;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -69,11 +69,11 @@ public abstract class TLRPC$photos_Photos extends TLObject {
                 }
             };
         }
-        if (tLRPC$photos_Photos != null || !z) {
-            if (tLRPC$photos_Photos != null) {
-                tLRPC$photos_Photos.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_photos_photos != null || !z) {
+            if (tLRPC$TL_photos_photos != null) {
+                tLRPC$TL_photos_photos.readParams(abstractSerializedData, z);
             }
-            return tLRPC$photos_Photos;
+            return tLRPC$TL_photos_photos;
         }
         throw new RuntimeException(String.format("can't parse magic %x in photos_Photos", Integer.valueOf(i)));
     }

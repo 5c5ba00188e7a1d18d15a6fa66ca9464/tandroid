@@ -46,6 +46,7 @@ public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
         return PendingResultUtil.toVoidTask(zbm.zbg(asGoogleApiClient(), getApplicationContext(), zba() == 3));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GoogleSignInClient(Context context, GoogleSignInOptions googleSignInOptions) {
         super(context, Auth.GOOGLE_SIGN_IN_API, googleSignInOptions, new ApiExceptionMapper());
     }

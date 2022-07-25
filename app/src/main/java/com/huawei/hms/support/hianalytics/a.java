@@ -8,6 +8,7 @@ import java.util.Map;
 /* compiled from: HiAnalyticsBase.java */
 /* loaded from: classes.dex */
 public class a {
+    /* JADX INFO: Access modifiers changed from: protected */
     public static Map<String, String> getMapForBi(Context context, String str) {
         HashMap hashMap = new HashMap();
         if (context != null && !TextUtils.isEmpty(str)) {

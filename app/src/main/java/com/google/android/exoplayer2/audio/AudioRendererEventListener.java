@@ -42,6 +42,7 @@ public interface AudioRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$enabled$0(DecoderCounters decoderCounters) {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioEnabled(decoderCounters);
         }
@@ -58,6 +59,7 @@ public interface AudioRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$decoderInitialized$1(String str, long j, long j2) {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioDecoderInitialized(str, j, j2);
         }
@@ -74,6 +76,7 @@ public interface AudioRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$inputFormatChanged$2(Format format) {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioInputFormatChanged(format);
         }
@@ -90,6 +93,7 @@ public interface AudioRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$audioTrackUnderrun$3(int i, long j, long j2) {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioSinkUnderrun(i, j, j2);
         }
@@ -107,6 +111,7 @@ public interface AudioRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$disabled$4(DecoderCounters decoderCounters) {
             decoderCounters.ensureUpdated();
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioDisabled(decoderCounters);
@@ -124,6 +129,7 @@ public interface AudioRendererEventListener {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$audioSessionId$5(int i) {
             ((AudioRendererEventListener) Util.castNonNull(this.listener)).onAudioSessionId(i);
         }

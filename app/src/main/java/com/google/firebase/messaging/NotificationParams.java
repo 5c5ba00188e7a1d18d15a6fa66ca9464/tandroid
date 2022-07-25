@@ -102,6 +102,7 @@ public class NotificationParams {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int[] getLightSettings() {
         JSONArray jSONArray = getJSONArray("gcm.n.light_settings");
         if (jSONArray == null) {
@@ -226,6 +227,7 @@ public class NotificationParams {
         return getString("gcm.n.android_channel_id");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Integer getNotificationCount() {
         Integer integer = getInteger("gcm.n.notification_count");
         if (integer == null) {
@@ -243,6 +245,7 @@ public class NotificationParams {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Integer getNotificationPriority() {
         Integer integer = getInteger("gcm.n.notification_priority");
         if (integer == null) {
@@ -300,6 +303,7 @@ public class NotificationParams {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Integer getVisibility() {
         Integer integer = getInteger("gcm.n.visibility");
         if (integer == null) {

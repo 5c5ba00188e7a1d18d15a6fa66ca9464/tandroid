@@ -2,11 +2,11 @@ package androidx.recyclerview.widget;
 
 import androidx.recyclerview.widget.AdapterHelper;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class OpReorderer {
+class OpReorderer {
     final Callback mCallback;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface Callback {
         AdapterHelper.UpdateOp obtainUpdateOp(int i, int i2, int i3, Object obj);
@@ -14,10 +14,12 @@ public class OpReorderer {
         void recycleUpdateOp(AdapterHelper.UpdateOp updateOp);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public OpReorderer(Callback callback) {
         this.mCallback = callback;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void reorderOps(List<AdapterHelper.UpdateOp> list) {
         while (true) {
             int lastMoveOutOfOrder = getLastMoveOutOfOrder(list);
@@ -167,30 +169,30 @@ public class OpReorderer {
         list.set(i2, updateOp);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0027  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:18:0x004c  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x005b  */
-    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0027  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     void swapMoveUpdate(List<AdapterHelper.UpdateOp> list, int i, AdapterHelper.UpdateOp updateOp, int i2, AdapterHelper.UpdateOp updateOp2) {
-        AdapterHelper.UpdateOp updateOp3;
+        AdapterHelper.UpdateOp obtainUpdateOp;
         int i3;
         int i4;
         int i5 = updateOp.itemCount;
         int i6 = updateOp2.positionStart;
-        AdapterHelper.UpdateOp updateOp4 = null;
+        AdapterHelper.UpdateOp updateOp3 = null;
         if (i5 < i6) {
             updateOp2.positionStart = i6 - 1;
         } else {
             int i7 = updateOp2.itemCount;
             if (i5 < i6 + i7) {
                 updateOp2.itemCount = i7 - 1;
-                updateOp3 = this.mCallback.obtainUpdateOp(4, updateOp.positionStart, 1, updateOp2.payload);
+                obtainUpdateOp = this.mCallback.obtainUpdateOp(4, updateOp.positionStart, 1, updateOp2.payload);
                 i3 = updateOp.positionStart;
                 i4 = updateOp2.positionStart;
                 if (i3 > i4) {
@@ -199,7 +201,7 @@ public class OpReorderer {
                     int i8 = updateOp2.itemCount;
                     if (i3 < i4 + i8) {
                         int i9 = (i4 + i8) - i3;
-                        updateOp4 = this.mCallback.obtainUpdateOp(4, i3 + 1, i9, updateOp2.payload);
+                        updateOp3 = this.mCallback.obtainUpdateOp(4, i3 + 1, i9, updateOp2.payload);
                         updateOp2.itemCount -= i9;
                     }
                 }
@@ -210,17 +212,17 @@ public class OpReorderer {
                     list.remove(i);
                     this.mCallback.recycleUpdateOp(updateOp2);
                 }
-                if (updateOp3 != null) {
-                    list.add(i, updateOp3);
+                if (obtainUpdateOp != null) {
+                    list.add(i, obtainUpdateOp);
                 }
-                if (updateOp4 != null) {
+                if (updateOp3 != null) {
                     return;
                 }
-                list.add(i, updateOp4);
+                list.add(i, updateOp3);
                 return;
             }
         }
-        updateOp3 = null;
+        obtainUpdateOp = null;
         i3 = updateOp.positionStart;
         i4 = updateOp2.positionStart;
         if (i3 > i4) {
@@ -228,9 +230,9 @@ public class OpReorderer {
         list.set(i2, updateOp);
         if (updateOp2.itemCount <= 0) {
         }
-        if (updateOp3 != null) {
+        if (obtainUpdateOp != null) {
         }
-        if (updateOp4 != null) {
+        if (updateOp3 != null) {
         }
     }
 

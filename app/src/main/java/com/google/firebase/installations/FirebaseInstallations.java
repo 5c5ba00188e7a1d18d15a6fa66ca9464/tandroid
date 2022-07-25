@@ -53,6 +53,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FirebaseInstallations(FirebaseApp firebaseApp, Provider<UserAgentPublisher> provider, Provider<HeartBeatInfo> provider2) {
         this(new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY), firebaseApp, new FirebaseInstallationServiceClient(firebaseApp.getApplicationContext(), provider, provider2), new PersistedInstallation(firebaseApp), Utils.getInstance(), new IidStore(firebaseApp), new RandomFidGenerator());
     }
@@ -113,6 +114,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         return addGetIdListener;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getId$0() {
         lambda$getToken$1(false);
     }
@@ -178,6 +180,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         return this.cachedFid;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: doRegistrationOrRefresh */
     public final void lambda$getToken$1(final boolean z) {
         PersistedInstallationEntry prefsWithGeneratedIdMultiProcessSafe = getPrefsWithGeneratedIdMultiProcessSafe();
@@ -193,44 +196,45 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0032  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x003f  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x004a  */
     /* renamed from: doNetworkCallIfNecessary */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void lambda$doRegistrationOrRefresh$2(boolean z) {
-        PersistedInstallationEntry persistedInstallationEntry;
+        PersistedInstallationEntry registerFidWithServer;
         PersistedInstallationEntry multiProcessSafePrefs = getMultiProcessSafePrefs();
         try {
             if (!multiProcessSafePrefs.isErrored() && !multiProcessSafePrefs.isUnregistered()) {
                 if (!z && !this.utils.isAuthTokenExpired(multiProcessSafePrefs)) {
                     return;
                 }
-                persistedInstallationEntry = fetchAuthTokenFromServer(multiProcessSafePrefs);
-                insertOrUpdatePrefs(persistedInstallationEntry);
-                updateFidListener(multiProcessSafePrefs, persistedInstallationEntry);
-                if (persistedInstallationEntry.isRegistered()) {
-                    updateCacheFid(persistedInstallationEntry.getFirebaseInstallationId());
+                registerFidWithServer = fetchAuthTokenFromServer(multiProcessSafePrefs);
+                insertOrUpdatePrefs(registerFidWithServer);
+                updateFidListener(multiProcessSafePrefs, registerFidWithServer);
+                if (registerFidWithServer.isRegistered()) {
+                    updateCacheFid(registerFidWithServer.getFirebaseInstallationId());
                 }
-                if (!persistedInstallationEntry.isErrored()) {
+                if (!registerFidWithServer.isErrored()) {
                     triggerOnException(new FirebaseInstallationsException(FirebaseInstallationsException.Status.BAD_CONFIG));
                     return;
-                } else if (persistedInstallationEntry.isNotGenerated()) {
+                } else if (registerFidWithServer.isNotGenerated()) {
                     triggerOnException(new IOException("Installation ID could not be validated with the Firebase servers (maybe it was deleted). Firebase Installations will need to create a new Installation ID and auth token. Please retry your last request."));
                     return;
                 } else {
-                    triggerOnStateReached(persistedInstallationEntry);
+                    triggerOnStateReached(registerFidWithServer);
                     return;
                 }
             }
-            persistedInstallationEntry = registerFidWithServer(multiProcessSafePrefs);
-            insertOrUpdatePrefs(persistedInstallationEntry);
-            updateFidListener(multiProcessSafePrefs, persistedInstallationEntry);
-            if (persistedInstallationEntry.isRegistered()) {
+            registerFidWithServer = registerFidWithServer(multiProcessSafePrefs);
+            insertOrUpdatePrefs(registerFidWithServer);
+            updateFidListener(multiProcessSafePrefs, registerFidWithServer);
+            if (registerFidWithServer.isRegistered()) {
             }
-            if (!persistedInstallationEntry.isErrored()) {
+            if (!registerFidWithServer.isErrored()) {
             }
         } catch (FirebaseInstallationsException e) {
             triggerOnException(e);
@@ -306,7 +310,8 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         return persistedInstallationEntry.withAuthToken(generateAuthToken.getToken(), generateAuthToken.getTokenExpirationTimestamp(), this.utils.currentTimeInSecs());
     }
 
-    /* renamed from: com.google.firebase.installations.FirebaseInstallations$3 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: com.google.firebase.installations.FirebaseInstallations$3  reason: invalid class name */
     /* loaded from: classes.dex */
     public static /* synthetic */ class AnonymousClass3 {
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$installations$remote$InstallationResponse$ResponseCode;

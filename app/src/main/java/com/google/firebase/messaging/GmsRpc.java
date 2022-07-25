@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class GmsRpc {
@@ -39,6 +40,7 @@ public class GmsRpc {
         this.firebaseInstallations = firebaseInstallationsApi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GmsRpc(FirebaseApp firebaseApp, Metadata metadata, Provider<UserAgentPublisher> provider, Provider<HeartBeatInfo> provider2, FirebaseInstallationsApi firebaseInstallationsApi) {
         this(firebaseApp, metadata, new Rpc(firebaseApp.getApplicationContext()), provider, provider2, firebaseInstallationsApi);
     }
@@ -71,6 +73,7 @@ public class GmsRpc {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isErrorMessageForRetryableError(String str) {
         return "SERVICE_NOT_AVAILABLE".equals(str) || "INTERNAL_SERVER_ERROR".equals(str) || "InternalServerError".equals(str);
     }
@@ -98,11 +101,11 @@ public class GmsRpc {
             Log.e("FirebaseMessaging", "Failed to get FIS auth token", e);
         }
         bundle.putString("cliv", "fcm-22.0.0");
-        HeartBeatInfo heartBeatInfo = this.heartbeatInfo.get();
-        UserAgentPublisher userAgentPublisher = this.userAgentPublisher.get();
-        if (heartBeatInfo != null && userAgentPublisher != null && (heartBeatCode = heartBeatInfo.getHeartBeatCode("fire-iid")) != HeartBeatInfo.HeartBeat.NONE) {
+        HeartBeatInfo mo190get = this.heartbeatInfo.mo190get();
+        UserAgentPublisher mo190get2 = this.userAgentPublisher.mo190get();
+        if (mo190get != null && mo190get2 != null && (heartBeatCode = mo190get.getHeartBeatCode("fire-iid")) != HeartBeatInfo.HeartBeat.NONE) {
             bundle.putString("Firebase-Client-Log-Type", Integer.toString(heartBeatCode.getCode()));
-            bundle.putString("Firebase-Client", userAgentPublisher.getUserAgent());
+            bundle.putString("Firebase-Client", mo190get2.getUserAgent());
         }
         return bundle;
     }
@@ -112,14 +115,17 @@ public class GmsRpc {
         return this.rpc.send(bundle);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Task<String> getToken(String str) {
         return extractResponseWhenComplete(startRpc(str, Metadata.getDefaultSenderId(this.app), "*", new Bundle()));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ String lambda$extractResponseWhenComplete$0$GmsRpc(Task task) throws Exception {
         return handleResponse((Bundle) task.getResult(IOException.class));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Task<?> subscribeToTopic(String str, String str2, String str3) {
         Bundle bundle = new Bundle();
         String valueOf = String.valueOf(str3);
@@ -128,6 +134,7 @@ public class GmsRpc {
         return extractResponseWhenComplete(startRpc(str, str2, valueOf2.length() != 0 ? "/topics/".concat(valueOf2) : new String("/topics/"), bundle));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Task<?> unsubscribeFromTopic(String str, String str2, String str3) {
         Bundle bundle = new Bundle();
         String valueOf = String.valueOf(str3);

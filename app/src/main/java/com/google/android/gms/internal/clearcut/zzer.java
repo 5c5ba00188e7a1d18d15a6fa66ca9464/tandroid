@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzer extends AbstractSet<Map.Entry<K, V>> {
     private final /* synthetic */ zzei zzos;
@@ -11,6 +12,7 @@ public class zzer extends AbstractSet<Map.Entry<K, V>> {
         this.zzos = zzeiVar;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzer(zzei zzeiVar, zzej zzejVar) {
         this(zzeiVar);
     }

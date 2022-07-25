@@ -5,6 +5,7 @@ import java.util.Arrays;
 final class H3 extends D3 {
     private W3 c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public H3(m3 m3Var) {
         super(m3Var);
     }

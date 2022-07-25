@@ -5,19 +5,19 @@ public abstract class TLRPC$InputUser extends TLObject {
     public long user_id;
 
     public static TLRPC$InputUser TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$InputUser tLRPC$InputUser;
+        TLRPC$InputUser tLRPC$TL_inputUserEmpty;
         switch (i) {
             case -1182234929:
-                tLRPC$InputUser = new TLRPC$TL_inputUserEmpty();
+                tLRPC$TL_inputUserEmpty = new TLRPC$TL_inputUserEmpty();
                 break;
             case -233744186:
-                tLRPC$InputUser = new TLRPC$TL_inputUser();
+                tLRPC$TL_inputUserEmpty = new TLRPC$TL_inputUser();
                 break;
             case -138301121:
-                tLRPC$InputUser = new TLRPC$TL_inputUserSelf();
+                tLRPC$TL_inputUserEmpty = new TLRPC$TL_inputUserSelf();
                 break;
             case 497305826:
-                tLRPC$InputUser = new TLRPC$InputUser() { // from class: org.telegram.tgnet.TLRPC$TL_inputUserFromMessage
+                tLRPC$TL_inputUserEmpty = new TLRPC$InputUser() { // from class: org.telegram.tgnet.TLRPC$TL_inputUserFromMessage
                     public static int constructor = 497305826;
                     public int msg_id;
                     public TLRPC$InputPeer peer;
@@ -39,14 +39,14 @@ public abstract class TLRPC$InputUser extends TLObject {
                 };
                 break;
             default:
-                tLRPC$InputUser = null;
+                tLRPC$TL_inputUserEmpty = null;
                 break;
         }
-        if (tLRPC$InputUser != null || !z) {
-            if (tLRPC$InputUser != null) {
-                tLRPC$InputUser.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_inputUserEmpty != null || !z) {
+            if (tLRPC$TL_inputUserEmpty != null) {
+                tLRPC$TL_inputUserEmpty.readParams(abstractSerializedData, z);
             }
-            return tLRPC$InputUser;
+            return tLRPC$TL_inputUserEmpty;
         }
         throw new RuntimeException(String.format("can't parse magic %x in InputUser", Integer.valueOf(i)));
     }

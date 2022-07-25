@@ -20,18 +20,18 @@ public final class Encoder {
         return MaskUtil.applyMaskPenaltyRule1(byteMatrix) + MaskUtil.applyMaskPenaltyRule2(byteMatrix) + MaskUtil.applyMaskPenaltyRule3(byteMatrix) + MaskUtil.applyMaskPenaltyRule4(byteMatrix);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00fc, code lost:
-        if (com.google.zxing.qrcode.encoder.QRCode.isValidMaskPattern(r9) != false) goto L45;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00fc, code lost:
+        if (com.google.zxing.qrcode.encoder.QRCode.isValidMaskPattern(r9) != false) goto L39;
      */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x009f  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00a4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static QRCode encode(String str, ErrorCorrectionLevel errorCorrectionLevel, Map<EncodeHintType, ?> map) throws WriterException {
-        Version version;
+        Version recommendVersion;
         int i;
         CharacterSetECI characterSetECIByName;
         boolean z = true;
@@ -55,23 +55,23 @@ public final class Encoder {
         if (map != null) {
             EncodeHintType encodeHintType = EncodeHintType.QR_VERSION;
             if (map.containsKey(encodeHintType)) {
-                version = Version.getVersionForNumber(Integer.parseInt(map.get(encodeHintType).toString()));
-                if (!willFit(calculateBitsNeeded(chooseMode, bitArray, bitArray2, version), version, errorCorrectionLevel)) {
+                recommendVersion = Version.getVersionForNumber(Integer.parseInt(map.get(encodeHintType).toString()));
+                if (!willFit(calculateBitsNeeded(chooseMode, bitArray, bitArray2, recommendVersion), recommendVersion, errorCorrectionLevel)) {
                     throw new WriterException("Data too big for requested version");
                 }
                 BitArray bitArray3 = new BitArray();
                 bitArray3.appendBitArray(bitArray);
-                appendLengthInfo(chooseMode != mode ? bitArray2.getSizeInBytes() : str.length(), version, chooseMode, bitArray3);
+                appendLengthInfo(chooseMode != mode ? bitArray2.getSizeInBytes() : str.length(), recommendVersion, chooseMode, bitArray3);
                 bitArray3.appendBitArray(bitArray2);
-                Version.ECBlocks eCBlocksForLevel = version.getECBlocksForLevel(errorCorrectionLevel);
-                int totalCodewords = version.getTotalCodewords() - eCBlocksForLevel.getTotalECCodewords();
+                Version.ECBlocks eCBlocksForLevel = recommendVersion.getECBlocksForLevel(errorCorrectionLevel);
+                int totalCodewords = recommendVersion.getTotalCodewords() - eCBlocksForLevel.getTotalECCodewords();
                 terminateBits(totalCodewords, bitArray3);
-                BitArray interleaveWithECBytes = interleaveWithECBytes(bitArray3, version.getTotalCodewords(), totalCodewords, eCBlocksForLevel.getNumBlocks());
+                BitArray interleaveWithECBytes = interleaveWithECBytes(bitArray3, recommendVersion.getTotalCodewords(), totalCodewords, eCBlocksForLevel.getNumBlocks());
                 QRCode qRCode = new QRCode();
                 qRCode.setECLevel(errorCorrectionLevel);
                 qRCode.setMode(chooseMode);
-                qRCode.setVersion(version);
-                int dimensionForVersion = version.getDimensionForVersion();
+                qRCode.setVersion(recommendVersion);
+                int dimensionForVersion = recommendVersion.getDimensionForVersion();
                 ByteMatrix byteMatrix = new ByteMatrix(dimensionForVersion, dimensionForVersion);
                 if (map != null) {
                     EncodeHintType encodeHintType2 = EncodeHintType.QR_MASK_PATTERN;
@@ -81,28 +81,28 @@ public final class Encoder {
                 }
                 i = -1;
                 if (i == -1) {
-                    i = chooseMaskPattern(interleaveWithECBytes, errorCorrectionLevel, version, byteMatrix);
+                    i = chooseMaskPattern(interleaveWithECBytes, errorCorrectionLevel, recommendVersion, byteMatrix);
                 }
                 qRCode.setMaskPattern(i);
-                MatrixUtil.buildMatrix(interleaveWithECBytes, errorCorrectionLevel, version, i, byteMatrix);
+                MatrixUtil.buildMatrix(interleaveWithECBytes, errorCorrectionLevel, recommendVersion, i, byteMatrix);
                 qRCode.setMatrix(byteMatrix);
                 return qRCode;
             }
         }
-        version = recommendVersion(errorCorrectionLevel, chooseMode, bitArray, bitArray2);
+        recommendVersion = recommendVersion(errorCorrectionLevel, chooseMode, bitArray, bitArray2);
         BitArray bitArray32 = new BitArray();
         bitArray32.appendBitArray(bitArray);
-        appendLengthInfo(chooseMode != mode ? bitArray2.getSizeInBytes() : str.length(), version, chooseMode, bitArray32);
+        appendLengthInfo(chooseMode != mode ? bitArray2.getSizeInBytes() : str.length(), recommendVersion, chooseMode, bitArray32);
         bitArray32.appendBitArray(bitArray2);
-        Version.ECBlocks eCBlocksForLevel2 = version.getECBlocksForLevel(errorCorrectionLevel);
-        int totalCodewords2 = version.getTotalCodewords() - eCBlocksForLevel2.getTotalECCodewords();
+        Version.ECBlocks eCBlocksForLevel2 = recommendVersion.getECBlocksForLevel(errorCorrectionLevel);
+        int totalCodewords2 = recommendVersion.getTotalCodewords() - eCBlocksForLevel2.getTotalECCodewords();
         terminateBits(totalCodewords2, bitArray32);
-        BitArray interleaveWithECBytes2 = interleaveWithECBytes(bitArray32, version.getTotalCodewords(), totalCodewords2, eCBlocksForLevel2.getNumBlocks());
+        BitArray interleaveWithECBytes2 = interleaveWithECBytes(bitArray32, recommendVersion.getTotalCodewords(), totalCodewords2, eCBlocksForLevel2.getNumBlocks());
         QRCode qRCode2 = new QRCode();
         qRCode2.setECLevel(errorCorrectionLevel);
         qRCode2.setMode(chooseMode);
-        qRCode2.setVersion(version);
-        int dimensionForVersion2 = version.getDimensionForVersion();
+        qRCode2.setVersion(recommendVersion);
+        int dimensionForVersion2 = recommendVersion.getDimensionForVersion();
         ByteMatrix byteMatrix2 = new ByteMatrix(dimensionForVersion2, dimensionForVersion2);
         if (map != null) {
         }
@@ -110,7 +110,7 @@ public final class Encoder {
         if (i == -1) {
         }
         qRCode2.setMaskPattern(i);
-        MatrixUtil.buildMatrix(interleaveWithECBytes2, errorCorrectionLevel, version, i, byteMatrix2);
+        MatrixUtil.buildMatrix(interleaveWithECBytes2, errorCorrectionLevel, recommendVersion, i, byteMatrix2);
         qRCode2.setMatrix(byteMatrix2);
         return qRCode2;
     }
@@ -331,7 +331,8 @@ public final class Encoder {
         bitArray.appendBits(i, characterCountBits);
     }
 
-    /* renamed from: com.google.zxing.qrcode.encoder.Encoder$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: com.google.zxing.qrcode.encoder.Encoder$1  reason: invalid class name */
     /* loaded from: classes.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$zxing$qrcode$decoder$Mode;
@@ -427,8 +428,8 @@ public final class Encoder {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x003c A[LOOP:0: B:6:0x000f->B:19:0x003c, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x004b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x003c A[LOOP:0: B:6:0x000f->B:13:0x003c, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x004b A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

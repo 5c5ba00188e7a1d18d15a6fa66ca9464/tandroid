@@ -283,17 +283,18 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(RLottieImageView rLottieImageView, View view) {
-        Theme.ThemeInfo themeInfo;
+        Theme.ThemeInfo theme;
         if (DrawerProfileCell.switchingTheme) {
             return;
         }
         DrawerProfileCell.switchingTheme = true;
         boolean z = !Theme.isCurrentThemeDark();
         if (z) {
-            themeInfo = Theme.getTheme("Night");
+            theme = Theme.getTheme("Night");
         } else {
-            themeInfo = Theme.getTheme("Blue");
+            theme = Theme.getTheme("Blue");
         }
         Theme.selectedAutoNightType = 0;
         Theme.saveAutoNightThemeConfig();
@@ -303,11 +304,12 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         rLottieImageView.playAnimation();
         rLottieImageView.getLocationInWindow(r4);
         int[] iArr = {iArr[0] + (rLottieImageView.getMeasuredWidth() / 2), iArr[1] + (rLottieImageView.getMeasuredHeight() / 2)};
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), rLottieImageView);
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), rLottieImageView);
         rLottieImageView.setContentDescription(LocaleController.getString((int) R.string.AccDescrSwitchToDayTheme));
     }
 
-    /* renamed from: org.telegram.ui.IntroActivity$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.IntroActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -315,7 +317,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
 
         AnonymousClass2() {
-            IntroActivity.this = r1;
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -334,6 +335,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             IntroActivity.this.eglThread.postRunnable(IntroActivity.this.eglThread.drawRunnable);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSurfaceTextureAvailable$0() {
             Intro.setPage(IntroActivity.this.currentViewPagerPage);
             Intro.setDate(((float) (System.currentTimeMillis() - IntroActivity.this.currentDate)) / 1000.0f);
@@ -365,6 +367,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view) {
         if (this.startPressed) {
             return;
@@ -374,6 +377,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.destroyed = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         if (this.startPressed || this.localeInfo == null) {
             return;
@@ -386,13 +390,13 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         LocaleController.getInstance().applyLanguage(this.localeInfo, true, false, this.currentAccount);
     }
 
-    /* renamed from: org.telegram.ui.IntroActivity$5 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.IntroActivity$5  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass5 implements NotificationCenter.NotificationCenterDelegate {
         final /* synthetic */ AlertDialog val$loaderDialog;
 
         AnonymousClass5(AlertDialog alertDialog) {
-            IntroActivity.this = r1;
             this.val$loaderDialog = alertDialog;
         }
 
@@ -410,6 +414,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didReceivedNotification$0() {
             IntroActivity.this.presentFragment(new LoginActivity().setIntroView(IntroActivity.this.frameContainerView, IntroActivity.this.startMessagingButton), true);
             IntroActivity.this.destroyed = true;
@@ -498,6 +503,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }, 8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkContinueText$4(final String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
@@ -517,6 +523,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkContinueText$3(TLRPC$LangPackString tLRPC$LangPackString, String str) {
         if (!this.destroyed) {
             this.switchLanguageTextView.setText(tLRPC$LangPackString.value);
@@ -536,6 +543,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public AnimatorSet onCustomTransitionAnimation(boolean z, Runnable runnable) {
         if (this.isOnLogout) {
@@ -558,7 +566,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
 
         private IntroAdapter() {
-            IntroActivity.this = r1;
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
@@ -567,7 +574,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
-        public Object instantiateItem(ViewGroup viewGroup, int i) {
+        /* renamed from: instantiateItem */
+        public Object mo1580instantiateItem(ViewGroup viewGroup, int i) {
             final TextView textView = new TextView(viewGroup.getContext());
             textView.setTag(IntroActivity.this.pagerHeaderTag);
             final TextView textView2 = new TextView(viewGroup.getContext());
@@ -667,6 +675,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
         };
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ Bitmap lambda$new$0(Void r6) {
             int dp = AndroidUtilities.dp(150.0f);
             Bitmap createBitmap = Bitmap.createBitmap(AndroidUtilities.dp(200.0f), dp, Bitmap.Config.ARGB_8888);
@@ -678,10 +687,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             return createBitmap;
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EGLThread(SurfaceTexture surfaceTexture) {
             super("EGLThread");
-            IntroActivity.this = r1;
             this.surfaceTexture = surfaceTexture;
         }
 
@@ -792,6 +799,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ Bitmap lambda$initGL$1(Void r4) {
             Paint paint = new Paint(1);
             paint.setColor(-13851168);
@@ -837,6 +845,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             loadTexture(genericProvider, i, false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void loadTexture(GenericProvider<Void, Bitmap> genericProvider, int i, boolean z) {
             if (z) {
                 GLES20.glDeleteTextures(1, this.textures, i);
@@ -856,6 +865,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             loadTexture(i, i2, 0, false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void loadTexture(int i, int i2, int i3, boolean z) {
             Drawable drawable = IntroActivity.this.getParentActivity().getResources().getDrawable(i);
             if (drawable instanceof BitmapDrawable) {
@@ -892,6 +902,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$shutdown$2() {
             finish();
             Looper myLooper = Looper.myLooper();
@@ -911,6 +922,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$5() {
         updateColors(true);
     }
@@ -957,6 +969,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         Intro.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateColors$6() {
         this.eglThread.loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor("windowBackgroundWhite"), true);
         this.eglThread.updatePowerfulTextures();

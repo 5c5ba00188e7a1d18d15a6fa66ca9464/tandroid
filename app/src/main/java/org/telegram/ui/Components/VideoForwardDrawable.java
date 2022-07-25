@@ -127,35 +127,35 @@ public class VideoForwardDrawable extends Drawable {
         this.paint.setColorFilter(colorFilter);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x02a7  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x02aa  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x02a7  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x02aa  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(Canvas canvas) {
-        int i;
+        int width;
         float f;
         android.graphics.Rect bounds = getBounds();
-        int width = bounds.left + ((bounds.width() - getIntrinsicWidth()) / 2);
+        int width2 = bounds.left + ((bounds.width() - getIntrinsicWidth()) / 2);
         int height = bounds.top + ((bounds.height() - getIntrinsicHeight()) / 2);
         if (this.leftSide) {
-            i = width - ((bounds.width() / 4) - AndroidUtilities.dp(16.0f));
+            width = width2 - ((bounds.width() / 4) - AndroidUtilities.dp(16.0f));
         } else {
-            i = width + (bounds.width() / 4) + AndroidUtilities.dp(16.0f);
+            width = width2 + (bounds.width() / 4) + AndroidUtilities.dp(16.0f);
         }
         canvas.save();
         if (this.isRound) {
             if (this.clippingPath == null) {
                 this.clippingPath = new Path();
             }
-            int i2 = bounds.left + (bounds.top << 8) + (bounds.bottom << 16) + (bounds.right << 24);
-            if (this.lastClippingPath != i2) {
+            int i = bounds.left + (bounds.top << 8) + (bounds.bottom << 16) + (bounds.right << 24);
+            if (this.lastClippingPath != i) {
                 this.clippingPath.reset();
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(bounds);
                 this.clippingPath.addOval(rectF, Path.Direction.CCW);
-                this.lastClippingPath = i2;
+                this.lastClippingPath = i;
             }
             canvas.clipPath(this.clippingPath);
         } else {
@@ -174,20 +174,20 @@ public class VideoForwardDrawable extends Drawable {
                 this.textPaint.setAlpha((int) ((1.0f - ((this.animationProgress - 0.7f) / 0.3f)) * 255.0f));
             }
         }
-        int i3 = -1;
-        canvas.drawCircle(((Math.max(bounds.width(), bounds.height()) / 4) * (this.leftSide ? -1 : 1)) + i, AndroidUtilities.dp(16.0f) + height, Math.max(bounds.width(), bounds.height()) / 2, this.paint);
+        int i2 = -1;
+        canvas.drawCircle(((Math.max(bounds.width(), bounds.height()) / 4) * (this.leftSide ? -1 : 1)) + width, AndroidUtilities.dp(16.0f) + height, Math.max(bounds.width(), bounds.height()) / 2, this.paint);
         canvas.restore();
         String str = this.timeStr;
         if (str != null) {
             int intrinsicWidth = getIntrinsicWidth();
             if (!this.leftSide) {
-                i3 = 1;
+                i2 = 1;
             }
-            canvas.drawText(str, (intrinsicWidth * i3) + i, getIntrinsicHeight() + height + AndroidUtilities.dp(15.0f), this.textPaint);
+            canvas.drawText(str, (intrinsicWidth * i2) + width, getIntrinsicHeight() + height + AndroidUtilities.dp(15.0f), this.textPaint);
         }
         canvas.save();
         float f3 = this.playScaleFactor;
-        float f4 = i;
+        float f4 = width;
         float f5 = height;
         canvas.scale(f3, f3, f4, (getIntrinsicHeight() / 2.0f) + f5);
         if (this.leftSide) {

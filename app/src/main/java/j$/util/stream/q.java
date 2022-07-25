@@ -4,6 +4,7 @@ class q extends i3 {
     boolean b;
     Object c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public q(s sVar, m3 m3Var) {
         super(m3Var);
     }

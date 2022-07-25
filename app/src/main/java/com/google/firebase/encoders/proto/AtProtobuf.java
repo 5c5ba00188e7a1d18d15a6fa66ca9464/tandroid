@@ -20,9 +20,8 @@ public final class AtProtobuf {
         return new ProtobufImpl(this.tag, this.intEncoding);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class ProtobufImpl implements Protobuf {
+    private static final class ProtobufImpl implements Protobuf {
         private final Protobuf.IntEncoding intEncoding;
         private final int tag;
 

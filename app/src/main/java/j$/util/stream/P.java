@@ -1,6 +1,8 @@
 package j$.util.stream;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class P extends T {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public P(j$.util.u uVar, int i, boolean z) {
         super(uVar, i, z);
     }
@@ -10,6 +12,7 @@ public class P extends T {
         throw new UnsupportedOperationException();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public final m3 H0(int i, m3 m3Var) {
         throw new UnsupportedOperationException();
@@ -17,21 +20,17 @@ public class P extends T {
 
     @Override // j$.util.stream.T, j$.util.stream.U
     public void j(j$.util.function.f fVar) {
-        j$.util.t M0;
-        if (isParallel()) {
+        if (!isParallel()) {
+            T.L0(J0()).e(fVar);
+        } else {
             super.j(fVar);
-            return;
         }
-        M0 = T.M0(J0());
-        M0.e(fVar);
     }
 
     @Override // j$.util.stream.T, j$.util.stream.U
     public void l0(j$.util.function.f fVar) {
-        j$.util.t M0;
         if (!isParallel()) {
-            M0 = T.M0(J0());
-            M0.e(fVar);
+            T.L0(J0()).e(fVar);
             return;
         }
         fVar.getClass();
@@ -39,14 +38,16 @@ public class P extends T {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ U parallel() {
-        parallel();
+    /* renamed from: parallel */
+    public /* bridge */ /* synthetic */ U mo332parallel() {
+        mo332parallel();
         return this;
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    public /* bridge */ /* synthetic */ U sequential() {
-        sequential();
+    /* renamed from: sequential */
+    public /* bridge */ /* synthetic */ U mo333sequential() {
+        mo333sequential();
         return this;
     }
 }

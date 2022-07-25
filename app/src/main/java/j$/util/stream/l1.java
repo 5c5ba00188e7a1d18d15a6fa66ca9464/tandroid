@@ -1,10 +1,12 @@
 package j$.util.stream;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class l1 implements N4 {
     private final e4 a;
     final k1 b;
     final j$.util.function.y c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public l1(e4 e4Var, k1 k1Var, j$.util.function.y yVar) {
         this.a = e4Var;
         this.b = k1Var;

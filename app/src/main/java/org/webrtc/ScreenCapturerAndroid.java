@@ -93,6 +93,7 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$stopCapture$0() {
         this.surfaceTextureHelper.stopListening();
         this.capturerObserver.onCapturerStopped();
@@ -130,6 +131,7 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$changeCaptureFormat$1() {
         this.virtualDisplay.release();
         createVirtualDisplay();

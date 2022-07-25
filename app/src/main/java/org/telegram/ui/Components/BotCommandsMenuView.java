@@ -45,9 +45,8 @@ public class BotCommandsMenuView extends View {
             BotCommandsMenuView.this.invalidate();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RLottieDrawable
-        public void invalidateInternal() {
+        protected void invalidateInternal() {
             super.invalidateInternal();
             BotCommandsMenuView.this.invalidate();
         }
@@ -132,12 +131,12 @@ public class BotCommandsMenuView extends View {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(dp, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00d5  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00d5  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -274,7 +273,8 @@ public class BotCommandsMenuView extends View {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             BotCommandView botCommandView = new BotCommandView(viewGroup.getContext());
             botCommandView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
             return new RecyclerListView.Holder(botCommandView);

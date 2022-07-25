@@ -177,6 +177,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         this.acceptButton.addView(this.radialProgressView, LayoutHelper.createFrame(36, 36, 17));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         int i = this.pressCount + 1;
         this.pressCount = i;
@@ -187,6 +188,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         if (!checkApkInstallPermissions(getContext())) {
             return;
@@ -357,6 +359,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -366,6 +369,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$2(TLObject tLObject) {
         if (!(tLObject instanceof TLRPC$TL_help_appUpdate) || ((TLRPC$TL_help_appUpdate) tLObject).can_not_skip) {
             return;

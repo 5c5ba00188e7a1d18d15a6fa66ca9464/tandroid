@@ -55,9 +55,8 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class NonConfigurationInstances {
+    static final class NonConfigurationInstances {
         Object custom;
         FragmentManagerNonConfig fragments;
         ViewModelStore viewModelStore;
@@ -144,6 +143,7 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         return super.getLifecycle();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.app.ComponentActivity, android.app.Activity
     public void onCreate(Bundle bundle) {
         ViewModelStore viewModelStore;
@@ -206,6 +206,7 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         return this.mFragments.onCreateView(view, str, context, attributeSet);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
     public void onDestroy() {
         super.onDestroy();
@@ -311,6 +312,7 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         return nonConfigurationInstances;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.app.ComponentActivity, android.app.Activity
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -475,13 +477,10 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public class HostCallbacks extends FragmentHostCallback<FragmentActivity> {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    class HostCallbacks extends FragmentHostCallback<FragmentActivity> {
         public HostCallbacks() {
-            super(r1);
-            FragmentActivity.this = r1;
+            super(FragmentActivity.this);
         }
 
         @Override // androidx.fragment.app.FragmentHostCallback

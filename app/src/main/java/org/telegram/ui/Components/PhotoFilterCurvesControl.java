@@ -60,8 +60,8 @@ public class PhotoFilterCurvesControl extends View {
         rect.height = f4;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0014, code lost:
-        if (r0 != 6) goto L40;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0014, code lost:
+        if (r0 != 6) goto L11;
      */
     @Override // android.view.View
     /*
@@ -177,7 +177,7 @@ public class PhotoFilterCurvesControl extends View {
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     protected void onDraw(Canvas canvas) {
-        String str;
+        String format;
         float f = this.actualArea.width / 5.0f;
         for (int i = 0; i < 4; i++) {
             Rect rect = this.actualArea;
@@ -208,19 +208,19 @@ public class PhotoFilterCurvesControl extends View {
         int i3 = 0;
         while (i3 < 5) {
             if (i3 == 0) {
-                str = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.blacksLevel / 100.0f));
+                format = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.blacksLevel / 100.0f));
             } else if (i3 == 1) {
-                str = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.shadowsLevel / 100.0f));
+                format = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.shadowsLevel / 100.0f));
             } else if (i3 == 2) {
-                str = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.midtonesLevel / 100.0f));
+                format = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.midtonesLevel / 100.0f));
             } else if (i3 == 3) {
-                str = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.highlightsLevel / 100.0f));
+                format = String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.highlightsLevel / 100.0f));
             } else {
-                str = i3 != 4 ? "" : String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.whitesLevel / 100.0f));
+                format = i3 != 4 ? "" : String.format(Locale.US, "%.2f", Float.valueOf(curvesValue.whitesLevel / 100.0f));
             }
-            float measureText = this.textPaint.measureText(str);
+            float measureText = this.textPaint.measureText(format);
             Rect rect3 = this.actualArea;
-            canvas.drawText(str, rect3.x + ((f - measureText) / 2.0f) + (i3 * f), (rect3.y + rect3.height) - AndroidUtilities.dp(4.0f), this.textPaint);
+            canvas.drawText(format, rect3.x + ((f - measureText) / 2.0f) + (i3 * f), (rect3.y + rect3.height) - AndroidUtilities.dp(4.0f), this.textPaint);
             i3++;
         }
         float[] interpolateCurve = curvesValue.interpolateCurve();

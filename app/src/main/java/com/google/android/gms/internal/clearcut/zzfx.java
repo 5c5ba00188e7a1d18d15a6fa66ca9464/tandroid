@@ -17,6 +17,7 @@ final class zzfx implements Cloneable {
         return bArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: zzeq */
     public final zzfx clone() {
         Object clone;
@@ -106,6 +107,7 @@ final class zzfx implements Cloneable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void zza(zzfs zzfsVar) throws IOException {
         if (this.value == null) {
             Iterator<Object> it = this.zzrq.iterator();
@@ -118,6 +120,7 @@ final class zzfx implements Cloneable {
         throw new NoSuchMethodError();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final int zzen() {
         if (this.value == null) {
             Iterator<Object> it = this.zzrq.iterator();

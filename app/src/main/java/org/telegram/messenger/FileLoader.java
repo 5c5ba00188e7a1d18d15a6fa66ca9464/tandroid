@@ -244,6 +244,7 @@ public class FileLoader extends BaseController {
         hashMap2.put(sb2.toString(), Boolean.TRUE);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: removeLoadingVideoInternal */
     public void lambda$removeLoadingVideo$1(TLRPC$Document tLRPC$Document, boolean z) {
         String attachFileName = getAttachFileName(tLRPC$Document);
@@ -297,6 +298,7 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancelFileUpload$2(boolean z, String str) {
         FileUploadOperation fileUploadOperation;
         if (!z) {
@@ -322,6 +324,7 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUploadNewDataAvailable$3(boolean z, String str, long j, long j2) {
         FileUploadOperation fileUploadOperation;
         if (z) {
@@ -346,6 +349,7 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onNetworkChanged$4(boolean z) {
         for (Map.Entry<String, FileUploadOperation> entry : this.uploadOperationPaths.entrySet()) {
             entry.getValue().onNetworkChanged(z);
@@ -371,6 +375,7 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$uploadFile$5(boolean z, String str, long j, int i, boolean z2, boolean z3) {
         long j2;
         if (z) {
@@ -419,7 +424,8 @@ public class FileLoader extends BaseController {
         this.uploadOperationQueue.add(fileUploadOperation);
     }
 
-    /* renamed from: org.telegram.messenger.FileLoader$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.messenger.FileLoader$1  reason: invalid class name */
     /* loaded from: classes.dex */
     public class AnonymousClass1 implements FileUploadOperation.FileUploadOperationDelegate {
         final /* synthetic */ boolean val$encrypted;
@@ -427,7 +433,6 @@ public class FileLoader extends BaseController {
         final /* synthetic */ boolean val$small;
 
         AnonymousClass1(boolean z, String str, boolean z2) {
-            FileLoader.this = r1;
             this.val$encrypted = z;
             this.val$location = str;
             this.val$small = z2;
@@ -447,6 +452,7 @@ public class FileLoader extends BaseController {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didFinishUploadingFile$0(boolean z, String str, boolean z2, TLRPC$InputFile tLRPC$InputFile, TLRPC$InputEncryptedFile tLRPC$InputEncryptedFile, byte[] bArr, byte[] bArr2, FileUploadOperation fileUploadOperation) {
             FileUploadOperation fileUploadOperation2;
             FileUploadOperation fileUploadOperation3;
@@ -487,6 +493,7 @@ public class FileLoader extends BaseController {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didFailedUploadingFile$1(boolean z, String str, boolean z2) {
             FileUploadOperation fileUploadOperation;
             FileUploadOperation fileUploadOperation2;
@@ -568,6 +575,7 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setForceStreamLoadingFile$6(TLRPC$FileLocation tLRPC$FileLocation, String str) {
         String attachFileName = getAttachFileName(tLRPC$FileLocation, str);
         this.forceLoadingFile = attachFileName;
@@ -682,6 +690,7 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancelLoadFile$7(String str, boolean z) {
         FileLoadOperation remove = this.loadOperationPaths.remove(str);
         if (remove != null) {
@@ -698,6 +707,7 @@ public class FileLoader extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cancelLoadFile$8() {
         getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
     }
@@ -760,41 +770,41 @@ public class FileLoader extends BaseController {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x01e0  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x02b6  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x02cd  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x02fb  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0322  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x03aa  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x03e4  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0253  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x01e0  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x02fb  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x03aa  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x03e4  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0322  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private FileLoadOperation loadFileInternal(final TLRPC$Document tLRPC$Document, SecureDocument secureDocument, WebFile webFile, TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated, ImageLocation imageLocation, final Object obj, String str, long j, int i, FileLoadOperationStream fileLoadOperationStream, int i2, boolean z, int i3) {
         String str2;
+        String attachFileName;
         String str3;
         String str4;
         int i4;
-        int i5;
-        long j2;
-        int i6;
         Object obj2;
+        long j2;
+        int i5;
+        int i6;
         int i7;
-        String str5;
+        File directory;
         File file;
-        int i8;
+        String str5;
         boolean z2;
-        int i9;
         String str6;
-        File file2;
+        File directory2;
         boolean z3;
         boolean z4;
-        File file3;
+        int i8;
+        int i9;
         boolean z5;
-        String attachFileName;
         if (tLRPC$TL_fileLocationToBeDeprecated != null) {
             attachFileName = getAttachFileName(tLRPC$TL_fileLocationToBeDeprecated, str);
         } else if (secureDocument != null) {
@@ -856,48 +866,48 @@ public class FileLoader extends BaseController {
                     fileLoadOperation.updateProgress();
                     return fileLoadOperation;
                 }
-                File directory = getDirectory(4);
+                File directory3 = getDirectory(4);
                 if (secureDocument != null) {
                     fileLoadOperation = new FileLoadOperation(secureDocument);
                     obj2 = obj;
-                    str4 = str2;
-                    str3 = " documentName=";
+                    str3 = str2;
+                    str4 = " documentName=";
                     i4 = i3;
                 } else {
                     if (tLRPC$TL_fileLocationToBeDeprecated != null) {
                         long j3 = tLRPC$TL_fileLocationToBeDeprecated.volume_id;
                         int i10 = tLRPC$TL_fileLocationToBeDeprecated.dc_id;
-                        str4 = str2;
-                        str3 = " documentName=";
+                        str3 = str2;
+                        str4 = " documentName=";
                         i4 = i3;
                         fileLoadOperation = new FileLoadOperation(imageLocation, obj, str, j);
                         j2 = j3;
-                        i6 = i10;
-                        i5 = 0;
+                        i5 = i10;
+                        i6 = 0;
                         obj2 = obj;
                     } else {
-                        str4 = str2;
-                        str3 = " documentName=";
+                        str3 = str2;
+                        str4 = " documentName=";
                         i4 = i3;
                         if (tLRPC$Document != null) {
                             obj2 = obj;
                             fileLoadOperation = new FileLoadOperation(tLRPC$Document, obj2);
                             if (MessageObject.isVoiceDocument(tLRPC$Document)) {
                                 j2 = 0;
-                                i6 = 0;
-                                i5 = 1;
+                                i5 = 0;
+                                i6 = 1;
                             } else if (MessageObject.isVideoDocument(tLRPC$Document)) {
                                 j2 = tLRPC$Document.id;
-                                i6 = tLRPC$Document.dc_id;
-                                i5 = 2;
+                                i5 = tLRPC$Document.dc_id;
+                                i6 = 2;
                             } else {
                                 j2 = tLRPC$Document.id;
-                                i6 = tLRPC$Document.dc_id;
-                                i5 = 3;
+                                i5 = tLRPC$Document.dc_id;
+                                i6 = 3;
                             }
                             if (MessageObject.isRoundVideoDocument(tLRPC$Document)) {
                                 j2 = 0;
-                                i6 = 0;
+                                i5 = 0;
                             }
                         } else {
                             obj2 = obj;
@@ -906,27 +916,27 @@ public class FileLoader extends BaseController {
                                 if (webFile.location == null) {
                                     if (MessageObject.isVoiceWebDocument(webFile)) {
                                         j2 = 0;
-                                        i6 = 0;
-                                        i5 = 1;
+                                        i5 = 0;
+                                        i6 = 1;
                                     } else if (MessageObject.isVideoWebDocument(webFile)) {
                                         j2 = 0;
-                                        i6 = 0;
-                                        i5 = 2;
+                                        i5 = 0;
+                                        i6 = 2;
                                     } else if (MessageObject.isImageWebDocument(webFile)) {
                                         j2 = 0;
-                                        i6 = 0;
                                         i5 = 0;
+                                        i6 = 0;
                                     }
                                 }
                             }
                             j2 = 0;
-                            i6 = 0;
-                            i5 = 4;
+                            i5 = 0;
+                            i6 = 4;
                         }
                     }
                     if (i4 != 11) {
                         i7 = 3;
-                    } else if (i5 == 1) {
+                    } else if (i6 == 1) {
                         i7 = 2;
                     } else {
                         i7 = (secureDocument != null || (tLRPC$TL_fileLocationToBeDeprecated != null && (imageLocation == null || imageLocation.imageType != 2)) || MessageObject.isImageWebDocument(webFile) || MessageObject.isStickerDocument(tLRPC$Document) || MessageObject.isAnimatedStickerDocument(tLRPC$Document) || MessageObject.isVideoStickerDocument(tLRPC$Document)) ? 1 : 0;
@@ -935,68 +945,68 @@ public class FileLoader extends BaseController {
                         if (i4 == 2) {
                             fileLoadOperation.setEncryptFile(true);
                         }
-                        file = directory;
+                        directory = directory3;
                     } else if (j2 == 0) {
-                        String path = getFileDatabase().getPath(j2, i6, i5, true);
+                        String path = getFileDatabase().getPath(j2, i5, i6, true);
                         if (path != null) {
-                            File file4 = new File(path);
-                            if (file4.exists()) {
-                                String name = file4.getName();
-                                file2 = file4.getParentFile();
-                                str6 = name;
-                                z3 = true;
-                                if (!z3) {
-                                    File directory2 = getDirectory(i5);
-                                    if ((i5 == 0 || i5 == 2) && canSaveToPublicStorage(obj2)) {
-                                        if (i5 == 0) {
-                                            file3 = getDirectory(100);
+                            File file2 = new File(path);
+                            if (file2.exists()) {
+                                String name = file2.getName();
+                                file = file2.getParentFile();
+                                str5 = name;
+                                z2 = true;
+                                if (!z2) {
+                                    File directory4 = getDirectory(i6);
+                                    if ((i6 == 0 || i6 == 2) && canSaveToPublicStorage(obj2)) {
+                                        if (i6 == 0) {
+                                            directory2 = getDirectory(100);
                                         } else {
-                                            file3 = getDirectory(MEDIA_DIR_VIDEO_PUBLIC);
+                                            directory2 = getDirectory(MEDIA_DIR_VIDEO_PUBLIC);
                                         }
-                                        if (file3 != null) {
-                                            directory2 = file3;
-                                            z5 = true;
+                                        if (directory2 != null) {
+                                            directory4 = directory2;
+                                            z3 = true;
                                         } else {
-                                            z5 = false;
+                                            z3 = false;
                                         }
-                                        str6 = str4;
-                                        boolean z6 = z5;
-                                        file2 = directory2;
+                                        str5 = str3;
+                                        boolean z6 = z3;
+                                        file = directory4;
                                         z4 = z6;
                                     } else {
                                         if (TextUtils.isEmpty(getDocumentFileName(tLRPC$Document)) || !canSaveAsFile(obj2)) {
-                                            file2 = directory2;
-                                            str6 = str4;
+                                            file = directory4;
+                                            str5 = str3;
                                         } else {
                                             String documentFileName = getDocumentFileName(tLRPC$Document);
-                                            File directory3 = getDirectory(5);
-                                            if (directory3 != null) {
+                                            File directory5 = getDirectory(5);
+                                            if (directory5 != null) {
                                                 z4 = true;
-                                                str6 = documentFileName;
-                                                file2 = directory3;
+                                                str5 = documentFileName;
+                                                file = directory5;
                                             } else {
-                                                str6 = documentFileName;
-                                                file2 = directory2;
+                                                str5 = documentFileName;
+                                                file = directory4;
                                             }
                                         }
                                         z4 = false;
                                     }
                                     if (z4) {
-                                        fileLoadOperation.pathSaveData = new FilePathDatabase.PathData(j2, i6, i5);
+                                        fileLoadOperation.pathSaveData = new FilePathDatabase.PathData(j2, i5, i6);
                                     }
                                 }
-                                file = file2;
-                                str5 = str6;
-                                fileLoadOperation.setPaths(this.currentAccount, str4, i7, file, directory, str5);
+                                directory = file;
+                                str6 = str5;
+                                fileLoadOperation.setPaths(this.currentAccount, str3, i7, directory, directory3, str6);
                                 if (i4 == 10) {
                                     fileLoadOperation.setIsPreloadVideoOperation(true);
                                 }
-                                final String str7 = str4;
-                                final int i11 = i5;
+                                final String str7 = str3;
+                                final int i11 = i6;
                                 final int i12 = i7;
                                 fileLoadOperation.setDelegate(new FileLoadOperation.FileLoadOperationDelegate() { // from class: org.telegram.messenger.FileLoader.2
                                     @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
-                                    public void didFinishLoadingFile(FileLoadOperation fileLoadOperation2, File file5) {
+                                    public void didFinishLoadingFile(FileLoadOperation fileLoadOperation2, File file3) {
                                         if (fileLoadOperation2.isPreloadVideoOperation() || !fileLoadOperation2.isPreloadFinished()) {
                                             if (tLRPC$Document != null) {
                                                 Object obj3 = obj;
@@ -1007,7 +1017,7 @@ public class FileLoader extends BaseController {
                                             if (!fileLoadOperation2.isPreloadVideoOperation()) {
                                                 FileLoader.this.loadOperationPathsUI.remove(str7);
                                                 if (FileLoader.this.delegate != null) {
-                                                    FileLoader.this.delegate.fileDidLoaded(str7, file5, obj, i11);
+                                                    FileLoader.this.delegate.fileDidLoaded(str7, file3, obj, i11);
                                                 }
                                             }
                                             FileLoader.this.checkDownloadQueue(fileLoadOperation2.getDatacenterId(), i12, str7);
@@ -1035,8 +1045,8 @@ public class FileLoader extends BaseController {
                                     }
 
                                     @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
-                                    public void saveFilePath(FilePathDatabase.PathData pathData, File file5) {
-                                        FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file5 != null ? file5.toString() : null);
+                                    public void saveFilePath(FilePathDatabase.PathData pathData, File file3) {
+                                        FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file3 != null ? file3.toString() : null);
                                     }
 
                                     @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
@@ -1045,15 +1055,15 @@ public class FileLoader extends BaseController {
                                     }
                                 });
                                 int datacenterId2 = fileLoadOperation.getDatacenterId();
-                                String str8 = str4;
+                                String str8 = str3;
                                 this.loadOperationPaths.put(str8, fileLoadOperation);
                                 int i13 = 3;
                                 fileLoadOperation.setPriority(i);
                                 if (i7 == 3) {
                                     i8 = i > 0 ? 6 : 2;
                                     i9 = this.preloadingLoadOperationsCount.get(datacenterId2);
-                                    z2 = fileLoadOperationStream != null || i9 < i8;
-                                    if (z2 && fileLoadOperation.start(fileLoadOperationStream, i2, z)) {
+                                    z5 = fileLoadOperationStream != null || i9 < i8;
+                                    if (z5 && fileLoadOperation.start(fileLoadOperationStream, i2, z)) {
                                         this.preloadingLoadOperationsCount.put(datacenterId2, i9 + 1);
                                     }
                                 } else if (i7 == 2) {
@@ -1061,8 +1071,8 @@ public class FileLoader extends BaseController {
                                         i13 = 1;
                                     }
                                     i9 = this.audioLoadOperationsCount.get(datacenterId2);
-                                    z2 = fileLoadOperationStream != null || i9 < i13;
-                                    if (z2 && fileLoadOperation.start(fileLoadOperationStream, i2, z)) {
+                                    z5 = fileLoadOperationStream != null || i9 < i13;
+                                    if (z5 && fileLoadOperation.start(fileLoadOperationStream, i2, z)) {
                                         this.audioLoadOperationsCount.put(datacenterId2, i9 + 1);
                                     }
                                     i8 = i13;
@@ -1071,8 +1081,8 @@ public class FileLoader extends BaseController {
                                     if (i7 == 1) {
                                         i8 = i > 0 ? 6 : 2;
                                         i9 = this.imageLoadOperationsCount.get(datacenterId2);
-                                        z2 = fileLoadOperationStream != null || i9 < i8;
-                                        if (z2 && fileLoadOperation.start(fileLoadOperationStream, i2, z)) {
+                                        z5 = fileLoadOperationStream != null || i9 < i8;
+                                        if (z5 && fileLoadOperation.start(fileLoadOperationStream, i2, z)) {
                                             this.imageLoadOperationsCount.put(datacenterId2, i9 + 1);
                                         }
                                     } else {
@@ -1092,34 +1102,34 @@ public class FileLoader extends BaseController {
                                         }
                                         i8 = i14;
                                         i9 = i15;
-                                        z2 = z7;
+                                        z5 = z7;
                                     }
                                 }
                                 if (BuildVars.LOGS_ENABLED) {
-                                    FileLog.d("loadFileInternal fileName=" + str8 + str3 + getDocumentFileName(tLRPC$Document) + " queueType=" + i7 + " maxCount=" + i8 + " count=" + i9);
+                                    FileLog.d("loadFileInternal fileName=" + str8 + str4 + getDocumentFileName(tLRPC$Document) + " queueType=" + i7 + " maxCount=" + i8 + " count=" + i9);
                                 }
-                                if (!z2) {
+                                if (!z5) {
                                     addOperationToQueue(fileLoadOperation, getLoadOperationQueue(datacenterId2, i7));
                                 }
                                 return fileLoadOperation;
                             }
                         }
-                        file2 = directory;
-                        str6 = str4;
-                        z3 = false;
-                        if (!z3) {
+                        file = directory3;
+                        str5 = str3;
+                        z2 = false;
+                        if (!z2) {
                         }
-                        file = file2;
-                        str5 = str6;
-                        fileLoadOperation.setPaths(this.currentAccount, str4, i7, file, directory, str5);
+                        directory = file;
+                        str6 = str5;
+                        fileLoadOperation.setPaths(this.currentAccount, str3, i7, directory, directory3, str6);
                         if (i4 == 10) {
                         }
-                        final String str72 = str4;
-                        final int i112 = i5;
+                        final String str72 = str3;
+                        final int i112 = i6;
                         final int i122 = i7;
                         fileLoadOperation.setDelegate(new FileLoadOperation.FileLoadOperationDelegate() { // from class: org.telegram.messenger.FileLoader.2
                             @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
-                            public void didFinishLoadingFile(FileLoadOperation fileLoadOperation2, File file5) {
+                            public void didFinishLoadingFile(FileLoadOperation fileLoadOperation2, File file3) {
                                 if (fileLoadOperation2.isPreloadVideoOperation() || !fileLoadOperation2.isPreloadFinished()) {
                                     if (tLRPC$Document != null) {
                                         Object obj3 = obj;
@@ -1130,7 +1140,7 @@ public class FileLoader extends BaseController {
                                     if (!fileLoadOperation2.isPreloadVideoOperation()) {
                                         FileLoader.this.loadOperationPathsUI.remove(str72);
                                         if (FileLoader.this.delegate != null) {
-                                            FileLoader.this.delegate.fileDidLoaded(str72, file5, obj, i112);
+                                            FileLoader.this.delegate.fileDidLoaded(str72, file3, obj, i112);
                                         }
                                     }
                                     FileLoader.this.checkDownloadQueue(fileLoadOperation2.getDatacenterId(), i122, str72);
@@ -1158,8 +1168,8 @@ public class FileLoader extends BaseController {
                             }
 
                             @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
-                            public void saveFilePath(FilePathDatabase.PathData pathData, File file5) {
-                                FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file5 != null ? file5.toString() : null);
+                            public void saveFilePath(FilePathDatabase.PathData pathData, File file3) {
+                                FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file3 != null ? file3.toString() : null);
                             }
 
                             @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
@@ -1168,7 +1178,7 @@ public class FileLoader extends BaseController {
                             }
                         });
                         int datacenterId22 = fileLoadOperation.getDatacenterId();
-                        String str82 = str4;
+                        String str82 = str3;
                         this.loadOperationPaths.put(str82, fileLoadOperation);
                         int i132 = 3;
                         fileLoadOperation.setPriority(i);
@@ -1176,22 +1186,22 @@ public class FileLoader extends BaseController {
                         }
                         if (BuildVars.LOGS_ENABLED) {
                         }
-                        if (!z2) {
+                        if (!z5) {
                         }
                         return fileLoadOperation;
                     } else {
-                        file = getDirectory(i5);
+                        directory = getDirectory(i6);
                     }
-                    str5 = str4;
-                    fileLoadOperation.setPaths(this.currentAccount, str4, i7, file, directory, str5);
+                    str6 = str3;
+                    fileLoadOperation.setPaths(this.currentAccount, str3, i7, directory, directory3, str6);
                     if (i4 == 10) {
                     }
-                    final String str722 = str4;
-                    final int i1122 = i5;
+                    final String str722 = str3;
+                    final int i1122 = i6;
                     final int i1222 = i7;
                     fileLoadOperation.setDelegate(new FileLoadOperation.FileLoadOperationDelegate() { // from class: org.telegram.messenger.FileLoader.2
                         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
-                        public void didFinishLoadingFile(FileLoadOperation fileLoadOperation2, File file5) {
+                        public void didFinishLoadingFile(FileLoadOperation fileLoadOperation2, File file3) {
                             if (fileLoadOperation2.isPreloadVideoOperation() || !fileLoadOperation2.isPreloadFinished()) {
                                 if (tLRPC$Document != null) {
                                     Object obj3 = obj;
@@ -1202,7 +1212,7 @@ public class FileLoader extends BaseController {
                                 if (!fileLoadOperation2.isPreloadVideoOperation()) {
                                     FileLoader.this.loadOperationPathsUI.remove(str722);
                                     if (FileLoader.this.delegate != null) {
-                                        FileLoader.this.delegate.fileDidLoaded(str722, file5, obj, i1122);
+                                        FileLoader.this.delegate.fileDidLoaded(str722, file3, obj, i1122);
                                     }
                                 }
                                 FileLoader.this.checkDownloadQueue(fileLoadOperation2.getDatacenterId(), i1222, str722);
@@ -1230,8 +1240,8 @@ public class FileLoader extends BaseController {
                         }
 
                         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
-                        public void saveFilePath(FilePathDatabase.PathData pathData, File file5) {
-                            FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file5 != null ? file5.toString() : null);
+                        public void saveFilePath(FilePathDatabase.PathData pathData, File file3) {
+                            FileLoader.this.getFileDatabase().putPath(pathData.id, pathData.dc, pathData.type, file3 != null ? file3.toString() : null);
                         }
 
                         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
@@ -1240,7 +1250,7 @@ public class FileLoader extends BaseController {
                         }
                     });
                     int datacenterId222 = fileLoadOperation.getDatacenterId();
-                    String str822 = str4;
+                    String str822 = str3;
                     this.loadOperationPaths.put(str822, fileLoadOperation);
                     int i1322 = 3;
                     fileLoadOperation.setPriority(i);
@@ -1248,13 +1258,13 @@ public class FileLoader extends BaseController {
                     }
                     if (BuildVars.LOGS_ENABLED) {
                     }
-                    if (!z2) {
+                    if (!z5) {
                     }
                     return fileLoadOperation;
                 }
                 j2 = 0;
-                i6 = 0;
-                i5 = 3;
+                i5 = 0;
+                i6 = 3;
                 if (i4 != 11) {
                 }
                 if (i4 == 0) {
@@ -1351,10 +1361,12 @@ public class FileLoader extends BaseController {
         fileLoaderQueue.postRunnable(runnable2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadFile$9(TLRPC$Document tLRPC$Document, SecureDocument secureDocument, WebFile webFile, TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated, ImageLocation imageLocation, Object obj, String str, long j, int i, int i2) {
         loadFileInternal(tLRPC$Document, secureDocument, webFile, tLRPC$TL_fileLocationToBeDeprecated, imageLocation, obj, str, j, i, null, 0, false, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public FileLoadOperation loadStreamFile(final FileLoadOperationStream fileLoadOperationStream, final TLRPC$Document tLRPC$Document, final ImageLocation imageLocation, final Object obj, final int i, final boolean z) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final FileLoadOperation[] fileLoadOperationArr = new FileLoadOperation[1];
@@ -1372,6 +1384,7 @@ public class FileLoader extends BaseController {
         return fileLoadOperationArr[0];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStreamFile$10(FileLoadOperation[] fileLoadOperationArr, TLRPC$Document tLRPC$Document, ImageLocation imageLocation, Object obj, FileLoadOperationStream fileLoadOperationStream, int i, boolean z, CountDownLatch countDownLatch) {
         String str = null;
         TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = (tLRPC$Document != null || imageLocation == null) ? null : imageLocation.location;
@@ -1382,6 +1395,7 @@ public class FileLoader extends BaseController {
         countDownLatch.countDown();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkDownloadQueue(final int i, final int i2, final String str) {
         fileLoaderQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoader$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -1391,26 +1405,27 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:15:0x0042, code lost:
-        if (r8.getPriority() != 0) goto L28;
+        if (r8.getPriority() != 0) goto L17;
      */
     /* JADX WARN: Code restructure failed: missing block: B:16:0x0045, code lost:
         r3 = 2;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x004e, code lost:
-        if (r8.getPriority() != 0) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x004e, code lost:
+        if (r8.getPriority() != 0) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0051, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x0051, code lost:
         r5 = 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0052, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x0052, code lost:
         r3 = r5;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x005a, code lost:
-        if (r8.getPriority() != 0) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x005a, code lost:
+        if (r8.getPriority() != 0) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0061, code lost:
-        if (r8.isForceRequest() != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0061, code lost:
+        if (r8.isForceRequest() != false) goto L45;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1577,20 +1592,20 @@ public class FileLoader extends BaseController {
         return getPathToAttach(tLObject, null, str, z, z2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0166  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x016e  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x0166  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x016e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public File getPathToAttach(TLObject tLObject, String str, String str2, boolean z, boolean z2) {
-        int i;
-        int i2;
-        long j;
-        String path;
         File directory;
-        int i3;
+        long j;
+        int i;
         long j2;
+        int i2;
+        int i3;
         int i4;
+        String path;
         File file = null;
         int i5 = 4;
         if (z) {
@@ -1608,7 +1623,7 @@ public class FileLoader extends BaseController {
                         i5 = MessageObject.isVideoDocument(tLRPC$Document) ? 2 : 3;
                     }
                 }
-                j = tLRPC$Document.id;
+                j2 = tLRPC$Document.id;
                 i4 = tLRPC$Document.dc_id;
                 file = getDirectory(i5);
             } else if (tLObject instanceof TLRPC$Photo) {
@@ -1621,7 +1636,7 @@ public class FileLoader extends BaseController {
                         if (tLRPC$FileLocation == null || tLRPC$FileLocation.key != null || ((tLRPC$FileLocation.volume_id == -2147483648L && tLRPC$FileLocation.local_id < 0) || tLRPC$PhotoSize.size < 0)) {
                             file = getDirectory(4);
                             TLRPC$FileLocation tLRPC$FileLocation2 = tLRPC$PhotoSize.location;
-                            j = tLRPC$FileLocation2.volume_id;
+                            j2 = tLRPC$FileLocation2.volume_id;
                             i4 = tLRPC$FileLocation2.dc_id;
                         } else {
                             file = getDirectory(0);
@@ -1629,7 +1644,7 @@ public class FileLoader extends BaseController {
                     }
                     i5 = 0;
                     TLRPC$FileLocation tLRPC$FileLocation22 = tLRPC$PhotoSize.location;
-                    j = tLRPC$FileLocation22.volume_id;
+                    j2 = tLRPC$FileLocation22.volume_id;
                     i4 = tLRPC$FileLocation22.dc_id;
                 } else if (tLObject instanceof TLRPC$TL_videoSize) {
                     TLRPC$TL_videoSize tLRPC$TL_videoSize = (TLRPC$TL_videoSize) tLObject;
@@ -1641,33 +1656,33 @@ public class FileLoader extends BaseController {
                         i5 = 0;
                     }
                     TLRPC$FileLocation tLRPC$FileLocation4 = tLRPC$TL_videoSize.location;
-                    j = tLRPC$FileLocation4.volume_id;
+                    j2 = tLRPC$FileLocation4.volume_id;
                     i4 = tLRPC$FileLocation4.dc_id;
                 } else if (tLObject instanceof TLRPC$FileLocation) {
                     TLRPC$FileLocation tLRPC$FileLocation5 = (TLRPC$FileLocation) tLObject;
                     if (tLRPC$FileLocation5.key == null) {
-                        j2 = tLRPC$FileLocation5.volume_id;
-                        if (j2 != -2147483648L || tLRPC$FileLocation5.local_id >= 0) {
-                            i3 = tLRPC$FileLocation5.dc_id;
+                        j = tLRPC$FileLocation5.volume_id;
+                        if (j != -2147483648L || tLRPC$FileLocation5.local_id >= 0) {
+                            i = tLRPC$FileLocation5.dc_id;
                             file = getDirectory(0);
-                            j = j2;
-                            i = 0;
-                            i2 = i3;
+                            j2 = j;
+                            i2 = 0;
+                            i3 = i;
                             if (file != null) {
                                 return new File("");
                             }
-                            if (j != 0 && (path = getInstance(UserConfig.selectedAccount).getFileDatabase().getPath(j, i2, i, z2)) != null) {
+                            if (j2 != 0 && (path = getInstance(UserConfig.selectedAccount).getFileDatabase().getPath(j2, i3, i2, z2)) != null) {
                                 return new File(path);
                             }
                             return new File(file, getAttachFileName(tLObject, str2));
                         }
                     }
                     file = getDirectory(4);
-                    j2 = 0;
-                    i3 = 0;
-                    j = j2;
+                    j = 0;
                     i = 0;
-                    i2 = i3;
+                    j2 = j;
+                    i2 = 0;
+                    i3 = i;
                     if (file != null) {
                     }
                 } else if ((tLObject instanceof TLRPC$UserProfilePhoto) || (tLObject instanceof TLRPC$ChatPhoto)) {
@@ -1695,18 +1710,19 @@ public class FileLoader extends BaseController {
                     file = getDirectory(4);
                 }
             }
-            i2 = i4;
-            i = i5;
+            i3 = i4;
+            i2 = i5;
             if (file != null) {
             }
         }
-        j = 0;
+        j2 = 0;
+        i3 = 0;
         i2 = 0;
-        i = 0;
         if (file != null) {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public FilePathDatabase getFileDatabase() {
         return this.filePathDatabase;
     }
@@ -1719,25 +1735,25 @@ public class FileLoader extends BaseController {
         return getClosestPhotoSizeWithSize(arrayList, i, z, null, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0044, code lost:
-        if (r5.dc_id != Integer.MIN_VALUE) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0044, code lost:
+        if (r5.dc_id != Integer.MIN_VALUE) goto L29;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0061, code lost:
-        if (r5.dc_id != Integer.MIN_VALUE) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0061, code lost:
+        if (r5.dc_id != Integer.MIN_VALUE) goto L44;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static TLRPC$PhotoSize getClosestPhotoSizeWithSize(ArrayList<TLRPC$PhotoSize> arrayList, int i, boolean z, TLRPC$PhotoSize tLRPC$PhotoSize, boolean z2) {
-        int i2;
+        int max;
         TLRPC$PhotoSize tLRPC$PhotoSize2 = null;
         if (arrayList != null && !arrayList.isEmpty()) {
-            int i3 = 0;
-            for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                TLRPC$PhotoSize tLRPC$PhotoSize3 = arrayList.get(i4);
+            int i2 = 0;
+            for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                TLRPC$PhotoSize tLRPC$PhotoSize3 = arrayList.get(i3);
                 if (tLRPC$PhotoSize3 != null && tLRPC$PhotoSize3 != tLRPC$PhotoSize && !(tLRPC$PhotoSize3 instanceof TLRPC$TL_photoSizeEmpty) && !(tLRPC$PhotoSize3 instanceof TLRPC$TL_photoPathSize) && (!z2 || !(tLRPC$PhotoSize3 instanceof TLRPC$TL_photoStrippedSize))) {
                     if (z) {
-                        i2 = Math.min(tLRPC$PhotoSize3.h, tLRPC$PhotoSize3.w);
+                        max = Math.min(tLRPC$PhotoSize3.h, tLRPC$PhotoSize3.w);
                         if (tLRPC$PhotoSize2 != null) {
                             if (i > 100) {
                                 TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize2.location;
@@ -1745,16 +1761,16 @@ public class FileLoader extends BaseController {
                                 }
                             }
                             if (!(tLRPC$PhotoSize3 instanceof TLRPC$TL_photoCachedSize)) {
-                                if (i > i3) {
-                                    if (i3 >= i2) {
+                                if (i > i2) {
+                                    if (i2 >= max) {
                                     }
                                 }
                             }
                         }
                         tLRPC$PhotoSize2 = tLRPC$PhotoSize3;
-                        i3 = i2;
+                        i2 = max;
                     } else {
-                        i2 = Math.max(tLRPC$PhotoSize3.w, tLRPC$PhotoSize3.h);
+                        max = Math.max(tLRPC$PhotoSize3.w, tLRPC$PhotoSize3.h);
                         if (tLRPC$PhotoSize2 != null) {
                             if (i > 100) {
                                 TLRPC$FileLocation tLRPC$FileLocation2 = tLRPC$PhotoSize2.location;
@@ -1762,14 +1778,14 @@ public class FileLoader extends BaseController {
                                 }
                             }
                             if (!(tLRPC$PhotoSize3 instanceof TLRPC$TL_photoCachedSize)) {
-                                if (i2 <= i) {
-                                    if (i3 >= i2) {
+                                if (max <= i) {
+                                    if (i2 >= max) {
                                     }
                                 }
                             }
                         }
                         tLRPC$PhotoSize2 = tLRPC$PhotoSize3;
-                        i3 = i2;
+                        i2 = max;
                     }
                 }
             }
@@ -2020,6 +2036,7 @@ public class FileLoader extends BaseController {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$deleteFiles$12(ArrayList arrayList, int i) {
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             File file = (File) arrayList.get(i2);
@@ -2171,6 +2188,7 @@ public class FileLoader extends BaseController {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkCurrentDownloadsFiles$13(ArrayList arrayList) {
         getDownloadController().recentDownloadingFiles.removeAll(arrayList);
         getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
@@ -2196,6 +2214,7 @@ public class FileLoader extends BaseController {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class LoadOperationUIObject {
         Runnable loadInternalRunnable;

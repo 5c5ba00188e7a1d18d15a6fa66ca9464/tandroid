@@ -9,6 +9,7 @@ import org.webrtc.MediaStreamTrack;
 public final class MimeTypes {
     private static final ArrayList<CustomMimeType> customMimeTypes = new ArrayList<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CustomMimeType {
         public final String codecPrefix;

@@ -24,6 +24,7 @@ public class MessageEnterTransitionContainer extends View {
         void onDraw(Canvas canvas);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         setVisibility(8);
     }
@@ -34,12 +35,14 @@ public class MessageEnterTransitionContainer extends View {
         this.currentAccount = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void addTransition(Transition transition) {
         this.transitions.add(transition);
         checkVisibility();
         this.parent.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void removeTransition(Transition transition) {
         this.transitions.remove(transition);
         checkVisibility();

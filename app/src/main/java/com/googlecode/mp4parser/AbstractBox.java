@@ -45,6 +45,7 @@ public abstract class AbstractBox implements Box {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public AbstractBox(String str) {
         this.type = str;
     }

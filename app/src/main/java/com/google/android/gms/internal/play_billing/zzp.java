@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 final class zzp {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(Object obj, Object obj2) {
         if (obj == null) {
             zzp$$ExternalSyntheticToStringIfNotNull0.m(obj2);

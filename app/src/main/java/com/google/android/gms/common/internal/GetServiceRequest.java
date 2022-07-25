@@ -40,6 +40,7 @@ public class GetServiceRequest extends AbstractSafeParcelable {
         this.zzn = str;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GetServiceRequest(int i, int i2, int i3, String str, IBinder iBinder, Scope[] scopeArr, Bundle bundle, Account account, Feature[] featureArr, Feature[] featureArr2, boolean z, int i4, boolean z2, String str2) {
         this.zzi = i;
         this.zzj = i2;

@@ -23,6 +23,8 @@ public final class zzhb extends zzfu<zzhb> implements Cloneable {
         return zzbkd;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
     /* renamed from: zzgf */
     public final zzhb clone() {
         try {
@@ -91,6 +93,7 @@ public final class zzhb extends zzfu<zzhb> implements Cloneable {
         super.zza(zzfsVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
     public final int zzen() {
         int zzen = super.zzen();

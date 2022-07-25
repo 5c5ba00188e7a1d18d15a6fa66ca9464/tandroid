@@ -3,6 +3,7 @@ package j$.util.stream;
 import java.util.Arrays;
 /* loaded from: classes2.dex */
 final class K3 extends J0 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public K3(c cVar) {
         super(cVar, e4.INT_VALUE, d4.q | d4.o);
     }

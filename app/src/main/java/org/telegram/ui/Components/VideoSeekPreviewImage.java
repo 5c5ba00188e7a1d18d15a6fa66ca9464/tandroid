@@ -94,6 +94,7 @@ public class VideoSeekPreviewImage extends View {
         dispatchQueue.postRunnable(runnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProgress$1(float f, long j) {
         int i;
         if (this.fileDrawable == null) {
@@ -131,6 +132,7 @@ public class VideoSeekPreviewImage extends View {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProgress$0(Bitmap bitmap) {
         int i;
         if (bitmap != null) {
@@ -184,8 +186,9 @@ public class VideoSeekPreviewImage extends View {
         dispatchQueue.postRunnable(runnable);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$3(Uri uri) {
-        String str;
+        String absolutePath;
         if ("tg".equals(uri.getScheme())) {
             int intValue = Utilities.parseInt((CharSequence) uri.getQueryParameter("account")).intValue();
             Object parentObject = FileLoader.getInstance(intValue).getParentObject(Utilities.parseInt((CharSequence) uri.getQueryParameter("rid")).intValue());
@@ -202,11 +205,11 @@ public class VideoSeekPreviewImage extends View {
             tLRPC$TL_document.attributes.add(new TLRPC$TL_documentAttributeVideo());
             if (FileLoader.getInstance(intValue).isLoadingFile(FileLoader.getAttachFileName(tLRPC$TL_document))) {
                 File directory = FileLoader.getDirectory(4);
-                str = new File(directory, tLRPC$TL_document.dc_id + "_" + tLRPC$TL_document.id + ".temp").getAbsolutePath();
+                absolutePath = new File(directory, tLRPC$TL_document.dc_id + "_" + tLRPC$TL_document.id + ".temp").getAbsolutePath();
             } else {
-                str = FileLoader.getInstance(intValue).getPathToAttach(tLRPC$TL_document, false).getAbsolutePath();
+                absolutePath = FileLoader.getInstance(intValue).getPathToAttach(tLRPC$TL_document, false).getAbsolutePath();
             }
-            this.fileDrawable = new AnimatedFileDrawable(new File(str), true, tLRPC$TL_document.size, tLRPC$TL_document, null, parentObject, 0L, intValue, true, null);
+            this.fileDrawable = new AnimatedFileDrawable(new File(absolutePath), true, tLRPC$TL_document.size, tLRPC$TL_document, null, parentObject, 0L, intValue, true, null);
         } else {
             this.fileDrawable = new AnimatedFileDrawable(new File(uri.getPath()), true, 0L, null, null, null, 0L, 0, true, null);
         }
@@ -224,6 +227,7 @@ public class VideoSeekPreviewImage extends View {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$2() {
         this.loadRunnable = null;
         if (this.fileDrawable != null) {
@@ -284,6 +288,7 @@ public class VideoSeekPreviewImage extends View {
         this.ready = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$close$4() {
         this.pendingProgress = 0.0f;
         AnimatedFileDrawable animatedFileDrawable = this.fileDrawable;

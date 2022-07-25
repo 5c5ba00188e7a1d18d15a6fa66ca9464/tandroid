@@ -41,6 +41,7 @@ public final class Mp3Extractor implements Extractor {
         return ((long) (i & (-128000))) == (j & (-128000));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$static$1(int i, int i2, int i3, int i4, int i5) {
         return (i2 == 67 && i3 == 79 && i4 == 77 && (i5 == 77 || i == 2)) || (i2 == 77 && i3 == 76 && i4 == 76 && (i5 == 84 || i == 2));
     }
@@ -173,20 +174,20 @@ public final class Mp3Extractor implements Extractor {
         return 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x009d, code lost:
-        if (r12 == false) goto L51;
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x009d, code lost:
+        if (r12 == false) goto L54;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x009f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x009f, code lost:
         r11.skipFully(r2 + r4);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00a4, code lost:
-        r11.resetPeekPosition();
      */
     /* JADX WARN: Code restructure failed: missing block: B:52:0x00a7, code lost:
         r10.synchronizedHeaderData = r1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:53:0x00a9, code lost:
         return true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x00a4, code lost:
+        r11.resetPeekPosition();
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -203,14 +204,14 @@ public final class Mp3Extractor implements Extractor {
             if (peekId3Data != null) {
                 this.gaplessInfoHolder.setFromMetadata(peekId3Data);
             }
-            i = (int) extractorInput.getPeekPosition();
+            i2 = (int) extractorInput.getPeekPosition();
             if (!z) {
-                extractorInput.skipFully(i);
+                extractorInput.skipFully(i2);
             }
-            i2 = 0;
-        } else {
-            i2 = 0;
             i = 0;
+        } else {
+            i = 0;
+            i2 = 0;
         }
         int i4 = 0;
         int i5 = 0;
@@ -218,7 +219,7 @@ public final class Mp3Extractor implements Extractor {
             if (!peekEndOfStreamOrHeader(extractorInput)) {
                 this.scratch.setPosition(0);
                 int readInt = this.scratch.readInt();
-                if ((i2 == 0 || headersMatch(readInt, i2)) && (frameSize = MpegAudioHeader.getFrameSize(readInt)) != -1) {
+                if ((i == 0 || headersMatch(readInt, i)) && (frameSize = MpegAudioHeader.getFrameSize(readInt)) != -1) {
                     i4++;
                     if (i4 != 1) {
                         if (i4 == 4) {
@@ -226,7 +227,7 @@ public final class Mp3Extractor implements Extractor {
                         }
                     } else {
                         MpegAudioHeader.populateHeader(readInt, this.synchronizedHeader);
-                        i2 = readInt;
+                        i = readInt;
                     }
                     extractorInput.advancePeekPosition(frameSize - 4);
                 } else {
@@ -239,12 +240,12 @@ public final class Mp3Extractor implements Extractor {
                     }
                     if (z) {
                         extractorInput.resetPeekPosition();
-                        extractorInput.advancePeekPosition(i + i6);
+                        extractorInput.advancePeekPosition(i2 + i6);
                     } else {
                         extractorInput.skipFully(1);
                     }
                     i5 = i6;
-                    i2 = 0;
+                    i = 0;
                     i4 = 0;
                 }
             } else if (i4 <= 0) {

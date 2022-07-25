@@ -17,21 +17,21 @@ public class Logger {
     */
     public Logger(@RecentlyNonNull String str, @RecentlyNonNull String... strArr) {
         this(str, r8);
-        String str2;
+        String sb;
         if (strArr.length == 0) {
-            str2 = "";
+            sb = "";
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append('[');
-            for (String str3 : strArr) {
-                if (sb.length() > 1) {
-                    sb.append(",");
+            StringBuilder sb2 = new StringBuilder();
+            sb2.append('[');
+            for (String str2 : strArr) {
+                if (sb2.length() > 1) {
+                    sb2.append(",");
                 }
-                sb.append(str3);
+                sb2.append(str2);
             }
-            sb.append(']');
-            sb.append(' ');
-            str2 = sb.toString();
+            sb2.append(']');
+            sb2.append(' ');
+            sb = sb2.toString();
         }
     }
 

@@ -1,10 +1,12 @@
 package org.aspectj.runtime.reflect;
 
 import org.aspectj.lang.reflect.MethodSignature;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class MethodSignatureImpl extends CodeSignatureImpl implements MethodSignature {
     Class returnType;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public MethodSignatureImpl(int i, String str, Class cls, Class[] clsArr, String[] strArr, Class[] clsArr2, Class cls2) {
         super(i, str, cls, clsArr, strArr, clsArr2);
         this.returnType = cls2;

@@ -18,7 +18,8 @@ public final class ParsingLoadable<T> implements Loader.Loadable {
 
     /* loaded from: classes.dex */
     public interface Parser<T> {
-        T parse(Uri uri, InputStream inputStream) throws IOException;
+        /* renamed from: parse */
+        T mo164parse(Uri uri, InputStream inputStream) throws IOException;
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Loadable
@@ -58,7 +59,7 @@ public final class ParsingLoadable<T> implements Loader.Loadable {
         DataSourceInputStream dataSourceInputStream = new DataSourceInputStream(this.dataSource, this.dataSpec);
         try {
             dataSourceInputStream.open();
-            this.result = this.parser.parse((Uri) Assertions.checkNotNull(this.dataSource.getUri()), dataSourceInputStream);
+            this.result = this.parser.mo164parse((Uri) Assertions.checkNotNull(this.dataSource.getUri()), dataSourceInputStream);
         } finally {
             Util.closeQuietly(dataSourceInputStream);
         }

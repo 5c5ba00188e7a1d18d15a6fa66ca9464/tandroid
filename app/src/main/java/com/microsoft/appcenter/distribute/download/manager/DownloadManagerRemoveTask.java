@@ -10,11 +10,14 @@ class DownloadManagerRemoveTask extends AsyncTask<Void, Void, Void> {
     private final Context mContext;
     private final long mDownloadId;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DownloadManagerRemoveTask(Context context, long j) {
         this.mContext = context;
         this.mDownloadId = j;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Void doInBackground(Void... voidArr) {
         ((DownloadManager) this.mContext.getSystemService("download")).remove(this.mDownloadId);
         return null;

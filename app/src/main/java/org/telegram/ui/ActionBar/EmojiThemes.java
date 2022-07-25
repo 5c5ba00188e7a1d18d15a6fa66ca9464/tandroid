@@ -327,6 +327,7 @@ public class EmojiThemes {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadWallpaper$1(final ResultCallback resultCallback, final long j, TLRPC$WallPaper tLRPC$WallPaper, Bitmap bitmap) {
         if (bitmap != null && resultCallback != null) {
             resultCallback.onComplete(new Pair(Long.valueOf(j), bitmap));
@@ -353,6 +354,7 @@ public class EmojiThemes {
         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadWallpaper$0(ResultCallback resultCallback, long j, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         ImageReceiver.BitmapHolder bitmapSafe = imageReceiver.getBitmapSafe();
         if (!z || bitmapSafe == null) {
@@ -422,6 +424,7 @@ public class EmojiThemes {
         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadWallpaperThumb$3(ResultCallback resultCallback, long j, final File file, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         ImageReceiver.BitmapHolder bitmapSafe = imageReceiver.getBitmapSafe();
         if (!z || bitmapSafe == null || bitmapSafe.bitmap.isRecycled()) {
@@ -450,6 +453,7 @@ public class EmojiThemes {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadWallpaperThumb$2(File file, Bitmap bitmap) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -473,22 +477,22 @@ public class EmojiThemes {
     }
 
     public static Theme.ThemeInfo getDefaultThemeInfo(boolean z) {
-        String str;
+        String string;
         Theme.ThemeInfo currentNightTheme = z ? Theme.getCurrentNightTheme() : Theme.getCurrentTheme();
         if (z != currentNightTheme.isDark()) {
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
-            String str2 = "Dark Blue";
+            String str = "Dark Blue";
             if (z) {
-                str = sharedPreferences.getString("lastDarkTheme", str2);
+                string = sharedPreferences.getString("lastDarkTheme", str);
             } else {
-                str = sharedPreferences.getString("lastDayTheme", "Blue");
+                string = sharedPreferences.getString("lastDayTheme", "Blue");
             }
-            currentNightTheme = Theme.getTheme(str);
+            currentNightTheme = Theme.getTheme(string);
             if (currentNightTheme == null) {
                 if (!z) {
-                    str2 = "Blue";
+                    str = "Blue";
                 }
-                currentNightTheme = Theme.getTheme(str2);
+                currentNightTheme = Theme.getTheme(str);
             }
         }
         return new Theme.ThemeInfo(currentNightTheme);

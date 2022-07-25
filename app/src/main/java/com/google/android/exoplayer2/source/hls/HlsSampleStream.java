@@ -5,9 +5,8 @@ import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.util.Assertions;
 import java.io.IOException;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class HlsSampleStream implements SampleStream {
+final class HlsSampleStream implements SampleStream {
     private int sampleQueueIndex = -1;
     private final HlsSampleStreamWrapper sampleStreamWrapper;
     private final int trackGroupIndex;

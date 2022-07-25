@@ -242,10 +242,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         openProfile(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Theme.ResourcesProvider resourcesProvider, View view) {
         if (this.secretChatTimer) {
             this.parentFragment.showDialog(AlertsCreator.createTTLAlert(getContext(), this.parentFragment.getCurrentEncryptedChat(), resourcesProvider).create());
@@ -254,6 +256,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         openProfile(false);
     }
@@ -330,8 +333,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x001b, code lost:
-        if (r7.avatarImageView.getImageReceiver().hasNotThumb() != false) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x001b, code lost:
+        if (r7.avatarImageView.getImageReceiver().hasNotThumb() != false) goto L10;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -475,6 +478,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         setClipChildren(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fadeOutToLessWidth$3() {
         SimpleTextView simpleTextView = this.titleTextLargerCopyView;
         if (simpleTextView != null) {
@@ -483,6 +487,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fadeOutToLessWidth$4() {
         SimpleTextView simpleTextView = this.subtitleTextLargerCopyView;
         if (simpleTextView != null) {
@@ -1009,6 +1014,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -1020,6 +1026,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -1053,18 +1060,18 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     private void updateCurrentConnectionState() {
-        String str;
+        String string;
         int i = this.currentConnectionState;
         if (i == 2) {
-            str = LocaleController.getString("WaitingForNetwork", R.string.WaitingForNetwork);
+            string = LocaleController.getString("WaitingForNetwork", R.string.WaitingForNetwork);
         } else if (i == 1) {
-            str = LocaleController.getString("Connecting", R.string.Connecting);
+            string = LocaleController.getString("Connecting", R.string.Connecting);
         } else if (i == 5) {
-            str = LocaleController.getString("Updating", R.string.Updating);
+            string = LocaleController.getString("Updating", R.string.Updating);
         } else {
-            str = i == 4 ? LocaleController.getString("ConnectingToProxy", R.string.ConnectingToProxy) : null;
+            string = i == 4 ? LocaleController.getString("ConnectingToProxy", R.string.ConnectingToProxy) : null;
         }
-        if (str == null) {
+        if (string == null) {
             CharSequence charSequence = this.lastSubtitle;
             if (charSequence == null) {
                 return;
@@ -1076,18 +1083,18 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 this.subtitleTextView.setTextColor(num.intValue());
                 return;
             }
-            String str2 = this.lastSubtitleColorKey;
-            if (str2 == null) {
+            String str = this.lastSubtitleColorKey;
+            if (str == null) {
                 return;
             }
-            this.subtitleTextView.setTextColor(getThemedColor(str2));
+            this.subtitleTextView.setTextColor(getThemedColor(str));
             this.subtitleTextView.setTag(this.lastSubtitleColorKey);
             return;
         }
         if (this.lastSubtitle == null) {
             this.lastSubtitle = this.subtitleTextView.getText();
         }
-        this.subtitleTextView.setText(str);
+        this.subtitleTextView.setText(string);
         Integer num2 = this.overrideSubtitleColor;
         if (num2 != null) {
             this.subtitleTextView.setTextColor(num2.intValue());

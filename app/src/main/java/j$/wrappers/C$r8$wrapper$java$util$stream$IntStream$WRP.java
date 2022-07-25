@@ -1,8 +1,10 @@
 package j$.wrappers;
 
 import java.util.IntSummaryStatistics;
+import java.util.Iterator;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
@@ -17,7 +19,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-/* renamed from: j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP */
+/* renamed from: j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP  reason: invalid class name */
 /* loaded from: classes2.dex */
 public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP implements IntStream {
     final /* synthetic */ j$.util.stream.IntStream a;
@@ -118,6 +120,17 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
         return this.a.isParallel();
     }
 
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    public /* synthetic */ Iterator<Integer> iterator() {
+        return this.a.mo331iterator();
+    }
+
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    /* renamed from: iterator  reason: avoid collision after fix types in other method */
+    public /* synthetic */ Iterator<Integer> iterator2() {
+        return d.a(this.a.mo331iterator());
+    }
+
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream limit(long j) {
         return convert(this.a.limit(j));
@@ -164,6 +177,18 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
         return I0.n0(this.a.onClose(runnable));
     }
 
+    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    public /* synthetic */ IntStream parallel() {
+        return I0.n0(this.a.mo332parallel());
+    }
+
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    /* renamed from: parallel  reason: avoid collision after fix types in other method */
+    public /* synthetic */ IntStream parallel2() {
+        return convert(this.a.mo332parallel());
+    }
+
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream peek(IntConsumer intConsumer) {
         return convert(this.a.c0(Q.b(intConsumer)));
@@ -179,6 +204,18 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
         return j$.util.a.v(this.a.a0(O.a(intBinaryOperator)));
     }
 
+    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    public /* synthetic */ IntStream sequential() {
+        return I0.n0(this.a.mo333sequential());
+    }
+
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    /* renamed from: sequential  reason: avoid collision after fix types in other method */
+    public /* synthetic */ IntStream sequential2() {
+        return convert(this.a.mo333sequential());
+    }
+
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream skip(long j) {
         return convert(this.a.skip(j));
@@ -187,6 +224,17 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
     @Override // java.util.stream.IntStream
     public /* synthetic */ IntStream sorted() {
         return convert(this.a.sorted());
+    }
+
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    public /* synthetic */ Spliterator<Integer> spliterator() {
+        return l.a(this.a.mo334spliterator());
+    }
+
+    @Override // java.util.stream.IntStream, java.util.stream.BaseStream
+    /* renamed from: spliterator  reason: avoid collision after fix types in other method */
+    public /* synthetic */ Spliterator<Integer> spliterator2() {
+        return h.a(this.a.mo334spliterator());
     }
 
     @Override // java.util.stream.IntStream

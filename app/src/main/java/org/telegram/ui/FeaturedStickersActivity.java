@@ -106,22 +106,23 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(final View view, int i) {
-        TLRPC$InputStickerSet tLRPC$InputStickerSet;
+        TLRPC$InputStickerSet tLRPC$TL_inputStickerSetShortName;
         if (i < this.stickersStartRow || i >= this.stickersEndRow || getParentActivity() == null) {
             return;
         }
         final TLRPC$StickerSetCovered tLRPC$StickerSetCovered = MediaDataController.getInstance(this.currentAccount).getFeaturedStickerSets().get(i);
         if (tLRPC$StickerSetCovered.set.id != 0) {
-            tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetID();
-            tLRPC$InputStickerSet.id = tLRPC$StickerSetCovered.set.id;
+            tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetID();
+            tLRPC$TL_inputStickerSetShortName.id = tLRPC$StickerSetCovered.set.id;
         } else {
-            tLRPC$InputStickerSet = new TLRPC$TL_inputStickerSetShortName();
-            tLRPC$InputStickerSet.short_name = tLRPC$StickerSetCovered.set.short_name;
+            tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
+            tLRPC$TL_inputStickerSetShortName.short_name = tLRPC$StickerSetCovered.set.short_name;
         }
-        TLRPC$InputStickerSet tLRPC$InputStickerSet2 = tLRPC$InputStickerSet;
-        tLRPC$InputStickerSet2.access_hash = tLRPC$StickerSetCovered.set.access_hash;
-        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tLRPC$InputStickerSet2, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
+        TLRPC$InputStickerSet tLRPC$InputStickerSet = tLRPC$TL_inputStickerSetShortName;
+        tLRPC$InputStickerSet.access_hash = tLRPC$StickerSetCovered.set.access_hash;
+        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tLRPC$InputStickerSet, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
         stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.FeaturedStickersActivity.3
             @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
             public void onStickerSetUninstalled() {
@@ -193,12 +194,12 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            FeaturedStickersActivity.this = r1;
             this.mContext = context;
         }
 
@@ -232,6 +233,7 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
             return viewHolder.getItemViewType() == 0;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
             FeaturedStickerSetCell featuredStickerSetCell = (FeaturedStickerSetCell) view.getParent();
             TLRPC$StickerSetCovered stickerSet = featuredStickerSetCell.getStickerSet();
@@ -244,8 +246,9 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            TextInfoPrivacyCell textInfoPrivacyCell;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout frameLayout;
             if (i == 0) {
                 FeaturedStickerSetCell featuredStickerSetCell = new FeaturedStickerSetCell(this.mContext);
                 featuredStickerSetCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
@@ -255,14 +258,14 @@ public class FeaturedStickersActivity extends BaseFragment implements Notificati
                         FeaturedStickersActivity.ListAdapter.this.lambda$onCreateViewHolder$0(view);
                     }
                 });
-                textInfoPrivacyCell = featuredStickerSetCell;
+                frameLayout = featuredStickerSetCell;
             } else {
-                TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(this.mContext);
-                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-                textInfoPrivacyCell = textInfoPrivacyCell2;
+                FrameLayout textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
+                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                frameLayout = textInfoPrivacyCell;
             }
-            textInfoPrivacyCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(textInfoPrivacyCell);
+            frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(frameLayout);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

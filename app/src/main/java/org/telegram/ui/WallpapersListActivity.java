@@ -148,6 +148,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     private HashMap<Long, Object> patternsDict = new HashMap<>();
     private LongSparseArray<Object> selectedWallPapers = new LongSparseArray<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -403,8 +404,8 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                 return false;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:11:0x0033, code lost:
-                if (r0.itemView.getBottom() >= r1) goto L12;
+            /* JADX WARN: Code restructure failed: missing block: B:9:0x0033, code lost:
+                if (r0.itemView.getBottom() >= r1) goto L16;
              */
             @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
             /*
@@ -497,11 +498,11 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         return this.fragmentView;
     }
 
-    /* renamed from: org.telegram.ui.WallpapersListActivity$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.WallpapersListActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 extends ActionBar.ActionBarMenuOnItemClick {
         AnonymousClass2() {
-            WallpapersListActivity.this = r1;
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -551,6 +552,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$2(DialogInterface dialogInterface, int i) {
             WallpapersListActivity.this.progressDialog = new AlertDialog(WallpapersListActivity.this.getParentActivity(), 3);
             WallpapersListActivity.this.progressDialog.setCanCancel(false);
@@ -608,6 +610,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             ((BaseFragment) WallpapersListActivity.this).actionBar.closeSearchField();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$1(final int[] iArr, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
@@ -617,6 +620,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$0(int[] iArr) {
             iArr[0] = iArr[0] - 1;
             if (iArr[0] == 0) {
@@ -624,21 +628,22 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
-            String str;
+            String url;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < WallpapersListActivity.this.selectedWallPapers.size(); i++) {
                 Object valueAt = WallpapersListActivity.this.selectedWallPapers.valueAt(i);
                 if (valueAt instanceof TLRPC$TL_wallPaper) {
-                    str = AndroidUtilities.getWallPaperUrl(valueAt);
+                    url = AndroidUtilities.getWallPaperUrl(valueAt);
                 } else if (valueAt instanceof ColorWallpaper) {
-                    str = ((ColorWallpaper) valueAt).getUrl();
+                    url = ((ColorWallpaper) valueAt).getUrl();
                 }
-                if (!TextUtils.isEmpty(str)) {
+                if (!TextUtils.isEmpty(url)) {
                     if (sb.length() > 0) {
                         sb.append('\n');
                     }
-                    sb.append(str);
+                    sb.append(url);
                 }
             }
             WallpapersListActivity.this.selectedWallPapers.clear();
@@ -679,6 +684,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view, int i) {
         if (getParentActivity() == null || this.listView.getAdapter() == this.searchAdapter) {
             return;
@@ -711,6 +717,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(DialogInterface dialogInterface, int i) {
         if (this.actionBar.isActionModeShowed()) {
             this.selectedWallPapers.clear();
@@ -741,10 +748,12 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1() {
         loadWallpapers(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WallpapersListActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
@@ -807,6 +816,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         this.updater.setCurrentPicturePath(bundle.getString("path"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean onItemLongClick(WallpaperCell wallpaperCell, Object obj, int i) {
         Object obj2 = obj instanceof ColorWallpaper ? ((ColorWallpaper) obj).parentWallpaper : obj;
         if (this.actionBar.isActionModeShowed() || getParentActivity() == null || !(obj2 instanceof TLRPC$WallPaper)) {
@@ -831,9 +841,10 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onItemClick(WallpaperCell wallpaperCell, Object obj, int i) {
-        int i2;
         WallpaperCell wallpaperCell2;
+        int i2;
         Object obj2 = obj;
         boolean z = false;
         if (this.actionBar.isActionModeShowed()) {
@@ -914,6 +925,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         return ((FileWallpaper) obj).slug;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRowsSelection() {
         int childCount = this.listView.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -1020,6 +1032,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void loadWallpapers(final boolean z) {
         long j = 0;
         if (!z) {
@@ -1046,6 +1059,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }), this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadWallpapers$6(final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WallpapersListActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -1055,6 +1069,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadWallpapers$5(TLObject tLObject, boolean z) {
         ColorWallpaper colorWallpaper;
         int i;
@@ -1123,18 +1138,18 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     /* JADX WARN: Type inference failed for: r4v9, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     private void fillWallpapersWithCustom() {
         ?? r4;
+        final String str;
         Object obj;
         TLRPC$TL_wallPaper tLRPC$TL_wallPaper;
-        final String str;
         final long j;
+        TLRPC$WallPaper tLRPC$WallPaper;
         int i;
         int i2;
         int i3;
         int i4;
-        TLRPC$WallPaper tLRPC$WallPaper;
-        Object obj2;
-        TLRPC$TL_wallPaper tLRPC$TL_wallPaper2;
         String str2;
+        TLRPC$TL_wallPaper tLRPC$TL_wallPaper2;
+        Object obj2;
         if (this.currentType != 0) {
             return;
         }
@@ -1298,6 +1313,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         updateRows();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ int lambda$fillWallpapersWithCustom$7(long j, String str, boolean z, Object obj, Object obj2) {
         if (obj instanceof ColorWallpaper) {
             obj = ((ColorWallpaper) obj).parentWallpaper;
@@ -1408,6 +1424,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void fixLayoutInternal() {
         if (getParentActivity() == null) {
             return;
@@ -1427,10 +1444,8 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     private class ColorCell extends View {
         private int color;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ColorCell(Context context) {
             super(context);
-            WallpapersListActivity.this = r1;
         }
 
         @Override // android.view.View
@@ -1452,6 +1467,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int imageReqId;
@@ -1475,11 +1491,11 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             }
 
             private CategoryAdapterRecycler() {
-                SearchAdapter.this = r1;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
                 SearchAdapter searchAdapter = SearchAdapter.this;
                 return new RecyclerListView.Holder(new ColorCell(searchAdapter.mContext));
             }
@@ -1496,7 +1512,6 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
 
         public SearchAdapter(Context context) {
-            WallpapersListActivity.this = r1;
             this.mContext = context;
         }
 
@@ -1512,6 +1527,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             processSearch(null, true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void processSearch(final String str, boolean z) {
             if (str != null && this.selectedColor != null) {
                 str = "#color" + this.selectedColor + " " + str;
@@ -1549,6 +1565,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             notifyDataSetChanged();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processSearch$0(String str) {
             doSearch(str);
             this.searchRunnable = null;
@@ -1578,6 +1595,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchBotUser$2(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (tLObject != null) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WallpapersListActivity$SearchAdapter$$ExternalSyntheticLambda2
@@ -1589,6 +1607,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchBotUser$1(TLObject tLObject) {
             TLRPC$TL_contacts_resolvedPeer tLRPC$TL_contacts_resolvedPeer = (TLRPC$TL_contacts_resolvedPeer) tLObject;
             MessagesController.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).putUsers(tLRPC$TL_contacts_resolvedPeer.users, false);
@@ -1636,6 +1655,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             ConnectionsManager.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).bindRequestToGuid(this.imageReqId, ((BaseFragment) WallpapersListActivity.this).classGuid);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchImages$4(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WallpapersListActivity$SearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -1645,6 +1665,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchImages$3(int i, TLObject tLObject) {
             if (i != this.lastSearchToken) {
                 return;
@@ -1736,6 +1757,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             return viewHolder.getItemViewType() != 2;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$5(View view, int i) {
             String string = LocaleController.getString("BackgroundSearchColor", R.string.BackgroundSearchColor);
             SpannableString spannableString = new SpannableString(string + " " + LocaleController.getString(WallpapersListActivity.searchColorsNames[i], WallpapersListActivity.searchColorsNamesR[i]));
@@ -1748,7 +1770,8 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = null;
             if (i == 0) {
                 view = new WallpaperCell(this.mContext) { // from class: org.telegram.ui.WallpapersListActivity.SearchAdapter.1
@@ -1833,12 +1856,12 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            WallpapersListActivity.this = r1;
             this.mContext = context;
         }
 
@@ -1853,8 +1876,9 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View textCell;
             View shadowSectionCell;
             if (i != 0) {
                 int i2 = R.drawable.greydivider_bottom;
@@ -1873,7 +1897,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                     combinedDrawable2.setFullsize(true);
                     shadowSectionCell.setBackgroundDrawable(combinedDrawable2);
                 } else {
-                    view = new WallpaperCell(this.mContext) { // from class: org.telegram.ui.WallpapersListActivity.ListAdapter.1
+                    textCell = new WallpaperCell(this.mContext) { // from class: org.telegram.ui.WallpapersListActivity.ListAdapter.1
                         @Override // org.telegram.ui.Cells.WallpaperCell
                         protected void onWallpaperClick(Object obj, int i3) {
                             WallpapersListActivity.this.onItemClick(this, obj, i3);
@@ -1885,15 +1909,15 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                         }
                     };
                 }
-                view = shadowSectionCell;
+                textCell = shadowSectionCell;
             } else {
-                view = new TextCell(this.mContext);
+                textCell = new TextCell(this.mContext);
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(textCell);
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r3v31, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
+        /* JADX WARN: Type inference failed for: r3v32, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int itemViewType = viewHolder.getItemViewType();

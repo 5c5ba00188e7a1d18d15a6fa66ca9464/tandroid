@@ -129,6 +129,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         setColorProgress(0.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         if (i == this.addNewRow) {
             this.delegate.copyInviteLink();
@@ -241,11 +242,12 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002f  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0041 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x004c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0057 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0060 A[ADDED_TO_REGION] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0041 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x004c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0057 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0060 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x002f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -380,6 +382,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChatParticipants$4(final TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.GroupVoipInviteAlert$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -389,25 +392,26 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChatParticipants$3(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$TL_channels_getParticipants tLRPC$TL_channels_getParticipants) {
-        int i;
-        LongSparseArray<TLObject> longSparseArray;
+        int itemCount;
         ArrayList<TLObject> arrayList;
+        LongSparseArray<TLObject> longSparseArray;
         LongSparseArray<TLRPC$TL_groupCallParticipant> longSparseArray2;
         if (tLRPC$TL_error == null) {
             TLRPC$TL_channels_channelParticipants tLRPC$TL_channels_channelParticipants = (TLRPC$TL_channels_channelParticipants) tLObject;
             MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_channels_channelParticipants.users, false);
             MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_channels_channelParticipants.chats, false);
             long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
-            int i2 = 0;
+            int i = 0;
             while (true) {
-                if (i2 >= tLRPC$TL_channels_channelParticipants.participants.size()) {
+                if (i >= tLRPC$TL_channels_channelParticipants.participants.size()) {
                     break;
-                } else if (MessageObject.getPeerId(tLRPC$TL_channels_channelParticipants.participants.get(i2).peer) == clientUserId) {
-                    tLRPC$TL_channels_channelParticipants.participants.remove(i2);
+                } else if (MessageObject.getPeerId(tLRPC$TL_channels_channelParticipants.participants.get(i).peer) == clientUserId) {
+                    tLRPC$TL_channels_channelParticipants.participants.remove(i);
                     break;
                 } else {
-                    i2++;
+                    i++;
                 }
             }
             this.delayResults--;
@@ -421,26 +425,26 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             arrayList.clear();
             arrayList.addAll(tLRPC$TL_channels_channelParticipants.participants);
             int size = tLRPC$TL_channels_channelParticipants.participants.size();
-            for (int i3 = 0; i3 < size; i3++) {
-                TLRPC$ChannelParticipant tLRPC$ChannelParticipant = tLRPC$TL_channels_channelParticipants.participants.get(i3);
+            for (int i2 = 0; i2 < size; i2++) {
+                TLRPC$ChannelParticipant tLRPC$ChannelParticipant = tLRPC$TL_channels_channelParticipants.participants.get(i2);
                 longSparseArray.put(MessageObject.getPeerId(tLRPC$ChannelParticipant.peer), tLRPC$ChannelParticipant);
             }
             int size2 = this.participants.size();
-            int i4 = 0;
-            while (i4 < size2) {
-                long peerId = MessageObject.getPeerId(((TLRPC$ChannelParticipant) this.participants.get(i4)).peer);
+            int i3 = 0;
+            while (i3 < size2) {
+                long peerId = MessageObject.getPeerId(((TLRPC$ChannelParticipant) this.participants.get(i3)).peer);
                 boolean z = this.contactsMap.get(peerId) != null || ((longSparseArray2 = this.ignoredUsers) != null && longSparseArray2.indexOfKey(peerId) >= 0);
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerId));
                 if ((user != null && user.bot) || UserObject.isDeleted(user)) {
                     z = true;
                 }
                 if (z) {
-                    this.participants.remove(i4);
+                    this.participants.remove(i3);
                     this.participantsMap.remove(peerId);
-                    i4--;
+                    i3--;
                     size2--;
                 }
-                i4++;
+                i3++;
             }
             try {
                 if (this.info.participants_count <= 200) {
@@ -462,12 +466,12 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             this.loadingUsers = false;
             this.firstLoaded = true;
             if (this.flickerProgressRow == 1) {
-                i = 1;
+                itemCount = 1;
             } else {
                 RecyclerView.Adapter adapter = this.listViewAdapter;
-                i = adapter != null ? adapter.getItemCount() - 1 : 0;
+                itemCount = adapter != null ? adapter.getItemCount() - 1 : 0;
             }
-            showItemsAnimated(i);
+            showItemsAnimated(itemCount);
             if (this.participants.isEmpty()) {
                 this.showContacts = true;
                 fillContacts();
@@ -484,6 +488,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ int lambda$loadChatParticipants$2(int i, TLObject tLObject, TLObject tLObject2) {
         int i2;
         int i3;
@@ -518,6 +523,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int emptyRow;
@@ -532,11 +538,10 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         private int totalCount;
 
         public SearchAdapter(Context context) {
-            GroupVoipInviteAlert.this = r2;
             this.mContext = context;
             SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(true);
             this.searchAdapterHelper = searchAdapterHelper;
-            searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate(r2) { // from class: org.telegram.ui.Components.GroupVoipInviteAlert.SearchAdapter.1
+            searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate(GroupVoipInviteAlert.this) { // from class: org.telegram.ui.Components.GroupVoipInviteAlert.SearchAdapter.1
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i) {
                     return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i);
@@ -615,6 +620,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             this.lastSearchId = -1;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchUsers$0(String str, int i) {
             if (this.searchRunnable == null) {
                 return;
@@ -632,6 +638,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$processSearch$2(final String str, final int i) {
             final ArrayList arrayList = null;
             this.searchRunnable = null;
@@ -651,16 +658,17 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             this.searchAdapterHelper.queryServerSearch(str, ChatObject.canAddUsers(GroupVoipInviteAlert.this.currentChat), false, true, false, false, ChatObject.isChannel(GroupVoipInviteAlert.this.currentChat) ? GroupVoipInviteAlert.this.currentChat.id : 0L, false, 2, i);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:41:0x00db, code lost:
-            if (r14.contains(" " + r4) != false) goto L47;
+        /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x00db, code lost:
+            if (r14.contains(" " + r4) != false) goto L48;
          */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x00f3 A[LOOP:1: B:32:0x009f->B:50:0x00f3, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:59:0x00ef A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x00f3 A[LOOP:1: B:27:0x009f->B:43:0x00f3, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x00ef A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public /* synthetic */ void lambda$processSearch$1(String str, int i, ArrayList arrayList) {
-            long j;
+            long peerId;
             String lowerCase = str.trim().toLowerCase();
             if (lowerCase.length() == 0) {
                 updateSearchResults(new ArrayList<>(), i);
@@ -681,11 +689,11 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             for (int i3 = 0; i3 < size; i3++) {
                 TLObject tLObject = (TLObject) arrayList.get(i3);
                 if (tLObject instanceof TLRPC$ChatParticipant) {
-                    j = ((TLRPC$ChatParticipant) tLObject).user_id;
+                    peerId = ((TLRPC$ChatParticipant) tLObject).user_id;
                 } else if (tLObject instanceof TLRPC$ChannelParticipant) {
-                    j = MessageObject.getPeerId(((TLRPC$ChannelParticipant) tLObject).peer);
+                    peerId = MessageObject.getPeerId(((TLRPC$ChannelParticipant) tLObject).peer);
                 }
-                TLRPC$User user = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount).getUser(Long.valueOf(j));
+                TLRPC$User user = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount).getUser(Long.valueOf(peerId));
                 if (!UserObject.isUserSelf(user)) {
                     String lowerCase2 = UserObject.getUserName(user).toLowerCase();
                     String translitString2 = LocaleController.getInstance().getTranslitString(lowerCase2);
@@ -733,6 +741,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$3(int i, ArrayList arrayList) {
             if (i != this.lastSearchId) {
                 return;
@@ -807,8 +816,12 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r3v10, types: [org.telegram.ui.Cells.GraySectionCell, android.widget.FrameLayout] */
+        /* JADX WARN: Type inference failed for: r3v11, types: [android.view.View] */
+        /* JADX WARN: Type inference failed for: r3v12, types: [android.view.View] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatUserCell manageChatUserCell;
             if (i == 0) {
                 ManageChatUserCell manageChatUserCell2 = new ManageChatUserCell(this.mContext, 2, 2, false);
@@ -818,12 +831,12 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 manageChatUserCell2.setDividerColor("voipgroup_listViewBackground");
                 manageChatUserCell = manageChatUserCell2;
             } else if (i == 1) {
-                GraySectionCell graySectionCell = new GraySectionCell(this.mContext);
+                ?? graySectionCell = new GraySectionCell(this.mContext);
                 graySectionCell.setBackgroundColor(Theme.getColor("voipgroup_actionBarUnscrolled"));
                 graySectionCell.setTextColor("voipgroup_searchPlaceholder");
                 manageChatUserCell = graySectionCell;
             } else if (i == 2) {
-                View view = new View(this.mContext);
+                ?? view = new View(this.mContext);
                 view.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(56.0f)));
                 manageChatUserCell = view;
             } else {
@@ -833,15 +846,15 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x00f2  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x00f2  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            TLRPC$User tLRPC$User;
-            boolean z;
+            TLRPC$User user;
             String str;
+            boolean z;
             int size;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType != 0) {
@@ -861,15 +874,15 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             }
             TLObject item = getItem(i);
             if (item instanceof TLRPC$User) {
-                tLRPC$User = (TLRPC$User) item;
+                user = (TLRPC$User) item;
             } else if (item instanceof TLRPC$ChannelParticipant) {
-                tLRPC$User = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(((TLRPC$ChannelParticipant) item).peer)));
+                user = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount).getUser(Long.valueOf(MessageObject.getPeerId(((TLRPC$ChannelParticipant) item).peer)));
             } else if (!(item instanceof TLRPC$ChatParticipant)) {
                 return;
             } else {
-                tLRPC$User = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount).getUser(Long.valueOf(((TLRPC$ChatParticipant) item).user_id));
+                user = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount).getUser(Long.valueOf(((TLRPC$ChatParticipant) item).user_id));
             }
-            String str2 = tLRPC$User.username;
+            String str2 = user.username;
             int size2 = this.searchAdapterHelper.getGroupSearch().size();
             SpannableStringBuilder spannableStringBuilder = null;
             if (size2 != 0) {
@@ -904,7 +917,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                         }
                     }
                     if (str != null) {
-                        String userName = UserObject.getUserName(tLRPC$User);
+                        String userName = UserObject.getUserName(user);
                         spannableStringBuilder = new SpannableStringBuilder(userName);
                         int indexOfIgnoreCase2 = AndroidUtilities.indexOfIgnoreCase(userName, str);
                         if (indexOfIgnoreCase2 != -1) {
@@ -913,8 +926,8 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                     }
                     ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
                     manageChatUserCell.setTag(Integer.valueOf(i));
-                    manageChatUserCell.setCustomImageVisible(GroupVoipInviteAlert.this.invitedUsers.contains(Long.valueOf(tLRPC$User.id)));
-                    manageChatUserCell.setData(tLRPC$User, spannableStringBuilder, str2, false);
+                    manageChatUserCell.setCustomImageVisible(GroupVoipInviteAlert.this.invitedUsers.contains(Long.valueOf(user.id)));
+                    manageChatUserCell.setData(user, spannableStringBuilder, str2, false);
                 }
                 i -= i2;
             }
@@ -927,8 +940,8 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             }
             ManageChatUserCell manageChatUserCell2 = (ManageChatUserCell) viewHolder.itemView;
             manageChatUserCell2.setTag(Integer.valueOf(i));
-            manageChatUserCell2.setCustomImageVisible(GroupVoipInviteAlert.this.invitedUsers.contains(Long.valueOf(tLRPC$User.id)));
-            manageChatUserCell2.setData(tLRPC$User, spannableStringBuilder, str2, false);
+            manageChatUserCell2.setCustomImageVisible(GroupVoipInviteAlert.this.invitedUsers.contains(Long.valueOf(user.id)));
+            manageChatUserCell2.setData(user, spannableStringBuilder, str2, false);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -951,13 +964,11 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            GroupVoipInviteAlert.this = r1;
             this.mContext = context;
         }
 
@@ -978,9 +989,10 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatUserCell manageChatUserCell;
+            View view;
             if (i == 0) {
                 ManageChatUserCell manageChatUserCell2 = new ManageChatUserCell(this.mContext, 6, 2, false);
                 manageChatUserCell2.setCustomRightImage(R.drawable.msg_invited);
@@ -1113,6 +1125,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
     public void search(String str) {
         this.searchAdapter.searchUsers(str);

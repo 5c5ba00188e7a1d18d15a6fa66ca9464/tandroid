@@ -108,18 +108,22 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     private static float[] radii = new float[8];
     private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(8, new ThreadPoolExecutor.DiscardPolicy());
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native long createDecoder(String str, int[] iArr, int i, long j, Object obj, boolean z);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native void destroyDecoder(long j);
 
     private static native int getFrameAtTime(long j, long j2, Bitmap bitmap, int[] iArr, int i);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native int getVideoFrame(long j, Bitmap bitmap, int[] iArr, int i, boolean z, float f, float f2);
 
     private static native void getVideoInfo(int i, String str, int[] iArr);
 
     private static native void prepareToSeek(long j);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native void seekToMs(long j, long j2, boolean z);
 
     private static native void stopDecoder(long j);
@@ -135,11 +139,11 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         return i;
     }
 
-    /* renamed from: org.telegram.ui.Components.AnimatedFileDrawable$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.AnimatedFileDrawable$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 implements Runnable {
         AnonymousClass2() {
-            AnimatedFileDrawable.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -170,6 +174,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             dispatchQueue.postRunnable(runnable);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$1() {
             AnimatedFileDrawable.this.bitmapsCache.createCache();
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedFileDrawable$2$$ExternalSyntheticLambda1
@@ -180,6 +185,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0() {
             AnimatedFileDrawable animatedFileDrawable = AnimatedFileDrawable.this;
             animatedFileDrawable.generatingCache = false;
@@ -187,6 +193,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void chekDestroyDecoder() {
         if (this.loadFrameRunnable == null && this.destroyWhenDone && this.nativePtr != 0 && !this.generatingCache) {
             destroyDecoder(this.nativePtr);
@@ -212,6 +219,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void invalidateInternal() {
         for (int i = 0; i < this.parents.size(); i++) {
             if (this.parents.get(i).getParentView() != null) {
@@ -246,6 +254,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateScaleFactor() {
         int i;
         int i2;
@@ -264,6 +273,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         this.scaleFactor = 1.0f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         View view;
         if (!this.secondParentViews.isEmpty()) {
@@ -284,8 +294,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     public AnimatedFileDrawable(File file, boolean z, long j, TLRPC$Document tLRPC$Document, ImageLocation imageLocation, Object obj, long j2, int i, boolean z2, int i2, int i3, BitmapsCache.CacheOptions cacheOptions) {
         long j3;
         int[] iArr;
-        char c;
         boolean z3;
+        char c;
         this.invalidateAfter = 50;
         int[] iArr2 = new int[5];
         this.metaData = iArr2;
@@ -526,7 +536,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     public Bitmap getFrameAtTime(long j, boolean z) {
-        int i;
+        int videoFrame;
         if (!this.decoderCreated || this.nativePtr == 0) {
             return null;
         }
@@ -546,13 +556,13 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         if (z) {
             long j2 = this.nativePtr;
             Bitmap bitmap = this.backgroundBitmap;
-            i = getFrameAtTime(j2, j, bitmap, this.metaData, bitmap.getRowBytes());
+            videoFrame = getFrameAtTime(j2, j, bitmap, this.metaData, bitmap.getRowBytes());
         } else {
             long j3 = this.nativePtr;
             Bitmap bitmap2 = this.backgroundBitmap;
-            i = getVideoFrame(j3, bitmap2, this.metaData, bitmap2.getRowBytes(), true, 0.0f, 0.0f);
+            videoFrame = getVideoFrame(j3, bitmap2, this.metaData, bitmap2.getRowBytes(), true, 0.0f, 0.0f);
         }
-        if (i == 0) {
+        if (videoFrame == 0) {
             return null;
         }
         return this.backgroundBitmap;
@@ -750,6 +760,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         return this.metaData[4];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void scheduleNextGetFrame() {
         if (this.loadFrameTask != null || !canLoadFrames() || this.destroyWhenDone) {
             return;
@@ -1003,6 +1014,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean hasRoundRadius() {
         int i = 0;
         while (true) {

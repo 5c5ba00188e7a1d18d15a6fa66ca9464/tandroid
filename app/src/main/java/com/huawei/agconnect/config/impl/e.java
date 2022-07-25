@@ -15,6 +15,7 @@ public class e implements g {
     private final d a;
     private SecretKey b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public e(d dVar) {
         this.a = dVar;
         a();

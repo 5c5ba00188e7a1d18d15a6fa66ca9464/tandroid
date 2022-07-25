@@ -61,18 +61,18 @@ public class WallpaperParallaxEffect implements SensorEventListener {
         return Math.max(f2, (dp + f3) / f3);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00f4  */
-    /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
     @Override // android.hardware.SensorEventListener
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onSensorChanged(SensorEvent sensorEvent) {
         float[] fArr;
+        float f;
         float atan2;
         Callback callback;
-        float f;
         int rotation = this.wm.getDefaultDisplay().getRotation();
         float[] fArr2 = sensorEvent.values;
         float f2 = fArr2[0] / 9.80665f;

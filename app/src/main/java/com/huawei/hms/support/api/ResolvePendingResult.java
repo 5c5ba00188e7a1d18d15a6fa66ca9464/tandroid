@@ -2,6 +2,7 @@ package com.huawei.hms.support.api;
 
 import com.huawei.hms.core.aidl.IMessageEntity;
 import com.huawei.hms.support.api.client.ApiClient;
+import com.huawei.hms.support.api.client.Result;
 import com.huawei.hms.support.api.client.Status;
 /* loaded from: classes.dex */
 public class ResolvePendingResult<T extends IMessageEntity> extends PendingResultImpl<ResolveResult<T>, T> {
@@ -17,8 +18,16 @@ public class ResolvePendingResult<T extends IMessageEntity> extends PendingResul
         return (T) await().getValue();
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     @Override // com.huawei.hms.support.api.PendingResultImpl
-    public ResolveResult<T> onComplete(T t) {
+    /* renamed from: onComplete  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ Result mo234onComplete(IMessageEntity iMessageEntity) {
+        return mo234onComplete((ResolvePendingResult<T>) iMessageEntity);
+    }
+
+    @Override // com.huawei.hms.support.api.PendingResultImpl
+    /* renamed from: onComplete */
+    public ResolveResult<T> mo234onComplete(T t) {
         ResolveResult<T> resolveResult = new ResolveResult<>(t);
         resolveResult.setStatus(new Status(0));
         return resolveResult;

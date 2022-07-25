@@ -64,16 +64,22 @@ final class FfmpegDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutput
         return new DecoderInputBuffer(2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public SimpleOutputBuffer createOutputBuffer() {
         return new SimpleOutputBuffer(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    public FfmpegDecoderException createUnexpectedDecodeException(Throwable th) {
+    /* renamed from: createUnexpectedDecodeException */
+    public FfmpegDecoderException mo165createUnexpectedDecodeException(Throwable th) {
         return new FfmpegDecoderException("Unexpected decode error", th);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public FfmpegDecoderException decode(DecoderInputBuffer decoderInputBuffer, SimpleOutputBuffer simpleOutputBuffer, boolean z) {
         if (z) {
             long ffmpegReset = ffmpegReset(this.nativeContext, this.extraData);

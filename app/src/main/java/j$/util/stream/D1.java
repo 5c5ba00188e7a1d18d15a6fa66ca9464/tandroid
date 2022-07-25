@@ -2,11 +2,13 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class D1 implements A1 {
     final Object[] a;
     int b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public D1(long j, j$.util.function.m mVar) {
         if (j < 2147483639) {
             this.a = (Object[]) mVar.apply((int) j);
@@ -16,13 +18,15 @@ public class D1 implements A1 {
         throw new IllegalArgumentException("Stream size exceeds max array size");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public D1(Object[] objArr) {
         this.a = objArr;
         this.b = objArr.length;
     }
 
     @Override // j$.util.stream.A1
-    public A1 b(int i) {
+    /* renamed from: b */
+    public A1 mo316b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -64,7 +68,7 @@ public class D1 implements A1 {
 
     @Override // j$.util.stream.A1
     /* renamed from: spliterator */
-    public j$.util.u mo69spliterator() {
+    public j$.util.u mo313spliterator() {
         return j$.util.L.m(this.a, 0, this.b, 1040);
     }
 

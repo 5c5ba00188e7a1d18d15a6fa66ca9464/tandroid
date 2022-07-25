@@ -23,7 +23,6 @@ public abstract class AbstractDialog {
     /* loaded from: classes.dex */
     public class a implements DialogInterface.OnClickListener {
         public a() {
-            AbstractDialog.this = r1;
         }
 
         @Override // android.content.DialogInterface.OnClickListener
@@ -35,7 +34,6 @@ public abstract class AbstractDialog {
     /* loaded from: classes.dex */
     public class b implements DialogInterface.OnClickListener {
         public b() {
-            AbstractDialog.this = r1;
         }
 
         @Override // android.content.DialogInterface.OnClickListener
@@ -47,7 +45,6 @@ public abstract class AbstractDialog {
     /* loaded from: classes.dex */
     public class c implements DialogInterface.OnCancelListener {
         public c() {
-            AbstractDialog.this = r1;
         }
 
         @Override // android.content.DialogInterface.OnCancelListener
@@ -59,7 +56,6 @@ public abstract class AbstractDialog {
     /* loaded from: classes.dex */
     public class d implements DialogInterface.OnKeyListener {
         public d() {
-            AbstractDialog.this = r1;
         }
 
         @Override // android.content.DialogInterface.OnKeyListener

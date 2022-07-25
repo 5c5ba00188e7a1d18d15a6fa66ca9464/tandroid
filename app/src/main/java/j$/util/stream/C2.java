@@ -7,6 +7,7 @@ class C2 implements S2, j3 {
     final /* synthetic */ double b;
     final /* synthetic */ j$.util.function.d c;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public C2(double d, j$.util.function.d dVar) {
         this.b = d;
         this.c = dVar;
@@ -34,6 +35,7 @@ class C2 implements S2, j3 {
         return consumer.getClass();
     }
 
+    @Override // j$.util.function.Consumer
     /* renamed from: b */
     public /* synthetic */ void accept(Double d) {
         o1.a(this, d);

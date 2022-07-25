@@ -94,6 +94,7 @@ public class VideoEditedInfo {
             this.viewHeight = serializedData.readInt32(false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void serializeTo(SerializedData serializedData) {
             serializedData.writeByte(this.type);
             serializedData.writeByte(this.subType);
@@ -133,17 +134,17 @@ public class VideoEditedInfo {
     }
 
     public String getString() {
-        String str;
         byte[] bArr;
+        String bytesToHex;
         PhotoFilterView.CurvesValue curvesValue;
         ArrayList<MediaEntity> arrayList;
         if (this.avatarStartTime == -1 && this.filterState == null && this.paintPath == null && (((arrayList = this.mediaEntities) == null || arrayList.isEmpty()) && this.cropState == null)) {
-            str = "";
+            bytesToHex = "";
         } else {
             int i = this.filterState != null ? 170 : 10;
-            String str2 = this.paintPath;
-            if (str2 != null) {
-                bArr = str2.getBytes();
+            String str = this.paintPath;
+            if (str != null) {
+                bArr = str.getBytes();
                 i += bArr.length;
             } else {
                 bArr = null;
@@ -232,10 +233,10 @@ public class VideoEditedInfo {
             } else {
                 serializedData.writeByte(0);
             }
-            str = Utilities.bytesToHex(serializedData.toByteArray());
+            bytesToHex = Utilities.bytesToHex(serializedData.toByteArray());
             serializedData.cleanup();
         }
-        return String.format(Locale.US, "-1_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_-%s_%s", Long.valueOf(this.startTime), Long.valueOf(this.endTime), Integer.valueOf(this.rotationValue), Integer.valueOf(this.originalWidth), Integer.valueOf(this.originalHeight), Integer.valueOf(this.bitrate), Integer.valueOf(this.resultWidth), Integer.valueOf(this.resultHeight), Long.valueOf(this.originalDuration), Integer.valueOf(this.framerate), str, this.originalPath);
+        return String.format(Locale.US, "-1_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_-%s_%s", Long.valueOf(this.startTime), Long.valueOf(this.endTime), Integer.valueOf(this.rotationValue), Integer.valueOf(this.originalWidth), Integer.valueOf(this.originalHeight), Integer.valueOf(this.bitrate), Integer.valueOf(this.resultWidth), Integer.valueOf(this.resultHeight), Long.valueOf(this.originalDuration), Integer.valueOf(this.framerate), bytesToHex, this.originalPath);
     }
 
     public boolean parseString(String str) {

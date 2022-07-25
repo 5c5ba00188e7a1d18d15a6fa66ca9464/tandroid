@@ -91,6 +91,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         void startChatPreview(RecyclerListView recyclerListView, DialogCell dialogCell);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$showActionMode$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -126,6 +127,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         };
         this.fragmentView = (SizeNotifierFrameLayout) dialogsActivity.getFragmentView();
         BlurredRecyclerView blurredRecyclerView = new BlurredRecyclerView(context) { // from class: org.telegram.ui.Components.SearchViewPager.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 SearchViewPager searchViewPager = SearchViewPager.this;
@@ -243,6 +245,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         search(currentView, getCurrentPosition(), str, z);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     public void search(View view, int i, String str, boolean z) {
         boolean z2;
@@ -456,12 +459,14 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         textView.setTextColor(Theme.getColor("dialogTextRed2"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onActionBarItemClick$2(ArrayList arrayList, DialogInterface dialogInterface, int i) {
         dialogInterface.dismiss();
         this.parent.getDownloadController().deleteRecentFiles(arrayList);
         hideActionMode();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onActionBarItemClick$3(DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z) {
         ArrayList<MessageObject> arrayList2 = new ArrayList<>();
         for (FilteredSearchView.MessageHashId messageHashId : this.selectedFiles.keySet()) {
@@ -732,8 +737,8 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         this.showOnlyDialogsAdapter = z;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x007c, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r7, r11.currentAccount) != false) goto L27;
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x007c, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(r7, r11.currentAccount) != false) goto L31;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -842,16 +847,16 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         return -1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ViewPagerAdapter extends ViewPagerFixed.Adapter {
         ArrayList<Item> items;
 
         public ViewPagerAdapter() {
-            SearchViewPager.this = r5;
             ArrayList<Item> arrayList = new ArrayList<>();
             this.items = arrayList;
             arrayList.add(new Item(0));
-            if (!r5.showOnlyDialogsAdapter) {
+            if (!SearchViewPager.this.showOnlyDialogsAdapter) {
                 Item item = new Item(2);
                 item.filterIndex = 0;
                 this.items.add(item);
@@ -935,6 +940,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             searchViewPager.search(view, i, searchViewPager.lastSearchString, true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class Item {
             int filterIndex;

@@ -133,6 +133,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void processSearch(final String str) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapter$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -142,6 +143,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSearch$1(final String str) {
         if (this.allowUsernameSearch) {
             this.searchAdapterHelper.queryServerSearch(str, true, this.allowChats, this.allowBots, this.allowSelf, false, this.channelId, this.allowPhoneNumbers, -1, 1);
@@ -160,10 +162,11 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSearch$0(String str, int i, ArrayList arrayList, int i2) {
+        LongSparseArray<TLRPC$User> longSparseArray;
         int i3;
         String str2;
-        LongSparseArray<TLRPC$User> longSparseArray;
         String str3;
         String lowerCase = str.trim().toLowerCase();
         if (lowerCase.length() == 0) {
@@ -274,6 +277,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateSearchResults$2(int i, ArrayList arrayList, ArrayList arrayList2) {
         if (i == this.searchReqId) {
             this.searchResult = arrayList;
@@ -335,30 +339,31 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view;
+    /* renamed from: onCreateViewHolder */
+    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View profileSearchCell;
         if (i != 0) {
             if (i == 1) {
-                view = new GraySectionCell(this.mContext);
+                profileSearchCell = new GraySectionCell(this.mContext);
             } else {
-                view = new TextCell(this.mContext, 16, false);
+                profileSearchCell = new TextCell(this.mContext, 16, false);
             }
         } else if (this.useUserCell) {
             UserCell userCell = new UserCell(this.mContext, 1, 1, false);
             if (this.checkedMap != null) {
                 userCell.setChecked(false, false);
             }
-            view = userCell;
+            profileSearchCell = userCell;
         } else {
-            view = new ProfileSearchCell(this.mContext);
+            profileSearchCell = new ProfileSearchCell(this.mContext);
         }
-        return new RecyclerListView.Holder(view);
+        return new RecyclerListView.Holder(profileSearchCell);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        boolean z;
         String str;
+        boolean z;
         SpannableStringBuilder spannableStringBuilder;
         int indexOfIgnoreCase;
         int itemViewType = viewHolder.getItemViewType();

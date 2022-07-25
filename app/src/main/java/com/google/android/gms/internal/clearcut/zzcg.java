@@ -19,6 +19,7 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         protected MessageType zzjt;
         protected boolean zzju = false;
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public zza(MessageType messagetype) {
             this.zzjs = messagetype;
             this.zzjt = (MessageType) messagetype.zza(zzg.zzkg, null, null);
@@ -52,6 +53,7 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
             return this.zzjs;
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         public void zzbf() {
             if (this.zzju) {
                 MessageType messagetype = (MessageType) this.zzjt.zza(zzg.zzkg, null, null);
@@ -61,6 +63,7 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
             }
         }
 
+        @Override // com.google.android.gms.internal.clearcut.zzdp
         /* renamed from: zzbg */
         public MessageType zzbi() {
             if (this.zzju) {
@@ -121,9 +124,8 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         protected zzby<zze> zzjv = zzby.zzar();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class zze implements zzca<zze> {
+    static final class zze implements zzca<zze> {
         final int number;
         final zzfl zzjx;
 
@@ -169,6 +171,7 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX WARN: Failed to restore enum class, 'enum' modifier removed */
     /* loaded from: classes.dex */
     public static final class zzg {
         public static final int zzkd = 1;
@@ -208,10 +211,12 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static Object zza(zzdo zzdoVar, String str, Object[] objArr) {
         return new zzec(zzdoVar, str, objArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Object zza(Method method, Object obj, Object... objArr) {
         try {
             return method.invoke(obj, objArr);
@@ -229,10 +234,12 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <T extends zzcg<?, ?>> void zza(Class<T> cls, T t) {
         zzjr.put(cls, t);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <T extends zzcg<T, ?>> T zzb(T t, byte[] bArr) throws zzco {
         T t2 = (T) zza(t, bArr);
         if (t2 != null) {
@@ -253,10 +260,12 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         return t2;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static <E> zzcn<E> zzbb() {
         return zzeb.zzcn();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static <T extends zzcg<?, ?>> T zzc(Class<T> cls) {
         T t = (T) zzjr.get(cls);
         if (t == null) {
@@ -312,6 +321,7 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         return zzdr.zza(this, super.toString());
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public abstract Object zza(int i, Object obj, Object obj2);
 
     @Override // com.google.android.gms.internal.clearcut.zzdo
@@ -344,15 +354,13 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         return (zzcg) zza(zzg.zzki, (Object) null, (Object) null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzas
-    public final void zzf(int i) {
+    final void zzf(int i) {
         this.zzjq = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzas
-    public final int zzs() {
+    final int zzs() {
         return this.zzjq;
     }
 }

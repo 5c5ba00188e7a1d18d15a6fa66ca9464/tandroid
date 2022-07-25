@@ -14,6 +14,7 @@ import org.webrtc.CalledByNative;
 import org.webrtc.Logging;
 import org.webrtc.ThreadUtils;
 import org.webrtc.audio.JavaAudioDeviceModule;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
 public class WebRtcAudioTrack {
     private static final int AUDIO_TRACK_START = 0;
@@ -46,6 +47,7 @@ public class WebRtcAudioTrack {
 
     private static native void nativeCacheDirectBufferAddress(long j, ByteBuffer byteBuffer);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native void nativeGetPlayoutData(long j, int i);
 
     private static int getDefaultUsageAttribute() {
@@ -57,10 +59,8 @@ public class WebRtcAudioTrack {
         private volatile boolean keepAlive = true;
         private LowLatencyAudioBufferManager bufferManager = new LowLatencyAudioBufferManager();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AudioTrackThread(String str) {
             super(str);
-            WebRtcAudioTrack.this = r1;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -112,6 +112,7 @@ public class WebRtcAudioTrack {
         this(context, audioManager, null, null, null, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public WebRtcAudioTrack(Context context, AudioManager audioManager, AudioAttributes audioAttributes, JavaAudioDeviceModule.AudioTrackErrorCallback audioTrackErrorCallback, JavaAudioDeviceModule.AudioTrackStateCallback audioTrackStateCallback, boolean z) {
         ThreadUtils.ThreadChecker threadChecker = new ThreadUtils.ThreadChecker();
         this.threadChecker = threadChecker;
@@ -377,6 +378,7 @@ public class WebRtcAudioTrack {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void assertTrue(boolean z) {
         if (z) {
             return;
@@ -416,6 +418,7 @@ public class WebRtcAudioTrack {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reportWebRtcAudioTrackError(String str) {
         Logging.e(TAG, "Run-time playback error: " + str);
         WebRtcAudioUtils.logAudioState(TAG, this.context, this.audioManager);
@@ -425,6 +428,7 @@ public class WebRtcAudioTrack {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void doAudioTrackStateCallback(int i) {
         Logging.d(TAG, "doAudioTrackStateCallback: " + i);
         JavaAudioDeviceModule.AudioTrackStateCallback audioTrackStateCallback = this.stateCallback;

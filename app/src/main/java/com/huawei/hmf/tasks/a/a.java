@@ -15,10 +15,9 @@ public final class a {
     private static final int e;
     private final Executor d = new ExecutorC0002a((byte) 0);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.huawei.hmf.tasks.a.a$a */
+    /* renamed from: com.huawei.hmf.tasks.a.a$a  reason: collision with other inner class name */
     /* loaded from: classes.dex */
-    public static class ExecutorC0002a implements Executor {
+    static class ExecutorC0002a implements Executor {
         private ExecutorC0002a() {
         }
 

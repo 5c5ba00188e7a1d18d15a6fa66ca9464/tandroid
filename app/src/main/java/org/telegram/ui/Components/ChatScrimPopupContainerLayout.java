@@ -90,6 +90,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setPopupWindowLayout$0(ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
         View view = this.bottomView;
         if (view != null) {
@@ -97,6 +98,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setPopupWindowLayout$1(PopupSwipeBackLayout popupSwipeBackLayout, float f, float f2) {
         View view = this.bottomView;
         if (view != null) {

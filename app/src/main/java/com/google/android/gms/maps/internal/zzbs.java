@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
 /* loaded from: classes.dex */
 public final class zzbs extends com.google.android.gms.internal.maps.zza implements IProjectionDelegate {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzbs(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.internal.IProjectionDelegate");
     }

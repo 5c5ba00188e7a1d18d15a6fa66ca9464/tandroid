@@ -178,6 +178,7 @@ public class CalendarActivity extends BaseFragment {
         this.actionBar.setTitle(LocaleController.getString("Calendar", R.string.Calendar));
         this.actionBar.setCastShadows(false);
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.CalendarActivity.2
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
@@ -301,11 +302,13 @@ public class CalendarActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view) {
         this.inSelectionMode = true;
         updateTitle();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view) {
         int i = this.lastDaysSelected;
         if (i == 0) {
@@ -334,6 +337,7 @@ public class CalendarActivity extends BaseFragment {
         }, null);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateColors() {
         this.actionBar.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         this.activeTextPaint.setColor(-1);
@@ -371,6 +375,7 @@ public class CalendarActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadNext$3(final Calendar calendar, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -380,6 +385,7 @@ public class CalendarActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadNext$2(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, Calendar calendar) {
         int i;
         int i2;
@@ -468,6 +474,7 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkLoadNext() {
         if (this.loading || this.endReached) {
             return;
@@ -490,14 +497,15 @@ public class CalendarActivity extends BaseFragment {
         loadNext();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class CalendarAdapter extends RecyclerView.Adapter {
         private CalendarAdapter() {
-            CalendarActivity.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(new MonthView(viewGroup.getContext()));
         }
 
@@ -529,6 +537,7 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class MonthView extends FrameLayout {
         int cellCount;
@@ -544,14 +553,12 @@ public class CalendarActivity extends BaseFragment {
         private SparseArray<ValueAnimator> rowAnimators = new SparseArray<>();
         private SparseArray<RowAnimationValue> rowSelectionPos = new SparseArray<>();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public MonthView(Context context) {
             super(context);
-            CalendarActivity.this = r10;
             boolean z = false;
             setWillNotDraw(false);
             this.titleView = new SimpleTextView(context);
-            if (r10.calendarType == 0 && r10.canClearHistory) {
+            if (CalendarActivity.this.calendarType == 0 && CalendarActivity.this.canClearHistory) {
                 this.titleView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnLongClickListener
                     public final boolean onLongClick(View view) {
@@ -560,7 +567,7 @@ public class CalendarActivity extends BaseFragment {
                         return lambda$new$0;
                     }
                 });
-                this.titleView.setOnClickListener(new View.OnClickListener(r10) { // from class: org.telegram.ui.CalendarActivity.MonthView.1
+                this.titleView.setOnClickListener(new View.OnClickListener(CalendarActivity.this) { // from class: org.telegram.ui.CalendarActivity.MonthView.1
                     @Override // android.view.View.OnClickListener
                     public void onClick(View view) {
                         MonthView monthView;
@@ -600,11 +607,12 @@ public class CalendarActivity extends BaseFragment {
             this.titleView.setGravity(17);
             this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             addView(this.titleView, LayoutHelper.createFrame(-1, 28.0f, 0, 0.0f, 12.0f, 0.0f, 4.0f));
-            GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(context, new AnonymousClass2(r10, context));
+            GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(context, new AnonymousClass2(CalendarActivity.this, context));
             this.gestureDetector = gestureDetectorCompat;
-            gestureDetectorCompat.setIsLongpressEnabled(r10.calendarType == 0 ? true : z);
+            gestureDetectorCompat.setIsLongpressEnabled(CalendarActivity.this.calendarType == 0 ? true : z);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$new$0(View view) {
             if (this.messagesByDays == null) {
                 return false;
@@ -630,7 +638,8 @@ public class CalendarActivity extends BaseFragment {
             return false;
         }
 
-        /* renamed from: org.telegram.ui.CalendarActivity$MonthView$2 */
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* renamed from: org.telegram.ui.CalendarActivity$MonthView$2  reason: invalid class name */
         /* loaded from: classes3.dex */
         public class AnonymousClass2 extends GestureDetector.SimpleOnGestureListener {
             final /* synthetic */ Context val$context;
@@ -641,7 +650,6 @@ public class CalendarActivity extends BaseFragment {
             }
 
             AnonymousClass2(CalendarActivity calendarActivity, Context context) {
-                MonthView.this = r1;
                 this.val$context = context;
             }
 
@@ -811,6 +819,7 @@ public class CalendarActivity extends BaseFragment {
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onLongPress$1(final PeriodDay periodDay, View view) {
                 if (((BaseFragment) CalendarActivity.this).parentLayout.fragmentsStack.size() >= 3) {
                     final BaseFragment baseFragment = ((BaseFragment) CalendarActivity.this).parentLayout.fragmentsStack.get(((BaseFragment) CalendarActivity.this).parentLayout.fragmentsStack.size() - 3);
@@ -826,11 +835,13 @@ public class CalendarActivity extends BaseFragment {
                 CalendarActivity.this.finishPreviewFragment();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onLongPress$0(BaseFragment baseFragment, PeriodDay periodDay) {
                 CalendarActivity.this.finishFragment();
                 ((ChatActivity) baseFragment).jumpToDate(periodDay.date);
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onLongPress$2(PeriodDay periodDay, View view) {
                 CalendarActivity calendarActivity = CalendarActivity.this;
                 calendarActivity.dateSelectedStart = calendarActivity.dateSelectedEnd = periodDay.date;
@@ -840,6 +851,7 @@ public class CalendarActivity extends BaseFragment {
                 CalendarActivity.this.finishPreviewFragment();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onLongPress$3(View view) {
                 if (((BaseFragment) CalendarActivity.this).parentLayout.fragmentsStack.size() >= 3) {
                     final BaseFragment baseFragment = ((BaseFragment) CalendarActivity.this).parentLayout.fragmentsStack.get(((BaseFragment) CalendarActivity.this).parentLayout.fragmentsStack.size() - 3);
@@ -857,11 +869,13 @@ public class CalendarActivity extends BaseFragment {
                 CalendarActivity.this.finishPreviewFragment();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onLongPress$4(View view) {
                 CalendarActivity.this.finishPreviewFragment();
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void startSelectionAnimation(int i, int i2) {
             if (this.messagesByDays != null) {
                 for (int i3 = 0; i3 < this.daysInMonth; i3++) {
@@ -881,6 +895,7 @@ public class CalendarActivity extends BaseFragment {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setSelectionValue(float f) {
             if (this.messagesByDays != null) {
                 for (int i = 0; i < this.daysInMonth; i++) {
@@ -903,9 +918,9 @@ public class CalendarActivity extends BaseFragment {
         }
 
         public void animateRow(final int i, int i2, int i3, final boolean z, boolean z2) {
-            final float f;
+            float f;
             float f2;
-            float f3;
+            final float f3;
             ValueAnimator valueAnimator = this.rowAnimators.get(i);
             if (valueAnimator != null) {
                 valueAnimator.cancel();
@@ -913,23 +928,23 @@ public class CalendarActivity extends BaseFragment {
             float measuredWidth = getMeasuredWidth() / 7.0f;
             RowAnimationValue rowAnimationValue = this.rowSelectionPos.get(i);
             if (rowAnimationValue != null) {
-                f3 = rowAnimationValue.startX;
+                f = rowAnimationValue.startX;
                 f2 = rowAnimationValue.endX;
-                f = rowAnimationValue.alpha;
+                f3 = rowAnimationValue.alpha;
             } else {
-                f3 = (i2 * measuredWidth) + (measuredWidth / 2.0f);
-                f2 = f3;
-                f = 0.0f;
+                f = (i2 * measuredWidth) + (measuredWidth / 2.0f);
+                f2 = f;
+                f3 = 0.0f;
             }
-            float f4 = z ? (i2 * measuredWidth) + (measuredWidth / 2.0f) : f3;
+            float f4 = z ? (i2 * measuredWidth) + (measuredWidth / 2.0f) : f;
             float f5 = z ? (i3 * measuredWidth) + (measuredWidth / 2.0f) : f2;
             float f6 = z ? 1.0f : 0.0f;
-            final RowAnimationValue rowAnimationValue2 = new RowAnimationValue(f3, f2);
+            final RowAnimationValue rowAnimationValue2 = new RowAnimationValue(f, f2);
             this.rowSelectionPos.put(i, rowAnimationValue2);
             if (z2) {
                 ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(300L);
                 duration.setInterpolator(Easings.easeInOutQuad);
-                final float f7 = f3;
+                final float f7 = f;
                 final float f8 = f4;
                 final float f9 = f2;
                 final float f10 = f5;
@@ -937,7 +952,7 @@ public class CalendarActivity extends BaseFragment {
                 duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        CalendarActivity.MonthView.this.lambda$animateRow$1(rowAnimationValue2, f7, f8, f9, f10, f, f11, valueAnimator2);
+                        CalendarActivity.MonthView.this.lambda$animateRow$1(rowAnimationValue2, f7, f8, f9, f10, f3, f11, valueAnimator2);
                     }
                 });
                 final float f12 = f4;
@@ -971,6 +986,7 @@ public class CalendarActivity extends BaseFragment {
             invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$animateRow$1(RowAnimationValue rowAnimationValue, float f, float f2, float f3, float f4, float f5, float f6, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             rowAnimationValue.startX = f + ((f2 - f) * floatValue);
@@ -1089,8 +1105,8 @@ public class CalendarActivity extends BaseFragment {
             float f4;
             float f5;
             float f6;
-            float f7;
             PeriodDay periodDay;
+            float f7;
             super.onDraw(canvas);
             int i2 = this.startDayOfWeek;
             float measuredWidth = getMeasuredWidth() / 7.0f;
@@ -1159,10 +1175,10 @@ public class CalendarActivity extends BaseFragment {
                                 }
                             }
                         }
-                        f4 = periodDay2.enterAlpha;
-                        if (f4 != 1.0f) {
+                        f6 = periodDay2.enterAlpha;
+                        if (f6 != 1.0f) {
                             canvas.save();
-                            float f15 = (0.2f * f4) + 0.8f;
+                            float f15 = (0.2f * f6) + 0.8f;
                             canvas.scale(f15, f15, f10, dp5);
                         }
                         int dp6 = (int) (AndroidUtilities.dp(7.0f) * periodDay2.selectProgress);
@@ -1178,48 +1194,48 @@ public class CalendarActivity extends BaseFragment {
                             f7 = dp5;
                             i = i5;
                             f2 = dp;
-                            f3 = f10;
+                            f4 = f10;
                             canvas.drawArc(rectF2, -90.0f, 360.0f * periodDay2.selectStartEndProgress, false, CalendarActivity.this.selectOutlinePaint);
                         } else {
                             periodDay = periodDay2;
                             f7 = dp5;
                             f = measuredWidth;
                             f2 = dp;
-                            f3 = f10;
+                            f4 = f10;
                             i = i5;
                         }
                         PeriodDay periodDay3 = periodDay;
                         this.imagesByDays.get(i6).setAlpha(periodDay3.enterAlpha);
                         f5 = f7;
-                        this.imagesByDays.get(i6).setImageCoords(f3 - ((AndroidUtilities.dp(44.0f) - dp6) / 2.0f), f5 - ((AndroidUtilities.dp(44.0f) - dp6) / 2.0f), AndroidUtilities.dp(44.0f) - dp6, AndroidUtilities.dp(44.0f) - dp6);
+                        this.imagesByDays.get(i6).setImageCoords(f4 - ((AndroidUtilities.dp(44.0f) - dp6) / 2.0f), f5 - ((AndroidUtilities.dp(44.0f) - dp6) / 2.0f), AndroidUtilities.dp(44.0f) - dp6, AndroidUtilities.dp(44.0f) - dp6);
                         this.imagesByDays.get(i6).draw(canvas);
                         CalendarActivity.this.blackoutPaint.setColor(ColorUtils.setAlphaComponent(-16777216, (int) (periodDay3.enterAlpha * 80.0f)));
-                        canvas.drawCircle(f3, f5, (AndroidUtilities.dp(44.0f) - dp6) / 2.0f, CalendarActivity.this.blackoutPaint);
+                        canvas.drawCircle(f4, f5, (AndroidUtilities.dp(44.0f) - dp6) / 2.0f, CalendarActivity.this.blackoutPaint);
                         periodDay3.wasDrawn = true;
-                        f6 = 1.0f;
-                        if (f4 != 1.0f) {
+                        f3 = 1.0f;
+                        if (f6 != 1.0f) {
                             canvas.restore();
                         }
                     } else {
                         f = measuredWidth;
                         f2 = dp;
-                        f6 = 1.0f;
-                        f3 = f10;
+                        f3 = 1.0f;
+                        f4 = f10;
                         i = i5;
                         f5 = dp5;
-                        f4 = 1.0f;
+                        f6 = 1.0f;
                     }
-                    if (f4 != f6) {
+                    if (f6 != f3) {
                         int alpha2 = CalendarActivity.this.textPaint.getAlpha();
-                        CalendarActivity.this.textPaint.setAlpha((int) (alpha2 * (f6 - f4)));
-                        canvas.drawText(Integer.toString(i7), f3, f5 + AndroidUtilities.dp(5.0f), CalendarActivity.this.textPaint);
+                        CalendarActivity.this.textPaint.setAlpha((int) (alpha2 * (f3 - f6)));
+                        canvas.drawText(Integer.toString(i7), f4, f5 + AndroidUtilities.dp(5.0f), CalendarActivity.this.textPaint);
                         CalendarActivity.this.textPaint.setAlpha(alpha2);
                         int alpha3 = CalendarActivity.this.textPaint.getAlpha();
-                        CalendarActivity.this.activeTextPaint.setAlpha((int) (alpha3 * f4));
-                        canvas.drawText(Integer.toString(i7), f3, f5 + AndroidUtilities.dp(5.0f), CalendarActivity.this.activeTextPaint);
+                        CalendarActivity.this.activeTextPaint.setAlpha((int) (alpha3 * f6));
+                        canvas.drawText(Integer.toString(i7), f4, f5 + AndroidUtilities.dp(5.0f), CalendarActivity.this.activeTextPaint);
                         CalendarActivity.this.activeTextPaint.setAlpha(alpha3);
                     } else {
-                        canvas.drawText(Integer.toString(i7), f3, f5 + AndroidUtilities.dp(5.0f), CalendarActivity.this.activeTextPaint);
+                        canvas.drawText(Integer.toString(i7), f4, f5 + AndroidUtilities.dp(5.0f), CalendarActivity.this.activeTextPaint);
                     }
                 } else {
                     PeriodDay periodDay4 = periodDay2;
@@ -1289,8 +1305,9 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateTitle() {
-        String str;
+        String string;
         HintView hintView;
         if (!this.canClearHistory) {
             this.actionBar.setTitle(LocaleController.getString("Calendar", R.string.Calendar));
@@ -1311,13 +1328,13 @@ public class CalendarActivity extends BaseFragment {
         this.lastInSelectionMode = z3;
         float f = 1.0f;
         if (abs > 0) {
-            str = LocaleController.formatPluralString("Days", abs, new Object[0]);
+            string = LocaleController.formatPluralString("Days", abs, new Object[0]);
             this.backDrawable.setRotation(1.0f, true);
         } else if (z3) {
-            str = LocaleController.getString("SelectDays", R.string.SelectDays);
+            string = LocaleController.getString("SelectDays", R.string.SelectDays);
             this.backDrawable.setRotation(1.0f, true);
         } else {
-            str = LocaleController.getString("Calendar", R.string.Calendar);
+            string = LocaleController.getString("Calendar", R.string.Calendar);
             this.backDrawable.setRotation(0.0f, true);
         }
         if (abs > 1) {
@@ -1325,7 +1342,7 @@ public class CalendarActivity extends BaseFragment {
         } else if (abs > 0 || this.inSelectionMode) {
             this.removeDaysButton.setText(LocaleController.formatString("ClearHistoryForThisDay", R.string.ClearHistoryForThisDay, new Object[0]));
         }
-        this.actionBar.setTitleAnimated(str, z2, 150L);
+        this.actionBar.setTitleAnimated(string, z2, 150L);
         if ((!this.inSelectionMode || abs > 0) && (hintView = this.selectDaysHint) != null) {
             hintView.hide();
         }
@@ -1364,6 +1381,7 @@ public class CalendarActivity extends BaseFragment {
         this.callback = callback;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class PeriodDay {
         int date;
@@ -1407,12 +1425,14 @@ public class CalendarActivity extends BaseFragment {
         return super.getThemeDescriptions();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationStart(boolean z, boolean z2) {
         super.onTransitionAnimationStart(z, z2);
         this.isOpened = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationProgress(boolean z, float f) {
         super.onTransitionAnimationProgress(z, f);
@@ -1427,6 +1447,7 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         View view;
@@ -1437,6 +1458,7 @@ public class CalendarActivity extends BaseFragment {
         this.blurredView.setBackground(null);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void animateSelection() {
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(300L);
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -1479,6 +1501,7 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateSelection$4(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         for (int i = 0; i < this.listView.getChildCount(); i++) {
@@ -1486,6 +1509,7 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRowSelections(MonthView monthView, boolean z) {
         int i;
         int i2;
@@ -1503,19 +1527,19 @@ public class CalendarActivity extends BaseFragment {
             for (int i8 = 0; i8 < monthView.daysInMonth; i8++) {
                 PeriodDay periodDay = monthView.messagesByDays.get(i8, null);
                 if (periodDay == null || (i3 = periodDay.date) < this.dateSelectedStart || i3 > this.dateSelectedEnd) {
-                    i2 = i6;
-                    i = i7;
+                    i = i6;
+                    i2 = i7;
                 } else {
                     if (i6 == -1) {
                         i6 = i4;
                     }
-                    i = i4;
-                    i2 = i6;
+                    i2 = i4;
+                    i = i6;
                 }
                 i4++;
                 if (i4 >= 7) {
-                    if (i2 != -1 && i != -1) {
-                        monthView.animateRow(i5, i2, i, true, z);
+                    if (i != -1 && i2 != -1) {
+                        monthView.animateRow(i5, i, i2, true, z);
                     } else {
                         monthView.animateRow(i5, 0, 0, false, z);
                     }
@@ -1524,8 +1548,8 @@ public class CalendarActivity extends BaseFragment {
                     i6 = -1;
                     i7 = -1;
                 } else {
-                    i6 = i2;
-                    i7 = i;
+                    i6 = i;
+                    i7 = i2;
                 }
             }
             if (i6 != -1 && i7 != -1) {
@@ -1536,6 +1560,7 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static final class RowAnimationValue {
         float alpha;
@@ -1548,6 +1573,7 @@ public class CalendarActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void prepareBlurBitmap() {
         if (this.blurredView == null) {
             return;

@@ -25,14 +25,13 @@ public class f implements Runnable {
     public void run() {
         String str;
         Bundle bundle;
-        ApiException e;
         try {
             int internalCode = ErrorEnum.SUCCESS.getInternalCode();
             ApiException apiException = null;
             try {
                 str = HmsInstanceId.getInstance(this.a).getToken(Util.getAppId(this.a), null);
-            } catch (ApiException e2) {
-                e = e2;
+            } catch (ApiException e) {
+                e = e;
                 str = null;
             }
             try {
@@ -41,8 +40,8 @@ public class f implements Runnable {
                     if (TextUtils.isEmpty(str)) {
                         return;
                     }
-                } catch (ApiException e3) {
-                    e = e3;
+                } catch (ApiException e2) {
+                    e = e2;
                     apiException = e;
                     internalCode = apiException.getStatusCode();
                     HMSLog.e("AutoInit", "new Push init failed");
@@ -72,8 +71,8 @@ public class f implements Runnable {
             } catch (PackageManager.NameNotFoundException unused) {
                 HMSLog.i("AutoInit", "push kit sdk not exists");
             }
-        } catch (Exception e4) {
-            HMSLog.e("AutoInit", "Push init failed", e4);
+        } catch (Exception e3) {
+            HMSLog.e("AutoInit", "Push init failed", e3);
         }
     }
 }

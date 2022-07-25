@@ -121,7 +121,7 @@ public class AcceptDeclineView extends View {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:11:0x0016, code lost:
-        if (r0 != 3) goto L80;
+        if (r0 != 3) goto L12;
      */
     @Override // android.view.View
     /*
@@ -236,12 +236,14 @@ public class AcceptDeclineView extends View {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTouchEvent$0(ValueAnimator valueAnimator) {
         this.leftOffsetX = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
         this.leftAnimator = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTouchEvent$1(ValueAnimator valueAnimator) {
         this.rigthOffsetX = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

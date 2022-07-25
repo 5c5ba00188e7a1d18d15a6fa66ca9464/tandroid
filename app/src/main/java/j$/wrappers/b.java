@@ -40,6 +40,18 @@ public final /* synthetic */ class b implements PrimitiveIterator.OfDouble {
         return this.a.hasNext();
     }
 
+    @Override // java.util.PrimitiveIterator.OfDouble, java.util.Iterator
+    public /* synthetic */ Double next() {
+        return this.a.mo335next();
+    }
+
+    /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.n] */
+    @Override // java.util.PrimitiveIterator.OfDouble, java.util.Iterator
+    /* renamed from: next */
+    public /* synthetic */ Object mo336next() {
+        return this.a.mo335next();
+    }
+
     @Override // java.util.PrimitiveIterator.OfDouble
     public /* synthetic */ double nextDouble() {
         return this.a.nextDouble();

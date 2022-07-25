@@ -19,6 +19,7 @@ public class TransportRegistrar implements ComponentRegistrar {
         return Collections.singletonList(Component.builder(TransportFactory.class).add(Dependency.required(Context.class)).factory(TransportRegistrar$$ExternalSyntheticLambda0.INSTANCE).build());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ TransportFactory lambda$getComponents$0(ComponentContainer componentContainer) {
         TransportRuntime.initialize((Context) componentContainer.get(Context.class));
         return TransportRuntime.getInstance().newFactory(CCTDestination.LEGACY_INSTANCE);

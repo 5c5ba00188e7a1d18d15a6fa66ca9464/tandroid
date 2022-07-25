@@ -51,6 +51,7 @@ public class ContactsWidgetConfigActivity extends ExternalActionActivity {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$0(ArrayList arrayList) {
         Intent intent = new Intent();
         intent.putExtra("appWidgetId", this.creatingAppWidgetId);

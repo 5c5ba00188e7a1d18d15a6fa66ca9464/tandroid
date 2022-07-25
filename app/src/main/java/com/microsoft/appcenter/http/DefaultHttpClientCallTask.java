@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     private final HttpClient.CallTemplate mCallTemplate;
@@ -30,6 +31,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     private static final Pattern TOKEN_REGEX_JSON = Pattern.compile("token\":\"[^\"]+\"");
     private static final Pattern REDIRECT_URI_REGEX_JSON = Pattern.compile("redirect_uri\":\"[^\"]+\"");
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface Tracker {
         void onFinish(DefaultHttpClientCallTask defaultHttpClientCallTask);
@@ -37,6 +39,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
         void onStart(DefaultHttpClientCallTask defaultHttpClientCallTask);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DefaultHttpClientCallTask(String str, String str2, Map<String, String> map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback, Tracker tracker, boolean z) {
         this.mUrl = str;
         this.mMethod = str2;
@@ -84,9 +87,9 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     }
 
     private HttpResponse doHttpCall() throws Exception {
-        byte[] bArr;
         String str;
-        String str2;
+        byte[] bArr;
+        String replaceAll;
         HttpClient.CallTemplate callTemplate;
         URL url = new URL(this.mUrl);
         HttpsURLConnection createHttpsConnection = HttpUtils.createHttpsConnection(url);
@@ -150,11 +153,11 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
             if (AppCenterLog.getLogLevel() <= 2) {
                 String headerField = createHttpsConnection.getHeaderField("Content-Type");
                 if (headerField != null && !headerField.startsWith("text/") && !headerField.startsWith("application/")) {
-                    str2 = "<binary>";
-                    AppCenterLog.verbose("AppCenter", "HTTP response status=" + responseCode + " payload=" + str2);
+                    replaceAll = "<binary>";
+                    AppCenterLog.verbose("AppCenter", "HTTP response status=" + responseCode + " payload=" + replaceAll);
                 }
-                str2 = REDIRECT_URI_REGEX_JSON.matcher(TOKEN_REGEX_JSON.matcher(readResponse).replaceAll("token\":\"***\"")).replaceAll("redirect_uri\":\"***\"");
-                AppCenterLog.verbose("AppCenter", "HTTP response status=" + responseCode + " payload=" + str2);
+                replaceAll = REDIRECT_URI_REGEX_JSON.matcher(TOKEN_REGEX_JSON.matcher(readResponse).replaceAll("token\":\"***\"")).replaceAll("redirect_uri\":\"***\"");
+                AppCenterLog.verbose("AppCenter", "HTTP response status=" + responseCode + " payload=" + replaceAll);
             }
             HashMap hashMap = new HashMap();
             for (Map.Entry entry2 : createHttpsConnection.getHeaderFields().entrySet()) {
@@ -170,6 +173,8 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.os.AsyncTask
     public Object doInBackground(Void... voidArr) {
         TrafficStats.setThreadStatsTag(-667034599);
         try {

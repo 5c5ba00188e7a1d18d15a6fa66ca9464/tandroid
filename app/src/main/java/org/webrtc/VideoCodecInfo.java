@@ -50,6 +50,7 @@ public class VideoCodecInfo {
         return Arrays.hashCode(new Object[]{this.name.toUpperCase(Locale.ROOT), this.params});
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @CalledByNative
     public String getName() {
         return this.name;

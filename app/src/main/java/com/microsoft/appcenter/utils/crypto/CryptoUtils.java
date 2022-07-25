@@ -80,6 +80,7 @@ public class CryptoUtils {
     private final Map<String, CryptoHandlerEntry> mCryptoHandlers;
     private final KeyStore mKeyStore;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface ICipher {
         byte[] doFinal(byte[] bArr) throws Exception;
@@ -95,6 +96,7 @@ public class CryptoUtils {
         void init(int i, Key key, AlgorithmParameterSpec algorithmParameterSpec) throws Exception;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface ICryptoFactory {
         ICipher getCipher(String str, String str2) throws Exception;
@@ -113,7 +115,7 @@ public class CryptoUtils {
         this(context, DEFAULT_CRYPTO_FACTORY, Build.VERSION.SDK_INT);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -265,6 +267,7 @@ public class CryptoUtils {
         return new DecryptedData(str2, cryptoHandler != this.mCryptoHandlers.values().iterator().next().mCryptoHandler ? encrypt(str2) : null);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class CryptoHandlerEntry {
         int mAliasIndex;

@@ -31,59 +31,59 @@ public final class DtsUtil {
 
     public static int parseDtsAudioSampleCount(byte[] bArr) {
         int i;
-        int i2;
         byte b;
+        int i2;
         byte b2;
         byte b3 = bArr[0];
         if (b3 != -2) {
             if (b3 == -1) {
-                i2 = (bArr[4] & 7) << 4;
+                i = (bArr[4] & 7) << 4;
                 b2 = bArr[7];
             } else if (b3 == 31) {
-                i2 = (bArr[5] & 7) << 4;
+                i = (bArr[5] & 7) << 4;
                 b2 = bArr[6];
             } else {
-                i2 = (bArr[4] & 1) << 6;
+                i = (bArr[4] & 1) << 6;
                 b = bArr[5];
             }
-            i = b2 & 60;
-            return (((i >> 2) | i2) + 1) * 32;
+            i2 = b2 & 60;
+            return (((i2 >> 2) | i) + 1) * 32;
         }
-        i2 = (bArr[5] & 1) << 6;
+        i = (bArr[5] & 1) << 6;
         b = bArr[4];
-        i = b & 252;
-        return (((i >> 2) | i2) + 1) * 32;
+        i2 = b & 252;
+        return (((i2 >> 2) | i) + 1) * 32;
     }
 
     public static int parseDtsAudioSampleCount(ByteBuffer byteBuffer) {
         int i;
-        int i2;
         byte b;
+        int i2;
         byte b2;
         int position = byteBuffer.position();
         byte b3 = byteBuffer.get(position);
         if (b3 != -2) {
             if (b3 == -1) {
-                i2 = (byteBuffer.get(position + 4) & 7) << 4;
+                i = (byteBuffer.get(position + 4) & 7) << 4;
                 b2 = byteBuffer.get(position + 7);
             } else if (b3 == 31) {
-                i2 = (byteBuffer.get(position + 5) & 7) << 4;
+                i = (byteBuffer.get(position + 5) & 7) << 4;
                 b2 = byteBuffer.get(position + 6);
             } else {
-                i2 = (byteBuffer.get(position + 4) & 1) << 6;
+                i = (byteBuffer.get(position + 4) & 1) << 6;
                 b = byteBuffer.get(position + 5);
             }
-            i = b2 & 60;
-            return (((i >> 2) | i2) + 1) * 32;
+            i2 = b2 & 60;
+            return (((i2 >> 2) | i) + 1) * 32;
         }
-        i2 = (byteBuffer.get(position + 5) & 1) << 6;
+        i = (byteBuffer.get(position + 5) & 1) << 6;
         b = byteBuffer.get(position + 4);
-        i = b & 252;
-        return (((i >> 2) | i2) + 1) * 32;
+        i2 = b & 252;
+        return (((i2 >> 2) | i) + 1) * 32;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x005f  */
-    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x005f  */
+    /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -91,8 +91,8 @@ public final class DtsUtil {
         int i;
         byte b;
         int i2;
-        byte b2;
         int i3;
+        byte b2;
         boolean z = false;
         byte b3 = bArr[0];
         if (b3 != -2) {
@@ -103,16 +103,16 @@ public final class DtsUtil {
                 i3 = ((bArr[6] & 3) << 12) | ((bArr[7] & 255) << 4);
                 b2 = bArr[8];
             } else {
-                i2 = ((bArr[5] & 3) << 12) | ((bArr[6] & 255) << 4);
+                i = ((bArr[5] & 3) << 12) | ((bArr[6] & 255) << 4);
                 b = bArr[7];
             }
-            i = (((b2 & 60) >> 2) | i3) + 1;
+            i2 = (((b2 & 60) >> 2) | i3) + 1;
             z = true;
-            return !z ? (i * 16) / 14 : i;
+            return !z ? (i2 * 16) / 14 : i2;
         }
-        i2 = ((bArr[4] & 3) << 12) | ((bArr[7] & 255) << 4);
+        i = ((bArr[4] & 3) << 12) | ((bArr[7] & 255) << 4);
         b = bArr[6];
-        i = (((b & 240) >> 4) | i2) + 1;
+        i2 = (((b & 240) >> 4) | i) + 1;
         if (!z) {
         }
     }

@@ -24,13 +24,13 @@ public final class zzav {
     }
 
     public final Location zza(String str) throws RemoteException {
-        ((zzh) this.zza).zza.checkConnected();
+        zzi.zzp(((zzh) this.zza).zza);
         return ((zzh) this.zza).zza().zzn(str);
     }
 
     @Deprecated
     public final Location zzb() throws RemoteException {
-        ((zzh) this.zza).zza.checkConnected();
+        zzi.zzp(((zzh) this.zza).zza);
         return ((zzh) this.zza).zza().zzm();
     }
 
@@ -38,28 +38,28 @@ public final class zzav {
     public final void zzd(LocationRequest locationRequest, ListenerHolder<LocationListener> listenerHolder, zzai zzaiVar) throws RemoteException {
         zzau zzauVar;
         zzau zzauVar2;
-        ((zzh) this.zza).zza.checkConnected();
+        zzi.zzp(((zzh) this.zza).zza);
         ListenerHolder.ListenerKey<LocationListener> listenerKey = listenerHolder.getListenerKey();
         if (listenerKey == null) {
-            zzauVar = null;
+            zzauVar2 = null;
         } else {
             synchronized (this.zzd) {
-                zzauVar2 = this.zzd.get(listenerKey);
-                if (zzauVar2 == null) {
-                    zzauVar2 = new zzau(listenerHolder);
+                zzauVar = this.zzd.get(listenerKey);
+                if (zzauVar == null) {
+                    zzauVar = new zzau(listenerHolder);
                 }
-                this.zzd.put(listenerKey, zzauVar2);
+                this.zzd.put(listenerKey, zzauVar);
             }
-            zzauVar = zzauVar2;
+            zzauVar2 = zzauVar;
         }
-        if (zzauVar == null) {
+        if (zzauVar2 == null) {
             return;
         }
-        ((zzh) this.zza).zza().zzo(new zzbc(1, zzba.zza(null, locationRequest), zzauVar, null, null, zzaiVar));
+        ((zzh) this.zza).zza().zzo(new zzbc(1, zzba.zza(null, locationRequest), zzauVar2, null, null, zzaiVar));
     }
 
     public final void zzh(ListenerHolder.ListenerKey<LocationListener> listenerKey, zzai zzaiVar) throws RemoteException {
-        ((zzh) this.zza).zza.checkConnected();
+        zzi.zzp(((zzh) this.zza).zza);
         Preconditions.checkNotNull(listenerKey, "Invalid null listener key");
         synchronized (this.zzd) {
             zzau remove = this.zzd.remove(listenerKey);
@@ -71,7 +71,7 @@ public final class zzav {
     }
 
     public final void zzk(boolean z) throws RemoteException {
-        ((zzh) this.zza).zza.checkConnected();
+        zzi.zzp(((zzh) this.zza).zza);
         ((zzh) this.zza).zza().zzp(z);
         this.zzc = z;
     }

@@ -45,6 +45,7 @@ public class MessageCustomParamsHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Params_v1 extends TLObject {
         private static final int VERSION = 1;

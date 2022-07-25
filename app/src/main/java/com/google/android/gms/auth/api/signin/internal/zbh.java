@@ -7,6 +7,7 @@ import com.google.android.gms.common.api.Status;
 final class zbh extends zba {
     final /* synthetic */ zbi zba;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zbh(zbi zbiVar) {
         this.zba = zbiVar;
     }

@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 final class zzeu implements zzev {
     private final /* synthetic */ zzbb zzox;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzeu(zzbb zzbbVar) {
         this.zzox = zzbbVar;
     }

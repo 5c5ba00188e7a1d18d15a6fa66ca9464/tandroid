@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.Timeline;
 public abstract class BasePlayer implements Player {
     protected final Timeline.Window window = new Timeline.Window();
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public interface ListenerInvocation {
         void invokeListener(Player.EventListener eventListener);

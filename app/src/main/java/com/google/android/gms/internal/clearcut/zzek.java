@@ -18,6 +18,7 @@ final class zzek implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
         this.pos = list.size();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzek(zzei zzeiVar, zzej zzejVar) {
         this(zzeiVar);
     }
@@ -50,7 +51,8 @@ final class zzek implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         List list;
         Object obj;
         if (zzdw().hasNext()) {

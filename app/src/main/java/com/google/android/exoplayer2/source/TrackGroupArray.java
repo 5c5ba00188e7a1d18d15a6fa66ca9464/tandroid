@@ -10,13 +10,17 @@ public final class TrackGroupArray implements Parcelable {
     private final TrackGroup[] trackGroups;
     public static final TrackGroupArray EMPTY = new TrackGroupArray(new TrackGroup[0]);
     public static final Parcelable.Creator<TrackGroupArray> CREATOR = new Parcelable.Creator<TrackGroupArray>() { // from class: com.google.android.exoplayer2.source.TrackGroupArray.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TrackGroupArray createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public TrackGroupArray mo149createFromParcel(Parcel parcel) {
             return new TrackGroupArray(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public TrackGroupArray[] newArray(int i) {
+        /* renamed from: newArray */
+        public TrackGroupArray[] mo150newArray(int i) {
             return new TrackGroupArray[i];
         }
     };

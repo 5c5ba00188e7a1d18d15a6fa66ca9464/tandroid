@@ -7,6 +7,7 @@ import android.os.Bundle;
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public class FcmLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {

@@ -153,7 +153,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
     }
 
     public void seekToUs(long j) {
-        boolean z;
+        boolean seekTo;
         this.lastSeekPositionUs = j;
         if (isPendingReset()) {
             this.pendingResetPositionUs = j;
@@ -178,13 +178,13 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
             }
         }
         if (baseMediaChunk != null) {
-            z = this.primarySampleQueue.seekTo(baseMediaChunk.getFirstSampleIndex(0));
+            seekTo = this.primarySampleQueue.seekTo(baseMediaChunk.getFirstSampleIndex(0));
             this.decodeOnlyUntilPositionUs = 0L;
         } else {
-            z = this.primarySampleQueue.seekTo(j, j < getNextLoadPositionUs());
+            seekTo = this.primarySampleQueue.seekTo(j, j < getNextLoadPositionUs());
             this.decodeOnlyUntilPositionUs = this.lastSeekPositionUs;
         }
-        if (z) {
+        if (seekTo) {
             this.nextNotifyPrimaryFormatMediaChunkIndex = primarySampleIndexToMediaChunkIndex(this.primarySampleQueue.getReadIndex(), 0);
             SampleQueue[] sampleQueueArr = this.embeddedSampleQueues;
             int length = sampleQueueArr.length;
@@ -262,25 +262,27 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
 
     @Override // com.google.android.exoplayer2.source.SampleStream
     public int skipData(long j) {
-        int i;
+        int advanceTo;
         if (isPendingReset()) {
             return 0;
         }
         if (this.loadingFinished && j > this.primarySampleQueue.getLargestQueuedTimestampUs()) {
-            i = this.primarySampleQueue.advanceToEnd();
+            advanceTo = this.primarySampleQueue.advanceToEnd();
         } else {
-            i = this.primarySampleQueue.advanceTo(j);
+            advanceTo = this.primarySampleQueue.advanceTo(j);
         }
         maybeNotifyPrimaryTrackFormatChanged();
-        return i;
+        return advanceTo;
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCompleted(Chunk chunk, long j, long j2) {
         this.chunkSource.onChunkLoadCompleted(chunk);
         this.eventDispatcher.loadCompleted(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, chunk.bytesLoaded());
         this.callback.onContinueLoadingRequested(this);
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCanceled(Chunk chunk, long j, long j2, boolean z) {
         this.eventDispatcher.loadCanceled(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, chunk.bytesLoaded());
         if (!z) {
@@ -292,6 +294,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         }
     }
 
+    @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public Loader.LoadErrorAction onLoadError(Chunk chunk, long j, long j2, IOException iOException, int i) {
         Loader.LoadErrorAction loadErrorAction;
         long bytesLoaded = chunk.bytesLoaded();
@@ -332,8 +335,8 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
     public boolean continueLoading(long j) {
-        long j2;
         List<BaseMediaChunk> list;
+        long j2;
         boolean z = false;
         if (this.loadingFinished || this.loader.isLoading() || this.loader.hasFatalError()) {
             return false;
@@ -530,7 +533,6 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         }
 
         public EmbeddedSampleStream(ChunkSampleStream<T> chunkSampleStream, SampleQueue sampleQueue, int i) {
-            ChunkSampleStream.this = r1;
             this.parent = chunkSampleStream;
             this.sampleQueue = sampleQueue;
             this.index = i;

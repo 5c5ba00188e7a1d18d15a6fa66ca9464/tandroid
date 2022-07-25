@@ -3,6 +3,7 @@ package j$.util.stream;
 import java.util.Deque;
 /* loaded from: classes2.dex */
 abstract class i2 extends k2 implements j$.util.w {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public i2(z1 z1Var) {
         super(z1Var);
     }
@@ -44,9 +45,9 @@ abstract class i2 extends k2 implements j$.util.w {
         boolean tryAdvance = ((j$.util.w) this.d).tryAdvance(obj);
         if (!tryAdvance) {
             if (this.c == null && (z1Var = (z1) a(this.e)) != null) {
-                j$.util.w mo69spliterator = z1Var.mo69spliterator();
-                this.d = mo69spliterator;
-                return mo69spliterator.tryAdvance(obj);
+                j$.util.w mo313spliterator = z1Var.mo313spliterator();
+                this.d = mo313spliterator;
+                return mo313spliterator.tryAdvance(obj);
             }
             this.a = null;
         }

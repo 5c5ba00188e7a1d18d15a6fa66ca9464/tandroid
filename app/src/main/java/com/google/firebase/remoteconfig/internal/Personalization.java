@@ -18,8 +18,8 @@ public class Personalization {
 
     public void logArmActive(String str, ConfigContainer configContainer) {
         JSONObject optJSONObject;
-        AnalyticsConnector analyticsConnector = this.analyticsConnector.get();
-        if (analyticsConnector == null) {
+        AnalyticsConnector mo190get = this.analyticsConnector.mo190get();
+        if (mo190get == null) {
             return;
         }
         JSONObject personalizationMetadata = configContainer.getPersonalizationMetadata();
@@ -45,10 +45,10 @@ public class Personalization {
             bundle.putString("personalization_id", optJSONObject.optString("personalizationId"));
             bundle.putInt("arm_index", optJSONObject.optInt("armIndex", -1));
             bundle.putString("group", optJSONObject.optString("group"));
-            analyticsConnector.logEvent("fp", "personalization_assignment", bundle);
+            mo190get.logEvent("fp", "personalization_assignment", bundle);
             Bundle bundle2 = new Bundle();
             bundle2.putString("_fpid", optString);
-            analyticsConnector.logEvent("fp", "_fpc", bundle2);
+            mo190get.logEvent("fp", "_fpc", bundle2);
         }
     }
 }

@@ -23,6 +23,12 @@ public class SsManifest implements FilterableManifest<SsManifest> {
     public final ProtectionElement protectionElement;
     public final StreamElement[] streamElements;
 
+    @Override // com.google.android.exoplayer2.offline.FilterableManifest
+    /* renamed from: copy  reason: collision with other method in class */
+    public /* bridge */ /* synthetic */ SsManifest mo163copy(List list) {
+        return mo163copy((List<StreamKey>) list);
+    }
+
     /* loaded from: classes.dex */
     public static class ProtectionElement {
         public final byte[] data;
@@ -127,8 +133,10 @@ public class SsManifest implements FilterableManifest<SsManifest> {
         this.streamElements = streamElementArr;
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    public final SsManifest copy(List<StreamKey> list) {
+    /* renamed from: copy */
+    public final SsManifest mo163copy(List<StreamKey> list) {
         ArrayList arrayList = new ArrayList(list);
         Collections.sort(arrayList);
         ArrayList arrayList2 = new ArrayList();

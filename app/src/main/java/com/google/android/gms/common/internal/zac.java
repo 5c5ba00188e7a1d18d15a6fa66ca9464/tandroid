@@ -77,13 +77,13 @@ public final class zac {
     }
 
     public static String zab(Context context, int i) {
-        String str;
+        String zaa2;
         if (i == 6) {
-            str = zaa(context, "common_google_play_services_resolution_required_title");
+            zaa2 = zaa(context, "common_google_play_services_resolution_required_title");
         } else {
-            str = zaa(context, i);
+            zaa2 = zaa(context, i);
         }
-        return str == null ? context.getResources().getString(R$string.common_google_play_services_notification_ticker) : str;
+        return zaa2 == null ? context.getResources().getString(R$string.common_google_play_services_notification_ticker) : zaa2;
     }
 
     public static String zac(Context context, int i) {

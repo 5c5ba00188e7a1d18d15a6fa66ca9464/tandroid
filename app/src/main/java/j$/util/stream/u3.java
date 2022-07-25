@@ -5,6 +5,7 @@ class u3 extends h3 {
     long c;
     final /* synthetic */ v3 d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public u3(v3 v3Var, m3 m3Var) {
         super(m3Var);

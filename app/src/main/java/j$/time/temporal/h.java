@@ -1,7 +1,6 @@
 package j$.time.temporal;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public enum h implements k {
+enum h implements k {
     DAY_OF_QUARTER { // from class: j$.time.temporal.d
         @Override // j$.time.temporal.k
         public n a() {
@@ -47,6 +46,7 @@ public enum h implements k {
         }
     };
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     h(c cVar) {
     }
 }

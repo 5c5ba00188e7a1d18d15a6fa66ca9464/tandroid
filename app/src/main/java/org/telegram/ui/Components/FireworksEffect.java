@@ -15,6 +15,7 @@ public class FireworksEffect {
     private ArrayList<Particle> particles = new ArrayList<>();
     private ArrayList<Particle> freeParticles = new ArrayList<>();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class Particle {
         float alpha;
@@ -30,7 +31,6 @@ public class FireworksEffect {
         float y;
 
         private Particle() {
-            FireworksEffect.this = r1;
         }
 
         public void draw(Canvas canvas) {

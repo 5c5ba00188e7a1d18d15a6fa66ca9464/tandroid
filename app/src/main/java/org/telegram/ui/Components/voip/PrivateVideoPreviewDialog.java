@@ -176,8 +176,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             private Paint[] gradientPaint;
 
             {
-                PrivateVideoPreviewDialog.this = this;
-                this.gradientPaint = new Paint[this.titles.length];
+                this.gradientPaint = new Paint[PrivateVideoPreviewDialog.this.titles.length];
                 int i = 0;
                 while (true) {
                     Paint[] paintArr = this.gradientPaint;
@@ -190,8 +189,8 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:19:0x0042  */
-            /* JADX WARN: Removed duplicated region for block: B:20:0x005e  */
+            /* JADX WARN: Removed duplicated region for block: B:12:0x0042  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x005e  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -205,22 +204,22 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                     int i8 = -9015575;
                     if (i7 == 0 && PrivateVideoPreviewDialog.this.needScreencast) {
                         i8 = -8919716;
-                        i6 = -11089922;
+                        i5 = -11089922;
                     } else if (i7 == 0 || (i7 == 1 && PrivateVideoPreviewDialog.this.needScreencast)) {
                         i8 = -11033346;
-                        i6 = -9015575;
+                        i5 = -9015575;
                     } else {
-                        i6 = -1026983;
-                        i5 = -1792170;
-                        if (i5 == 0) {
-                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i8, i6, i5}, (float[]) null, Shader.TileMode.CLAMP);
+                        i5 = -1026983;
+                        i6 = -1792170;
+                        if (i6 == 0) {
+                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i8, i5, i6}, (float[]) null, Shader.TileMode.CLAMP);
                         } else {
-                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i8, i6}, (float[]) null, Shader.TileMode.CLAMP);
+                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i8, i5}, (float[]) null, Shader.TileMode.CLAMP);
                         }
                         this.gradientPaint[i7].setShader(linearGradient);
                     }
-                    i5 = 0;
-                    if (i5 == 0) {
+                    i6 = 0;
+                    if (i6 == 0) {
                     }
                     this.gradientPaint[i7].setShader(linearGradient);
                 }
@@ -301,7 +300,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             this.textureView.renderer.setMirror(sharedInstance.isFrontFaceCamera());
-            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new RendererCommon.RendererEvents(this) { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog.4
+            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().mo2328getEglBaseContext(), new RendererCommon.RendererEvents(this) { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog.4
                 @Override // org.webrtc.RendererCommon.RendererEvents
                 public void onFirstFrameRendered() {
                 }
@@ -333,6 +332,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.isDismissed) {
             return;
@@ -344,10 +344,12 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(int i, View view) {
         this.viewPager.setCurrentItem(i, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(RLottieDrawable rLottieDrawable, View view) {
         boolean z = !this.micEnabled;
         this.micEnabled = z;
@@ -366,6 +368,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         ((FrameLayout.LayoutParams) this.titlesLayout.getLayoutParams()).bottomMargin = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateTitlesLayout() {
         TextView[] textViewArr = this.titles;
         int i = this.currentPage;
@@ -434,6 +437,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onFinishMoveCameraPage() {
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (this.currentTexturePage == this.visibleCameraPage || sharedInstance == null) {
@@ -572,9 +576,8 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Adapter extends PagerAdapter {
+    private class Adapter extends PagerAdapter {
         @Override // androidx.viewpager.widget.PagerAdapter
         public void restoreState(Parcelable parcelable, ClassLoader classLoader) {
         }
@@ -585,7 +588,6 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
 
         private Adapter() {
-            PrivateVideoPreviewDialog.this = r1;
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
@@ -595,7 +597,8 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.viewpager.widget.PagerAdapter
-        public Object instantiateItem(ViewGroup viewGroup, int i) {
+        /* renamed from: instantiateItem */
+        public Object mo1580instantiateItem(ViewGroup viewGroup, int i) {
             ImageView imageView;
             int i2 = 1;
             if (PrivateVideoPreviewDialog.this.needScreencast && i == 0) {

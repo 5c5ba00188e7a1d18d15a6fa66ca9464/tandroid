@@ -23,6 +23,7 @@ final class q0 extends CountedCompleter {
         this.f = q0Var2;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public q0(y2 y2Var, j$.util.u uVar, m3 m3Var) {
         super(null);
         this.a = y2Var;
@@ -35,13 +36,13 @@ final class q0 extends CountedCompleter {
 
     @Override // java.util.concurrent.CountedCompleter
     public final void compute() {
-        j$.util.u trySplit;
+        j$.util.u mo350trySplit;
         j$.util.u uVar = this.b;
         long j = this.c;
         boolean z = false;
         q0 q0Var = this;
-        while (uVar.estimateSize() > j && (trySplit = uVar.trySplit()) != null) {
-            q0 q0Var2 = new q0(q0Var, trySplit, q0Var.f);
+        while (uVar.estimateSize() > j && (mo350trySplit = uVar.mo350trySplit()) != null) {
+            q0 q0Var2 = new q0(q0Var, mo350trySplit, q0Var.f);
             q0 q0Var3 = new q0(q0Var, uVar, q0Var2);
             q0Var.addToPendingCount(1);
             q0Var3.addToPendingCount(1);
@@ -55,7 +56,7 @@ final class q0 extends CountedCompleter {
                 }
             }
             if (z) {
-                uVar = trySplit;
+                uVar = mo350trySplit;
                 q0Var = q0Var2;
                 q0Var2 = q0Var3;
             } else {
@@ -72,7 +73,7 @@ final class q0 extends CountedCompleter {
             cVar.getClass();
             t0.getClass();
             cVar.n0(cVar.v0(t0), uVar);
-            q0Var.g = t0.mo70a();
+            q0Var.g = t0.mo315a();
             q0Var.b = null;
         }
         q0Var.tryComplete();

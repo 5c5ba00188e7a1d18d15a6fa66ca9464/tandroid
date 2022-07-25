@@ -5,8 +5,7 @@ import java.util.Map;
 final class zzct<K> implements Map.Entry<K, Object> {
     private Map.Entry<K, zzcr> zzll;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzct(Map.Entry<K, zzcr> entry) {
+    private zzct(Map.Entry<K, zzcr> entry) {
         this.zzll = entry;
     }
 

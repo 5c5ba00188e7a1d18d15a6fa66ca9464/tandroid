@@ -22,7 +22,6 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
 
     public FlacDecoder(int i, int i2, int i3, List<byte[]> list) throws FlacDecoderException {
         super(new DecoderInputBuffer[i], new SimpleOutputBuffer[i2]);
-        Throwable e;
         if (list.size() != 1) {
             throw new FlacDecoderException("Initialization data must be of length 1");
         }
@@ -33,13 +32,13 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
             FlacStreamMetadata decodeStreamMetadata = flacDecoderJni.decodeStreamMetadata();
             this.streamMetadata = decodeStreamMetadata;
             setInitialInputBufferSize(i3 == -1 ? decodeStreamMetadata.maxFrameSize : i3);
-        } catch (ParserException e2) {
-            throw new FlacDecoderException("Failed to decode StreamInfo", e2);
-        } catch (IOException e3) {
-            e = e3;
+        } catch (ParserException e) {
+            throw new FlacDecoderException("Failed to decode StreamInfo", e);
+        } catch (IOException e2) {
+            e = e2;
             throw new IllegalStateException(e);
-        } catch (InterruptedException e4) {
-            e = e4;
+        } catch (InterruptedException e3) {
+            e = e3;
             throw new IllegalStateException(e);
         }
     }
@@ -49,18 +48,23 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
         return new DecoderInputBuffer(1);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public SimpleOutputBuffer createOutputBuffer() {
         return new SimpleOutputBuffer(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    public FlacDecoderException createUnexpectedDecodeException(Throwable th) {
+    /* renamed from: createUnexpectedDecodeException */
+    public FlacDecoderException mo165createUnexpectedDecodeException(Throwable th) {
         return new FlacDecoderException("Unexpected decode error", th);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public FlacDecoderException decode(DecoderInputBuffer decoderInputBuffer, SimpleOutputBuffer simpleOutputBuffer, boolean z) {
-        Throwable e;
         if (z) {
             this.decoderJni.flush();
         }
@@ -68,13 +72,13 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
         try {
             this.decoderJni.decodeSample(simpleOutputBuffer.init(decoderInputBuffer.timeUs, this.streamMetadata.getMaxDecodedFrameSize()));
             return null;
-        } catch (FlacDecoderJni.FlacFrameDecodeException e2) {
-            return new FlacDecoderException("Frame decoding failed", e2);
-        } catch (IOException e3) {
-            e = e3;
+        } catch (FlacDecoderJni.FlacFrameDecodeException e) {
+            return new FlacDecoderException("Frame decoding failed", e);
+        } catch (IOException e2) {
+            e = e2;
             throw new IllegalStateException(e);
-        } catch (InterruptedException e4) {
-            e = e4;
+        } catch (InterruptedException e3) {
+            e = e3;
             throw new IllegalStateException(e);
         }
     }

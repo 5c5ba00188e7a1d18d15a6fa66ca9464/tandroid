@@ -2,12 +2,15 @@ package com.google.android.gms.internal.clearcut;
 
 import com.huawei.hms.framework.common.ContainerUtils;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* JADX WARN: Incorrect field signature: TK; */
 /* loaded from: classes.dex */
 public final class zzep implements Comparable<zzep>, Map.Entry<K, V> {
     private V value;
     private final /* synthetic */ zzei zzos;
     private final Comparable zzov;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     public zzep(zzei zzeiVar, K k, V v) {
         this.zzos = zzeiVar;
@@ -15,6 +18,7 @@ public final class zzep implements Comparable<zzep>, Map.Entry<K, V> {
         this.value = v;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzep(zzei zzeiVar, Map.Entry<K, V> entry) {
         this(zzeiVar, (Comparable) entry.getKey(), entry.getValue());
     }

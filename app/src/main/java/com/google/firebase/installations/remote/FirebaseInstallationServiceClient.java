@@ -222,8 +222,8 @@ public class FirebaseInstallationServiceClient {
             httpURLConnection.addRequestProperty("Content-Encoding", "gzip");
             httpURLConnection.addRequestProperty("Cache-Control", "no-cache");
             httpURLConnection.addRequestProperty("X-Android-Package", this.context.getPackageName());
-            if (this.heartbeatInfo.get() != null && this.userAgentPublisher.get() != null && (heartBeatCode = this.heartbeatInfo.get().getHeartBeatCode("fire-installations-id")) != HeartBeatInfo.HeartBeat.NONE) {
-                httpURLConnection.addRequestProperty("x-firebase-client", this.userAgentPublisher.get().getUserAgent());
+            if (this.heartbeatInfo.mo190get() != null && this.userAgentPublisher.mo190get() != null && (heartBeatCode = this.heartbeatInfo.mo190get().getHeartBeatCode("fire-installations-id")) != HeartBeatInfo.HeartBeat.NONE) {
+                httpURLConnection.addRequestProperty("x-firebase-client", this.userAgentPublisher.mo190get().getUserAgent());
                 httpURLConnection.addRequestProperty("x-firebase-client-log-type", Integer.toString(heartBeatCode.getCode()));
             }
             httpURLConnection.addRequestProperty("X-Android-Cert", getFingerprintHashForPackage());

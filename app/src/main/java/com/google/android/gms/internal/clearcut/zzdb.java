@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
 final class zzdb extends zzcy {
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzdb() {
+    private zzdb() {
         super();
     }
 
@@ -10,11 +9,13 @@ final class zzdb extends zzcy {
         return (zzcn) zzfd.zzo(obj, j);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzcy
     public final void zza(Object obj, long j) {
         zzc(obj, j).zzv();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.List] */
     @Override // com.google.android.gms.internal.clearcut.zzcy

@@ -12,6 +12,7 @@ public final class zaj extends AbstractSafeParcelable {
     private final int zaa;
     private final zat zab;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zaj(int i, zat zatVar) {
         this.zaa = i;
         this.zab = zatVar;

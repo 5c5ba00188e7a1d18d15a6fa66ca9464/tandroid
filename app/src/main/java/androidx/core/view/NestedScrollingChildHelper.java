@@ -95,11 +95,11 @@ public class NestedScrollingChildHelper {
         }
         if (offsetInWindow != null) {
             this.mView.getLocationInWindow(offsetInWindow);
-            i2 = offsetInWindow[0];
-            i = offsetInWindow[1];
+            i = offsetInWindow[0];
+            i2 = offsetInWindow[1];
         } else {
-            i2 = 0;
             i = 0;
+            i2 = 0;
         }
         if (consumed == null) {
             int[] tempNestedScrollConsumed = getTempNestedScrollConsumed();
@@ -112,8 +112,8 @@ public class NestedScrollingChildHelper {
         ViewParentCompat.onNestedScroll(nestedScrollingParentForType, this.mView, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type, iArr);
         if (offsetInWindow != null) {
             this.mView.getLocationInWindow(offsetInWindow);
-            offsetInWindow[0] = offsetInWindow[0] - i2;
-            offsetInWindow[1] = offsetInWindow[1] - i;
+            offsetInWindow[0] = offsetInWindow[0] - i;
+            offsetInWindow[1] = offsetInWindow[1] - i2;
         }
         return true;
     }
@@ -139,11 +139,11 @@ public class NestedScrollingChildHelper {
         }
         if (offsetInWindow != null) {
             this.mView.getLocationInWindow(offsetInWindow);
-            i2 = offsetInWindow[0];
-            i = offsetInWindow[1];
+            i = offsetInWindow[0];
+            i2 = offsetInWindow[1];
         } else {
-            i2 = 0;
             i = 0;
+            i2 = 0;
         }
         if (consumed == null) {
             consumed = getTempNestedScrollConsumed();
@@ -153,8 +153,8 @@ public class NestedScrollingChildHelper {
         ViewParentCompat.onNestedPreScroll(nestedScrollingParentForType, this.mView, dx, dy, consumed, type);
         if (offsetInWindow != null) {
             this.mView.getLocationInWindow(offsetInWindow);
-            offsetInWindow[0] = offsetInWindow[0] - i2;
-            offsetInWindow[1] = offsetInWindow[1] - i;
+            offsetInWindow[0] = offsetInWindow[0] - i;
+            offsetInWindow[1] = offsetInWindow[1] - i2;
         }
         return (consumed[0] == 0 && consumed[1] == 0) ? false : true;
     }

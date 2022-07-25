@@ -76,6 +76,7 @@ public class PollEditTextCell extends FrameLayout {
                     return onCreateInputConnection;
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
                 public void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
@@ -120,6 +121,7 @@ public class PollEditTextCell extends FrameLayout {
                     return onCreateInputConnection;
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
                 public void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
@@ -199,6 +201,7 @@ public class PollEditTextCell extends FrameLayout {
         addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i) | 16, 19.0f, 0.0f, 19.0f, 0.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.checkBox.getTag() == null) {
             return;
@@ -265,6 +268,7 @@ public class PollEditTextCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onCheckBoxClick(PollEditTextCell pollEditTextCell, boolean z) {
         this.checkBox.setChecked(z, true);
     }
@@ -380,27 +384,27 @@ public class PollEditTextCell extends FrameLayout {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        float f;
+        float dp;
         int i;
         if (!this.needDivider || !drawDivider()) {
             return;
         }
-        float f2 = 63.0f;
+        float f = 63.0f;
         if (LocaleController.isRTL) {
-            f = 0.0f;
+            dp = 0.0f;
         } else {
-            f = AndroidUtilities.dp(this.moveImageView != null ? 63.0f : 20.0f);
+            dp = AndroidUtilities.dp(this.moveImageView != null ? 63.0f : 20.0f);
         }
         float measuredHeight = getMeasuredHeight() - 1;
         int measuredWidth = getMeasuredWidth();
         if (LocaleController.isRTL) {
             if (this.moveImageView == null) {
-                f2 = 20.0f;
+                f = 20.0f;
             }
-            i = AndroidUtilities.dp(f2);
+            i = AndroidUtilities.dp(f);
         } else {
             i = 0;
         }
-        canvas.drawLine(f, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
+        canvas.drawLine(dp, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
     }
 }

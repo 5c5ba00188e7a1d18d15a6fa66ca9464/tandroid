@@ -182,20 +182,21 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         this.streamCount--;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void onConnectivityAction() {
-        int i;
+        int networkType;
         if (this.networkTypeOverrideSet) {
-            i = this.networkTypeOverride;
+            networkType = this.networkTypeOverride;
         } else {
             Context context = this.context;
-            i = context == null ? 0 : Util.getNetworkType(context);
+            networkType = context == null ? 0 : Util.getNetworkType(context);
         }
-        if (this.networkType == i) {
+        if (this.networkType == networkType) {
             return;
         }
-        this.networkType = i;
-        if (i != 1 && i != 0 && i != 8) {
-            this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(i);
+        this.networkType = networkType;
+        if (networkType != 1 && networkType != 0 && networkType != 8) {
+            this.bitrateEstimate = getInitialBitrateEstimateForNetworkType(networkType);
             long elapsedRealtime = this.clock.elapsedRealtime();
             maybeNotifyBandwidthSample(this.streamCount > 0 ? (int) (elapsedRealtime - this.sampleStartTimeMs) : 0, this.sampleBytesTransferred, this.bitrateEstimate);
             this.sampleStartTimeMs = elapsedRealtime;
@@ -230,6 +231,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         return l.longValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ConnectivityActionReceiver extends BroadcastReceiver {
         private static ConnectivityActionReceiver staticInstance;
@@ -278,6 +280,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* renamed from: updateBandwidthMeter */
         public void lambda$register$0(DefaultBandwidthMeter defaultBandwidthMeter) {
             defaultBandwidthMeter.onConnectivityAction();

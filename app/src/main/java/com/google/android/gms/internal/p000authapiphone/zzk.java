@@ -1,10 +1,10 @@
 package com.google.android.gms.internal.p000authapiphone;
 
 import android.os.RemoteException;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* renamed from: com.google.android.gms.internal.auth-api-phone.zzk */
+/* renamed from: com.google.android.gms.internal.auth-api-phone.zzk  reason: invalid package */
 /* loaded from: classes.dex */
-public final class zzk extends zzm {
+final class zzk extends zzm {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzk(zzj zzjVar) {
         super(null);
     }

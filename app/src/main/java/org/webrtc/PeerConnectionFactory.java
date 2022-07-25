@@ -31,6 +31,7 @@ public class PeerConnectionFactory {
 
     private static native long nativeCreatePeerConnection(long j, PeerConnection.RTCConfiguration rTCConfiguration, MediaConstraints mediaConstraints, long j2, SSLCertificateVerifier sSLCertificateVerifier);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native PeerConnectionFactory nativeCreatePeerConnectionFactory(Context context, Options options, long j, long j2, long j3, VideoEncoderFactory videoEncoderFactory, VideoDecoderFactory videoDecoderFactory, long j4, long j5, long j6, long j7, long j8);
 
     private static native long nativeCreateVideoSource(long j, boolean z, boolean z2);
@@ -67,6 +68,7 @@ public class PeerConnectionFactory {
 
     private static native void nativeStopInternalTracingCapture();
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class ThreadInfo {
         final Thread thread;
@@ -307,6 +309,7 @@ public class PeerConnectionFactory {
         nativeDeleteLoggable();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void checkInitializeHasBeenCalled() {
         if (ContextUtils.getApplicationContext() != null) {
             return;

@@ -176,6 +176,7 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<Ch
         return j;
     }
 
+    @Override // com.google.android.exoplayer2.source.SequenceableLoader.Callback
     public void onContinueLoadingRequested(ChunkSampleStream<SsChunkSource> chunkSampleStream) {
         this.callback.onContinueLoadingRequested(this);
     }

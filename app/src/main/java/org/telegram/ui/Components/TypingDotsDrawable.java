@@ -104,28 +104,29 @@ public class TypingDotsDrawable extends StatusDrawable {
 
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
+        int dp;
         int i;
-        int i2;
         if (this.isChat) {
-            i2 = AndroidUtilities.dp(8.5f);
+            dp = AndroidUtilities.dp(8.5f);
             i = getBounds().top;
         } else {
-            i2 = AndroidUtilities.dp(9.3f);
+            dp = AndroidUtilities.dp(9.3f);
             i = getBounds().top;
         }
-        int i3 = i2 + i;
+        int i2 = dp + i;
         Paint paint = this.currentPaint;
         if (paint == null) {
             paint = Theme.chat_statusPaint;
             paint.setAlpha(255);
         }
-        float f = i3;
+        float f = i2;
         canvas.drawCircle(AndroidUtilities.dp(3.0f), f, this.scales[0] * AndroidUtilities.density, paint);
         canvas.drawCircle(AndroidUtilities.dp(9.0f), f, this.scales[1] * AndroidUtilities.density, paint);
         canvas.drawCircle(AndroidUtilities.dp(15.0f), f, this.scales[2] * AndroidUtilities.density, paint);
         checkUpdate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkUpdate() {
         if (this.started) {
             if (!NotificationCenter.getInstance(this.currentAccount).isAnimationInProgress()) {

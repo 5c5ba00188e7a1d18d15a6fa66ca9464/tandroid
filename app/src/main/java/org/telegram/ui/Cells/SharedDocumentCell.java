@@ -127,6 +127,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             addView(view2, LayoutHelper.createFrame(32, -2.0f, (z4 ? 5 : 3) | 48, z4 ? 0.0f : 16.0f, 22.0f, z4 ? 16.0f : 0.0f, 0.0f));
         }
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.SharedDocumentCell.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
             public void onDraw(Canvas canvas) {
                 float f2 = 1.0f;
@@ -289,23 +290,23 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             } else {
                 CombinedDrawable createCircleDrawableWithIcon = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(42.0f), i);
                 if (i == R.drawable.files_storage) {
-                    str6 = "chat_attachLocationBackground";
-                    str5 = "chat_attachLocationIcon";
+                    str5 = "chat_attachLocationBackground";
+                    str6 = "chat_attachLocationIcon";
                 } else if (i == R.drawable.files_gallery) {
-                    str6 = "chat_attachContactBackground";
-                    str5 = "chat_attachContactIcon";
+                    str5 = "chat_attachContactBackground";
+                    str6 = "chat_attachContactIcon";
                 } else if (i == R.drawable.files_music) {
-                    str6 = "chat_attachAudioBackground";
-                    str5 = "chat_attachAudioIcon";
+                    str5 = "chat_attachAudioBackground";
+                    str6 = "chat_attachAudioIcon";
                 } else if (i == R.drawable.files_internal) {
-                    str6 = "chat_attachGalleryBackground";
-                    str5 = "chat_attachGalleryIcon";
+                    str5 = "chat_attachGalleryBackground";
+                    str6 = "chat_attachGalleryIcon";
                 } else {
-                    str6 = "files_folderIconBackground";
-                    str5 = "files_folderIcon";
+                    str5 = "files_folderIconBackground";
+                    str6 = "files_folderIcon";
                 }
-                Theme.setCombinedDrawableColor(createCircleDrawableWithIcon, getThemedColor(str6), false);
-                Theme.setCombinedDrawableColor(createCircleDrawableWithIcon, getThemedColor(str5), true);
+                Theme.setCombinedDrawableColor(createCircleDrawableWithIcon, getThemedColor(str5), false);
+                Theme.setCombinedDrawableColor(createCircleDrawableWithIcon, getThemedColor(str6), true);
                 this.thumbImageView.setImageDrawable(createCircleDrawableWithIcon);
             }
             this.thumbImageView.setVisibility(0);
@@ -399,17 +400,17 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         String str3;
         MessageObject messageObject2 = this.message;
         if (messageObject2 == null || messageObject == null || messageObject2.getId() == messageObject.getId()) {
-            z3 = z;
-            z2 = false;
+            z2 = z;
+            z3 = false;
         } else {
-            z3 = z;
-            z2 = true;
+            z2 = z;
+            z3 = true;
         }
-        this.needDivider = z3;
+        this.needDivider = z2;
         this.message = messageObject;
         this.loaded = false;
         this.loading = false;
-        if (!z2) {
+        if (!z3) {
             this.downloadedSize = 0L;
         }
         TLRPC$Document document = messageObject.getDocument();
@@ -502,11 +503,11 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         }
         setWillNotDraw(!this.needDivider);
         this.progressView.setProgress(0.0f, false);
-        updateFileExistIcon(z2);
+        updateFileExistIcon(z3);
     }
 
     private void updateDateView() {
-        String str;
+        String format;
         MessageObject messageObject = this.message;
         if (messageObject == null || messageObject.getDocument() == null) {
             return;
@@ -515,16 +516,16 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         long j = messageObject2.messageOwner.date * 1000;
         long j2 = this.downloadedSize;
         if (j2 == 0) {
-            str = AndroidUtilities.formatFileSize(messageObject2.getDocument().size);
+            format = AndroidUtilities.formatFileSize(messageObject2.getDocument().size);
         } else {
-            str = String.format(Locale.ENGLISH, "%s / %s", AndroidUtilities.formatFileSize(j2), AndroidUtilities.formatFileSize(this.message.getDocument().size));
+            format = String.format(Locale.ENGLISH, "%s / %s", AndroidUtilities.formatFileSize(j2), AndroidUtilities.formatFileSize(this.message.getDocument().size));
         }
         if (this.viewType == 2) {
-            this.dateTextView.setText(new SpannableStringBuilder().append((CharSequence) str).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.message)));
+            this.dateTextView.setText(new SpannableStringBuilder().append((CharSequence) format).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.message)));
             this.rightDateTextView.setText(LocaleController.stringForMessageListDate(this.message.messageOwner.date));
             return;
         }
-        this.dateTextView.setText(String.format("%s, %s", str, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
+        this.dateTextView.setText(String.format("%s, %s", format, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(j)), LocaleController.getInstance().formatterDay.format(new Date(j)))));
     }
 
     public void updateFileExistIcon(boolean z) {

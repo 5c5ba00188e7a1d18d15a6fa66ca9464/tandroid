@@ -13,9 +13,8 @@ import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Date;
 import javax.security.auth.x500.X500Principal;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CryptoRsaHandler implements CryptoHandler {
+class CryptoRsaHandler implements CryptoHandler {
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
     public String getAlgorithm() {
         return "RSA/ECB/PKCS1Padding/2048";

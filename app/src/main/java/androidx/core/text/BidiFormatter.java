@@ -116,6 +116,7 @@ public final class BidiFormatter {
         return new DirectionalityEstimator(str, false).getEntryDir();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class DirectionalityEstimator {
         private static final byte[] DIR_TYPE_CACHE = new byte[1792];

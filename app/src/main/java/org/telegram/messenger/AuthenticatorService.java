@@ -13,6 +13,7 @@ import android.os.IBinder;
 public class AuthenticatorService extends Service {
     private static Authenticator authenticator;
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Authenticator extends AbstractAccountAuthenticator {
         @Override // android.accounts.AbstractAccountAuthenticator

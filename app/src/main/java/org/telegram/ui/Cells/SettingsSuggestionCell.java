@@ -91,10 +91,12 @@ public class SettingsSuggestionCell extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         onYesClick(this.currentType);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         onNoClick(this.currentType);
     }

@@ -136,6 +136,7 @@ public class FillLastGridLayoutManager extends GridLayoutManager {
         calcLastItemHeight();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.GridLayoutManager
     public void measureChild(View view, int i, boolean z) {
         if (this.listView.findContainingViewHolder(view).getAdapterPosition() == getItemCount() - 1) {

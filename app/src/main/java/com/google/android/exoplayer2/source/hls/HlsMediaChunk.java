@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class HlsMediaChunk extends MediaChunk {
     private static final PositionHolder DUMMY_POSITION_HOLDER = new PositionHolder();
@@ -57,13 +58,13 @@ public final class HlsMediaChunk extends MediaChunk {
     public final int uid;
 
     public static HlsMediaChunk createInstance(HlsExtractorFactory hlsExtractorFactory, DataSource dataSource, Format format, long j, HlsMediaPlaylist hlsMediaPlaylist, int i, Uri uri, List<Format> list, int i2, Object obj, boolean z, TimestampAdjusterProvider timestampAdjusterProvider, HlsMediaChunk hlsMediaChunk, byte[] bArr, byte[] bArr2) {
-        DataSource dataSource2;
-        boolean z2;
         DataSpec dataSpec;
-        boolean z3;
-        ParsableByteArray parsableByteArray;
+        boolean z2;
+        DataSource dataSource2;
         Id3Decoder id3Decoder;
+        ParsableByteArray parsableByteArray;
         Extractor extractor;
+        boolean z3;
         HlsMediaPlaylist.Segment segment = hlsMediaPlaylist.segments.get(i);
         DataSpec dataSpec2 = new DataSpec(UriUtil.resolveToUri(hlsMediaPlaylist.baseUri, segment.url), segment.byterangeOffset, segment.byterangeLength, null);
         boolean z4 = bArr != null;
@@ -180,18 +181,18 @@ public final class HlsMediaChunk extends MediaChunk {
 
     @RequiresNonNull({"output"})
     private void feedDataToExtractor(DataSource dataSource, DataSpec dataSpec, boolean z) throws IOException, InterruptedException {
-        DataSpec dataSpec2;
+        DataSpec subrange;
         boolean z2;
         int i = 0;
         if (z) {
             z2 = this.nextLoadPosition != 0;
-            dataSpec2 = dataSpec;
+            subrange = dataSpec;
         } else {
-            dataSpec2 = dataSpec.subrange(this.nextLoadPosition);
+            subrange = dataSpec.subrange(this.nextLoadPosition);
             z2 = false;
         }
         try {
-            DefaultExtractorInput prepareExtraction = prepareExtraction(dataSource, dataSpec2);
+            DefaultExtractorInput prepareExtraction = prepareExtraction(dataSource, subrange);
             if (z2) {
                 prepareExtraction.skipFully(this.nextLoadPosition);
             }

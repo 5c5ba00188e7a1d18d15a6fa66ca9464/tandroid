@@ -67,6 +67,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.pickerDividersPaint.setStrokeCap(Paint.Cap.ROUND);
         this.pickerDividersPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         NumberPicker numberPicker = new NumberPicker(context, 13) { // from class: org.telegram.ui.Components.SwipeGestureSettingsView.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.NumberPicker, android.widget.LinearLayout, android.view.View
             public void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
@@ -117,10 +118,12 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.currentIconValue = this.picker.getValue();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ String lambda$new$0(int i) {
         return this.strings[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(NumberPicker numberPicker, int i, int i2) {
         swapIcons();
         SharedConfig.updateChatListSwipeSetting(i2);
@@ -157,6 +160,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$swapIcons$2() {
         this.swapIconRunnable = null;
         swapIcons();
@@ -167,9 +171,9 @@ public class SwipeGestureSettingsView extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(102.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00b6  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00d5  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x00b6  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00d5  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

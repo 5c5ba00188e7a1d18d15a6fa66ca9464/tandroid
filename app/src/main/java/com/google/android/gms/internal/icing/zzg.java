@@ -40,6 +40,7 @@ public final class zzg extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzg(zzk[] zzkVarArr, String str, boolean z, Account account) {
         this.zza = zzkVarArr;
         this.zzb = str;

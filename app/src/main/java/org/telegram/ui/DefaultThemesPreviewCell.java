@@ -112,15 +112,15 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             textCell3.setTextAndIcon(LocaleController.getString("SettingsBrowseThemes", R.string.SettingsBrowseThemes), R.drawable.msg_colors, false);
             addView(this.browseThemesCell, LayoutHelper.createFrame(-1, -2.0f));
             this.dayNightCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1
-                /* JADX WARN: Removed duplicated region for block: B:28:0x0078  */
-                /* JADX WARN: Removed duplicated region for block: B:29:0x007d  */
-                /* JADX WARN: Removed duplicated region for block: B:32:0x0087  */
-                /* JADX WARN: Removed duplicated region for block: B:33:0x008d  */
-                /* JADX WARN: Removed duplicated region for block: B:36:0x0151  */
-                /* JADX WARN: Removed duplicated region for block: B:37:0x0158  */
-                /* JADX WARN: Removed duplicated region for block: B:40:0x015c  */
-                /* JADX WARN: Removed duplicated region for block: B:52:0x01d1  */
-                /* JADX WARN: Removed duplicated region for block: B:53:0x01e6  */
+                /* JADX WARN: Removed duplicated region for block: B:24:0x0078  */
+                /* JADX WARN: Removed duplicated region for block: B:27:0x0087  */
+                /* JADX WARN: Removed duplicated region for block: B:30:0x0151  */
+                /* JADX WARN: Removed duplicated region for block: B:33:0x015c  */
+                /* JADX WARN: Removed duplicated region for block: B:45:0x01d1  */
+                /* JADX WARN: Removed duplicated region for block: B:47:0x01e6  */
+                /* JADX WARN: Removed duplicated region for block: B:49:0x0158  */
+                /* JADX WARN: Removed duplicated region for block: B:50:0x008d  */
+                /* JADX WARN: Removed duplicated region for block: B:51:0x007d  */
                 @Override // android.view.View.OnClickListener
                 @SuppressLint({"NotifyDataSetChanged"})
                 /*
@@ -128,7 +128,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                 */
                 public void onClick(View view) {
                     boolean z;
-                    Theme.ThemeInfo themeInfo;
+                    Theme.ThemeInfo theme;
                     final Window window;
                     if (DrawerProfileCell.switchingTheme) {
                         return;
@@ -154,16 +154,16 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                         str2 = string2;
                         z = !Theme.isCurrentThemeDark();
                         if (!z) {
-                            themeInfo = Theme.getTheme(str2);
+                            theme = Theme.getTheme(str2);
                         } else {
-                            themeInfo = Theme.getTheme(str);
+                            theme = Theme.getTheme(str);
                         }
                         RLottieDrawable rLottieDrawable2 = DefaultThemesPreviewCell.this.darkThemeDrawable;
                         rLottieDrawable2.setCustomEndFrame(!z ? rLottieDrawable2.getFramesCount() - 1 : 0);
                         DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
                         DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(r9);
                         int[] iArr = {iArr[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
-                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell);
+                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell);
                         DefaultThemesPreviewCell.this.updateDayNightMode();
                         DefaultThemesPreviewCell.this.updateSelectedPosition();
                         final int color3 = Theme.getColor("windowBackgroundWhiteBlueText4");
@@ -241,7 +241,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                     DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
                     DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(iArr);
                     int[] iArr2 = {iArr2[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr2[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr2, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell);
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr2, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell);
                     DefaultThemesPreviewCell.this.updateDayNightMode();
                     DefaultThemesPreviewCell.this.updateSelectedPosition();
                     final int color32 = Theme.getColor("windowBackgroundWhiteBlueText4");
@@ -307,6 +307,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         linearLayoutManager.scrollToPositionWithOffset(i3, AndroidUtilities.dp(16.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(BaseFragment baseFragment, View view, int i) {
         ChatThemeBottomSheet.ChatThemeItem chatThemeItem = this.adapter.items.get(i);
         Theme.ThemeInfo themeInfo = chatThemeItem.chatTheme.getThemeInfo(this.themeIndex);
@@ -346,6 +347,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$1(BaseFragment baseFragment, View view) {
         baseFragment.presentFragment(new ThemeActivity(3));
     }
@@ -426,6 +428,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         updateSelectedPosition();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateSelectedPosition() {
         if (this.adapter.items == null) {
             return;

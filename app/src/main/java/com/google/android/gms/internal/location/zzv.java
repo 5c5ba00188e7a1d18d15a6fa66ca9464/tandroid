@@ -9,6 +9,7 @@ import com.google.android.gms.location.LocationListener;
 final class zzv extends zzx {
     final /* synthetic */ LocationListener zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public zzv(zzz zzzVar, GoogleApiClient googleApiClient, LocationListener locationListener) {
         super(googleApiClient);

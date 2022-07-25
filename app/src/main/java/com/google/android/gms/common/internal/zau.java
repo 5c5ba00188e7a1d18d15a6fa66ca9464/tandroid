@@ -17,6 +17,7 @@ public final class zau extends AbstractSafeParcelable {
     private boolean zad;
     private boolean zae;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zau(int i, IBinder iBinder, ConnectionResult connectionResult, boolean z, boolean z2) {
         this.zaa = i;
         this.zab = iBinder;

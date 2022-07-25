@@ -68,9 +68,8 @@ public class SpeedLineParticles$Drawable {
         canvas.drawLines(this.lines, this.paint);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class Particle {
+    private class Particle {
         float inProgress;
         private long lifeTime;
         private float vecX;
@@ -79,7 +78,6 @@ public class SpeedLineParticles$Drawable {
         private float y;
 
         private Particle() {
-            SpeedLineParticles$Drawable.this = r1;
         }
 
         public void draw(Canvas canvas, int i, long j) {

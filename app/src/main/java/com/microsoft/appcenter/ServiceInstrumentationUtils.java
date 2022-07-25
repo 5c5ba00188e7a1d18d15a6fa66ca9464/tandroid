@@ -4,6 +4,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.InstrumentationRegistryHelper;
 /* loaded from: classes.dex */
 class ServiceInstrumentationUtils {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isServiceDisabledByInstrumentation(String str) {
         try {
             String string = InstrumentationRegistryHelper.getArguments().getString("APP_CENTER_DISABLE");

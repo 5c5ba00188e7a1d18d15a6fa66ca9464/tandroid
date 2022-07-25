@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.text.SubtitleOutputBuffer;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class CeaDecoder implements SubtitleDecoder {
     private final ArrayDeque<CeaInputBuffer> availableInputBuffers = new ArrayDeque<>();
@@ -43,8 +44,10 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         this.playbackPositionUs = j;
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public SubtitleInputBuffer dequeueInputBuffer() throws SubtitleDecoderException {
+    /* renamed from: dequeueInputBuffer */
+    public SubtitleInputBuffer mo166dequeueInputBuffer() throws SubtitleDecoderException {
         Assertions.checkState(this.dequeuedInputBuffer == null);
         if (this.availableInputBuffers.isEmpty()) {
             return null;
@@ -54,6 +57,7 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         return pollFirst;
     }
 
+    @Override // com.google.android.exoplayer2.decoder.Decoder
     public void queueInputBuffer(SubtitleInputBuffer subtitleInputBuffer) throws SubtitleDecoderException {
         Assertions.checkArgument(subtitleInputBuffer == this.dequeuedInputBuffer);
         if (subtitleInputBuffer.isDecodeOnly()) {
@@ -68,8 +72,10 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         this.dequeuedInputBuffer = null;
     }
 
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    public SubtitleOutputBuffer dequeueOutputBuffer() throws SubtitleDecoderException {
+    /* renamed from: dequeueOutputBuffer */
+    public SubtitleOutputBuffer mo167dequeueOutputBuffer() throws SubtitleDecoderException {
         if (this.availableOutputBuffers.isEmpty()) {
             return null;
         }
@@ -120,6 +126,7 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CeaInputBuffer extends SubtitleInputBuffer implements Comparable<CeaInputBuffer> {
         private long queuedInputBufferCount;
@@ -127,6 +134,7 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         private CeaInputBuffer() {
         }
 
+        @Override // java.lang.Comparable
         public int compareTo(CeaInputBuffer ceaInputBuffer) {
             if (isEndOfStream() != ceaInputBuffer.isEndOfStream()) {
                 return isEndOfStream() ? 1 : -1;
@@ -142,11 +150,9 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class CeaOutputBuffer extends SubtitleOutputBuffer {
+    private final class CeaOutputBuffer extends SubtitleOutputBuffer {
         private CeaOutputBuffer() {
-            CeaDecoder.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.decoder.OutputBuffer

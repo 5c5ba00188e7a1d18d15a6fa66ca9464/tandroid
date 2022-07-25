@@ -66,7 +66,6 @@ public class BaseAdapter {
         private AtomicBoolean isFirstRsp = new AtomicBoolean(true);
 
         public BaseRequestResultCallback() {
-            BaseAdapter.this = r2;
         }
 
         private void handleSolutionForHms(final BaseCallBack baseCallBack) {
@@ -161,6 +160,7 @@ public class BaseAdapter {
             }
         }
 
+        @Override // com.huawei.hms.support.api.client.ResultCallback
         public void onResult(ResolveResult<CoreBaseResponse> resolveResult) {
             BaseCallBack callBack = BaseAdapter.this.getCallBack();
             if (callBack == null) {
@@ -191,13 +191,16 @@ public class BaseAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class MPendingResultImpl extends PendingResultImpl<ResolveResult<CoreBaseResponse>, CoreBaseResponse> {
         public MPendingResultImpl(ApiClient apiClient, String str, IMessageEntity iMessageEntity) {
             super(apiClient, str, iMessageEntity);
         }
 
-        public ResolveResult<CoreBaseResponse> onComplete(CoreBaseResponse coreBaseResponse) {
+        @Override // com.huawei.hms.support.api.PendingResultImpl
+        /* renamed from: onComplete  reason: avoid collision after fix types in other method */
+        public ResolveResult<CoreBaseResponse> mo234onComplete(CoreBaseResponse coreBaseResponse) {
             ResolveResult<CoreBaseResponse> resolveResult = new ResolveResult<>(coreBaseResponse);
             resolveResult.setStatus(Status.SUCCESS);
             return resolveResult;
@@ -226,6 +229,7 @@ public class BaseAdapter {
         HiAnalyticsUtil.getInstance().onNewEvent(context, HiAnalyticsConstant.HMS_SDK_BASE_START_RESOLUTION, mapFromRequestHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void biReportRequestReturnIpc(Context context, ResponseHeader responseHeader) {
         HiAnalyticsUtil.getInstance();
         Map<String, String> mapFromRequestHeader = HiAnalyticsUtil.getMapFromRequestHeader(responseHeader);
@@ -235,6 +239,7 @@ public class BaseAdapter {
         HiAnalyticsUtil.getInstance().onNewEvent(context, HiAnalyticsConstant.HMS_SDK_BASE_CALL_AIDL, mapFromRequestHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void biReportRequestReturnSolution(Context context, ResponseHeader responseHeader, long j) {
         HiAnalyticsUtil.getInstance();
         Map<String, String> mapFromRequestHeader = HiAnalyticsUtil.getMapFromRequestHeader(responseHeader);
@@ -245,6 +250,7 @@ public class BaseAdapter {
         HiAnalyticsUtil.getInstance().onNewEvent(context, HiAnalyticsConstant.HMS_SDK_BASE_START_RESOLUTION, mapFromRequestHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public String buildBodyStr(int i) {
         JSONObject jSONObject = new JSONObject();
         try {
@@ -255,6 +261,7 @@ public class BaseAdapter {
         return jSONObject.toString();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public ResponseWrap buildResponseWrap(int i, String str) {
         setResponseHeader(i);
         ResponseWrap responseWrap = new ResponseWrap(this.responseHeader);
@@ -266,6 +273,7 @@ public class BaseAdapter {
         return this.baseCallBackReplay;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public BaseCallBack getCallBack() {
         BaseCallBack baseCallBack = this.callback;
         if (baseCallBack == null) {
@@ -275,6 +283,7 @@ public class BaseAdapter {
         return baseCallBack;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public Activity getCpActivity() {
         if (this.activityWeakReference == null) {
             HMSLog.i(TAG, "activityWeakReference is " + this.activityWeakReference);
@@ -301,11 +310,13 @@ public class BaseAdapter {
         return this.parcelableReplay;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public String getResponseHeaderForError(int i) {
         setResponseHeader(i);
         return this.responseHeader.toJson();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean hasExtraPrivacyResult(Intent intent, BaseCallBack baseCallBack) {
         if (intent.hasExtra(CommonCode.MapKey.PRIVACY_STATEMENT_CONFIRM_RESULT)) {
             if (intent.getIntExtra(CommonCode.MapKey.PRIVACY_STATEMENT_CONFIRM_RESULT, 1001) == 1001) {
@@ -320,6 +331,7 @@ public class BaseAdapter {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean hasExtraUpdateResult(Intent intent, BaseCallBack baseCallBack) {
         if (intent.hasExtra(KpmsConstant.KIT_UPDATE_RESULT)) {
             int intExtra = intent.getIntExtra(KpmsConstant.KIT_UPDATE_RESULT, 0);
@@ -387,6 +399,7 @@ public class BaseAdapter {
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onCompleteResult(Intent intent, BaseCallBack baseCallBack) {
         long j;
         String stringExtra = intent.getStringExtra(CommonCode.MapKey.JSON_HEADER);
@@ -426,6 +439,7 @@ public class BaseAdapter {
         baseRequest(getJsonHeaderReplay(), getJsonObjectReplay(), getParcelableReplay(), getBaseCallBackReplay());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendBroadcastAfterResolutionHms() {
         if (this.appContext == null) {
             HMSLog.e(TAG, "sendBroadcastAfterResolutionHms, context is null");
@@ -470,6 +484,7 @@ public class BaseAdapter {
         this.responseHeader.setErrorReason("Core error");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startResolution(Activity activity, Parcelable parcelable) {
         HMSLog.i(TAG, "startResolution");
         RequestHeader requestHeader = this.requestHeader;

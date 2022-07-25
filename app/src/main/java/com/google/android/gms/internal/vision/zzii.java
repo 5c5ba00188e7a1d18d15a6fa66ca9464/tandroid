@@ -99,6 +99,7 @@ public abstract class zzii extends zzhq {
 
     public abstract void zza(int i, zzkk zzkkVar) throws IOException;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public abstract void zza(int i, zzkk zzkkVar, zzlc zzlcVar) throws IOException;
 
     public abstract void zza(int i, String str) throws IOException;
@@ -169,10 +170,9 @@ public abstract class zzii extends zzhq {
         zzb(zzm(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
-    public static class zza extends zzii {
+    private static class zza extends zzii {
         private final byte[] zzb;
         private final int zzd;
         private int zze;
@@ -249,9 +249,8 @@ public abstract class zzii extends zzhq {
             zzhtVar.zza(this);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.android.gms.internal.vision.zzii
-        public final void zza(int i, zzkk zzkkVar, zzlc zzlcVar) throws IOException {
+        final void zza(int i, zzkk zzkkVar, zzlc zzlcVar) throws IOException {
             zza(i, 2);
             zzhf zzhfVar = (zzhf) zzkkVar;
             int zzi = zzhfVar.zzi();
@@ -598,6 +597,7 @@ public abstract class zzii extends zzhq {
         return zzg + zzg(zzb2) + zzb2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, zzkk zzkkVar, zzlc zzlcVar) {
         return zzg(i << 3) + zza(zzkkVar, zzlcVar);
     }
@@ -642,13 +642,13 @@ public abstract class zzii extends zzhq {
     }
 
     public static int zzb(String str) {
-        int i;
+        int length;
         try {
-            i = zzmd.zza(str);
+            length = zzmd.zza(str);
         } catch (zzmg unused) {
-            i = str.getBytes(zzjf.zza).length;
+            length = str.getBytes(zzjf.zza).length;
         }
-        return zzg(i) + i;
+        return zzg(length) + length;
     }
 
     public static int zza(zzjt zzjtVar) {
@@ -671,6 +671,7 @@ public abstract class zzii extends zzhq {
         return zzg(zzm) + zzm;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(zzkk zzkkVar, zzlc zzlcVar) {
         zzhf zzhfVar = (zzhf) zzkkVar;
         int zzi = zzhfVar.zzi();
@@ -701,6 +702,7 @@ public abstract class zzii extends zzhq {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Deprecated
     public static int zzc(int i, zzkk zzkkVar, zzlc zzlcVar) {
         int zzg = zzg(i << 3) << 1;

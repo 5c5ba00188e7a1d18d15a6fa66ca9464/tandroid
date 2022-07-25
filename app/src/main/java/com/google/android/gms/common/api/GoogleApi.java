@@ -196,7 +196,7 @@ public class GoogleApi<O extends Api.ApiOptions> {
     @RecentlyNonNull
     protected ClientSettings.Builder createClientSettingsBuilder() {
         Account account;
-        Set<Scope> set;
+        Set<Scope> emptySet;
         GoogleSignInAccount googleSignInAccount;
         GoogleSignInAccount googleSignInAccount2;
         ClientSettings.Builder builder = new ClientSettings.Builder();
@@ -210,11 +210,11 @@ public class GoogleApi<O extends Api.ApiOptions> {
         ClientSettings.Builder zaa = builder.zaa(account);
         O o3 = this.zad;
         if ((o3 instanceof Api.ApiOptions.HasGoogleSignInAccountOptions) && (googleSignInAccount = ((Api.ApiOptions.HasGoogleSignInAccountOptions) o3).getGoogleSignInAccount()) != null) {
-            set = googleSignInAccount.getRequestedScopes();
+            emptySet = googleSignInAccount.getRequestedScopes();
         } else {
-            set = Collections.emptySet();
+            emptySet = Collections.emptySet();
         }
-        return zaa.zaa(set).zaa(this.zaa.getClass().getName()).setRealClientPackageName(this.zaa.getPackageName());
+        return zaa.zaa(emptySet).zaa(this.zaa.getClass().getName()).setRealClientPackageName(this.zaa.getPackageName());
     }
 
     private static String zaa(Object obj) {

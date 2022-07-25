@@ -6,6 +6,7 @@ final class Q3 extends E3 {
     private long[] c;
     private int d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Q3(m3 m3Var) {
         super(m3Var);
     }

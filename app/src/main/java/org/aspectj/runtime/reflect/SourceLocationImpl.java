@@ -6,6 +6,7 @@ class SourceLocationImpl implements SourceLocation {
     String fileName;
     int line;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public SourceLocationImpl(Class cls, String str, int i) {
         this.fileName = str;
         this.line = i;

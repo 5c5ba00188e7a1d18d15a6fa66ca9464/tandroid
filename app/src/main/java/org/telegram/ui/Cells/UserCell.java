@@ -289,7 +289,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     public void setException(NotificationsSettingsActivity.NotificationException notificationException, CharSequence charSequence, boolean z) {
-        String str;
+        String string;
         TLRPC$User user;
         boolean z2 = notificationException.hasCustom;
         int i = notificationException.notify;
@@ -300,42 +300,42 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 z3 = false;
             }
             if (z3 && z2) {
-                str = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+                string = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
             } else {
-                str = z3 ? LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted) : LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
+                string = z3 ? LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted) : LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
             }
         } else {
             int currentTime = i2 - ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
             if (currentTime > 0) {
-                str = currentTime < 3600 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0])) : currentTime < 86400 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0])) : currentTime < 31536000 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0])) : null;
+                string = currentTime < 3600 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0])) : currentTime < 86400 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0])) : currentTime < 31536000 ? LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0])) : null;
             } else if (z2) {
-                str = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
+                string = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
             } else {
-                str = LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted);
+                string = LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted);
             }
         }
-        if (str == null) {
-            str = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
+        if (string == null) {
+            string = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
         }
-        String str2 = str;
+        String str = string;
         if (DialogObject.isEncryptedDialog(notificationException.did)) {
             TLRPC$EncryptedChat encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(notificationException.did)));
             if (encryptedChat == null || (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id))) == null) {
                 return;
             }
-            setData(user, encryptedChat, charSequence, str2, 0, false);
+            setData(user, encryptedChat, charSequence, str, 0, false);
         } else if (DialogObject.isUserDialog(notificationException.did)) {
             TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(notificationException.did));
             if (user2 == null) {
                 return;
             }
-            setData(user2, null, charSequence, str2, 0, z);
+            setData(user2, null, charSequence, str, 0, z);
         } else {
             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-notificationException.did));
             if (chat == null) {
                 return;
             }
-            setData(chat, null, charSequence, str2, 0, z);
+            setData(chat, null, charSequence, str, 0, z);
         }
     }
 
@@ -388,38 +388,32 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x010a, code lost:
-        if (r7.equals("groups") == false) goto L64;
+    /* JADX WARN: Code restructure failed: missing block: B:146:0x010a, code lost:
+        if (r7.equals("groups") == false) goto L44;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r1v5, types: [org.telegram.ui.Components.BackupImageView] */
-    /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLObject] */
-    /* JADX WARN: Type inference failed for: r2v23 */
-    /* JADX WARN: Type inference failed for: r2v24 */
-    /* JADX WARN: Type inference failed for: r5v21, types: [org.telegram.ui.Components.AvatarDrawable] */
+    /* JADX WARN: Type inference failed for: r4v2 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void update(int i) {
-        TLRPC$FileLocation tLRPC$FileLocation;
-        TLRPC$Chat tLRPC$Chat;
         TLRPC$User tLRPC$User;
+        TLRPC$Chat tLRPC$Chat;
+        TLRPC$FileLocation tLRPC$FileLocation;
         String str;
         TLRPC$UserStatus tLRPC$UserStatus;
         TextView textView;
         TLRPC$FileLocation tLRPC$FileLocation2;
-        TLRPC$FileLocation tLRPC$FileLocation3;
         Object obj = this.currentObject;
         if (obj instanceof TLRPC$User) {
             tLRPC$User = (TLRPC$User) obj;
             TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
             if (tLRPC$UserProfilePhoto != null) {
                 tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
-                tLRPC$Chat = 0;
+                tLRPC$Chat = null;
             } else {
-                tLRPC$FileLocation3 = null;
-                tLRPC$FileLocation = tLRPC$FileLocation3;
-                tLRPC$Chat = tLRPC$FileLocation3;
+                tLRPC$Chat = null;
+                tLRPC$FileLocation = tLRPC$Chat;
             }
         } else if (obj instanceof TLRPC$Chat) {
             TLRPC$Chat tLRPC$Chat2 = (TLRPC$Chat) obj;
@@ -435,9 +429,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             }
         } else {
             tLRPC$User = null;
-            tLRPC$FileLocation3 = null;
-            tLRPC$FileLocation = tLRPC$FileLocation3;
-            tLRPC$Chat = tLRPC$FileLocation3;
+            tLRPC$Chat = null;
+            tLRPC$FileLocation = tLRPC$Chat;
         }
         char c = 1;
         if (i != 0) {
@@ -572,7 +565,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 } else {
                     this.lastStatus = 0;
                 }
-            } else if (tLRPC$Chat != 0) {
+            } else if (tLRPC$Chat != null) {
                 this.avatarDrawable.setInfo(tLRPC$Chat);
             } else {
                 CharSequence charSequence = this.currentName;
@@ -593,7 +586,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     str = UserObject.getUserName(tLRPC$User);
                 }
                 this.lastName = str;
-            } else if (tLRPC$Chat != 0) {
+            } else if (tLRPC$Chat != null) {
                 if (str == null) {
                     str = tLRPC$Chat.title;
                 }
@@ -643,7 +636,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.lastAvatar = tLRPC$FileLocation;
         if (tLRPC$User != null) {
             this.avatarImageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
-        } else if (tLRPC$Chat != 0) {
+        } else if (tLRPC$Chat != null) {
             this.avatarImageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);
         } else {
             this.avatarImageView.setImageDrawable(this.avatarDrawable);

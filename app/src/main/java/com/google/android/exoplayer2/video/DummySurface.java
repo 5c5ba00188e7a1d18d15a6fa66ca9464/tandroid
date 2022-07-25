@@ -76,6 +76,7 @@ public final class DummySurface extends Surface {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class DummySurfaceThread extends HandlerThread implements Handler.Callback {
         private EGLSurfaceTexture eglSurfaceTexture;

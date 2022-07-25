@@ -52,6 +52,7 @@ public class SmsReceiver extends BroadcastReceiver {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$0(String str) {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didReceiveSmsCode, str);
     }

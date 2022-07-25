@@ -26,11 +26,13 @@ import org.telegram.ui.Components.Switch;
 /* loaded from: classes3.dex */
 public class TextCheckCell extends FrameLayout {
     public static final Property<TextCheckCell, Float> ANIMATION_PROGRESS = new AnimationProperties.FloatProperty<TextCheckCell>("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckCell.1
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(TextCheckCell textCheckCell, float f) {
             textCheckCell.setAnimationProgress(f);
             textCheckCell.invalidate();
         }
 
+        @Override // android.util.Property
         public Float get(TextCheckCell textCheckCell) {
             return Float.valueOf(textCheckCell.animationProgress);
         }
@@ -286,6 +288,7 @@ public class TextCheckCell extends FrameLayout {
         this.animator.setDuration(240L).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setAnimationProgress(float f) {
         this.animationProgress = f;
         float lastTouchX = getLastTouchX();
@@ -330,6 +333,7 @@ public class TextCheckCell extends FrameLayout {
         return this.lastTouchX;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         if (this.animatedColorBackground != 0) {

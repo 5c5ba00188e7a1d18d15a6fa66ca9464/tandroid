@@ -95,7 +95,7 @@ public class BotKeyboardView extends LinearLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r3v12 */
+    /* JADX WARN: Type inference failed for: r3v13 */
     /* JADX WARN: Type inference failed for: r3v19 */
     /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
     public void setButtons(TLRPC$TL_replyKeyboardMarkup tLRPC$TL_replyKeyboardMarkup) {
@@ -164,6 +164,7 @@ public class BotKeyboardView extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setButtons$0(View view) {
         this.delegate.didPressedButton((TLRPC$KeyboardButton) view.getTag());
     }

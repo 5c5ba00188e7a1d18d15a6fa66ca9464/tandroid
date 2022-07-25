@@ -178,6 +178,7 @@ public class GooglePlayServicesUtilLight {
         return zza(context, "com.google.android.gms");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @TargetApi(21)
     public static boolean zza(Context context, String str) {
         ApplicationInfo applicationInfo;

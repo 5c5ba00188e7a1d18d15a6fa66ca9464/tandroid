@@ -64,12 +64,12 @@ public abstract class SearchActionVerificationClientService extends IntentServic
         this.connectionTimeout = getConnectionTimeout();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class SearchActionVerificationServiceConnection implements ServiceConnection {
         private ISearchActionVerificationService iRemoteService;
 
         SearchActionVerificationServiceConnection() {
-            SearchActionVerificationClientService.this = this$0;
         }
 
         @Override // android.content.ServiceConnection
@@ -97,6 +97,7 @@ public abstract class SearchActionVerificationClientService extends IntentServic
             return iSearchActionVerificationService != null && iSearchActionVerificationService.isSearchAction(intent, options);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isConnected() {
             return this.iRemoteService != null;
         }
@@ -136,7 +137,7 @@ public abstract class SearchActionVerificationClientService extends IntentServic
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0113  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

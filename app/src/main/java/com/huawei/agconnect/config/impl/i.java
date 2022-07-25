@@ -20,6 +20,7 @@ class i {
         throw new IllegalArgumentException("invalid data for generating the key.");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static byte[] a(SecretKey secretKey, byte[] bArr) throws GeneralSecurityException {
         if (secretKey == null || bArr == null) {
             throw new NullPointerException("key or cipherText must not be null.");

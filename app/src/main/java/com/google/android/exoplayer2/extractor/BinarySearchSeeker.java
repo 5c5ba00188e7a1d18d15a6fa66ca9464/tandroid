@@ -20,15 +20,17 @@ public abstract class BinarySearchSeeker {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public interface SeekTimestampConverter {
         long timeUsToTargetTime(long j);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public interface TimestampSeeker {
 
-        /* renamed from: com.google.android.exoplayer2.extractor.BinarySearchSeeker$TimestampSeeker$-CC */
+        /* renamed from: com.google.android.exoplayer2.extractor.BinarySearchSeeker$TimestampSeeker$-CC  reason: invalid class name */
         /* loaded from: classes.dex */
         public final /* synthetic */ class CC {
             public static void $default$onSeekFinished(TimestampSeeker timestampSeeker) {
@@ -43,6 +45,7 @@ public abstract class BinarySearchSeeker {
     protected void onSeekOperationFinished(boolean z, long j) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public BinarySearchSeeker(SeekTimestampConverter seekTimestampConverter, TimestampSeeker timestampSeeker, long j, long j2, long j3, long j4, long j5, long j6, int i) {
         this.timestampSeeker = timestampSeeker;
         this.minimumSearchRange = i;
@@ -126,6 +129,7 @@ public abstract class BinarySearchSeeker {
         return 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
     public static class SeekOperationParams {
         private final long approxBytesPerFrame;
@@ -156,34 +160,41 @@ public abstract class BinarySearchSeeker {
             this.nextSearchBytePosition = calculateNextSearchBytePosition(j2, j3, j4, j5, j6, j7);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public long getFloorBytePosition() {
             return this.floorBytePosition;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public long getCeilingBytePosition() {
             return this.ceilingBytePosition;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public long getTargetTimePosition() {
             return this.targetTimePosition;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public long getSeekTimeUs() {
             return this.seekTimeUs;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateSeekFloor(long j, long j2) {
             this.floorTimePosition = j;
             this.floorBytePosition = j2;
             updateNextSearchBytePosition();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updateSeekCeiling(long j, long j2) {
             this.ceilingTimePosition = j;
             this.ceilingBytePosition = j2;
             updateNextSearchBytePosition();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public long getNextSearchBytePosition() {
             return this.nextSearchBytePosition;
         }

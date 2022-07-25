@@ -49,6 +49,7 @@ public class EditTextEffects extends EditText {
         }
     });
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
         this.postedSpoilerTimeout = false;
         this.isSpoilersRevealed = false;
@@ -68,10 +69,12 @@ public class EditTextEffects extends EditText {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         setSpoilersRevealed(false, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -85,6 +88,7 @@ public class EditTextEffects extends EditText {
         super(context);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
         if (this.isSpoilersRevealed) {
             return;
@@ -106,6 +110,7 @@ public class EditTextEffects extends EditText {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSpoilerClicked$4() {
         post(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
@@ -115,11 +120,13 @@ public class EditTextEffects extends EditText {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSpoilerClicked$3() {
         invalidateSpoilers();
         checkSpoilerTimeout();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView
     public void onSelectionChanged(int i, int i2) {
         super.onSelectionChanged(i, i2);
@@ -157,6 +164,7 @@ public class EditTextEffects extends EditText {
         postDelayed(this.spoilerTimeout, 10000L);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -164,18 +172,21 @@ public class EditTextEffects extends EditText {
         AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         updateAnimatedEmoji();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         invalidateEffects();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView
     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
@@ -218,6 +229,7 @@ public class EditTextEffects extends EditText {
         super.setText(charSequence, bufferType);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
     public void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
@@ -264,6 +276,7 @@ public class EditTextEffects extends EditText {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
     public void onDraw(Canvas canvas) {
         canvas.save();

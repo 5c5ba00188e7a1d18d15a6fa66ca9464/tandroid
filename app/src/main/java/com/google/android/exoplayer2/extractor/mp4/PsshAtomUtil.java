@@ -71,6 +71,7 @@ public final class PsshAtomUtil {
         return new PsshAtom(uuid, parseFullAtomVersion, bArr2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class PsshAtom {
         private final UUID uuid;

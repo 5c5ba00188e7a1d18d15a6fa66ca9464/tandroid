@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import java.util.Deque;
 /* loaded from: classes2.dex */
 final class j2 extends k2 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public j2(A1 a1) {
         super(a1);
     }
@@ -17,9 +18,9 @@ final class j2 extends k2 {
         boolean b = this.d.b(consumer);
         if (!b) {
             if (this.c == null && (a = a(this.e)) != null) {
-                j$.util.u mo69spliterator = a.mo69spliterator();
-                this.d = mo69spliterator;
-                return mo69spliterator.b(consumer);
+                j$.util.u mo313spliterator = a.mo313spliterator();
+                this.d = mo313spliterator;
+                return mo313spliterator.b(consumer);
             }
             this.a = null;
         }

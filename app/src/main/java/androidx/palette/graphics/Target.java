@@ -102,6 +102,7 @@ public final class Target {
         fArr[2] = 0.24f;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void normalizeWeights() {
         int length = this.mWeights.length;
         float f = 0.0f;

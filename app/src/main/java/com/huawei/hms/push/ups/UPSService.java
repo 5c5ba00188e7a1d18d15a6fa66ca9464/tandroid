@@ -41,11 +41,11 @@ public final class UPSService {
                 @Override // com.huawei.hmf.tasks.OnCompleteListener
                 public void onComplete(Task<Void> task) {
                     if (task.isSuccessful()) {
-                        uPSTurnCallBack.onResult(new CodeResult());
+                        UPSTurnCallBack.this.onResult(new CodeResult());
                         return;
                     }
                     ApiException apiException = (ApiException) task.getException();
-                    uPSTurnCallBack.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
+                    UPSTurnCallBack.this.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
                 }
             });
         }
@@ -61,11 +61,11 @@ public final class UPSService {
                 @Override // com.huawei.hmf.tasks.OnCompleteListener
                 public void onComplete(Task<Void> task) {
                     if (task.isSuccessful()) {
-                        uPSTurnCallBack.onResult(new CodeResult());
+                        UPSTurnCallBack.this.onResult(new CodeResult());
                         return;
                     }
                     ApiException apiException = (ApiException) task.getException();
-                    uPSTurnCallBack.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
+                    UPSTurnCallBack.this.onResult(new CodeResult(apiException.getStatusCode(), apiException.getMessage()));
                 }
             });
         }

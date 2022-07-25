@@ -3,6 +3,7 @@ package j$.util.stream;
 final class m1 extends d {
     private final l1 j;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public m1(l1 l1Var, y2 y2Var, j$.util.u uVar) {
         super(y2Var, uVar);
         this.j = l1Var;
@@ -13,6 +14,7 @@ final class m1 extends d {
         this.j = m1Var.j;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public Object a() {
         boolean z;
@@ -28,6 +30,7 @@ final class m1 extends d {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public f f(j$.util.u uVar) {
         return new m1(this, uVar);

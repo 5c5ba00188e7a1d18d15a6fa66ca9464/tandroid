@@ -41,6 +41,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     protected void onPreDraw(Canvas canvas, int i, float f) {
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void onPreMeasure(int i, int i2) {
     }
 
@@ -129,7 +130,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+                /* renamed from: onCreateViewHolder */
+                public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
                     if (i == -1000) {
                         return new RecyclerListView.Holder(new View(parentActivity) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.2.1
                             @Override // android.view.View
@@ -144,7 +146,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                             }
                         });
                     }
-                    return createAdapter.onCreateViewHolder(viewGroup, i);
+                    return createAdapter.mo1758onCreateViewHolder(viewGroup, i);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -225,6 +227,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         return this.baseFragment;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateStatusBar() {
         ActionBar actionBar = this.actionBar;
         if (actionBar != null && actionBar.getTag() != null) {

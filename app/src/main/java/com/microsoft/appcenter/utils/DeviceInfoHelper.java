@@ -79,30 +79,30 @@ public class DeviceInfoHelper {
 
     @SuppressLint({"SwitchIntDef"})
     private static String getScreenSize(Context context) {
-        Display display;
+        Display defaultDisplay;
         int i;
         int i2;
         Point point = new Point();
         if (Build.VERSION.SDK_INT >= 17) {
-            display = ((DisplayManager) context.getSystemService("display")).getDisplay(0);
+            defaultDisplay = ((DisplayManager) context.getSystemService("display")).getDisplay(0);
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
             point.x = displayMetrics.widthPixels;
             point.y = displayMetrics.heightPixels;
         } else {
-            display = ((WindowManager) context.getSystemService("window")).getDefaultDisplay();
-            display.getSize(point);
+            defaultDisplay = ((WindowManager) context.getSystemService("window")).getDefaultDisplay();
+            defaultDisplay.getSize(point);
         }
-        int rotation = display.getRotation();
+        int rotation = defaultDisplay.getRotation();
         if (rotation == 1 || rotation == 3) {
             int i3 = point.x;
             int i4 = point.y;
-            i2 = i3;
-            i = i4;
+            i = i3;
+            i2 = i4;
         } else {
-            i = point.x;
-            i2 = point.y;
+            i2 = point.x;
+            i = point.y;
         }
-        return i + "x" + i2;
+        return i2 + "x" + i;
     }
 
     /* loaded from: classes.dex */

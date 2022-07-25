@@ -7,11 +7,11 @@ public abstract class TLRPC$InputGame extends TLObject {
     public String short_name;
 
     public static TLRPC$InputGame TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$InputGame tLRPC$InputGame;
+        TLRPC$InputGame tLRPC$TL_inputGameShortName;
         if (i == -1020139510) {
-            tLRPC$InputGame = new TLRPC$TL_inputGameShortName();
+            tLRPC$TL_inputGameShortName = new TLRPC$TL_inputGameShortName();
         } else {
-            tLRPC$InputGame = i != 53231223 ? null : new TLRPC$InputGame() { // from class: org.telegram.tgnet.TLRPC$TL_inputGameID
+            tLRPC$TL_inputGameShortName = i != 53231223 ? null : new TLRPC$InputGame() { // from class: org.telegram.tgnet.TLRPC$TL_inputGameID
                 public static int constructor = 53231223;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -28,11 +28,11 @@ public abstract class TLRPC$InputGame extends TLObject {
                 }
             };
         }
-        if (tLRPC$InputGame != null || !z) {
-            if (tLRPC$InputGame != null) {
-                tLRPC$InputGame.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_inputGameShortName != null || !z) {
+            if (tLRPC$TL_inputGameShortName != null) {
+                tLRPC$TL_inputGameShortName.readParams(abstractSerializedData, z);
             }
-            return tLRPC$InputGame;
+            return tLRPC$TL_inputGameShortName;
         }
         throw new RuntimeException(String.format("can't parse magic %x in InputGame", Integer.valueOf(i)));
     }

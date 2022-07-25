@@ -72,6 +72,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         void didFindQRCode(String str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -721,6 +722,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         if (getParentActivity() == null) {
             return;
@@ -785,10 +787,12 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(DialogInterface dialogInterface, int i) {
         presentFragment(new LoginActivity().changePhoneNumber(), true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         if (!this.imageView.getAnimatedDrawable().isRunning()) {
             this.imageView.getAnimatedDrawable().setCurrentFrame(0, false);
@@ -796,6 +800,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         if (!this.imageView.getAnimatedDrawable().isRunning()) {
             this.imageView.getAnimatedDrawable().setCurrentFrame(0, false);
@@ -803,6 +808,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(View view) {
         getParentLayout().closeLastFragment(true);
     }
@@ -846,6 +852,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateColors() {
         int[] iArr = this.colors;
         if (iArr == null || this.imageView == null) {
@@ -909,10 +916,12 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onRequestPermissionsResultFragment$6() {
         presentFragment(new PeopleNearbyActivity(), true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onRequestPermissionsResultFragment$7(DialogInterface dialogInterface, int i) {
         try {
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");

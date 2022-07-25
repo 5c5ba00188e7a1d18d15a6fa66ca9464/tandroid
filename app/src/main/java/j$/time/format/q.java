@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class q {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public q(Map map) {
         Comparator comparator;
         Comparator comparator2;

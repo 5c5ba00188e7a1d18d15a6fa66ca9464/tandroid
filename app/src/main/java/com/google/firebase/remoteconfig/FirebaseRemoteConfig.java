@@ -43,6 +43,7 @@ public class FirebaseRemoteConfig {
         return ((RemoteConfigComponent) firebaseApp.get(RemoteConfigComponent.class)).getDefault();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FirebaseRemoteConfig(Context context, FirebaseApp firebaseApp, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Executor executor, ConfigCacheClient configCacheClient, ConfigCacheClient configCacheClient2, ConfigCacheClient configCacheClient3, ConfigFetchHandler configFetchHandler, ConfigGetParameterHandler configGetParameterHandler, ConfigMetadataClient configMetadataClient) {
         this.firebaseInstallations = firebaseInstallationsApi;
         this.firebaseAbt = firebaseABTesting;
@@ -68,6 +69,7 @@ public class FirebaseRemoteConfig {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Task lambda$activate$2(Task task, Task task2, Task task3) throws Exception {
         if (!task.isSuccessful() || task.getResult() == null) {
             return Tasks.forResult(Boolean.FALSE);
@@ -98,12 +100,14 @@ public class FirebaseRemoteConfig {
         return this.frcMetadata.getInfo();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void startLoadingConfigsFromDisk() {
         this.activatedConfigsCache.get();
         this.defaultConfigsCache.get();
         this.fetchedConfigsCache.get();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean processActivatePutTask(Task<ConfigContainer> task) {
         if (task.isSuccessful()) {
             this.fetchedConfigsCache.clear();

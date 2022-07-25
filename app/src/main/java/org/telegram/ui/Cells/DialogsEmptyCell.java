@@ -40,6 +40,7 @@ public class DialogsEmptyCell extends LinearLayout {
     private int currentType = -1;
     private int currentAccount = UserConfig.selectedAccount;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -81,6 +82,7 @@ public class DialogsEmptyCell extends LinearLayout {
         addView(this.subtitleView, LayoutHelper.createFrame(-1, -2.0f, 51, 52.0f, 7.0f, 52.0f, 0.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         if (!this.imageView.isPlaying()) {
             this.imageView.setProgress(0.0f);
@@ -88,6 +90,7 @@ public class DialogsEmptyCell extends LinearLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ View lambda$new$2(Context context) {
         TextView textView = new TextView(context);
         textView.setTextColor(Theme.getColor("chats_message"));
@@ -107,24 +110,24 @@ public class DialogsEmptyCell extends LinearLayout {
 
     public void setType(int i) {
         int i2;
-        String str;
+        String string;
         if (this.currentType == i) {
             return;
         }
         this.currentType = i;
         if (i == 0 || i == 1) {
             i2 = R.raw.utyan_newborn;
-            str = LocaleController.getString("NoChatsHelp", R.string.NoChatsHelp);
+            string = LocaleController.getString("NoChatsHelp", R.string.NoChatsHelp);
             this.titleView.setText(LocaleController.getString("NoChats", R.string.NoChats));
         } else if (i == 2) {
             this.imageView.setAutoRepeat(false);
             i2 = R.raw.filter_no_chats;
-            str = LocaleController.getString("FilterNoChatsToDisplayInfo", R.string.FilterNoChatsToDisplayInfo);
+            string = LocaleController.getString("FilterNoChatsToDisplayInfo", R.string.FilterNoChatsToDisplayInfo);
             this.titleView.setText(LocaleController.getString("FilterNoChatsToDisplay", R.string.FilterNoChatsToDisplay));
         } else {
             this.imageView.setAutoRepeat(true);
             i2 = R.raw.filter_new;
-            str = LocaleController.getString("FilterAddingChatsInfo", R.string.FilterAddingChatsInfo);
+            string = LocaleController.getString("FilterAddingChatsInfo", R.string.FilterAddingChatsInfo);
             this.titleView.setText(LocaleController.getString("FilterAddingChats", R.string.FilterAddingChats));
         }
         if (i2 != 0) {
@@ -132,11 +135,11 @@ public class DialogsEmptyCell extends LinearLayout {
             if (this.currentType == 1) {
                 if (isUtyanAnimationTriggered()) {
                     this.utyanCollapseProgress = 1.0f;
-                    String string = LocaleController.getString("NoChatsContactsHelp", R.string.NoChatsContactsHelp);
+                    String string2 = LocaleController.getString("NoChatsContactsHelp", R.string.NoChatsContactsHelp);
                     if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
-                        string = string.replace('\n', ' ');
+                        string2 = string2.replace('\n', ' ');
                     }
-                    this.subtitleView.setText(string, true);
+                    this.subtitleView.setText(string2, true);
                     requestLayout();
                 } else {
                     startUtyanCollapseAnimation(true);
@@ -151,9 +154,9 @@ public class DialogsEmptyCell extends LinearLayout {
             this.imageView.setVisibility(8);
         }
         if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
-            str = str.replace('\n', ' ');
+            string = string.replace('\n', ' ');
         }
-        this.subtitleView.setText(str, false);
+        this.subtitleView.setText(string, false);
     }
 
     public boolean isUtyanAnimationTriggered() {
@@ -189,6 +192,7 @@ public class DialogsEmptyCell extends LinearLayout {
         this.utyanAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startUtyanExpandAnimation$3(ValueAnimator valueAnimator) {
         this.utyanCollapseProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         requestLayout();
@@ -234,6 +238,7 @@ public class DialogsEmptyCell extends LinearLayout {
         this.utyanAnimator.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startUtyanCollapseAnimation$4(ValueAnimator valueAnimator) {
         this.utyanCollapseProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         requestLayout();
@@ -272,52 +277,52 @@ public class DialogsEmptyCell extends LinearLayout {
     }
 
     private int measureUtyanHeight(int i) {
-        int i2;
+        int size;
         if (getParent() instanceof View) {
             View view = (View) getParent();
-            i2 = view.getMeasuredHeight();
+            size = view.getMeasuredHeight();
             if (view.getPaddingTop() != 0 && Build.VERSION.SDK_INT >= 21) {
-                i2 -= AndroidUtilities.statusBarHeight;
+                size -= AndroidUtilities.statusBarHeight;
             }
         } else {
-            i2 = View.MeasureSpec.getSize(i);
+            size = View.MeasureSpec.getSize(i);
         }
-        if (i2 == 0) {
-            i2 = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
+        if (size == 0) {
+            size = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
         }
         if (getParent() instanceof BlurredRecyclerView) {
-            i2 -= ((BlurredRecyclerView) getParent()).blurTopPadding;
+            size -= ((BlurredRecyclerView) getParent()).blurTopPadding;
         }
-        return (int) (i2 + ((AndroidUtilities.dp(320.0f) - i2) * this.utyanCollapseProgress));
+        return (int) (size + ((AndroidUtilities.dp(320.0f) - size) * this.utyanCollapseProgress));
     }
 
     @Override // android.widget.LinearLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        int i3;
-        int i4 = this.currentType;
-        if (i4 == 0 || i4 == 1) {
+        int size;
+        int i3 = this.currentType;
+        if (i3 == 0 || i3 == 1) {
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(measureUtyanHeight(i2), 1073741824));
-        } else if (i4 == 2 || i4 == 3) {
+        } else if (i3 == 2 || i3 == 3) {
             if (getParent() instanceof View) {
                 View view = (View) getParent();
-                i3 = view.getMeasuredHeight();
+                size = view.getMeasuredHeight();
                 if (view.getPaddingTop() != 0 && Build.VERSION.SDK_INT >= 21) {
-                    i3 -= AndroidUtilities.statusBarHeight;
+                    size -= AndroidUtilities.statusBarHeight;
                 }
             } else {
-                i3 = View.MeasureSpec.getSize(i2);
+                size = View.MeasureSpec.getSize(i2);
             }
-            if (i3 == 0) {
-                i3 = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
+            if (size == 0) {
+                size = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
             }
             if (getParent() instanceof BlurredRecyclerView) {
-                i3 -= ((BlurredRecyclerView) getParent()).blurTopPadding;
+                size -= ((BlurredRecyclerView) getParent()).blurTopPadding;
             }
             ArrayList<TLRPC$RecentMeUrl> arrayList = MessagesController.getInstance(this.currentAccount).hintDialogs;
             if (!arrayList.isEmpty()) {
-                i3 -= (((AndroidUtilities.dp(72.0f) * arrayList.size()) + arrayList.size()) - 1) + AndroidUtilities.dp(50.0f);
+                size -= (((AndroidUtilities.dp(72.0f) * arrayList.size()) + arrayList.size()) - 1) + AndroidUtilities.dp(50.0f);
             }
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(i3, 1073741824));
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(size, 1073741824));
         } else {
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(166.0f), 1073741824));
         }

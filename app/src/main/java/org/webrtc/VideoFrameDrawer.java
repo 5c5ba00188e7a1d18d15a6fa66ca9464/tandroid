@@ -34,7 +34,8 @@ public class VideoFrameDrawer {
         }
     }
 
-    /* renamed from: org.webrtc.VideoFrameDrawer$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.webrtc.VideoFrameDrawer$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public static /* synthetic */ class AnonymousClass1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoFrame$TextureBuffer$Type;
@@ -59,6 +60,7 @@ public class VideoFrameDrawer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class YuvUploader {
         private ByteBuffer copyBuffer;

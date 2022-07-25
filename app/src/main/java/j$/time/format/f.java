@@ -6,6 +6,7 @@ final class f implements g {
     private final g[] a;
     private final boolean b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public f(List list, boolean z) {
         this.a = (g[]) list.toArray(new g[list.size()]);
         this.b = z;

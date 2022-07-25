@@ -55,21 +55,21 @@ public final class zzm extends zzt<zzl> {
 
     @Override // com.google.android.gms.internal.vision.zzt
     protected final /* synthetic */ zzl zza(DynamiteModule dynamiteModule, Context context) throws RemoteException, DynamiteModule.LoadingException {
-        zzn zznVar;
+        zzn zzpVar;
         IBinder instantiate = dynamiteModule.instantiate("com.google.android.gms.vision.barcode.ChimeraNativeBarcodeDetectorCreator");
         if (instantiate == null) {
-            zznVar = null;
+            zzpVar = null;
         } else {
             IInterface queryLocalInterface = instantiate.queryLocalInterface("com.google.android.gms.vision.barcode.internal.client.INativeBarcodeDetectorCreator");
             if (queryLocalInterface instanceof zzn) {
-                zznVar = (zzn) queryLocalInterface;
+                zzpVar = (zzn) queryLocalInterface;
             } else {
-                zznVar = new zzp(instantiate);
+                zzpVar = new zzp(instantiate);
             }
         }
-        if (zznVar == null) {
+        if (zzpVar == null) {
             return null;
         }
-        return zznVar.zza(ObjectWrapper.wrap(context), (zzk) Preconditions.checkNotNull(this.zza));
+        return zzpVar.zza(ObjectWrapper.wrap(context), (zzk) Preconditions.checkNotNull(this.zza));
     }
 }

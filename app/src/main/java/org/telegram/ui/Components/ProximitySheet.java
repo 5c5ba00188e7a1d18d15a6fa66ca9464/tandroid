@@ -68,6 +68,7 @@ public class ProximitySheet extends FrameLayout {
         boolean run(boolean z, int i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -223,10 +224,12 @@ public class ProximitySheet extends FrameLayout {
         this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2, 51));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ String lambda$new$1(int i) {
         return this.useImperialSystem ? LocaleController.formatString("MilesShort", R.string.MilesShort, Integer.valueOf(i)) : LocaleController.formatString("KMetersShort", R.string.KMetersShort, Integer.valueOf(i));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(NumberPicker numberPicker, int i, int i2) {
         try {
             performHapticFeedback(3, 2);
@@ -235,6 +238,7 @@ public class ProximitySheet extends FrameLayout {
         updateText(true, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ String lambda$new$3(int i) {
         if (this.useImperialSystem) {
             if (i == 1) {
@@ -254,6 +258,7 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(onRadiusPickerChange onradiuspickerchange, View view) {
         if (this.buttonTextView.getTag() == null && onradiuspickerchange.run(true, (int) Math.max(1.0f, getValue()))) {
             dismiss();
@@ -264,17 +269,17 @@ public class ProximitySheet extends FrameLayout {
         return this.customView;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0023, code lost:
-        if (r1 > 1) goto L11;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0025, code lost:
-        r1 = r1 - 1;
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x001a, code lost:
+        if (r1 > 1) goto L13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x0027, code lost:
         r1 = r1 * 100;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x001a, code lost:
-        if (r1 > 1) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0025, code lost:
+        r1 = r1 - 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0023, code lost:
+        if (r1 > 1) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -450,7 +455,7 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0075  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0075  */
     /* JADX WARN: Removed duplicated region for block: B:25:0x0081  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
@@ -484,31 +489,31 @@ public class ProximitySheet extends FrameLayout {
                 int i16 = i14 & 112;
                 int i17 = i15 & 7;
                 if (i17 == 1) {
-                    i10 = ((i12 - measuredWidth2) / 2) + layoutParams.leftMargin;
-                    i9 = layoutParams.rightMargin;
+                    i5 = ((i12 - measuredWidth2) / 2) + layoutParams.leftMargin;
+                    i6 = layoutParams.rightMargin;
                 } else if (i17 == 5) {
-                    i10 = i3 - measuredWidth2;
-                    i9 = layoutParams.rightMargin;
+                    i5 = i3 - measuredWidth2;
+                    i6 = layoutParams.rightMargin;
                 } else {
-                    i5 = layoutParams.leftMargin;
+                    i7 = layoutParams.leftMargin;
                     if (i16 != 16) {
-                        i7 = ((i11 - measuredHeight2) / 2) + layoutParams.topMargin;
-                        i8 = layoutParams.bottomMargin;
+                        i8 = ((i11 - measuredHeight2) / 2) + layoutParams.topMargin;
+                        i9 = layoutParams.bottomMargin;
                     } else if (i16 == 80) {
-                        i7 = i11 - measuredHeight2;
-                        i8 = layoutParams.bottomMargin;
+                        i8 = i11 - measuredHeight2;
+                        i9 = layoutParams.bottomMargin;
                     } else {
-                        i6 = layoutParams.topMargin;
-                        childAt.layout(i5, i6, measuredWidth2 + i5, measuredHeight2 + i6);
+                        i10 = layoutParams.topMargin;
+                        childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);
                     }
-                    i6 = i7 - i8;
-                    childAt.layout(i5, i6, measuredWidth2 + i5, measuredHeight2 + i6);
+                    i10 = i8 - i9;
+                    childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);
                 }
-                i5 = i10 - i9;
+                i7 = i5 - i6;
                 if (i16 != 16) {
                 }
-                i6 = i7 - i8;
-                childAt.layout(i5, i6, measuredWidth2 + i5, measuredHeight2 + i6);
+                i10 = i8 - i9;
+                childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);
             }
         }
     }
@@ -615,11 +620,11 @@ public class ProximitySheet extends FrameLayout {
         this.currentSheetAnimation.start();
     }
 
-    /* renamed from: org.telegram.ui.Components.ProximitySheet$6 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.ProximitySheet$6  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass6 extends AnimatorListenerAdapter {
         AnonymousClass6() {
-            ProximitySheet.this = r1;
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -637,6 +642,7 @@ public class ProximitySheet extends FrameLayout {
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
             try {
                 ProximitySheet.this.dismissInternal();
@@ -655,6 +661,7 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void dismissInternal() {
         if (getParent() instanceof ViewGroup) {
             ((ViewGroup) getParent()).removeView(this);

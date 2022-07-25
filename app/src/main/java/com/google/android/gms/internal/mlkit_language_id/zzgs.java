@@ -52,7 +52,8 @@ final class zzgs implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    /* renamed from: next */
+    public final /* synthetic */ Object mo335next() {
         List list;
         if (zza().hasNext()) {
             return (Map.Entry) zza().next();
@@ -63,6 +64,7 @@ final class zzgs implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
         return (Map.Entry) list.get(i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzgs(zzgq zzgqVar, zzgt zzgtVar) {
         this(zzgqVar);
     }

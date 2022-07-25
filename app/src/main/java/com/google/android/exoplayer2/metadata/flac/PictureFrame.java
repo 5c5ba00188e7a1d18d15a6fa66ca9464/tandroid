@@ -9,13 +9,17 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class PictureFrame implements Metadata.Entry {
     public static final Parcelable.Creator<PictureFrame> CREATOR = new Parcelable.Creator<PictureFrame>() { // from class: com.google.android.exoplayer2.metadata.flac.PictureFrame.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PictureFrame createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public PictureFrame mo100createFromParcel(Parcel parcel) {
             return new PictureFrame(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public PictureFrame[] newArray(int i) {
+        /* renamed from: newArray */
+        public PictureFrame[] mo101newArray(int i) {
             return new PictureFrame[i];
         }
     };

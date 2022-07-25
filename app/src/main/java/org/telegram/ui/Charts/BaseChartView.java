@@ -200,7 +200,8 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         void onDateSelected(long j);
     }
 
-    public abstract L createLineViewData(ChartData.Line line);
+    /* renamed from: createLineViewData */
+    public abstract L mo1029createLineViewData(ChartData.Line line);
 
     protected void drawChart(Canvas canvas) {
     }
@@ -225,11 +226,13 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         INTERPOLATOR = new FastOutSlowInInterpolator();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ValueAnimator valueAnimator) {
         this.currentMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ValueAnimator valueAnimator) {
         this.currentMinHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();
@@ -241,6 +244,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void init() {
         this.linePaint.setStrokeWidth(1.0f);
         this.selectedLinePaint.setStrokeWidth(SELECTED_LINE_WIDTH);
@@ -300,6 +304,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         this.invalidatePickerChart = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
@@ -355,6 +360,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         this.thresholdMaxHeight = (f / measuredHeight) * SIGNATURE_TEXT_SIZE;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         if (this.superDraw) {
@@ -394,6 +400,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void tick() {
         float f = this.minMaxUpdateStep;
         if (f == 0.0f) {
@@ -433,6 +440,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void drawBottomSignature(Canvas canvas) {
         float f;
         if (this.chartData == null) {
@@ -500,6 +508,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void drawBottomLine(Canvas canvas) {
         int measuredHeight;
         if (this.chartData == null) {
@@ -525,6 +534,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         canvas.drawText("0", HORIZONTAL_PADDING, measuredHeight - textSize, this.signaturePaint);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void drawSelection(Canvas canvas) {
         T t;
         int i = this.selectedIndex;
@@ -569,9 +579,10 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0031  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0074 A[LOOP:0: B:17:0x0072->B:18:0x0074, LOOP_END] */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0074 A[LOOP:0: B:10:0x0072->B:11:0x0074, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0031  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x002b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -615,9 +626,10 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0031  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x007d A[LOOP:0: B:17:0x007b->B:18:0x007d, LOOP_END] */
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x007d A[LOOP:0: B:10:0x007b->B:11:0x007d, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0031  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x002b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -666,17 +678,18 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01d1  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x020a  */
-    /* JADX WARN: Removed duplicated region for block: B:67:? A[RETURN, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0070  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x020a  */
+    /* JADX WARN: Removed duplicated region for block: B:50:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01d1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void drawPicker(Canvas canvas) {
+        float f;
         int i;
         int i2;
-        float f;
         Rect rect;
         int i3;
         Rect rect2;
@@ -708,8 +721,8 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             i9 = (int) (i9 + ((((int) ((f3 * transitionParams.pickerEndOut) + f2)) - i9) * (1.0f - f4)));
         } else if (i10 == 3) {
             f = this.transitionParams.progress;
-            i2 = i9;
-            i = i8;
+            i = i9;
+            i2 = i8;
             if (this.chartData == null) {
                 if (i10 == 0) {
                     for (int i11 = 0; i11 < this.lines.size(); i11++) {
@@ -778,8 +791,8 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
                 float f16 = measuredHeight2;
                 int i14 = DP_12;
                 float f17 = i7;
-                canvas.drawRect(f15, f16, i + i14, f17, this.unactiveBottomChartPaint);
-                canvas.drawRect(i2 - i14, f16, getMeasuredWidth() - f15, f17, this.unactiveBottomChartPaint);
+                canvas.drawRect(f15, f16, i2 + i14, f17, this.unactiveBottomChartPaint);
+                canvas.drawRect(i - i14, f16, getMeasuredWidth() - f15, f17, this.unactiveBottomChartPaint);
             } else {
                 canvas.drawRect(f2, measuredHeight2, getMeasuredWidth() - f2, i7, this.unactiveBottomChartPaint);
             }
@@ -790,7 +803,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             if (this.chartData != null) {
                 return;
             }
-            this.pickerRect.set(i, measuredHeight2, i2, i7);
+            this.pickerRect.set(i2, measuredHeight2, i, i7);
             this.pickerDelegate.middlePickerArea.set(this.pickerRect);
             Path path = this.pathTmp;
             Rect rect6 = this.pickerRect;
@@ -827,12 +840,12 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             }
             Rect rect10 = this.pickerDelegate.leftPickerArea;
             int i25 = PICKER_CAPTURE_WIDTH;
-            rect10.set(i - i25, measuredHeight2, i + (i25 >> 1), i7);
-            this.pickerDelegate.rightPickerArea.set(i2 - (i25 >> 1), measuredHeight2, i2 + i25, i7);
+            rect10.set(i2 - i25, measuredHeight2, i2 + (i25 >> 1), i7);
+            this.pickerDelegate.rightPickerArea.set(i - (i25 >> 1), measuredHeight2, i + i25, i7);
             return;
         }
-        i2 = i9;
-        i = i8;
+        i = i9;
+        i2 = i8;
         f = 1.0f;
         if (this.chartData == null) {
         }
@@ -950,6 +963,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setMaxMinValue$2(ChartHorizontalLinesData chartHorizontalLinesData, ValueAnimator valueAnimator) {
         chartHorizontalLinesData.alpha = (int) ((Float) valueAnimator.getAnimatedValue()).floatValue();
         Iterator<ChartHorizontalLinesData> it = this.horizontalLines.iterator();
@@ -966,6 +980,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         return new ChartHorizontalLinesData(i, i2, this.useMinHeight);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ValueAnimator createAnimator(float f, float f2, ValueAnimator.AnimatorUpdateListener animatorUpdateListener) {
         ValueAnimator ofFloat = ValueAnimator.ofFloat(f, f2);
         ofFloat.setDuration(400L);
@@ -1112,6 +1127,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void runSmoothHaptic() {
         if (Build.VERSION.SDK_INT >= 26) {
             Vibrator vibrator = (Vibrator) getContext().getSystemService("vibrator");
@@ -1194,7 +1210,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
             this.lines.clear();
             if (t != null && t.lines != null) {
                 for (int i = 0; i < t.lines.size(); i++) {
-                    this.lines.add(createLineViewData(t.lines.get(i)));
+                    this.lines.add(mo1029createLineViewData(t.lines.get(i)));
                 }
             }
             clearSelection();
@@ -1266,6 +1282,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         return 0.1f;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void initPickerMaxHeight() {
         Iterator<L> it = this.lines.iterator();
         while (it.hasNext()) {
@@ -1330,6 +1347,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void updateIndexes() {
         T t = this.chartData;
         if (t == null) {
@@ -1417,6 +1435,7 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateDates$3(ChartBottomSignatureData chartBottomSignatureData, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         Iterator<ChartBottomSignatureData> it = this.bottomSignatureDate.iterator();
@@ -1486,18 +1505,21 @@ public abstract class BaseChartView<T extends ChartData, L extends LineViewData>
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCheckChanged$4(LineViewData lineViewData, ValueAnimator valueAnimator) {
         lineViewData.alpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.invalidatePickerChart = true;
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCheckChanged$5(LineViewData lineViewData, ValueAnimator valueAnimator) {
         lineViewData.alpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.invalidatePickerChart = true;
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void updatePickerMinMaxHeight() {
         int i;
         int i2;

@@ -12,6 +12,7 @@ final class zzhx implements zzhz {
         return Arrays.copyOfRange(bArr, i, i2 + i);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public /* synthetic */ zzhx(zzhs zzhsVar) {
         this();
     }

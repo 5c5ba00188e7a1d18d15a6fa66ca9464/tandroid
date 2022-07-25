@@ -98,6 +98,7 @@ public class MotionBackgroundDrawable extends Drawable {
         legacyBitmapScale = 0.7f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         updateAnimation(true);
     }
@@ -887,8 +888,8 @@ public class MotionBackgroundDrawable extends Drawable {
     }
 
     public void updateAnimation(boolean z) {
+        float interpolation;
         float f;
-        float f2;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         long j = elapsedRealtime - this.lastUpdateTime;
         if (j > 20) {
@@ -902,33 +903,33 @@ public class MotionBackgroundDrawable extends Drawable {
         if (z2 && this.posAnimationProgress == 1.0f) {
             this.posAnimationProgress = 0.0f;
         }
-        float f3 = this.posAnimationProgress;
-        if (f3 >= 1.0f) {
+        float f2 = this.posAnimationProgress;
+        if (f2 >= 1.0f) {
             return;
         }
         boolean z3 = this.postInvalidateParent || this.rotatingPreview;
         if (z2) {
-            float f4 = f3 + (((float) j) / 12000.0f);
-            this.posAnimationProgress = f4;
-            if (f4 >= 1.0f) {
+            float f3 = f2 + (((float) j) / 12000.0f);
+            this.posAnimationProgress = f3;
+            if (f3 >= 1.0f) {
                 this.posAnimationProgress = 0.0f;
             }
-            float f5 = this.posAnimationProgress;
-            int i = (int) (f5 / 0.125f);
+            float f4 = this.posAnimationProgress;
+            int i = (int) (f4 / 0.125f);
             this.phase = i;
-            f = 1.0f - ((f5 - (i * 0.125f)) / 0.125f);
+            f = 1.0f - ((f4 - (i * 0.125f)) / 0.125f);
             z3 = true;
         } else {
             if (this.rotatingPreview) {
-                float interpolation = this.interpolator.getInterpolation(f3);
-                char c = interpolation <= 0.25f ? (char) 0 : interpolation <= 0.5f ? (char) 1 : interpolation <= 0.75f ? (char) 2 : (char) 3;
-                float f6 = this.posAnimationProgress + (((float) j) / (this.rotationBack ? 1000.0f : 2000.0f));
-                this.posAnimationProgress = f6;
-                if (f6 > 1.0f) {
+                float interpolation2 = this.interpolator.getInterpolation(f2);
+                char c = interpolation2 <= 0.25f ? (char) 0 : interpolation2 <= 0.5f ? (char) 1 : interpolation2 <= 0.75f ? (char) 2 : (char) 3;
+                float f5 = this.posAnimationProgress + (((float) j) / (this.rotationBack ? 1000.0f : 2000.0f));
+                this.posAnimationProgress = f5;
+                if (f5 > 1.0f) {
                     this.posAnimationProgress = 1.0f;
                 }
-                float interpolation2 = this.interpolator.getInterpolation(this.posAnimationProgress);
-                if ((c == 0 && interpolation2 > 0.25f) || ((c == 1 && interpolation2 > 0.5f) || (c == 2 && interpolation2 > 0.75f))) {
+                float interpolation3 = this.interpolator.getInterpolation(this.posAnimationProgress);
+                if ((c == 0 && interpolation3 > 0.25f) || ((c == 1 && interpolation3 > 0.5f) || (c == 2 && interpolation3 > 0.75f))) {
                     if (this.rotationBack) {
                         int i2 = this.phase + 1;
                         this.phase = i2;
@@ -943,32 +944,32 @@ public class MotionBackgroundDrawable extends Drawable {
                         }
                     }
                 }
-                if (interpolation2 > 0.25f) {
-                    interpolation2 = interpolation2 <= 0.5f ? interpolation2 - 0.25f : interpolation2 <= 0.75f ? interpolation2 - 0.5f : interpolation2 - 0.75f;
+                if (interpolation3 > 0.25f) {
+                    interpolation3 = interpolation3 <= 0.5f ? interpolation3 - 0.25f : interpolation3 <= 0.75f ? interpolation3 - 0.5f : interpolation3 - 0.75f;
                 }
-                float f7 = interpolation2 / 0.25f;
+                float f6 = interpolation3 / 0.25f;
                 if (this.rotationBack) {
-                    f2 = 1.0f - f7;
+                    interpolation = 1.0f - f6;
                     if (this.posAnimationProgress >= 1.0f) {
                         int i4 = this.phase + 1;
                         this.phase = i4;
                         if (i4 > 7) {
                             this.phase = 0;
                         }
-                        f2 = 1.0f;
+                        interpolation = 1.0f;
                     }
                 } else {
-                    f2 = f7;
+                    interpolation = f6;
                 }
             } else {
-                float f8 = f3 + (((float) j) / (this.fastAnimation ? 300.0f : 500.0f));
-                this.posAnimationProgress = f8;
-                if (f8 > 1.0f) {
+                float f7 = f2 + (((float) j) / (this.fastAnimation ? 300.0f : 500.0f));
+                this.posAnimationProgress = f7;
+                if (f7 > 1.0f) {
                     this.posAnimationProgress = 1.0f;
                 }
-                f2 = this.interpolator.getInterpolation(this.posAnimationProgress);
+                interpolation = this.interpolator.getInterpolation(this.posAnimationProgress);
                 if (this.rotationBack) {
-                    f2 = 1.0f - f2;
+                    interpolation = 1.0f - interpolation;
                     if (this.posAnimationProgress >= 1.0f) {
                         int i5 = this.phase + 1;
                         this.phase = i5;
@@ -979,7 +980,7 @@ public class MotionBackgroundDrawable extends Drawable {
                     }
                 }
             }
-            f = f2;
+            f = interpolation;
         }
         if (z3) {
             Bitmap bitmap = this.currentBitmap;

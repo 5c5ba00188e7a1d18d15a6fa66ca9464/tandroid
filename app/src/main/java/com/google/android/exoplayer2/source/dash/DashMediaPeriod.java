@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<ChunkSampleStream<DashChunkSource>>, ChunkSampleStream.ReleaseCallback<DashChunkSource> {
     private static final Pattern CEA608_SERVICE_DESCRIPTOR_REGEX = Pattern.compile("CC([1-4])=(.+)");
@@ -241,6 +242,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         return j;
     }
 
+    @Override // com.google.android.exoplayer2.source.SequenceableLoader.Callback
     public void onContinueLoadingRequested(ChunkSampleStream<DashChunkSource> chunkSampleStream) {
         this.callback.onContinueLoadingRequested(this);
     }
@@ -475,8 +477,8 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     }
 
     private ChunkSampleStream<DashChunkSource> buildSampleStream(TrackGroupInfo trackGroupInfo, TrackSelection trackSelection, long j) {
-        int i;
         TrackGroup trackGroup;
+        int i;
         TrackGroup trackGroup2;
         int i2;
         int i3 = trackGroupInfo.embeddedEventMessageTrackGroupIndex;
@@ -605,6 +607,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         return new ChunkSampleStream[i];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class TrackGroupInfo {
         public final int[] adaptationSetIndices;

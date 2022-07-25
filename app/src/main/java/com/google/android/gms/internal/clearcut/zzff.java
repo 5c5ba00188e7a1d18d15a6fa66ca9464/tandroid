@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzff {
     private static final zzfg zzqb;
@@ -9,6 +10,7 @@ public final class zzff {
         zzqb = zzfd.zzed() && zzfd.zzee() ? new zzfj() : new zzfh();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(CharSequence charSequence) {
         int length = charSequence.length();
         int i = 0;
@@ -54,10 +56,12 @@ public final class zzff {
         throw new IllegalArgumentException(sb.toString());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         return zzqb.zzb(charSequence, bArr, i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void zza(CharSequence charSequence, ByteBuffer byteBuffer) {
         zzfg zzfgVar = zzqb;
         if (byteBuffer.hasArray()) {
@@ -70,6 +74,7 @@ public final class zzff {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzam(int i) {
         if (i > -12) {
             return -1;
@@ -77,6 +82,7 @@ public final class zzff {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzd(int i, int i2, int i3) {
         if (i > -12 || i2 > -65 || i3 > -65) {
             return -1;
@@ -92,6 +98,7 @@ public final class zzff {
         return zzqb.zze(bArr, i, i2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzf(byte[] bArr, int i, int i2) {
         byte b = bArr[i - 1];
         int i3 = i2 - i;
@@ -107,6 +114,7 @@ public final class zzff {
         return zzam(b);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int zzp(int i, int i2) {
         if (i > -12 || i2 > -65) {
             return -1;

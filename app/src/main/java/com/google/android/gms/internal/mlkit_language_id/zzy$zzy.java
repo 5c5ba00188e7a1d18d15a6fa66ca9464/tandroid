@@ -23,7 +23,7 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
         private zzeu zze = zzeo.zzk();
 
         /* compiled from: com.google.mlkit:language-id@@16.1.1 */
-        /* renamed from: com.google.android.gms.internal.mlkit_language_id.zzy$zzy$zzb$zzb */
+        /* renamed from: com.google.android.gms.internal.mlkit_language_id.zzy$zzy$zzb$zzb  reason: collision with other inner class name */
         /* loaded from: classes.dex */
         public enum EnumC0001zzb implements zzet {
             UNKNOWN_DATA_TYPE(0),
@@ -72,6 +72,7 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzy$zzb>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
         public final Object zza(int i, Object obj, Object obj2) {
@@ -132,6 +133,7 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzy>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {

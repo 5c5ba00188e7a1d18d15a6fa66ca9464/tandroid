@@ -66,16 +66,16 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
             if (i6 > 2) {
                 throw new OpusDecoderException("Invalid Header, missing stream map.");
             }
-            i4 = i6 == 2 ? 1 : 0;
+            i5 = i6 == 2 ? 1 : 0;
             bArr2[0] = 0;
             bArr2[1] = 1;
-            i5 = 1;
+            i4 = 1;
         } else if (bArr.length < i6 + 21) {
             throw new OpusDecoderException("Header size is too small.");
         } else {
-            i5 = bArr[19] & 255;
+            i4 = bArr[19] & 255;
             System.arraycopy(bArr, 21, bArr2, 0, i6);
-            i4 = bArr[20] & 255;
+            i5 = bArr[20] & 255;
         }
         if (list.size() == 3) {
             if (list.get(1).length != 8 || list.get(2).length != 8) {
@@ -89,7 +89,7 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
             this.headerSkipSamples = readUnsignedLittleEndian16;
             this.headerSeekPreRollSamples = DEFAULT_SEEK_PRE_ROLL_SAMPLES;
         }
-        long opusInit = opusInit(SAMPLE_RATE, i6, i5, i4, readSignedLittleEndian16, bArr2);
+        long opusInit = opusInit(SAMPLE_RATE, i6, i4, i5, readSignedLittleEndian16, bArr2);
         this.nativeDecoderContext = opusInit;
         if (opusInit == 0) {
             throw new OpusDecoderException("Failed to initialize decoder");
@@ -107,19 +107,25 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
         return new DecoderInputBuffer(2);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public SimpleOutputBuffer createOutputBuffer() {
         return new SimpleOutputBuffer(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    public OpusDecoderException createUnexpectedDecodeException(Throwable th) {
+    /* renamed from: createUnexpectedDecodeException */
+    public OpusDecoderException mo165createUnexpectedDecodeException(Throwable th) {
         return new OpusDecoderException("Unexpected decode error", th);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
     public OpusDecoderException decode(DecoderInputBuffer decoderInputBuffer, SimpleOutputBuffer simpleOutputBuffer, boolean z) {
         OpusDecoder opusDecoder;
-        int i;
+        int opusDecode;
         if (z) {
             opusReset(this.nativeDecoderContext);
             this.skipSamples = decoderInputBuffer.timeUs == 0 ? this.headerSkipSamples : this.headerSeekPreRollSamples;
@@ -127,36 +133,36 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
         ByteBuffer byteBuffer = (ByteBuffer) Util.castNonNull(decoderInputBuffer.data);
         CryptoInfo cryptoInfo = decoderInputBuffer.cryptoInfo;
         if (decoderInputBuffer.isEncrypted()) {
-            i = opusSecureDecode(this.nativeDecoderContext, decoderInputBuffer.timeUs, byteBuffer, byteBuffer.limit(), simpleOutputBuffer, SAMPLE_RATE, this.exoMediaCrypto, cryptoInfo.mode, cryptoInfo.key, cryptoInfo.iv, cryptoInfo.numSubSamples, cryptoInfo.numBytesOfClearData, cryptoInfo.numBytesOfEncryptedData);
+            opusDecode = opusSecureDecode(this.nativeDecoderContext, decoderInputBuffer.timeUs, byteBuffer, byteBuffer.limit(), simpleOutputBuffer, SAMPLE_RATE, this.exoMediaCrypto, cryptoInfo.mode, cryptoInfo.key, cryptoInfo.iv, cryptoInfo.numSubSamples, cryptoInfo.numBytesOfClearData, cryptoInfo.numBytesOfEncryptedData);
             opusDecoder = this;
         } else {
             opusDecoder = this;
-            i = opusDecode(opusDecoder.nativeDecoderContext, decoderInputBuffer.timeUs, byteBuffer, byteBuffer.limit(), simpleOutputBuffer);
+            opusDecode = opusDecode(opusDecoder.nativeDecoderContext, decoderInputBuffer.timeUs, byteBuffer, byteBuffer.limit(), simpleOutputBuffer);
         }
-        if (i < 0) {
-            if (i == -2) {
+        if (opusDecode < 0) {
+            if (opusDecode == -2) {
                 String str = "Drm error: " + opusDecoder.opusGetErrorMessage(opusDecoder.nativeDecoderContext);
                 return new OpusDecoderException(str, new DecryptionException(opusDecoder.opusGetErrorCode(opusDecoder.nativeDecoderContext), str));
             }
-            return new OpusDecoderException("Decode error: " + opusDecoder.opusGetErrorMessage(i));
+            return new OpusDecoderException("Decode error: " + opusDecoder.opusGetErrorMessage(opusDecode));
         }
         ByteBuffer byteBuffer2 = (ByteBuffer) Util.castNonNull(simpleOutputBuffer.data);
         byteBuffer2.position(0);
-        byteBuffer2.limit(i);
-        int i2 = opusDecoder.skipSamples;
-        if (i2 <= 0) {
+        byteBuffer2.limit(opusDecode);
+        int i = opusDecoder.skipSamples;
+        if (i <= 0) {
             return null;
         }
-        int i3 = opusDecoder.channelCount * 2;
-        int i4 = i2 * i3;
-        if (i <= i4) {
-            opusDecoder.skipSamples = i2 - (i / i3);
+        int i2 = opusDecoder.channelCount * 2;
+        int i3 = i * i2;
+        if (opusDecode <= i3) {
+            opusDecoder.skipSamples = i - (opusDecode / i2);
             simpleOutputBuffer.addFlag(Integer.MIN_VALUE);
-            byteBuffer2.position(i);
+            byteBuffer2.position(opusDecode);
             return null;
         }
         opusDecoder.skipSamples = 0;
-        byteBuffer2.position(i4);
+        byteBuffer2.position(i3);
         return null;
     }
 

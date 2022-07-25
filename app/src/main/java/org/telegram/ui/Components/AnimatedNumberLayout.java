@@ -15,10 +15,12 @@ import org.telegram.ui.Components.AnimationProperties;
 /* loaded from: classes3.dex */
 public class AnimatedNumberLayout {
     public static final Property<AnimatedNumberLayout, Float> PROGRESS = new AnimationProperties.FloatProperty<AnimatedNumberLayout>("progress") { // from class: org.telegram.ui.Components.AnimatedNumberLayout.1
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(AnimatedNumberLayout animatedNumberLayout, float f) {
             animatedNumberLayout.setProgress(f);
         }
 
+        @Override // android.util.Property
         public Float get(AnimatedNumberLayout animatedNumberLayout) {
             return Float.valueOf(animatedNumberLayout.progress);
         }
@@ -36,6 +38,7 @@ public class AnimatedNumberLayout {
         this.parentView = view;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setProgress(float f) {
         if (this.progress == f) {
             return;

@@ -49,7 +49,8 @@ public abstract class PagerAdapter {
         startUpdate((View) viewGroup);
     }
 
-    public Object instantiateItem(ViewGroup viewGroup, int i) {
+    /* renamed from: instantiateItem */
+    public Object mo1580instantiateItem(ViewGroup viewGroup, int i) {
         return instantiateItem((View) viewGroup, i);
     }
 
@@ -89,6 +90,7 @@ public abstract class PagerAdapter {
         this.mObservable.registerObserver(dataSetObserver);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setViewPagerObserver(DataSetObserver dataSetObserver) {
         synchronized (this) {
             this.mViewPagerObserver = dataSetObserver;

@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.List;
 import javax.annotation.CheckForNull;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
 public final class zzt extends zzu {
@@ -9,6 +10,7 @@ public final class zzt extends zzu {
     final transient int zzb;
     final /* synthetic */ zzu zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzt(zzu zzuVar, int i, int i2) {
         this.zzc = zzuVar;
         this.zza = i;
@@ -36,16 +38,19 @@ public final class zzt extends zzu {
         return this.zzc.zzc() + this.zza + this.zzb;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
     public final int zzc() {
         return this.zzc.zzc() + this.zza;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
     public final boolean zzf() {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
     @CheckForNull
     public final Object[] zzg() {

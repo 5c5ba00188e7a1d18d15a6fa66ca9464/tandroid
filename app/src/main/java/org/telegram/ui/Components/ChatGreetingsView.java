@@ -88,6 +88,7 @@ public class ChatGreetingsView extends LinearLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setSticker$0(TLRPC$Document tLRPC$Document, View view) {
         Listener listener = this.listener;
         if (listener != null) {
@@ -96,19 +97,19 @@ public class ChatGreetingsView extends LinearLayout {
     }
 
     public static String createFilter(TLRPC$Document tLRPC$Document) {
+        float min;
         float f;
-        float f2;
         int i;
         int i2;
         if (AndroidUtilities.isTablet()) {
-            f2 = AndroidUtilities.getMinTabletSide();
+            min = AndroidUtilities.getMinTabletSide();
             f = 0.4f;
         } else {
             android.graphics.Point point = AndroidUtilities.displaySize;
-            f2 = Math.min(point.x, point.y);
+            min = Math.min(point.x, point.y);
             f = 0.5f;
         }
-        float f3 = f2 * f;
+        float f2 = min * f;
         int i3 = 0;
         while (true) {
             if (i3 >= tLRPC$Document.attributes.size()) {
@@ -129,19 +130,19 @@ public class ChatGreetingsView extends LinearLayout {
             i2 = 512;
         }
         if (i == 0) {
-            i2 = (int) f3;
+            i2 = (int) f2;
             i = i2 + AndroidUtilities.dp(100.0f);
         }
-        int i4 = (int) (i2 * (f3 / i));
-        int i5 = (int) f3;
-        float f4 = i4;
-        if (f4 > f3) {
-            i5 = (int) (i5 * (f3 / f4));
+        int i4 = (int) (i2 * (f2 / i));
+        int i5 = (int) f2;
+        float f3 = i4;
+        if (f3 > f2) {
+            i5 = (int) (i5 * (f2 / f3));
             i4 = i5;
         }
-        float f5 = i5;
-        float f6 = AndroidUtilities.density;
-        return String.format(Locale.US, "%d_%d", Integer.valueOf((int) (f5 / f6)), Integer.valueOf((int) (i4 / f6)));
+        float f4 = i5;
+        float f5 = AndroidUtilities.density;
+        return String.format(Locale.US, "%d_%d", Integer.valueOf((int) (f4 / f5)), Integer.valueOf((int) (i4 / f5)));
     }
 
     private void updateColors() {

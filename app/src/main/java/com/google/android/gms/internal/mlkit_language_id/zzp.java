@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzp<E> extends zzk<E> {
@@ -6,11 +7,13 @@ public final class zzp<E> extends zzk<E> {
     private final transient Object[] zzb;
     private final transient int zzc;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzp(Object[] objArr, int i) {
         this.zzb = objArr;
         this.zzc = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzl
     public final int zzc() {
         return 0;
@@ -21,6 +24,7 @@ public final class zzp<E> extends zzk<E> {
         return this.zzc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzl
     public final Object[] zzb() {
         return this.zzb;

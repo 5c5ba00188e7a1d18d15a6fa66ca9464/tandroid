@@ -90,14 +90,14 @@ public class PhonebookShareAlert extends BottomSheet {
     public class UserCell extends LinearLayout {
         public UserCell(PhonebookShareAlert phonebookShareAlert, Context context) {
             super(context);
+            String formatUserStatus;
             boolean z;
-            String str;
             setOrientation(1);
             if (phonebookShareAlert.phones.size() != 1 || phonebookShareAlert.other.size() != 0) {
-                str = (phonebookShareAlert.currentUser.status == null || phonebookShareAlert.currentUser.status.expires == 0) ? null : LocaleController.formatUserStatus(((BottomSheet) phonebookShareAlert).currentAccount, phonebookShareAlert.currentUser);
+                formatUserStatus = (phonebookShareAlert.currentUser.status == null || phonebookShareAlert.currentUser.status.expires == 0) ? null : LocaleController.formatUserStatus(((BottomSheet) phonebookShareAlert).currentAccount, phonebookShareAlert.currentUser);
                 z = true;
             } else {
-                str = ((AndroidUtilities.VcardItem) phonebookShareAlert.phones.get(0)).getValue(true);
+                formatUserStatus = ((AndroidUtilities.VcardItem) phonebookShareAlert.phones.get(0)).getValue(true);
                 z = false;
             }
             AvatarDrawable avatarDrawable = new AvatarDrawable();
@@ -114,14 +114,14 @@ public class PhonebookShareAlert extends BottomSheet {
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setText(ContactsController.formatName(phonebookShareAlert.currentUser.first_name, phonebookShareAlert.currentUser.last_name));
-            addView(textView, LayoutHelper.createLinear(-2, -2, 49, 10, 10, 10, str != null ? 0 : 27));
-            if (str != null) {
+            addView(textView, LayoutHelper.createLinear(-2, -2, 49, 10, 10, 10, formatUserStatus != null ? 0 : 27));
+            if (formatUserStatus != null) {
                 TextView textView2 = new TextView(context);
                 textView2.setTextSize(1, 14.0f);
                 textView2.setTextColor(phonebookShareAlert.getThemedColor("dialogTextGray3"));
                 textView2.setSingleLine(true);
                 textView2.setEllipsize(TextUtils.TruncateAt.END);
-                textView2.setText(str);
+                textView2.setText(formatUserStatus);
                 addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 10, 3, 10, z ? 27 : 11));
             }
         }
@@ -265,13 +265,13 @@ public class PhonebookShareAlert extends BottomSheet {
         this(baseFragment, contact, tLRPC$User, uri, file, str, str2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x02e6  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02f0  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0105  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0231  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02e6  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x02f0  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0126  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -279,8 +279,8 @@ public class PhonebookShareAlert extends BottomSheet {
         super(baseFragment.getParentActivity(), false, resourcesProvider);
         ArrayList<TLRPC$User> arrayList;
         String str3;
-        ArrayList<TLRPC$TL_restrictionReason> arrayList2;
         String str4;
+        ArrayList<TLRPC$TL_restrictionReason> arrayList2;
         int itemCount;
         final int i;
         boolean z;
@@ -467,6 +467,7 @@ public class PhonebookShareAlert extends BottomSheet {
                         super.requestChildFocus(view, view2);
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.core.widget.NestedScrollView
                     public int computeScrollDeltaToGetChildRectOnScreen(android.graphics.Rect rect) {
                         if (this.focusingView == null || PhonebookShareAlert.this.linearLayout.getTop() != getPaddingTop()) {
@@ -487,8 +488,8 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.scrollView.addView(this.linearLayout, LayoutHelper.createScroll(-1, -1, 51));
                 this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda4
                     @Override // androidx.core.widget.NestedScrollView.OnScrollChangeListener
-                    public final void onScrollChange(NestedScrollView nestedScrollView22, int i4, int i5, int i6, int i7) {
-                        PhonebookShareAlert.this.lambda$new$0(nestedScrollView22, i4, i5, i6, i7);
+                    public final void onScrollChange(NestedScrollView nestedScrollView2, int i4, int i5, int i6, int i7) {
+                        PhonebookShareAlert.this.lambda$new$0(nestedScrollView2, i4, i5, i6, i7);
                     }
                 });
                 itemCount = this.listAdapter.getItemCount();
@@ -568,8 +569,8 @@ public class PhonebookShareAlert extends BottomSheet {
                 frameLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 42.0f, 83, 16.0f, 16.0f, 16.0f, 16.0f));
                 this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view32) {
-                        PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view32);
+                    public final void onClick(View view3) {
+                        PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view3);
                     }
                 });
             }
@@ -685,6 +686,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 super.requestChildFocus(view3, view22);
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView
             public int computeScrollDeltaToGetChildRectOnScreen(android.graphics.Rect rect) {
                 if (this.focusingView == null || PhonebookShareAlert.this.linearLayout.getTop() != getPaddingTop()) {
@@ -767,10 +769,12 @@ public class PhonebookShareAlert extends BottomSheet {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4) {
         updateLayout(!this.inLayout);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(int i, View view, View view2) {
         final AndroidUtilities.VcardItem vcardItem;
         int i2 = this.phoneStartRow;
@@ -842,6 +846,7 @@ public class PhonebookShareAlert extends BottomSheet {
         ((TextCheckBoxCell) view).setChecked(vcardItem.checked);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(AndroidUtilities.VcardItem vcardItem, DialogInterface dialogInterface, int i) {
         if (i == 0) {
             try {
@@ -856,6 +861,7 @@ public class PhonebookShareAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$3(int i, Theme.ResourcesProvider resourcesProvider, Context context, View view) {
         AndroidUtilities.VcardItem vcardItem;
         int i2 = this.phoneStartRow;
@@ -893,6 +899,7 @@ public class PhonebookShareAlert extends BottomSheet {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(Theme.ResourcesProvider resourcesProvider, View view) {
         StringBuilder sb;
         if (this.isImport) {
@@ -961,8 +968,8 @@ public class PhonebookShareAlert extends BottomSheet {
                 @Override // android.content.DialogInterface.OnClickListener
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent;
-                    int i2;
                     Intent intent2;
+                    int i2;
                     boolean z;
                     AnonymousClass5 anonymousClass5 = this;
                     int i3 = 1;
@@ -1210,11 +1217,13 @@ public class PhonebookShareAlert extends BottomSheet {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(boolean z, int i) {
         this.delegate.didSelectContact(this.currentUser, z, i);
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onStart() {
         super.onStart();
@@ -1251,6 +1260,7 @@ public class PhonebookShareAlert extends BottomSheet {
         this.delegate = phonebookShareAlertDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout(boolean z) {
         View childAt = this.scrollView.getChildAt(0);
         int top = childAt.getTop() - this.scrollView.getScrollY();
@@ -1375,11 +1385,9 @@ public class PhonebookShareAlert extends BottomSheet {
         this.vcardEndRow = size2;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class ListAdapter {
+    private class ListAdapter {
         private ListAdapter() {
-            PhonebookShareAlert.this = r1;
         }
 
         public int getItemCount() {
@@ -1421,15 +1429,15 @@ public class PhonebookShareAlert extends BottomSheet {
         }
 
         public View createView(Context context, int i) {
-            View view;
+            View userCell;
             int itemViewType = getItemViewType(i);
             if (itemViewType == 0) {
-                view = new UserCell(PhonebookShareAlert.this, context);
+                userCell = new UserCell(PhonebookShareAlert.this, context);
             } else {
-                view = new TextCheckBoxCell(PhonebookShareAlert.this, context);
+                userCell = new TextCheckBoxCell(PhonebookShareAlert.this, context);
             }
-            onBindViewHolder(view, i, itemViewType);
-            return view;
+            onBindViewHolder(userCell, i, itemViewType);
+            return userCell;
         }
 
         public int getItemViewType(int i) {

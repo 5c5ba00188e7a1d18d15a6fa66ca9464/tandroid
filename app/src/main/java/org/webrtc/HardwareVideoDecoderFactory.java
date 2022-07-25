@@ -24,9 +24,10 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x0047, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:46:0x0047, code lost:
             if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L14;
          */
+        @Override // org.webrtc.Predicate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -119,11 +120,11 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
     */
     public HardwareVideoDecoderFactory(EglBase.Context context, Predicate<MediaCodecInfo> predicate) {
         super(context, r3);
-        Predicate<MediaCodecInfo> predicate2;
+        Predicate<MediaCodecInfo> and;
         if (predicate == null) {
-            predicate2 = defaultAllowedPredicate;
+            and = defaultAllowedPredicate;
         } else {
-            predicate2 = predicate.and(defaultAllowedPredicate);
+            and = predicate.and(defaultAllowedPredicate);
         }
     }
 }

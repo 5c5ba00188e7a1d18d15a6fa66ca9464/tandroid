@@ -13,9 +13,8 @@ public interface IAIDLCallback extends IInterface {
         private static final String DESCRIPTOR = "com.huawei.hms.core.aidl.IAIDLCallback";
         static final int TRANSACTION_call = 1;
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        public static class a implements IAIDLCallback {
+        private static class a implements IAIDLCallback {
             public static IAIDLCallback b;
             private IBinder a;
 

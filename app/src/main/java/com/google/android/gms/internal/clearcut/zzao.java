@@ -24,21 +24,15 @@ public final class zzao {
     }
 
     public final <T> zzae<T> zza(String str, T t, zzan<T> zzanVar) {
-        zzae<T> zza;
-        zza = zzae.zza(this, str, t, zzanVar);
-        return zza;
+        return zzae.zzb(this, str, t, zzanVar);
     }
 
     public final zzae<String> zza(String str, String str2) {
-        zzae<String> zza;
-        zza = zzae.zza(this, str, (String) null);
-        return zza;
+        return zzae.zzb(this, str, (String) null);
     }
 
     public final zzae<Boolean> zzc(String str, boolean z) {
-        zzae<Boolean> zza;
-        zza = zzae.zza(this, str, false);
-        return zza;
+        return zzae.zzb(this, str, false);
     }
 
     public final zzao zzc(String str) {

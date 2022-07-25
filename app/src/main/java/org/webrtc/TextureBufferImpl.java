@@ -20,6 +20,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
     private final int width;
     private final YuvConverter yuvConverter;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public interface RefCountMonitor {
         void onDestroy(TextureBufferImpl textureBufferImpl);
@@ -54,6 +55,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public TextureBufferImpl(int i, int i2, VideoFrame.TextureBuffer.Type type, int i3, Matrix matrix, Handler handler, YuvConverter yuvConverter, RefCountMonitor refCountMonitor) {
         this(i, i2, i, i2, type, i3, matrix, handler, yuvConverter, refCountMonitor);
     }
@@ -77,6 +79,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         this.refCountMonitor = refCountMonitor;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(RefCountMonitor refCountMonitor) {
         refCountMonitor.onDestroy(this);
     }
@@ -149,6 +152,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ VideoFrame.I420Buffer lambda$toI420$1() throws Exception {
         return this.yuvConverter.convert(this);
     }

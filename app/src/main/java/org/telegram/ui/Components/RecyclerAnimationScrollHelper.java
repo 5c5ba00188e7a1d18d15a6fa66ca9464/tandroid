@@ -111,7 +111,8 @@ public class RecyclerAnimationScrollHelper {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.RecyclerAnimationScrollHelper$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.RecyclerAnimationScrollHelper$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 implements View.OnLayoutChangeListener {
         final /* synthetic */ RecyclerView.Adapter val$adapter;
@@ -120,7 +121,6 @@ public class RecyclerAnimationScrollHelper {
         final /* synthetic */ boolean val$scrollDown;
 
         AnonymousClass1(RecyclerView.Adapter adapter, ArrayList arrayList, boolean z, AnimatableAdapter animatableAdapter) {
-            RecyclerAnimationScrollHelper.this = r1;
             this.val$adapter = adapter;
             this.val$oldViews = arrayList;
             this.val$scrollDown = z;
@@ -130,7 +130,7 @@ public class RecyclerAnimationScrollHelper {
         @Override // android.view.View.OnLayoutChangeListener
         public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
             int height;
-            long j;
+            long min;
             View view2;
             final ArrayList arrayList = new ArrayList();
             RecyclerAnimationScrollHelper.this.recyclerView.stopScroll();
@@ -286,19 +286,20 @@ public class RecyclerAnimationScrollHelper {
             });
             RecyclerAnimationScrollHelper.this.recyclerView.removeOnLayoutChangeListener(this);
             if (z) {
-                j = 600;
+                min = 600;
             } else {
                 long measuredHeight = ((i16 / RecyclerAnimationScrollHelper.this.recyclerView.getMeasuredHeight()) + 1.0f) * 200.0f;
                 if (measuredHeight < 300) {
                     measuredHeight = 300;
                 }
-                j = Math.min(measuredHeight, 1300L);
+                min = Math.min(measuredHeight, 1300L);
             }
-            RecyclerAnimationScrollHelper.this.animator.setDuration(j);
+            RecyclerAnimationScrollHelper.this.animator.setDuration(min);
             RecyclerAnimationScrollHelper.this.animator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             RecyclerAnimationScrollHelper.this.animator.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onLayoutChange$0(ArrayList arrayList, boolean z, int i, ArrayList arrayList2, ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             int size = arrayList.size();

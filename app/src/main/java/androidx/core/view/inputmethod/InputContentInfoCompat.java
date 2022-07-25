@@ -8,9 +8,8 @@ import android.view.inputmethod.InputContentInfo;
 public final class InputContentInfoCompat {
     private final InputContentInfoCompatImpl mImpl;
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public interface InputContentInfoCompatImpl {
+    private interface InputContentInfoCompatImpl {
         Uri getContentUri();
 
         ClipDescription getDescription();
@@ -20,9 +19,8 @@ public final class InputContentInfoCompat {
         void requestPermission();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class InputContentInfoCompatBaseImpl implements InputContentInfoCompatImpl {
+    private static final class InputContentInfoCompatBaseImpl implements InputContentInfoCompatImpl {
         private final Uri mContentUri;
         private final ClipDescription mDescription;
 
@@ -50,9 +48,8 @@ public final class InputContentInfoCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class InputContentInfoCompatApi25Impl implements InputContentInfoCompatImpl {
+    private static final class InputContentInfoCompatApi25Impl implements InputContentInfoCompatImpl {
         final InputContentInfo mObject;
 
         InputContentInfoCompatApi25Impl(Object inputContentInfo) {

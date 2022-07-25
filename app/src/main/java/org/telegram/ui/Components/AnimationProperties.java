@@ -12,55 +12,67 @@ import org.telegram.ui.PhotoViewer;
 public class AnimationProperties {
     public static OvershootInterpolator overshootInterpolator = new OvershootInterpolator(1.9f);
     public static final Property<Paint, Integer> PAINT_ALPHA = new IntProperty<Paint>("alpha") { // from class: org.telegram.ui.Components.AnimationProperties.1
+        @Override // org.telegram.ui.Components.AnimationProperties.IntProperty
         public void setValue(Paint paint, int i) {
             paint.setAlpha(i);
         }
 
+        @Override // android.util.Property
         public Integer get(Paint paint) {
             return Integer.valueOf(paint.getAlpha());
         }
     };
     public static final Property<ColorDrawable, Integer> COLOR_DRAWABLE_ALPHA = new IntProperty<ColorDrawable>("alpha") { // from class: org.telegram.ui.Components.AnimationProperties.3
+        @Override // org.telegram.ui.Components.AnimationProperties.IntProperty
         public void setValue(ColorDrawable colorDrawable, int i) {
             colorDrawable.setAlpha(i);
         }
 
+        @Override // android.util.Property
         public Integer get(ColorDrawable colorDrawable) {
             return Integer.valueOf(colorDrawable.getAlpha());
         }
     };
     public static final Property<ShapeDrawable, Integer> SHAPE_DRAWABLE_ALPHA = new IntProperty<ShapeDrawable>("alpha") { // from class: org.telegram.ui.Components.AnimationProperties.4
+        @Override // org.telegram.ui.Components.AnimationProperties.IntProperty
         public void setValue(ShapeDrawable shapeDrawable, int i) {
             shapeDrawable.getPaint().setAlpha(i);
         }
 
+        @Override // android.util.Property
         public Integer get(ShapeDrawable shapeDrawable) {
             return Integer.valueOf(shapeDrawable.getPaint().getAlpha());
         }
     };
     public static final Property<ClippingImageView, Float> CLIPPING_IMAGE_VIEW_PROGRESS = new FloatProperty<ClippingImageView>("animationProgress") { // from class: org.telegram.ui.Components.AnimationProperties.5
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(ClippingImageView clippingImageView, float f) {
             clippingImageView.setAnimationProgress(f);
         }
 
+        @Override // android.util.Property
         public Float get(ClippingImageView clippingImageView) {
             return Float.valueOf(clippingImageView.getAnimationProgress());
         }
     };
     public static final Property<PhotoViewer, Float> PHOTO_VIEWER_ANIMATION_VALUE = new FloatProperty<PhotoViewer>("animationValue") { // from class: org.telegram.ui.Components.AnimationProperties.6
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(PhotoViewer photoViewer, float f) {
             photoViewer.setAnimationValue(f);
         }
 
+        @Override // android.util.Property
         public Float get(PhotoViewer photoViewer) {
             return Float.valueOf(photoViewer.getAnimationValue());
         }
     };
     public static final Property<DialogCell, Float> CLIP_DIALOG_CELL_PROGRESS = new FloatProperty<DialogCell>("clipProgress") { // from class: org.telegram.ui.Components.AnimationProperties.7
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
         public void setValue(DialogCell dialogCell, float f) {
             dialogCell.setClipProgress(f);
         }
 
+        @Override // android.util.Property
         public Float get(DialogCell dialogCell) {
             return Float.valueOf(dialogCell.getClipProgress());
         }
@@ -68,10 +80,12 @@ public class AnimationProperties {
 
     static {
         new IntProperty<Paint>(RemoteMessageConst.Notification.COLOR) { // from class: org.telegram.ui.Components.AnimationProperties.2
+            @Override // org.telegram.ui.Components.AnimationProperties.IntProperty
             public void setValue(Paint paint, int i) {
                 paint.setColor(i);
             }
 
+            @Override // android.util.Property
             public Integer get(Paint paint) {
                 return Integer.valueOf(paint.getColor());
             }
@@ -92,7 +106,7 @@ public class AnimationProperties {
             super(Float.class, str);
         }
 
-        /* renamed from: set */
+        /* renamed from: set  reason: avoid collision after fix types in other method */
         public final void set2(T t, Float f) {
             setValue(t, f.floatValue());
         }
@@ -112,7 +126,7 @@ public class AnimationProperties {
             super(Integer.class, str);
         }
 
-        /* renamed from: set */
+        /* renamed from: set  reason: avoid collision after fix types in other method */
         public final void set2(T t, Integer num) {
             setValue(t, num.intValue());
         }

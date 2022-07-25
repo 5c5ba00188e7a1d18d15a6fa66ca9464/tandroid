@@ -52,6 +52,7 @@ public class ConfigCacheClient {
         return put(configContainer, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Void lambda$put$0(ConfigContainer configContainer) throws Exception {
         return this.storageClient.write(configContainer);
     }
@@ -74,6 +75,7 @@ public class ConfigCacheClient {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Task lambda$put$1(boolean z, ConfigContainer configContainer, Void r3) throws Exception {
         if (z) {
             updateInMemoryConfigContainer(configContainer);
@@ -136,6 +138,7 @@ public class ConfigCacheClient {
         throw new ExecutionException(task.getException());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class AwaitListener<TResult> implements OnSuccessListener<TResult>, OnFailureListener, OnCanceledListener {
         private final CountDownLatch latch;

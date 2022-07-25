@@ -67,14 +67,14 @@ public final class FieldDescriptor {
         }
 
         public FieldDescriptor build() {
-            Map map;
+            Map unmodifiableMap;
             String str = this.name;
             if (this.properties == null) {
-                map = Collections.emptyMap();
+                unmodifiableMap = Collections.emptyMap();
             } else {
-                map = Collections.unmodifiableMap(new HashMap(this.properties));
+                unmodifiableMap = Collections.unmodifiableMap(new HashMap(this.properties));
             }
-            return new FieldDescriptor(str, map);
+            return new FieldDescriptor(str, unmodifiableMap);
         }
     }
 }

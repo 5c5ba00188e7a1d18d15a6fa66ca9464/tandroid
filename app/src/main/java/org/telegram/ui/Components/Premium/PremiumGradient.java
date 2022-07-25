@@ -170,6 +170,7 @@ public class PremiumGradient {
             this.shader.setLocalMatrix(this.matrix);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void chekColors() {
             int color = Theme.getColor(this.colorKey1);
             int color2 = Theme.getColor(this.colorKey2);

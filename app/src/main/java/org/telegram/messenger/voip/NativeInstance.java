@@ -229,6 +229,7 @@ public class NativeInstance {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onNetworkStateUpdated$0(boolean z, boolean z2) {
         this.onStateUpdatedListener.onStateUpdated(z ? 1 : 0, z2);
     }
@@ -244,6 +245,7 @@ public class NativeInstance {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAudioLevelsUpdated$1(int[] iArr, float[] fArr, boolean[] zArr) {
         this.audioLevelsCallback.run(iArr, fArr, zArr);
     }
@@ -260,10 +262,12 @@ public class NativeInstance {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onParticipantDescriptionsRequired$2(long j, int[] iArr) {
         this.unknownParticipantsCallback.run(j, iArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onEmitJoinPayload$3(int i, String str) {
         this.payloadCallback.run(i, str);
     }

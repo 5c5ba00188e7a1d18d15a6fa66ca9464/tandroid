@@ -140,6 +140,7 @@ public class GigagroupConvertAlert extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Context context, BaseFragment baseFragment, View view) {
         dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -155,10 +156,12 @@ public class GigagroupConvertAlert extends BottomSheet {
         baseFragment.showDialog(builder.create());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(DialogInterface dialogInterface, int i) {
         onCovert();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         onCancel();
         dismiss();

@@ -33,6 +33,7 @@ public final class zzo extends AbstractSafeParcelable implements Result {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzo(Status status, List<zzx> list, String[] strArr) {
         this.zza = status;
         this.zzb = list;

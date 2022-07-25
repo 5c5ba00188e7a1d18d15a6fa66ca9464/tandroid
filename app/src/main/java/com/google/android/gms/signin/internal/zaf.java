@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.IAccountAccessor;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zaf extends com.google.android.gms.internal.base.zab implements zag {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zaf(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.signin.internal.ISignInService");
     }

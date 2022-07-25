@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import org.telegram.tgnet.ConnectionsManager;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class BackStackRecord extends FragmentTransaction implements FragmentManagerImpl.OpGenerator {
     boolean mAddToBackStack;
@@ -32,6 +33,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     int mIndex = -1;
     boolean mReorderingAllowed = false;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class Op {
         int cmd;
@@ -41,6 +43,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         int popEnterAnim;
         int popExitAnim;
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public Op() {
         }
 
@@ -188,6 +191,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         this.mManager = fragmentManagerImpl;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void addOp(Op op) {
         this.mOps.add(op);
         op.enterAnim = this.mEnterAnim;
@@ -236,6 +240,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return this;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void bumpBackStackNesting(int i) {
         Op op;
         if (!this.mAddToBackStack) {
@@ -311,6 +316,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean interactsWith(int i) {
         int size = this.mOps.size();
         for (int i2 = 0; i2 < size; i2++) {
@@ -323,6 +329,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean interactsWith(ArrayList<BackStackRecord> arrayList, int i, int i2) {
         if (i2 == i) {
             return false;
@@ -349,6 +356,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void executeOps() {
         int size = this.mOps.size();
         for (int i = 0; i < size; i++) {
@@ -402,6 +410,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void executePopOps(boolean z) {
         for (int size = this.mOps.size() - 1; size >= 0; size--) {
             Op op = this.mOps.get(size);
@@ -455,6 +464,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         fragmentManagerImpl.moveToState(fragmentManagerImpl.mCurState, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Fragment expandOps(ArrayList<Fragment> arrayList, Fragment fragment) {
         Fragment fragment2 = fragment;
         int i = 0;
@@ -518,6 +528,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return fragment2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Fragment trackAddedFragmentsInPop(ArrayList<Fragment> arrayList, Fragment fragment) {
         for (int i = 0; i < this.mOps.size(); i++) {
             Op op = this.mOps.get(i);
@@ -540,6 +551,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return fragment;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isPostponed() {
         for (int i = 0; i < this.mOps.size(); i++) {
             if (isFragmentPostponed(this.mOps.get(i))) {
@@ -549,6 +561,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setOnStartPostponedListener(Fragment.OnStartEnterTransitionListener onStartEnterTransitionListener) {
         for (int i = 0; i < this.mOps.size(); i++) {
             Op op = this.mOps.get(i);

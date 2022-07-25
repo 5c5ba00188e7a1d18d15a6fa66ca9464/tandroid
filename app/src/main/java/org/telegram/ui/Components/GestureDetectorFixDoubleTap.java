@@ -11,9 +11,8 @@ import android.view.ViewConfiguration;
 public class GestureDetectorFixDoubleTap {
     private final GestureDetectorCompatImpl mImpl;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public interface GestureDetectorCompatImpl {
+    interface GestureDetectorCompatImpl {
         boolean onTouchEvent(MotionEvent motionEvent);
 
         void setIsLongpressEnabled(boolean z);
@@ -26,9 +25,8 @@ public class GestureDetectorFixDoubleTap {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public static class GestureDetectorCompatImplBase implements GestureDetectorCompatImpl {
+    static class GestureDetectorCompatImplBase implements GestureDetectorCompatImpl {
         private static final int TAP_TIMEOUT = ViewConfiguration.getTapTimeout();
         private boolean mAlwaysInBiggerTapRegion;
         private boolean mAlwaysInTapRegion;
@@ -52,17 +50,13 @@ public class GestureDetectorFixDoubleTap {
         private int mTouchSlopSquare;
         private VelocityTracker mVelocityTracker;
 
-        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
-        public class GestureHandler extends Handler {
+        private class GestureHandler extends Handler {
             GestureHandler() {
-                GestureDetectorCompatImplBase.this = r1;
             }
 
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             GestureHandler(Handler handler) {
                 super(handler.getLooper());
-                GestureDetectorCompatImplBase.this = r1;
             }
 
             @Override // android.os.Handler
@@ -129,8 +123,8 @@ public class GestureDetectorFixDoubleTap {
             this.mIsLongpressEnabled = z;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:104:0x020f  */
-        /* JADX WARN: Removed duplicated region for block: B:107:0x0226  */
+        /* JADX WARN: Removed duplicated region for block: B:116:0x020f  */
+        /* JADX WARN: Removed duplicated region for block: B:119:0x0226  */
         @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.GestureDetectorCompatImpl
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -139,7 +133,7 @@ public class GestureDetectorFixDoubleTap {
             boolean z;
             MotionEvent motionEvent2;
             MotionEvent motionEvent3;
-            boolean z2;
+            boolean onFling;
             GestureDetector.OnDoubleTapListener onDoubleTapListener;
             int action = motionEvent.getAction();
             if (this.mVelocityTracker == null) {
@@ -147,8 +141,8 @@ public class GestureDetectorFixDoubleTap {
             }
             this.mVelocityTracker.addMovement(motionEvent);
             int i = action & 255;
-            boolean z3 = i == 6;
-            int actionIndex = z3 ? motionEvent.getActionIndex() : -1;
+            boolean z2 = i == 6;
+            int actionIndex = z2 ? motionEvent.getActionIndex() : -1;
             int pointerCount = motionEvent.getPointerCount();
             float f = 0.0f;
             float f2 = 0.0f;
@@ -158,7 +152,7 @@ public class GestureDetectorFixDoubleTap {
                     f2 += motionEvent.getY(i2);
                 }
             }
-            float f3 = z3 ? pointerCount - 1 : pointerCount;
+            float f3 = z2 ? pointerCount - 1 : pointerCount;
             float f4 = f / f3;
             float f5 = f2 / f3;
             if (i == 0) {
@@ -217,7 +211,7 @@ public class GestureDetectorFixDoubleTap {
                 this.mStillDown = false;
                 MotionEvent obtain = MotionEvent.obtain(motionEvent);
                 if (this.mIsDoubleTapping) {
-                    z2 = this.mDoubleTapListener.onDoubleTapEvent(motionEvent) | false;
+                    onFling = this.mDoubleTapListener.onDoubleTapEvent(motionEvent) | false;
                 } else {
                     if (this.mInLongPress) {
                         this.mHandler.removeMessages(3);
@@ -227,7 +221,7 @@ public class GestureDetectorFixDoubleTap {
                         if (this.mDeferConfirmSingleTap && (onDoubleTapListener = this.mDoubleTapListener) != null) {
                             onDoubleTapListener.onSingleTapConfirmed(motionEvent);
                         }
-                        z2 = onSingleTapUp;
+                        onFling = onSingleTapUp;
                     } else {
                         VelocityTracker velocityTracker = this.mVelocityTracker;
                         int pointerId = motionEvent.getPointerId(0);
@@ -235,10 +229,10 @@ public class GestureDetectorFixDoubleTap {
                         float yVelocity = velocityTracker.getYVelocity(pointerId);
                         float xVelocity = velocityTracker.getXVelocity(pointerId);
                         if (Math.abs(yVelocity) > this.mMinimumFlingVelocity || Math.abs(xVelocity) > this.mMinimumFlingVelocity) {
-                            z2 = this.mListener.onFling(this.mCurrentDownEvent, motionEvent, xVelocity, yVelocity);
+                            onFling = this.mListener.onFling(this.mCurrentDownEvent, motionEvent, xVelocity, yVelocity);
                         }
                     }
-                    z2 = false;
+                    onFling = false;
                 }
                 MotionEvent motionEvent5 = this.mPreviousUpEvent;
                 if (motionEvent5 != null) {
@@ -301,7 +295,7 @@ public class GestureDetectorFixDoubleTap {
                     int i5 = (int) (f5 - this.mDownFocusY);
                     int i6 = (i4 * i4) + (i5 * i5);
                     if (i6 > this.mTouchSlopSquare) {
-                        z2 = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
+                        onFling = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
                         this.mLastFocusX = f4;
                         this.mLastFocusY = f5;
                         this.mAlwaysInTapRegion = false;
@@ -309,7 +303,7 @@ public class GestureDetectorFixDoubleTap {
                         this.mHandler.removeMessages(1);
                         this.mHandler.removeMessages(2);
                     } else {
-                        z2 = false;
+                        onFling = false;
                     }
                     if (i6 > this.mTouchSlopSquare) {
                         this.mAlwaysInBiggerTapRegion = false;
@@ -323,7 +317,7 @@ public class GestureDetectorFixDoubleTap {
                     return onScroll;
                 }
             }
-            return z2;
+            return onFling;
         }
 
         private void cancel() {

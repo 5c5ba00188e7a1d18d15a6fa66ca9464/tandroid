@@ -9,6 +9,7 @@ final class BitMatrixParser {
     private FormatInformation parsedFormatInfo;
     private Version parsedVersion;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public BitMatrixParser(BitMatrix bitMatrix) throws FormatException {
         int height = bitMatrix.getHeight();
         if (height < 21 || (height & 3) != 1) {
@@ -17,6 +18,7 @@ final class BitMatrixParser {
         this.bitMatrix = bitMatrix;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public FormatInformation readFormatInformation() throws FormatException {
         FormatInformation formatInformation = this.parsedFormatInfo;
         if (formatInformation != null) {
@@ -47,6 +49,7 @@ final class BitMatrixParser {
         return decodeFormatInformation;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Version readVersion() throws FormatException {
         Version version = this.parsedVersion;
         if (version != null) {
@@ -87,6 +90,7 @@ final class BitMatrixParser {
         return this.mirror ? this.bitMatrix.get(i2, i) : this.bitMatrix.get(i, i2) ? (i3 << 1) | 1 : i3 << 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public byte[] readCodewords() throws FormatException {
         FormatInformation readFormatInformation = readFormatInformation();
         Version readVersion = readVersion();
@@ -133,6 +137,7 @@ final class BitMatrixParser {
         throw FormatException.getFormatInstance();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void remask() {
         if (this.parsedFormatInfo == null) {
             return;
@@ -140,12 +145,14 @@ final class BitMatrixParser {
         DataMask.values()[this.parsedFormatInfo.getDataMask()].unmaskBitMatrix(this.bitMatrix, this.bitMatrix.getHeight());
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void setMirror(boolean z) {
         this.parsedVersion = null;
         this.parsedFormatInfo = null;
         this.mirror = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void mirror() {
         int i = 0;
         while (i < this.bitMatrix.getWidth()) {

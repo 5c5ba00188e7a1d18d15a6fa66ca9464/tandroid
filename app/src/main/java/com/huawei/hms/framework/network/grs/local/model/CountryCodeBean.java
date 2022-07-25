@@ -47,23 +47,23 @@ public class CountryCodeBean {
         if (!SystemPropUtils.getProperty("get", KEY_VERSION_EMUI, ANDRIOD_SYSTEMPROP, "").isEmpty()) {
             if (EmuiUtil.isUpPVersion()) {
                 getRegionSettingCountryCode();
-                str2 = TAG;
-                str = "EMUI 9.0 upper System, get countryCode form Locale.getDefault().getCountry()";
+                str = TAG;
+                str2 = "EMUI 9.0 upper System, get countryCode form Locale.getDefault().getCountry()";
             } else {
                 getProductCountryCode();
-                str2 = TAG;
-                str = "EMUI 9.0 lower System, get countryCode form ro.product.locale.region or locale";
+                str = TAG;
+                str2 = "EMUI 9.0 lower System, get countryCode form ro.product.locale.region or locale";
             }
         } else if (Build.VERSION.SDK_INT >= 28 || Build.VERSION.RELEASE.charAt(0) >= '9') {
             getRegionSettingCountryCode();
-            str2 = TAG;
-            str = "other Android 9.0 upper， get countryCode form Locale.getDefault().getCountry()";
+            str = TAG;
+            str2 = "other Android 9.0 upper， get countryCode form Locale.getDefault().getCountry()";
         } else {
             getProductCountryCode();
-            str2 = TAG;
-            str = "other Android 9.0 lower, get countryCode form ro.product.locale.region or locale";
+            str = TAG;
+            str2 = "other Android 9.0 lower, get countryCode form ro.product.locale.region or locale";
         }
-        Logger.i(str2, str);
+        Logger.i(str, str2);
         this.countrySource = GrsBaseInfo.CountryCodeSource.LOCALE_INFO;
     }
 
@@ -98,8 +98,8 @@ public class CountryCodeBean {
     }
 
     private void getSimCountryCode(Context context, boolean z) {
-        StringBuilder sb;
         String str;
+        StringBuilder sb;
         String str2;
         TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext().getSystemService("phone");
         if (telephonyManager != null) {

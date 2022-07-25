@@ -1,7 +1,7 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class R1 extends C1 implements z1 {
+abstract class R1 extends C1 implements z1 {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public R1(z1 z1Var, z1 z1Var2) {
         super(z1Var, z1Var2);
     }

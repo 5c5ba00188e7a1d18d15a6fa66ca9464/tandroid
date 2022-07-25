@@ -1,11 +1,13 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzec implements zzdm {
     private final zzdo zzmn;
     private final zzed zzng;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzec(zzdo zzdoVar, String str, Object[] objArr) {
         this.zzmn = zzdoVar;
         this.zzng = new zzed(zzdoVar.getClass(), str, objArr);
@@ -36,6 +38,7 @@ public final class zzec implements zzdm {
         return this.zzmn;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final zzed zzco() {
         return this.zzng;
     }
@@ -64,6 +67,7 @@ public final class zzec implements zzdm {
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final int[] zzct() {
         int[] iArr;
         iArr = this.zzng.zzms;

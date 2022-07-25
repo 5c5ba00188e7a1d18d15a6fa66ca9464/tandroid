@@ -60,11 +60,13 @@ public class Crashes extends AbstractAppCenterService {
     private final Map<UUID, ErrorLogReport> mUnprocessedErrorReports = new LinkedHashMap();
     private final Map<UUID, ErrorLogReport> mErrorReportCache = new LinkedHashMap();
 
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: com.microsoft.appcenter.crashes.Crashes$1  reason: invalid class name */
     /* loaded from: classes.dex */
     public class AnonymousClass1 implements Runnable {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface CallbackProcessor {
         void onCallBack(ErrorReport errorReport);
@@ -72,6 +74,7 @@ public class Crashes extends AbstractAppCenterService {
         boolean shouldDeleteThrowable();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public interface ExceptionModelBuilder {
         Exception buildExceptionModel();
@@ -477,11 +480,13 @@ public class Crashes extends AbstractAppCenterService {
         return z;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void removeAllStoredErrorLogFiles(UUID uuid) {
         ErrorLogHelper.removeStoredErrorLogFile(uuid);
         removeStoredThrowable(uuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void removeStoredThrowable(UUID uuid) {
         this.mErrorReportCache.remove(uuid);
         WrapperSdkExceptionManager.deleteWrapperExceptionData(uuid);
@@ -504,11 +509,12 @@ public class Crashes extends AbstractAppCenterService {
         return errorReport;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleUserConfirmation(final int i) {
         post(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.12
             /* JADX WARN: Removed duplicated region for block: B:28:0x00bc  */
             /* JADX WARN: Removed duplicated region for block: B:31:0x00d8  */
-            /* JADX WARN: Removed duplicated region for block: B:37:0x00f3 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:34:0x00f3 A[SYNTHETIC] */
             @Override // java.lang.Runnable
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -572,6 +578,7 @@ public class Crashes extends AbstractAppCenterService {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendErrorAttachment(UUID uuid, Iterable<ErrorAttachmentLog> iterable) {
         if (iterable == null) {
             AppCenterLog.debug("AppCenterCrashes", "Error report: " + uuid.toString() + " does not have any attachment.");
@@ -594,6 +601,7 @@ public class Crashes extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void saveUncaughtException(Thread thread, Throwable th) {
         try {
             saveUncaughtException(thread, th, ErrorLogHelper.getModelExceptionFromThrowable(th));
@@ -641,6 +649,7 @@ public class Crashes extends AbstractAppCenterService {
         return id;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void saveMemoryRunningLevel(int i) {
         SharedPreferencesManager.putInt("com.microsoft.appcenter.crashes.memory", i);
         AppCenterLog.debug("AppCenterCrashes", String.format("The memory running level (%s) was saved.", Integer.valueOf(i)));
@@ -656,6 +665,7 @@ public class Crashes extends AbstractAppCenterService {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ErrorLogReport {
         private final ManagedErrorLog log;

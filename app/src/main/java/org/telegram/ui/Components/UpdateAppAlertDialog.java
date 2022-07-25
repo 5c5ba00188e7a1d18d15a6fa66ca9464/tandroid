@@ -53,10 +53,8 @@ public class UpdateAppAlertDialog extends BottomSheet {
         private boolean hasBackground;
         private TextView[] textView = new TextView[2];
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public BottomSheetCell(Context context, boolean z) {
             super(context);
-            UpdateAppAlertDialog.this = r13;
             this.hasBackground = !z;
             setBackground(null);
             View view = new View(context);
@@ -158,6 +156,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         NestedScrollView nestedScrollView = new NestedScrollView(context) { // from class: org.telegram.ui.Components.UpdateAppAlertDialog.2
             private boolean ignoreLayout;
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.View
             public void onMeasure(int i2, int i3) {
                 int size = View.MeasureSpec.getSize(i3);
@@ -178,6 +177,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 super.onLayout(z, i2, i3, i4, i5);
@@ -192,6 +192,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
                 super.requestLayout();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.view.View
             public void onScrollChanged(int i2, int i3, int i4, int i5) {
                 super.onScrollChanged(i2, i3, i4, i5);
@@ -278,11 +279,13 @@ public class UpdateAppAlertDialog extends BottomSheet {
         frameLayout.addView(bottomSheetCell2, LayoutHelper.createFrame(-1, 50.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         FileLoader.getInstance(this.accountNum).loadFile(this.appUpdate.document, "update", 1, 1);
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         dismiss();
     }
@@ -332,6 +335,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         this.shadowAnimation.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout() {
         this.linearLayout.getChildAt(0).getLocationInWindow(this.location);
         int max = Math.max(this.location[1] - AndroidUtilities.dp(24.0f), 0);

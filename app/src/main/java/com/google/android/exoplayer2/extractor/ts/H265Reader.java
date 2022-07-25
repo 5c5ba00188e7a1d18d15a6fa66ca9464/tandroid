@@ -292,6 +292,7 @@ public final class H265Reader implements ElementaryStreamReader {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class SampleReader {
         private boolean isFirstPrefixNalUnit;

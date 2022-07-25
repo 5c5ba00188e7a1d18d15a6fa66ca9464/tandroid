@@ -8,6 +8,7 @@ import com.google.android.gms.location.LocationCallback;
 final class zzaq implements ListenerHolder.Notifier<LocationCallback> {
     final /* synthetic */ LocationAvailability zza;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzaq(zzar zzarVar, LocationAvailability locationAvailability) {
         this.zza = locationAvailability;
     }

@@ -1,9 +1,8 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class i0 implements O4 {
+abstract class i0 implements O4 {
     boolean a;
     Object b;
 

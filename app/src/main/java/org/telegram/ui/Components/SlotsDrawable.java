@@ -26,6 +26,7 @@ public class SlotsDrawable extends RLottieDrawable {
     private int[] secondFrameCounts = new int[3];
     private int[] secondFrameNums = new int[3];
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public enum ReelValue {
         bar,
@@ -45,8 +46,9 @@ public class SlotsDrawable extends RLottieDrawable {
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
-        int i;
+        int frame;
         Runnable runnable;
         if (this.isRecycled) {
             return;
@@ -69,38 +71,38 @@ public class SlotsDrawable extends RLottieDrawable {
         if (this.backgroundBitmap != null) {
             try {
                 if (this.isDice == 1) {
-                    int i2 = 0;
-                    i = -1;
+                    int i = 0;
+                    frame = -1;
                     while (true) {
                         long[] jArr = this.nativePtrs;
-                        if (i2 >= jArr.length) {
+                        if (i >= jArr.length) {
                             break;
                         }
-                        i = RLottieDrawable.getFrame(jArr[i2], this.frameNums[i2], this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), i2 == 0);
-                        if (i2 != 0) {
+                        frame = RLottieDrawable.getFrame(jArr[i], this.frameNums[i], this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), i == 0);
+                        if (i != 0) {
                             int[] iArr = this.frameNums;
-                            if (iArr[i2] + 1 < this.frameCounts[i2]) {
-                                iArr[i2] = iArr[i2] + 1;
-                            } else if (i2 != 4) {
-                                iArr[i2] = 0;
+                            if (iArr[i] + 1 < this.frameCounts[i]) {
+                                iArr[i] = iArr[i] + 1;
+                            } else if (i != 4) {
+                                iArr[i] = 0;
                                 this.nextFrameIsLast = false;
                                 if (this.secondNativePtr != 0) {
                                     this.isDice = 2;
                                 }
                             }
                         }
-                        i2++;
+                        i++;
                     }
                 } else {
                     if (this.setLastFrame) {
-                        int i3 = 0;
+                        int i2 = 0;
                         while (true) {
                             int[] iArr2 = this.secondFrameNums;
-                            if (i3 >= iArr2.length) {
+                            if (i2 >= iArr2.length) {
                                 break;
                             }
-                            iArr2[i3] = this.secondFrameCounts[i3] - 1;
-                            i3++;
+                            iArr2[i2] = this.secondFrameCounts[i2] - 1;
+                            i2++;
                         }
                     }
                     if (this.playWinAnimation) {
@@ -112,26 +114,26 @@ public class SlotsDrawable extends RLottieDrawable {
                         }
                     }
                     RLottieDrawable.getFrame(this.nativePtrs[0], Math.max(this.frameNums[0], 0), this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), true);
-                    int i4 = 0;
+                    int i3 = 0;
                     while (true) {
                         long[] jArr2 = this.secondNativePtrs;
-                        if (i4 >= jArr2.length) {
+                        if (i3 >= jArr2.length) {
                             break;
                         }
-                        long j = jArr2[i4];
+                        long j = jArr2[i3];
                         int[] iArr4 = this.secondFrameNums;
-                        RLottieDrawable.getFrame(j, iArr4[i4] >= 0 ? iArr4[i4] : this.secondFrameCounts[i4] - 1, this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), false);
+                        RLottieDrawable.getFrame(j, iArr4[i3] >= 0 ? iArr4[i3] : this.secondFrameCounts[i3] - 1, this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), false);
                         if (!this.nextFrameIsLast) {
                             int[] iArr5 = this.secondFrameNums;
-                            if (iArr5[i4] + 1 < this.secondFrameCounts[i4]) {
-                                iArr5[i4] = iArr5[i4] + 1;
+                            if (iArr5[i3] + 1 < this.secondFrameCounts[i3]) {
+                                iArr5[i3] = iArr5[i3] + 1;
                             } else {
-                                iArr5[i4] = -1;
+                                iArr5[i3] = -1;
                             }
                         }
-                        i4++;
+                        i3++;
                     }
-                    i = RLottieDrawable.getFrame(this.nativePtrs[4], this.frameNums[4], this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), false);
+                    frame = RLottieDrawable.getFrame(this.nativePtrs[4], this.frameNums[4], this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), false);
                     int[] iArr6 = this.frameNums;
                     if (iArr6[4] + 1 < this.frameCounts[4]) {
                         iArr6[4] = iArr6[4] + 1;
@@ -154,7 +156,7 @@ public class SlotsDrawable extends RLottieDrawable {
                         this.frameNums[0] = -1;
                     }
                 }
-                if (i == -1) {
+                if (frame == -1) {
                     RLottieDrawable.uiHandler.post(this.uiRunnableNoFrame);
                     CountDownLatch countDownLatch2 = this.frameWaitSync;
                     if (countDownLatch2 == null) {
@@ -220,6 +222,7 @@ public class SlotsDrawable extends RLottieDrawable {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBaseDice$5(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final int i, final MessageObject messageObject, final ChatMessageCell chatMessageCell) {
         if (this.destroyAfterLoading) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SlotsDrawable$$ExternalSyntheticLambda5
@@ -282,6 +285,7 @@ public class SlotsDrawable extends RLottieDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBaseDice$1() {
         this.loadingInBackground = false;
         if (this.secondLoadingInBackground || !this.destroyAfterLoading) {
@@ -290,15 +294,18 @@ public class SlotsDrawable extends RLottieDrawable {
         recycle();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setBaseDice$2(TLRPC$Document tLRPC$Document, int i, MessageObject messageObject, ChatMessageCell chatMessageCell, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
         DownloadController.getInstance(i).addLoadingFileObserver(FileLoader.getAttachFileName(tLRPC$Document), messageObject, chatMessageCell);
         FileLoader.getInstance(i).loadFile(tLRPC$Document, tLRPC$TL_messages_stickerSet, 1, 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBaseDice$3() {
         this.loadingInBackground = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBaseDice$4(int i, ChatMessageCell chatMessageCell) {
         this.loadingInBackground = false;
         if (!this.secondLoadingInBackground && this.destroyAfterLoading) {
@@ -328,8 +335,9 @@ public class SlotsDrawable extends RLottieDrawable {
         return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:63:0x00c5  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00d8  */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00c5  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00d8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -455,6 +463,7 @@ public class SlotsDrawable extends RLottieDrawable {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setDiceNumber$6() {
         this.secondLoadingInBackground = false;
         if (this.loadingInBackground || !this.destroyAfterLoading) {
@@ -463,15 +472,18 @@ public class SlotsDrawable extends RLottieDrawable {
         recycle();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$setDiceNumber$7(TLRPC$Document tLRPC$Document, int i, MessageObject messageObject, ChatMessageCell chatMessageCell, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
         DownloadController.getInstance(i).addLoadingFileObserver(FileLoader.getAttachFileName(tLRPC$Document), messageObject, chatMessageCell);
         FileLoader.getInstance(i).loadFile(tLRPC$Document, tLRPC$TL_messages_stickerSet, 1, 1);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setDiceNumber$8() {
         this.secondLoadingInBackground = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setDiceNumber$9(boolean z, int i, ChatMessageCell chatMessageCell) {
         if (z && this.nextRenderingBitmap == null && this.renderingBitmap == null && this.loadFrameTask == null) {
             this.isDice = 2;

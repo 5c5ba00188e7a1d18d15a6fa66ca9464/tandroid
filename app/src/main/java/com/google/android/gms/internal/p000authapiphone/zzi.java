@@ -8,7 +8,7 @@ import com.google.android.gms.common.GooglePlayServicesUtilLight;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-/* renamed from: com.google.android.gms.internal.auth-api-phone.zzi */
+/* renamed from: com.google.android.gms.internal.auth-api-phone.zzi  reason: invalid package */
 /* loaded from: classes.dex */
 public final class zzi extends GmsClient<zze> {
     public zzi(Context context, Looper looper, ClientSettings clientSettings, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {

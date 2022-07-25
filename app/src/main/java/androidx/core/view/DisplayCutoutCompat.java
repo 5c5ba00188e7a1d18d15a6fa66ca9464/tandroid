@@ -61,6 +61,7 @@ public final class DisplayCutoutCompat {
         return "DisplayCutoutCompat{" + this.mDisplayCutout + "}";
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static DisplayCutoutCompat wrap(Object displayCutout) {
         if (displayCutout == null) {
             return null;

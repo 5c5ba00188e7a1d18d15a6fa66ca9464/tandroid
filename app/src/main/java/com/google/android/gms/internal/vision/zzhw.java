@@ -5,6 +5,7 @@ final class zzhw extends zzid {
     private final int zzc;
     private final int zzd;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzhw(byte[] bArr, int i, int i2) {
         super(bArr);
         zzht.zzb(i, i + i2, bArr.length);
@@ -32,6 +33,7 @@ final class zzhw extends zzid {
         return this.zzb[this.zzc + i];
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzid, com.google.android.gms.internal.vision.zzht
     public final byte zzb(int i) {
         return this.zzb[this.zzc + i];

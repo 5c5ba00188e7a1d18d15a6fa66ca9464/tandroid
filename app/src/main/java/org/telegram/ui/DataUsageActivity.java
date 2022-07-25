@@ -53,11 +53,13 @@ public class DataUsageActivity extends BaseFragment {
     private ViewPage[] viewPages = new ViewPage[2];
     private boolean swipeBackEnabled = true;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ float lambda$static$0(float f) {
         float f2 = f - 1.0f;
         return (f2 * f2 * f2 * f2 * f2) + 1.0f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ViewPage extends FrameLayout {
         private LinearLayoutManager layoutManager;
@@ -207,10 +209,6 @@ public class DataUsageActivity extends BaseFragment {
                 super.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-            */
             public boolean checkTabsAnimationInProgress() {
                 if (DataUsageActivity.this.tabsAnimationInProgress) {
                     int i = -1;
@@ -224,34 +222,26 @@ public class DataUsageActivity extends BaseFragment {
                                 i = 1;
                             }
                             viewPage.setTranslationX(measuredWidth * i);
-                            if (z2) {
-                                if (DataUsageActivity.this.tabsAnimation != null) {
-                                    DataUsageActivity.this.tabsAnimation.cancel();
-                                    DataUsageActivity.this.tabsAnimation = null;
-                                }
-                                DataUsageActivity.this.tabsAnimationInProgress = false;
-                            }
-                            return DataUsageActivity.this.tabsAnimationInProgress;
                         }
                         z2 = false;
-                        if (z2) {
+                    } else {
+                        if (Math.abs(DataUsageActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
+                            ViewPage viewPage2 = DataUsageActivity.this.viewPages[0];
+                            int measuredWidth2 = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
+                            if (!DataUsageActivity.this.animatingForward) {
+                                i = 1;
+                            }
+                            viewPage2.setTranslationX(measuredWidth2 * i);
+                            DataUsageActivity.this.viewPages[1].setTranslationX(0.0f);
                         }
-                        return DataUsageActivity.this.tabsAnimationInProgress;
+                        z2 = false;
                     }
-                    if (Math.abs(DataUsageActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
-                        ViewPage viewPage2 = DataUsageActivity.this.viewPages[0];
-                        int measuredWidth2 = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
-                        if (!DataUsageActivity.this.animatingForward) {
-                            i = 1;
-                        }
-                        viewPage2.setTranslationX(measuredWidth2 * i);
-                        DataUsageActivity.this.viewPages[1].setTranslationX(0.0f);
-                        if (z2) {
-                        }
-                        return DataUsageActivity.this.tabsAnimationInProgress;
-                    }
-                    z2 = false;
                     if (z2) {
+                        if (DataUsageActivity.this.tabsAnimation != null) {
+                            DataUsageActivity.this.tabsAnimation.cancel();
+                            DataUsageActivity.this.tabsAnimation = null;
+                        }
+                        DataUsageActivity.this.tabsAnimationInProgress = false;
                     }
                     return DataUsageActivity.this.tabsAnimationInProgress;
                 }
@@ -273,8 +263,8 @@ public class DataUsageActivity extends BaseFragment {
             public boolean onTouchEvent(MotionEvent motionEvent) {
                 float f;
                 float f2;
-                float f3;
-                int i;
+                float measuredWidth;
+                int measuredWidth2;
                 boolean z2 = false;
                 if (((BaseFragment) DataUsageActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
                     return false;
@@ -323,28 +313,28 @@ public class DataUsageActivity extends BaseFragment {
                 } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
                     this.velocityTracker.computeCurrentVelocity(1000, DataUsageActivity.this.maximumVelocity);
                     if (motionEvent == null || motionEvent.getAction() == 3) {
-                        f2 = 0.0f;
                         f = 0.0f;
+                        f2 = 0.0f;
                     } else {
-                        f2 = this.velocityTracker.getXVelocity();
-                        f = this.velocityTracker.getYVelocity();
-                        if (!this.startedTracking && Math.abs(f2) >= 3000.0f && Math.abs(f2) > Math.abs(f)) {
-                            prepareForMoving(motionEvent, f2 < 0.0f);
+                        f = this.velocityTracker.getXVelocity();
+                        f2 = this.velocityTracker.getYVelocity();
+                        if (!this.startedTracking && Math.abs(f) >= 3000.0f && Math.abs(f) > Math.abs(f2)) {
+                            prepareForMoving(motionEvent, f < 0.0f);
                         }
                     }
                     if (this.startedTracking) {
                         float x2 = DataUsageActivity.this.viewPages[0].getX();
                         DataUsageActivity.this.tabsAnimation = new AnimatorSet();
-                        DataUsageActivity.this.backAnimation = Math.abs(x2) < ((float) DataUsageActivity.this.viewPages[0].getMeasuredWidth()) / 3.0f && (Math.abs(f2) < 3500.0f || Math.abs(f2) < Math.abs(f));
+                        DataUsageActivity.this.backAnimation = Math.abs(x2) < ((float) DataUsageActivity.this.viewPages[0].getMeasuredWidth()) / 3.0f && (Math.abs(f) < 3500.0f || Math.abs(f) < Math.abs(f2));
                         if (!DataUsageActivity.this.backAnimation) {
-                            f3 = DataUsageActivity.this.viewPages[0].getMeasuredWidth() - Math.abs(x2);
+                            measuredWidth = DataUsageActivity.this.viewPages[0].getMeasuredWidth() - Math.abs(x2);
                             if (DataUsageActivity.this.animatingForward) {
                                 DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, -DataUsageActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
                             } else {
                                 DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, DataUsageActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, 0.0f));
                             }
                         } else {
-                            f3 = Math.abs(x2);
+                            measuredWidth = Math.abs(x2);
                             if (DataUsageActivity.this.animatingForward) {
                                 DataUsageActivity.this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(DataUsageActivity.this.viewPages[1], View.TRANSLATION_X, DataUsageActivity.this.viewPages[1].getMeasuredWidth()));
                             } else {
@@ -352,16 +342,16 @@ public class DataUsageActivity extends BaseFragment {
                             }
                         }
                         DataUsageActivity.this.tabsAnimation.setInterpolator(DataUsageActivity.interpolator);
-                        int measuredWidth = getMeasuredWidth();
-                        float f4 = measuredWidth / 2;
-                        float distanceInfluenceForSnapDuration = f4 + (AndroidUtilities.distanceInfluenceForSnapDuration(Math.min(1.0f, (f3 * 1.0f) / measuredWidth)) * f4);
-                        float abs2 = Math.abs(f2);
+                        int measuredWidth3 = getMeasuredWidth();
+                        float f3 = measuredWidth3 / 2;
+                        float distanceInfluenceForSnapDuration = f3 + (AndroidUtilities.distanceInfluenceForSnapDuration(Math.min(1.0f, (measuredWidth * 1.0f) / measuredWidth3)) * f3);
+                        float abs2 = Math.abs(f);
                         if (abs2 > 0.0f) {
-                            i = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs2) * 1000.0f) * 4;
+                            measuredWidth2 = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs2) * 1000.0f) * 4;
                         } else {
-                            i = (int) (((f3 / getMeasuredWidth()) + 1.0f) * 100.0f);
+                            measuredWidth2 = (int) (((measuredWidth / getMeasuredWidth()) + 1.0f) * 100.0f);
                         }
-                        DataUsageActivity.this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(i, 600)));
+                        DataUsageActivity.this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(measuredWidth2, 600)));
                         DataUsageActivity.this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DataUsageActivity.3.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
@@ -505,6 +495,7 @@ public class DataUsageActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(RecyclerListView recyclerListView, View view, int i) {
         if (getParentActivity() == null) {
             return;
@@ -532,6 +523,7 @@ public class DataUsageActivity extends BaseFragment {
         textView.setTextColor(Theme.getColor("dialogTextRed2"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(ListAdapter listAdapter, DialogInterface dialogInterface, int i) {
         StatsController.getInstance(this.currentAccount).resetStats(listAdapter.currentType);
         listAdapter.notifyDataSetChanged();
@@ -559,6 +551,7 @@ public class DataUsageActivity extends BaseFragment {
         return this.swipeBackEnabled;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setScrollY(float f) {
         this.actionBar.setTranslationY(f);
         int i = 0;
@@ -591,6 +584,7 @@ public class DataUsageActivity extends BaseFragment {
         this.scrollSlidingTextTabStrip.finishAddingTabs();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void switchToCurrentSelectedMode(boolean z) {
         ViewPage[] viewPageArr;
         int i = 0;
@@ -621,6 +615,7 @@ public class DataUsageActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private int audiosBytesReceivedRow;
@@ -671,7 +666,6 @@ public class DataUsageActivity extends BaseFragment {
         private int messagesReceivedRow = -1;
 
         public ListAdapter(Context context, int i) {
-            DataUsageActivity.this = r1;
             this.mContext = context;
             this.currentType = i;
             this.rowCount = 0;
@@ -905,21 +899,22 @@ public class DataUsageActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View shadowSectionCell;
             if (i == 0) {
-                view = new ShadowSectionCell(this.mContext);
+                shadowSectionCell = new ShadowSectionCell(this.mContext);
             } else if (i == 1) {
-                view = new TextSettingsCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new TextSettingsCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 2) {
-                view = new HeaderCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new HeaderCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else {
-                view = new TextInfoPrivacyCell(this.mContext);
+                shadowSectionCell = new TextInfoPrivacyCell(this.mContext);
             }
-            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(view);
+            shadowSectionCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(shadowSectionCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

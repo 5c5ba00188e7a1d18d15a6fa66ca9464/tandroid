@@ -170,6 +170,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         public TLRPC$TL_messageMediaVenue venue;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$4(View view, MotionEvent motionEvent) {
         return true;
     }
@@ -185,6 +186,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         return f2;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class SearchButton extends TextView {
         private float additionanTranslationY;
@@ -219,10 +221,8 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
     public class MapOverlayView extends FrameLayout {
         private HashMap<Marker, View> views = new HashMap<>();
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public MapOverlayView(Context context) {
             super(context);
-            ChatAttachAlertLocationLayout.this = r1;
         }
 
         public void addInfoView(Marker marker) {
@@ -288,7 +288,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
 
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    float f;
+                    float interpolation;
                     float lerp = AndroidUtilities.lerp(this.animatorValues, valueAnimator.getAnimatedFraction());
                     if (lerp >= 0.7f && !this.startedInner && ChatAttachAlertLocationLayout.this.lastPressedMarkerView != null) {
                         AnimatorSet animatorSet = new AnimatorSet();
@@ -299,14 +299,14 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                         this.startedInner = true;
                     }
                     if (lerp <= 0.5f) {
-                        f = CubicBezierInterpolator.EASE_OUT.getInterpolation(lerp / 0.5f) * 1.1f;
+                        interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(lerp / 0.5f) * 1.1f;
                     } else if (lerp <= 0.75f) {
-                        f = 1.1f - (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.5f) / 0.25f) * 0.2f);
+                        interpolation = 1.1f - (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.5f) / 0.25f) * 0.2f);
                     } else {
-                        f = (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.75f) / 0.25f) * 0.1f) + 0.9f;
+                        interpolation = (CubicBezierInterpolator.EASE_OUT.getInterpolation((lerp - 0.75f) / 0.25f) * 0.1f) + 0.9f;
                     }
-                    frameLayout3.setScaleX(f);
-                    frameLayout3.setScaleY(f);
+                    frameLayout3.setScaleX(interpolation);
+                    frameLayout3.setScaleY(interpolation);
                 }
             });
             ofFloat.setDuration(360L);
@@ -315,6 +315,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             ChatAttachAlertLocationLayout.this.googleMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()), 300, null);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$addInfoView$1(final VenueLocation venueLocation, View view) {
             ChatActivity chatActivity = (ChatActivity) ChatAttachAlertLocationLayout.this.parentAlert.baseFragment;
             if (chatActivity.isInScheduleMode()) {
@@ -330,6 +331,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             ChatAttachAlertLocationLayout.this.parentAlert.dismiss(true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$addInfoView$0(VenueLocation venueLocation, boolean z, int i) {
             ChatAttachAlertLocationLayout.this.delegate.didSelectLocation(venueLocation.venue, ChatAttachAlertLocationLayout.this.locationType, z, i);
             ChatAttachAlertLocationLayout.this.parentAlert.dismiss(true);
@@ -654,6 +656,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.emptySubtitleTextView.setPadding(AndroidUtilities.dp(40.0f), 0, AndroidUtilities.dp(40.0f), 0);
         this.emptyView.addView(this.emptySubtitleTextView, LayoutHelper.createLinear(-2, -2, 17, 0, 6, 0, 0));
         RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout.6
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
             public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 super.onLayout(z, i2, i3, i4, i5);
@@ -684,6 +687,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                         return super.calculateDyToMakeVisible(view2, i3) - (ChatAttachAlertLocationLayout.this.listView.getPaddingTop() - (ChatAttachAlertLocationLayout.this.mapHeight - ChatAttachAlertLocationLayout.this.overScrollHeight));
                     }
 
+                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
                     public int calculateTimeForDeceleration(int i3) {
                         return super.calculateTimeForDeceleration(i3) * 4;
@@ -846,6 +850,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         updateEmptyView();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         showSearchPlacesButton(false);
         this.adapter.searchPlacesWithQuery(null, this.userLocation, true, true);
@@ -853,10 +858,12 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         showResults();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
         this.mapTypeButton.toggleSubMenu();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(int i) {
         GoogleMap googleMap = this.googleMap;
         if (googleMap == null) {
@@ -872,6 +879,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(View view) {
         Activity parentActivity;
         if (Build.VERSION.SDK_INT >= 23 && (parentActivity = getParentActivity()) != null && parentActivity.checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION") != 0) {
@@ -897,6 +905,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         removeInfoView();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider, View view, int i) {
         if (i == 1) {
             if (this.delegate != null && this.userLocation != null) {
@@ -955,16 +964,19 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(TLRPC$TL_messageMediaGeo tLRPC$TL_messageMediaGeo, boolean z, int i) {
         this.delegate.didSelectLocation(tLRPC$TL_messageMediaGeo, this.locationType, z, i);
         this.parentAlert.dismiss(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(Object obj, boolean z, int i) {
         this.delegate.didSelectLocation((TLRPC$TL_messageMediaVenue) obj, this.locationType, z, i);
         this.parentAlert.dismiss(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$12(final MapView mapView) {
         try {
             mapView.onCreate(null);
@@ -978,6 +990,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$11(MapView mapView) {
         if (this.mapView == null || getParentActivity() == null) {
             return;
@@ -1001,6 +1014,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10(GoogleMap googleMap) {
         this.googleMap = googleMap;
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout$$ExternalSyntheticLambda7
@@ -1016,6 +1030,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         onMapInit();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9() {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
@@ -1025,16 +1040,19 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8() {
         this.loadingMapView.setTag(1);
         this.loadingMapView.animate().alpha(0.0f).setDuration(180L).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$13(ArrayList arrayList) {
         this.searchInProgress = false;
         updateEmptyView();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$15(ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider, View view, int i) {
         final TLRPC$TL_messageMediaVenue item = this.searchAdapter.getItem(i);
         if (item == null || this.delegate == null) {
@@ -1053,6 +1071,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.parentAlert.dismiss(true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$14(TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue, boolean z, int i) {
         this.delegate.didSelectLocation(tLRPC$TL_messageMediaVenue, this.locationType, z, i);
         this.parentAlert.dismiss(true);
@@ -1119,17 +1138,20 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.parentAlert.actionBar.createMenu().removeView(this.searchItem);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onHide() {
         this.searchItem.setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public boolean onDismiss() {
         onDestroy();
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getCurrentItemTop() {
         if (this.listView.getChildCount() <= 0) {
@@ -1150,6 +1172,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         updateClipView();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public int getListTopPadding() {
         return this.listView.getPaddingTop();
@@ -1160,7 +1183,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         return getListTopPadding() + AndroidUtilities.dp(56.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003e  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x003e  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1227,6 +1250,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         return Theme.getActiveTheme().isDark() || AndroidUtilities.computePerceivedBrightness(getThemedColor("windowBackgroundWhite")) < 0.721f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyView() {
         if (this.searching) {
             if (this.searchInProgress) {
@@ -1240,6 +1264,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.emptyView.setVisibility(8);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void showSearchPlacesButton(boolean z) {
         SearchButton searchButton;
         Location location;
@@ -1302,6 +1327,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }, this.resourcesProvider).show();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openShareLiveLocation$16(int i) {
         TLRPC$TL_messageMediaGeoLive tLRPC$TL_messageMediaGeoLive = new TLRPC$TL_messageMediaGeoLive();
         TLRPC$TL_geoPoint tLRPC$TL_geoPoint = new TLRPC$TL_geoPoint();
@@ -1336,6 +1362,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePlacesMarkers(ArrayList<TLRPC$TL_messageMediaVenue> arrayList) {
         if (arrayList == null) {
             return;
@@ -1381,6 +1408,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         return this.parentAlert.baseFragment.getUserConfig();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public Activity getParentActivity() {
         BaseFragment baseFragment;
         ChatAttachAlert chatAttachAlert = this.parentAlert;
@@ -1467,6 +1495,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         updateClipView();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$17(int i) {
         View childAt;
         RecyclerView.ViewHolder findContainingViewHolder;
@@ -1487,6 +1516,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$18(Location location) {
         ChatAttachAlert chatAttachAlert = this.parentAlert;
         if (chatAttachAlert == null || chatAttachAlert.baseFragment == null) {
@@ -1497,6 +1527,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.isFirstLocation = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onMapInit$19(Marker marker) {
         if (!(marker.getTag() instanceof VenueLocation)) {
             return true;
@@ -1511,6 +1542,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$20() {
         MapOverlayView mapOverlayView = this.overlayView;
         if (mapOverlayView != null) {
@@ -1518,12 +1550,14 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$21() {
         if (this.loadingMapView.getTag() == null) {
             this.loadingMapView.animate().alpha(0.0f).setDuration(180L).start();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMapInit$22(DialogInterface dialogInterface, int i) {
         if (getParentActivity() == null) {
             return;
@@ -1554,6 +1588,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateClipView() {
         int i;
         int i2;
@@ -1563,16 +1598,16 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
         RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(0);
         if (findViewHolderForAdapterPosition != null) {
-            i2 = (int) findViewHolderForAdapterPosition.itemView.getY();
-            i = this.overScrollHeight + Math.min(i2, 0);
+            i = (int) findViewHolderForAdapterPosition.itemView.getY();
+            i2 = this.overScrollHeight + Math.min(i, 0);
         } else {
-            i2 = -this.mapViewClip.getMeasuredHeight();
-            i = 0;
+            i = -this.mapViewClip.getMeasuredHeight();
+            i2 = 0;
         }
         if (((FrameLayout.LayoutParams) this.mapViewClip.getLayoutParams()) == null) {
             return;
         }
-        if (i <= 0) {
+        if (i2 <= 0) {
             if (this.mapView.getVisibility() == 0) {
                 this.mapView.setVisibility(4);
                 this.mapViewClip.setVisibility(4);
@@ -1581,7 +1616,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                     mapOverlayView.setVisibility(4);
                 }
             }
-            this.mapView.setTranslationY(i2);
+            this.mapView.setTranslationY(i);
             return;
         }
         if (this.mapView.getVisibility() == 4) {
@@ -1592,19 +1627,19 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                 mapOverlayView2.setVisibility(0);
             }
         }
-        int max = Math.max(0, (-((i2 - this.mapHeight) + this.overScrollHeight)) / 2);
+        int max = Math.max(0, (-((i - this.mapHeight) + this.overScrollHeight)) / 2);
         int i3 = this.mapHeight - this.overScrollHeight;
-        float max2 = 1.0f - Math.max(0.0f, Math.min(1.0f, (this.listView.getPaddingTop() - i2) / (this.listView.getPaddingTop() - i3)));
+        float max2 = 1.0f - Math.max(0.0f, Math.min(1.0f, (this.listView.getPaddingTop() - i) / (this.listView.getPaddingTop() - i3)));
         int i4 = this.clipSize;
         if (this.locationDenied && isTypeSend()) {
-            i3 += Math.min(i2, this.listView.getPaddingTop());
+            i3 += Math.min(i, this.listView.getPaddingTop());
         }
         this.clipSize = (int) (i3 * max2);
         float f = max;
         this.mapView.setTranslationY(f);
         this.nonClipSize = i3 - this.clipSize;
         this.mapViewClip.invalidate();
-        this.mapViewClip.setTranslationY(i2 - this.nonClipSize);
+        this.mapViewClip.setTranslationY(i - this.nonClipSize);
         GoogleMap googleMap = this.googleMap;
         if (googleMap != null) {
             googleMap.setPadding(0, AndroidUtilities.dp(6.0f), 0, this.clipSize + AndroidUtilities.dp(6.0f));
@@ -1613,7 +1648,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         if (mapOverlayView3 != null) {
             mapOverlayView3.setTranslationY(f);
         }
-        float min = Math.min(Math.max(this.nonClipSize - i2, 0), (this.mapHeight - this.mapTypeButton.getMeasuredHeight()) - AndroidUtilities.dp(80.0f));
+        float min = Math.min(Math.max(this.nonClipSize - i, 0), (this.mapHeight - this.mapTypeButton.getMeasuredHeight()) - AndroidUtilities.dp(80.0f));
         this.mapTypeButton.setTranslationY(min);
         this.searchAreaButton.setTranslation(min);
         this.locationButton.setTranslationY(-this.clipSize);
@@ -1641,7 +1676,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         for (int i5 = 1; i5 < itemCount; i5++) {
             RecyclerView.ViewHolder findViewHolderForAdapterPosition2 = this.listView.findViewHolderForAdapterPosition(i5);
             if (findViewHolderForAdapterPosition2 != null) {
-                findViewHolderForAdapterPosition2.itemView.setTranslationY(this.listView.getPaddingTop() - i2);
+                findViewHolderForAdapterPosition2.itemView.setTranslationY(this.listView.getPaddingTop() - i);
             }
         }
     }
@@ -1822,6 +1857,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         updateClipView();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onShow$23() {
         Activity parentActivity;
         if (!this.checkPermission || Build.VERSION.SDK_INT < 23 || (parentActivity = getParentActivity()) == null) {
@@ -1912,6 +1948,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$24() {
         this.mapTypeButton.setIconColor(getThemedColor("location_actionIcon"));
         this.mapTypeButton.redrawPopup(getThemedColor("actionBarDefaultSubmenuBackground"));

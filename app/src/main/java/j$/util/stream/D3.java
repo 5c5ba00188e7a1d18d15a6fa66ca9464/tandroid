@@ -3,6 +3,7 @@ package j$.util.stream;
 abstract class D3 extends g3 {
     protected boolean b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public D3(m3 m3Var) {
         super(m3Var);
     }

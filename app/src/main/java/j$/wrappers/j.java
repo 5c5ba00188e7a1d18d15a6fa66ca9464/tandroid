@@ -75,4 +75,21 @@ public final /* synthetic */ class j implements Spliterator.OfDouble {
     public /* synthetic */ boolean tryAdvance2(DoubleConsumer doubleConsumer) {
         return this.a.k(A.b(doubleConsumer));
     }
+
+    @Override // java.util.Spliterator.OfDouble, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    public /* synthetic */ Spliterator.OfDouble trySplit() {
+        return a(this.a.mo350trySplit());
+    }
+
+    @Override // java.util.Spliterator.OfDouble, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    /* renamed from: trySplit */
+    public /* synthetic */ Spliterator.OfPrimitive mo342trySplit() {
+        return p.a(this.a.mo350trySplit());
+    }
+
+    @Override // java.util.Spliterator.OfDouble, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    /* renamed from: trySplit */
+    public /* synthetic */ Spliterator mo343trySplit() {
+        return h.a(this.a.mo350trySplit());
+    }
 }

@@ -107,8 +107,8 @@ public class AboutLinkCell extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
         this.parentFragment = baseFragment;
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Cells.AboutLinkCell.1
-            /* JADX WARN: Code restructure failed: missing block: B:50:0x011b, code lost:
-                if (r1.checkTouchTextLayout(r1.textLayout, org.telegram.ui.Cells.AboutLinkCell.this.textX, org.telegram.ui.Cells.AboutLinkCell.this.textY, r0, r7) != false) goto L51;
+            /* JADX WARN: Code restructure failed: missing block: B:62:0x011b, code lost:
+                if (r1.checkTouchTextLayout(r1.textLayout, r11.this$0.textX, r11.this$0.textY, r0, r7) != false) goto L60;
              */
             @Override // android.view.View
             /*
@@ -245,6 +245,7 @@ public class AboutLinkCell extends FrameLayout {
         setWillNotDraw(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         updateCollapse(true, true);
     }
@@ -286,8 +287,8 @@ public class AboutLinkCell extends FrameLayout {
     private void drawText(Canvas canvas) {
         StaticLayout staticLayout;
         int i;
-        StaticLayout staticLayout2;
         int i2;
+        StaticLayout staticLayout2;
         canvas.save();
         canvas.clipRect(AndroidUtilities.dp(15.0f), AndroidUtilities.dp(8.0f), getWidth() - AndroidUtilities.dp(23.0f), getHeight());
         int dp = AndroidUtilities.dp(23.0f);
@@ -367,6 +368,7 @@ public class AboutLinkCell extends FrameLayout {
         this.container.setOnClickListener(onClickListener);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void resetPressedLink() {
         this.links.clear();
         this.pressedLink = null;
@@ -409,11 +411,11 @@ public class AboutLinkCell extends FrameLayout {
         requestLayout();
     }
 
-    /* renamed from: org.telegram.ui.Cells.AboutLinkCell$3 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Cells.AboutLinkCell$3  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass3 implements Runnable {
         AnonymousClass3() {
-            AboutLinkCell.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -444,6 +446,7 @@ public class AboutLinkCell extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0(ClickableSpan clickableSpan, String str, DialogInterface dialogInterface, int i) {
             if (i == 0) {
                 AboutLinkCell.this.onLinkClick(clickableSpan);
@@ -463,11 +466,13 @@ public class AboutLinkCell extends FrameLayout {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$1(DialogInterface dialogInterface) {
             AboutLinkCell.this.resetPressedLink();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean checkTouchTextLayout(StaticLayout staticLayout, int i, int i2, int i3, int i4) {
         int i5 = i3 - i;
         int i6 = i4 - i2;
@@ -500,6 +505,7 @@ public class AboutLinkCell extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onLinkClick(ClickableSpan clickableSpan) {
         if (clickableSpan instanceof URLSpanNoUnderline) {
             String url = ((URLSpanNoUnderline) clickableSpan).getURL();
@@ -597,6 +603,7 @@ public class AboutLinkCell extends FrameLayout {
         forceLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateCollapse$1(AtomicReference atomicReference, float f, float f2, SpringInterpolator springInterpolator, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         AndroidUtilities.lerp(f, f2, ((Float) valueAnimator.getAnimatedValue()).floatValue());

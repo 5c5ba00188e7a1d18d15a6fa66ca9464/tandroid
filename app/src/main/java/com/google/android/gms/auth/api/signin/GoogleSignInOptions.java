@@ -153,6 +153,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GoogleSignInOptions(int i, ArrayList<Scope> arrayList, Account account, boolean z, boolean z2, boolean z3, String str, String str2, ArrayList<GoogleSignInOptionsExtensionParcelable> arrayList2, String str3) {
         this(i, arrayList, account, z, z2, z3, str, str2, zab(arrayList2), str3);
     }
@@ -207,6 +208,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         return this.zan;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Map<Integer, GoogleSignInOptionsExtensionParcelable> zab(List<GoogleSignInOptionsExtensionParcelable> list) {
         HashMap hashMap = new HashMap();
         if (list == null) {
@@ -234,11 +236,11 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0048, code lost:
-        if (r1.equals(r4.getAccount()) != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0067, code lost:
+        if (r3.zal.equals(r4.getServerClientId()) != false) goto L26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0067, code lost:
-        if (r3.zal.equals(r4.getServerClientId()) != false) goto L29;
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0048, code lost:
+        if (r1.equals(r4.getAccount()) != false) goto L21;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

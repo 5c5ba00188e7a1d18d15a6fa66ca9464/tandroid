@@ -29,9 +29,8 @@ public class AccessibilityNodeProviderCompat {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class AccessibilityNodeProviderApi16 extends AccessibilityNodeProvider {
+    static class AccessibilityNodeProviderApi16 extends AccessibilityNodeProvider {
         final AccessibilityNodeProviderCompat mCompat;
 
         AccessibilityNodeProviderApi16(AccessibilityNodeProviderCompat compat) {
@@ -67,9 +66,8 @@ public class AccessibilityNodeProviderCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class AccessibilityNodeProviderApi19 extends AccessibilityNodeProviderApi16 {
+    static class AccessibilityNodeProviderApi19 extends AccessibilityNodeProviderApi16 {
         AccessibilityNodeProviderApi19(AccessibilityNodeProviderCompat compat) {
             super(compat);
         }
@@ -84,9 +82,8 @@ public class AccessibilityNodeProviderCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class AccessibilityNodeProviderApi26 extends AccessibilityNodeProviderApi19 {
+    static class AccessibilityNodeProviderApi26 extends AccessibilityNodeProviderApi19 {
         AccessibilityNodeProviderApi26(AccessibilityNodeProviderCompat compat) {
             super(compat);
         }

@@ -32,6 +32,7 @@ public class FilePathDatabase {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         createDatabase(0, false);
     }
@@ -129,7 +130,6 @@ public class FilePathDatabase {
     }
 
     public String getPath(final long j, final int i, final int i2, boolean z) {
-        Throwable th;
         SQLiteException sQLiteException;
         String str;
         SQLiteCursor queryFinalized;
@@ -163,8 +163,8 @@ public class FilePathDatabase {
                 sQLiteException = e;
                 str = null;
             }
-        } catch (Throwable th2) {
-            th = th2;
+        } catch (Throwable th) {
+            th = th;
         }
         try {
             if (queryFinalized.next()) {
@@ -184,8 +184,8 @@ public class FilePathDatabase {
                 sQLiteCursor.dispose();
             }
             return str;
-        } catch (Throwable th3) {
-            th = th3;
+        } catch (Throwable th2) {
+            th = th2;
             sQLiteCursor = queryFinalized;
             if (sQLiteCursor != null) {
                 sQLiteCursor.dispose();
@@ -194,8 +194,9 @@ public class FilePathDatabase {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0070, code lost:
-        if (r0 == null) goto L13;
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0070, code lost:
+        if (r0 == null) goto L10;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -234,14 +235,14 @@ public class FilePathDatabase {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00bd  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00c2  */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00bd  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00c2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$putPath$2(long j, int i, int i2, String str) {
         SQLitePreparedStatement sQLitePreparedStatement;
-        SQLiteException e;
         SQLitePreparedStatement sQLitePreparedStatement2;
         if (BuildVars.DEBUG_VERSION) {
             FileLog.d("put file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str);
@@ -263,8 +264,8 @@ public class FilePathDatabase {
                     sQLitePreparedStatement3.dispose();
                     sQLitePreparedStatement2 = sQLitePreparedStatement3;
                     sQLitePreparedStatement3 = executeFast;
-                } catch (SQLiteException e2) {
-                    e = e2;
+                } catch (SQLiteException e) {
+                    e = e;
                     sQLitePreparedStatement = sQLitePreparedStatement3;
                     sQLitePreparedStatement3 = executeFast;
                     try {
@@ -308,8 +309,8 @@ public class FilePathDatabase {
                 return;
             }
             sQLitePreparedStatement2.dispose();
-        } catch (SQLiteException e3) {
-            e = e3;
+        } catch (SQLiteException e2) {
+            e = e2;
             sQLitePreparedStatement = sQLitePreparedStatement3;
         } catch (Throwable th3) {
             th = th3;
@@ -342,6 +343,7 @@ public class FilePathDatabase {
         FileLog.e(new Exception("warning, not allowed in main thread"));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkMediaExistance$3(ArrayList arrayList, CountDownLatch countDownLatch) {
         for (int i = 0; i < arrayList.size(); i++) {
             try {
@@ -362,6 +364,7 @@ public class FilePathDatabase {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clear$4() {
         try {
             this.database.executeFast("DELETE FROM paths WHERE 1").stepThis().dispose();
@@ -387,6 +390,7 @@ public class FilePathDatabase {
         return zArr[0];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hasAnotherRefOnFile$5(String str, boolean[] zArr, CountDownLatch countDownLatch) {
         try {
             SQLiteDatabase sQLiteDatabase = this.database;

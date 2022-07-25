@@ -8,6 +8,7 @@ import java.io.Closeable;
 import java.io.FileDescriptor;
 /* loaded from: classes.dex */
 class ExifInterfaceUtils {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static long[] convertToLongArray(Object obj) {
         if (obj instanceof int[]) {
             int[] iArr = (int[]) obj;
@@ -23,6 +24,7 @@ class ExifInterfaceUtils {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean startsWith(byte[] bArr, byte[] bArr2) {
         if (bArr == null || bArr2 == null || bArr.length < bArr2.length) {
             return false;
@@ -35,6 +37,7 @@ class ExifInterfaceUtils {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String byteArrayToHexString(byte[] bArr) {
         StringBuilder sb = new StringBuilder(bArr.length * 2);
         for (int i = 0; i < bArr.length; i++) {
@@ -43,6 +46,7 @@ class ExifInterfaceUtils {
         return sb.toString();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void closeQuietly(Closeable closeable) {
         if (closeable != null) {
             try {
@@ -60,6 +64,7 @@ class ExifInterfaceUtils {
             return Os.dup(fileDescriptor);
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public static long lseek(FileDescriptor fileDescriptor, long j, int i) throws ErrnoException {
             return Os.lseek(fileDescriptor, j, i);
         }
@@ -71,6 +76,7 @@ class ExifInterfaceUtils {
 
     /* loaded from: classes.dex */
     static class Api23Impl {
+        /* JADX INFO: Access modifiers changed from: package-private */
         public static void setDataSource(MediaMetadataRetriever mediaMetadataRetriever, MediaDataSource mediaDataSource) {
             mediaMetadataRetriever.setDataSource(mediaDataSource);
         }

@@ -99,8 +99,8 @@ public class Render {
     }
 
     private static RectF Draw(RenderState renderState) {
-        float f;
         int i;
+        float f;
         RectF rectF = new RectF(0.0f, 0.0f, 0.0f, 0.0f);
         int count = renderState.getCount();
         if (count == 0) {

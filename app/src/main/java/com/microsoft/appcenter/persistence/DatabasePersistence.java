@@ -81,7 +81,7 @@ public class DatabasePersistence extends Persistence {
         return this.mDatabaseManager.setMaxSize(j);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x00aa, code lost:
         r8 = null;
      */
     @Override // com.microsoft.appcenter.persistence.Persistence
@@ -98,14 +98,14 @@ public class DatabasePersistence extends Persistence {
                 int length = serializeLog.getBytes("UTF-8").length;
                 boolean z = length >= 1992294;
                 if (!(log instanceof CommonSchemaLog)) {
-                    str3 = null;
                     str2 = null;
+                    str3 = null;
                 } else if (z) {
                     throw new Persistence.PersistenceException("Log is larger than 1992294 bytes, cannot send to OneCollector.");
                 } else {
                     String next = log.getTransmissionTargetTokens().iterator().next();
-                    str2 = PartAUtils.getTargetKey(next);
-                    str3 = CryptoUtils.getInstance(this.mContext).encrypt(next);
+                    str3 = PartAUtils.getTargetKey(next);
+                    str2 = CryptoUtils.getInstance(this.mContext).encrypt(next);
                 }
                 long maxSize = this.mDatabaseManager.getMaxSize();
                 if (maxSize == -1) {
@@ -115,7 +115,7 @@ public class DatabasePersistence extends Persistence {
                     throw new Persistence.PersistenceException("Log is too large (" + length + " bytes) to store in database. Current maximum database size is " + maxSize + " bytes.");
                 }
                 String str4 = serializeLog;
-                long put = this.mDatabaseManager.put(getContentValues(str, str4, str3, log.getType(), str2, Flags.getPersistenceFlag(i, false)), RemoteMessageConst.Notification.PRIORITY);
+                long put = this.mDatabaseManager.put(getContentValues(str, str4, str2, log.getType(), str3, Flags.getPersistenceFlag(i, false)), RemoteMessageConst.Notification.PRIORITY);
                 if (put == -1) {
                     throw new Persistence.PersistenceException("Failed to store a log to the Persistence database for log type " + log.getType() + ".");
                 }

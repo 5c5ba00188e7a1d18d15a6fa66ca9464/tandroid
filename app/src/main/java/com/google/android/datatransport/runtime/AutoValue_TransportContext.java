@@ -50,9 +50,8 @@ final class AutoValue_TransportContext extends TransportContext {
         return ((((this.backendName.hashCode() ^ 1000003) * 1000003) ^ Arrays.hashCode(this.extras)) * 1000003) ^ this.priority.hashCode();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends TransportContext.Builder {
+    static final class Builder extends TransportContext.Builder {
         private String backendName;
         private byte[] extras;
         private Priority priority;

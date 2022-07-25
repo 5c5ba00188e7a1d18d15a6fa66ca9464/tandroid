@@ -27,11 +27,9 @@ public abstract class BaseCell extends ViewGroup {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public final class CheckForTap implements Runnable {
+    private final class CheckForTap implements Runnable {
         private CheckForTap() {
-            BaseCell.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -46,13 +44,11 @@ public abstract class BaseCell extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class CheckForLongPress implements Runnable {
+    class CheckForLongPress implements Runnable {
         public int currentPressCount;
 
         CheckForLongPress() {
-            BaseCell.this = r1;
         }
 
         @Override // java.lang.Runnable
@@ -92,6 +88,7 @@ public abstract class BaseCell extends ViewGroup {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void startCheckLongPress() {
         if (this.checkingForLongPress) {
             return;
@@ -103,6 +100,7 @@ public abstract class BaseCell extends ViewGroup {
         postDelayed(this.pendingCheckForTap, ViewConfiguration.getTapTimeout());
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void cancelCheckLongPress() {
         this.checkingForLongPress = false;
         CheckForLongPress checkForLongPress = this.pendingCheckForLongPress;

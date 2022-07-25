@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class NotificationCompatJellybean {
     private static Field sExtrasField;
@@ -80,6 +81,7 @@ public class NotificationCompatJellybean {
         return bundle;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static Bundle getBundleForAction(NotificationCompat.Action action) {
         Bundle bundle;
         Bundle bundle2 = new Bundle();

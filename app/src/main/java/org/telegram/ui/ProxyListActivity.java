@@ -70,10 +70,8 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         private TextView textView;
         private TextView valueTextView;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public TextDetailProxyCell(Context context) {
             super(context);
-            ProxyListActivity.this = r14;
             TextView textView = new TextView(context);
             this.textView = textView;
             textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
@@ -117,6 +115,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             setWillNotDraw(false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             ProxyListActivity.this.presentFragment(new ProxySettingsActivity(this.currentInfo));
         }
@@ -279,6 +278,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
         if (i == this.useProxyRow) {
             if (SharedConfig.currentProxy == null) {
@@ -373,6 +373,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(View view, final int i) {
         int i2 = this.proxyStartRow;
         if (i < i2 || i >= this.proxyEndRow) {
@@ -393,6 +394,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(SharedConfig.ProxyInfo proxyInfo, int i, DialogInterface dialogInterface, int i2) {
         SharedConfig.deleteProxy(proxyInfo);
         if (SharedConfig.currentProxy == null) {
@@ -493,6 +495,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkProxyList$4(final SharedConfig.ProxyInfo proxyInfo, final long j) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -502,6 +505,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkProxyList$3(SharedConfig.ProxyInfo proxyInfo, long j) {
         proxyInfo.availableCheckTime = SystemClock.elapsedRealtime();
         proxyInfo.checking = false;
@@ -515,6 +519,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.proxyCheckDone, proxyInfo);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onDialogDismiss(Dialog dialog) {
         DownloadController.getInstance(this.currentAccount).checkAutodownloadSettings();
@@ -556,12 +561,12 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            ProxyListActivity.this = r1;
             this.mContext = context;
         }
 
@@ -661,28 +666,29 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View shadowSectionCell;
             if (i == 0) {
-                view = new ShadowSectionCell(this.mContext);
+                shadowSectionCell = new ShadowSectionCell(this.mContext);
             } else if (i == 1) {
-                view = new TextSettingsCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new TextSettingsCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 2) {
-                view = new HeaderCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new HeaderCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 3) {
-                view = new TextCheckCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new TextCheckCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 4) {
-                view = new TextInfoPrivacyCell(this.mContext);
-                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                shadowSectionCell = new TextInfoPrivacyCell(this.mContext);
+                shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
             } else {
-                view = new TextDetailProxyCell(this.mContext);
-                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                shadowSectionCell = new TextDetailProxyCell(this.mContext);
+                shadowSectionCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             }
-            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(view);
+            shadowSectionCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(shadowSectionCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

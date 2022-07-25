@@ -41,6 +41,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     private WifiManagerDelegate wifiManagerDelegate;
     private String wifiSSID;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public static class NetworkState {
         private final boolean connected;
@@ -78,12 +79,10 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"NewApi"})
     /* loaded from: classes3.dex */
-    public class SimpleNetworkCallback extends ConnectivityManager.NetworkCallback {
+    private class SimpleNetworkCallback extends ConnectivityManager.NetworkCallback {
         private SimpleNetworkCallback() {
-            NetworkMonitorAutoDetect.this = r1;
         }
 
         @Override // android.net.ConnectivityManager.NetworkCallback
@@ -123,6 +122,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public static class ConnectivityManagerDelegate {
         private final ConnectivityManager connectivityManager;
@@ -218,6 +218,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
             return NetworkMonitorAutoDetect.INVALID_NET_ID;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         @SuppressLint({"NewApi"})
         public NetworkChangeDetector.NetworkInformation networkToInfo(Network network) {
             ConnectivityManager connectivityManager;
@@ -288,6 +289,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public static class WifiManagerDelegate {
         private final Context context;
@@ -308,6 +310,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public static class WifiDirectManagerDelegate extends BroadcastReceiver {
         private static final int WIFI_P2P_NETWORK_HANDLE = 0;
@@ -356,6 +359,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
             return Collections.emptyList();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* renamed from: onWifiP2pGroupChange */
         public void lambda$new$0(WifiP2pGroup wifiP2pGroup) {
             if (wifiP2pGroup == null || wifiP2pGroup.getInterface() == null) {
@@ -547,6 +551,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         return getConnectionType(getCurrentNetworkState());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static NetworkChangeDetector.ConnectionType getUnderlyingConnectionTypeForVpn(NetworkState networkState) {
         if (networkState.getNetworkType() != 17) {
             return NetworkChangeDetector.ConnectionType.CONNECTION_NONE;
@@ -577,6 +582,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     @SuppressLint({"NewApi"})
     public static long networkToNetId(Network network) {
         if (Build.VERSION.SDK_INT >= 23) {

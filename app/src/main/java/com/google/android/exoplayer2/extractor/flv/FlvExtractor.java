@@ -132,8 +132,8 @@ public final class FlvExtractor implements Extractor {
         return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x007f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

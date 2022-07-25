@@ -10,6 +10,7 @@ import com.google.android.gms.common.internal.GmsClientSupervisor;
 import com.google.android.gms.common.stats.ConnectionTracker;
 import java.util.HashMap;
 import java.util.Map;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zzi implements ServiceConnection, zzk {

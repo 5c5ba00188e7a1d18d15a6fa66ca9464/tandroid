@@ -3,6 +3,7 @@ package com.google.android.gms.cloudmessaging;
 import android.os.Bundle;
 import com.google.android.gms.tasks.SuccessContinuation;
 import com.google.android.gms.tasks.Task;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 public final /* synthetic */ class zzw implements SuccessContinuation {

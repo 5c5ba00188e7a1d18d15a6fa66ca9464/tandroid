@@ -6,10 +6,9 @@ import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.concurrent.Executor;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
-public final class SharedPreferencesQueue {
+final class SharedPreferencesQueue {
     private final SharedPreferences sharedPreferences;
     private final Executor syncExecutor;
     private final ArrayDeque<String> internalQueue = new ArrayDeque<>();
@@ -30,6 +29,7 @@ public final class SharedPreferencesQueue {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static SharedPreferencesQueue createInstance(SharedPreferences sharedPreferences, String str, String str2, Executor executor) {
         SharedPreferencesQueue sharedPreferencesQueue = new SharedPreferencesQueue(sharedPreferences, "topic_operation_queue", ",", executor);
         sharedPreferencesQueue.initQueue();
@@ -54,6 +54,7 @@ public final class SharedPreferencesQueue {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: syncState */
     public void bridge$lambda$0$SharedPreferencesQueue() {
         synchronized (this.internalQueue) {

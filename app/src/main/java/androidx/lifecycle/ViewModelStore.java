@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class ViewModelStore {
     private final HashMap<String, ViewModel> mMap = new HashMap<>();
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final void put(String str, ViewModel viewModel) {
         ViewModel put = this.mMap.put(str, viewModel);
         if (put != null) {
@@ -12,6 +13,7 @@ public class ViewModelStore {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public final ViewModel get(String str) {
         return this.mMap.get(str);
     }

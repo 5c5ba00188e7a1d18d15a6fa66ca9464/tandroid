@@ -96,6 +96,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     private final boolean originalIsDark = Theme.getActiveTheme().isDark();
     private boolean forceDark = !Theme.getActiveTheme().isDark();
     private final LinearSmoothScroller scroller = new LinearSmoothScroller(this, getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.2
+        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.recyclerview.widget.LinearSmoothScroller
         public int calculateTimeForScrolling(int i) {
             return super.calculateTimeForScrolling(i) * 6;
@@ -104,8 +105,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     public ChatThemeBottomSheet(ChatActivity chatActivity, final ChatActivity.ThemeDelegate themeDelegate) {
         super(chatActivity.getParentActivity(), true, themeDelegate);
-        String str;
         int i;
+        String str;
         this.chatActivity = chatActivity;
         this.themeDelegate = themeDelegate;
         this.originalTheme = themeDelegate.getCurrentTheme();
@@ -228,6 +229,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.rootLayout.addView(this.applyTextView, LayoutHelper.createFrame(-1, 48.0f, 8388611, 16.0f, 162.0f, 16.0f, 16.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.changeDayNightViewAnimator != null) {
             return;
@@ -235,6 +237,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         setupLightDarkTheme(!this.forceDark);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ChatActivity.ThemeDelegate themeDelegate, View view, final int i) {
         if (this.adapter.items.get(i) == this.selectedItem || this.changeDayNightView != null) {
             return;
@@ -260,15 +263,15 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.containerView.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.3
             @Override // java.lang.Runnable
             public void run() {
-                int i2;
+                int max;
                 RecyclerView.LayoutManager layoutManager = ChatThemeBottomSheet.this.recyclerView.getLayoutManager();
                 if (layoutManager != null) {
                     if (i > ChatThemeBottomSheet.this.prevSelectedPosition) {
-                        i2 = Math.min(i + 1, ChatThemeBottomSheet.this.adapter.items.size() - 1);
+                        max = Math.min(i + 1, ChatThemeBottomSheet.this.adapter.items.size() - 1);
                     } else {
-                        i2 = Math.max(i - 1, 0);
+                        max = Math.max(i - 1, 0);
                     }
-                    ChatThemeBottomSheet.this.scroller.setTargetPosition(i2);
+                    ChatThemeBottomSheet.this.scroller.setTargetPosition(max);
                     layoutManager.startSmoothScroll(ChatThemeBottomSheet.this.scroller);
                 }
                 ChatThemeBottomSheet.this.prevSelectedPosition = i;
@@ -286,10 +289,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         ((ThemeSmallPreviewView) view).playEmojiAnimation();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         applySelectedTheme();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -302,6 +307,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         List<EmojiThemes> cachedThemes = this.themeDelegate.getCachedThemes();
         if (cachedThemes == null || cachedThemes.isEmpty()) {
             ChatThemeController.requestAllChatThemes(new ResultCallback<List<EmojiThemes>>() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.4
+                @Override // org.telegram.tgnet.ResultCallback
                 public void onComplete(List<EmojiThemes> list) {
                     if (list != null && !list.isEmpty()) {
                         ChatThemeBottomSheet.this.themeDelegate.setCachedThemes(list);
@@ -336,6 +342,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.container.addView(this.hintView, LayoutHelper.createFrame(-2, -2.0f, 51, 10.0f, 0.0f, 10.0f, 0.0f));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreate$3() {
         this.hintView.showForView(this.darkThemeView, true);
     }
@@ -385,10 +392,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$close$4(DialogInterface dialogInterface, int i) {
         applySelectedTheme();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$close$5(DialogInterface dialogInterface, int i) {
         dismiss();
     }
@@ -531,6 +540,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupLightDarkTheme$6(boolean z) {
         Adapter adapter = this.adapter;
         if (adapter == null || adapter.items == null) {
@@ -570,6 +580,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onDataLoaded(List<EmojiThemes> list) {
         if (list == null || list.isEmpty()) {
             return;
@@ -632,6 +643,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.progressView.animate().alpha(0.0f).setListener(new HideViewAfterAnimation(this.progressView)).setDuration(150L).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onAnimationStart() {
         List<ChatThemeItem> list;
         Adapter adapter = this.adapter;
@@ -645,6 +657,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onAnimationEnd() {
         this.isLightDarkChangeAnimation = false;
     }
@@ -678,6 +691,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         rLottieImageView2.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setItemsAnimationProgress(float f) {
         for (int i = 0; i < this.adapter.getItemCount(); i++) {
             this.adapter.items.get(i).animationProgress = f;
@@ -765,7 +779,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(new ThemeSmallPreviewView(viewGroup.getContext(), this.currentAccount, this.resourcesProvider, this.currentViewType));
         }
 
@@ -793,42 +808,34 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:75:0x01bd, code lost:
-            if (r13.equals("key_chat_wallpaper_gradient_to3") == false) goto L124;
-         */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         private boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             FileInputStream fileInputStream;
-            Throwable th;
-            FileInputStream fileInputStream2;
-            int i;
             boolean z;
-            int i2;
+            int i;
+            int intValue;
             char c;
             String[] split;
             if (themeInfo == null || themeInfo.pathToFile == null) {
                 return false;
             }
-            int i3 = 1;
+            int i2 = 1;
             try {
-                FileInputStream fileInputStream3 = new FileInputStream(new File(themeInfo.pathToFile));
-                int i4 = 0;
+                FileInputStream fileInputStream2 = new FileInputStream(new File(themeInfo.pathToFile));
+                int i3 = 0;
                 boolean z2 = false;
                 while (true) {
                     try {
-                        int read = fileInputStream3.read(ThemesHorizontalListCell.bytes);
+                        int read = fileInputStream2.read(ThemesHorizontalListCell.bytes);
                         if (read != -1) {
-                            int i5 = i4;
+                            int i4 = i3;
+                            int i5 = 0;
                             int i6 = 0;
-                            int i7 = 0;
                             while (true) {
-                                if (i6 < read) {
+                                if (i5 < read) {
                                     byte[] bArr = ThemesHorizontalListCell.bytes;
-                                    if (bArr[i6] == 10) {
-                                        int i8 = (i6 - i7) + i3;
-                                        String str = new String(bArr, i7, i8 - 1, "UTF-8");
+                                    if (bArr[i5] == 10) {
+                                        int i7 = (i5 - i6) + i2;
+                                        String str = new String(bArr, i6, i7 - 1, "UTF-8");
                                         if (str.startsWith("WLS=")) {
                                             String substring = str.substring(4);
                                             Uri parse = Uri.parse(substring);
@@ -837,13 +844,13 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                                             themeInfo.pathToWallpaper = new File(filesDirFixed, Utilities.MD5(substring) + ".wp").getAbsolutePath();
                                             String queryParameter = parse.getQueryParameter("mode");
                                             if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
-                                                int i9 = 0;
+                                                int i8 = 0;
                                                 while (true) {
-                                                    if (i9 < split.length) {
-                                                        if ("blur".equals(split[i9])) {
+                                                    if (i8 < split.length) {
+                                                        if ("blur".equals(split[i8])) {
                                                             themeInfo.isBlured = true;
                                                         } else {
-                                                            i9++;
+                                                            i8++;
                                                         }
                                                     }
                                                 }
@@ -881,8 +888,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                                                 }
                                             }
                                         } else if (str.startsWith("WPS")) {
-                                            themeInfo.previewWallpaperOffset = i8 + i5;
-                                            fileInputStream2 = fileInputStream3;
+                                            themeInfo.previewWallpaperOffset = i7 + i4;
+                                            fileInputStream = fileInputStream2;
                                             z2 = true;
                                         } else {
                                             int indexOf = str.indexOf(61);
@@ -890,136 +897,131 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                                                 String substring2 = str.substring(0, indexOf);
                                                 z = z2;
                                                 i = read;
-                                                fileInputStream = fileInputStream3;
-                                                if (!substring2.equals("chat_inBubble")) {
-                                                    try {
-                                                        if (!substring2.equals("chat_outBubble")) {
-                                                            if (!substring2.equals("chat_wallpaper")) {
-                                                                if (!substring2.equals("chat_wallpaper_gradient_to")) {
-                                                                    if (!substring2.equals("key_chat_wallpaper_gradient_to2")) {
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    } catch (Throwable th2) {
-                                                        th = th2;
+                                                fileInputStream = fileInputStream2;
+                                                if (substring2.equals("chat_inBubble") || substring2.equals("chat_outBubble") || substring2.equals("chat_wallpaper") || substring2.equals("chat_wallpaper_gradient_to") || substring2.equals("key_chat_wallpaper_gradient_to2") || substring2.equals("key_chat_wallpaper_gradient_to3")) {
+                                                    String substring3 = str.substring(indexOf + 1);
+                                                    if (substring3.length() > 0 && substring3.charAt(0) == '#') {
                                                         try {
-                                                            fileInputStream.close();
-                                                        } catch (Throwable unused3) {
+                                                            intValue = Color.parseColor(substring3);
+                                                        } catch (Exception unused3) {
+                                                            intValue = Utilities.parseInt((CharSequence) substring3).intValue();
                                                         }
-                                                        throw th;
+                                                    } else {
+                                                        intValue = Utilities.parseInt((CharSequence) substring3).intValue();
+                                                    }
+                                                    switch (substring2.hashCode()) {
+                                                        case -1625862693:
+                                                            if (substring2.equals("chat_wallpaper")) {
+                                                                c = 2;
+                                                                break;
+                                                            }
+                                                            c = 65535;
+                                                            break;
+                                                        case -633951866:
+                                                            if (substring2.equals("chat_wallpaper_gradient_to")) {
+                                                                c = 3;
+                                                                break;
+                                                            }
+                                                            c = 65535;
+                                                            break;
+                                                        case 1269980952:
+                                                            if (substring2.equals("chat_inBubble")) {
+                                                                c = 0;
+                                                                break;
+                                                            }
+                                                            c = 65535;
+                                                            break;
+                                                        case 1381936524:
+                                                            if (substring2.equals("key_chat_wallpaper_gradient_to2")) {
+                                                                c = 4;
+                                                                break;
+                                                            }
+                                                            c = 65535;
+                                                            break;
+                                                        case 1381936525:
+                                                            if (substring2.equals("key_chat_wallpaper_gradient_to3")) {
+                                                                c = 5;
+                                                                break;
+                                                            }
+                                                            c = 65535;
+                                                            break;
+                                                        case 2052611411:
+                                                            if (substring2.equals("chat_outBubble")) {
+                                                                c = 1;
+                                                                break;
+                                                            }
+                                                            c = 65535;
+                                                            break;
+                                                        default:
+                                                            c = 65535;
+                                                            break;
+                                                    }
+                                                    if (c == 0) {
+                                                        themeInfo.setPreviewInColor(intValue);
+                                                    } else if (c == 1) {
+                                                        themeInfo.setPreviewOutColor(intValue);
+                                                    } else if (c == 2) {
+                                                        themeInfo.setPreviewBackgroundColor(intValue);
+                                                    } else if (c == 3) {
+                                                        themeInfo.previewBackgroundGradientColor1 = intValue;
+                                                    } else if (c == 4) {
+                                                        themeInfo.previewBackgroundGradientColor2 = intValue;
+                                                    } else if (c == 5) {
+                                                        themeInfo.previewBackgroundGradientColor3 = intValue;
                                                     }
                                                 }
-                                                String substring3 = str.substring(indexOf + 1);
-                                                if (substring3.length() > 0 && substring3.charAt(0) == '#') {
-                                                    try {
-                                                        i2 = Color.parseColor(substring3);
-                                                    } catch (Exception unused4) {
-                                                        i2 = Utilities.parseInt((CharSequence) substring3).intValue();
-                                                    }
-                                                } else {
-                                                    i2 = Utilities.parseInt((CharSequence) substring3).intValue();
-                                                }
-                                                switch (substring2.hashCode()) {
-                                                    case -1625862693:
-                                                        if (substring2.equals("chat_wallpaper")) {
-                                                            c = 2;
-                                                            break;
-                                                        }
-                                                        c = 65535;
-                                                        break;
-                                                    case -633951866:
-                                                        if (substring2.equals("chat_wallpaper_gradient_to")) {
-                                                            c = 3;
-                                                            break;
-                                                        }
-                                                        c = 65535;
-                                                        break;
-                                                    case 1269980952:
-                                                        if (substring2.equals("chat_inBubble")) {
-                                                            c = 0;
-                                                            break;
-                                                        }
-                                                        c = 65535;
-                                                        break;
-                                                    case 1381936524:
-                                                        if (substring2.equals("key_chat_wallpaper_gradient_to2")) {
-                                                            c = 4;
-                                                            break;
-                                                        }
-                                                        c = 65535;
-                                                        break;
-                                                    case 1381936525:
-                                                        if (substring2.equals("key_chat_wallpaper_gradient_to3")) {
-                                                            c = 5;
-                                                            break;
-                                                        }
-                                                        c = 65535;
-                                                        break;
-                                                    case 2052611411:
-                                                        if (substring2.equals("chat_outBubble")) {
-                                                            c = 1;
-                                                            break;
-                                                        }
-                                                        c = 65535;
-                                                        break;
-                                                    default:
-                                                        c = 65535;
-                                                        break;
-                                                }
-                                                if (c == 0) {
-                                                    themeInfo.setPreviewInColor(i2);
-                                                } else if (c == 1) {
-                                                    themeInfo.setPreviewOutColor(i2);
-                                                } else if (c == 2) {
-                                                    themeInfo.setPreviewBackgroundColor(i2);
-                                                } else if (c == 3) {
-                                                    themeInfo.previewBackgroundGradientColor1 = i2;
-                                                } else if (c == 4) {
-                                                    themeInfo.previewBackgroundGradientColor2 = i2;
-                                                } else if (c == 5) {
-                                                    themeInfo.previewBackgroundGradientColor3 = i2;
-                                                }
-                                                i7 += i8;
-                                                i5 += i8;
+                                                i6 += i7;
+                                                i4 += i7;
+                                                continue;
                                             }
                                         }
-                                        fileInputStream = fileInputStream3;
+                                        fileInputStream = fileInputStream2;
                                         z = z2;
                                         i = read;
-                                        i7 += i8;
-                                        i5 += i8;
+                                        i6 += i7;
+                                        i4 += i7;
+                                        continue;
                                     } else {
-                                        fileInputStream = fileInputStream3;
+                                        fileInputStream = fileInputStream2;
                                         z = z2;
                                         i = read;
+                                        continue;
                                     }
-                                    i6++;
+                                    i5++;
                                     z2 = z;
                                     read = i;
-                                    fileInputStream3 = fileInputStream;
-                                    i3 = 1;
+                                    fileInputStream2 = fileInputStream;
+                                    i2 = 1;
                                 } else {
-                                    fileInputStream2 = fileInputStream3;
+                                    fileInputStream = fileInputStream2;
                                 }
                             }
-                            if (!z2 && i4 != i5) {
-                                fileInputStream2.getChannel().position(i5);
-                                i4 = i5;
-                                fileInputStream3 = fileInputStream2;
-                                i3 = 1;
+                            if (!z2 && i3 != i4) {
+                                try {
+                                    fileInputStream.getChannel().position(i4);
+                                    i3 = i4;
+                                    fileInputStream2 = fileInputStream;
+                                    i2 = 1;
+                                } catch (Throwable th) {
+                                    th = th;
+                                    try {
+                                        fileInputStream.close();
+                                    } catch (Throwable unused4) {
+                                    }
+                                    throw th;
+                                }
                             }
                         } else {
-                            fileInputStream2 = fileInputStream3;
+                            fileInputStream = fileInputStream2;
                         }
-                    } catch (Throwable th3) {
-                        th = th3;
-                        fileInputStream = fileInputStream3;
+                    } catch (Throwable th2) {
+                        th = th2;
+                        fileInputStream = fileInputStream2;
                     }
                 }
-                fileInputStream2.close();
-            } catch (Throwable th4) {
-                FileLog.e(th4);
+                fileInputStream.close();
+            } catch (Throwable th3) {
+                FileLog.e(th3);
             }
             if (themeInfo.pathToWallpaper != null && !themeInfo.badWallpaper && !new File(themeInfo.pathToWallpaper).exists()) {
                 if (this.loadingWallpapers.containsKey(themeInfo)) {
@@ -1042,6 +1044,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$parseTheme$1(final Theme.ThemeInfo themeInfo, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$Adapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -1051,6 +1054,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$parseTheme$0(TLObject tLObject, Theme.ThemeInfo themeInfo) {
             if (tLObject instanceof TLRPC$TL_wallPaper) {
                 TLRPC$WallPaper tLRPC$WallPaper = (TLRPC$WallPaper) tLObject;
@@ -1113,8 +1117,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void show() {
-        String str;
         int i;
+        String str;
         super.show();
         TextView textView = this.resetTextView;
         if (this.themeDelegate.getCurrentTheme() == null) {

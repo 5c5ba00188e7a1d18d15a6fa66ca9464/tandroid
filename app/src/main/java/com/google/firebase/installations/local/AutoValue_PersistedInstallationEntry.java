@@ -110,9 +110,8 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
         return new Builder(this);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static final class Builder extends PersistedInstallationEntry.Builder {
+    static final class Builder extends PersistedInstallationEntry.Builder {
         private String authToken;
         private Long expiresInSecs;
         private String firebaseInstallationId;
@@ -121,6 +120,7 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
         private PersistedInstallation.RegistrationStatus registrationStatus;
         private Long tokenCreationEpochInSecs;
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public Builder() {
         }
 

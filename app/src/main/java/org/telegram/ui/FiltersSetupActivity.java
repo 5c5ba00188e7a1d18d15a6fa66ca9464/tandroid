@@ -74,6 +74,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     private int rowCount = 0;
     private boolean showAllChats;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onFragmentDestroy$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
     }
 
@@ -108,8 +109,8 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
 
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            int i5;
-            int i6 = i3 - i;
+            int dp;
+            int i5 = i3 - i;
             int textHeight = ((i4 - i2) - this.textView.getTextHeight()) / 2;
             float f = 64.0f;
             if (LocaleController.isRTL) {
@@ -117,18 +118,18 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 if (this.imageView.getVisibility() != 0) {
                     f = 23.0f;
                 }
-                i5 = measuredWidth - AndroidUtilities.dp(f);
+                dp = measuredWidth - AndroidUtilities.dp(f);
             } else {
                 if (this.imageView.getVisibility() != 0) {
                     f = 23.0f;
                 }
-                i5 = AndroidUtilities.dp(f);
+                dp = AndroidUtilities.dp(f);
             }
             SimpleTextView simpleTextView = this.textView;
-            simpleTextView.layout(i5, textHeight, simpleTextView.getMeasuredWidth() + i5, this.textView.getMeasuredHeight() + textHeight);
-            int dp = !LocaleController.isRTL ? AndroidUtilities.dp(20.0f) : (i6 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(20.0f);
+            simpleTextView.layout(dp, textHeight, simpleTextView.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight);
+            int dp2 = !LocaleController.isRTL ? AndroidUtilities.dp(20.0f) : (i5 - this.imageView.getMeasuredWidth()) - AndroidUtilities.dp(20.0f);
             ImageView imageView = this.imageView;
-            imageView.layout(dp, 0, imageView.getMeasuredWidth() + dp, this.imageView.getMeasuredHeight());
+            imageView.layout(dp2, 0, imageView.getMeasuredWidth() + dp2, this.imageView.getMeasuredHeight());
         }
 
         public void setTextAndIcon(String str, Drawable drawable, boolean z) {
@@ -245,6 +246,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 49, 40.0f, 121.0f, 40.0f, 24.0f));
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             if (!this.imageView.isPlaying()) {
                 this.imageView.setProgress(0.0f);
@@ -323,12 +325,12 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:54:0x00da  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x00fb  */
-        /* JADX WARN: Removed duplicated region for block: B:61:0x010f  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x0115  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x0145  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x014d  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x00fb  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x010f  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0115  */
+        /* JADX WARN: Removed duplicated region for block: B:62:0x0145  */
+        /* JADX WARN: Removed duplicated region for block: B:66:0x014d  */
+        /* JADX WARN: Removed duplicated region for block: B:69:0x00da  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -481,6 +483,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         return super.onFragmentCreate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRows(boolean z) {
         ListAdapter listAdapter;
         this.recommendedHeaderRow = -1;
@@ -609,13 +612,12 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         return this.fragmentView;
     }
 
-    /* renamed from: org.telegram.ui.FiltersSetupActivity$2 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.FiltersSetupActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass2 extends RecyclerListView {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass2(Context context) {
             super(context);
-            FiltersSetupActivity.this = r1;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
@@ -631,11 +633,13 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             return super.onTouchEvent(motionEvent);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onTouchEvent$0() {
             FiltersSetupActivity.this.getMessagesController().lockFiltersInternal();
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(Context context, View view, int i, float f, float f2) {
         int i2 = this.filtersStartRow;
         if (i >= i2 && i < this.filtersEndRow) {
@@ -689,12 +693,12 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            FiltersSetupActivity.this = r1;
             this.mContext = context;
         }
 
@@ -709,6 +713,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             return FiltersSetupActivity.this.rowCount;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$onCreateViewHolder$0(FilterCell filterCell, View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == 0) {
                 FiltersSetupActivity.this.itemTouchHelper.startDrag(FiltersSetupActivity.this.listView.getChildViewHolder(filterCell));
@@ -717,6 +722,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             return false;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$5(View view) {
             final MessagesController.DialogFilter currentFilter = ((FilterCell) view.getParent()).getCurrentFilter();
             AlertDialog.Builder builder = new AlertDialog.Builder(FiltersSetupActivity.this.getParentActivity());
@@ -734,6 +740,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             create.setItemColor(1, Theme.getColor("dialogTextRed2"), Theme.getColor("dialogRedIcon"));
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$4(final MessagesController.DialogFilter dialogFilter, DialogInterface dialogInterface, int i) {
             if (i == 0) {
                 if (dialogFilter.locked) {
@@ -765,6 +772,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$3(final MessagesController.DialogFilter dialogFilter, DialogInterface dialogInterface, int i) {
             final AlertDialog alertDialog;
             if (FiltersSetupActivity.this.getParentActivity() != null) {
@@ -784,6 +792,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$2(final AlertDialog alertDialog, final MessagesController.DialogFilter dialogFilter, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
@@ -793,6 +802,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$1(AlertDialog alertDialog, MessagesController.DialogFilter dialogFilter) {
             if (alertDialog != null) {
                 try {
@@ -837,14 +847,15 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
             SuggestedFilterCell suggestedFilterCell;
             if (i == 0) {
-                HeaderCell headerCell = new HeaderCell(this.mContext);
+                View headerCell = new HeaderCell(this.mContext);
                 headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 suggestedFilterCell = headerCell;
             } else if (i == 1) {
-                HintInnerCell hintInnerCell = new HintInnerCell(this.mContext);
+                View hintInnerCell = new HintInnerCell(this.mContext);
                 hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_top, "windowBackgroundGrayShadow"));
                 suggestedFilterCell = hintInnerCell;
             } else if (i == 2) {
@@ -868,7 +879,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             } else if (i == 3) {
                 suggestedFilterCell = new ShadowSectionCell(this.mContext);
             } else if (i == 4) {
-                TextCell textCell = new TextCell(this.mContext);
+                View textCell = new TextCell(this.mContext);
                 textCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 suggestedFilterCell = textCell;
             } else {
@@ -885,6 +896,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             return new RecyclerListView.Holder(suggestedFilterCell);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$7(SuggestedFilterCell suggestedFilterCell, View view) {
             final TLRPC$TL_dialogFilterSuggested suggestedFilter = suggestedFilterCell.getSuggestedFilter();
             MessagesController.DialogFilter dialogFilter = new MessagesController.DialogFilter();
@@ -946,6 +958,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$6(TLRPC$TL_dialogFilterSuggested tLRPC$TL_dialogFilterSuggested) {
             FiltersSetupActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated, new Object[0]);
             FiltersSetupActivity.this.ignoreUpdates = false;
@@ -1083,7 +1096,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
 
         public TouchHelperCallback() {
-            FiltersSetupActivity.this = r1;
         }
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback

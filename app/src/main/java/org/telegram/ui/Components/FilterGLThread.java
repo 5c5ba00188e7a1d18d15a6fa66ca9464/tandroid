@@ -189,6 +189,7 @@ public class FilterGLThread extends DispatchQueue {
         start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setFilterGLThreadDelegate$0(FilterShaders.FilterShadersDelegate filterShadersDelegate) {
         this.filterShaders.setDelegate(filterShadersDelegate);
     }
@@ -283,14 +284,14 @@ public class FilterGLThread extends DispatchQueue {
                     }
                     Bitmap bitmap = this.currentBitmap;
                     if (bitmap != null) {
-                        i2 = bitmap.getWidth();
-                        i = this.currentBitmap.getHeight();
+                        i = bitmap.getWidth();
+                        i2 = this.currentBitmap.getHeight();
                     } else {
-                        i2 = this.videoWidth;
-                        i = this.videoHeight;
+                        i = this.videoWidth;
+                        i2 = this.videoHeight;
                     }
-                    int i3 = i2;
-                    int i4 = i;
+                    int i3 = i;
+                    int i4 = i2;
                     if (this.videoDelegate != null) {
                         GLES20.glGenTextures(1, this.videoTexture, 0);
                         Matrix.setIdentityM(this.videoTextureMatrix, 0);
@@ -338,10 +339,12 @@ public class FilterGLThread extends DispatchQueue {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initGL$1(SurfaceTexture surfaceTexture) {
         requestRender(false, true, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initGL$2() {
         this.videoDelegate.onVideoSurfaceCreated(this.videoSurfaceTexture);
     }
@@ -355,6 +358,7 @@ public class FilterGLThread extends DispatchQueue {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVideoSize$3(int i, int i2) {
         if (this.videoWidth == i && this.videoHeight == i2) {
             return;
@@ -396,6 +400,7 @@ public class FilterGLThread extends DispatchQueue {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setRenderData() {
         int i;
         int i2;
@@ -442,6 +447,7 @@ public class FilterGLThread extends DispatchQueue {
         return bitmapArr[0];
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getTexture$4(Bitmap[] bitmapArr, CountDownLatch countDownLatch) {
         GLES20.glBindFramebuffer(36160, this.filterShaders.getRenderFrameBuffer());
         GLES20.glFramebufferTexture2D(36160, 36064, 3553, this.filterShaders.getRenderTexture(!this.blurred ? 1 : 0), 0);
@@ -461,6 +467,7 @@ public class FilterGLThread extends DispatchQueue {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$shutdown$5() {
         finish();
         Looper myLooper = Looper.myLooper();
@@ -478,6 +485,7 @@ public class FilterGLThread extends DispatchQueue {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setSurfaceTextureSize$6(int i, int i2) {
         this.surfaceWidth = i;
         this.surfaceHeight = i2;
@@ -502,6 +510,7 @@ public class FilterGLThread extends DispatchQueue {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestRender$7(boolean z, boolean z2, boolean z3) {
         if (z) {
             this.filterShaders.requestUpdateBlurTexture();

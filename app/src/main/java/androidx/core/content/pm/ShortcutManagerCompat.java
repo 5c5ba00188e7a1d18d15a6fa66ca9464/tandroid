@@ -93,7 +93,7 @@ public class ShortcutManagerCompat {
                 return false;
             }
         }
-        getShortcutInfoSaverInstance(context).addShortcuts(shortcutInfoList);
+        getShortcutInfoSaverInstance(context).mo31addShortcuts(shortcutInfoList);
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onShortcutAdded(shortcutInfoList);
         }
@@ -149,7 +149,7 @@ public class ShortcutManagerCompat {
                 return false;
             }
         }
-        getShortcutInfoSaverInstance(context).addShortcuts(shortcutInfoList);
+        getShortcutInfoSaverInstance(context).mo31addShortcuts(shortcutInfoList);
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onShortcutUpdated(shortcutInfoList);
         }
@@ -158,25 +158,25 @@ public class ShortcutManagerCompat {
 
     static boolean convertUriIconToBitmapIcon(final Context context, final ShortcutInfoCompat info) {
         Bitmap decodeStream;
-        IconCompat iconCompat;
-        IconCompat iconCompat2 = info.mIcon;
-        if (iconCompat2 == null) {
+        IconCompat createWithBitmap;
+        IconCompat iconCompat = info.mIcon;
+        if (iconCompat == null) {
             return false;
         }
-        int i = iconCompat2.mType;
+        int i = iconCompat.mType;
         if (i != 6 && i != 4) {
             return true;
         }
-        InputStream uriInputStream = iconCompat2.getUriInputStream(context);
+        InputStream uriInputStream = iconCompat.getUriInputStream(context);
         if (uriInputStream == null || (decodeStream = BitmapFactory.decodeStream(uriInputStream)) == null) {
             return false;
         }
         if (i == 6) {
-            iconCompat = IconCompat.createWithAdaptiveBitmap(decodeStream);
+            createWithBitmap = IconCompat.createWithAdaptiveBitmap(decodeStream);
         } else {
-            iconCompat = IconCompat.createWithBitmap(decodeStream);
+            createWithBitmap = IconCompat.createWithBitmap(decodeStream);
         }
-        info.mIcon = iconCompat;
+        info.mIcon = createWithBitmap;
         return true;
     }
 
@@ -192,7 +192,7 @@ public class ShortcutManagerCompat {
         if (Build.VERSION.SDK_INT >= 25) {
             ((ShortcutManager) context.getSystemService(ShortcutManager.class)).removeDynamicShortcuts(shortcutIds);
         }
-        getShortcutInfoSaverInstance(context).removeShortcuts(shortcutIds);
+        getShortcutInfoSaverInstance(context).mo33removeShortcuts(shortcutIds);
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onShortcutRemoved(shortcutIds);
         }
@@ -202,7 +202,7 @@ public class ShortcutManagerCompat {
         if (Build.VERSION.SDK_INT >= 25) {
             ((ShortcutManager) context.getSystemService(ShortcutManager.class)).removeAllDynamicShortcuts();
         }
-        getShortcutInfoSaverInstance(context).removeAllShortcuts();
+        getShortcutInfoSaverInstance(context).mo32removeAllShortcuts();
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onAllShortcutsRemoved();
         }
@@ -236,9 +236,9 @@ public class ShortcutManagerCompat {
         try {
             List<ShortcutInfoCompat> shortcuts = shortcutInfoSaverInstance.getShortcuts();
             if (shortcuts.size() >= maxShortcutCountPerActivity) {
-                shortcutInfoSaverInstance.removeShortcuts(Arrays.asList(getShortcutInfoCompatWithLowestRank(shortcuts)));
+                shortcutInfoSaverInstance.mo33removeShortcuts(Arrays.asList(getShortcutInfoCompatWithLowestRank(shortcuts)));
             }
-            shortcutInfoSaverInstance.addShortcuts(Arrays.asList(shortcut));
+            shortcutInfoSaverInstance.mo31addShortcuts(Arrays.asList(shortcut));
             for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
                 shortcutInfoChangeListener.onShortcutAdded(Collections.singletonList(shortcut));
             }
@@ -312,9 +312,8 @@ public class ShortcutManagerCompat {
         return sShortcutInfoChangeListeners;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Api25Impl {
+    private static class Api25Impl {
         static String getShortcutInfoWithLowestRank(final List<ShortcutInfo> shortcuts) {
             int i = -1;
             String str = null;

@@ -8,6 +8,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
 /* loaded from: classes.dex */
 public final class zzg extends zza implements zzi {
+    /* JADX INFO: Access modifiers changed from: package-private */
     public zzg(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.model.internal.IBitmapDescriptorFactoryDelegate");
     }

@@ -10,8 +10,7 @@ import java.util.concurrent.TimeUnit;
 /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 final class zzc implements zzb {
-    /* JADX INFO: Access modifiers changed from: private */
-    public zzc() {
+    private zzc() {
     }
 
     @Override // com.google.android.gms.internal.cloudmessaging.zzb

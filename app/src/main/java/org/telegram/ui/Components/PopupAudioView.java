@@ -117,13 +117,13 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
         if (getParent() instanceof View) {
             View view = (View) getParent();
             int measuredWidth = view.getMeasuredWidth();
-            i = view.getMeasuredHeight();
-            i2 = measuredWidth;
+            i2 = view.getMeasuredHeight();
+            i = measuredWidth;
         } else {
-            i2 = i4;
-            i = i3;
+            i = i4;
+            i2 = i3;
         }
-        Theme.chat_msgInMediaDrawable.setTop((int) getY(), i2, i, false, false);
+        Theme.chat_msgInMediaDrawable.setTop((int) getY(), i, i2, false, false);
         BaseCell.setDrawableBounds(Theme.chat_msgInMediaDrawable, 0, 0, getMeasuredWidth(), getMeasuredHeight());
         Theme.chat_msgInMediaDrawable.draw(canvas);
         if (this.currentMessageObject == null) {
@@ -156,8 +156,8 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
         DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a7, code lost:
-        if (r1 <= (r0 + r4)) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00a7, code lost:
+        if (r1 <= (r0 + r4)) goto L20;
      */
     @Override // android.view.View
     /*

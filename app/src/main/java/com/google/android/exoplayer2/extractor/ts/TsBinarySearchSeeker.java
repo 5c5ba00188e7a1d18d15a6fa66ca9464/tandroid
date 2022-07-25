@@ -6,15 +6,15 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class TsBinarySearchSeeker extends BinarySearchSeeker {
     public TsBinarySearchSeeker(TimestampAdjuster timestampAdjuster, long j, long j2, int i) {
         super(new BinarySearchSeeker.DefaultSeekTimestampConverter(), new TsPcrSeeker(i, timestampAdjuster), j, 0L, j + 1, 0L, j2, 188L, 940);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class TsPcrSeeker implements BinarySearchSeeker.TimestampSeeker {
+    private static final class TsPcrSeeker implements BinarySearchSeeker.TimestampSeeker {
         private final ParsableByteArray packetBuffer = new ParsableByteArray();
         private final int pcrPid;
         private final TimestampAdjuster pcrTimestampAdjuster;

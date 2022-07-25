@@ -47,6 +47,7 @@ public class VoIPOverlayBackground extends ImageView {
         }).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBackground$1(final ImageReceiver.BitmapHolder bitmapHolder) {
         try {
             final Bitmap createBitmap = Bitmap.createBitmap(ImageReceiver.DEFAULT_CROSSFADE_DURATION, ImageReceiver.DEFAULT_CROSSFADE_DURATION, Bitmap.Config.ARGB_8888);
@@ -68,6 +69,7 @@ public class VoIPOverlayBackground extends ImageView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBackground$0(Bitmap bitmap, ImageReceiver.BitmapHolder bitmapHolder) {
         setImageBitmap(bitmap);
         bitmapHolder.release();
@@ -102,6 +104,7 @@ public class VoIPOverlayBackground extends ImageView {
         ofFloat.setDuration(150L).start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setShowBlackout$2(ValueAnimator valueAnimator) {
         this.blackoutProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidate();

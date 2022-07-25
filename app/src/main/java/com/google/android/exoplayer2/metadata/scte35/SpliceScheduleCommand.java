@@ -10,13 +10,17 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SpliceScheduleCommand extends SpliceCommand {
     public static final Parcelable.Creator<SpliceScheduleCommand> CREATOR = new Parcelable.Creator<SpliceScheduleCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceScheduleCommand.1
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public SpliceScheduleCommand createFromParcel(Parcel parcel) {
+        /* renamed from: createFromParcel */
+        public SpliceScheduleCommand mo137createFromParcel(Parcel parcel) {
             return new SpliceScheduleCommand(parcel);
         }
 
+        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        public SpliceScheduleCommand[] newArray(int i) {
+        /* renamed from: newArray */
+        public SpliceScheduleCommand[] mo138newArray(int i) {
             return new SpliceScheduleCommand[i];
         }
     };
@@ -70,18 +74,19 @@ public final class SpliceScheduleCommand extends SpliceCommand {
             this.availsExpected = parcel.readInt();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static Event parseFromSection(ParsableByteArray parsableByteArray) {
+            ArrayList arrayList;
             boolean z;
-            int i;
-            int i2;
-            int i3;
             long j;
             boolean z2;
             long j2;
-            ArrayList arrayList;
+            int i;
+            int i2;
+            int i3;
             boolean z3;
-            long j3;
             boolean z4;
+            long j3;
             long readUnsignedInt = parsableByteArray.readUnsignedInt();
             boolean z5 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
             ArrayList arrayList2 = new ArrayList();
@@ -110,31 +115,32 @@ public final class SpliceScheduleCommand extends SpliceCommand {
                 }
                 int readUnsignedShort = parsableByteArray.readUnsignedShort();
                 int readUnsignedByte4 = parsableByteArray.readUnsignedByte();
-                z = z7;
-                i = parsableByteArray.readUnsignedByte();
-                j = j3;
+                z3 = z7;
+                i3 = parsableByteArray.readUnsignedByte();
+                j2 = j3;
                 arrayList = arrayList2;
                 long j4 = readUnsignedInt2;
-                i3 = readUnsignedShort;
+                i = readUnsignedShort;
                 i2 = readUnsignedByte4;
-                j2 = j4;
+                j = j4;
                 boolean z10 = z6;
                 z2 = z4;
-                z3 = z10;
+                z = z10;
             } else {
                 arrayList = arrayList2;
-                z3 = false;
-                j2 = -9223372036854775807L;
-                z2 = false;
-                j = -9223372036854775807L;
-                i3 = 0;
-                i2 = 0;
-                i = 0;
                 z = false;
+                j = -9223372036854775807L;
+                z2 = false;
+                j2 = -9223372036854775807L;
+                i = 0;
+                i2 = 0;
+                i3 = 0;
+                z3 = false;
             }
-            return new Event(readUnsignedInt, z5, z3, z, arrayList, j2, z2, j, i3, i2, i);
+            return new Event(readUnsignedInt, z5, z, z3, arrayList, j, z2, j2, i, i2, i3);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void writeToParcel(Parcel parcel) {
             parcel.writeLong(this.spliceEventId);
             parcel.writeByte(this.spliceEventCancelIndicator ? (byte) 1 : (byte) 0);
@@ -153,6 +159,7 @@ public final class SpliceScheduleCommand extends SpliceCommand {
             parcel.writeInt(this.availsExpected);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static Event createFromParcel(Parcel parcel) {
             return new Event(parcel);
         }
@@ -168,10 +175,12 @@ public final class SpliceScheduleCommand extends SpliceCommand {
             this.utcSpliceTime = j;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static ComponentSplice createFromParcel(Parcel parcel) {
             return new ComponentSplice(parcel.readInt(), parcel.readLong());
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void writeToParcel(Parcel parcel) {
             parcel.writeInt(this.componentTag);
             parcel.writeLong(this.utcSpliceTime);
@@ -191,6 +200,7 @@ public final class SpliceScheduleCommand extends SpliceCommand {
         this.events = Collections.unmodifiableList(arrayList);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static SpliceScheduleCommand parseFromSection(ParsableByteArray parsableByteArray) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         ArrayList arrayList = new ArrayList(readUnsignedByte);

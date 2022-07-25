@@ -8,6 +8,7 @@ class K2 extends T2 implements S2 {
     final /* synthetic */ BiConsumer c;
     final /* synthetic */ BiConsumer d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public K2(j$.util.function.y yVar, BiConsumer biConsumer, BiConsumer biConsumer2) {
         this.b = yVar;
         this.c = biConsumer;

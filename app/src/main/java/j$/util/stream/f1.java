@@ -6,6 +6,7 @@ class f1 extends j1 {
     final /* synthetic */ k1 c;
     final /* synthetic */ Predicate d;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public f1(k1 k1Var, Predicate predicate) {
         super(k1Var);

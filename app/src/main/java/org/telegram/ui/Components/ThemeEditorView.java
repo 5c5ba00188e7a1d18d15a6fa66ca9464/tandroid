@@ -141,15 +141,14 @@ public class ThemeEditorView {
             return false;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class SearchField extends FrameLayout {
             private ImageView clearSearchImageView;
             private EditTextBoldCursor searchEditText;
 
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             public SearchField(Context context) {
                 super(context);
-                EditorAlert.this = r12;
                 View view = new View(context);
                 view.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), -854795));
                 addView(view, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f));
@@ -162,7 +161,7 @@ public class ThemeEditorView {
                 this.clearSearchImageView = imageView2;
                 imageView2.setScaleType(ImageView.ScaleType.CENTER);
                 ImageView imageView3 = this.clearSearchImageView;
-                CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2(this, r12) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.SearchField.1
+                CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2(this, EditorAlert.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.SearchField.1
                     @Override // org.telegram.ui.Components.CloseProgressDrawable2
                     public int getCurrentColor() {
                         return -6182737;
@@ -180,7 +179,7 @@ public class ThemeEditorView {
                         ThemeEditorView.EditorAlert.SearchField.this.lambda$new$0(view2);
                     }
                 });
-                EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, r12) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.SearchField.2
+                EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, EditorAlert.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.SearchField.2
                     @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
                     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                         MotionEvent obtain = MotionEvent.obtain(motionEvent);
@@ -205,7 +204,7 @@ public class ThemeEditorView {
                 this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
                 this.searchEditText.setCursorWidth(1.5f);
                 addView(this.searchEditText, LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 9.0f, 46.0f, 0.0f));
-                this.searchEditText.addTextChangedListener(new TextWatcher(r12) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.SearchField.3
+                this.searchEditText.addTextChangedListener(new TextWatcher(EditorAlert.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.SearchField.3
                     @Override // android.text.TextWatcher
                     public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                     }
@@ -264,11 +263,13 @@ public class ThemeEditorView {
                 });
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$new$0(View view) {
                 this.searchEditText.setText("");
                 AndroidUtilities.showKeyboard(this.searchEditText);
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
                 if (keyEvent != null) {
                     if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
@@ -291,6 +292,7 @@ public class ThemeEditorView {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class ColorPicker extends FrameLayout {
             private LinearGradient alphaGradient;
@@ -312,10 +314,8 @@ public class ThemeEditorView {
             private DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator();
             private Paint circlePaint = new Paint(1);
 
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             public ColorPicker(Context context) {
                 super(context);
-                EditorAlert.this = r18;
                 setWillNotDraw(false);
                 this.circleDrawable = context.getResources().getDrawable(R.drawable.knob_shadow).mutate();
                 Paint paint = new Paint();
@@ -356,7 +356,7 @@ public class ThemeEditorView {
                     this.colorEditText[i].setImeOptions((i == 3 ? 6 : 5) | 268435456);
                     this.colorEditText[i].setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
                     this.linearLayout.addView(this.colorEditText[i], LayoutHelper.createLinear(55, 36, 0.0f, 0.0f, i != 3 ? 16.0f : 0.0f, 0.0f));
-                    this.colorEditText[i].addTextChangedListener(new TextWatcher(r18, i) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.ColorPicker.1
+                    this.colorEditText[i].addTextChangedListener(new TextWatcher(EditorAlert.this, i) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.ColorPicker.1
                         final /* synthetic */ int val$num;
 
                         @Override // android.text.TextWatcher
@@ -368,11 +368,10 @@ public class ThemeEditorView {
                         }
 
                         {
-                            ColorPicker.this = this;
                             this.val$num = i;
                         }
 
-                        /* JADX WARN: Removed duplicated region for block: B:24:0x00df A[LOOP:0: B:22:0x00cf->B:24:0x00df, LOOP_END] */
+                        /* JADX WARN: Removed duplicated region for block: B:15:0x00df A[LOOP:0: B:13:0x00cf->B:15:0x00df, LOOP_END] */
                         @Override // android.text.TextWatcher
                         /*
                             Code decompiled incorrectly, please refer to instructions dump.
@@ -400,28 +399,28 @@ public class ThemeEditorView {
                             int color = ColorPicker.this.getColor();
                             int i5 = this.val$num;
                             if (i5 == 2) {
-                                i3 = color & (-256);
-                                i4 = intValue & 255;
+                                i2 = color & (-256);
+                                i3 = intValue & 255;
                             } else if (i5 == 1) {
-                                i3 = color & (-65281);
-                                i4 = (intValue & 255) << 8;
+                                i2 = color & (-65281);
+                                i3 = (intValue & 255) << 8;
                             } else if (i5 != 0) {
                                 if (i5 == 3) {
-                                    i3 = color & 16777215;
-                                    i4 = (intValue & 255) << 24;
+                                    i2 = color & 16777215;
+                                    i3 = (intValue & 255) << 24;
                                 }
                                 ColorPicker.this.setColor(color);
-                                for (i2 = 0; i2 < ThemeEditorView.this.currentThemeDesription.size(); i2++) {
-                                    ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i2)).setColor(ColorPicker.this.getColor(), false);
+                                for (i4 = 0; i4 < ThemeEditorView.this.currentThemeDesription.size(); i4++) {
+                                    ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i4)).setColor(ColorPicker.this.getColor(), false);
                                 }
                                 EditorAlert.this.ignoreTextChange = false;
                             } else {
-                                i3 = color & (-16711681);
-                                i4 = (intValue & 255) << 16;
+                                i2 = color & (-16711681);
+                                i3 = (intValue & 255) << 16;
                             }
-                            color = i3 | i4;
+                            color = i2 | i3;
                             ColorPicker.this.setColor(color);
-                            while (i2 < ThemeEditorView.this.currentThemeDesription.size()) {
+                            while (i4 < ThemeEditorView.this.currentThemeDesription.size()) {
                             }
                             EditorAlert.this.ignoreTextChange = false;
                         }
@@ -431,6 +430,7 @@ public class ThemeEditorView {
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ boolean lambda$new$0(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == 6) {
                     AndroidUtilities.hideKeyboard(textView);
@@ -564,21 +564,21 @@ public class ThemeEditorView {
                 EditorAlert.this.colorChangeAnimation.start();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:34:0x00bd, code lost:
-                if (r5 <= (r8 + r7)) goto L35;
+            /* JADX WARN: Code restructure failed: missing block: B:30:0x00bd, code lost:
+                if (r5 <= (r8 + r7)) goto L89;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:55:0x0102, code lost:
-                if (r5 <= (r8 + r7)) goto L56;
+            /* JADX WARN: Code restructure failed: missing block: B:44:0x0102, code lost:
+                if (r5 <= (r8 + r7)) goto L82;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:5:0x000d, code lost:
-                if (r1 != 2) goto L7;
+            /* JADX WARN: Code restructure failed: missing block: B:4:0x000d, code lost:
+                if (r1 != 2) goto L5;
              */
-            /* JADX WARN: Removed duplicated region for block: B:44:0x00e4  */
-            /* JADX WARN: Removed duplicated region for block: B:58:0x0118  */
-            /* JADX WARN: Removed duplicated region for block: B:59:0x011b  */
-            /* JADX WARN: Removed duplicated region for block: B:65:0x0127  */
-            /* JADX WARN: Removed duplicated region for block: B:72:0x0145  */
-            /* JADX WARN: Removed duplicated region for block: B:90:0x01b8  */
+            /* JADX WARN: Removed duplicated region for block: B:33:0x00e4  */
+            /* JADX WARN: Removed duplicated region for block: B:47:0x0127  */
+            /* JADX WARN: Removed duplicated region for block: B:55:0x0145  */
+            /* JADX WARN: Removed duplicated region for block: B:76:0x01b8  */
+            /* JADX WARN: Removed duplicated region for block: B:84:0x0118  */
+            /* JADX WARN: Removed duplicated region for block: B:86:0x011b  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -644,12 +644,12 @@ public class ThemeEditorView {
                         if (!this.alphaPressed || this.colorPressed || this.circlePressed) {
                             startColorChange(true);
                             int color = getColor();
-                            for (i = 0; i < ThemeEditorView.this.currentThemeDesription.size(); i++) {
-                                String currentKey = ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i)).getCurrentKey();
-                                if ((i == 0 && currentKey.equals("chat_wallpaper")) || currentKey.equals("chat_wallpaper_gradient_to") || currentKey.equals("key_chat_wallpaper_gradient_to2") || currentKey.equals("key_chat_wallpaper_gradient_to3") || currentKey.equals("windowBackgroundWhite") || currentKey.equals("windowBackgroundGray")) {
+                            for (i3 = 0; i3 < ThemeEditorView.this.currentThemeDesription.size(); i3++) {
+                                String currentKey = ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i3)).getCurrentKey();
+                                if ((i3 == 0 && currentKey.equals("chat_wallpaper")) || currentKey.equals("chat_wallpaper_gradient_to") || currentKey.equals("key_chat_wallpaper_gradient_to2") || currentKey.equals("key_chat_wallpaper_gradient_to3") || currentKey.equals("windowBackgroundWhite") || currentKey.equals("windowBackgroundGray")) {
                                     color |= -16777216;
                                 }
-                                ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i)).setColor(color, false);
+                                ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i3)).setColor(color, false);
                             }
                             int red = Color.red(color);
                             int green = Color.green(color);
@@ -683,7 +683,7 @@ public class ThemeEditorView {
                     }
                     startColorChange(true);
                     int color2 = getColor();
-                    while (i < ThemeEditorView.this.currentThemeDesription.size()) {
+                    while (i3 < ThemeEditorView.this.currentThemeDesription.size()) {
                     }
                     int red2 = Color.red(color2);
                     int green2 = Color.green(color2);
@@ -694,7 +694,7 @@ public class ThemeEditorView {
                     invalidate();
                     return true;
                 }
-                float f2 = (y - (height - i3)) / (this.colorWheelRadius * 2.0f);
+                float f2 = (y - (height - i)) / (this.colorWheelRadius * 2.0f);
                 if (f2 < 0.0f) {
                     f2 = 0.0f;
                 } else if (f2 > 1.0f) {
@@ -713,7 +713,7 @@ public class ThemeEditorView {
                 }
                 startColorChange(true);
                 int color22 = getColor();
-                while (i < ThemeEditorView.this.currentThemeDesription.size()) {
+                while (i3 < ThemeEditorView.this.currentThemeDesription.size()) {
                 }
                 int red22 = Color.red(color22);
                 int green22 = Color.green(color22);
@@ -758,12 +758,10 @@ public class ThemeEditorView {
             }
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EditorAlert(Context context, ArrayList<ThemeDescription> arrayList) {
             super(context, true);
-            ThemeEditorView.this = r17;
             this.shadowDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
-            FrameLayout frameLayout = new FrameLayout(context, r17) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.1
+            FrameLayout frameLayout = new FrameLayout(context, ThemeEditorView.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.1
                 private boolean ignoreLayout = false;
                 private RectF rect1 = new RectF();
 
@@ -820,16 +818,16 @@ public class ThemeEditorView {
                     super.requestLayout();
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:17:0x00b4  */
-                /* JADX WARN: Removed duplicated region for block: B:20:0x0154  */
-                /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
+                /* JADX WARN: Removed duplicated region for block: B:13:0x00b4  */
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0154  */
+                /* JADX WARN: Removed duplicated region for block: B:19:? A[RETURN, SYNTHETIC] */
                 @Override // android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
                 protected void onDraw(Canvas canvas) {
-                    int i;
                     float f;
+                    int i;
                     int dp = (EditorAlert.this.scrollOffsetY - ((BottomSheet) EditorAlert.this).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
                     int dp2 = (EditorAlert.this.scrollOffsetY - ((BottomSheet) EditorAlert.this).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
                     int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + ((BottomSheet) EditorAlert.this).backgroundPaddingTop;
@@ -899,7 +897,7 @@ public class ThemeEditorView {
             SearchField searchField = new SearchField(context);
             this.searchField = searchField;
             this.frameLayout.addView(searchField, LayoutHelper.createFrame(-1, -1, 51));
-            RecyclerListView recyclerListView = new RecyclerListView(context, r17) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.2
+            RecyclerListView recyclerListView = new RecyclerListView(context, ThemeEditorView.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.2
                 @Override // org.telegram.ui.Components.RecyclerListView
                 protected boolean allowSelectChildAtPosition(float f, float f2) {
                     return f2 >= ((float) ((EditorAlert.this.scrollOffsetY + AndroidUtilities.dp(48.0f)) + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
@@ -930,7 +928,7 @@ public class ThemeEditorView {
                     ThemeEditorView.EditorAlert.this.lambda$new$0(view, i2);
                 }
             });
-            this.listView.setOnScrollListener(new RecyclerView.OnScrollListener(r17) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.3
+            this.listView.setOnScrollListener(new RecyclerView.OnScrollListener(ThemeEditorView.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.3
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
                     EditorAlert.this.updateLayout();
@@ -1049,6 +1047,7 @@ public class ThemeEditorView {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view, int i) {
             if (i == 0) {
                 return;
@@ -1075,10 +1074,12 @@ public class ThemeEditorView {
             setColorPickerVisible(true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1(View view) {
             dismiss();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2(View view) {
             Theme.saveCurrentTheme(ThemeEditorView.this.themeInfo, true, false, false);
             setOnDismissListener(null);
@@ -1086,6 +1087,7 @@ public class ThemeEditorView {
             ThemeEditorView.this.close();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$3(View view) {
             for (int i = 0; i < ThemeEditorView.this.currentThemeDesription.size(); i++) {
                 ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i)).setPreviousColor();
@@ -1093,6 +1095,7 @@ public class ThemeEditorView {
             setColorPickerVisible(false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$4(View view) {
             for (int i = 0; i < ThemeEditorView.this.currentThemeDesription.size(); i++) {
                 ((ThemeDescription) ThemeEditorView.this.currentThemeDesription.get(i)).setDefaultColor();
@@ -1100,6 +1103,7 @@ public class ThemeEditorView {
             setColorPickerVisible(false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$5(View view) {
             setColorPickerVisible(false);
         }
@@ -1157,6 +1161,7 @@ public class ThemeEditorView {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setColorPickerVisible(boolean z) {
             float f = 0.0f;
             if (!z) {
@@ -1230,6 +1235,7 @@ public class ThemeEditorView {
             animatorSet2.start();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public int getCurrentTop() {
             if (this.listView.getChildCount() != 0) {
                 int i = 0;
@@ -1247,30 +1253,31 @@ public class ThemeEditorView {
             return -1000;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         @SuppressLint({"NewApi"})
         public void updateLayout() {
-            int i;
+            int paddingTop;
             if (this.listView.getChildCount() <= 0 || this.listView.getVisibility() != 0 || this.animationInProgress) {
                 return;
             }
-            int i2 = 0;
+            int i = 0;
             View childAt = this.listView.getChildAt(0);
             RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findContainingViewHolder(childAt);
             if (this.listView.getVisibility() != 0 || this.animationInProgress) {
-                i = this.listView.getPaddingTop();
+                paddingTop = this.listView.getPaddingTop();
             } else {
-                i = childAt.getTop() - AndroidUtilities.dp(8.0f);
+                paddingTop = childAt.getTop() - AndroidUtilities.dp(8.0f);
             }
-            if (i > (-AndroidUtilities.dp(1.0f)) && holder != null && holder.getAdapterPosition() == 0) {
+            if (paddingTop > (-AndroidUtilities.dp(1.0f)) && holder != null && holder.getAdapterPosition() == 0) {
                 runShadowAnimation(0, false);
-                i2 = i;
+                i = paddingTop;
             } else {
                 runShadowAnimation(0, true);
             }
-            if (this.scrollOffsetY == i2) {
+            if (this.scrollOffsetY == i) {
                 return;
             }
-            setScrollOffsetY(i2);
+            setScrollOffsetY(i);
         }
 
         @Keep
@@ -1309,7 +1316,6 @@ public class ThemeEditorView {
             }
 
             public SearchAdapter(Context context) {
-                EditorAlert.this = r1;
                 this.context = context;
             }
 
@@ -1348,6 +1354,7 @@ public class ThemeEditorView {
                 return spannableStringBuilder;
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             /* renamed from: searchDialogsInternal */
             public void lambda$searchDialogs$1(String str, int i) {
                 try {
@@ -1402,6 +1409,7 @@ public class ThemeEditorView {
                 });
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$updateSearchResults$0(int i, ArrayList arrayList, ArrayList arrayList2) {
                 if (i != this.lastSearchId) {
                     return;
@@ -1474,16 +1482,17 @@ public class ThemeEditorView {
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                View view;
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+                View textColorThemeCell;
                 if (i == 0) {
-                    view = new TextColorThemeCell(this.context);
-                    view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                    textColorThemeCell = new TextColorThemeCell(this.context);
+                    textColorThemeCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 } else {
-                    view = new View(this.context);
-                    view.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(56.0f)));
+                    textColorThemeCell = new View(this.context);
+                    textColorThemeCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(56.0f)));
                 }
-                return new RecyclerListView.Holder(view);
+                return new RecyclerListView.Holder(textColorThemeCell);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1500,6 +1509,7 @@ public class ThemeEditorView {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class ListAdapter extends RecyclerListView.SelectionAdapter {
             private Context context;
@@ -1554,16 +1564,17 @@ public class ThemeEditorView {
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                View view;
+            /* renamed from: onCreateViewHolder */
+            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+                View textColorThemeCell;
                 if (i == 0) {
-                    view = new TextColorThemeCell(this.context);
-                    view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                    textColorThemeCell = new TextColorThemeCell(this.context);
+                    textColorThemeCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 } else {
-                    view = new View(this.context);
-                    view.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(56.0f)));
+                    textColorThemeCell = new View(this.context);
+                    textColorThemeCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(56.0f)));
                 }
-                return new RecyclerListView.Holder(view);
+                return new RecyclerListView.Holder(textColorThemeCell);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1633,13 +1644,15 @@ public class ThemeEditorView {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.ThemeEditorView$1 */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* renamed from: org.telegram.ui.Components.ThemeEditorView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
     public class AnonymousClass1 extends FrameLayout {
         private boolean dragging;
         private float startX;
         private float startY;
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onTouchEvent$0(DialogInterface dialogInterface) {
         }
 
@@ -1648,26 +1661,24 @@ public class ThemeEditorView {
             return true;
         }
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         AnonymousClass1(Context context) {
             super(context);
-            ThemeEditorView.this = r1;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:31:0x0088, code lost:
-            if (r6.fragmentsStack.isEmpty() != false) goto L32;
+        /* JADX WARN: Code restructure failed: missing block: B:61:0x0088, code lost:
+            if (r6.fragmentsStack.isEmpty() != false) goto L72;
          */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x008d  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0093  */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x008d  */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x0093  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public boolean onTouchEvent(MotionEvent motionEvent) {
-            WindowManager.LayoutParams layoutParams;
-            WindowManager.LayoutParams layoutParams2;
             ActionBarLayout actionBarLayout;
             ArrayList<ThemeDescription> themeDescriptions;
+            WindowManager.LayoutParams layoutParams;
+            WindowManager.LayoutParams layoutParams2;
             float rawX = motionEvent.getRawX();
             float rawY = motionEvent.getRawY();
             if (motionEvent.getAction() == 0) {
@@ -1758,6 +1769,7 @@ public class ThemeEditorView {
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onTouchEvent$1(DialogInterface dialogInterface) {
             ThemeEditorView.this.editorAlert = null;
             ThemeEditorView.this.show();
@@ -1775,24 +1787,25 @@ public class ThemeEditorView {
 
     private static int getSideCoord(boolean z, int i, float f, int i2) {
         int i3;
-        int i4;
+        int round;
         if (z) {
             i3 = AndroidUtilities.displaySize.x;
         } else {
             i3 = AndroidUtilities.displaySize.y - i2;
             i2 = ActionBar.getCurrentActionBarHeight();
         }
-        int i5 = i3 - i2;
+        int i4 = i3 - i2;
         if (i == 0) {
-            i4 = AndroidUtilities.dp(10.0f);
+            round = AndroidUtilities.dp(10.0f);
         } else if (i == 1) {
-            i4 = i5 - AndroidUtilities.dp(10.0f);
+            round = i4 - AndroidUtilities.dp(10.0f);
         } else {
-            i4 = Math.round((i5 - AndroidUtilities.dp(20.0f)) * f) + AndroidUtilities.dp(10.0f);
+            round = Math.round((i4 - AndroidUtilities.dp(20.0f)) * f) + AndroidUtilities.dp(10.0f);
         }
-        return !z ? i4 + ActionBar.getCurrentActionBarHeight() : i4;
+        return !z ? round + ActionBar.getCurrentActionBarHeight() : round;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void hide() {
         if (this.parentActivity == null) {
             return;
@@ -1816,6 +1829,7 @@ public class ThemeEditorView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void show() {
         if (this.parentActivity == null) {
             return;
@@ -1859,15 +1873,16 @@ public class ThemeEditorView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:55:? A[RETURN, SYNTHETIC] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void animateToBoundsMaybe() {
-        boolean z;
         ArrayList arrayList;
+        boolean z;
         int i;
         int sideCoord = getSideCoord(true, 0, 0.0f, this.editorWidth);
         int sideCoord2 = getSideCoord(true, 1, 0.0f, this.editorWidth);

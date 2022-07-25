@@ -151,9 +151,11 @@ public class ChatRightsEditActivity extends BaseFragment {
         void didSetRights(int i, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights, String str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$1(DialogInterface dialogInterface, int i) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$3(DialogInterface dialogInterface, int i) {
     }
 
@@ -518,10 +520,11 @@ public class ChatRightsEditActivity extends BaseFragment {
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(Context context, View view, int i) {
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights;
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights2;
-        String str;
+        String string;
         if (this.canEdit || (this.currentChat.creator && this.currentType == 0 && i == this.anonymousRow)) {
             if (i == 0) {
                 Bundle bundle = new Bundle();
@@ -581,17 +584,17 @@ public class ChatRightsEditActivity extends BaseFragment {
                     bottomSheetCellArr[i3].setTag(Integer.valueOf(i3));
                     bottomSheetCellArr[i3].setBackgroundDrawable(Theme.getSelectorDrawable(false));
                     if (i3 == 0) {
-                        str = LocaleController.getString("UserRestrictionsUntilForever", R.string.UserRestrictionsUntilForever);
+                        string = LocaleController.getString("UserRestrictionsUntilForever", R.string.UserRestrictionsUntilForever);
                     } else if (i3 == 1) {
-                        str = LocaleController.formatPluralString("Days", 1, new Object[0]);
+                        string = LocaleController.formatPluralString("Days", 1, new Object[0]);
                     } else if (i3 == 2) {
-                        str = LocaleController.formatPluralString("Weeks", 1, new Object[0]);
+                        string = LocaleController.formatPluralString("Weeks", 1, new Object[0]);
                     } else if (i3 == 3) {
-                        str = LocaleController.formatPluralString("Months", 1, new Object[0]);
+                        string = LocaleController.formatPluralString("Months", 1, new Object[0]);
                     } else {
-                        str = LocaleController.getString("UserRestrictionsCustom", R.string.UserRestrictionsCustom);
+                        string = LocaleController.getString("UserRestrictionsCustom", R.string.UserRestrictionsCustom);
                     }
-                    bottomSheetCellArr[i3].setTextAndIcon(str, 0);
+                    bottomSheetCellArr[i3].setTextAndIcon(string, 0);
                     linearLayout2.addView(bottomSheetCellArr[i3], LayoutHelper.createLinear(-1, -2));
                     bottomSheetCellArr[i3].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda12
                         @Override // android.view.View.OnClickListener
@@ -786,6 +789,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(BottomSheet.Builder builder, View view) {
         int intValue = ((Integer) view.getTag()).intValue();
         if (intValue == 0) {
@@ -841,6 +845,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         builder.getDismissRunnable().run();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(DatePicker datePicker, int i, int i2, int i3) {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
@@ -861,11 +866,13 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(int i, TimePicker timePicker, int i2, int i3) {
         this.bannedRights.until_date = i + (i2 * 3600) + (i3 * 60);
         this.listViewAdapter.notifyItemChanged(this.untilDateRow);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$4(DatePicker datePicker, DialogInterface dialogInterface) {
         int childCount = datePicker.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -901,6 +908,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         return tLRPC$TL_chatAdminRights2.change_info && tLRPC$TL_chatAdminRights2.delete_messages && tLRPC$TL_chatAdminRights2.ban_users && tLRPC$TL_chatAdminRights2.invite_users && tLRPC$TL_chatAdminRights2.pin_messages && tLRPC$TL_chatAdminRights2.add_admins && tLRPC$TL_chatAdminRights2.manage_call;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: initTransfer */
     public void lambda$initTransfer$8(final TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP, final TwoStepVerificationActivity twoStepVerificationActivity) {
         if (getParentActivity() == null) {
@@ -935,6 +943,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$7(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP, TwoStepVerificationActivity twoStepVerificationActivity, long j) {
         if (j != 0) {
             this.chatId = j;
@@ -943,6 +952,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$14(final TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP, final TwoStepVerificationActivity twoStepVerificationActivity, final TLRPC$TL_channels_editCreator tLRPC$TL_channels_editCreator, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
@@ -952,6 +962,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$13(TLRPC$TL_error tLRPC$TL_error, TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP, final TwoStepVerificationActivity twoStepVerificationActivity, TLRPC$TL_channels_editCreator tLRPC$TL_channels_editCreator) {
         if (tLRPC$TL_error == null) {
             if (tLRPC$InputCheckPasswordSRP == null) {
@@ -1081,6 +1092,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$9(DialogInterface dialogInterface, int i) {
         final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
         twoStepVerificationActivity.setDelegate(new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda26
@@ -1092,10 +1104,12 @@ public class ChatRightsEditActivity extends BaseFragment {
         presentFragment(twoStepVerificationActivity);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$10(DialogInterface dialogInterface, int i) {
         presentFragment(new TwoStepVerificationSetupActivity(6, null));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$12(final TwoStepVerificationActivity twoStepVerificationActivity, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
@@ -1105,6 +1119,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initTransfer$11(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TwoStepVerificationActivity twoStepVerificationActivity) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_account_password tLRPC$TL_account_password = (TLRPC$TL_account_password) tLObject;
@@ -1319,6 +1334,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:15:0x002f, code lost:
         if (r0.codePointCount(0, r0.length()) <= 16) goto L16;
      */
@@ -1329,8 +1345,8 @@ public class ChatRightsEditActivity extends BaseFragment {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onDonePressed() {
-        String str;
-        String str2;
+        String string;
+        String formatString;
         if (this.loading) {
             return;
         }
@@ -1342,7 +1358,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                 if (i2 == 0) {
                     if (isDefaultAdminRights()) {
                         if (this.rankRow != -1) {
-                            String str3 = this.currentRank;
+                            String str = this.currentRank;
                         }
                     }
                 }
@@ -1362,8 +1378,8 @@ public class ChatRightsEditActivity extends BaseFragment {
         int i3 = this.currentType;
         if (i3 == 0 || i3 == 2) {
             if (this.rankRow != -1) {
-                String str4 = this.currentRank;
-                if (str4.codePointCount(0, str4.length()) > 16) {
+                String str2 = this.currentRank;
+                if (str2.codePointCount(0, str2.length()) > 16) {
                     this.listView.smoothScrollToPosition(this.rankRow);
                     Vibrator vibrator = (Vibrator) getParentActivity().getSystemService("vibrator");
                     if (vibrator != null) {
@@ -1426,22 +1442,22 @@ public class ChatRightsEditActivity extends BaseFragment {
         } else if (i4 == 2) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             if (this.asAdmin) {
-                str = LocaleController.getString("AddBotAdmin", R.string.AddBotAdmin);
+                string = LocaleController.getString("AddBotAdmin", R.string.AddBotAdmin);
             } else {
-                str = LocaleController.getString("AddBot", R.string.AddBot);
+                string = LocaleController.getString("AddBot", R.string.AddBot);
             }
-            builder.setTitle(str);
+            builder.setTitle(string);
             boolean z3 = ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup;
             TLRPC$Chat tLRPC$Chat = this.currentChat;
-            String str5 = tLRPC$Chat == null ? "" : tLRPC$Chat.title;
+            String str3 = tLRPC$Chat == null ? "" : tLRPC$Chat.title;
             if (!this.asAdmin) {
-                str2 = LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(this.currentUser), str5);
+                formatString = LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(this.currentUser), str3);
             } else if (z3) {
-                str2 = LocaleController.formatString("AddBotMessageAdminChannel", R.string.AddBotMessageAdminChannel, str5);
+                formatString = LocaleController.formatString("AddBotMessageAdminChannel", R.string.AddBotMessageAdminChannel, str3);
             } else {
-                str2 = LocaleController.formatString("AddBotMessageAdminGroup", R.string.AddBotMessageAdminGroup, str5);
+                formatString = LocaleController.formatString("AddBotMessageAdminGroup", R.string.AddBotMessageAdminGroup, str3);
             }
-            builder.setMessage(AndroidUtilities.replaceTags(str2));
+            builder.setMessage(AndroidUtilities.replaceTags(formatString));
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
             builder.setPositiveButton(this.asAdmin ? LocaleController.getString("AddAsAdmin", R.string.AddAsAdmin) : LocaleController.getString("AddBot", R.string.AddBot), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda8
                 @Override // android.content.DialogInterface.OnClickListener
@@ -1458,6 +1474,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDonePressed$15(long j) {
         if (j != 0) {
             this.chatId = j;
@@ -1466,6 +1483,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDonePressed$16() {
         ChatRightsEditActivityDelegate chatRightsEditActivityDelegate = this.delegate;
         if (chatRightsEditActivityDelegate != null) {
@@ -1475,11 +1493,13 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onDonePressed$17(TLRPC$TL_error tLRPC$TL_error) {
         setLoading(false);
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDonePressed$21(DialogInterface dialogInterface, int i) {
         setLoading(true);
         Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda14
@@ -1509,6 +1529,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDonePressed$18() {
         ChatRightsEditActivityDelegate chatRightsEditActivityDelegate = this.delegate;
         if (chatRightsEditActivityDelegate != null) {
@@ -1535,11 +1556,13 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onDonePressed$19(TLRPC$TL_error tLRPC$TL_error) {
         setLoading(false);
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$onDonePressed$20(TLRPC$TL_error tLRPC$TL_error) {
         setLoading(false);
         return true;
@@ -1570,6 +1593,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setLoading$22(ValueAnimator valueAnimator) {
         this.doneDrawable.setProgress(((Float) valueAnimator.getAnimatedValue()).floatValue());
         this.doneDrawable.invalidateSelf();
@@ -1579,18 +1603,19 @@ public class ChatRightsEditActivity extends BaseFragment {
         this.delegate = chatRightsEditActivityDelegate;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean checkDiscard() {
-        boolean z;
+        boolean equals;
         int i = this.currentType;
         if (i == 2) {
             return true;
         }
         if (i == 1) {
-            z = this.currentBannedRights.equals(ChatObject.getBannedRightsString(this.bannedRights));
+            equals = this.currentBannedRights.equals(ChatObject.getBannedRightsString(this.bannedRights));
         } else {
-            z = this.initialRank.equals(this.currentRank);
+            equals = this.initialRank.equals(this.currentRank);
         }
-        if (!(!z)) {
+        if (!(!equals)) {
             return true;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
@@ -1612,14 +1637,17 @@ public class ChatRightsEditActivity extends BaseFragment {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$23(DialogInterface dialogInterface, int i) {
         onDonePressed();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$24(DialogInterface dialogInterface, int i) {
         finishFragment();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setTextLeft(View view) {
         if (view instanceof HeaderCell) {
             HeaderCell headerCell = (HeaderCell) view;
@@ -1642,14 +1670,14 @@ public class ChatRightsEditActivity extends BaseFragment {
         return checkDiscard();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private boolean ignoreTextChange;
         private Context mContext;
 
         public ListAdapter(Context context) {
-            ChatRightsEditActivity.this = r2;
-            if (r2.currentType == 2) {
+            if (ChatRightsEditActivity.this.currentType == 2) {
                 setHasStableIds(true);
             }
             this.mContext = context;
@@ -1804,54 +1832,55 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
-            TextSettingsCell textSettingsCell;
-            String str;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View textInfoPrivacyCell;
             int i2;
+            String str;
+            PollEditTextCell pollEditTextCell;
             switch (i) {
                 case 0:
-                    UserCell2 userCell2 = new UserCell2(this.mContext, 4, 0);
+                    FrameLayout userCell2 = new UserCell2(this.mContext, 4, 0);
                     userCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell = userCell2;
-                    view = textSettingsCell;
+                    pollEditTextCell = userCell2;
+                    textInfoPrivacyCell = pollEditTextCell;
                     break;
                 case 1:
-                    view = new TextInfoPrivacyCell(this.mContext);
-                    view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
+                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     break;
                 case 2:
                 default:
-                    TextSettingsCell textSettingsCell2 = new TextSettingsCell(this.mContext);
-                    textSettingsCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell = textSettingsCell2;
-                    view = textSettingsCell;
+                    FrameLayout textSettingsCell = new TextSettingsCell(this.mContext);
+                    textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                    pollEditTextCell = textSettingsCell;
+                    textInfoPrivacyCell = pollEditTextCell;
                     break;
                 case 3:
-                    HeaderCell headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 21, 15, true);
+                    FrameLayout headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 21, 15, true);
                     headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell = headerCell;
-                    view = textSettingsCell;
+                    pollEditTextCell = headerCell;
+                    textInfoPrivacyCell = pollEditTextCell;
                     break;
                 case 4:
-                    TextCheckCell2 textCheckCell2 = new TextCheckCell2(this.mContext);
+                    FrameLayout textCheckCell2 = new TextCheckCell2(this.mContext);
                     textCheckCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell = textCheckCell2;
-                    view = textSettingsCell;
+                    pollEditTextCell = textCheckCell2;
+                    textInfoPrivacyCell = pollEditTextCell;
                     break;
                 case 5:
-                    view = new ShadowSectionCell(this.mContext);
+                    textInfoPrivacyCell = new ShadowSectionCell(this.mContext);
                     break;
                 case 6:
-                    TextDetailCell textDetailCell = new TextDetailCell(this.mContext);
+                    FrameLayout textDetailCell = new TextDetailCell(this.mContext);
                     textDetailCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    textSettingsCell = textDetailCell;
-                    view = textSettingsCell;
+                    pollEditTextCell = textDetailCell;
+                    textInfoPrivacyCell = pollEditTextCell;
                     break;
                 case 7:
-                    PollEditTextCell pollEditTextCell = ChatRightsEditActivity.this.rankEditTextCell = new PollEditTextCell(this.mContext, null);
-                    pollEditTextCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                    pollEditTextCell.addTextWatcher(new TextWatcher() { // from class: org.telegram.ui.ChatRightsEditActivity.ListAdapter.1
+                    PollEditTextCell pollEditTextCell2 = ChatRightsEditActivity.this.rankEditTextCell = new PollEditTextCell(this.mContext, null);
+                    pollEditTextCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                    pollEditTextCell2.addTextWatcher(new TextWatcher() { // from class: org.telegram.ui.ChatRightsEditActivity.ListAdapter.1
                         @Override // android.text.TextWatcher
                         public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
                         }
@@ -1873,8 +1902,8 @@ public class ChatRightsEditActivity extends BaseFragment {
                             ChatRightsEditActivity.this.setTextLeft(findViewHolderForAdapterPosition.itemView);
                         }
                     });
-                    textSettingsCell = pollEditTextCell;
-                    view = textSettingsCell;
+                    pollEditTextCell = pollEditTextCell2;
+                    textInfoPrivacyCell = pollEditTextCell;
                     break;
                 case 8:
                     ChatRightsEditActivity.this.addBotButtonContainer = new FrameLayout(this.mContext);
@@ -1902,32 +1931,33 @@ public class ChatRightsEditActivity extends BaseFragment {
                     ChatRightsEditActivity.this.addBotButton.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 4.0f));
                     ChatRightsEditActivity.this.addBotButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$ListAdapter$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            ChatRightsEditActivity.ListAdapter.this.lambda$onCreateViewHolder$0(view2);
+                        public final void onClick(View view) {
+                            ChatRightsEditActivity.ListAdapter.this.lambda$onCreateViewHolder$0(view);
                         }
                     });
                     ChatRightsEditActivity.this.addBotButtonContainer.addView(ChatRightsEditActivity.this.addBotButton, LayoutHelper.createFrame(-1, 48.0f, 119, 14.0f, 28.0f, 14.0f, 14.0f));
                     ChatRightsEditActivity.this.addBotButtonContainer.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                    View view2 = new View(this.mContext);
-                    view2.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
+                    View view = new View(this.mContext);
+                    view.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
                     ChatRightsEditActivity.this.addBotButtonContainer.setClipChildren(false);
                     ChatRightsEditActivity.this.addBotButtonContainer.setClipToPadding(false);
-                    ChatRightsEditActivity.this.addBotButtonContainer.addView(view2, LayoutHelper.createFrame(-1, 800.0f, 87, 0.0f, 0.0f, 0.0f, -800.0f));
-                    view = ChatRightsEditActivity.this.addBotButtonContainer;
+                    ChatRightsEditActivity.this.addBotButtonContainer.addView(view, LayoutHelper.createFrame(-1, 800.0f, 87, 0.0f, 0.0f, 0.0f, -800.0f));
+                    textInfoPrivacyCell = ChatRightsEditActivity.this.addBotButtonContainer;
                     break;
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(textInfoPrivacyCell);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0(View view) {
             ChatRightsEditActivity.this.onDonePressed();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            String str;
-            String str2;
-            String str3;
+            String string;
+            String string2;
+            String string3;
             boolean z = true;
             switch (viewHolder.getItemViewType()) {
                 case 0:
@@ -1940,11 +1970,11 @@ public class ChatRightsEditActivity extends BaseFragment {
                             return;
                         }
                         if (UserObject.isUserSelf(ChatRightsEditActivity.this.currentUser) && ChatRightsEditActivity.this.currentChat.creator) {
-                            str = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
+                            string = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
                         } else {
-                            str = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
+                            string = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
                         }
-                        textInfoPrivacyCell.setText(LocaleController.formatString("EditAdminRankInfo", R.string.EditAdminRankInfo, str));
+                        textInfoPrivacyCell.setText(LocaleController.formatString("EditAdminRankInfo", R.string.EditAdminRankInfo, string));
                         return;
                     }
                     textInfoPrivacyCell.setText(LocaleController.getString("EditAdminCantEdit", R.string.EditAdminCantEdit));
@@ -2212,24 +2242,24 @@ public class ChatRightsEditActivity extends BaseFragment {
                         return;
                     }
                     if (ChatRightsEditActivity.this.bannedRights.until_date != 0 && Math.abs(ChatRightsEditActivity.this.bannedRights.until_date - (System.currentTimeMillis() / 1000)) <= 315360000) {
-                        str2 = LocaleController.formatDateForBan(ChatRightsEditActivity.this.bannedRights.until_date);
+                        string2 = LocaleController.formatDateForBan(ChatRightsEditActivity.this.bannedRights.until_date);
                     } else {
-                        str2 = LocaleController.getString("UserRestrictionsUntilForever", R.string.UserRestrictionsUntilForever);
+                        string2 = LocaleController.getString("UserRestrictionsUntilForever", R.string.UserRestrictionsUntilForever);
                     }
-                    textDetailCell.setTextAndValue(LocaleController.getString("UserRestrictionsDuration", R.string.UserRestrictionsDuration), str2, false);
+                    textDetailCell.setTextAndValue(LocaleController.getString("UserRestrictionsDuration", R.string.UserRestrictionsDuration), string2, false);
                     return;
                 case 7:
                     PollEditTextCell pollEditTextCell = (PollEditTextCell) viewHolder.itemView;
                     if (UserObject.isUserSelf(ChatRightsEditActivity.this.currentUser) && ChatRightsEditActivity.this.currentChat.creator) {
-                        str3 = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
+                        string3 = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
                     } else {
-                        str3 = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
+                        string3 = LocaleController.getString("ChannelAdmin", R.string.ChannelAdmin);
                     }
                     this.ignoreTextChange = true;
                     pollEditTextCell.getTextView().setEnabled(ChatRightsEditActivity.this.canEdit || ChatRightsEditActivity.this.currentChat.creator);
                     pollEditTextCell.getTextView().setSingleLine(true);
                     pollEditTextCell.getTextView().setImeOptions(6);
-                    pollEditTextCell.setTextAndHint(ChatRightsEditActivity.this.currentRank, str3, false);
+                    pollEditTextCell.setTextAndHint(ChatRightsEditActivity.this.currentRank, string3, false);
                     this.ignoreTextChange = false;
                     return;
                 default:
@@ -2279,24 +2309,24 @@ public class ChatRightsEditActivity extends BaseFragment {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0064, code lost:
-        if (r5.creator == false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0064, code lost:
+        if (r5.creator == false) goto L35;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x007d, code lost:
-        if (r8.defaultBannedRights.change_info != false) goto L76;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x007d, code lost:
+        if (r8.defaultBannedRights.change_info != false) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00d6, code lost:
-        if (r8.defaultBannedRights.pin_messages != false) goto L76;
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x00d6, code lost:
+        if (r8.defaultBannedRights.pin_messages != false) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0107, code lost:
-        if (r5.creator == false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0107, code lost:
+        if (r5.creator == false) goto L35;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateAsAdmin(boolean z) {
-        String str;
         int i;
+        String str;
         FrameLayout frameLayout = this.addBotButton;
         if (frameLayout != null) {
             frameLayout.invalidate();
@@ -2443,6 +2473,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         frameLayout2.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateAsAdmin$25(ValueAnimator valueAnimator) {
         this.asAdminT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         FrameLayout frameLayout = this.addBotButton;
@@ -2510,6 +2541,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$26() {
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView != null) {

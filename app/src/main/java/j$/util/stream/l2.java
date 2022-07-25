@@ -2,11 +2,13 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class l2 implements y1 {
     final long[] a;
     int b;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public l2(long j) {
         if (j < 2147483639) {
             this.a = new long[(int) j];
@@ -16,13 +18,15 @@ public class l2 implements y1 {
         throw new IllegalArgumentException("Stream size exceeds max array size");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public l2(long[] jArr) {
         this.a = jArr;
         this.b = jArr.length;
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    public z1 b(int i) {
+    /* renamed from: b  reason: collision with other method in class */
+    public z1 mo316b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -57,11 +61,13 @@ public class l2 implements y1 {
         }
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: j */
     public /* synthetic */ void i(Long[] lArr, int i) {
         o1.j(this, lArr, i);
     }
 
+    @Override // j$.util.stream.A1
     /* renamed from: k */
     public /* synthetic */ y1 r(long j, long j2, j$.util.function.m mVar) {
         return o1.p(this, j, j2, mVar);
@@ -78,8 +84,8 @@ public class l2 implements y1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: spliterator */
-    public j$.util.w mo69spliterator() {
+    /* renamed from: spliterator  reason: collision with other method in class */
+    public j$.util.w mo313spliterator() {
         return j$.util.L.l(this.a, 0, this.b, 1040);
     }
 
@@ -88,8 +94,15 @@ public class l2 implements y1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
+    /* renamed from: b */
+    public /* bridge */ /* synthetic */ A1 mo316b(int i) {
+        mo316b(i);
+        throw null;
+    }
+
+    @Override // j$.util.stream.z1, j$.util.stream.A1
     /* renamed from: spliterator */
-    public j$.util.u mo69spliterator() {
+    public j$.util.u mo313spliterator() {
         return j$.util.L.l(this.a, 0, this.b, 1040);
     }
 }

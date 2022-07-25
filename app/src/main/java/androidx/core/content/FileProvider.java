@@ -29,6 +29,7 @@ public class FileProvider extends ContentProvider {
     private static HashMap<String, PathStrategy> sCache = new HashMap<>();
     private PathStrategy mStrategy;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public interface PathStrategy {
         File getFileForUri(Uri uri);
@@ -188,6 +189,7 @@ public class FileProvider extends ContentProvider {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class SimplePathStrategy implements PathStrategy {
         private final String mAuthority;
@@ -210,7 +212,7 @@ public class FileProvider extends ContentProvider {
 
         @Override // androidx.core.content.FileProvider.PathStrategy
         public Uri getUriForFile(File file) {
-            String str;
+            String substring;
             try {
                 String canonicalPath = file.getCanonicalPath();
                 Map.Entry<String, File> entry = null;
@@ -225,11 +227,11 @@ public class FileProvider extends ContentProvider {
                 }
                 String path2 = entry.getValue().getPath();
                 if (path2.endsWith("/")) {
-                    str = canonicalPath.substring(path2.length());
+                    substring = canonicalPath.substring(path2.length());
                 } else {
-                    str = canonicalPath.substring(path2.length() + 1);
+                    substring = canonicalPath.substring(path2.length() + 1);
                 }
-                return new Uri.Builder().scheme(RemoteMessageConst.Notification.CONTENT).authority(this.mAuthority).encodedPath(Uri.encode(entry.getKey()) + '/' + Uri.encode(str, "/")).build();
+                return new Uri.Builder().scheme(RemoteMessageConst.Notification.CONTENT).authority(this.mAuthority).encodedPath(Uri.encode(entry.getKey()) + '/' + Uri.encode(substring, "/")).build();
             } catch (IOException unused) {
                 throw new IllegalArgumentException("Failed to resolve canonical path for " + file);
             }

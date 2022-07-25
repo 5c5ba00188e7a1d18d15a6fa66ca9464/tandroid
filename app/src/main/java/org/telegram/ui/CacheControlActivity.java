@@ -107,11 +107,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFragmentCreate$1() {
         File file;
-        long j;
-        long j2;
-        long j3;
+        long blockSize;
+        long availableBlocks;
+        long blockCount;
         this.cacheSize = getDirectorySize(FileLoader.checkDirectory(4), 0);
         if (this.canceled) {
             return;
@@ -168,22 +169,22 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             StatFs statFs = new StatFs(file.getPath());
             int i2 = Build.VERSION.SDK_INT;
             if (i2 >= 18) {
-                j = statFs.getBlockSizeLong();
+                blockSize = statFs.getBlockSizeLong();
             } else {
-                j = statFs.getBlockSize();
+                blockSize = statFs.getBlockSize();
             }
             if (i2 >= 18) {
-                j2 = statFs.getAvailableBlocksLong();
+                availableBlocks = statFs.getAvailableBlocksLong();
             } else {
-                j2 = statFs.getAvailableBlocks();
+                availableBlocks = statFs.getAvailableBlocks();
             }
             if (i2 >= 18) {
-                j3 = statFs.getBlockCountLong();
+                blockCount = statFs.getBlockCountLong();
             } else {
-                j3 = statFs.getBlockCount();
+                blockCount = statFs.getBlockCount();
             }
-            this.totalDeviceSize = j3 * j;
-            this.totalDeviceFreeSize = j2 * j;
+            this.totalDeviceSize = blockCount * blockSize;
+            this.totalDeviceFreeSize = availableBlocks * blockSize;
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -195,6 +196,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFragmentCreate$0() {
         this.calculating = false;
         updateStorageUsageRow();
@@ -295,20 +297,21 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x005d  */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x005d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$cleanupFolders$3(final AlertDialog alertDialog) {
-        long j;
-        long j2;
-        long j3;
+        long blockSize;
+        long availableBlocks;
+        long blockCount;
         int i;
         int i2;
-        File file;
         File checkDirectory;
+        File checkDirectory2;
         int i3 = 1;
-        final long j4 = 0;
+        final long j = 0;
         final boolean z = false;
         int i4 = 0;
         boolean z2 = true;
@@ -316,81 +319,81 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             StorageDiagramView.ClearViewData[] clearViewDataArr = this.clearViewData;
             if (clearViewDataArr[i4] != null && clearViewDataArr[i4].clear) {
                 if (i4 == 0) {
-                    j4 += this.photoSize;
-                    i2 = 0;
+                    j += this.photoSize;
+                    i = 0;
                 } else if (i4 == i3) {
-                    j4 += this.videoSize;
-                    i2 = 2;
+                    j += this.videoSize;
+                    i = 2;
                 } else {
                     if (i4 == 2) {
-                        j4 += this.documentsSize;
-                        i2 = 3;
-                        i = 1;
-                    } else if (i4 == 3) {
-                        j4 += this.musicSize;
-                        i2 = 3;
-                        i = 2;
-                    } else if (i4 == 4) {
-                        j4 += this.audioSize;
+                        j += this.documentsSize;
+                        i = 3;
                         i2 = 1;
+                    } else if (i4 == 3) {
+                        j += this.musicSize;
+                        i = 3;
+                        i2 = 2;
+                    } else if (i4 == 4) {
+                        j += this.audioSize;
+                        i = 1;
                     } else if (i4 == 5) {
-                        j4 += this.stickersSize;
-                        i2 = 100;
+                        j += this.stickersSize;
+                        i = 100;
                     } else if (i4 == 6) {
-                        j4 += this.cacheSize;
-                        i2 = 4;
+                        j += this.cacheSize;
+                        i = 4;
                     } else {
-                        i2 = -1;
+                        i = -1;
                     }
-                    if (i2 != -1) {
-                        if (i2 == 100) {
-                            file = new File(FileLoader.checkDirectory(4), "acache");
+                    if (i != -1) {
+                        if (i == 100) {
+                            checkDirectory = new File(FileLoader.checkDirectory(4), "acache");
                         } else {
-                            file = FileLoader.checkDirectory(i2);
+                            checkDirectory = FileLoader.checkDirectory(i);
                         }
-                        if (file != null) {
-                            Utilities.clearDir(file.getAbsolutePath(), i, Long.MAX_VALUE, false);
+                        if (checkDirectory != null) {
+                            Utilities.clearDir(checkDirectory.getAbsolutePath(), i2, Long.MAX_VALUE, false);
                         }
-                        if (i2 == 0 || i2 == 2) {
-                            File checkDirectory2 = FileLoader.checkDirectory(i2 == 0 ? 100 : FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
-                            if (checkDirectory2 != null) {
-                                Utilities.clearDir(checkDirectory2.getAbsolutePath(), i, Long.MAX_VALUE, false);
+                        if (i == 0 || i == 2) {
+                            File checkDirectory3 = FileLoader.checkDirectory(i == 0 ? 100 : FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
+                            if (checkDirectory3 != null) {
+                                Utilities.clearDir(checkDirectory3.getAbsolutePath(), i2, Long.MAX_VALUE, false);
                             }
                         }
-                        if (i2 == 3 && (checkDirectory = FileLoader.checkDirectory(5)) != null) {
-                            Utilities.clearDir(checkDirectory.getAbsolutePath(), i, Long.MAX_VALUE, false);
+                        if (i == 3 && (checkDirectory2 = FileLoader.checkDirectory(5)) != null) {
+                            Utilities.clearDir(checkDirectory2.getAbsolutePath(), i2, Long.MAX_VALUE, false);
                         }
-                        if (i2 == 4) {
-                            this.cacheSize = getDirectorySize(FileLoader.checkDirectory(4), i);
-                            z = true;
-                        } else if (i2 == 1) {
-                            this.audioSize = getDirectorySize(FileLoader.checkDirectory(1), i);
-                        } else if (i2 != 3) {
-                            if (i2 == 0) {
-                                long directorySize = getDirectorySize(FileLoader.checkDirectory(0), i);
-                                this.photoSize = directorySize;
-                                this.photoSize = directorySize + getDirectorySize(FileLoader.checkDirectory(100), i);
-                            } else if (i2 == 2) {
-                                long directorySize2 = getDirectorySize(FileLoader.checkDirectory(2), i);
-                                this.videoSize = directorySize2;
-                                this.videoSize = directorySize2 + getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_VIDEO_PUBLIC), i);
-                            } else if (i2 == 100) {
-                                this.stickersSize = getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), i);
-                            }
+                        if (i == 4) {
+                            this.cacheSize = getDirectorySize(FileLoader.checkDirectory(4), i2);
                             z = true;
                         } else if (i == 1) {
-                            long directorySize3 = getDirectorySize(FileLoader.checkDirectory(3), i);
+                            this.audioSize = getDirectorySize(FileLoader.checkDirectory(1), i2);
+                        } else if (i != 3) {
+                            if (i == 0) {
+                                long directorySize = getDirectorySize(FileLoader.checkDirectory(0), i2);
+                                this.photoSize = directorySize;
+                                this.photoSize = directorySize + getDirectorySize(FileLoader.checkDirectory(100), i2);
+                            } else if (i == 2) {
+                                long directorySize2 = getDirectorySize(FileLoader.checkDirectory(2), i2);
+                                this.videoSize = directorySize2;
+                                this.videoSize = directorySize2 + getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_VIDEO_PUBLIC), i2);
+                            } else if (i == 100) {
+                                this.stickersSize = getDirectorySize(new File(FileLoader.checkDirectory(4), "acache"), i2);
+                            }
+                            z = true;
+                        } else if (i2 == 1) {
+                            long directorySize3 = getDirectorySize(FileLoader.checkDirectory(3), i2);
                             this.documentsSize = directorySize3;
-                            this.documentsSize = directorySize3 + getDirectorySize(FileLoader.checkDirectory(5), i);
+                            this.documentsSize = directorySize3 + getDirectorySize(FileLoader.checkDirectory(5), i2);
                         } else {
-                            long directorySize4 = getDirectorySize(FileLoader.checkDirectory(3), i);
+                            long directorySize4 = getDirectorySize(FileLoader.checkDirectory(3), i2);
                             this.musicSize = directorySize4;
-                            this.musicSize = directorySize4 + getDirectorySize(FileLoader.checkDirectory(5), i);
+                            this.musicSize = directorySize4 + getDirectorySize(FileLoader.checkDirectory(5), i2);
                         }
                     }
                 }
-                i = 0;
-                if (i2 != -1) {
+                i2 = 0;
+                if (i != -1) {
                 }
             } else if (clearViewDataArr[i4] != null) {
                 z2 = false;
@@ -402,22 +405,22 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
         int i5 = Build.VERSION.SDK_INT;
         if (i5 >= 18) {
-            j = statFs.getBlockSizeLong();
+            blockSize = statFs.getBlockSizeLong();
         } else {
-            j = statFs.getBlockSize();
+            blockSize = statFs.getBlockSize();
         }
         if (i5 >= 18) {
-            j2 = statFs.getAvailableBlocksLong();
+            availableBlocks = statFs.getAvailableBlocksLong();
         } else {
-            j2 = statFs.getAvailableBlocks();
+            availableBlocks = statFs.getAvailableBlocks();
         }
         if (i5 >= 18) {
-            j3 = statFs.getBlockCountLong();
+            blockCount = statFs.getBlockCountLong();
         } else {
-            j3 = statFs.getBlockCount();
+            blockCount = statFs.getBlockCount();
         }
-        this.totalDeviceSize = j3 * j;
-        this.totalDeviceFreeSize = j2 * j;
+        this.totalDeviceSize = blockCount * blockSize;
+        this.totalDeviceFreeSize = availableBlocks * blockSize;
         if (z2) {
             FileLoader.getInstance(this.currentAccount).clearFilePaths();
         }
@@ -425,11 +428,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                CacheControlActivity.this.lambda$cleanupFolders$2(z, alertDialog, j4);
+                CacheControlActivity.this.lambda$cleanupFolders$2(z, alertDialog, j);
             }
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$cleanupFolders$2(boolean z, AlertDialog alertDialog, long j) {
         if (z) {
             ImageLoader.getInstance().clearMemory();
@@ -487,10 +491,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         return this.fragmentView;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(Context context, View view, int i) {
         long j;
+        String string;
         String str;
-        String str2;
         if (getParentActivity() == null) {
             return;
         }
@@ -527,31 +532,31 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             while (i2 < 7) {
                 if (i2 == 0) {
                     j = this.photoSize;
-                    str2 = LocaleController.getString("LocalPhotoCache", R.string.LocalPhotoCache);
+                    string = LocaleController.getString("LocalPhotoCache", R.string.LocalPhotoCache);
                     str = "statisticChartLine_blue";
                 } else if (i2 == 1) {
                     j = this.videoSize;
-                    str2 = LocaleController.getString("LocalVideoCache", R.string.LocalVideoCache);
+                    string = LocaleController.getString("LocalVideoCache", R.string.LocalVideoCache);
                     str = "statisticChartLine_golden";
                 } else if (i2 == 2) {
                     j = this.documentsSize;
-                    str2 = LocaleController.getString("LocalDocumentCache", R.string.LocalDocumentCache);
+                    string = LocaleController.getString("LocalDocumentCache", R.string.LocalDocumentCache);
                     str = "statisticChartLine_green";
                 } else if (i2 == 3) {
                     j = this.musicSize;
-                    str2 = LocaleController.getString("LocalMusicCache", R.string.LocalMusicCache);
+                    string = LocaleController.getString("LocalMusicCache", R.string.LocalMusicCache);
                     str = "statisticChartLine_indigo";
                 } else if (i2 == 4) {
                     j = this.audioSize;
-                    str2 = LocaleController.getString("LocalAudioCache", R.string.LocalAudioCache);
+                    string = LocaleController.getString("LocalAudioCache", R.string.LocalAudioCache);
                     str = "statisticChartLine_red";
                 } else if (i2 == 5) {
                     j = this.stickersSize;
-                    str2 = LocaleController.getString("AnimatedStickers", R.string.AnimatedStickers);
+                    string = LocaleController.getString("AnimatedStickers", R.string.AnimatedStickers);
                     str = "statisticChartLine_lightgreen";
                 } else {
                     j = this.cacheSize;
-                    str2 = LocaleController.getString("LocalCache", R.string.LocalCache);
+                    string = LocaleController.getString("LocalCache", R.string.LocalCache);
                     str = "statisticChartLine_lightblue";
                 }
                 if (j > j2) {
@@ -563,7 +568,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                     checkBoxCell.setTag(Integer.valueOf(i2));
                     checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                     linearLayout.addView(checkBoxCell, LayoutHelper.createLinear(-1, 50));
-                    checkBoxCell.setText(str2, AndroidUtilities.formatFileSize(j), true, true);
+                    checkBoxCell.setText(string, AndroidUtilities.formatFileSize(j), true, true);
                     checkBoxCell.setTextColor(Theme.getColor("dialogTextBlack"));
                     checkBoxCell.setCheckBoxColor(str, "windowBackgroundWhiteGrayIcon", "checkboxCheck");
                     checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda1
@@ -600,6 +605,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         int i = 0;
         int i2 = 0;
@@ -624,6 +630,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         checkBoxCell.setChecked(this.clearViewData[intValue].clear, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(View view) {
         try {
             Dialog dialog = this.visibleDialog;
@@ -659,6 +666,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearDatabase$7(DialogInterface dialogInterface, int i) {
         if (getParentActivity() == null) {
             return;
@@ -700,12 +708,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
-            CacheControlActivity.this = r1;
             this.mContext = context;
         }
 
@@ -720,6 +728,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             return CacheControlActivity.this.rowCount;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onCreateViewHolder$0(int i) {
             if (i == 0) {
                 SharedConfig.setKeepMedia(3);
@@ -733,36 +742,38 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
-            SlideChooseView slideChooseView;
+        /* renamed from: onCreateViewHolder */
+        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            FrameLayout frameLayout;
+            FrameLayout frameLayout2;
             if (i == 0) {
-                TextSettingsCell textSettingsCell = new TextSettingsCell(this.mContext);
+                FrameLayout textSettingsCell = new TextSettingsCell(this.mContext);
                 textSettingsCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                slideChooseView = textSettingsCell;
+                frameLayout = textSettingsCell;
             } else if (i == 2) {
-                StroageUsageView stroageUsageView = new StroageUsageView(this.mContext);
+                FrameLayout stroageUsageView = new StroageUsageView(this.mContext);
                 stroageUsageView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                slideChooseView = stroageUsageView;
+                frameLayout = stroageUsageView;
             } else if (i == 3) {
-                HeaderCell headerCell = new HeaderCell(this.mContext);
+                FrameLayout headerCell = new HeaderCell(this.mContext);
                 headerCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                slideChooseView = headerCell;
+                frameLayout = headerCell;
             } else if (i == 4) {
-                SlideChooseView slideChooseView2 = new SlideChooseView(this.mContext);
-                slideChooseView2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                SlideChooseView slideChooseView = new SlideChooseView(this.mContext);
+                slideChooseView.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 MessagesController.getGlobalMainSettings();
-                slideChooseView2.setCallback(CacheControlActivity$ListAdapter$$ExternalSyntheticLambda0.INSTANCE);
+                slideChooseView.setCallback(CacheControlActivity$ListAdapter$$ExternalSyntheticLambda0.INSTANCE);
                 int i2 = SharedConfig.keepMedia;
-                slideChooseView2.setOptions(i2 == 3 ? 0 : i2 + 1, LocaleController.formatPluralString("Days", 3, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.formatPluralString("Months", 1, new Object[0]), LocaleController.getString("KeepMediaForever", R.string.KeepMediaForever));
-                slideChooseView = slideChooseView2;
+                slideChooseView.setOptions(i2 == 3 ? 0 : i2 + 1, LocaleController.formatPluralString("Days", 3, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.formatPluralString("Months", 1, new Object[0]), LocaleController.getString("KeepMediaForever", R.string.KeepMediaForever));
+                frameLayout = slideChooseView;
             } else {
-                view = new TextInfoPrivacyCell(this.mContext);
-                return new RecyclerListView.Holder(view);
+                frameLayout2 = new TextInfoPrivacyCell(this.mContext);
+                return new RecyclerListView.Holder(frameLayout2);
             }
-            view = slideChooseView;
-            return new RecyclerListView.Holder(view);
+            frameLayout2 = frameLayout;
+            return new RecyclerListView.Holder(frameLayout2);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -880,6 +891,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         return arrayList;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getThemeDescriptions$8() {
         BottomSheet bottomSheet = this.bottomSheet;
         if (bottomSheet != null) {

@@ -2,9 +2,8 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class C implements t {
+final class C implements t {
     private final double[] a;
     private int b;
     private final int c;
@@ -27,7 +26,7 @@ public final class C implements t {
         return this.d;
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.w
     /* renamed from: e */
     public void forEachRemaining(j$.util.function.f fVar) {
         int i;
@@ -76,7 +75,7 @@ public final class C implements t {
         return a.f(this, i);
     }
 
-    @Override // j$.util.t
+    @Override // j$.util.w
     /* renamed from: k */
     public boolean tryAdvance(j$.util.function.f fVar) {
         fVar.getClass();
@@ -91,7 +90,8 @@ public final class C implements t {
     }
 
     @Override // j$.util.t, j$.util.w, j$.util.u
-    public t trySplit() {
+    /* renamed from: trySplit */
+    public t mo350trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;
         if (i >= i2) {

@@ -29,17 +29,17 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.c
     final void A0(j$.util.u uVar, m3 m3Var) {
-        j$.util.function.f fVar;
+        j$.util.function.f f;
         j$.util.t M0 = M0(uVar);
         if (m3Var instanceof j$.util.function.f) {
-            fVar = (j$.util.function.f) m3Var;
+            f = (j$.util.function.f) m3Var;
         } else if (Q4.a) {
             Q4.a(c.class, "using DoubleStream.adapt(Sink<Double> s)");
             throw null;
         } else {
-            fVar = new F(m3Var);
+            f = new F(m3Var);
         }
-        while (!m3Var.o() && M0.k(fVar)) {
+        while (!m3Var.o() && M0.k(f)) {
         }
     }
 
@@ -139,14 +139,14 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    public final j$.util.n mo66iterator() {
-        return j$.util.L.f(spliterator());
+    public final j$.util.n mo331iterator() {
+        return j$.util.L.f(mo334spliterator());
     }
 
     @Override // j$.util.stream.g
     /* renamed from: iterator */
-    public Iterator mo66iterator() {
-        return j$.util.L.f(spliterator());
+    public Iterator mo331iterator() {
+        return j$.util.L.f(mo334spliterator());
     }
 
     public void j(j$.util.function.f fVar) {
@@ -198,8 +198,9 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    public final j$.util.t spliterator() {
-        return M0(super.spliterator());
+    /* renamed from: spliterator */
+    public final j$.util.t mo334spliterator() {
+        return M0(super.mo334spliterator());
     }
 
     @Override // j$.util.stream.U

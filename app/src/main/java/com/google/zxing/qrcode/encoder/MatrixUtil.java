@@ -21,6 +21,7 @@ final class MatrixUtil {
         byteMatrix.clear((byte) -1);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void buildMatrix(BitArray bitArray, ErrorCorrectionLevel errorCorrectionLevel, Version version, int i, ByteMatrix byteMatrix) throws WriterException {
         clearMatrix(byteMatrix);
         embedBasicPatterns(version, byteMatrix);

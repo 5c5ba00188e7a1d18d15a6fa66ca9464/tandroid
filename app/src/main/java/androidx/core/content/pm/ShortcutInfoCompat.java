@@ -125,6 +125,7 @@ public class ShortcutInfoCompat {
         return this.mExtras;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Intent addToIntent(Intent outIntent) {
         Intent[] intentArr = this.mIntents;
         outIntent.putExtra("android.intent.extra.shortcut.INTENT", intentArr[intentArr.length - 1]).putExtra("android.intent.extra.shortcut.NAME", this.mLabel.toString());

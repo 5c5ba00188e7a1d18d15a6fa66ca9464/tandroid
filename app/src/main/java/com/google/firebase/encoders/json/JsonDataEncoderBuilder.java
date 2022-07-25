@@ -28,13 +28,13 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
     private ObjectEncoder<Object> fallbackEncoder = DEFAULT_FALLBACK_ENCODER;
     private boolean ignoreNullValues = false;
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$0(Object obj, ObjectEncoderContext objectEncoderContext) throws IOException {
         throw new EncodingException("Couldn't find encoder for type " + obj.getClass().getCanonicalName());
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static final class TimestampEncoder implements ValueEncoder<Date> {
+    private static final class TimestampEncoder implements ValueEncoder<Date> {
         private static final DateFormat rfc339;
 
         private TimestampEncoder() {
@@ -46,13 +46,15 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
             simpleDateFormat.setTimeZone(DesugarTimeZone.getTimeZone("UTC"));
         }
 
+        @Override // com.google.firebase.encoders.ValueEncoder
         public void encode(Date date, ValueEncoderContext valueEncoderContext) throws IOException {
-            valueEncoderContext.add(rfc339.format(date));
+            valueEncoderContext.mo193add(rfc339.format(date));
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$2(Boolean bool, ValueEncoderContext valueEncoderContext) throws IOException {
-        valueEncoderContext.add(bool.booleanValue());
+        valueEncoderContext.mo194add(bool.booleanValue());
     }
 
     public JsonDataEncoderBuilder() {

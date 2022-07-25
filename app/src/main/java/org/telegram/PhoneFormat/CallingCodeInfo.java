@@ -13,6 +13,7 @@ public class CallingCodeInfo {
         new ArrayList();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String matchingAccessCode(String str) {
         Iterator<String> it = this.intlPrefixes.iterator();
         while (it.hasNext()) {
@@ -35,6 +36,7 @@ public class CallingCodeInfo {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String format(String str) {
         String str2;
         String str3;

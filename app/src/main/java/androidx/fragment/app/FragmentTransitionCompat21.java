@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FragmentTransitionCompat21 extends FragmentTransitionImpl {
+class FragmentTransitionCompat21 extends FragmentTransitionImpl {
     @Override // androidx.fragment.app.FragmentTransitionImpl
     public boolean canHandle(Object obj) {
         return obj instanceof Transition;
