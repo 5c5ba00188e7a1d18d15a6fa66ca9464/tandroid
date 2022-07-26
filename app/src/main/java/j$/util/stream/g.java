@@ -8,19 +8,15 @@ public interface g extends AutoCloseable {
 
     boolean isParallel();
 
-    /* renamed from: iterator */
-    Iterator mo331iterator();
+    Iterator iterator();
 
     g onClose(Runnable runnable);
 
-    /* renamed from: parallel */
-    g mo332parallel();
+    g parallel();
 
-    /* renamed from: sequential */
-    g mo333sequential();
+    g sequential();
 
-    /* renamed from: spliterator */
-    j$.util.u mo334spliterator();
+    j$.util.u spliterator();
 
     g unordered();
 }

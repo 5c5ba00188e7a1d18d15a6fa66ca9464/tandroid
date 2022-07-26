@@ -13,10 +13,10 @@ public final class zzy$zzbf extends zzeo<zzy$zzbf, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        UNKNOWN(0),
-        CANONICAL(1),
-        TFLITE(2),
-        TFLITE_SUPPORT(3);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3);
         
         private final int zzf;
 

@@ -44,9 +44,8 @@ public interface CameraVideoCapturer extends VideoCapturer {
 
     void switchCamera(CameraSwitchHandler cameraSwitchHandler, String str);
 
-    /* renamed from: org.webrtc.CameraVideoCapturer$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         @Deprecated
         public static void $default$addMediaRecorderToCamera(CameraVideoCapturer _this, MediaRecorder mediaRecorder, MediaRecorderHandler mediaRecorderHandler) {
             throw new UnsupportedOperationException("Deprecated and not implemented.");

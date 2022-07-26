@@ -14,17 +14,13 @@ import java.util.UUID;
 /* loaded from: classes.dex */
 public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
     public static final Parcelable.Creator<DrmInitData> CREATOR = new Parcelable.Creator<DrmInitData>() { // from class: com.google.android.exoplayer2.drm.DrmInitData.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public DrmInitData mo82createFromParcel(Parcel parcel) {
+        public DrmInitData createFromParcel(Parcel parcel) {
             return new DrmInitData(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public DrmInitData[] mo83newArray(int i) {
+        public DrmInitData[] newArray(int i) {
             return new DrmInitData[i];
         }
     };
@@ -167,17 +163,13 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
     /* loaded from: classes.dex */
     public static final class SchemeData implements Parcelable {
         public static final Parcelable.Creator<SchemeData> CREATOR = new Parcelable.Creator<SchemeData>() { // from class: com.google.android.exoplayer2.drm.DrmInitData.SchemeData.1
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: createFromParcel */
-            public SchemeData mo84createFromParcel(Parcel parcel) {
+            public SchemeData createFromParcel(Parcel parcel) {
                 return new SchemeData(parcel);
             }
 
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: newArray */
-            public SchemeData[] mo85newArray(int i) {
+            public SchemeData[] newArray(int i) {
                 return new SchemeData[i];
             }
         };

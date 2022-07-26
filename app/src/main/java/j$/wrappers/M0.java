@@ -110,13 +110,12 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
     public /* synthetic */ Iterator<Double> iterator() {
-        return this.a.mo331iterator();
+        return this.a.iterator();
     }
 
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
-    /* renamed from: iterator */
-    public /* synthetic */ Iterator<Double> iterator2() {
-        return b.a(this.a.mo331iterator());
+    public /* synthetic */ Iterator<Double> iterator() {
+        return b.a(this.a.iterator());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -131,7 +130,7 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream
     public /* synthetic */ IntStream mapToInt(DoubleToIntFunction doubleToIntFunction) {
-        return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(this.a.R(G.b(doubleToIntFunction)));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(this.a.R(G.b(doubleToIntFunction)));
     }
 
     @Override // java.util.stream.DoubleStream
@@ -168,13 +167,12 @@ public final /* synthetic */ class M0 implements DoubleStream {
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.DoubleStream] */
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
     public /* synthetic */ DoubleStream parallel() {
-        return I0.n0(this.a.mo332parallel());
+        return I0.n0(this.a.parallel());
     }
 
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
-    /* renamed from: parallel */
-    public /* synthetic */ DoubleStream parallel2() {
-        return n0(this.a.mo332parallel());
+    public /* synthetic */ DoubleStream parallel() {
+        return n0(this.a.parallel());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -195,13 +193,12 @@ public final /* synthetic */ class M0 implements DoubleStream {
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.DoubleStream] */
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
     public /* synthetic */ DoubleStream sequential() {
-        return I0.n0(this.a.mo333sequential());
+        return I0.n0(this.a.sequential());
     }
 
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
-    /* renamed from: sequential */
-    public /* synthetic */ DoubleStream sequential2() {
-        return n0(this.a.mo333sequential());
+    public /* synthetic */ DoubleStream sequential() {
+        return n0(this.a.sequential());
     }
 
     @Override // java.util.stream.DoubleStream
@@ -216,13 +213,12 @@ public final /* synthetic */ class M0 implements DoubleStream {
 
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
     public /* synthetic */ Spliterator<Double> spliterator() {
-        return j.a(this.a.mo334spliterator());
+        return j.a(this.a.spliterator());
     }
 
     @Override // java.util.stream.DoubleStream, java.util.stream.BaseStream
-    /* renamed from: spliterator */
-    public /* synthetic */ Spliterator<Double> spliterator2() {
-        return h.a(this.a.mo334spliterator());
+    public /* synthetic */ Spliterator<Double> spliterator() {
+        return h.a(this.a.spliterator());
     }
 
     @Override // java.util.stream.DoubleStream

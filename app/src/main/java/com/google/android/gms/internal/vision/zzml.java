@@ -16,28 +16,28 @@ package com.google.android.gms.internal.vision;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public enum zzml {
-    DOUBLE(zzmo.DOUBLE, 1),
-    FLOAT(zzmo.FLOAT, 5),
-    INT64(r5, 0),
-    UINT64(r5, 0),
-    INT32(r11, 0),
-    FIXED64(r5, 1),
-    FIXED32(r11, 5),
-    BOOL(zzmo.BOOLEAN, 0),
-    STRING(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmk
+    zza(zzmo.zzd, 1),
+    zzb(zzmo.zzc, 5),
+    zzc(r5, 0),
+    zzd(r5, 0),
+    zze(r11, 0),
+    zzf(r5, 1),
+    zzg(r11, 5),
+    zzh(zzmo.zze, 0),
+    zzi(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmk
     },
-    GROUP(r13, 3) { // from class: com.google.android.gms.internal.vision.zzmn
+    zzj(r13, 3) { // from class: com.google.android.gms.internal.vision.zzmn
     },
-    MESSAGE(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmm
+    zzk(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmm
     },
-    BYTES(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmp
+    zzl(r13, 2) { // from class: com.google.android.gms.internal.vision.zzmp
     },
-    UINT32(r11, 0),
-    ENUM(zzmo.ENUM, 0),
-    SFIXED32(r11, 5),
-    SFIXED64(r5, 1),
-    SINT32(r11, 0),
-    SINT64(r5, 0);
+    zzm(r11, 0),
+    zzn(zzmo.zzh, 0),
+    zzo(r11, 5),
+    zzp(r5, 1),
+    zzq(r11, 0),
+    zzr(r5, 0);
     
     private final zzmo zzs;
     private final int zzt;
@@ -52,10 +52,10 @@ public enum zzml {
     }
 
     static {
-        zzmo zzmoVar = zzmo.LONG;
-        zzmo zzmoVar2 = zzmo.INT;
-        final zzmo zzmoVar3 = zzmo.STRING;
-        final zzmo zzmoVar4 = zzmo.MESSAGE;
-        final zzmo zzmoVar5 = zzmo.BYTE_STRING;
+        zzmo zzmoVar = zzmo.zzb;
+        zzmo zzmoVar2 = zzmo.zza;
+        final zzmo zzmoVar3 = zzmo.zzf;
+        final zzmo zzmoVar4 = zzmo.zzi;
+        final zzmo zzmoVar5 = zzmo.zzg;
     }
 }

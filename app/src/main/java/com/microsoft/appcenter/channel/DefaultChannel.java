@@ -260,7 +260,7 @@ public class DefaultChannel implements Channel {
                 DefaultChannel.this.mAppCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.channel.DefaultChannel.1.1
                     @Override // java.lang.Runnable
                     public void run() {
-                        AnonymousClass1 anonymousClass1 = AnonymousClass1.this;
+                        1 r0 = 1.this;
                         DefaultChannel.this.handleSendingSuccess(groupState, str);
                     }
                 });
@@ -271,7 +271,7 @@ public class DefaultChannel implements Channel {
                 DefaultChannel.this.mAppCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.channel.DefaultChannel.1.2
                     @Override // java.lang.Runnable
                     public void run() {
-                        AnonymousClass1 anonymousClass1 = AnonymousClass1.this;
+                        1 r0 = 1.this;
                         DefaultChannel.this.handleSendingFailure(groupState, str, exc);
                     }
                 });

@@ -66,12 +66,12 @@ public class HardwareVideoEncoder implements VideoEncoder {
 
     @Override // org.webrtc.VideoEncoder
     public /* synthetic */ long createNativeVideoEncoder() {
-        return VideoEncoder.CC.$default$createNativeVideoEncoder(this);
+        return VideoEncoder.-CC.$default$createNativeVideoEncoder(this);
     }
 
     @Override // org.webrtc.VideoEncoder
     public /* synthetic */ VideoEncoder.EncoderInfo getEncoderInfo() {
-        return VideoEncoder.CC.$default$getEncoderInfo(this);
+        return VideoEncoder.-CC.$default$getEncoderInfo(this);
     }
 
     @Override // org.webrtc.VideoEncoder
@@ -81,12 +81,12 @@ public class HardwareVideoEncoder implements VideoEncoder {
 
     @Override // org.webrtc.VideoEncoder
     public /* synthetic */ VideoEncoder.ResolutionBitrateLimits[] getResolutionBitrateLimits() {
-        return VideoEncoder.CC.$default$getResolutionBitrateLimits(this);
+        return VideoEncoder.-CC.$default$getResolutionBitrateLimits(this);
     }
 
     @Override // org.webrtc.VideoEncoder
     public /* synthetic */ boolean isHardwareEncoder() {
-        return VideoEncoder.CC.$default$isHardwareEncoder(this);
+        return VideoEncoder.-CC.$default$isHardwareEncoder(this);
     }
 
     @Override // org.webrtc.VideoEncoder
@@ -218,7 +218,7 @@ public class HardwareVideoEncoder implements VideoEncoder {
                 Logging.d(TAG, "Format: " + createVideoFormat);
                 this.codec.configure(createVideoFormat, null, null, 1);
                 if (this.useSurfaceMode) {
-                    this.textureEglBase = EglBase.CC.createEgl14(this.sharedContext, EglBase.CONFIG_RECORDABLE);
+                    this.textureEglBase = EglBase.-CC.createEgl14(this.sharedContext, EglBase.CONFIG_RECORDABLE);
                     Surface createInputSurface = this.codec.createInputSurface();
                     this.textureInputSurface = createInputSurface;
                     this.textureEglBase.createSurface(createInputSurface);

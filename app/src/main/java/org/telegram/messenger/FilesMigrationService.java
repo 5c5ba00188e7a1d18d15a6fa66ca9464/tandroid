@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.huawei.hms.push.constant.RemoteMessageConst;
 import j$.util.function.Consumer;
 import j$.util.stream.Stream;
-import j$.wrappers.C$r8$wrapper$java$util$stream$Stream$VWRP;
+import j$.wrappers.$r8$wrapper$java$util$stream$Stream$-V-WRP;
 import java.io.File;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -54,16 +54,15 @@ public class FilesMigrationService extends Service {
         NotificationsController.checkOtherNotificationsChannel();
         Notification build = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(org.telegram.messenger.beta.R.string.MigratingFiles)).setAutoCancel(false).setSmallIcon(org.telegram.messenger.beta.R.drawable.notification).build();
         isRunning = true;
-        new AnonymousClass1().start();
+        new 1().start();
         startForeground(301, build);
         return super.onStartCommand(intent, i, i2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.FilesMigrationService$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass1 extends Thread {
-        AnonymousClass1() {
+    public class 1 extends Thread {
+        1() {
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -72,7 +71,7 @@ public class FilesMigrationService extends Service {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FilesMigrationService$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FilesMigrationService.AnonymousClass1.this.lambda$run$0();
+                    FilesMigrationService.1.this.lambda$run$0();
                 }
             });
         }
@@ -132,7 +131,7 @@ public class FilesMigrationService extends Service {
                 return;
             }
             try {
-                Stream convert = C$r8$wrapper$java$util$stream$Stream$VWRP.convert(Files.list(file.toPath()));
+                Stream convert = $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(Files.list(file.toPath()));
                 convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda1
                     @Override // j$.util.function.Consumer
                     public final void accept(Object obj) {

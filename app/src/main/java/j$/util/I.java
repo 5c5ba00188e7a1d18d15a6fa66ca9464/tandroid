@@ -91,8 +91,7 @@ final class I implements u.a {
     }
 
     @Override // j$.util.u.a, j$.util.w, j$.util.u
-    /* renamed from: trySplit */
-    public u.a mo350trySplit() {
+    public u.a trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;
         if (i >= i2) {

@@ -11,8 +11,7 @@ public final class b2 extends D1 implements s1 {
     }
 
     @Override // j$.util.stream.s1
-    /* renamed from: a */
-    public A1 mo315a() {
+    public A1 a() {
         if (this.b >= this.a.length) {
             return this;
         }

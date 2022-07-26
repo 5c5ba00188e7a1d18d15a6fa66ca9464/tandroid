@@ -971,7 +971,7 @@ public class PhonebookShareAlert extends BottomSheet {
                     Intent intent2;
                     int i2;
                     boolean z;
-                    AnonymousClass5 anonymousClass5 = this;
+                    5 r1 = this;
                     int i3 = 1;
                     if (i == 0) {
                         intent = new Intent("android.intent.action.INSERT");
@@ -990,7 +990,7 @@ public class PhonebookShareAlert extends BottomSheet {
                         ContentValues contentValues = new ContentValues();
                         contentValues.put("mimetype", "vnd.android.cursor.item/phone_v2");
                         contentValues.put("data1", vcardItem.getValue(false));
-                        anonymousClass5.fillRowWithType(vcardItem.getRawType(false), contentValues);
+                        r1.fillRowWithType(vcardItem.getRawType(false), contentValues);
                         arrayList.add(contentValues);
                     }
                     int i5 = 0;
@@ -1002,13 +1002,13 @@ public class PhonebookShareAlert extends BottomSheet {
                             ContentValues contentValues2 = new ContentValues();
                             contentValues2.put("mimetype", "vnd.android.cursor.item/email_v2");
                             contentValues2.put("data1", vcardItem2.getValue(z2));
-                            anonymousClass5.fillRowWithType(vcardItem2.getRawType(z2), contentValues2);
+                            r1.fillRowWithType(vcardItem2.getRawType(z2), contentValues2);
                             arrayList.add(contentValues2);
                         } else if (i6 == 3) {
                             ContentValues contentValues3 = new ContentValues();
                             contentValues3.put("mimetype", "vnd.android.cursor.item/website");
                             contentValues3.put("data1", vcardItem2.getValue(z2));
-                            anonymousClass5.fillUrlRowWithType(vcardItem2.getRawType(z2), contentValues3);
+                            r1.fillUrlRowWithType(vcardItem2.getRawType(z2), contentValues3);
                             arrayList.add(contentValues3);
                         } else if (i6 == 4) {
                             ContentValues contentValues4 = new ContentValues();
@@ -1100,7 +1100,7 @@ public class PhonebookShareAlert extends BottomSheet {
                                 } else if (i6 == 6 && !z) {
                                     ContentValues contentValues8 = new ContentValues();
                                     contentValues8.put("mimetype", "vnd.android.cursor.item/organization");
-                                    anonymousClass5 = this;
+                                    r1 = this;
                                     for (int i7 = i2; i7 < PhonebookShareAlert.this.other.size(); i7++) {
                                         AndroidUtilities.VcardItem vcardItem3 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i7);
                                         if (vcardItem3.type == 6) {
@@ -1136,7 +1136,7 @@ public class PhonebookShareAlert extends BottomSheet {
                                     z2 = false;
                                 }
                             }
-                            anonymousClass5 = this;
+                            r1 = this;
                             z3 = z;
                             i5 = i2 + 1;
                             intent = intent2;
@@ -1230,17 +1230,17 @@ public class PhonebookShareAlert extends BottomSheet {
         Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.PhonebookShareAlert.6
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onHide(Bulletin bulletin) {
-                Bulletin.Delegate.CC.$default$onHide(this, bulletin);
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onOffsetChange(float f) {
-                Bulletin.Delegate.CC.$default$onOffsetChange(this, f);
+                Bulletin.Delegate.-CC.$default$onOffsetChange(this, f);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onShow(Bulletin bulletin) {
-                Bulletin.Delegate.CC.$default$onShow(this, bulletin);
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate

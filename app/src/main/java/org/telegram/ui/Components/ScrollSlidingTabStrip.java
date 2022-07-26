@@ -218,7 +218,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             return;
         }
         this.type = type;
-        int i = AnonymousClass7.$SwitchMap$org$telegram$ui$Components$ScrollSlidingTabStrip$Type[type.ordinal()];
+        int i = 7.$SwitchMap$org$telegram$ui$Components$ScrollSlidingTabStrip$Type[type.ordinal()];
         if (i == 1) {
             this.indicatorDrawable.setCornerRadius(0.0f);
         } else if (i != 2) {
@@ -229,9 +229,8 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTabStrip$7  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public static /* synthetic */ class AnonymousClass7 {
+    public static /* synthetic */ class 7 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ScrollSlidingTabStrip$Type;
 
         static {
@@ -259,14 +258,13 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         AutoTransition autoTransition = new AutoTransition();
         autoTransition.setDuration(250L);
         autoTransition.setOrdering(0);
-        autoTransition.addTransition(new AnonymousClass3());
+        autoTransition.addTransition(new 3());
         TransitionManager.beginDelayedTransition(this.tabsContainer, autoTransition);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ScrollSlidingTabStrip$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends Transition {
+    public class 3 extends Transition {
         @Override // android.transition.Transition
         public void captureEndValues(TransitionValues transitionValues) {
         }
@@ -275,7 +273,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         public void captureStartValues(TransitionValues transitionValues) {
         }
 
-        AnonymousClass3() {
+        3() {
         }
 
         @Override // android.transition.Transition
@@ -284,7 +282,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$3$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    ScrollSlidingTabStrip.AnonymousClass3.this.lambda$createAnimator$0(valueAnimator);
+                    ScrollSlidingTabStrip.3.this.lambda$createAnimator$0(valueAnimator);
                 }
             });
             return ofFloat;

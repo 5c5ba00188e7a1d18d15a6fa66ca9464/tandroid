@@ -101,11 +101,11 @@ public class GmsRpc {
             Log.e("FirebaseMessaging", "Failed to get FIS auth token", e);
         }
         bundle.putString("cliv", "fcm-22.0.0");
-        HeartBeatInfo mo190get = this.heartbeatInfo.mo190get();
-        UserAgentPublisher mo190get2 = this.userAgentPublisher.mo190get();
-        if (mo190get != null && mo190get2 != null && (heartBeatCode = mo190get.getHeartBeatCode("fire-iid")) != HeartBeatInfo.HeartBeat.NONE) {
+        HeartBeatInfo heartBeatInfo = this.heartbeatInfo.get();
+        UserAgentPublisher userAgentPublisher = this.userAgentPublisher.get();
+        if (heartBeatInfo != null && userAgentPublisher != null && (heartBeatCode = heartBeatInfo.getHeartBeatCode("fire-iid")) != HeartBeatInfo.HeartBeat.NONE) {
             bundle.putString("Firebase-Client-Log-Type", Integer.toString(heartBeatCode.getCode()));
-            bundle.putString("Firebase-Client", mo190get2.getUserAgent());
+            bundle.putString("Firebase-Client", userAgentPublisher.getUserAgent());
         }
         return bundle;
     }

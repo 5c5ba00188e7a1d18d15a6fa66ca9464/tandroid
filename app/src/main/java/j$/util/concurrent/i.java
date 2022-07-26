@@ -1,7 +1,7 @@
 package j$.util.concurrent;
 
 import j$.util.stream.o1;
-import j$.wrappers.C$r8$wrapper$java$util$stream$IntStream$WRP;
+import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP;
 import j$.wrappers.M0;
 import j$.wrappers.O0;
 import java.io.ObjectStreamField;
@@ -173,7 +173,7 @@ public class i extends Random {
 
     @Override // java.util.Random
     public IntStream ints() {
-        return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(o1.s(new g(0L, Long.MAX_VALUE, Integer.MAX_VALUE, 0), false));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, Long.MAX_VALUE, Integer.MAX_VALUE, 0), false));
     }
 
     final long j() {
@@ -280,7 +280,7 @@ public class i extends Random {
     @Override // java.util.Random
     public IntStream ints(int i, int i2) {
         if (i < i2) {
-            return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(o1.s(new g(0L, Long.MAX_VALUE, i, i2), false));
+            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, Long.MAX_VALUE, i, i2), false));
         }
         throw new IllegalArgumentException("bound must be greater than origin");
     }
@@ -304,7 +304,7 @@ public class i extends Random {
     @Override // java.util.Random
     public IntStream ints(long j) {
         if (j >= 0) {
-            return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(o1.s(new g(0L, j, Integer.MAX_VALUE, 0), false));
+            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, j, Integer.MAX_VALUE, 0), false));
         }
         throw new IllegalArgumentException("size must be non-negative");
     }
@@ -332,7 +332,7 @@ public class i extends Random {
     public IntStream ints(long j, int i, int i2) {
         if (j >= 0) {
             if (i < i2) {
-                return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(o1.s(new g(0L, j, i, i2), false));
+                return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, j, i, i2), false));
             }
             throw new IllegalArgumentException("bound must be greater than origin");
         }

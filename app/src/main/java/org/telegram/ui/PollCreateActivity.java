@@ -185,7 +185,7 @@ public class PollCreateActivity extends BaseFragment {
             this.actionBar.setOccupyStatusBar(false);
         }
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setActionBarMenuOnItemClick(new 1());
         this.doneItem = this.actionBar.createMenu().addItem(1, LocaleController.getString("Create", R.string.Create).toUpperCase());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -245,10 +245,9 @@ public class PollCreateActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.PollCreateActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
+    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+        1() {
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -310,7 +309,7 @@ public class PollCreateActivity extends BaseFragment {
                     AlertsCreator.createScheduleDatePickerDialog(PollCreateActivity.this.getParentActivity(), PollCreateActivity.this.parentFragment.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.PollCreateActivity$1$$ExternalSyntheticLambda0
                         @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                         public final void didSelectDate(boolean z, int i5) {
-                            PollCreateActivity.AnonymousClass1.this.lambda$onItemClick$0(tLRPC$TL_messageMediaPoll, hashMap, z, i5);
+                            PollCreateActivity.1.this.lambda$onItemClick$0(tLRPC$TL_messageMediaPoll, hashMap, z, i5);
                         }
                     });
                     return;
@@ -834,8 +833,7 @@ public class PollCreateActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             PollEditTextCell pollEditTextCell;
             if (i == 0) {
                 View headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 21, 15, false);

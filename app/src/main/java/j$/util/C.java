@@ -90,8 +90,7 @@ final class C implements t {
     }
 
     @Override // j$.util.t, j$.util.w, j$.util.u
-    /* renamed from: trySplit */
-    public t mo350trySplit() {
+    public t trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;
         if (i >= i2) {

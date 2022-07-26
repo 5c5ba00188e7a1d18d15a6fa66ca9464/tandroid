@@ -580,12 +580,12 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         this.sideMenu.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda94
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view2, int i4) {
-                return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view2, i4);
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i4);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ void onDoubleTap(View view2, int i4, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view2, i4, f, f2);
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view2, i4, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
@@ -1402,7 +1402,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             this.termsOfServiceView = termsOfServiceView;
             termsOfServiceView.setAlpha(0.0f);
             this.drawerLayoutContainer.addView(this.termsOfServiceView, LayoutHelper.createFrame(-1, -1.0f));
-            this.termsOfServiceView.setDelegate(new AnonymousClass11());
+            this.termsOfServiceView.setDelegate(new 11());
         }
         TLRPC$TL_help_termsOfService tLRPC$TL_help_termsOfService2 = UserConfig.getInstance(i).unacceptedTermsOfService;
         if (tLRPC$TL_help_termsOfService2 != tLRPC$TL_help_termsOfService && (tLRPC$TL_help_termsOfService2 == null || !tLRPC$TL_help_termsOfService2.id.data.equals(tLRPC$TL_help_termsOfService.id.data))) {
@@ -1415,10 +1415,9 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.LaunchActivity$11  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass11 implements TermsOfServiceView.TermsOfServiceViewDelegate {
-        AnonymousClass11() {
+    public class 11 implements TermsOfServiceView.TermsOfServiceViewDelegate {
+        11() {
         }
 
         @Override // org.telegram.ui.Components.TermsOfServiceView.TermsOfServiceViewDelegate
@@ -1432,7 +1431,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             LaunchActivity.this.termsOfServiceView.animate().alpha(0.0f).setDuration(150L).setInterpolator(AndroidUtilities.accelerateInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.LaunchActivity$11$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LaunchActivity.AnonymousClass11.this.lambda$onAcceptTerms$0();
+                    LaunchActivity.11.this.lambda$onAcceptTerms$0();
                 }
             }).start();
         }
@@ -7374,7 +7373,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                 chatActivity.setBotUser(str10);
                             }
                         }
-                        MessagesController.getInstance(i).ensureMessagesLoaded(j, num == null ? 0 : num.intValue(), new AnonymousClass14(alertDialog, str3, baseFragment, j, bundle3));
+                        MessagesController.getInstance(i).ensureMessagesLoaded(j, num == null ? 0 : num.intValue(), new 14(alertDialog, str3, baseFragment, j, bundle3));
                         z3 = false;
                     }
                 }
@@ -7816,16 +7815,15 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.LaunchActivity$14  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass14 implements MessagesController.MessagesLoadedCallback {
+    public class 14 implements MessagesController.MessagesLoadedCallback {
         final /* synthetic */ Bundle val$args;
         final /* synthetic */ long val$dialog_id;
         final /* synthetic */ BaseFragment val$lastFragment;
         final /* synthetic */ String val$livestream;
         final /* synthetic */ AlertDialog val$progressDialog;
 
-        AnonymousClass14(AlertDialog alertDialog, String str, BaseFragment baseFragment, long j, Bundle bundle) {
+        14(AlertDialog alertDialog, String str, BaseFragment baseFragment, long j, Bundle bundle) {
             this.val$progressDialog = alertDialog;
             this.val$livestream = str;
             this.val$lastFragment = baseFragment;
@@ -7852,7 +7850,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$14$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
-                                LaunchActivity.AnonymousClass14.this.lambda$onMessagesLoaded$2(str, j, baseFragment2);
+                                LaunchActivity.14.this.lambda$onMessagesLoaded$2(str, j, baseFragment2);
                             }
                         }, 150L);
                     }
@@ -7865,7 +7863,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$14$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LaunchActivity.AnonymousClass14.this.lambda$onMessagesLoaded$2(str2, j2, baseFragment22);
+                        LaunchActivity.14.this.lambda$onMessagesLoaded$2(str2, j2, baseFragment22);
                     }
                 }, 150L);
             }
@@ -7901,7 +7899,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 accountInstance.getMessagesController().getGroupCall(j2, true, new Runnable() { // from class: org.telegram.ui.LaunchActivity$14$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LaunchActivity.AnonymousClass14.this.lambda$onMessagesLoaded$1(accountInstance, j, baseFragment);
+                        LaunchActivity.14.this.lambda$onMessagesLoaded$1(accountInstance, j, baseFragment);
                     }
                 });
             }
@@ -7912,7 +7910,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$14$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LaunchActivity.AnonymousClass14.this.lambda$onMessagesLoaded$0(accountInstance, j, baseFragment);
+                    LaunchActivity.14.this.lambda$onMessagesLoaded$0(accountInstance, j, baseFragment);
                 }
             });
         }

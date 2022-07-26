@@ -5,8 +5,7 @@ import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 /* loaded from: classes.dex */
 public final class EventStoreModule_StoreConfigFactory implements Factory<EventStoreConfig> {
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public EventStoreConfig mo70get() {
+    public EventStoreConfig get() {
         return storeConfig();
     }
 

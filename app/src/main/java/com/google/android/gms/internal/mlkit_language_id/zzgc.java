@@ -54,7 +54,7 @@ final class zzgc<T> implements zzgp<T> {
         while (zzd.hasNext()) {
             Map.Entry<?, Object> next = zzd.next();
             zzel zzelVar = (zzel) next.getKey();
-            if (zzelVar.zzc() != zzhy.MESSAGE || zzelVar.zzd() || zzelVar.zze()) {
+            if (zzelVar.zzc() != zzhy.zzi || zzelVar.zzd() || zzelVar.zze()) {
                 throw new IllegalStateException("Found invalid MessageSet item.");
             }
             if (next instanceof zzfc) {

@@ -22,8 +22,7 @@ abstract class zzi<E> extends zzr<E> {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public final E mo335next() {
+    public final E next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }

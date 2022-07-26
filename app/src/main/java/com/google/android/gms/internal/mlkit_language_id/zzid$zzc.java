@@ -20,12 +20,12 @@ public final class zzid$zzc extends zzeo<zzid$zzc, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        UNKNOWN_ACTION(0),
-        INITIALIZATION(1),
-        COMPILATION(2),
-        EXECUTION(3),
-        TEARDOWN(4),
-        VALIDATION(5);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5);
         
         private final int zzh;
 
@@ -196,12 +196,12 @@ public final class zzid$zzc extends zzeo<zzid$zzc, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zze implements zzet {
-        UNKNOWN_STATUS(0),
-        COMPLETED_EVENT(1),
-        MISSING_END_EVENT(2),
-        HANG(3),
-        ABANDONED_FROM_HANG(4),
-        FORCED_CRASH_FROM_HANG(5);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5);
         
         private final int zzh;
 

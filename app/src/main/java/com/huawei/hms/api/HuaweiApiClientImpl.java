@@ -164,8 +164,7 @@ public class HuaweiApiClientImpl extends HuaweiApiClient implements InnerApiClie
         }
 
         @Override // com.huawei.hms.support.api.PendingResultImpl
-        /* renamed from: onComplete  reason: avoid collision after fix types in other method */
-        public Status mo234onComplete(IMessageEntity iMessageEntity) {
+        public Status onComplete(IMessageEntity iMessageEntity) {
             return new Status(0);
         }
     }

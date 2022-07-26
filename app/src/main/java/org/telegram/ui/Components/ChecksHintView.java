@@ -133,7 +133,7 @@ public class ChecksHintView extends FrameLayout {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animatorSet = animatorSet2;
             animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_X, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 0.0f, 1.0f));
-            this.animatorSet.addListener(new AnonymousClass1());
+            this.animatorSet.addListener(new 1());
             this.animatorSet.setDuration(180L);
             this.animatorSet.start();
             while (i3 < 2) {
@@ -152,10 +152,9 @@ public class ChecksHintView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ChecksHintView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
+    public class 1 extends AnimatorListenerAdapter {
+        1() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -164,7 +163,7 @@ public class ChecksHintView extends FrameLayout {
             AndroidUtilities.runOnUIThread(ChecksHintView.this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.ChecksHintView$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChecksHintView.AnonymousClass1.this.lambda$onAnimationEnd$0();
+                    ChecksHintView.1.this.lambda$onAnimationEnd$0();
                 }
             }, 3000L);
         }

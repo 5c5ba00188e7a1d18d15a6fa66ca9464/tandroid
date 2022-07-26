@@ -275,7 +275,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         if (exoPlaybackException.type != 1) {
             return "Playback error.";
         }
-        return "Renderer error: index=" + exoPlaybackException.rendererIndex + ", type=" + Util.getTrackTypeString(this.renderers[exoPlaybackException.rendererIndex].getTrackType()) + ", format=" + exoPlaybackException.rendererFormat + ", rendererSupport=" + RendererCapabilities.CC.getFormatSupportString(exoPlaybackException.rendererFormatSupport);
+        return "Renderer error: index=" + exoPlaybackException.rendererIndex + ", type=" + Util.getTrackTypeString(this.renderers[exoPlaybackException.rendererIndex].getTrackType()) + ", format=" + exoPlaybackException.rendererFormat + ", rendererSupport=" + RendererCapabilities.-CC.getFormatSupportString(exoPlaybackException.rendererFormatSupport);
     }
 
     private void setState(int i) {

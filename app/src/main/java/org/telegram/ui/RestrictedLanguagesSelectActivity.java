@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import j$.util.Collection$EL;
+import j$.util.Collection$-EL;
 import j$.util.function.Predicate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -243,7 +243,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         boolean contains = this.selectedLanguages.contains(str);
         HashSet hashSet = new HashSet(this.selectedLanguages);
         if (contains) {
-            Collection$EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda3
+            Collection$-EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda3
                 @Override // j$.util.function.Predicate
                 public /* synthetic */ Predicate and(Predicate predicate) {
                     return predicate.getClass();
@@ -251,7 +251,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
 
                 @Override // j$.util.function.Predicate
                 public /* synthetic */ Predicate negate() {
-                    return Predicate.CC.$default$negate(this);
+                    return Predicate.-CC.$default$negate(this);
                 }
 
                 @Override // j$.util.function.Predicate
@@ -473,8 +473,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextCheckbox2Cell textCheckbox2Cell;
             View view;
             if (i == 0) {

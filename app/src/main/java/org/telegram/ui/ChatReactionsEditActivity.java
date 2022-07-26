@@ -119,8 +119,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 if (i != 0) {
                     if (i != 1) {
                         return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
@@ -249,7 +248,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         }, "windowBackgroundWhite", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText2", "listSelectorSDK21", "windowBackgroundGray", "windowBackgroundWhiteGrayText4", "windowBackgroundWhiteRedText4", "windowBackgroundChecked", "windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
     }

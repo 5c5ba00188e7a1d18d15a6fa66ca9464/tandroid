@@ -1824,18 +1824,17 @@ public class BottomSheet extends Dialog {
         animatorSet.playTogether(animatorArr);
         this.currentSheetAnimation.setDuration(180L);
         this.currentSheetAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-        this.currentSheetAnimation.addListener(new AnonymousClass7(i));
+        this.currentSheetAnimation.addListener(new 7(i));
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
         this.currentSheetAnimation.start();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ActionBar.BottomSheet$7  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends AnimatorListenerAdapter {
+    public class 7 extends AnimatorListenerAdapter {
         final /* synthetic */ int val$item;
 
-        AnonymousClass7(int i) {
+        7(int i) {
             this.val$item = i;
         }
 
@@ -1852,7 +1851,7 @@ public class BottomSheet extends Dialog {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheet$7$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        BottomSheet.AnonymousClass7.this.lambda$onAnimationEnd$0();
+                        BottomSheet.7.this.lambda$onAnimationEnd$0();
                     }
                 });
             }
@@ -1945,7 +1944,7 @@ public class BottomSheet extends Dialog {
                 j = 250;
                 this.currentSheetAnimation.setDuration(250L);
                 this.currentSheetAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-                this.currentSheetAnimation.addListener(new AnonymousClass8());
+                this.currentSheetAnimation.addListener(new 8());
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
                 this.currentSheetAnimation.start();
             } else {
@@ -1973,10 +1972,9 @@ public class BottomSheet extends Dialog {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ActionBar.BottomSheet$8  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends AnimatorListenerAdapter {
-        AnonymousClass8() {
+    public class 8 extends AnimatorListenerAdapter {
+        8() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1989,7 +1987,7 @@ public class BottomSheet extends Dialog {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheet$8$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        BottomSheet.AnonymousClass8.this.lambda$onAnimationEnd$0();
+                        BottomSheet.8.this.lambda$onAnimationEnd$0();
                     }
                 });
             }

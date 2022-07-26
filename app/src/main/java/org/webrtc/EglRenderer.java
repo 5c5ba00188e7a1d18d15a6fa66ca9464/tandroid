@@ -69,7 +69,7 @@ public class EglRenderer implements VideoSink {
 
     @Override // org.webrtc.VideoSink
     public /* synthetic */ void setParentSink(VideoSink videoSink) {
-        VideoSink.CC.$default$setParentSink(this, videoSink);
+        VideoSink.-CC.$default$setParentSink(this, videoSink);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -215,11 +215,11 @@ public class EglRenderer implements VideoSink {
     public /* synthetic */ void lambda$init$0(EglBase.Context context, int[] iArr) {
         if (context == null) {
             logD("EglBase10.create context");
-            this.eglBase = EglBase.CC.createEgl10(iArr);
+            this.eglBase = EglBase.-CC.createEgl10(iArr);
             return;
         }
         logD("EglBase.create shared context");
-        this.eglBase = EglBase.CC.create(context, iArr);
+        this.eglBase = EglBase.-CC.create(context, iArr);
     }
 
     public void init(EglBase.Context context, int[] iArr, RendererCommon.GlDrawer glDrawer) {

@@ -13,15 +13,14 @@ public final class a {
     static final int b;
     private static final a c = new a();
     private static final int e;
-    private final Executor d = new ExecutorC0002a((byte) 0);
+    private final Executor d = new a((byte) 0);
 
-    /* renamed from: com.huawei.hmf.tasks.a.a$a  reason: collision with other inner class name */
     /* loaded from: classes.dex */
-    static class ExecutorC0002a implements Executor {
-        private ExecutorC0002a() {
+    static class a implements Executor {
+        private a() {
         }
 
-        /* synthetic */ ExecutorC0002a(byte b) {
+        /* synthetic */ a(byte b) {
             this();
         }
 

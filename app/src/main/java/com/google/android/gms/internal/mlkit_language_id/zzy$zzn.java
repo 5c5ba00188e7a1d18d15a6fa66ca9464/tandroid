@@ -13,9 +13,9 @@ public final class zzy$zzn extends zzeo<zzy$zzn, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        UNKNOWN_MODEL_TYPE(0),
-        STABLE_MODEL(1),
-        LATEST_MODEL(2);
+        zza(0),
+        zzb(1),
+        zzc(2);
         
         private final int zze;
 

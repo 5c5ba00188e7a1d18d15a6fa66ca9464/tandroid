@@ -85,10 +85,8 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         this.masterPlaylist = hlsMasterPlaylist;
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-    /* renamed from: parse */
-    public HlsPlaylist mo164parse(Uri uri, InputStream inputStream) throws IOException {
+    public HlsPlaylist parse(Uri uri, InputStream inputStream) throws IOException {
         String trim;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         ArrayDeque arrayDeque = new ArrayDeque();

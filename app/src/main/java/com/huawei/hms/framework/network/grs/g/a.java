@@ -16,12 +16,11 @@ public class a {
     private final com.huawei.hms.framework.network.grs.e.c h;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: com.huawei.hms.framework.network.grs.g.a$a  reason: collision with other inner class name */
     /* loaded from: classes.dex */
-    public enum EnumC0005a {
-        GRSPOST,
-        GRSGET,
-        GRSDEFAULT
+    public enum a {
+        a,
+        b,
+        c
     }
 
     public a(String str, int i, c cVar, Context context, String str2, GrsBaseInfo grsBaseInfo, com.huawei.hms.framework.network.grs.e.c cVar2) {
@@ -38,12 +37,12 @@ public class a {
         return Uri.parse(str).getPath();
     }
 
-    private EnumC0005a h() {
+    private a h() {
         if (this.b.isEmpty()) {
-            return EnumC0005a.GRSDEFAULT;
+            return a.c;
         }
-        String a = a(this.b);
-        return a.contains("1.0") ? EnumC0005a.GRSGET : a.contains("2.0") ? EnumC0005a.GRSPOST : EnumC0005a.GRSDEFAULT;
+        String a2 = a(this.b);
+        return a2.contains("1.0") ? a.b : a2.contains("2.0") ? a.a : a.c;
     }
 
     public Context a() {
@@ -71,9 +70,9 @@ public class a {
     }
 
     public Callable<d> g() {
-        if (EnumC0005a.GRSDEFAULT.equals(h())) {
+        if (a.c.equals(h())) {
             return null;
         }
-        return EnumC0005a.GRSGET.equals(h()) ? new f(this.b, this.d, this.c, this.e, this.f, this.g) : new g(this.b, this.d, this.c, this.e, this.f, this.g, this.h);
+        return a.b.equals(h()) ? new f(this.b, this.d, this.c, this.e, this.f, this.g) : new g(this.b, this.d, this.c, this.e, this.f, this.g, this.h);
     }
 }

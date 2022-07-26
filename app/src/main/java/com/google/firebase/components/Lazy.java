@@ -12,15 +12,14 @@ public class Lazy<T> implements Provider<T> {
     }
 
     @Override // com.google.firebase.inject.Provider
-    /* renamed from: get */
-    public T mo190get() {
+    public T get() {
         T t = (T) this.instance;
         Object obj = UNINITIALIZED;
         if (t == obj) {
             synchronized (this) {
                 t = this.instance;
                 if (t == obj) {
-                    t = this.provider.mo190get();
+                    t = this.provider.get();
                     this.instance = t;
                     this.provider = null;
                 }

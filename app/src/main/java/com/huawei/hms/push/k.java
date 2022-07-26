@@ -31,7 +31,7 @@ public class k {
     public String j = "";
     public String k = "";
     public String q = "";
-    public int t = n.STYLE_DEFAULT.ordinal();
+    public int t = n.a.ordinal();
     public String u = "";
     public String v = "";
     public String w = "";

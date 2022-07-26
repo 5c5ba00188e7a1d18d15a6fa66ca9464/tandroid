@@ -77,9 +77,8 @@ class MediaCodecUtils {
         return false;
     }
 
-    /* renamed from: org.webrtc.MediaCodecUtils$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    static /* synthetic */ class AnonymousClass1 {
+    static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoCodecMimeType;
 
         static {
@@ -110,7 +109,7 @@ class MediaCodecUtils {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Map<String, String> getCodecProperties(VideoCodecMimeType videoCodecMimeType, boolean z) {
-        int i = AnonymousClass1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
+        int i = 1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
         if (i == 1 || i == 2 || i == 3 || i == 4) {
             return new HashMap();
         }

@@ -53,7 +53,7 @@ public class AnalyticsCollector implements Player.EventListener, MetadataOutput,
 
     @Override // com.google.android.exoplayer2.Player.EventListener
     public /* synthetic */ void onTimelineChanged(Timeline timeline, Object obj, int i) {
-        Player.EventListener.CC.$default$onTimelineChanged(this, timeline, obj, i);
+        Player.EventListener.-CC.$default$onTimelineChanged(this, timeline, obj, i);
     }
 
     public AnalyticsCollector(Clock clock) {

@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import j$.util.Comparator$CC;
+import j$.util.Comparator$-CC;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -102,8 +102,7 @@ public class ReactedUsersListView extends FrameLayout {
         RecyclerListView recyclerListView = this.listView;
         RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.Components.ReactedUsersListView.2
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i2) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
                 return new RecyclerListView.Holder(new ReactedUserHolderView(context));
             }
 
@@ -251,7 +250,7 @@ public class ReactedUsersListView extends FrameLayout {
                 this.peerReactionMap.put(peerId, tLRPC$TL_messages_messageReactionsList.reactions.get(i));
             }
             if (this.onlySeenNow) {
-                Collections.sort(this.userReactions, Comparator$CC.comparingInt(ReactedUsersListView$$ExternalSyntheticLambda3.INSTANCE));
+                Collections.sort(this.userReactions, Comparator$-CC.comparingInt(ReactedUsersListView$$ExternalSyntheticLambda3.INSTANCE));
             }
             if (this.onlySeenNow) {
                 this.onlySeenNow = false;

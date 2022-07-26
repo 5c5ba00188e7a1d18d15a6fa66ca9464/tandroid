@@ -112,19 +112,17 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
 
     @Override // java.lang.Iterable
     public Iterator iterator() {
-        return j$.util.L.i(mo317spliterator());
+        return j$.util.L.i(spliterator());
     }
 
     @Override // java.lang.Iterable, j$.lang.e
-    /* renamed from: spliterator */
-    public j$.util.u mo317spliterator() {
+    public j$.util.u spliterator() {
         return new S3(this, 0, this.c, 0, this.b);
     }
 
     @Override // java.lang.Iterable, j$.lang.e
-    /* renamed from: spliterator  reason: collision with other method in class */
-    public /* synthetic */ Spliterator mo317spliterator() {
-        return j$.wrappers.h.a(mo317spliterator());
+    public /* synthetic */ Spliterator spliterator() {
+        return j$.wrappers.h.a(spliterator());
     }
 
     protected long t() {

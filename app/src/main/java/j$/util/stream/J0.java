@@ -12,16 +12,14 @@ abstract class J0 extends L0 {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* bridge */ /* synthetic */ IntStream mo332parallel() {
-        mo332parallel();
+    public /* bridge */ /* synthetic */ IntStream parallel() {
+        parallel();
         return this;
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* bridge */ /* synthetic */ IntStream mo333sequential() {
-        mo333sequential();
+    public /* bridge */ /* synthetic */ IntStream sequential() {
+        sequential();
         return this;
     }
 }

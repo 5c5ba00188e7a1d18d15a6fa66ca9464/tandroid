@@ -5,7 +5,7 @@ import android.os.Looper;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
-import com.google.android.gms.internal.p000authapiphone.zzi;
+import com.google.android.gms.internal.auth-api-phone.zzi;
 /* loaded from: classes.dex */
 final class zza extends Api.AbstractClientBuilder<zzi, Api.ApiOptions.NoOptions> {
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder

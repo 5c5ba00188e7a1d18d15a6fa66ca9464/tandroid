@@ -167,17 +167,17 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
     public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-        VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+        VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
     }
 
     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
     public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-        VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+        VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
     }
 
     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
     public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-        VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+        VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
     }
 
     static /* synthetic */ float access$4724(WebPlayerView webPlayerView, float f) {
@@ -1628,10 +1628,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
 
             /* JADX INFO: Access modifiers changed from: package-private */
-            /* renamed from: org.telegram.ui.Components.WebPlayerView$2$1  reason: invalid class name */
             /* loaded from: classes3.dex */
-            public class AnonymousClass1 implements ViewTreeObserver.OnPreDrawListener {
-                AnonymousClass1() {
+            public class 1 implements ViewTreeObserver.OnPreDrawListener {
+                1() {
                 }
 
                 @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -1648,7 +1647,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$2$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            WebPlayerView.AnonymousClass2.AnonymousClass1.this.lambda$onPreDraw$0();
+                            WebPlayerView.2.1.this.lambda$onPreDraw$0();
                         }
                     });
                     WebPlayerView.this.waitingForFirstTextureUpload = 0;
@@ -1664,7 +1663,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             @Override // android.view.TextureView.SurfaceTextureListener
             public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
                 if (WebPlayerView.this.waitingForFirstTextureUpload == 1) {
-                    WebPlayerView.this.changedTextureView.getViewTreeObserver().addOnPreDrawListener(new AnonymousClass1());
+                    WebPlayerView.this.changedTextureView.getViewTreeObserver().addOnPreDrawListener(new 1());
                     WebPlayerView.this.changedTextureView.invalidate();
                 }
             }

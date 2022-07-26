@@ -151,8 +151,7 @@ public final class BitMatrix implements Cloneable {
         return sb.toString();
     }
 
-    /* renamed from: clone */
-    public BitMatrix m211clone() {
+    public BitMatrix clone() {
         return new BitMatrix(this.width, this.height, this.rowSize, (int[]) this.bits.clone());
     }
 }

@@ -14,9 +14,8 @@ public final class SchedulingConfigModule_ConfigFactory implements Factory<Sched
     }
 
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public SchedulerConfig mo70get() {
-        return config(this.clockProvider.mo70get());
+    public SchedulerConfig get() {
+        return config(this.clockProvider.get());
     }
 
     public static SchedulingConfigModule_ConfigFactory create(Provider<Clock> provider) {

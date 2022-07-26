@@ -233,25 +233,25 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         int i;
         int i2;
         super.onCreate(bundle);
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(getContext());
-        anonymousClass1.setOrientation(1);
+        1 r1 = new 1(getContext());
+        r1.setOrientation(1);
         if (this.progressViewStyle == 3) {
-            anonymousClass1.setBackgroundDrawable(null);
-            anonymousClass1.setPadding(0, 0, 0, 0);
+            r1.setBackgroundDrawable(null);
+            r1.setPadding(0, 0, 0, 0);
             this.drawBackground = false;
         } else if (this.notDrawBackgroundOnTopView) {
             Rect rect = new Rect();
             this.shadowDrawable.getPadding(rect);
-            anonymousClass1.setPadding(rect.left, rect.top, rect.right, rect.bottom);
+            r1.setPadding(rect.left, rect.top, rect.right, rect.bottom);
             this.drawBackground = true;
         } else {
-            anonymousClass1.setBackgroundDrawable(null);
-            anonymousClass1.setPadding(0, 0, 0, 0);
-            anonymousClass1.setBackgroundDrawable(this.shadowDrawable);
+            r1.setBackgroundDrawable(null);
+            r1.setPadding(0, 0, 0, 0);
+            r1.setBackgroundDrawable(this.shadowDrawable);
             this.drawBackground = false;
         }
-        anonymousClass1.setFitsSystemWindows(Build.VERSION.SDK_INT >= 21);
-        setContentView(anonymousClass1);
+        r1.setFitsSystemWindows(Build.VERSION.SDK_INT >= 21);
+        setContentView(r1);
         boolean z = (this.positiveButtonText == null && this.negativeButtonText == null && this.neutralButtonText == null) ? false : true;
         if (this.topResId != 0 || this.topAnimationId != 0 || this.topDrawable != null) {
             RLottieImageView rLottieImageView = new RLottieImageView(getContext());
@@ -276,18 +276,18 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             this.topImageView.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.popup_fixed_top));
             this.topImageView.getBackground().setColorFilter(new PorterDuffColorFilter(this.topBackgroundColor, PorterDuff.Mode.MULTIPLY));
             this.topImageView.setPadding(0, 0, 0, 0);
-            anonymousClass1.addView(this.topImageView, LayoutHelper.createLinear(-1, this.topHeight, 51, -8, -8, 0, 0));
+            r1.addView(this.topImageView, LayoutHelper.createLinear(-1, this.topHeight, 51, -8, -8, 0, 0));
         } else {
             View view = this.topView;
             if (view != null) {
                 view.setPadding(0, 0, 0, 0);
-                anonymousClass1.addView(this.topView, LayoutHelper.createLinear(-1, this.topHeight, 51, 0, 0, 0, 0));
+                r1.addView(this.topView, LayoutHelper.createLinear(-1, this.topHeight, 51, 0, 0, 0, 0));
             }
         }
         if (this.title != null) {
             FrameLayout frameLayout = new FrameLayout(getContext());
             this.titleContainer = frameLayout;
-            anonymousClass1.addView(frameLayout, LayoutHelper.createLinear(-2, -2, 24.0f, 0.0f, 24.0f, 0.0f));
+            r1.addView(frameLayout, LayoutHelper.createLinear(-2, -2, 24.0f, 0.0f, 24.0f, 0.0f));
             TextView textView = new TextView(getContext());
             this.titleTextView = textView;
             textView.setText(this.title);
@@ -313,7 +313,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             this.subtitleTextView.setTextColor(getThemedColor("dialogIcon"));
             this.subtitleTextView.setTextSize(1, 14.0f);
             this.subtitleTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-            anonymousClass1.addView(this.subtitleTextView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 24, 0, 24, this.items != null ? 14 : 10));
+            r1.addView(this.subtitleTextView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 24, 0, 24, this.items != null ? 14 : 10));
         }
         if (this.progressViewStyle == 0) {
             this.shadow[0] = (BitmapDrawable) getContext().getResources().getDrawable(R.drawable.header_shadow).mutate();
@@ -340,7 +340,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             this.contentScrollView = scrollView;
             scrollView.setVerticalScrollBarEnabled(false);
             AndroidUtilities.setScrollViewEdgeEffectColor(this.contentScrollView, getThemedColor("dialogScrollGlow"));
-            anonymousClass1.addView(this.contentScrollView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
+            r1.addView(this.contentScrollView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
             LinearLayout linearLayout = new LinearLayout(getContext());
             this.scrollContainer = linearLayout;
             linearLayout.setOrientation(1);
@@ -361,7 +361,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         if (i6 == 1) {
             FrameLayout frameLayout2 = new FrameLayout(getContext());
             this.progressViewContainer = frameLayout2;
-            anonymousClass1.addView(frameLayout2, LayoutHelper.createLinear(-1, 44, 51, 23, this.title == null ? 24 : 0, 23, 24));
+            r1.addView(frameLayout2, LayoutHelper.createLinear(-1, 44, 51, 23, this.title == null ? 24 : 0, 23, 24));
             RadialProgressView radialProgressView = new RadialProgressView(getContext(), this.resourcesProvider);
             radialProgressView.setProgressColor(getThemedColor("dialogProgressCircle"));
             this.progressViewContainer.addView(radialProgressView, LayoutHelper.createFrame(44, 44, (LocaleController.isRTL ? 5 : 3) | 48));
@@ -372,20 +372,20 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             boolean z2 = LocaleController.isRTL;
             frameLayout3.addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 16, z2 ? 0 : 62, 0.0f, z2 ? 62 : 0, 0.0f));
         } else if (i6 == 2) {
-            anonymousClass1.addView(this.messageTextView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 24, this.title == null ? 19 : 0, 24, 20));
+            r1.addView(this.messageTextView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 24, this.title == null ? 19 : 0, 24, 20));
             LineProgressView lineProgressView = new LineProgressView(getContext());
             this.lineProgressView = lineProgressView;
             lineProgressView.setProgress(this.currentProgress / 100.0f, false);
             this.lineProgressView.setProgressColor(getThemedColor("dialogLineProgress"));
             this.lineProgressView.setBackColor(getThemedColor("dialogLineProgressBackground"));
-            anonymousClass1.addView(this.lineProgressView, LayoutHelper.createLinear(-1, 4, 19, 24, 0, 24, 0));
+            r1.addView(this.lineProgressView, LayoutHelper.createLinear(-1, 4, 19, 24, 0, 24, 0));
             TextView textView5 = new TextView(getContext());
             this.lineProgressViewPercent = textView5;
             textView5.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.lineProgressViewPercent.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
             this.lineProgressViewPercent.setTextColor(getThemedColor("dialogTextGray2"));
             this.lineProgressViewPercent.setTextSize(1, 14.0f);
-            anonymousClass1.addView(this.lineProgressViewPercent, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 23, 4, 23, 24));
+            r1.addView(this.lineProgressViewPercent, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 23, 4, 23, 24));
             updateLineProgressTextView();
         } else if (i6 == 3) {
             setCanceledOnTouchOutside(false);
@@ -393,7 +393,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             FrameLayout frameLayout4 = new FrameLayout(getContext());
             this.progressViewContainer = frameLayout4;
             frameLayout4.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), getThemedColor("dialog_inlineProgressBackground")));
-            anonymousClass1.addView(this.progressViewContainer, LayoutHelper.createLinear(86, 86, 17));
+            r1.addView(this.progressViewContainer, LayoutHelper.createLinear(86, 86, 17));
             RadialProgressView radialProgressView2 = new RadialProgressView(getContext(), this.resourcesProvider);
             radialProgressView2.setProgressColor(getThemedColor("dialog_inlineProgress"));
             this.progressViewContainer.addView(radialProgressView2, LayoutHelper.createLinear(86, 86));
@@ -544,7 +544,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                 };
             }
             this.buttonsLayout.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
-            anonymousClass1.addView(this.buttonsLayout, LayoutHelper.createLinear(-1, 52));
+            r1.addView(this.buttonsLayout, LayoutHelper.createLinear(-1, 52));
             if (this.positiveButtonText != null) {
                 TextView textView6 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.4
                     @Override // android.widget.TextView, android.view.View
@@ -710,9 +710,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ActionBar.AlertDialog$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends LinearLayout {
+    public class 1 extends LinearLayout {
         private boolean inLayout;
 
         @Override // android.view.View
@@ -720,7 +719,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             return false;
         }
 
-        AnonymousClass1(Context context) {
+        1(Context context) {
             super(context);
         }
 
@@ -868,7 +867,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$1$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    AlertDialog.AnonymousClass1.this.lambda$onMeasure$0();
+                    AlertDialog.1.this.lambda$onMeasure$0();
                 }
             });
         }
@@ -911,7 +910,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                     AlertDialog.this.onScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$1$$ExternalSyntheticLambda0
                         @Override // android.view.ViewTreeObserver.OnScrollChangedListener
                         public final void onScrollChanged() {
-                            AlertDialog.AnonymousClass1.this.lambda$onLayout$1();
+                            AlertDialog.1.this.lambda$onLayout$1();
                         }
                     };
                     AlertDialog.this.contentScrollView.getViewTreeObserver().addOnScrollChangedListener(AlertDialog.this.onScrollChangedListener);

@@ -190,9 +190,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             }
         });
         if (this.currentType == 0) {
-            AnonymousClass3 anonymousClass3 = new AnonymousClass3(context);
-            this.undoView = anonymousClass3;
-            frameLayout2.addView(anonymousClass3, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 8.0f));
+            3 r1 = new 3(context);
+            this.undoView = r1;
+            frameLayout2.addView(r1, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 8.0f));
         }
         updateRows();
         return this.fragmentView;
@@ -550,10 +550,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.SessionsActivity$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends UndoView {
-        AnonymousClass3(Context context) {
+    public class 3 extends UndoView {
+        3(Context context) {
             super(context);
         }
 
@@ -566,7 +565,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 ConnectionsManager.getInstance(((BaseFragment) SessionsActivity.this).currentAccount).sendRequest(tLRPC$TL_account_resetAuthorization, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$3$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        SessionsActivity.AnonymousClass3.this.lambda$hide$1(tLRPC$TL_authorization, tLObject, tLRPC$TL_error);
+                        SessionsActivity.3.this.lambda$hide$1(tLRPC$TL_authorization, tLObject, tLRPC$TL_error);
                     }
                 });
             }
@@ -578,7 +577,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    SessionsActivity.AnonymousClass3.this.lambda$hide$0(tLRPC$TL_error, tLRPC$TL_authorization);
+                    SessionsActivity.3.this.lambda$hide$0(tLRPC$TL_error, tLRPC$TL_authorization);
                 }
             });
         }
@@ -598,14 +597,13 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.SessionsActivity$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements SessionBottomSheet.Callback {
+    public class 4 implements SessionBottomSheet.Callback {
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$onSessionTerminated$0() {
         }
 
-        AnonymousClass4() {
+        4() {
         }
 
         @Override // org.telegram.ui.SessionBottomSheet.Callback
@@ -631,7 +629,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         if (tLRPC$TL_authorization == null) {
             return;
         }
-        new SessionBottomSheet(this, tLRPC$TL_authorization, z, new AnonymousClass4()).show();
+        new SessionBottomSheet(this, tLRPC$TL_authorization, z, new 4()).show();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -938,8 +936,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View textCell;
             if (i == 0) {
                 textCell = new TextCell(this.mContext);
@@ -1311,18 +1308,17 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.SessionsActivity$5  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass5 implements CameraScanActivity.CameraScanActivityDelegate {
+    public class 5 implements CameraScanActivity.CameraScanActivityDelegate {
         private TLObject response = null;
         private TLRPC$TL_error error = null;
 
         @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
         public /* synthetic */ void didFindMrzInfo(MrzRecognizer.Result result) {
-            CameraScanActivity.CameraScanActivityDelegate.CC.$default$didFindMrzInfo(this, result);
+            CameraScanActivity.CameraScanActivityDelegate.-CC.$default$didFindMrzInfo(this, result);
         }
 
-        AnonymousClass5() {
+        5() {
         }
 
         @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
@@ -1345,7 +1341,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SessionsActivity.AnonymousClass5.this.lambda$didFindQr$0();
+                        SessionsActivity.5.this.lambda$didFindQr$0();
                     }
                 });
             }
@@ -1370,7 +1366,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    SessionsActivity.AnonymousClass5.this.lambda$processQr$4(str, runnable);
+                    SessionsActivity.5.this.lambda$processQr$4(str, runnable);
                 }
             }, 750L);
             return true;
@@ -1385,7 +1381,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 SessionsActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_auth_acceptLoginToken, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda4
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        SessionsActivity.AnonymousClass5.this.lambda$processQr$2(runnable, tLObject, tLRPC$TL_error);
+                        SessionsActivity.5.this.lambda$processQr$2(runnable, tLObject, tLRPC$TL_error);
                     }
                 });
             } catch (Exception e) {
@@ -1393,7 +1389,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SessionsActivity.AnonymousClass5.this.lambda$processQr$3();
+                        SessionsActivity.5.this.lambda$processQr$3();
                     }
                 });
                 runnable.run();
@@ -1405,7 +1401,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    SessionsActivity.AnonymousClass5.this.lambda$processQr$1(tLObject, tLRPC$TL_error, runnable);
+                    SessionsActivity.5.this.lambda$processQr$1(tLObject, tLRPC$TL_error, runnable);
                 }
             });
         }
@@ -1425,7 +1421,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public void openCameraScanActivity() {
-        CameraScanActivity.showAsSheet(this, false, 2, new AnonymousClass5());
+        CameraScanActivity.showAsSheet(this, false, 2, new 5());
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

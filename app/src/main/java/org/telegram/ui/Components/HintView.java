@@ -257,7 +257,7 @@ public class HintView extends FrameLayout {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animatorSet = animatorSet2;
                 animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f));
-                this.animatorSet.addListener(new AnonymousClass1());
+                this.animatorSet.addListener(new 1());
                 this.animatorSet.setDuration(300L);
                 this.animatorSet.start();
             } else {
@@ -269,10 +269,9 @@ public class HintView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.HintView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
-        AnonymousClass1() {
+    public class 1 extends AnimatorListenerAdapter {
+        1() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -281,7 +280,7 @@ public class HintView extends FrameLayout {
             AndroidUtilities.runOnUIThread(HintView.this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.HintView$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    HintView.AnonymousClass1.this.lambda$onAnimationEnd$0();
+                    HintView.1.this.lambda$onAnimationEnd$0();
                 }
             }, HintView.this.currentType == 0 ? 10000L : 2000L);
         }
@@ -317,7 +316,7 @@ public class HintView extends FrameLayout {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animatorSet = animatorSet2;
             animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f));
-            this.animatorSet.addListener(new AnonymousClass2());
+            this.animatorSet.addListener(new 2());
             this.animatorSet.setDuration(300L);
             this.animatorSet.start();
         } else {
@@ -327,10 +326,9 @@ public class HintView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.HintView$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
+    public class 2 extends AnimatorListenerAdapter {
+        2() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -339,7 +337,7 @@ public class HintView extends FrameLayout {
             AndroidUtilities.runOnUIThread(HintView.this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.HintView$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    HintView.AnonymousClass2.this.lambda$onAnimationEnd$0();
+                    HintView.2.this.lambda$onAnimationEnd$0();
                 }
             }, HintView.this.showingDuration);
         }

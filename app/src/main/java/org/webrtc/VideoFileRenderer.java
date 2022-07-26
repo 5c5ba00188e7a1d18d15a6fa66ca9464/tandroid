@@ -29,7 +29,7 @@ public class VideoFileRenderer implements VideoSink {
 
     @Override // org.webrtc.VideoSink
     public /* synthetic */ void setParentSink(VideoSink videoSink) {
-        VideoSink.CC.$default$setParentSink(this, videoSink);
+        VideoSink.-CC.$default$setParentSink(this, videoSink);
     }
 
     public VideoFileRenderer(String str, int i, int i2, final EglBase.Context context) throws IOException {
@@ -57,7 +57,7 @@ public class VideoFileRenderer implements VideoSink {
         ThreadUtils.invokeAtFrontUninterruptibly(handler, new Runnable() { // from class: org.webrtc.VideoFileRenderer.1
             @Override // java.lang.Runnable
             public void run() {
-                VideoFileRenderer.this.eglBase = EglBase.CC.create(context, EglBase.CONFIG_PIXEL_BUFFER);
+                VideoFileRenderer.this.eglBase = EglBase.-CC.create(context, EglBase.CONFIG_PIXEL_BUFFER);
                 VideoFileRenderer.this.eglBase.createDummyPbufferSurface();
                 VideoFileRenderer.this.eglBase.makeCurrent();
                 VideoFileRenderer.this.yuvConverter = new YuvConverter();

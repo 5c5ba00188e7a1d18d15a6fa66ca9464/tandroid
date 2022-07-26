@@ -2,20 +2,20 @@ package com.google.android.gms.internal.vision;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public enum zzha implements zzje {
-    UNKNOWN_FORMAT(0),
-    CONTACT_INFO(1),
-    EMAIL(2),
-    ISBN(3),
-    PHONE(4),
-    PRODUCT(5),
-    SMS(6),
-    TEXT(7),
-    URL(8),
-    WIFI(9),
-    GEO(10),
-    CALENDAR_EVENT(11),
-    DRIVER_LICENSE(12),
-    BOARDING_PASS(13);
+    zza(0),
+    zzb(1),
+    zzc(2),
+    zzd(3),
+    zze(4),
+    zzf(5),
+    zzg(6),
+    zzh(7),
+    zzi(8),
+    zzj(9),
+    zzk(10),
+    zzl(11),
+    zzm(12),
+    zzn(13);
     
     private final int zzp;
 
@@ -27,33 +27,33 @@ public enum zzha implements zzje {
     public static zzha zza(int i) {
         switch (i) {
             case 0:
-                return UNKNOWN_FORMAT;
+                return zza;
             case 1:
-                return CONTACT_INFO;
+                return zzb;
             case 2:
-                return EMAIL;
+                return zzc;
             case 3:
-                return ISBN;
+                return zzd;
             case 4:
-                return PHONE;
+                return zze;
             case 5:
-                return PRODUCT;
+                return zzf;
             case 6:
-                return SMS;
+                return zzg;
             case 7:
-                return TEXT;
+                return zzh;
             case 8:
-                return URL;
+                return zzi;
             case 9:
-                return WIFI;
+                return zzj;
             case 10:
-                return GEO;
+                return zzk;
             case 11:
-                return CALENDAR_EVENT;
+                return zzl;
             case 12:
-                return DRIVER_LICENSE;
+                return zzm;
             case 13:
-                return BOARDING_PASS;
+                return zzn;
             default:
                 return null;
         }

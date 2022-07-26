@@ -13,8 +13,8 @@ public final class zzid$zza extends zzeo<zzid$zza, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        UNKNOWN_ENGINE(0),
-        TFLITE(1);
+        zza(0),
+        zzb(1);
         
         private final int zzd;
 

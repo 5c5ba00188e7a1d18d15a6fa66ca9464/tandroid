@@ -997,8 +997,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextSettingsCell textSettingsCell;
             if (i == 0) {
                 View shadowSectionCell = new ShadowSectionCell(this.context);
@@ -1081,7 +1080,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));

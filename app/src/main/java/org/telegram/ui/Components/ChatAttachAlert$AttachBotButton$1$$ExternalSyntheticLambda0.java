@@ -11,11 +11,11 @@ public final /* synthetic */ class ChatAttachAlert$AttachBotButton$1$$ExternalSy
 
     @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
     public final void didSetImage(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
-        ChatAttachAlert.AttachBotButton.AnonymousClass1.lambda$new$0(imageReceiver, z, z2, z3);
+        ChatAttachAlert.AttachBotButton.1.lambda$new$0(imageReceiver, z, z2, z3);
     }
 
     @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
     public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
-        ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver);
+        ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
     }
 }

@@ -118,26 +118,22 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         }
 
         @Override // j$.util.w, j$.util.u
-        /* renamed from: trySplit */
-        public /* bridge */ /* synthetic */ j$.util.t mo350trySplit() {
-            return (j$.util.t) mo350trySplit();
+        public /* bridge */ /* synthetic */ j$.util.t trySplit() {
+            return (j$.util.t) trySplit();
         }
 
         @Override // j$.util.w, j$.util.u
-        /* renamed from: trySplit  reason: collision with other method in class */
-        public /* bridge */ /* synthetic */ u.a mo350trySplit() {
-            return (u.a) mo350trySplit();
+        public /* bridge */ /* synthetic */ u.a trySplit() {
+            return (u.a) trySplit();
         }
 
         @Override // j$.util.w, j$.util.u
-        /* renamed from: trySplit  reason: collision with other method in class */
-        public /* bridge */ /* synthetic */ j$.util.v mo350trySplit() {
-            return (j$.util.v) mo350trySplit();
+        public /* bridge */ /* synthetic */ j$.util.v trySplit() {
+            return (j$.util.v) trySplit();
         }
 
         @Override // j$.util.w, j$.util.u
-        /* renamed from: trySplit */
-        public j$.util.w mo350trySplit() {
+        public j$.util.w trySplit() {
             int i = this.a;
             int i2 = this.b;
             if (i < i2) {
@@ -254,13 +250,11 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         t(this.e, 0, this.b, obj);
     }
 
-    /* renamed from: spliterator */
-    public abstract j$.util.u mo317spliterator();
+    public abstract j$.util.u spliterator();
 
     @Override // java.lang.Iterable, j$.lang.e
-    /* renamed from: spliterator  reason: collision with other method in class */
-    public /* synthetic */ Spliterator mo317spliterator() {
-        return j$.wrappers.h.a(mo317spliterator());
+    public /* synthetic */ Spliterator spliterator() {
+        return j$.wrappers.h.a(spliterator());
     }
 
     protected abstract void t(Object obj, int i, int i2, Object obj2);

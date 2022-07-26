@@ -13,7 +13,7 @@ public class NV21Buffer implements VideoFrame.Buffer {
 
     @Override // org.webrtc.VideoFrame.Buffer
     public /* synthetic */ int getBufferType() {
-        return VideoFrame.Buffer.CC.$default$getBufferType(this);
+        return VideoFrame.Buffer.-CC.$default$getBufferType(this);
     }
 
     public NV21Buffer(byte[] bArr, int i, int i2, Runnable runnable) {

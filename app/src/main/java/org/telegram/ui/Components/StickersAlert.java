@@ -234,17 +234,17 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.previewDelegate = new ContentPreviewViewer.ContentPreviewViewerDelegate() { // from class: org.telegram.ui.Components.StickersAlert.1
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ String getQuery(boolean z) {
-                return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$getQuery(this, z);
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$getQuery(this, z);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void gifAddedOrDeleted() {
-                ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$gifAddedOrDeleted(this);
+                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$gifAddedOrDeleted(this);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ boolean needMenu() {
-                return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$needMenu(this);
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needMenu(this);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -258,7 +258,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void sendGif(Object obj2, Object obj3, boolean z, int i) {
-                ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$sendGif(this, obj2, obj3, z, i);
+                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendGif(this, obj2, obj3, z, i);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -413,17 +413,17 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.previewDelegate = new ContentPreviewViewer.ContentPreviewViewerDelegate() { // from class: org.telegram.ui.Components.StickersAlert.1
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ String getQuery(boolean z) {
-                return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$getQuery(this, z);
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$getQuery(this, z);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void gifAddedOrDeleted() {
-                ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$gifAddedOrDeleted(this);
+                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$gifAddedOrDeleted(this);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ boolean needMenu() {
-                return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$needMenu(this);
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needMenu(this);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -437,7 +437,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void sendGif(Object obj2, Object obj3, boolean z, int i) {
-                ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$sendGif(this, obj2, obj3, z, i);
+                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendGif(this, obj2, obj3, z, i);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -591,17 +591,17 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.previewDelegate = new ContentPreviewViewer.ContentPreviewViewerDelegate() { // from class: org.telegram.ui.Components.StickersAlert.1
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ String getQuery(boolean z) {
-                return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$getQuery(this, z);
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$getQuery(this, z);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void gifAddedOrDeleted() {
-                ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$gifAddedOrDeleted(this);
+                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$gifAddedOrDeleted(this);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ boolean needMenu() {
-                return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$needMenu(this);
+                return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needMenu(this);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -615,7 +615,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public /* synthetic */ void sendGif(Object obj2, Object obj3, boolean z, int i) {
-                ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$sendGif(this, obj2, obj3, z, i);
+                ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendGif(this, obj2, obj3, z, i);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -730,9 +730,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.reqId = 0;
         if (tLRPC$TL_error == null) {
             if (Build.VERSION.SDK_INT >= 19) {
-                AnonymousClass2 anonymousClass2 = new AnonymousClass2();
-                anonymousClass2.addTarget(this.containerView);
-                TransitionManager.beginDelayedTransition(this.container, anonymousClass2);
+                2 r3 = new 2();
+                r3.addTarget(this.containerView);
+                TransitionManager.beginDelayedTransition(this.container, r3);
             }
             this.optionsButton.setVisibility(0);
             TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) tLObject;
@@ -751,10 +751,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.StickersAlert$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends Transition {
-        AnonymousClass2() {
+    public class 2 extends Transition {
+        2() {
         }
 
         @Override // android.transition.Transition
@@ -778,7 +777,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickersAlert$2$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    StickersAlert.AnonymousClass2.this.lambda$createAnimator$0(intValue, i, valueAnimator);
+                    StickersAlert.2.this.lambda$createAnimator$0(intValue, i, valueAnimator);
                 }
             });
             return ofFloat;
@@ -2275,17 +2274,17 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.StickersAlert.15
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onHide(Bulletin bulletin) {
-                Bulletin.Delegate.CC.$default$onHide(this, bulletin);
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onOffsetChange(float f) {
-                Bulletin.Delegate.CC.$default$onOffsetChange(this, f);
+                Bulletin.Delegate.-CC.$default$onOffsetChange(this, f);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onShow(Bulletin bulletin) {
-                Bulletin.Delegate.CC.$default$onShow(this, bulletin);
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -2459,7 +2458,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.containerView, 0, null, null, new Drawable[]{this.shadowDrawable}, null, "dialogBackground"));
@@ -2528,8 +2527,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 0) {
                 StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this.context, false) { // from class: org.telegram.ui.Components.StickersAlert.GridAdapter.1

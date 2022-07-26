@@ -216,7 +216,7 @@ public final class zzab implements ObjectEncoderContext {
     public final zzab zzd(FieldDescriptor fieldDescriptor, int i, boolean z) throws IOException {
         if (!z || i != 0) {
             zzz zzm = zzm(fieldDescriptor);
-            zzy zzyVar = zzy.DEFAULT;
+            zzy zzyVar = zzy.zza;
             int ordinal = zzm.zzb().ordinal();
             if (ordinal == 0) {
                 zzn(zzm.zza() << 3);
@@ -236,7 +236,7 @@ public final class zzab implements ObjectEncoderContext {
     final zzab zze(FieldDescriptor fieldDescriptor, long j, boolean z) throws IOException {
         if (!z || j != 0) {
             zzz zzm = zzm(fieldDescriptor);
-            zzy zzyVar = zzy.DEFAULT;
+            zzy zzyVar = zzy.zza;
             int ordinal = zzm.zzb().ordinal();
             if (ordinal == 0) {
                 zzn(zzm.zza() << 3);
@@ -271,15 +271,13 @@ public final class zzab implements ObjectEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    /* renamed from: add */
-    public final /* bridge */ /* synthetic */ ObjectEncoderContext mo195add(FieldDescriptor fieldDescriptor, int i) throws IOException {
+    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
         zzd(fieldDescriptor, i, true);
         return this;
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    /* renamed from: add */
-    public final /* bridge */ /* synthetic */ ObjectEncoderContext mo196add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    public final /* bridge */ /* synthetic */ ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
         zze(fieldDescriptor, j, true);
         return this;
     }

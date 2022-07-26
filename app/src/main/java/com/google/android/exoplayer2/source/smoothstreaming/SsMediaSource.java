@@ -65,7 +65,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
 
         public Factory(SsChunkSource.Factory factory, DataSource.Factory factory2) {
             this.chunkSourceFactory = (SsChunkSource.Factory) Assertions.checkNotNull(factory);
-            DrmSessionManager.CC.getDummyDrmSessionManager();
+            DrmSessionManager.-CC.getDummyDrmSessionManager();
             new DefaultLoadErrorHandlingPolicy();
             new DefaultCompositeSequenceableLoaderFactory();
         }
@@ -83,7 +83,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
 
     @Deprecated
     public SsMediaSource(Uri uri, DataSource.Factory factory, ParsingLoadable.Parser<? extends SsManifest> parser, SsChunkSource.Factory factory2, int i, long j, Handler handler, MediaSourceEventListener mediaSourceEventListener) {
-        this(null, uri, factory, parser, factory2, new DefaultCompositeSequenceableLoaderFactory(), DrmSessionManager.CC.getDummyDrmSessionManager(), new DefaultLoadErrorHandlingPolicy(i), j, null);
+        this(null, uri, factory, parser, factory2, new DefaultCompositeSequenceableLoaderFactory(), DrmSessionManager.-CC.getDummyDrmSessionManager(), new DefaultLoadErrorHandlingPolicy(i), j, null);
         if (handler == null || mediaSourceEventListener == null) {
             return;
         }
@@ -117,7 +117,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
             processManifest();
             return;
         }
-        this.manifestDataSource = this.manifestDataSourceFactory.mo821createDataSource();
+        this.manifestDataSource = this.manifestDataSourceFactory.createDataSource();
         Loader loader = new Loader("Loader:Manifest");
         this.manifestLoader = loader;
         this.manifestLoaderErrorThrower = loader;

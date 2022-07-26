@@ -63,7 +63,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
 
     @Override // com.google.android.exoplayer2.Renderer
     public /* synthetic */ void setOperatingRate(float f) {
-        Renderer.CC.$default$setOperatingRate(this, f);
+        Renderer.-CC.$default$setOperatingRate(this, f);
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities
@@ -231,7 +231,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         if (format != null && !this.throwRendererExceptionIsExecuting) {
             this.throwRendererExceptionIsExecuting = true;
             try {
-                i = RendererCapabilities.CC.getFormatSupport(supportsFormat(format));
+                i = RendererCapabilities.-CC.getFormatSupport(supportsFormat(format));
             } catch (ExoPlaybackException unused) {
             } finally {
                 this.throwRendererExceptionIsExecuting = false;

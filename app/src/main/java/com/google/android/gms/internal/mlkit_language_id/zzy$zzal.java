@@ -19,13 +19,13 @@ public final class zzy$zzal extends zzeo<zzy$zzal, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        TYPE_UNKNOWN(0),
-        CUSTOM(1),
-        AUTOML_IMAGE_LABELING(2),
-        BASE_TRANSLATE(3),
-        CUSTOM_OBJECT_DETECTION(4),
-        CUSTOM_IMAGE_LABELING(5),
-        BASE_ENTITY_EXTRACTION(6);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5),
+        zzg(6);
         
         private final int zzi;
 
@@ -55,12 +55,12 @@ public final class zzy$zzal extends zzeo<zzy$zzal, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzc implements zzet {
-        SOURCE_UNKNOWN(0),
-        APP_ASSET(1),
-        LOCAL(2),
-        CLOUD(3),
-        SDK_BUILT_IN(4),
-        URI(5);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5);
         
         private final int zzh;
 

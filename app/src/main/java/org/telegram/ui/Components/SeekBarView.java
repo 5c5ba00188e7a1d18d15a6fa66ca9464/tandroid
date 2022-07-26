@@ -45,9 +45,8 @@ public class SeekBarView extends FrameLayout {
     /* loaded from: classes3.dex */
     public interface SeekBarViewDelegate {
 
-        /* renamed from: org.telegram.ui.Components.SeekBarView$SeekBarViewDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static CharSequence $default$getContentDescription(SeekBarViewDelegate seekBarViewDelegate) {
                 return null;
             }
@@ -124,8 +123,7 @@ public class SeekBarView extends FrameLayout {
             }
 
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-            /* renamed from: getContentDescription */
-            public CharSequence mo2090getContentDescription(View view) {
+            public CharSequence getContentDescription(View view) {
                 SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
                 if (seekBarViewDelegate != null) {
                     return seekBarViewDelegate.getContentDescription();

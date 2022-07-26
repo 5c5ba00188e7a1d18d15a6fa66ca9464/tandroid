@@ -308,7 +308,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         this.actionBar.setItemsBackgroundColor(Theme.getColor("actionBarWhiteSelector"), false);
         this.actionBar.setCastShadows(false);
         this.actionBar.setAddToContainer(false);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setActionBarMenuOnItemClick(new 1());
         if (this.currentType == 5) {
             this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_other).addSubItem(1, LocaleController.getString("AbortPasswordMenu", R.string.AbortPasswordMenu));
         }
@@ -1163,10 +1163,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.TwoStepVerificationSetupActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
+    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+        1() {
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -1193,7 +1192,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 builder.setPositiveButton(string3, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$1$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
-                        TwoStepVerificationSetupActivity.AnonymousClass1.this.lambda$onItemClick$0(dialogInterface, i2);
+                        TwoStepVerificationSetupActivity.1.this.lambda$onItemClick$0(dialogInterface, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);

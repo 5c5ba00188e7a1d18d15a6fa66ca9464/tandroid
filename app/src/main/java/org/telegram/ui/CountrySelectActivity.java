@@ -190,26 +190,26 @@ public class CountrySelectActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i) {
-        Country mo1730getItem;
+        Country item;
         CountrySelectActivityDelegate countrySelectActivityDelegate;
         if (this.searching && this.searchWas) {
-            mo1730getItem = this.searchListViewAdapter.getItem(i);
+            item = this.searchListViewAdapter.getItem(i);
         } else {
             int sectionForPosition = this.listViewAdapter.getSectionForPosition(i);
             int positionInSectionForPosition = this.listViewAdapter.getPositionInSectionForPosition(i);
             if (positionInSectionForPosition < 0 || sectionForPosition < 0) {
                 return;
             }
-            mo1730getItem = this.listViewAdapter.mo1730getItem(sectionForPosition, positionInSectionForPosition);
+            item = this.listViewAdapter.getItem(sectionForPosition, positionInSectionForPosition);
         }
         if (i < 0) {
             return;
         }
         finishFragment();
-        if (mo1730getItem == null || (countrySelectActivityDelegate = this.delegate) == null) {
+        if (item == null || (countrySelectActivityDelegate = this.delegate) == null) {
             return;
         }
-        countrySelectActivityDelegate.didSelectCountry(mo1730getItem);
+        countrySelectActivityDelegate.didSelectCountry(item);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -318,8 +318,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        /* renamed from: getItem  reason: collision with other method in class */
-        public Country mo1730getItem(int i, int i2) {
+        public Country getItem(int i, int i2) {
             if (i >= 0 && i < this.sortedCountries.size()) {
                 ArrayList<Country> arrayList = this.countries.get(this.sortedCountries.get(i));
                 if (i2 >= 0 && i2 < arrayList.size()) {
@@ -346,8 +345,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View createSettingsCell;
             if (i == 0) {
                 createSettingsCell = CountrySelectActivity.createSettingsCell(this.mContext);
@@ -523,8 +521,7 @@ public class CountrySelectActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(CountrySelectActivity.createSettingsCell(this.mContext));
         }
 
@@ -552,23 +549,22 @@ public class CountrySelectActivity extends BaseFragment {
             f = 12.0f;
         }
         textSettingsCell.setPadding(dp, 0, AndroidUtilities.dp(f), 0);
-        textSettingsCell.addOnAttachStateChangeListener(new AnonymousClass4(textSettingsCell));
+        textSettingsCell.addOnAttachStateChangeListener(new 4(textSettingsCell));
         return textSettingsCell;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.CountrySelectActivity$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements View.OnAttachStateChangeListener {
+    public class 4 implements View.OnAttachStateChangeListener {
         private NotificationCenter.NotificationCenterDelegate listener;
         final /* synthetic */ TextSettingsCell val$view;
 
-        AnonymousClass4(final TextSettingsCell textSettingsCell) {
+        4(final TextSettingsCell textSettingsCell) {
             this.val$view = textSettingsCell;
             this.listener = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.CountrySelectActivity$4$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
                 public final void didReceivedNotification(int i, int i2, Object[] objArr) {
-                    CountrySelectActivity.AnonymousClass4.lambda$$0(TextSettingsCell.this, i, i2, objArr);
+                    CountrySelectActivity.4.lambda$$0(TextSettingsCell.this, i, i2, objArr);
                 }
             };
         }

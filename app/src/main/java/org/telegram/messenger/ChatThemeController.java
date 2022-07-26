@@ -202,7 +202,7 @@ public class ChatThemeController extends BaseController {
         } else {
             requestAllChatThemes(new ResultCallback<List<EmojiThemes>>() { // from class: org.telegram.messenger.ChatThemeController.1
                 public /* bridge */ /* synthetic */ void onError(Throwable th) {
-                    ResultCallback.CC.$default$onError(this, th);
+                    ResultCallback.-CC.$default$onError(this, th);
                 }
 
                 @Override // org.telegram.tgnet.ResultCallback

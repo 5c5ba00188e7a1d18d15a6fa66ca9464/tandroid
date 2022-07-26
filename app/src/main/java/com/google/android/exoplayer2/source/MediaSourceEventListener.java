@@ -18,9 +18,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
 public interface MediaSourceEventListener {
 
-    /* renamed from: com.google.android.exoplayer2.source.MediaSourceEventListener$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         public static void $default$onDownstreamFormatChanged(MediaSourceEventListener mediaSourceEventListener, int i, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
         }
 

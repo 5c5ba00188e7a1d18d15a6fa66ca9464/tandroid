@@ -6,7 +6,7 @@ import android.text.TextUtils;
 /* loaded from: classes.dex */
 public class m {
     public static n a(k kVar) {
-        n nVar = n.STYLE_DEFAULT;
+        n nVar = n.a;
         return (kVar.w() < 0 || kVar.w() >= n.values().length) ? nVar : n.values()[kVar.w()];
     }
 

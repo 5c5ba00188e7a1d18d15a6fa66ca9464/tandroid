@@ -30,9 +30,8 @@ public class OptionalProvider<T> implements Provider<T> {
     }
 
     @Override // com.google.firebase.inject.Provider
-    /* renamed from: get */
-    public T mo190get() {
-        return this.delegate.mo190get();
+    public T get() {
+        return this.delegate.get();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

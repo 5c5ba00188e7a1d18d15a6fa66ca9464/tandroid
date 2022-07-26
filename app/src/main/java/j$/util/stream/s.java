@@ -33,7 +33,7 @@ class s extends c3 {
 
     @Override // j$.util.stream.c
     j$.util.u F0(y2 y2Var, j$.util.u uVar) {
-        return d4.DISTINCT.d(y2Var.s0()) ? y2Var.w0(uVar) : d4.ORDERED.d(y2Var.s0()) ? ((E1) L0(y2Var, uVar)).mo313spliterator() : new m4(y2Var.w0(uVar));
+        return d4.DISTINCT.d(y2Var.s0()) ? y2Var.w0(uVar) : d4.ORDERED.d(y2Var.s0()) ? ((E1) L0(y2Var, uVar)).spliterator() : new m4(y2Var.w0(uVar));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

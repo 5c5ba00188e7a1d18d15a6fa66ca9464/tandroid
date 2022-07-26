@@ -48,13 +48,13 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
 
         @Override // com.google.firebase.encoders.ValueEncoder
         public void encode(Date date, ValueEncoderContext valueEncoderContext) throws IOException {
-            valueEncoderContext.mo193add(rfc339.format(date));
+            valueEncoderContext.add(rfc339.format(date));
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$2(Boolean bool, ValueEncoderContext valueEncoderContext) throws IOException {
-        valueEncoderContext.mo194add(bool.booleanValue());
+        valueEncoderContext.add(bool.booleanValue());
     }
 
     public JsonDataEncoderBuilder() {

@@ -4,8 +4,7 @@ import com.google.android.datatransport.runtime.dagger.internal.Factory;
 /* loaded from: classes.dex */
 public final class EventStoreModule_SchemaVersionFactory implements Factory<Integer> {
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public Integer mo70get() {
+    public Integer get() {
         return Integer.valueOf(schemaVersion());
     }
 

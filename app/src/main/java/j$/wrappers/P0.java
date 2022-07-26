@@ -33,7 +33,7 @@ public final /* synthetic */ class P0 implements Stream {
         if (stream == null) {
             return null;
         }
-        return stream instanceof C$r8$wrapper$java$util$stream$Stream$VWRP ? ((C$r8$wrapper$java$util$stream$Stream$VWRP) stream).a : new P0(stream);
+        return stream instanceof $r8$wrapper$java$util$stream$Stream$-V-WRP ? (($r8$wrapper$java$util$stream$Stream$-V-WRP) stream).a : new P0(stream);
     }
 
     @Override // java.util.stream.Stream
@@ -98,7 +98,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ IntStream flatMapToInt(Function function) {
-        return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(this.a.c(M.a(function)));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(this.a.c(M.a(function)));
     }
 
     @Override // java.util.stream.Stream
@@ -123,7 +123,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ Iterator iterator() {
-        return this.a.mo331iterator();
+        return this.a.iterator();
     }
 
     @Override // java.util.stream.Stream
@@ -143,7 +143,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.Stream
     public /* synthetic */ IntStream mapToInt(ToIntFunction toIntFunction) {
-        return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(this.a.m(D0.a(toIntFunction)));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(this.a.m(D0.a(toIntFunction)));
     }
 
     @Override // java.util.stream.Stream
@@ -173,7 +173,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream parallel() {
-        return I0.n0(this.a.mo332parallel());
+        return I0.n0(this.a.parallel());
     }
 
     @Override // java.util.stream.Stream
@@ -198,7 +198,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ BaseStream sequential() {
-        return I0.n0(this.a.mo333sequential());
+        return I0.n0(this.a.sequential());
     }
 
     @Override // java.util.stream.Stream
@@ -218,7 +218,7 @@ public final /* synthetic */ class P0 implements Stream {
 
     @Override // java.util.stream.BaseStream
     public /* synthetic */ Spliterator spliterator() {
-        return h.a(this.a.mo334spliterator());
+        return h.a(this.a.spliterator());
     }
 
     @Override // java.util.stream.Stream

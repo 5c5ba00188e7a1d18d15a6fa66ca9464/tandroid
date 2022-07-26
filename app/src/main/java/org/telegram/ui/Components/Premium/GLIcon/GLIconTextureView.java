@@ -100,7 +100,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         setOpaque(false);
         setRenderer(new GLIconRenderer(context, i));
         initialize(context);
-        GestureDetector gestureDetector = new GestureDetector(context, new AnonymousClass1());
+        GestureDetector gestureDetector = new GestureDetector(context, new 1());
         this.gestureDetector = gestureDetector;
         gestureDetector.setIsLongpressEnabled(true);
         for (int i2 = 0; i2 < 5; i2++) {
@@ -110,9 +110,8 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements GestureDetector.OnGestureListener {
+    public class 1 implements GestureDetector.OnGestureListener {
         @Override // android.view.GestureDetector.OnGestureListener
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
             return false;
@@ -122,7 +121,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         public void onShowPress(MotionEvent motionEvent) {
         }
 
-        AnonymousClass1() {
+        1() {
         }
 
         @Override // android.view.GestureDetector.OnGestureListener
@@ -152,7 +151,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    GLIconTextureView.AnonymousClass1.this.lambda$onSingleTapUp$0(nextInt, nextInt2);
+                    GLIconTextureView.1.this.lambda$onSingleTapUp$0(nextInt, nextInt2);
                 }
             }, 16L);
             return true;
@@ -300,7 +299,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         private RenderThread() {
         }
 
-        /* synthetic */ RenderThread(GLIconTextureView gLIconTextureView, AnonymousClass1 anonymousClass1) {
+        /* synthetic */ RenderThread(GLIconTextureView gLIconTextureView, 1 r2) {
             this();
         }
 

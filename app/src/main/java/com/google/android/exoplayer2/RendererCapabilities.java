@@ -9,9 +9,8 @@ public interface RendererCapabilities {
 
     int supportsMixedMimeTypeAdaptation() throws ExoPlaybackException;
 
-    /* renamed from: com.google.android.exoplayer2.RendererCapabilities$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         @SuppressLint({"WrongConstant"})
         public static int create(int i, int i2, int i3) {
             return i | i2 | i3;

@@ -122,47 +122,45 @@ public class ThreadUtils {
                 throw new RuntimeException(e);
             }
         }
-        final C1Result c1Result = new C1Result();
-        final C1CaughtException c1CaughtException = new C1CaughtException();
+        final 1Result r0 = new 1Result();
+        final 1CaughtException r1 = new 1CaughtException();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         handler.post(new Runnable() { // from class: org.webrtc.ThreadUtils.3
             /* JADX WARN: Type inference failed for: r1v2, types: [V, java.lang.Object] */
             @Override // java.lang.Runnable
             public void run() {
                 try {
-                    C1Result.this.value = callable.call();
+                    1Result.this.value = callable.call();
                 } catch (Exception e2) {
-                    c1CaughtException.e = e2;
+                    r1.e = e2;
                 }
                 countDownLatch.countDown();
             }
         });
         awaitUninterruptibly(countDownLatch);
-        if (c1CaughtException.e != null) {
-            RuntimeException runtimeException = new RuntimeException(c1CaughtException.e);
-            runtimeException.setStackTrace(concatStackTraces(c1CaughtException.e.getStackTrace(), runtimeException.getStackTrace()));
+        if (r1.e != null) {
+            RuntimeException runtimeException = new RuntimeException(r1.e);
+            runtimeException.setStackTrace(concatStackTraces(r1.e.getStackTrace(), runtimeException.getStackTrace()));
             throw runtimeException;
         }
-        return c1Result.value;
+        return r0.value;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.webrtc.ThreadUtils$1CaughtException  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class C1CaughtException {
+    public class 1CaughtException {
         Exception e;
 
-        C1CaughtException() {
+        1CaughtException() {
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.webrtc.ThreadUtils$1Result  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class C1Result {
+    public class 1Result {
         public V value;
 
-        C1Result() {
+        1Result() {
         }
     }
 

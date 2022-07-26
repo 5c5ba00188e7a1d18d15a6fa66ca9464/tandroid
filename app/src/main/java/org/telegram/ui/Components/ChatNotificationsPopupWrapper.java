@@ -33,9 +33,8 @@ public class ChatNotificationsPopupWrapper {
     /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* renamed from: org.telegram.ui.Components.ChatNotificationsPopupWrapper$Callback$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$dismiss(Callback callback) {
             }
         }

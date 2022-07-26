@@ -10,6 +10,6 @@ public final /* synthetic */ class VideoCapturerDevice$1$$ExternalSyntheticLambd
 
     @Override // java.lang.Runnable
     public final void run() {
-        VideoCapturerDevice.AnonymousClass1.lambda$onStop$0();
+        VideoCapturerDevice.1.lambda$onStop$0();
     }
 }

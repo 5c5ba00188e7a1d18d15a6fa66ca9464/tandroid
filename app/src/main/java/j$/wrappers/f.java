@@ -29,8 +29,7 @@ public final /* synthetic */ class f implements PrimitiveIterator.OfLong {
     }
 
     @Override // java.util.PrimitiveIterator.OfLong
-    /* renamed from: forEachRemaining */
-    public /* synthetic */ void forEachRemaining2(LongConsumer longConsumer) {
+    public /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
         this.a.d(f0.b(longConsumer));
     }
 
@@ -42,14 +41,13 @@ public final /* synthetic */ class f implements PrimitiveIterator.OfLong {
 
     @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
     public /* synthetic */ Long next() {
-        return this.a.mo339next();
+        return this.a.next();
     }
 
     /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.r] */
     @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
-    /* renamed from: next */
-    public /* synthetic */ Object mo340next() {
-        return this.a.mo335next();
+    public /* synthetic */ Object next() {
+        return this.a.next();
     }
 
     @Override // java.util.PrimitiveIterator.OfLong

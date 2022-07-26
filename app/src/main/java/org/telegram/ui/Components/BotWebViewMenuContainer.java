@@ -154,9 +154,9 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         this.actionBarOnItemClick = actionBar.getActionBarMenuOnItemClick();
         BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, chatActivityEnterView.getParentFragment().getResourceProvider(), getColor("windowBackgroundWhite"));
         this.webViewContainer = botWebViewContainer;
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(chatActivityEnterView, actionBar);
-        this.webViewDelegate = anonymousClass1;
-        botWebViewContainer.setDelegate(anonymousClass1);
+        1 r3 = new 1(chatActivityEnterView, actionBar);
+        this.webViewDelegate = r3;
+        botWebViewContainer.setDelegate(r3);
         this.linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         this.linePaint.setStrokeWidth(AndroidUtilities.dp(4.0f));
         this.linePaint.setStrokeCap(Paint.Cap.ROUND);
@@ -249,23 +249,22 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements BotWebViewContainer.Delegate {
+    public class 1 implements BotWebViewContainer.Delegate {
         final /* synthetic */ ActionBar val$actionBar;
         final /* synthetic */ ChatActivityEnterView val$parentEnterView;
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
-            BotWebViewContainer.Delegate.CC.$default$onSendWebViewData(this, str);
+            BotWebViewContainer.Delegate.-CC.$default$onSendWebViewData(this, str);
         }
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onWebAppReady() {
-            BotWebViewContainer.Delegate.CC.$default$onWebAppReady(this);
+            BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
 
-        AnonymousClass1(ChatActivityEnterView chatActivityEnterView, ActionBar actionBar) {
+        1(ChatActivityEnterView chatActivityEnterView, ActionBar actionBar) {
             this.val$parentEnterView = chatActivityEnterView;
             this.val$actionBar = actionBar;
         }
@@ -292,7 +291,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    BotWebViewMenuContainer.AnonymousClass1.this.lambda$onWebAppSetActionBarColor$0(i, color, valueAnimator);
+                    BotWebViewMenuContainer.1.this.lambda$onWebAppSetActionBarColor$0(i, color, valueAnimator);
                 }
             });
             duration.start();
@@ -318,7 +317,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    BotWebViewMenuContainer.AnonymousClass1.this.lambda$onWebAppSetBackgroundColor$1(color, i, valueAnimator);
+                    BotWebViewMenuContainer.1.this.lambda$onWebAppSetBackgroundColor$1(color, i, valueAnimator);
                 }
             });
             duration.start();
@@ -353,7 +352,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
                 paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda3
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
                     public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                        BotWebViewMenuContainer.AnonymousClass1.this.lambda$onWebAppOpenInvoice$2(str, invoiceStatus);
+                        BotWebViewMenuContainer.1.this.lambda$onWebAppOpenInvoice$2(str, invoiceStatus);
                     }
                 });
                 parentFragment.presentFragment(paymentFormActivity);
@@ -372,7 +371,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             botWebViewButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$1$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    BotWebViewMenuContainer.AnonymousClass1.this.lambda$onSetupMainButton$3(view);
+                    BotWebViewMenuContainer.1.this.lambda$onSetupMainButton$3(view);
                 }
             });
             if (z != BotWebViewMenuContainer.this.botWebViewButtonWasVisible) {
@@ -802,14 +801,13 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         }
         setVisibility(0);
         setAlpha(0.0f);
-        addOnLayoutChangeListener(new AnonymousClass6());
+        addOnLayoutChangeListener(new 6());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.BotWebViewMenuContainer$6  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass6 implements View.OnLayoutChangeListener {
-        AnonymousClass6() {
+    public class 6 implements View.OnLayoutChangeListener {
+        6() {
         }
 
         @Override // android.view.View.OnLayoutChangeListener
@@ -820,7 +818,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
             new SpringAnimation(BotWebViewMenuContainer.this.swipeContainer, ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.SWIPE_OFFSET_Y, 0.0f).setSpring(new SpringForce(0.0f).setDampingRatio(0.75f).setStiffness(500.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.BotWebViewMenuContainer$6$$ExternalSyntheticLambda0
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
-                    BotWebViewMenuContainer.AnonymousClass6.this.lambda$onLayoutChange$0(dynamicAnimation, z, f, f2);
+                    BotWebViewMenuContainer.6.this.lambda$onLayoutChange$0(dynamicAnimation, z, f, f2);
                 }
             }).start();
         }

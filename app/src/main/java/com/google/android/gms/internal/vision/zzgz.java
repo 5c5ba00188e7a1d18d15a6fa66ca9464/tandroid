@@ -2,22 +2,22 @@ package com.google.android.gms.internal.vision;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public enum zzgz implements zzje {
-    UNRECOGNIZED(0),
-    CODE_128(1),
-    CODE_39(2),
-    CODE_93(3),
-    CODABAR(4),
-    DATA_MATRIX(5),
-    EAN_13(6),
-    EAN_8(7),
-    ITF(8),
-    QR_CODE(9),
-    UPC_A(10),
-    UPC_E(11),
-    PDF417(12),
-    AZTEC(13),
-    DATABAR(14),
-    TEZ_CODE(16);
+    zza(0),
+    zzb(1),
+    zzc(2),
+    zzd(3),
+    zze(4),
+    zzf(5),
+    zzg(6),
+    zzh(7),
+    zzi(8),
+    zzj(9),
+    zzk(10),
+    zzl(11),
+    zzm(12),
+    zzn(13),
+    zzo(14),
+    zzp(16);
     
     private final int zzr;
 
@@ -29,40 +29,40 @@ public enum zzgz implements zzje {
     public static zzgz zza(int i) {
         switch (i) {
             case 0:
-                return UNRECOGNIZED;
+                return zza;
             case 1:
-                return CODE_128;
+                return zzb;
             case 2:
-                return CODE_39;
+                return zzc;
             case 3:
-                return CODE_93;
+                return zzd;
             case 4:
-                return CODABAR;
+                return zze;
             case 5:
-                return DATA_MATRIX;
+                return zzf;
             case 6:
-                return EAN_13;
+                return zzg;
             case 7:
-                return EAN_8;
+                return zzh;
             case 8:
-                return ITF;
+                return zzi;
             case 9:
-                return QR_CODE;
+                return zzj;
             case 10:
-                return UPC_A;
+                return zzk;
             case 11:
-                return UPC_E;
+                return zzl;
             case 12:
-                return PDF417;
+                return zzm;
             case 13:
-                return AZTEC;
+                return zzn;
             case 14:
-                return DATABAR;
+                return zzo;
             case 15:
             default:
                 return null;
             case 16:
-                return TEZ_CODE;
+                return zzp;
         }
     }
 

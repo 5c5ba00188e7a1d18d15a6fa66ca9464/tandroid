@@ -38,10 +38,8 @@ public abstract class SimpleSubtitleDecoder extends SimpleDecoder<SubtitleInputB
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    /* renamed from: createUnexpectedDecodeException */
-    public final SubtitleDecoderException mo165createUnexpectedDecodeException(Throwable th) {
+    public final SubtitleDecoderException createUnexpectedDecodeException(Throwable th) {
         return new SubtitleDecoderException("Unexpected decode error", th);
     }
 

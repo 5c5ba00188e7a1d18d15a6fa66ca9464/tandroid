@@ -11,17 +11,13 @@ import java.util.List;
 /* loaded from: classes.dex */
 public final class HlsTrackMetadataEntry implements Metadata.Entry {
     public static final Parcelable.Creator<HlsTrackMetadataEntry> CREATOR = new Parcelable.Creator<HlsTrackMetadataEntry>() { // from class: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public HlsTrackMetadataEntry mo155createFromParcel(Parcel parcel) {
+        public HlsTrackMetadataEntry createFromParcel(Parcel parcel) {
             return new HlsTrackMetadataEntry(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public HlsTrackMetadataEntry[] mo156newArray(int i) {
+        public HlsTrackMetadataEntry[] newArray(int i) {
             return new HlsTrackMetadataEntry[i];
         }
     };
@@ -36,28 +32,24 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ byte[] getWrappedMetadataBytes() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataBytes(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ Format getWrappedMetadataFormat() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataFormat(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
     /* loaded from: classes.dex */
     public static final class VariantInfo implements Parcelable {
         public static final Parcelable.Creator<VariantInfo> CREATOR = new Parcelable.Creator<VariantInfo>() { // from class: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry.VariantInfo.1
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: createFromParcel */
-            public VariantInfo mo157createFromParcel(Parcel parcel) {
+            public VariantInfo createFromParcel(Parcel parcel) {
                 return new VariantInfo(parcel);
             }
 
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: newArray */
-            public VariantInfo[] mo158newArray(int i) {
+            public VariantInfo[] newArray(int i) {
                 return new VariantInfo[i];
             }
         };

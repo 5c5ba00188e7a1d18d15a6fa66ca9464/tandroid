@@ -52,16 +52,16 @@ final class A3 extends d {
             m3 H0 = this.j.H0(this.a.s0(), t0);
             y2 y2Var = this.a;
             y2Var.o0(y2Var.v0(H0), this.b);
-            return t0.mo315a();
+            return t0.a();
         }
         y2 y2Var2 = this.a;
         s1 t02 = y2Var2.t0(-1L, this.k);
         y2Var2.u0(t02, this.b);
-        A1 mo315a = t02.mo315a();
-        this.n = mo315a.count();
+        A1 a = t02.a();
+        this.n = a.count();
         this.o = true;
         this.b = null;
-        return mo315a;
+        return a;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

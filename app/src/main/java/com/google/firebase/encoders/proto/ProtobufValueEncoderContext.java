@@ -32,16 +32,14 @@ public class ProtobufValueEncoderContext implements ValueEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    /* renamed from: add */
-    public ValueEncoderContext mo193add(String str) throws IOException {
+    public ValueEncoderContext add(String str) throws IOException {
         checkNotUsed();
         this.objEncoderCtx.add(this.field, str, this.skipDefault);
         return this;
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    /* renamed from: add */
-    public ValueEncoderContext mo194add(boolean z) throws IOException {
+    public ValueEncoderContext add(boolean z) throws IOException {
         checkNotUsed();
         this.objEncoderCtx.add(this.field, z, this.skipDefault);
         return this;

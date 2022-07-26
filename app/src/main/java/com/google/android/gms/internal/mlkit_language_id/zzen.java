@@ -9,29 +9,29 @@ final /* synthetic */ class zzen {
         int[] iArr = new int[zzfb.values().length];
         zzb = iArr;
         try {
-            iArr[zzfb.BYTE_STRING.ordinal()] = 1;
+            iArr[zzfb.zzh.ordinal()] = 1;
         } catch (NoSuchFieldError unused) {
         }
         try {
-            zzb[zzfb.MESSAGE.ordinal()] = 2;
+            zzb[zzfb.zzj.ordinal()] = 2;
         } catch (NoSuchFieldError unused2) {
         }
         try {
-            zzb[zzfb.STRING.ordinal()] = 3;
+            zzb[zzfb.zzg.ordinal()] = 3;
         } catch (NoSuchFieldError unused3) {
         }
         int[] iArr2 = new int[zzem.values().length];
         zza = iArr2;
         try {
-            iArr2[zzem.MAP.ordinal()] = 1;
+            iArr2[zzem.zzd.ordinal()] = 1;
         } catch (NoSuchFieldError unused4) {
         }
         try {
-            zza[zzem.VECTOR.ordinal()] = 2;
+            zza[zzem.zzb.ordinal()] = 2;
         } catch (NoSuchFieldError unused5) {
         }
         try {
-            zza[zzem.SCALAR.ordinal()] = 3;
+            zza[zzem.zza.ordinal()] = 3;
         } catch (NoSuchFieldError unused6) {
         }
     }

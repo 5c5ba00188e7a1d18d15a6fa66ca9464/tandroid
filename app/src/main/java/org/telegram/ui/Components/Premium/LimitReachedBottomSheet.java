@@ -321,8 +321,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 FlickerLoadingView flickerLoadingView;
                 Context context = viewGroup.getContext();
                 if (i == 1) {

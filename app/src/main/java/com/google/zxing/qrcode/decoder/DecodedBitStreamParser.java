@@ -36,7 +36,7 @@ final class DecodedBitStreamParser {
                     forBits = Mode.forBits(bitSource.readBits(4));
                 }
                 Mode mode2 = forBits;
-                int[] iArr = AnonymousClass1.$SwitchMap$com$google$zxing$qrcode$decoder$Mode;
+                int[] iArr = 1.$SwitchMap$com$google$zxing$qrcode$decoder$Mode;
                 switch (iArr[mode2.ordinal()]) {
                     case 5:
                         mode = mode2;
@@ -103,9 +103,8 @@ final class DecodedBitStreamParser {
         }
     }
 
-    /* renamed from: com.google.zxing.qrcode.decoder.DecodedBitStreamParser$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    static /* synthetic */ class AnonymousClass1 {
+    static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$zxing$qrcode$decoder$Mode;
 
         static {

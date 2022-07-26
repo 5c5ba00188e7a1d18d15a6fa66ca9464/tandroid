@@ -1017,8 +1017,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             final PollEditTextCell pollEditTextCell;
             PollEditTextCell pollEditTextCell2;
             switch (i) {

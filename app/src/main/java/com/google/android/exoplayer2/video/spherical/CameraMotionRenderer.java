@@ -28,9 +28,9 @@ public class CameraMotionRenderer extends BaseRenderer {
     @Override // com.google.android.exoplayer2.RendererCapabilities
     public int supportsFormat(Format format) {
         if ("application/x-camera-motion".equals(format.sampleMimeType)) {
-            return RendererCapabilities.CC.create(4);
+            return RendererCapabilities.-CC.create(4);
         }
-        return RendererCapabilities.CC.create(0);
+        return RendererCapabilities.-CC.create(0);
     }
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.PlayerMessage.Target

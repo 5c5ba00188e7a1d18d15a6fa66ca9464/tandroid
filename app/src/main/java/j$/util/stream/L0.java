@@ -171,15 +171,13 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public final p.a mo331iterator() {
-        return j$.util.L.g(mo334spliterator());
+    public final p.a iterator() {
+        return j$.util.L.g(spliterator());
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public Iterator mo331iterator() {
-        return j$.util.L.g(mo334spliterator());
+    public Iterator iterator() {
+        return j$.util.L.g(spliterator());
     }
 
     @Override // j$.util.stream.IntStream
@@ -229,9 +227,8 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    /* renamed from: spliterator */
-    public final u.a mo334spliterator() {
-        return M0(super.mo334spliterator());
+    public final u.a spliterator() {
+        return M0(super.spliterator());
     }
 
     @Override // j$.util.stream.IntStream

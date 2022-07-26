@@ -67,7 +67,7 @@ import androidx.dynamicanimation.animation.DynamicAnimation;
 import com.huawei.hms.framework.common.hianalytics.CrashHianalyticsData;
 import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
-import j$.util.Comparator$CC;
+import j$.util.Comparator$-CC;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -1079,12 +1079,12 @@ public class LoginActivity extends BaseFragment {
         final OutlineTextContainerView outlineTextContainerView = (OutlineTextContainerView) view;
         AtomicReference atomicReference = new AtomicReference();
         final EditText attachedEditText = outlineTextContainerView.getAttachedEditText();
-        final AnonymousClass8 anonymousClass8 = new AnonymousClass8(this, attachedEditText, atomicReference);
+        final 8 r3 = new 8(this, attachedEditText, atomicReference);
         outlineTextContainerView.animateError(1.0f);
         Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
-                LoginActivity.lambda$onFieldError$9(OutlineTextContainerView.this, view, attachedEditText, anonymousClass8);
+                LoginActivity.lambda$onFieldError$9(OutlineTextContainerView.this, view, attachedEditText, r3);
             }
         };
         atomicReference.set(runnable2);
@@ -1093,13 +1093,12 @@ public class LoginActivity extends BaseFragment {
         if (attachedEditText == null) {
             return;
         }
-        attachedEditText.addTextChangedListener(anonymousClass8);
+        attachedEditText.addTextChangedListener(r3);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.LoginActivity$8  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass8 implements TextWatcher {
+    public class 8 implements TextWatcher {
         final /* synthetic */ EditText val$editText;
         final /* synthetic */ AtomicReference val$timeoutCallbackRef;
 
@@ -1111,7 +1110,7 @@ public class LoginActivity extends BaseFragment {
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
 
-        AnonymousClass8(LoginActivity loginActivity, EditText editText, AtomicReference atomicReference) {
+        8(LoginActivity loginActivity, EditText editText, AtomicReference atomicReference) {
             this.val$editText = editText;
             this.val$timeoutCallbackRef = atomicReference;
         }
@@ -1123,7 +1122,7 @@ public class LoginActivity extends BaseFragment {
             editText.post(new Runnable() { // from class: org.telegram.ui.LoginActivity$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LoginActivity.AnonymousClass8.this.lambda$beforeTextChanged$0(editText, atomicReference);
+                    LoginActivity.8.this.lambda$beforeTextChanged$0(editText, atomicReference);
                 }
             });
         }
@@ -2237,7 +2236,7 @@ public class LoginActivity extends BaseFragment {
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            Collections.sort(this.countriesArray, Comparator$CC.comparing(LoginActivity$PhoneView$$ExternalSyntheticLambda17.INSTANCE));
+            Collections.sort(this.countriesArray, Comparator$-CC.comparing(LoginActivity$PhoneView$$ExternalSyntheticLambda17.INSTANCE));
             try {
                 TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
             } catch (Exception e2) {
@@ -2638,7 +2637,7 @@ public class LoginActivity extends BaseFragment {
             if (!this.confirmedNumber) {
                 Point point = AndroidUtilities.displaySize;
                 if (point.x <= point.y || LoginActivity.this.isCustomKeyboardVisible() || LoginActivity.this.sizeNotifierFrameLayout.measureKeyboardHeight() <= AndroidUtilities.dp(20.0f)) {
-                    LoginActivity.this.phoneNumberConfirmView = new PhoneNumberConfirmView(((BaseFragment) LoginActivity.this).fragmentView.getContext(), (ViewGroup) ((BaseFragment) LoginActivity.this).fragmentView, LoginActivity.this.floatingButtonContainer, str4, new AnonymousClass6(str));
+                    LoginActivity.this.phoneNumberConfirmView = new PhoneNumberConfirmView(((BaseFragment) LoginActivity.this).fragmentView.getContext(), (ViewGroup) ((BaseFragment) LoginActivity.this).fragmentView, LoginActivity.this.floatingButtonContainer, str4, new 6(str));
                     LoginActivity.this.phoneNumberConfirmView.show();
                     return;
                 }
@@ -2895,12 +2894,11 @@ public class LoginActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.LoginActivity$PhoneView$6  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass6 implements PhoneNumberConfirmView.IConfirmDialogCallback {
+        public class 6 implements PhoneNumberConfirmView.IConfirmDialogCallback {
             final /* synthetic */ String val$code;
 
-            AnonymousClass6(String str) {
+            6(String str) {
                 this.val$code = str;
             }
 
@@ -2983,7 +2981,7 @@ public class LoginActivity extends BaseFragment {
                 phoneNumberConfirmView.animateProgress(new Runnable() { // from class: org.telegram.ui.LoginActivity$PhoneView$6$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LoginActivity.PhoneView.AnonymousClass6.this.lambda$onConfirm$1(phoneNumberConfirmView, str);
+                        LoginActivity.PhoneView.6.this.lambda$onConfirm$1(phoneNumberConfirmView, str);
                     }
                 });
             }
@@ -2994,7 +2992,7 @@ public class LoginActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$PhoneView$6$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LoginActivity.PhoneView.AnonymousClass6.this.lambda$onConfirm$0(str, phoneNumberConfirmView);
+                        LoginActivity.PhoneView.6.this.lambda$onConfirm$0(str, phoneNumberConfirmView);
                     }
                 }, 150L);
             }
@@ -4222,14 +4220,13 @@ public class LoginActivity extends BaseFragment {
             this.codeTime = 15000;
             this.codeTimer = new Timer();
             this.lastCodeTime = System.currentTimeMillis();
-            this.codeTimer.schedule(new AnonymousClass5(), 0L, 1000L);
+            this.codeTimer.schedule(new 5(), 0L, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.LoginActivity$LoginActivitySmsView$5  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass5 extends TimerTask {
-            AnonymousClass5() {
+        public class 5 extends TimerTask {
+            5() {
             }
 
             @Override // java.util.TimerTask, java.lang.Runnable
@@ -4237,7 +4234,7 @@ public class LoginActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LoginActivity.LoginActivitySmsView.AnonymousClass5.this.lambda$run$0();
+                        LoginActivity.LoginActivitySmsView.5.this.lambda$run$0();
                     }
                 });
             }
@@ -4280,14 +4277,13 @@ public class LoginActivity extends BaseFragment {
             this.timeText.setTag(R.id.color_key_tag, "windowBackgroundWhiteGrayText6");
             Timer timer = new Timer();
             this.timeTimer = timer;
-            timer.schedule(new AnonymousClass6(), 0L, 1000L);
+            timer.schedule(new 6(), 0L, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.LoginActivity$LoginActivitySmsView$6  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass6 extends TimerTask {
-            AnonymousClass6() {
+        public class 6 extends TimerTask {
+            6() {
             }
 
             @Override // java.util.TimerTask, java.lang.Runnable
@@ -4298,7 +4294,7 @@ public class LoginActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$6$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LoginActivity.LoginActivitySmsView.AnonymousClass6.this.lambda$run$0();
+                        LoginActivity.LoginActivitySmsView.6.this.lambda$run$0();
                     }
                 });
             }
@@ -6839,12 +6835,12 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
         public /* synthetic */ void didStartUpload(boolean z) {
-            ImageUpdater.ImageUpdaterDelegate.CC.$default$didStartUpload(this, z);
+            ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z);
         }
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
         public /* bridge */ /* synthetic */ String getInitialSearchString() {
-            return ImageUpdater.ImageUpdaterDelegate.CC.$default$getInitialSearchString(this);
+            return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getInitialSearchString(this);
         }
 
         @Override // org.telegram.ui.Components.SlideView
@@ -6854,7 +6850,7 @@ public class LoginActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
         public /* synthetic */ void onUploadProgressChanged(float f) {
-            ImageUpdater.ImageUpdaterDelegate.CC.$default$onUploadProgressChanged(this, f);
+            ImageUpdater.ImageUpdaterDelegate.-CC.$default$onUploadProgressChanged(this, f);
         }
 
         /* loaded from: classes3.dex */
@@ -7022,7 +7018,7 @@ public class LoginActivity extends BaseFragment {
             this.avatarEditor.setEnabled(false);
             this.avatarEditor.setClickable(false);
             frameLayout.addView(this.avatarEditor, LayoutHelper.createFrame(-1, -1.0f));
-            this.avatarEditor.addOnAttachStateChangeListener(new AnonymousClass4(LoginActivity.this));
+            this.avatarEditor.addOnAttachStateChangeListener(new 4(LoginActivity.this));
             RadialProgressView radialProgressView = new RadialProgressView(context, LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.LoginActivityRegisterView.5
                 @Override // org.telegram.ui.Components.RadialProgressView, android.view.View
                 public void setAlpha(float f) {
@@ -7207,19 +7203,18 @@ public class LoginActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.LoginActivity$LoginActivityRegisterView$4  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass4 implements View.OnAttachStateChangeListener {
+        public class 4 implements View.OnAttachStateChangeListener {
             private boolean isAttached;
             private long lastRun = System.currentTimeMillis();
             private Runnable cameraWaitCallback = new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$4$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LoginActivity.LoginActivityRegisterView.AnonymousClass4.this.lambda$$2();
+                    LoginActivity.LoginActivityRegisterView.4.this.lambda$$2();
                 }
             };
 
-            AnonymousClass4(LoginActivity loginActivity) {
+            4(LoginActivity loginActivity) {
             }
 
             /* JADX INFO: Access modifiers changed from: private */
@@ -7231,7 +7226,7 @@ public class LoginActivity extends BaseFragment {
                         LoginActivityRegisterView.this.cameraWaitDrawable.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$4$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
-                                LoginActivity.LoginActivityRegisterView.AnonymousClass4.this.lambda$$1();
+                                LoginActivity.LoginActivityRegisterView.4.this.lambda$$1();
                             }
                         });
                         LoginActivityRegisterView.this.avatarEditor.playAnimation();
@@ -7246,7 +7241,7 @@ public class LoginActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$4$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        LoginActivity.LoginActivityRegisterView.AnonymousClass4.this.lambda$$0();
+                        LoginActivity.LoginActivityRegisterView.4.this.lambda$$0();
                     }
                 });
             }
@@ -7800,7 +7795,7 @@ public class LoginActivity extends BaseFragment {
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         }, "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText6", "windowBackgroundWhiteHintText", "listSelectorSDK21", "chats_actionBackground", "chats_actionIcon", "windowBackgroundWhiteInputField", "windowBackgroundWhiteInputFieldActivated", "windowBackgroundWhiteValueText", "dialogTextRed", "windowBackgroundWhiteGrayText", "checkbox", "windowBackgroundWhiteBlueText4", "changephoneinfo_image2", "chats_actionPressedBackground", "windowBackgroundWhiteRedText2", "windowBackgroundWhiteLinkText", "checkboxSquareUnchecked", "checkboxSquareBackground", "checkboxSquareCheck", "dialogBackground", "dialogTextGray2", "dialogTextBlack");
     }

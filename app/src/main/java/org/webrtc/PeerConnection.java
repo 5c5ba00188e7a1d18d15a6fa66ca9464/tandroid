@@ -54,9 +54,8 @@ public class PeerConnection {
     /* loaded from: classes3.dex */
     public interface Observer {
 
-        /* renamed from: org.webrtc.PeerConnection$Observer$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             @CalledByNative("Observer")
             public static void $default$onConnectionChange(Observer observer, PeerConnectionState peerConnectionState) {
             }

@@ -8,12 +8,12 @@ public abstract class WrappedNativeVideoEncoder implements VideoEncoder {
 
     @Override // org.webrtc.VideoEncoder
     public /* synthetic */ VideoEncoder.EncoderInfo getEncoderInfo() {
-        return VideoEncoder.CC.$default$getEncoderInfo(this);
+        return VideoEncoder.-CC.$default$getEncoderInfo(this);
     }
 
     @Override // org.webrtc.VideoEncoder
     public /* synthetic */ VideoEncoder.ResolutionBitrateLimits[] getResolutionBitrateLimits() {
-        return VideoEncoder.CC.$default$getResolutionBitrateLimits(this);
+        return VideoEncoder.-CC.$default$getResolutionBitrateLimits(this);
     }
 
     @Override // org.webrtc.VideoEncoder

@@ -59,8 +59,7 @@ class z implements r, j$.util.function.q, Iterator {
     }
 
     @Override // j$.util.r, java.util.Iterator
-    /* renamed from: next */
-    public Long mo339next() {
+    public Long next() {
         if (!N.a) {
             return Long.valueOf(nextLong());
         }
@@ -79,7 +78,7 @@ class z implements r, j$.util.function.q, Iterator {
 
     @Override // java.util.Iterator, j$.util.Iterator
     public /* synthetic */ void remove() {
-        Iterator.CC.a(this);
+        Iterator.-CC.a(this);
         throw null;
     }
 }

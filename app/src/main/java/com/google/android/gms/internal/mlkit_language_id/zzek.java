@@ -52,57 +52,57 @@ package com.google.android.gms.internal.mlkit_language_id;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzek {
-    DOUBLE(0, r7, r8),
-    FLOAT(1, r7, r10),
-    INT64(2, r7, r12),
-    UINT64(3, r7, r12),
-    INT32(4, r7, r15),
-    FIXED64(5, r7, r12),
-    FIXED32(6, r7, r15),
-    BOOL(7, r7, r19),
-    STRING(8, r7, r21),
-    MESSAGE(9, r7, r23),
-    BYTES(10, r7, r25),
-    UINT32(11, r7, r15),
-    ENUM(12, r7, r28),
-    SFIXED32(13, r7, r15),
-    SFIXED64(14, r7, r12),
-    SINT32(15, r7, r15),
-    SINT64(16, r7, r12),
-    GROUP(17, r7, r23),
-    DOUBLE_LIST(18, r34, r8),
-    FLOAT_LIST(19, r34, r10),
-    INT64_LIST(20, r34, r12),
-    UINT64_LIST(21, r34, r12),
-    INT32_LIST(22, r34, r15),
-    FIXED64_LIST(23, r34, r12),
-    FIXED32_LIST(24, r34, r15),
-    BOOL_LIST(25, r34, r19),
-    STRING_LIST(26, r34, r21),
-    MESSAGE_LIST(27, r34, r23),
-    BYTES_LIST(28, r34, r25),
-    UINT32_LIST(29, r34, r15),
-    ENUM_LIST(30, r34, r28),
-    SFIXED32_LIST(31, r34, r15),
-    SFIXED64_LIST(32, r34, r12),
-    SINT32_LIST(33, r34, r15),
-    SINT64_LIST(34, r34, r12),
-    DOUBLE_LIST_PACKED(35, r50, r8),
-    FLOAT_LIST_PACKED(36, r50, r10),
-    INT64_LIST_PACKED(37, r50, r12),
-    UINT64_LIST_PACKED(38, r50, r12),
-    INT32_LIST_PACKED(39, r50, r15),
-    FIXED64_LIST_PACKED(40, r50, r12),
-    FIXED32_LIST_PACKED(41, r50, r15),
-    BOOL_LIST_PACKED(42, r50, r19),
-    UINT32_LIST_PACKED(43, r50, r15),
-    ENUM_LIST_PACKED(44, r50, r28),
-    SFIXED32_LIST_PACKED(45, r50, r15),
-    SFIXED64_LIST_PACKED(46, r50, r12),
-    SINT32_LIST_PACKED(47, r50, r15),
-    SINT64_LIST_PACKED(48, r50, r12),
-    GROUP_LIST(49, r34, r23),
-    MAP(50, zzem.MAP, zzfb.VOID);
+    zzc(0, r7, r8),
+    zzd(1, r7, r10),
+    zze(2, r7, r12),
+    zzf(3, r7, r12),
+    zzg(4, r7, r15),
+    zzh(5, r7, r12),
+    zzi(6, r7, r15),
+    zzj(7, r7, r19),
+    zzk(8, r7, r21),
+    zzl(9, r7, r23),
+    zzm(10, r7, r25),
+    zzn(11, r7, r15),
+    zzo(12, r7, r28),
+    zzp(13, r7, r15),
+    zzq(14, r7, r12),
+    zzr(15, r7, r15),
+    zzs(16, r7, r12),
+    zzt(17, r7, r23),
+    zzu(18, r34, r8),
+    zzv(19, r34, r10),
+    zzw(20, r34, r12),
+    zzx(21, r34, r12),
+    zzy(22, r34, r15),
+    zzz(23, r34, r12),
+    zzaa(24, r34, r15),
+    zzab(25, r34, r19),
+    zzac(26, r34, r21),
+    zzad(27, r34, r23),
+    zzae(28, r34, r25),
+    zzaf(29, r34, r15),
+    zzag(30, r34, r28),
+    zzah(31, r34, r15),
+    zzai(32, r34, r12),
+    zzaj(33, r34, r15),
+    zzak(34, r34, r12),
+    zza(35, r50, r8),
+    zzal(36, r50, r10),
+    zzam(37, r50, r12),
+    zzan(38, r50, r12),
+    zzao(39, r50, r15),
+    zzap(40, r50, r12),
+    zzaq(41, r50, r15),
+    zzar(42, r50, r19),
+    zzas(43, r50, r15),
+    zzat(44, r50, r28),
+    zzau(45, r50, r15),
+    zzav(46, r50, r12),
+    zzaw(47, r50, r15),
+    zzb(48, r50, r12),
+    zzax(49, r34, r23),
+    zzay(50, zzem.zzd, zzfb.zza);
     
     private static final zzek[] zzbe;
     private final int zzba;
@@ -115,7 +115,7 @@ public enum zzek {
         } else if (i2 == 2) {
             zzfbVar.zza();
         }
-        if (zzemVar == zzem.SCALAR) {
+        if (zzemVar == zzem.zza) {
             int i3 = zzen.zzb[zzfbVar.ordinal()];
         }
     }
@@ -125,18 +125,18 @@ public enum zzek {
     }
 
     static {
-        zzem zzemVar = zzem.SCALAR;
-        zzfb zzfbVar = zzfb.DOUBLE;
-        zzfb zzfbVar2 = zzfb.FLOAT;
-        zzfb zzfbVar3 = zzfb.LONG;
-        zzfb zzfbVar4 = zzfb.INT;
-        zzfb zzfbVar5 = zzfb.BOOLEAN;
-        zzfb zzfbVar6 = zzfb.STRING;
-        zzfb zzfbVar7 = zzfb.MESSAGE;
-        zzfb zzfbVar8 = zzfb.BYTE_STRING;
-        zzfb zzfbVar9 = zzfb.ENUM;
-        zzem zzemVar2 = zzem.VECTOR;
-        zzem zzemVar3 = zzem.PACKED_VECTOR;
+        zzem zzemVar = zzem.zza;
+        zzfb zzfbVar = zzfb.zze;
+        zzfb zzfbVar2 = zzfb.zzd;
+        zzfb zzfbVar3 = zzfb.zzc;
+        zzfb zzfbVar4 = zzfb.zzb;
+        zzfb zzfbVar5 = zzfb.zzf;
+        zzfb zzfbVar6 = zzfb.zzg;
+        zzfb zzfbVar7 = zzfb.zzj;
+        zzfb zzfbVar8 = zzfb.zzh;
+        zzfb zzfbVar9 = zzfb.zzi;
+        zzem zzemVar2 = zzem.zzb;
+        zzem zzemVar3 = zzem.zzc;
         zzek[] values = values();
         zzbe = new zzek[values.length];
         for (zzek zzekVar : values) {

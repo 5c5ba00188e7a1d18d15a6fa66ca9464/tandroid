@@ -85,12 +85,12 @@ public final class DaggerTransportRuntimeComponent extends TransportRuntimeCompo
 
     @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent
     TransportRuntime getTransportRuntime() {
-        return this.transportRuntimeProvider.mo70get();
+        return this.transportRuntimeProvider.get();
     }
 
     @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent
     EventStore getEventStore() {
-        return this.sQLiteEventStoreProvider.mo70get();
+        return this.sQLiteEventStoreProvider.get();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -102,8 +102,7 @@ public final class DaggerTransportRuntimeComponent extends TransportRuntimeCompo
         }
 
         @Override // com.google.android.datatransport.runtime.TransportRuntimeComponent.Builder
-        /* renamed from: setApplicationContext */
-        public Builder mo42setApplicationContext(Context context) {
+        public Builder setApplicationContext(Context context) {
             this.setApplicationContext = (Context) Preconditions.checkNotNull(context);
             return this;
         }

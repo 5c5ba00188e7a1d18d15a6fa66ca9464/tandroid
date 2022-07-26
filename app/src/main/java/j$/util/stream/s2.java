@@ -58,13 +58,13 @@ abstract class s2 extends CountedCompleter implements m3 {
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.u mo350trySplit;
+        j$.util.u trySplit;
         j$.util.u uVar = this.a;
         s2 s2Var = this;
-        while (uVar.estimateSize() > s2Var.c && (mo350trySplit = uVar.mo350trySplit()) != null) {
+        while (uVar.estimateSize() > s2Var.c && (trySplit = uVar.trySplit()) != null) {
             s2Var.setPendingCount(1);
-            long estimateSize = mo350trySplit.estimateSize();
-            s2Var.b(mo350trySplit, s2Var.d, estimateSize).fork();
+            long estimateSize = trySplit.estimateSize();
+            s2Var.b(trySplit, s2Var.d, estimateSize).fork();
             s2Var = s2Var.b(uVar, s2Var.d + estimateSize, s2Var.e - estimateSize);
         }
         c cVar = (c) s2Var.b;

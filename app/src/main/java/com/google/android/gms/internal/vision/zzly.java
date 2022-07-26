@@ -21,7 +21,7 @@ final class zzly implements ListIterator<String>, Iterator {
 
     @Override // j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.CC.$default$forEachRemaining(this, consumer);
+        Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
     @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
@@ -65,8 +65,7 @@ final class zzly implements ListIterator<String>, Iterator {
     }
 
     @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public final /* synthetic */ Object mo335next() {
+    public final /* synthetic */ Object next() {
         return this.zza.next();
     }
 }

@@ -1165,14 +1165,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
         Timer timer2 = new Timer();
         this.progressTimer = timer2;
-        timer2.schedule(new AnonymousClass10(), 0L, 17L);
+        timer2.schedule(new 10(), 0L, 17L);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.InstantCameraView$10  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass10 extends TimerTask {
-        AnonymousClass10() {
+    public class 10 extends TimerTask {
+        10() {
         }
 
         @Override // java.util.TimerTask, java.lang.Runnable
@@ -1180,7 +1179,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$10$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    InstantCameraView.AnonymousClass10.this.lambda$run$0();
+                    InstantCameraView.10.this.lambda$run$0();
                 }
             });
         }
@@ -1768,14 +1767,13 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             this.lastCameraId = 0;
             this.buffers = new ArrayBlockingQueue<>(10);
             this.keyframeThumbs = new ArrayList<>();
-            this.recorderRunnable = new AnonymousClass1();
+            this.recorderRunnable = new 1();
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.InstantCameraView$VideoRecorder$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
+        public class 1 implements Runnable {
+            1() {
             }
 
             /* JADX WARN: Code restructure failed: missing block: B:11:0x002f, code lost:
@@ -1833,7 +1831,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InstantCameraView$VideoRecorder$1$$ExternalSyntheticLambda0
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        InstantCameraView.VideoRecorder.AnonymousClass1.this.lambda$run$0(sqrt);
+                                        InstantCameraView.VideoRecorder.1.this.lambda$run$0(sqrt);
                                     }
                                 });
                                 byteBuffer.position(0);
@@ -2428,17 +2426,17 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                     public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-                        VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+                        VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
                     }
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                     public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-                        VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+                        VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
                     }
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                     public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-                        VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+                        VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
                     }
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate

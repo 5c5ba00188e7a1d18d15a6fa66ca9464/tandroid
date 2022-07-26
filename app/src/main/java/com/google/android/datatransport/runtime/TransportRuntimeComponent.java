@@ -13,8 +13,7 @@ public abstract class TransportRuntimeComponent implements Closeable {
     public interface Builder {
         TransportRuntimeComponent build();
 
-        /* renamed from: setApplicationContext */
-        Builder mo42setApplicationContext(Context context);
+        Builder setApplicationContext(Context context);
     }
 
     abstract EventStore getEventStore();

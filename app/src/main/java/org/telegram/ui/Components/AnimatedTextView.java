@@ -16,8 +16,8 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import j$.wrappers.C$r8$wrapper$java$util$stream$IntStream$VWRP;
-import j$.wrappers.C$r8$wrapper$java$util$stream$IntStream$WRP;
+import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-V-WRP;
+import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -453,15 +453,13 @@ public class AnimatedTextView extends View {
             private CharSequence[] words;
 
             @Override // java.lang.CharSequence
-            /* renamed from: chars  reason: collision with other method in class */
-            public /* synthetic */ IntStream mo1224chars() {
-                return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(chars());
+            public /* synthetic */ IntStream chars() {
+                return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(chars());
             }
 
             @Override // java.lang.CharSequence
-            /* renamed from: codePoints  reason: collision with other method in class */
-            public /* synthetic */ IntStream mo1225codePoints() {
-                return C$r8$wrapper$java$util$stream$IntStream$WRP.convert(codePoints());
+            public /* synthetic */ IntStream codePoints() {
+                return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(codePoints());
             }
 
             public WordSequence(CharSequence charSequence) {
@@ -556,7 +554,7 @@ public class AnimatedTextView extends View {
             @Override // java.lang.CharSequence
             public j$.util.stream.IntStream chars() {
                 if (Build.VERSION.SDK_INT >= 24) {
-                    return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(toCharSequence().chars());
+                    return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(toCharSequence().chars());
                 }
                 return null;
             }
@@ -564,7 +562,7 @@ public class AnimatedTextView extends View {
             @Override // java.lang.CharSequence
             public j$.util.stream.IntStream codePoints() {
                 if (Build.VERSION.SDK_INT >= 24) {
-                    return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(toCharSequence().codePoints());
+                    return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(toCharSequence().codePoints());
                 }
                 return null;
             }

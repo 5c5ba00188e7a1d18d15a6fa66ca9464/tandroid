@@ -2460,22 +2460,22 @@ public class ActionBarLayout extends FrameLayout {
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ Drawable getDrawable(String str) {
-            return Theme.ResourcesProvider.CC.$default$getDrawable(this, str);
+            return Theme.ResourcesProvider.-CC.$default$getDrawable(this, str);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ Paint getPaint(String str) {
-            return Theme.ResourcesProvider.CC.$default$getPaint(this, str);
+            return Theme.ResourcesProvider.-CC.$default$getPaint(this, str);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ boolean hasGradientService() {
-            return Theme.ResourcesProvider.CC.$default$hasGradientService(this);
+            return Theme.ResourcesProvider.-CC.$default$hasGradientService(this);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ void setAnimatedColor(String str, int i) {
-            Theme.ResourcesProvider.CC.$default$setAnimatedColor(this, str, i);
+            Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, str, i);
         }
 
         private StartColorsProvider(ActionBarLayout actionBarLayout) {

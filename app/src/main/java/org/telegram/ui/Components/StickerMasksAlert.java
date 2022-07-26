@@ -91,7 +91,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
     private ContentPreviewViewer.ContentPreviewViewerDelegate contentPreviewViewerDelegate = new ContentPreviewViewer.ContentPreviewViewerDelegate() { // from class: org.telegram.ui.Components.StickerMasksAlert.1
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean can() {
-            return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$can(this);
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$can(this);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -106,12 +106,12 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ String getQuery(boolean z) {
-            return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$getQuery(this, z);
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$getQuery(this, z);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ void gifAddedOrDeleted() {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$gifAddedOrDeleted(this);
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$gifAddedOrDeleted(this);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -126,12 +126,12 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean needOpen() {
-            return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$needOpen(this);
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needOpen(this);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ boolean needRemove() {
-            return ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$needRemove(this);
+            return ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$needRemove(this);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -145,12 +145,12 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ void remove(SendMessagesHelper.ImportingSticker importingSticker) {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$remove(this, importingSticker);
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$remove(this, importingSticker);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
         public /* synthetic */ void sendGif(Object obj, Object obj2, boolean z, int i) {
-            ContentPreviewViewer.ContentPreviewViewerDelegate.CC.$default$sendGif(this, obj, obj2, z, i);
+            ContentPreviewViewer.ContentPreviewViewerDelegate.-CC.$default$sendGif(this, obj, obj2, z, i);
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -1078,8 +1078,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             StickerEmojiCell stickerEmojiCell;
             View view;
             if (i == 0) {
@@ -1330,7 +1329,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         private HashMap<TLRPC$TL_messages_stickerSet, Integer> localPacksByName = new HashMap<>();
         private HashMap<ArrayList<TLRPC$Document>, String> emojiStickers = new HashMap<>();
         private ArrayList<ArrayList<TLRPC$Document>> emojiArrays = new ArrayList<>();
-        private Runnable searchRunnable = new AnonymousClass1();
+        private Runnable searchRunnable = new 1();
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
@@ -1344,10 +1343,9 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
+        public class 1 implements Runnable {
+            1() {
             }
 
             private void clear() {
@@ -1437,7 +1435,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                     MediaDataController.getInstance(StickerMasksAlert.this.currentAccount).getEmojiSuggestions(StickerMasksAlert.this.lastSearchKeyboardLanguage, StickersSearchGridAdapter.this.searchQuery, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda1
                         @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
                         public final void run(ArrayList arrayList3, String str) {
-                            StickerMasksAlert.StickersSearchGridAdapter.AnonymousClass1.this.lambda$run$0(access$4904, allStickers, arrayList3, str);
+                            StickerMasksAlert.StickersSearchGridAdapter.1.this.lambda$run$0(access$4904, allStickers, arrayList3, str);
                         }
                     }, false);
                 }
@@ -1491,7 +1489,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                     stickersSearchGridAdapter2.reqId2 = ConnectionsManager.getInstance(StickerMasksAlert.this.currentAccount).sendRequest(tLRPC$TL_messages_getStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            StickerMasksAlert.StickersSearchGridAdapter.AnonymousClass1.this.lambda$run$2(tLRPC$TL_messages_getStickers, arrayList, longSparseArray, tLObject, tLRPC$TL_error);
+                            StickerMasksAlert.StickersSearchGridAdapter.1.this.lambda$run$2(tLRPC$TL_messages_getStickers, arrayList, longSparseArray, tLObject, tLRPC$TL_error);
                         }
                     });
                 }
@@ -1536,7 +1534,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickerMasksAlert$StickersSearchGridAdapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StickerMasksAlert.StickersSearchGridAdapter.AnonymousClass1.this.lambda$run$1(tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray);
+                        StickerMasksAlert.StickersSearchGridAdapter.1.this.lambda$run$1(tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray);
                     }
                 });
             }
@@ -1622,8 +1620,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             FrameLayout frameLayout2;
             if (i == 0) {

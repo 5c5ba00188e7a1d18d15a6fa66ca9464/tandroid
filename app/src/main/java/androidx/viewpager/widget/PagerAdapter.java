@@ -49,8 +49,7 @@ public abstract class PagerAdapter {
         startUpdate((View) viewGroup);
     }
 
-    /* renamed from: instantiateItem */
-    public Object mo1563instantiateItem(ViewGroup viewGroup, int i) {
+    public Object instantiateItem(ViewGroup viewGroup, int i) {
         return instantiateItem((View) viewGroup, i);
     }
 

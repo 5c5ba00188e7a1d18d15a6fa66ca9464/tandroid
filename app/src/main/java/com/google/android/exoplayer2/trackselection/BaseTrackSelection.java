@@ -29,7 +29,7 @@ public abstract class BaseTrackSelection implements TrackSelection {
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelection
     public /* synthetic */ void onDiscontinuity() {
-        TrackSelection.CC.$default$onDiscontinuity(this);
+        TrackSelection.-CC.$default$onDiscontinuity(this);
     }
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelection

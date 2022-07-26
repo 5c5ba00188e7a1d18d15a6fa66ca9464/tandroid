@@ -140,10 +140,9 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.AnimatedFileDrawable$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
+    public class 2 implements Runnable {
+        2() {
         }
 
         @Override // java.lang.Runnable
@@ -167,7 +166,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.AnimatedFileDrawable$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    AnimatedFileDrawable.AnonymousClass2.this.lambda$run$1();
+                    AnimatedFileDrawable.2.this.lambda$run$1();
                 }
             };
             animatedFileDrawable3.cacheGenRunnable = runnable;
@@ -180,7 +179,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedFileDrawable$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    AnimatedFileDrawable.AnonymousClass2.this.lambda$run$0();
+                    AnimatedFileDrawable.2.this.lambda$run$0();
                 }
             });
         }
@@ -322,7 +321,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 AnimatedFileDrawable.this.invalidateInternal();
             }
         };
-        this.uiRunnableGenerateCache = new AnonymousClass2();
+        this.uiRunnableGenerateCache = new 2();
         this.uiRunnable = new Runnable() { // from class: org.telegram.ui.Components.AnimatedFileDrawable.3
             @Override // java.lang.Runnable
             public void run() {

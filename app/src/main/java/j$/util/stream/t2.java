@@ -5,8 +5,7 @@ import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
 public final class t2 extends a4 implements A1, s1 {
     @Override // j$.util.stream.s1
-    /* renamed from: a */
-    public A1 mo315a() {
+    public A1 a() {
         return this;
     }
 
@@ -34,8 +33,7 @@ public final class t2 extends a4 implements A1, s1 {
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: b */
-    public A1 mo316b(int i) {
+    public A1 b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -86,8 +84,7 @@ public final class t2 extends a4 implements A1, s1 {
     }
 
     @Override // j$.util.stream.a4, java.lang.Iterable, j$.lang.e
-    /* renamed from: spliterator */
-    public j$.util.u mo317spliterator() {
-        return super.mo317spliterator();
+    public j$.util.u spliterator() {
+        return super.spliterator();
     }
 }

@@ -2,15 +2,15 @@ package com.google.android.gms.internal.mlkit_language_id;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzhy {
-    INT(0),
-    LONG(0L),
-    FLOAT(Float.valueOf(0.0f)),
-    DOUBLE(Double.valueOf(0.0d)),
-    BOOLEAN(Boolean.FALSE),
-    STRING(""),
-    BYTE_STRING(zzdn.zza),
-    ENUM(null),
-    MESSAGE(null);
+    zza(0),
+    zzb(0L),
+    zzc(Float.valueOf(0.0f)),
+    zzd(Double.valueOf(0.0d)),
+    zze(Boolean.FALSE),
+    zzf(""),
+    zzg(zzdn.zza),
+    zzh(null),
+    zzi(null);
     
     private final Object zzj;
 

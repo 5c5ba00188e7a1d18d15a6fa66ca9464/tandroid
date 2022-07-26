@@ -1482,8 +1482,7 @@ public class ThemeEditorView {
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 View textColorThemeCell;
                 if (i == 0) {
                     textColorThemeCell = new TextColorThemeCell(this.context);
@@ -1564,8 +1563,7 @@ public class ThemeEditorView {
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 View textColorThemeCell;
                 if (i == 0) {
                     textColorThemeCell = new TextColorThemeCell(this.context);
@@ -1596,7 +1594,7 @@ public class ThemeEditorView {
             Instance.destroy();
         }
         this.themeInfo = themeInfo;
-        this.windowView = new AnonymousClass1(activity);
+        this.windowView = new 1(activity);
         this.windowManager = (WindowManager) activity.getSystemService("window");
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         this.preferences = sharedPreferences;
@@ -1645,9 +1643,8 @@ public class ThemeEditorView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ThemeEditorView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends FrameLayout {
+    public class 1 extends FrameLayout {
         private boolean dragging;
         private float startX;
         private float startY;
@@ -1661,7 +1658,7 @@ public class ThemeEditorView {
             return true;
         }
 
-        AnonymousClass1(Context context) {
+        1(Context context) {
             super(context);
         }
 
@@ -1719,7 +1716,7 @@ public class ThemeEditorView {
                             ThemeEditorView.this.editorAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.ThemeEditorView$1$$ExternalSyntheticLambda0
                                 @Override // android.content.DialogInterface.OnDismissListener
                                 public final void onDismiss(DialogInterface dialogInterface) {
-                                    ThemeEditorView.AnonymousClass1.this.lambda$onTouchEvent$1(dialogInterface);
+                                    ThemeEditorView.1.this.lambda$onTouchEvent$1(dialogInterface);
                                 }
                             });
                             ThemeEditorView.this.editorAlert.show();

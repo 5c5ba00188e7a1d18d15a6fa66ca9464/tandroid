@@ -71,7 +71,7 @@ public class VideoCapturerDevice {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(boolean z) {
         if (eglBase == null) {
-            eglBase = EglBase.CC.create(null, EglBase.CONFIG_PLAIN);
+            eglBase = EglBase.-CC.create(null, EglBase.CONFIG_PLAIN);
         }
         instance[z ? 1 : 0] = this;
         HandlerThread handlerThread = new HandlerThread("CallThread");
@@ -181,11 +181,11 @@ public class VideoCapturerDevice {
             if (Build.VERSION.SDK_INT < 21 || this.videoCapturer != null) {
                 return;
             }
-            this.videoCapturer = new ScreenCapturerAndroid(mediaProjectionPermissionResultData, new AnonymousClass1());
+            this.videoCapturer = new ScreenCapturerAndroid(mediaProjectionPermissionResultData, new 1());
             final Point screenCaptureSize = getScreenCaptureSize();
             this.currentWidth = screenCaptureSize.x;
             this.currentHeight = screenCaptureSize.y;
-            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("ScreenCapturerThread", eglBase.mo2309getEglBaseContext());
+            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("ScreenCapturerThread", eglBase.getEglBaseContext());
             this.handler.post(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -212,8 +212,8 @@ public class VideoCapturerDevice {
         }
         final String str2 = deviceNames[i];
         if (this.videoCapturer == null) {
-            this.videoCapturer = camera2Enumerator.createCapturer(str2, new AnonymousClass2());
-            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("VideoCapturerThread", eglBase.mo2309getEglBaseContext());
+            this.videoCapturer = camera2Enumerator.createCapturer(str2, new 2());
+            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("VideoCapturerThread", eglBase.getEglBaseContext());
             this.handler.post(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -231,10 +231,9 @@ public class VideoCapturerDevice {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass1 extends MediaProjection.Callback {
-        AnonymousClass1() {
+    public class 1 extends MediaProjection.Callback {
+        1() {
         }
 
         @Override // android.media.projection.MediaProjection.Callback
@@ -269,9 +268,8 @@ public class VideoCapturerDevice {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$2  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass2 implements CameraVideoCapturer.CameraEventsHandler {
+    public class 2 implements CameraVideoCapturer.CameraEventsHandler {
         @Override // org.webrtc.CameraVideoCapturer.CameraEventsHandler
         public void onCameraClosed() {
         }
@@ -292,7 +290,7 @@ public class VideoCapturerDevice {
         public void onCameraOpening(String str) {
         }
 
-        AnonymousClass2() {
+        2() {
         }
 
         @Override // org.webrtc.CameraVideoCapturer.CameraEventsHandler
@@ -319,14 +317,13 @@ public class VideoCapturerDevice {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.voip.VideoCapturerDevice$3  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass3 implements CameraVideoCapturer.CameraSwitchHandler {
+    public class 3 implements CameraVideoCapturer.CameraSwitchHandler {
         @Override // org.webrtc.CameraVideoCapturer.CameraSwitchHandler
         public void onCameraSwitchError(String str) {
         }
 
-        AnonymousClass3() {
+        3() {
         }
 
         @Override // org.webrtc.CameraVideoCapturer.CameraSwitchHandler
@@ -334,7 +331,7 @@ public class VideoCapturerDevice {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VideoCapturerDevice.AnonymousClass3.lambda$onCameraSwitchDone$0(z);
+                    VideoCapturerDevice.3.lambda$onCameraSwitchDone$0(z);
                 }
             });
         }
@@ -349,7 +346,7 @@ public class VideoCapturerDevice {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$4(String str) {
-        ((CameraVideoCapturer) this.videoCapturer).switchCamera(new AnonymousClass3(), str);
+        ((CameraVideoCapturer) this.videoCapturer).switchCamera(new 3(), str);
     }
 
     public static MediaProjection getMediaProjection() {
@@ -467,18 +464,18 @@ public class VideoCapturerDevice {
 
     private EglBase.Context getSharedEGLContext() {
         if (eglBase == null) {
-            eglBase = EglBase.CC.create(null, EglBase.CONFIG_PLAIN);
+            eglBase = EglBase.-CC.create(null, EglBase.CONFIG_PLAIN);
         }
         EglBase eglBase2 = eglBase;
         if (eglBase2 != null) {
-            return eglBase2.mo2309getEglBaseContext();
+            return eglBase2.getEglBaseContext();
         }
         return null;
     }
 
     public static EglBase getEglBase() {
         if (eglBase == null) {
-            eglBase = EglBase.CC.create(null, EglBase.CONFIG_PLAIN);
+            eglBase = EglBase.-CC.create(null, EglBase.CONFIG_PLAIN);
         }
         return eglBase;
     }

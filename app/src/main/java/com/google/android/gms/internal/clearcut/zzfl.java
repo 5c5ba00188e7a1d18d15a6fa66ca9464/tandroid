@@ -15,38 +15,38 @@ package com.google.android.gms.internal.clearcut;
 /* JADX WARN: Init of enum zzqt can be incorrect */
 /* loaded from: classes.dex */
 public enum zzfl {
-    DOUBLE(zzfq.DOUBLE, 1),
-    FLOAT(zzfq.FLOAT, 5),
-    INT64(r5, 0),
-    UINT64(r5, 0),
-    INT32(r11, 0),
-    FIXED64(r5, 1),
-    FIXED32(r11, 5),
-    BOOL(zzfq.BOOLEAN, 0),
-    STRING(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfm
+    zzqc(zzfq.zzra, 1),
+    zzqd(zzfq.zzqz, 5),
+    zzqe(r5, 0),
+    zzqf(r5, 0),
+    zzqg(r11, 0),
+    zzqh(r5, 1),
+    zzqi(r11, 5),
+    zzqj(zzfq.zzrb, 0),
+    zzqk(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfm
     },
-    GROUP(r13, 3) { // from class: com.google.android.gms.internal.clearcut.zzfn
+    zzql(r13, 3) { // from class: com.google.android.gms.internal.clearcut.zzfn
     },
-    MESSAGE(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfo
+    zzqm(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfo
     },
-    BYTES(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfp
+    zzqn(r13, 2) { // from class: com.google.android.gms.internal.clearcut.zzfp
     },
-    UINT32(r11, 0),
-    ENUM(zzfq.ENUM, 0),
-    SFIXED32(r11, 5),
-    SFIXED64(r5, 1),
-    SINT32(r11, 0),
-    SINT64(r5, 0);
+    zzqo(r11, 0),
+    zzqp(zzfq.zzre, 0),
+    zzqq(r11, 5),
+    zzqr(r5, 1),
+    zzqs(r11, 0),
+    zzqt(r5, 0);
     
     private final zzfq zzqu;
     private final int zzqv;
 
     static {
-        zzfq zzfqVar = zzfq.LONG;
-        zzfq zzfqVar2 = zzfq.INT;
-        final zzfq zzfqVar3 = zzfq.STRING;
-        final zzfq zzfqVar4 = zzfq.MESSAGE;
-        final zzfq zzfqVar5 = zzfq.BYTE_STRING;
+        zzfq zzfqVar = zzfq.zzqy;
+        zzfq zzfqVar2 = zzfq.zzqx;
+        final zzfq zzfqVar3 = zzfq.zzrc;
+        final zzfq zzfqVar4 = zzfq.zzrf;
+        final zzfq zzfqVar5 = zzfq.zzrd;
     }
 
     zzfl(zzfq zzfqVar, int i) {

@@ -533,17 +533,17 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
 
             @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
             public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+                VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
             }
 
             @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
             public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+                VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
             }
 
             @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
             public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-                VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+                VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
             }
 
             @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate

@@ -867,7 +867,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                         public void run() {
                             if (fragment.getAnimatingAway() != null) {
                                 fragment.setAnimatingAway(null);
-                                AnonymousClass2 anonymousClass2 = AnonymousClass2.this;
+                                2 r0 = 2.this;
                                 FragmentManagerImpl fragmentManagerImpl = FragmentManagerImpl.this;
                                 Fragment fragment2 = fragment;
                                 fragmentManagerImpl.moveToState(fragment2, fragment2.getStateAfterAnimating(), 0, 0, false);

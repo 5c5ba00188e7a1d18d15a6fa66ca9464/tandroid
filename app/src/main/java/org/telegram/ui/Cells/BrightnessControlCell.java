@@ -48,7 +48,7 @@ public class BrightnessControlCell extends FrameLayout {
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate

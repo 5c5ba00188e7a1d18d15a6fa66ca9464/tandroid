@@ -59,7 +59,7 @@ public class RenderView extends TextureView {
         this.bitmap = bitmap;
         this.painting = painting;
         painting.setRenderView(this);
-        setSurfaceTextureListener(new AnonymousClass1());
+        setSurfaceTextureListener(new 1());
         this.painting.setDelegate(new Painting.PaintingDelegate() { // from class: org.telegram.ui.Components.Paint.RenderView.2
             @Override // org.telegram.ui.Components.Paint.Painting.PaintingDelegate
             public void contentChanged() {
@@ -81,14 +81,13 @@ public class RenderView extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Paint.RenderView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements TextureView.SurfaceTextureListener {
+    public class 1 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         }
 
-        AnonymousClass1() {
+        1() {
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -117,7 +116,7 @@ public class RenderView extends TextureView {
             RenderView.this.internal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RenderView.AnonymousClass1.this.lambda$onSurfaceTextureSizeChanged$0();
+                    RenderView.1.this.lambda$onSurfaceTextureSizeChanged$0();
                 }
             });
         }
@@ -135,7 +134,7 @@ public class RenderView extends TextureView {
                 RenderView.this.painting.onPause(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        RenderView.AnonymousClass1.this.lambda$onSurfaceTextureDestroyed$1();
+                        RenderView.1.this.lambda$onSurfaceTextureDestroyed$1();
                     }
                 });
             }
@@ -275,7 +274,7 @@ public class RenderView extends TextureView {
     public class CanvasInternal extends DispatchQueue {
         private int bufferHeight;
         private int bufferWidth;
-        private Runnable drawRunnable = new AnonymousClass1();
+        private Runnable drawRunnable = new 1();
         private EGL10 egl10;
         private EGLContext eglContext;
         private EGLDisplay eglDisplay;
@@ -402,10 +401,9 @@ public class RenderView extends TextureView {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements Runnable {
-            AnonymousClass1() {
+        public class 1 implements Runnable {
+            1() {
             }
 
             @Override // java.lang.Runnable
@@ -426,7 +424,7 @@ public class RenderView extends TextureView {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            RenderView.CanvasInternal.AnonymousClass1.this.lambda$run$0();
+                            RenderView.CanvasInternal.1.this.lambda$run$0();
                         }
                     });
                 }

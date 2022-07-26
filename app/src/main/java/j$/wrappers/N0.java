@@ -38,7 +38,7 @@ public final /* synthetic */ class N0 implements e1 {
 
     @Override // j$.util.stream.e1
     public /* synthetic */ Stream Q(j$.util.function.r rVar) {
-        return C$r8$wrapper$java$util$stream$Stream$VWRP.convert(this.a.mapToObj(i0.a(rVar)));
+        return $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(this.a.mapToObj(i0.a(rVar)));
     }
 
     @Override // j$.util.stream.e1
@@ -63,7 +63,7 @@ public final /* synthetic */ class N0 implements e1 {
 
     @Override // j$.util.stream.e1
     public /* synthetic */ Stream boxed() {
-        return C$r8$wrapper$java$util$stream$Stream$VWRP.convert(this.a.boxed());
+        return $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(this.a.boxed());
     }
 
     @Override // j$.util.stream.g, java.lang.AutoCloseable
@@ -88,7 +88,7 @@ public final /* synthetic */ class N0 implements e1 {
 
     @Override // j$.util.stream.e1
     public /* synthetic */ IntStream e0(n0 n0Var) {
-        return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(this.a.mapToInt(n0Var == null ? null : n0Var.a));
+        return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(this.a.mapToInt(n0Var == null ? null : n0Var.a));
     }
 
     @Override // j$.util.stream.e1
@@ -117,14 +117,12 @@ public final /* synthetic */ class N0 implements e1 {
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g
-    /* renamed from: iterator */
-    public /* synthetic */ j$.util.r mo331iterator() {
+    public /* synthetic */ j$.util.r iterator() {
         return e.a(this.a.iterator());
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g
-    /* renamed from: iterator */
-    public /* synthetic */ Iterator mo331iterator() {
+    public /* synthetic */ Iterator iterator() {
         return this.a.iterator();
     }
 
@@ -159,14 +157,12 @@ public final /* synthetic */ class N0 implements e1 {
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* synthetic */ e1 mo332parallel() {
+    public /* synthetic */ e1 parallel() {
         return n0(this.a.parallel());
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* synthetic */ j$.util.stream.g mo332parallel() {
+    public /* synthetic */ j$.util.stream.g parallel() {
         return H0.n0(this.a.parallel());
     }
 
@@ -176,14 +172,12 @@ public final /* synthetic */ class N0 implements e1 {
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* synthetic */ e1 mo333sequential() {
+    public /* synthetic */ e1 sequential() {
         return n0(this.a.sequential());
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* synthetic */ j$.util.stream.g mo333sequential() {
+    public /* synthetic */ j$.util.stream.g sequential() {
         return H0.n0(this.a.sequential());
     }
 
@@ -198,14 +192,12 @@ public final /* synthetic */ class N0 implements e1 {
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g
-    /* renamed from: spliterator */
-    public /* synthetic */ j$.util.u mo334spliterator() {
+    public /* synthetic */ j$.util.u spliterator() {
         return g.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.e1, j$.util.stream.g
-    /* renamed from: spliterator */
-    public /* synthetic */ j$.util.v mo334spliterator() {
+    public /* synthetic */ j$.util.v spliterator() {
         return m.a(this.a.spliterator());
     }
 

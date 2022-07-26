@@ -216,8 +216,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
 
             /* JADX WARN: Multi-variable type inference failed */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 FixedHeightEmptyCell fixedHeightEmptyCell;
                 Context context = viewGroup.getContext();
                 if (i == 1) {

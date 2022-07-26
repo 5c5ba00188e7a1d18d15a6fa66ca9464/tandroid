@@ -19,10 +19,10 @@ public final class zzfi$zze extends zzjb<zzfi$zze, zza> implements zzkm {
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public enum zzb implements zzje {
-        REASON_UNKNOWN(0),
-        REASON_MISSING(1),
-        REASON_UPGRADE(2),
-        REASON_INVALID(3);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3);
         
         private final int zzf;
 
@@ -34,17 +34,17 @@ public final class zzfi$zze extends zzjb<zzfi$zze, zza> implements zzkm {
         public static zzb zza(int i) {
             if (i != 0) {
                 if (i == 1) {
-                    return REASON_MISSING;
+                    return zzb;
                 }
                 if (i == 2) {
-                    return REASON_UPGRADE;
+                    return zzc;
                 }
                 if (i == 3) {
-                    return REASON_INVALID;
+                    return zzd;
                 }
                 return null;
             }
-            return REASON_UNKNOWN;
+            return zza;
         }
 
         public static zzjg zzb() {

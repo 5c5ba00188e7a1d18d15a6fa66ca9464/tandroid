@@ -39,7 +39,7 @@ class F0 extends g3 {
                 IntStream intStream = (IntStream) ((j$.util.function.m) ((M) this.c).m).apply(i);
                 if (intStream != null) {
                     try {
-                        intStream.mo333sequential().U(new B0(this));
+                        intStream.sequential().U(new B0(this));
                     } finally {
                         try {
                             intStream.close();

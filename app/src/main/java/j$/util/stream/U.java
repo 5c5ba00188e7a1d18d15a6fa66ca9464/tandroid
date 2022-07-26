@@ -34,8 +34,7 @@ public interface U extends g {
     boolean i0(j$.wrappers.E e);
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    j$.util.n mo331iterator();
+    j$.util.n iterator();
 
     void j(j$.util.function.f fVar);
 
@@ -48,22 +47,19 @@ public interface U extends g {
     j$.util.j min();
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    U mo332parallel();
+    U parallel();
 
     U r(j$.wrappers.E e);
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    U mo333sequential();
+    U sequential();
 
     U skip(long j);
 
     U sorted();
 
     @Override // j$.util.stream.g
-    /* renamed from: spliterator */
-    j$.util.t mo334spliterator();
+    j$.util.t spliterator();
 
     double sum();
 

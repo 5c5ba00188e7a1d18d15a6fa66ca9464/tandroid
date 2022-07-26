@@ -13,12 +13,12 @@ public abstract class Id3Frame implements Metadata.Entry {
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ byte[] getWrappedMetadataBytes() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataBytes(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ Format getWrappedMetadataFormat() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataFormat(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
     public Id3Frame(String str) {

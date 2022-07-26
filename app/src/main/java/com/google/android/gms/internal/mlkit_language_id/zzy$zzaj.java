@@ -72,8 +72,8 @@ public final class zzy$zzaj extends zzeo<zzy$zzaj, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        UNKNOWN(0),
-        TRANSLATE(1);
+        zza(0),
+        zzb(1);
         
         private final int zzd;
 

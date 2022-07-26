@@ -281,9 +281,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* loaded from: classes3.dex */
     public interface PaymentFormActivityDelegate {
 
-        /* renamed from: org.telegram.ui.PaymentFormActivity$PaymentFormActivityDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$currentPasswordUpdated(PaymentFormActivityDelegate paymentFormActivityDelegate, TLRPC$TL_account_password tLRPC$TL_account_password) {
             }
 
@@ -2899,17 +2898,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         paymentFormActivity.setDelegate(new PaymentFormActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity.13
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void currentPasswordUpdated(TLRPC$TL_account_password tLRPC$TL_account_password) {
-                PaymentFormActivityDelegate.CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
+                PaymentFormActivityDelegate.-CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ boolean didSelectNewCard(String str, String str2, boolean z, TLRPC$TL_inputPaymentCredentialsGooglePay tLRPC$TL_inputPaymentCredentialsGooglePay, TLRPC$TL_paymentSavedCredentialsCard tLRPC$TL_paymentSavedCredentialsCard) {
-                return PaymentFormActivityDelegate.CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
+                return PaymentFormActivityDelegate.-CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void onFragmentDestroyed() {
-                PaymentFormActivityDelegate.CC.$default$onFragmentDestroyed(this);
+                PaymentFormActivityDelegate.-CC.$default$onFragmentDestroyed(this);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
@@ -2928,17 +2927,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         paymentFormActivity.setDelegate(new PaymentFormActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity.14
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void currentPasswordUpdated(TLRPC$TL_account_password tLRPC$TL_account_password) {
-                PaymentFormActivityDelegate.CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
+                PaymentFormActivityDelegate.-CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ boolean didSelectNewCard(String str, String str2, boolean z, TLRPC$TL_inputPaymentCredentialsGooglePay tLRPC$TL_inputPaymentCredentialsGooglePay, TLRPC$TL_paymentSavedCredentialsCard tLRPC$TL_paymentSavedCredentialsCard) {
-                return PaymentFormActivityDelegate.CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
+                return PaymentFormActivityDelegate.-CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void onFragmentDestroyed() {
-                PaymentFormActivityDelegate.CC.$default$onFragmentDestroyed(this);
+                PaymentFormActivityDelegate.-CC.$default$onFragmentDestroyed(this);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
@@ -2957,17 +2956,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         paymentFormActivity.setDelegate(new PaymentFormActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity.15
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void currentPasswordUpdated(TLRPC$TL_account_password tLRPC$TL_account_password) {
-                PaymentFormActivityDelegate.CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
+                PaymentFormActivityDelegate.-CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ boolean didSelectNewCard(String str, String str2, boolean z, TLRPC$TL_inputPaymentCredentialsGooglePay tLRPC$TL_inputPaymentCredentialsGooglePay, TLRPC$TL_paymentSavedCredentialsCard tLRPC$TL_paymentSavedCredentialsCard) {
-                return PaymentFormActivityDelegate.CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
+                return PaymentFormActivityDelegate.-CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void onFragmentDestroyed() {
-                PaymentFormActivityDelegate.CC.$default$onFragmentDestroyed(this);
+                PaymentFormActivityDelegate.-CC.$default$onFragmentDestroyed(this);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
@@ -2986,17 +2985,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         paymentFormActivity.setDelegate(new PaymentFormActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity.16
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void currentPasswordUpdated(TLRPC$TL_account_password tLRPC$TL_account_password) {
-                PaymentFormActivityDelegate.CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
+                PaymentFormActivityDelegate.-CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ boolean didSelectNewCard(String str, String str2, boolean z, TLRPC$TL_inputPaymentCredentialsGooglePay tLRPC$TL_inputPaymentCredentialsGooglePay, TLRPC$TL_paymentSavedCredentialsCard tLRPC$TL_paymentSavedCredentialsCard) {
-                return PaymentFormActivityDelegate.CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
+                return PaymentFormActivityDelegate.-CC.$default$didSelectNewCard(this, str, str2, z, tLRPC$TL_inputPaymentCredentialsGooglePay, tLRPC$TL_paymentSavedCredentialsCard);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void onFragmentDestroyed() {
-                PaymentFormActivityDelegate.CC.$default$onFragmentDestroyed(this);
+                PaymentFormActivityDelegate.-CC.$default$onFragmentDestroyed(this);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
@@ -3234,17 +3233,17 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         PaymentFormActivityDelegate paymentFormActivityDelegate = new PaymentFormActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity.21
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void currentPasswordUpdated(TLRPC$TL_account_password tLRPC$TL_account_password) {
-                PaymentFormActivityDelegate.CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
+                PaymentFormActivityDelegate.-CC.$default$currentPasswordUpdated(this, tLRPC$TL_account_password);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void didSelectNewAddress(TLRPC$TL_payments_validateRequestedInfo tLRPC$TL_payments_validateRequestedInfo) {
-                PaymentFormActivityDelegate.CC.$default$didSelectNewAddress(this, tLRPC$TL_payments_validateRequestedInfo);
+                PaymentFormActivityDelegate.-CC.$default$didSelectNewAddress(this, tLRPC$TL_payments_validateRequestedInfo);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
             public /* synthetic */ void onFragmentDestroyed() {
-                PaymentFormActivityDelegate.CC.$default$onFragmentDestroyed(this);
+                PaymentFormActivityDelegate.-CC.$default$onFragmentDestroyed(this);
             }
 
             @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
@@ -4010,7 +4009,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 this.passwordFragment.setDelegate(new PaymentFormActivityDelegate() { // from class: org.telegram.ui.PaymentFormActivity.24
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
                     public /* synthetic */ void didSelectNewAddress(TLRPC$TL_payments_validateRequestedInfo tLRPC$TL_payments_validateRequestedInfo) {
-                        PaymentFormActivityDelegate.CC.$default$didSelectNewAddress(this, tLRPC$TL_payments_validateRequestedInfo);
+                        PaymentFormActivityDelegate.-CC.$default$didSelectNewAddress(this, tLRPC$TL_payments_validateRequestedInfo);
                     }
 
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormActivityDelegate
@@ -4502,7 +4501,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             showEditDoneProgress(true, true);
             try {
                 if ("stripe".equals(this.paymentForm.native_provider)) {
-                    new Stripe(this.providerApiKey).createToken(card, new AnonymousClass25());
+                    new Stripe(this.providerApiKey).createToken(card, new 25());
                 } else if ("smartglocal".equals(this.paymentForm.native_provider)) {
                     new AsyncTask<Object, Object, String>() { // from class: org.telegram.ui.PaymentFormActivity.26
                         /* JADX INFO: Access modifiers changed from: protected */
@@ -4620,10 +4619,9 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.PaymentFormActivity$25  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass25 implements TokenCallback {
-        AnonymousClass25() {
+    public class 25 implements TokenCallback {
+        25() {
         }
 
         @Override // com.stripe.android.TokenCallback
@@ -4635,7 +4633,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PaymentFormActivity$25$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PaymentFormActivity.AnonymousClass25.this.lambda$onSuccess$0();
+                    PaymentFormActivity.25.this.lambda$onSuccess$0();
                 }
             });
         }

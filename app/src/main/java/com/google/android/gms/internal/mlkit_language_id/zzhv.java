@@ -16,28 +16,28 @@ package com.google.android.gms.internal.mlkit_language_id;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzhv {
-    DOUBLE(zzhy.DOUBLE, 1),
-    FLOAT(zzhy.FLOAT, 5),
-    INT64(r5, 0),
-    UINT64(r5, 0),
-    INT32(r11, 0),
-    FIXED64(r5, 1),
-    FIXED32(r11, 5),
-    BOOL(zzhy.BOOLEAN, 0),
-    STRING(r13, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhu
+    zza(zzhy.zzd, 1),
+    zzb(zzhy.zzc, 5),
+    zzc(r5, 0),
+    zzd(r5, 0),
+    zze(r11, 0),
+    zzf(r5, 1),
+    zzg(r11, 5),
+    zzh(zzhy.zze, 0),
+    zzi(r13, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhu
     },
-    GROUP(r13, 3) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhx
+    zzj(r13, 3) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhx
     },
-    MESSAGE(r13, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhw
+    zzk(r13, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhw
     },
-    BYTES(r13, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhz
+    zzl(r13, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhz
     },
-    UINT32(r11, 0),
-    ENUM(zzhy.ENUM, 0),
-    SFIXED32(r11, 5),
-    SFIXED64(r5, 1),
-    SINT32(r11, 0),
-    SINT64(r5, 0);
+    zzm(r11, 0),
+    zzn(zzhy.zzh, 0),
+    zzo(r11, 5),
+    zzp(r5, 1),
+    zzq(r11, 0),
+    zzr(r5, 0);
     
     private final zzhy zzs;
     private final int zzt;
@@ -52,10 +52,10 @@ public enum zzhv {
     }
 
     static {
-        zzhy zzhyVar = zzhy.LONG;
-        zzhy zzhyVar2 = zzhy.INT;
-        final zzhy zzhyVar3 = zzhy.STRING;
-        final zzhy zzhyVar4 = zzhy.MESSAGE;
-        final zzhy zzhyVar5 = zzhy.BYTE_STRING;
+        zzhy zzhyVar = zzhy.zzb;
+        zzhy zzhyVar2 = zzhy.zza;
+        final zzhy zzhyVar3 = zzhy.zzf;
+        final zzhy zzhyVar4 = zzhy.zzi;
+        final zzhy zzhyVar5 = zzhy.zzg;
     }
 }

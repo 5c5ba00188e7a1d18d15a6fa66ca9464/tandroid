@@ -94,7 +94,7 @@ public abstract /* synthetic */ class o1 {
         if (consumer instanceof j$.util.function.f) {
             u1Var.g((j$.util.function.f) consumer);
         } else if (!Q4.a) {
-            ((j$.util.t) u1Var.mo313spliterator()).forEachRemaining(consumer);
+            ((j$.util.t) u1Var.spliterator()).forEachRemaining(consumer);
         } else {
             Q4.a(u1Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
             throw null;
@@ -105,7 +105,7 @@ public abstract /* synthetic */ class o1 {
         if (consumer instanceof j$.util.function.l) {
             w1Var.g((j$.util.function.l) consumer);
         } else if (!Q4.a) {
-            ((u.a) w1Var.mo313spliterator()).forEachRemaining(consumer);
+            ((u.a) w1Var.spliterator()).forEachRemaining(consumer);
         } else {
             Q4.a(w1Var.getClass(), "{0} calling Node.OfInt.forEachRemaining(Consumer)");
             throw null;
@@ -116,7 +116,7 @@ public abstract /* synthetic */ class o1 {
         if (consumer instanceof j$.util.function.q) {
             y1Var.g((j$.util.function.q) consumer);
         } else if (!Q4.a) {
-            ((j$.util.v) y1Var.mo313spliterator()).forEachRemaining(consumer);
+            ((j$.util.v) y1Var.spliterator()).forEachRemaining(consumer);
         } else {
             Q4.a(y1Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
             throw null;
@@ -128,7 +128,7 @@ public abstract /* synthetic */ class o1 {
             return u1Var;
         }
         long j3 = j2 - j;
-        j$.util.t tVar = (j$.util.t) u1Var.mo313spliterator();
+        j$.util.t tVar = (j$.util.t) u1Var.spliterator();
         p1 j4 = x2.j(j3);
         j4.n(j3);
         for (int i = 0; i < j && tVar.k(t1.a); i++) {
@@ -136,7 +136,7 @@ public abstract /* synthetic */ class o1 {
         for (int i2 = 0; i2 < j3 && tVar.k(j4); i2++) {
         }
         j4.m();
-        return j4.mo315a();
+        return j4.a();
     }
 
     public static w1 o(w1 w1Var, long j, long j2, j$.util.function.m mVar) {
@@ -144,7 +144,7 @@ public abstract /* synthetic */ class o1 {
             return w1Var;
         }
         long j3 = j2 - j;
-        u.a aVar = (u.a) w1Var.mo313spliterator();
+        u.a aVar = (u.a) w1Var.spliterator();
         q1 p = x2.p(j3);
         p.n(j3);
         for (int i = 0; i < j && aVar.g(v1.a); i++) {
@@ -152,7 +152,7 @@ public abstract /* synthetic */ class o1 {
         for (int i2 = 0; i2 < j3 && aVar.g(p); i2++) {
         }
         p.m();
-        return p.mo315a();
+        return p.a();
     }
 
     public static y1 p(y1 y1Var, long j, long j2, j$.util.function.m mVar) {
@@ -160,7 +160,7 @@ public abstract /* synthetic */ class o1 {
             return y1Var;
         }
         long j3 = j2 - j;
-        j$.util.v vVar = (j$.util.v) y1Var.mo313spliterator();
+        j$.util.v vVar = (j$.util.v) y1Var.spliterator();
         r1 q = x2.q(j3);
         q.n(j3);
         for (int i = 0; i < j && vVar.i(x1.a); i++) {
@@ -168,23 +168,23 @@ public abstract /* synthetic */ class o1 {
         for (int i2 = 0; i2 < j3 && vVar.i(q); i2++) {
         }
         q.m();
-        return q.mo315a();
+        return q.a();
     }
 
     public static A1 q(A1 a1, long j, long j2, j$.util.function.m mVar) {
         if (j == 0 && j2 == a1.count()) {
             return a1;
         }
-        j$.util.u mo313spliterator = a1.mo313spliterator();
+        j$.util.u spliterator = a1.spliterator();
         long j3 = j2 - j;
         s1 d = x2.d(j3, mVar);
         d.n(j3);
-        for (int i = 0; i < j && mo313spliterator.b(n1.a); i++) {
+        for (int i = 0; i < j && spliterator.b(n1.a); i++) {
         }
-        for (int i2 = 0; i2 < j3 && mo313spliterator.b(d); i2++) {
+        for (int i2 = 0; i2 < j3 && spliterator.b(d); i2++) {
         }
         d.m();
-        return d.mo315a();
+        return d.a();
     }
 
     public static U r(j$.util.t tVar, boolean z) {

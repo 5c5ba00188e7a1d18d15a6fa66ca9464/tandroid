@@ -10,17 +10,13 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class SpliceScheduleCommand extends SpliceCommand {
     public static final Parcelable.Creator<SpliceScheduleCommand> CREATOR = new Parcelable.Creator<SpliceScheduleCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.SpliceScheduleCommand.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public SpliceScheduleCommand mo137createFromParcel(Parcel parcel) {
+        public SpliceScheduleCommand createFromParcel(Parcel parcel) {
             return new SpliceScheduleCommand(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public SpliceScheduleCommand[] mo138newArray(int i) {
+        public SpliceScheduleCommand[] newArray(int i) {
             return new SpliceScheduleCommand[i];
         }
     };

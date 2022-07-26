@@ -23,10 +23,8 @@ public class StatsController extends BaseController {
     private static DispatchQueue statsSaveQueue = new DispatchQueue("statsSaveQueue");
     private static final ThreadLocal<Long> lastStatsSaveTime = new ThreadLocal<Long>() { // from class: org.telegram.messenger.StatsController.1
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // java.lang.ThreadLocal
-        /* renamed from: initialValue */
-        public Long mo798initialValue() {
+        public Long initialValue() {
             return Long.valueOf(System.currentTimeMillis() - 1000);
         }
     };

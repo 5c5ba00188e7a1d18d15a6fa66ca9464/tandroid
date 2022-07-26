@@ -18,7 +18,7 @@ final class zzfc implements Iterator<String>, j$.util.Iterator {
 
     @Override // j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.CC.$default$forEachRemaining(this, consumer);
+        Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
@@ -27,8 +27,7 @@ final class zzfc implements Iterator<String>, j$.util.Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public final /* synthetic */ Object mo335next() {
+    public final /* synthetic */ Object next() {
         return this.zzpf.next();
     }
 

@@ -1340,8 +1340,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         @SuppressLint({"ClickableViewAccessibility"})
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FeaturedStickerSetCell2 featuredStickerSetCell2;
             if (i == 0) {
                 final StickerSetCell stickerSetCell = new StickerSetCell(this.mContext, 1) { // from class: org.telegram.ui.StickersActivity.ListAdapter.2

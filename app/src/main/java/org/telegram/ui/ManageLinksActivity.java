@@ -161,7 +161,7 @@ public class ManageLinksActivity extends BaseFragment {
         }
     };
     boolean loadRevoked = false;
-    private final LinkEditActivity.Callback linkEditActivityCallback = new AnonymousClass6();
+    private final LinkEditActivity.Callback linkEditActivityCallback = new 6();
     int animationIndex = -1;
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -886,8 +886,7 @@ public class ManageLinksActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextInfoPrivacyCell textInfoPrivacyCell;
             LinkActionView linkActionView;
             switch (i) {
@@ -904,12 +903,12 @@ public class ManageLinksActivity extends BaseFragment {
                     linkActionView2.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.ManageLinksActivity.ListAdapter.1
                         @Override // org.telegram.ui.Components.LinkActionView.Delegate
                         public /* synthetic */ void editLink() {
-                            LinkActionView.Delegate.CC.$default$editLink(this);
+                            LinkActionView.Delegate.-CC.$default$editLink(this);
                         }
 
                         @Override // org.telegram.ui.Components.LinkActionView.Delegate
                         public /* synthetic */ void removeLink() {
-                            LinkActionView.Delegate.CC.$default$removeLink(this);
+                            LinkActionView.Delegate.-CC.$default$removeLink(this);
                         }
 
                         @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -1754,10 +1753,9 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ManageLinksActivity$6  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass6 implements LinkEditActivity.Callback {
-        AnonymousClass6() {
+    public class 6 implements LinkEditActivity.Callback {
+        6() {
         }
 
         @Override // org.telegram.ui.LinkEditActivity.Callback
@@ -1766,7 +1764,7 @@ public class ManageLinksActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$6$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ManageLinksActivity.AnonymousClass6.this.lambda$onLinkCreated$0(tLObject);
+                        ManageLinksActivity.6.this.lambda$onLinkCreated$0(tLObject);
                     }
                 }, 200L);
             }
@@ -1964,7 +1962,7 @@ public class ManageLinksActivity extends BaseFragment {
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{HeaderCell.class, CreationTextCell.class, LinkActionView.class, LinkCell.class}, null, null, null, "windowBackgroundWhite"));

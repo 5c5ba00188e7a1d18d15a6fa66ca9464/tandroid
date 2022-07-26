@@ -63,7 +63,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onAudioSettingsChanged() {
-        VoIPService.StateListener.CC.$default$onAudioSettingsChanged(this);
+        VoIPService.StateListener.-CC.$default$onAudioSettingsChanged(this);
     }
 
     protected void onDismiss(boolean z, boolean z2) {
@@ -71,22 +71,22 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onMediaStateUpdated(int i, int i2) {
-        VoIPService.StateListener.CC.$default$onMediaStateUpdated(this, i, i2);
+        VoIPService.StateListener.-CC.$default$onMediaStateUpdated(this, i, i2);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onScreenOnChange(boolean z) {
-        VoIPService.StateListener.CC.$default$onScreenOnChange(this, z);
+        VoIPService.StateListener.-CC.$default$onScreenOnChange(this, z);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onSignalBarsCountChanged(int i) {
-        VoIPService.StateListener.CC.$default$onSignalBarsCountChanged(this, i);
+        VoIPService.StateListener.-CC.$default$onSignalBarsCountChanged(this, i);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onStateChanged(int i) {
-        VoIPService.StateListener.CC.$default$onStateChanged(this, i);
+        VoIPService.StateListener.-CC.$default$onStateChanged(this, i);
     }
 
     @Override // android.view.View
@@ -96,7 +96,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onVideoAvailableChange(boolean z) {
-        VoIPService.StateListener.CC.$default$onVideoAvailableChange(this, z);
+        VoIPService.StateListener.-CC.$default$onVideoAvailableChange(this, z);
     }
 
     public PrivateVideoPreviewDialog(Context context, boolean z, boolean z2) {
@@ -300,7 +300,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             this.textureView.renderer.setMirror(sharedInstance.isFrontFaceCamera());
-            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().mo2309getEglBaseContext(), new RendererCommon.RendererEvents(this) { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog.4
+            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new RendererCommon.RendererEvents(this) { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog.4
                 @Override // org.webrtc.RendererCommon.RendererEvents
                 public void onFirstFrameRendered() {
                 }
@@ -597,8 +597,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.viewpager.widget.PagerAdapter
-        /* renamed from: instantiateItem */
-        public Object mo1563instantiateItem(ViewGroup viewGroup, int i) {
+        public Object instantiateItem(ViewGroup viewGroup, int i) {
             ImageView imageView;
             int i2 = 1;
             if (PrivateVideoPreviewDialog.this.needScreencast && i == 0) {

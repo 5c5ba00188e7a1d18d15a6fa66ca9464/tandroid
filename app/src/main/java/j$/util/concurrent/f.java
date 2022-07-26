@@ -20,7 +20,7 @@ final class f implements t {
 
     @Override // j$.util.t, j$.util.w, j$.util.u
     /* renamed from: a */
-    public f mo350trySplit() {
+    public f trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
         if (j2 <= j) {

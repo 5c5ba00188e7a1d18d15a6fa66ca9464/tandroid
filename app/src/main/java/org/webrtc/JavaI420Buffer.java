@@ -18,7 +18,7 @@ public class JavaI420Buffer implements VideoFrame.I420Buffer {
 
     @Override // org.webrtc.VideoFrame.I420Buffer, org.webrtc.VideoFrame.Buffer
     public /* synthetic */ int getBufferType() {
-        return VideoFrame.I420Buffer.CC.$default$getBufferType(this);
+        return VideoFrame.I420Buffer.-CC.$default$getBufferType(this);
     }
 
     private JavaI420Buffer(int i, int i2, ByteBuffer byteBuffer, int i3, ByteBuffer byteBuffer2, int i4, ByteBuffer byteBuffer3, int i5, Runnable runnable) {

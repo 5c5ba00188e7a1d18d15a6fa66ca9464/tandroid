@@ -17,17 +17,13 @@ public final class EventMessage implements Metadata.Entry {
     private static final Format ID3_FORMAT = Format.createSampleFormat(null, "application/id3", Long.MAX_VALUE);
     private static final Format SCTE35_FORMAT = Format.createSampleFormat(null, "application/x-scte35", Long.MAX_VALUE);
     public static final Parcelable.Creator<EventMessage> CREATOR = new Parcelable.Creator<EventMessage>() { // from class: com.google.android.exoplayer2.metadata.emsg.EventMessage.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public EventMessage mo98createFromParcel(Parcel parcel) {
+        public EventMessage createFromParcel(Parcel parcel) {
             return new EventMessage(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public EventMessage[] mo99newArray(int i) {
+        public EventMessage[] newArray(int i) {
             return new EventMessage[i];
         }
     };

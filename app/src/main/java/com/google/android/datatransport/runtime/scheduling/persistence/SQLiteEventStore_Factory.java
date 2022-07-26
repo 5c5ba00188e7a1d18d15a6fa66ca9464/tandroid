@@ -22,9 +22,8 @@ public final class SQLiteEventStore_Factory implements Factory<SQLiteEventStore>
     }
 
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public SQLiteEventStore mo70get() {
-        return newInstance(this.wallClockProvider.mo70get(), this.clockProvider.mo70get(), this.configProvider.mo70get(), this.schemaManagerProvider.mo70get(), DoubleCheck.lazy(this.packageNameProvider));
+    public SQLiteEventStore get() {
+        return newInstance(this.wallClockProvider.get(), this.clockProvider.get(), this.configProvider.get(), this.schemaManagerProvider.get(), DoubleCheck.lazy(this.packageNameProvider));
     }
 
     public static SQLiteEventStore_Factory create(Provider<Clock> provider, Provider<Clock> provider2, Provider<EventStoreConfig> provider3, Provider<SchemaManager> provider4, Provider<String> provider5) {

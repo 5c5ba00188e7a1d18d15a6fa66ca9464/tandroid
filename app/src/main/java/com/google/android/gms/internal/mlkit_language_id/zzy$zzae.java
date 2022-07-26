@@ -14,15 +14,15 @@ public final class zzy$zzae extends zzeo<zzy$zzae, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        UNKNOWN_FORMAT(0),
-        NV16(1),
-        NV21(2),
-        YV12(3),
-        YUV_420_888(7),
-        JPEG(8),
-        BITMAP(4),
-        CM_SAMPLE_BUFFER_REF(5),
-        UI_IMAGE(6);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(7),
+        zzf(8),
+        zzg(4),
+        zzh(5),
+        zzi(6);
         
         private final int zzk;
 

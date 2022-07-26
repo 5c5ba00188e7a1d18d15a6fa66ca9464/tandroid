@@ -34,9 +34,8 @@ public final class Uploader_Factory implements Factory<Uploader> {
     }
 
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public Uploader mo70get() {
-        return newInstance(this.contextProvider.mo70get(), this.backendRegistryProvider.mo70get(), this.eventStoreProvider.mo70get(), this.workSchedulerProvider.mo70get(), this.executorProvider.mo70get(), this.guardProvider.mo70get(), this.clockProvider.mo70get(), this.uptimeClockProvider.mo70get(), this.clientHealthMetricsStoreProvider.mo70get());
+    public Uploader get() {
+        return newInstance(this.contextProvider.get(), this.backendRegistryProvider.get(), this.eventStoreProvider.get(), this.workSchedulerProvider.get(), this.executorProvider.get(), this.guardProvider.get(), this.clockProvider.get(), this.uptimeClockProvider.get(), this.clientHealthMetricsStoreProvider.get());
     }
 
     public static Uploader_Factory create(Provider<Context> provider, Provider<BackendRegistry> provider2, Provider<EventStore> provider3, Provider<WorkScheduler> provider4, Provider<Executor> provider5, Provider<SynchronizationGuard> provider6, Provider<Clock> provider7, Provider<Clock> provider8, Provider<ClientHealthMetricsStore> provider9) {

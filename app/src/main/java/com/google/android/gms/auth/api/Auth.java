@@ -9,8 +9,8 @@ import com.google.android.gms.auth.api.signin.internal.zbd;
 import com.google.android.gms.auth.api.signin.internal.zbe;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
-import com.google.android.gms.internal.p001authapi.zbl;
-import com.google.android.gms.internal.p001authapi.zbo;
+import com.google.android.gms.internal.auth-api.zbl;
+import com.google.android.gms.internal.auth-api.zbo;
 /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
 /* loaded from: classes.dex */
 public final class Auth {

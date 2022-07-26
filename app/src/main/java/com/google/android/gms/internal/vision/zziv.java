@@ -52,57 +52,57 @@ package com.google.android.gms.internal.vision;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public enum zziv {
-    DOUBLE(0, r7, r8),
-    FLOAT(1, r7, r10),
-    INT64(2, r7, r12),
-    UINT64(3, r7, r12),
-    INT32(4, r7, r15),
-    FIXED64(5, r7, r12),
-    FIXED32(6, r7, r15),
-    BOOL(7, r7, r19),
-    STRING(8, r7, r21),
-    MESSAGE(9, r7, r23),
-    BYTES(10, r7, r25),
-    UINT32(11, r7, r15),
-    ENUM(12, r7, r28),
-    SFIXED32(13, r7, r15),
-    SFIXED64(14, r7, r12),
-    SINT32(15, r7, r15),
-    SINT64(16, r7, r12),
-    GROUP(17, r7, r23),
-    DOUBLE_LIST(18, r34, r8),
-    FLOAT_LIST(19, r34, r10),
-    INT64_LIST(20, r34, r12),
-    UINT64_LIST(21, r34, r12),
-    INT32_LIST(22, r34, r15),
-    FIXED64_LIST(23, r34, r12),
-    FIXED32_LIST(24, r34, r15),
-    BOOL_LIST(25, r34, r19),
-    STRING_LIST(26, r34, r21),
-    MESSAGE_LIST(27, r34, r23),
-    BYTES_LIST(28, r34, r25),
-    UINT32_LIST(29, r34, r15),
-    ENUM_LIST(30, r34, r28),
-    SFIXED32_LIST(31, r34, r15),
-    SFIXED64_LIST(32, r34, r12),
-    SINT32_LIST(33, r34, r15),
-    SINT64_LIST(34, r34, r12),
-    DOUBLE_LIST_PACKED(35, r50, r8),
-    FLOAT_LIST_PACKED(36, r50, r10),
-    INT64_LIST_PACKED(37, r50, r12),
-    UINT64_LIST_PACKED(38, r50, r12),
-    INT32_LIST_PACKED(39, r50, r15),
-    FIXED64_LIST_PACKED(40, r50, r12),
-    FIXED32_LIST_PACKED(41, r50, r15),
-    BOOL_LIST_PACKED(42, r50, r19),
-    UINT32_LIST_PACKED(43, r50, r15),
-    ENUM_LIST_PACKED(44, r50, r28),
-    SFIXED32_LIST_PACKED(45, r50, r15),
-    SFIXED64_LIST_PACKED(46, r50, r12),
-    SINT32_LIST_PACKED(47, r50, r15),
-    SINT64_LIST_PACKED(48, r50, r12),
-    GROUP_LIST(49, r34, r23),
-    MAP(50, zzix.MAP, zzjm.VOID);
+    zzc(0, r7, r8),
+    zzd(1, r7, r10),
+    zze(2, r7, r12),
+    zzf(3, r7, r12),
+    zzg(4, r7, r15),
+    zzh(5, r7, r12),
+    zzi(6, r7, r15),
+    zzj(7, r7, r19),
+    zzk(8, r7, r21),
+    zzl(9, r7, r23),
+    zzm(10, r7, r25),
+    zzn(11, r7, r15),
+    zzo(12, r7, r28),
+    zzp(13, r7, r15),
+    zzq(14, r7, r12),
+    zzr(15, r7, r15),
+    zzs(16, r7, r12),
+    zzt(17, r7, r23),
+    zzu(18, r34, r8),
+    zzv(19, r34, r10),
+    zzw(20, r34, r12),
+    zzx(21, r34, r12),
+    zzy(22, r34, r15),
+    zzz(23, r34, r12),
+    zzaa(24, r34, r15),
+    zzab(25, r34, r19),
+    zzac(26, r34, r21),
+    zzad(27, r34, r23),
+    zzae(28, r34, r25),
+    zzaf(29, r34, r15),
+    zzag(30, r34, r28),
+    zzah(31, r34, r15),
+    zzai(32, r34, r12),
+    zzaj(33, r34, r15),
+    zzak(34, r34, r12),
+    zza(35, r50, r8),
+    zzal(36, r50, r10),
+    zzam(37, r50, r12),
+    zzan(38, r50, r12),
+    zzao(39, r50, r15),
+    zzap(40, r50, r12),
+    zzaq(41, r50, r15),
+    zzar(42, r50, r19),
+    zzas(43, r50, r15),
+    zzat(44, r50, r28),
+    zzau(45, r50, r15),
+    zzav(46, r50, r12),
+    zzaw(47, r50, r15),
+    zzb(48, r50, r12),
+    zzax(49, r34, r23),
+    zzay(50, zzix.zzd, zzjm.zza);
     
     private static final zziv[] zzbe;
     private final int zzba;
@@ -115,7 +115,7 @@ public enum zziv {
         } else if (i2 == 2) {
             zzjmVar.zza();
         }
-        if (zzixVar == zzix.SCALAR) {
+        if (zzixVar == zzix.zza) {
             int i3 = zziy.zzb[zzjmVar.ordinal()];
         }
     }
@@ -125,18 +125,18 @@ public enum zziv {
     }
 
     static {
-        zzix zzixVar = zzix.SCALAR;
-        zzjm zzjmVar = zzjm.DOUBLE;
-        zzjm zzjmVar2 = zzjm.FLOAT;
-        zzjm zzjmVar3 = zzjm.LONG;
-        zzjm zzjmVar4 = zzjm.INT;
-        zzjm zzjmVar5 = zzjm.BOOLEAN;
-        zzjm zzjmVar6 = zzjm.STRING;
-        zzjm zzjmVar7 = zzjm.MESSAGE;
-        zzjm zzjmVar8 = zzjm.BYTE_STRING;
-        zzjm zzjmVar9 = zzjm.ENUM;
-        zzix zzixVar2 = zzix.VECTOR;
-        zzix zzixVar3 = zzix.PACKED_VECTOR;
+        zzix zzixVar = zzix.zza;
+        zzjm zzjmVar = zzjm.zze;
+        zzjm zzjmVar2 = zzjm.zzd;
+        zzjm zzjmVar3 = zzjm.zzc;
+        zzjm zzjmVar4 = zzjm.zzb;
+        zzjm zzjmVar5 = zzjm.zzf;
+        zzjm zzjmVar6 = zzjm.zzg;
+        zzjm zzjmVar7 = zzjm.zzj;
+        zzjm zzjmVar8 = zzjm.zzh;
+        zzjm zzjmVar9 = zzjm.zzi;
+        zzix zzixVar2 = zzix.zzb;
+        zzix zzixVar3 = zzix.zzc;
         zziv[] values = values();
         zzbe = new zziv[values.length];
         for (zziv zzivVar : values) {

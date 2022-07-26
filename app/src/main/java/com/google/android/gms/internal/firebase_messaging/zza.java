@@ -96,20 +96,20 @@ final class zza implements ObjectEncoder<MessagingClientEvent> {
     public final /* bridge */ /* synthetic */ void encode(Object obj, Object obj2) throws IOException {
         MessagingClientEvent messagingClientEvent = (MessagingClientEvent) obj;
         ObjectEncoderContext objectEncoderContext = (ObjectEncoderContext) obj2;
-        objectEncoderContext.mo196add(zzb, messagingClientEvent.getProjectNumber());
+        objectEncoderContext.add(zzb, messagingClientEvent.getProjectNumber());
         objectEncoderContext.add(zzc, messagingClientEvent.getMessageId());
         objectEncoderContext.add(zzd, messagingClientEvent.getInstanceId());
         objectEncoderContext.add(zze, messagingClientEvent.getMessageType());
         objectEncoderContext.add(zzf, messagingClientEvent.getSdkPlatform());
         objectEncoderContext.add(zzg, messagingClientEvent.getPackageName());
         objectEncoderContext.add(zzh, messagingClientEvent.getCollapseKey());
-        objectEncoderContext.mo195add(zzi, messagingClientEvent.getPriority());
-        objectEncoderContext.mo195add(zzj, messagingClientEvent.getTtl());
+        objectEncoderContext.add(zzi, messagingClientEvent.getPriority());
+        objectEncoderContext.add(zzj, messagingClientEvent.getTtl());
         objectEncoderContext.add(zzk, messagingClientEvent.getTopic());
-        objectEncoderContext.mo196add(zzl, messagingClientEvent.getBulkId());
+        objectEncoderContext.add(zzl, messagingClientEvent.getBulkId());
         objectEncoderContext.add(zzm, messagingClientEvent.getEvent());
         objectEncoderContext.add(zzn, messagingClientEvent.getAnalyticsLabel());
-        objectEncoderContext.mo196add(zzo, messagingClientEvent.getCampaignId());
+        objectEncoderContext.add(zzo, messagingClientEvent.getCampaignId());
         objectEncoderContext.add(zzp, messagingClientEvent.getComposerLabel());
     }
 }

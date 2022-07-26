@@ -46,7 +46,7 @@ public abstract /* synthetic */ class a {
                 }
             }
         } else {
-            return Map.CC.$default$merge(map, obj, obj2, biFunction);
+            return Map.-CC.$default$merge(map, obj, obj2, biFunction);
         }
     }
 
@@ -55,7 +55,7 @@ public abstract /* synthetic */ class a {
     }
 
     public static /* synthetic */ boolean C(java.util.Map map, Object obj, Object obj2) {
-        return map instanceof Map ? ((Map) map).remove(obj, obj2) : Map.CC.$default$remove(map, obj, obj2);
+        return map instanceof Map ? ((Map) map).remove(obj, obj2) : Map.-CC.$default$remove(map, obj, obj2);
     }
 
     public static /* synthetic */ Object D(java.util.Map map, Object obj, Object obj2) {
@@ -63,7 +63,7 @@ public abstract /* synthetic */ class a {
     }
 
     public static /* synthetic */ boolean E(java.util.Map map, Object obj, Object obj2, Object obj3) {
-        return map instanceof Map ? ((Map) map).replace(obj, obj2, obj3) : Map.CC.$default$replace(map, obj, obj2, obj3);
+        return map instanceof Map ? ((Map) map).replace(obj, obj2, obj3) : Map.-CC.$default$replace(map, obj, obj2, obj3);
     }
 
     public static void F(java.util.Map map, BiFunction biFunction) {
@@ -79,7 +79,7 @@ public abstract /* synthetic */ class a {
                 j$.lang.d.a(concurrentMap, aVar);
             }
         } else {
-            Map.CC.$default$replaceAll(map, biFunction);
+            Map.-CC.$default$replaceAll(map, biFunction);
         }
     }
 
@@ -160,7 +160,7 @@ public abstract /* synthetic */ class a {
     }
 
     public static Stream g(Collection collection) {
-        return o1.y(Collection$EL.b(collection), true);
+        return o1.y(Collection$-EL.b(collection), true);
     }
 
     public static boolean h(Collection collection, Predicate predicate) {
@@ -180,7 +180,7 @@ public abstract /* synthetic */ class a {
     }
 
     public static Stream i(Collection collection) {
-        return o1.y(Collection$EL.b(collection), false);
+        return o1.y(Collection$-EL.b(collection), false);
     }
 
     public static boolean j(t tVar, Consumer consumer) {
@@ -250,7 +250,7 @@ public abstract /* synthetic */ class a {
             }
             return apply;
         }
-        return Map.CC.$default$compute(map, obj, biFunction);
+        return Map.-CC.$default$compute(map, obj, biFunction);
     }
 
     public static Object n(java.util.Map map, Object obj, Function function) {
@@ -264,7 +264,7 @@ public abstract /* synthetic */ class a {
             Object obj2 = concurrentMap.get(obj);
             return (obj2 == null && (apply = function.apply(obj)) != null && (obj2 = concurrentMap.putIfAbsent(obj, apply)) == null) ? apply : obj2;
         }
-        return Map.CC.$default$computeIfAbsent(map, obj, function);
+        return Map.-CC.$default$computeIfAbsent(map, obj, function);
     }
 
     public static Object o(java.util.Map map, Object obj, BiFunction biFunction) {
@@ -289,7 +289,7 @@ public abstract /* synthetic */ class a {
                 }
             }
         } else {
-            return Map.CC.$default$computeIfPresent(map, obj, biFunction);
+            return Map.-CC.$default$computeIfPresent(map, obj, biFunction);
         }
     }
 
@@ -359,7 +359,7 @@ public abstract /* synthetic */ class a {
         } else if (map instanceof ConcurrentMap) {
             j$.lang.d.a((ConcurrentMap) map, biConsumer);
         } else {
-            Map.CC.$default$forEach(map, biConsumer);
+            Map.-CC.$default$forEach(map, biConsumer);
         }
     }
 

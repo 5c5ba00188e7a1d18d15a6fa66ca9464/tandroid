@@ -139,12 +139,12 @@ public class DataAutoDownloadActivity extends BaseFragment {
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.DataAutoDownloadActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
-                return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i2);
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i2, f, f2);
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i2, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
@@ -996,8 +996,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             SlideChooseView slideChooseView;
             if (i == 0) {
                 TextCheckCell textCheckCell = new TextCheckCell(this.mContext);
@@ -1021,7 +1020,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
 
                     @Override // org.telegram.ui.Components.SlideChooseView.Callback
                     public /* synthetic */ void onTouchEnd() {
-                        SlideChooseView.Callback.CC.$default$onTouchEnd(this);
+                        SlideChooseView.Callback.-CC.$default$onTouchEnd(this);
                     }
                 });
                 slideChooseView2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));

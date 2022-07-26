@@ -13,10 +13,10 @@ public final class zzid$zzk extends zzeo<zzid$zzk, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        UNKNOWN_METRIC(0),
-        MEAN_ABSOLUTE_ERROR(1),
-        MEAN_SQUARED_ERROR(2),
-        ROOT_MEAN_SQUARED_ERROR(3);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3);
         
         private final int zzf;
 

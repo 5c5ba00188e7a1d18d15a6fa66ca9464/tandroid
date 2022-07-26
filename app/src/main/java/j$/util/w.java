@@ -6,6 +6,5 @@ public interface w extends u {
     boolean tryAdvance(Object obj);
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    w mo350trySplit();
+    w trySplit();
 }

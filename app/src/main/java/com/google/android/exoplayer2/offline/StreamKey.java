@@ -5,17 +5,13 @@ import android.os.Parcelable;
 /* loaded from: classes.dex */
 public final class StreamKey implements Comparable<StreamKey>, Parcelable {
     public static final Parcelable.Creator<StreamKey> CREATOR = new Parcelable.Creator<StreamKey>() { // from class: com.google.android.exoplayer2.offline.StreamKey.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public StreamKey mo142createFromParcel(Parcel parcel) {
+        public StreamKey createFromParcel(Parcel parcel) {
             return new StreamKey(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public StreamKey[] mo143newArray(int i) {
+        public StreamKey[] newArray(int i) {
             return new StreamKey[i];
         }
     };

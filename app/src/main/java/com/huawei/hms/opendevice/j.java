@@ -13,10 +13,8 @@ public class j implements Callable<AAIDResult> {
         this.a = context;
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // java.util.concurrent.Callable
-    /* renamed from: call */
-    public AAIDResult mo231call() throws Exception {
+    public AAIDResult call() throws Exception {
         Context context = this.a;
         if (context != null) {
             String c = o.c(context);

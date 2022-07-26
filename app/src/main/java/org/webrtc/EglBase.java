@@ -11,11 +11,11 @@ public interface EglBase {
     public static final int EGL_OPENGL_ES3_BIT = 64;
     public static final int EGL_RECORDABLE_ANDROID = 12610;
     public static final Object lock = new Object();
-    public static final int[] CONFIG_PLAIN = CC.configBuilder().createConfigAttributes();
-    public static final int[] CONFIG_RGBA = CC.configBuilder().setHasAlphaChannel(true).createConfigAttributes();
-    public static final int[] CONFIG_PIXEL_BUFFER = CC.configBuilder().setSupportsPixelBuffer(true).createConfigAttributes();
-    public static final int[] CONFIG_PIXEL_RGBA_BUFFER = CC.configBuilder().setHasAlphaChannel(true).setSupportsPixelBuffer(true).createConfigAttributes();
-    public static final int[] CONFIG_RECORDABLE = CC.configBuilder().setIsRecordable(true).createConfigAttributes();
+    public static final int[] CONFIG_PLAIN = -CC.configBuilder().createConfigAttributes();
+    public static final int[] CONFIG_RGBA = -CC.configBuilder().setHasAlphaChannel(true).createConfigAttributes();
+    public static final int[] CONFIG_PIXEL_BUFFER = -CC.configBuilder().setSupportsPixelBuffer(true).createConfigAttributes();
+    public static final int[] CONFIG_PIXEL_RGBA_BUFFER = -CC.configBuilder().setHasAlphaChannel(true).setSupportsPixelBuffer(true).createConfigAttributes();
+    public static final int[] CONFIG_RECORDABLE = -CC.configBuilder().setIsRecordable(true).createConfigAttributes();
 
     /* loaded from: classes3.dex */
     public interface Context {
@@ -36,8 +36,7 @@ public interface EglBase {
 
     void detachCurrent();
 
-    /* renamed from: getEglBaseContext */
-    Context mo2309getEglBaseContext();
+    Context getEglBaseContext();
 
     boolean hasBackgroundSurface();
 
@@ -59,9 +58,8 @@ public interface EglBase {
 
     void swapBuffers(boolean z);
 
-    /* renamed from: org.webrtc.EglBase$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         static {
             Object obj = EglBase.lock;
         }

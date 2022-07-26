@@ -80,9 +80,8 @@ public class ColorPicker extends FrameLayout {
     /* loaded from: classes3.dex */
     public interface ColorPickerDelegate {
 
-        /* renamed from: org.telegram.ui.Components.ColorPicker$ColorPickerDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$deleteTheme(ColorPickerDelegate colorPickerDelegate) {
             }
 
@@ -1158,7 +1157,7 @@ public class ColorPicker extends FrameLayout {
 
                 @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
                 public /* synthetic */ void onAnimationProgress(float f) {
-                    ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                    ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
                 }
             };
             list.add(new ThemeDescription(this.menuItem, 0, null, null, null, themeDescriptionDelegate, "windowBackgroundWhiteBlackText"));

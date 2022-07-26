@@ -6,6 +6,5 @@ import j$.util.u;
 public interface e {
     void forEach(Consumer consumer);
 
-    /* renamed from: spliterator */
-    u mo317spliterator();
+    u spliterator();
 }

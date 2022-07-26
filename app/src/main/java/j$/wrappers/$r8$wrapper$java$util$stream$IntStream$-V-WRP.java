@@ -7,12 +7,11 @@ import j$.util.stream.Stream;
 import j$.util.stream.e1;
 import j$.util.u;
 import java.util.Iterator;
-/* renamed from: j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-V-WRP */
 /* loaded from: classes2.dex */
-public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP implements IntStream {
+public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-V-WRP implements IntStream {
     final /* synthetic */ java.util.stream.IntStream a;
 
-    private /* synthetic */ C$r8$wrapper$java$util$stream$IntStream$VWRP(java.util.stream.IntStream intStream) {
+    private /* synthetic */ $r8$wrapper$java$util$stream$IntStream$-V-WRP(java.util.stream.IntStream intStream) {
         this.a = intStream;
     }
 
@@ -20,7 +19,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
         if (intStream == null) {
             return null;
         }
-        return intStream instanceof C$r8$wrapper$java$util$stream$IntStream$WRP ? ((C$r8$wrapper$java$util$stream$IntStream$WRP) intStream).a : new C$r8$wrapper$java$util$stream$IntStream$VWRP(intStream);
+        return intStream instanceof $r8$wrapper$java$util$stream$IntStream$-WRP ? (($r8$wrapper$java$util$stream$IntStream$-WRP) intStream).a : new $r8$wrapper$java$util$stream$IntStream$-V-WRP(intStream);
     }
 
     @Override // j$.util.stream.IntStream
@@ -45,7 +44,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ Stream J(j$.util.function.m mVar) {
-        return C$r8$wrapper$java$util$stream$Stream$VWRP.convert(this.a.mapToObj(U.a(mVar)));
+        return $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(this.a.mapToObj(U.a(mVar)));
     }
 
     @Override // j$.util.stream.IntStream
@@ -85,7 +84,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
 
     @Override // j$.util.stream.IntStream
     public /* synthetic */ Stream boxed() {
-        return C$r8$wrapper$java$util$stream$Stream$VWRP.convert(this.a.boxed());
+        return $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(this.a.boxed());
     }
 
     @Override // j$.util.stream.IntStream
@@ -134,14 +133,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
     }
 
     @Override // j$.util.stream.IntStream, j$.util.stream.g
-    /* renamed from: iterator */
-    public /* synthetic */ p.a mo331iterator() {
+    public /* synthetic */ p.a iterator() {
         return c.a(this.a.iterator());
     }
 
     @Override // j$.util.stream.IntStream, j$.util.stream.g
-    /* renamed from: iterator */
-    public /* synthetic */ Iterator mo331iterator() {
+    public /* synthetic */ Iterator iterator() {
         return this.a.iterator();
     }
 
@@ -171,14 +168,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
     }
 
     @Override // j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* synthetic */ IntStream mo332parallel() {
+    public /* synthetic */ IntStream parallel() {
         return convert(this.a.parallel());
     }
 
     @Override // j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* synthetic */ j$.util.stream.g mo332parallel() {
+    public /* synthetic */ j$.util.stream.g parallel() {
         return H0.n0(this.a.parallel());
     }
 
@@ -188,14 +183,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
     }
 
     @Override // j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* synthetic */ IntStream mo333sequential() {
+    public /* synthetic */ IntStream sequential() {
         return convert(this.a.sequential());
     }
 
     @Override // j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* synthetic */ j$.util.stream.g mo333sequential() {
+    public /* synthetic */ j$.util.stream.g sequential() {
         return H0.n0(this.a.sequential());
     }
 
@@ -210,14 +203,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$VWRP 
     }
 
     @Override // j$.util.stream.IntStream, j$.util.stream.g
-    /* renamed from: spliterator */
-    public /* synthetic */ u.a mo334spliterator() {
+    public /* synthetic */ u.a spliterator() {
         return k.a(this.a.spliterator());
     }
 
     @Override // j$.util.stream.IntStream, j$.util.stream.g
-    /* renamed from: spliterator */
-    public /* synthetic */ j$.util.u mo334spliterator() {
+    public /* synthetic */ j$.util.u spliterator() {
         return g.a(this.a.spliterator());
     }
 

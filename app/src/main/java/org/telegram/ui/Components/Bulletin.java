@@ -66,9 +66,8 @@ public class Bulletin {
     /* loaded from: classes3.dex */
     public interface Delegate {
 
-        /* renamed from: org.telegram.ui.Components.Bulletin$Delegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static int $default$getBottomOffset(Delegate delegate, int i) {
                 return 0;
             }
@@ -196,7 +195,7 @@ public class Bulletin {
             }
             visibleBulletin = this;
             this.layout.onAttach(this);
-            this.layout.addOnLayoutChangeListener(new AnonymousClass2());
+            this.layout.addOnLayoutChangeListener(new 2());
             this.layout.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.Bulletin.3
                 @Override // android.view.View.OnAttachStateChangeListener
                 public void onViewAttachedToWindow(View view) {
@@ -217,10 +216,9 @@ public class Bulletin {
         return this;
     }
 
-    /* renamed from: org.telegram.ui.Components.Bulletin$2 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements View.OnLayoutChangeListener {
-        AnonymousClass2() {
+    public class 2 implements View.OnLayoutChangeListener {
+        2() {
             Bulletin.this = r1;
         }
 
@@ -252,12 +250,12 @@ public class Bulletin {
                     }, new Runnable() { // from class: org.telegram.ui.Components.Bulletin$2$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
-                            Bulletin.AnonymousClass2.this.lambda$onLayoutChange$0();
+                            Bulletin.2.this.lambda$onLayoutChange$0();
                         }
                     }, new Consumer() { // from class: org.telegram.ui.Components.Bulletin$2$$ExternalSyntheticLambda0
                         @Override // androidx.core.util.Consumer
                         public final void accept(Object obj) {
-                            Bulletin.AnonymousClass2.this.lambda$onLayoutChange$1((Float) obj);
+                            Bulletin.2.this.lambda$onLayoutChange$1((Float) obj);
                         }
                     }, Bulletin.this.currentBottomOffset);
                     return;
@@ -447,18 +445,17 @@ public class Bulletin {
         public ParentLayout(Layout layout) {
             super(layout.getContext());
             this.layout = layout;
-            GestureDetector gestureDetector = new GestureDetector(layout.getContext(), new AnonymousClass1(layout));
+            GestureDetector gestureDetector = new GestureDetector(layout.getContext(), new 1(layout));
             this.gestureDetector = gestureDetector;
             gestureDetector.setIsLongpressEnabled(false);
             addView(layout);
         }
 
-        /* renamed from: org.telegram.ui.Components.Bulletin$ParentLayout$1 */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends GestureDetector.SimpleOnGestureListener {
+        public class 1 extends GestureDetector.SimpleOnGestureListener {
             final /* synthetic */ Layout val$layout;
 
-            AnonymousClass1(Layout layout) {
+            1(Layout layout) {
                 ParentLayout.this = r1;
                 this.val$layout = layout;
             }
@@ -495,14 +492,14 @@ public class Bulletin {
                         springAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Bulletin$ParentLayout$1$$ExternalSyntheticLambda0
                             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f3, float f4) {
-                                Bulletin.ParentLayout.AnonymousClass1.this.lambda$onFling$0(dynamicAnimation, z2, f3, f4);
+                                Bulletin.ParentLayout.1.this.lambda$onFling$0(dynamicAnimation, z2, f3, f4);
                             }
                         });
                         final Layout layout = this.val$layout;
                         springAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Bulletin$ParentLayout$1$$ExternalSyntheticLambda2
                             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f3, float f4) {
-                                Bulletin.ParentLayout.AnonymousClass1.lambda$onFling$1(Bulletin.Layout.this, dynamicAnimation, f3, f4);
+                                Bulletin.ParentLayout.1.lambda$onFling$1(Bulletin.Layout.this, dynamicAnimation, f3, f4);
                             }
                         });
                     }
@@ -515,7 +512,7 @@ public class Bulletin {
                         springAnimation2.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Bulletin$ParentLayout$1$$ExternalSyntheticLambda1
                             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f3, float f4) {
-                                Bulletin.ParentLayout.AnonymousClass1.this.lambda$onFling$2(dynamicAnimation, z2, f3, f4);
+                                Bulletin.ParentLayout.1.this.lambda$onFling$2(dynamicAnimation, z2, f3, f4);
                             }
                         });
                         springAnimation2.addUpdateListener(Bulletin$ParentLayout$1$$ExternalSyntheticLambda3.INSTANCE);

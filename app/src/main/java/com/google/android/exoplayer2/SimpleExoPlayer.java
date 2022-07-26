@@ -528,37 +528,37 @@ public class SimpleExoPlayer extends BasePlayer {
     public final class ComponentListener implements VideoRendererEventListener, AudioRendererEventListener, TextOutput, MetadataOutput, SurfaceHolder.Callback, TextureView.SurfaceTextureListener, AudioFocusManager.PlayerControl, AudioBecomingNoisyManager.EventListener, Player.EventListener {
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onIsPlayingChanged(boolean z) {
-            Player.EventListener.CC.$default$onIsPlayingChanged(this, z);
+            Player.EventListener.-CC.$default$onIsPlayingChanged(this, z);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-            Player.EventListener.CC.$default$onPlaybackParametersChanged(this, playbackParameters);
+            Player.EventListener.-CC.$default$onPlaybackParametersChanged(this, playbackParameters);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onPlaybackSuppressionReasonChanged(int i) {
-            Player.EventListener.CC.$default$onPlaybackSuppressionReasonChanged(this, i);
+            Player.EventListener.-CC.$default$onPlaybackSuppressionReasonChanged(this, i);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onPlayerError(ExoPlaybackException exoPlaybackException) {
-            Player.EventListener.CC.$default$onPlayerError(this, exoPlaybackException);
+            Player.EventListener.-CC.$default$onPlayerError(this, exoPlaybackException);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onPositionDiscontinuity(int i) {
-            Player.EventListener.CC.$default$onPositionDiscontinuity(this, i);
+            Player.EventListener.-CC.$default$onPositionDiscontinuity(this, i);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onRepeatModeChanged(int i) {
-            Player.EventListener.CC.$default$onRepeatModeChanged(this, i);
+            Player.EventListener.-CC.$default$onRepeatModeChanged(this, i);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onSeekProcessed() {
-            Player.EventListener.CC.$default$onSeekProcessed(this);
+            Player.EventListener.-CC.$default$onSeekProcessed(this);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
@@ -568,12 +568,12 @@ public class SimpleExoPlayer extends BasePlayer {
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onTimelineChanged(Timeline timeline, Object obj, int i) {
-            Player.EventListener.CC.$default$onTimelineChanged(this, timeline, obj, i);
+            Player.EventListener.-CC.$default$onTimelineChanged(this, timeline, obj, i);
         }
 
         @Override // com.google.android.exoplayer2.Player.EventListener
         public /* synthetic */ void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
-            Player.EventListener.CC.$default$onTracksChanged(this, trackGroupArray, trackSelectionArray);
+            Player.EventListener.-CC.$default$onTracksChanged(this, trackGroupArray, trackSelectionArray);
         }
 
         private ComponentListener() {

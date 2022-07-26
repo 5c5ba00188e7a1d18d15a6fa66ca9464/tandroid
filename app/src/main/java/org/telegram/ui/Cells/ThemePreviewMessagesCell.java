@@ -221,33 +221,31 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     final /* synthetic */ int val$type;
 
                     /* JADX INFO: Access modifiers changed from: package-private */
-                    /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1  reason: invalid class name and collision with other inner class name */
                     /* loaded from: classes3.dex */
-                    public class C00141 extends GestureDetector.SimpleOnGestureListener {
-                        C00141() {
+                    public class 1 extends GestureDetector.SimpleOnGestureListener {
+                        1() {
                         }
 
                         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
                         public boolean onDoubleTap(MotionEvent motionEvent) {
-                            boolean selectReaction = getMessageObject().selectReaction(MediaDataController.getInstance(AnonymousClass1.this.val$currentAccount).getDoubleTapReaction(), false, false);
-                            AnonymousClass1 anonymousClass1 = AnonymousClass1.this;
-                            anonymousClass1.setMessageObject(anonymousClass1.getMessageObject(), null, false, false);
+                            boolean selectReaction = getMessageObject().selectReaction(MediaDataController.getInstance(1.this.val$currentAccount).getDoubleTapReaction(), false, false);
+                            1 r1 = 1.this;
+                            r1.setMessageObject(r1.getMessageObject(), null, false, false);
                             requestLayout();
                             ReactionsEffectOverlay.removeCurrent(false);
                             if (selectReaction) {
                                 ThemePreviewMessagesCell themePreviewMessagesCell = ThemePreviewMessagesCell.this;
-                                ReactionsEffectOverlay.show(themePreviewMessagesCell.fragment, null, themePreviewMessagesCell.cells[1], motionEvent.getX(), motionEvent.getY(), MediaDataController.getInstance(AnonymousClass1.this.val$currentAccount).getDoubleTapReaction(), AnonymousClass1.this.val$currentAccount, 0);
+                                ReactionsEffectOverlay.show(themePreviewMessagesCell.fragment, null, themePreviewMessagesCell.cells[1], motionEvent.getX(), motionEvent.getY(), MediaDataController.getInstance(1.this.val$currentAccount).getDoubleTapReaction(), 1.this.val$currentAccount, 0);
                                 ReactionsEffectOverlay.startAnimation();
                             }
-                            getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver$OnPreDrawListenerC00151());
+                            getViewTreeObserver().addOnPreDrawListener(new 1());
                             return true;
                         }
 
                         /* JADX INFO: Access modifiers changed from: package-private */
-                        /* renamed from: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1$1  reason: invalid class name and collision with other inner class name */
                         /* loaded from: classes3.dex */
-                        public class ViewTreeObserver$OnPreDrawListenerC00151 implements ViewTreeObserver.OnPreDrawListener {
-                            ViewTreeObserver$OnPreDrawListenerC00151() {
+                        public class 1 implements ViewTreeObserver.OnPreDrawListener {
+                            1() {
                             }
 
                             @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -261,7 +259,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell$1$1$1$$ExternalSyntheticLambda0
                                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                        ThemePreviewMessagesCell.AnonymousClass1.C00141.ViewTreeObserver$OnPreDrawListenerC00151.this.lambda$onPreDraw$0(valueAnimator);
+                                        ThemePreviewMessagesCell.1.1.1.this.lambda$onPreDraw$0(valueAnimator);
                                     }
                                 });
                                 ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell.1.1.1.1
@@ -289,7 +287,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                         this.val$context = context;
                         this.val$currentAccount = i2;
                         this.val$type = i;
-                        this.gestureDetector = new GestureDetector(context, new C00141());
+                        this.gestureDetector = new GestureDetector(context, new 1());
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.View
@@ -313,212 +311,212 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 this.cells[i5].setDelegate(new ChatMessageCell.ChatMessageCellDelegate(this) { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell.2
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean canDrawOutboundsContent() {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$canDrawOutboundsContent(this);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$canDrawOutboundsContent(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean canPerformActions() {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$canPerformActions(this);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$canPerformActions(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didLongPress(ChatMessageCell chatMessageCell, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didLongPress(this, chatMessageCell, f, f2);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPress(this, chatMessageCell, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didLongPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i6, float f, float f2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i6, f, f2);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i6, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean didLongPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, float f, float f2) {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$didLongPressUserAvatar(this, chatMessageCell, tLRPC$User, f, f2);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressUserAvatar(this, chatMessageCell, tLRPC$User, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressCancelSendButton(ChatMessageCell chatMessageCell) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressCancelSendButton(this, chatMessageCell);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCancelSendButton(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i6, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i6, f, f2);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i6, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressCommentButton(ChatMessageCell chatMessageCell) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressCommentButton(this, chatMessageCell);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCommentButton(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressHiddenForward(ChatMessageCell chatMessageCell) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressHiddenForward(this, chatMessageCell);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHiddenForward(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressHint(ChatMessageCell chatMessageCell, int i6) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressHint(this, chatMessageCell, i6);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHint(this, chatMessageCell, i6);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressImage(this, chatMessageCell, f, f2);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressInstantButton(ChatMessageCell chatMessageCell, int i6) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressInstantButton(this, chatMessageCell, i6);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressInstantButton(this, chatMessageCell, i6);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressOther(ChatMessageCell chatMessageCell, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressOther(this, chatMessageCell, f, f2);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressOther(this, chatMessageCell, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$TL_reactionCount tLRPC$TL_reactionCount, boolean z) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressReaction(this, chatMessageCell, tLRPC$TL_reactionCount, z);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$TL_reactionCount, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressReplyMessage(ChatMessageCell chatMessageCell, int i6) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressReplyMessage(this, chatMessageCell, i6);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReplyMessage(this, chatMessageCell, i6);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressSideButton(ChatMessageCell chatMessageCell) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressSideButton(this, chatMessageCell);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressSideButton(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressTime(ChatMessageCell chatMessageCell) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressTime(this, chatMessageCell);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressTime(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressUrl(ChatMessageCell chatMessageCell, CharacterStyle characterStyle, boolean z) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressUrl(this, chatMessageCell, characterStyle, z);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUrl(this, chatMessageCell, characterStyle, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressUserAvatar(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressUserAvatar(this, chatMessageCell, tLRPC$User, f, f2);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressUserAvatar(this, chatMessageCell, tLRPC$User, f, f2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressViaBot(ChatMessageCell chatMessageCell, String str) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressViaBot(this, chatMessageCell, str);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressViaBot(this, chatMessageCell, str);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressViaBotNotInline(ChatMessageCell chatMessageCell, long j) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressViaBotNotInline(this, chatMessageCell, j);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressViaBotNotInline(this, chatMessageCell, j);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didPressVoteButtons(ChatMessageCell chatMessageCell, ArrayList arrayList, int i6, int i7, int i8) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressVoteButtons(this, chatMessageCell, arrayList, i6, i7, i8);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressVoteButtons(this, chatMessageCell, arrayList, i6, i7, i8);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void didStartVideoStream(MessageObject messageObject7) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$didStartVideoStream(this, messageObject7);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject7);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ String getAdminRank(long j) {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$getAdminRank(this, j);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getAdminRank(this, j);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ PinchToZoomHelper getPinchToZoomHelper() {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$getPinchToZoomHelper(this);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getPinchToZoomHelper(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ TextSelectionHelper.ChatListTextSelectionHelper getTextSelectionHelper() {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$getTextSelectionHelper(this);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getTextSelectionHelper(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean hasSelectedMessages() {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$hasSelectedMessages(this);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$hasSelectedMessages(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void invalidateBlur() {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$invalidateBlur(this);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$invalidateBlur(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean isLandscape() {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$isLandscape(this);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isLandscape(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean keyboardIsOpened() {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$keyboardIsOpened(this);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$keyboardIsOpened(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void needOpenWebView(MessageObject messageObject7, String str, String str2, String str3, String str4, int i6, int i7) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$needOpenWebView(this, messageObject7, str, str2, str3, str4, i6, i7);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needOpenWebView(this, messageObject7, str, str2, str3, str4, i6, i7);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean needPlayMessage(MessageObject messageObject7) {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$needPlayMessage(this, messageObject7);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject7);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void needReloadPolls() {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$needReloadPolls(this);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needReloadPolls(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void needShowPremiumFeatures(String str) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$needShowPremiumFeatures(this, str);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumFeatures(this, str);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean onAccessibilityAction(int i6, Bundle bundle) {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$onAccessibilityAction(this, i6, bundle);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onAccessibilityAction(this, i6, bundle);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void onDiceFinished() {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$onDiceFinished(this);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onDiceFinished(this);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject7) {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$setShouldNotRepeatSticker(this, messageObject7);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject7);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean shouldDrawThreadProgress(ChatMessageCell chatMessageCell) {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$shouldDrawThreadProgress(this, chatMessageCell);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldDrawThreadProgress(this, chatMessageCell);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject7) {
-                        return ChatMessageCell.ChatMessageCellDelegate.CC.$default$shouldRepeatSticker(this, messageObject7);
+                        return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject7);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ void videoTimerReached() {
-                        ChatMessageCell.ChatMessageCellDelegate.CC.$default$videoTimerReached(this);
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$videoTimerReached(this);
                     }
                 });
                 ChatMessageCell[] chatMessageCellArr2 = this.cells;

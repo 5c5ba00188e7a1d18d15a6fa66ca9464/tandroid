@@ -20,14 +20,12 @@ public class ResolvePendingResult<T extends IMessageEntity> extends PendingResul
 
     /* JADX WARN: Multi-variable type inference failed */
     @Override // com.huawei.hms.support.api.PendingResultImpl
-    /* renamed from: onComplete  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ Result mo234onComplete(IMessageEntity iMessageEntity) {
-        return mo234onComplete((ResolvePendingResult<T>) iMessageEntity);
+    public /* bridge */ /* synthetic */ Result onComplete(IMessageEntity iMessageEntity) {
+        return onComplete((ResolvePendingResult<T>) iMessageEntity);
     }
 
     @Override // com.huawei.hms.support.api.PendingResultImpl
-    /* renamed from: onComplete */
-    public ResolveResult<T> mo234onComplete(T t) {
+    public ResolveResult<T> onComplete(T t) {
         ResolveResult<T> resolveResult = new ResolveResult<>(t);
         resolveResult.setStatus(new Status(0));
         return resolveResult;

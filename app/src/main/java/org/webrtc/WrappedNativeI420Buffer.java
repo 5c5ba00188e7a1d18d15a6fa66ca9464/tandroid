@@ -16,7 +16,7 @@ class WrappedNativeI420Buffer implements VideoFrame.I420Buffer {
 
     @Override // org.webrtc.VideoFrame.I420Buffer, org.webrtc.VideoFrame.Buffer
     public /* synthetic */ int getBufferType() {
-        return VideoFrame.I420Buffer.CC.$default$getBufferType(this);
+        return VideoFrame.I420Buffer.-CC.$default$getBufferType(this);
     }
 
     @CalledByNative

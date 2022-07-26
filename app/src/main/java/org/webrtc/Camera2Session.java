@@ -160,7 +160,7 @@ public class Camera2Session implements CameraSession {
 
                     @Override // org.webrtc.VideoSink
                     public /* synthetic */ void setParentSink(VideoSink videoSink) {
-                        VideoSink.CC.$default$setParentSink(this, videoSink);
+                        VideoSink.-CC.$default$setParentSink(this, videoSink);
                     }
                 });
                 Logging.d(Camera2Session.TAG, "Camera device successfully started.");
@@ -179,7 +179,7 @@ public class Camera2Session implements CameraSession {
                     Camera2Session.this.firstFrameReported = true;
                     Camera2Session.camera2StartTimeMsHistogram.addSample((int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - Camera2Session.this.constructionTimeNs));
                 }
-                VideoFrame videoFrame2 = new VideoFrame(CameraSession.CC.createTextureBufferWithModifiedTransformMatrix((TextureBufferImpl) videoFrame.getBuffer(), Camera2Session.this.isCameraFrontFacing, -Camera2Session.this.cameraOrientation), Camera2Session.this.getFrameOrientation(), videoFrame.getTimestampNs());
+                VideoFrame videoFrame2 = new VideoFrame(CameraSession.-CC.createTextureBufferWithModifiedTransformMatrix((TextureBufferImpl) videoFrame.getBuffer(), Camera2Session.this.isCameraFrontFacing, -Camera2Session.this.cameraOrientation), Camera2Session.this.getFrameOrientation(), videoFrame.getTimestampNs());
                 Camera2Session.this.events.onFrameCaptured(Camera2Session.this, videoFrame2);
                 videoFrame2.release();
                 return;

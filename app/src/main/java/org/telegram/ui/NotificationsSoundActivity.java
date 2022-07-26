@@ -106,12 +106,12 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
 
     @Override // org.telegram.ui.Components.ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate
     public /* synthetic */ void didSelectPhotos(ArrayList arrayList, boolean z, int i) {
-        ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate.CC.$default$didSelectPhotos(this, arrayList, z, i);
+        ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate.-CC.$default$didSelectPhotos(this, arrayList, z, i);
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate
     public /* synthetic */ void startMusicSelectActivity() {
-        ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate.CC.$default$startMusicSelectActivity(this);
+        ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate.-CC.$default$startMusicSelectActivity(this);
     }
 
     public NotificationsSoundActivity(Bundle bundle, Theme.ResourcesProvider resourcesProvider) {
@@ -170,7 +170,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         this.actionBar.setItemsColor(Theme.getColor("actionBarDefaultIcon", this.resourcesProvider), false);
         this.actionBar.setBackButtonDrawable(new BackDrawable(false));
         this.actionBar.setAllowOverlayTitle(false);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1(context));
+        this.actionBar.setActionBarMenuOnItemClick(new 1(context));
         if (this.dialogId == 0) {
             int i = this.currentType;
             if (i == 1) {
@@ -242,16 +242,15 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.NotificationsSoundActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
+    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$deleteSelectedMessages$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         }
 
-        AnonymousClass1(Context context) {
+        1(Context context) {
             this.val$context = context;
         }
 
@@ -274,7 +273,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                 builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSoundActivity$1$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
-                        NotificationsSoundActivity.AnonymousClass1.this.lambda$onItemClick$1(dialogInterface, i2);
+                        NotificationsSoundActivity.1.this.lambda$onItemClick$1(dialogInterface, i2);
                     }
                 });
                 TextView textView = (TextView) builder.show().getButton(-1);
@@ -614,7 +613,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         private Adapter() {
         }
 
-        /* synthetic */ Adapter(NotificationsSoundActivity notificationsSoundActivity, AnonymousClass1 anonymousClass1) {
+        /* synthetic */ Adapter(NotificationsSoundActivity notificationsSoundActivity, 1 r2) {
             this();
         }
 
@@ -657,8 +656,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             CreationTextCell creationTextCell;
             Context context = viewGroup.getContext();
             if (i == 0) {
@@ -1045,7 +1043,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         private Tone() {
         }
 
-        /* synthetic */ Tone(AnonymousClass1 anonymousClass1) {
+        /* synthetic */ Tone(1 r1) {
             this();
         }
 

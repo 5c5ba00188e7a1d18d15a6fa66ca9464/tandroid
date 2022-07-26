@@ -176,7 +176,7 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         private final MetadataInputBuffer buffer = new MetadataInputBuffer();
 
         PlayerTrackEmsgHandler(Allocator allocator) {
-            this.sampleQueue = new SampleQueue(allocator, PlayerEmsgHandler.this.handler.getLooper(), DrmSessionManager.CC.getDummyDrmSessionManager());
+            this.sampleQueue = new SampleQueue(allocator, PlayerEmsgHandler.this.handler.getLooper(), DrmSessionManager.-CC.getDummyDrmSessionManager());
         }
 
         @Override // com.google.android.exoplayer2.extractor.TrackOutput

@@ -90,8 +90,7 @@ final class K implements v {
     }
 
     @Override // j$.util.v, j$.util.w, j$.util.u
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public v mo350trySplit() {
+    public v trySplit() {
         int i = this.b;
         int i2 = (this.c + i) >>> 1;
         if (i >= i2) {

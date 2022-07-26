@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import j$.util.Collection$EL;
+import j$.util.Collection$-EL;
 import j$.util.function.Predicate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -202,7 +202,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 HashSet<String> restrictedLanguages = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
                 HashSet hashSet = new HashSet(restrictedLanguages);
                 if (restrictedLanguages.contains(str)) {
-                    Collection$EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda5
+                    Collection$-EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda5
                         @Override // j$.util.function.Predicate
                         public /* synthetic */ Predicate and(Predicate predicate) {
                             return predicate.getClass();
@@ -210,7 +210,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
                         @Override // j$.util.function.Predicate
                         public /* synthetic */ Predicate negate() {
-                            return Predicate.CC.$default$negate(this);
+                            return Predicate.-CC.$default$negate(this);
                         }
 
                         @Override // j$.util.function.Predicate
@@ -704,8 +704,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextRadioCell textRadioCell;
             View view;
             if (i == 0) {

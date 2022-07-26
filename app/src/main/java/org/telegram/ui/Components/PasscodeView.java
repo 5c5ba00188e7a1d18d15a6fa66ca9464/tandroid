@@ -1306,7 +1306,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         this.passwordEditText2.eraseAllCharacters(false);
         if (z2) {
             setAlpha(0.0f);
-            getViewTreeObserver().addOnGlobalLayoutListener(new AnonymousClass9(i, i2, runnable));
+            getViewTreeObserver().addOnGlobalLayoutListener(new 9(i, i2, runnable));
             requestLayout();
         } else {
             setAlpha(1.0f);
@@ -1322,14 +1322,13 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PasscodeView$9  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass9 implements ViewTreeObserver.OnGlobalLayoutListener {
+    public class 9 implements ViewTreeObserver.OnGlobalLayoutListener {
         final /* synthetic */ Runnable val$onShow;
         final /* synthetic */ int val$x;
         final /* synthetic */ int val$y;
 
-        AnonymousClass9(int i, int i2, Runnable runnable) {
+        9(int i, int i2, Runnable runnable) {
             this.val$x = i;
             this.val$y = i2;
             this.val$onShow = runnable;
@@ -1351,7 +1350,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PasscodeView$9$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PasscodeView.AnonymousClass9.this.lambda$onGlobalLayout$0();
+                    PasscodeView.9.this.lambda$onGlobalLayout$0();
                 }
             }, 350L);
             AnimatorSet animatorSet2 = new AnimatorSet();
@@ -1471,7 +1470,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PasscodeView$9$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        PasscodeView.AnonymousClass9.this.lambda$onGlobalLayout$1(max, valueAnimator);
+                        PasscodeView.9.this.lambda$onGlobalLayout$1(max, valueAnimator);
                     }
                 });
                 animatorSet2.setInterpolator(Easings.easeInOutQuad);
@@ -1481,7 +1480,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PasscodeView.9.2
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    Runnable runnable = AnonymousClass9.this.val$onShow;
+                    Runnable runnable = 9.this.val$onShow;
                     if (runnable != null) {
                         runnable.run();
                     }

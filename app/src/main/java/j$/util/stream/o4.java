@@ -64,8 +64,7 @@ final class o4 extends f4 implements j$.util.t {
     }
 
     @Override // j$.util.stream.f4, j$.util.u
-    /* renamed from: trySplit */
-    public j$.util.t mo350trySplit() {
-        return (j$.util.t) super.mo350trySplit();
+    public j$.util.t trySplit() {
+        return (j$.util.t) super.trySplit();
     }
 }

@@ -404,9 +404,8 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     /* loaded from: classes3.dex */
     public interface PhotoPickerActivityDelegate {
 
-        /* renamed from: org.telegram.ui.PhotoPickerActivity$PhotoPickerActivityDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onOpenInPressed(PhotoPickerActivityDelegate photoPickerActivityDelegate) {
             }
         }
@@ -561,7 +560,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             addItem.addSubItem(2, R.drawable.msg_openin, LocaleController.getString("OpenInExternalApp", R.string.OpenInExternalApp));
         }
         if (this.selectedAlbum == null) {
-            ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new AnonymousClass4());
+            ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new 4());
             this.searchItem = actionBarMenuItemSearchListener;
             EditTextBoldCursor searchField = actionBarMenuItemSearchListener.getSearchField();
             searchField.setTextColor(Theme.getColor(this.textKey));
@@ -576,9 +575,9 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 this.searchItem.setSearchFieldHint(LocaleController.getString("SearchGifsTitle", R.string.SearchGifsTitle));
             }
         }
-        AnonymousClass5 anonymousClass5 = new AnonymousClass5(context);
-        this.sizeNotifierFrameLayout = anonymousClass5;
-        anonymousClass5.setBackgroundColor(Theme.getColor(this.dialogBackgroundKey));
+        5 r1 = new 5(context);
+        this.sizeNotifierFrameLayout = r1;
+        r1.setBackgroundColor(Theme.getColor(this.dialogBackgroundKey));
         this.fragmentView = this.sizeNotifierFrameLayout;
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
@@ -893,13 +892,12 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return this.fragmentView;
     }
 
-    /* renamed from: org.telegram.ui.PhotoPickerActivity$4 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
+    public class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         Runnable updateSearch = new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$4$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                PhotoPickerActivity.AnonymousClass4.this.lambda$$0();
+                PhotoPickerActivity.4.this.lambda$$0();
             }
         };
 
@@ -907,7 +905,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         public void onSearchExpand() {
         }
 
-        AnonymousClass4() {
+        4() {
             PhotoPickerActivity.this = r1;
         }
 
@@ -949,15 +947,14 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* renamed from: org.telegram.ui.PhotoPickerActivity$5 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass5 extends SizeNotifierFrameLayout {
+    public class 5 extends SizeNotifierFrameLayout {
         private boolean ignoreLayout;
         private int lastItemSize;
         private int lastNotifyWidth;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass5(Context context) {
+        5(Context context) {
             super(context);
             PhotoPickerActivity.this = r1;
         }
@@ -983,7 +980,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PhotoPickerActivity.AnonymousClass5.this.lambda$onMeasure$0();
+                        PhotoPickerActivity.5.this.lambda$onMeasure$0();
                     }
                 });
             }
@@ -2097,8 +2094,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             TextCell textCell;
             if (i != 0) {

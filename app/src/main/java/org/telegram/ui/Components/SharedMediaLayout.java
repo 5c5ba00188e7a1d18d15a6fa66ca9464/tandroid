@@ -397,7 +397,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     };
     private SharedMediaData[] sharedMediaData = new SharedMediaData[6];
     SparseArray<Float> messageAlphaEnter = new SparseArray<>();
-    SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new AnonymousClass30();
+    SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new 30();
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -1543,7 +1543,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.photoVideoOptionsItem.setImageDrawable(mutate);
         this.photoVideoOptionsItem.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         this.actionBar.addView(this.photoVideoOptionsItem, LayoutHelper.createFrame(48, 56, 85));
-        this.photoVideoOptionsItem.setOnClickListener(new AnonymousClass5(context));
+        this.photoVideoOptionsItem.setOnClickListener(new 5(context));
         EditTextBoldCursor searchField = this.searchItem.getSearchField();
         searchField.setTextColor(getThemedColor("windowBackgroundWhiteBlackText"));
         searchField.setHintTextColor(getThemedColor("player_time"));
@@ -2352,12 +2352,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.SharedMediaLayout$5  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass5 implements View.OnClickListener {
+    public class 5 implements View.OnClickListener {
         final /* synthetic */ Context val$context;
 
-        AnonymousClass5(Context context) {
+        5(Context context) {
             this.val$context = context;
         }
 
@@ -2386,7 +2385,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
-                    SharedMediaLayout.AnonymousClass5.this.lambda$onClick$0(actionBarMenuSubItem, actionBarMenuSubItem2, view2);
+                    SharedMediaLayout.5.this.lambda$onClick$0(actionBarMenuSubItem, actionBarMenuSubItem2, view2);
                 }
             });
             actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
@@ -4662,19 +4661,18 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (view != null) {
             recyclerListView.removeView(view);
         }
-        getViewTreeObserver().addOnPreDrawListener(new AnonymousClass27(recyclerListView, sparseBooleanArray, view, i));
+        getViewTreeObserver().addOnPreDrawListener(new 27(recyclerListView, sparseBooleanArray, view, i));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.SharedMediaLayout$27  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass27 implements ViewTreeObserver.OnPreDrawListener {
+    public class 27 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ SparseBooleanArray val$addedMesages;
         final /* synthetic */ RecyclerListView val$finalListView;
         final /* synthetic */ View val$finalProgressView;
         final /* synthetic */ int val$oldItemCount;
 
-        AnonymousClass27(RecyclerListView recyclerListView, SparseBooleanArray sparseBooleanArray, View view, int i) {
+        27(RecyclerListView recyclerListView, SparseBooleanArray sparseBooleanArray, View view, int i) {
             this.val$finalListView = recyclerListView;
             this.val$addedMesages = sparseBooleanArray;
             this.val$finalProgressView = view;
@@ -4698,14 +4696,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$27$$ExternalSyntheticLambda0
                                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                    SharedMediaLayout.AnonymousClass27.this.lambda$onPreDraw$0(messageId, recyclerListView, valueAnimator);
+                                    SharedMediaLayout.27.this.lambda$onPreDraw$0(messageId, recyclerListView, valueAnimator);
                                 }
                             });
                             ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SharedMediaLayout.27.1
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
                                     SharedMediaLayout.this.messageAlphaEnter.remove(messageId);
-                                    AnonymousClass27.this.val$finalListView.invalidate();
+                                    27.this.val$finalListView.invalidate();
                                 }
                             });
                             ofFloat.setStartDelay((int) ((Math.min(this.val$finalListView.getMeasuredHeight(), Math.max(0, childAt.getTop())) / this.val$finalListView.getMeasuredHeight()) * 100.0f));
@@ -4738,10 +4736,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             ofFloat3.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SharedMediaLayout.27.2
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
-                                    AnonymousClass27.this.val$finalProgressView.setAlpha(1.0f);
-                                    layoutManager.stopIgnoringView(AnonymousClass27.this.val$finalProgressView);
-                                    AnonymousClass27 anonymousClass27 = AnonymousClass27.this;
-                                    anonymousClass27.val$finalListView.removeView(anonymousClass27.val$finalProgressView);
+                                    27.this.val$finalProgressView.setAlpha(1.0f);
+                                    layoutManager.stopIgnoringView(27.this.val$finalProgressView);
+                                    27 r2 = 27.this;
+                                    r2.val$finalListView.removeView(r2.val$finalProgressView);
                                 }
                             });
                             ofFloat3.start();
@@ -5493,10 +5491,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.SharedMediaLayout$30  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass30 implements SharedLinkCell.SharedLinkCellDelegate {
-        AnonymousClass30() {
+    public class 30 implements SharedLinkCell.SharedLinkCellDelegate {
+        30() {
         }
 
         @Override // org.telegram.ui.Cells.SharedLinkCell.SharedLinkCellDelegate
@@ -5520,7 +5517,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$30$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
-                    SharedMediaLayout.AnonymousClass30.this.lambda$onLinkPress$0(str, dialogInterface, i);
+                    SharedMediaLayout.30.this.lambda$onLinkPress$0(str, dialogInterface, i);
                 }
             });
             SharedMediaLayout.this.profileActivity.showDialog(builder.create());
@@ -5548,8 +5545,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         private Context mContext;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        /* renamed from: getItem */
-        public Object mo1730getItem(int i, int i2) {
+        public Object getItem(int i, int i2) {
             return null;
         }
 
@@ -5615,8 +5611,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             GraySectionCell graySectionCell;
             if (i == 0) {
                 graySectionCell = new GraySectionCell(this.mContext, SharedMediaLayout.this.resourcesProvider);
@@ -5723,8 +5718,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             View view2;
             if (i == 1) {
@@ -6034,8 +6028,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             if (i != 0) {
                 View createEmptyStubView = SharedMediaLayout.createEmptyStubView(this.mContext, 0, SharedMediaLayout.this.dialog_id, SharedMediaLayout.this.resourcesProvider);
                 createEmptyStubView.setLayoutParams(new RecyclerView.LayoutParams(-1, -1));
@@ -6549,8 +6542,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             int i2 = this.currentType;
             if (i2 == 1) {
@@ -6660,8 +6652,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             if (i == 1) {
                 View createEmptyStubView = SharedMediaLayout.createEmptyStubView(this.mContext, 5, SharedMediaLayout.this.dialog_id, SharedMediaLayout.this.resourcesProvider);
                 createEmptyStubView.setLayoutParams(new RecyclerView.LayoutParams(-1, -1));
@@ -6800,8 +6791,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ProfileSearchCell profileSearchCell;
             if (i == 0) {
                 profileSearchCell = new ProfileSearchCell(this.mContext, SharedMediaLayout.this.resourcesProvider);
@@ -6872,8 +6862,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             if (i == 1) {
                 View createEmptyStubView = SharedMediaLayout.createEmptyStubView(this.mContext, 7, SharedMediaLayout.this.dialog_id, SharedMediaLayout.this.resourcesProvider);
                 createEmptyStubView.setLayoutParams(new RecyclerView.LayoutParams(-1, -1));
@@ -6951,17 +6940,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Components.SharedMediaLayout$GroupUsersSearchAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i) {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeCallParticipants(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeUsers() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeUsers(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -6971,7 +6960,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ void onSetHashtags(ArrayList arrayList, HashMap hashMap) {
-                    SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$onSetHashtags(this, arrayList, hashMap);
+                    SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$onSetHashtags(this, arrayList, hashMap);
                 }
             });
             this.currentChat = SharedMediaLayout.this.delegate.getCurrentChat();
@@ -7219,8 +7208,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatUserCell manageChatUserCell = new ManageChatUserCell(this.mContext, 9, 5, true, SharedMediaLayout.this.resourcesProvider);
             manageChatUserCell.setBackgroundColor(SharedMediaLayout.this.getThemedColor("windowBackgroundWhite"));
             manageChatUserCell.setDelegate(new ManageChatUserCell.ManageChatUserCellDelegate() { // from class: org.telegram.ui.Components.SharedMediaLayout$GroupUsersSearchAdapter$$ExternalSyntheticLambda5
@@ -7322,7 +7310,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
                 @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
                 public /* synthetic */ void onAnimationProgress(float f) {
-                    ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                    ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
                 }
             };
             arrayList.add(new ThemeDescription(this.mediaPages[i].listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, "divider"));

@@ -6494,15 +6494,15 @@ public class MessagesController extends BaseController implements NotificationCe
             final LongSparseArray<ArrayList<Integer>> longSparseArray = null;
             this.currentDeleteTaskRunnable = null;
             LongSparseArray<ArrayList<Integer>> longSparseArray2 = this.currentDeletingTaskMids;
-            final LongSparseArray<ArrayList<Integer>> m2clone = longSparseArray2 != null ? longSparseArray2.m2clone() : null;
+            final LongSparseArray<ArrayList<Integer>> clone = longSparseArray2 != null ? longSparseArray2.clone() : null;
             LongSparseArray<ArrayList<Integer>> longSparseArray3 = this.currentDeletingTaskMediaMids;
             if (longSparseArray3 != null) {
-                longSparseArray = longSparseArray3.m2clone();
+                longSparseArray = longSparseArray3.clone();
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda99
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MessagesController.this.lambda$checkDeletingTask$64(m2clone, longSparseArray);
+                    MessagesController.this.lambda$checkDeletingTask$64(clone, longSparseArray);
                 }
             });
             return true;

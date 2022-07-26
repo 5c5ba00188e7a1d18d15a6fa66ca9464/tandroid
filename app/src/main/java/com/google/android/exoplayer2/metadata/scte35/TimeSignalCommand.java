@@ -7,17 +7,13 @@ import com.google.android.exoplayer2.util.TimestampAdjuster;
 /* loaded from: classes.dex */
 public final class TimeSignalCommand extends SpliceCommand {
     public static final Parcelable.Creator<TimeSignalCommand> CREATOR = new Parcelable.Creator<TimeSignalCommand>() { // from class: com.google.android.exoplayer2.metadata.scte35.TimeSignalCommand.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public TimeSignalCommand mo139createFromParcel(Parcel parcel) {
+        public TimeSignalCommand createFromParcel(Parcel parcel) {
             return new TimeSignalCommand(parcel.readLong(), parcel.readLong());
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public TimeSignalCommand[] mo140newArray(int i) {
+        public TimeSignalCommand[] newArray(int i) {
             return new TimeSignalCommand[i];
         }
     };

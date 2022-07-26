@@ -5,8 +5,7 @@ import com.microsoft.appcenter.ingestion.models.json.AbstractLogFactory;
 /* loaded from: classes.dex */
 public class DistributionStartSessionLogFactory extends AbstractLogFactory {
     @Override // com.microsoft.appcenter.ingestion.models.json.LogFactory
-    /* renamed from: create */
-    public DistributionStartSessionLog mo247create() {
+    public DistributionStartSessionLog create() {
         return new DistributionStartSessionLog();
     }
 }

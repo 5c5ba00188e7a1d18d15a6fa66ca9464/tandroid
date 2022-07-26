@@ -18,8 +18,7 @@ abstract class H {
         return false;
     }
 
-    /* renamed from: trySplit */
-    public u mo350trySplit() {
+    public u trySplit() {
         return null;
     }
 }

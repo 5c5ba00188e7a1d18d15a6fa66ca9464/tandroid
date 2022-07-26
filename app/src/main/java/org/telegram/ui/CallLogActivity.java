@@ -519,7 +519,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 return lambda$createView$1;
             }
         });
-        this.listView.setOnScrollListener(new AnonymousClass2());
+        this.listView.setOnScrollListener(new 2());
         if (this.loading) {
             this.emptyView.showProgress();
         } else {
@@ -603,10 +603,9 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.CallLogActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends RecyclerView.OnScrollListener {
-        AnonymousClass2() {
+    public class 2 extends RecyclerView.OnScrollListener {
+        2() {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:25:0x00a5, code lost:
@@ -628,7 +627,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CallLogActivity$2$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            CallLogActivity.AnonymousClass2.this.lambda$onScrolled$0(callLogRow);
+                            CallLogActivity.2.this.lambda$onScrolled$0(callLogRow);
                         }
                     });
                 }
@@ -1158,8 +1157,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View callCell;
             HeaderCell headerCell;
             if (i != 0) {
@@ -1374,7 +1372,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{LocationCell.class, CallCell.class, HeaderCell.class, GroupCallCell.class}, null, null, null, "windowBackgroundWhite"));

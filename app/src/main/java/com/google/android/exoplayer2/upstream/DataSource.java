@@ -9,8 +9,7 @@ public interface DataSource {
 
     /* loaded from: classes.dex */
     public interface Factory {
-        /* renamed from: createDataSource */
-        DataSource mo821createDataSource();
+        DataSource createDataSource();
     }
 
     void addTransferListener(TransferListener transferListener);
@@ -25,8 +24,7 @@ public interface DataSource {
 
     int read(byte[] bArr, int i, int i2) throws IOException;
 
-    /* renamed from: com.google.android.exoplayer2.upstream.DataSource$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
     }
 }

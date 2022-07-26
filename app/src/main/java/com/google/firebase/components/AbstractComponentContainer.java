@@ -11,11 +11,11 @@ public abstract class AbstractComponentContainer implements ComponentContainer {
         if (provider == null) {
             return null;
         }
-        return provider.mo190get();
+        return provider.get();
     }
 
     @Override // com.google.firebase.components.ComponentContainer
     public <T> Set<T> setOf(Class<T> cls) {
-        return setOfProvider(cls).mo190get();
+        return setOfProvider(cls).get();
     }
 }

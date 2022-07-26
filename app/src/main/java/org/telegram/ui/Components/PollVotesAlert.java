@@ -1125,8 +1125,7 @@ public class PollVotesAlert extends BottomSheet {
         private Context mContext;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        /* renamed from: getItem */
-        public Object mo1730getItem(int i, int i2) {
+        public Object getItem(int i, int i2) {
             return null;
         }
 
@@ -1221,8 +1220,7 @@ public class PollVotesAlert extends BottomSheet {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextCell textCell;
             if (i == 0) {
                 textCell = new UserCell(this.mContext);
@@ -1315,7 +1313,7 @@ public class PollVotesAlert extends BottomSheet {
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.containerView, 0, null, null, null, null, "key_sheet_scrollUp"));

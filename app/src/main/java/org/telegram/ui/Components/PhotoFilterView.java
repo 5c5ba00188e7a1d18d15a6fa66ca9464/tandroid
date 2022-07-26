@@ -339,7 +339,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             this.textureView = textureView;
             addView(textureView, LayoutHelper.createFrame(-1, -1, 51));
             this.textureView.setVisibility(4);
-            this.textureView.setSurfaceTextureListener(new AnonymousClass1());
+            this.textureView.setSurfaceTextureListener(new 1());
         }
         PhotoFilterBlurControl photoFilterBlurControl = new PhotoFilterBlurControl(context);
         this.blurControl = photoFilterBlurControl;
@@ -556,14 +556,13 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PhotoFilterView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements TextureView.SurfaceTextureListener {
+    public class 1 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         }
 
-        AnonymousClass1() {
+        1() {
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -585,7 +584,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 PhotoFilterView.this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.PhotoFilterView$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PhotoFilterView.AnonymousClass1.this.lambda$onSurfaceTextureSizeChanged$0();
+                        PhotoFilterView.1.this.lambda$onSurfaceTextureSizeChanged$0();
                     }
                 });
             }
@@ -1148,8 +1147,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             PhotoEditRadioCell photoEditRadioCell;
             if (i == 0) {
                 PhotoEditToolCell photoEditToolCell = new PhotoEditToolCell(this.mContext, PhotoFilterView.this.resourcesProvider);

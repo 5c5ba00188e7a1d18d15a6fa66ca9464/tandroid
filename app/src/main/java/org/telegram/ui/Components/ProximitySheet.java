@@ -615,16 +615,15 @@ public class ProximitySheet extends FrameLayout {
             this.currentSheetAnimation.setDuration(250L);
         }
         this.currentSheetAnimation.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.currentSheetAnimation.addListener(new AnonymousClass6());
+        this.currentSheetAnimation.addListener(new 6());
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
         this.currentSheetAnimation.start();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ProximitySheet$6  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends AnimatorListenerAdapter {
-        AnonymousClass6() {
+    public class 6 extends AnimatorListenerAdapter {
+        6() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -635,7 +634,7 @@ public class ProximitySheet extends FrameLayout {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ProximitySheet$6$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ProximitySheet.AnonymousClass6.this.lambda$onAnimationEnd$0();
+                        ProximitySheet.6.this.lambda$onAnimationEnd$0();
                     }
                 });
             }

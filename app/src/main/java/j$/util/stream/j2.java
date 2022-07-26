@@ -18,9 +18,9 @@ final class j2 extends k2 {
         boolean b = this.d.b(consumer);
         if (!b) {
             if (this.c == null && (a = a(this.e)) != null) {
-                j$.util.u mo313spliterator = a.mo313spliterator();
-                this.d = mo313spliterator;
-                return mo313spliterator.b(consumer);
+                j$.util.u spliterator = a.spliterator();
+                this.d = spliterator;
+                return spliterator.b(consumer);
             }
             this.a = null;
         }

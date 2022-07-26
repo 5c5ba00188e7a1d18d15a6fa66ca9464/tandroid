@@ -32,7 +32,7 @@ class Z0 extends h3 {
                 e1 e1Var = (e1) ((j$.util.function.r) ((N) this.c).m).apply(j);
                 if (e1Var != null) {
                     try {
-                        e1Var.mo333sequential().d(new W0(this));
+                        e1Var.sequential().d(new W0(this));
                     } finally {
                         try {
                             e1Var.close();

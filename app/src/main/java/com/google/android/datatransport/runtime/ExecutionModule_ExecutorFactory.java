@@ -6,8 +6,7 @@ import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public final class ExecutionModule_ExecutorFactory implements Factory<Executor> {
     @Override // javax.inject.Provider
-    /* renamed from: get  reason: collision with other method in class */
-    public Executor mo70get() {
+    public Executor get() {
         return executor();
     }
 

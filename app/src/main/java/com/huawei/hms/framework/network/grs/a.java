@@ -20,9 +20,8 @@ public class a {
     private h c;
     private com.huawei.hms.framework.network.grs.e.c d;
 
-    /* renamed from: com.huawei.hms.framework.network.grs.a$a  reason: collision with other inner class name */
     /* loaded from: classes.dex */
-    private static class C0004a implements com.huawei.hms.framework.network.grs.b {
+    private static class a implements com.huawei.hms.framework.network.grs.b {
         String a;
         Map<String, String> b;
         IQueryUrlsCallBack c;
@@ -30,7 +29,7 @@ public class a {
         GrsBaseInfo e;
         com.huawei.hms.framework.network.grs.e.a f;
 
-        C0004a(String str, Map<String, String> map, IQueryUrlsCallBack iQueryUrlsCallBack, Context context, GrsBaseInfo grsBaseInfo, com.huawei.hms.framework.network.grs.e.a aVar) {
+        a(String str, Map<String, String> map, IQueryUrlsCallBack iQueryUrlsCallBack, Context context, GrsBaseInfo grsBaseInfo, com.huawei.hms.framework.network.grs.e.a aVar) {
             this.a = str;
             this.b = map;
             this.c = iQueryUrlsCallBack;
@@ -169,13 +168,13 @@ public class a {
     }
 
     private Map<String, String> a(String str, com.huawei.hms.framework.network.grs.e.b bVar, Context context) {
-        Map<String, String> a = this.b.a(this.a, str, bVar, context);
-        if (a == null || a.isEmpty()) {
-            Map<String, String> a2 = com.huawei.hms.framework.network.grs.f.b.a(context.getPackageName(), this.a).a(context, this.b, this.a, str, false);
-            return a2 != null ? a2 : new HashMap();
+        Map<String, String> a2 = this.b.a(this.a, str, bVar, context);
+        if (a2 == null || a2.isEmpty()) {
+            Map<String, String> a3 = com.huawei.hms.framework.network.grs.f.b.a(context.getPackageName(), this.a).a(context, this.b, this.a, str, false);
+            return a3 != null ? a3 : new HashMap();
         }
         com.huawei.hms.framework.network.grs.f.b.a(context, this.a);
-        return a;
+        return a2;
     }
 
     public static Map<String, String> a(String str, String str2) {
@@ -222,8 +221,8 @@ public class a {
     }
 
     public String a(Context context, String str) {
-        com.huawei.hms.framework.network.grs.g.d a = this.c.a(new com.huawei.hms.framework.network.grs.g.k.c(this.a, context), str, this.d);
-        return a == null ? "" : a.m() ? this.b.a().a(this.a.getGrsParasKey(true, true, context), "") : a.j();
+        com.huawei.hms.framework.network.grs.g.d a2 = this.c.a(new com.huawei.hms.framework.network.grs.g.k.c(this.a, context), str, this.d);
+        return a2 == null ? "" : a2.m() ? this.b.a().a(this.a.getGrsParasKey(true, true, context), "") : a2.j();
     }
 
     public String a(String str, String str2, Context context) {
@@ -252,47 +251,47 @@ public class a {
 
     public Map<String, String> a(String str, Context context) {
         com.huawei.hms.framework.network.grs.e.b bVar = new com.huawei.hms.framework.network.grs.e.b();
-        Map<String, String> a = a(str, bVar, context);
-        if (bVar.a() && !a.isEmpty()) {
-            Logger.i(e, "get unexpired cache localUrls: %s", StringUtils.anonymizeMessage(new JSONObject(a).toString()));
-            com.huawei.hms.framework.network.grs.f.b.a(context, this.a);
-            return a;
-        }
-        Map<String, String> a2 = a(a(context, str), str);
-        if (!a2.isEmpty()) {
-            Logger.i(e, "get url is from remote server");
+        Map<String, String> a2 = a(str, bVar, context);
+        if (bVar.a() && !a2.isEmpty()) {
+            Logger.i(e, "get unexpired cache localUrls: %s", StringUtils.anonymizeMessage(new JSONObject(a2).toString()));
             com.huawei.hms.framework.network.grs.f.b.a(context, this.a);
             return a2;
         }
-        if (a.isEmpty()) {
+        Map<String, String> a3 = a(a(context, str), str);
+        if (!a3.isEmpty()) {
+            Logger.i(e, "get url is from remote server");
+            com.huawei.hms.framework.network.grs.f.b.a(context, this.a);
+            return a3;
+        }
+        if (a2.isEmpty()) {
             Logger.i(e, "access local config for return a domain.");
-            a = com.huawei.hms.framework.network.grs.f.b.a(context.getPackageName(), this.a).a(context, this.b, this.a, str, true);
+            a2 = com.huawei.hms.framework.network.grs.f.b.a(context.getPackageName(), this.a).a(context, this.b, this.a, str, true);
         } else {
             Logger.i(e, "get expired cache localUrls");
         }
         String str2 = e;
         Object[] objArr = new Object[1];
-        objArr[0] = StringUtils.anonymizeMessage(a != null ? new JSONObject(a).toString() : "");
+        objArr[0] = StringUtils.anonymizeMessage(a2 != null ? new JSONObject(a2).toString() : "");
         Logger.i(str2, "synGetGrsUrls: %s", objArr);
-        return a;
+        return a2;
     }
 
     public void a(String str, IQueryUrlsCallBack iQueryUrlsCallBack, Context context) {
         com.huawei.hms.framework.network.grs.e.b bVar = new com.huawei.hms.framework.network.grs.e.b();
-        Map<String, String> a = a(str, bVar, context);
+        Map<String, String> a2 = a(str, bVar, context);
         if (!bVar.a()) {
-            this.c.a(new com.huawei.hms.framework.network.grs.g.k.c(this.a, context), new C0004a(str, a, iQueryUrlsCallBack, context, this.a, this.b), str, this.d);
+            this.c.a(new com.huawei.hms.framework.network.grs.g.k.c(this.a, context), new a(str, a2, iQueryUrlsCallBack, context, this.a, this.b), str, this.d);
             return;
         }
         String str2 = e;
         Logger.i(str2, "get unexpired cache localUrls");
-        if (a.isEmpty()) {
+        if (a2.isEmpty()) {
             iQueryUrlsCallBack.onCallBackFail(-5);
             return;
         }
         com.huawei.hms.framework.network.grs.f.b.a(context, this.a);
-        Logger.i(str2, "ayncGetGrsUrls: %s", StringUtils.anonymizeMessage(new JSONObject(a).toString()));
-        iQueryUrlsCallBack.onCallBackSuccess(a);
+        Logger.i(str2, "ayncGetGrsUrls: %s", StringUtils.anonymizeMessage(new JSONObject(a2).toString()));
+        iQueryUrlsCallBack.onCallBackSuccess(a2);
     }
 
     public void a(String str, String str2, IQueryUrlCallBack iQueryUrlCallBack, Context context) {

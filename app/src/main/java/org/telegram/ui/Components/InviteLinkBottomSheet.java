@@ -667,8 +667,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View timerPrivacyCell;
             HeaderCell headerCell;
             Context context = viewGroup.getContext();
@@ -682,7 +681,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 case 3:
                     InviteLinkBottomSheet inviteLinkBottomSheet = InviteLinkBottomSheet.this;
                     LinkActionView linkActionView = new LinkActionView(context, inviteLinkBottomSheet.fragment, inviteLinkBottomSheet, inviteLinkBottomSheet.chatId, false, InviteLinkBottomSheet.this.isChannel);
-                    linkActionView.setDelegate(new AnonymousClass1());
+                    linkActionView.setDelegate(new 1());
                     linkActionView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                     headerCell = linkActionView;
                     break;
@@ -732,15 +731,14 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements LinkActionView.Delegate {
+        public class 1 implements LinkActionView.Delegate {
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void showUsersForPermanentLink() {
-                LinkActionView.Delegate.CC.$default$showUsersForPermanentLink(this);
+                LinkActionView.Delegate.-CC.$default$showUsersForPermanentLink(this);
             }
 
-            AnonymousClass1() {
+            1() {
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -758,7 +756,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            InviteLinkBottomSheet.Adapter.AnonymousClass1.this.lambda$revokeLink$1(tLObject, tLRPC$TL_error);
+                            InviteLinkBottomSheet.Adapter.1.this.lambda$revokeLink$1(tLObject, tLRPC$TL_error);
                         }
                     });
                 }
@@ -770,7 +768,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        InviteLinkBottomSheet.Adapter.AnonymousClass1.this.lambda$revokeLink$0(tLRPC$TL_error, tLObject);
+                        InviteLinkBottomSheet.Adapter.1.this.lambda$revokeLink$0(tLRPC$TL_error, tLObject);
                     }
                 });
             }
@@ -860,7 +858,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1$$ExternalSyntheticLambda3
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            InviteLinkBottomSheet.Adapter.AnonymousClass1.this.lambda$removeLink$3(tLObject, tLRPC$TL_error);
+                            InviteLinkBottomSheet.Adapter.1.this.lambda$removeLink$3(tLObject, tLRPC$TL_error);
                         }
                     });
                 }
@@ -872,7 +870,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        InviteLinkBottomSheet.Adapter.AnonymousClass1.this.lambda$removeLink$2(tLRPC$TL_error);
+                        InviteLinkBottomSheet.Adapter.1.this.lambda$removeLink$2(tLRPC$TL_error);
                     }
                 });
             }

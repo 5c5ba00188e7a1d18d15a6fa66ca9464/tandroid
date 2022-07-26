@@ -1,11 +1,11 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
 public enum zzge$zzv$zzb implements zzcj {
-    DEFAULT(0),
-    UNMETERED_ONLY(1),
-    UNMETERED_OR_DAILY(2),
-    FAST_IF_RADIO_AWAKE(3),
-    NEVER(4);
+    zzbhk(0),
+    zzbhl(1),
+    zzbhm(2),
+    zzbhn(3),
+    zzbho(4);
     
     private final int value;
 
@@ -25,20 +25,20 @@ public enum zzge$zzv$zzb implements zzcj {
     public static zzge$zzv$zzb zzbc(int i) {
         if (i != 0) {
             if (i == 1) {
-                return UNMETERED_ONLY;
+                return zzbhl;
             }
             if (i == 2) {
-                return UNMETERED_OR_DAILY;
+                return zzbhm;
             }
             if (i == 3) {
-                return FAST_IF_RADIO_AWAKE;
+                return zzbhn;
             }
             if (i == 4) {
-                return NEVER;
+                return zzbho;
             }
             return null;
         }
-        return DEFAULT;
+        return zzbhk;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzcj

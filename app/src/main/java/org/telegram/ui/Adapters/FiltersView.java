@@ -188,7 +188,7 @@ public class FiltersView extends RecyclerListView {
                     public void onAnimationEnd(Animator animator) {
                         animate.setListener(null);
                         dispatchAddFinished(viewHolder);
-                        ((DefaultItemAnimator) AnonymousClass3.this).mAddAnimations.remove(viewHolder);
+                        ((DefaultItemAnimator) 3.this).mAddAnimations.remove(viewHolder);
                         dispatchFinishedWhenDone();
                     }
                 }).start();
@@ -214,7 +214,7 @@ public class FiltersView extends RecyclerListView {
                         view.setScaleX(1.0f);
                         view.setScaleY(1.0f);
                         dispatchRemoveFinished(viewHolder);
-                        ((DefaultItemAnimator) AnonymousClass3.this).mRemoveAnimations.remove(viewHolder);
+                        ((DefaultItemAnimator) 3.this).mRemoveAnimations.remove(viewHolder);
                         dispatchFinishedWhenDone();
                     }
                 }).start();
@@ -580,8 +580,7 @@ public class FiltersView extends RecyclerListView {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder  reason: collision with other method in class */
-        public ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ViewHolder viewHolder = new ViewHolder(FiltersView.this, new FilterView(viewGroup.getContext(), ((RecyclerListView) FiltersView.this).resourcesProvider));
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-2, AndroidUtilities.dp(32.0f));
             ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(6.0f);

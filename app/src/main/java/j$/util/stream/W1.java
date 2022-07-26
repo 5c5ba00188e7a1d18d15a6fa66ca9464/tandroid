@@ -10,8 +10,7 @@ final class W1 extends a2 implements u1 {
     }
 
     @Override // j$.util.stream.a2, j$.util.stream.A1
-    /* renamed from: b  reason: collision with other method in class */
-    public z1 mo316b(int i) {
+    public z1 b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -34,21 +33,18 @@ final class W1 extends a2 implements u1 {
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: spliterator  reason: collision with other method in class */
-    public j$.util.w mo313spliterator() {
+    public j$.util.w spliterator() {
         return j$.util.L.b();
     }
 
     @Override // j$.util.stream.a2, j$.util.stream.A1
-    /* renamed from: b */
-    public /* bridge */ /* synthetic */ A1 mo316b(int i) {
-        mo316b(i);
+    public /* bridge */ /* synthetic */ A1 b(int i) {
+        b(i);
         throw null;
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: spliterator */
-    public j$.util.u mo313spliterator() {
+    public j$.util.u spliterator() {
         return j$.util.L.b();
     }
 }

@@ -15,15 +15,15 @@ public class d1 extends v {
             int[] iArr = new int[y0.values().length];
             a = iArr;
             try {
-                iArr[y0.SN.ordinal()] = 1;
+                iArr[y0.c.ordinal()] = 1;
             } catch (NoSuchFieldError unused) {
             }
             try {
-                a[y0.IMEI.ordinal()] = 2;
+                a[y0.a.ordinal()] = 2;
             } catch (NoSuchFieldError unused2) {
             }
             try {
-                a[y0.UDID.ordinal()] = 3;
+                a[y0.b.ordinal()] = 3;
             } catch (NoSuchFieldError unused3) {
             }
         }

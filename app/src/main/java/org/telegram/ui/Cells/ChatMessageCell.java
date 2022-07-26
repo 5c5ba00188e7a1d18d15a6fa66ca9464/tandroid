@@ -676,9 +676,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* loaded from: classes3.dex */
     public interface ChatMessageCellDelegate {
 
-        /* renamed from: org.telegram.ui.Cells.ChatMessageCell$ChatMessageCellDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static boolean $default$canDrawOutboundsContent(ChatMessageCellDelegate chatMessageCellDelegate) {
                 return true;
             }

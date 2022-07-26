@@ -34,8 +34,7 @@ public class StackBarChartView extends BaseChartView<StackBarChartData, StackBar
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
-    /* renamed from: createLineViewData  reason: collision with other method in class */
-    public StackBarViewData mo1010createLineViewData(ChartData.Line line) {
+    public StackBarViewData createLineViewData(ChartData.Line line) {
         return new StackBarViewData(line);
     }
 

@@ -79,9 +79,8 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     /* loaded from: classes3.dex */
     public interface ImageUpdaterDelegate {
 
-        /* renamed from: org.telegram.ui.Components.ImageUpdater$ImageUpdaterDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$didStartUpload(ImageUpdaterDelegate imageUpdaterDelegate, boolean z) {
             }
 
@@ -263,7 +262,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public /* synthetic */ void onOpenInPressed() {
-                PhotoPickerActivity.PhotoPickerActivityDelegate.CC.$default$onOpenInPressed(this);
+                PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);
             }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate

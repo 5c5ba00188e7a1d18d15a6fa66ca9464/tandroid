@@ -10,17 +10,13 @@ import androidx.lifecycle.ViewModelStore;
 /* loaded from: classes.dex */
 public final class FragmentState implements Parcelable {
     public static final Parcelable.Creator<FragmentState> CREATOR = new Parcelable.Creator<FragmentState>() { // from class: androidx.fragment.app.FragmentState.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public FragmentState mo19createFromParcel(Parcel parcel) {
+        public FragmentState createFromParcel(Parcel parcel) {
             return new FragmentState(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public FragmentState[] mo20newArray(int i) {
+        public FragmentState[] newArray(int i) {
             return new FragmentState[i];
         }
     };

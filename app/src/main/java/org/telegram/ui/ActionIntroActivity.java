@@ -940,12 +940,12 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         CameraScanActivity.showAsSheet(this, false, 1, new CameraScanActivity.CameraScanActivityDelegate() { // from class: org.telegram.ui.ActionIntroActivity.4
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
             public /* synthetic */ void didFindMrzInfo(MrzRecognizer.Result result) {
-                CameraScanActivity.CameraScanActivityDelegate.CC.$default$didFindMrzInfo(this, result);
+                CameraScanActivity.CameraScanActivityDelegate.-CC.$default$didFindMrzInfo(this, result);
             }
 
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
             public /* synthetic */ boolean processQr(String str, Runnable runnable) {
-                return CameraScanActivity.CameraScanActivityDelegate.CC.$default$processQr(this, str, runnable);
+                return CameraScanActivity.CameraScanActivityDelegate.-CC.$default$processQr(this, str, runnable);
             }
 
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
@@ -967,7 +967,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, themeDescriptionDelegate, "windowBackgroundWhite"));

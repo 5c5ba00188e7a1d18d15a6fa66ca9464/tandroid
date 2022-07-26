@@ -544,17 +544,17 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate(GroupVoipInviteAlert.this) { // from class: org.telegram.ui.Components.GroupVoipInviteAlert.SearchAdapter.1
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i) {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeUsers() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeUsers(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ void onSetHashtags(ArrayList arrayList, HashMap hashMap) {
-                    SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$onSetHashtags(this, arrayList, hashMap);
+                    SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$onSetHashtags(this, arrayList, hashMap);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -820,8 +820,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         /* JADX WARN: Type inference failed for: r3v11, types: [android.view.View] */
         /* JADX WARN: Type inference failed for: r3v12, types: [android.view.View] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatUserCell manageChatUserCell;
             if (i == 0) {
                 ManageChatUserCell manageChatUserCell2 = new ManageChatUserCell(this.mContext, 2, 2, false);
@@ -989,8 +988,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatUserCell manageChatUserCell;
             View view;
             if (i == 0) {

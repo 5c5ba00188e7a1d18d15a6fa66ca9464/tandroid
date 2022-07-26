@@ -7,10 +7,8 @@ import android.os.Parcelable;
 import com.huawei.hms.common.internal.safeparcel.SafeParcelReader;
 /* loaded from: classes.dex */
 public final class DataHolderCreator implements Parcelable.Creator<DataHolder> {
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // android.os.Parcelable.Creator
-    /* renamed from: createFromParcel */
-    public final DataHolder mo218createFromParcel(Parcel parcel) {
+    public final DataHolder createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         int i = 0;
         String[] strArr = null;
@@ -40,10 +38,8 @@ public final class DataHolderCreator implements Parcelable.Creator<DataHolder> {
         return new DataHolder(i2, strArr, cursorWindowArr, i3, bundle);
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // android.os.Parcelable.Creator
-    /* renamed from: newArray */
-    public final DataHolder[] mo219newArray(int i) {
+    public final DataHolder[] newArray(int i) {
         return new DataHolder[i];
     }
 }

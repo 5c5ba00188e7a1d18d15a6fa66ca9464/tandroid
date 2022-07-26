@@ -1004,12 +1004,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         });
         this.adapter.setOverScrollHeight(this.overScrollHeight);
         frameLayout2.addView(this.mapViewClip, LayoutHelper.createFrame(-1, -1, 51));
-        final AnonymousClass11 anonymousClass11 = new AnonymousClass11(context);
-        this.mapView = anonymousClass11;
+        final 11 r0 = new 11(context);
+        this.mapView = r0;
         new Thread(new Runnable() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
-                LocationActivity.this.lambda$createView$17(anonymousClass11);
+                LocationActivity.this.lambda$createView$17(r0);
             }
         }).start();
         MessageObject messageObject3 = this.messageObject;
@@ -1387,10 +1387,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.LocationActivity$11  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass11 extends MapView {
-        AnonymousClass11(Context context) {
+    public class 11 extends MapView {
+        11(Context context) {
             super(context);
         }
 
@@ -1460,7 +1459,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LocationActivity$11$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LocationActivity.AnonymousClass11.this.lambda$onLayout$0();
+                    LocationActivity.11.this.lambda$onLayout$0();
                 }
             });
         }
@@ -2959,7 +2958,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         for (int i = 0; i < this.undoView.length; i++) {

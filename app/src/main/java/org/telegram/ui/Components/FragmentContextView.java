@@ -146,32 +146,32 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraFirstFrameAvailable() {
-        VoIPService.StateListener.CC.$default$onCameraFirstFrameAvailable(this);
+        VoIPService.StateListener.-CC.$default$onCameraFirstFrameAvailable(this);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraSwitch(boolean z) {
-        VoIPService.StateListener.CC.$default$onCameraSwitch(this, z);
+        VoIPService.StateListener.-CC.$default$onCameraSwitch(this, z);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onMediaStateUpdated(int i, int i2) {
-        VoIPService.StateListener.CC.$default$onMediaStateUpdated(this, i, i2);
+        VoIPService.StateListener.-CC.$default$onMediaStateUpdated(this, i, i2);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onScreenOnChange(boolean z) {
-        VoIPService.StateListener.CC.$default$onScreenOnChange(this, z);
+        VoIPService.StateListener.-CC.$default$onScreenOnChange(this, z);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onSignalBarsCountChanged(int i) {
-        VoIPService.StateListener.CC.$default$onSignalBarsCountChanged(this, i);
+        VoIPService.StateListener.-CC.$default$onSignalBarsCountChanged(this, i);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onVideoAvailableChange(boolean z) {
-        VoIPService.StateListener.CC.$default$onVideoAvailableChange(this, z);
+        VoIPService.StateListener.-CC.$default$onVideoAvailableChange(this, z);
     }
 
     protected void playbackSpeedChanged(float f) {
@@ -489,9 +489,9 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.avatars.setVisibility(8);
         addView(this.avatars, LayoutHelper.createFrame(108, i, 51));
         this.muteDrawable = new RLottieDrawable(R.raw.voice_muted, "2131558599", AndroidUtilities.dp(16.0f), AndroidUtilities.dp(20.0f), true, null);
-        AnonymousClass7 anonymousClass7 = new AnonymousClass7(context);
-        this.muteButton = anonymousClass7;
-        anonymousClass7.setColorFilter(new PorterDuffColorFilter(getThemedColor("returnToCallText"), PorterDuff.Mode.MULTIPLY));
+        7 r1 = new 7(context);
+        this.muteButton = r1;
+        r1.setColorFilter(new PorterDuffColorFilter(getThemedColor("returnToCallText"), PorterDuff.Mode.MULTIPLY));
         if (i2 >= 21) {
             this.muteButton.setBackground(Theme.createSelectorDrawable(getThemedColor("inappPlayerClose") & 436207615, 1, AndroidUtilities.dp(f)));
         }
@@ -590,25 +590,24 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.FragmentContextView$7  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends RLottieImageView {
+    public class 7 extends RLottieImageView {
         boolean pressed;
         boolean scheduled;
         private final Runnable toggleMicRunnable = new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$7$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                FragmentContextView.AnonymousClass7.this.lambda$$0();
+                FragmentContextView.7.this.lambda$$0();
             }
         };
         private final Runnable pressRunnable = new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$7$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                FragmentContextView.AnonymousClass7.this.lambda$$1();
+                FragmentContextView.7.this.lambda$$1();
             }
         };
 
-        AnonymousClass7(Context context) {
+        7(Context context) {
             super(context);
         }
 

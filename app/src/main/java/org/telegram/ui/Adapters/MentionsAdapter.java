@@ -204,17 +204,17 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Adapters.MentionsAdapter.3
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
             public /* synthetic */ boolean canApplySearchResults(int i2) {
-                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i2);
+                return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i2);
             }
 
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
             public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+                return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeCallParticipants(this);
             }
 
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
             public /* synthetic */ LongSparseArray getExcludeUsers() {
-                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+                return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeUsers(this);
             }
 
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -741,22 +741,21 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
             MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
             this.searchingContextQuery = str2;
-            AnonymousClass4 anonymousClass4 = new AnonymousClass4(str2, str, messagesController, messagesStorage);
-            this.contextQueryRunnable = anonymousClass4;
-            AndroidUtilities.runOnUIThread(anonymousClass4, 400L);
+            4 r0 = new 4(str2, str, messagesController, messagesStorage);
+            this.contextQueryRunnable = r0;
+            AndroidUtilities.runOnUIThread(r0, 400L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Adapters.MentionsAdapter$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements Runnable {
+    public class 4 implements Runnable {
         final /* synthetic */ MessagesController val$messagesController;
         final /* synthetic */ MessagesStorage val$messagesStorage;
         final /* synthetic */ String val$query;
         final /* synthetic */ String val$username;
 
-        AnonymousClass4(String str, String str2, MessagesController messagesController, MessagesStorage messagesStorage) {
+        4(String str, String str2, MessagesController messagesController, MessagesStorage messagesStorage) {
             this.val$query = str;
             this.val$username = str2;
             this.val$messagesController = messagesController;
@@ -793,7 +792,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             mentionsAdapter2.contextUsernameReqid = connectionsManager.sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Adapters.MentionsAdapter$4$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MentionsAdapter.AnonymousClass4.this.lambda$run$1(str, messagesController, messagesStorage, tLObject, tLRPC$TL_error);
+                    MentionsAdapter.4.this.lambda$run$1(str, messagesController, messagesStorage, tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -803,7 +802,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.MentionsAdapter$4$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MentionsAdapter.AnonymousClass4.this.lambda$run$0(str, tLRPC$TL_error, tLObject, messagesController, messagesStorage);
+                    MentionsAdapter.4.this.lambda$run$0(str, tLRPC$TL_error, tLObject, messagesController, messagesStorage);
                 }
             });
         }
@@ -1576,9 +1575,9 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     } else {
                         showUsersResult(arrayList10, longSparseArray3, true);
                     }
-                    AnonymousClass7 anonymousClass7 = new AnonymousClass7(chat, lowerCase3, i7, arrayList10, longSparseArray3, messagesController);
-                    this.searchGlobalRunnable = anonymousClass7;
-                    AndroidUtilities.runOnUIThread(anonymousClass7, 200L);
+                    7 r12 = new 7(chat, lowerCase3, i7, arrayList10, longSparseArray3, messagesController);
+                    this.searchGlobalRunnable = r12;
+                    AndroidUtilities.runOnUIThread(r12, 200L);
                     return;
                 }
                 showUsersResult(arrayList10, longSparseArray3, true);
@@ -1603,9 +1602,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Adapters.MentionsAdapter$7  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass7 implements Runnable {
+    public class 7 implements Runnable {
         final /* synthetic */ TLRPC$Chat val$chat;
         final /* synthetic */ MessagesController val$messagesController;
         final /* synthetic */ LongSparseArray val$newMap;
@@ -1613,7 +1611,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         final /* synthetic */ int val$threadId;
         final /* synthetic */ String val$usernameString;
 
-        AnonymousClass7(TLRPC$Chat tLRPC$Chat, String str, int i, ArrayList arrayList, LongSparseArray longSparseArray, MessagesController messagesController) {
+        7(TLRPC$Chat tLRPC$Chat, String str, int i, ArrayList arrayList, LongSparseArray longSparseArray, MessagesController messagesController) {
             this.val$chat = tLRPC$Chat;
             this.val$usernameString = str;
             this.val$threadId = i;
@@ -1650,7 +1648,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             mentionsAdapter.channelReqId = connectionsManager.sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Adapters.MentionsAdapter$7$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    MentionsAdapter.AnonymousClass7.this.lambda$run$1(access$1704, arrayList, longSparseArray, messagesController, tLObject, tLRPC$TL_error);
+                    MentionsAdapter.7.this.lambda$run$1(access$1704, arrayList, longSparseArray, messagesController, tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -1660,7 +1658,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.MentionsAdapter$7$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MentionsAdapter.AnonymousClass7.this.lambda$run$0(i, arrayList, longSparseArray, tLRPC$TL_error, tLObject, messagesController);
+                    MentionsAdapter.7.this.lambda$run$0(i, arrayList, longSparseArray, tLRPC$TL_error, tLObject, messagesController);
                 }
             });
         }
@@ -1934,8 +1932,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    /* renamed from: onCreateViewHolder */
-    public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         ContextLinkCell contextLinkCell;
         if (i == 0) {
             MentionCell mentionCell = new MentionCell(this.mContext, this.resourcesProvider);

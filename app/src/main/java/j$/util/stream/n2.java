@@ -6,7 +6,7 @@ import j$.util.function.Consumer;
 public final class n2 extends Y3 implements y1, r1 {
     @Override // j$.util.stream.Y3
     public j$.util.v B() {
-        return super.mo317spliterator();
+        return super.spliterator();
     }
 
     @Override // j$.util.function.Consumer
@@ -28,14 +28,12 @@ public final class n2 extends Y3 implements y1, r1 {
     }
 
     @Override // j$.util.stream.r1, j$.util.stream.s1
-    /* renamed from: a */
-    public A1 mo315a() {
+    public A1 a() {
         return this;
     }
 
     @Override // j$.util.stream.r1, j$.util.stream.s1
-    /* renamed from: a  reason: collision with other method in class */
-    public y1 mo315a() {
+    public y1 a() {
         return this;
     }
 
@@ -62,8 +60,7 @@ public final class n2 extends Y3 implements y1, r1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: b  reason: collision with other method in class */
-    public z1 mo316b(int i) {
+    public z1 b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -108,21 +105,18 @@ public final class n2 extends Y3 implements y1, r1 {
     }
 
     @Override // j$.util.stream.Y3, j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
-    /* renamed from: spliterator  reason: collision with other method in class */
-    public j$.util.w mo317spliterator() {
-        return super.mo317spliterator();
+    public j$.util.w spliterator() {
+        return super.spliterator();
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: b */
-    public /* bridge */ /* synthetic */ A1 mo316b(int i) {
-        mo316b(i);
+    public /* bridge */ /* synthetic */ A1 b(int i) {
+        b(i);
         throw null;
     }
 
     @Override // j$.util.stream.Y3, j$.util.stream.Z3, java.lang.Iterable, j$.lang.e
-    /* renamed from: spliterator */
-    public j$.util.u mo317spliterator() {
-        return super.mo317spliterator();
+    public j$.util.u spliterator() {
+        return super.spliterator();
     }
 }

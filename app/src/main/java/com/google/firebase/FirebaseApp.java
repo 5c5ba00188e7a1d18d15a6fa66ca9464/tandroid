@@ -140,7 +140,7 @@ public class FirebaseApp {
 
     public boolean isDataCollectionDefaultEnabled() {
         checkNotDeleted();
-        return this.dataCollectionConfigStorage.mo190get().isEnabled();
+        return this.dataCollectionConfigStorage.get().isEnabled();
     }
 
     protected FirebaseApp(final Context context, String str, FirebaseOptions firebaseOptions) {
@@ -151,8 +151,7 @@ public class FirebaseApp {
         this.componentRuntime = ComponentRuntime.builder(UI_EXECUTOR).addLazyComponentRegistrars(ComponentDiscovery.forContext(context, ComponentDiscoveryService.class).discoverLazy()).addComponentRegistrar(new FirebaseCommonRegistrar()).addComponent(Component.of(context, Context.class, new Class[0])).addComponent(Component.of(this, FirebaseApp.class, new Class[0])).addComponent(Component.of(firebaseOptions, FirebaseOptions.class, new Class[0])).build();
         this.dataCollectionConfigStorage = new Lazy<>(new Provider() { // from class: com.google.firebase.FirebaseApp$$ExternalSyntheticLambda0
             @Override // com.google.firebase.inject.Provider
-            /* renamed from: get */
-            public final Object mo190get() {
+            public final Object get() {
                 DataCollectionConfigStorage lambda$new$0;
                 lambda$new$0 = FirebaseApp.this.lambda$new$0(context);
                 return lambda$new$0;

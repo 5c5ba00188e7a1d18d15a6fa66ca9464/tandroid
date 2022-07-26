@@ -1907,8 +1907,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 TLRPC$TL_pageBlockParagraph tLRPC$TL_pageBlockParagraph = new TLRPC$TL_pageBlockParagraph();
                 tLRPC$TL_pageBlockParagraph.text = tLRPC$TL_textAnchor.text;
                 int typeForBlock = this.adapter[0].getTypeForBlock(tLRPC$TL_pageBlockParagraph);
-                RecyclerView.ViewHolder mo1741onCreateViewHolder = this.adapter[0].mo1741onCreateViewHolder(null, typeForBlock);
-                this.adapter[0].bindBlockToHolder(typeForBlock, mo1741onCreateViewHolder, tLRPC$TL_pageBlockParagraph, 0, 0);
+                RecyclerView.ViewHolder onCreateViewHolder = this.adapter[0].onCreateViewHolder(null, typeForBlock);
+                this.adapter[0].bindBlockToHolder(typeForBlock, onCreateViewHolder, tLRPC$TL_pageBlockParagraph, 0, 0);
                 BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);
                 builder.setApplyTopPadding(false);
                 builder.setApplyBottomPadding(false);
@@ -1939,8 +1939,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 textView.setTextColor(getTextColor());
                 textView.setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
                 linearLayout.addView(textView, new LinearLayout.LayoutParams(-1, AndroidUtilities.dp(48.0f) + 1));
-                mo1741onCreateViewHolder.itemView.setTag("bottomSheet");
-                linearLayout.addView(mo1741onCreateViewHolder.itemView, LayoutHelper.createLinear(-1, -2, 0.0f, 7.0f, 0.0f, 0.0f));
+                onCreateViewHolder.itemView.setTag("bottomSheet");
+                linearLayout.addView(onCreateViewHolder.itemView, LayoutHelper.createLinear(-1, -2, 0.0f, 7.0f, 0.0f, 0.0f));
                 TextSelectionHelper<Cell>.TextSelectionOverlay overlayView = this.textSelectionHelperBottomSheet.getOverlayView(this.parentActivity);
                 FrameLayout frameLayout = new FrameLayout(this.parentActivity) { // from class: org.telegram.ui.ArticleViewer.5
                     @Override // android.view.ViewGroup, android.view.View
@@ -2004,9 +2004,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (num3 != null) {
                     if (num3.intValue() == -1) {
                         int typeForBlock2 = this.adapter[0].getTypeForBlock(tLRPC$PageBlock);
-                        RecyclerView.ViewHolder mo1741onCreateViewHolder2 = this.adapter[0].mo1741onCreateViewHolder(null, typeForBlock2);
-                        this.adapter[0].bindBlockToHolder(typeForBlock2, mo1741onCreateViewHolder2, tLRPC$PageBlock, 0, 0);
-                        mo1741onCreateViewHolder2.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
+                        RecyclerView.ViewHolder onCreateViewHolder2 = this.adapter[0].onCreateViewHolder(null, typeForBlock2);
+                        this.adapter[0].bindBlockToHolder(typeForBlock2, onCreateViewHolder2, tLRPC$PageBlock, 0, 0);
+                        onCreateViewHolder2.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
                         Integer num4 = (Integer) this.adapter[0].anchorsOffset.get(lowerCase);
                         if (num4.intValue() != -1) {
                             num = num4;
@@ -3572,12 +3572,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.listView[i2].setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda41
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
                 public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
-                    return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i3);
+                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
                 public /* synthetic */ void onDoubleTap(View view, int i3, float f, float f2) {
-                    RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i3, f, f2);
+                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i3, f, f2);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
@@ -3730,7 +3730,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 return lambda$setParentActivity$15;
             }
         });
-        this.searchField.addTextChangedListener(new AnonymousClass13());
+        this.searchField.addTextChangedListener(new 13());
         this.searchField.setImeOptions(33554435);
         this.searchField.setTextIsSelectable(false);
         this.searchContainer.addView(this.searchField, LayoutHelper.createFrame(-1, 36.0f, 16, 72.0f, 0.0f, 48.0f, 0.0f));
@@ -3948,12 +3948,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.pinchToZoomHelper.setCallback(new PinchToZoomHelper.Callback() { // from class: org.telegram.ui.ArticleViewer.20
             @Override // org.telegram.ui.PinchToZoomHelper.Callback
             public /* synthetic */ TextureView getCurrentTextureView() {
-                return PinchToZoomHelper.Callback.CC.$default$getCurrentTextureView(this);
+                return PinchToZoomHelper.Callback.-CC.$default$getCurrentTextureView(this);
             }
 
             @Override // org.telegram.ui.PinchToZoomHelper.Callback
             public /* synthetic */ void onZoomFinished(MessageObject messageObject) {
-                PinchToZoomHelper.Callback.CC.$default$onZoomFinished(this, messageObject);
+                PinchToZoomHelper.Callback.-CC.$default$onZoomFinished(this, messageObject);
             }
 
             @Override // org.telegram.ui.PinchToZoomHelper.Callback
@@ -4120,9 +4120,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ArticleViewer$13  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass13 implements TextWatcher {
+    public class 13 implements TextWatcher {
         @Override // android.text.TextWatcher
         public void afterTextChanged(Editable editable) {
         }
@@ -4131,7 +4130,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
 
-        AnonymousClass13() {
+        13() {
         }
 
         @Override // android.text.TextWatcher
@@ -4154,7 +4153,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     ArticleViewer.this.clearButton.animate().setInterpolator(new DecelerateInterpolator()).alpha(0.0f).setDuration(180L).scaleY(0.0f).scaleX(0.0f).rotation(45.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.ArticleViewer$13$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            ArticleViewer.AnonymousClass13.this.lambda$onTextChanged$0();
+                            ArticleViewer.13.this.lambda$onTextChanged$0();
                         }
                     }).start();
                     return;
@@ -4510,7 +4509,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         TLRPC$PageBlock tLRPC$PageBlock;
         String lowerCase;
         String str2;
-        AnonymousClass1 anonymousClass1;
+        1 r11;
         TLRPC$PageBlock tLRPC$PageBlock2;
         final ArrayList arrayList2 = new ArrayList();
         int size = arrayList.size();
@@ -4528,20 +4527,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 str2 = str3;
                 if (!TextUtils.isEmpty(text)) {
                     lowerCase = text.toString().toLowerCase();
-                    anonymousClass1 = str3;
+                    r11 = str3;
                 }
                 lowerCase = str2;
-                anonymousClass1 = str2;
+                r11 = str2;
             } else {
                 String str4 = null;
                 tLRPC$PageBlock = tLRPC$PageBlock3;
                 str2 = str4;
                 if (obj instanceof String) {
                     lowerCase = ((String) obj).toLowerCase();
-                    anonymousClass1 = str4;
+                    r11 = str4;
                 }
                 lowerCase = str2;
-                anonymousClass1 = str2;
+                r11 = str2;
             }
             if (lowerCase != null) {
                 int i3 = 0;
@@ -4646,9 +4645,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     Integer num = (Integer) this.adapter[0].searchTextOffset.get(str);
                     if (num == null) {
                         int typeForBlock = this.adapter[0].getTypeForBlock(searchResult.block);
-                        RecyclerView.ViewHolder mo1741onCreateViewHolder = this.adapter[0].mo1741onCreateViewHolder(null, typeForBlock);
-                        this.adapter[0].bindBlockToHolder(typeForBlock, mo1741onCreateViewHolder, searchResult.block, 0, 0);
-                        mo1741onCreateViewHolder.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
+                        RecyclerView.ViewHolder onCreateViewHolder = this.adapter[0].onCreateViewHolder(null, typeForBlock);
+                        this.adapter[0].bindBlockToHolder(typeForBlock, onCreateViewHolder, searchResult.block, 0, 0);
+                        onCreateViewHolder.itemView.measure(View.MeasureSpec.makeMeasureSpec(this.listView[0].getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(0, 0));
                         num = (Integer) this.adapter[0].searchTextOffset.get(str);
                         if (num == null) {
                             num = 0;
@@ -4886,7 +4885,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             };
             animatorSet.setDuration(150L);
             animatorSet.setInterpolator(this.interpolator);
-            animatorSet.addListener(new AnonymousClass23());
+            animatorSet.addListener(new 23());
             this.transitionAnimationStartTime = System.currentTimeMillis();
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda26
                 @Override // java.lang.Runnable
@@ -4932,7 +4931,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         };
         animatorSet2.setDuration(150L);
         animatorSet2.setInterpolator(this.interpolator);
-        animatorSet2.addListener(new AnonymousClass23());
+        animatorSet2.addListener(new 23());
         this.transitionAnimationStartTime = System.currentTimeMillis();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda26
             @Override // java.lang.Runnable
@@ -5032,10 +5031,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ArticleViewer$23  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass23 extends AnimatorListenerAdapter {
-        AnonymousClass23() {
+    public class 23 extends AnimatorListenerAdapter {
+        23() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -5043,7 +5041,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$23$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ArticleViewer.AnonymousClass23.this.lambda$onAnimationEnd$0();
+                    ArticleViewer.23.this.lambda$onAnimationEnd$0();
                 }
             });
         }
@@ -5921,7 +5919,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     return;
                 }
             }
-            AnonymousClass1 anonymousClass1 = null;
+            1 r13 = null;
             if (lastNonListPageBlock instanceof TLRPC$TL_pageBlockEmbedPost) {
                 TLRPC$TL_pageBlockEmbedPost tLRPC$TL_pageBlockEmbedPost = (TLRPC$TL_pageBlockEmbedPost) lastNonListPageBlock;
                 if (tLRPC$TL_pageBlockEmbedPost.blocks.isEmpty()) {
@@ -6071,7 +6069,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         tL_pageBlockListParent2 = tL_pageBlockListParent;
                         size3 = i8;
                         tLRPC$TL_pageBlockList2 = tLRPC$TL_pageBlockList;
-                        anonymousClass1 = null;
+                        r13 = null;
                     }
                     return;
                 }
@@ -6234,8 +6232,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextView textView;
             View blockVideoCell;
             if (i != 90) {
@@ -7260,7 +7257,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             seekBar.setDelegate(new SeekBar.SeekBarDelegate() { // from class: org.telegram.ui.ArticleViewer$BlockAudioCell$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
                 public /* synthetic */ void onSeekBarContinuousDrag(float f) {
-                    SeekBar.SeekBarDelegate.CC.$default$onSeekBarContinuousDrag(this, f);
+                    SeekBar.SeekBarDelegate.-CC.$default$onSeekBarContinuousDrag(this, f);
                 }
 
                 @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
@@ -8156,7 +8153,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.webView.getSettings().setMixedContentMode(0);
                 CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
             }
-            this.webView.setWebChromeClient(new AnonymousClass2(ArticleViewer.this));
+            this.webView.setWebChromeClient(new 2(ArticleViewer.this));
             this.webView.setWebViewClient(new WebViewClient(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockEmbedCell.3
                 @Override // android.webkit.WebViewClient
                 public void onLoadResource(WebView webView, String str) {
@@ -8181,10 +8178,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.ArticleViewer$BlockEmbedCell$2  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends WebChromeClient {
-            AnonymousClass2(ArticleViewer articleViewer) {
+        public class 2 extends WebChromeClient {
+            2(ArticleViewer articleViewer) {
             }
 
             @Override // android.webkit.WebChromeClient
@@ -8200,7 +8196,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockEmbedCell$2$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            ArticleViewer.BlockEmbedCell.AnonymousClass2.this.lambda$onShowCustomView$0();
+                            ArticleViewer.BlockEmbedCell.2.this.lambda$onShowCustomView$0();
                         }
                     }, 100L);
                     return;
@@ -9331,8 +9327,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             RecyclerListView recyclerListView2 = this.innerListView;
             RecyclerView.Adapter adapter = new RecyclerView.Adapter(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.5
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-                /* renamed from: onCreateViewHolder */
-                public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                     View blockPhotoCell;
                     if (i == 0) {
                         BlockCollageCell blockCollageCell = BlockCollageCell.this;
@@ -9569,13 +9564,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             ViewPager viewPager2 = this.innerListView;
             PagerAdapter pagerAdapter = new PagerAdapter(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.3
 
-                /* renamed from: org.telegram.ui.ArticleViewer$BlockSlideshowCell$3$ObjectContainer */
                 /* loaded from: classes3.dex */
                 class ObjectContainer {
                     private TLRPC$PageBlock block;
                     private View view;
 
-                    ObjectContainer(AnonymousClass3 anonymousClass3) {
+                    ObjectContainer(3 r1) {
                     }
                 }
 
@@ -9599,8 +9593,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
                 /* JADX WARN: Multi-variable type inference failed */
                 @Override // androidx.viewpager.widget.PagerAdapter
-                /* renamed from: instantiateItem */
-                public Object mo1563instantiateItem(ViewGroup viewGroup, int i) {
+                public Object instantiateItem(ViewGroup viewGroup, int i) {
                     BlockVideoCell blockVideoCell;
                     TLRPC$PageBlock tLRPC$PageBlock = BlockSlideshowCell.this.currentBlock.items.get(i);
                     if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPhoto) {
@@ -9812,9 +9805,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (this.currentBlock.blockItem != null) {
                     int typeForBlock = this.parentAdapter.getTypeForBlock(this.currentBlock.blockItem);
                     this.currentBlockType = typeForBlock;
-                    RecyclerView.ViewHolder mo1741onCreateViewHolder = this.parentAdapter.mo1741onCreateViewHolder(this, typeForBlock);
-                    this.blockLayout = mo1741onCreateViewHolder;
-                    addView(mo1741onCreateViewHolder.itemView);
+                    RecyclerView.ViewHolder onCreateViewHolder = this.parentAdapter.onCreateViewHolder(this, typeForBlock);
+                    this.blockLayout = onCreateViewHolder;
+                    addView(onCreateViewHolder.itemView);
                 }
             }
             if (this.currentBlock.blockItem != null) {
@@ -10123,9 +10116,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (this.currentBlock.blockItem != null) {
                     int typeForBlock = this.parentAdapter.getTypeForBlock(this.currentBlock.blockItem);
                     this.currentBlockType = typeForBlock;
-                    RecyclerView.ViewHolder mo1741onCreateViewHolder = this.parentAdapter.mo1741onCreateViewHolder(this, typeForBlock);
-                    this.blockLayout = mo1741onCreateViewHolder;
-                    addView(mo1741onCreateViewHolder.itemView);
+                    RecyclerView.ViewHolder onCreateViewHolder = this.parentAdapter.onCreateViewHolder(this, typeForBlock);
+                    this.blockLayout = onCreateViewHolder;
+                    addView(onCreateViewHolder.itemView);
                 }
             }
             if (this.currentBlock.blockItem != null) {

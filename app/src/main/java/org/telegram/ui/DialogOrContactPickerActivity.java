@@ -179,7 +179,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         this.scrollSlidingTextTabStrip.setDelegate(new ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity.3
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
             public /* synthetic */ void onSamePageSelected() {
-                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.CC.$default$onSamePageSelected(this);
+                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.-CC.$default$onSamePageSelected(this);
             }
 
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
@@ -453,8 +453,8 @@ public class DialogOrContactPickerActivity extends BaseFragment {
                                     DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DialogOrContactPickerActivity.this.viewPages[0].selectedType, 1.0f);
                                 }
                                 DialogOrContactPickerActivity.this.tabsAnimationInProgress = false;
-                                AnonymousClass4.this.maybeStartTracking = false;
-                                AnonymousClass4.this.startedTracking = false;
+                                4.this.maybeStartTracking = false;
+                                4.this.startedTracking = false;
                                 ((BaseFragment) DialogOrContactPickerActivity.this).actionBar.setEnabled(true);
                                 DialogOrContactPickerActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
                             }

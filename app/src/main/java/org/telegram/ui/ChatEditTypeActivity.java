@@ -399,12 +399,12 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.ChatEditTypeActivity.5
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void editLink() {
-                LinkActionView.Delegate.CC.$default$editLink(this);
+                LinkActionView.Delegate.-CC.$default$editLink(this);
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void removeLink() {
-                LinkActionView.Delegate.CC.$default$removeLink(this);
+                LinkActionView.Delegate.-CC.$default$removeLink(this);
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -1118,7 +1118,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundGray"));

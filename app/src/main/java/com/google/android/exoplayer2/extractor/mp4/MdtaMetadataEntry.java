@@ -9,17 +9,13 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class MdtaMetadataEntry implements Metadata.Entry {
     public static final Parcelable.Creator<MdtaMetadataEntry> CREATOR = new Parcelable.Creator<MdtaMetadataEntry>() { // from class: com.google.android.exoplayer2.extractor.mp4.MdtaMetadataEntry.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public MdtaMetadataEntry mo92createFromParcel(Parcel parcel) {
+        public MdtaMetadataEntry createFromParcel(Parcel parcel) {
             return new MdtaMetadataEntry(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public MdtaMetadataEntry[] mo93newArray(int i) {
+        public MdtaMetadataEntry[] newArray(int i) {
             return new MdtaMetadataEntry[i];
         }
     };
@@ -35,12 +31,12 @@ public final class MdtaMetadataEntry implements Metadata.Entry {
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ byte[] getWrappedMetadataBytes() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataBytes(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ Format getWrappedMetadataFormat() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataFormat(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
     public MdtaMetadataEntry(String str, byte[] bArr, int i, int i2) {

@@ -74,7 +74,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         iArr2[0] = i;
         sampleQueueArr[0] = sampleQueue;
         while (i2 < length) {
-            SampleQueue sampleQueue2 = new SampleQueue(allocator, (Looper) Assertions.checkNotNull(Looper.myLooper()), DrmSessionManager.CC.getDummyDrmSessionManager());
+            SampleQueue sampleQueue2 = new SampleQueue(allocator, (Looper) Assertions.checkNotNull(Looper.myLooper()), DrmSessionManager.-CC.getDummyDrmSessionManager());
             this.embeddedSampleQueues[i2] = sampleQueue2;
             int i4 = i2 + 1;
             sampleQueueArr[i4] = sampleQueue2;

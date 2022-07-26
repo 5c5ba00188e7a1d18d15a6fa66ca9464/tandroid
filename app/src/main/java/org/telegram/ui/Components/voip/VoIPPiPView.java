@@ -121,7 +121,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraFirstFrameAvailable() {
-        VoIPService.StateListener.CC.$default$onCameraFirstFrameAvailable(this);
+        VoIPService.StateListener.-CC.$default$onCameraFirstFrameAvailable(this);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
@@ -158,8 +158,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         instance.setRelativePosition(sharedPreferences.getFloat("relativeX", 1.0f), sharedPreferences.getFloat("relativeY", 0.0f));
         NotificationCenter.getGlobalInstance().addObserver(instance, NotificationCenter.didEndCall);
         windowManager.addView(instance.windowView, createWindowLayoutParams);
-        instance.currentUserTextureView.renderer.init(VideoCapturerDevice.eglBase.mo2309getEglBaseContext(), null);
-        instance.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.mo2309getEglBaseContext(), null);
+        instance.currentUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
+        instance.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
         if (i4 != 0) {
             if (i4 != 1) {
                 return;
@@ -753,7 +753,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                     }
                 });
                 ofFloat.setDuration(300L).setInterpolator(CubicBezierInterpolator.DEFAULT);
-                ofFloat.addListener(new AnonymousClass3(z));
+                ofFloat.addListener(new 3(z));
                 ofFloat.start();
                 VoIPPiPView.this.expandAnimator = ofFloat;
             }
@@ -820,12 +820,11 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$3  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass3 extends AnimatorListenerAdapter {
+        public class 3 extends AnimatorListenerAdapter {
             final /* synthetic */ boolean val$expanded;
 
-            AnonymousClass3(boolean z) {
+            3(boolean z) {
                 this.val$expanded = z;
             }
 
@@ -841,7 +840,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$3$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        VoIPPiPView.FloatingView.AnonymousClass3.this.lambda$onAnimationEnd$0(z);
+                        VoIPPiPView.FloatingView.3.this.lambda$onAnimationEnd$0(z);
                     }
                 }, 64L);
             }
@@ -892,8 +891,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             if (eglBase == null) {
                 return;
             }
-            voIPPiPView2.currentUserTextureView.renderer.init(eglBase.mo2309getEglBaseContext(), null);
-            voIPPiPView2.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.mo2309getEglBaseContext(), null);
+            voIPPiPView2.currentUserTextureView.renderer.init(eglBase.getEglBaseContext(), null);
+            voIPPiPView2.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
             if (VoIPService.getSharedInstance() == null) {
                 return;
             }

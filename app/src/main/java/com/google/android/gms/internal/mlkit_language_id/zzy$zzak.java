@@ -18,19 +18,19 @@ public final class zzy$zzak extends zzeo<zzy$zzak, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        UNKNOWN_STATUS(0),
-        EXPLICITLY_REQUESTED(1),
-        IMPLICITLY_REQUESTED(2),
-        MODEL_INFO_RETRIEVAL_SUCCEEDED(3),
-        MODEL_INFO_RETRIEVAL_FAILED(4),
-        SCHEDULED(5),
-        DOWNLOADING(6),
-        SUCCEEDED(7),
-        FAILED(8),
-        LIVE(9),
-        UPDATE_AVAILABLE(10),
-        DOWNLOADED(11),
-        STARTED(12);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5),
+        zzg(6),
+        zzh(7),
+        zzi(8),
+        zzj(9),
+        zzk(10),
+        zzl(11),
+        zzm(12);
         
         private final int zzo;
 

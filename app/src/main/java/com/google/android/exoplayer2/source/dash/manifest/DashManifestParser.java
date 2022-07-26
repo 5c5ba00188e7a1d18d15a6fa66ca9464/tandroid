@@ -50,10 +50,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-    /* renamed from: parse */
-    public DashManifest mo164parse(Uri uri, InputStream inputStream) throws IOException {
+    public DashManifest parse(Uri uri, InputStream inputStream) throws IOException {
         try {
             XmlPullParser newPullParser = this.xmlParserFactory.newPullParser();
             newPullParser.setInput(inputStream, null);

@@ -199,8 +199,7 @@ public class BaseAdapter {
         }
 
         @Override // com.huawei.hms.support.api.PendingResultImpl
-        /* renamed from: onComplete  reason: avoid collision after fix types in other method */
-        public ResolveResult<CoreBaseResponse> mo234onComplete(CoreBaseResponse coreBaseResponse) {
+        public ResolveResult<CoreBaseResponse> onComplete(CoreBaseResponse coreBaseResponse) {
             ResolveResult<CoreBaseResponse> resolveResult = new ResolveResult<>(coreBaseResponse);
             resolveResult.setStatus(Status.SUCCESS);
             return resolveResult;

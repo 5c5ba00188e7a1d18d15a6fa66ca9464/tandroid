@@ -7,7 +7,7 @@ import j$.util.function.Consumer;
 abstract class zzdo implements zzds, Iterator {
     @Override // j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.CC.$default$forEachRemaining(this, consumer);
+        Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
@@ -16,8 +16,7 @@ abstract class zzdo implements zzds, Iterator {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public /* synthetic */ Object mo335next() {
+    public /* synthetic */ Object next() {
         return Byte.valueOf(zza());
     }
 }

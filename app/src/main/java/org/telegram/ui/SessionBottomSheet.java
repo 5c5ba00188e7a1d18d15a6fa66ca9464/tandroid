@@ -221,7 +221,7 @@ public class SessionBottomSheet extends BottomSheet {
             textView3.setTextColor(Theme.getColor("featuredStickers_buttonText"));
             textView3.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("chat_attachAudioBackground"), ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhite"), 120)));
             linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, 15.0f, 16.0f, 16.0f));
-            textView3.setOnClickListener(new AnonymousClass8(callback, tLRPC$TL_authorization, baseFragment));
+            textView3.setOnClickListener(new 8(callback, tLRPC$TL_authorization, baseFragment));
         }
         ScrollView scrollView = new ScrollView(parentActivity);
         scrollView.addView(linearLayout);
@@ -229,14 +229,13 @@ public class SessionBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.SessionBottomSheet$8  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass8 implements View.OnClickListener {
+    public class 8 implements View.OnClickListener {
         final /* synthetic */ Callback val$callback;
         final /* synthetic */ BaseFragment val$fragment;
         final /* synthetic */ TLRPC$TL_authorization val$session;
 
-        AnonymousClass8(Callback callback, TLRPC$TL_authorization tLRPC$TL_authorization, BaseFragment baseFragment) {
+        8(Callback callback, TLRPC$TL_authorization tLRPC$TL_authorization, BaseFragment baseFragment) {
             this.val$callback = callback;
             this.val$session = tLRPC$TL_authorization;
             this.val$fragment = baseFragment;
@@ -253,7 +252,7 @@ public class SessionBottomSheet extends BottomSheet {
             builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet$8$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
-                    SessionBottomSheet.AnonymousClass8.this.lambda$onClick$0(callback, tLRPC$TL_authorization, dialogInterface, i);
+                    SessionBottomSheet.8.this.lambda$onClick$0(callback, tLRPC$TL_authorization, dialogInterface, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);

@@ -580,9 +580,9 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         this.fragmentView = frameLayout;
         FrameLayout frameLayout2 = frameLayout;
         frameLayout2.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(context);
-        this.listView = anonymousClass2;
-        ((DefaultItemAnimator) anonymousClass2.getItemAnimator()).setDelayAnimations(false);
+        2 r2 = new 2(context);
+        this.listView = r2;
+        ((DefaultItemAnimator) r2.getItemAnimator()).setDelayAnimations(false);
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         this.listView.setVerticalScrollBarEnabled(false);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new TouchHelperCallback());
@@ -596,12 +596,12 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.FiltersSetupActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
-                return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i);
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i, f, f2);
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
@@ -613,10 +613,9 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.FiltersSetupActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends RecyclerListView {
-        AnonymousClass2(Context context) {
+    public class 2 extends RecyclerListView {
+        2(Context context) {
             super(context);
         }
 
@@ -626,7 +625,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$2$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        FiltersSetupActivity.AnonymousClass2.this.lambda$onTouchEvent$0();
+                        FiltersSetupActivity.2.this.lambda$onTouchEvent$0();
                     }
                 }, 250L);
             }
@@ -847,8 +846,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             SuggestedFilterCell suggestedFilterCell;
             if (i == 0) {
                 View headerCell = new HeaderCell(this.mContext);

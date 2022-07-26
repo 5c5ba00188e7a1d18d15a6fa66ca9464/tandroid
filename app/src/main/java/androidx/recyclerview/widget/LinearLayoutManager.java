@@ -1383,17 +1383,13 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
     /* loaded from: classes.dex */
     public static class SavedState implements Parcelable {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() { // from class: androidx.recyclerview.widget.LinearLayoutManager.SavedState.1
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: createFromParcel */
-            public SavedState mo26createFromParcel(Parcel parcel) {
+            public SavedState createFromParcel(Parcel parcel) {
                 return new SavedState(parcel);
             }
 
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: newArray */
-            public SavedState[] mo27newArray(int i) {
+            public SavedState[] newArray(int i) {
                 return new SavedState[i];
             }
         };

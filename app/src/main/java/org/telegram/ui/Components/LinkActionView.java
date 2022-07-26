@@ -72,9 +72,8 @@ public class LinkActionView extends LinearLayout {
     /* loaded from: classes3.dex */
     public interface Delegate {
 
-        /* renamed from: org.telegram.ui.Components.LinkActionView$Delegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$editLink(Delegate delegate) {
             }
 
@@ -358,7 +357,7 @@ public class LinkActionView extends LinearLayout {
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (view2.getParent() != null) {
-                            AnonymousClass3 anonymousClass3 = AnonymousClass3.this;
+                            3 r2 = 3.this;
                             container.removeView(view2);
                         }
                         container.getViewTreeObserver().removeOnPreDrawListener(onPreDrawListener);

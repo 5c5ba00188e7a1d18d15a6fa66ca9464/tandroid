@@ -11,7 +11,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-import com.google.android.gms.internal.p001authapi.zbax;
+import com.google.android.gms.internal.auth-api.zbax;
 /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
 /* loaded from: classes.dex */
 public final class zbe extends GmsClient<zbs> {

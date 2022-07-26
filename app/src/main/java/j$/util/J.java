@@ -61,7 +61,7 @@ public class J implements u {
         if (it instanceof Iterator) {
             ((Iterator) it).forEachRemaining(consumer);
         } else {
-            Iterator.CC.$default$forEachRemaining(it, consumer);
+            Iterator.-CC.$default$forEachRemaining(it, consumer);
         }
     }
 
@@ -84,8 +84,7 @@ public class J implements u {
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    public u mo350trySplit() {
+    public u trySplit() {
         long j;
         java.util.Iterator it = this.b;
         if (it == null) {

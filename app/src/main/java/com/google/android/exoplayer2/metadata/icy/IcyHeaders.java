@@ -12,17 +12,13 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public final class IcyHeaders implements Metadata.Entry {
     public static final Parcelable.Creator<IcyHeaders> CREATOR = new Parcelable.Creator<IcyHeaders>() { // from class: com.google.android.exoplayer2.metadata.icy.IcyHeaders.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public IcyHeaders mo104createFromParcel(Parcel parcel) {
+        public IcyHeaders createFromParcel(Parcel parcel) {
             return new IcyHeaders(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public IcyHeaders[] mo105newArray(int i) {
+        public IcyHeaders[] newArray(int i) {
             return new IcyHeaders[i];
         }
     };
@@ -40,12 +36,12 @@ public final class IcyHeaders implements Metadata.Entry {
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ byte[] getWrappedMetadataBytes() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataBytes(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* synthetic */ Format getWrappedMetadataFormat() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataFormat(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:12:0x005e  */

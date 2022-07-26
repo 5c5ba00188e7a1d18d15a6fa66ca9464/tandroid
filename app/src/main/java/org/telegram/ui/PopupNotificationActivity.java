@@ -311,7 +311,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.chatActivityEnterView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() { // from class: org.telegram.ui.PopupNotificationActivity.3
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ void bottomPanelTranslationYChanged(float f) {
-                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$bottomPanelTranslationYChanged(this, f);
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$bottomPanelTranslationYChanged(this, f);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
@@ -320,27 +320,27 @@ public class PopupNotificationActivity extends Activity implements NotificationC
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ int getContentViewHeight() {
-                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$getContentViewHeight(this);
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getContentViewHeight(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ TLRPC$TL_channels_sendAsPeers getSendAsPeers() {
-                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$getSendAsPeers(this);
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$getSendAsPeers(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ boolean hasForwardingMessages() {
-                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$hasForwardingMessages(this);
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$hasForwardingMessages(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ boolean hasScheduledMessages() {
-                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$hasScheduledMessages(this);
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$hasScheduledMessages(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ int measureKeyboardHeight() {
-                return ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$measureKeyboardHeight(this);
+                return ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$measureKeyboardHeight(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
@@ -409,7 +409,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ void onTrendingStickersShowed(boolean z) {
-                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$onTrendingStickersShowed(this, z);
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$onTrendingStickersShowed(this, z);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
@@ -422,17 +422,17 @@ public class PopupNotificationActivity extends Activity implements NotificationC
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ void openScheduledMessages() {
-                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$openScheduledMessages(this);
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$openScheduledMessages(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ void prepareMessageSending() {
-                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$prepareMessageSending(this);
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$prepareMessageSending(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
             public /* synthetic */ void scrollToSendingMessage() {
-                ChatActivityEnterView.ChatActivityEnterViewDelegate.CC.$default$scrollToSendingMessage(this);
+                ChatActivityEnterView.ChatActivityEnterViewDelegate.-CC.$default$scrollToSendingMessage(this);
             }
 
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate

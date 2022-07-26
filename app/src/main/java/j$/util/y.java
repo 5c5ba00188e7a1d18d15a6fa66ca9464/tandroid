@@ -61,8 +61,7 @@ class y implements p.a, j$.util.function.l, Iterator {
     }
 
     @Override // j$.util.p.a, java.util.Iterator
-    /* renamed from: next */
-    public Integer mo337next() {
+    public Integer next() {
         if (!N.a) {
             return Integer.valueOf(nextInt());
         }
@@ -81,7 +80,7 @@ class y implements p.a, j$.util.function.l, Iterator {
 
     @Override // java.util.Iterator, j$.util.Iterator
     public /* synthetic */ void remove() {
-        Iterator.CC.a(this);
+        Iterator.-CC.a(this);
         throw null;
     }
 }

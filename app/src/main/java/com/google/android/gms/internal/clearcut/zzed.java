@@ -143,10 +143,10 @@ final class zzed {
         if (i3 > this.zzns) {
             this.zzns = i3;
         }
-        zzcb zzcbVar = zzcb.MAP;
+        zzcb zzcbVar = zzcb.zziw;
         if (i2 == zzcbVar.id()) {
             this.zznt++;
-        } else if (this.zzoa >= zzcb.DOUBLE_LIST.id() && this.zzoa <= zzcb.GROUP_LIST.id()) {
+        } else if (this.zzoa >= zzcb.zzhq.id() && this.zzoa <= zzcb.zziv.id()) {
             this.zznu++;
         }
         int i4 = this.zznx + 1;
@@ -170,8 +170,8 @@ final class zzed {
         this.zzog = null;
         if (zzda()) {
             this.zzob = this.zznh.next();
-            if (this.zzoa != zzcb.MESSAGE.id() + 51 && this.zzoa != zzcb.GROUP.id() + 51) {
-                if (this.zzoa == zzcb.ENUM.id() + 51) {
+            if (this.zzoa != zzcb.zzhh.id() + 51 && this.zzoa != zzcb.zzhp.id() + 51) {
+                if (this.zzoa == zzcb.zzhk.id() + 51) {
                 }
                 return true;
             }
@@ -181,11 +181,11 @@ final class zzed {
             if (zzde()) {
                 this.zzoc = this.zznh.next();
             }
-            if (this.zzoa == zzcb.MESSAGE.id() || this.zzoa == zzcb.GROUP.id()) {
+            if (this.zzoa == zzcb.zzhh.id() || this.zzoa == zzcb.zzhp.id()) {
                 type = this.zzod.getType();
             } else {
-                if (this.zzoa != zzcb.MESSAGE_LIST.id() && this.zzoa != zzcb.GROUP_LIST.id()) {
-                    if (this.zzoa != zzcb.ENUM.id() && this.zzoa != zzcb.ENUM_LIST.id() && this.zzoa != zzcb.ENUM_LIST_PACKED.id()) {
+                if (this.zzoa != zzcb.zzhz.id() && this.zzoa != zzcb.zziv.id()) {
+                    if (this.zzoa != zzcb.zzhk.id() && this.zzoa != zzcb.zzic.id() && this.zzoa != zzcb.zziq.id()) {
                         if (this.zzoa == zzcbVar.id()) {
                             this.zzog = zzcw();
                             if ((this.zznz & 2048) != 0) {
@@ -214,7 +214,7 @@ final class zzed {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzda() {
-        return this.zzoa > zzcb.MAP.id();
+        return this.zzoa > zzcb.zziw.id();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -248,7 +248,7 @@ final class zzed {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzde() {
-        return zzcz() && this.zzoa <= zzcb.GROUP.id();
+        return zzcz() && this.zzoa <= zzcb.zzhp.id();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

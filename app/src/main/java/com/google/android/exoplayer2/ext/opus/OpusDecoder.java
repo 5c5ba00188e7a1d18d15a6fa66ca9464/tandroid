@@ -114,10 +114,8 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    /* renamed from: createUnexpectedDecodeException */
-    public OpusDecoderException mo165createUnexpectedDecodeException(Throwable th) {
+    public OpusDecoderException createUnexpectedDecodeException(Throwable th) {
         return new OpusDecoderException("Unexpected decode error", th);
     }
 

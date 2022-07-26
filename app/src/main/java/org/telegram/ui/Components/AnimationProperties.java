@@ -99,15 +99,14 @@ public class AnimationProperties {
         /* JADX WARN: Multi-variable type inference failed */
         @Override // android.util.Property
         public /* bridge */ /* synthetic */ void set(Object obj, Float f) {
-            set2((FloatProperty<T>) obj, f);
+            set((FloatProperty<T>) obj, f);
         }
 
         public FloatProperty(String str) {
             super(Float.class, str);
         }
 
-        /* renamed from: set  reason: avoid collision after fix types in other method */
-        public final void set2(T t, Float f) {
+        public final void set(T t, Float f) {
             setValue(t, f.floatValue());
         }
     }
@@ -119,15 +118,14 @@ public class AnimationProperties {
         /* JADX WARN: Multi-variable type inference failed */
         @Override // android.util.Property
         public /* bridge */ /* synthetic */ void set(Object obj, Integer num) {
-            set2((IntProperty<T>) obj, num);
+            set((IntProperty<T>) obj, num);
         }
 
         public IntProperty(String str) {
             super(Integer.class, str);
         }
 
-        /* renamed from: set  reason: avoid collision after fix types in other method */
-        public final void set2(T t, Integer num) {
+        public final void set(T t, Integer num) {
             setValue(t, num.intValue());
         }
     }

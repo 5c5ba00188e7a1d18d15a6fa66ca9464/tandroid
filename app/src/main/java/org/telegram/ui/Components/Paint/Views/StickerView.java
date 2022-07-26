@@ -89,7 +89,7 @@ public class StickerView extends EntityView {
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver);
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
             }
         });
         updatePosition();
@@ -189,8 +189,7 @@ public class StickerView extends EntityView {
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    /* renamed from: createSelectionView */
-    protected EntityView.SelectionView mo1509createSelectionView() {
+    protected EntityView.SelectionView createSelectionView() {
         return new StickerViewSelectionView(this, getContext());
     }
 

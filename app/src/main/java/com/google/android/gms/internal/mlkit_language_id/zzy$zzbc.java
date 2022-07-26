@@ -18,13 +18,13 @@ public final class zzy$zzbc extends zzeo<zzy$zzbc, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        NO_ERROR(0),
-        STATUS_SENSITIVE_TOPIC(1),
-        STATUS_QUALITY_THRESHOLDED(2),
-        STATUS_INTERNAL_ERROR(3),
-        STATUS_NOT_SUPPORTED_LANGUAGE(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
-        STATUS_32_BIT_CPU(1001),
-        STATUS_32_BIT_APP(CommonCode.BusInterceptor.PRIVACY_CANCEL);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(FileLoader.MEDIA_DIR_VIDEO_PUBLIC),
+        zzf(1001),
+        zzg(CommonCode.BusInterceptor.PRIVACY_CANCEL);
         
         private final int zzi;
 

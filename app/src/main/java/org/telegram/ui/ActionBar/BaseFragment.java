@@ -724,15 +724,14 @@ public abstract class BaseFragment {
             return null;
         }
         ActionBarLayout[] actionBarLayoutArr = {new ActionBarLayout(getParentActivity())};
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(this, getParentActivity(), true, actionBarLayoutArr, baseFragment);
-        baseFragment.setParentDialog(anonymousClass1);
-        anonymousClass1.show();
+        1 r7 = new 1(this, getParentActivity(), true, actionBarLayoutArr, baseFragment);
+        baseFragment.setParentDialog(r7);
+        r7.show();
         return actionBarLayoutArr;
     }
 
-    /* renamed from: org.telegram.ui.ActionBar.BaseFragment$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    class AnonymousClass1 extends BottomSheet {
+    class 1 extends BottomSheet {
         final /* synthetic */ ActionBarLayout[] val$actionBarLayout;
         final /* synthetic */ BaseFragment val$fragment;
 
@@ -742,7 +741,7 @@ public abstract class BaseFragment {
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(BaseFragment baseFragment, Context context, boolean z, ActionBarLayout[] actionBarLayoutArr, final BaseFragment baseFragment2) {
+        1(BaseFragment baseFragment, Context context, boolean z, ActionBarLayout[] actionBarLayoutArr, final BaseFragment baseFragment2) {
             super(context, z);
             this.val$actionBarLayout = actionBarLayoutArr;
             this.val$fragment = baseFragment2;

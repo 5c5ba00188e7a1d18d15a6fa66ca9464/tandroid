@@ -32,14 +32,12 @@ final class P1 extends R1 implements w1 {
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: spliterator  reason: collision with other method in class */
-    public j$.util.w mo313spliterator() {
+    public j$.util.w spliterator() {
         return new g2(this);
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: spliterator */
-    public j$.util.u mo313spliterator() {
+    public j$.util.u spliterator() {
         return new g2(this);
     }
 }

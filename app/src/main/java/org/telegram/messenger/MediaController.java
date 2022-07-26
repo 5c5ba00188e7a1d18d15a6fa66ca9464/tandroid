@@ -266,7 +266,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private ArrayList<ByteBuffer> recordBuffers = new ArrayList<>();
     public int recordBufferSize = 1280;
     public int sampleRate = 48000;
-    private Runnable recordRunnable = new AnonymousClass2();
+    private Runnable recordRunnable = new 2();
     private final ValueAnimator.AnimatorUpdateListener audioVolumeUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.MediaController.3
         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
         public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -672,10 +672,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaController$2  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
-        AnonymousClass2() {
+    public class 2 implements Runnable {
+        2() {
         }
 
         /* JADX WARN: Removed duplicated region for block: B:47:0x0115  */
@@ -769,14 +768,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             MediaController.this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda2
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    MediaController.AnonymousClass2.this.lambda$run$1(byteBuffer, z);
+                                    MediaController.2.this.lambda$run$1(byteBuffer, z);
                                 }
                             });
                             MediaController.this.recordQueue.postRunnable(MediaController.this.recordRunnable);
                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    MediaController.AnonymousClass2.this.lambda$run$2(sqrt);
+                                    MediaController.2.this.lambda$run$2(sqrt);
                                 }
                             });
                         }
@@ -796,14 +795,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 MediaController.this.fileEncodingQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaController.AnonymousClass2.this.lambda$run$1(byteBuffer, z);
+                        MediaController.2.this.lambda$run$1(byteBuffer, z);
                     }
                 });
                 MediaController.this.recordQueue.postRunnable(MediaController.this.recordRunnable);
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaController.AnonymousClass2.this.lambda$run$2(sqrt2);
+                        MediaController.2.this.lambda$run$2(sqrt2);
                     }
                 });
             }
@@ -835,7 +834,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             MediaController.this.recordQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.AnonymousClass2.this.lambda$run$0(byteBuffer);
+                    MediaController.2.this.lambda$run$0(byteBuffer);
                 }
             });
         }
@@ -1191,22 +1190,21 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             FileLog.e(e);
         }
         try {
-            AnonymousClass4 anonymousClass4 = new AnonymousClass4();
+            4 r1 = new 4();
             TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
             if (telephonyManager == null) {
                 return;
             }
-            telephonyManager.listen(anonymousClass4, 32);
+            telephonyManager.listen(r1, 32);
         } catch (Exception e2) {
             FileLog.e(e2);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaController$4  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass4 extends PhoneStateListener {
-        AnonymousClass4() {
+    public class 4 extends PhoneStateListener {
+        4() {
         }
 
         @Override // android.telephony.PhoneStateListener
@@ -1214,7 +1212,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$4$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.AnonymousClass4.this.lambda$onCallStateChanged$0(i);
+                    MediaController.4.this.lambda$onCallStateChanged$0(i);
                 }
             });
         }
@@ -1341,17 +1339,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             messageObject.getFileName();
             Timer timer2 = new Timer();
             this.progressTimer = timer2;
-            timer2.schedule(new AnonymousClass5(messageObject), 0L, 17L);
+            timer2.schedule(new 5(messageObject), 0L, 17L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaController$5  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass5 extends TimerTask {
+    public class 5 extends TimerTask {
         final /* synthetic */ MessageObject val$currentPlayingMessageObject;
 
-        AnonymousClass5(MessageObject messageObject) {
+        5(MessageObject messageObject) {
             this.val$currentPlayingMessageObject = messageObject;
         }
 
@@ -1362,7 +1359,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$5$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaController.AnonymousClass5.this.lambda$run$1(messageObject);
+                        MediaController.5.this.lambda$run$1(messageObject);
                     }
                 });
             }
@@ -1409,7 +1406,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaController$5$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
-                                MediaController.AnonymousClass5.lambda$run$0(str, f);
+                                MediaController.5.lambda$run$0(str, f);
                             }
                         });
                     }
@@ -3131,7 +3128,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         this.playingMessageObject = messageObject;
         int i = this.playerNum + 1;
         this.playerNum = i;
-        videoPlayer.setDelegate(new AnonymousClass7(i, messageObject, null, true));
+        videoPlayer.setDelegate(new 7(i, messageObject, null, true));
         this.currentAspectRatioFrameLayoutReady = false;
         TextureView textureView = this.currentTextureView;
         if (textureView != null) {
@@ -3150,9 +3147,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaController$7  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass7 implements VideoPlayer.VideoPlayerDelegate {
+    public class 7 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ boolean val$destroyAtEnd;
         final /* synthetic */ MessageObject val$messageObject;
         final /* synthetic */ int[] val$playCount;
@@ -3160,24 +3156,24 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         }
 
-        AnonymousClass7(int i, MessageObject messageObject, int[] iArr, boolean z) {
+        7(int i, MessageObject messageObject, int[] iArr, boolean z) {
             this.val$tag = i;
             this.val$messageObject = messageObject;
             this.val$playCount = iArr;
@@ -3248,7 +3244,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             MediaController.this.pipRoundVideoView.show(MediaController.this.baseActivity, new Runnable() { // from class: org.telegram.messenger.MediaController$7$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    MediaController.AnonymousClass7.this.lambda$onSurfaceDestroyed$0();
+                                    MediaController.7.this.lambda$onSurfaceDestroyed$0();
                                 }
                             });
                         } catch (Exception unused) {
@@ -3328,7 +3324,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             VideoPlayer videoPlayer2 = new VideoPlayer(false);
             this.emojiSoundPlayer = videoPlayer2;
-            videoPlayer2.setDelegate(new AnonymousClass8(i));
+            videoPlayer2.setDelegate(new 8(i));
             this.emojiSoundPlayer.preparePlayer(Uri.fromFile(file), "other");
             this.emojiSoundPlayer.setStreamType(3);
             this.emojiSoundPlayer.play();
@@ -3344,9 +3340,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaController$8  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass8 implements VideoPlayer.VideoPlayerDelegate {
+    public class 8 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ int val$tag;
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -3359,17 +3354,17 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -3385,7 +3380,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public void onVideoSizeChanged(int i, int i2, int i3, float f) {
         }
 
-        AnonymousClass8(int i) {
+        8(int i) {
             this.val$tag = i;
         }
 
@@ -3395,7 +3390,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.AnonymousClass8.this.lambda$onStateChanged$0(i2, i);
+                    MediaController.8.this.lambda$onStateChanged$0(i2, i);
                 }
             });
         }
@@ -3528,7 +3523,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             int i = this.playerNum + 1;
             this.playerNum = i;
             final File file2 = pathToMessage;
-            videoPlayer.setDelegate(new AnonymousClass9(i, messageObject, iArr, z6));
+            videoPlayer.setDelegate(new 9(i, messageObject, iArr, z6));
             this.currentAspectRatioFrameLayoutReady = false;
             if (this.pipRoundVideoView != null || !MessagesController.getInstance(messageObject.currentAccount).isDialogVisible(messageObject.getDialogId(), messageObject.scheduled)) {
                 if (this.pipRoundVideoView == null) {
@@ -3635,17 +3630,17 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                     public /* bridge */ /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-                        VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+                        VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
                     }
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                     public /* bridge */ /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-                        VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+                        VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
                     }
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                     public /* bridge */ /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-                        VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+                        VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
                     }
 
                     @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -3889,9 +3884,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaController$9  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass9 implements VideoPlayer.VideoPlayerDelegate {
+    public class 9 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ boolean val$destroyAtEnd;
         final /* synthetic */ MessageObject val$messageObject;
         final /* synthetic */ int[] val$playCount;
@@ -3899,24 +3893,24 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* bridge */ /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         }
 
-        AnonymousClass9(int i, MessageObject messageObject, int[] iArr, boolean z) {
+        9(int i, MessageObject messageObject, int[] iArr, boolean z) {
             this.val$tag = i;
             this.val$messageObject = messageObject;
             this.val$playCount = iArr;
@@ -3987,7 +3981,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             MediaController.this.pipRoundVideoView.show(MediaController.this.baseActivity, new Runnable() { // from class: org.telegram.messenger.MediaController$9$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    MediaController.AnonymousClass9.this.lambda$onSurfaceDestroyed$0();
+                                    MediaController.9.this.lambda$onSurfaceDestroyed$0();
                                 }
                             });
                         } catch (Exception unused) {

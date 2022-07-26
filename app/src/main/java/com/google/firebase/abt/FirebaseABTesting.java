@@ -100,28 +100,28 @@ public class FirebaseABTesting {
     }
 
     private void addExperimentToAnalytics(AnalyticsConnector.ConditionalUserProperty conditionalUserProperty) {
-        this.analyticsConnector.mo190get().setConditionalUserProperty(conditionalUserProperty);
+        this.analyticsConnector.get().setConditionalUserProperty(conditionalUserProperty);
     }
 
     private void throwAbtExceptionIfAnalyticsIsNull() throws AbtException {
-        if (this.analyticsConnector.mo190get() != null) {
+        if (this.analyticsConnector.get() != null) {
             return;
         }
         throw new AbtException("The Analytics SDK is not available. Please check that the Analytics SDK is included in your app dependencies.");
     }
 
     private void removeExperimentFromAnalytics(String str) {
-        this.analyticsConnector.mo190get().clearConditionalUserProperty(str, null, null);
+        this.analyticsConnector.get().clearConditionalUserProperty(str, null, null);
     }
 
     private int getMaxUserPropertiesInAnalytics() {
         if (this.maxUserProperties == null) {
-            this.maxUserProperties = Integer.valueOf(this.analyticsConnector.mo190get().getMaxUserProperties(this.originService));
+            this.maxUserProperties = Integer.valueOf(this.analyticsConnector.get().getMaxUserProperties(this.originService));
         }
         return this.maxUserProperties.intValue();
     }
 
     private List<AnalyticsConnector.ConditionalUserProperty> getAllExperimentsInAnalytics() {
-        return this.analyticsConnector.mo190get().getConditionalUserProperties(this.originService, "");
+        return this.analyticsConnector.get().getConditionalUserProperties(this.originService, "");
     }
 }

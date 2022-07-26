@@ -36,7 +36,7 @@ abstract class d extends f {
     */
     public void compute() {
         Object obj;
-        j$.util.u mo350trySplit;
+        j$.util.u trySplit;
         j$.util.u uVar = this.b;
         long estimateSize = uVar.estimateSize();
         long j = this.c;
@@ -67,16 +67,16 @@ abstract class d extends f {
             if (z2) {
                 obj = dVar.k();
                 break;
-            } else if (estimateSize <= j || (mo350trySplit = uVar.mo350trySplit()) == null) {
+            } else if (estimateSize <= j || (trySplit = uVar.trySplit()) == null) {
                 break;
             } else {
-                d dVar3 = (d) dVar.f(mo350trySplit);
+                d dVar3 = (d) dVar.f(trySplit);
                 dVar.d = dVar3;
                 d dVar4 = (d) dVar.f(uVar);
                 dVar.e = dVar4;
                 dVar.setPendingCount(1);
                 if (z) {
-                    uVar = mo350trySplit;
+                    uVar = trySplit;
                     dVar = dVar3;
                     dVar3 = dVar4;
                 } else {

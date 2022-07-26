@@ -61,9 +61,8 @@ public class Crashes extends AbstractAppCenterService {
     private final Map<UUID, ErrorLogReport> mErrorReportCache = new LinkedHashMap();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.microsoft.appcenter.crashes.Crashes$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
+    public class 1 implements Runnable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -660,7 +659,7 @@ public class Crashes extends AbstractAppCenterService {
         private DefaultCrashesListener() {
         }
 
-        /* synthetic */ DefaultCrashesListener(AnonymousClass1 anonymousClass1) {
+        /* synthetic */ DefaultCrashesListener(1 r1) {
             this();
         }
     }
@@ -671,7 +670,7 @@ public class Crashes extends AbstractAppCenterService {
         private final ManagedErrorLog log;
         private final ErrorReport report;
 
-        /* synthetic */ ErrorLogReport(ManagedErrorLog managedErrorLog, ErrorReport errorReport, AnonymousClass1 anonymousClass1) {
+        /* synthetic */ ErrorLogReport(ManagedErrorLog managedErrorLog, ErrorReport errorReport, 1 r3) {
             this(managedErrorLog, errorReport);
         }
 

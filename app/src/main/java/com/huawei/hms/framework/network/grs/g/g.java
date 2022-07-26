@@ -20,15 +20,13 @@ public class g extends a implements Callable<d> {
         super(str, i2, cVar, context, str2, grsBaseInfo, cVar2);
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     /* JADX WARN: Not initialized variable reg: 9, insn: 0x0130: MOVE  (r6 I:??[OBJECT, ARRAY]) = (r9 I:??[OBJECT, ARRAY]), block:B:79:0x0130 */
     /* JADX WARN: Removed duplicated region for block: B:39:0x0123  */
     @Override // java.util.concurrent.Callable
-    /* renamed from: call */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public d mo228call() {
+    public d call() {
         HttpsURLConnection httpsURLConnection;
         HttpsURLConnection httpsURLConnection2;
         long j;

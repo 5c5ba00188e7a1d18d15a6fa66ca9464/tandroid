@@ -11,9 +11,8 @@ public class FullLifecycleObserverAdapter implements GenericLifecycleObserver {
         this.mObserver = fullLifecycleObserver;
     }
 
-    /* renamed from: androidx.lifecycle.FullLifecycleObserverAdapter$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    static /* synthetic */ class AnonymousClass1 {
+    static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$Event;
 
         static {
@@ -52,7 +51,7 @@ public class FullLifecycleObserverAdapter implements GenericLifecycleObserver {
 
     @Override // androidx.lifecycle.GenericLifecycleObserver
     public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-        switch (AnonymousClass1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[event.ordinal()]) {
+        switch (1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[event.ordinal()]) {
             case 1:
                 this.mObserver.onCreate(lifecycleOwner);
                 return;

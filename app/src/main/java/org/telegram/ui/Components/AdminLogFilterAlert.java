@@ -89,7 +89,7 @@ public class AdminLogFilterAlert extends BottomSheet {
             tLRPC$TL_channelAdminLogEventsFilter2.invites = tLRPC$TL_channelAdminLogEventsFilter.invites;
         }
         if (longSparseArray != null) {
-            this.selectedAdmins = longSparseArray.m2clone();
+            this.selectedAdmins = longSparseArray.clone();
         }
         this.isMegagroup = z;
         if (z) {
@@ -471,8 +471,7 @@ public class AdminLogFilterAlert extends BottomSheet {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout checkBoxCell;
             FrameLayout frameLayout;
             if (i == 0) {

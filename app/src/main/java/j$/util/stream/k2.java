@@ -24,7 +24,7 @@ abstract class k2 implements j$.util.u {
             if (a1 != null) {
                 if (a1.p() != 0) {
                     for (int p = a1.p() - 1; p >= 0; p--) {
-                        deque.addFirst(a1.mo316b(p));
+                        deque.addFirst(a1.b(p));
                     }
                 } else if (a1.count() > 0) {
                     return a1;
@@ -51,7 +51,7 @@ abstract class k2 implements j$.util.u {
             return uVar.estimateSize();
         }
         for (int i = this.b; i < this.a.p(); i++) {
-            j += this.a.mo316b(i).count();
+            j += this.a.b(i).count();
         }
         return j;
     }
@@ -63,7 +63,7 @@ abstract class k2 implements j$.util.u {
         while (true) {
             p--;
             if (p >= this.b) {
-                arrayDeque.addFirst(this.a.mo316b(p));
+                arrayDeque.addFirst(this.a.b(p));
             } else {
                 return arrayDeque;
             }
@@ -97,7 +97,7 @@ abstract class k2 implements j$.util.u {
                 this.a = null;
                 return false;
             }
-            uVar = a.mo313spliterator();
+            uVar = a.spliterator();
         }
         this.d = uVar;
         return true;
@@ -109,56 +109,51 @@ abstract class k2 implements j$.util.u {
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    public /* bridge */ /* synthetic */ j$.util.t mo350trySplit() {
-        return (j$.util.t) mo350trySplit();
+    public /* bridge */ /* synthetic */ j$.util.t trySplit() {
+        return (j$.util.t) trySplit();
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ u.a mo350trySplit() {
-        return (u.a) mo350trySplit();
+    public /* bridge */ /* synthetic */ u.a trySplit() {
+        return (u.a) trySplit();
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    public final j$.util.u mo350trySplit() {
+    public final j$.util.u trySplit() {
         A1 a1 = this.a;
         if (a1 == null || this.d != null) {
             return null;
         }
         j$.util.u uVar = this.c;
         if (uVar != null) {
-            return uVar.mo350trySplit();
+            return uVar.trySplit();
         }
         if (this.b < a1.p() - 1) {
             A1 a12 = this.a;
             int i = this.b;
             this.b = i + 1;
-            return a12.mo316b(i).mo313spliterator();
+            return a12.b(i).spliterator();
         }
-        A1 mo316b = this.a.mo316b(this.b);
-        this.a = mo316b;
-        if (mo316b.p() == 0) {
-            j$.util.u mo313spliterator = this.a.mo313spliterator();
-            this.c = mo313spliterator;
-            return mo313spliterator.mo350trySplit();
+        A1 b = this.a.b(this.b);
+        this.a = b;
+        if (b.p() == 0) {
+            j$.util.u spliterator = this.a.spliterator();
+            this.c = spliterator;
+            return spliterator.trySplit();
         }
         this.b = 0;
         A1 a13 = this.a;
         this.b = 1;
-        return a13.mo316b(0).mo313spliterator();
+        return a13.b(0).spliterator();
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ j$.util.v mo350trySplit() {
-        return (j$.util.v) mo350trySplit();
+    public /* bridge */ /* synthetic */ j$.util.v trySplit() {
+        return (j$.util.v) trySplit();
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    public /* bridge */ /* synthetic */ j$.util.w mo350trySplit() {
-        return (j$.util.w) mo350trySplit();
+    public /* bridge */ /* synthetic */ j$.util.w trySplit() {
+        return (j$.util.w) trySplit();
     }
 }

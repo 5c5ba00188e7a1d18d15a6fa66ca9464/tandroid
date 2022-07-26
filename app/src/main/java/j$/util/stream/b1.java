@@ -12,16 +12,14 @@ abstract class b1 extends d1 {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* bridge */ /* synthetic */ e1 mo332parallel() {
-        mo332parallel();
+    public /* bridge */ /* synthetic */ e1 parallel() {
+        parallel();
         return this;
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* bridge */ /* synthetic */ e1 mo333sequential() {
-        mo333sequential();
+    public /* bridge */ /* synthetic */ e1 sequential() {
+        sequential();
         return this;
     }
 }

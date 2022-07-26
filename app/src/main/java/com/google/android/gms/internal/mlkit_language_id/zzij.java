@@ -2,9 +2,9 @@ package com.google.android.gms.internal.mlkit_language_id;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzij implements zzet {
-    UNKNOWN_EVENT_TYPE(0),
-    VALIDATION_TEST(1),
-    CONTINUOUS_FEEDBACK(2);
+    zza(0),
+    zzb(1),
+    zzc(2);
     
     private final int zze;
 

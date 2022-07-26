@@ -754,7 +754,7 @@ public class CropAreaView extends ViewGroup {
             if (Math.abs(f4) > Math.abs(f5)) {
                 z = true;
             }
-            switch (AnonymousClass3.$SwitchMap$org$telegram$ui$Components$Crop$CropAreaView$Control[this.activeControl.ordinal()]) {
+            switch (3.$SwitchMap$org$telegram$ui$Components$Crop$CropAreaView$Control[this.activeControl.ordinal()]) {
                 case 1:
                     RectF rectF = this.tempRect;
                     rectF.left += f4;
@@ -932,9 +932,8 @@ public class CropAreaView extends ViewGroup {
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.Crop.CropAreaView$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    static /* synthetic */ class AnonymousClass3 {
+    static /* synthetic */ class 3 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$Crop$CropAreaView$Control;
 
         static {

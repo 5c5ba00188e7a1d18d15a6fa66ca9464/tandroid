@@ -189,7 +189,7 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
         HMSLog.i(TAG, "setResult:" + i);
         Status commonStatus = iMessageEntity instanceof AbstractMessageEntity ? ((AbstractMessageEntity) iMessageEntity).getCommonStatus() : null;
         if (i == 0) {
-            this.result = mo234onComplete(iMessageEntity);
+            this.result = onComplete(iMessageEntity);
         } else {
             this.result = onError(i);
         }
@@ -276,8 +276,7 @@ public abstract class PendingResultImpl<R extends Result, T extends IMessageEnti
         return false;
     }
 
-    /* renamed from: onComplete */
-    public abstract R mo234onComplete(T t);
+    public abstract R onComplete(T t);
 
     protected R onError(int i) {
         Type genericSuperclass = getClass().getGenericSuperclass();

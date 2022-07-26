@@ -26,7 +26,7 @@ public class SurfaceViewRenderer extends SurfaceView implements SurfaceHolder.Ca
 
     @Override // org.webrtc.VideoSink
     public /* synthetic */ void setParentSink(VideoSink videoSink) {
-        VideoSink.CC.$default$setParentSink(this, videoSink);
+        VideoSink.-CC.$default$setParentSink(this, videoSink);
     }
 
     @Override // android.view.SurfaceHolder.Callback

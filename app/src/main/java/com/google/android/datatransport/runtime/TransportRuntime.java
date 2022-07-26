@@ -31,7 +31,7 @@ public class TransportRuntime implements TransportInternal {
         if (instance == null) {
             synchronized (TransportRuntime.class) {
                 if (instance == null) {
-                    instance = DaggerTransportRuntimeComponent.builder().mo42setApplicationContext(context).build();
+                    instance = DaggerTransportRuntimeComponent.builder().setApplicationContext(context).build();
                 }
             }
         }

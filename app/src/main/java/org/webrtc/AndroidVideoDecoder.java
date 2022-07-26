@@ -55,7 +55,7 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
 
     @Override // org.webrtc.VideoDecoder
     public /* synthetic */ long createNativeVideoDecoder() {
-        return VideoDecoder.CC.$default$createNativeVideoDecoder(this);
+        return VideoDecoder.-CC.$default$createNativeVideoDecoder(this);
     }
 
     @Override // org.webrtc.VideoDecoder
@@ -65,7 +65,7 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
 
     @Override // org.webrtc.VideoSink
     public /* synthetic */ void setParentSink(VideoSink videoSink) {
-        VideoSink.CC.$default$setParentSink(this, videoSink);
+        VideoSink.-CC.$default$setParentSink(this, videoSink);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

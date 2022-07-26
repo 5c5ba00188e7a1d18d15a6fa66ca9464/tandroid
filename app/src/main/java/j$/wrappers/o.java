@@ -64,14 +64,12 @@ public final /* synthetic */ class o implements j$.util.w {
     }
 
     @Override // j$.util.w, j$.util.u
-    /* renamed from: trySplit */
-    public /* synthetic */ j$.util.u mo350trySplit() {
+    public /* synthetic */ j$.util.u trySplit() {
         return g.a(this.a.trySplit());
     }
 
     @Override // j$.util.w, j$.util.u
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public /* synthetic */ j$.util.w mo350trySplit() {
+    public /* synthetic */ j$.util.w trySplit() {
         return a(this.a.trySplit());
     }
 }

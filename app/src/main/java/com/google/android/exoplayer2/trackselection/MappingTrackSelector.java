@@ -91,7 +91,7 @@ public abstract class MappingTrackSelector extends TrackSelector {
             RendererCapabilities rendererCapabilities = rendererCapabilitiesArr[i2];
             int i3 = 0;
             for (int i4 = 0; i4 < trackGroup.length; i4++) {
-                i3 = Math.max(i3, RendererCapabilities.CC.getFormatSupport(rendererCapabilities.supportsFormat(trackGroup.getFormat(i4))));
+                i3 = Math.max(i3, RendererCapabilities.-CC.getFormatSupport(rendererCapabilities.supportsFormat(trackGroup.getFormat(i4))));
             }
             boolean z3 = iArr[i2] == 0;
             if (i3 > i || (i3 == i && z && !z2 && z3)) {

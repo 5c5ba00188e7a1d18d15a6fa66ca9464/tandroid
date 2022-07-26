@@ -33,7 +33,7 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
 
     @Override // org.webrtc.VideoSink
     public /* synthetic */ void setParentSink(VideoSink videoSink) {
-        VideoSink.CC.$default$setParentSink(this, videoSink);
+        VideoSink.-CC.$default$setParentSink(this, videoSink);
     }
 
     public ScreenCapturerAndroid(Intent intent, MediaProjection.Callback callback) {

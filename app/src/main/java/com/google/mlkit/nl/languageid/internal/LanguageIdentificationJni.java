@@ -130,9 +130,9 @@ public class LanguageIdentificationJni extends ModelResource {
 
                 @Override // com.google.android.gms.internal.mlkit_language_id.zzcv.zza
                 public final zzy$zzad.zza zza() {
-                    return zzy$zzad.zzb().zza(zzy$zzau.zza().zza(zzy$zzaf.zza().zza(this.zza).zza(zzai.UNKNOWN_ERROR)));
+                    return zzy$zzad.zzb().zza(zzy$zzau.zza().zza(zzy$zzaf.zza().zza(this.zza).zza(zzai.zzb)));
                 }
-            }, zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_LOAD);
+            }, zzaj.zzc);
             throw e2;
         }
     }

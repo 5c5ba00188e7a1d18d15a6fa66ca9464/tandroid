@@ -44,17 +44,13 @@ public final class ConnectionResult implements Parcelable {
         a() {
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public ConnectionResult mo214createFromParcel(Parcel parcel) {
+        public ConnectionResult createFromParcel(Parcel parcel) {
             return new ConnectionResult(parcel, (a) null);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public ConnectionResult[] mo215newArray(int i) {
+        public ConnectionResult[] newArray(int i) {
             return new ConnectionResult[i];
         }
     }

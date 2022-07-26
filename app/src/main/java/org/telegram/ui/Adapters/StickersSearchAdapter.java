@@ -75,7 +75,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     private HashMap<ArrayList<TLRPC$Document>, String> emojiStickers = new HashMap<>();
     private ArrayList<ArrayList<TLRPC$Document>> emojiArrays = new ArrayList<>();
     private SparseArray<TLRPC$StickerSetCovered> positionsToSets = new SparseArray<>();
-    private Runnable searchRunnable = new AnonymousClass1();
+    private Runnable searchRunnable = new 1();
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -108,10 +108,9 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Adapters.StickersSearchAdapter$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
+    public class 1 implements Runnable {
+        1() {
         }
 
         private void clear() {
@@ -203,7 +202,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).getEmojiSuggestions(StickersSearchAdapter.this.delegate.getLastSearchKeyboardLanguage(), StickersSearchAdapter.this.searchQuery, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
                     public final void run(ArrayList arrayList3, String str) {
-                        StickersSearchAdapter.AnonymousClass1.this.lambda$run$0(access$804, allStickers, arrayList3, str);
+                        StickersSearchAdapter.1.this.lambda$run$0(access$804, allStickers, arrayList3, str);
                     }
                 }, false);
             }
@@ -256,7 +255,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             stickersSearchAdapter2.reqId = ConnectionsManager.getInstance(stickersSearchAdapter2.currentAccount).sendRequest(tLRPC$TL_messages_searchStickerSets, new RequestDelegate() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    StickersSearchAdapter.AnonymousClass1.this.lambda$run$2(tLRPC$TL_messages_searchStickerSets, tLObject, tLRPC$TL_error);
+                    StickersSearchAdapter.1.this.lambda$run$2(tLRPC$TL_messages_searchStickerSets, tLObject, tLRPC$TL_error);
                 }
             });
             if (Emoji.isValidEmoji(StickersSearchAdapter.this.searchQuery)) {
@@ -267,7 +266,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 stickersSearchAdapter3.reqId2 = ConnectionsManager.getInstance(stickersSearchAdapter3.currentAccount).sendRequest(tLRPC$TL_messages_getStickers, new RequestDelegate() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda3
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        StickersSearchAdapter.AnonymousClass1.this.lambda$run$4(tLRPC$TL_messages_getStickers, arrayList, longSparseArray, tLObject, tLRPC$TL_error);
+                        StickersSearchAdapter.1.this.lambda$run$4(tLRPC$TL_messages_getStickers, arrayList, longSparseArray, tLObject, tLRPC$TL_error);
                     }
                 });
             }
@@ -305,7 +304,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StickersSearchAdapter.AnonymousClass1.this.lambda$run$1(tLRPC$TL_messages_searchStickerSets, tLObject);
+                        StickersSearchAdapter.1.this.lambda$run$1(tLRPC$TL_messages_searchStickerSets, tLObject);
                     }
                 });
             }
@@ -328,7 +327,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StickersSearchAdapter.AnonymousClass1.this.lambda$run$3(tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray);
+                    StickersSearchAdapter.1.this.lambda$run$3(tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray);
                 }
             });
         }
@@ -432,8 +431,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    /* renamed from: onCreateViewHolder */
-    public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         LinearLayout linearLayout;
         if (i == 0) {

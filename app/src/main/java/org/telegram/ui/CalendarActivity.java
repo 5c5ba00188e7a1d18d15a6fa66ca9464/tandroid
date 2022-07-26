@@ -504,8 +504,7 @@ public class CalendarActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(new MonthView(viewGroup.getContext()));
         }
 
@@ -607,7 +606,7 @@ public class CalendarActivity extends BaseFragment {
             this.titleView.setGravity(17);
             this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             addView(this.titleView, LayoutHelper.createFrame(-1, 28.0f, 0, 0.0f, 12.0f, 0.0f, 4.0f));
-            GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(context, new AnonymousClass2(CalendarActivity.this, context));
+            GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(context, new 2(CalendarActivity.this, context));
             this.gestureDetector = gestureDetectorCompat;
             gestureDetectorCompat.setIsLongpressEnabled(CalendarActivity.this.calendarType == 0 ? true : z);
         }
@@ -639,9 +638,8 @@ public class CalendarActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.CalendarActivity$MonthView$2  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass2 extends GestureDetector.SimpleOnGestureListener {
+        public class 2 extends GestureDetector.SimpleOnGestureListener {
             final /* synthetic */ Context val$context;
 
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -649,7 +647,7 @@ public class CalendarActivity extends BaseFragment {
                 return true;
             }
 
-            AnonymousClass2(CalendarActivity calendarActivity, Context context) {
+            2(CalendarActivity calendarActivity, Context context) {
                 this.val$context = context;
             }
 
@@ -769,7 +767,7 @@ public class CalendarActivity extends BaseFragment {
                     actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            CalendarActivity.MonthView.AnonymousClass2.this.lambda$onLongPress$1(dayAtCoord, view);
+                            CalendarActivity.MonthView.2.this.lambda$onLongPress$1(dayAtCoord, view);
                         }
                     });
                     actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
@@ -780,7 +778,7 @@ public class CalendarActivity extends BaseFragment {
                         actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda3
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                CalendarActivity.MonthView.AnonymousClass2.this.lambda$onLongPress$2(dayAtCoord, view);
+                                CalendarActivity.MonthView.2.this.lambda$onLongPress$2(dayAtCoord, view);
                             }
                         });
                         actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
@@ -790,7 +788,7 @@ public class CalendarActivity extends BaseFragment {
                         actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda0
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                CalendarActivity.MonthView.AnonymousClass2.this.lambda$onLongPress$3(view);
+                                CalendarActivity.MonthView.2.this.lambda$onLongPress$3(view);
                             }
                         });
                         actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
@@ -808,7 +806,7 @@ public class CalendarActivity extends BaseFragment {
                     CalendarActivity.this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            CalendarActivity.MonthView.AnonymousClass2.this.lambda$onLongPress$4(view);
+                            CalendarActivity.MonthView.2.this.lambda$onLongPress$4(view);
                         }
                     });
                     CalendarActivity.this.blurredView.setVisibility(8);
@@ -827,7 +825,7 @@ public class CalendarActivity extends BaseFragment {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda4
                             @Override // java.lang.Runnable
                             public final void run() {
-                                CalendarActivity.MonthView.AnonymousClass2.this.lambda$onLongPress$0(baseFragment, periodDay);
+                                CalendarActivity.MonthView.2.this.lambda$onLongPress$0(baseFragment, periodDay);
                             }
                         }, 300L);
                     }
@@ -1410,7 +1408,7 @@ public class CalendarActivity extends BaseFragment {
         ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.CalendarActivity.8
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate

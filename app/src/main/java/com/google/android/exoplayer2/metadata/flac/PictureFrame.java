@@ -9,17 +9,13 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class PictureFrame implements Metadata.Entry {
     public static final Parcelable.Creator<PictureFrame> CREATOR = new Parcelable.Creator<PictureFrame>() { // from class: com.google.android.exoplayer2.metadata.flac.PictureFrame.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public PictureFrame mo100createFromParcel(Parcel parcel) {
+        public PictureFrame createFromParcel(Parcel parcel) {
             return new PictureFrame(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public PictureFrame[] mo101newArray(int i) {
+        public PictureFrame[] newArray(int i) {
             return new PictureFrame[i];
         }
     };
@@ -39,12 +35,12 @@ public final class PictureFrame implements Metadata.Entry {
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* bridge */ /* synthetic */ byte[] getWrappedMetadataBytes() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataBytes(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataBytes(this);
     }
 
     @Override // com.google.android.exoplayer2.metadata.Metadata.Entry
     public /* bridge */ /* synthetic */ Format getWrappedMetadataFormat() {
-        return Metadata.Entry.CC.$default$getWrappedMetadataFormat(this);
+        return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
     public PictureFrame(int i, String str, String str2, int i2, int i3, int i4, int i5, byte[] bArr) {

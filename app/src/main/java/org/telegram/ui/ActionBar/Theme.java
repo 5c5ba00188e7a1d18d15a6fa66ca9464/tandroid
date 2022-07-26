@@ -1461,7 +1461,7 @@ public class Theme {
                             Bitmap bitmap2 = bitmap;
                             Boolean bool = bitmap2;
                             int i2 = 0;
-                            AnonymousClass1 anonymousClass1 = bitmap;
+                            1 r4 = bitmap;
                             while (i2 < size2) {
                                 ThemeAccent themeAccent = (ThemeAccent) arrayList.get(i2);
                                 bool = bool;
@@ -1490,7 +1490,7 @@ public class Theme {
                                     }
                                 }
                                 i2++;
-                                anonymousClass1 = 0;
+                                r4 = 0;
                                 bool = bool;
                             }
                             if (bitmap2 != null) {
@@ -3256,9 +3256,8 @@ public class Theme {
 
         void setAnimatedColor(String str, int i);
 
-        /* renamed from: org.telegram.ui.ActionBar.Theme$ResourcesProvider$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static Drawable $default$getDrawable(ResourcesProvider resourcesProvider, String str) {
                 return null;
             }

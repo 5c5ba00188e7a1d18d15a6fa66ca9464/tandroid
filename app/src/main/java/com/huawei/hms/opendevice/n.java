@@ -22,19 +22,19 @@ public class n {
     /* compiled from: ReportAaidToken.java */
     /* loaded from: classes.dex */
     public enum a {
-        MOBILE("1"),
-        PC("2"),
-        TABLET("3"),
-        TV("4"),
-        SOUNDBOX("5"),
-        GLASS("6"),
-        WATCH("7"),
-        VEHICLE("8"),
-        OFFICE_DEVICE("9"),
-        IOT_DEVICES("10"),
-        HEALTHY("11"),
-        ENTERTAINMENT("12"),
-        TRANSPORT_DEVICES("13");
+        a("1"),
+        b("2"),
+        c("3"),
+        d("4"),
+        e("5"),
+        f("6"),
+        g("7"),
+        h("8"),
+        i("9"),
+        j("10"),
+        k("11"),
+        l("12"),
+        m("13");
         
         public String o;
 
@@ -51,12 +51,12 @@ public class n {
     /* compiled from: ReportAaidToken.java */
     /* loaded from: classes.dex */
     public enum b {
-        IOS("ios"),
-        ANDROID("android"),
-        HARMONY("harmony"),
-        WINDOWS("windows"),
-        EMBED("embed"),
-        OTHERS("others");
+        a("ios"),
+        b("android"),
+        c("harmony"),
+        d("windows"),
+        e("embed"),
+        f("others");
         
         public String h;
 
@@ -79,9 +79,9 @@ public class n {
             jSONObject3.put("agent_version", new PackageManagerHelper(context).getPackageVersionName("com.huawei.android.pushagent"));
             jSONObject3.put("hms_version", String.valueOf(Util.getHmsVersion(context)));
             JSONObject jSONObject4 = new JSONObject();
-            jSONObject4.put("dev_type", a.MOBILE.a());
+            jSONObject4.put("dev_type", a.a.a());
             jSONObject4.put("dev_sub_type", "phone");
-            jSONObject4.put("os_type", b.ANDROID.a());
+            jSONObject4.put("os_type", b.b.a());
             jSONObject4.put("os_version", String.valueOf(HwBuildEx.VERSION.EMUI_SDK_INT));
             jSONObject.put("id", UUID.randomUUID().toString());
             jSONObject.put("global", jSONObject2);

@@ -54,8 +54,7 @@ public final /* synthetic */ class g implements j$.util.u {
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    public /* synthetic */ j$.util.u mo350trySplit() {
+    public /* synthetic */ j$.util.u trySplit() {
         return a(this.a.trySplit());
     }
 }

@@ -121,16 +121,15 @@ public class CameraScanActivity extends BaseFragment {
     private BarcodeDetector visionQrReader = null;
     private float recognizedT = 0.0f;
     private float useRecognizedBounds = 0.0f;
-    private Runnable requestShot = new AnonymousClass7();
+    private Runnable requestShot = new 7();
     private float averageProcessTime = 0.0f;
     private long processTimesCount = 0;
 
     /* loaded from: classes3.dex */
     public interface CameraScanActivityDelegate {
 
-        /* renamed from: org.telegram.ui.CameraScanActivity$CameraScanActivityDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$didFindMrzInfo(CameraScanActivityDelegate cameraScanActivityDelegate, MrzRecognizer.Result result) {
             }
 
@@ -158,19 +157,18 @@ public class CameraScanActivity extends BaseFragment {
             return null;
         }
         ActionBarLayout[] actionBarLayoutArr = {new ActionBarLayout(baseFragment.getParentActivity())};
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(baseFragment.getParentActivity(), false, actionBarLayoutArr, i, z, cameraScanActivityDelegate);
-        anonymousClass1.setUseLightStatusBar(false);
-        AndroidUtilities.setLightNavigationBar(anonymousClass1.getWindow(), false);
-        AndroidUtilities.setNavigationBarColor(anonymousClass1.getWindow(), -16777216, false);
-        anonymousClass1.setUseLightStatusBar(false);
-        anonymousClass1.getWindow().addFlags(512);
-        anonymousClass1.show();
+        1 r9 = new 1(baseFragment.getParentActivity(), false, actionBarLayoutArr, i, z, cameraScanActivityDelegate);
+        r9.setUseLightStatusBar(false);
+        AndroidUtilities.setLightNavigationBar(r9.getWindow(), false);
+        AndroidUtilities.setNavigationBarColor(r9.getWindow(), -16777216, false);
+        r9.setUseLightStatusBar(false);
+        r9.getWindow().addFlags(512);
+        r9.show();
         return actionBarLayoutArr;
     }
 
-    /* renamed from: org.telegram.ui.CameraScanActivity$1 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends BottomSheet {
+    public class 1 extends BottomSheet {
         CameraScanActivity fragment;
         final /* synthetic */ ActionBarLayout[] val$actionBarLayout;
         final /* synthetic */ CameraScanActivityDelegate val$cameraDelegate;
@@ -183,7 +181,7 @@ public class CameraScanActivity extends BaseFragment {
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, boolean z, ActionBarLayout[] actionBarLayoutArr, int i, boolean z2, CameraScanActivityDelegate cameraScanActivityDelegate) {
+        1(Context context, boolean z, ActionBarLayout[] actionBarLayoutArr, int i, boolean z2, CameraScanActivityDelegate cameraScanActivityDelegate) {
             super(context, z);
             this.val$actionBarLayout = actionBarLayoutArr;
             this.val$type = i;
@@ -192,17 +190,17 @@ public class CameraScanActivity extends BaseFragment {
             actionBarLayoutArr[0].init(new ArrayList<>());
             CameraScanActivity cameraScanActivity = new CameraScanActivity(i) { // from class: org.telegram.ui.CameraScanActivity.1.1
                 {
-                    AnonymousClass1.this = this;
+                    1.this = this;
                 }
 
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 public void finishFragment() {
-                    AnonymousClass1.this.dismiss();
+                    1.this.dismiss();
                 }
 
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 public void removeSelfFromStack() {
-                    AnonymousClass1.this.dismiss();
+                    1.this.dismiss();
                 }
             };
             this.fragment = cameraScanActivity;
@@ -220,7 +218,7 @@ public class CameraScanActivity extends BaseFragment {
             setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.CameraScanActivity$1$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
-                    CameraScanActivity.AnonymousClass1.this.lambda$new$0(dialogInterface);
+                    CameraScanActivity.1.this.lambda$new$0(dialogInterface);
                 }
             });
         }
@@ -995,10 +993,9 @@ public class CameraScanActivity extends BaseFragment {
         this.backgroundHandlerThread.quitSafely();
     }
 
-    /* renamed from: org.telegram.ui.CameraScanActivity$7 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass7 implements Runnable {
-        AnonymousClass7() {
+    public class 7 implements Runnable {
+        7() {
             CameraScanActivity.this = r1;
         }
 
@@ -1010,7 +1007,7 @@ public class CameraScanActivity extends BaseFragment {
             CameraScanActivity.this.handler.post(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$7$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    CameraScanActivity.AnonymousClass7.this.lambda$run$0();
+                    CameraScanActivity.7.this.lambda$run$0();
                 }
             });
         }
@@ -1214,7 +1211,7 @@ public class CameraScanActivity extends BaseFragment {
         private QrResult(CameraScanActivity cameraScanActivity) {
         }
 
-        /* synthetic */ QrResult(CameraScanActivity cameraScanActivity, AnonymousClass1 anonymousClass1) {
+        /* synthetic */ QrResult(CameraScanActivity cameraScanActivity, 1 r2) {
             this(cameraScanActivity);
         }
     }

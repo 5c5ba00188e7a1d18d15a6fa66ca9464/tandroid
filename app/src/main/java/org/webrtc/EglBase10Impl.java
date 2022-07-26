@@ -79,7 +79,7 @@ class EglBase10Impl implements EglBase10 {
         EGLDisplay eglDisplay = getEglDisplay();
         this.eglDisplay = eglDisplay;
         this.eglConfig = getEglConfig(egl10, eglDisplay, iArr);
-        int openGlesVersionFromConfig = EglBase.CC.getOpenGlesVersionFromConfig(iArr);
+        int openGlesVersionFromConfig = EglBase.-CC.getOpenGlesVersionFromConfig(iArr);
         Logging.d(TAG, "Using OpenGL ES version " + openGlesVersionFromConfig);
         this.eglContext = createEglContext(eGLContext, this.eglDisplay, this.eglConfig, openGlesVersionFromConfig);
     }
@@ -141,8 +141,7 @@ class EglBase10Impl implements EglBase10 {
     }
 
     @Override // org.webrtc.EglBase
-    /* renamed from: getEglBaseContext */
-    public EglBase.Context mo2309getEglBaseContext() {
+    public EglBase.Context getEglBaseContext() {
         return new Context(this.egl, this.eglContext, this.eglConfig);
     }
 

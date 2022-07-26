@@ -108,8 +108,7 @@ final class FlacReader extends StreamReader {
         }
 
         @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-        /* renamed from: createSeekMap */
-        public SeekMap mo94createSeekMap() {
+        public SeekMap createSeekMap() {
             Assertions.checkState(this.firstFrameOffset != -1);
             return new FlacSeekTableSeekMap(FlacReader.this.streamMetadata, this.firstFrameOffset);
         }

@@ -15,10 +15,8 @@ public class StackFrameFactory implements ModelFactory<StackFrame> {
         return sInstance;
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.microsoft.appcenter.ingestion.models.json.ModelFactory
-    /* renamed from: create */
-    public StackFrame mo246create() {
+    public StackFrame create() {
         return new StackFrame();
     }
 

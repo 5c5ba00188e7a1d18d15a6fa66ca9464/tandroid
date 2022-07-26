@@ -241,11 +241,11 @@ public class ConfigFetchHandler {
 
     private Map<String, String> getUserProperties() {
         HashMap hashMap = new HashMap();
-        AnalyticsConnector mo190get = this.analyticsConnector.mo190get();
-        if (mo190get == null) {
+        AnalyticsConnector analyticsConnector = this.analyticsConnector.get();
+        if (analyticsConnector == null) {
             return hashMap;
         }
-        for (Map.Entry<String, Object> entry : mo190get.getUserProperties(false).entrySet()) {
+        for (Map.Entry<String, Object> entry : analyticsConnector.getUserProperties(false).entrySet()) {
             hashMap.put(entry.getKey(), entry.getValue().toString());
         }
         return hashMap;

@@ -33,12 +33,12 @@ public class GLIconSettingsView extends LinearLayout {
         seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate(this) { // from class: org.telegram.ui.GLIconSettingsView.1
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ CharSequence getContentDescription() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getContentDescription(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getContentDescription(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
@@ -66,12 +66,12 @@ public class GLIconSettingsView extends LinearLayout {
         seekBarView2.setDelegate(new SeekBarView.SeekBarViewDelegate(this) { // from class: org.telegram.ui.GLIconSettingsView.2
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ CharSequence getContentDescription() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getContentDescription(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getContentDescription(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
@@ -101,17 +101,17 @@ public class GLIconSettingsView extends LinearLayout {
                 ColorPicker colorPicker = new ColorPicker(this, context, false, new ColorPicker.ColorPickerDelegate() { // from class: org.telegram.ui.GLIconSettingsView.3.1
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
                     public /* synthetic */ void deleteTheme() {
-                        ColorPicker.ColorPickerDelegate.CC.$default$deleteTheme(this);
+                        ColorPicker.ColorPickerDelegate.-CC.$default$deleteTheme(this);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
                     public /* synthetic */ int getDefaultColor(int i2) {
-                        return ColorPicker.ColorPickerDelegate.CC.$default$getDefaultColor(this, i2);
+                        return ColorPicker.ColorPickerDelegate.-CC.$default$getDefaultColor(this, i2);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
                     public /* synthetic */ void openThemeCreate(boolean z) {
-                        ColorPicker.ColorPickerDelegate.CC.$default$openThemeCreate(this, z);
+                        ColorPicker.ColorPickerDelegate.-CC.$default$openThemeCreate(this, z);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -146,12 +146,12 @@ public class GLIconSettingsView extends LinearLayout {
         seekBarView3.setDelegate(new SeekBarView.SeekBarViewDelegate(this) { // from class: org.telegram.ui.GLIconSettingsView.4
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ CharSequence getContentDescription() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getContentDescription(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getContentDescription(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
@@ -179,12 +179,12 @@ public class GLIconSettingsView extends LinearLayout {
         seekBarView4.setDelegate(new SeekBarView.SeekBarViewDelegate(this) { // from class: org.telegram.ui.GLIconSettingsView.5
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ CharSequence getContentDescription() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getContentDescription(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getContentDescription(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
@@ -214,17 +214,17 @@ public class GLIconSettingsView extends LinearLayout {
                 ColorPicker colorPicker = new ColorPicker(this, context, false, new ColorPicker.ColorPickerDelegate() { // from class: org.telegram.ui.GLIconSettingsView.6.1
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
                     public /* synthetic */ void deleteTheme() {
-                        ColorPicker.ColorPickerDelegate.CC.$default$deleteTheme(this);
+                        ColorPicker.ColorPickerDelegate.-CC.$default$deleteTheme(this);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
                     public /* synthetic */ int getDefaultColor(int i2) {
-                        return ColorPicker.ColorPickerDelegate.CC.$default$getDefaultColor(this, i2);
+                        return ColorPicker.ColorPickerDelegate.-CC.$default$getDefaultColor(this, i2);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
                     public /* synthetic */ void openThemeCreate(boolean z) {
-                        ColorPicker.ColorPickerDelegate.CC.$default$openThemeCreate(this, z);
+                        ColorPicker.ColorPickerDelegate.-CC.$default$openThemeCreate(this, z);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -261,12 +261,12 @@ public class GLIconSettingsView extends LinearLayout {
         seekBarView5.setDelegate(new SeekBarView.SeekBarViewDelegate(this) { // from class: org.telegram.ui.GLIconSettingsView.7
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ CharSequence getContentDescription() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getContentDescription(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getContentDescription(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate

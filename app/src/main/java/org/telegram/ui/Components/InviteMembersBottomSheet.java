@@ -618,8 +618,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatTextCell manageChatTextCell;
             Context context = viewGroup.getContext();
             if (i == 2) {
@@ -752,17 +751,17 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i) {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeCallParticipants(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeUsers() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeUsers(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -772,7 +771,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ void onSetHashtags(ArrayList arrayList, HashMap hashMap) {
-                    SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$onSetHashtags(this, arrayList, hashMap);
+                    SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$onSetHashtags(this, arrayList, hashMap);
                 }
             });
         }
@@ -792,8 +791,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View groupCreateUserCell;
             Context context = viewGroup.getContext();
             if (i == 1) {

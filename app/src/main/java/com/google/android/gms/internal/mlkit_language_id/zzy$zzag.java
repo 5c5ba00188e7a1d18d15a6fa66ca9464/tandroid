@@ -19,12 +19,12 @@ public final class zzy$zzag extends zzeo<zzy$zzag, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        SOURCE_UNKNOWN(0),
-        BITMAP(1),
-        BYTEARRAY(2),
-        BYTEBUFFER(3),
-        FILEPATH(4),
-        ANDROID_MEDIA_IMAGE(5);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5);
         
         private final int zzh;
 

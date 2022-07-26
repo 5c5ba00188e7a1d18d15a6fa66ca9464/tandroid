@@ -7,17 +7,13 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ColorInfo implements Parcelable {
     public static final Parcelable.Creator<ColorInfo> CREATOR = new Parcelable.Creator<ColorInfo>() { // from class: com.google.android.exoplayer2.video.ColorInfo.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public ColorInfo mo179createFromParcel(Parcel parcel) {
+        public ColorInfo createFromParcel(Parcel parcel) {
             return new ColorInfo(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public ColorInfo[] mo180newArray(int i) {
+        public ColorInfo[] newArray(int i) {
             return new ColorInfo[i];
         }
     };

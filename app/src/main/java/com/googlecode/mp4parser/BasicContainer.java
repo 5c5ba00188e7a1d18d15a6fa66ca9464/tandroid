@@ -41,7 +41,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
 
     @Override // j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.CC.$default$forEachRemaining(this, consumer);
+        Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
     static {
@@ -87,7 +87,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
             return true;
         }
         try {
-            this.lookahead = mo335next();
+            this.lookahead = next();
             return true;
         } catch (NoSuchElementException unused) {
             this.lookahead = EOF;
@@ -96,8 +96,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public Box mo335next() {
+    public Box next() {
         Box parseBox;
         Box box = this.lookahead;
         if (box != null && box != EOF) {

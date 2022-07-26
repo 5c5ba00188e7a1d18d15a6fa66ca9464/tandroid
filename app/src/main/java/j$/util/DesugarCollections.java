@@ -416,14 +416,14 @@ public class DesugarCollections {
         Field field = c;
         if (field == null) {
             try {
-                return Collection$EL.removeIf((Collection) d.get(collection), predicate);
+                return Collection$-EL.removeIf((Collection) d.get(collection), predicate);
             } catch (IllegalAccessException e2) {
                 throw new Error("Runtime illegal access in synchronized collection removeIf fall-back.", e2);
             }
         }
         try {
             synchronized (field.get(collection)) {
-                removeIf = Collection$EL.removeIf((Collection) d.get(collection), predicate);
+                removeIf = Collection$-EL.removeIf((Collection) d.get(collection), predicate);
             }
             return removeIf;
         } catch (IllegalAccessException e3) {

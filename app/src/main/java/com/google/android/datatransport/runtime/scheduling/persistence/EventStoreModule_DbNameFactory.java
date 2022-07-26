@@ -5,8 +5,7 @@ import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 /* loaded from: classes.dex */
 public final class EventStoreModule_DbNameFactory implements Factory<String> {
     @Override // javax.inject.Provider
-    /* renamed from: get  reason: collision with other method in class */
-    public String mo70get() {
+    public String get() {
         return dbName();
     }
 

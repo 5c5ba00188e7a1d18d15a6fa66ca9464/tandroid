@@ -29,8 +29,7 @@ public final /* synthetic */ class b implements PrimitiveIterator.OfDouble {
     }
 
     @Override // java.util.PrimitiveIterator.OfDouble
-    /* renamed from: forEachRemaining */
-    public /* synthetic */ void forEachRemaining2(DoubleConsumer doubleConsumer) {
+    public /* synthetic */ void forEachRemaining(DoubleConsumer doubleConsumer) {
         this.a.e(A.b(doubleConsumer));
     }
 
@@ -42,14 +41,13 @@ public final /* synthetic */ class b implements PrimitiveIterator.OfDouble {
 
     @Override // java.util.PrimitiveIterator.OfDouble, java.util.Iterator
     public /* synthetic */ Double next() {
-        return this.a.mo335next();
+        return this.a.next();
     }
 
     /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.n] */
     @Override // java.util.PrimitiveIterator.OfDouble, java.util.Iterator
-    /* renamed from: next */
-    public /* synthetic */ Object mo336next() {
-        return this.a.mo335next();
+    public /* synthetic */ Object next() {
+        return this.a.next();
     }
 
     @Override // java.util.PrimitiveIterator.OfDouble

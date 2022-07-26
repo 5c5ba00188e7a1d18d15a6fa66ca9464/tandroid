@@ -45,7 +45,7 @@ public final class ExtractorMediaSource extends CompositeMediaSource<Void> {
     }
 
     private ExtractorMediaSource(Uri uri, DataSource.Factory factory, ExtractorsFactory extractorsFactory, LoadErrorHandlingPolicy loadErrorHandlingPolicy, String str, int i, Object obj) {
-        this.progressiveMediaSource = new ProgressiveMediaSource(uri, factory, extractorsFactory, DrmSessionManager.CC.getDummyDrmSessionManager(), loadErrorHandlingPolicy, str, i, obj);
+        this.progressiveMediaSource = new ProgressiveMediaSource(uri, factory, extractorsFactory, DrmSessionManager.-CC.getDummyDrmSessionManager(), loadErrorHandlingPolicy, str, i, obj);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -78,42 +78,42 @@ public final class ExtractorMediaSource extends CompositeMediaSource<Void> {
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onDownstreamFormatChanged(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.MediaLoadData mediaLoadData) {
-            MediaSourceEventListener.CC.$default$onDownstreamFormatChanged(this, i, mediaPeriodId, mediaLoadData);
+            MediaSourceEventListener.-CC.$default$onDownstreamFormatChanged(this, i, mediaPeriodId, mediaLoadData);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onLoadCanceled(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
-            MediaSourceEventListener.CC.$default$onLoadCanceled(this, i, mediaPeriodId, loadEventInfo, mediaLoadData);
+            MediaSourceEventListener.-CC.$default$onLoadCanceled(this, i, mediaPeriodId, loadEventInfo, mediaLoadData);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onLoadCompleted(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
-            MediaSourceEventListener.CC.$default$onLoadCompleted(this, i, mediaPeriodId, loadEventInfo, mediaLoadData);
+            MediaSourceEventListener.-CC.$default$onLoadCompleted(this, i, mediaPeriodId, loadEventInfo, mediaLoadData);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onLoadStarted(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
-            MediaSourceEventListener.CC.$default$onLoadStarted(this, i, mediaPeriodId, loadEventInfo, mediaLoadData);
+            MediaSourceEventListener.-CC.$default$onLoadStarted(this, i, mediaPeriodId, loadEventInfo, mediaLoadData);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onMediaPeriodCreated(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            MediaSourceEventListener.CC.$default$onMediaPeriodCreated(this, i, mediaPeriodId);
+            MediaSourceEventListener.-CC.$default$onMediaPeriodCreated(this, i, mediaPeriodId);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onMediaPeriodReleased(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            MediaSourceEventListener.CC.$default$onMediaPeriodReleased(this, i, mediaPeriodId);
+            MediaSourceEventListener.-CC.$default$onMediaPeriodReleased(this, i, mediaPeriodId);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onReadingStarted(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            MediaSourceEventListener.CC.$default$onReadingStarted(this, i, mediaPeriodId);
+            MediaSourceEventListener.-CC.$default$onReadingStarted(this, i, mediaPeriodId);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public /* synthetic */ void onUpstreamDiscarded(int i, MediaSource.MediaPeriodId mediaPeriodId, MediaSourceEventListener.MediaLoadData mediaLoadData) {
-            MediaSourceEventListener.CC.$default$onUpstreamDiscarded(this, i, mediaPeriodId, mediaLoadData);
+            MediaSourceEventListener.-CC.$default$onUpstreamDiscarded(this, i, mediaPeriodId, mediaLoadData);
         }
 
         public EventListenerWrapper(EventListener eventListener) {

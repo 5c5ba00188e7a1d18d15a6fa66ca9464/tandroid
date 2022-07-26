@@ -9,8 +9,7 @@ public final /* synthetic */ class OptionalProvider$$ExternalSyntheticLambda1 im
     }
 
     @Override // com.google.firebase.inject.Provider
-    /* renamed from: get */
-    public final Object mo190get() {
+    public final Object get() {
         Object lambda$static$1;
         lambda$static$1 = OptionalProvider.lambda$static$1();
         return lambda$static$1;

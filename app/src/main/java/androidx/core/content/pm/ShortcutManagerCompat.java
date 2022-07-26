@@ -93,7 +93,7 @@ public class ShortcutManagerCompat {
                 return false;
             }
         }
-        getShortcutInfoSaverInstance(context).mo31addShortcuts(shortcutInfoList);
+        getShortcutInfoSaverInstance(context).addShortcuts(shortcutInfoList);
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onShortcutAdded(shortcutInfoList);
         }
@@ -149,7 +149,7 @@ public class ShortcutManagerCompat {
                 return false;
             }
         }
-        getShortcutInfoSaverInstance(context).mo31addShortcuts(shortcutInfoList);
+        getShortcutInfoSaverInstance(context).addShortcuts(shortcutInfoList);
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onShortcutUpdated(shortcutInfoList);
         }
@@ -192,7 +192,7 @@ public class ShortcutManagerCompat {
         if (Build.VERSION.SDK_INT >= 25) {
             ((ShortcutManager) context.getSystemService(ShortcutManager.class)).removeDynamicShortcuts(shortcutIds);
         }
-        getShortcutInfoSaverInstance(context).mo33removeShortcuts(shortcutIds);
+        getShortcutInfoSaverInstance(context).removeShortcuts(shortcutIds);
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onShortcutRemoved(shortcutIds);
         }
@@ -202,7 +202,7 @@ public class ShortcutManagerCompat {
         if (Build.VERSION.SDK_INT >= 25) {
             ((ShortcutManager) context.getSystemService(ShortcutManager.class)).removeAllDynamicShortcuts();
         }
-        getShortcutInfoSaverInstance(context).mo32removeAllShortcuts();
+        getShortcutInfoSaverInstance(context).removeAllShortcuts();
         for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
             shortcutInfoChangeListener.onAllShortcutsRemoved();
         }
@@ -236,9 +236,9 @@ public class ShortcutManagerCompat {
         try {
             List<ShortcutInfoCompat> shortcuts = shortcutInfoSaverInstance.getShortcuts();
             if (shortcuts.size() >= maxShortcutCountPerActivity) {
-                shortcutInfoSaverInstance.mo33removeShortcuts(Arrays.asList(getShortcutInfoCompatWithLowestRank(shortcuts)));
+                shortcutInfoSaverInstance.removeShortcuts(Arrays.asList(getShortcutInfoCompatWithLowestRank(shortcuts)));
             }
-            shortcutInfoSaverInstance.mo31addShortcuts(Arrays.asList(shortcut));
+            shortcutInfoSaverInstance.addShortcuts(Arrays.asList(shortcut));
             for (ShortcutInfoChangeListener shortcutInfoChangeListener : getShortcutInfoListeners(context)) {
                 shortcutInfoChangeListener.onShortcutAdded(Collections.singletonList(shortcut));
             }

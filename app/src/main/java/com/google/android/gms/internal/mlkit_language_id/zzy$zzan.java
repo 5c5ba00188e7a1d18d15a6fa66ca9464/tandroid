@@ -15,13 +15,13 @@ public final class zzy$zzan extends zzeo<zzy$zzan, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        CATEGORY_UNKNOWN(0),
-        CATEGORY_HOME_GOOD(1),
-        CATEGORY_FASHION_GOOD(2),
-        CATEGORY_ANIMAL(3),
-        CATEGORY_FOOD(4),
-        CATEGORY_PLACE(5),
-        CATEGORY_PLANT(6);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5),
+        zzg(6);
         
         private final int zzi;
 

@@ -21,7 +21,7 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
 
     @Override // org.webrtc.VideoEncoderFactory
     public /* synthetic */ VideoEncoderFactory.VideoEncoderSelector getEncoderSelector() {
-        return VideoEncoderFactory.CC.$default$getEncoderSelector(this);
+        return VideoEncoderFactory.-CC.$default$getEncoderSelector(this);
     }
 
     @Override // org.webrtc.VideoEncoderFactory
@@ -119,7 +119,7 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
             if (!globalServerConfig.enable_h264_encoder && !globalServerConfig.enable_h265_encoder && !globalServerConfig.enable_vp8_encoder && !globalServerConfig.enable_vp9_encoder) {
                 return false;
             }
-            int i = AnonymousClass1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
+            int i = 1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
             if (i == 1) {
                 return isHardwareSupportedInCurrentSdkVp8(mediaCodecInfo);
             }
@@ -138,9 +138,8 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.webrtc.HardwareVideoEncoderFactory$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public static /* synthetic */ class AnonymousClass1 {
+    public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoCodecMimeType;
 
         static {
@@ -206,7 +205,7 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
     }
 
     private int getKeyFrameIntervalSec(VideoCodecMimeType videoCodecMimeType) {
-        int i = AnonymousClass1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
+        int i = 1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
         if (i == 1 || i == 2) {
             return 100;
         }

@@ -30,8 +30,7 @@ public final /* synthetic */ class d implements PrimitiveIterator.OfInt {
     }
 
     @Override // java.util.PrimitiveIterator.OfInt
-    /* renamed from: forEachRemaining  reason: avoid collision after fix types in other method */
-    public /* synthetic */ void forEachRemaining2(IntConsumer intConsumer) {
+    public /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
         this.a.c(Q.b(intConsumer));
     }
 
@@ -43,14 +42,13 @@ public final /* synthetic */ class d implements PrimitiveIterator.OfInt {
 
     @Override // java.util.PrimitiveIterator.OfInt, java.util.Iterator
     public /* synthetic */ Integer next() {
-        return this.a.mo337next();
+        return this.a.next();
     }
 
     /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.p$a] */
     @Override // java.util.PrimitiveIterator.OfInt, java.util.Iterator
-    /* renamed from: next  reason: collision with other method in class */
-    public /* synthetic */ Object mo338next() {
-        return this.a.mo335next();
+    public /* synthetic */ Object next() {
+        return this.a.next();
     }
 
     @Override // java.util.PrimitiveIterator.OfInt

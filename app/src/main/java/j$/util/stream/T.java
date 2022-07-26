@@ -138,15 +138,13 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public final j$.util.n mo331iterator() {
-        return j$.util.L.f(mo334spliterator());
+    public final j$.util.n iterator() {
+        return j$.util.L.f(spliterator());
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public Iterator mo331iterator() {
-        return j$.util.L.f(mo334spliterator());
+    public Iterator iterator() {
+        return j$.util.L.f(spliterator());
     }
 
     public void j(j$.util.function.f fVar) {
@@ -198,9 +196,8 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    /* renamed from: spliterator */
-    public final j$.util.t mo334spliterator() {
-        return M0(super.mo334spliterator());
+    public final j$.util.t spliterator() {
+        return M0(super.spliterator());
     }
 
     @Override // j$.util.stream.U

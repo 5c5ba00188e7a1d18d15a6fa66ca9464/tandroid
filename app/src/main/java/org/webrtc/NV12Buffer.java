@@ -15,7 +15,7 @@ public class NV12Buffer implements VideoFrame.Buffer {
 
     @Override // org.webrtc.VideoFrame.Buffer
     public /* synthetic */ int getBufferType() {
-        return VideoFrame.Buffer.CC.$default$getBufferType(this);
+        return VideoFrame.Buffer.-CC.$default$getBufferType(this);
     }
 
     public NV12Buffer(int i, int i2, int i3, int i4, ByteBuffer byteBuffer, Runnable runnable) {

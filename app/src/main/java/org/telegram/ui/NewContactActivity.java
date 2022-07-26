@@ -108,7 +108,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setTitle(LocaleController.getString("AddContactTitle", R.string.AddContactTitle));
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setActionBarMenuOnItemClick(new 1());
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setInfo(5L, "", "");
@@ -560,10 +560,9 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.NewContactActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
+    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+        1() {
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -586,7 +585,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
                             ConnectionsManager.getInstance(((BaseFragment) NewContactActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) NewContactActivity.this).currentAccount).sendRequest(tLRPC$TL_contacts_importContacts, new RequestDelegate() { // from class: org.telegram.ui.NewContactActivity$1$$ExternalSyntheticLambda2
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                    NewContactActivity.AnonymousClass1.this.lambda$onItemClick$2(tLRPC$TL_inputPhoneContact, tLRPC$TL_contacts_importContacts, tLObject, tLRPC$TL_error);
+                                    NewContactActivity.1.this.lambda$onItemClick$2(tLRPC$TL_inputPhoneContact, tLRPC$TL_contacts_importContacts, tLObject, tLRPC$TL_error);
                                 }
                             }, 2), ((BaseFragment) NewContactActivity.this).classGuid);
                             return;
@@ -621,7 +620,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NewContactActivity$1$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    NewContactActivity.AnonymousClass1.this.lambda$onItemClick$1(tLRPC$TL_contacts_importedContacts, tLRPC$TL_inputPhoneContact, tLRPC$TL_error, tLRPC$TL_contacts_importContacts);
+                    NewContactActivity.1.this.lambda$onItemClick$1(tLRPC$TL_contacts_importedContacts, tLRPC$TL_inputPhoneContact, tLRPC$TL_error, tLRPC$TL_contacts_importContacts);
                 }
             });
         }
@@ -645,7 +644,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
                 builder.setPositiveButton(LocaleController.getString("Invite", R.string.Invite), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NewContactActivity$1$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
-                        NewContactActivity.AnonymousClass1.this.lambda$onItemClick$0(tLRPC$TL_inputPhoneContact, dialogInterface, i);
+                        NewContactActivity.1.this.lambda$onItemClick$0(tLRPC$TL_inputPhoneContact, dialogInterface, i);
                     }
                 });
                 NewContactActivity.this.showDialog(builder.create());
@@ -895,7 +894,7 @@ public class NewContactActivity extends BaseFragment implements AdapterView.OnIt
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));

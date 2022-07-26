@@ -856,9 +856,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.chatListView.setClipToPadding(false);
         this.chatListView.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(3.0f));
         RecyclerListView recyclerListView3 = this.chatListView;
-        AnonymousClass6 anonymousClass6 = new AnonymousClass6(null, this.chatListView, null);
-        this.chatListItemAnimator = anonymousClass6;
-        recyclerListView3.setItemAnimator(anonymousClass6);
+        6 r11 = new 6(null, this.chatListView, null);
+        this.chatListItemAnimator = r11;
+        recyclerListView3.setItemAnimator(r11);
         this.chatListItemAnimator.setReversePositions(true);
         this.chatListView.setLayoutAnimation(null);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, context) { // from class: org.telegram.ui.ChannelAdminLogActivity.7
@@ -1043,13 +1043,12 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ChannelAdminLogActivity$6  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends ChatListItemAnimator {
+    public class 6 extends ChatListItemAnimator {
         Runnable finishRunnable;
         int scrollAnimationIndex = -1;
 
-        AnonymousClass6(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider) {
+        6(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider) {
             super(chatActivity, recyclerListView, resourcesProvider);
         }
 
@@ -1079,7 +1078,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$6$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelAdminLogActivity.AnonymousClass6.this.lambda$onAllAnimationsDone$0();
+                    ChannelAdminLogActivity.6.this.lambda$onAllAnimationsDone$0();
                 }
             };
             this.finishRunnable = runnable2;
@@ -1204,7 +1203,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 clearHistoryAlert.setDelegate(new ClearHistoryAlert.ClearHistoryAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.11
                     @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
                     public /* synthetic */ void onClearHistory(boolean z) {
-                        ClearHistoryAlert.ClearHistoryAlertDelegate.CC.$default$onClearHistory(this, z);
+                        ClearHistoryAlert.ClearHistoryAlertDelegate.-CC.$default$onClearHistory(this, z);
                     }
 
                     @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
@@ -2135,8 +2134,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ChatActionCell chatActionCell;
             View view;
             if (i == 0) {
@@ -2147,7 +2145,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     view = new ChatMessageCell(this.mContext);
                 }
                 ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                chatMessageCell.setDelegate(new AnonymousClass1());
+                chatMessageCell.setDelegate(new 1());
                 chatMessageCell.setAllowAssistant(true);
                 chatActionCell = view;
             } else if (i == 1) {
@@ -2158,7 +2156,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         accessibilityNodeInfo.setVisibleToUser(true);
                     }
                 };
-                chatActionCell2.setDelegate(new AnonymousClass3());
+                chatActionCell2.setDelegate(new 3());
                 chatActionCell = chatActionCell2;
             } else if (i == 2) {
                 chatActionCell = new ChatUnreadCell(this.mContext, null);
@@ -2170,9 +2168,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements ChatMessageCell.ChatMessageCellDelegate {
+        public class 1 implements ChatMessageCell.ChatMessageCellDelegate {
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public boolean canDrawOutboundsContent() {
                 return true;
@@ -2185,17 +2182,17 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didLongPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didLongPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean didLongPressChannelAvatar(ChatMessageCell chatMessageCell, TLRPC$Chat tLRPC$Chat, int i, float f, float f2) {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i, f, f2);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didLongPressChannelAvatar(this, chatMessageCell, tLRPC$Chat, i, f, f2);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressBotButton(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressBotButton(this, chatMessageCell, tLRPC$KeyboardButton);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2204,22 +2201,22 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressCommentButton(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressCommentButton(this, chatMessageCell);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressCommentButton(this, chatMessageCell);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressHiddenForward(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressHiddenForward(this, chatMessageCell);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHiddenForward(this, chatMessageCell);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressHint(ChatMessageCell chatMessageCell, int i) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressHint(this, chatMessageCell, i);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHint(this, chatMessageCell, i);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressReaction(ChatMessageCell chatMessageCell, TLRPC$TL_reactionCount tLRPC$TL_reactionCount, boolean z) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressReaction(this, chatMessageCell, tLRPC$TL_reactionCount, z);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressReaction(this, chatMessageCell, tLRPC$TL_reactionCount, z);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2228,7 +2225,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressTime(ChatMessageCell chatMessageCell) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressTime(this, chatMessageCell);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressTime(this, chatMessageCell);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2237,95 +2234,95 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressViaBotNotInline(ChatMessageCell chatMessageCell, long j) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressViaBotNotInline(this, chatMessageCell, j);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressViaBotNotInline(this, chatMessageCell, j);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didPressVoteButtons(ChatMessageCell chatMessageCell, ArrayList arrayList, int i, int i2, int i3) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didPressVoteButtons(this, chatMessageCell, arrayList, i, i2, i3);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressVoteButtons(this, chatMessageCell, arrayList, i, i2, i3);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void didStartVideoStream(MessageObject messageObject) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$didStartVideoStream(this, messageObject);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didStartVideoStream(this, messageObject);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ String getAdminRank(long j) {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$getAdminRank(this, j);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getAdminRank(this, j);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ PinchToZoomHelper getPinchToZoomHelper() {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$getPinchToZoomHelper(this);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getPinchToZoomHelper(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ TextSelectionHelper.ChatListTextSelectionHelper getTextSelectionHelper() {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$getTextSelectionHelper(this);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$getTextSelectionHelper(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean hasSelectedMessages() {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$hasSelectedMessages(this);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$hasSelectedMessages(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void invalidateBlur() {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$invalidateBlur(this);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$invalidateBlur(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean isLandscape() {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$isLandscape(this);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$isLandscape(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean keyboardIsOpened() {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$keyboardIsOpened(this);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$keyboardIsOpened(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void needReloadPolls() {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$needReloadPolls(this);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needReloadPolls(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void needShowPremiumFeatures(String str) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$needShowPremiumFeatures(this, str);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumFeatures(this, str);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean onAccessibilityAction(int i, Bundle bundle) {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$onAccessibilityAction(this, i, bundle);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onAccessibilityAction(this, i, bundle);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void onDiceFinished() {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$onDiceFinished(this);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$onDiceFinished(this);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void setShouldNotRepeatSticker(MessageObject messageObject) {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$setShouldNotRepeatSticker(this, messageObject);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$setShouldNotRepeatSticker(this, messageObject);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean shouldDrawThreadProgress(ChatMessageCell chatMessageCell) {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$shouldDrawThreadProgress(this, chatMessageCell);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldDrawThreadProgress(this, chatMessageCell);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ boolean shouldRepeatSticker(MessageObject messageObject) {
-                return ChatMessageCell.ChatMessageCellDelegate.CC.$default$shouldRepeatSticker(this, messageObject);
+                return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$shouldRepeatSticker(this, messageObject);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public /* synthetic */ void videoTimerReached() {
-                ChatMessageCell.ChatMessageCellDelegate.CC.$default$videoTimerReached(this);
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$videoTimerReached(this);
             }
 
-            AnonymousClass1() {
+            1() {
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2394,7 +2391,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         AvatarPreviewer.getInstance().show((ViewGroup) ((BaseFragment) ChannelAdminLogActivity.this).fragmentView, of, new AvatarPreviewer.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda1
                             @Override // org.telegram.ui.AvatarPreviewer.Callback
                             public final void onMenuClick(AvatarPreviewer.MenuItem menuItem) {
-                                ChannelAdminLogActivity.ChatActivityAdapter.AnonymousClass1.this.lambda$didLongPressUserAvatar$0(chatMessageCell, tLRPC$User, menuItem);
+                                ChannelAdminLogActivity.ChatActivityAdapter.1.this.lambda$didLongPressUserAvatar$0(chatMessageCell, tLRPC$User, menuItem);
                             }
                         });
                         return true;
@@ -2405,7 +2402,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$didLongPressUserAvatar$0(ChatMessageCell chatMessageCell, TLRPC$User tLRPC$User, AvatarPreviewer.MenuItem menuItem) {
-                int i = AnonymousClass17.$SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem[menuItem.ordinal()];
+                int i = 17.$SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem[menuItem.ordinal()];
                 if (i == 1) {
                     openDialog(chatMessageCell, tLRPC$User);
                 } else if (i != 2) {
@@ -2485,7 +2482,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$1$$ExternalSyntheticLambda0
                             @Override // android.content.DialogInterface.OnClickListener
                             public final void onClick(DialogInterface dialogInterface, int i) {
-                                ChannelAdminLogActivity.ChatActivityAdapter.AnonymousClass1.this.lambda$didPressUrl$1(url2, dialogInterface, i);
+                                ChannelAdminLogActivity.ChatActivityAdapter.1.this.lambda$didPressUrl$1(url2, dialogInterface, i);
                             }
                         });
                         ChannelAdminLogActivity.this.showDialog(builder.create());
@@ -2645,12 +2642,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass3 implements ChatActionCell.ChatActionCellDelegate {
+        public class 3 implements ChatActionCell.ChatActionCellDelegate {
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
             public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell, TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, boolean z) {
-                ChatActionCell.ChatActionCellDelegate.CC.$default$didOpenPremiumGift(this, chatActionCell, tLRPC$TL_premiumGiftOption, z);
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell, tLRPC$TL_premiumGiftOption, z);
             }
 
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
@@ -2659,10 +2655,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
             public /* synthetic */ void needShowEffectOverlay(ChatActionCell chatActionCell, TLRPC$Document tLRPC$Document, TLRPC$VideoSize tLRPC$VideoSize) {
-                ChatActionCell.ChatActionCellDelegate.CC.$default$needShowEffectOverlay(this, chatActionCell, tLRPC$Document, tLRPC$VideoSize);
+                ChatActionCell.ChatActionCellDelegate.-CC.$default$needShowEffectOverlay(this, chatActionCell, tLRPC$Document, tLRPC$VideoSize);
             }
 
-            AnonymousClass3() {
+            3() {
             }
 
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
@@ -2720,14 +2716,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda0
                         @Override // android.content.DialogInterface.OnCancelListener
                         public final void onCancel(DialogInterface dialogInterface) {
-                            ChannelAdminLogActivity.ChatActivityAdapter.AnonymousClass3.this.lambda$needOpenInviteLink$0(zArr, dialogInterface);
+                            ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$0(zArr, dialogInterface);
                         }
                     });
                     alertDialog.showDelayed(300L);
                     ChannelAdminLogActivity.this.getConnectionsManager().bindRequestToGuid(ChannelAdminLogActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_getExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            ChannelAdminLogActivity.ChatActivityAdapter.AnonymousClass3.this.lambda$needOpenInviteLink$2(tLRPC$TL_chatInviteExported, zArr, alertDialog, tLObject, tLRPC$TL_error);
+                            ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$2(tLRPC$TL_chatInviteExported, zArr, alertDialog, tLObject, tLRPC$TL_error);
                         }
                     }), ((BaseFragment) ChannelAdminLogActivity.this).classGuid);
                 } else if (obj instanceof TLRPC$TL_messages_exportedChatInvite) {
@@ -2763,7 +2759,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$ChatActivityAdapter$3$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChannelAdminLogActivity.ChatActivityAdapter.AnonymousClass3.this.lambda$needOpenInviteLink$1(tLRPC$TL_chatInviteExported, tLRPC$TL_messages_exportedChatInvite2, zArr, alertDialog);
+                        ChannelAdminLogActivity.ChatActivityAdapter.3.this.lambda$needOpenInviteLink$1(tLRPC$TL_chatInviteExported, tLRPC$TL_messages_exportedChatInvite2, zArr, alertDialog);
                     }
                 });
             }
@@ -2972,9 +2968,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ChannelAdminLogActivity$17  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public static /* synthetic */ class AnonymousClass17 {
+    public static /* synthetic */ class 17 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem;
 
         static {

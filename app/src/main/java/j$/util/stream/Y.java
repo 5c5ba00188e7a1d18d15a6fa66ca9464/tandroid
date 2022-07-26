@@ -15,7 +15,7 @@ public final /* synthetic */ class Y implements Predicate {
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate negate() {
-        return Predicate.CC.$default$negate(this);
+        return Predicate.-CC.$default$negate(this);
     }
 
     @Override // j$.util.function.Predicate

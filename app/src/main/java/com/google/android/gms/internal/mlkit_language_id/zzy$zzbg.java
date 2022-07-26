@@ -19,18 +19,18 @@ public final class zzy$zzbg extends zzeo<zzy$zzbg, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        UNKNOWN_ERROR(0),
-        NO_CONNECTION(1),
-        RPC_ERROR(2),
-        RPC_RETURNED_INVALID_RESULT(3),
-        RPC_RETURNED_MALFORMED_RESULT(4),
-        RPC_EXPONENTIAL_BACKOFF_FAILED(5),
-        DIRECTORY_CREATION_FAILED(10),
-        FILE_WRITE_FAILED_DISK_FULL(11),
-        FILE_WRITE_FAILED(12),
-        FILE_READ_FAILED(13),
-        FILE_READ_RETURNED_INVALID_DATA(14),
-        FILE_READ_RETURNED_MALFORMED_DATA(15);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5),
+        zzg(10),
+        zzh(11),
+        zzi(12),
+        zzj(13),
+        zzk(14),
+        zzl(15);
         
         private final int zzn;
 

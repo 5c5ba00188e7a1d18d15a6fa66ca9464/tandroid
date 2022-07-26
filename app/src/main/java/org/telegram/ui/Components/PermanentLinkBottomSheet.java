@@ -62,12 +62,12 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void editLink() {
-                LinkActionView.Delegate.CC.$default$editLink(this);
+                LinkActionView.Delegate.-CC.$default$editLink(this);
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void removeLink() {
-                LinkActionView.Delegate.CC.$default$removeLink(this);
+                LinkActionView.Delegate.-CC.$default$removeLink(this);
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -77,7 +77,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void showUsersForPermanentLink() {
-                LinkActionView.Delegate.CC.$default$showUsersForPermanentLink(this);
+                LinkActionView.Delegate.-CC.$default$showUsersForPermanentLink(this);
             }
         });
         TextView textView = new TextView(context);
@@ -221,7 +221,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.titleView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteBlackText"));

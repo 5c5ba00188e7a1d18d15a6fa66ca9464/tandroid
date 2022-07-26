@@ -150,9 +150,8 @@ public abstract class e3 extends c implements Stream {
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public final Iterator mo331iterator() {
-        return j$.util.L.i(mo334spliterator());
+    public final Iterator iterator() {
+        return j$.util.L.i(spliterator());
     }
 
     @Override // j$.util.stream.Stream

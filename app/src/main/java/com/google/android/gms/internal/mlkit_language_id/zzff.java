@@ -16,7 +16,7 @@ public final class zzff<K> implements Iterator<Map.Entry<K, Object>>, j$.util.It
 
     @Override // j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.CC.$default$forEachRemaining(this, consumer);
+        Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
@@ -30,8 +30,7 @@ public final class zzff<K> implements Iterator<Map.Entry<K, Object>>, j$.util.It
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public final /* synthetic */ Object mo335next() {
+    public final /* synthetic */ Object next() {
         Map.Entry<K, Object> next = this.zza.next();
         return next.getValue() instanceof zzfa ? new zzfc(next) : next;
     }

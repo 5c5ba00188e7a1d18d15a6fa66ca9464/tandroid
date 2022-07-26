@@ -1443,7 +1443,7 @@ final class zzgd<T> implements zzgp<T> {
                 int i7 = (zzc & i2) >>> 20;
                 int i8 = this.zzc[i5];
                 long j2 = zzc & 1048575;
-                if (i7 >= zzek.DOUBLE_LIST_PACKED.zza() && i7 <= zzek.SINT64_LIST_PACKED.zza()) {
+                if (i7 >= zzek.zza.zza() && i7 <= zzek.zzb.zza()) {
                     int i9 = this.zzc[i5 + 2];
                 }
                 switch (i7) {

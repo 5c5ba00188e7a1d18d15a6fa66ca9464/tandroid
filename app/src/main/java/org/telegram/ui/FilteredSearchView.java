@@ -369,7 +369,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         addView(flickerLoadingView);
         addView(this.recyclerListView);
         this.recyclerListView.setSectionsType(2);
-        this.recyclerListView.setOnScrollListener(new AnonymousClass6());
+        this.recyclerListView.setOnScrollListener(new 6());
         ChatActionCell chatActionCell = new ChatActionCell(parentActivity);
         this.floatingDateView = chatActionCell;
         chatActionCell.setCustomDate((int) (System.currentTimeMillis() / 1000), false, false);
@@ -401,10 +401,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.FilteredSearchView$6  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass6 extends RecyclerView.OnScrollListener {
-        AnonymousClass6() {
+    public class 6 extends RecyclerView.OnScrollListener {
+        6() {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -430,7 +429,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilteredSearchView$6$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            FilteredSearchView.AnonymousClass6.this.lambda$onScrolled$0();
+                            FilteredSearchView.6.this.lambda$onScrolled$0();
                         }
                     });
                 }
@@ -870,7 +869,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                                 public void onAnimationEnd(Animator animator) {
                                     view.setAlpha(1.0f);
                                     layoutManager.stopIgnoringView(view);
-                                    AnonymousClass7 anonymousClass7 = AnonymousClass7.this;
+                                    7 r2 = 7.this;
                                     FilteredSearchView.this.recyclerListView.removeView(view);
                                 }
                             });
@@ -962,8 +961,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 0) {
                 SharedPhotoVideoCell sharedPhotoVideoCell = new SharedPhotoVideoCell(this.mContext, 1);
@@ -1142,11 +1140,10 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     /* loaded from: classes3.dex */
     public class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
-        private final SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new AnonymousClass1();
+        private final SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new 1();
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        /* renamed from: getItem */
-        public Object mo1730getItem(int i, int i2) {
+        public Object getItem(int i, int i2) {
             return null;
         }
 
@@ -1161,10 +1158,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.FilteredSearchView$SharedLinksAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements SharedLinkCell.SharedLinkCellDelegate {
-            AnonymousClass1() {
+        public class 1 implements SharedLinkCell.SharedLinkCellDelegate {
+            1() {
             }
 
             @Override // org.telegram.ui.Cells.SharedLinkCell.SharedLinkCellDelegate
@@ -1188,7 +1184,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilteredSearchView$SharedLinksAdapter$1$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
-                        FilteredSearchView.SharedLinksAdapter.AnonymousClass1.this.lambda$onLinkPress$0(str, dialogInterface, i);
+                        FilteredSearchView.SharedLinksAdapter.1.this.lambda$onLinkPress$0(str, dialogInterface, i);
                     }
                 });
                 FilteredSearchView.this.parentFragment.showDialog(builder.create());
@@ -1263,8 +1259,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             GraySectionCell graySectionCell;
             if (i == 0) {
                 graySectionCell = new GraySectionCell(this.mContext);
@@ -1341,8 +1336,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         private Context mContext;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        /* renamed from: getItem */
-        public Object mo1730getItem(int i, int i2) {
+        public Object getItem(int i, int i2) {
             return null;
         }
 
@@ -1407,8 +1401,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View graySectionCell;
             SharedDocumentCell sharedDocumentCell;
             if (i != 0) {
@@ -1634,8 +1627,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             DialogCell dialogCell;
             if (i == 0) {
                 dialogCell = new DialogCell(null, viewGroup.getContext(), true, false);

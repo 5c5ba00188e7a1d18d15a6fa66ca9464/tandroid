@@ -2,9 +2,8 @@ package org.webrtc;
 /* loaded from: classes3.dex */
 public interface VideoDecoder {
 
-    /* renamed from: org.webrtc.VideoDecoder$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         @CalledByNative
         public static long $default$createNativeVideoDecoder(VideoDecoder videoDecoder) {
             return 0L;

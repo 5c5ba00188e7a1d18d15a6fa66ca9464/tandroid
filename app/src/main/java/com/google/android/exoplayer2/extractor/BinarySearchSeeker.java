@@ -30,9 +30,8 @@ public abstract class BinarySearchSeeker {
     /* loaded from: classes.dex */
     public interface TimestampSeeker {
 
-        /* renamed from: com.google.android.exoplayer2.extractor.BinarySearchSeeker$TimestampSeeker$-CC  reason: invalid class name */
         /* loaded from: classes.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onSeekFinished(TimestampSeeker timestampSeeker) {
             }
         }

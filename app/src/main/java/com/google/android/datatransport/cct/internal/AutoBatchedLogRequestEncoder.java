@@ -65,8 +65,8 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
 
         @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(LogRequest logRequest, ObjectEncoderContext objectEncoderContext) throws IOException {
-            objectEncoderContext.mo196add(REQUESTTIMEMS_DESCRIPTOR, logRequest.getRequestTimeMs());
-            objectEncoderContext.mo196add(REQUESTUPTIMEMS_DESCRIPTOR, logRequest.getRequestUptimeMs());
+            objectEncoderContext.add(REQUESTTIMEMS_DESCRIPTOR, logRequest.getRequestTimeMs());
+            objectEncoderContext.add(REQUESTUPTIMEMS_DESCRIPTOR, logRequest.getRequestUptimeMs());
             objectEncoderContext.add(CLIENTINFO_DESCRIPTOR, logRequest.getClientInfo());
             objectEncoderContext.add(LOGSOURCE_DESCRIPTOR, logRequest.getLogSource());
             objectEncoderContext.add(LOGSOURCENAME_DESCRIPTOR, logRequest.getLogSourceName());
@@ -143,12 +143,12 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
 
         @Override // com.google.firebase.encoders.ObjectEncoder
         public void encode(LogEvent logEvent, ObjectEncoderContext objectEncoderContext) throws IOException {
-            objectEncoderContext.mo196add(EVENTTIMEMS_DESCRIPTOR, logEvent.getEventTimeMs());
+            objectEncoderContext.add(EVENTTIMEMS_DESCRIPTOR, logEvent.getEventTimeMs());
             objectEncoderContext.add(EVENTCODE_DESCRIPTOR, logEvent.getEventCode());
-            objectEncoderContext.mo196add(EVENTUPTIMEMS_DESCRIPTOR, logEvent.getEventUptimeMs());
+            objectEncoderContext.add(EVENTUPTIMEMS_DESCRIPTOR, logEvent.getEventUptimeMs());
             objectEncoderContext.add(SOURCEEXTENSION_DESCRIPTOR, logEvent.getSourceExtension());
             objectEncoderContext.add(SOURCEEXTENSIONJSONPROTO3_DESCRIPTOR, logEvent.getSourceExtensionJsonProto3());
-            objectEncoderContext.mo196add(TIMEZONEOFFSETSECONDS_DESCRIPTOR, logEvent.getTimezoneOffsetSeconds());
+            objectEncoderContext.add(TIMEZONEOFFSETSECONDS_DESCRIPTOR, logEvent.getTimezoneOffsetSeconds());
             objectEncoderContext.add(NETWORKCONNECTIONINFO_DESCRIPTOR, logEvent.getNetworkConnectionInfo());
         }
     }

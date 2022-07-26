@@ -282,7 +282,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 return super.dispatchTouchEvent(motionEvent);
             }
 
-            /* renamed from: org.telegram.ui.Components.EmojiPacksAlert$2$DrawingInBackgroundLine */
             /* loaded from: classes3.dex */
             class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
                 ArrayList<EmojiImageView> drawInBackgroundViews = new ArrayList<>();
@@ -936,8 +935,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 0) {
                 view = EmojiPacksAlert.this.paddingView;

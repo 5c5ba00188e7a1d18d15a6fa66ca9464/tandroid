@@ -803,7 +803,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         ShutterButton shutterButton = new ShutterButton(context);
         this.shutterButton = shutterButton;
         this.cameraPanel.addView(shutterButton, LayoutHelper.createFrame(84, 84, 17));
-        this.shutterButton.setDelegate(new AnonymousClass10(container));
+        this.shutterButton.setDelegate(new 10(container));
         this.shutterButton.setFocusable(true);
         this.shutterButton.setContentDescription(LocaleController.getString("AccDescrShutter", R.string.AccDescrShutter));
         ImageView imageView = new ImageView(context);
@@ -1000,14 +1000,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$10  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass10 implements ShutterButton.ShutterButtonDelegate {
+    public class 10 implements ShutterButton.ShutterButtonDelegate {
         private File outputFile;
         final /* synthetic */ FrameLayout val$container;
         private boolean zoomingWas;
 
-        AnonymousClass10(FrameLayout frameLayout) {
+        10(FrameLayout frameLayout) {
             this.val$container = frameLayout;
         }
 
@@ -1035,19 +1034,19 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                         ChatAttachAlertPhotoLayout.this.videoRecordRunnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$10$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
-                                ChatAttachAlertPhotoLayout.AnonymousClass10.this.lambda$shutterLongPressed$0();
+                                ChatAttachAlertPhotoLayout.10.this.lambda$shutterLongPressed$0();
                             }
                         };
                         AndroidUtilities.lockOrientation(ChatAttachAlertPhotoLayout.this.parentAlert.baseFragment.getParentActivity());
                         CameraController.getInstance().recordVideo(ChatAttachAlertPhotoLayout.this.cameraView.getCameraSession(), this.outputFile, ChatAttachAlertPhotoLayout.this.parentAlert.avatarPicker != 0, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$10$$ExternalSyntheticLambda3
                             @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
                             public final void onFinishVideoRecording(String str, long j) {
-                                ChatAttachAlertPhotoLayout.AnonymousClass10.this.lambda$shutterLongPressed$1(str, j);
+                                ChatAttachAlertPhotoLayout.10.this.lambda$shutterLongPressed$1(str, j);
                             }
                         }, new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$10$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
-                                ChatAttachAlertPhotoLayout.AnonymousClass10.this.lambda$shutterLongPressed$2();
+                                ChatAttachAlertPhotoLayout.10.this.lambda$shutterLongPressed$2();
                             }
                         }, ChatAttachAlertPhotoLayout.this.cameraView);
                         ChatAttachAlertPhotoLayout.this.shutterButton.setState(ShutterButton.State.RECORDING, true);
@@ -1168,7 +1167,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             ChatAttachAlertPhotoLayout.this.takingPhoto = CameraController.getInstance().takePicture(generatePicturePath, ChatAttachAlertPhotoLayout.this.cameraView.getCameraSession(), new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$10$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatAttachAlertPhotoLayout.AnonymousClass10.this.lambda$shutterReleased$3(generatePicturePath, isSameTakePictureOrientation);
+                    ChatAttachAlertPhotoLayout.10.this.lambda$shutterReleased$3(generatePicturePath, isSameTakePictureOrientation);
                 }
             });
             ChatAttachAlertPhotoLayout.this.cameraView.startTakePictureAnimation();
@@ -1575,14 +1574,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 allPhotosArray = getAllPhotosArray();
                 size = cameraPhotos.size() - 1;
             }
-            PhotoViewer.getInstance().openPhotoForSelect(allPhotosArray, size, i, false, new AnonymousClass15(z), chatActivity);
+            PhotoViewer.getInstance().openPhotoForSelect(allPhotosArray, size, i, false, new 15(z), chatActivity);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$15  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass15 extends BasePhotoProvider {
+    public class 15 extends BasePhotoProvider {
         final /* synthetic */ boolean val$sameTakePictureOrientation;
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
@@ -1596,7 +1594,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass15(boolean z) {
+        15(boolean z) {
             super();
             this.val$sameTakePictureOrientation = z;
         }
@@ -1617,7 +1615,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayout$15$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatAttachAlertPhotoLayout.AnonymousClass15.this.lambda$cancelButtonPressed$0();
+                        ChatAttachAlertPhotoLayout.15.this.lambda$cancelButtonPressed$0();
                     }
                 }, 1000L);
                 ChatAttachAlertPhotoLayout.this.zoomControlView.setZoom(0.0f, false);
@@ -3998,8 +3996,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             if (i == 0) {
                 if (!this.viewsCache.isEmpty()) {
                     RecyclerListView.Holder holder = this.viewsCache.get(0);

@@ -747,14 +747,13 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.MessageStatisticActivity$ListAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends StatisticActivity.BaseChartCell {
+        public class 1 extends StatisticActivity.BaseChartCell {
             @Override // org.telegram.ui.StatisticActivity.BaseChartCell
             void loadData(StatisticActivity.ChartViewData chartViewData) {
             }
 
-            AnonymousClass1(Context context, int i, BaseChartView.SharedUiComponents sharedUiComponents) {
+            1(Context context, int i, BaseChartView.SharedUiComponents sharedUiComponents) {
                 super(context, i, sharedUiComponents);
             }
 
@@ -797,7 +796,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                     ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).sendRequest(tLRPC$TL_stats_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda1
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            MessageStatisticActivity.ListAdapter.AnonymousClass1.this.lambda$onZoomed$1(str, zoomCancelable, tLObject, tLRPC$TL_error);
+                            MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$1(str, zoomCancelable, tLObject, tLRPC$TL_error);
                         }
                     }, null, null, 0, MessageStatisticActivity.this.chat.stats_dc, 1, true), ((BaseFragment) MessageStatisticActivity.this).classGuid);
                 }
@@ -818,7 +817,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MessageStatisticActivity.ListAdapter.AnonymousClass1.this.lambda$onZoomed$0(chartData, str, zoomCancelable);
+                        MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$0(chartData, str, zoomCancelable);
                     }
                 });
             }
@@ -856,8 +855,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             HeaderCell headerCell;
             if (i == 0) {
                 View manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false);
@@ -871,9 +869,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 headerCell2.setHeight(43);
                 headerCell = headerCell2;
             } else if (i == 4) {
-                View anonymousClass1 = new AnonymousClass1(this.mContext, 1, MessageStatisticActivity.this.sharedUi = new BaseChartView.SharedUiComponents());
-                anonymousClass1.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                headerCell = anonymousClass1;
+                View view = new 1(this.mContext, 1, MessageStatisticActivity.this.sharedUi = new BaseChartView.SharedUiComponents());
+                view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
+                headerCell = view;
             } else if (i == 5) {
                 View overviewCell = new OverviewCell(this.mContext);
                 overviewCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
@@ -1064,7 +1062,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{HeaderCell.class, ManageChatUserCell.class}, null, null, null, "windowBackgroundWhite"));

@@ -68,19 +68,18 @@ public class RecyclerItemsEnterAnimator {
             ofFloat.start();
             i--;
         }
-        AnonymousClass2 anonymousClass2 = new AnonymousClass2(progressView, i);
-        this.preDrawListeners.add(anonymousClass2);
-        this.listView.getViewTreeObserver().addOnPreDrawListener(anonymousClass2);
+        2 r1 = new 2(progressView, i);
+        this.preDrawListeners.add(r1);
+        this.listView.getViewTreeObserver().addOnPreDrawListener(r1);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.RecyclerItemsEnterAnimator$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements ViewTreeObserver.OnPreDrawListener {
+    public class 2 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ int val$finalFrom;
         final /* synthetic */ View val$finalProgressView;
 
-        AnonymousClass2(View view, int i) {
+        2(View view, int i) {
             this.val$finalProgressView = view;
             this.val$finalFrom = i;
         }
@@ -103,7 +102,7 @@ public class RecyclerItemsEnterAnimator {
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.RecyclerItemsEnterAnimator$2$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            RecyclerItemsEnterAnimator.AnonymousClass2.this.lambda$onPreDraw$0(childAdapterPosition, valueAnimator);
+                            RecyclerItemsEnterAnimator.2.this.lambda$onPreDraw$0(childAdapterPosition, valueAnimator);
                         }
                     });
                     ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.RecyclerItemsEnterAnimator.2.1

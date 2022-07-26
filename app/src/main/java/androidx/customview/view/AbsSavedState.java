@@ -8,10 +8,8 @@ public abstract class AbsSavedState implements Parcelable {
     public static final AbsSavedState EMPTY_STATE = new AbsSavedState() { // from class: androidx.customview.view.AbsSavedState.1
     };
     public static final Parcelable.Creator<AbsSavedState> CREATOR = new Parcelable.ClassLoaderCreator<AbsSavedState>() { // from class: androidx.customview.view.AbsSavedState.2
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.ClassLoaderCreator
-        /* renamed from: createFromParcel */
-        public AbsSavedState mo13createFromParcel(Parcel parcel, ClassLoader classLoader) {
+        public AbsSavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
             if (parcel.readParcelable(classLoader) != null) {
                 throw new IllegalStateException("superState must be null");
             }
@@ -19,14 +17,12 @@ public abstract class AbsSavedState implements Parcelable {
         }
 
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public AbsSavedState mo12createFromParcel(Parcel parcel) {
-            return mo13createFromParcel(parcel, (ClassLoader) null);
+        public AbsSavedState createFromParcel(Parcel parcel) {
+            return createFromParcel(parcel, (ClassLoader) null);
         }
 
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public AbsSavedState[] mo14newArray(int i) {
+        public AbsSavedState[] newArray(int i) {
             return new AbsSavedState[i];
         }
     };

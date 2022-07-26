@@ -1,9 +1,8 @@
-package com.google.android.gms.internal.p000authapiphone;
+package com.google.android.gms.internal.auth-api-phone;
 
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* renamed from: com.google.android.gms.internal.auth-api-phone.zzc  reason: invalid package */
 /* loaded from: classes.dex */
 public class zzc {
     static {

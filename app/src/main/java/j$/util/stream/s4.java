@@ -64,8 +64,7 @@ final class s4 extends f4 implements j$.util.v {
     }
 
     @Override // j$.util.stream.f4, j$.util.u
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public j$.util.v mo350trySplit() {
-        return (j$.util.v) super.mo350trySplit();
+    public j$.util.v trySplit() {
+        return (j$.util.v) super.trySplit();
     }
 }

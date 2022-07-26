@@ -11,17 +11,13 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public final class BackStackState implements Parcelable {
     public static final Parcelable.Creator<BackStackState> CREATOR = new Parcelable.Creator<BackStackState>() { // from class: androidx.fragment.app.BackStackState.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public BackStackState mo15createFromParcel(Parcel parcel) {
+        public BackStackState createFromParcel(Parcel parcel) {
             return new BackStackState(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public BackStackState[] mo16newArray(int i) {
+        public BackStackState[] newArray(int i) {
             return new BackStackState[i];
         }
     };

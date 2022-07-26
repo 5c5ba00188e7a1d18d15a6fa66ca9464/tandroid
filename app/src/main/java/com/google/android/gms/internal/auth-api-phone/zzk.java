@@ -1,7 +1,6 @@
-package com.google.android.gms.internal.p000authapiphone;
+package com.google.android.gms.internal.auth-api-phone;
 
 import android.os.RemoteException;
-/* renamed from: com.google.android.gms.internal.auth-api-phone.zzk  reason: invalid package */
 /* loaded from: classes.dex */
 final class zzk extends zzm {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -9,7 +8,7 @@ final class zzk extends zzm {
         super(null);
     }
 
-    @Override // com.google.android.gms.internal.p000authapiphone.zzm
+    @Override // com.google.android.gms.internal.auth-api-phone.zzm
     protected final void zza(zze zzeVar) throws RemoteException {
         zzeVar.zza(new zzl(this));
     }

@@ -10,8 +10,7 @@ public final /* synthetic */ class ComponentRuntime$$ExternalSyntheticLambda2 im
     }
 
     @Override // com.google.firebase.inject.Provider
-    /* renamed from: get */
-    public final Object mo190get() {
+    public final Object get() {
         return Collections.emptySet();
     }
 }

@@ -547,7 +547,7 @@ public class HuaweiApi<TOption extends Api.ApiOptions> {
 
     /* JADX WARN: Type inference failed for: r3v2, types: [com.huawei.hms.common.internal.AnyClient] */
     public AnyClient getClient(Looper looper, RequestHandler requestHandler) {
-        return this.mClientBuilder.mo230buildClient(this.mContext, getClientSetting(), requestHandler, requestHandler);
+        return this.mClientBuilder.buildClient(this.mContext, getClientSetting(), requestHandler, requestHandler);
     }
 
     protected ClientSettings getClientSetting() {

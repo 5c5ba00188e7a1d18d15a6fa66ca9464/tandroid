@@ -23,8 +23,7 @@ public class SparseArrayCompat<E> implements Cloneable {
         this.mValues = new Object[idealIntArraySize];
     }
 
-    /* renamed from: clone */
-    public SparseArrayCompat<E> m4clone() {
+    public SparseArrayCompat<E> clone() {
         try {
             SparseArrayCompat<E> sparseArrayCompat = (SparseArrayCompat) super.clone();
             sparseArrayCompat.mKeys = (int[]) this.mKeys.clone();

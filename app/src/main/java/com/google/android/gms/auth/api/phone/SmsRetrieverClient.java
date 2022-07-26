@@ -4,7 +4,7 @@ import android.content.Context;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.internal.ApiExceptionMapper;
-import com.google.android.gms.internal.p000authapiphone.zzi;
+import com.google.android.gms.internal.auth-api-phone.zzi;
 import com.google.android.gms.tasks.Task;
 /* loaded from: classes.dex */
 public abstract class SmsRetrieverClient extends GoogleApi<Api.ApiOptions.NoOptions> {

@@ -34,25 +34,23 @@ abstract class D4 {
     }
 
     public /* bridge */ /* synthetic */ j$.util.t trySplit() {
-        return (j$.util.t) m272trySplit();
+        return (j$.util.t) trySplit();
     }
 
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ u.a m271trySplit() {
-        return (u.a) m272trySplit();
+    public /* bridge */ /* synthetic */ u.a trySplit() {
+        return (u.a) trySplit();
     }
 
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public j$.util.u m272trySplit() {
+    public j$.util.u trySplit() {
         long j = this.a;
         long j2 = this.e;
         if (j < j2 && this.d < j2) {
             while (true) {
-                j$.util.u mo350trySplit = this.c.mo350trySplit();
-                if (mo350trySplit == null) {
+                j$.util.u trySplit = this.c.trySplit();
+                if (trySplit == null) {
                     return null;
                 }
-                long estimateSize = mo350trySplit.estimateSize() + this.d;
+                long estimateSize = trySplit.estimateSize() + this.d;
                 long min = Math.min(estimateSize, this.b);
                 long j3 = this.a;
                 if (j3 >= min) {
@@ -63,12 +61,12 @@ abstract class D4 {
                         long j5 = this.d;
                         if (j5 < j3 || estimateSize > j4) {
                             this.d = min;
-                            return a(mo350trySplit, j3, j4, j5, min);
+                            return a(trySplit, j3, j4, j5, min);
                         }
                         this.d = min;
-                        return mo350trySplit;
+                        return trySplit;
                     }
-                    this.c = mo350trySplit;
+                    this.c = trySplit;
                     this.e = min;
                 }
             }
@@ -77,13 +75,11 @@ abstract class D4 {
         }
     }
 
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ j$.util.v m273trySplit() {
-        return (j$.util.v) m272trySplit();
+    public /* bridge */ /* synthetic */ j$.util.v trySplit() {
+        return (j$.util.v) trySplit();
     }
 
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ j$.util.w m274trySplit() {
-        return (j$.util.w) m272trySplit();
+    public /* bridge */ /* synthetic */ j$.util.w trySplit() {
+        return (j$.util.w) trySplit();
     }
 }

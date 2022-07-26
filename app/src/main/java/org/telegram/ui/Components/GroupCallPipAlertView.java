@@ -55,32 +55,32 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraFirstFrameAvailable() {
-        VoIPService.StateListener.CC.$default$onCameraFirstFrameAvailable(this);
+        VoIPService.StateListener.-CC.$default$onCameraFirstFrameAvailable(this);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraSwitch(boolean z) {
-        VoIPService.StateListener.CC.$default$onCameraSwitch(this, z);
+        VoIPService.StateListener.-CC.$default$onCameraSwitch(this, z);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onMediaStateUpdated(int i, int i2) {
-        VoIPService.StateListener.CC.$default$onMediaStateUpdated(this, i, i2);
+        VoIPService.StateListener.-CC.$default$onMediaStateUpdated(this, i, i2);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onScreenOnChange(boolean z) {
-        VoIPService.StateListener.CC.$default$onScreenOnChange(this, z);
+        VoIPService.StateListener.-CC.$default$onScreenOnChange(this, z);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onSignalBarsCountChanged(int i) {
-        VoIPService.StateListener.CC.$default$onSignalBarsCountChanged(this, i);
+        VoIPService.StateListener.-CC.$default$onSignalBarsCountChanged(this, i);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onVideoAvailableChange(boolean z) {
-        VoIPService.StateListener.CC.$default$onVideoAvailableChange(this, z);
+        VoIPService.StateListener.-CC.$default$onVideoAvailableChange(this, z);
     }
 
     public GroupCallPipAlertView(final Context context, int i) {

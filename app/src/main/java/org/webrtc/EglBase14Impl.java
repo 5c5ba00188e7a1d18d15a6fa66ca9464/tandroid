@@ -62,7 +62,7 @@ class EglBase14Impl implements EglBase14 {
         EGLDisplay eglDisplay = getEglDisplay();
         this.eglDisplay = eglDisplay;
         this.eglConfig = getEglConfig(eglDisplay, iArr);
-        int openGlesVersionFromConfig = EglBase.CC.getOpenGlesVersionFromConfig(iArr);
+        int openGlesVersionFromConfig = EglBase.-CC.getOpenGlesVersionFromConfig(iArr);
         Logging.d(TAG, "Using OpenGL ES version " + openGlesVersionFromConfig);
         this.eglContext = createEglContext(eGLContext, this.eglDisplay, this.eglConfig, openGlesVersionFromConfig);
     }
@@ -129,8 +129,7 @@ class EglBase14Impl implements EglBase14 {
     }
 
     @Override // org.webrtc.EglBase
-    /* renamed from: getEglBaseContext  reason: collision with other method in class */
-    public Context mo2309getEglBaseContext() {
+    public Context getEglBaseContext() {
         return new Context(this.eglContext);
     }
 

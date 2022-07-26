@@ -1018,9 +1018,9 @@ public class FilterTabsView extends FrameLayout {
         };
         this.listView = recyclerListView;
         recyclerListView.setClipChildren(false);
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4();
-        this.itemAnimator = anonymousClass4;
-        anonymousClass4.setDelayAnimations(false);
+        4 r3 = new 4();
+        this.itemAnimator = r3;
+        r3.setDelayAnimations(false);
         this.listView.setItemAnimator(this.itemAnimator);
         this.listView.setSelectorType(8);
         this.listView.setSelectorRadius(6);
@@ -1075,12 +1075,12 @@ public class FilterTabsView extends FrameLayout {
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.FilterTabsView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
-                return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i);
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i, f, f2);
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
@@ -1106,10 +1106,9 @@ public class FilterTabsView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.FilterTabsView$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends DefaultItemAnimator {
-        AnonymousClass4() {
+    public class 4 extends DefaultItemAnimator {
+        4() {
         }
 
         @Override // androidx.recyclerview.widget.DefaultItemAnimator, androidx.recyclerview.widget.RecyclerView.ItemAnimator
@@ -1123,7 +1122,7 @@ public class FilterTabsView extends FrameLayout {
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FilterTabsView$4$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        FilterTabsView.AnonymousClass4.this.lambda$runPendingAnimations$0(valueAnimator);
+                        FilterTabsView.4.this.lambda$runPendingAnimations$0(valueAnimator);
                     }
                 });
                 ofFloat.setDuration(getMoveDuration());
@@ -1190,7 +1189,7 @@ public class FilterTabsView extends FrameLayout {
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FilterTabsView$4$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        FilterTabsView.AnonymousClass4.lambda$animateMoveImpl$1(FilterTabsView.TabView.this, valueAnimator2);
+                        FilterTabsView.4.lambda$animateMoveImpl$1(FilterTabsView.TabView.this, valueAnimator2);
                     }
                 });
                 ofFloat.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.FilterTabsView.4.1
@@ -1783,8 +1782,7 @@ public class FilterTabsView extends FrameLayout {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(new TabView(this.mContext));
         }
 

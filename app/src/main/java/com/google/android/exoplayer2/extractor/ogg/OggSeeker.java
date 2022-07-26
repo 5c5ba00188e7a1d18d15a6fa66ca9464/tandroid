@@ -5,8 +5,7 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 import java.io.IOException;
 /* loaded from: classes.dex */
 interface OggSeeker {
-    /* renamed from: createSeekMap */
-    SeekMap mo94createSeekMap();
+    SeekMap createSeekMap();
 
     long read(ExtractorInput extractorInput) throws IOException, InterruptedException;
 

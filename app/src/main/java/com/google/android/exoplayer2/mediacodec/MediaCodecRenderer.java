@@ -630,12 +630,12 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     }
 
     private void setSourceDrmSession(DrmSession<FrameworkMediaCrypto> drmSession) {
-        DrmSession.CC.replaceSession(this.sourceDrmSession, drmSession);
+        DrmSession.-CC.replaceSession(this.sourceDrmSession, drmSession);
         this.sourceDrmSession = drmSession;
     }
 
     private void setCodecDrmSession(DrmSession<FrameworkMediaCrypto> drmSession) {
-        DrmSession.CC.replaceSession(this.codecDrmSession, drmSession);
+        DrmSession.-CC.replaceSession(this.codecDrmSession, drmSession);
         this.codecDrmSession = drmSession;
     }
 

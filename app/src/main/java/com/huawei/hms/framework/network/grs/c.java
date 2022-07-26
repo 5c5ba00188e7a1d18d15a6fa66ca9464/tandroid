@@ -42,10 +42,8 @@ public class c {
             this.b = grsBaseInfo;
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // java.util.concurrent.Callable
-        /* renamed from: call */
-        public Boolean mo225call() {
+        public Boolean call() {
             c.this.c = new h();
             c cVar = c.this;
             Context context = this.a;
@@ -103,7 +101,7 @@ public class c {
 
     private void a(GrsBaseInfo grsBaseInfo) {
         try {
-            this.a = grsBaseInfo.m224clone();
+            this.a = grsBaseInfo.clone();
         } catch (CloneNotSupportedException e) {
             Logger.w(i, "GrsClient catch CloneNotSupportedException", e);
             this.a = grsBaseInfo.copy();

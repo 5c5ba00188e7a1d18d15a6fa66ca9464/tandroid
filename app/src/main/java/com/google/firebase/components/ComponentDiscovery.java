@@ -53,8 +53,7 @@ public final class ComponentDiscovery<T> {
         for (final String str : this.retriever.retrieve(this.context)) {
             arrayList.add(new Provider() { // from class: com.google.firebase.components.ComponentDiscovery$$ExternalSyntheticLambda0
                 @Override // com.google.firebase.inject.Provider
-                /* renamed from: get */
-                public final Object mo190get() {
+                public final Object get() {
                     ComponentRegistrar instantiate;
                     instantiate = ComponentDiscovery.instantiate(str);
                     return instantiate;

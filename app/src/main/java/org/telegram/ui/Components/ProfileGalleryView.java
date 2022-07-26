@@ -932,11 +932,10 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         /* JADX WARN: Removed duplicated region for block: B:38:0x0292  */
         /* JADX WARN: Removed duplicated region for block: B:40:0x0295  */
         @Override // androidx.viewpager.widget.PagerAdapter
-        /* renamed from: instantiateItem  reason: collision with other method in class */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public Item mo1563instantiateItem(ViewGroup viewGroup, int i) {
+        public Item instantiateItem(ViewGroup viewGroup, int i) {
             boolean z;
             Item item = this.objects.get(i);
             int realPosition = getRealPosition(i);

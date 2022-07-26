@@ -1221,7 +1221,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             int i = this.resolveFileNameId;
             this.resolveFileNameId = i + 1;
             this.resolveFileNameId = i;
-            Utilities.searchQueue.postRunnable(new AnonymousClass1(i, z));
+            Utilities.searchQueue.postRunnable(new 1(i, z));
             this.radialProgress.setIcon(4, z, false);
         } else if (TextUtils.isEmpty(str)) {
             this.buttonState = -1;
@@ -1275,13 +1275,12 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Cells.ContextLinkCell$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
+    public class 1 implements Runnable {
         final /* synthetic */ boolean val$ifSame;
         final /* synthetic */ int val$localId;
 
-        AnonymousClass1(int i, boolean z) {
+        1(int i, boolean z) {
             this.val$localId = i;
             this.val$ifSame = z;
         }
@@ -1379,7 +1378,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ContextLinkCell$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ContextLinkCell.AnonymousClass1.this.lambda$run$0(i, str, file2, z, z2);
+                    ContextLinkCell.1.this.lambda$run$0(i, str, file2, z, z2);
                 }
             });
         }

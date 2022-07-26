@@ -22,7 +22,7 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
 
         @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.TimestampSeeker
         public /* synthetic */ void onSeekFinished() {
-            BinarySearchSeeker.TimestampSeeker.CC.$default$onSeekFinished(this);
+            BinarySearchSeeker.TimestampSeeker.-CC.$default$onSeekFinished(this);
         }
 
         private FlacTimestampSeeker(FlacStreamMetadata flacStreamMetadata, int i) {

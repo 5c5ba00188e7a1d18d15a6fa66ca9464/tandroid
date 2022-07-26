@@ -60,7 +60,7 @@ final class zzkq<T> implements zzlc<T> {
         while (zzd.hasNext()) {
             Map.Entry<?, Object> next = zzd.next();
             zziw zziwVar = (zziw) next.getKey();
-            if (zziwVar.zzc() != zzmo.MESSAGE || zziwVar.zzd() || zziwVar.zze()) {
+            if (zziwVar.zzc() != zzmo.zzi || zziwVar.zzd() || zziwVar.zze()) {
                 throw new IllegalStateException("Found invalid MessageSet item.");
             }
             if (next instanceof zzjr) {

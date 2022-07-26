@@ -51,7 +51,7 @@ abstract class f extends CountedCompleter {
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.u mo350trySplit;
+        j$.util.u trySplit;
         j$.util.u uVar = this.b;
         long estimateSize = uVar.estimateSize();
         long j = this.c;
@@ -61,14 +61,14 @@ abstract class f extends CountedCompleter {
         }
         boolean z = false;
         f fVar = this;
-        while (estimateSize > j && (mo350trySplit = uVar.mo350trySplit()) != null) {
-            f f = fVar.f(mo350trySplit);
+        while (estimateSize > j && (trySplit = uVar.trySplit()) != null) {
+            f f = fVar.f(trySplit);
             fVar.d = f;
             f f2 = fVar.f(uVar);
             fVar.e = f2;
             fVar.setPendingCount(1);
             if (z) {
-                uVar = mo350trySplit;
+                uVar = trySplit;
                 fVar = f;
                 f = f2;
             } else {

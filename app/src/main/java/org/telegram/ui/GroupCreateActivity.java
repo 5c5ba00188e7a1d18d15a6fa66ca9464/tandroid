@@ -130,9 +130,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     /* loaded from: classes3.dex */
     public interface ContactsAddActivityDelegate {
 
-        /* renamed from: org.telegram.ui.GroupCreateActivity$ContactsAddActivityDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$needAddBot(ContactsAddActivityDelegate contactsAddActivityDelegate, TLRPC$User tLRPC$User) {
             }
         }
@@ -1321,17 +1320,17 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i3) {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i3);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i3);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeCallParticipants(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeUsers() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeUsers(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -1341,7 +1340,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ void onSetHashtags(ArrayList arrayList2, HashMap hashMap) {
-                    SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$onSetHashtags(this, arrayList2, hashMap);
+                    SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$onSetHashtags(this, arrayList2, hashMap);
                 }
             });
         }
@@ -1440,8 +1439,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View groupCreateSectionCell;
             GroupCreateUserCell groupCreateUserCell;
             if (i != 0) {
@@ -1791,7 +1789,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));

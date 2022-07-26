@@ -16,9 +16,8 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public interface AnalyticsListener {
 
-    /* renamed from: com.google.android.exoplayer2.analytics.AnalyticsListener$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         public static void $default$onAudioAttributesChanged(AnalyticsListener analyticsListener, EventTime eventTime, AudioAttributes audioAttributes) {
         }
 

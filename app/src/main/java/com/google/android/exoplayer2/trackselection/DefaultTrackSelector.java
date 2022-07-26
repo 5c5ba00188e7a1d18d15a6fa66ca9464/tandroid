@@ -82,8 +82,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
-        /* renamed from: build */
-        public Parameters mo170build() {
+        public Parameters build() {
             return new Parameters(this.maxVideoWidth, this.maxVideoHeight, this.maxVideoFrameRate, this.maxVideoBitrate, this.exceedVideoConstraintsIfNecessary, this.allowVideoMixedMimeTypeAdaptiveness, this.allowVideoNonSeamlessAdaptiveness, this.viewportWidth, this.viewportHeight, this.viewportOrientationMayChange, this.preferredAudioLanguage, this.maxAudioChannelCount, this.maxAudioBitrate, this.exceedAudioConstraintsIfNecessary, this.allowAudioMixedMimeTypeAdaptiveness, this.allowAudioMixedSampleRateAdaptiveness, this.allowAudioMixedChannelCountAdaptiveness, this.preferredTextLanguage, this.preferredTextRoleFlags, this.selectUndeterminedTextLanguage, this.disabledTextTrackSelectionFlags, this.forceLowestBitrate, this.forceHighestSupportedBitrate, this.exceedRendererCapabilitiesIfNecessary, this.tunnelingAudioSessionId, this.selectionOverrides, this.rendererDisabledFlags);
         }
 
@@ -135,19 +134,15 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         public final int viewportHeight;
         public final boolean viewportOrientationMayChange;
         public final int viewportWidth;
-        public static final Parameters DEFAULT_WITHOUT_CONTEXT = new ParametersBuilder().mo170build();
+        public static final Parameters DEFAULT_WITHOUT_CONTEXT = new ParametersBuilder().build();
         public static final Parcelable.Creator<Parameters> CREATOR = new Parcelable.Creator<Parameters>() { // from class: com.google.android.exoplayer2.trackselection.DefaultTrackSelector.Parameters.1
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: createFromParcel */
-            public Parameters mo168createFromParcel(Parcel parcel) {
+            public Parameters createFromParcel(Parcel parcel) {
                 return new Parameters(parcel);
             }
 
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: newArray */
-            public Parameters[] mo169newArray(int i) {
+            public Parameters[] newArray(int i) {
                 return new Parameters[i];
             }
         };
@@ -351,17 +346,13 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     /* loaded from: classes.dex */
     public static final class SelectionOverride implements Parcelable {
         public static final Parcelable.Creator<SelectionOverride> CREATOR = new Parcelable.Creator<SelectionOverride>() { // from class: com.google.android.exoplayer2.trackselection.DefaultTrackSelector.SelectionOverride.1
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: createFromParcel */
-            public SelectionOverride mo171createFromParcel(Parcel parcel) {
+            public SelectionOverride createFromParcel(Parcel parcel) {
                 return new SelectionOverride(parcel);
             }
 
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
-            /* renamed from: newArray */
-            public SelectionOverride[] mo172newArray(int i) {
+            public SelectionOverride[] newArray(int i) {
                 return new SelectionOverride[i];
             }
         };
@@ -954,7 +945,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
         int indexOf = trackGroupArray.indexOf(trackSelection.getTrackGroup());
         for (int i = 0; i < trackSelection.length(); i++) {
-            if (RendererCapabilities.CC.getTunnelingSupport(iArr[indexOf][trackSelection.getIndexInTrackGroup(i)]) != 32) {
+            if (RendererCapabilities.-CC.getTunnelingSupport(iArr[indexOf][trackSelection.getIndexInTrackGroup(i)]) != 32) {
                 return false;
             }
         }
@@ -962,7 +953,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     }
 
     protected static boolean isSupported(int i, boolean z) {
-        int formatSupport = RendererCapabilities.CC.getFormatSupport(i);
+        int formatSupport = RendererCapabilities.-CC.getFormatSupport(i);
         return formatSupport == 4 || (z && formatSupport == 3);
     }
 

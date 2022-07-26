@@ -234,7 +234,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         };
         BotWebViewContainer botWebViewContainer = new BotWebViewContainer(context, resourcesProvider, getColor("windowBackgroundWhite"));
         this.webViewContainer = botWebViewContainer;
-        botWebViewContainer.setDelegate(new AnonymousClass2(context, resourcesProvider));
+        botWebViewContainer.setDelegate(new 2(context, resourcesProvider));
         this.linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         this.linePaint.setStrokeWidth(AndroidUtilities.dp(4.0f));
         this.linePaint.setStrokeCap(Paint.Cap.ROUND);
@@ -426,19 +426,18 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.BotWebViewSheet$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements BotWebViewContainer.Delegate {
+    public class 2 implements BotWebViewContainer.Delegate {
         private boolean sentWebViewData;
         final /* synthetic */ Context val$context;
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onWebAppReady() {
-            BotWebViewContainer.Delegate.CC.$default$onWebAppReady(this);
+            BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
 
-        AnonymousClass2(Context context, Theme.ResourcesProvider resourcesProvider) {
+        2(Context context, Theme.ResourcesProvider resourcesProvider) {
             this.val$context = context;
             this.val$resourcesProvider = resourcesProvider;
         }
@@ -467,7 +466,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             ConnectionsManager.getInstance(BotWebViewSheet.this.currentAccount).sendRequest(tLRPC$TL_messages_sendWebViewData, new RequestDelegate() { // from class: org.telegram.ui.Components.BotWebViewSheet$2$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    BotWebViewSheet.AnonymousClass2.this.lambda$onSendWebViewData$0(tLObject, tLRPC$TL_error);
+                    BotWebViewSheet.2.this.lambda$onSendWebViewData$0(tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -495,7 +494,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewSheet$2$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    BotWebViewSheet.AnonymousClass2.this.lambda$onWebAppSetActionBarColor$1(i, color, valueAnimator);
+                    BotWebViewSheet.2.this.lambda$onWebAppSetActionBarColor$1(i, color, valueAnimator);
                 }
             });
             duration.start();
@@ -516,7 +515,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewSheet$2$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    BotWebViewSheet.AnonymousClass2.this.lambda$onWebAppSetBackgroundColor$2(color, i, valueAnimator);
+                    BotWebViewSheet.2.this.lambda$onWebAppSetBackgroundColor$2(color, i, valueAnimator);
                 }
             });
             duration.start();
@@ -552,7 +551,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.BotWebViewSheet$2$$ExternalSyntheticLambda4
                     @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
                     public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                        BotWebViewSheet.AnonymousClass2.this.lambda$onWebAppOpenInvoice$3(overlayActionBarLayoutDialog, str, invoiceStatus);
+                        BotWebViewSheet.2.this.lambda$onWebAppOpenInvoice$3(overlayActionBarLayoutDialog, str, invoiceStatus);
                     }
                 });
                 paymentFormActivity.setResourcesProvider(this.val$resourcesProvider);

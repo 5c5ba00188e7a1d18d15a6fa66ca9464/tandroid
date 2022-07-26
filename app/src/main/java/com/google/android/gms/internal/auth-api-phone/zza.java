@@ -1,10 +1,9 @@
-package com.google.android.gms.internal.p000authapiphone;
+package com.google.android.gms.internal.auth-api-phone;
 
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* renamed from: com.google.android.gms.internal.auth-api-phone.zza  reason: invalid package */
 /* loaded from: classes.dex */
 public class zza implements IInterface {
     private final IBinder zza;

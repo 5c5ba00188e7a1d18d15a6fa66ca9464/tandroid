@@ -145,15 +145,14 @@ public abstract class f4 implements j$.util.u {
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    public j$.util.u mo350trySplit() {
+    public j$.util.u trySplit() {
         if (!this.a || this.i) {
             return null;
         }
         h();
-        j$.util.u mo350trySplit = this.d.mo350trySplit();
-        if (mo350trySplit != null) {
-            return l(mo350trySplit);
+        j$.util.u trySplit = this.d.trySplit();
+        if (trySplit != null) {
+            return l(trySplit);
         }
         return null;
     }

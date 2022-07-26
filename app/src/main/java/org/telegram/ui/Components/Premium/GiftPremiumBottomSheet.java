@@ -426,10 +426,9 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends RecyclerListView.SelectionAdapter {
-        AnonymousClass1() {
+    public class 1 extends RecyclerListView.SelectionAdapter {
+        1() {
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -439,8 +438,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             PremiumGiftTierCell premiumGiftTierCell;
             View view;
             if (i == 1) {
@@ -470,14 +468,14 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                     @Override // org.telegram.messenger.GenericProvider
                     public final Object provide(Object obj) {
                         Paint lambda$onCreateViewHolder$0;
-                        lambda$onCreateViewHolder$0 = GiftPremiumBottomSheet.AnonymousClass1.this.lambda$onCreateViewHolder$0(premiumGiftTierCell2, (Void) obj);
+                        lambda$onCreateViewHolder$0 = GiftPremiumBottomSheet.1.this.lambda$onCreateViewHolder$0(premiumGiftTierCell2, (Void) obj);
                         return lambda$onCreateViewHolder$0;
                     }
                 });
                 premiumGiftTierCell2.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$1$$ExternalSyntheticLambda1
                     @Override // org.telegram.ui.Components.CheckBoxBase.ProgressDelegate
                     public final void setProgress(float f) {
-                        GiftPremiumBottomSheet.AnonymousClass1.lambda$onCreateViewHolder$1(atomicReference, premiumGiftTierCell2, f);
+                        GiftPremiumBottomSheet.1.lambda$onCreateViewHolder$1(atomicReference, premiumGiftTierCell2, f);
                     }
                 });
                 premiumGiftTierCell = premiumGiftTierCell2;
@@ -560,7 +558,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected RecyclerListView.SelectionAdapter createAdapter() {
-        return new AnonymousClass1();
+        return new 1();
     }
 
     /* loaded from: classes3.dex */
@@ -568,7 +566,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         private LinkSpan() {
         }
 
-        /* synthetic */ LinkSpan(GiftPremiumBottomSheet giftPremiumBottomSheet, AnonymousClass1 anonymousClass1) {
+        /* synthetic */ LinkSpan(GiftPremiumBottomSheet giftPremiumBottomSheet, 1 r2) {
             this();
         }
 

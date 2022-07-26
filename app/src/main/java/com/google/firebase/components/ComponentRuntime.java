@@ -67,9 +67,9 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
             Iterator<Provider<ComponentRegistrar>> it = this.unprocessedRegistrarProviders.iterator();
             while (it.hasNext()) {
                 try {
-                    ComponentRegistrar mo190get = it.next().mo190get();
-                    if (mo190get != null) {
-                        list.addAll(mo190get.getComponents());
+                    ComponentRegistrar componentRegistrar = it.next().get();
+                    if (componentRegistrar != null) {
+                        list.addAll(componentRegistrar.getComponents());
                         it.remove();
                     }
                 } catch (InvalidRegistrarException e) {
@@ -87,8 +87,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
             for (final Component<?> component : list) {
                 this.components.put(component, new Lazy(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda1
                     @Override // com.google.firebase.inject.Provider
-                    /* renamed from: get */
-                    public final Object mo190get() {
+                    public final Object get() {
                         Object lambda$discoverComponents$0;
                         lambda$discoverComponents$0 = ComponentRuntime.this.lambda$discoverComponents$0(component);
                         return lambda$discoverComponents$0;
@@ -122,8 +121,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
         for (final ComponentRegistrar componentRegistrar : iterable) {
             arrayList.add(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda0
                 @Override // com.google.firebase.inject.Provider
-                /* renamed from: get */
-                public final Object mo190get() {
+                public final Object get() {
                     ComponentRegistrar lambda$toProviders$1;
                     lambda$toProviders$1 = ComponentRuntime.lambda$toProviders$1(ComponentRegistrar.this);
                     return lambda$toProviders$1;
@@ -228,7 +226,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
             Component<?> key = entry.getKey();
             Provider<?> value = entry.getValue();
             if (key.isAlwaysEager() || (key.isEagerInDefaultApp() && z)) {
-                value.mo190get();
+                value.get();
             }
         }
         this.eventBus.enablePublishingAndFlushPending();
@@ -275,8 +273,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
         public Builder addComponentRegistrar(final ComponentRegistrar componentRegistrar) {
             this.lazyRegistrars.add(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$Builder$$ExternalSyntheticLambda0
                 @Override // com.google.firebase.inject.Provider
-                /* renamed from: get */
-                public final Object mo190get() {
+                public final Object get() {
                     ComponentRegistrar lambda$addComponentRegistrar$0;
                     lambda$addComponentRegistrar$0 = ComponentRuntime.Builder.lambda$addComponentRegistrar$0(ComponentRegistrar.this);
                     return lambda$addComponentRegistrar$0;

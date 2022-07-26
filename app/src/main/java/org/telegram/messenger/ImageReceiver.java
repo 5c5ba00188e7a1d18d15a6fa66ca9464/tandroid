@@ -158,9 +158,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     /* loaded from: classes.dex */
     public interface ImageReceiverDelegate {
 
-        /* renamed from: org.telegram.messenger.ImageReceiver$ImageReceiverDelegate$-CC  reason: invalid class name */
         /* loaded from: classes.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onAnimationReady(ImageReceiverDelegate imageReceiverDelegate, ImageReceiver imageReceiver) {
             }
         }

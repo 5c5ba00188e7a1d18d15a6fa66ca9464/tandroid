@@ -61,9 +61,8 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     /* loaded from: classes3.dex */
     public interface ScrollSlidingTabStripDelegate {
 
-        /* renamed from: org.telegram.ui.Components.ScrollSlidingTextTabStrip$ScrollSlidingTabStripDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onSamePageSelected(ScrollSlidingTabStripDelegate scrollSlidingTabStripDelegate) {
             }
         }

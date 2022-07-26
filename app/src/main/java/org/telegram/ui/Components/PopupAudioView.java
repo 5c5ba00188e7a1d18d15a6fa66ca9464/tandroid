@@ -46,7 +46,7 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
 
     @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
     public /* synthetic */ void onSeekBarContinuousDrag(float f) {
-        SeekBar.SeekBarDelegate.CC.$default$onSeekBarContinuousDrag(this, f);
+        SeekBar.SeekBarDelegate.-CC.$default$onSeekBarContinuousDrag(this, f);
     }
 
     public PopupAudioView(Context context) {

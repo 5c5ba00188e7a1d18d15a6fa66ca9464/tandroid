@@ -122,14 +122,13 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     private ArrayList<String> selectedFilesOrder = new ArrayList<>();
     private HashMap<FilteredSearchView.MessageHashId, MessageObject> selectedMessages = new HashMap<>();
     private int maxSelectedFiles = -1;
-    private BroadcastReceiver receiver = new AnonymousClass1();
+    private BroadcastReceiver receiver = new 1();
 
     /* loaded from: classes3.dex */
     public interface DocumentSelectActivityDelegate {
 
-        /* renamed from: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$DocumentSelectActivityDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$didSelectPhotos(DocumentSelectActivityDelegate documentSelectActivityDelegate, ArrayList arrayList, boolean z, int i) {
             }
 
@@ -169,7 +168,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             this.ext = "";
         }
 
-        /* synthetic */ ListItem(AnonymousClass1 anonymousClass1) {
+        /* synthetic */ ListItem(1 r1) {
             this();
         }
     }
@@ -182,15 +181,14 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         private HistoryEntry() {
         }
 
-        /* synthetic */ HistoryEntry(AnonymousClass1 anonymousClass1) {
+        /* synthetic */ HistoryEntry(1 r1) {
             this();
         }
     }
 
-    /* renamed from: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$1 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends BroadcastReceiver {
-        AnonymousClass1() {
+    public class 1 extends BroadcastReceiver {
+        1() {
             ChatAttachAlertDocumentLayout.this = r1;
         }
 
@@ -199,7 +197,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatAttachAlertDocumentLayout.AnonymousClass1.this.lambda$onReceive$0();
+                    ChatAttachAlertDocumentLayout.1.this.lambda$onReceive$0();
                 }
             };
             if ("android.intent.action.MEDIA_UNMOUNTED".equals(intent.getAction())) {
@@ -395,7 +393,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i2) {
                 LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.6.1
                     {
-                        AnonymousClass6.this = this;
+                        6.this = this;
                     }
 
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
@@ -1524,8 +1522,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View headerCell;
             View sharedDocumentCell;
             if (i != 0) {
@@ -2177,7 +2174,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                         }
                         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.SearchAdapter.3.1
                             {
-                                AnonymousClass3.this = this;
+                                3.this = this;
                             }
 
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -2197,7 +2194,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                                 ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(view3, View.ALPHA, view3.getAlpha(), 0.0f);
                                 ofFloat2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.SearchAdapter.3.2
                                     {
-                                        AnonymousClass3.this = this;
+                                        3.this = this;
                                     }
 
                                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -2249,8 +2246,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
-        /* renamed from: getItem */
-        public Object mo1730getItem(int i, int i2) {
+        public Object getItem(int i, int i2) {
             ArrayList<MessageObject> arrayList;
             if (i == 0) {
                 if (i2 >= this.searchResult.size()) {
@@ -2320,8 +2316,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         /* JADX WARN: Type inference failed for: r4v8, types: [org.telegram.ui.Components.FlickerLoadingView] */
         /* JADX WARN: Type inference failed for: r4v9, types: [android.view.View] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             GraySectionCell graySectionCell;
             if (i == 0) {
                 graySectionCell = new GraySectionCell(this.mContext, ChatAttachAlertDocumentLayout.this.resourcesProvider);

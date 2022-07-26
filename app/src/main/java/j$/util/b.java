@@ -11,9 +11,7 @@ public interface b extends j$.lang.e {
     boolean k(Predicate predicate);
 
     @Override // j$.lang.e
-    /* renamed from: spliterator */
-    u mo317spliterator();
+    u spliterator();
 
-    /* renamed from: stream */
-    Stream mo266stream();
+    Stream stream();
 }

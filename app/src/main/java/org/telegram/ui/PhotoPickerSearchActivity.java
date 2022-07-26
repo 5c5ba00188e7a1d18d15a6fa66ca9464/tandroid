@@ -147,7 +147,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         this.scrollSlidingTextTabStrip.setDelegate(new ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate() { // from class: org.telegram.ui.PhotoPickerSearchActivity.3
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
             public /* synthetic */ void onSamePageSelected() {
-                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.CC.$default$onSamePageSelected(this);
+                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.-CC.$default$onSamePageSelected(this);
             }
 
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
@@ -533,8 +533,8 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                                     PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.selectTabWithId(PhotoPickerSearchActivity.this.viewPages[0].selectedType, 1.0f);
                                 }
                                 PhotoPickerSearchActivity.this.tabsAnimationInProgress = false;
-                                AnonymousClass4.this.maybeStartTracking = false;
-                                AnonymousClass4.this.startedTracking = false;
+                                4.this.maybeStartTracking = false;
+                                4.this.startedTracking = false;
                                 ((BaseFragment) PhotoPickerSearchActivity.this).actionBar.setEnabled(true);
                                 PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
                             }

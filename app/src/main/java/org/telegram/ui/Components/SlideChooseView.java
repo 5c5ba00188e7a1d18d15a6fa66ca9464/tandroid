@@ -42,9 +42,8 @@ public class SlideChooseView extends View {
     /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* renamed from: org.telegram.ui.Components.SlideChooseView$Callback$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onTouchEnd(Callback callback) {
             }
         }
@@ -89,8 +88,7 @@ public class SlideChooseView extends View {
             }
 
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-            /* renamed from: getContentDescription */
-            protected CharSequence mo2090getContentDescription(View view) {
+            protected CharSequence getContentDescription(View view) {
                 if (SlideChooseView.this.selectedIndex < SlideChooseView.this.optionsStr.length) {
                     return SlideChooseView.this.optionsStr[SlideChooseView.this.selectedIndex];
                 }

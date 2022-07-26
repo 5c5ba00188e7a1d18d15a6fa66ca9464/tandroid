@@ -53,9 +53,8 @@ public interface Player {
 
         void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray);
 
-        /* renamed from: com.google.android.exoplayer2.Player$EventListener$-CC  reason: invalid class name */
         /* loaded from: classes.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onIsPlayingChanged(EventListener eventListener, boolean z) {
             }
 

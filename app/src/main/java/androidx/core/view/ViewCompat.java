@@ -429,10 +429,8 @@ public class ViewCompat {
     private static AccessibilityViewProperty<Boolean> screenReaderFocusableProperty() {
         return new AccessibilityViewProperty<Boolean>(R$id.tag_screen_reader_focusable, Boolean.class, 28) { // from class: androidx.core.view.ViewCompat.2
             /* JADX INFO: Access modifiers changed from: package-private */
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            /* renamed from: frameworkGet */
-            public Boolean mo9frameworkGet(View view) {
+            public Boolean frameworkGet(View view) {
                 return Boolean.valueOf(view.isScreenReaderFocusable());
             }
 
@@ -457,10 +455,8 @@ public class ViewCompat {
     private static AccessibilityViewProperty<CharSequence> paneTitleProperty() {
         return new AccessibilityViewProperty<CharSequence>(R$id.tag_accessibility_pane_title, CharSequence.class, 8, 28) { // from class: androidx.core.view.ViewCompat.3
             /* JADX INFO: Access modifiers changed from: package-private */
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            /* renamed from: frameworkGet */
-            public CharSequence mo9frameworkGet(View view) {
+            public CharSequence frameworkGet(View view) {
                 return view.getAccessibilityPaneTitle();
             }
 
@@ -481,10 +477,8 @@ public class ViewCompat {
     private static AccessibilityViewProperty<CharSequence> stateDescriptionProperty() {
         return new AccessibilityViewProperty<CharSequence>(R$id.tag_state_description, CharSequence.class, 64, 30) { // from class: androidx.core.view.ViewCompat.4
             /* JADX INFO: Access modifiers changed from: package-private */
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            /* renamed from: frameworkGet */
-            public CharSequence mo9frameworkGet(View view) {
+            public CharSequence frameworkGet(View view) {
                 return view.getStateDescription();
             }
 
@@ -517,10 +511,8 @@ public class ViewCompat {
     private static AccessibilityViewProperty<Boolean> accessibilityHeadingProperty() {
         return new AccessibilityViewProperty<Boolean>(R$id.tag_accessibility_heading, Boolean.class, 28) { // from class: androidx.core.view.ViewCompat.5
             /* JADX INFO: Access modifiers changed from: package-private */
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // androidx.core.view.ViewCompat.AccessibilityViewProperty
-            /* renamed from: frameworkGet */
-            public Boolean mo9frameworkGet(View view) {
+            public Boolean frameworkGet(View view) {
                 return Boolean.valueOf(view.isAccessibilityHeading());
             }
 
@@ -546,8 +538,7 @@ public class ViewCompat {
         private final int mTagKey;
         private final Class<T> mType;
 
-        /* renamed from: frameworkGet */
-        abstract T mo9frameworkGet(View view);
+        abstract T frameworkGet(View view);
 
         abstract void frameworkSet(View view, T value);
 
@@ -577,7 +568,7 @@ public class ViewCompat {
 
         T get(View view) {
             if (frameworkAvailable()) {
-                return mo9frameworkGet(view);
+                return frameworkGet(view);
             }
             if (!extrasAvailable()) {
                 return null;

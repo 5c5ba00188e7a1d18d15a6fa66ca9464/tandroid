@@ -794,8 +794,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatTextCell shadowSectionCell;
             if (i >= 0 && i <= 4) {
                 View view = new ChartCell(this, viewGroup.getContext(), i, StatisticActivity.this.sharedUi) { // from class: org.telegram.ui.StatisticActivity.Adapter.1
@@ -2450,7 +2449,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();

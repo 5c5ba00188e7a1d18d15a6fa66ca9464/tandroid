@@ -39,10 +39,8 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         }
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-    /* renamed from: parse */
-    public SsManifest mo164parse(Uri uri, InputStream inputStream) throws IOException {
+    public SsManifest parse(Uri uri, InputStream inputStream) throws IOException {
         try {
             XmlPullParser newPullParser = this.xmlParserFactory.newPullParser();
             newPullParser.setInput(inputStream, null);

@@ -612,7 +612,7 @@ public class QrActivity extends BaseFragment {
 
                 @Override // org.telegram.tgnet.ResultCallback
                 public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                    ResultCallback.CC.$default$onError(this, tLRPC$TL_error);
+                    ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
                 }
             });
         } else {
@@ -808,7 +808,7 @@ public class QrActivity extends BaseFragment {
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         }, "featuredStickers_addButton"));
         themeDescriptions.add(new ThemeDescription(this.themesViewController.shareButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, "featuredStickers_addButtonPressed"));
@@ -848,22 +848,22 @@ public class QrActivity extends BaseFragment {
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ Drawable getDrawable(String str) {
-            return Theme.ResourcesProvider.CC.$default$getDrawable(this, str);
+            return Theme.ResourcesProvider.-CC.$default$getDrawable(this, str);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ Paint getPaint(String str) {
-            return Theme.ResourcesProvider.CC.$default$getPaint(this, str);
+            return Theme.ResourcesProvider.-CC.$default$getPaint(this, str);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ boolean hasGradientService() {
-            return Theme.ResourcesProvider.CC.$default$hasGradientService(this);
+            return Theme.ResourcesProvider.-CC.$default$hasGradientService(this);
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
         public /* synthetic */ void setAnimatedColor(String str, int i) {
-            Theme.ResourcesProvider.CC.$default$setAnimatedColor(this, str, i);
+            Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, str, i);
         }
 
         private ThemeResourcesProvider() {

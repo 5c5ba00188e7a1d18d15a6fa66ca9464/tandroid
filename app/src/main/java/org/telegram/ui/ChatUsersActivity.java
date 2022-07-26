@@ -190,9 +190,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     /* loaded from: classes3.dex */
     public interface ChatUsersActivityDelegate {
 
-        /* renamed from: org.telegram.ui.ChatUsersActivity$ChatUsersActivityDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$didChangeOwner(ChatUsersActivityDelegate chatUsersActivityDelegate, TLRPC$User tLRPC$User) {
             }
 
@@ -295,8 +294,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 }
 
                 @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-                /* renamed from: getContentDescription */
-                protected CharSequence mo2090getContentDescription(View view) {
+                protected CharSequence getContentDescription(View view) {
                     if (ChatUsersActivity.this.selectedSlowmode == 0) {
                         return LocaleController.getString("SlowmodeOff", R.string.SlowmodeOff);
                     }
@@ -1166,12 +1164,12 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     chatUsersActivity.setDelegate(new ChatUsersActivityDelegate() { // from class: org.telegram.ui.ChatUsersActivity.7
                         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
                         public /* synthetic */ void didChangeOwner(TLRPC$User tLRPC$User) {
-                            ChatUsersActivityDelegate.CC.$default$didChangeOwner(this, tLRPC$User);
+                            ChatUsersActivityDelegate.-CC.$default$didChangeOwner(this, tLRPC$User);
                         }
 
                         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
                         public /* synthetic */ void didSelectUser(long j2) {
-                            ChatUsersActivityDelegate.CC.$default$didSelectUser(this, j2);
+                            ChatUsersActivityDelegate.-CC.$default$didSelectUser(this, j2);
                         }
 
                         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
@@ -1219,7 +1217,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     bundle2.putInt("type", 2);
                     bundle2.putInt("selectType", 1);
                     ChatUsersActivity chatUsersActivity2 = new ChatUsersActivity(bundle2);
-                    chatUsersActivity2.setDelegate(new AnonymousClass8());
+                    chatUsersActivity2.setDelegate(new 8());
                     chatUsersActivity2.setInfo(this.info);
                     presentFragment(chatUsersActivity2);
                     return;
@@ -1233,7 +1231,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     groupCreateActivity.setInfo(this.info);
                     LongSparseArray<TLObject> longSparseArray = this.contactsMap;
                     groupCreateActivity.setIgnoreUsers((longSparseArray == null || longSparseArray.size() == 0) ? this.participantsMap : this.contactsMap);
-                    groupCreateActivity.setDelegate(new AnonymousClass9(context));
+                    groupCreateActivity.setDelegate(new 9(context));
                     presentFragment(groupCreateActivity);
                     return;
                 }
@@ -1249,7 +1247,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 presentFragment(chatUsersActivity3);
                 return;
             } else if (i == this.gigaConvertRow) {
-                showDialog(new AnonymousClass10(getParentActivity(), this));
+                showDialog(new 10(getParentActivity(), this));
             } else if (i == this.addNew2Row) {
                 if (this.info == null) {
                     return;
@@ -1576,15 +1574,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ChatUsersActivity$8  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass8 implements ChatUsersActivityDelegate {
+    public class 8 implements ChatUsersActivityDelegate {
         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
         public /* synthetic */ void didKickParticipant(long j) {
-            ChatUsersActivityDelegate.CC.$default$didKickParticipant(this, j);
+            ChatUsersActivityDelegate.-CC.$default$didKickParticipant(this, j);
         }
 
-        AnonymousClass8() {
+        8() {
         }
 
         @Override // org.telegram.ui.ChatUsersActivity.ChatUsersActivityDelegate
@@ -1612,7 +1609,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$8$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatUsersActivity.AnonymousClass8.this.lambda$didSelectUser$0(user);
+                        ChatUsersActivity.8.this.lambda$didSelectUser$0(user);
                     }
                 }, 200L);
             }
@@ -1641,12 +1638,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ChatUsersActivity$9  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass9 implements GroupCreateActivity.ContactsAddActivityDelegate {
+    public class 9 implements GroupCreateActivity.ContactsAddActivityDelegate {
         final /* synthetic */ Context val$context;
 
-        AnonymousClass9(Context context) {
+        9(Context context) {
             this.val$context = context;
         }
 
@@ -1659,7 +1655,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatUsersActivity.AnonymousClass9.lambda$didSelectUsers$0(arrayList2, size, context);
+                    ChatUsersActivity.9.lambda$didSelectUsers$0(arrayList2, size, context);
                 }
             };
             for (int i2 = 0; i2 < size; i2++) {
@@ -1667,13 +1663,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 ChatUsersActivity.this.getMessagesController().addUserToChat(ChatUsersActivity.this.chatId, tLRPC$User, i, null, ChatUsersActivity.this, false, new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatUsersActivity.AnonymousClass9.this.lambda$didSelectUsers$1(iArr, size, arrayList2, runnable, tLRPC$User);
+                        ChatUsersActivity.9.this.lambda$didSelectUsers$1(iArr, size, arrayList2, runnable, tLRPC$User);
                     }
                 }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.ChatUsersActivity$9$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.MessagesController.ErrorDelegate
                     public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
                         boolean lambda$didSelectUsers$2;
-                        lambda$didSelectUsers$2 = ChatUsersActivity.AnonymousClass9.lambda$didSelectUsers$2(iArr, arrayList2, tLRPC$User, size, runnable, tLRPC$TL_error);
+                        lambda$didSelectUsers$2 = ChatUsersActivity.9.lambda$didSelectUsers$2(iArr, arrayList2, tLRPC$User, size, runnable, tLRPC$TL_error);
                         return lambda$didSelectUsers$2;
                     }
                 });
@@ -1759,14 +1755,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ChatUsersActivity$10  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass10 extends GigagroupConvertAlert {
+    public class 10 extends GigagroupConvertAlert {
         @Override // org.telegram.ui.Components.GigagroupConvertAlert
         protected void onCancel() {
         }
 
-        AnonymousClass10(Context context, BaseFragment baseFragment) {
+        10(Context context, BaseFragment baseFragment) {
             super(context, baseFragment);
         }
 
@@ -1775,7 +1770,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             ChatUsersActivity.this.getMessagesController().convertToGigaGroup(ChatUsersActivity.this.getParentActivity(), ChatUsersActivity.this.currentChat, ChatUsersActivity.this, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.ChatUsersActivity$10$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
                 public final void run(boolean z) {
-                    ChatUsersActivity.AnonymousClass10.this.lambda$onCovert$0(z);
+                    ChatUsersActivity.10.this.lambda$onCovert$0(z);
                 }
             });
         }
@@ -3297,17 +3292,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.ChatUsersActivity$SearchAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i) {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$canApplySearchResults(this, i);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeCallParticipants(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ LongSparseArray getExcludeUsers() {
-                    return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+                    return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeUsers(this);
                 }
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -3317,7 +3312,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ void onSetHashtags(ArrayList arrayList, HashMap hashMap) {
-                    SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$onSetHashtags(this, arrayList, hashMap);
+                    SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$onSetHashtags(this, arrayList, hashMap);
                 }
             });
         }
@@ -3751,8 +3746,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 0) {
                 ManageChatUserCell manageChatUserCell = new ManageChatUserCell(this.mContext, 2, 2, ChatUsersActivity.this.selectType == 0);
@@ -4077,8 +4071,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FlickerLoadingView flickerLoadingView;
             boolean z = false;
             int i2 = 6;
@@ -4759,7 +4752,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{HeaderCell.class, ManageChatUserCell.class, ManageChatTextCell.class, TextCheckCell2.class, TextSettingsCell.class, ChooseView.class}, null, null, null, "windowBackgroundWhite"));

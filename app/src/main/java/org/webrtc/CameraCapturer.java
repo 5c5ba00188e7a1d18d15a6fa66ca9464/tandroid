@@ -183,7 +183,7 @@ abstract class CameraCapturer implements CameraVideoCapturer {
 
     @Override // org.webrtc.CameraVideoCapturer
     public /* synthetic */ void addMediaRecorderToCamera(MediaRecorder mediaRecorder, CameraVideoCapturer.MediaRecorderHandler mediaRecorderHandler) {
-        CameraVideoCapturer.CC.$default$addMediaRecorderToCamera(this, mediaRecorder, mediaRecorderHandler);
+        CameraVideoCapturer.-CC.$default$addMediaRecorderToCamera(this, mediaRecorder, mediaRecorderHandler);
     }
 
     protected abstract void createCameraSession(CameraSession.CreateSessionCallback createSessionCallback, CameraSession.Events events, Context context, SurfaceTextureHelper surfaceTextureHelper, String str, int i, int i2, int i3);
@@ -195,7 +195,7 @@ abstract class CameraCapturer implements CameraVideoCapturer {
 
     @Override // org.webrtc.CameraVideoCapturer
     public /* synthetic */ void removeMediaRecorderFromCamera(CameraVideoCapturer.MediaRecorderHandler mediaRecorderHandler) {
-        CameraVideoCapturer.CC.$default$removeMediaRecorderFromCamera(this, mediaRecorderHandler);
+        CameraVideoCapturer.-CC.$default$removeMediaRecorderFromCamera(this, mediaRecorderHandler);
     }
 
     static /* synthetic */ int access$1710(CameraCapturer cameraCapturer) {

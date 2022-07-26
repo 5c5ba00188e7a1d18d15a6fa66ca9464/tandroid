@@ -13,15 +13,14 @@ public final class DoubleCheck<T> implements Provider<T>, Lazy<T> {
     }
 
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public T mo70get() {
+    public T get() {
         T t = (T) this.instance;
         Object obj = UNINITIALIZED;
         if (t == obj) {
             synchronized (this) {
                 t = this.instance;
                 if (t == obj) {
-                    t = this.provider.mo70get();
+                    t = this.provider.get();
                     this.instance = reentrantCheck(this.instance, t);
                     this.provider = null;
                 }

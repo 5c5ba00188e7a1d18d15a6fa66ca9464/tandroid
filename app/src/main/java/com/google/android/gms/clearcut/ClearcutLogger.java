@@ -123,7 +123,7 @@ public final class ClearcutLogger {
 
     private ClearcutLogger(Context context, int i, String str, String str2, String str3, boolean z, com.google.android.gms.clearcut.zzb zzbVar, Clock clock, zzc zzcVar, zza zzaVar) {
         this.zzk = -1;
-        zzge$zzv$zzb zzge_zzv_zzb = zzge$zzv$zzb.DEFAULT;
+        zzge$zzv$zzb zzge_zzv_zzb = zzge$zzv$zzb.zzbhk;
         this.zzo = zzge_zzv_zzb;
         this.zzh = context;
         this.packageName = context.getPackageName();

@@ -1,6 +1,6 @@
 package j$.util.stream;
 
-import j$.util.Collection$EL;
+import j$.util.Collection$-EL;
 import j$.util.function.Consumer;
 import java.util.Collection;
 /* loaded from: classes2.dex */
@@ -13,8 +13,7 @@ final class E1 implements A1 {
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: b */
-    public A1 mo316b(int i) {
+    public A1 b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -25,7 +24,7 @@ final class E1 implements A1 {
 
     @Override // j$.util.stream.A1
     public void forEach(Consumer consumer) {
-        Collection$EL.a(this.a, consumer);
+        Collection$-EL.a(this.a, consumer);
     }
 
     @Override // j$.util.stream.A1
@@ -53,10 +52,9 @@ final class E1 implements A1 {
     }
 
     @Override // j$.util.stream.A1
-    /* renamed from: spliterator */
-    public j$.util.u mo313spliterator() {
+    public j$.util.u spliterator() {
         Collection collection = this.a;
-        return (collection instanceof j$.util.b ? ((j$.util.b) collection).mo266stream() : j$.util.a.i(collection)).mo334spliterator();
+        return (collection instanceof j$.util.b ? ((j$.util.b) collection).stream() : j$.util.a.i(collection)).spliterator();
     }
 
     public String toString() {

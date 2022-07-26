@@ -838,9 +838,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return;
             }
         }
-        Object mo1730getItem = this.listViewAdapter.mo1730getItem(sectionForPosition, positionInSectionForPosition);
-        if (mo1730getItem instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User2 = (TLRPC$User) mo1730getItem;
+        Object item2 = this.listViewAdapter.getItem(sectionForPosition, positionInSectionForPosition);
+        if (item2 instanceof TLRPC$User) {
+            TLRPC$User tLRPC$User2 = (TLRPC$User) item2;
             if (this.returnAsResult) {
                 LongSparseArray<TLRPC$User> longSparseArray2 = this.ignoreUsers;
                 if (longSparseArray2 != null && longSparseArray2.indexOfKey(tLRPC$User2.id) >= 0) {
@@ -858,9 +858,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
                 presentFragment(new ChatActivity(bundle4), true);
             }
-        } else if (!(mo1730getItem instanceof ContactsController.Contact)) {
+        } else if (!(item2 instanceof ContactsController.Contact)) {
         } else {
-            ContactsController.Contact contact = (ContactsController.Contact) mo1730getItem;
+            ContactsController.Contact contact = (ContactsController.Contact) item2;
             final String str2 = !contact.phones.isEmpty() ? contact.phones.get(0) : null;
             if (str2 == null || getParentActivity() == null) {
                 return;
@@ -1487,7 +1487,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));

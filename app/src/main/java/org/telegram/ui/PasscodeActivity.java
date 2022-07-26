@@ -302,7 +302,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 } else {
                     actionBarMenuSubItem = null;
                 }
-                this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass4(actionBarMenuSubItem));
+                this.actionBar.setActionBarMenuOnItemClick(new 4(actionBarMenuSubItem));
             }
             FrameLayout frameLayout2 = new FrameLayout(context);
             LinearLayout linearLayout = new LinearLayout(context);
@@ -496,9 +496,9 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                             return false;
                         }
                     });
-                    AnonymousClass8 anonymousClass8 = new AnonymousClass8(context);
-                    this.codeFieldContainer = anonymousClass8;
-                    anonymousClass8.setNumbersCount(4, 10);
+                    8 r6 = new 8(context);
+                    this.codeFieldContainer = r6;
+                    r6.setNumbersCount(4, 10);
                     for (final CodeNumberField codeNumberField : this.codeFieldContainer.codeField) {
                         codeNumberField.setShowSoftInputOnFocusCompat(!isCustomKeyboardVisible());
                         codeNumberField.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -740,9 +740,9 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     return false;
                 }
             });
-            AnonymousClass8 anonymousClass82 = new AnonymousClass8(context);
-            this.codeFieldContainer = anonymousClass82;
-            anonymousClass82.setNumbersCount(4, 10);
+            8 r62 = new 8(context);
+            this.codeFieldContainer = r62;
+            r62.setNumbersCount(4, 10);
             while (r9 < r7) {
             }
             frameLayout2.addView(this.codeFieldContainer, LayoutHelper.createFrame(-2, -2.0f, 1, 40.0f, 10.0f, 40.0f, 0.0f));
@@ -901,12 +901,11 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.PasscodeActivity$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends ActionBar.ActionBarMenuOnItemClick {
+    public class 4 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ ActionBarMenuSubItem val$switchItem;
 
-        AnonymousClass4(ActionBarMenuSubItem actionBarMenuSubItem) {
+        4(ActionBarMenuSubItem actionBarMenuSubItem) {
             this.val$switchItem = actionBarMenuSubItem;
         }
 
@@ -929,7 +928,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PasscodeActivity$4$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PasscodeActivity.AnonymousClass4.this.lambda$onItemClick$0(actionBarMenuSubItem);
+                    PasscodeActivity.4.this.lambda$onItemClick$0(actionBarMenuSubItem);
                 }
             }, 150L);
             PasscodeActivity.this.passwordEditText.setText("");
@@ -996,10 +995,9 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.PasscodeActivity$8  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass8 extends CodeFieldContainer {
-        AnonymousClass8(Context context) {
+    public class 8 extends CodeFieldContainer {
+        8(Context context) {
             super(context);
         }
 
@@ -1011,7 +1009,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 postDelayed(new Runnable() { // from class: org.telegram.ui.PasscodeActivity$8$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PasscodeActivity.AnonymousClass8.this.lambda$processNextPressed$0();
+                        PasscodeActivity.8.this.lambda$processNextPressed$0();
                     }
                 }, 260L);
             }
@@ -1661,8 +1659,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View textCheckCell;
             View view;
             if (i == 0) {

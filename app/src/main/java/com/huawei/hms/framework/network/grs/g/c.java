@@ -50,10 +50,8 @@ public class c {
             this.c = cVar;
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // java.util.concurrent.Callable
-        /* renamed from: call */
-        public d mo226call() {
+        public d call() {
             return c.this.b(this.a, this.b, this.c);
         }
     }

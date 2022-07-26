@@ -7,17 +7,13 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ChapterTocFrame extends Id3Frame {
     public static final Parcelable.Creator<ChapterTocFrame> CREATOR = new Parcelable.Creator<ChapterTocFrame>() { // from class: com.google.android.exoplayer2.metadata.id3.ChapterTocFrame.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public ChapterTocFrame mo114createFromParcel(Parcel parcel) {
+        public ChapterTocFrame createFromParcel(Parcel parcel) {
             return new ChapterTocFrame(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public ChapterTocFrame[] mo115newArray(int i) {
+        public ChapterTocFrame[] newArray(int i) {
             return new ChapterTocFrame[i];
         }
     };

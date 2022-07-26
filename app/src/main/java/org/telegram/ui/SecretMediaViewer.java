@@ -418,31 +418,30 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             VideoPlayer videoPlayer = new VideoPlayer();
             this.videoPlayer = videoPlayer;
             videoPlayer.setTextureView(this.videoTextureView);
-            this.videoPlayer.setDelegate(new AnonymousClass1(file));
+            this.videoPlayer.setDelegate(new 1(file));
         }
         this.videoPlayer.preparePlayer(Uri.fromFile(file), "other");
         this.videoPlayer.setPlayWhenReady(true);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.SecretMediaViewer$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements VideoPlayer.VideoPlayerDelegate {
+    public class 1 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ File val$file;
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onRenderedFirstFrame(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekFinished(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.CC.$default$onSeekStarted(this, eventTime);
+            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -454,7 +453,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         }
 
-        AnonymousClass1(File file) {
+        1(File file) {
             this.val$file = file;
         }
 
@@ -508,7 +507,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SecretMediaViewer.AnonymousClass1.this.lambda$onError$0(file);
+                        SecretMediaViewer.1.this.lambda$onError$0(file);
                     }
                 }, 100L);
                 return;
@@ -1422,7 +1421,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     };
                     this.imageMoveAnimation.setInterpolator(new DecelerateInterpolator());
                     this.imageMoveAnimation.setDuration(250L);
-                    this.imageMoveAnimation.addListener(new AnonymousClass7(placeProviderObject));
+                    this.imageMoveAnimation.addListener(new 7(placeProviderObject));
                     this.photoTransitionAnimationStartTime = System.currentTimeMillis();
                     if (Build.VERSION.SDK_INT >= 18) {
                         this.containerView.setLayerType(2, null);
@@ -1478,12 +1477,11 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.SecretMediaViewer$7  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass7 extends AnimatorListenerAdapter {
+    public class 7 extends AnimatorListenerAdapter {
         final /* synthetic */ PhotoViewer.PlaceProviderObject val$object;
 
-        AnonymousClass7(PhotoViewer.PlaceProviderObject placeProviderObject) {
+        7(PhotoViewer.PlaceProviderObject placeProviderObject) {
             this.val$object = placeProviderObject;
         }
 
@@ -1497,7 +1495,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$7$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    SecretMediaViewer.AnonymousClass7.this.lambda$onAnimationEnd$0();
+                    SecretMediaViewer.7.this.lambda$onAnimationEnd$0();
                 }
             });
         }

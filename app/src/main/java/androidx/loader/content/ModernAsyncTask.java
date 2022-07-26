@@ -137,9 +137,8 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
         return this.mFuture.cancel(z);
     }
 
-    /* renamed from: androidx.loader.content.ModernAsyncTask$4  reason: invalid class name */
     /* loaded from: classes.dex */
-    static /* synthetic */ class AnonymousClass4 {
+    static /* synthetic */ class 4 {
         static final /* synthetic */ int[] $SwitchMap$androidx$loader$content$ModernAsyncTask$Status;
 
         static {
@@ -158,7 +157,7 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
 
     public final ModernAsyncTask<Params, Progress, Result> executeOnExecutor(Executor executor, Params... paramsArr) {
         if (this.mStatus != Status.PENDING) {
-            int i = AnonymousClass4.$SwitchMap$androidx$loader$content$ModernAsyncTask$Status[this.mStatus.ordinal()];
+            int i = 4.$SwitchMap$androidx$loader$content$ModernAsyncTask$Status[this.mStatus.ordinal()];
             if (i == 1) {
                 throw new IllegalStateException("Cannot execute task: the task is already running.");
             }

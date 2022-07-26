@@ -32,7 +32,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
 
     @Override // org.webrtc.VideoFrame.Buffer
     public /* synthetic */ int getBufferType() {
-        return VideoFrame.Buffer.CC.$default$getBufferType(this);
+        return VideoFrame.Buffer.-CC.$default$getBufferType(this);
     }
 
     public TextureBufferImpl(int i, int i2, VideoFrame.TextureBuffer.Type type, int i3, Matrix matrix, Handler handler, YuvConverter yuvConverter, final Runnable runnable) {

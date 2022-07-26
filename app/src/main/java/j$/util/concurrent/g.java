@@ -21,7 +21,7 @@ final class g implements u.a {
 
     @Override // j$.util.u.a, j$.util.w, j$.util.u
     /* renamed from: a */
-    public g mo350trySplit() {
+    public g trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
         if (j2 <= j) {

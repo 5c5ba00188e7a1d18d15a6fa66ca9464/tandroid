@@ -1026,8 +1026,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ManageChatUserCell manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false);
             manageChatUserCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             return new RecyclerListView.Holder(manageChatUserCell);
@@ -1083,13 +1082,12 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.ChatLinkActivity$ListAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends JoinToSendSettingsView {
+        public class 1 extends JoinToSendSettingsView {
             final /* synthetic */ TLRPC$Chat val$chat;
 
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            AnonymousClass1(Context context, TLRPC$Chat tLRPC$Chat, TLRPC$Chat tLRPC$Chat2) {
+            1(Context context, TLRPC$Chat tLRPC$Chat, TLRPC$Chat tLRPC$Chat2) {
                 super(context, tLRPC$Chat);
                 this.val$chat = tLRPC$Chat2;
             }
@@ -1099,7 +1097,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                     ChatLinkActivity.this.getMessagesController().convertToMegaGroup(ChatLinkActivity.this.getParentActivity(), this.val$chat.id, ChatLinkActivity.this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda9
                         @Override // org.telegram.messenger.MessagesStorage.LongCallback
                         public final void run(long j) {
-                            ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$migrateIfNeeded$0(runnable2, j);
+                            ChatLinkActivity.ListAdapter.1.this.lambda$migrateIfNeeded$0(runnable2, j);
                         }
                     }, runnable);
                 } else {
@@ -1132,7 +1130,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 migrateIfNeeded(overrideCancel, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinRequestToggle$3(tLRPC$Chat, z, runnable);
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinRequestToggle$3(tLRPC$Chat, z, runnable);
                     }
                 });
                 return true;
@@ -1144,12 +1142,12 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 ChatLinkActivity.this.getMessagesController().toggleChatJoinRequest(tLRPC$Chat.id, z, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinRequestToggle$1();
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinRequestToggle$1();
                     }
                 }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinRequestToggle$2(runnable);
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinRequestToggle$2(runnable);
                     }
                 });
             }
@@ -1169,7 +1167,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 return new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$overrideCancel$4(runnable);
+                        ChatLinkActivity.ListAdapter.1.this.lambda$overrideCancel$4(runnable);
                     }
                 };
             }
@@ -1192,7 +1190,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 migrateIfNeeded(overrideCancel, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinToSendToggle$9(tLRPC$Chat, z, runnable);
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$9(tLRPC$Chat, z, runnable);
                     }
                 });
                 return true;
@@ -1204,12 +1202,12 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 ChatLinkActivity.this.getMessagesController().toggleChatJoinToSend(tLRPC$Chat.id, z, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinToSendToggle$7(z, tLRPC$Chat);
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$7(z, tLRPC$Chat);
                     }
                 }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinToSendToggle$8(runnable);
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$8(runnable);
                     }
                 });
             }
@@ -1225,12 +1223,12 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 ChatLinkActivity.this.getMessagesController().toggleChatJoinRequest(tLRPC$Chat.id, false, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinToSendToggle$5();
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$5();
                     }
                 }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ChatLinkActivity.ListAdapter.AnonymousClass1.this.lambda$onJoinToSendToggle$6(tLRPC$Chat);
+                        ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$6(tLRPC$Chat);
                     }
                 });
             }
@@ -1255,8 +1253,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View manageChatUserCell;
             View view;
             if (i == 0) {
@@ -1271,7 +1268,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                     manageChatUserCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 } else if (i == 4) {
                     TLRPC$Chat tLRPC$Chat = ChatLinkActivity.this.isChannel ? (TLRPC$Chat) ChatLinkActivity.this.chats.get(0) : ChatLinkActivity.this.currentChat;
-                    view = ChatLinkActivity.this.joinToSendSettings = new AnonymousClass1(this.mContext, tLRPC$Chat, tLRPC$Chat);
+                    view = ChatLinkActivity.this.joinToSendSettings = new 1(this.mContext, tLRPC$Chat, tLRPC$Chat);
                 } else {
                     view = new HintInnerCell(ChatLinkActivity.this, this.mContext);
                 }
@@ -1361,7 +1358,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{ManageChatUserCell.class, ManageChatTextCell.class}, null, null, null, "windowBackgroundWhite"));

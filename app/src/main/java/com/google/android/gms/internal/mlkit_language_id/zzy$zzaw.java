@@ -17,9 +17,9 @@ public final class zzy$zzaw extends zzeo<zzy$zzaw, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        MODE_UNSPECIFIED(0),
-        STREAM(1),
-        SINGLE_IMAGE(2);
+        zza(0),
+        zzb(1),
+        zzc(2);
         
         private final int zze;
 

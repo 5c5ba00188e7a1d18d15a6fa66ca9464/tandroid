@@ -40,8 +40,7 @@ public final /* synthetic */ class n implements Spliterator.OfLong {
     }
 
     @Override // java.util.Spliterator.OfLong
-    /* renamed from: forEachRemaining */
-    public /* synthetic */ void forEachRemaining2(LongConsumer longConsumer) {
+    public /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
         this.a.d(f0.b(longConsumer));
     }
 
@@ -71,25 +70,22 @@ public final /* synthetic */ class n implements Spliterator.OfLong {
     }
 
     @Override // java.util.Spliterator.OfLong
-    /* renamed from: tryAdvance */
-    public /* synthetic */ boolean tryAdvance2(LongConsumer longConsumer) {
+    public /* synthetic */ boolean tryAdvance(LongConsumer longConsumer) {
         return this.a.i(f0.b(longConsumer));
     }
 
     @Override // java.util.Spliterator.OfLong, java.util.Spliterator.OfPrimitive, java.util.Spliterator
     public /* synthetic */ Spliterator.OfLong trySplit() {
-        return a(this.a.mo350trySplit());
+        return a(this.a.trySplit());
     }
 
     @Override // java.util.Spliterator.OfLong, java.util.Spliterator.OfPrimitive, java.util.Spliterator
-    /* renamed from: trySplit */
-    public /* synthetic */ Spliterator.OfPrimitive mo348trySplit() {
-        return p.a(this.a.mo350trySplit());
+    public /* synthetic */ Spliterator.OfPrimitive trySplit() {
+        return p.a(this.a.trySplit());
     }
 
     @Override // java.util.Spliterator.OfLong, java.util.Spliterator.OfPrimitive, java.util.Spliterator
-    /* renamed from: trySplit */
-    public /* synthetic */ Spliterator mo349trySplit() {
-        return h.a(this.a.mo350trySplit());
+    public /* synthetic */ Spliterator trySplit() {
+        return h.a(this.a.trySplit());
     }
 }

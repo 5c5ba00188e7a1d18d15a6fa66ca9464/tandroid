@@ -49,9 +49,8 @@ public class ClearHistoryAlert extends BottomSheet {
     /* loaded from: classes3.dex */
     public interface ClearHistoryAlertDelegate {
 
-        /* renamed from: org.telegram.ui.Components.ClearHistoryAlert$ClearHistoryAlertDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onClearHistory(ClearHistoryAlertDelegate clearHistoryAlertDelegate, boolean z) {
             }
         }

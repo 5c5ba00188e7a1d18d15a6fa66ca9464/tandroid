@@ -25,8 +25,8 @@ public abstract class d {
     /* compiled from: HttpClient.java */
     /* loaded from: classes.dex */
     private enum a {
-        GET("GET"),
-        POST("POST");
+        a("GET"),
+        b("POST");
         
         public String d;
 
@@ -87,7 +87,7 @@ public abstract class d {
         int i = -1;
         try {
             try {
-                httpURLConnection = a(context, str, map, a.POST.a());
+                httpURLConnection = a(context, str, map, a.b.a());
                 if (httpURLConnection == null) {
                     IOUtil.closeSecure((OutputStream) null);
                     IOUtil.closeSecure((InputStream) null);

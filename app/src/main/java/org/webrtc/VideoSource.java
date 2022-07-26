@@ -39,7 +39,7 @@ public class VideoSource extends MediaSource {
                     VideoSource.this.videoProcessor.onFrameCaptured(videoFrame, adaptFrame);
                     return;
                 }
-                VideoFrame applyFrameAdaptationParameters = VideoProcessor.CC.applyFrameAdaptationParameters(videoFrame, adaptFrame);
+                VideoFrame applyFrameAdaptationParameters = VideoProcessor.-CC.applyFrameAdaptationParameters(videoFrame, adaptFrame);
                 if (applyFrameAdaptationParameters == null) {
                     return;
                 }
@@ -103,7 +103,7 @@ public class VideoSource extends MediaSource {
 
                     @Override // org.webrtc.VideoSink
                     public /* synthetic */ void setParentSink(VideoSink videoSink) {
-                        VideoSink.CC.$default$setParentSink(this, videoSink);
+                        VideoSink.-CC.$default$setParentSink(this, videoSink);
                     }
                 });
                 if (this.isCapturerRunning) {

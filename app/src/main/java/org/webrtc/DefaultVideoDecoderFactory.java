@@ -12,7 +12,7 @@ public class DefaultVideoDecoderFactory implements VideoDecoderFactory {
 
     @Override // org.webrtc.VideoDecoderFactory
     public /* synthetic */ VideoDecoder createDecoder(String str) {
-        return VideoDecoderFactory.CC.$default$createDecoder(this, str);
+        return VideoDecoderFactory.-CC.$default$createDecoder(this, str);
     }
 
     public DefaultVideoDecoderFactory(EglBase.Context context) {

@@ -65,8 +65,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         RecyclerListView recyclerListView2 = this.listView;
         RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 TextInfoPrivacyCell textInfoPrivacyCell;
                 if (i == 0) {
                     ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, ((BaseFragment) ReactionsDoubleTapManageActivity.this).parentLayout, 2);
@@ -170,7 +169,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         }, "windowBackgroundWhite", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText2", "listSelectorSDK21", "windowBackgroundGray", "windowBackgroundWhiteGrayText4", "windowBackgroundWhiteRedText4", "windowBackgroundChecked", "windowBackgroundCheckText", "switchTrackBlue", "switchTrackBlueChecked", "switchTrackBlueThumb", "switchTrackBlueThumbChecked");
     }

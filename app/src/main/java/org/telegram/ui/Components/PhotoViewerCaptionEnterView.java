@@ -254,7 +254,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 PhotoViewerCaptionEnterView.this.lambda$new$4(view2);
             }
         });
-        this.messageEditText.addTextChangedListener(new AnonymousClass2());
+        this.messageEditText.addTextChangedListener(new 2());
         this.checkDrawable = context.getResources().getDrawable(R.drawable.input_done).mutate();
         CombinedDrawable combinedDrawable = new CombinedDrawable(this.doneDrawable, this.checkDrawable, 0, AndroidUtilities.dp(1.0f));
         combinedDrawable.setCustomSize(AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
@@ -330,16 +330,15 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements TextWatcher {
+    public class 2 implements TextWatcher {
         boolean processChange = false;
 
         @Override // android.text.TextWatcher
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
 
-        AnonymousClass2() {
+        2() {
         }
 
         @Override // android.text.TextWatcher
@@ -433,7 +432,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                     PhotoViewerCaptionEnterView.this.sendButtonColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            PhotoViewerCaptionEnterView.AnonymousClass2.this.lambda$afterTextChanged$0(valueAnimator);
+                            PhotoViewerCaptionEnterView.2.this.lambda$afterTextChanged$0(valueAnimator);
                         }
                     });
                     PhotoViewerCaptionEnterView.this.sendButtonColorAnimator.setDuration(150L).start();
@@ -645,102 +644,102 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         emojiView.setDelegate(new EmojiView.EmojiViewDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ boolean canSchedule() {
-                return EmojiView.EmojiViewDelegate.CC.$default$canSchedule(this);
+                return EmojiView.EmojiViewDelegate.-CC.$default$canSchedule(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ long getDialogId() {
-                return EmojiView.EmojiViewDelegate.CC.$default$getDialogId(this);
+                return EmojiView.EmojiViewDelegate.-CC.$default$getDialogId(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ float getProgressToSearchOpened() {
-                return EmojiView.EmojiViewDelegate.CC.$default$getProgressToSearchOpened(this);
+                return EmojiView.EmojiViewDelegate.-CC.$default$getProgressToSearchOpened(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ int getThreadId() {
-                return EmojiView.EmojiViewDelegate.CC.$default$getThreadId(this);
+                return EmojiView.EmojiViewDelegate.-CC.$default$getThreadId(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void invalidateEnterView() {
-                EmojiView.EmojiViewDelegate.CC.$default$invalidateEnterView(this);
+                EmojiView.EmojiViewDelegate.-CC.$default$invalidateEnterView(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ boolean isExpanded() {
-                return EmojiView.EmojiViewDelegate.CC.$default$isExpanded(this);
+                return EmojiView.EmojiViewDelegate.-CC.$default$isExpanded(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ boolean isInScheduleMode() {
-                return EmojiView.EmojiViewDelegate.CC.$default$isInScheduleMode(this);
+                return EmojiView.EmojiViewDelegate.-CC.$default$isInScheduleMode(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ boolean isSearchOpened() {
-                return EmojiView.EmojiViewDelegate.CC.$default$isSearchOpened(this);
+                return EmojiView.EmojiViewDelegate.-CC.$default$isSearchOpened(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onClearEmojiRecent() {
-                EmojiView.EmojiViewDelegate.CC.$default$onClearEmojiRecent(this);
+                EmojiView.EmojiViewDelegate.-CC.$default$onClearEmojiRecent(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onEmojiSettingsClick() {
-                EmojiView.EmojiViewDelegate.CC.$default$onEmojiSettingsClick(this);
+                EmojiView.EmojiViewDelegate.-CC.$default$onEmojiSettingsClick(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onGifSelected(View view, Object obj, String str, Object obj2, boolean z, int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onGifSelected(this, view, obj, str, obj2, z, i);
+                EmojiView.EmojiViewDelegate.-CC.$default$onGifSelected(this, view, obj, str, obj2, z, i);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onSearchOpenClose(int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onSearchOpenClose(this, i);
+                EmojiView.EmojiViewDelegate.-CC.$default$onSearchOpenClose(this, i);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onShowStickerSet(TLRPC$StickerSet tLRPC$StickerSet, TLRPC$InputStickerSet tLRPC$InputStickerSet) {
-                EmojiView.EmojiViewDelegate.CC.$default$onShowStickerSet(this, tLRPC$StickerSet, tLRPC$InputStickerSet);
+                EmojiView.EmojiViewDelegate.-CC.$default$onShowStickerSet(this, tLRPC$StickerSet, tLRPC$InputStickerSet);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onStickerSelected(View view, TLRPC$Document tLRPC$Document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickerSelected(this, view, tLRPC$Document, str, obj, sendAnimationData, z, i);
+                EmojiView.EmojiViewDelegate.-CC.$default$onStickerSelected(this, view, tLRPC$Document, str, obj, sendAnimationData, z, i);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onStickerSetAdd(TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickerSetAdd(this, tLRPC$StickerSetCovered);
+                EmojiView.EmojiViewDelegate.-CC.$default$onStickerSetAdd(this, tLRPC$StickerSetCovered);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onStickerSetRemove(TLRPC$StickerSetCovered tLRPC$StickerSetCovered) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickerSetRemove(this, tLRPC$StickerSetCovered);
+                EmojiView.EmojiViewDelegate.-CC.$default$onStickerSetRemove(this, tLRPC$StickerSetCovered);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onStickersGroupClick(long j) {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickersGroupClick(this, j);
+                EmojiView.EmojiViewDelegate.-CC.$default$onStickersGroupClick(this, j);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onStickersSettingsClick() {
-                EmojiView.EmojiViewDelegate.CC.$default$onStickersSettingsClick(this);
+                EmojiView.EmojiViewDelegate.-CC.$default$onStickersSettingsClick(this);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onTabOpened(int i) {
-                EmojiView.EmojiViewDelegate.CC.$default$onTabOpened(this, i);
+                EmojiView.EmojiViewDelegate.-CC.$default$onTabOpened(this, i);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void showTrendingStickersAlert(TrendingStickersLayout trendingStickersLayout) {
-                EmojiView.EmojiViewDelegate.CC.$default$showTrendingStickersAlert(this, trendingStickersLayout);
+                EmojiView.EmojiViewDelegate.-CC.$default$showTrendingStickersAlert(this, trendingStickersLayout);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate

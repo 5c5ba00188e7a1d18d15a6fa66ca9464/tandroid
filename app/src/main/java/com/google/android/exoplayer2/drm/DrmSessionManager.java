@@ -8,7 +8,7 @@ public interface DrmSessionManager<T extends ExoMediaCrypto> {
     public static final DrmSessionManager<ExoMediaCrypto> DUMMY = new DrmSessionManager<ExoMediaCrypto>() { // from class: com.google.android.exoplayer2.drm.DrmSessionManager.1
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
         public /* synthetic */ DrmSession<ExoMediaCrypto> acquirePlaceholderSession(Looper looper, int i) {
-            return CC.$default$acquirePlaceholderSession(this, looper, i);
+            return -CC.$default$acquirePlaceholderSession(this, looper, i);
         }
 
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
@@ -23,12 +23,12 @@ public interface DrmSessionManager<T extends ExoMediaCrypto> {
 
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
         public /* synthetic */ void prepare() {
-            CC.$default$prepare(this);
+            -CC.$default$prepare(this);
         }
 
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
         public /* synthetic */ void release() {
-            CC.$default$release(this);
+            -CC.$default$release(this);
         }
 
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager
@@ -49,9 +49,8 @@ public interface DrmSessionManager<T extends ExoMediaCrypto> {
 
     void release();
 
-    /* renamed from: com.google.android.exoplayer2.drm.DrmSessionManager$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         public static DrmSession $default$acquirePlaceholderSession(DrmSessionManager drmSessionManager, Looper looper, int i) {
             return null;
         }

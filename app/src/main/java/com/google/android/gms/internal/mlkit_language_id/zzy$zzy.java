@@ -23,14 +23,13 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
         private zzeu zze = zzeo.zzk();
 
         /* compiled from: com.google.mlkit:language-id@@16.1.1 */
-        /* renamed from: com.google.android.gms.internal.mlkit_language_id.zzy$zzy$zzb$zzb  reason: collision with other inner class name */
         /* loaded from: classes.dex */
-        public enum EnumC0001zzb implements zzet {
-            UNKNOWN_DATA_TYPE(0),
-            TYPE_FLOAT32(1),
-            TYPE_INT32(2),
-            TYPE_BYTE(3),
-            TYPE_LONG(4);
+        public enum zzb implements zzet {
+            zza(0),
+            zzb(1),
+            zzc(2),
+            zzd(3),
+            zze(4);
             
             private final int zzg;
 
@@ -45,10 +44,10 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
 
             @Override // java.lang.Enum
             public final String toString() {
-                return "<" + EnumC0001zzb.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzg + " name=" + name() + '>';
+                return "<" + zzb.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzg + " name=" + name() + '>';
             }
 
-            EnumC0001zzb(int i) {
+            zzb(int i) {
                 this.zzg = i;
             }
 
@@ -83,7 +82,7 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
                 case 2:
                     return new zza(null);
                 case 3:
-                    return zzeo.zza(zzf, "\u0001\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0001\u0000\u0001ဌ\u0000\u0002\u0016", new Object[]{"zzc", "zzd", EnumC0001zzb.zzb(), "zze"});
+                    return zzeo.zza(zzf, "\u0001\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0001\u0000\u0001ဌ\u0000\u0002\u0016", new Object[]{"zzc", "zzd", zzb.zzb(), "zze"});
                 case 4:
                     return zzf;
                 case 5:

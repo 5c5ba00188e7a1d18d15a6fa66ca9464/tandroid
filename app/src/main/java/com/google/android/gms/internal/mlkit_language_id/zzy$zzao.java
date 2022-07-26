@@ -19,20 +19,20 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        FORMAT_UNKNOWN(0),
-        FORMAT_CODE_128(1),
-        FORMAT_CODE_39(2),
-        FORMAT_CODE_93(4),
-        FORMAT_CODABAR(8),
-        FORMAT_DATA_MATRIX(16),
-        FORMAT_EAN_13(32),
-        FORMAT_EAN_8(64),
-        FORMAT_ITF(ConnectionsManager.RequestFlagNeedQuickAck),
-        FORMAT_QR_CODE(256),
-        FORMAT_UPC_A(512),
-        FORMAT_UPC_E(1024),
-        FORMAT_PDF417(2048),
-        FORMAT_AZTEC(4096);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(4),
+        zze(8),
+        zzf(16),
+        zzg(32),
+        zzh(64),
+        zzi(ConnectionsManager.RequestFlagNeedQuickAck),
+        zzj(256),
+        zzk(512),
+        zzl(1024),
+        zzm(2048),
+        zzn(4096);
         
         private final int zzp;
 
@@ -62,19 +62,19 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        TYPE_UNKNOWN(0),
-        TYPE_CONTACT_INFO(1),
-        TYPE_EMAIL(2),
-        TYPE_ISBN(3),
-        TYPE_PHONE(4),
-        TYPE_PRODUCT(5),
-        TYPE_SMS(6),
-        TYPE_TEXT(7),
-        TYPE_URL(8),
-        TYPE_WIFI(9),
-        TYPE_GEO(10),
-        TYPE_CALENDAR_EVENT(11),
-        TYPE_DRIVER_LICENSE(12);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4),
+        zzf(5),
+        zzg(6),
+        zzh(7),
+        zzi(8),
+        zzj(9),
+        zzk(10),
+        zzl(11),
+        zzm(12);
         
         private final int zzo;
 

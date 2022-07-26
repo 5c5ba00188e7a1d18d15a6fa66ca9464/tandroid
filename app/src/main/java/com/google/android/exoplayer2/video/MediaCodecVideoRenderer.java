@@ -114,7 +114,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     protected int supportsFormat(MediaCodecSelector mediaCodecSelector, DrmSessionManager<FrameworkMediaCrypto> drmSessionManager, Format format) throws MediaCodecUtil.DecoderQueryException {
         int i = 0;
         if (!MimeTypes.isVideo(format.sampleMimeType)) {
-            return RendererCapabilities.CC.create(0);
+            return RendererCapabilities.-CC.create(0);
         }
         DrmInitData drmInitData = format.drmInitData;
         boolean z = drmInitData != null;
@@ -123,10 +123,10 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
             decoderInfos = getDecoderInfos(mediaCodecSelector, format, false, false);
         }
         if (decoderInfos.isEmpty()) {
-            return RendererCapabilities.CC.create(1);
+            return RendererCapabilities.-CC.create(1);
         }
         if (!(drmInitData == null || FrameworkMediaCrypto.class.equals(format.exoMediaCryptoType) || (format.exoMediaCryptoType == null && BaseRenderer.supportsFormatDrm(drmSessionManager, drmInitData)))) {
-            return RendererCapabilities.CC.create(2);
+            return RendererCapabilities.-CC.create(2);
         }
         MediaCodecInfo mediaCodecInfo = decoderInfos.get(0);
         boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
@@ -140,7 +140,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                 }
             }
         }
-        return RendererCapabilities.CC.create(isFormatSupported ? 4 : 3, i2, i);
+        return RendererCapabilities.-CC.create(isFormatSupported ? 4 : 3, i2, i);
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer

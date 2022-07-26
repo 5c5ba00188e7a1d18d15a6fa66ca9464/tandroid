@@ -499,7 +499,7 @@ public class ViewPager extends ViewGroup {
     ItemInfo addNewItem(int i, int i2) {
         ItemInfo itemInfo = new ItemInfo();
         itemInfo.position = i;
-        itemInfo.object = this.mAdapter.mo1563instantiateItem((ViewGroup) this, i);
+        itemInfo.object = this.mAdapter.instantiateItem((ViewGroup) this, i);
         itemInfo.widthFactor = this.mAdapter.getPageWidth(i);
         if (i2 < 0 || i2 >= this.mItems.size()) {
             this.mItems.add(itemInfo);
@@ -861,22 +861,18 @@ public class ViewPager extends ViewGroup {
     /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator<SavedState>() { // from class: androidx.viewpager.widget.ViewPager.SavedState.1
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.ClassLoaderCreator
-            /* renamed from: createFromParcel */
-            public SavedState mo39createFromParcel(Parcel parcel, ClassLoader classLoader) {
+            public SavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
                 return new SavedState(parcel, classLoader);
             }
 
             @Override // android.os.Parcelable.Creator
-            /* renamed from: createFromParcel */
-            public SavedState mo38createFromParcel(Parcel parcel) {
+            public SavedState createFromParcel(Parcel parcel) {
                 return new SavedState(parcel, null);
             }
 
             @Override // android.os.Parcelable.Creator
-            /* renamed from: newArray */
-            public SavedState[] mo40newArray(int i) {
+            public SavedState[] newArray(int i) {
                 return new SavedState[i];
             }
         };

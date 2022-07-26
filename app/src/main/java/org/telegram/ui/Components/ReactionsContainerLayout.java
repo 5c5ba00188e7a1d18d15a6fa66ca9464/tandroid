@@ -162,9 +162,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         });
         recyclerListView.setLayoutManager(this.linearLayoutManager);
         recyclerListView.setOverScrollMode(2);
-        AnonymousClass4 anonymousClass4 = new AnonymousClass4(context);
-        this.listAdapter = anonymousClass4;
-        recyclerListView.setAdapter(anonymousClass4);
+        4 r7 = new 4(context);
+        this.listAdapter = r7;
+        recyclerListView.setAdapter(r7);
         recyclerListView.addOnScrollListener(new LeftRightShadowsListener());
         recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.5
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -225,18 +225,16 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.ReactionsContainerLayout$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends RecyclerView.Adapter {
+    public class 4 extends RecyclerView.Adapter {
         final /* synthetic */ Context val$context;
 
-        AnonymousClass4(Context context) {
+        4(Context context) {
             this.val$context = context;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i != 1) {
                 view = new ReactionHolderView(this.val$context);
@@ -253,7 +251,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 ReactionsContainerLayout.this.premiumLockIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$4$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        ReactionsContainerLayout.AnonymousClass4.this.lambda$onCreateViewHolder$0(view2);
+                        ReactionsContainerLayout.4.this.lambda$onCreateViewHolder$0(view2);
                     }
                 });
                 view = ReactionsContainerLayout.this.premiumLockContainer;

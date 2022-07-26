@@ -768,8 +768,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 1) {
                 InviteTextCell inviteTextCell = new InviteTextCell(this.context);
@@ -830,16 +829,15 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             }
             Timer timer2 = new Timer();
             this.searchTimer = timer2;
-            timer2.schedule(new AnonymousClass1(str), 200L, 300L);
+            timer2.schedule(new 1(str), 200L, 300L);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.InviteContactsActivity$InviteAdapter$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 extends TimerTask {
+        public class 1 extends TimerTask {
             final /* synthetic */ String val$query;
 
-            AnonymousClass1(String str) {
+            1(String str) {
                 this.val$query = str;
             }
 
@@ -855,7 +853,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        InviteContactsActivity.InviteAdapter.AnonymousClass1.this.lambda$run$1(str);
+                        InviteContactsActivity.InviteAdapter.1.this.lambda$run$1(str);
                     }
                 });
             }
@@ -865,7 +863,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                 Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        InviteContactsActivity.InviteAdapter.AnonymousClass1.this.lambda$run$0(str);
+                        InviteContactsActivity.InviteAdapter.1.this.lambda$run$0(str);
                     }
                 });
             }
@@ -978,7 +976,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         };
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));

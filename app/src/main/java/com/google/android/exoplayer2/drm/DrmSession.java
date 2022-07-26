@@ -19,9 +19,8 @@ public interface DrmSession<T extends ExoMediaCrypto> {
 
     void release();
 
-    /* renamed from: com.google.android.exoplayer2.drm.DrmSession$-CC  reason: invalid class name */
     /* loaded from: classes.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         public static <T extends ExoMediaCrypto> void replaceSession(DrmSession<T> drmSession, DrmSession<T> drmSession2) {
             if (drmSession == drmSession2) {
                 return;

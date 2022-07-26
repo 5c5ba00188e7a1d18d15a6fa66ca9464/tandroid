@@ -11,7 +11,7 @@ public class DefaultVideoEncoderFactory implements VideoEncoderFactory {
 
     @Override // org.webrtc.VideoEncoderFactory
     public /* synthetic */ VideoEncoderFactory.VideoEncoderSelector getEncoderSelector() {
-        return VideoEncoderFactory.CC.$default$getEncoderSelector(this);
+        return VideoEncoderFactory.-CC.$default$getEncoderSelector(this);
     }
 
     @Override // org.webrtc.VideoEncoderFactory

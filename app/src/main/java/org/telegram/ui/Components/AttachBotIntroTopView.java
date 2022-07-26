@@ -38,7 +38,7 @@ public class AttachBotIntroTopView extends View {
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
             }
         });
         this.attachDrawable = ContextCompat.getDrawable(context, R.drawable.input_attach).mutate().getConstantState().newDrawable();

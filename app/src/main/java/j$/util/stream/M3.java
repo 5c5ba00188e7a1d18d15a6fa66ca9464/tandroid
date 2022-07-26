@@ -1,6 +1,6 @@
 package j$.util.stream;
 
-import j$.util.Comparator$CC;
+import j$.util.Comparator$-CC;
 import java.util.Arrays;
 import java.util.Comparator;
 /* loaded from: classes2.dex */
@@ -12,7 +12,7 @@ final class M3 extends c3 {
     public M3(c cVar) {
         super(cVar, e4.REFERENCE, d4.q | d4.o);
         this.l = true;
-        this.m = Comparator$CC.a();
+        this.m = Comparator$-CC.a();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

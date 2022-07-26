@@ -75,20 +75,17 @@ public final /* synthetic */ class k implements u.a {
     }
 
     @Override // j$.util.u.a, j$.util.w, j$.util.u
-    /* renamed from: trySplit */
-    public /* synthetic */ u.a mo350trySplit() {
+    public /* synthetic */ u.a trySplit() {
         return a(this.a.trySplit());
     }
 
     @Override // j$.util.u.a, j$.util.w, j$.util.u
-    /* renamed from: trySplit  reason: collision with other method in class */
-    public /* synthetic */ j$.util.u mo350trySplit() {
+    public /* synthetic */ j$.util.u trySplit() {
         return g.a(this.a.trySplit());
     }
 
     @Override // j$.util.u.a, j$.util.w, j$.util.u
-    /* renamed from: trySplit */
-    public /* synthetic */ j$.util.w mo350trySplit() {
+    public /* synthetic */ j$.util.w trySplit() {
         return o.a(this.a.trySplit());
     }
 }

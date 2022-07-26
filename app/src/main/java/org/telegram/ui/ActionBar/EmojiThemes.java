@@ -318,7 +318,7 @@ public class EmojiThemes {
 
                 @Override // org.telegram.tgnet.ResultCallback
                 public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                    ResultCallback.CC.$default$onError(this, tLRPC$TL_error);
+                    ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
                 }
             });
         } else if (resultCallback == null) {
@@ -348,7 +348,7 @@ public class EmojiThemes {
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
             }
         });
         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);
@@ -418,7 +418,7 @@ public class EmojiThemes {
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
             }
         });
         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);

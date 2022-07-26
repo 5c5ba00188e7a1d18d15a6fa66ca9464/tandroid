@@ -33,16 +33,14 @@ final class zzaf implements ValueEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    /* renamed from: add */
-    public final ValueEncoderContext mo193add(String str) throws IOException {
+    public final ValueEncoderContext add(String str) throws IOException {
         zzb();
         this.zzd.zza(this.zzc, str, this.zzb);
         return this;
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    /* renamed from: add */
-    public final ValueEncoderContext mo194add(boolean z) throws IOException {
+    public final ValueEncoderContext add(boolean z) throws IOException {
         zzb();
         this.zzd.zzd(this.zzc, z ? 1 : 0, this.zzb);
         return this;

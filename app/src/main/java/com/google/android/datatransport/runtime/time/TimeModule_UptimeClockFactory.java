@@ -5,8 +5,7 @@ import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 /* loaded from: classes.dex */
 public final class TimeModule_UptimeClockFactory implements Factory<Clock> {
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public Clock mo70get() {
+    public Clock get() {
         return uptimeClock();
     }
 

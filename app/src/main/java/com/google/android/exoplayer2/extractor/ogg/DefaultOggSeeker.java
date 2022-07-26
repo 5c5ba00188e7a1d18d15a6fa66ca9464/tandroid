@@ -70,8 +70,7 @@ public final class DefaultOggSeeker implements OggSeeker {
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-    /* renamed from: createSeekMap  reason: collision with other method in class */
-    public OggSeekMap mo94createSeekMap() {
+    public OggSeekMap createSeekMap() {
         if (this.totalGranules != 0) {
             return new OggSeekMap();
         }

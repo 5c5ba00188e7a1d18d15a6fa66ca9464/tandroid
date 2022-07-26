@@ -110,7 +110,7 @@ public class LifecycleRegistry extends Lifecycle {
     }
 
     static Lifecycle.State getStateAfter(Lifecycle.Event event) {
-        switch (AnonymousClass1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[event.ordinal()]) {
+        switch (1.$SwitchMap$androidx$lifecycle$Lifecycle$Event[event.ordinal()]) {
             case 1:
             case 2:
                 return Lifecycle.State.CREATED;
@@ -127,9 +127,8 @@ public class LifecycleRegistry extends Lifecycle {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: androidx.lifecycle.LifecycleRegistry$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public static /* synthetic */ class AnonymousClass1 {
+    public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$Event;
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$State;
 
@@ -190,7 +189,7 @@ public class LifecycleRegistry extends Lifecycle {
     }
 
     private static Lifecycle.Event downEvent(Lifecycle.State state) {
-        int i = AnonymousClass1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
+        int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
         if (i != 1) {
             if (i == 2) {
                 return Lifecycle.Event.ON_DESTROY;
@@ -210,7 +209,7 @@ public class LifecycleRegistry extends Lifecycle {
     }
 
     private static Lifecycle.Event upEvent(Lifecycle.State state) {
-        int i = AnonymousClass1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
+        int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
         if (i != 1) {
             if (i == 2) {
                 return Lifecycle.Event.ON_START;

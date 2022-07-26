@@ -102,9 +102,9 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
 
     public GroupCallPip(Context context, int i) {
         this.currentAccount = i;
-        AnonymousClass3 anonymousClass3 = new AnonymousClass3(context, ViewConfiguration.get(context).getScaledTouchSlop());
-        this.windowView = anonymousClass3;
-        anonymousClass3.setAlpha(0.7f);
+        3 r0 = new 3(context, ViewConfiguration.get(context).getScaledTouchSlop());
+        this.windowView = r0;
+        r0.setAlpha(0.7f);
         GroupCallPipButton groupCallPipButton = new GroupCallPipButton(context, this.currentAccount, false);
         this.button = groupCallPipButton;
         this.windowView.addView(groupCallPipButton, LayoutHelper.createFrame(-1, -1, 17));
@@ -250,9 +250,8 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         frameLayout2.addView(groupCallPipAlertView, LayoutHelper.createFrame(-2, -2.0f));
     }
 
-    /* renamed from: org.telegram.ui.Components.GroupCallPip$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    class AnonymousClass3 extends FrameLayout {
+    class 3 extends FrameLayout {
         AnimatorSet moveToBoundsAnimator;
         boolean pressed;
         float startX;
@@ -269,15 +268,15 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                 if (tLRPC$TL_groupCallParticipant != null && !tLRPC$TL_groupCallParticipant.can_self_unmute && tLRPC$TL_groupCallParticipant.muted && !ChatObject.canManageCalls(sharedInstance.getChat())) {
                     return;
                 }
-                AndroidUtilities.runOnUIThread(AnonymousClass3.this.micRunnable, 90L);
-                AnonymousClass3.this.performHapticFeedback(3, 2);
-                AnonymousClass3.this.pressed = true;
+                AndroidUtilities.runOnUIThread(3.this.micRunnable, 90L);
+                3.this.performHapticFeedback(3, 2);
+                3.this.pressed = true;
             }
         };
         Runnable micRunnable = GroupCallPip$3$$ExternalSyntheticLambda0.INSTANCE;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass3(Context context, float f) {
+        3(Context context, float f) {
             super(context);
             this.val$touchSlop = f;
         }
@@ -695,7 +694,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         ofFloat9.setDuration(350L);
         ofFloat9.setInterpolator(cubicBezierInterpolator3);
         animatorSet.playTogether(ofFloat9);
-        animatorSet.addListener(new AnonymousClass9(frameLayout, frameLayout2, windowManager, frameLayout3, frameLayout4));
+        animatorSet.addListener(new 9(frameLayout, frameLayout2, windowManager, frameLayout3, frameLayout4));
         animatorSet.start();
         this.deleteIcon.setCustomEndFrame(66);
         this.iconView.stopAnimation();
@@ -708,16 +707,15 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.GroupCallPip$9  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass9 extends AnimatorListenerAdapter {
+    public class 9 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$alert;
         final /* synthetic */ WindowManager val$windowManager;
         final /* synthetic */ View val$windowRemoveTooltipOverlayView;
         final /* synthetic */ View val$windowRemoveTooltipView;
         final /* synthetic */ View val$windowView;
 
-        AnonymousClass9(View view, View view2, WindowManager windowManager, View view3, View view4) {
+        9(View view, View view2, WindowManager windowManager, View view3, View view4) {
             this.val$windowView = view;
             this.val$windowRemoveTooltipView = view2;
             this.val$windowManager = windowManager;
@@ -736,7 +734,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
             notificationCenter.doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$9$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    GroupCallPip.AnonymousClass9.lambda$onAnimationEnd$0(view, view2, windowManager, view3, view4);
+                    GroupCallPip.9.lambda$onAnimationEnd$0(view, view2, windowManager, view3, view4);
                 }
             });
         }

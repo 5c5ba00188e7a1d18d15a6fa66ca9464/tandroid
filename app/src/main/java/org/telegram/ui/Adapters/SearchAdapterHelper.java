@@ -72,9 +72,8 @@ public class SearchAdapterHelper {
     /* loaded from: classes3.dex */
     public interface SearchAdapterHelperDelegate {
 
-        /* renamed from: org.telegram.ui.Adapters.SearchAdapterHelper$SearchAdapterHelperDelegate$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static boolean $default$canApplySearchResults(SearchAdapterHelperDelegate searchAdapterHelperDelegate, int i) {
                 return true;
             }

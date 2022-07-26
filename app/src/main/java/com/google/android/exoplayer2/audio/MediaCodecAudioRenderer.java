@@ -77,24 +77,24 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
     protected int supportsFormat(MediaCodecSelector mediaCodecSelector, DrmSessionManager<FrameworkMediaCrypto> drmSessionManager, Format format) throws MediaCodecUtil.DecoderQueryException {
         String str = format.sampleMimeType;
         if (!MimeTypes.isAudio(str)) {
-            return RendererCapabilities.CC.create(0);
+            return RendererCapabilities.-CC.create(0);
         }
         int i = Util.SDK_INT >= 21 ? 32 : 0;
         boolean z = format.drmInitData == null || FrameworkMediaCrypto.class.equals(format.exoMediaCryptoType) || (format.exoMediaCryptoType == null && BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData));
         int i2 = 8;
         int i3 = 4;
         if (z && allowPassthrough(format.channelCount, str) && mediaCodecSelector.getPassthroughDecoderInfo() != null) {
-            return RendererCapabilities.CC.create(4, 8, i);
+            return RendererCapabilities.-CC.create(4, 8, i);
         }
         if (("audio/raw".equals(str) && !this.audioSink.supportsOutput(format.channelCount, format.pcmEncoding)) || !this.audioSink.supportsOutput(format.channelCount, 2)) {
-            return RendererCapabilities.CC.create(1);
+            return RendererCapabilities.-CC.create(1);
         }
         List<MediaCodecInfo> decoderInfos = getDecoderInfos(mediaCodecSelector, format, false);
         if (decoderInfos.isEmpty()) {
-            return RendererCapabilities.CC.create(1);
+            return RendererCapabilities.-CC.create(1);
         }
         if (!z) {
-            return RendererCapabilities.CC.create(2);
+            return RendererCapabilities.-CC.create(2);
         }
         MediaCodecInfo mediaCodecInfo = decoderInfos.get(0);
         boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
@@ -104,7 +104,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         if (!isFormatSupported) {
             i3 = 3;
         }
-        return RendererCapabilities.CC.create(i3, i2, i);
+        return RendererCapabilities.-CC.create(i3, i2, i);
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer

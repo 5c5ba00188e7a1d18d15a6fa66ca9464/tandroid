@@ -5,8 +5,7 @@ import com.microsoft.appcenter.ingestion.models.Log;
 /* loaded from: classes.dex */
 public class CustomPropertiesLogFactory extends AbstractLogFactory {
     @Override // com.microsoft.appcenter.ingestion.models.json.LogFactory
-    /* renamed from: create */
-    public Log mo247create() {
+    public Log create() {
         return new CustomPropertiesLog();
     }
 }

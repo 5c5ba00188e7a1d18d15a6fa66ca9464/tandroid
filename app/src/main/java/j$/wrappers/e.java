@@ -38,14 +38,12 @@ public final /* synthetic */ class e implements j$.util.r {
     }
 
     @Override // j$.util.r, java.util.Iterator
-    /* renamed from: next */
-    public /* synthetic */ Long mo339next() {
+    public /* synthetic */ Long next() {
         return this.a.next();
     }
 
     @Override // j$.util.r, java.util.Iterator
-    /* renamed from: next  reason: collision with other method in class */
-    public /* synthetic */ Object mo339next() {
+    public /* synthetic */ Object next() {
         return this.a.next();
     }
 

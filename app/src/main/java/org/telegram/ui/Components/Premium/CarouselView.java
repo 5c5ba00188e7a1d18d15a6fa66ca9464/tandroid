@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.OverScroller;
-import j$.util.Comparator$CC;
+import j$.util.Comparator$-CC;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,7 +36,7 @@ public class CarouselView extends View implements PagerHeaderView {
     boolean firstScroll1 = true;
     boolean firstScrollEnabled = true;
     boolean autoPlayEnabled = true;
-    Comparator<DrawingObject> comparator = Comparator$CC.comparingInt(CarouselView$$ExternalSyntheticLambda2.INSTANCE);
+    Comparator<DrawingObject> comparator = Comparator$-CC.comparingInt(CarouselView$$ExternalSyntheticLambda2.INSTANCE);
     private Runnable autoScrollRunnable = new Runnable() { // from class: org.telegram.ui.Components.Premium.CarouselView.1
         @Override // java.lang.Runnable
         public void run() {
@@ -226,7 +226,7 @@ public class CarouselView extends View implements PagerHeaderView {
                     CarouselView.this.lambda$scrollToInternal$2(f2, f, valueAnimator2);
                 }
             });
-            this.autoScrollAnimation.addListener(new AnonymousClass3(f));
+            this.autoScrollAnimation.addListener(new 3(f));
             this.autoScrollAnimation.setInterpolator(new OvershootInterpolator());
             this.autoScrollAnimation.setDuration(600L);
             this.autoScrollAnimation.start();
@@ -241,12 +241,11 @@ public class CarouselView extends View implements PagerHeaderView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Premium.CarouselView$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends AnimatorListenerAdapter {
+    public class 3 extends AnimatorListenerAdapter {
         final /* synthetic */ float val$scrollTo;
 
-        AnonymousClass3(float f) {
+        3(float f) {
             this.val$scrollTo = f;
         }
 
@@ -259,7 +258,7 @@ public class CarouselView extends View implements PagerHeaderView {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.CarouselView$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    CarouselView.AnonymousClass3.this.lambda$onAnimationEnd$0();
+                    CarouselView.3.this.lambda$onAnimationEnd$0();
                 }
             });
         }

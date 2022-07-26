@@ -66,7 +66,7 @@ public class MaxFileSizeCell extends FrameLayout {
         this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.Cells.MaxFileSizeCell.2
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
-                return SeekBarView.SeekBarViewDelegate.CC.$default$getStepsCount(this);
+                return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
 
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate

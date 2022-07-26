@@ -17,9 +17,9 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        UNKNOWN_CLASSIFICATIONS(0),
-        NO_CLASSIFICATIONS(1),
-        ALL_CLASSIFICATIONS(2);
+        zza(0),
+        zzb(1),
+        zzc(2);
         
         private final int zze;
 
@@ -49,9 +49,9 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzc implements zzet {
-        UNKNOWN_CONTOURS(0),
-        NO_CONTOURS(1),
-        ALL_CONTOURS(2);
+        zza(0),
+        zzb(1),
+        zzc(2);
         
         private final int zze;
 
@@ -81,9 +81,9 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzd implements zzet {
-        UNKNOWN_LANDMARKS(0),
-        NO_LANDMARKS(1),
-        ALL_LANDMARKS(2);
+        zza(0),
+        zzb(1),
+        zzc(2);
         
         private final int zze;
 
@@ -113,9 +113,9 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zze implements zzet {
-        UNKNOWN_PERFORMANCE(0),
-        FAST(1),
-        ACCURATE(2);
+        zza(0),
+        zzb(1),
+        zzc(2);
         
         private final int zze;
 

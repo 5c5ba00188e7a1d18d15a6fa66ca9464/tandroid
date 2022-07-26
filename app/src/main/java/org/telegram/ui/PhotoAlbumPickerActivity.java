@@ -863,7 +863,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             photoPickerActivity.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity.8
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
                 public /* synthetic */ void onOpenInPressed() {
-                    PhotoPickerActivity.PhotoPickerActivityDelegate.CC.$default$onOpenInPressed(this);
+                    PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);
                 }
 
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -899,7 +899,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             photoPickerSearchActivity.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity.9
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
                 public /* synthetic */ void onOpenInPressed() {
-                    PhotoPickerActivity.PhotoPickerActivityDelegate.CC.$default$onOpenInPressed(this);
+                    PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);
                 }
 
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -930,7 +930,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         photoPickerActivity2.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity.10
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public /* synthetic */ void onOpenInPressed() {
-                PhotoPickerActivity.PhotoPickerActivityDelegate.CC.$default$onOpenInPressed(this);
+                PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);
             }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -982,8 +982,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             PhotoPickerAlbumsCell photoPickerAlbumsCell = new PhotoPickerAlbumsCell(this.mContext);
             photoPickerAlbumsCell.setDelegate(new PhotoPickerAlbumsCell.PhotoPickerAlbumsCellDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$ListAdapter$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Cells.PhotoPickerAlbumsCell.PhotoPickerAlbumsCellDelegate

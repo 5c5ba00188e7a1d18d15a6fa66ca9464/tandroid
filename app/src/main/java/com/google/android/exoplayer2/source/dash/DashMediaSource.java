@@ -96,7 +96,7 @@ public final class DashMediaSource extends BaseMediaSource {
 
         public Factory(DashChunkSource.Factory factory, DataSource.Factory factory2) {
             this.chunkSourceFactory = (DashChunkSource.Factory) Assertions.checkNotNull(factory);
-            DrmSessionManager.CC.getDummyDrmSessionManager();
+            DrmSessionManager.-CC.getDummyDrmSessionManager();
             new DefaultLoadErrorHandlingPolicy();
             new DefaultCompositeSequenceableLoaderFactory();
         }
@@ -114,7 +114,7 @@ public final class DashMediaSource extends BaseMediaSource {
 
     @Deprecated
     public DashMediaSource(Uri uri, DataSource.Factory factory, ParsingLoadable.Parser<? extends DashManifest> parser, DashChunkSource.Factory factory2, int i, long j, Handler handler, MediaSourceEventListener mediaSourceEventListener) {
-        this(null, uri, factory, parser, factory2, new DefaultCompositeSequenceableLoaderFactory(), DrmSessionManager.CC.getDummyDrmSessionManager(), new DefaultLoadErrorHandlingPolicy(i), j == -1 ? 30000L : j, j != -1, null);
+        this(null, uri, factory, parser, factory2, new DefaultCompositeSequenceableLoaderFactory(), DrmSessionManager.-CC.getDummyDrmSessionManager(), new DefaultLoadErrorHandlingPolicy(i), j == -1 ? 30000L : j, j != -1, null);
         if (handler == null || mediaSourceEventListener == null) {
             return;
         }
@@ -178,7 +178,7 @@ public final class DashMediaSource extends BaseMediaSource {
             processManifest(false);
             return;
         }
-        this.dataSource = this.manifestDataSourceFactory.mo821createDataSource();
+        this.dataSource = this.manifestDataSourceFactory.createDataSource();
         this.loader = new Loader("Loader:DashMediaSource");
         this.handler = new Handler();
         startLoadingManifest();
@@ -745,10 +745,8 @@ public final class DashMediaSource extends BaseMediaSource {
         private XsDateTimeParser() {
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-        /* renamed from: parse */
-        public Long mo164parse(Uri uri, InputStream inputStream) throws IOException {
+        public Long parse(Uri uri, InputStream inputStream) throws IOException {
             return Long.valueOf(Util.parseXsDateTime(new BufferedReader(new InputStreamReader(inputStream)).readLine()));
         }
     }
@@ -761,10 +759,8 @@ public final class DashMediaSource extends BaseMediaSource {
         Iso8601Parser() {
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // com.google.android.exoplayer2.upstream.ParsingLoadable.Parser
-        /* renamed from: parse */
-        public Long mo164parse(Uri uri, InputStream inputStream) throws IOException {
+        public Long parse(Uri uri, InputStream inputStream) throws IOException {
             String readLine = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8"))).readLine();
             try {
                 Matcher matcher = TIMESTAMP_WITH_TIMEZONE_PATTERN.matcher(readLine);

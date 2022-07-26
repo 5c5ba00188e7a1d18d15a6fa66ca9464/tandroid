@@ -15,10 +15,8 @@ public class RemoteMessageCreator implements Parcelable.Creator<RemoteMessage> {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // android.os.Parcelable.Creator
-    /* renamed from: createFromParcel */
-    public RemoteMessage mo200createFromParcel(Parcel parcel) {
+    public RemoteMessage createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         Bundle bundle = null;
         while (parcel.dataPosition() < validateObjectHeader) {
@@ -33,10 +31,8 @@ public class RemoteMessageCreator implements Parcelable.Creator<RemoteMessage> {
         return new RemoteMessage(bundle);
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // android.os.Parcelable.Creator
-    /* renamed from: newArray */
-    public RemoteMessage[] mo201newArray(int i) {
+    public RemoteMessage[] newArray(int i) {
         return new RemoteMessage[i];
     }
 }

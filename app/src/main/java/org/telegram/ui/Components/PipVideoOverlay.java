@@ -550,7 +550,7 @@ public class PipVideoOverlay {
         });
         Context context = ApplicationLoader.applicationContext;
         int scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(context, new AnonymousClass3());
+        ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(context, new 3());
         this.scaleGestureDetector = scaleGestureDetector;
         int i4 = Build.VERSION.SDK_INT;
         if (i4 >= 19) {
@@ -559,7 +559,7 @@ public class PipVideoOverlay {
         if (i4 >= 23) {
             this.scaleGestureDetector.setStylusScaleEnabled(false);
         }
-        this.gestureDetector = new GestureDetectorFixDoubleTap(context, new AnonymousClass4(scaledTouchSlop));
+        this.gestureDetector = new GestureDetectorFixDoubleTap(context, new 4(scaledTouchSlop));
         this.contentFrameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.PipVideoOverlay.5
             private Path path = new Path();
 
@@ -824,10 +824,9 @@ public class PipVideoOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PipVideoOverlay$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements ScaleGestureDetector.OnScaleGestureListener {
-        AnonymousClass3() {
+    public class 3 implements ScaleGestureDetector.OnScaleGestureListener {
+        3() {
         }
 
         @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
@@ -841,7 +840,7 @@ public class PipVideoOverlay {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PipVideoOverlay.AnonymousClass3.this.lambda$onScale$0();
+                    PipVideoOverlay.3.this.lambda$onScale$0();
                 }
             });
             float focusX = scaleGestureDetector.getFocusX();
@@ -894,7 +893,7 @@ public class PipVideoOverlay {
                         dynamicAnimation.removeEndListener(this);
                         arrayList.add((SpringAnimation) dynamicAnimation);
                         if (arrayList.size() == 2) {
-                            AnonymousClass3.this.updateLayout();
+                            3.this.updateLayout();
                         }
                     }
                 };
@@ -934,14 +933,13 @@ public class PipVideoOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PipVideoOverlay$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 extends GestureDetectorFixDoubleTap.OnGestureListener {
+    public class 4 extends GestureDetectorFixDoubleTap.OnGestureListener {
         private float startPipX;
         private float startPipY;
         final /* synthetic */ int val$touchSlop;
 
-        AnonymousClass4(int i) {
+        4(int i) {
             this.val$touchSlop = i;
         }
 
@@ -1102,7 +1100,7 @@ public class PipVideoOverlay {
                         PipVideoOverlay.this.pipXSpring.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$4$$ExternalSyntheticLambda0
                             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f5, float f6) {
-                                PipVideoOverlay.AnonymousClass4.this.lambda$onScroll$0(rawX, dynamicAnimation, z, f5, f6);
+                                PipVideoOverlay.4.this.lambda$onScroll$0(rawX, dynamicAnimation, z, f5, f6);
                             }
                         });
                         PipVideoOverlay.this.pipXSpring.setStartValue(f3).getSpring().setFinalPosition(rawX);

@@ -4,5 +4,5 @@ package com.google.android.gms.internal.firebase_messaging;
 public @interface zzz {
     int zza();
 
-    zzy zzb() default zzy.DEFAULT;
+    zzy zzb() default zzy.zza;
 }

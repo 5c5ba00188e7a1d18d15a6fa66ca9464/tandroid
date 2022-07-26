@@ -27,7 +27,7 @@ final class r0 extends CountedCompleter {
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.u mo350trySplit;
+        j$.util.u trySplit;
         j$.util.u uVar = this.a;
         long estimateSize = uVar.estimateSize();
         long j = this.d;
@@ -42,13 +42,13 @@ final class r0 extends CountedCompleter {
         while (true) {
             if (d && m3Var.o()) {
                 break;
-            } else if (estimateSize <= j || (mo350trySplit = uVar.mo350trySplit()) == null) {
+            } else if (estimateSize <= j || (trySplit = uVar.trySplit()) == null) {
                 break;
             } else {
-                r0 r0Var2 = new r0(r0Var, mo350trySplit);
+                r0 r0Var2 = new r0(r0Var, trySplit);
                 r0Var.addToPendingCount(1);
                 if (z) {
-                    uVar = mo350trySplit;
+                    uVar = trySplit;
                 } else {
                     r0 r0Var3 = r0Var;
                     r0Var = r0Var2;

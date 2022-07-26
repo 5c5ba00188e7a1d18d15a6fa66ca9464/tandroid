@@ -16,10 +16,10 @@ public final class zzfi$zzj extends zzjb<zzfi$zzj, zzb> implements zzkm {
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public enum zza implements zzje {
-        FORMAT_UNKNOWN(0),
-        FORMAT_LUMINANCE(1),
-        FORMAT_RGB8(2),
-        FORMAT_MONOCHROME(3);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3);
         
         private final int zzf;
 
@@ -31,17 +31,17 @@ public final class zzfi$zzj extends zzjb<zzfi$zzj, zzb> implements zzkm {
         public static zza zza(int i) {
             if (i != 0) {
                 if (i == 1) {
-                    return FORMAT_LUMINANCE;
+                    return zzb;
                 }
                 if (i == 2) {
-                    return FORMAT_RGB8;
+                    return zzc;
                 }
                 if (i == 3) {
-                    return FORMAT_MONOCHROME;
+                    return zzd;
                 }
                 return null;
             }
-            return FORMAT_UNKNOWN;
+            return zza;
         }
 
         public static zzjg zzb() {

@@ -57,7 +57,7 @@ public class Rpc {
             Object obj = message.obj;
             if (obj instanceof Intent) {
                 Intent intent = (Intent) obj;
-                intent.setExtrasClassLoader(new zza.C0000zza());
+                intent.setExtrasClassLoader(new zza.zza());
                 if (intent.hasExtra("google.messenger")) {
                     Parcelable parcelableExtra = intent.getParcelableExtra("google.messenger");
                     if (parcelableExtra instanceof zza) {

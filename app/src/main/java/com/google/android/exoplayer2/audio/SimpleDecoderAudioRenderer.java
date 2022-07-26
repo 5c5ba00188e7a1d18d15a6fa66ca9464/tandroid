@@ -56,8 +56,7 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         return false;
     }
 
-    /* renamed from: createDecoder */
-    protected abstract SimpleDecoder<DecoderInputBuffer, ? extends SimpleOutputBuffer, ? extends AudioDecoderException> mo90createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws AudioDecoderException;
+    protected abstract SimpleDecoder<DecoderInputBuffer, ? extends SimpleOutputBuffer, ? extends AudioDecoderException> createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws AudioDecoderException;
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
     public MediaClock getMediaClock() {
@@ -109,16 +108,16 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
     public final int supportsFormat(Format format) {
         int i = 0;
         if (!MimeTypes.isAudio(format.sampleMimeType)) {
-            return RendererCapabilities.CC.create(0);
+            return RendererCapabilities.-CC.create(0);
         }
         int supportsFormatInternal = supportsFormatInternal(this.drmSessionManager, format);
         if (supportsFormatInternal <= 2) {
-            return RendererCapabilities.CC.create(supportsFormatInternal);
+            return RendererCapabilities.-CC.create(supportsFormatInternal);
         }
         if (Util.SDK_INT >= 21) {
             i = 32;
         }
-        return RendererCapabilities.CC.create(supportsFormatInternal, 8, i);
+        return RendererCapabilities.-CC.create(supportsFormatInternal, 8, i);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -170,12 +169,12 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
 
     private boolean drainOutputBuffer() throws ExoPlaybackException, AudioDecoderException, AudioSink.ConfigurationException, AudioSink.InitializationException, AudioSink.WriteException {
         if (this.outputBuffer == null) {
-            SimpleOutputBuffer mo167dequeueOutputBuffer = this.decoder.mo167dequeueOutputBuffer();
-            this.outputBuffer = mo167dequeueOutputBuffer;
-            if (mo167dequeueOutputBuffer == null) {
+            SimpleOutputBuffer dequeueOutputBuffer = this.decoder.dequeueOutputBuffer();
+            this.outputBuffer = dequeueOutputBuffer;
+            if (dequeueOutputBuffer == null) {
                 return false;
             }
-            int i = mo167dequeueOutputBuffer.skippedOutputBufferCount;
+            int i = dequeueOutputBuffer.skippedOutputBufferCount;
             if (i > 0) {
                 this.decoderCounters.skippedOutputBufferCount += i;
                 this.audioSink.handleDiscontinuity();
@@ -215,9 +214,9 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
             return false;
         }
         if (this.inputBuffer == null) {
-            DecoderInputBuffer mo166dequeueInputBuffer = simpleDecoder.mo166dequeueInputBuffer();
-            this.inputBuffer = mo166dequeueInputBuffer;
-            if (mo166dequeueInputBuffer == null) {
+            DecoderInputBuffer dequeueInputBuffer = simpleDecoder.dequeueInputBuffer();
+            this.inputBuffer = dequeueInputBuffer;
+            if (dequeueInputBuffer == null) {
                 return false;
             }
         }
@@ -415,7 +414,7 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         try {
             long elapsedRealtime = SystemClock.elapsedRealtime();
             TraceUtil.beginSection("createAudioDecoder");
-            this.decoder = mo90createDecoder(this.inputFormat, exoMediaCrypto);
+            this.decoder = createDecoder(this.inputFormat, exoMediaCrypto);
             TraceUtil.endSection();
             long elapsedRealtime2 = SystemClock.elapsedRealtime();
             this.eventDispatcher.decoderInitialized(this.decoder.getName(), elapsedRealtime2, elapsedRealtime2 - elapsedRealtime);
@@ -440,12 +439,12 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
     }
 
     private void setSourceDrmSession(DrmSession<ExoMediaCrypto> drmSession) {
-        DrmSession.CC.replaceSession(this.sourceDrmSession, drmSession);
+        DrmSession.-CC.replaceSession(this.sourceDrmSession, drmSession);
         this.sourceDrmSession = drmSession;
     }
 
     private void setDecoderDrmSession(DrmSession<ExoMediaCrypto> drmSession) {
-        DrmSession.CC.replaceSession(this.decoderDrmSession, drmSession);
+        DrmSession.-CC.replaceSession(this.decoderDrmSession, drmSession);
         this.decoderDrmSession = drmSession;
     }
 

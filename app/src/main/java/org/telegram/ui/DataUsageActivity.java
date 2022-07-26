@@ -103,7 +103,7 @@ public class DataUsageActivity extends BaseFragment {
         this.scrollSlidingTextTabStrip.setDelegate(new ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate() { // from class: org.telegram.ui.DataUsageActivity.2
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
             public /* synthetic */ void onSamePageSelected() {
-                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.CC.$default$onSamePageSelected(this);
+                ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate.-CC.$default$onSamePageSelected(this);
             }
 
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
@@ -368,8 +368,8 @@ public class DataUsageActivity extends BaseFragment {
                                     DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[0].selectedType, 1.0f);
                                 }
                                 DataUsageActivity.this.tabsAnimationInProgress = false;
-                                AnonymousClass3.this.maybeStartTracking = false;
-                                AnonymousClass3.this.startedTracking = false;
+                                3.this.maybeStartTracking = false;
+                                3.this.startedTracking = false;
                                 ((BaseFragment) DataUsageActivity.this).actionBar.setEnabled(true);
                                 DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(true);
                             }
@@ -899,8 +899,7 @@ public class DataUsageActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View shadowSectionCell;
             if (i == 0) {
                 shadowSectionCell = new ShadowSectionCell(this.mContext);

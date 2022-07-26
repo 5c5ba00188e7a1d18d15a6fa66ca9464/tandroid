@@ -9,26 +9,26 @@ public abstract class a1 {
         if (i != 0) {
             str = f();
             if (!TextUtils.isEmpty(str)) {
-                return new x0(y0.UDID, str);
+                return new x0(y0.b, str);
             }
         } else {
             str = "";
         }
-        return new x0(y0.EMPTY, str);
+        return new x0(y0.d, str);
     }
 
     public x0 a(Context context) {
         String c = c();
         if (!TextUtils.isEmpty(c)) {
-            return new x0(y0.UDID, c);
+            return new x0(y0.b, c);
         }
         String a = a();
         if (!TextUtils.isEmpty(a)) {
-            return new x0(y0.IMEI, a);
+            return new x0(y0.a, a);
         }
         boolean e = e();
         String b = b();
-        return !TextUtils.isEmpty(b) ? e ? new x0(y0.SN, b) : new x0(y0.UDID, a(b)) : e ? a(d()) : b(d());
+        return !TextUtils.isEmpty(b) ? e ? new x0(y0.c, b) : new x0(y0.b, a(b)) : e ? a(d()) : b(d());
     }
 
     public abstract String a();
@@ -40,12 +40,12 @@ public abstract class a1 {
         if ((i & 4) != 0) {
             str = f();
             if (!TextUtils.isEmpty(str)) {
-                return new x0(y0.UDID, str);
+                return new x0(y0.b, str);
             }
         } else {
             str = "";
         }
-        return new x0(y0.EMPTY, str);
+        return new x0(y0.d, str);
     }
 
     public abstract String b();

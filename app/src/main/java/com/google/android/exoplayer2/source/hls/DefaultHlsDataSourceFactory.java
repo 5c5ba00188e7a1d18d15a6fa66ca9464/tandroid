@@ -11,6 +11,6 @@ public final class DefaultHlsDataSourceFactory implements HlsDataSourceFactory {
 
     @Override // com.google.android.exoplayer2.source.hls.HlsDataSourceFactory
     public DataSource createDataSource(int i) {
-        return this.dataSourceFactory.mo821createDataSource();
+        return this.dataSourceFactory.createDataSource();
     }
 }

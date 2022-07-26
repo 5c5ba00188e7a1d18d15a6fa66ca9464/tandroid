@@ -59,8 +59,7 @@ class A implements n, j$.util.function.f, Iterator {
     }
 
     @Override // j$.util.n, java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public Double mo335next() {
+    public Double next() {
         if (!N.a) {
             return Double.valueOf(nextDouble());
         }
@@ -79,7 +78,7 @@ class A implements n, j$.util.function.f, Iterator {
 
     @Override // java.util.Iterator, j$.util.Iterator
     public /* synthetic */ void remove() {
-        Iterator.CC.a(this);
+        Iterator.-CC.a(this);
         throw null;
     }
 }

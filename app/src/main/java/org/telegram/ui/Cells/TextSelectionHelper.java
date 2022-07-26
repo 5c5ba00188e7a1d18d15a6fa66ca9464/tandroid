@@ -1460,12 +1460,11 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Cells.TextSelectionHelper$4  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass4 implements ActionMode.Callback {
+    public class 4 implements ActionMode.Callback {
         private String translateFromLanguage = null;
 
-        AnonymousClass4() {
+        4() {
         }
 
         @Override // android.view.ActionMode.Callback
@@ -1493,12 +1492,12 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 LanguageDetector.detectLanguage(TextSelectionHelper.this.getSelectedText().toString(), new LanguageDetector.StringCallback() { // from class: org.telegram.ui.Cells.TextSelectionHelper$4$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.LanguageDetector.StringCallback
                     public final void run(String str) {
-                        TextSelectionHelper.AnonymousClass4.this.lambda$onPrepareActionMode$0(menu, str);
+                        TextSelectionHelper.4.this.lambda$onPrepareActionMode$0(menu, str);
                     }
                 }, new LanguageDetector.ExceptionCallback() { // from class: org.telegram.ui.Cells.TextSelectionHelper$4$$ExternalSyntheticLambda1
                     @Override // org.telegram.messenger.LanguageDetector.ExceptionCallback
                     public final void run(Exception exc) {
-                        TextSelectionHelper.AnonymousClass4.this.lambda$onPrepareActionMode$1(menu, exc);
+                        TextSelectionHelper.4.this.lambda$onPrepareActionMode$1(menu, exc);
                     }
                 });
             } else {
@@ -1538,7 +1537,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                     TextSelectionHelper.this.onTranslateListener.run(TextSelectionHelper.this.getSelectedText(), this.translateFromLanguage, LocaleController.getInstance().getCurrentLocale().getLanguage(), new Runnable() { // from class: org.telegram.ui.Cells.TextSelectionHelper$4$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            TextSelectionHelper.AnonymousClass4.this.lambda$onActionItemClicked$2();
+                            TextSelectionHelper.4.this.lambda$onActionItemClicked$2();
                         }
                     });
                 }
@@ -1581,26 +1580,26 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     }
 
     private ActionMode.Callback createActionCallback() {
-        final AnonymousClass4 anonymousClass4 = new AnonymousClass4();
+        final 4 r0 = new 4();
         return Build.VERSION.SDK_INT >= 23 ? new ActionMode.Callback2() { // from class: org.telegram.ui.Cells.TextSelectionHelper.5
             @Override // android.view.ActionMode.Callback
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                return anonymousClass4.onCreateActionMode(actionMode, menu);
+                return r0.onCreateActionMode(actionMode, menu);
             }
 
             @Override // android.view.ActionMode.Callback
             public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                return anonymousClass4.onPrepareActionMode(actionMode, menu);
+                return r0.onPrepareActionMode(actionMode, menu);
             }
 
             @Override // android.view.ActionMode.Callback
             public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                return anonymousClass4.onActionItemClicked(actionMode, menuItem);
+                return r0.onActionItemClicked(actionMode, menuItem);
             }
 
             @Override // android.view.ActionMode.Callback
             public void onDestroyActionMode(ActionMode actionMode) {
-                anonymousClass4.onDestroyActionMode(actionMode);
+                r0.onDestroyActionMode(actionMode);
             }
 
             @Override // android.view.ActionMode.Callback2
@@ -1633,7 +1632,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 }
                 rect.set(Math.min(i, width), i2, Math.max(i, width), i2 + 1);
             }
-        } : anonymousClass4;
+        } : r0;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -15,10 +15,8 @@ public class ExceptionFactory implements ModelFactory<Exception> {
         return sInstance;
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.microsoft.appcenter.ingestion.models.json.ModelFactory
-    /* renamed from: create */
-    public Exception mo246create() {
+    public Exception create() {
         return new Exception();
     }
 

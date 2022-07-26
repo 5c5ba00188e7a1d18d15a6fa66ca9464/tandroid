@@ -5,10 +5,8 @@ import android.os.Parcelable;
 import com.huawei.hms.common.internal.safeparcel.SafeParcelReader;
 /* loaded from: classes.dex */
 public final class FeatureCreator implements Parcelable.Creator<Feature> {
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // android.os.Parcelable.Creator
-    /* renamed from: createFromParcel */
-    public final Feature mo216createFromParcel(Parcel parcel) {
+    public final Feature createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         int i = 0;
         long j = -1;
@@ -32,10 +30,8 @@ public final class FeatureCreator implements Parcelable.Creator<Feature> {
         return new Feature(str, i2, j);
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // android.os.Parcelable.Creator
-    /* renamed from: newArray */
-    public final Feature[] mo217newArray(int i) {
+    public final Feature[] newArray(int i) {
         return new Feature[i];
     }
 }

@@ -93,8 +93,7 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             ArchivedStickerSetCell archivedStickerSetCell = new ArchivedStickerSetCell(this.context, false);
             archivedStickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(82.0f)));
             return new RecyclerListView.Holder(archivedStickerSetCell);

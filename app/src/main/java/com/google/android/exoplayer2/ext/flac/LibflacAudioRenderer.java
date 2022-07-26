@@ -21,7 +21,7 @@ public final class LibflacAudioRenderer extends SimpleDecoderAudioRenderer {
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
     public /* bridge */ /* synthetic */ void setOperatingRate(float f) throws ExoPlaybackException {
-        Renderer.CC.$default$setOperatingRate(this, f);
+        Renderer.-CC.$default$setOperatingRate(this, f);
     }
 
     public LibflacAudioRenderer() {
@@ -49,8 +49,7 @@ public final class LibflacAudioRenderer extends SimpleDecoderAudioRenderer {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
-    /* renamed from: createDecoder  reason: collision with other method in class */
-    public FlacDecoder mo90createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws FlacDecoderException {
+    public FlacDecoder createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws FlacDecoderException {
         FlacDecoder flacDecoder = new FlacDecoder(16, 16, format.maxInputSize, format.initializationData);
         this.streamMetadata = flacDecoder.getStreamMetadata();
         return flacDecoder;

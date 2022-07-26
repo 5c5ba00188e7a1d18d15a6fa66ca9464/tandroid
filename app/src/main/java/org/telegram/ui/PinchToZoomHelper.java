@@ -86,9 +86,8 @@ public class PinchToZoomHelper {
     /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* renamed from: org.telegram.ui.PinchToZoomHelper$Callback$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static TextureView $default$getCurrentTextureView(Callback callback) {
                 return null;
             }

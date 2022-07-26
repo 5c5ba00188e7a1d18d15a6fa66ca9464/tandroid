@@ -2,22 +2,22 @@ package com.google.android.gms.internal.mlkit_language_id;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public enum zzdd implements zzet {
-    UNRECOGNIZED(0),
-    CODE_128(1),
-    CODE_39(2),
-    CODE_93(3),
-    CODABAR(4),
-    DATA_MATRIX(5),
-    EAN_13(6),
-    EAN_8(7),
-    ITF(8),
-    QR_CODE(9),
-    UPC_A(10),
-    UPC_E(11),
-    PDF417(12),
-    AZTEC(13),
-    DATABAR(14),
-    TEZ_CODE(16);
+    zza(0),
+    zzb(1),
+    zzc(2),
+    zzd(3),
+    zze(4),
+    zzf(5),
+    zzg(6),
+    zzh(7),
+    zzi(8),
+    zzj(9),
+    zzk(10),
+    zzl(11),
+    zzm(12),
+    zzn(13),
+    zzo(14),
+    zzp(16);
     
     private final int zzr;
 

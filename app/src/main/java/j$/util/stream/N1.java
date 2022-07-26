@@ -27,7 +27,7 @@ class N1 extends f {
     public Object a() {
         s1 s1Var = (s1) this.i.apply(this.h.q0(this.b));
         this.h.u0(s1Var, this.b);
-        return s1Var.mo315a();
+        return s1Var.a();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

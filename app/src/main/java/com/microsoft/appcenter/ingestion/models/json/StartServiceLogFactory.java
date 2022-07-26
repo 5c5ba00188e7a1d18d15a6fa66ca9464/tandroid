@@ -5,8 +5,7 @@ import com.microsoft.appcenter.ingestion.models.StartServiceLog;
 /* loaded from: classes.dex */
 public class StartServiceLogFactory extends AbstractLogFactory {
     @Override // com.microsoft.appcenter.ingestion.models.json.LogFactory
-    /* renamed from: create */
-    public Log mo247create() {
+    public Log create() {
         return new StartServiceLog();
     }
 }

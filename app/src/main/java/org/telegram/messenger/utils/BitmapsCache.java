@@ -2,7 +2,7 @@ package org.telegram.messenger.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import j$.util.Comparator$CC;
+import j$.util.Comparator$-CC;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -162,7 +162,7 @@ public class BitmapsCache {
                     }
                 }
                 int length = (int) randomAccessFile2.length();
-                Collections.sort(arrayList, Comparator$CC.comparingInt(BitmapsCache$$ExternalSyntheticLambda1.INSTANCE));
+                Collections.sort(arrayList, Comparator$-CC.comparingInt(BitmapsCache$$ExternalSyntheticLambda1.INSTANCE));
                 randomAccessFile2.writeInt(arrayList.size());
                 for (int i9 = 0; i9 < arrayList.size(); i9++) {
                     randomAccessFile2.writeInt(((FrameOffset) arrayList.get(i9)).frameOffset);

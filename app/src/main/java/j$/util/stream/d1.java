@@ -155,15 +155,13 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public final j$.util.r mo331iterator() {
-        return j$.util.L.h(mo334spliterator());
+    public final j$.util.r iterator() {
+        return j$.util.L.h(spliterator());
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public Iterator mo331iterator() {
-        return j$.util.L.h(mo334spliterator());
+    public Iterator iterator() {
+        return j$.util.L.h(spliterator());
     }
 
     @Override // j$.util.stream.e1
@@ -215,9 +213,8 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g
-    /* renamed from: spliterator */
-    public final j$.util.v mo334spliterator() {
-        return M0(super.mo334spliterator());
+    public final j$.util.v spliterator() {
+        return M0(super.spliterator());
     }
 
     @Override // j$.util.stream.e1

@@ -21,15 +21,13 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
     public final int version;
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    /* renamed from: copy */
-    public HlsPlaylist mo163copy(List<StreamKey> list) {
+    public HlsPlaylist copy(List<StreamKey> list) {
         return this;
     }
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    /* renamed from: copy  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ HlsPlaylist mo163copy(List list) {
-        return mo163copy((List<StreamKey>) list);
+    public /* bridge */ /* synthetic */ HlsPlaylist copy(List list) {
+        return copy((List<StreamKey>) list);
     }
 
     /* loaded from: classes.dex */

@@ -51,74 +51,74 @@ package com.google.android.gms.internal.clearcut;
 /* JADX WARN: Init of enum zziv can be incorrect */
 /* loaded from: classes.dex */
 public enum zzcb {
-    DOUBLE(0, r7, r8),
-    FLOAT(1, r7, r10),
-    INT64(2, r7, r12),
-    UINT64(3, r7, r12),
-    INT32(4, r7, r15),
-    FIXED64(5, r7, r12),
-    FIXED32(6, r7, r15),
-    BOOL(7, r7, r19),
-    STRING(8, r7, r21),
-    MESSAGE(9, r7, r23),
-    BYTES(10, r7, r25),
-    UINT32(11, r7, r15),
-    ENUM(12, r7, r28),
-    SFIXED32(13, r7, r15),
-    SFIXED64(14, r7, r12),
-    SINT32(15, r7, r15),
-    SINT64(16, r7, r12),
-    GROUP(17, r7, r23),
-    DOUBLE_LIST(18, r34, r8),
-    FLOAT_LIST(19, r34, r10),
-    INT64_LIST(20, r34, r12),
-    UINT64_LIST(21, r34, r12),
-    INT32_LIST(22, r34, r15),
-    FIXED64_LIST(23, r34, r12),
-    FIXED32_LIST(24, r34, r15),
-    BOOL_LIST(25, r34, r19),
-    STRING_LIST(26, r34, r21),
-    MESSAGE_LIST(27, r34, r23),
-    BYTES_LIST(28, r34, r25),
-    UINT32_LIST(29, r34, r15),
-    ENUM_LIST(30, r34, r28),
-    SFIXED32_LIST(31, r34, r15),
-    SFIXED64_LIST(32, r34, r12),
-    SINT32_LIST(33, r34, r15),
-    SINT64_LIST(34, r34, r12),
-    DOUBLE_LIST_PACKED(35, r50, r8),
-    FLOAT_LIST_PACKED(36, r50, r10),
-    INT64_LIST_PACKED(37, r50, r12),
-    UINT64_LIST_PACKED(38, r50, r12),
-    INT32_LIST_PACKED(39, r50, r15),
-    FIXED64_LIST_PACKED(40, r50, r12),
-    FIXED32_LIST_PACKED(41, r50, r15),
-    BOOL_LIST_PACKED(42, r50, r19),
-    UINT32_LIST_PACKED(43, r50, r15),
-    ENUM_LIST_PACKED(44, r50, r28),
-    SFIXED32_LIST_PACKED(45, r50, r15),
-    SFIXED64_LIST_PACKED(46, r50, r12),
-    SINT32_LIST_PACKED(47, r50, r15),
-    SINT64_LIST_PACKED(48, r50, r12),
-    GROUP_LIST(49, r34, r23),
-    MAP(50, zzcd.MAP, zzcq.VOID);
+    zzgy(0, r7, r8),
+    zzgz(1, r7, r10),
+    zzha(2, r7, r12),
+    zzhb(3, r7, r12),
+    zzhc(4, r7, r15),
+    zzhd(5, r7, r12),
+    zzhe(6, r7, r15),
+    zzhf(7, r7, r19),
+    zzhg(8, r7, r21),
+    zzhh(9, r7, r23),
+    zzhi(10, r7, r25),
+    zzhj(11, r7, r15),
+    zzhk(12, r7, r28),
+    zzhl(13, r7, r15),
+    zzhm(14, r7, r12),
+    zzhn(15, r7, r15),
+    zzho(16, r7, r12),
+    zzhp(17, r7, r23),
+    zzhq(18, r34, r8),
+    zzhr(19, r34, r10),
+    zzhs(20, r34, r12),
+    zzht(21, r34, r12),
+    zzhu(22, r34, r15),
+    zzhv(23, r34, r12),
+    zzhw(24, r34, r15),
+    zzhx(25, r34, r19),
+    zzhy(26, r34, r21),
+    zzhz(27, r34, r23),
+    zzia(28, r34, r25),
+    zzib(29, r34, r15),
+    zzic(30, r34, r28),
+    zzid(31, r34, r15),
+    zzie(32, r34, r12),
+    zzif(33, r34, r15),
+    zzig(34, r34, r12),
+    zzih(35, r50, r8),
+    zzii(36, r50, r10),
+    zzij(37, r50, r12),
+    zzik(38, r50, r12),
+    zzil(39, r50, r15),
+    zzim(40, r50, r12),
+    zzin(41, r50, r15),
+    zzio(42, r50, r19),
+    zzip(43, r50, r15),
+    zziq(44, r50, r28),
+    zzir(45, r50, r15),
+    zzis(46, r50, r12),
+    zzit(47, r50, r15),
+    zziu(48, r50, r12),
+    zziv(49, r34, r23),
+    zziw(50, zzcd.zzjj, zzcq.zzkx);
     
     private static final zzcb[] zzjb;
     private final int id;
 
     static {
-        zzcd zzcdVar = zzcd.SCALAR;
-        zzcq zzcqVar = zzcq.DOUBLE;
-        zzcq zzcqVar2 = zzcq.FLOAT;
-        zzcq zzcqVar3 = zzcq.LONG;
-        zzcq zzcqVar4 = zzcq.INT;
-        zzcq zzcqVar5 = zzcq.BOOLEAN;
-        zzcq zzcqVar6 = zzcq.STRING;
-        zzcq zzcqVar7 = zzcq.MESSAGE;
-        zzcq zzcqVar8 = zzcq.BYTE_STRING;
-        zzcq zzcqVar9 = zzcq.ENUM;
-        zzcd zzcdVar2 = zzcd.VECTOR;
-        zzcd zzcdVar3 = zzcd.PACKED_VECTOR;
+        zzcd zzcdVar = zzcd.zzjg;
+        zzcq zzcqVar = zzcq.zzlb;
+        zzcq zzcqVar2 = zzcq.zzla;
+        zzcq zzcqVar3 = zzcq.zzkz;
+        zzcq zzcqVar4 = zzcq.zzky;
+        zzcq zzcqVar5 = zzcq.zzlc;
+        zzcq zzcqVar6 = zzcq.zzld;
+        zzcq zzcqVar7 = zzcq.zzlg;
+        zzcq zzcqVar8 = zzcq.zzle;
+        zzcq zzcqVar9 = zzcq.zzlf;
+        zzcd zzcdVar2 = zzcd.zzjh;
+        zzcd zzcdVar3 = zzcd.zzji;
         zzcb[] values = values();
         zzjb = new zzcb[values.length];
         for (zzcb zzcbVar : values) {
@@ -132,7 +132,7 @@ public enum zzcb {
         if (i2 == 1 || i2 == 2) {
             zzcqVar.zzbq();
         }
-        if (zzcdVar == zzcd.SCALAR) {
+        if (zzcdVar == zzcd.zzjg) {
             int i3 = zzcc.zzjf[zzcqVar.ordinal()];
         }
     }

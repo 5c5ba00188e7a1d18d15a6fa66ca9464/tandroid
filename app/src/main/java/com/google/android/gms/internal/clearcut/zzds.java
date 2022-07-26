@@ -1639,7 +1639,7 @@ final class zzds<T> implements zzef<T> {
                         objArr[((i5 / 4) << 1) + 1] = zzco.zzdk();
                     }
                     int zzcy = zzco.zzcy();
-                    if (zzcy == zzcb.MAP.ordinal()) {
+                    if (zzcy == zzcb.zziw.ordinal()) {
                         iArr2[i6] = i5;
                         i6++;
                     } else if (zzcy >= 18 && zzcy <= 49) {
@@ -4422,7 +4422,7 @@ final class zzds<T> implements zzef<T> {
                     }
                     i = i13;
                 } else {
-                    i = (!this.zzmr || i12 < zzcb.DOUBLE_LIST_PACKED.id() || i12 > zzcb.SINT64_LIST_PACKED.id()) ? 0 : this.zzmi[i8 + 2] & 1048575;
+                    i = (!this.zzmr || i12 < zzcb.zzih.id() || i12 > zzcb.zziu.id()) ? 0 : this.zzmi[i8 + 2] & 1048575;
                     i2 = 0;
                 }
                 long j3 = zzag & 1048575;
@@ -4820,7 +4820,7 @@ final class zzds<T> implements zzef<T> {
             int i17 = (zzag2 & i6) >>> 20;
             int i18 = this.zzmi[i15];
             long j4 = zzag2 & 1048575;
-            int i19 = (i17 < zzcb.DOUBLE_LIST_PACKED.id() || i17 > zzcb.SINT64_LIST_PACKED.id()) ? 0 : this.zzmi[i15 + 2] & 1048575;
+            int i19 = (i17 < zzcb.zzih.id() || i17 > zzcb.zziu.id()) ? 0 : this.zzmi[i15 + 2] & 1048575;
             switch (i17) {
                 case 0:
                     if (!zza((zzds<T>) t, i15)) {

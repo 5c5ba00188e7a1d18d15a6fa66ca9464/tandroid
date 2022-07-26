@@ -286,7 +286,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
         } else {
             int i4 = this.type;
             if (i4 == 0) {
-                int i5 = AnonymousClass1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
+                int i5 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
                 if (i5 == 1) {
                     float f9 = x - this.pointerStartX;
                     float f10 = y - this.pointerStartY;
@@ -323,7 +323,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
                     this.pointerStartY = y;
                 }
             } else if (i4 == 1) {
-                int i6 = AnonymousClass1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
+                int i6 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
                 if (i6 == 1) {
                     float f18 = x - this.pointerStartX;
                     float f19 = y - this.pointerStartY;
@@ -358,9 +358,8 @@ public class PhotoFilterBlurControl extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.PhotoFilterBlurControl$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public static /* synthetic */ class AnonymousClass1 {
+    public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl;
 
         static {

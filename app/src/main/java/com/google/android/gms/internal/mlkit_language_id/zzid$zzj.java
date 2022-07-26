@@ -14,11 +14,11 @@ public final class zzid$zzj extends zzeo<zzid$zzj, zza> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzb implements zzet {
-        DELEGATE_NONE(0),
-        NNAPI(1),
-        GPU(2),
-        HEXAGON(3),
-        EDGETPU(4);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3),
+        zze(4);
         
         private final int zzg;
 

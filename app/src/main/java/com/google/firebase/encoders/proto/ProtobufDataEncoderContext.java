@@ -101,10 +101,10 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
                 return doEncode((ValueEncoder<FieldDescriptor>) valueEncoder, fieldDescriptor, (FieldDescriptor) obj, z);
             }
             if (obj instanceof ProtoEnum) {
-                return mo195add(fieldDescriptor, ((ProtoEnum) obj).getNumber());
+                return add(fieldDescriptor, ((ProtoEnum) obj).getNumber());
             }
             if (obj instanceof Enum) {
-                return mo195add(fieldDescriptor, ((Enum) obj).ordinal());
+                return add(fieldDescriptor, ((Enum) obj).ordinal());
             }
             return doEncode((ObjectEncoder<FieldDescriptor>) this.fallbackEncoder, fieldDescriptor, (FieldDescriptor) obj, z);
         }
@@ -129,15 +129,13 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    /* renamed from: add  reason: collision with other method in class */
-    public ProtobufDataEncoderContext mo195add(FieldDescriptor fieldDescriptor, int i) throws IOException {
+    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
         return add(fieldDescriptor, i, true);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.google.firebase.encoders.proto.ProtobufDataEncoderContext$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public static /* synthetic */ class AnonymousClass1 {
+    public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding;
 
         static {
@@ -161,7 +159,7 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i, boolean z) throws IOException {
         if (!z || i != 0) {
             Protobuf protobuf = getProtobuf(fieldDescriptor);
-            int i2 = AnonymousClass1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
+            int i2 = 1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
             if (i2 == 1) {
                 writeVarInt32(protobuf.tag() << 3);
                 writeVarInt32(i);
@@ -178,15 +176,14 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    /* renamed from: add  reason: collision with other method in class */
-    public ProtobufDataEncoderContext mo196add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
         return add(fieldDescriptor, j, true);
     }
 
     ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j, boolean z) throws IOException {
         if (!z || j != 0) {
             Protobuf protobuf = getProtobuf(fieldDescriptor);
-            int i = AnonymousClass1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
+            int i = 1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
             if (i == 1) {
                 writeVarInt32(protobuf.tag() << 3);
                 writeVarInt64(j);

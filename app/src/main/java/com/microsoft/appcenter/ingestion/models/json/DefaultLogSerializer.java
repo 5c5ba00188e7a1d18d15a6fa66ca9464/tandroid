@@ -28,9 +28,9 @@ public class DefaultLogSerializer implements LogSerializer {
         if (logFactory == null) {
             throw new JSONException("Unknown log type: " + str);
         }
-        Log mo247create = logFactory.mo247create();
-        mo247create.read(jSONObject);
-        return mo247create;
+        Log create = logFactory.create();
+        create.read(jSONObject);
+        return create;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.json.LogSerializer

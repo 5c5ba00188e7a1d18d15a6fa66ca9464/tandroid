@@ -10,8 +10,7 @@ public final /* synthetic */ class RemoteConfigComponent$$ExternalSyntheticLambd
     }
 
     @Override // com.google.firebase.inject.Provider
-    /* renamed from: get */
-    public final Object mo190get() {
+    public final Object get() {
         AnalyticsConnector lambda$getFetchHandler$0;
         lambda$getFetchHandler$0 = RemoteConfigComponent.lambda$getFetchHandler$0();
         return lambda$getFetchHandler$0;

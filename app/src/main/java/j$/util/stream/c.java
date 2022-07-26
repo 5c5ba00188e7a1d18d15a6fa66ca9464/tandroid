@@ -106,7 +106,7 @@ abstract class c extends y2 implements g {
     }
 
     j$.util.u F0(y2 y2Var, j$.util.u uVar) {
-        return E0(y2Var, uVar, a.a).mo313spliterator();
+        return E0(y2Var, uVar, a.a).spliterator();
     }
 
     abstract boolean G0();
@@ -196,11 +196,10 @@ abstract class c extends y2 implements g {
         s1 t0 = t0(q0(uVar), mVar);
         t0.getClass();
         n0(v0(t0), uVar);
-        return t0.mo315a();
+        return t0.a();
     }
 
-    /* renamed from: parallel */
-    public final g mo332parallel() {
+    public final g parallel() {
         this.a.k = true;
         return this;
     }
@@ -230,14 +229,12 @@ abstract class c extends y2 implements g {
         return this.f;
     }
 
-    /* renamed from: sequential */
-    public final g mo333sequential() {
+    public final g sequential() {
         this.a.k = false;
         return this;
     }
 
-    /* renamed from: spliterator */
-    public j$.util.u mo334spliterator() {
+    public j$.util.u spliterator() {
         if (!this.h) {
             this.h = true;
             c cVar = this.a;

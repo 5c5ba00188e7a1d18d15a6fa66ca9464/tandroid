@@ -1079,7 +1079,7 @@ public class EditWidgetActivity extends BaseFragment {
                 EditWidgetActivity.this.lambda$createView$1(context, view, i);
             }
         });
-        this.listView.setOnItemLongClickListener(new AnonymousClass2());
+        this.listView.setOnItemLongClickListener(new 2());
         return this.fragmentView;
     }
 
@@ -1110,9 +1110,8 @@ public class EditWidgetActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.EditWidgetActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements RecyclerListView.OnItemLongClickListenerExtended {
+    public class 2 implements RecyclerListView.OnItemLongClickListenerExtended {
         private Rect rect = new Rect();
 
         @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
@@ -1123,7 +1122,7 @@ public class EditWidgetActivity extends BaseFragment {
         public void onMove(float f, float f2) {
         }
 
-        AnonymousClass2() {
+        2() {
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
@@ -1135,7 +1134,7 @@ public class EditWidgetActivity extends BaseFragment {
                     builder.setItems(new CharSequence[]{LocaleController.getString("Delete", R.string.Delete)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.EditWidgetActivity$2$$ExternalSyntheticLambda0
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i2) {
-                            EditWidgetActivity.AnonymousClass2.this.lambda$onItemClick$0(i, dialogInterface, i2);
+                            EditWidgetActivity.2.this.lambda$onItemClick$0(i, dialogInterface, i2);
                         }
                     });
                     EditWidgetActivity.this.showDialog(builder.create());
@@ -1193,8 +1192,7 @@ public class EditWidgetActivity extends BaseFragment {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             GroupCreateUserCell groupCreateUserCell;
             if (i == 0) {
                 FrameLayout textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);

@@ -284,7 +284,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
 
     private PersistedInstallationEntry registerFidWithServer(PersistedInstallationEntry persistedInstallationEntry) throws FirebaseInstallationsException {
         InstallationResponse createFirebaseInstallation = this.serviceClient.createFirebaseInstallation(getApiKey(), persistedInstallationEntry.getFirebaseInstallationId(), getProjectIdentifier(), getApplicationId(), (persistedInstallationEntry.getFirebaseInstallationId() == null || persistedInstallationEntry.getFirebaseInstallationId().length() != 11) ? null : this.iidStore.readToken());
-        int i = AnonymousClass3.$SwitchMap$com$google$firebase$installations$remote$InstallationResponse$ResponseCode[createFirebaseInstallation.getResponseCode().ordinal()];
+        int i = 3.$SwitchMap$com$google$firebase$installations$remote$InstallationResponse$ResponseCode[createFirebaseInstallation.getResponseCode().ordinal()];
         if (i != 1) {
             if (i == 2) {
                 return persistedInstallationEntry.withFisError("BAD CONFIG");
@@ -296,7 +296,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
 
     private PersistedInstallationEntry fetchAuthTokenFromServer(PersistedInstallationEntry persistedInstallationEntry) throws FirebaseInstallationsException {
         TokenResult generateAuthToken = this.serviceClient.generateAuthToken(getApiKey(), persistedInstallationEntry.getFirebaseInstallationId(), getProjectIdentifier(), persistedInstallationEntry.getRefreshToken());
-        int i = AnonymousClass3.$SwitchMap$com$google$firebase$installations$remote$TokenResult$ResponseCode[generateAuthToken.getResponseCode().ordinal()];
+        int i = 3.$SwitchMap$com$google$firebase$installations$remote$TokenResult$ResponseCode[generateAuthToken.getResponseCode().ordinal()];
         if (i != 1) {
             if (i == 2) {
                 return persistedInstallationEntry.withFisError("BAD CONFIG");
@@ -311,9 +311,8 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.google.firebase.installations.FirebaseInstallations$3  reason: invalid class name */
     /* loaded from: classes.dex */
-    public static /* synthetic */ class AnonymousClass3 {
+    public static /* synthetic */ class 3 {
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$installations$remote$InstallationResponse$ResponseCode;
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$installations$remote$TokenResult$ResponseCode;
 

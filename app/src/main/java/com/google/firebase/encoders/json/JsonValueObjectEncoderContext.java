@@ -57,20 +57,17 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    /* renamed from: add */
-    public ObjectEncoderContext mo195add(FieldDescriptor fieldDescriptor, int i) throws IOException {
+    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i) throws IOException {
         return add(fieldDescriptor.getName(), i);
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext
-    /* renamed from: add */
-    public ObjectEncoderContext mo196add(FieldDescriptor fieldDescriptor, long j) throws IOException {
+    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, long j) throws IOException {
         return add(fieldDescriptor.getName(), j);
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    /* renamed from: add  reason: collision with other method in class */
-    public JsonValueObjectEncoderContext mo193add(String str) throws IOException {
+    public JsonValueObjectEncoderContext add(String str) throws IOException {
         maybeUnNest();
         this.jsonWriter.value(str);
         return this;
@@ -89,8 +86,7 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext
-    /* renamed from: add  reason: collision with other method in class */
-    public JsonValueObjectEncoderContext mo194add(boolean z) throws IOException {
+    public JsonValueObjectEncoderContext add(boolean z) throws IOException {
         maybeUnNest();
         this.jsonWriter.value(z);
         return this;
@@ -192,7 +188,7 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
                 valueEncoder.encode(obj, this);
                 return this;
             } else if (obj instanceof Enum) {
-                mo193add(((Enum) obj).name());
+                add(((Enum) obj).name());
                 return this;
             } else {
                 return doEncode(this.fallbackEncoder, obj, z);

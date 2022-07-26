@@ -38,20 +38,19 @@ public class LazyList<E> extends AbstractList<E> {
 
     @Override // java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.List
     public Iterator<E> iterator() {
-        return new AnonymousClass1();
+        return new 1();
     }
 
-    /* renamed from: com.googlecode.mp4parser.util.LazyList$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    class AnonymousClass1 implements Iterator<E>, j$.util.Iterator {
+    class 1 implements Iterator<E>, j$.util.Iterator {
         int pos = 0;
 
-        AnonymousClass1() {
+        1() {
         }
 
         @Override // j$.util.Iterator
         public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.CC.$default$forEachRemaining(this, consumer);
+            Iterator.-CC.$default$forEachRemaining(this, consumer);
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
@@ -60,8 +59,7 @@ public class LazyList<E> extends AbstractList<E> {
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
-        /* renamed from: next */
-        public E mo335next() {
+        public E next() {
             if (this.pos < LazyList.this.underlying.size()) {
                 List<E> list = LazyList.this.underlying;
                 int i = this.pos;
@@ -70,7 +68,7 @@ public class LazyList<E> extends AbstractList<E> {
             }
             LazyList lazyList = LazyList.this;
             lazyList.underlying.add(lazyList.elementSource.next());
-            return (E) mo335next();
+            return (E) next();
         }
 
         @Override // java.util.Iterator, j$.util.Iterator

@@ -12,12 +12,11 @@ import j$.util.stream.Stream;
 import j$.util.stream.e1;
 import java.util.Comparator;
 import java.util.Iterator;
-/* renamed from: j$.wrappers.$r8$wrapper$java$util$stream$Stream$-V-WRP */
 /* loaded from: classes2.dex */
-public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP implements Stream {
+public final /* synthetic */ class $r8$wrapper$java$util$stream$Stream$-V-WRP implements Stream {
     final /* synthetic */ java.util.stream.Stream a;
 
-    private /* synthetic */ C$r8$wrapper$java$util$stream$Stream$VWRP(java.util.stream.Stream stream) {
+    private /* synthetic */ $r8$wrapper$java$util$stream$Stream$-V-WRP(java.util.stream.Stream stream) {
         this.a = stream;
     }
 
@@ -25,7 +24,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
         if (stream == null) {
             return null;
         }
-        return stream instanceof P0 ? ((P0) stream).a : new C$r8$wrapper$java$util$stream$Stream$VWRP(stream);
+        return stream instanceof P0 ? ((P0) stream).a : new $r8$wrapper$java$util$stream$Stream$-V-WRP(stream);
     }
 
     @Override // j$.util.stream.Stream
@@ -70,7 +69,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ IntStream c(Function function) {
-        return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(this.a.flatMapToInt(N.a(function)));
+        return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(this.a.flatMapToInt(N.a(function)));
     }
 
     @Override // j$.util.stream.Stream, j$.util.stream.g, java.lang.AutoCloseable
@@ -129,8 +128,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public /* synthetic */ Iterator mo331iterator() {
+    public /* synthetic */ Iterator iterator() {
         return this.a.iterator();
     }
 
@@ -151,7 +149,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
 
     @Override // j$.util.stream.Stream
     public /* synthetic */ IntStream m(ToIntFunction toIntFunction) {
-        return C$r8$wrapper$java$util$stream$IntStream$VWRP.convert(this.a.mapToInt(E0.a(toIntFunction)));
+        return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(this.a.mapToInt(E0.a(toIntFunction)));
     }
 
     @Override // j$.util.stream.Stream
@@ -185,14 +183,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
     }
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* synthetic */ j$.util.stream.g mo332parallel() {
+    public /* synthetic */ j$.util.stream.g parallel() {
         return H0.n0(this.a.parallel());
     }
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* synthetic */ j$.util.stream.g mo333sequential() {
+    public /* synthetic */ j$.util.stream.g sequential() {
         return H0.n0(this.a.sequential());
     }
 
@@ -212,8 +208,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$Stream$VWRP imp
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: spliterator */
-    public /* synthetic */ j$.util.u mo334spliterator() {
+    public /* synthetic */ j$.util.u spliterator() {
         return g.a(this.a.spliterator());
     }
 

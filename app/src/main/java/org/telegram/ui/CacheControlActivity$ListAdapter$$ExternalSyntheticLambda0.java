@@ -16,6 +16,6 @@ public final /* synthetic */ class CacheControlActivity$ListAdapter$$ExternalSyn
 
     @Override // org.telegram.ui.Components.SlideChooseView.Callback
     public /* synthetic */ void onTouchEnd() {
-        SlideChooseView.Callback.CC.$default$onTouchEnd(this);
+        SlideChooseView.Callback.-CC.$default$onTouchEnd(this);
     }
 }

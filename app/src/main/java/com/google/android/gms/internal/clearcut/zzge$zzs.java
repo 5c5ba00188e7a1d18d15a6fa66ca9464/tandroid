@@ -22,27 +22,27 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
 
     /* loaded from: classes.dex */
     public enum zzb implements zzcj {
-        UNKNOWN_MOBILE_SUBTYPE(0),
-        GPRS(1),
-        EDGE(2),
-        UMTS(3),
-        CDMA(4),
-        EVDO_0(5),
-        EVDO_A(6),
-        RTT(7),
-        HSDPA(8),
-        HSUPA(9),
-        HSPA(10),
-        IDEN(11),
-        EVDO_B(12),
-        LTE(13),
-        EHRPD(14),
-        HSPAP(15),
-        GSM(16),
-        TD_SCDMA(17),
-        IWLAN(18),
-        LTE_CA(19),
-        COMBINED(100);
+        zzbfd(0),
+        zzbfe(1),
+        zzbff(2),
+        zzbfg(3),
+        zzbfh(4),
+        zzbfi(5),
+        zzbfj(6),
+        zzbfk(7),
+        zzbfl(8),
+        zzbfm(9),
+        zzbfn(10),
+        zzbfo(11),
+        zzbfp(12),
+        zzbfq(13),
+        zzbfr(14),
+        zzbfs(15),
+        zzbft(16),
+        zzbfu(17),
+        zzbfv(18),
+        zzbfw(19),
+        zzbfx(100);
         
         private static final zzck<zzb> zzbq = new zzgo();
         private final int value;
@@ -55,50 +55,50 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
             if (i != 100) {
                 switch (i) {
                     case 0:
-                        return UNKNOWN_MOBILE_SUBTYPE;
+                        return zzbfd;
                     case 1:
-                        return GPRS;
+                        return zzbfe;
                     case 2:
-                        return EDGE;
+                        return zzbff;
                     case 3:
-                        return UMTS;
+                        return zzbfg;
                     case 4:
-                        return CDMA;
+                        return zzbfh;
                     case 5:
-                        return EVDO_0;
+                        return zzbfi;
                     case 6:
-                        return EVDO_A;
+                        return zzbfj;
                     case 7:
-                        return RTT;
+                        return zzbfk;
                     case 8:
-                        return HSDPA;
+                        return zzbfl;
                     case 9:
-                        return HSUPA;
+                        return zzbfm;
                     case 10:
-                        return HSPA;
+                        return zzbfn;
                     case 11:
-                        return IDEN;
+                        return zzbfo;
                     case 12:
-                        return EVDO_B;
+                        return zzbfp;
                     case 13:
-                        return LTE;
+                        return zzbfq;
                     case 14:
-                        return EHRPD;
+                        return zzbfr;
                     case 15:
-                        return HSPAP;
+                        return zzbfs;
                     case 16:
-                        return GSM;
+                        return zzbft;
                     case 17:
-                        return TD_SCDMA;
+                        return zzbfu;
                     case 18:
-                        return IWLAN;
+                        return zzbfv;
                     case 19:
-                        return LTE_CA;
+                        return zzbfw;
                     default:
                         return null;
                 }
             }
-            return COMBINED;
+            return zzbfx;
         }
 
         public static zzck<zzb> zzd() {
@@ -113,25 +113,25 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
 
     /* loaded from: classes.dex */
     public enum zzc implements zzcj {
-        NONE(-1),
-        MOBILE(0),
-        WIFI(1),
-        MOBILE_MMS(2),
-        MOBILE_SUPL(3),
-        MOBILE_DUN(4),
-        MOBILE_HIPRI(5),
-        WIMAX(6),
-        BLUETOOTH(7),
-        DUMMY(8),
-        ETHERNET(9),
-        MOBILE_FOTA(10),
-        MOBILE_IMS(11),
-        MOBILE_CBS(12),
-        WIFI_P2P(13),
-        MOBILE_IA(14),
-        MOBILE_EMERGENCY(15),
-        PROXY(16),
-        VPN(17);
+        zzbfz(-1),
+        zzbga(0),
+        zzbgb(1),
+        zzbgc(2),
+        zzbgd(3),
+        zzbge(4),
+        zzbgf(5),
+        zzbgg(6),
+        zzbgh(7),
+        zzbgi(8),
+        zzbgj(9),
+        zzbgk(10),
+        zzbgl(11),
+        zzbgm(12),
+        zzbgn(13),
+        zzbgo(14),
+        zzbgp(15),
+        zzbgq(16),
+        zzbgr(17);
         
         private static final zzck<zzc> zzbq = new zzgp();
         private final int value;
@@ -143,43 +143,43 @@ public final class zzge$zzs extends zzcg<zzge$zzs, zza> implements zzdq {
         public static zzc zzba(int i) {
             switch (i) {
                 case -1:
-                    return NONE;
+                    return zzbfz;
                 case 0:
-                    return MOBILE;
+                    return zzbga;
                 case 1:
-                    return WIFI;
+                    return zzbgb;
                 case 2:
-                    return MOBILE_MMS;
+                    return zzbgc;
                 case 3:
-                    return MOBILE_SUPL;
+                    return zzbgd;
                 case 4:
-                    return MOBILE_DUN;
+                    return zzbge;
                 case 5:
-                    return MOBILE_HIPRI;
+                    return zzbgf;
                 case 6:
-                    return WIMAX;
+                    return zzbgg;
                 case 7:
-                    return BLUETOOTH;
+                    return zzbgh;
                 case 8:
-                    return DUMMY;
+                    return zzbgi;
                 case 9:
-                    return ETHERNET;
+                    return zzbgj;
                 case 10:
-                    return MOBILE_FOTA;
+                    return zzbgk;
                 case 11:
-                    return MOBILE_IMS;
+                    return zzbgl;
                 case 12:
-                    return MOBILE_CBS;
+                    return zzbgm;
                 case 13:
-                    return WIFI_P2P;
+                    return zzbgn;
                 case 14:
-                    return MOBILE_IA;
+                    return zzbgo;
                 case 15:
-                    return MOBILE_EMERGENCY;
+                    return zzbgp;
                 case 16:
-                    return PROXY;
+                    return zzbgq;
                 case 17:
-                    return VPN;
+                    return zzbgr;
                 default:
                     return null;
             }

@@ -11,19 +11,15 @@ public class TrackSelectionParameters implements Parcelable {
     public final String preferredTextLanguage;
     public final int preferredTextRoleFlags;
     public final boolean selectUndeterminedTextLanguage;
-    public static final TrackSelectionParameters DEFAULT_WITHOUT_CONTEXT = new Builder().mo170build();
+    public static final TrackSelectionParameters DEFAULT_WITHOUT_CONTEXT = new Builder().build();
     public static final Parcelable.Creator<TrackSelectionParameters> CREATOR = new Parcelable.Creator<TrackSelectionParameters>() { // from class: com.google.android.exoplayer2.trackselection.TrackSelectionParameters.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public TrackSelectionParameters mo173createFromParcel(Parcel parcel) {
+        public TrackSelectionParameters createFromParcel(Parcel parcel) {
             return new TrackSelectionParameters(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public TrackSelectionParameters[] mo174newArray(int i) {
+        public TrackSelectionParameters[] newArray(int i) {
             return new TrackSelectionParameters[i];
         }
     };
@@ -41,8 +37,7 @@ public class TrackSelectionParameters implements Parcelable {
         boolean selectUndeterminedTextLanguage = false;
         int disabledTextTrackSelectionFlags = 0;
 
-        /* renamed from: build */
-        public TrackSelectionParameters mo170build() {
+        public TrackSelectionParameters build() {
             return new TrackSelectionParameters(this.preferredAudioLanguage, this.preferredTextLanguage, this.preferredTextRoleFlags, this.selectUndeterminedTextLanguage, this.disabledTextTrackSelectionFlags);
         }
     }

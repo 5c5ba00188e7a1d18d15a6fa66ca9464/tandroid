@@ -332,9 +332,8 @@ public final class Encoder {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: com.google.zxing.qrcode.encoder.Encoder$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public static /* synthetic */ class AnonymousClass1 {
+    public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$zxing$qrcode$decoder$Mode;
 
         static {
@@ -360,7 +359,7 @@ public final class Encoder {
     }
 
     static void appendBytes(String str, Mode mode, BitArray bitArray, String str2) throws WriterException {
-        int i = AnonymousClass1.$SwitchMap$com$google$zxing$qrcode$decoder$Mode[mode.ordinal()];
+        int i = 1.$SwitchMap$com$google$zxing$qrcode$decoder$Mode[mode.ordinal()];
         if (i == 1) {
             appendNumericBytes(str, bitArray);
         } else if (i == 2) {

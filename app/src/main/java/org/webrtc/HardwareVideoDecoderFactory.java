@@ -10,17 +10,17 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
     private static final Predicate<MediaCodecInfo> defaultAllowedPredicate = new Predicate<MediaCodecInfo>() { // from class: org.webrtc.HardwareVideoDecoderFactory.1
         @Override // org.webrtc.Predicate
         public /* synthetic */ Predicate<MediaCodecInfo> and(Predicate<? super MediaCodecInfo> predicate) {
-            return Predicate.CC.$default$and(this, predicate);
+            return Predicate.-CC.$default$and(this, predicate);
         }
 
         @Override // org.webrtc.Predicate
         public /* synthetic */ Predicate<MediaCodecInfo> negate() {
-            return Predicate.CC.$default$negate(this);
+            return Predicate.-CC.$default$negate(this);
         }
 
         @Override // org.webrtc.Predicate
         public /* synthetic */ Predicate<MediaCodecInfo> or(Predicate<? super MediaCodecInfo> predicate) {
-            return Predicate.CC.$default$or(this, predicate);
+            return Predicate.-CC.$default$or(this, predicate);
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */

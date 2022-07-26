@@ -17,9 +17,9 @@ public final class zzci$zzb extends zzeo<zzci$zzb, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zza implements zzet {
-        CLASSIFICATION_UNKNOWN(0),
-        CLASSIFICATION_NONE(1),
-        CLASSIFICATION_ALL(2);
+        zza(0),
+        zzb(1),
+        zzc(2);
         
         private final int zze;
 
@@ -49,10 +49,10 @@ public final class zzci$zzb extends zzeo<zzci$zzb, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzc implements zzet {
-        LANDMARK_UNKNOWN(0),
-        LANDMARK_NONE(1),
-        LANDMARK_ALL(2),
-        LANDMARK_CONTOUR(3);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3);
         
         private final int zzf;
 
@@ -82,10 +82,10 @@ public final class zzci$zzb extends zzeo<zzci$zzb, zzb> implements zzgb {
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     public enum zzd implements zzet {
-        MODE_UNKNOWN(0),
-        MODE_ACCURATE(1),
-        MODE_FAST(2),
-        MODE_SELFIE(3);
+        zza(0),
+        zzb(1),
+        zzc(2),
+        zzd(3);
         
         private final int zzf;
 

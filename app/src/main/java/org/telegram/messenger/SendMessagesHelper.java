@@ -364,16 +364,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             tLRPC$TL_messages_initHistoryImport.file = tLRPC$InputFile;
             tLRPC$TL_messages_initHistoryImport.media_count = this.mediaPaths.size();
             tLRPC$TL_messages_initHistoryImport.peer = this.peer;
-            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_initHistoryImport, new AnonymousClass1(tLRPC$TL_messages_initHistoryImport), 2);
+            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_initHistoryImport, new 1(tLRPC$TL_messages_initHistoryImport), 2);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.messenger.SendMessagesHelper$ImportingHistory$1  reason: invalid class name */
         /* loaded from: classes.dex */
-        public class AnonymousClass1 implements RequestDelegate {
+        public class 1 implements RequestDelegate {
             final /* synthetic */ TLRPC$TL_messages_initHistoryImport val$req;
 
-            AnonymousClass1(TLRPC$TL_messages_initHistoryImport tLRPC$TL_messages_initHistoryImport) {
+            1(TLRPC$TL_messages_initHistoryImport tLRPC$TL_messages_initHistoryImport) {
                 this.val$req = tLRPC$TL_messages_initHistoryImport;
             }
 
@@ -383,7 +382,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$ImportingHistory$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SendMessagesHelper.ImportingHistory.AnonymousClass1.this.lambda$run$0(tLObject, tLRPC$TL_messages_initHistoryImport, tLRPC$TL_error);
+                        SendMessagesHelper.ImportingHistory.1.this.lambda$run$0(tLObject, tLRPC$TL_messages_initHistoryImport, tLRPC$TL_error);
                     }
                 });
             }
@@ -501,16 +500,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 tLRPC$TL_inputMediaUploadedDocument.mime_type = mimeTypeFromExtension;
                 tLRPC$TL_messages_uploadImportedMedia.media = tLRPC$TL_inputMediaUploadedDocument;
             }
-            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_uploadImportedMedia, new AnonymousClass2(str), 2);
+            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_uploadImportedMedia, new 2(str), 2);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.messenger.SendMessagesHelper$ImportingHistory$2  reason: invalid class name */
         /* loaded from: classes.dex */
-        public class AnonymousClass2 implements RequestDelegate {
+        public class 2 implements RequestDelegate {
             final /* synthetic */ String val$path;
 
-            AnonymousClass2(String str) {
+            2(String str) {
                 this.val$path = str;
             }
 
@@ -520,7 +518,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$ImportingHistory$2$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SendMessagesHelper.ImportingHistory.AnonymousClass2.this.lambda$run$0(str);
+                        SendMessagesHelper.ImportingHistory.2.this.lambda$run$0(str);
                     }
                 });
             }
@@ -540,16 +538,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             TLRPC$TL_messages_startHistoryImport tLRPC$TL_messages_startHistoryImport = new TLRPC$TL_messages_startHistoryImport();
             tLRPC$TL_messages_startHistoryImport.peer = this.peer;
             tLRPC$TL_messages_startHistoryImport.import_id = this.importId;
-            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_startHistoryImport, new AnonymousClass3(tLRPC$TL_messages_startHistoryImport));
+            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_startHistoryImport, new 3(tLRPC$TL_messages_startHistoryImport));
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.messenger.SendMessagesHelper$ImportingHistory$3  reason: invalid class name */
         /* loaded from: classes.dex */
-        public class AnonymousClass3 implements RequestDelegate {
+        public class 3 implements RequestDelegate {
             final /* synthetic */ TLRPC$TL_messages_startHistoryImport val$req;
 
-            AnonymousClass3(TLRPC$TL_messages_startHistoryImport tLRPC$TL_messages_startHistoryImport) {
+            3(TLRPC$TL_messages_startHistoryImport tLRPC$TL_messages_startHistoryImport) {
                 this.val$req = tLRPC$TL_messages_startHistoryImport;
             }
 
@@ -559,7 +556,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$ImportingHistory$3$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SendMessagesHelper.ImportingHistory.AnonymousClass3.this.lambda$run$0(tLRPC$TL_error, tLRPC$TL_messages_startHistoryImport);
+                        SendMessagesHelper.ImportingHistory.3.this.lambda$run$0(tLRPC$TL_error, tLRPC$TL_messages_startHistoryImport);
                     }
                 });
             }
@@ -599,16 +596,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             tLRPC$TL_messages_uploadMedia.media = tLRPC$TL_inputMediaUploadedDocument;
             tLRPC$TL_inputMediaUploadedDocument.file = tLRPC$InputFile;
             tLRPC$TL_inputMediaUploadedDocument.mime_type = this.mimeType;
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_uploadMedia, new AnonymousClass1(runnable), 2);
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_uploadMedia, new 1(runnable), 2);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.messenger.SendMessagesHelper$ImportingSticker$1  reason: invalid class name */
         /* loaded from: classes.dex */
-        public class AnonymousClass1 implements RequestDelegate {
+        public class 1 implements RequestDelegate {
             final /* synthetic */ Runnable val$onFinish;
 
-            AnonymousClass1(Runnable runnable) {
+            1(Runnable runnable) {
                 this.val$onFinish = runnable;
             }
 
@@ -618,7 +614,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$ImportingSticker$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SendMessagesHelper.ImportingSticker.AnonymousClass1.this.lambda$run$0(tLObject, runnable);
+                        SendMessagesHelper.ImportingSticker.1.this.lambda$run$0(tLObject, runnable);
                     }
                 });
             }
@@ -781,16 +777,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     tLRPC$TL_stickers_createStickerSet.stickers.add(tLRPC$TL_inputStickerSetItem);
                 }
             }
-            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_stickers_createStickerSet, new AnonymousClass1(tLRPC$TL_stickers_createStickerSet));
+            SendMessagesHelper.this.getConnectionsManager().sendRequest(tLRPC$TL_stickers_createStickerSet, new 1(tLRPC$TL_stickers_createStickerSet));
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.messenger.SendMessagesHelper$ImportingStickers$1  reason: invalid class name */
         /* loaded from: classes.dex */
-        public class AnonymousClass1 implements RequestDelegate {
+        public class 1 implements RequestDelegate {
             final /* synthetic */ TLRPC$TL_stickers_createStickerSet val$req;
 
-            AnonymousClass1(TLRPC$TL_stickers_createStickerSet tLRPC$TL_stickers_createStickerSet) {
+            1(TLRPC$TL_stickers_createStickerSet tLRPC$TL_stickers_createStickerSet) {
                 this.val$req = tLRPC$TL_stickers_createStickerSet;
             }
 
@@ -800,7 +795,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$ImportingStickers$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SendMessagesHelper.ImportingStickers.AnonymousClass1.this.lambda$run$0(tLRPC$TL_error, tLRPC$TL_stickers_createStickerSet, tLObject);
+                        SendMessagesHelper.ImportingStickers.1.this.lambda$run$0(tLRPC$TL_error, tLRPC$TL_stickers_createStickerSet, tLObject);
                     }
                 });
             }

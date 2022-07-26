@@ -17,9 +17,8 @@ public class zza implements Parcelable {
     private IMessengerCompat zzb;
 
     /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
-    /* renamed from: com.google.android.gms.cloudmessaging.zza$zza  reason: collision with other inner class name */
     /* loaded from: classes.dex */
-    public static final class C0000zza extends ClassLoader {
+    public static final class zza extends ClassLoader {
         @Override // java.lang.ClassLoader
         protected final Class<?> loadClass(String str, boolean z) throws ClassNotFoundException {
             if ("com.google.android.gms.iid.MessengerCompat".equals(str)) {

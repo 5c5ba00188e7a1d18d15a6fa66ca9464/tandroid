@@ -20,7 +20,7 @@ public enum f implements Comparator, e {
 
     @Override // java.util.Comparator
     public Comparator reversed() {
-        return Comparator$CC.reverseOrder();
+        return Comparator$-CC.reverseOrder();
     }
 
     @Override // java.util.Comparator
@@ -38,7 +38,7 @@ public enum f implements Comparator, e {
 
     @Override // java.util.Comparator
     public Comparator thenComparingInt(ToIntFunction toIntFunction) {
-        return a.H(this, Comparator$CC.comparingInt(D0.a(toIntFunction)));
+        return a.H(this, Comparator$-CC.comparingInt(D0.a(toIntFunction)));
     }
 
     @Override // java.util.Comparator
@@ -50,7 +50,7 @@ public enum f implements Comparator, e {
 
     @Override // java.util.Comparator
     public Comparator thenComparing(Function function) {
-        return a.H(this, Comparator$CC.comparing(j$.wrappers.M.a(function)));
+        return a.H(this, Comparator$-CC.comparing(j$.wrappers.M.a(function)));
     }
 
     @Override // java.util.Comparator

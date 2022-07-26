@@ -30,7 +30,7 @@ import com.huawei.hms.push.constant.RemoteMessageConst;
 import j$.util.concurrent.ConcurrentHashMap;
 import j$.util.function.Consumer;
 import j$.util.stream.Stream;
-import j$.wrappers.C$r8$wrapper$java$util$stream$Stream$VWRP;
+import j$.wrappers.$r8$wrapper$java$util$stream$Stream$-V-WRP;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -3204,10 +3204,10 @@ public class ImageLoader {
         AndroidUtilities.createEmptyFile(new File(cacheDir, ".nomedia"));
         sparseArray.put(4, cacheDir);
         for (int i = 0; i < 4; i++) {
-            FileLoader.getInstance(i).setDelegate(new AnonymousClass5(i));
+            FileLoader.getInstance(i).setDelegate(new 5(i));
         }
         FileLoader.setMediaDirs(sparseArray);
-        AnonymousClass6 anonymousClass6 = new AnonymousClass6();
+        6 r0 = new 6();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.MEDIA_BAD_REMOVAL");
         intentFilter.addAction("android.intent.action.MEDIA_CHECKING");
@@ -3220,19 +3220,18 @@ public class ImageLoader {
         intentFilter.addAction("android.intent.action.MEDIA_UNMOUNTED");
         intentFilter.addDataScheme("file");
         try {
-            ApplicationLoader.applicationContext.registerReceiver(anonymousClass6, intentFilter);
+            ApplicationLoader.applicationContext.registerReceiver(r0, intentFilter);
         } catch (Throwable unused) {
         }
         checkMediaPaths();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.ImageLoader$5  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass5 implements FileLoader.FileLoaderDelegate {
+    public class 5 implements FileLoader.FileLoaderDelegate {
         final /* synthetic */ int val$currentAccount;
 
-        AnonymousClass5(int i) {
+        5(int i) {
             this.val$currentAccount = i;
         }
 
@@ -3247,7 +3246,7 @@ public class ImageLoader {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ImageLoader.AnonymousClass5.lambda$fileUploadProgressChanged$0(i, str, j, j2, z);
+                        ImageLoader.5.lambda$fileUploadProgressChanged$0(i, str, j, j2, z);
                     }
                 });
             }
@@ -3265,7 +3264,7 @@ public class ImageLoader {
             dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.AnonymousClass5.this.lambda$fileDidUploaded$2(i, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j);
+                    ImageLoader.5.this.lambda$fileDidUploaded$2(i, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j);
                 }
             });
         }
@@ -3280,7 +3279,7 @@ public class ImageLoader {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.AnonymousClass5.lambda$fileDidUploaded$1(i, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j);
+                    ImageLoader.5.lambda$fileDidUploaded$1(i, str, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, j);
                 }
             });
             ImageLoader.this.fileProgresses.remove(str);
@@ -3293,7 +3292,7 @@ public class ImageLoader {
             dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.AnonymousClass5.this.lambda$fileDidFailedUpload$4(i, str, z);
+                    ImageLoader.5.this.lambda$fileDidFailedUpload$4(i, str, z);
                 }
             });
         }
@@ -3308,7 +3307,7 @@ public class ImageLoader {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.AnonymousClass5.lambda$fileDidFailedUpload$3(i, str, z);
+                    ImageLoader.5.lambda$fileDidFailedUpload$3(i, str, z);
                 }
             });
             ImageLoader.this.fileProgresses.remove(str);
@@ -3321,7 +3320,7 @@ public class ImageLoader {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.AnonymousClass5.this.lambda$fileDidLoaded$5(file, str, obj, i2, i);
+                    ImageLoader.5.this.lambda$fileDidLoaded$5(file, str, obj, i2, i);
                 }
             });
         }
@@ -3351,7 +3350,7 @@ public class ImageLoader {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.AnonymousClass5.this.lambda$fileDidFailedLoad$6(str, i, i2);
+                    ImageLoader.5.this.lambda$fileDidFailedLoad$6(str, i, i2);
                 }
             });
         }
@@ -3373,7 +3372,7 @@ public class ImageLoader {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ImageLoader.AnonymousClass5.lambda$fileLoadProgressChanged$7(i, str, j, j2);
+                        ImageLoader.5.lambda$fileLoadProgressChanged$7(i, str, j, j2);
                     }
                 });
             }
@@ -3386,10 +3385,9 @@ public class ImageLoader {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.ImageLoader$6  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass6 extends BroadcastReceiver {
-        AnonymousClass6() {
+    public class 6 extends BroadcastReceiver {
+        6() {
         }
 
         @Override // android.content.BroadcastReceiver
@@ -3400,7 +3398,7 @@ public class ImageLoader {
             Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$6$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.AnonymousClass6.this.lambda$onReceive$0();
+                    ImageLoader.6.this.lambda$onReceive$0();
                 }
             };
             if ("android.intent.action.MEDIA_UNMOUNTED".equals(intent.getAction())) {
@@ -3457,7 +3455,7 @@ public class ImageLoader {
                 return;
             }
             try {
-                Stream convert = C$r8$wrapper$java$util$stream$Stream$VWRP.convert(Files.list(file.toPath()));
+                Stream convert = $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(Files.list(file.toPath()));
                 convert.forEach(new Consumer() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda13
                     @Override // j$.util.function.Consumer
                     public final void accept(Object obj) {

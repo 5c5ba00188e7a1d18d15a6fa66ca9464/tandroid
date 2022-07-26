@@ -10,6 +10,6 @@ public final /* synthetic */ class GroupCallPip$3$$ExternalSyntheticLambda0 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        GroupCallPip.AnonymousClass3.lambda$$0();
+        GroupCallPip.3.lambda$$0();
     }
 }

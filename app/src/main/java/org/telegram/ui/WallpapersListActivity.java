@@ -347,7 +347,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         } else if (i == 1) {
             this.actionBar.setTitle(LocaleController.getString("SelectColorTitle", R.string.SelectColorTitle));
         }
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass2());
+        this.actionBar.setActionBarMenuOnItemClick(new 2());
         if (this.currentType == 0) {
             ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.WallpapersListActivity.3
                 @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
@@ -499,10 +499,9 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.WallpapersListActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass2() {
+    public class 2 extends ActionBar.ActionBarMenuOnItemClick {
+        2() {
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -526,7 +525,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                 dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda3
                     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                     public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
-                        WallpapersListActivity.AnonymousClass2.this.lambda$onItemClick$3(dialogsActivity2, arrayList, charSequence, z);
+                        WallpapersListActivity.2.this.lambda$onItemClick$3(dialogsActivity2, arrayList, charSequence, z);
                     }
                 });
                 WallpapersListActivity.this.presentFragment(dialogsActivity);
@@ -538,7 +537,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                 builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
-                        WallpapersListActivity.AnonymousClass2.this.lambda$onItemClick$2(dialogInterface, i2);
+                        WallpapersListActivity.2.this.lambda$onItemClick$2(dialogInterface, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -597,7 +596,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                     ConnectionsManager.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveWallPaper, new RequestDelegate() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            WallpapersListActivity.AnonymousClass2.this.lambda$onItemClick$1(iArr, tLObject, tLRPC$TL_error);
+                            WallpapersListActivity.2.this.lambda$onItemClick$1(iArr, tLObject, tLRPC$TL_error);
                         }
                     });
                 }
@@ -615,7 +614,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    WallpapersListActivity.AnonymousClass2.this.lambda$onItemClick$0(iArr);
+                    WallpapersListActivity.2.this.lambda$onItemClick$0(iArr);
                 }
             });
         }
@@ -1494,8 +1493,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-            /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 SearchAdapter searchAdapter = SearchAdapter.this;
                 return new RecyclerListView.Holder(new ColorCell(searchAdapter.mContext));
             }
@@ -1770,8 +1768,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = null;
             if (i == 0) {
                 view = new WallpaperCell(this.mContext) { // from class: org.telegram.ui.WallpapersListActivity.SearchAdapter.1
@@ -1876,8 +1873,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View textCell;
             View shadowSectionCell;
             if (i != 0) {

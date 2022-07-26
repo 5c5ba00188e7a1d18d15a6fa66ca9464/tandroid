@@ -169,7 +169,7 @@ public class o {
 
     public static Notification a(Context context, k kVar, int[] iArr) {
         Notification.Builder builder = new Notification.Builder(context);
-        if (m.a(kVar) == n.STYLE_BIGTEXT) {
+        if (m.a(kVar) == n.b) {
             m.a(builder, kVar.g(), kVar);
         }
         l.a(context, builder, kVar);

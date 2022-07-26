@@ -1,9 +1,8 @@
-package com.google.android.gms.internal.p000authapiphone;
+package com.google.android.gms.internal.auth-api-phone;
 
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* renamed from: com.google.android.gms.internal.auth-api-phone.zzf  reason: invalid package */
 /* loaded from: classes.dex */
 public final class zzf extends zza implements zze {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -11,7 +10,7 @@ public final class zzf extends zza implements zze {
         super(iBinder, "com.google.android.gms.auth.api.phone.internal.ISmsRetrieverApiService");
     }
 
-    @Override // com.google.android.gms.internal.p000authapiphone.zze
+    @Override // com.google.android.gms.internal.auth-api-phone.zze
     public final void zza(zzg zzgVar) throws RemoteException {
         Parcel obtainAndWriteInterfaceToken = obtainAndWriteInterfaceToken();
         zzc.zza(obtainAndWriteInterfaceToken, zzgVar);

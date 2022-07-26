@@ -452,8 +452,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
     /* JADX WARN: Type inference failed for: r1v5, types: [android.widget.FrameLayout, org.telegram.ui.Cells.HeaderCell] */
     /* JADX WARN: Type inference failed for: r1v9 */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    /* renamed from: onCreateViewHolder */
-    public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         ?? dialogCell;
         View shadowSectionCell;
         switch (i) {
@@ -980,16 +979,15 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
             long longValue = this.preloadDialogsPool.remove(0).longValue();
             this.currentRequestCount++;
             this.loadingDialogs.add(Long.valueOf(longValue));
-            MessagesController.getInstance(UserConfig.selectedAccount).ensureMessagesLoaded(longValue, 0, new AnonymousClass1(longValue));
+            MessagesController.getInstance(UserConfig.selectedAccount).ensureMessagesLoaded(longValue, 0, new 1(longValue));
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass1 implements MessagesController.MessagesLoadedCallback {
+        public class 1 implements MessagesController.MessagesLoadedCallback {
             final /* synthetic */ long val$dialog_id;
 
-            AnonymousClass1(long j) {
+            1(long j) {
                 this.val$dialog_id = j;
             }
 
@@ -999,7 +997,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        DialogsAdapter.DialogsPreloader.AnonymousClass1.this.lambda$onMessagesLoaded$0(z, j);
+                        DialogsAdapter.DialogsPreloader.1.this.lambda$onMessagesLoaded$0(z, j);
                     }
                 });
             }
@@ -1030,7 +1028,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        DialogsAdapter.DialogsPreloader.AnonymousClass1.this.lambda$onError$1(j);
+                        DialogsAdapter.DialogsPreloader.1.this.lambda$onError$1(j);
                     }
                 });
             }

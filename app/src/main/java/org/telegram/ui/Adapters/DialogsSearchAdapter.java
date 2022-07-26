@@ -175,8 +175,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             HintDialogCell hintDialogCell = new HintDialogCell(this.mContext, this.drawChecked);
             hintDialogCell.setLayoutParams(new RecyclerView.LayoutParams(AndroidUtilities.dp(80.0f), AndroidUtilities.dp(86.0f)));
             return new RecyclerListView.Holder(hintDialogCell);
@@ -233,12 +232,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.1
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
             public /* synthetic */ LongSparseArray getExcludeCallParticipants() {
-                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeCallParticipants(this);
+                return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeCallParticipants(this);
             }
 
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
             public /* synthetic */ LongSparseArray getExcludeUsers() {
-                return SearchAdapterHelper.SearchAdapterHelperDelegate.CC.$default$getExcludeUsers(this);
+                return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$getExcludeUsers(this);
             }
 
             @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
@@ -1190,8 +1189,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-    /* renamed from: onCreateViewHolder */
-    public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         RecyclerListView recyclerListView;
         FlickerLoadingView flickerLoadingView;
         if (i == 0) {

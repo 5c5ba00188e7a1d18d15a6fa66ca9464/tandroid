@@ -25,8 +25,7 @@ public class T1 implements u1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: b  reason: collision with other method in class */
-    public z1 mo316b(int i) {
+    public z1 b(int i) {
         throw new IndexOutOfBoundsException();
     }
 
@@ -84,8 +83,7 @@ public class T1 implements u1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: spliterator  reason: collision with other method in class */
-    public j$.util.w mo313spliterator() {
+    public j$.util.w spliterator() {
         return j$.util.L.j(this.a, 0, this.b, 1040);
     }
 
@@ -94,15 +92,13 @@ public class T1 implements u1 {
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: b */
-    public /* bridge */ /* synthetic */ A1 mo316b(int i) {
-        mo316b(i);
+    public /* bridge */ /* synthetic */ A1 b(int i) {
+        b(i);
         throw null;
     }
 
     @Override // j$.util.stream.z1, j$.util.stream.A1
-    /* renamed from: spliterator */
-    public j$.util.u mo313spliterator() {
+    public j$.util.u spliterator() {
         return j$.util.L.j(this.a, 0, this.b, 1040);
     }
 }

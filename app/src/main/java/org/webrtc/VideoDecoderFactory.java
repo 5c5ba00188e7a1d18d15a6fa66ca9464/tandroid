@@ -10,9 +10,8 @@ public interface VideoDecoderFactory {
     @CalledByNative
     VideoCodecInfo[] getSupportedCodecs();
 
-    /* renamed from: org.webrtc.VideoDecoderFactory$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         @CalledByNative
         public static VideoCodecInfo[] $default$getSupportedCodecs(VideoDecoderFactory videoDecoderFactory) {
             return new VideoCodecInfo[0];

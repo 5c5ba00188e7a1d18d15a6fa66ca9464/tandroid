@@ -40,14 +40,12 @@ public final class Status extends Result implements Parcelable {
         }
 
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public Status mo235createFromParcel(Parcel parcel) {
+        public Status createFromParcel(Parcel parcel) {
             return new Status(parcel.readInt(), parcel.readString(), PendingIntent.readPendingIntentOrNullFromParcel(parcel));
         }
 
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public Status[] mo236newArray(int i) {
+        public Status[] newArray(int i) {
             return new Status[i];
         }
     }

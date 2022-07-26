@@ -115,7 +115,7 @@ public class SurfaceTextureHelper {
         this.timestampAligner = z ? new TimestampAligner() : null;
         this.yuvConverter = yuvConverter;
         this.frameRefMonitor = frameRefMonitor;
-        EglBase create = EglBase.CC.create(context, EglBase.CONFIG_PIXEL_BUFFER);
+        EglBase create = EglBase.-CC.create(context, EglBase.CONFIG_PIXEL_BUFFER);
         this.eglBase = create;
         try {
             create.createDummyPbufferSurface();

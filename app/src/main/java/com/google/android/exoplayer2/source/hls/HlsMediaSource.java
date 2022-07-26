@@ -69,7 +69,7 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
             this.playlistParserFactory = new DefaultHlsPlaylistParserFactory();
             this.playlistTrackerFactory = DefaultHlsPlaylistTracker.FACTORY;
             this.extractorFactory = HlsExtractorFactory.DEFAULT;
-            this.drmSessionManager = DrmSessionManager.CC.getDummyDrmSessionManager();
+            this.drmSessionManager = DrmSessionManager.-CC.getDummyDrmSessionManager();
             this.loadErrorHandlingPolicy = new DefaultLoadErrorHandlingPolicy();
             this.compositeSequenceableLoaderFactory = new DefaultCompositeSequenceableLoaderFactory();
             this.metadataType = 1;

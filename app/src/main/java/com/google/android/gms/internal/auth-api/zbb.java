@@ -1,4 +1,4 @@
-package com.google.android.gms.internal.p001authapi;
+package com.google.android.gms.internal.auth-api;
 
 import android.os.Binder;
 import android.os.IBinder;
@@ -6,7 +6,6 @@ import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
-/* renamed from: com.google.android.gms.internal.auth-api.zbb  reason: invalid package */
 /* loaded from: classes.dex */
 public class zbb extends Binder implements IInterface {
     /* JADX INFO: Access modifiers changed from: protected */

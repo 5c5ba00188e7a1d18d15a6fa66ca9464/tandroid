@@ -1194,7 +1194,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         ChatAttachAlert chatAttachAlert;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass3());
+        this.actionBar.setActionBarMenuOnItemClick(new 3());
         if (this.currentActivityType == 7) {
             ScrollView scrollView = new ScrollView(context) { // from class: org.telegram.ui.PassportActivity.4
                 @Override // android.widget.ScrollView, android.view.ViewGroup
@@ -1296,10 +1296,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.PassportActivity$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass3() {
+    public class 3 extends ActionBar.ActionBarMenuOnItemClick {
+        3() {
         }
 
         /* JADX WARN: Removed duplicated region for block: B:100:0x0396  */
@@ -1355,13 +1354,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 builder.setPositiveButton(LocaleController.getString("Done", R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda1
                                     @Override // android.content.DialogInterface.OnClickListener
                                     public final void onClick(DialogInterface dialogInterface, int i2) {
-                                        PassportActivity.AnonymousClass3.this.lambda$onIdentityDone$0(str, str2, str3, runnable, errorRunnable, dialogInterface, i2);
+                                        PassportActivity.3.this.lambda$onIdentityDone$0(str, str2, str3, runnable, errorRunnable, dialogInterface, i2);
                                     }
                                 });
                                 builder.setNegativeButton(LocaleController.getString("Edit", R.string.Edit), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda0
                                     @Override // android.content.DialogInterface.OnClickListener
                                     public final void onClick(DialogInterface dialogInterface, int i2) {
-                                        PassportActivity.AnonymousClass3.this.lambda$onIdentityDone$1(i, dialogInterface, i2);
+                                        PassportActivity.3.this.lambda$onIdentityDone$1(i, dialogInterface, i2);
                                     }
                                 });
                                 PassportActivity.this.showDialog(builder.create());
@@ -1407,7 +1406,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 @Override // java.util.Comparator
                                 public final int compare(Object obj4, Object obj5) {
                                     int lambda$onIdentityDone$2;
-                                    lambda$onIdentityDone$2 = PassportActivity.AnonymousClass3.this.lambda$onIdentityDone$2((String) obj4, (String) obj5);
+                                    lambda$onIdentityDone$2 = PassportActivity.3.this.lambda$onIdentityDone$2((String) obj4, (String) obj5);
                                     return lambda$onIdentityDone$2;
                                 }
                             });
@@ -1440,7 +1439,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             @Override // java.util.Comparator
                             public final int compare(Object obj4, Object obj5) {
                                 int lambda$onIdentityDone$3;
-                                lambda$onIdentityDone$3 = PassportActivity.AnonymousClass3.this.lambda$onIdentityDone$3((String) obj4, (String) obj5);
+                                lambda$onIdentityDone$3 = PassportActivity.3.this.lambda$onIdentityDone$3((String) obj4, (String) obj5);
                                 return lambda$onIdentityDone$3;
                             }
                         });
@@ -1595,7 +1594,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     final Runnable runnable = new Runnable() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
-                            PassportActivity.AnonymousClass3.this.lambda$onItemClick$4();
+                            PassportActivity.3.this.lambda$onItemClick$4();
                         }
                     };
                     final ErrorRunnable errorRunnable = new ErrorRunnable() { // from class: org.telegram.ui.PassportActivity.3.2
@@ -1678,7 +1677,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_verifyEmail, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda6
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                    PassportActivity.AnonymousClass3.this.lambda$onItemClick$6(runnable, errorRunnable, tLRPC$TL_account_verifyEmail, tLObject, tLRPC$TL_error);
+                                    PassportActivity.3.this.lambda$onItemClick$6(runnable, errorRunnable, tLRPC$TL_account_verifyEmail, tLObject, tLRPC$TL_error);
                                 }
                             }), ((BaseFragment) PassportActivity.this).classGuid);
                         }
@@ -1700,7 +1699,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass3.this.lambda$onItemClick$5(tLRPC$TL_error, runnable, errorRunnable, tLRPC$TL_account_verifyEmail);
+                    PassportActivity.3.this.lambda$onItemClick$5(tLRPC$TL_error, runnable, errorRunnable, tLRPC$TL_account_verifyEmail);
                 }
             });
         }
@@ -2299,7 +2298,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             x = SRPHelper.getX(AndroidUtilities.getStringBytes(str), (TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) this.currentPassword.current_algo);
         } else {
             bArr = null;
-            AnonymousClass8 anonymousClass8 = new AnonymousClass8(z, bArr, tLRPC$TL_account_getPasswordSettings, str);
+            8 r9 = new 8(z, bArr, tLRPC$TL_account_getPasswordSettings, str);
             TLRPC$TL_account_password tLRPC$TL_account_password = this.currentPassword;
             tLRPC$PasswordKdfAlgo = tLRPC$TL_account_password.current_algo;
             if (!(tLRPC$PasswordKdfAlgo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
@@ -2308,19 +2307,19 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (startCheck == null) {
                     TLRPC$TL_error tLRPC$TL_error = new TLRPC$TL_error();
                     tLRPC$TL_error.text = "ALGO_INVALID";
-                    anonymousClass8.run(null, tLRPC$TL_error);
+                    r9.run(null, tLRPC$TL_error);
                     return;
                 }
-                ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getPasswordSettings, anonymousClass8, 10), this.classGuid);
+                ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getPasswordSettings, r9, 10), this.classGuid);
                 return;
             }
             TLRPC$TL_error tLRPC$TL_error2 = new TLRPC$TL_error();
             tLRPC$TL_error2.text = "PASSWORD_HASH_INVALID";
-            anonymousClass8.run(null, tLRPC$TL_error2);
+            r9.run(null, tLRPC$TL_error2);
             return;
         }
         bArr = x;
-        AnonymousClass8 anonymousClass82 = new AnonymousClass8(z, bArr, tLRPC$TL_account_getPasswordSettings, str);
+        8 r92 = new 8(z, bArr, tLRPC$TL_account_getPasswordSettings, str);
         TLRPC$TL_account_password tLRPC$TL_account_password2 = this.currentPassword;
         tLRPC$PasswordKdfAlgo = tLRPC$TL_account_password2.current_algo;
         if (!(tLRPC$PasswordKdfAlgo instanceof TLRPC$TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
@@ -2328,15 +2327,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.PassportActivity$8  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass8 implements RequestDelegate {
+    public class 8 implements RequestDelegate {
         final /* synthetic */ TLRPC$TL_account_getPasswordSettings val$req;
         final /* synthetic */ boolean val$saved;
         final /* synthetic */ String val$textPassword;
         final /* synthetic */ byte[] val$x_bytes;
 
-        AnonymousClass8(boolean z, byte[] bArr, TLRPC$TL_account_getPasswordSettings tLRPC$TL_account_getPasswordSettings, String str) {
+        8(boolean z, byte[] bArr, TLRPC$TL_account_getPasswordSettings tLRPC$TL_account_getPasswordSettings, String str) {
             this.val$saved = z;
             this.val$x_bytes = bArr;
             this.val$req = tLRPC$TL_account_getPasswordSettings;
@@ -2383,7 +2381,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(this.val$req, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.AnonymousClass8.this.lambda$resetSecret$3(tLObject, tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$resetSecret$3(tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -2393,7 +2391,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$resetSecret$2(tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$resetSecret$2(tLRPC$TL_error);
                 }
             });
         }
@@ -2404,7 +2402,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda12
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error2) {
-                        PassportActivity.AnonymousClass8.this.lambda$resetSecret$1(tLObject, tLRPC$TL_error2);
+                        PassportActivity.8.this.lambda$resetSecret$1(tLObject, tLRPC$TL_error2);
                     }
                 }, 8);
                 return;
@@ -2417,7 +2415,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$resetSecret$0(tLRPC$TL_error, tLObject);
+                    PassportActivity.8.this.lambda$resetSecret$0(tLRPC$TL_error, tLObject);
                 }
             });
         }
@@ -2438,7 +2436,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$generateNewSecret$8(bArr, str);
+                    PassportActivity.8.this.lambda$generateNewSecret$8(bArr, str);
                 }
             });
         }
@@ -2473,7 +2471,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_updatePasswordSettings, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda11
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    PassportActivity.AnonymousClass8.this.lambda$generateNewSecret$7(tLObject, tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$generateNewSecret$7(tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -2483,7 +2481,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$generateNewSecret$6(tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$generateNewSecret$6(tLRPC$TL_error);
                 }
             });
         }
@@ -2500,7 +2498,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda15
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error2) {
-                    PassportActivity.AnonymousClass8.this.lambda$generateNewSecret$5(tLObject, tLRPC$TL_error2);
+                    PassportActivity.8.this.lambda$generateNewSecret$5(tLObject, tLRPC$TL_error2);
                 }
             }, 8);
         }
@@ -2510,7 +2508,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$generateNewSecret$4(tLRPC$TL_error, tLObject);
+                    PassportActivity.8.this.lambda$generateNewSecret$4(tLRPC$TL_error, tLObject);
                 }
             });
         }
@@ -2533,7 +2531,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 connectionsManager.sendRequest(tLRPC$TL_account_getPassword, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda16
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                        PassportActivity.AnonymousClass8.this.lambda$run$10(z, tLObject2, tLRPC$TL_error2);
+                        PassportActivity.8.this.lambda$run$10(z, tLObject2, tLRPC$TL_error2);
                     }
                 }, 8);
             } else if (tLRPC$TL_error == null) {
@@ -2543,7 +2541,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.AnonymousClass8.this.lambda$run$15(tLObject, str, z2);
+                        PassportActivity.8.this.lambda$run$15(tLObject, str, z2);
                     }
                 });
             } else {
@@ -2551,7 +2549,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.AnonymousClass8.this.lambda$run$16(z3, tLRPC$TL_error);
+                        PassportActivity.8.this.lambda$run$16(z3, tLRPC$TL_error);
                     }
                 });
             }
@@ -2562,7 +2560,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$run$9(tLRPC$TL_error, tLObject, z);
+                    PassportActivity.8.this.lambda$run$9(tLRPC$TL_error, tLObject, z);
                 }
             });
         }
@@ -2608,7 +2606,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            PassportActivity.AnonymousClass8.this.lambda$run$11();
+                            PassportActivity.8.this.lambda$run$11();
                         }
                     });
                     return;
@@ -2619,7 +2617,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$run$14(tLRPC$TL_account_passwordSettings, z, bArr);
+                    PassportActivity.8.this.lambda$run$14(tLRPC$TL_account_passwordSettings, z, bArr);
                 }
             });
         }
@@ -2663,7 +2661,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda14
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            PassportActivity.AnonymousClass8.this.lambda$run$13(tLObject, tLRPC$TL_error);
+                            PassportActivity.8.this.lambda$run$13(tLObject, tLRPC$TL_error);
                         }
                     });
                     return;
@@ -2691,7 +2689,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PassportActivity.AnonymousClass8.this.lambda$run$12(tLObject, tLRPC$TL_error);
+                    PassportActivity.8.this.lambda$run$12(tLObject, tLRPC$TL_error);
                 }
             });
         }
@@ -3044,14 +3042,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.PassportActivity$1ValueToSend  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class C1ValueToSend {
+    public class 1ValueToSend {
         boolean selfie_required;
         boolean translation_required;
         TLRPC$TL_secureValue value;
 
-        public C1ValueToSend(PassportActivity passportActivity, TLRPC$TL_secureValue tLRPC$TL_secureValue, boolean z, boolean z2) {
+        public 1ValueToSend(PassportActivity passportActivity, TLRPC$TL_secureValue tLRPC$TL_secureValue, boolean z, boolean z2) {
             this.value = tLRPC$TL_secureValue;
             this.selfie_required = z;
             this.translation_required = z2;
@@ -3121,7 +3118,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 AndroidUtilities.shakeView(getViewByType(tLRPC$TL_secureRequiredType), 2.0f, 0);
                 return;
             }
-            arrayList2.add(new C1ValueToSend(this, valueByType, tLRPC$TL_secureRequiredType.selfie_required, tLRPC$TL_secureRequiredType.translation_required));
+            arrayList2.add(new 1ValueToSend(this, valueByType, tLRPC$TL_secureRequiredType.selfie_required, tLRPC$TL_secureRequiredType.translation_required));
         }
         showEditDoneProgress(false, true);
         TLRPC$TL_account_acceptAuthorization tLRPC$TL_account_acceptAuthorization = new TLRPC$TL_account_acceptAuthorization();
@@ -3132,8 +3129,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         int size3 = arrayList2.size();
         int i4 = 0;
         while (i4 < size3) {
-            C1ValueToSend c1ValueToSend = (C1ValueToSend) arrayList2.get(i4);
-            TLRPC$TL_secureValue tLRPC$TL_secureValue = c1ValueToSend.value;
+            1ValueToSend r9 = (1ValueToSend) arrayList2.get(i4);
+            TLRPC$TL_secureValue tLRPC$TL_secureValue = r9.value;
             JSONObject jSONObject2 = new JSONObject();
             TLRPC$SecurePlainData tLRPC$SecurePlainData = tLRPC$TL_secureValue.plain_data;
             if (tLRPC$SecurePlainData != null) {
@@ -3199,7 +3196,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         jSONObject6.put("secret", Base64.encodeToString(decryptValueSecret4, 2));
                         jSONObject3.put("reverse_side", jSONObject6);
                     }
-                    if (c1ValueToSend.selfie_required) {
+                    if (r9.selfie_required) {
                         TLRPC$SecureFile tLRPC$SecureFile3 = tLRPC$TL_secureValue.selfie;
                         if (tLRPC$SecureFile3 instanceof TLRPC$TL_secureFile) {
                             TLRPC$TL_secureFile tLRPC$TL_secureFile4 = (TLRPC$TL_secureFile) tLRPC$SecureFile3;
@@ -3210,7 +3207,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             jSONObject3.put("selfie", jSONObject7);
                         }
                     }
-                    if (c1ValueToSend.translation_required && !tLRPC$TL_secureValue.translation.isEmpty()) {
+                    if (r9.translation_required && !tLRPC$TL_secureValue.translation.isEmpty()) {
                         JSONArray jSONArray2 = new JSONArray();
                         int size5 = tLRPC$TL_secureValue.translation.size();
                         for (int i6 = 0; i6 < size5; i6++) {
@@ -5701,12 +5698,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         cameraScanActivity.setDelegate(new CameraScanActivity.CameraScanActivityDelegate() { // from class: org.telegram.ui.PassportActivity.14
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
             public /* synthetic */ void didFindQr(String str) {
-                CameraScanActivity.CameraScanActivityDelegate.CC.$default$didFindQr(this, str);
+                CameraScanActivity.CameraScanActivityDelegate.-CC.$default$didFindQr(this, str);
             }
 
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
             public /* synthetic */ boolean processQr(String str, Runnable runnable) {
-                return CameraScanActivity.CameraScanActivityDelegate.CC.$default$processQr(this, str, runnable);
+                return CameraScanActivity.CameraScanActivityDelegate.-CC.$default$processQr(this, str, runnable);
             }
 
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
@@ -7267,7 +7264,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue = new TLRPC$TL_account_saveSecureValue();
                             tLRPC$TL_account_saveSecureValue.value = tLRPC$TL_inputSecureValue;
                             tLRPC$TL_account_saveSecureValue.secure_secret_id = PassportActivity.this.secureSecretId;
-                            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue, new AnonymousClass1(errorRunnable, str, tLRPC$TL_account_saveSecureValue, tLRPC$TL_secureRequiredType4, tLRPC$TL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tLRPC$TL_inputSecureValue2));
+                            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue, new 1(errorRunnable, str, tLRPC$TL_account_saveSecureValue, tLRPC$TL_secureRequiredType4, tLRPC$TL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tLRPC$TL_inputSecureValue2));
                         }
                         tLRPC$TL_inputSecureValue = tLRPC$TL_inputSecureValue4;
                     }
@@ -7275,13 +7272,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue2 = new TLRPC$TL_account_saveSecureValue();
                     tLRPC$TL_account_saveSecureValue2.value = tLRPC$TL_inputSecureValue;
                     tLRPC$TL_account_saveSecureValue2.secure_secret_id = PassportActivity.this.secureSecretId;
-                    ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue2, new AnonymousClass1(errorRunnable, str, tLRPC$TL_account_saveSecureValue2, tLRPC$TL_secureRequiredType4, tLRPC$TL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tLRPC$TL_inputSecureValue2));
+                    ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue2, new 1(errorRunnable, str, tLRPC$TL_account_saveSecureValue2, tLRPC$TL_secureRequiredType4, tLRPC$TL_secureRequiredType3, arrayList2, secureDocument, secureDocument2, secureDocument3, arrayList3, str2, str3, runnable, this, tLRPC$TL_inputSecureValue2));
                 }
 
                 /* JADX INFO: Access modifiers changed from: package-private */
-                /* renamed from: org.telegram.ui.PassportActivity$20$1  reason: invalid class name */
                 /* loaded from: classes3.dex */
-                public class AnonymousClass1 implements RequestDelegate {
+                public class 1 implements RequestDelegate {
                     final /* synthetic */ PassportActivityDelegate val$currentDelegate;
                     final /* synthetic */ TLRPC$TL_secureRequiredType val$documentRequiredType;
                     final /* synthetic */ ArrayList val$documents;
@@ -7298,7 +7294,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     final /* synthetic */ String val$text;
                     final /* synthetic */ ArrayList val$translationDocuments;
 
-                    AnonymousClass1(ErrorRunnable errorRunnable, String str, TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, ArrayList arrayList, SecureDocument secureDocument, SecureDocument secureDocument2, SecureDocument secureDocument3, ArrayList arrayList2, String str2, String str3, Runnable runnable, PassportActivityDelegate passportActivityDelegate, TLRPC$TL_inputSecureValue tLRPC$TL_inputSecureValue) {
+                    1(ErrorRunnable errorRunnable, String str, TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, ArrayList arrayList, SecureDocument secureDocument, SecureDocument secureDocument2, SecureDocument secureDocument3, ArrayList arrayList2, String str2, String str3, Runnable runnable, PassportActivityDelegate passportActivityDelegate, TLRPC$TL_inputSecureValue tLRPC$TL_inputSecureValue) {
                         this.val$errorRunnable = errorRunnable;
                         this.val$text = str;
                         this.val$req = tLRPC$TL_account_saveSecureValue;
@@ -7322,7 +7318,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         final ErrorRunnable errorRunnable = this.val$errorRunnable;
                         final String str = this.val$text;
                         final TLRPC$TL_account_saveSecureValue tLRPC$TL_account_saveSecureValue = this.val$req;
-                        AnonymousClass20 anonymousClass20 = AnonymousClass20.this;
+                        20 r15 = 20.this;
                         final boolean z = z;
                         final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType = this.val$documentRequiredType;
                         final TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2 = this.val$requiredType;
@@ -7338,7 +7334,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
-                                PassportActivity.AnonymousClass20.AnonymousClass1.this.lambda$onResult$0(tLRPC$TL_error, errorRunnable, str, tLRPC$TL_account_saveSecureValue, z, tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType2, tLRPC$TL_secureValue, tLRPC$TL_secureValue2, arrayList, secureDocument, secureDocument2, secureDocument3, arrayList2, str2, str3, i, runnable);
+                                PassportActivity.20.1.this.lambda$onResult$0(tLRPC$TL_error, errorRunnable, str, tLRPC$TL_account_saveSecureValue, z, tLRPC$TL_secureRequiredType, tLRPC$TL_secureRequiredType2, tLRPC$TL_secureValue, tLRPC$TL_secureValue2, arrayList, secureDocument, secureDocument2, secureDocument3, arrayList2, str2, str3, i, runnable);
                             }
                         });
                     }
@@ -7461,7 +7457,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 connectionsManager.sendRequest(tLRPC$TL_account_sendVerifyEmailCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda3
                                     @Override // org.telegram.tgnet.RequestDelegate
                                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                                        PassportActivity.AnonymousClass20.AnonymousClass1.this.lambda$run$2(str, tLRPC$TL_secureRequiredType, passportActivityDelegate, errorRunnable, tLObject2, tLRPC$TL_error2);
+                                        PassportActivity.20.1.this.lambda$run$2(str, tLRPC$TL_secureRequiredType, passportActivityDelegate, errorRunnable, tLObject2, tLRPC$TL_error2);
                                     }
                                 });
                                 return;
@@ -7471,7 +7467,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda2
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        PassportActivity.AnonymousClass20.AnonymousClass1.lambda$run$3(PassportActivity.ErrorRunnable.this, tLRPC$TL_error, str2);
+                                        PassportActivity.20.1.lambda$run$3(PassportActivity.ErrorRunnable.this, tLRPC$TL_error, str2);
                                     }
                                 });
                                 return;
@@ -7485,7 +7481,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_account_saveSecureValue, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda4
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
-                                    PassportActivity.AnonymousClass20.AnonymousClass1.this.lambda$run$4(tLRPC$TL_secureValue, tLObject2, tLRPC$TL_error2);
+                                    PassportActivity.20.1.this.lambda$run$4(tLRPC$TL_secureValue, tLObject2, tLRPC$TL_error2);
                                 }
                             });
                             return;
@@ -7498,7 +7494,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
-                                PassportActivity.AnonymousClass20.AnonymousClass1.this.lambda$run$1(tLObject, str, tLRPC$TL_secureRequiredType, passportActivityDelegate, tLRPC$TL_error, errorRunnable);
+                                PassportActivity.20.1.this.lambda$run$1(tLObject, str, tLRPC$TL_secureRequiredType, passportActivityDelegate, tLRPC$TL_error, errorRunnable);
                             }
                         });
                     }
@@ -8733,22 +8729,22 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() { // from class: org.telegram.ui.PassportActivity.24
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public /* synthetic */ void didSelectBot(TLRPC$User tLRPC$User) {
-                    ChatAttachAlert.ChatAttachViewDelegate.CC.$default$didSelectBot(this, tLRPC$User);
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$didSelectBot(this, tLRPC$User);
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public /* synthetic */ void doOnIdle(Runnable runnable) {
-                    ChatAttachAlert.ChatAttachViewDelegate.CC.$default$doOnIdle(this, runnable);
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public /* synthetic */ boolean needEnterComment() {
-                    return ChatAttachAlert.ChatAttachViewDelegate.CC.$default$needEnterComment(this);
+                    return ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$needEnterComment(this);
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public /* synthetic */ void openAvatarsSearch() {
-                    ChatAttachAlert.ChatAttachViewDelegate.CC.$default$openAvatarsSearch(this);
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$openAvatarsSearch(this);
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -9744,14 +9740,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             this.codeTime = 15000;
             this.codeTimer = new Timer();
             this.lastCodeTime = System.currentTimeMillis();
-            this.codeTimer.schedule(new AnonymousClass4(), 0L, 1000L);
+            this.codeTimer.schedule(new 4(), 0L, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.PassportActivity$PhoneConfirmationView$4  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass4 extends TimerTask {
-            AnonymousClass4() {
+        public class 4 extends TimerTask {
+            4() {
             }
 
             @Override // java.util.TimerTask, java.lang.Runnable
@@ -9759,7 +9754,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$4$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.PhoneConfirmationView.AnonymousClass4.this.lambda$run$0();
+                        PassportActivity.PhoneConfirmationView.4.this.lambda$run$0();
                     }
                 });
             }
@@ -9800,14 +9795,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
             Timer timer = new Timer();
             this.timeTimer = timer;
-            timer.schedule(new AnonymousClass5(), 0L, 1000L);
+            timer.schedule(new 5(), 0L, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: org.telegram.ui.PassportActivity$PhoneConfirmationView$5  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public class AnonymousClass5 extends TimerTask {
-            AnonymousClass5() {
+        public class 5 extends TimerTask {
+            5() {
             }
 
             @Override // java.util.TimerTask, java.lang.Runnable
@@ -9823,7 +9817,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.PhoneConfirmationView.AnonymousClass5.this.lambda$run$2();
+                        PassportActivity.PhoneConfirmationView.5.this.lambda$run$2();
                     }
                 });
             }
@@ -9865,7 +9859,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(tLRPC$TL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$5$$ExternalSyntheticLambda2
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                PassportActivity.PhoneConfirmationView.AnonymousClass5.this.lambda$run$1(tLObject, tLRPC$TL_error);
+                                PassportActivity.PhoneConfirmationView.5.this.lambda$run$1(tLObject, tLRPC$TL_error);
                             }
                         }, 2);
                         return;
@@ -9895,7 +9889,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$5$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.PhoneConfirmationView.AnonymousClass5.this.lambda$run$0(tLRPC$TL_error);
+                        PassportActivity.PhoneConfirmationView.5.this.lambda$run$0(tLRPC$TL_error);
                     }
                 });
             }

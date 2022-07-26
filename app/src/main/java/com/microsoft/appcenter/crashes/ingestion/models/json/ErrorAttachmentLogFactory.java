@@ -14,8 +14,7 @@ public class ErrorAttachmentLogFactory extends AbstractLogFactory {
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.json.LogFactory
-    /* renamed from: create */
-    public ErrorAttachmentLog mo247create() {
+    public ErrorAttachmentLog create() {
         return new ErrorAttachmentLog();
     }
 }

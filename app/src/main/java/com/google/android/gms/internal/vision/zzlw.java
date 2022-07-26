@@ -4,8 +4,7 @@ import java.io.IOException;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzlw extends zzlu<zzlx, zzlx> {
-    /* renamed from: zza  reason: avoid collision after fix types in other method */
-    private static void zza2(Object obj, zzlx zzlxVar) {
+    private static void zza(Object obj, zzlx zzlxVar) {
         ((zzjb) obj).zzb = zzlxVar;
     }
 
@@ -50,7 +49,7 @@ final class zzlw extends zzlu<zzlx, zzlx> {
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzlu
     public final /* synthetic */ void zzb(Object obj, zzlx zzlxVar) {
-        zza2(obj, zzlxVar);
+        zza(obj, zzlxVar);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -62,7 +61,7 @@ final class zzlw extends zzlu<zzlx, zzlx> {
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzlu
     public final /* bridge */ /* synthetic */ void zza(Object obj, zzlx zzlxVar) {
-        zza2(obj, zzlxVar);
+        zza(obj, zzlxVar);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

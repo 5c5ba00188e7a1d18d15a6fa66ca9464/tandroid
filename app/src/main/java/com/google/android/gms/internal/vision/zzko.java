@@ -1457,7 +1457,7 @@ public final class zzko<T> implements zzlc<T> {
                 int i7 = (zzd2 & i2) >>> 20;
                 int i8 = this.zzc[i5];
                 long j2 = zzd2 & 1048575;
-                if (i7 >= zziv.DOUBLE_LIST_PACKED.zza() && i7 <= zziv.SINT64_LIST_PACKED.zza()) {
+                if (i7 >= zziv.zza.zza() && i7 <= zziv.zzb.zza()) {
                     int i9 = this.zzc[i5 + 2];
                 }
                 switch (i7) {
@@ -5233,7 +5233,7 @@ public final class zzko<T> implements zzlc<T> {
                                 zzjb.zzf zzfVar = zza5.zzd;
                                 boolean z2 = zzfVar.zzd;
                                 zzml zzmlVar = zzfVar.zzc;
-                                if (zzmlVar == zzml.ENUM) {
+                                if (zzmlVar == zzml.zzn) {
                                     zzhl.zza(bArr, i9, zzhnVar2);
                                     throw null;
                                 }

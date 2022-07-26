@@ -21,7 +21,7 @@ final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
 
     static int zza(zzfl zzflVar, int i, Object obj) {
         int zzr = zzbn.zzr(i);
-        if (zzflVar == zzfl.GROUP) {
+        if (zzflVar == zzfl.zzql) {
             zzci.zzf((zzdo) obj);
             zzr <<= 1;
         }
@@ -215,7 +215,7 @@ final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
 
     private static boolean zzb(Map.Entry<FieldDescriptorType, Object> entry) {
         FieldDescriptorType key = entry.getKey();
-        if (key.zzav() == zzfq.MESSAGE) {
+        if (key.zzav() == zzfq.zzrf) {
             boolean zzaw = key.zzaw();
             Object value = entry.getValue();
             if (zzaw) {
@@ -251,7 +251,7 @@ final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
                 ((List) zza).add(zzd(obj));
             }
             this.zzgt.zza((zzei<FieldDescriptorType, Object>) key, (FieldDescriptorType) zza);
-        } else if (key.zzav() != zzfq.MESSAGE) {
+        } else if (key.zzav() != zzfq.zzrf) {
             this.zzgt.zza((zzei<FieldDescriptorType, Object>) key, (FieldDescriptorType) zzd(value));
         } else {
             Object zza2 = zza((zzby<FieldDescriptorType>) key);
@@ -266,7 +266,7 @@ final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
     private static int zzd(Map.Entry<FieldDescriptorType, Object> entry) {
         FieldDescriptorType key = entry.getKey();
         Object value = entry.getValue();
-        if (key.zzav() != zzfq.MESSAGE || key.zzaw() || key.zzax()) {
+        if (key.zzav() != zzfq.zzrf || key.zzaw() || key.zzax()) {
             return zzb((zzca<?>) key, value);
         }
         boolean z = value instanceof zzcr;

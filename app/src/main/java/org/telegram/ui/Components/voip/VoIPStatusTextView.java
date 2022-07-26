@@ -155,7 +155,7 @@ public class VoIPStatusTextView extends FrameLayout {
                 VoIPStatusTextView.lambda$replaceViews$1(view2, view, valueAnimator);
             }
         });
-        this.animator.addListener(new AnonymousClass1(view, view2, runnable));
+        this.animator.addListener(new 1(view, view2, runnable));
         this.animator.setDuration(250L).setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.animator.start();
     }
@@ -177,14 +177,13 @@ public class VoIPStatusTextView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.voip.VoIPStatusTextView$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends AnimatorListenerAdapter {
+    public class 1 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$in;
         final /* synthetic */ Runnable val$onEnd;
         final /* synthetic */ View val$out;
 
-        AnonymousClass1(View view, View view2, Runnable runnable) {
+        1(View view, View view2, Runnable runnable) {
             this.val$out = view;
             this.val$in = view2;
             this.val$onEnd = runnable;
@@ -220,7 +219,7 @@ public class VoIPStatusTextView extends FrameLayout {
                     voIPStatusTextView3.replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            VoIPStatusTextView.AnonymousClass1.this.lambda$onAnimationEnd$0();
+                            VoIPStatusTextView.1.this.lambda$onAnimationEnd$0();
                         }
                     });
                 }

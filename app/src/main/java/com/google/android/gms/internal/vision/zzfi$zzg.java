@@ -17,9 +17,9 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public enum zzb implements zzje {
-        CLASSIFICATION_UNKNOWN(0),
-        CLASSIFICATION_NONE(1),
-        CLASSIFICATION_ALL(2);
+        zzc(0),
+        zza(1),
+        zzb(2);
         
         private final int zze;
 
@@ -31,14 +31,14 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         public static zzb zza(int i) {
             if (i != 0) {
                 if (i == 1) {
-                    return CLASSIFICATION_NONE;
+                    return zza;
                 }
                 if (i == 2) {
-                    return CLASSIFICATION_ALL;
+                    return zzb;
                 }
                 return null;
             }
-            return CLASSIFICATION_UNKNOWN;
+            return zzc;
         }
 
         public static zzjg zzb() {
@@ -62,10 +62,10 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public enum zzc implements zzje {
-        LANDMARK_UNKNOWN(0),
-        LANDMARK_NONE(1),
-        LANDMARK_ALL(2),
-        LANDMARK_CONTOUR(3);
+        zzd(0),
+        zza(1),
+        zzb(2),
+        zzc(3);
         
         private final int zzf;
 
@@ -77,17 +77,17 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         public static zzc zza(int i) {
             if (i != 0) {
                 if (i == 1) {
-                    return LANDMARK_NONE;
+                    return zza;
                 }
                 if (i == 2) {
-                    return LANDMARK_ALL;
+                    return zzb;
                 }
                 if (i == 3) {
-                    return LANDMARK_CONTOUR;
+                    return zzc;
                 }
                 return null;
             }
-            return LANDMARK_UNKNOWN;
+            return zzd;
         }
 
         public static zzjg zzb() {
@@ -111,10 +111,10 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     public enum zzd implements zzje {
-        MODE_UNKNOWN(0),
-        MODE_ACCURATE(1),
-        MODE_FAST(2),
-        MODE_SELFIE(3);
+        zzd(0),
+        zza(1),
+        zzb(2),
+        zzc(3);
         
         private final int zzf;
 
@@ -126,17 +126,17 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         public static zzd zza(int i) {
             if (i != 0) {
                 if (i == 1) {
-                    return MODE_ACCURATE;
+                    return zza;
                 }
                 if (i == 2) {
-                    return MODE_FAST;
+                    return zzb;
                 }
                 if (i == 3) {
-                    return MODE_SELFIE;
+                    return zzc;
                 }
                 return null;
             }
-            return MODE_UNKNOWN;
+            return zzd;
         }
 
         public static zzjg zzb() {

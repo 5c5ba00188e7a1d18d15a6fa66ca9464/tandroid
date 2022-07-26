@@ -181,7 +181,7 @@ final class zzej<T extends zzel<T>> {
 
     private static <T extends zzel<T>> boolean zza(Map.Entry<T, Object> entry) {
         T key = entry.getKey();
-        if (key.zzc() == zzhy.MESSAGE) {
+        if (key.zzc() == zzhy.zzi) {
             if (key.zzd()) {
                 for (zzfz zzfzVar : (List) entry.getValue()) {
                     if (!zzfzVar.zzi()) {
@@ -243,7 +243,7 @@ final class zzej<T extends zzel<T>> {
                 ((List) zza).add(zza(obj));
             }
             this.zza.zza((zzgq<T, Object>) key, (T) zza);
-        } else if (key.zzc() == zzhy.MESSAGE) {
+        } else if (key.zzc() == zzhy.zzi) {
             Object zza2 = zza((zzej<T>) key);
             if (zza2 == null) {
                 this.zza.zza((zzgq<T, Object>) key, (T) zza(value));
@@ -274,7 +274,7 @@ final class zzej<T extends zzel<T>> {
     private static int zzc(Map.Entry<T, Object> entry) {
         T key = entry.getKey();
         Object value = entry.getValue();
-        if (key.zzc() == zzhy.MESSAGE && !key.zzd() && !key.zze()) {
+        if (key.zzc() == zzhy.zzi && !key.zzd() && !key.zze()) {
             if (value instanceof zzfa) {
                 return zzea.zzb(entry.getKey().zza(), (zzfa) value);
             }
@@ -285,7 +285,7 @@ final class zzej<T extends zzel<T>> {
 
     static int zza(zzhv zzhvVar, int i, Object obj) {
         int zze = zzea.zze(i);
-        if (zzhvVar == zzhv.GROUP) {
+        if (zzhvVar == zzhv.zzj) {
             zzeq.zza((zzfz) obj);
             zze <<= 1;
         }

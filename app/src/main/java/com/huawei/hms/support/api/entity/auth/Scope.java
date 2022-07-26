@@ -14,17 +14,13 @@ public class Scope implements IMessageEntity, Parcelable {
         a() {
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public Scope mo239createFromParcel(Parcel parcel) {
+        public Scope createFromParcel(Parcel parcel) {
             return new Scope(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public Scope[] mo240newArray(int i) {
+        public Scope[] newArray(int i) {
             return new Scope[i];
         }
     }

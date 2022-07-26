@@ -172,7 +172,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.frameContainerView.addView(frameLayout3, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 78.0f, 0.0f, 0.0f));
         TextureView textureView = new TextureView(context);
         this.frameLayout2.addView(textureView, LayoutHelper.createFrame(200, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, 17));
-        textureView.setSurfaceTextureListener(new AnonymousClass2());
+        textureView.setSurfaceTextureListener(new 2());
         ViewPager viewPager = new ViewPager(context);
         this.viewPager = viewPager;
         viewPager.setAdapter(new IntroAdapter());
@@ -309,14 +309,13 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.IntroActivity$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 implements TextureView.SurfaceTextureListener {
+    public class 2 implements TextureView.SurfaceTextureListener {
         @Override // android.view.TextureView.SurfaceTextureListener
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         }
 
-        AnonymousClass2() {
+        2() {
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -329,7 +328,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             IntroActivity.this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    IntroActivity.AnonymousClass2.this.lambda$onSurfaceTextureAvailable$0();
+                    IntroActivity.2.this.lambda$onSurfaceTextureAvailable$0();
                 }
             });
             IntroActivity.this.eglThread.postRunnable(IntroActivity.this.eglThread.drawRunnable);
@@ -386,17 +385,16 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         AlertDialog alertDialog = new AlertDialog(view.getContext(), 3);
         alertDialog.setCanCancel(false);
         alertDialog.showDelayed(1000L);
-        NotificationCenter.getGlobalInstance().addObserver(new AnonymousClass5(alertDialog), NotificationCenter.reloadInterface);
+        NotificationCenter.getGlobalInstance().addObserver(new 5(alertDialog), NotificationCenter.reloadInterface);
         LocaleController.getInstance().applyLanguage(this.localeInfo, true, false, this.currentAccount);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.IntroActivity$5  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass5 implements NotificationCenter.NotificationCenterDelegate {
+    public class 5 implements NotificationCenter.NotificationCenterDelegate {
         final /* synthetic */ AlertDialog val$loaderDialog;
 
-        AnonymousClass5(AlertDialog alertDialog) {
+        5(AlertDialog alertDialog) {
             this.val$loaderDialog = alertDialog;
         }
 
@@ -408,7 +406,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        IntroActivity.AnonymousClass5.this.lambda$didReceivedNotification$0();
+                        IntroActivity.5.this.lambda$didReceivedNotification$0();
                     }
                 }, 100L);
             }
@@ -574,8 +572,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
 
         @Override // androidx.viewpager.widget.PagerAdapter
-        /* renamed from: instantiateItem */
-        public Object mo1563instantiateItem(ViewGroup viewGroup, int i) {
+        public Object instantiateItem(ViewGroup viewGroup, int i) {
             final TextView textView = new TextView(viewGroup.getContext());
             textView.setTag(IntroActivity.this.pagerHeaderTag);
             final TextView textView2 = new TextView(viewGroup.getContext());
@@ -937,7 +934,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         }, "windowBackgroundWhite", "windowBackgroundWhiteBlueText4", "chats_actionBackground", "chats_actionPressedBackground", "featuredStickers_buttonText", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteGrayText3");
     }

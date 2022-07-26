@@ -38,15 +38,13 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
     final Map<String, ListenableFuture<?>> mScheduledBitmapTasks = new ArrayMap();
 
     @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    /* renamed from: addShortcuts  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ ListenableFuture<Void> mo31addShortcuts(List shortcuts) {
-        return mo31addShortcuts((List<ShortcutInfoCompat>) shortcuts);
+    public /* bridge */ /* synthetic */ ListenableFuture<Void> addShortcuts(List shortcuts) {
+        return addShortcuts((List<ShortcutInfoCompat>) shortcuts);
     }
 
     @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    /* renamed from: removeShortcuts  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ ListenableFuture<Void> mo33removeShortcuts(List shortcutIds) {
-        return mo33removeShortcuts((List<String>) shortcutIds);
+    public /* bridge */ /* synthetic */ ListenableFuture<Void> removeShortcuts(List shortcutIds) {
+        return removeShortcuts((List<String>) shortcutIds);
     }
 
     public static ShortcutInfoCompatSaverImpl getInstance(Context context) {
@@ -87,10 +85,8 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         });
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    /* renamed from: removeShortcuts */
-    public ListenableFuture<Void> mo33removeShortcuts(List<String> shortcutIds) {
+    public ListenableFuture<Void> removeShortcuts(List<String> shortcutIds) {
         final ArrayList arrayList = new ArrayList(shortcutIds);
         final ResolvableFuture create = ResolvableFuture.create();
         this.mCacheUpdateService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.2
@@ -109,10 +105,8 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         return create;
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    /* renamed from: removeAllShortcuts */
-    public ListenableFuture<Void> mo32removeAllShortcuts() {
+    public ListenableFuture<Void> removeAllShortcuts() {
         final ResolvableFuture create = ResolvableFuture.create();
         this.mCacheUpdateService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.3
             @Override // java.lang.Runnable
@@ -145,10 +139,8 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
     public IconCompat getShortcutIcon(final String shortcutId) throws Exception {
         Bitmap bitmap;
         final ShortcutsInfoSerialization.ShortcutContainer shortcutContainer = (ShortcutsInfoSerialization.ShortcutContainer) this.mCacheUpdateService.submit(new Callable<ShortcutsInfoSerialization.ShortcutContainer>() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.5
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // java.util.concurrent.Callable
-            /* renamed from: call */
-            public ShortcutsInfoSerialization.ShortcutContainer mo34call() {
+            public ShortcutsInfoSerialization.ShortcutContainer call() {
                 return ShortcutInfoCompatSaverImpl.this.mShortcutsMap.get(shortcutId);
             }
         }).get();
@@ -166,10 +158,8 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
             }
         }
         if (!TextUtils.isEmpty(shortcutContainer.mBitmapPath) && (bitmap = (Bitmap) this.mDiskIoService.submit(new Callable<Bitmap>(this) { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.6
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // java.util.concurrent.Callable
-            /* renamed from: call */
-            public Bitmap mo35call() {
+            public Bitmap call() {
                 return BitmapFactory.decodeFile(shortcutContainer.mBitmapPath);
             }
         }).get()) != null) {
@@ -193,10 +183,8 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         }
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
-    /* renamed from: addShortcuts */
-    public ListenableFuture<Void> mo31addShortcuts(List<ShortcutInfoCompat> shortcuts) {
+    public ListenableFuture<Void> addShortcuts(List<ShortcutInfoCompat> shortcuts) {
         final ArrayList arrayList = new ArrayList(shortcuts.size());
         for (ShortcutInfoCompat shortcutInfoCompat : shortcuts) {
             arrayList.add(new ShortcutInfoCompat.Builder(shortcutInfoCompat).build());

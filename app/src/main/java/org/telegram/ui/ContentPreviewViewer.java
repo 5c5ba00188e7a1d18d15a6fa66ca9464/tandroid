@@ -110,14 +110,13 @@ public class ContentPreviewViewer {
     private boolean isVisible = false;
     private int keyboardHeight = AndroidUtilities.dp(200.0f);
     private Paint paint = new Paint(1);
-    private Runnable showSheetRunnable = new AnonymousClass1();
+    private Runnable showSheetRunnable = new 1();
 
     /* loaded from: classes3.dex */
     public interface ContentPreviewViewerDelegate {
 
-        /* renamed from: org.telegram.ui.ContentPreviewViewer$ContentPreviewViewerDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static boolean $default$can(ContentPreviewViewerDelegate contentPreviewViewerDelegate) {
                 return true;
             }
@@ -192,10 +191,9 @@ public class ContentPreviewViewer {
         }
     }
 
-    /* renamed from: org.telegram.ui.ContentPreviewViewer$1 */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
+    public class 1 implements Runnable {
+        1() {
             ContentPreviewViewer.this = r1;
         }
 
@@ -273,16 +271,16 @@ public class ContentPreviewViewer {
                     for (int i7 = 0; i7 < arrayList3.size(); i7++) {
                         iArr[i7] = ((Integer) arrayList3.get(i7)).intValue();
                     }
-                    View$OnClickListenerC00351 view$OnClickListenerC00351 = new View$OnClickListenerC00351(arrayList2, isStickerInFavorites);
+                    1 r3 = new 1(arrayList2, isStickerInFavorites);
                     ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(ContentPreviewViewer.this.containerView.getContext(), R.drawable.popup_fixed_alert2, ContentPreviewViewer.this.resourcesProvider);
                     for (int i8 = 0; i8 < arrayList.size(); i8++) {
                         ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, ((Integer) arrayList3.get(i8)).intValue(), (CharSequence) arrayList.get(i8), false, ContentPreviewViewer.this.resourcesProvider);
                         addItem.setTag(Integer.valueOf(i8));
-                        addItem.setOnClickListener(view$OnClickListenerC00351);
+                        addItem.setOnClickListener(r3);
                     }
                     ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.2
                         {
-                            AnonymousClass1.this = this;
+                            1.this = this;
                         }
 
                         @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
@@ -363,7 +361,7 @@ public class ContentPreviewViewer {
                 View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        ContentPreviewViewer.AnonymousClass1.this.lambda$run$1(arrayList5, view);
+                        ContentPreviewViewer.1.this.lambda$run$1(arrayList5, view);
                     }
                 };
                 for (int i10 = 0; i10 < arrayList4.size(); i10++) {
@@ -376,7 +374,7 @@ public class ContentPreviewViewer {
                 }
                 ContentPreviewViewer.this.popupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout2, -2, -2) { // from class: org.telegram.ui.ContentPreviewViewer.1.3
                     {
-                        AnonymousClass1.this = this;
+                        1.this = this;
                     }
 
                     @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
@@ -426,7 +424,7 @@ public class ContentPreviewViewer {
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ContentPreviewViewer.AnonymousClass1.this.lambda$run$2(valueAnimator);
+                        ContentPreviewViewer.1.this.lambda$run$2(valueAnimator);
                     }
                 });
                 ofFloat.setDuration(350L);
@@ -435,14 +433,13 @@ public class ContentPreviewViewer {
             }
         }
 
-        /* renamed from: org.telegram.ui.ContentPreviewViewer$1$1 */
         /* loaded from: classes3.dex */
-        class View$OnClickListenerC00351 implements View.OnClickListener {
+        class 1 implements View.OnClickListener {
             final /* synthetic */ ArrayList val$actions;
             final /* synthetic */ boolean val$inFavs;
 
-            View$OnClickListenerC00351(ArrayList arrayList, boolean z) {
-                AnonymousClass1.this = r1;
+            1(ArrayList arrayList, boolean z) {
+                1.this = r1;
                 this.val$actions = arrayList;
                 this.val$inFavs = z;
             }
@@ -509,7 +506,7 @@ public class ContentPreviewViewer {
                 AlertsCreator.createScheduleDatePickerDialog(ContentPreviewViewer.this.parentActivity, contentPreviewViewerDelegate.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda2
                     @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                     public final void didSelectDate(boolean z, int i) {
-                        ContentPreviewViewer.AnonymousClass1.lambda$run$0(ContentPreviewViewer.ContentPreviewViewerDelegate.this, tLRPC$Document, tLRPC$BotInlineResult, obj, z, i);
+                        ContentPreviewViewer.1.lambda$run$0(ContentPreviewViewer.ContentPreviewViewerDelegate.this, tLRPC$Document, tLRPC$BotInlineResult, obj, z, i);
                     }
                 }, ContentPreviewViewer.this.resourcesProvider);
             }

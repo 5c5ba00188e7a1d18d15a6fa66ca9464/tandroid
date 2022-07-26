@@ -86,11 +86,10 @@ final class m4 implements j$.util.u, Consumer {
     }
 
     @Override // j$.util.u
-    /* renamed from: trySplit */
-    public j$.util.u mo350trySplit() {
-        j$.util.u mo350trySplit = this.a.mo350trySplit();
-        if (mo350trySplit != null) {
-            return new m4(mo350trySplit, this.b);
+    public j$.util.u trySplit() {
+        j$.util.u trySplit = this.a.trySplit();
+        if (trySplit != null) {
+            return new m4(trySplit, this.b);
         }
         return null;
     }

@@ -142,9 +142,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     /* loaded from: classes3.dex */
     public interface ChatActionCellDelegate {
 
-        /* renamed from: org.telegram.ui.Cells.ChatActionCell$ChatActionCellDelegate$-CC */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$didClickImage(ChatActionCellDelegate chatActionCellDelegate, ChatActionCell chatActionCell) {
             }
 
@@ -294,7 +293,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver);
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
             }
         };
         this.starsPath = new Path();

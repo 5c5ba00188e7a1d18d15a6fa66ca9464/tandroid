@@ -28,8 +28,7 @@ public final /* synthetic */ class H0 implements j$.util.stream.g {
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: iterator */
-    public /* synthetic */ Iterator mo331iterator() {
+    public /* synthetic */ Iterator iterator() {
         return this.a.iterator();
     }
 
@@ -39,20 +38,17 @@ public final /* synthetic */ class H0 implements j$.util.stream.g {
     }
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* synthetic */ j$.util.stream.g mo332parallel() {
+    public /* synthetic */ j$.util.stream.g parallel() {
         return n0(this.a.parallel());
     }
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* synthetic */ j$.util.stream.g mo333sequential() {
+    public /* synthetic */ j$.util.stream.g sequential() {
         return n0(this.a.sequential());
     }
 
     @Override // j$.util.stream.g
-    /* renamed from: spliterator */
-    public /* synthetic */ j$.util.u mo334spliterator() {
+    public /* synthetic */ j$.util.u spliterator() {
         return g.a(this.a.spliterator());
     }
 

@@ -1401,7 +1401,7 @@ public class AndroidUtilities {
         VcardItem vcardItem;
         ArrayList<VcardItem> arrayList2 = arrayList;
         ArrayList<TLRPC$User> arrayList3 = null;
-        AnonymousClass1 anonymousClass1 = 0;
+        1 r3 = 0;
         if (z) {
             try {
                 createInputStream = ApplicationLoader.applicationContext.getContentResolver().openAssetFileDescriptor(uri, "r").createInputStream();
@@ -1466,7 +1466,7 @@ public class AndroidUtilities {
                                                     vcardItem = new VcardItem();
                                                     vcardItem.type = 20;
                                                 }
-                                                vcardItem2 = anonymousClass1;
+                                                vcardItem2 = r3;
                                                 if (vcardItem2 != null && vcardItem2.type >= 0) {
                                                     arrayList2.add(vcardItem2);
                                                 }
@@ -1486,7 +1486,7 @@ public class AndroidUtilities {
                             }
                             z2 = false;
                         }
-                        vcardItem2 = anonymousClass1;
+                        vcardItem2 = r3;
                         z2 = false;
                     }
                     if (!z2 && vcardData != null) {
@@ -1507,7 +1507,7 @@ public class AndroidUtilities {
                     String str4 = ContainerUtils.KEY_VALUE_DELIMITER;
                     if (contains && readLine.endsWith(str4)) {
                         str3 = readLine.substring(i2, readLine.length() - 1);
-                        anonymousClass1 = 0;
+                        r3 = 0;
                     } else {
                         if (!z2 && vcardData != null && vcardItem2 != null) {
                             vcardItem2.fullData = readLine;
@@ -1559,13 +1559,13 @@ public class AndroidUtilities {
                             }
                             arrayList2 = arrayList;
                             str3 = str2;
-                            anonymousClass1 = 0;
+                            r3 = 0;
                             i2 = 0;
                         }
                         str2 = str3;
                         arrayList2 = arrayList;
                         str3 = str2;
-                        anonymousClass1 = 0;
+                        r3 = 0;
                         i2 = 0;
                     }
                 }

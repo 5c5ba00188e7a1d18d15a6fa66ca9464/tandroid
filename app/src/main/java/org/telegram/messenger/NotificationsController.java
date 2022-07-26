@@ -7158,7 +7158,7 @@ public class NotificationsController extends BaseController {
                                                         notification = notification2;
                                                         longSparseArray3 = longSparseArray9;
                                                         arrayList3 = arrayList9;
-                                                        arrayList3.add(new C1NotificationHolder(num2.intValue(), longValue, str21, tLRPC$User4, tLRPC$Chat2, category, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                                        arrayList3.add(new 1NotificationHolder(num2.intValue(), longValue, str21, tLRPC$User4, tLRPC$Chat2, category, str2, jArr, i, uri, i2, z, z2, z3, i3));
                                                         notificationsController = this;
                                                         notificationsController.wearNotificationsIds.put(longValue, num2);
                                                         i16 = i18 + 1;
@@ -7621,7 +7621,7 @@ public class NotificationsController extends BaseController {
                                             notification = notification2;
                                             longSparseArray3 = longSparseArray92;
                                             arrayList3 = arrayList9;
-                                            arrayList3.add(new C1NotificationHolder(num2.intValue(), longValue, str212, tLRPC$User4, tLRPC$Chat2, category2, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                            arrayList3.add(new 1NotificationHolder(num2.intValue(), longValue, str212, tLRPC$User4, tLRPC$Chat2, category2, str2, jArr, i, uri, i2, z, z2, z3, i3));
                                             notificationsController = this;
                                             notificationsController.wearNotificationsIds.put(longValue, num2);
                                         }
@@ -7717,7 +7717,7 @@ public class NotificationsController extends BaseController {
                                 notification = notification2;
                                 longSparseArray3 = longSparseArray922;
                                 arrayList3 = arrayList9;
-                                arrayList3.add(new C1NotificationHolder(num2.intValue(), longValue, str2122, tLRPC$User4, tLRPC$Chat2, category22, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                                arrayList3.add(new 1NotificationHolder(num2.intValue(), longValue, str2122, tLRPC$User4, tLRPC$Chat2, category22, str2, jArr, i, uri, i2, z, z2, z3, i3));
                                 notificationsController = this;
                                 notificationsController.wearNotificationsIds.put(longValue, num2);
                             }
@@ -7858,7 +7858,7 @@ public class NotificationsController extends BaseController {
                     notification = notification22;
                     longSparseArray3 = longSparseArray9222;
                     arrayList3 = arrayList9;
-                    arrayList3.add(new C1NotificationHolder(num2.intValue(), longValue, str21222, tLRPC$User4, tLRPC$Chat2, category222, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                    arrayList3.add(new 1NotificationHolder(num2.intValue(), longValue, str21222, tLRPC$User4, tLRPC$Chat2, category222, str2, jArr, i, uri, i2, z, z2, z3, i3));
                     notificationsController = this;
                     notificationsController.wearNotificationsIds.put(longValue, num2);
                 } else {
@@ -8032,7 +8032,7 @@ public class NotificationsController extends BaseController {
                     notification = notification222;
                     longSparseArray3 = longSparseArray92222;
                     arrayList3 = arrayList9;
-                    arrayList3.add(new C1NotificationHolder(num2.intValue(), longValue, str212222, tLRPC$User4, tLRPC$Chat2, category2222, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                    arrayList3.add(new 1NotificationHolder(num2.intValue(), longValue, str212222, tLRPC$User4, tLRPC$Chat2, category2222, str2, jArr, i, uri, i2, z, z2, z3, i3));
                     notificationsController = this;
                     notificationsController.wearNotificationsIds.put(longValue, num2);
                 }
@@ -8191,7 +8191,7 @@ public class NotificationsController extends BaseController {
                 notification = notification2222;
                 longSparseArray3 = longSparseArray922222;
                 arrayList3 = arrayList9;
-                arrayList3.add(new C1NotificationHolder(num2.intValue(), longValue, str2122222, tLRPC$User4, tLRPC$Chat2, category22222, str2, jArr, i, uri, i2, z, z2, z3, i3));
+                arrayList3.add(new 1NotificationHolder(num2.intValue(), longValue, str2122222, tLRPC$User4, tLRPC$Chat2, category22222, str2, jArr, i, uri, i2, z, z2, z3, i3));
                 notificationsController = this;
                 notificationsController.wearNotificationsIds.put(longValue, num2);
             }
@@ -8242,20 +8242,20 @@ public class NotificationsController extends BaseController {
         int size5 = arrayList13.size();
         int i28 = 0;
         while (i28 < size5) {
-            C1NotificationHolder c1NotificationHolder = (C1NotificationHolder) arrayList13.get(i28);
+            1NotificationHolder r2 = (1NotificationHolder) arrayList13.get(i28);
             arrayList14.clear();
-            if (Build.VERSION.SDK_INT < 29 || DialogObject.isEncryptedDialog(c1NotificationHolder.dialogId)) {
+            if (Build.VERSION.SDK_INT < 29 || DialogObject.isEncryptedDialog(r2.dialogId)) {
                 longSparseArray = longSparseArray11;
             } else {
-                NotificationCompat.Builder builder2 = c1NotificationHolder.notification;
-                long j7 = c1NotificationHolder.dialogId;
+                NotificationCompat.Builder builder2 = r2.notification;
+                long j7 = r2.dialogId;
                 longSparseArray = longSparseArray11;
-                String createNotificationShortcut = createNotificationShortcut(builder2, j7, c1NotificationHolder.name, c1NotificationHolder.user, c1NotificationHolder.chat, (Person) longSparseArray.get(j7));
+                String createNotificationShortcut = createNotificationShortcut(builder2, j7, r2.name, r2.user, r2.chat, (Person) longSparseArray.get(j7));
                 if (createNotificationShortcut != null) {
                     arrayList14.add(createNotificationShortcut);
                 }
             }
-            c1NotificationHolder.call();
+            r2.call();
             if (!unsupportedNotificationShortcut() && !arrayList14.isEmpty()) {
                 ShortcutManagerCompat.removeDynamicShortcuts(ApplicationLoader.applicationContext, arrayList14);
             }
@@ -8265,9 +8265,8 @@ public class NotificationsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.NotificationsController$1NotificationHolder  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class C1NotificationHolder {
+    public class 1NotificationHolder {
         TLRPC$Chat chat;
         long dialogId;
         int id;
@@ -8284,7 +8283,7 @@ public class NotificationsController extends BaseController {
         final /* synthetic */ Uri val$sound;
         final /* synthetic */ long[] val$vibrationPattern;
 
-        C1NotificationHolder(int i, long j, String str, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, NotificationCompat.Builder builder, String str2, long[] jArr, int i2, Uri uri, int i3, boolean z, boolean z2, boolean z3, int i4) {
+        1NotificationHolder(int i, long j, String str, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, NotificationCompat.Builder builder, String str2, long[] jArr, int i2, Uri uri, int i3, boolean z, boolean z2, boolean z3, int i4) {
             this.val$chatName = str2;
             this.val$vibrationPattern = jArr;
             this.val$ledColor = i2;

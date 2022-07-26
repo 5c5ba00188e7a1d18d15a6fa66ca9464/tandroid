@@ -50,9 +50,9 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
     @Override // com.google.android.exoplayer2.RendererCapabilities
     public int supportsFormat(Format format) {
         if (this.decoderFactory.supportsFormat(format)) {
-            return RendererCapabilities.CC.create(BaseRenderer.supportsFormatDrm(null, format.drmInitData) ? 4 : 2);
+            return RendererCapabilities.-CC.create(BaseRenderer.supportsFormatDrm(null, format.drmInitData) ? 4 : 2);
         }
-        return RendererCapabilities.CC.create(0);
+        return RendererCapabilities.-CC.create(0);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

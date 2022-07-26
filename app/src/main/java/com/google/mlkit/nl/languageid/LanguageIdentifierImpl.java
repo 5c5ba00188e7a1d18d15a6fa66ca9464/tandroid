@@ -54,7 +54,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
 
     static LanguageIdentifier zza(LanguageIdentificationOptions languageIdentificationOptions, LanguageIdentificationJni languageIdentificationJni, zzcv zzcvVar, ExecutorSelector executorSelector) {
         LanguageIdentifierImpl languageIdentifierImpl = new LanguageIdentifierImpl(languageIdentificationOptions, languageIdentificationJni, zzcvVar, executorSelector.getExecutorToUse(languageIdentificationOptions.zzc()));
-        languageIdentifierImpl.zzb.zza(zzy$zzad.zzb().zza(true).zza(zzy$zzau.zza().zza(languageIdentifierImpl.zza.zza())), zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_CREATE);
+        languageIdentifierImpl.zzb.zza(zzy$zzad.zzb().zza(true).zza(zzy$zzau.zza().zza(languageIdentifierImpl.zza.zza())), zzaj.zzb);
         languageIdentifierImpl.zzd.get().pin();
         return languageIdentifierImpl;
     }
@@ -121,7 +121,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
             public final zzy$zzad.zza zza() {
                 return this.zza.zza(this.zzb, this.zzc, this.zzd, this.zze, this.zzf);
             }
-        }, zzaj.ON_DEVICE_LANGUAGE_IDENTIFICATION_DETECT);
+        }, zzaj.zza);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -148,10 +148,10 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
             } else {
                 zzcVar = (zzy$zzau.zzc) ((zzeo) zzy$zzau.zzc.zza().zza(zzy$zzau.zzb.zza().zza(zza)).zzg());
             }
-            zza(elapsedRealtime, z, (zzy$zzau.zzd) null, zzcVar, zzai.NO_ERROR);
+            zza(elapsedRealtime, z, (zzy$zzau.zzd) null, zzcVar, zzai.zza);
             return zza;
         } catch (RuntimeException e) {
-            zza(elapsedRealtime, z, (zzy$zzau.zzd) null, zzy$zzau.zzc.zzb(), zzai.UNKNOWN_ERROR);
+            zza(elapsedRealtime, z, (zzy$zzau.zzd) null, zzy$zzau.zzc.zzb(), zzai.zzb);
             throw e;
         }
     }

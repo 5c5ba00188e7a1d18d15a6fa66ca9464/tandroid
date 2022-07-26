@@ -404,7 +404,7 @@ public class FileLoader extends BaseController {
         if (z2) {
             fileUploadOperation.setForceSmallFile();
         }
-        fileUploadOperation.setDelegate(new AnonymousClass1(z, str, z3));
+        fileUploadOperation.setDelegate(new 1(z, str, z3));
         if (z3) {
             int i2 = this.currentUploadSmallOperationsCount;
             if (i2 < 1) {
@@ -425,14 +425,13 @@ public class FileLoader extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.FileLoader$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass1 implements FileUploadOperation.FileUploadOperationDelegate {
+    public class 1 implements FileUploadOperation.FileUploadOperationDelegate {
         final /* synthetic */ boolean val$encrypted;
         final /* synthetic */ String val$location;
         final /* synthetic */ boolean val$small;
 
-        AnonymousClass1(boolean z, String str, boolean z2) {
+        1(boolean z, String str, boolean z2) {
             this.val$encrypted = z;
             this.val$location = str;
             this.val$small = z2;
@@ -447,7 +446,7 @@ public class FileLoader extends BaseController {
             dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoader$1$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FileLoader.AnonymousClass1.this.lambda$didFinishUploadingFile$0(z, str, z2, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, fileUploadOperation);
+                    FileLoader.1.this.lambda$didFinishUploadingFile$0(z, str, z2, tLRPC$InputFile, tLRPC$InputEncryptedFile, bArr, bArr2, fileUploadOperation);
                 }
             });
         }
@@ -488,7 +487,7 @@ public class FileLoader extends BaseController {
             dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoader$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FileLoader.AnonymousClass1.this.lambda$didFailedUploadingFile$1(z, str, z2);
+                    FileLoader.1.this.lambda$didFailedUploadingFile$1(z, str, z2);
                 }
             });
         }
@@ -2222,7 +2221,7 @@ public class FileLoader extends BaseController {
         private LoadOperationUIObject() {
         }
 
-        /* synthetic */ LoadOperationUIObject(AnonymousClass1 anonymousClass1) {
+        /* synthetic */ LoadOperationUIObject(1 r1) {
             this();
         }
     }

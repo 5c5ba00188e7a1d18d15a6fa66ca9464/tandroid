@@ -222,7 +222,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
 
                         @Override // org.telegram.tgnet.ResultCallback
                         public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-                            ResultCallback.CC.$default$onError(this, tLRPC$TL_error);
+                            ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
                         }
                     });
                 }
@@ -245,7 +245,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
 
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
-                                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver2);
+                                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
                             }
                         });
                         ImageLoader.getInstance().loadImageForImageReceiver(imageReceiver);

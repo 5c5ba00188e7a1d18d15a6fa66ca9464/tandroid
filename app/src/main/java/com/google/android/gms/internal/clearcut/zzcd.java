@@ -1,10 +1,10 @@
 package com.google.android.gms.internal.clearcut;
 /* loaded from: classes.dex */
 enum zzcd {
-    SCALAR(false),
-    VECTOR(true),
-    PACKED_VECTOR(true),
-    MAP(false);
+    zzjg(false),
+    zzjh(true),
+    zzji(true),
+    zzjj(false);
 
     zzcd(boolean z) {
     }

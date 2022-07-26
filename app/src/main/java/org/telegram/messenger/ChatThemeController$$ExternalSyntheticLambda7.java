@@ -17,6 +17,6 @@ public final /* synthetic */ class ChatThemeController$$ExternalSyntheticLambda7
 
     @Override // org.telegram.tgnet.ResultCallback
     public /* synthetic */ void onError(TLRPC$TL_error tLRPC$TL_error) {
-        ResultCallback.CC.$default$onError(this, tLRPC$TL_error);
+        ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
     }
 }

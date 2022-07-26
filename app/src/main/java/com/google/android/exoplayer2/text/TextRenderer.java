@@ -49,11 +49,11 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
     @Override // com.google.android.exoplayer2.RendererCapabilities
     public int supportsFormat(Format format) {
         if (this.decoderFactory.supportsFormat(format)) {
-            return RendererCapabilities.CC.create(BaseRenderer.supportsFormatDrm(null, format.drmInitData) ? 4 : 2);
+            return RendererCapabilities.-CC.create(BaseRenderer.supportsFormatDrm(null, format.drmInitData) ? 4 : 2);
         } else if (MimeTypes.isText(format.sampleMimeType)) {
-            return RendererCapabilities.CC.create(1);
+            return RendererCapabilities.-CC.create(1);
         } else {
-            return RendererCapabilities.CC.create(0);
+            return RendererCapabilities.-CC.create(0);
         }
     }
 
@@ -85,7 +85,7 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         if (this.nextSubtitle == null) {
             this.decoder.setPositionUs(j);
             try {
-                this.nextSubtitle = this.decoder.mo167dequeueOutputBuffer();
+                this.nextSubtitle = this.decoder.dequeueOutputBuffer();
             } catch (SubtitleDecoderException e) {
                 handleDecoderError(e);
                 return;
@@ -137,9 +137,9 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         while (!this.inputStreamEnded) {
             try {
                 if (this.nextInputBuffer == null) {
-                    SubtitleInputBuffer mo166dequeueInputBuffer = this.decoder.mo166dequeueInputBuffer();
-                    this.nextInputBuffer = mo166dequeueInputBuffer;
-                    if (mo166dequeueInputBuffer == null) {
+                    SubtitleInputBuffer dequeueInputBuffer = this.decoder.dequeueInputBuffer();
+                    this.nextInputBuffer = dequeueInputBuffer;
+                    if (dequeueInputBuffer == null) {
                         return;
                     }
                 }

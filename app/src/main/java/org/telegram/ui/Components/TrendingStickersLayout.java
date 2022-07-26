@@ -729,8 +729,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         /* JADX WARN: Type inference failed for: r7v6, types: [android.view.View] */
         /* JADX WARN: Type inference failed for: r8v9, types: [org.telegram.ui.Cells.FeaturedStickerSetCell2] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             FeaturedStickerSetInfoCell featuredStickerSetInfoCell;
             if (i == 0) {

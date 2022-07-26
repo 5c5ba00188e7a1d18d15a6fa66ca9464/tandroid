@@ -31,7 +31,7 @@ public final class ConnectService {
 
         @Override // com.huawei.hms.support.api.PendingResultImpl
         /* renamed from: a */
-        public ResolveResult<ConnectResp> mo234onComplete(ConnectResp connectResp) {
+        public ResolveResult<ConnectResp> onComplete(ConnectResp connectResp) {
             ResolveResult<ConnectResp> resolveResult = new ResolveResult<>(connectResp);
             resolveResult.setStatus(Status.SUCCESS);
             HMSLog.d("connectservice", "connect - onComplete: success");
@@ -53,7 +53,7 @@ public final class ConnectService {
 
         @Override // com.huawei.hms.support.api.PendingResultImpl
         /* renamed from: a */
-        public ResolveResult<ConnectResp> mo234onComplete(ConnectResp connectResp) {
+        public ResolveResult<ConnectResp> onComplete(ConnectResp connectResp) {
             ResolveResult<ConnectResp> resolveResult = new ResolveResult<>(connectResp);
             resolveResult.setStatus(Status.SUCCESS);
             HMSLog.d("connectservice", "forceConnect - onComplete: success");
@@ -75,7 +75,7 @@ public final class ConnectService {
 
         @Override // com.huawei.hms.support.api.PendingResultImpl
         /* renamed from: a */
-        public ResolveResult<JosGetNoticeResp> mo234onComplete(JosGetNoticeResp josGetNoticeResp) {
+        public ResolveResult<JosGetNoticeResp> onComplete(JosGetNoticeResp josGetNoticeResp) {
             if (josGetNoticeResp == null) {
                 HMSLog.e("connectservice", "JosNoticeResp is null");
                 return null;

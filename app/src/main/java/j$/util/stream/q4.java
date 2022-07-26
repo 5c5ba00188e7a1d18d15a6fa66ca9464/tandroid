@@ -65,8 +65,7 @@ final class q4 extends f4 implements u.a {
     }
 
     @Override // j$.util.stream.f4, j$.util.u
-    /* renamed from: trySplit */
-    public u.a mo350trySplit() {
-        return (u.a) super.mo350trySplit();
+    public u.a trySplit() {
+        return (u.a) super.trySplit();
     }
 }

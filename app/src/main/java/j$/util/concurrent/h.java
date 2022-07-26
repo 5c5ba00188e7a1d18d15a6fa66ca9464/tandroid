@@ -21,7 +21,7 @@ final class h implements v {
 
     @Override // j$.util.v, j$.util.w, j$.util.u
     /* renamed from: a */
-    public h mo350trySplit() {
+    public h trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
         if (j2 <= j) {

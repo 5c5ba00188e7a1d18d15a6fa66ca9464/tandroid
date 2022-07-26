@@ -78,7 +78,7 @@ public class AboutLinkCell extends FrameLayout {
     private boolean needSpace = false;
     private Paint backgroundPaint = new Paint();
     final float SPACE = AndroidUtilities.dp(3.0f);
-    Runnable longPressedRunnable = new AnonymousClass3();
+    Runnable longPressedRunnable = new 3();
     private float expandT = 0.0f;
     private int lastMaxWidth = 0;
     private boolean shouldExpand = false;
@@ -412,10 +412,9 @@ public class AboutLinkCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Cells.AboutLinkCell$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements Runnable {
-        AnonymousClass3() {
+    public class 3 implements Runnable {
+        3() {
         }
 
         @Override // java.lang.Runnable
@@ -432,13 +431,13 @@ public class AboutLinkCell extends FrameLayout {
                 builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$3$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
-                        AboutLinkCell.AnonymousClass3.this.lambda$run$0(clickableSpan, url, dialogInterface, i);
+                        AboutLinkCell.3.this.lambda$run$0(clickableSpan, url, dialogInterface, i);
                     }
                 });
                 builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$3$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnDismissListener
                     public final void onDismiss(DialogInterface dialogInterface) {
-                        AboutLinkCell.AnonymousClass3.this.lambda$run$1(dialogInterface);
+                        AboutLinkCell.3.this.lambda$run$1(dialogInterface);
                     }
                 });
                 builder.show();

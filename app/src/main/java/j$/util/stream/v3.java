@@ -32,7 +32,7 @@ public class v3 extends b1 {
             d = B3.d(j, this.m);
             return new y4(vVar, j, d);
         }
-        return !d4.ORDERED.d(y2Var.s0()) ? N0((j$.util.v) y2Var.w0(uVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, uVar, t3.a, this.l, this.m).invoke()).mo313spliterator();
+        return !d4.ORDERED.d(y2Var.s0()) ? N0((j$.util.v) y2Var.w0(uVar), this.l, this.m, q0) : ((A1) new A3(this, y2Var, uVar, t3.a, this.l, this.m).invoke()).spliterator();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

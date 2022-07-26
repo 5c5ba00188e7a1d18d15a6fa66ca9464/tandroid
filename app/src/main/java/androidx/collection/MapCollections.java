@@ -44,7 +44,7 @@ public abstract class MapCollections<K, V> {
 
         @Override // j$.util.Iterator
         public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.CC.$default$forEachRemaining(this, consumer);
+            Iterator.-CC.$default$forEachRemaining(this, consumer);
         }
 
         ArrayIterator(int i) {
@@ -58,8 +58,7 @@ public abstract class MapCollections<K, V> {
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
-        /* renamed from: next */
-        public T mo335next() {
+        public T next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -90,7 +89,7 @@ public abstract class MapCollections<K, V> {
 
         @Override // j$.util.Iterator
         public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.CC.$default$forEachRemaining(this, consumer);
+            Iterator.-CC.$default$forEachRemaining(this, consumer);
         }
 
         MapIterator() {
@@ -103,8 +102,7 @@ public abstract class MapCollections<K, V> {
         }
 
         @Override // java.util.Iterator, j$.util.Iterator
-        /* renamed from: next  reason: collision with other method in class */
-        public Map.Entry<K, V> mo335next() {
+        public Map.Entry<K, V> next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }

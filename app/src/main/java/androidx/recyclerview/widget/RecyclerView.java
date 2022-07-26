@@ -4445,8 +4445,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
         public abstract void onBindViewHolder(VH vh, int i);
 
-        /* renamed from: onCreateViewHolder */
-        public abstract VH mo1741onCreateViewHolder(ViewGroup viewGroup, int i);
+        public abstract VH onCreateViewHolder(ViewGroup viewGroup, int i);
 
         public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         }
@@ -4471,12 +4470,12 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         public final VH createViewHolder(ViewGroup viewGroup, int i) {
             try {
                 TraceCompat.beginSection("RV CreateView");
-                VH mo1741onCreateViewHolder = mo1741onCreateViewHolder(viewGroup, i);
-                if (mo1741onCreateViewHolder.itemView.getParent() != null) {
+                VH onCreateViewHolder = onCreateViewHolder(viewGroup, i);
+                if (onCreateViewHolder.itemView.getParent() != null) {
                     throw new IllegalStateException("ViewHolder views must not be attached when created. Ensure that you are not passing 'true' to the attachToRoot parameter of LayoutInflater.inflate(..., boolean attachToRoot)");
                 }
-                mo1741onCreateViewHolder.mItemViewType = i;
-                return mo1741onCreateViewHolder;
+                onCreateViewHolder.mItemViewType = i;
+                return onCreateViewHolder;
             } finally {
                 TraceCompat.endSection();
             }
@@ -6458,22 +6457,18 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator<SavedState>() { // from class: androidx.recyclerview.widget.RecyclerView.SavedState.1
-            /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.ClassLoaderCreator
-            /* renamed from: createFromParcel */
-            public SavedState mo29createFromParcel(Parcel parcel, ClassLoader classLoader) {
+            public SavedState createFromParcel(Parcel parcel, ClassLoader classLoader) {
                 return new SavedState(parcel, classLoader);
             }
 
             @Override // android.os.Parcelable.Creator
-            /* renamed from: createFromParcel */
-            public SavedState mo28createFromParcel(Parcel parcel) {
+            public SavedState createFromParcel(Parcel parcel) {
                 return new SavedState(parcel, null);
             }
 
             @Override // android.os.Parcelable.Creator
-            /* renamed from: newArray */
-            public SavedState[] mo30newArray(int i) {
+            public SavedState[] newArray(int i) {
                 return new SavedState[i];
             }
         };

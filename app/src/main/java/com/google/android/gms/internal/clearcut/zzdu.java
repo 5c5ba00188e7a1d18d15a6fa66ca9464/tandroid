@@ -50,7 +50,7 @@ final class zzdu<T> implements zzef<T> {
         while (it.hasNext()) {
             Map.Entry<?, Object> next = it.next();
             zzca zzcaVar = (zzca) next.getKey();
-            if (zzcaVar.zzav() != zzfq.MESSAGE || zzcaVar.zzaw() || zzcaVar.zzax()) {
+            if (zzcaVar.zzav() != zzfq.zzrf || zzcaVar.zzaw() || zzcaVar.zzax()) {
                 throw new IllegalStateException("Found invalid MessageSet item.");
             }
             zzfrVar.zza(zzcaVar.zzc(), next instanceof zzct ? ((zzct) next).zzbs().zzr() : next.getValue());

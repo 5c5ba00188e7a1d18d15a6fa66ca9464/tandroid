@@ -16,17 +16,13 @@ public class DataBuffer implements Parcelable {
         a() {
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public DataBuffer mo222createFromParcel(Parcel parcel) {
+        public DataBuffer createFromParcel(Parcel parcel) {
             return new DataBuffer(parcel, (a) null);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public DataBuffer[] mo223newArray(int i) {
+        public DataBuffer[] newArray(int i) {
             return new DataBuffer[i];
         }
     }

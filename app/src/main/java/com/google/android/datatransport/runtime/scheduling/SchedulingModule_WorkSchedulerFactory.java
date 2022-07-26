@@ -23,9 +23,8 @@ public final class SchedulingModule_WorkSchedulerFactory implements Factory<Work
     }
 
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public WorkScheduler mo70get() {
-        return workScheduler(this.contextProvider.mo70get(), this.eventStoreProvider.mo70get(), this.configProvider.mo70get(), this.clockProvider.mo70get());
+    public WorkScheduler get() {
+        return workScheduler(this.contextProvider.get(), this.eventStoreProvider.get(), this.configProvider.get(), this.clockProvider.get());
     }
 
     public static SchedulingModule_WorkSchedulerFactory create(Provider<Context> provider, Provider<EventStore> provider2, Provider<SchedulerConfig> provider3, Provider<Clock> provider4) {

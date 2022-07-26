@@ -134,10 +134,9 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.RLottieDrawable$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements Runnable {
-        AnonymousClass3() {
+    public class 3 implements Runnable {
+        3() {
         }
 
         @Override // java.lang.Runnable
@@ -158,7 +157,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$3$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        RLottieDrawable.AnonymousClass3.this.lambda$run$0();
+                        RLottieDrawable.3.this.lambda$run$0();
                     }
                 };
                 rLottieDrawable3.cacheGenerateTask = runnable;
@@ -278,7 +277,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 }
             }
         };
-        this.uiRunnableGenerateCache = new AnonymousClass3();
+        this.uiRunnableGenerateCache = new 3();
         this.uiRunnableCacheFinished = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.4
             @Override // java.lang.Runnable
             public void run() {
@@ -542,7 +541,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 }
             }
         };
-        this.uiRunnableGenerateCache = new AnonymousClass3();
+        this.uiRunnableGenerateCache = new 3();
         this.uiRunnableCacheFinished = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.4
             @Override // java.lang.Runnable
             public void run() {
@@ -809,7 +808,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 }
             }
         };
-        this.uiRunnableGenerateCache = new AnonymousClass3();
+        this.uiRunnableGenerateCache = new 3();
         this.uiRunnableCacheFinished = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.4
             @Override // java.lang.Runnable
             public void run() {
@@ -1170,7 +1169,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 }
             }
         };
-        this.uiRunnableGenerateCache = new AnonymousClass3();
+        this.uiRunnableGenerateCache = new 3();
         this.uiRunnableCacheFinished = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.4
             @Override // java.lang.Runnable
             public void run() {

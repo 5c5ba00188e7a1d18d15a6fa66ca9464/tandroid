@@ -134,7 +134,7 @@ public abstract class StreamReader {
             onSeekEnd(-(read + 2));
         }
         if (!this.seekMapSet) {
-            this.extractorOutput.seekMap(this.oggSeeker.mo94createSeekMap());
+            this.extractorOutput.seekMap(this.oggSeeker.createSeekMap());
             this.seekMapSet = true;
         }
         if (this.lengthOfReadPacket > 0 || this.oggPacket.populate(extractorInput)) {
@@ -188,8 +188,7 @@ public abstract class StreamReader {
         }
 
         @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
-        /* renamed from: createSeekMap */
-        public SeekMap mo94createSeekMap() {
+        public SeekMap createSeekMap() {
             return new SeekMap.Unseekable(-9223372036854775807L);
         }
     }

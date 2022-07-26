@@ -196,7 +196,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraFirstFrameAvailable() {
-        VoIPService.StateListener.CC.$default$onCameraFirstFrameAvailable(this);
+        VoIPService.StateListener.-CC.$default$onCameraFirstFrameAvailable(this);
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
@@ -710,7 +710,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver) {
-                ImageReceiver.ImageReceiverDelegate.CC.$default$onAnimationReady(this, imageReceiver);
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver);
             }
         });
         this.callingUserPhotoView.setImage(ImageLocation.getForUserOrChat(this.callingUser, 0), (String) null, backgroundGradientDrawable, this.callingUser);
@@ -1112,14 +1112,13 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.VoIPFragment$10  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass10 implements RendererCommon.RendererEvents {
+    public class 10 implements RendererCommon.RendererEvents {
         @Override // org.webrtc.RendererCommon.RendererEvents
         public void onFrameResolutionChanged(int i, int i2, int i3) {
         }
 
-        AnonymousClass10() {
+        10() {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1132,27 +1131,26 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.VoIPFragment$10$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPFragment.AnonymousClass10.this.lambda$onFirstFrameRendered$0();
+                    VoIPFragment.10.this.lambda$onFirstFrameRendered$0();
                 }
             });
         }
     }
 
     private void initRenderers() {
-        this.currentUserTextureView.renderer.init(VideoCapturerDevice.getEglBase().mo2309getEglBaseContext(), new AnonymousClass10());
-        this.callingUserTextureView.renderer.init(VideoCapturerDevice.getEglBase().mo2309getEglBaseContext(), new AnonymousClass11(), EglBase.CONFIG_PLAIN, new GlRectDrawer());
-        this.callingUserMiniTextureRenderer.init(VideoCapturerDevice.getEglBase().mo2309getEglBaseContext(), null);
+        this.currentUserTextureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new 10());
+        this.callingUserTextureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new 11(), EglBase.CONFIG_PLAIN, new GlRectDrawer());
+        this.callingUserMiniTextureRenderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), null);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.VoIPFragment$11  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass11 implements RendererCommon.RendererEvents {
+    public class 11 implements RendererCommon.RendererEvents {
         @Override // org.webrtc.RendererCommon.RendererEvents
         public void onFrameResolutionChanged(int i, int i2, int i3) {
         }
 
-        AnonymousClass11() {
+        11() {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1165,7 +1163,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.VoIPFragment$11$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPFragment.AnonymousClass11.this.lambda$onFirstFrameRendered$0();
+                    VoIPFragment.11.this.lambda$onFirstFrameRendered$0();
                 }
             });
         }
@@ -1209,17 +1207,16 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         this.switchingToPip = true;
         Animator createPiPTransition = createPiPTransition(false);
         this.animationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.animationIndex, null);
-        createPiPTransition.addListener(new AnonymousClass12());
+        createPiPTransition.addListener(new 12());
         createPiPTransition.setDuration(350L);
         createPiPTransition.setInterpolator(cubicBezierInterpolator);
         createPiPTransition.start();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.VoIPFragment$12  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass12 extends AnimatorListenerAdapter {
-        AnonymousClass12() {
+    public class 12 extends AnimatorListenerAdapter {
+        12() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1228,7 +1225,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.VoIPFragment$12$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPFragment.AnonymousClass12.this.lambda$onAnimationEnd$0();
+                    VoIPFragment.12.this.lambda$onAnimationEnd$0();
                 }
             }, 200L);
         }

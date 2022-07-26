@@ -202,7 +202,7 @@ public final class zziu<T extends zziw<T>> {
 
     private static <T extends zziw<T>> boolean zza(Map.Entry<T, Object> entry) {
         T key = entry.getKey();
-        if (key.zzc() == zzmo.MESSAGE) {
+        if (key.zzc() == zzmo.zzi) {
             if (key.zzd()) {
                 for (zzkk zzkkVar : (List) entry.getValue()) {
                     if (!zzkkVar.zzk()) {
@@ -264,7 +264,7 @@ public final class zziu<T extends zziw<T>> {
                 ((List) zza).add(zza(obj));
             }
             this.zza.zza((zzlh<T, Object>) key, (T) zza);
-        } else if (key.zzc() == zzmo.MESSAGE) {
+        } else if (key.zzc() == zzmo.zzi) {
             Object zza2 = zza((zziu<T>) key);
             if (zza2 == null) {
                 this.zza.zza((zzlh<T, Object>) key, (T) zza(value));
@@ -295,7 +295,7 @@ public final class zziu<T extends zziw<T>> {
     private static int zzc(Map.Entry<T, Object> entry) {
         T key = entry.getKey();
         Object value = entry.getValue();
-        if (key.zzc() == zzmo.MESSAGE && !key.zzd() && !key.zze()) {
+        if (key.zzc() == zzmo.zzi && !key.zzd() && !key.zze()) {
             if (value instanceof zzjp) {
                 return zzii.zzb(entry.getKey().zza(), (zzjp) value);
             }
@@ -306,7 +306,7 @@ public final class zziu<T extends zziw<T>> {
 
     static int zza(zzml zzmlVar, int i, Object obj) {
         int zze = zzii.zze(i);
-        if (zzmlVar == zzml.GROUP) {
+        if (zzmlVar == zzml.zzj) {
             zzjf.zza((zzkk) obj);
             zze <<= 1;
         }

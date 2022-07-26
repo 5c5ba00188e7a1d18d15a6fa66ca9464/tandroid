@@ -336,7 +336,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     public final SharedUIParams sharedUIParams = new SharedUIParams();
     private ArrayList<TLRPC$PhoneCall> pendingUpdates = new ArrayList<>();
     private HashMap<String, Integer> currentStreamRequestTimestamp = new HashMap<>();
-    private Runnable afterSoundRunnable = new AnonymousClass1();
+    private Runnable afterSoundRunnable = new 1();
     private BluetoothProfile.ServiceListener serviceListener = new BluetoothProfile.ServiceListener() { // from class: org.telegram.messenger.voip.VoIPService.2
         @Override // android.bluetooth.BluetoothProfile.ServiceListener
         public void onServiceDisconnected(int i) {
@@ -463,9 +463,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     /* loaded from: classes.dex */
     public interface StateListener {
 
-        /* renamed from: org.telegram.messenger.voip.VoIPService$StateListener$-CC  reason: invalid class name */
         /* loaded from: classes.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onAudioSettingsChanged(StateListener stateListener) {
             }
 
@@ -533,10 +532,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.voip.VoIPService$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
-        AnonymousClass1() {
+    public class 1 implements Runnable {
+        1() {
         }
 
         @Override // java.lang.Runnable
@@ -556,13 +554,13 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$1$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPService.AnonymousClass1.this.lambda$run$0();
+                    VoIPService.1.this.lambda$run$0();
                 }
             });
             Utilities.globalQueue.postRunnable(VoIPService.setModeRunnable = new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPService.AnonymousClass1.lambda$run$1(audioManager);
+                    VoIPService.1.lambda$run$1(audioManager);
                 }
             });
         }
@@ -692,23 +690,22 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 tLRPC$TL_groupCallParticipant.hasCameraFrame = 1;
             }
             this.waitingFrameParticipant.put(str, tLRPC$TL_groupCallParticipant);
-            addRemoteSink(tLRPC$TL_groupCallParticipant, z, new AnonymousClass5(str, z), null);
+            addRemoteSink(tLRPC$TL_groupCallParticipant, z, new 5(str, z), null);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.voip.VoIPService$5  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass5 implements VideoSink {
+    public class 5 implements VideoSink {
         final /* synthetic */ String val$endpointId;
         final /* synthetic */ boolean val$screencast;
 
         @Override // org.webrtc.VideoSink
         public /* synthetic */ void setParentSink(VideoSink videoSink) {
-            VideoSink.CC.$default$setParentSink(this, videoSink);
+            VideoSink.-CC.$default$setParentSink(this, videoSink);
         }
 
-        AnonymousClass5(String str, boolean z) {
+        5(String str, boolean z) {
             this.val$endpointId = str;
             this.val$screencast = z;
         }
@@ -723,7 +720,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$5$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPService.AnonymousClass5.this.lambda$onFrame$0(str, this, z);
+                    VoIPService.5.this.lambda$onFrame$0(str, this, z);
                 }
             });
         }
@@ -774,7 +771,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
         @Override // org.webrtc.VideoSink
         public /* synthetic */ void setParentSink(VideoSink videoSink) {
-            VideoSink.CC.$default$setParentSink(this, videoSink);
+            VideoSink.-CC.$default$setParentSink(this, videoSink);
         }
 
         @Override // org.webrtc.VideoSink
@@ -2821,7 +2818,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v7, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v9, types: [int, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r0v9, types: [java.lang.String, int] */
     public /* synthetic */ void lambda$createGroupInstance$45(final int i, final long j, long j2, final int i2, final int i3) {
         StringBuilder sb;
         if (i != 0) {
@@ -3926,17 +3923,16 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         int play = this.soundPool.play(this.spConnectingId, 1.0f, 1.0f, 0, -1, 1.0f);
         this.spPlayId = play;
         if (play == 0) {
-            AnonymousClass7 anonymousClass7 = new AnonymousClass7();
-            this.connectingSoundRunnable = anonymousClass7;
-            AndroidUtilities.runOnUIThread(anonymousClass7, 100L);
+            7 r0 = new 7();
+            this.connectingSoundRunnable = r0;
+            AndroidUtilities.runOnUIThread(r0, 100L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.voip.VoIPService$7  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass7 implements Runnable {
-        AnonymousClass7() {
+    public class 7 implements Runnable {
+        7() {
         }
 
         @Override // java.lang.Runnable
@@ -3947,7 +3943,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoIPService$7$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    VoIPService.AnonymousClass7.this.lambda$run$0();
+                    VoIPService.7.this.lambda$run$0();
                 }
             });
         }

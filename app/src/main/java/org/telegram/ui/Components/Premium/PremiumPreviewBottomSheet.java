@@ -226,8 +226,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             Context context = viewGroup.getContext();
             if (i == 0) {
@@ -516,7 +515,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                 PremiumPreviewBottomSheet.this.lambda$onCustomOpenAnimation$3(valueAnimator);
             }
         });
-        this.enterAnimator.addListener(new AnonymousClass2());
+        this.enterAnimator.addListener(new 2());
         this.enterAnimator.setDuration(600L);
         this.enterAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.enterAnimator.start();
@@ -530,10 +529,9 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$2  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass2 extends AnimatorListenerAdapter {
-        AnonymousClass2() {
+    public class 2 extends AnimatorListenerAdapter {
+        2() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -547,7 +545,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
             ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$2$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    PremiumPreviewBottomSheet.AnonymousClass2.this.lambda$onAnimationEnd$0(rightDrawable, valueAnimator);
+                    PremiumPreviewBottomSheet.2.this.lambda$onAnimationEnd$0(rightDrawable, valueAnimator);
                 }
             });
             ofInt.start();

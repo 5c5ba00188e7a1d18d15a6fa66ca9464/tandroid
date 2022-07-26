@@ -5183,9 +5183,8 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaDataController$1  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass1 implements Runnable {
+    public class 1 implements Runnable {
         final /* synthetic */ int val$classGuid;
         final /* synthetic */ int val$count;
         final /* synthetic */ int val$fromCache;
@@ -5196,7 +5195,7 @@ public class MediaDataController extends BaseController {
         final /* synthetic */ int val$type;
         final /* synthetic */ long val$uid;
 
-        AnonymousClass1(int i, long j, int i2, int i3, int i4, int i5, int i6, boolean z, int i7) {
+        1(int i, long j, int i2, int i3, int i4, int i5, int i6, boolean z, int i7) {
             this.val$count = i;
             this.val$uid = j;
             this.val$min_id = i2;
@@ -5257,7 +5256,7 @@ public class MediaDataController extends BaseController {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            MediaDataController.AnonymousClass1.this.lambda$run$0(this, i11);
+                            MediaDataController.1.this.lambda$run$0(this, i11);
                         }
                     });
                     mediaDataController = MediaDataController.this;
@@ -5390,7 +5389,7 @@ public class MediaDataController extends BaseController {
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        MediaDataController.AnonymousClass1.this.lambda$run$0(this, i14);
+                                        MediaDataController.1.this.lambda$run$0(this, i14);
                                     }
                                 });
                                 mediaDataController = MediaDataController.this;
@@ -5411,7 +5410,7 @@ public class MediaDataController extends BaseController {
                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    MediaDataController.AnonymousClass1.this.lambda$run$0(this, i142);
+                                    MediaDataController.1.this.lambda$run$0(this, i142);
                                 }
                             });
                             mediaDataController = MediaDataController.this;
@@ -5439,7 +5438,7 @@ public class MediaDataController extends BaseController {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MediaDataController.AnonymousClass1.this.lambda$run$0(this, i15);
+                        MediaDataController.1.this.lambda$run$0(this, i15);
                     }
                 });
                 MediaDataController.this.processLoadedMedia(tLRPC$TL_messages_messages, this.val$uid, this.val$count, this.val$max_id, this.val$min_id, this.val$type, this.val$fromCache, this.val$classGuid, this.val$isChannel, false, this.val$requestIndex);
@@ -5454,10 +5453,10 @@ public class MediaDataController extends BaseController {
     }
 
     private void loadMediaDatabase(long j, int i, int i2, int i3, int i4, int i5, boolean z, int i6, int i7) {
-        AnonymousClass1 anonymousClass1 = new AnonymousClass1(i, j, i3, i4, i2, i5, i6, z, i7);
+        1 r12 = new 1(i, j, i3, i4, i2, i5, i6, z, i7);
         MessagesStorage messagesStorage = getMessagesStorage();
-        messagesStorage.getStorageQueue().postRunnable(anonymousClass1);
-        messagesStorage.bindTaskToGuid(anonymousClass1, i5);
+        messagesStorage.getStorageQueue().postRunnable(r12);
+        messagesStorage.bindTaskToGuid(r12, i5);
     }
 
     private void putMediaDatabase(final long j, final int i, final ArrayList<TLRPC$Message> arrayList, final int i2, final int i3, final boolean z) {
@@ -9692,7 +9691,7 @@ public class MediaDataController extends BaseController {
                 if (createPreviewFullTheme.items.size() >= 4) {
                     arrayList.add(new ChatThemeBottomSheet.ChatThemeItem(createPreviewFullTheme));
                 }
-                ChatThemeController.chatThemeQueue.postRunnable(new AnonymousClass2(arrayList));
+                ChatThemeController.chatThemeQueue.postRunnable(new 2(arrayList));
             } catch (Throwable th) {
                 FileLog.e(th);
             }
@@ -9700,12 +9699,11 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaDataController$2  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass2 implements Runnable {
+    public class 2 implements Runnable {
         final /* synthetic */ ArrayList val$previewItems;
 
-        AnonymousClass2(ArrayList arrayList) {
+        2(ArrayList arrayList) {
             this.val$previewItems = arrayList;
         }
 
@@ -9718,7 +9716,7 @@ public class MediaDataController extends BaseController {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaDataController.AnonymousClass2.this.lambda$run$0(arrayList);
+                    MediaDataController.2.this.lambda$run$0(arrayList);
                 }
             });
         }
@@ -9751,7 +9749,7 @@ public class MediaDataController extends BaseController {
                     arrayList2.add(chatThemeItem);
                 }
             }
-            ChatThemeController.chatThemeQueue.postRunnable(new AnonymousClass3(arrayList2, i));
+            ChatThemeController.chatThemeQueue.postRunnable(new 3(arrayList2, i));
             return;
         }
         this.defaultEmojiThemes.clear();
@@ -9759,13 +9757,12 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.messenger.MediaDataController$3  reason: invalid class name */
     /* loaded from: classes.dex */
-    public class AnonymousClass3 implements Runnable {
+    public class 3 implements Runnable {
         final /* synthetic */ int val$currentAccount;
         final /* synthetic */ ArrayList val$previewItems;
 
-        AnonymousClass3(ArrayList arrayList, int i) {
+        3(ArrayList arrayList, int i) {
             this.val$previewItems = arrayList;
             this.val$currentAccount = i;
         }
@@ -9779,7 +9776,7 @@ public class MediaDataController extends BaseController {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaDataController.AnonymousClass3.this.lambda$run$0(arrayList);
+                    MediaDataController.3.this.lambda$run$0(arrayList);
                 }
             });
         }

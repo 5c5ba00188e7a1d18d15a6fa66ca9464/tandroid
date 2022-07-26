@@ -11,15 +11,13 @@ public final class U1 extends T1 implements p1 {
     }
 
     @Override // j$.util.stream.p1, j$.util.stream.s1
-    /* renamed from: a */
-    public /* bridge */ /* synthetic */ A1 mo315a() {
-        mo315a();
+    public /* bridge */ /* synthetic */ A1 a() {
+        a();
         return this;
     }
 
     @Override // j$.util.stream.p1, j$.util.stream.s1
-    /* renamed from: a  reason: collision with other method in class */
-    public u1 mo315a() {
+    public u1 a() {
         if (this.b >= this.a.length) {
             return this;
         }

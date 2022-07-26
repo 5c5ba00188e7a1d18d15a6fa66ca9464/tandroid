@@ -44,10 +44,8 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         this.playbackPositionUs = j;
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    /* renamed from: dequeueInputBuffer */
-    public SubtitleInputBuffer mo166dequeueInputBuffer() throws SubtitleDecoderException {
+    public SubtitleInputBuffer dequeueInputBuffer() throws SubtitleDecoderException {
         Assertions.checkState(this.dequeuedInputBuffer == null);
         if (this.availableInputBuffers.isEmpty()) {
             return null;
@@ -72,10 +70,8 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         this.dequeuedInputBuffer = null;
     }
 
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.Decoder
-    /* renamed from: dequeueOutputBuffer */
-    public SubtitleOutputBuffer mo167dequeueOutputBuffer() throws SubtitleDecoderException {
+    public SubtitleOutputBuffer dequeueOutputBuffer() throws SubtitleDecoderException {
         if (this.availableOutputBuffers.isEmpty()) {
             return null;
         }

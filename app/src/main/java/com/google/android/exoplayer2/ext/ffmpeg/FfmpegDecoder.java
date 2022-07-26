@@ -71,10 +71,8 @@ final class FfmpegDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutput
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    /* renamed from: createUnexpectedDecodeException */
-    public FfmpegDecoderException mo165createUnexpectedDecodeException(Throwable th) {
+    public FfmpegDecoderException createUnexpectedDecodeException(Throwable th) {
         return new FfmpegDecoderException("Unexpected decode error", th);
     }
 

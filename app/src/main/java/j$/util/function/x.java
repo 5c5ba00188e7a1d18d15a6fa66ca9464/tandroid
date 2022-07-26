@@ -32,9 +32,9 @@ public final /* synthetic */ class x implements Predicate {
     public /* synthetic */ Predicate negate() {
         switch (this.a) {
             case 0:
-                return Predicate.CC.$default$negate(this);
+                return Predicate.-CC.$default$negate(this);
             default:
-                return Predicate.CC.$default$negate(this);
+                return Predicate.-CC.$default$negate(this);
         }
     }
 

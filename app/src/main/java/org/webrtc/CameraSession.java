@@ -34,9 +34,8 @@ public interface CameraSession {
 
     void stop();
 
-    /* renamed from: org.webrtc.CameraSession$-CC  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class CC {
+    public final /* synthetic */ class -CC {
         public static VideoFrame.TextureBuffer createTextureBufferWithModifiedTransformMatrix(TextureBufferImpl textureBufferImpl, boolean z, int i) {
             Matrix matrix = new Matrix();
             matrix.preTranslate(0.5f, 0.5f);

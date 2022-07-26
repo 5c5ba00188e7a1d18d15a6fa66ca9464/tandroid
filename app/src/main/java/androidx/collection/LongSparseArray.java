@@ -23,8 +23,7 @@ public class LongSparseArray<E> implements Cloneable {
         this.mValues = new Object[idealLongArraySize];
     }
 
-    /* renamed from: clone */
-    public LongSparseArray<E> m2clone() {
+    public LongSparseArray<E> clone() {
         try {
             LongSparseArray<E> longSparseArray = (LongSparseArray) super.clone();
             longSparseArray.mKeys = (long[]) this.mKeys.clone();

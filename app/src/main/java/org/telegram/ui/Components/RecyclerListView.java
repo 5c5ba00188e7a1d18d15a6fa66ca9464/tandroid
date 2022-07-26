@@ -141,9 +141,8 @@ public class RecyclerListView extends RecyclerView {
     /* loaded from: classes3.dex */
     public interface OnItemClickListenerExtended {
 
-        /* renamed from: org.telegram.ui.Components.RecyclerListView$OnItemClickListenerExtended$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static boolean $default$hasDoubleTap(OnItemClickListenerExtended onItemClickListenerExtended, View view, int i) {
                 return false;
             }
@@ -167,9 +166,8 @@ public class RecyclerListView extends RecyclerView {
     /* loaded from: classes3.dex */
     public interface OnItemLongClickListenerExtended {
 
-        /* renamed from: org.telegram.ui.Components.RecyclerListView$OnItemLongClickListenerExtended$-CC  reason: invalid class name */
         /* loaded from: classes3.dex */
-        public final /* synthetic */ class CC {
+        public final /* synthetic */ class -CC {
             public static void $default$onLongClickRelease(OnItemLongClickListenerExtended onItemLongClickListenerExtended) {
             }
 
@@ -273,8 +271,7 @@ public class RecyclerListView extends RecyclerView {
 
         public abstract int getCountForSection(int i);
 
-        /* renamed from: getItem */
-        public abstract Object mo1730getItem(int i, int i2);
+        public abstract Object getItem(int i, int i2);
 
         public abstract int getItemViewType(int i, int i2);
 
@@ -336,7 +333,7 @@ public class RecyclerListView extends RecyclerView {
         }
 
         public final Object getItem(int i) {
-            return mo1730getItem(getSectionForPosition(i), getPositionInSectionForPosition(i));
+            return getItem(getSectionForPosition(i), getPositionInSectionForPosition(i));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

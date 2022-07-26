@@ -268,7 +268,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         this.pipYSpring = new SpringAnimation(this, PIP_Y_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f));
         final Context context = ApplicationLoader.applicationContext;
         final int scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(context, new AnonymousClass3());
+        ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(context, new 3());
         this.scaleGestureDetector = scaleGestureDetector;
         int i = Build.VERSION.SDK_INT;
         if (i >= 19) {
@@ -449,7 +449,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         VoIPTextureView voIPTextureView2 = this.textureView;
         voIPTextureView2.scaleType = VoIPTextureView.SCALE_TYPE_FILL;
         voIPTextureView2.renderer.setRotateTextureWithScreen(true);
-        this.textureView.renderer.init(VideoCapturerDevice.getEglBase().mo2309getEglBaseContext(), new AnonymousClass8());
+        this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new 8());
         this.contentFrameLayout.addView(this.textureView, LayoutHelper.createFrame(-1, -1.0f));
         View view = new View(context) { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay.9
             @Override // android.view.View
@@ -533,10 +533,9 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$3  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass3 implements ScaleGestureDetector.OnScaleGestureListener {
-        AnonymousClass3() {
+    public class 3 implements ScaleGestureDetector.OnScaleGestureListener {
+        3() {
         }
 
         @Override // android.view.ScaleGestureDetector.OnScaleGestureListener
@@ -550,7 +549,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RTMPStreamPipOverlay.AnonymousClass3.this.lambda$onScale$0();
+                    RTMPStreamPipOverlay.3.this.lambda$onScale$0();
                 }
             });
             SpringForce spring = RTMPStreamPipOverlay.this.pipXSpring.setStartValue(RTMPStreamPipOverlay.this.pipX).getSpring();
@@ -600,7 +599,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
                         dynamicAnimation.removeEndListener(this);
                         arrayList.add((SpringAnimation) dynamicAnimation);
                         if (arrayList.size() == 2) {
-                            AnonymousClass3.this.updateLayout();
+                            3.this.updateLayout();
                         }
                     }
                 };
@@ -637,10 +636,9 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$8  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass8 implements RendererCommon.RendererEvents {
-        AnonymousClass8() {
+    public class 8 implements RendererCommon.RendererEvents {
+        8() {
         }
 
         @Override // org.webrtc.RendererCommon.RendererEvents
@@ -649,7 +647,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$8$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RTMPStreamPipOverlay.AnonymousClass8.this.lambda$onFirstFrameRendered$0();
+                    RTMPStreamPipOverlay.8.this.lambda$onFirstFrameRendered$0();
                 }
             });
         }
@@ -669,7 +667,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RTMPStreamPipOverlay.AnonymousClass8.this.lambda$onFrameResolutionChanged$1();
+                    RTMPStreamPipOverlay.8.this.lambda$onFrameResolutionChanged$1();
                 }
             });
         }

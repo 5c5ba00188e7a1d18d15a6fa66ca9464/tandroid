@@ -23,9 +23,8 @@ public final class TransportRuntime_Factory implements Factory<TransportRuntime>
     }
 
     @Override // javax.inject.Provider
-    /* renamed from: get */
-    public TransportRuntime mo70get() {
-        return newInstance(this.eventClockProvider.mo70get(), this.uptimeClockProvider.mo70get(), this.schedulerProvider.mo70get(), this.uploaderProvider.mo70get(), this.initializerProvider.mo70get());
+    public TransportRuntime get() {
+        return newInstance(this.eventClockProvider.get(), this.uptimeClockProvider.get(), this.schedulerProvider.get(), this.uploaderProvider.get(), this.initializerProvider.get());
     }
 
     public static TransportRuntime_Factory create(Provider<Clock> provider, Provider<Clock> provider2, Provider<Scheduler> provider3, Provider<Uploader> provider4, Provider<WorkInitializer> provider5) {

@@ -12,16 +12,14 @@ abstract class Q extends T {
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: parallel */
-    public /* bridge */ /* synthetic */ U mo332parallel() {
-        mo332parallel();
+    public /* bridge */ /* synthetic */ U parallel() {
+        parallel();
         return this;
     }
 
     @Override // j$.util.stream.c, j$.util.stream.g, j$.util.stream.IntStream
-    /* renamed from: sequential */
-    public /* bridge */ /* synthetic */ U mo333sequential() {
-        mo333sequential();
+    public /* bridge */ /* synthetic */ U sequential() {
+        sequential();
         return this;
     }
 }

@@ -30,7 +30,7 @@ class r extends i3 {
                 intStream = (e1) ((Function) ((N) this.d).m).apply(obj);
                 if (intStream != null) {
                     try {
-                        intStream.mo333sequential().d((j$.util.function.q) this.c);
+                        intStream.sequential().d((j$.util.function.q) this.c);
                     } finally {
                         try {
                             intStream.close();
@@ -47,7 +47,7 @@ class r extends i3 {
                 intStream = (IntStream) ((Function) ((M) this.d).m).apply(obj);
                 if (intStream != null) {
                     try {
-                        intStream.mo333sequential().U((j$.util.function.l) this.c);
+                        intStream.sequential().U((j$.util.function.l) this.c);
                     } finally {
                         try {
                             intStream.close();
@@ -63,7 +63,7 @@ class r extends i3 {
                 U u = (U) ((Function) ((K) this.d).m).apply(obj);
                 if (u != null) {
                     try {
-                        u.mo333sequential().j((j$.util.function.f) this.c);
+                        u.sequential().j((j$.util.function.f) this.c);
                     } finally {
                         try {
                             u.close();

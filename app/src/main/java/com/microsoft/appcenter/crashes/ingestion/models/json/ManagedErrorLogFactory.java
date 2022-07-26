@@ -14,8 +14,7 @@ public class ManagedErrorLogFactory extends AbstractLogFactory {
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.json.LogFactory
-    /* renamed from: create */
-    public ManagedErrorLog mo247create() {
+    public ManagedErrorLog create() {
         return new ManagedErrorLog();
     }
 }

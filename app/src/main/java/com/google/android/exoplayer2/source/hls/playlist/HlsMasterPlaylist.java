@@ -23,9 +23,8 @@ public final class HlsMasterPlaylist extends HlsPlaylist {
     public final List<Rendition> videos;
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    /* renamed from: copy  reason: collision with other method in class */
-    public /* bridge */ /* synthetic */ HlsPlaylist mo163copy(List list) {
-        return mo163copy((List<StreamKey>) list);
+    public /* bridge */ /* synthetic */ HlsPlaylist copy(List list) {
+        return copy((List<StreamKey>) list);
     }
 
     /* loaded from: classes.dex */
@@ -83,8 +82,7 @@ public final class HlsMasterPlaylist extends HlsPlaylist {
     }
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
-    /* renamed from: copy */
-    public HlsPlaylist mo163copy(List<StreamKey> list) {
+    public HlsPlaylist copy(List<StreamKey> list) {
         return new HlsMasterPlaylist(this.baseUri, this.tags, copyStreams(this.variants, 0, list), Collections.emptyList(), copyStreams(this.audios, 1, list), copyStreams(this.subtitles, 2, list), Collections.emptyList(), this.muxedAudioFormat, this.muxedCaptionFormats, this.hasIndependentSegments, this.variableDefinitions, this.sessionKeyDrmInitData);
     }
 

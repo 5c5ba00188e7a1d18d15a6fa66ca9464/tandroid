@@ -25,8 +25,7 @@ public final class DefaultHttpDataSourceFactory extends HttpDataSource.BaseFacto
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.upstream.HttpDataSource.BaseFactory
-    /* renamed from: createDataSourceInternal */
-    public DefaultHttpDataSource mo175createDataSourceInternal(HttpDataSource.RequestProperties requestProperties) {
+    public DefaultHttpDataSource createDataSourceInternal(HttpDataSource.RequestProperties requestProperties) {
         DefaultHttpDataSource defaultHttpDataSource = new DefaultHttpDataSource(this.userAgent, this.connectTimeoutMillis, this.readTimeoutMillis, this.allowCrossProtocolRedirects, requestProperties);
         TransferListener transferListener = this.listener;
         if (transferListener != null) {

@@ -9,10 +9,8 @@ import com.huawei.hms.common.internal.ClientSettings;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public class PushClientBuilder extends AbstractClientBuilder<PushClient, Api.ApiOptions.NoOptions> {
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.huawei.hms.common.internal.AbstractClientBuilder
-    /* renamed from: buildClient */
-    public PushClient mo230buildClient(Context context, ClientSettings clientSettings, BaseHmsClient.OnConnectionFailedListener onConnectionFailedListener, BaseHmsClient.ConnectionCallbacks connectionCallbacks) {
+    public PushClient buildClient(Context context, ClientSettings clientSettings, BaseHmsClient.OnConnectionFailedListener onConnectionFailedListener, BaseHmsClient.ConnectionCallbacks connectionCallbacks) {
         clientSettings.setApiName(Arrays.asList(HuaweiApiAvailability.HMS_API_NAME_PUSH, "Core.API"));
         return new PushClient(context, clientSettings, onConnectionFailedListener, connectionCallbacks);
     }

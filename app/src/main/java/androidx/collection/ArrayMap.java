@@ -13,32 +13,32 @@ public class ArrayMap<K, V> extends SimpleArrayMap<K, V> implements Map<K, V>, j
 
     @Override // j$.util.Map
     public /* synthetic */ Object compute(Object obj, BiFunction biFunction) {
-        return Map.CC.$default$compute(this, obj, biFunction);
+        return Map.-CC.$default$compute(this, obj, biFunction);
     }
 
     @Override // j$.util.Map
     public /* synthetic */ Object computeIfAbsent(Object obj, Function function) {
-        return Map.CC.$default$computeIfAbsent(this, obj, function);
+        return Map.-CC.$default$computeIfAbsent(this, obj, function);
     }
 
     @Override // j$.util.Map
     public /* synthetic */ Object computeIfPresent(Object obj, BiFunction biFunction) {
-        return Map.CC.$default$computeIfPresent(this, obj, biFunction);
+        return Map.-CC.$default$computeIfPresent(this, obj, biFunction);
     }
 
     @Override // j$.util.Map
     public /* synthetic */ void forEach(BiConsumer biConsumer) {
-        Map.CC.$default$forEach(this, biConsumer);
+        Map.-CC.$default$forEach(this, biConsumer);
     }
 
     @Override // j$.util.Map
     public /* synthetic */ Object merge(Object obj, Object obj2, BiFunction biFunction) {
-        return Map.CC.$default$merge(this, obj, obj2, biFunction);
+        return Map.-CC.$default$merge(this, obj, obj2, biFunction);
     }
 
     @Override // j$.util.Map
     public /* synthetic */ void replaceAll(BiFunction biFunction) {
-        Map.CC.$default$replaceAll(this, biFunction);
+        Map.-CC.$default$replaceAll(this, biFunction);
     }
 
     public ArrayMap() {

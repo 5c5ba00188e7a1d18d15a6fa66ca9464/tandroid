@@ -1,6 +1,6 @@
 package j$.util.stream;
 
-import j$.util.Collection$EL;
+import j$.util.Collection$-EL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -26,7 +26,7 @@ final class N3 extends F3 {
             ArrayList arrayList = this.d;
             m3 m3Var = this.a;
             m3Var.getClass();
-            Collection$EL.a(arrayList, new b(m3Var));
+            Collection$-EL.a(arrayList, new b(m3Var));
         } else {
             Iterator it = this.d.iterator();
             while (it.hasNext()) {

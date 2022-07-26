@@ -25,8 +25,7 @@ abstract class zzo extends zzai {
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    /* renamed from: next */
-    public final Object mo335next() {
+    public final Object next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }

@@ -184,7 +184,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         private GpsLocationListener() {
         }
 
-        /* synthetic */ GpsLocationListener(ThemeActivity themeActivity, AnonymousClass1 anonymousClass1) {
+        /* synthetic */ GpsLocationListener(ThemeActivity themeActivity, 1 r2) {
             this();
         }
 
@@ -1002,7 +1002,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         } else {
             this.actionBar.setTitle(LocaleController.getString("AutoNightTheme", R.string.AutoNightTheme));
         }
-        this.actionBar.setActionBarMenuOnItemClick(new AnonymousClass1());
+        this.actionBar.setActionBarMenuOnItemClick(new 1());
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
@@ -1017,12 +1017,12 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
-                return RecyclerListView.OnItemClickListenerExtended.CC.$default$hasDoubleTap(this, view, i2);
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.CC.$default$onDoubleTap(this, view, i2, f, f2);
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i2, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
@@ -1034,10 +1034,9 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.ThemeActivity$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends ActionBar.ActionBarMenuOnItemClick {
-        AnonymousClass1() {
+    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+        1() {
         }
 
         /* JADX WARN: Removed duplicated region for block: B:53:0x015a  */
@@ -1074,7 +1073,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$1$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ThemeActivity.AnonymousClass1.this.lambda$onItemClick$0(dialogInterface, i2);
+                        ThemeActivity.1.this.lambda$onItemClick$0(dialogInterface, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1806,8 +1805,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             if (i == 0) {
                 return new RecyclerListView.Holder(new InnerAccentView(this.mContext));
             }
@@ -2195,8 +2193,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             DefaultThemesPreviewCell defaultThemesPreviewCell;
             ThemePreviewMessagesCell themePreviewMessagesCell;
             switch (i) {
@@ -2824,7 +2821,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public /* synthetic */ void onAnimationProgress(float f) {
-                ThemeDescription.ThemeDescriptionDelegate.CC.$default$onAnimationProgress(this, f);
+                ThemeDescription.ThemeDescriptionDelegate.-CC.$default$onAnimationProgress(this, f);
             }
         }, "windowBackgroundWhiteHintText", "windowBackgroundWhiteBlackText", "windowBackgroundWhiteValueText"));
         return arrayList;

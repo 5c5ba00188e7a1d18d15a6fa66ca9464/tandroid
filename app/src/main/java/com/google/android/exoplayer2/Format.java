@@ -15,17 +15,13 @@ import java.util.List;
 /* loaded from: classes.dex */
 public final class Format implements Parcelable {
     public static final Parcelable.Creator<Format> CREATOR = new Parcelable.Creator<Format>() { // from class: com.google.android.exoplayer2.Format.1
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: createFromParcel */
-        public Format mo76createFromParcel(Parcel parcel) {
+        public Format createFromParcel(Parcel parcel) {
             return new Format(parcel);
         }
 
-        /* JADX WARN: Can't rename method to resolve collision */
         @Override // android.os.Parcelable.Creator
-        /* renamed from: newArray */
-        public Format[] mo77newArray(int i) {
+        public Format[] newArray(int i) {
             return new Format[i];
         }
     };

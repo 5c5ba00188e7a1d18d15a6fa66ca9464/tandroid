@@ -21,8 +21,7 @@ public class LazySet<T> implements Provider<Set<T>> {
     }
 
     @Override // com.google.firebase.inject.Provider
-    /* renamed from: get  reason: collision with other method in class */
-    public Set<T> mo190get() {
+    public Set<T> get() {
         if (this.actualSet == null) {
             synchronized (this) {
                 if (this.actualSet == null) {
@@ -39,13 +38,13 @@ public class LazySet<T> implements Provider<Set<T>> {
         if (this.actualSet == null) {
             this.providers.add(provider);
         } else {
-            this.actualSet.add(provider.mo190get());
+            this.actualSet.add(provider.get());
         }
     }
 
     private synchronized void updateSet() {
         for (Provider<T> provider : this.providers) {
-            this.actualSet.add(provider.mo190get());
+            this.actualSet.add(provider.get());
         }
         this.providers = null;
     }

@@ -19,12 +19,11 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-/* renamed from: j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP  reason: invalid class name */
 /* loaded from: classes2.dex */
-public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP implements IntStream {
+public final /* synthetic */ class $r8$wrapper$java$util$stream$IntStream$-WRP implements IntStream {
     final /* synthetic */ j$.util.stream.IntStream a;
 
-    private /* synthetic */ C$r8$wrapper$java$util$stream$IntStream$WRP(j$.util.stream.IntStream intStream) {
+    private /* synthetic */ $r8$wrapper$java$util$stream$IntStream$-WRP(j$.util.stream.IntStream intStream) {
         this.a = intStream;
     }
 
@@ -32,7 +31,7 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
         if (intStream == null) {
             return null;
         }
-        return intStream instanceof C$r8$wrapper$java$util$stream$IntStream$VWRP ? ((C$r8$wrapper$java$util$stream$IntStream$VWRP) intStream).a : new C$r8$wrapper$java$util$stream$IntStream$WRP(intStream);
+        return intStream instanceof $r8$wrapper$java$util$stream$IntStream$-V-WRP ? (($r8$wrapper$java$util$stream$IntStream$-V-WRP) intStream).a : new $r8$wrapper$java$util$stream$IntStream$-WRP(intStream);
     }
 
     @Override // java.util.stream.IntStream
@@ -122,13 +121,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
     public /* synthetic */ Iterator<Integer> iterator() {
-        return this.a.mo331iterator();
+        return this.a.iterator();
     }
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
-    /* renamed from: iterator  reason: avoid collision after fix types in other method */
-    public /* synthetic */ Iterator<Integer> iterator2() {
-        return d.a(this.a.mo331iterator());
+    public /* synthetic */ Iterator<Integer> iterator() {
+        return d.a(this.a.iterator());
     }
 
     @Override // java.util.stream.IntStream
@@ -180,13 +178,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
     public /* synthetic */ IntStream parallel() {
-        return I0.n0(this.a.mo332parallel());
+        return I0.n0(this.a.parallel());
     }
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
-    /* renamed from: parallel  reason: avoid collision after fix types in other method */
-    public /* synthetic */ IntStream parallel2() {
-        return convert(this.a.mo332parallel());
+    public /* synthetic */ IntStream parallel() {
+        return convert(this.a.parallel());
     }
 
     @Override // java.util.stream.IntStream
@@ -207,13 +204,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
     /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
     public /* synthetic */ IntStream sequential() {
-        return I0.n0(this.a.mo333sequential());
+        return I0.n0(this.a.sequential());
     }
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
-    /* renamed from: sequential  reason: avoid collision after fix types in other method */
-    public /* synthetic */ IntStream sequential2() {
-        return convert(this.a.mo333sequential());
+    public /* synthetic */ IntStream sequential() {
+        return convert(this.a.sequential());
     }
 
     @Override // java.util.stream.IntStream
@@ -228,13 +224,12 @@ public final /* synthetic */ class C$r8$wrapper$java$util$stream$IntStream$WRP i
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
     public /* synthetic */ Spliterator<Integer> spliterator() {
-        return l.a(this.a.mo334spliterator());
+        return l.a(this.a.spliterator());
     }
 
     @Override // java.util.stream.IntStream, java.util.stream.BaseStream
-    /* renamed from: spliterator  reason: avoid collision after fix types in other method */
-    public /* synthetic */ Spliterator<Integer> spliterator2() {
-        return h.a(this.a.mo334spliterator());
+    public /* synthetic */ Spliterator<Integer> spliterator() {
+        return h.a(this.a.spliterator());
     }
 
     @Override // java.util.stream.IntStream

@@ -23,7 +23,7 @@ public final class FfmpegAudioRenderer extends SimpleDecoderAudioRenderer {
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
     public /* bridge */ /* synthetic */ void setOperatingRate(float f) throws ExoPlaybackException {
-        Renderer.CC.$default$setOperatingRate(this, f);
+        Renderer.-CC.$default$setOperatingRate(this, f);
     }
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.RendererCapabilities
@@ -55,8 +55,7 @@ public final class FfmpegAudioRenderer extends SimpleDecoderAudioRenderer {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
-    /* renamed from: createDecoder  reason: collision with other method in class */
-    public FfmpegDecoder mo90createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws FfmpegDecoderException {
+    public FfmpegDecoder createDecoder(Format format, ExoMediaCrypto exoMediaCrypto) throws FfmpegDecoderException {
         int i = format.maxInputSize;
         FfmpegDecoder ffmpegDecoder = new FfmpegDecoder(16, 16, i != -1 ? i : DEFAULT_INPUT_BUFFER_SIZE, format, shouldUseFloatOutput(format));
         this.decoder = ffmpegDecoder;

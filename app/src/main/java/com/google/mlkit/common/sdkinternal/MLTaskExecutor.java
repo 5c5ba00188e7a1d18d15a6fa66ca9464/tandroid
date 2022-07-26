@@ -16,14 +16,14 @@ public class MLTaskExecutor {
     private Handler zzc;
 
     public static Executor workerThreadExecutor() {
-        return zza.INSTANCE;
+        return zza.zza;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: com.google.mlkit:common@@17.0.0 */
     /* loaded from: classes.dex */
     public enum zza implements Executor {
-        INSTANCE;
+        zza;
 
         @Override // java.util.concurrent.Executor
         public final void execute(Runnable runnable) {

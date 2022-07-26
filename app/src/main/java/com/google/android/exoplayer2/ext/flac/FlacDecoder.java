@@ -55,10 +55,8 @@ final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Can't rename method to resolve collision */
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder
-    /* renamed from: createUnexpectedDecodeException */
-    public FlacDecoderException mo165createUnexpectedDecodeException(Throwable th) {
+    public FlacDecoderException createUnexpectedDecodeException(Throwable th) {
         return new FlacDecoderException("Unexpected decode error", th);
     }
 

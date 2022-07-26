@@ -260,7 +260,7 @@ public class ReactionsEffectOverlay {
             this.container = frameLayout;
             int i11 = i4;
             int i12 = i3;
-            this.windowView = new AnonymousClass1(context, baseFragment, chatMessageCell, str, chatActivity, i9, i2, z, f15, f4, f3);
+            this.windowView = new 1(context, baseFragment, chatMessageCell, str, chatActivity, i9, i2, z, f15, f4, f3);
             AnimationView animationView = new AnimationView(context);
             this.effectImageView = animationView;
             AnimationView animationView2 = new AnimationView(context);
@@ -382,7 +382,7 @@ public class ReactionsEffectOverlay {
         this.container = frameLayout2;
         int i112 = i4;
         int i122 = i3;
-        this.windowView = new AnonymousClass1(context, baseFragment, chatMessageCell, str, chatActivity, i92, i2, z, f152, f4, f3);
+        this.windowView = new 1(context, baseFragment, chatMessageCell, str, chatActivity, i92, i2, z, f152, f4, f3);
         AnimationView animationView4 = new AnimationView(context);
         this.effectImageView = animationView4;
         AnimationView animationView22 = new AnimationView(context);
@@ -395,9 +395,8 @@ public class ReactionsEffectOverlay {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* renamed from: org.telegram.ui.Components.Reactions.ReactionsEffectOverlay$1  reason: invalid class name */
     /* loaded from: classes3.dex */
-    public class AnonymousClass1 extends FrameLayout {
+    public class 1 extends FrameLayout {
         final /* synthetic */ int val$animationType;
         final /* synthetic */ ChatMessageCell val$cell;
         final /* synthetic */ ChatActivity val$chatActivity;
@@ -410,7 +409,7 @@ public class ReactionsEffectOverlay {
         final /* synthetic */ String val$reaction;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        AnonymousClass1(Context context, BaseFragment baseFragment, ChatMessageCell chatMessageCell, String str, ChatActivity chatActivity, int i, int i2, boolean z, float f, float f2, float f3) {
+        1(Context context, BaseFragment baseFragment, ChatMessageCell chatMessageCell, String str, ChatActivity chatActivity, int i, int i2, boolean z, float f, float f2, float f3) {
             super(context);
             this.val$fragment = baseFragment;
             this.val$cell = chatMessageCell;
@@ -454,7 +453,7 @@ public class ReactionsEffectOverlay {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ReactionsEffectOverlay$1$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
-                                ReactionsEffectOverlay.AnonymousClass1.this.lambda$dispatchDraw$0();
+                                ReactionsEffectOverlay.1.this.lambda$dispatchDraw$0();
                             }
                         });
                     }
@@ -614,7 +613,7 @@ public class ReactionsEffectOverlay {
                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ReactionsEffectOverlay$1$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    ReactionsEffectOverlay.AnonymousClass1.this.lambda$dispatchDraw$1();
+                                    ReactionsEffectOverlay.1.this.lambda$dispatchDraw$1();
                                 }
                             });
                         }
@@ -976,7 +975,7 @@ public class ReactionsEffectOverlay {
         private AvatarParticle(ReactionsEffectOverlay reactionsEffectOverlay) {
         }
 
-        /* synthetic */ AvatarParticle(ReactionsEffectOverlay reactionsEffectOverlay, AnonymousClass1 anonymousClass1) {
+        /* synthetic */ AvatarParticle(ReactionsEffectOverlay reactionsEffectOverlay, 1 r2) {
             this(reactionsEffectOverlay);
         }
     }

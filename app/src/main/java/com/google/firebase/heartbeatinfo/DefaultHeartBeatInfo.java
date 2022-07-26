@@ -27,8 +27,7 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     private DefaultHeartBeatInfo(final Context context, Set<HeartBeatConsumer> set) {
         this(new Lazy(new Provider() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda1
             @Override // com.google.firebase.inject.Provider
-            /* renamed from: get */
-            public final Object mo190get() {
+            public final Object get() {
                 HeartBeatInfoStorage heartBeatInfoStorage;
                 heartBeatInfoStorage = HeartBeatInfoStorage.getInstance(context);
                 return heartBeatInfoStorage;
@@ -44,8 +43,8 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     @Override // com.google.firebase.heartbeatinfo.HeartBeatInfo
     public HeartBeatInfo.HeartBeat getHeartBeatCode(String str) {
         long currentTimeMillis = System.currentTimeMillis();
-        boolean shouldSendSdkHeartBeat = this.storageProvider.mo190get().shouldSendSdkHeartBeat(str, currentTimeMillis);
-        boolean shouldSendGlobalHeartBeat = this.storageProvider.mo190get().shouldSendGlobalHeartBeat(currentTimeMillis);
+        boolean shouldSendSdkHeartBeat = this.storageProvider.get().shouldSendSdkHeartBeat(str, currentTimeMillis);
+        boolean shouldSendGlobalHeartBeat = this.storageProvider.get().shouldSendGlobalHeartBeat(currentTimeMillis);
         if (!shouldSendSdkHeartBeat || !shouldSendGlobalHeartBeat) {
             if (shouldSendGlobalHeartBeat) {
                 return HeartBeatInfo.HeartBeat.GLOBAL;
