@@ -1862,13 +1862,14 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 Rect rect2 = this.textArea;
                 int i2 = this.maybeTextX;
                 rect2.set(i2, this.maybeTextY, chatMessageCell.getCaptionLayout().getWidth() + i2, this.maybeTextY + chatMessageCell.getCaptionLayout().getHeight());
-            } else if (messageObject == null || (arrayList = messageObject.textLayoutBlocks) == null || arrayList.size() <= 0) {
-            } else {
+            } else if (messageObject != null && (arrayList = messageObject.textLayoutBlocks) != null && arrayList.size() > 0) {
                 ArrayList<MessageObject.TextLayoutBlock> arrayList2 = messageObject.textLayoutBlocks;
                 MessageObject.TextLayoutBlock textLayoutBlock = arrayList2.get(arrayList2.size() - 1);
                 Rect rect3 = this.textArea;
                 int i3 = this.maybeTextX;
                 rect3.set(i3, this.maybeTextY, textLayoutBlock.textLayout.getWidth() + i3, (int) (this.maybeTextY + textLayoutBlock.textYOffset + textLayoutBlock.textLayout.getHeight()));
+            } else {
+                this.maybeSelectedView = null;
             }
         }
 

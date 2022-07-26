@@ -17907,30 +17907,30 @@ public class MessagesController extends BaseController implements NotificationCe
         return z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:1035:0x1546  */
-    /* JADX WARN: Removed duplicated region for block: B:1037:0x154c  */
-    /* JADX WARN: Removed duplicated region for block: B:1040:0x1557  */
-    /* JADX WARN: Removed duplicated region for block: B:1052:0x15a9  */
-    /* JADX WARN: Removed duplicated region for block: B:1073:0x160d  */
-    /* JADX WARN: Removed duplicated region for block: B:1079:0x1640  */
-    /* JADX WARN: Removed duplicated region for block: B:1082:0x164e  */
-    /* JADX WARN: Removed duplicated region for block: B:1085:0x165e  */
-    /* JADX WARN: Removed duplicated region for block: B:1088:0x1671  */
-    /* JADX WARN: Removed duplicated region for block: B:1098:0x168b  */
-    /* JADX WARN: Removed duplicated region for block: B:1100:0x1691  */
-    /* JADX WARN: Removed duplicated region for block: B:1101:0x1645  */
-    /* JADX WARN: Removed duplicated region for block: B:1105:0x161c  */
-    /* JADX WARN: Removed duplicated region for block: B:1112:0x1377  */
-    /* JADX WARN: Removed duplicated region for block: B:1187:0x1886  */
-    /* JADX WARN: Removed duplicated region for block: B:1193:0x18ad  */
-    /* JADX WARN: Removed duplicated region for block: B:1199:0x18d9  */
-    /* JADX WARN: Removed duplicated region for block: B:1205:0x1900  */
-    /* JADX WARN: Removed duplicated region for block: B:1211:0x1926  */
-    /* JADX WARN: Removed duplicated region for block: B:834:0x1257  */
-    /* JADX WARN: Removed duplicated region for block: B:906:0x134b  */
-    /* JADX WARN: Removed duplicated region for block: B:915:0x137a  */
-    /* JADX WARN: Removed duplicated region for block: B:937:0x13f1  */
-    /* JADX WARN: Removed duplicated region for block: B:994:0x148f  */
+    /* JADX WARN: Removed duplicated region for block: B:1001:0x14a6  */
+    /* JADX WARN: Removed duplicated region for block: B:1042:0x155f  */
+    /* JADX WARN: Removed duplicated region for block: B:1044:0x1565  */
+    /* JADX WARN: Removed duplicated region for block: B:1047:0x1570  */
+    /* JADX WARN: Removed duplicated region for block: B:1059:0x15c2  */
+    /* JADX WARN: Removed duplicated region for block: B:1080:0x1626  */
+    /* JADX WARN: Removed duplicated region for block: B:1086:0x1659  */
+    /* JADX WARN: Removed duplicated region for block: B:1089:0x1667  */
+    /* JADX WARN: Removed duplicated region for block: B:1092:0x1677  */
+    /* JADX WARN: Removed duplicated region for block: B:1095:0x168a  */
+    /* JADX WARN: Removed duplicated region for block: B:1105:0x16a4  */
+    /* JADX WARN: Removed duplicated region for block: B:1107:0x16aa  */
+    /* JADX WARN: Removed duplicated region for block: B:1108:0x165e  */
+    /* JADX WARN: Removed duplicated region for block: B:1112:0x1635  */
+    /* JADX WARN: Removed duplicated region for block: B:1119:0x138e  */
+    /* JADX WARN: Removed duplicated region for block: B:1195:0x18aa  */
+    /* JADX WARN: Removed duplicated region for block: B:1201:0x18d1  */
+    /* JADX WARN: Removed duplicated region for block: B:1207:0x18fd  */
+    /* JADX WARN: Removed duplicated region for block: B:1213:0x1924  */
+    /* JADX WARN: Removed duplicated region for block: B:1219:0x194a  */
+    /* JADX WARN: Removed duplicated region for block: B:841:0x126e  */
+    /* JADX WARN: Removed duplicated region for block: B:913:0x1362  */
+    /* JADX WARN: Removed duplicated region for block: B:922:0x1391  */
+    /* JADX WARN: Removed duplicated region for block: B:944:0x1408  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -17956,9 +17956,9 @@ public class MessagesController extends BaseController implements NotificationCe
         long j;
         long j2;
         LongSparseIntArray longSparseIntArray3;
+        ArrayList arrayList6;
         LongSparseArray<TLRPC$WebPage> longSparseArray10;
         LongSparseIntArray longSparseIntArray4;
-        ArrayList arrayList6;
         LongSparseArray<SparseIntArray> longSparseArray11;
         TLRPC$Message tLRPC$Message;
         TLRPC$Chat tLRPC$Chat;
@@ -18086,9 +18086,10 @@ public class MessagesController extends BaseController implements NotificationCe
         ArrayList arrayList24 = null;
         ArrayList<TLRPC$Message> arrayList25 = null;
         ArrayList<TLRPC$Message> arrayList26 = null;
+        LongSparseIntArray longSparseIntArray10 = null;
         LongSparseArray<TLRPC$WebPage> longSparseArray30 = null;
         SparseIntArray sparseIntArray2 = null;
-        LongSparseIntArray longSparseIntArray10 = null;
+        LongSparseIntArray longSparseIntArray11 = null;
         ArrayList arrayList27 = null;
         while (i8 < size3) {
             int i10 = size3;
@@ -18118,9 +18119,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 j = j16;
                 j2 = j15;
                 longSparseIntArray3 = longSparseIntArray7;
-                longSparseArray10 = longSparseArray30;
-                longSparseIntArray4 = longSparseIntArray10;
                 arrayList6 = arrayList28;
+                longSparseArray10 = longSparseArray30;
+                longSparseIntArray4 = longSparseIntArray11;
                 longSparseArray11 = longSparseArray3;
                 if (z10) {
                     tLRPC$Message = ((TLRPC$TL_updateNewMessage) tLRPC$Update).message;
@@ -18268,17 +18269,17 @@ public class MessagesController extends BaseController implements NotificationCe
                                 } else {
                                     TLRPC$Peer tLRPC$Peer5 = tLRPC$Message.from_id;
                                     if ((tLRPC$Peer5 instanceof TLRPC$TL_peerUser) && tLRPC$Peer5.user_id == j2 && tLRPC$Message.action.user_id == j2) {
-                                        longSparseIntArray10 = longSparseIntArray4;
+                                        longSparseArray30 = longSparseArray10;
+                                        longSparseIntArray11 = longSparseIntArray4;
                                         longSparseArray24 = longSparseArray7;
                                         longSparseIntArray7 = longSparseIntArray3;
                                         longSparseArray23 = longSparseArray4;
-                                        arrayList20 = arrayList6;
                                         longSparseArray22 = longSparseArray11;
+                                        arrayList20 = arrayList6;
                                         longSparseArray21 = longSparseArray6;
                                         arrayList19 = arrayList5;
                                         longSparseIntArray8 = longSparseIntArray2;
                                         longSparseArray20 = longSparseArray5;
-                                        longSparseArray30 = longSparseArray10;
                                         longSparseArray28 = longSparseArray9;
                                         longSparseArray25 = longSparseArray8;
                                         i8 = i2 + 1;
@@ -18437,16 +18438,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                 arrayList33.add(messageObject);
                                 arrayList24 = arrayList33;
                             }
-                            longSparseIntArray10 = longSparseIntArray4;
+                            longSparseArray30 = longSparseArray10;
+                            longSparseIntArray11 = longSparseIntArray4;
                             longSparseArray23 = longSparseArray13;
                             longSparseIntArray7 = longSparseIntArray3;
-                            arrayList20 = arrayList6;
                             longSparseArray22 = longSparseArray11;
+                            arrayList20 = arrayList6;
                             longSparseArray21 = longSparseArray6;
                             arrayList19 = arrayList5;
                             longSparseIntArray8 = longSparseIntArray2;
                             longSparseArray20 = longSparseArray5;
-                            longSparseArray30 = longSparseArray10;
                             longSparseArray28 = longSparseArray9;
                             longSparseArray25 = longSparseArray8;
                             i8 = i2 + 1;
@@ -18478,16 +18479,16 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     if (!(tLRPC$Update instanceof TLRPC$TL_updateNewScheduledMessage)) {
                     }
-                    longSparseIntArray10 = longSparseIntArray4;
+                    longSparseArray30 = longSparseArray10;
+                    longSparseIntArray11 = longSparseIntArray4;
                     longSparseArray23 = longSparseArray13;
                     longSparseIntArray7 = longSparseIntArray3;
-                    arrayList20 = arrayList6;
                     longSparseArray22 = longSparseArray11;
+                    arrayList20 = arrayList6;
                     longSparseArray21 = longSparseArray6;
                     arrayList19 = arrayList5;
                     longSparseIntArray8 = longSparseIntArray2;
                     longSparseArray20 = longSparseArray5;
-                    longSparseArray30 = longSparseArray10;
                     longSparseArray28 = longSparseArray9;
                     longSparseArray25 = longSparseArray8;
                     i8 = i2 + 1;
@@ -18534,7 +18535,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             longSparseIntArray7.put(tLRPC$Peer7.user_id, tLRPC$TL_updateReadHistoryInbox.max_id);
                             j14 = tLRPC$TL_updateReadHistoryInbox.peer.user_id;
                         }
-                        LongSparseIntArray longSparseIntArray11 = longSparseIntArray7;
+                        LongSparseIntArray longSparseIntArray12 = longSparseIntArray7;
                         Integer num2 = this.dialogs_read_inbox_max.get(Long.valueOf(j14));
                         if (num2 == null) {
                             num2 = Integer.valueOf(getMessagesStorage().getDialogReadMax(false, j14));
@@ -18543,7 +18544,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         i2 = i8;
                         longSparseArray22 = longSparseArray3;
                         longSparseArray23 = longSparseArray4;
-                        longSparseIntArray7 = longSparseIntArray11;
+                        longSparseIntArray7 = longSparseIntArray12;
                     } else if (tLRPC$Update instanceof TLRPC$TL_updateReadHistoryOutbox) {
                         TLRPC$TL_updateReadHistoryOutbox tLRPC$TL_updateReadHistoryOutbox = (TLRPC$TL_updateReadHistoryOutbox) tLRPC$Update;
                         if (longSparseIntArray8 == null) {
@@ -18627,7 +18628,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 j7 = j16;
                                 j2 = j15;
                                 longSparseArray10 = longSparseArray30;
-                                longSparseIntArray4 = longSparseIntArray10;
+                                longSparseIntArray4 = longSparseIntArray11;
                                 if (tLRPC$Update instanceof TLRPC$TL_updateChannelUserTyping) {
                                     TLRPC$TL_updateChannelUserTyping tLRPC$TL_updateChannelUserTyping = (TLRPC$TL_updateChannelUserTyping) tLRPC$Update;
                                     TLRPC$Peer tLRPC$Peer9 = tLRPC$TL_updateChannelUserTyping.from_id;
@@ -18697,13 +18698,12 @@ public class MessagesController extends BaseController implements NotificationCe
                                     }
                                     longSparseIntArray7 = longSparseIntArray3;
                                     longSparseArray23 = longSparseArray4;
-                                    arrayList20 = arrayList6;
                                     longSparseArray22 = longSparseArray11;
+                                    arrayList20 = arrayList6;
                                     longSparseArray21 = longSparseArray6;
                                     arrayList19 = arrayList5;
                                     longSparseIntArray8 = longSparseIntArray2;
                                     longSparseArray20 = longSparseArray5;
-                                    longSparseArray30 = longSparseArray10;
                                     longSparseArray28 = longSparseArray9;
                                     longSparseArray25 = longSparseArray8;
                                     i8 = i2 + 1;
@@ -18716,11 +18716,11 @@ public class MessagesController extends BaseController implements NotificationCe
                                     j28 = j8;
                                 }
                                 if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageHistoryImportAction) {
-                                    LongSparseIntArray longSparseIntArray12 = longSparseIntArray9 == null ? new LongSparseIntArray() : longSparseIntArray9;
-                                    longSparseIntArray12.put(j28, ((TLRPC$TL_sendMessageHistoryImportAction) tLRPC$SendMessageAction).progress);
+                                    LongSparseIntArray longSparseIntArray13 = longSparseIntArray9 == null ? new LongSparseIntArray() : longSparseIntArray9;
+                                    longSparseIntArray13.put(j28, ((TLRPC$TL_sendMessageHistoryImportAction) tLRPC$SendMessageAction).progress);
                                     arrayList24 = arrayList8;
                                     arrayList10 = arrayList9;
-                                    longSparseIntArray9 = longSparseIntArray12;
+                                    longSparseIntArray9 = longSparseIntArray13;
                                 } else if (j8 != getUserConfig().getClientUserId()) {
                                     if (!(tLRPC$SendMessageAction instanceof TLRPC$TL_speakingInGroupCallAction)) {
                                         ConcurrentHashMap<Integer, ArrayList<PrintingUser>> concurrentHashMap5 = this.printingUsers.get(Long.valueOf(j28));
@@ -18764,16 +18764,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                             }
                                             if (Math.abs(getConnectionsManager().getCurrentTime() - i) < 30) {
                                             }
-                                            longSparseIntArray10 = longSparseIntArray4;
+                                            longSparseArray30 = longSparseArray10;
+                                            longSparseIntArray11 = longSparseIntArray4;
                                             j4 = j10;
                                             longSparseIntArray7 = longSparseIntArray3;
                                             longSparseArray23 = longSparseArray15;
-                                            arrayList20 = arrayList10;
                                             longSparseArray22 = longSparseArray11;
+                                            arrayList20 = arrayList10;
                                             longSparseArray21 = longSparseArray6;
                                             arrayList19 = arrayList5;
                                             longSparseArray20 = longSparseArray5;
-                                            longSparseArray30 = longSparseArray10;
                                             longSparseArray24 = longSparseArray7;
                                             longSparseArray28 = longSparseArray9;
                                             longSparseArray25 = longSparseArray8;
@@ -18814,16 +18814,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                             if (Math.abs(getConnectionsManager().getCurrentTime() - i) < 30) {
                                                 this.onlinePrivacy.put(Long.valueOf(j8), Integer.valueOf(i));
                                             }
-                                            longSparseIntArray10 = longSparseIntArray4;
+                                            longSparseArray30 = longSparseArray10;
+                                            longSparseIntArray11 = longSparseIntArray4;
                                             j4 = j10;
                                             longSparseIntArray7 = longSparseIntArray3;
                                             longSparseArray23 = longSparseArray15;
-                                            arrayList20 = arrayList10;
                                             longSparseArray22 = longSparseArray11;
+                                            arrayList20 = arrayList10;
                                             longSparseArray21 = longSparseArray6;
                                             arrayList19 = arrayList5;
                                             longSparseArray20 = longSparseArray5;
-                                            longSparseArray30 = longSparseArray10;
                                             longSparseArray24 = longSparseArray7;
                                             longSparseArray28 = longSparseArray9;
                                             longSparseArray25 = longSparseArray8;
@@ -18848,16 +18848,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                     j10 = j7;
                                     if (Math.abs(getConnectionsManager().getCurrentTime() - i) < 30) {
                                     }
-                                    longSparseIntArray10 = longSparseIntArray4;
+                                    longSparseArray30 = longSparseArray10;
+                                    longSparseIntArray11 = longSparseIntArray4;
                                     j4 = j10;
                                     longSparseIntArray7 = longSparseIntArray3;
                                     longSparseArray23 = longSparseArray15;
-                                    arrayList20 = arrayList10;
                                     longSparseArray22 = longSparseArray11;
+                                    arrayList20 = arrayList10;
                                     longSparseArray21 = longSparseArray6;
                                     arrayList19 = arrayList5;
                                     longSparseArray20 = longSparseArray5;
-                                    longSparseArray30 = longSparseArray10;
                                     longSparseArray24 = longSparseArray7;
                                     longSparseArray28 = longSparseArray9;
                                     longSparseArray25 = longSparseArray8;
@@ -18871,16 +18871,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                     arrayList10 = arrayList9;
                                 }
                                 j10 = j7;
-                                longSparseIntArray10 = longSparseIntArray4;
+                                longSparseArray30 = longSparseArray10;
+                                longSparseIntArray11 = longSparseIntArray4;
                                 j4 = j10;
                                 longSparseIntArray7 = longSparseIntArray3;
                                 longSparseArray23 = longSparseArray15;
-                                arrayList20 = arrayList10;
                                 longSparseArray22 = longSparseArray11;
+                                arrayList20 = arrayList10;
                                 longSparseArray21 = longSparseArray6;
                                 arrayList19 = arrayList5;
                                 longSparseArray20 = longSparseArray5;
-                                longSparseArray30 = longSparseArray10;
                                 longSparseArray24 = longSparseArray7;
                                 longSparseArray28 = longSparseArray9;
                                 longSparseArray25 = longSparseArray8;
@@ -19120,7 +19120,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                     longSparseArray9 = longSparseArray28;
                                                     arrayList8 = arrayList24;
                                                     longSparseArray10 = longSparseArray30;
-                                                    longSparseIntArray4 = longSparseIntArray10;
+                                                    longSparseIntArray4 = longSparseIntArray11;
                                                     longSparseArray14 = longSparseArray38;
                                                     longSparseIntArray3 = longSparseIntArray7;
                                                     getConnectionsManager().updateDcSettings();
@@ -19293,29 +19293,34 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                     longSparseArray10 = longSparseArray16;
                                                                     longSparseArray9 = longSparseArray28;
                                                                     j = j4;
-                                                                    longSparseIntArray4 = longSparseIntArray10;
+                                                                    longSparseIntArray4 = longSparseIntArray11;
                                                                     longSparseArray4 = longSparseArray38;
                                                                     longSparseIntArray3 = longSparseIntArray7;
                                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateReadChannelInbox) {
                                                                     TLRPC$TL_updateReadChannelInbox tLRPC$TL_updateReadChannelInbox = (TLRPC$TL_updateReadChannelInbox) tLRPC$Update;
-                                                                    if (longSparseIntArray7 == null) {
-                                                                        longSparseIntArray7 = new LongSparseIntArray();
-                                                                    }
                                                                     long j31 = -tLRPC$TL_updateReadChannelInbox.channel_id;
-                                                                    longSparseIntArray7.put(j31, tLRPC$TL_updateReadChannelInbox.max_id);
                                                                     Integer num4 = this.dialogs_read_inbox_max.get(Long.valueOf(j31));
                                                                     if (num4 == null) {
                                                                         num4 = Integer.valueOf(getMessagesStorage().getDialogReadMax(false, j31));
                                                                     }
-                                                                    this.dialogs_read_inbox_max.put(Long.valueOf(j31), Integer.valueOf(Math.max(num4.intValue(), tLRPC$TL_updateReadChannelInbox.max_id)));
+                                                                    if (tLRPC$TL_updateReadChannelInbox.max_id > num4.intValue() || tLRPC$TL_updateReadChannelInbox.still_unread_count != 0) {
+                                                                        if (longSparseIntArray7 == null) {
+                                                                            longSparseIntArray7 = new LongSparseIntArray();
+                                                                        }
+                                                                        LongSparseIntArray longSparseIntArray14 = longSparseIntArray10 == null ? new LongSparseIntArray() : longSparseIntArray10;
+                                                                        longSparseIntArray7.put(j31, tLRPC$TL_updateReadChannelInbox.max_id);
+                                                                        longSparseIntArray14.put(j31, tLRPC$TL_updateReadChannelInbox.still_unread_count);
+                                                                        this.dialogs_read_inbox_max.put(Long.valueOf(j31), Integer.valueOf(Math.max(num4.intValue(), tLRPC$TL_updateReadChannelInbox.max_id)));
+                                                                        longSparseIntArray10 = longSparseIntArray14;
+                                                                    }
                                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateReadChannelOutbox) {
                                                                     TLRPC$TL_updateReadChannelOutbox tLRPC$TL_updateReadChannelOutbox = (TLRPC$TL_updateReadChannelOutbox) tLRPC$Update;
                                                                     if (BuildVars.LOGS_ENABLED) {
                                                                         FileLog.d(tLRPC$Update + " channelId = " + tLRPC$TL_updateReadChannelOutbox.channel_id);
                                                                     }
-                                                                    LongSparseIntArray longSparseIntArray13 = longSparseIntArray2 == null ? new LongSparseIntArray() : longSparseIntArray2;
+                                                                    LongSparseIntArray longSparseIntArray15 = longSparseIntArray2 == null ? new LongSparseIntArray() : longSparseIntArray2;
                                                                     long j32 = -tLRPC$TL_updateReadChannelOutbox.channel_id;
-                                                                    longSparseIntArray13.put(j32, tLRPC$TL_updateReadChannelOutbox.max_id);
+                                                                    longSparseIntArray15.put(j32, tLRPC$TL_updateReadChannelOutbox.max_id);
                                                                     Integer num5 = this.dialogs_read_outbox_max.get(Long.valueOf(j32));
                                                                     if (num5 == null) {
                                                                         num5 = Integer.valueOf(getMessagesStorage().getDialogReadMax(true, j32));
@@ -19325,7 +19330,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                     longSparseArray24 = longSparseArray7;
                                                                     arrayList24 = arrayList58;
                                                                     arrayList20 = arrayList9;
-                                                                    longSparseIntArray8 = longSparseIntArray13;
+                                                                    longSparseIntArray8 = longSparseIntArray15;
                                                                     longSparseArray30 = longSparseArray16;
                                                                     longSparseArray22 = longSparseArray11;
                                                                     longSparseArray25 = longSparseArray8;
@@ -19460,8 +19465,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                 } else {
                                                                                     boolean z12 = tLRPC$Update instanceof TLRPC$TL_updateEditChannelMessage;
                                                                                     if (z12 || (tLRPC$Update instanceof TLRPC$TL_updateEditMessage)) {
-                                                                                        LongSparseIntArray longSparseIntArray14 = longSparseIntArray7;
-                                                                                        LongSparseIntArray longSparseIntArray15 = longSparseIntArray10;
+                                                                                        LongSparseIntArray longSparseIntArray16 = longSparseIntArray7;
+                                                                                        LongSparseIntArray longSparseIntArray17 = longSparseIntArray11;
                                                                                         if (z12) {
                                                                                             tLRPC$Message2 = ((TLRPC$TL_updateEditChannelMessage) tLRPC$Update).message;
                                                                                             TLRPC$Chat tLRPC$Chat7 = concurrentHashMap3.get(Long.valueOf(tLRPC$Message2.peer_id.channel_id));
@@ -19542,16 +19547,22 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                         }
                                                                                         arrayList60.add(messageObject5);
                                                                                         longSparseArray30 = longSparseArray16;
-                                                                                        longSparseIntArray10 = longSparseIntArray15;
+                                                                                        longSparseIntArray11 = longSparseIntArray17;
                                                                                         longSparseArray24 = longSparseArray7;
                                                                                         arrayList24 = arrayList58;
                                                                                         arrayList20 = arrayList9;
-                                                                                        longSparseIntArray7 = longSparseIntArray14;
+                                                                                        longSparseIntArray7 = longSparseIntArray16;
                                                                                         longSparseArray22 = longSparseArray11;
                                                                                         longSparseArray21 = longSparseArray6;
                                                                                         arrayList19 = arrayList5;
                                                                                         longSparseIntArray8 = longSparseIntArray2;
                                                                                         longSparseArray20 = longSparseArray5;
+                                                                                        longSparseArray28 = longSparseArray9;
+                                                                                        longSparseArray25 = longSparseArray8;
+                                                                                        i8 = i2 + 1;
+                                                                                        size3 = i10;
+                                                                                        j15 = j2;
+                                                                                        j16 = j4;
                                                                                     } else if (tLRPC$Update instanceof TLRPC$TL_updatePinnedChannelMessages) {
                                                                                         TLRPC$TL_updatePinnedChannelMessages tLRPC$TL_updatePinnedChannelMessages = (TLRPC$TL_updatePinnedChannelMessages) tLRPC$Update;
                                                                                         if (BuildVars.LOGS_ENABLED) {
@@ -19602,7 +19613,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                         } else {
                                                                                             if (tLRPC$Update instanceof TLRPC$TL_updateChannelAvailableMessages) {
                                                                                                 TLRPC$TL_updateChannelAvailableMessages tLRPC$TL_updateChannelAvailableMessages = (TLRPC$TL_updateChannelAvailableMessages) tLRPC$Update;
-                                                                                                longSparseIntArray5 = longSparseIntArray10;
+                                                                                                longSparseIntArray5 = longSparseIntArray11;
                                                                                                 if (longSparseIntArray5 == null) {
                                                                                                     longSparseIntArray5 = new LongSparseIntArray();
                                                                                                 }
@@ -19616,7 +19627,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                 arrayList24 = arrayList58;
                                                                                                 arrayList20 = arrayList9;
                                                                                             } else {
-                                                                                                longSparseIntArray5 = longSparseIntArray10;
+                                                                                                longSparseIntArray5 = longSparseIntArray11;
                                                                                                 if (tLRPC$Update instanceof TLRPC$TL_updateDialogUnreadMark) {
                                                                                                     arrayList12 = arrayList21 == null ? new ArrayList() : arrayList21;
                                                                                                     arrayList12.add(tLRPC$Update);
@@ -19703,7 +19714,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                         longSparseArray24 = longSparseArray7;
                                                                                                         arrayList24 = arrayList58;
                                                                                                         arrayList20 = arrayList9;
-                                                                                                        longSparseIntArray10 = longSparseIntArray5;
+                                                                                                        longSparseIntArray11 = longSparseIntArray5;
                                                                                                         longSparseArray30 = longSparseArray16;
                                                                                                         longSparseIntArray7 = longSparseIntArray3;
                                                                                                         longSparseArray22 = longSparseArray11;
@@ -19712,6 +19723,12 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                         longSparseIntArray8 = longSparseIntArray2;
                                                                                                         longSparseArray20 = longSparseArray5;
                                                                                                         longSparseArray23 = longSparseArray38;
+                                                                                                        longSparseArray28 = longSparseArray9;
+                                                                                                        longSparseArray25 = longSparseArray8;
+                                                                                                        i8 = i2 + 1;
+                                                                                                        size3 = i10;
+                                                                                                        j15 = j2;
+                                                                                                        j16 = j4;
                                                                                                     }
                                                                                                     arrayList24 = arrayList58;
                                                                                                     arrayList6 = arrayList9;
@@ -19726,15 +19743,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                 arrayList20 = arrayList9;
                                                                                                 arrayList21 = arrayList12;
                                                                                             }
-                                                                                            longSparseIntArray10 = longSparseIntArray5;
+                                                                                            longSparseIntArray11 = longSparseIntArray5;
                                                                                         }
                                                                                     }
-                                                                                    longSparseArray28 = longSparseArray9;
-                                                                                    longSparseArray25 = longSparseArray8;
-                                                                                    i8 = i2 + 1;
-                                                                                    size3 = i10;
-                                                                                    j15 = j2;
-                                                                                    j16 = j4;
                                                                                 }
                                                                                 j2 = j15;
                                                                                 longSparseArray24 = longSparseArray7;
@@ -19748,7 +19759,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                             arrayList6 = arrayList9;
                                                                             longSparseArray10 = longSparseArray16;
                                                                             j = j4;
-                                                                            longSparseIntArray4 = longSparseIntArray10;
+                                                                            longSparseIntArray4 = longSparseIntArray11;
                                                                             longSparseArray4 = longSparseArray38;
                                                                         }
                                                                         longSparseArray28 = longSparseArray9;
@@ -19777,12 +19788,12 @@ public class MessagesController extends BaseController implements NotificationCe
                                                 }
                                             }
                                             j2 = j15;
+                                            arrayList6 = arrayList9;
                                             longSparseArray9 = longSparseArray28;
                                             longSparseArray10 = longSparseArray30;
-                                            longSparseIntArray4 = longSparseIntArray10;
+                                            longSparseIntArray4 = longSparseIntArray11;
                                             longSparseArray4 = longSparseArray38;
                                             longSparseIntArray3 = longSparseIntArray7;
-                                            arrayList6 = arrayList9;
                                             j = j30;
                                             longSparseArray7 = longSparseArray24;
                                         }
@@ -19844,18 +19855,18 @@ public class MessagesController extends BaseController implements NotificationCe
                 j15 = j2;
                 j16 = j4;
             }
-            longSparseIntArray10 = longSparseIntArray4;
+            longSparseArray30 = longSparseArray10;
+            longSparseIntArray11 = longSparseIntArray4;
             longSparseArray24 = longSparseArray7;
             j4 = j;
             longSparseIntArray7 = longSparseIntArray3;
             longSparseArray23 = longSparseArray4;
-            arrayList20 = arrayList6;
             longSparseArray22 = longSparseArray11;
+            arrayList20 = arrayList6;
             longSparseArray21 = longSparseArray6;
             arrayList19 = arrayList5;
             longSparseIntArray8 = longSparseIntArray2;
             longSparseArray20 = longSparseArray5;
-            longSparseArray30 = longSparseArray10;
             longSparseArray28 = longSparseArray9;
             longSparseArray25 = longSparseArray8;
             i8 = i2 + 1;
@@ -19863,20 +19874,20 @@ public class MessagesController extends BaseController implements NotificationCe
             j15 = j2;
             j16 = j4;
         }
-        final LongSparseIntArray longSparseIntArray16 = longSparseIntArray8;
+        final LongSparseIntArray longSparseIntArray18 = longSparseIntArray8;
         final LongSparseArray longSparseArray43 = longSparseArray20;
         final LongSparseArray longSparseArray44 = longSparseArray21;
         LongSparseArray<SparseIntArray> longSparseArray45 = longSparseArray22;
         ArrayList<Long> arrayList61 = arrayList19;
         final LongSparseArray longSparseArray46 = longSparseArray23;
+        final ArrayList arrayList62 = arrayList20;
         final LongSparseArray longSparseArray47 = longSparseArray24;
         final LongSparseArray<ArrayList<Integer>> longSparseArray48 = longSparseArray25;
         final LongSparseArray<SparseIntArray> longSparseArray49 = longSparseArray28;
         final LongSparseArray<SparseArray<TLRPC$MessageReplies>> longSparseArray50 = longSparseArray29;
         final LongSparseArray<TLRPC$WebPage> longSparseArray51 = longSparseArray30;
-        final LongSparseIntArray longSparseIntArray17 = longSparseIntArray10;
-        final LongSparseIntArray longSparseIntArray18 = longSparseIntArray7;
-        final ArrayList arrayList62 = arrayList20;
+        final LongSparseIntArray longSparseIntArray19 = longSparseIntArray11;
+        final LongSparseIntArray longSparseIntArray20 = longSparseIntArray7;
         if (longSparseArray47 != null) {
             int size9 = longSparseArray47.size();
             for (int i23 = 0; i23 < size9; i23++) {
@@ -19944,7 +19955,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final int i27 = i9;
         final ArrayList arrayList65 = arrayList21;
         final LongSparseArray longSparseArray52 = longSparseArray26;
-        final LongSparseIntArray longSparseIntArray19 = longSparseIntArray9;
+        final LongSparseIntArray longSparseIntArray21 = longSparseIntArray9;
         final LongSparseArray<SparseIntArray> longSparseArray53 = longSparseArray;
         final ArrayList<Long> arrayList66 = arrayList4;
         final LongSparseArray longSparseArray54 = longSparseArray27;
@@ -19954,24 +19965,24 @@ public class MessagesController extends BaseController implements NotificationCe
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda48
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$processUpdateArray$327(i27, arrayList65, longSparseArray52, i, longSparseIntArray19, longSparseArray51, longSparseArray47, arrayList62, longSparseArray54, longSparseArray46, z13, arrayList66, arrayList68, longSparseArray53, longSparseArray49, longSparseArray50, arrayList69);
+                MessagesController.this.lambda$processUpdateArray$327(i27, arrayList65, longSparseArray52, i, longSparseIntArray21, longSparseArray51, longSparseArray47, arrayList62, longSparseArray54, longSparseArray46, z13, arrayList66, arrayList68, longSparseArray53, longSparseArray49, longSparseArray50, arrayList69);
             }
         });
         final SparseIntArray sparseIntArray7 = sparseIntArray2;
         getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda134
             @Override // java.lang.Runnable
             public final void run() {
-                MessagesController.this.lambda$processUpdateArray$329(longSparseIntArray18, longSparseIntArray16, sparseIntArray7, longSparseArray48, longSparseArray43, longSparseArray44, longSparseIntArray17);
+                MessagesController.this.lambda$processUpdateArray$329(longSparseIntArray20, longSparseIntArray18, sparseIntArray7, longSparseArray48, longSparseArray43, longSparseArray44, longSparseIntArray19);
             }
         });
         if (longSparseArray51 != null) {
             getMessagesStorage().putWebPages(longSparseArray51);
         }
-        if (longSparseIntArray18 == null) {
-            longSparseIntArray = longSparseIntArray16;
+        if (longSparseIntArray20 == null) {
+            longSparseIntArray = longSparseIntArray18;
             sparseIntArray = sparseIntArray2;
             longSparseArray2 = longSparseArray48;
-            if (longSparseIntArray == null && sparseIntArray == null && longSparseArray2 == null) {
+            if (longSparseIntArray == null && sparseIntArray == null && longSparseArray2 == null && longSparseIntArray10 == null) {
                 z2 = true;
                 if (longSparseArray2 != null) {
                     int currentTime = getConnectionsManager().getCurrentTime();
@@ -19999,11 +20010,11 @@ public class MessagesController extends BaseController implements NotificationCe
                         getMessagesStorage().markMessagesAsDeleted(longSparseArray44.keyAt(i30), (ArrayList) longSparseArray44.valueAt(i30), true, false, true);
                     }
                 }
-                if (longSparseIntArray17 != null) {
-                    int size16 = longSparseIntArray17.size();
+                if (longSparseIntArray19 != null) {
+                    int size16 = longSparseIntArray19.size();
                     for (int i31 = 0; i31 < size16; i31++) {
-                        final long keyAt2 = longSparseIntArray17.keyAt(i31);
-                        final int valueAt = longSparseIntArray17.valueAt(i31);
+                        final long keyAt2 = longSparseIntArray19.keyAt(i31);
+                        final int valueAt = longSparseIntArray19.valueAt(i31);
                         getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda66
                             @Override // java.lang.Runnable
                             public final void run() {
@@ -20024,22 +20035,20 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             sparseIntArray = sparseIntArray2;
             longSparseArray2 = longSparseArray48;
-            longSparseIntArray = longSparseIntArray16;
+            longSparseIntArray = longSparseIntArray18;
         }
-        if (longSparseIntArray18 == null && longSparseIntArray == null && longSparseArray2 == null) {
-            z2 = true;
-        } else {
-            z2 = true;
-            getMessagesStorage().updateDialogsWithReadMessages(longSparseIntArray18, longSparseIntArray, longSparseArray2, true);
+        if (longSparseIntArray20 != null || longSparseIntArray != null || longSparseArray2 != null || longSparseIntArray10 != null) {
+            getMessagesStorage().updateDialogsWithReadMessages(longSparseIntArray20, longSparseIntArray, longSparseArray2, longSparseIntArray10, true);
         }
-        getMessagesStorage().markMessagesAsRead(longSparseIntArray18, longSparseIntArray, sparseIntArray, z2);
+        z2 = true;
+        getMessagesStorage().markMessagesAsRead(longSparseIntArray20, longSparseIntArray, sparseIntArray, true);
         if (longSparseArray2 != null) {
         }
         if (longSparseArray43 != null) {
         }
         if (longSparseArray44 != null) {
         }
-        if (longSparseIntArray17 != null) {
+        if (longSparseIntArray19 != null) {
         }
         if (arrayList67 != null) {
         }

@@ -13,10 +13,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Outline;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
@@ -2717,7 +2715,6 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     /* loaded from: classes3.dex */
     public class EmojiGridView extends RecyclerListView {
         private boolean ignoreLayout;
-        private Path lockPath;
         private HashMap<Integer, TouchDownInfo> touches;
         SparseArray<ArrayList<ImageViewEmoji>> viewsGroupedByLines = new SparseArray<>();
         ArrayList<DrawingInBackgroundLine> lineDrawables = new ArrayList<>();
@@ -2725,13 +2722,13 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         ArrayList<ArrayList<ImageViewEmoji>> unusedArrays = new ArrayList<>();
         ArrayList<DrawingInBackgroundLine> unusedLineDrawables = new ArrayList<>();
         private int lastChildCount = -1;
-        private AnimatedFloat premiumT = new AnimatedFloat(this, 350, CubicBezierInterpolator.EASE_OUT_QUINT);
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public EmojiGridView(Context context) {
             super(context);
             EmojiView.this = r3;
             new SparseIntArray();
+            new AnimatedFloat(this, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         }
 
         private AnimatedEmojiSpan[] getAnimatedEmojiSpans() {
@@ -2883,7 +2880,6 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 updateEmojiDrawables();
                 this.lastChildCount = getChildCount();
             }
-            drawDashedOutlines(canvas);
             for (int i = 0; i < this.viewsGroupedByLines.size(); i++) {
                 ArrayList<ImageViewEmoji> valueAt = this.viewsGroupedByLines.valueAt(i);
                 valueAt.clear();
@@ -3253,189 +3249,6 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             }
             return super.dispatchTouchEvent(motionEvent) || (!z3 && !this.touches.isEmpty());
         }
-
-        /* JADX WARN: Removed duplicated region for block: B:41:0x014c  */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x0150  */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public void drawDashedOutlines(Canvas canvas) {
-            Canvas canvas2;
-            float f;
-            float f2;
-            int i;
-            int intValue;
-            int i2;
-            float top;
-            float measuredHeight;
-            int i3;
-            Canvas canvas3 = canvas;
-            if (EmojiView.this.emojiAdapter == null || EmojiView.this.emojiAdapter.packStartPosition == null) {
-                return;
-            }
-            float dp = AndroidUtilities.dp(20.0f);
-            float dp2 = AndroidUtilities.dp(5.0f);
-            AndroidUtilities.dp(11.0f);
-            float measuredWidth = ((getMeasuredWidth() - getPaddingLeft()) - getPaddingRight()) / EmojiView.this.emojiLayoutManager.getSpanCount();
-            int i4 = 0;
-            while (i4 < EmojiView.this.emojiAdapter.packStartPosition.size()) {
-                EmojiPackHeader emojiPackHeader = null;
-                EmojiPack emojiPack = i4 < EmojiView.this.emojipacksProcessed.size() ? (EmojiPack) EmojiView.this.emojipacksProcessed.get(i4) : null;
-                if (emojiPack == null || ((!emojiPack.installed && !EmojiView.this.installedEmojiSets.contains(Long.valueOf(emojiPack.set.id))) || emojiPack.featured || emojiPack.free)) {
-                    canvas2 = canvas3;
-                    f = dp;
-                    f2 = dp2;
-                    i = i4;
-                } else {
-                    int intValue2 = ((Integer) EmojiView.this.emojiAdapter.packStartPosition.get(i4)).intValue();
-                    int i5 = i4 + 1;
-                    if (i5 >= EmojiView.this.emojiAdapter.packStartPosition.size()) {
-                        intValue = EmojiView.this.emojiAdapter.getItemCount();
-                    } else {
-                        intValue = ((Integer) EmojiView.this.emojiAdapter.packStartPosition.get(i5)).intValue() - 1;
-                    }
-                    int i6 = (EmojiView.this.animateExpandFromPosition < 0 || EmojiView.this.animateExpandFromPosition <= intValue2 || EmojiView.this.animateExpandFromPosition >= intValue) ? -1 : EmojiView.this.animateExpandFromPosition - 1;
-                    f = dp;
-                    float f3 = dp2;
-                    i = i4;
-                    View view = null;
-                    float measuredHeight2 = getMeasuredHeight();
-                    int i7 = -1;
-                    float f4 = 0.0f;
-                    int i8 = -1;
-                    int i9 = -1;
-                    View view2 = null;
-                    for (int i10 = 0; i10 < getChildCount(); i10++) {
-                        View childAt = getChildAt(i10);
-                        int childAdapterPosition = getChildAdapterPosition(childAt);
-                        if (childAdapterPosition < 0) {
-                            if (childAt instanceof ImageViewEmoji) {
-                                i3 = ((ImageViewEmoji) childAt).position;
-                            } else if (childAt instanceof StickerSetNameCell) {
-                                i3 = ((StickerSetNameCell) childAt).position;
-                            } else if (childAt instanceof EmojiPackButton) {
-                                i3 = ((EmojiPackButton) childAt).position;
-                            } else {
-                                childAdapterPosition = getChildAdapterPosition(childAt);
-                            }
-                            if (i3 >= intValue2 && i3 <= intValue) {
-                                if (emojiPackHeader == null) {
-                                    i9 = i3;
-                                    emojiPackHeader = childAt;
-                                }
-                                if (i10 > i7) {
-                                    i7 = i10;
-                                    view2 = childAt;
-                                }
-                                if (i10 > i8 && i3 <= i6) {
-                                    i8 = i10;
-                                    view = childAt;
-                                }
-                                measuredHeight2 = Math.min(measuredHeight2, childAt.getTop() + childAt.getTranslationY());
-                                f4 = Math.max(f4, childAt.getBottom() + childAt.getTranslationY());
-                            }
-                        }
-                        i3 = childAdapterPosition;
-                        if (i3 >= intValue2) {
-                            if (emojiPackHeader == null) {
-                            }
-                            if (i10 > i7) {
-                            }
-                            if (i10 > i8) {
-                                i8 = i10;
-                                view = childAt;
-                            }
-                            measuredHeight2 = Math.min(measuredHeight2, childAt.getTop() + childAt.getTranslationY());
-                            f4 = Math.max(f4, childAt.getBottom() + childAt.getTranslationY());
-                        }
-                    }
-                    if (emojiPackHeader == null) {
-                        canvas2 = canvas;
-                        f2 = f3;
-                    } else {
-                        float dp3 = f4 + AndroidUtilities.dp(6.0f);
-                        float f5 = this.premiumT.set(UserConfig.getInstance(EmojiView.this.currentAccount).isPremium() ? 0.0f : 1.0f);
-                        if (i9 - intValue2 != 0) {
-                            top = (((emojiPackHeader.getTop() + emojiPackHeader.getTranslationY()) - AndroidUtilities.dp(7.0f)) - (((i2 - 1) / Math.max(1, EmojiView.this.emojiLayoutManager.getSpanCount())) * measuredWidth)) - AndroidUtilities.dp(7.0f);
-                        } else {
-                            top = emojiPackHeader.getTop() + emojiPackHeader.getTranslationY() + AndroidUtilities.dp(25.0f);
-                        }
-                        if (view != null && view2 != null) {
-                            measuredHeight = AndroidUtilities.lerp(view.getBottom() + view.getTranslationY(), view2.getBottom() + view2.getTranslationY(), CubicBezierInterpolator.EASE_OUT.getInterpolation(MathUtils.clamp(((float) (SystemClock.elapsedRealtime() - EmojiView.this.animateExpandStartTime)) / 220.0f, 0.0f, 1.0f)));
-                        } else if (view2 != null) {
-                            measuredHeight = view2.getBottom() + view2.getTranslationY();
-                        } else {
-                            measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(6.0f);
-                        }
-                        canvas.save();
-                        float max = Math.max(measuredHeight2, dp3);
-                        canvas2 = canvas;
-                        canvas2.clipRect(0.0f, Math.min(measuredHeight2, dp3), getMeasuredWidth(), max);
-                        if (f5 < 1.0f) {
-                            float f6 = 1.1f - (0.1f * f5);
-                            canvas2.scale(f6, f6, getMeasuredWidth() / 2.0f, (measuredHeight + top) / 2.0f);
-                        }
-                        if (EmojiView.this.emojiLockPaint == null) {
-                            EmojiView.this.emojiLockPaint = new Paint(1);
-                            EmojiView.this.emojiLockPaint.setColor(getThemedColor("chat_emojiPanelStickerSetName"));
-                            EmojiView.this.emojiLockPaint.setAlpha((int) (EmojiView.this.emojiLockPaint.getAlpha() * 0.5f));
-                            EmojiView.this.emojiLockPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
-                            EmojiView.this.emojiLockPaint.setStyle(Paint.Style.STROKE);
-                            EmojiView.this.emojiLockPaint.setStrokeCap(Paint.Cap.ROUND);
-                            EmojiView.this.emojiLockPaint.setPathEffect(new DashPathEffect(new float[]{AndroidUtilities.dp(5.5f), AndroidUtilities.dp(7.0f)}, 0.5f));
-                        }
-                        int alpha = EmojiView.this.emojiLockPaint.getAlpha();
-                        EmojiView.this.emojiLockPaint.setAlpha((int) (alpha * f5));
-                        Path path = this.lockPath;
-                        if (path == null) {
-                            this.lockPath = new Path();
-                        } else {
-                            path.rewind();
-                        }
-                        if (emojiPackHeader instanceof EmojiPackHeader) {
-                            EmojiPackHeader emojiPackHeader2 = emojiPackHeader;
-                            float paddingLeft = getPaddingLeft() + emojiPackHeader2.headerView.getRight() + emojiPackHeader2.headerView.getTranslationX();
-                            float paddingLeft2 = getPaddingLeft() + emojiPackHeader2.buttonsView.getLeft() + emojiPackHeader2.premiumButtonView.getLeft();
-                            this.lockPath.moveTo(Math.min(paddingLeft, paddingLeft2) + AndroidUtilities.dp(8.0f), top);
-                            this.lockPath.lineTo(Math.max(paddingLeft, paddingLeft2) - AndroidUtilities.dp(8.0f), top);
-                            canvas2.drawPath(this.lockPath, EmojiView.this.emojiLockPaint);
-                            this.lockPath.reset();
-                        }
-                        RectF rectF = AndroidUtilities.rectTmp;
-                        float f7 = f3 + f;
-                        float f8 = top + f;
-                        f2 = f3;
-                        rectF.set(f2, top, f7, f8);
-                        this.lockPath.arcTo(rectF, 230.0f, -50.0f);
-                        this.lockPath.moveTo(rectF.left, rectF.centerY());
-                        float f9 = measuredHeight - f;
-                        rectF.set(f2, f9, f7, measuredHeight);
-                        this.lockPath.arcTo(rectF, 180.0f, -90.0f);
-                        this.lockPath.moveTo(rectF.centerX(), rectF.bottom);
-                        rectF.set((getMeasuredWidth() - f2) - f, f9, getMeasuredWidth() - f2, measuredHeight);
-                        this.lockPath.arcTo(rectF, 90.0f, -90.0f);
-                        float f10 = rectF.right;
-                        float centerY = rectF.centerY();
-                        rectF.set((getMeasuredWidth() - f2) - f, top, getMeasuredWidth() - f2, f8);
-                        this.lockPath.moveTo(rectF.right, rectF.centerY());
-                        this.lockPath.lineTo(f10, centerY);
-                        this.lockPath.moveTo(rectF.right, rectF.centerY());
-                        this.lockPath.arcTo(rectF, 0.0f, -45.0f);
-                        canvas2.drawPath(this.lockPath, EmojiView.this.emojiLockPaint);
-                        EmojiView.this.emojiLockPaint.setAlpha(alpha);
-                        canvas.restore();
-                        i4 = i + 1;
-                        dp2 = f2;
-                        canvas3 = canvas2;
-                        dp = f;
-                    }
-                }
-                i4 = i + 1;
-                dp2 = f2;
-                canvas3 = canvas2;
-                dp = f;
-            }
-        }
     }
 
     public void createStickersChooseActionTracker() {
@@ -3554,10 +3367,9 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     }
 
     /* loaded from: classes3.dex */
-    public class EmojiPackButton extends FrameLayout {
+    private class EmojiPackButton extends FrameLayout {
         AnimatedTextView addButtonTextView;
         FrameLayout addButtonView;
-        int position;
         PremiumButtonView premiumButtonView;
 
         public EmojiPackButton(EmojiView emojiView, Context context) {

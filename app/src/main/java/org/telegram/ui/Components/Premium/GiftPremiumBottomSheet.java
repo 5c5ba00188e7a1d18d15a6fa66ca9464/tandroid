@@ -111,7 +111,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                     if (giftTier.getPricePerMonth() > j) {
                         j = giftTier.getPricePerMonth();
                     }
-                } else if (giftTier.giftOption.store_product != null) {
+                } else if (giftTier.giftOption.store_product != null && BillingController.getInstance().isReady()) {
                     arrayList.add(QueryProductDetailsParams.Product.newBuilder().setProductType("inapp").setProductId(giftTier.giftOption.store_product).build());
                 }
             }
@@ -165,6 +165,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final long j, BillingResult billingResult, List list) {
         Iterator it = list.iterator();
+        long j2 = 0;
         while (it.hasNext()) {
             ProductDetails productDetails = (ProductDetails) it.next();
             Iterator<GiftTier> it2 = this.giftTiers.iterator();
@@ -174,10 +175,15 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                     String str = next.giftOption.store_product;
                     if (str != null && str.equals(productDetails.getProductId())) {
                         next.setGooglePlayProductDetails(productDetails);
-                        break;
+                        if (next.getPricePerMonth() > j2) {
+                            j2 = next.getPricePerMonth();
+                        }
                     }
                 }
             }
+        }
+        for (GiftTier giftTier : this.giftTiers) {
+            giftTier.setPricePerMonthRegular(j2);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
@@ -613,31 +619,13 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         }
 
         public int getDiscount() {
-            long j;
             if (this.discount == 0) {
                 if (getPricePerMonth() == 0) {
                     return 0;
                 }
-                if (BuildVars.useInvoiceBilling()) {
-                    j = this.pricePerMonthRegular;
-                } else {
-                    ProductDetails productDetails = BillingController.PREMIUM_PRODUCT_DETAILS;
-                    if (productDetails != null) {
-                        List<ProductDetails.SubscriptionOfferDetails> subscriptionOfferDetails = productDetails.getSubscriptionOfferDetails();
-                        if (!subscriptionOfferDetails.isEmpty()) {
-                            for (ProductDetails.PricingPhase pricingPhase : subscriptionOfferDetails.get(0).getPricingPhases().getPricingPhaseList()) {
-                                if (pricingPhase.getBillingPeriod().equals("P1M")) {
-                                    j = pricingPhase.getPriceAmountMicros();
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    j = 0;
-                }
-                if (j != 0) {
+                if (this.pricePerMonthRegular != 0) {
                     double pricePerMonth = getPricePerMonth();
-                    double d = j;
+                    double d = this.pricePerMonthRegular;
                     Double.isNaN(pricePerMonth);
                     Double.isNaN(d);
                     int i = (int) ((1.0d - (pricePerMonth / d)) * 100.0d);

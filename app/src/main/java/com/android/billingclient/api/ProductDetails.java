@@ -51,13 +51,12 @@ public final class ProductDetails {
     public static final class PricingPhase {
         private final String billingPeriod;
         private final String formattedPrice;
-        private final long priceAmountMicros;
 
         PricingPhase(JSONObject jSONObject) {
             this.billingPeriod = jSONObject.optString("billingPeriod");
             jSONObject.optString("priceCurrencyCode");
             this.formattedPrice = jSONObject.optString("formattedPrice");
-            this.priceAmountMicros = jSONObject.optLong("priceAmountMicros");
+            jSONObject.optLong("priceAmountMicros");
             jSONObject.optInt("recurrenceMode");
             jSONObject.optInt("billingCycleCount");
         }
@@ -68,10 +67,6 @@ public final class ProductDetails {
 
         public String getFormattedPrice() {
             return this.formattedPrice;
-        }
-
-        public long getPriceAmountMicros() {
-            return this.priceAmountMicros;
         }
     }
 

@@ -1528,7 +1528,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
             ((BaseFragment) StickersActivity.this).actionBar.showActionMode();
             notifyStickersItemsChanged(2);
-            if (SharedConfig.stickersReorderingHintUsed) {
+            if (SharedConfig.stickersReorderingHintUsed || StickersActivity.this.currentType == 5) {
                 return;
             }
             SharedConfig.setStickersReorderingHintUsed(true);

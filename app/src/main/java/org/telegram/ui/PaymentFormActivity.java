@@ -3038,7 +3038,6 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             } else {
                 i = 0;
             }
-            this.paymentStatusSent = true;
             if (i == 2 && !tLRPC$TL_payments_paymentForm.additional_methods.isEmpty()) {
                 view.getClass();
                 showChoosePaymentMethod(new ChatActivityEnterView$$ExternalSyntheticLambda33(view));

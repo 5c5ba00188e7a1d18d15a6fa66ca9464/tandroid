@@ -9389,16 +9389,16 @@ public class MessagesStorage extends BaseController {
         this.archiveUnreadCount = this.pendingArchiveUnreadCount;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x02b7 A[Catch: Exception -> 0x02bf, TRY_LEAVE, TryCatch #0 {Exception -> 0x02bf, blocks: (B:3:0x0006, B:7:0x0022, B:8:0x003a, B:10:0x0040, B:13:0x0047, B:16:0x004e, B:23:0x0058, B:19:0x005c, B:32:0x0062, B:33:0x01e5, B:35:0x01eb, B:39:0x02a7, B:41:0x02b7, B:46:0x01f5, B:48:0x0200, B:49:0x020e, B:51:0x0214, B:53:0x023c, B:54:0x0242, B:56:0x0247, B:58:0x0264, B:59:0x024e, B:62:0x0266, B:63:0x026f, B:65:0x0275, B:66:0x027e, B:68:0x0284, B:70:0x029d, B:71:0x02a0, B:73:0x0067, B:76:0x006e, B:78:0x0074, B:80:0x00a3, B:82:0x00aa, B:85:0x00d0, B:87:0x00d6, B:89:0x00dd, B:90:0x0106, B:92:0x010c, B:94:0x0124, B:96:0x012a, B:98:0x0131, B:100:0x0138, B:102:0x015a, B:103:0x0161, B:105:0x017e, B:107:0x016f, B:112:0x0188, B:116:0x0199, B:118:0x01a3, B:120:0x01aa, B:125:0x01b0, B:128:0x01b7, B:130:0x01bd), top: B:2:0x0006 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x02dd A[Catch: Exception -> 0x02e5, TRY_LEAVE, TryCatch #0 {Exception -> 0x02e5, blocks: (B:3:0x0008, B:7:0x0024, B:8:0x003c, B:10:0x0042, B:13:0x0049, B:16:0x0050, B:23:0x005a, B:19:0x005e, B:32:0x0064, B:33:0x020b, B:35:0x0211, B:39:0x02cd, B:41:0x02dd, B:46:0x021b, B:48:0x0226, B:49:0x0234, B:51:0x023a, B:53:0x0262, B:54:0x0268, B:56:0x026d, B:58:0x028a, B:59:0x0274, B:62:0x028c, B:63:0x0295, B:65:0x029b, B:66:0x02a4, B:68:0x02aa, B:70:0x02c3, B:71:0x02c6, B:73:0x0069, B:76:0x0070, B:78:0x0076, B:80:0x0084, B:83:0x008c, B:85:0x0092, B:89:0x00ef, B:90:0x00a1, B:92:0x00c8, B:93:0x00cf, B:96:0x00f6, B:98:0x00fc, B:100:0x0103, B:101:0x012c, B:103:0x0132, B:105:0x014a, B:107:0x0150, B:109:0x0157, B:111:0x015e, B:113:0x0180, B:114:0x0187, B:116:0x01a4, B:118:0x0195, B:123:0x01ae, B:127:0x01bf, B:129:0x01c9, B:131:0x01d0, B:136:0x01d6, B:139:0x01dd, B:141:0x01e3), top: B:2:0x0008 }] */
     /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    private void updateDialogsWithReadMessagesInternal(ArrayList<Integer> arrayList, LongSparseIntArray longSparseIntArray, LongSparseIntArray longSparseIntArray2, LongSparseArray<ArrayList<Integer>> longSparseArray) {
+    private void updateDialogsWithReadMessagesInternal(ArrayList<Integer> arrayList, LongSparseIntArray longSparseIntArray, LongSparseIntArray longSparseIntArray2, LongSparseArray<ArrayList<Integer>> longSparseArray, LongSparseIntArray longSparseIntArray3) {
         int i;
         try {
-            LongSparseIntArray longSparseIntArray3 = new LongSparseIntArray();
             LongSparseIntArray longSparseIntArray4 = new LongSparseIntArray();
+            LongSparseIntArray longSparseIntArray5 = new LongSparseIntArray();
             ArrayList<Long> arrayList2 = new ArrayList<>();
             int i2 = 2;
             if (!isEmpty(arrayList)) {
@@ -9406,101 +9406,111 @@ public class MessagesStorage extends BaseController {
                 while (queryFinalized.next()) {
                     if (queryFinalized.intValue(2) == 0 && queryFinalized.intValue(1) == 0) {
                         long longValue = queryFinalized.longValue(0);
-                        int i3 = longSparseIntArray3.get(longValue);
+                        int i3 = longSparseIntArray4.get(longValue);
                         if (i3 == 0) {
-                            longSparseIntArray3.put(longValue, 1);
+                            longSparseIntArray4.put(longValue, 1);
                         } else {
-                            longSparseIntArray3.put(longValue, i3 + 1);
+                            longSparseIntArray4.put(longValue, i3 + 1);
                         }
                     }
                 }
                 queryFinalized.dispose();
             } else {
+                if (!isEmpty(longSparseIntArray3)) {
+                    for (int i4 = 0; i4 < longSparseIntArray3.size(); i4++) {
+                        long keyAt = longSparseIntArray3.keyAt(i4);
+                        longSparseIntArray4.put(keyAt, longSparseIntArray3.get(keyAt));
+                    }
+                }
+                int i5 = -1;
                 if (!isEmpty(longSparseIntArray)) {
-                    int i4 = 0;
-                    while (i4 < longSparseIntArray.size()) {
-                        long keyAt = longSparseIntArray.keyAt(i4);
-                        int i5 = longSparseIntArray.get(keyAt);
-                        SQLiteDatabase sQLiteDatabase = this.database;
-                        Locale locale = Locale.US;
-                        Object[] objArr = new Object[i2];
-                        objArr[0] = Long.valueOf(keyAt);
-                        objArr[1] = Integer.valueOf(i5);
-                        SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized(String.format(locale, "SELECT COUNT(mid) FROM messages_v2 WHERE uid = %d AND mid > %d AND read_state IN(0,2) AND out = 0", objArr), new Object[0]);
-                        if (queryFinalized2.next()) {
-                            longSparseIntArray3.put(keyAt, queryFinalized2.intValue(0));
+                    int i6 = 0;
+                    while (i6 < longSparseIntArray.size()) {
+                        long keyAt2 = longSparseIntArray.keyAt(i6);
+                        int i7 = longSparseIntArray.get(keyAt2);
+                        if (longSparseIntArray4.get(keyAt2, i5) < 0) {
+                            SQLiteDatabase sQLiteDatabase = this.database;
+                            Locale locale = Locale.US;
+                            Object[] objArr = new Object[i2];
+                            objArr[0] = Long.valueOf(keyAt2);
+                            objArr[1] = Integer.valueOf(i7);
+                            SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized(String.format(locale, "SELECT COUNT(mid) FROM messages_v2 WHERE uid = %d AND mid > %d AND read_state IN(0,2) AND out = 0", objArr), new Object[0]);
+                            if (queryFinalized2.next()) {
+                                longSparseIntArray4.put(keyAt2, queryFinalized2.intValue(0));
+                            }
+                            queryFinalized2.dispose();
+                            SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE dialogs SET inbox_max = max((SELECT inbox_max FROM dialogs WHERE did = ?), ?) WHERE did = ?");
+                            executeFast.requery();
+                            executeFast.bindLong(1, keyAt2);
+                            executeFast.bindInteger(2, i7);
+                            executeFast.bindLong(3, keyAt2);
+                            executeFast.step();
+                            executeFast.dispose();
                         }
-                        queryFinalized2.dispose();
-                        SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE dialogs SET inbox_max = max((SELECT inbox_max FROM dialogs WHERE did = ?), ?) WHERE did = ?");
-                        executeFast.requery();
-                        executeFast.bindLong(1, keyAt);
-                        executeFast.bindInteger(2, i5);
-                        executeFast.bindLong(3, keyAt);
-                        executeFast.step();
-                        executeFast.dispose();
-                        i4++;
+                        i6++;
                         i2 = 2;
+                        i5 = -1;
                     }
                 }
                 if (!isEmpty(longSparseArray)) {
                     int size = longSparseArray.size();
-                    int i6 = 0;
-                    while (i6 < size) {
-                        ArrayList<Integer> valueAt = longSparseArray.valueAt(i6);
+                    int i8 = 0;
+                    while (i8 < size) {
+                        ArrayList<Integer> valueAt = longSparseArray.valueAt(i8);
                         ArrayList arrayList3 = new ArrayList(valueAt);
-                        int i7 = 0;
+                        int i9 = 0;
                         SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, read_state, out, mention, mid, is_channel FROM messages_v2 WHERE mid IN(%s)", TextUtils.join(",", valueAt)), new Object[0]);
                         long j = 0;
                         while (queryFinalized3.next()) {
-                            long longValue2 = queryFinalized3.longValue(i7);
+                            long longValue2 = queryFinalized3.longValue(i9);
                             arrayList3.remove(Integer.valueOf(queryFinalized3.intValue(4)));
                             if (queryFinalized3.intValue(1) < 2 && queryFinalized3.intValue(2) == 0 && queryFinalized3.intValue(3) == 1) {
-                                int i8 = longSparseIntArray4.get(longValue2, -1);
-                                if (i8 < 0) {
+                                int i10 = longSparseIntArray5.get(longValue2, -1);
+                                if (i10 < 0) {
                                     i = size;
                                     SQLiteCursor queryFinalized4 = this.database.queryFinalized("SELECT unread_count_i FROM dialogs WHERE did = " + longValue2, new Object[0]);
                                     int intValue = queryFinalized4.next() ? queryFinalized4.intValue(0) : 0;
                                     queryFinalized4.dispose();
-                                    longSparseIntArray4.put(longValue2, Math.max(0, intValue - 1));
+                                    longSparseIntArray5.put(longValue2, Math.max(0, intValue - 1));
                                 } else {
                                     i = size;
-                                    longSparseIntArray4.put(longValue2, Math.max(0, i8 - 1));
+                                    longSparseIntArray5.put(longValue2, Math.max(0, i10 - 1));
                                 }
                             } else {
                                 i = size;
                             }
                             j = queryFinalized3.longValue(5);
                             size = i;
-                            i7 = 0;
+                            i9 = 0;
                         }
-                        int i9 = size;
+                        int i11 = size;
                         queryFinalized3.dispose();
                         if (!arrayList3.isEmpty() && j != 0 && !arrayList2.contains(Long.valueOf(j))) {
                             arrayList2.add(Long.valueOf(j));
                         }
-                        i6++;
-                        size = i9;
+                        i8++;
+                        size = i11;
                     }
                 }
                 if (!isEmpty(longSparseIntArray2)) {
-                    for (int i10 = 0; i10 < longSparseIntArray2.size(); i10++) {
-                        long keyAt2 = longSparseIntArray2.keyAt(i10);
-                        int i11 = longSparseIntArray2.get(keyAt2);
+                    for (int i12 = 0; i12 < longSparseIntArray2.size(); i12++) {
+                        long keyAt3 = longSparseIntArray2.keyAt(i12);
+                        int i13 = longSparseIntArray2.get(keyAt3);
                         SQLitePreparedStatement executeFast2 = this.database.executeFast("UPDATE dialogs SET outbox_max = max((SELECT outbox_max FROM dialogs WHERE did = ?), ?) WHERE did = ?");
                         executeFast2.requery();
-                        executeFast2.bindLong(1, keyAt2);
-                        executeFast2.bindInteger(2, i11);
-                        executeFast2.bindLong(3, keyAt2);
+                        executeFast2.bindLong(1, keyAt3);
+                        executeFast2.bindInteger(2, i13);
+                        executeFast2.bindLong(3, keyAt3);
                         executeFast2.step();
                         executeFast2.dispose();
                     }
                 }
             }
-            if (longSparseIntArray3.size() <= 0) {
-                if (longSparseIntArray4.size() > 0) {
+            if (longSparseIntArray4.size() <= 0) {
+                if (longSparseIntArray5.size() > 0) {
                 }
-                updateFiltersReadCounter(longSparseIntArray3, longSparseIntArray4, true);
-                getMessagesController().processDialogsUpdateRead(longSparseIntArray3, longSparseIntArray4);
+                updateFiltersReadCounter(longSparseIntArray4, longSparseIntArray5, true);
+                getMessagesController().processDialogsUpdateRead(longSparseIntArray4, longSparseIntArray5);
                 if (!arrayList2.isEmpty()) {
                     return;
                 }
@@ -9508,44 +9518,44 @@ public class MessagesStorage extends BaseController {
                 return;
             }
             this.database.beginTransaction();
-            if (longSparseIntArray3.size() > 0) {
+            if (longSparseIntArray4.size() > 0) {
                 ArrayList<Long> arrayList4 = new ArrayList<>();
                 SQLitePreparedStatement executeFast3 = this.database.executeFast("UPDATE dialogs SET unread_count = ? WHERE did = ?");
-                int i12 = 0;
-                while (i12 < longSparseIntArray3.size()) {
-                    long keyAt3 = longSparseIntArray3.keyAt(i12);
-                    int valueAt2 = longSparseIntArray3.valueAt(i12);
-                    SQLiteCursor queryFinalized5 = this.database.queryFinalized("SELECT unread_count FROM dialogs WHERE did = " + keyAt3, new Object[0]);
+                int i14 = 0;
+                while (i14 < longSparseIntArray4.size()) {
+                    long keyAt4 = longSparseIntArray4.keyAt(i14);
+                    int valueAt2 = longSparseIntArray4.valueAt(i14);
+                    SQLiteCursor queryFinalized5 = this.database.queryFinalized("SELECT unread_count FROM dialogs WHERE did = " + keyAt4, new Object[0]);
                     int intValue2 = queryFinalized5.next() ? queryFinalized5.intValue(0) : 0;
                     queryFinalized5.dispose();
                     if (intValue2 == valueAt2) {
-                        longSparseIntArray3.removeAt(i12);
-                        i12--;
+                        longSparseIntArray4.removeAt(i14);
+                        i14--;
                     } else {
                         executeFast3.requery();
                         executeFast3.bindInteger(1, valueAt2);
-                        executeFast3.bindLong(2, keyAt3);
+                        executeFast3.bindLong(2, keyAt4);
                         executeFast3.step();
-                        arrayList4.add(Long.valueOf(keyAt3));
+                        arrayList4.add(Long.valueOf(keyAt4));
                     }
-                    i12++;
+                    i14++;
                 }
                 executeFast3.dispose();
                 updateWidgets(arrayList4);
             }
-            if (longSparseIntArray4.size() > 0) {
+            if (longSparseIntArray5.size() > 0) {
                 SQLitePreparedStatement executeFast4 = this.database.executeFast("UPDATE dialogs SET unread_count_i = ? WHERE did = ?");
-                for (int i13 = 0; i13 < longSparseIntArray4.size(); i13++) {
+                for (int i15 = 0; i15 < longSparseIntArray5.size(); i15++) {
                     executeFast4.requery();
-                    executeFast4.bindInteger(1, longSparseIntArray4.valueAt(i13));
-                    executeFast4.bindLong(2, longSparseIntArray4.keyAt(i13));
+                    executeFast4.bindInteger(1, longSparseIntArray5.valueAt(i15));
+                    executeFast4.bindLong(2, longSparseIntArray5.keyAt(i15));
                     executeFast4.step();
                 }
                 executeFast4.dispose();
             }
             this.database.commitTransaction();
-            updateFiltersReadCounter(longSparseIntArray3, longSparseIntArray4, true);
-            getMessagesController().processDialogsUpdateRead(longSparseIntArray3, longSparseIntArray4);
+            updateFiltersReadCounter(longSparseIntArray4, longSparseIntArray5, true);
+            getMessagesController().processDialogsUpdateRead(longSparseIntArray4, longSparseIntArray5);
             if (!arrayList2.isEmpty()) {
             }
         } catch (Exception e) {
@@ -9573,24 +9583,24 @@ public class MessagesStorage extends BaseController {
         return longSparseArray == null || longSparseArray.size() == 0;
     }
 
-    public void updateDialogsWithReadMessages(final LongSparseIntArray longSparseIntArray, final LongSparseIntArray longSparseIntArray2, final LongSparseArray<ArrayList<Integer>> longSparseArray, boolean z) {
-        if (!isEmpty(longSparseIntArray) || !isEmpty(longSparseIntArray2) || !isEmpty(longSparseArray)) {
+    public void updateDialogsWithReadMessages(final LongSparseIntArray longSparseIntArray, final LongSparseIntArray longSparseIntArray2, final LongSparseArray<ArrayList<Integer>> longSparseArray, final LongSparseIntArray longSparseIntArray3, boolean z) {
+        if (!isEmpty(longSparseIntArray) || !isEmpty(longSparseIntArray2) || !isEmpty(longSparseArray) || !isEmpty(longSparseIntArray3)) {
             if (z) {
                 this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda155
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MessagesStorage.this.lambda$updateDialogsWithReadMessages$89(longSparseIntArray, longSparseIntArray2, longSparseArray);
+                        MessagesStorage.this.lambda$updateDialogsWithReadMessages$89(longSparseIntArray, longSparseIntArray2, longSparseArray, longSparseIntArray3);
                     }
                 });
             } else {
-                updateDialogsWithReadMessagesInternal(null, longSparseIntArray, longSparseIntArray2, longSparseArray);
+                updateDialogsWithReadMessagesInternal(null, longSparseIntArray, longSparseIntArray2, longSparseArray, longSparseIntArray3);
             }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateDialogsWithReadMessages$89(LongSparseIntArray longSparseIntArray, LongSparseIntArray longSparseIntArray2, LongSparseArray longSparseArray) {
-        updateDialogsWithReadMessagesInternal(null, longSparseIntArray, longSparseIntArray2, longSparseArray);
+    public /* synthetic */ void lambda$updateDialogsWithReadMessages$89(LongSparseIntArray longSparseIntArray, LongSparseIntArray longSparseIntArray2, LongSparseArray longSparseArray, LongSparseIntArray longSparseIntArray3) {
+        updateDialogsWithReadMessagesInternal(null, longSparseIntArray, longSparseIntArray2, longSparseArray, longSparseIntArray3);
     }
 
     public void updateChatParticipants(final TLRPC$ChatParticipants tLRPC$ChatParticipants) {
@@ -20598,11 +20608,11 @@ public class MessagesStorage extends BaseController {
         try {
             try {
                 queryFinalized = this.database.queryFinalized(String.format(Locale.US, "SELECT mid, uid FROM randoms_v2 WHERE random_id IN(%s)", TextUtils.join(",", arrayList)), new Object[0]);
-            } catch (Exception e) {
-                e = e;
+            } catch (Throwable th) {
+                th = th;
             }
-        } catch (Throwable th) {
-            th = th;
+        } catch (Exception e) {
+            e = e;
         }
         try {
             LongSparseArray longSparseArray = new LongSparseArray();
@@ -20629,7 +20639,7 @@ public class MessagesStorage extends BaseController {
                         MessagesStorage.this.lambda$markMessagesAsDeletedByRandoms$167(arrayList3);
                     }
                 });
-                updateDialogsWithReadMessagesInternal(arrayList3, null, null, null);
+                updateDialogsWithReadMessagesInternal(arrayList3, null, null, null, null);
                 lambda$markMessagesAsDeleted$172(keyAt, arrayList3, true, false);
                 lambda$updateDialogsWithDeletedMessages$171(keyAt, 0L, arrayList3, null);
             }

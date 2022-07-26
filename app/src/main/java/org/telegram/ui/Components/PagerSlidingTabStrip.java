@@ -208,6 +208,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             canvas.drawRect(0.0f, height - this.underlineHeight, this.tabsContainer.getWidth(), height, this.rectPaint);
         }
         View childAt = this.tabsContainer.getChildAt(this.currentPosition);
+        if (childAt == null) {
+            return;
+        }
         float left = childAt.getLeft();
         float right = childAt.getRight();
         if (this.currentPositionOffset > 0.0f && (i = this.currentPosition) < this.tabCount - 1) {
