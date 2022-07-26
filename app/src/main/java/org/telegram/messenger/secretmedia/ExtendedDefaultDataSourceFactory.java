@@ -26,7 +26,7 @@ public final class ExtendedDefaultDataSourceFactory implements DataSource.Factor
 
     @Override // com.google.android.exoplayer2.upstream.DataSource.Factory
     /* renamed from: createDataSource  reason: collision with other method in class */
-    public ExtendedDefaultDataSource mo840createDataSource() {
-        return new ExtendedDefaultDataSource(this.context, this.listener, this.baseDataSourceFactory.mo840createDataSource());
+    public ExtendedDefaultDataSource mo821createDataSource() {
+        return new ExtendedDefaultDataSource(this.context, this.listener, this.baseDataSourceFactory.mo821createDataSource());
     }
 }

@@ -1421,8 +1421,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return this.videoTextureView;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0246, code lost:
-        if (r0.exists() != false) goto L88;
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x0246, code lost:
+        if (r0.exists() != false) goto L91;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1546,7 +1546,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 } else {
                     intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(new File(str3)));
                 }
-                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
+                try {
+                    getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
+                } catch (Exception unused2) {
+                    break;
+                }
                 break;
             case 7:
                 String str4 = messageObject.messageOwner.attachPath;
@@ -2132,7 +2136,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             ChatActionCell chatActionCell;
             View view;
             if (i == 0) {

@@ -341,7 +341,7 @@ public class GroupCallRecordAlert extends BottomSheet {
 
         @Override // androidx.viewpager.widget.PagerAdapter
         /* renamed from: instantiateItem */
-        public Object mo1580instantiateItem(ViewGroup viewGroup, final int i) {
+        public Object mo1563instantiateItem(ViewGroup viewGroup, final int i) {
             ImageView imageView = new ImageView(GroupCallRecordAlert.this.getContext()) { // from class: org.telegram.ui.Components.GroupCallRecordAlert.Adapter.1
                 @Override // android.view.View
                 public void onInitializeAccessibilityEvent(AccessibilityEvent accessibilityEvent) {

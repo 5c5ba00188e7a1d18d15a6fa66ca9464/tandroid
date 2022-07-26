@@ -71,11 +71,11 @@ public class DefaultDashChunkSource implements DashChunkSource {
 
         @Override // com.google.android.exoplayer2.source.dash.DashChunkSource.Factory
         public DashChunkSource createDashChunkSource(LoaderErrorThrower loaderErrorThrower, DashManifest dashManifest, int i, int[] iArr, TrackSelection trackSelection, int i2, long j, boolean z, List<Format> list, PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler, TransferListener transferListener) {
-            DataSource mo840createDataSource = this.dataSourceFactory.mo840createDataSource();
+            DataSource mo821createDataSource = this.dataSourceFactory.mo821createDataSource();
             if (transferListener != null) {
-                mo840createDataSource.addTransferListener(transferListener);
+                mo821createDataSource.addTransferListener(transferListener);
             }
-            return new DefaultDashChunkSource(loaderErrorThrower, dashManifest, i, iArr, trackSelection, i2, mo840createDataSource, j, this.maxSegmentsPerLoad, z, list, playerTrackEmsgHandler);
+            return new DefaultDashChunkSource(loaderErrorThrower, dashManifest, i, iArr, trackSelection, i2, mo821createDataSource, j, this.maxSegmentsPerLoad, z, list, playerTrackEmsgHandler);
         }
     }
 

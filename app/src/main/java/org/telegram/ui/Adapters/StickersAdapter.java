@@ -217,7 +217,7 @@ public class StickersAdapter extends RecyclerListView.SelectionAdapter implement
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /* renamed from: onCreateViewHolder */
-    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new RecyclerListView.Holder(new EmojiReplacementCell(this.mContext, this.resourcesProvider));
     }
 

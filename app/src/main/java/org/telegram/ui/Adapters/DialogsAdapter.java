@@ -453,7 +453,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
     /* JADX WARN: Type inference failed for: r1v9 */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /* renamed from: onCreateViewHolder */
-    public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
         ?? dialogCell;
         View shadowSectionCell;
         switch (i) {

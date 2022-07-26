@@ -50,7 +50,7 @@ public abstract class PagerAdapter {
     }
 
     /* renamed from: instantiateItem */
-    public Object mo1580instantiateItem(ViewGroup viewGroup, int i) {
+    public Object mo1563instantiateItem(ViewGroup viewGroup, int i) {
         return instantiateItem((View) viewGroup, i);
     }
 

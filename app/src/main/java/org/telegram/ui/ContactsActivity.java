@@ -838,9 +838,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return;
             }
         }
-        Object mo1747getItem = this.listViewAdapter.mo1747getItem(sectionForPosition, positionInSectionForPosition);
-        if (mo1747getItem instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User2 = (TLRPC$User) mo1747getItem;
+        Object mo1730getItem = this.listViewAdapter.mo1730getItem(sectionForPosition, positionInSectionForPosition);
+        if (mo1730getItem instanceof TLRPC$User) {
+            TLRPC$User tLRPC$User2 = (TLRPC$User) mo1730getItem;
             if (this.returnAsResult) {
                 LongSparseArray<TLRPC$User> longSparseArray2 = this.ignoreUsers;
                 if (longSparseArray2 != null && longSparseArray2.indexOfKey(tLRPC$User2.id) >= 0) {
@@ -858,9 +858,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
                 presentFragment(new ChatActivity(bundle4), true);
             }
-        } else if (!(mo1747getItem instanceof ContactsController.Contact)) {
+        } else if (!(mo1730getItem instanceof ContactsController.Contact)) {
         } else {
-            ContactsController.Contact contact = (ContactsController.Contact) mo1747getItem;
+            ContactsController.Contact contact = (ContactsController.Contact) mo1730getItem;
             final String str2 = !contact.phones.isEmpty() ? contact.phones.get(0) : null;
             if (str2 == null || getParentActivity() == null) {
                 return;

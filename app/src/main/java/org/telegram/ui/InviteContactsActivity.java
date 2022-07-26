@@ -769,7 +769,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 1) {
                 InviteTextCell inviteTextCell = new InviteTextCell(this.context);

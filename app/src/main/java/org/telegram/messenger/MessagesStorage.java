@@ -13004,14 +13004,14 @@ public class MessagesStorage extends BaseController {
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:913:0x168b
+        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:929:0x171b
         	at jadx.core.dex.visitors.blocks.BlockProcessor.checkForUnreachableBlocks(BlockProcessor.java:82)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:48)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:40)
         */
     public java.lang.Runnable getMessagesInternal(long r50, long r52, int r54, int r55, int r56, int r57, int r58, int r59, boolean r60, int r61, int r62, boolean r63) {
         /*
-            Method dump skipped, instructions count: 5947
+            Method dump skipped, instructions count: 6107
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.MessagesStorage.getMessagesInternal(long, long, int, int, int, int, int, int, boolean, int, int, boolean):java.lang.Runnable");

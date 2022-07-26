@@ -117,7 +117,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
             processManifest();
             return;
         }
-        this.manifestDataSource = this.manifestDataSourceFactory.mo840createDataSource();
+        this.manifestDataSource = this.manifestDataSourceFactory.mo821createDataSource();
         Loader loader = new Loader("Loader:Manifest");
         this.manifestLoader = loader;
         this.manifestLoaderErrorThrower = loader;

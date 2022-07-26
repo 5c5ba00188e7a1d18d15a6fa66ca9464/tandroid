@@ -10,7 +10,7 @@ public interface DataSource {
     /* loaded from: classes.dex */
     public interface Factory {
         /* renamed from: createDataSource */
-        DataSource mo840createDataSource();
+        DataSource mo821createDataSource();
     }
 
     void addTransferListener(TransferListener transferListener);

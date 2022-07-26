@@ -31,7 +31,7 @@ public interface HttpDataSource extends DataSource {
 
         @Override // com.google.android.exoplayer2.upstream.DataSource.Factory
         /* renamed from: createDataSource  reason: collision with other method in class */
-        public final HttpDataSource mo840createDataSource() {
+        public final HttpDataSource mo821createDataSource() {
             return mo175createDataSourceInternal(this.defaultRequestProperties);
         }
     }

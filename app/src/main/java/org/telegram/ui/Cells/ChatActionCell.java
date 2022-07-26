@@ -241,7 +241,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             return;
         }
         MessageObject messageObject = this.currentMessageObject;
-        if ((messageObject != null && messageObject.wasUnread) || this.forceWasUnread) {
+        if (messageObject != null && !messageObject.playedGiftAnimation) {
+            messageObject.playedGiftAnimation = true;
+            lottieAnimation.setCurrentFrame(0, false);
+            AndroidUtilities.runOnUIThread(new ChatActionCell$$ExternalSyntheticLambda2(lottieAnimation));
+            if (!messageObject.wasUnread && !this.forceWasUnread) {
+                return;
+            }
             messageObject.wasUnread = false;
             this.forceWasUnread = false;
             try {
@@ -252,11 +258,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 ((LaunchActivity) getContext()).getFireworksOverlay().start();
             }
             TLRPC$VideoSize tLRPC$VideoSize = this.giftEffectAnimation;
-            if (tLRPC$VideoSize != null && (chatActionCellDelegate = this.delegate) != null) {
-                chatActionCellDelegate.needShowEffectOverlay(this, this.giftSticker, tLRPC$VideoSize);
+            if (tLRPC$VideoSize == null || (chatActionCellDelegate = this.delegate) == null) {
+                return;
             }
-            lottieAnimation.setCurrentFrame(0, false);
-            AndroidUtilities.runOnUIThread(new ChatActionCell$$ExternalSyntheticLambda2(lottieAnimation));
+            chatActionCellDelegate.needShowEffectOverlay(this, this.giftSticker, tLRPC$VideoSize);
             return;
         }
         lottieAnimation.stop();
@@ -709,7 +714,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 if (action == 1) {
                     this.imagePressed = false;
                     if (messageObject.type == 18) {
-                        openGift();
+                        openPremiumGiftPreview();
                     } else {
                         ChatActionCellDelegate chatActionCellDelegate = this.delegate;
                         if (chatActionCellDelegate != null) {
@@ -732,7 +737,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     view2.setPressed(false);
                     if (this.delegate != null) {
                         playSoundEffect(0);
-                        openGift();
+                        openPremiumGiftPreview();
                     }
                 } else if (action2 != 2) {
                     if (action2 == 3) {
@@ -755,12 +760,6 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             this.pressedLink = null;
         }
         if (z) {
-        }
-    }
-
-    private void openGift() {
-        if (this.imageReceiver.getLottieAnimation() == null || !this.imageReceiver.getLottieAnimation().isRunning()) {
-            openPremiumGiftPreview();
         }
     }
 

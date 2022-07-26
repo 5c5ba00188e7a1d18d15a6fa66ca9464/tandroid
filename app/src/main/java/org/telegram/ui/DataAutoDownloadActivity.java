@@ -997,7 +997,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             SlideChooseView slideChooseView;
             if (i == 0) {
                 TextCheckCell textCheckCell = new TextCheckCell(this.mContext);

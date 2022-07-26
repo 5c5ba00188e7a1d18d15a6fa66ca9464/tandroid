@@ -9098,7 +9098,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View headerCell;
             String str;
             switch (i) {
@@ -11183,7 +11183,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View settingsSearchCell;
             if (i == 0) {
                 settingsSearchCell = new SettingsSearchCell(this.mContext);

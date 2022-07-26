@@ -1679,7 +1679,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
             @Override // androidx.viewpager.widget.PagerAdapter
             /* renamed from: instantiateItem */
-            public Object mo1580instantiateItem(ViewGroup viewGroup, int i17) {
+            public Object mo1563instantiateItem(ViewGroup viewGroup, int i17) {
                 FrameLayout frameLayout8 = i17 == 0 ? ThemePreviewActivity.this.page2 : ThemePreviewActivity.this.page1;
                 viewGroup.addView(frameLayout8);
                 return frameLayout8;
@@ -4762,7 +4762,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View loadingCell;
             if (i == 0) {
                 loadingCell = new DialogCell(null, this.mContext, false, false);
@@ -5207,7 +5207,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 0) {
                 ChatMessageCell chatMessageCell = new ChatMessageCell(this.mContext, false, new Theme.ResourcesProvider() { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.1
@@ -5643,7 +5643,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             return new RecyclerListView.Holder(new PatternCell(this.mContext, ThemePreviewActivity.this.maxWallpaperSize, new PatternCell.PatternCellDelegate() { // from class: org.telegram.ui.ThemePreviewActivity.PatternsAdapter.1
                 @Override // org.telegram.ui.Cells.PatternCell.PatternCellDelegate
                 public TLRPC$TL_wallPaper getSelectedPattern() {

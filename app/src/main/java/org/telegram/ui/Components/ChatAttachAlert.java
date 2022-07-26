@@ -366,7 +366,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
 
         public static /* synthetic */ void lambda$onWebAppOpenInvoice$2(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, ChatAttachAlertBotWebViewLayout chatAttachAlertBotWebViewLayout, String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
-            overlayActionBarLayoutDialog.dismiss();
+            if (invoiceStatus != PaymentFormActivity.InvoiceStatus.PENDING) {
+                overlayActionBarLayoutDialog.dismiss();
+            }
             chatAttachAlertBotWebViewLayout.getWebViewContainer().onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
         }
 
@@ -4797,7 +4799,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View attachButton;
             if (i == 0) {
                 attachButton = new AttachButton(this.mContext);

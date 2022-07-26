@@ -308,7 +308,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
 
     @Override // org.telegram.ui.Charts.BaseChartView
     /* renamed from: createLineViewData */
-    public LineViewData mo1029createLineViewData(ChartData.Line line) {
+    public LineViewData mo1010createLineViewData(ChartData.Line line) {
         return new LineViewData(line);
     }
 

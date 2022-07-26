@@ -178,7 +178,7 @@ public final class DashMediaSource extends BaseMediaSource {
             processManifest(false);
             return;
         }
-        this.dataSource = this.manifestDataSourceFactory.mo840createDataSource();
+        this.dataSource = this.manifestDataSourceFactory.mo821createDataSource();
         this.loader = new Loader("Loader:DashMediaSource");
         this.handler = new Handler();
         startLoadingManifest();

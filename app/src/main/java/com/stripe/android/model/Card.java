@@ -149,11 +149,6 @@ public class Card {
         return substring;
     }
 
-    @Deprecated
-    public String getType() {
-        return getBrand();
-    }
-
     public String getBrand() {
         String str;
         if (StripeTextUtils.isBlank(this.brand) && !StripeTextUtils.isBlank(this.number)) {

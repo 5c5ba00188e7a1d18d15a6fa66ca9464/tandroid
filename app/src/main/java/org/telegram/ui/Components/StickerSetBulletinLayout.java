@@ -30,14 +30,18 @@ import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes3.dex */
 public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     public StickerSetBulletinLayout(Context context, TLObject tLObject, int i) {
-        this(context, tLObject, i, null, null);
+        this(context, tLObject, 1, i, null, null);
     }
 
-    public StickerSetBulletinLayout(final Context context, TLObject tLObject, int i, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
+    public StickerSetBulletinLayout(Context context, TLObject tLObject, int i, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
+        this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
+    }
+
+    public StickerSetBulletinLayout(final Context context, TLObject tLObject, int i, int i2, TLRPC$Document tLRPC$Document, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
         TLRPC$Document tLRPC$Document2;
         TLRPC$StickerSet tLRPC$StickerSet;
-        int i2;
+        int i3;
         ImageLocation forSticker;
         TLRPC$TL_messages_stickerSet stickerSet;
         boolean z = tLObject instanceof TLRPC$TL_messages_stickerSet;
@@ -81,11 +85,11 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
             } else {
                 TLRPC$PhotoSize tLRPC$PhotoSize2 = tLRPC$PhotoSize;
                 if (tLObject instanceof TLRPC$StickerSetCovered) {
-                    i2 = ((TLRPC$StickerSetCovered) tLObject).set.thumb_version;
+                    i3 = ((TLRPC$StickerSetCovered) tLObject).set.thumb_version;
                 } else {
-                    i2 = z ? ((TLRPC$TL_messages_stickerSet) tLObject).set.thumb_version : 0;
+                    i3 = z ? ((TLRPC$TL_messages_stickerSet) tLObject).set.thumb_version : 0;
                 }
-                forSticker = ImageLocation.getForSticker(tLRPC$PhotoSize2, tLRPC$Document2, i2);
+                forSticker = ImageLocation.getForSticker(tLRPC$PhotoSize2, tLRPC$Document2, i3);
             }
             ImageLocation imageLocation = forSticker;
             if ((z2 && MessageObject.isAnimatedStickerDocument(tLRPC$Document2, true)) || MessageObject.isVideoSticker(tLRPC$Document2) || MessageObject.isGifDocument(tLRPC$Document2)) {
@@ -101,7 +105,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         if (tLRPC$StickerSet2 == null) {
             return;
         }
-        switch (i) {
+        switch (i2) {
             case 0:
                 if (tLRPC$StickerSet2.masks) {
                     this.titleTextView.setText(LocaleController.getString("MasksRemoved", R.string.MasksRemoved));
@@ -109,8 +113,13 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     return;
                 } else if (tLRPC$StickerSet2.emojis) {
                     this.titleTextView.setText(LocaleController.getString("EmojiRemoved", R.string.EmojiRemoved));
-                    this.subtitleTextView.setText(LocaleController.formatString("EmojiRemovedInfo", R.string.EmojiRemovedInfo, tLRPC$StickerSet2.title));
-                    return;
+                    if (i > 1) {
+                        this.subtitleTextView.setText(LocaleController.formatPluralString("EmojiRemovedMultipleInfo", i, new Object[0]));
+                        return;
+                    } else {
+                        this.subtitleTextView.setText(LocaleController.formatString("EmojiRemovedInfo", R.string.EmojiRemovedInfo, tLRPC$StickerSet2.title));
+                        return;
+                    }
                 } else {
                     this.titleTextView.setText(LocaleController.getString("StickersRemoved", R.string.StickersRemoved));
                     this.subtitleTextView.setText(LocaleController.formatString("StickersRemovedInfo", R.string.StickersRemovedInfo, tLRPC$StickerSet2.title));
@@ -132,8 +141,13 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     return;
                 } else if (tLRPC$StickerSet2.emojis) {
                     this.titleTextView.setText(LocaleController.getString("AddEmojiInstalled", R.string.AddEmojiInstalled));
-                    this.subtitleTextView.setText(LocaleController.formatString("AddEmojiInstalledInfo", R.string.AddEmojiInstalledInfo, tLRPC$StickerSet2.title));
-                    return;
+                    if (i > 1) {
+                        this.subtitleTextView.setText(LocaleController.formatPluralString("AddEmojiMultipleInstalledInfo", i, new Object[0]));
+                        return;
+                    } else {
+                        this.subtitleTextView.setText(LocaleController.formatString("AddEmojiInstalledInfo", R.string.AddEmojiInstalledInfo, tLRPC$StickerSet2.title));
+                        return;
+                    }
                 } else {
                     this.titleTextView.setText(LocaleController.getString("AddStickersInstalled", R.string.AddStickersInstalled));
                     this.subtitleTextView.setText(LocaleController.formatString("AddStickersInstalledInfo", R.string.AddStickersInstalledInfo, tLRPC$StickerSet2.title));

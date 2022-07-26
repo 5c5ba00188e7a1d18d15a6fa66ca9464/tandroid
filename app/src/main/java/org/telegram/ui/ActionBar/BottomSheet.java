@@ -1279,6 +1279,14 @@ public class BottomSheet extends Dialog {
                 super.dispatchDraw(canvas);
                 BottomSheet.this.mainContainerDispatchDraw(canvas);
             }
+
+            @Override // android.view.View
+            protected void onConfigurationChanged(Configuration configuration) {
+                BottomSheet.this.lastInsets = null;
+                if (Build.VERSION.SDK_INT >= 21) {
+                    BottomSheet.this.container.requestApplyInsets();
+                }
+            }
         };
         this.container = containerView;
         containerView.setBackgroundDrawable(this.backDrawable);

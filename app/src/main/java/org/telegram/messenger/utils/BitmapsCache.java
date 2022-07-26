@@ -173,7 +173,7 @@ public class BitmapsCache {
                 randomAccessFile2.writeInt(length);
                 randomAccessFile2.close();
                 if (BuildVars.DEBUG_VERSION) {
-                    FileLog.d("generate cache for time = " + (System.currentTimeMillis() - currentTimeMillis) + " drawFrameTime = " + j2 + " comressTime = " + j + " fileSize = " + AndroidUtilities.formatFileSize(this.file.length()) + " " + this.fileName);
+                    FileLog.d("generate cache for time = " + (System.currentTimeMillis() - currentTimeMillis) + " drawFrameTime = " + j2 + " comressQuality = " + this.compressQuality + " fileSize = " + AndroidUtilities.formatFileSize(this.file.length()) + " " + this.fileName);
                 }
             } finally {
                 this.source.releaseForGenerateCache();

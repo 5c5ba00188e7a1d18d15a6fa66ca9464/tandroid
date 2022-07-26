@@ -562,7 +562,9 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWebAppOpenInvoice$3(OverlayActionBarLayoutDialog overlayActionBarLayoutDialog, String str, PaymentFormActivity.InvoiceStatus invoiceStatus) {
-            overlayActionBarLayoutDialog.dismiss();
+            if (invoiceStatus != PaymentFormActivity.InvoiceStatus.PENDING) {
+                overlayActionBarLayoutDialog.dismiss();
+            }
             BotWebViewSheet.this.webViewContainer.onInvoiceStatusUpdate(str, invoiceStatus.name().toLowerCase(Locale.ROOT));
         }
 

@@ -9,7 +9,6 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -746,8 +745,7 @@ public class Emoji {
                 if (emojiDrawable != null) {
                     charSequence.setSpan(new EmojiSpan(emojiDrawable, 0, i, fontMetricsInt), emojiSpanRange.start, emojiSpanRange.end, 33);
                 }
-                int i4 = Build.VERSION.SDK_INT;
-                if ((i4 < 23 || i4 >= 29) && i2 + 1 >= 50) {
+                if (SharedConfig.getDevicePerformanceClass() == 0 && i2 + 1 >= 50) {
                     break;
                 }
             }

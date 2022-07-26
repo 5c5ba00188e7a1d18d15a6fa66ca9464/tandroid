@@ -499,7 +499,7 @@ public class ViewPager extends ViewGroup {
     ItemInfo addNewItem(int i, int i2) {
         ItemInfo itemInfo = new ItemInfo();
         itemInfo.position = i;
-        itemInfo.object = this.mAdapter.mo1580instantiateItem((ViewGroup) this, i);
+        itemInfo.object = this.mAdapter.mo1563instantiateItem((ViewGroup) this, i);
         itemInfo.widthFactor = this.mAdapter.getPageWidth(i);
         if (i2 < 0 || i2 >= this.mItems.size()) {
             this.mItems.add(itemInfo);

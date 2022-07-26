@@ -4446,7 +4446,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         public abstract void onBindViewHolder(VH vh, int i);
 
         /* renamed from: onCreateViewHolder */
-        public abstract VH mo1758onCreateViewHolder(ViewGroup viewGroup, int i);
+        public abstract VH mo1741onCreateViewHolder(ViewGroup viewGroup, int i);
 
         public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         }
@@ -4471,12 +4471,12 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         public final VH createViewHolder(ViewGroup viewGroup, int i) {
             try {
                 TraceCompat.beginSection("RV CreateView");
-                VH mo1758onCreateViewHolder = mo1758onCreateViewHolder(viewGroup, i);
-                if (mo1758onCreateViewHolder.itemView.getParent() != null) {
+                VH mo1741onCreateViewHolder = mo1741onCreateViewHolder(viewGroup, i);
+                if (mo1741onCreateViewHolder.itemView.getParent() != null) {
                     throw new IllegalStateException("ViewHolder views must not be attached when created. Ensure that you are not passing 'true' to the attachToRoot parameter of LayoutInflater.inflate(..., boolean attachToRoot)");
                 }
-                mo1758onCreateViewHolder.mItemViewType = i;
-                return mo1758onCreateViewHolder;
+                mo1741onCreateViewHolder.mItemViewType = i;
+                return mo1741onCreateViewHolder;
             } finally {
                 TraceCompat.endSection();
             }

@@ -3379,11 +3379,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         @Override // android.text.TextWatcher
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            int currentPage;
             if (this.ignorePrevTextChange) {
                 return;
             }
             boolean z = false;
-            if ((i2 == 0 && !TextUtils.isEmpty(charSequence)) || (i2 != 0 && TextUtils.isEmpty(charSequence))) {
+            if (ChatActivityEnterView.this.emojiView != null) {
+                currentPage = ChatActivityEnterView.this.emojiView.getCurrentPage();
+            } else {
+                currentPage = MessagesController.getGlobalEmojiSettings().getInt("selected_page", 0);
+            }
+            boolean z2 = currentPage != 0 && (ChatActivityEnterView.this.allowStickers || ChatActivityEnterView.this.allowGifs);
+            if (((i2 == 0 && !TextUtils.isEmpty(charSequence)) || (i2 != 0 && TextUtils.isEmpty(charSequence))) && z2) {
                 ChatActivityEnterView.this.setEmojiButtonImage(false, true);
             }
             if (ChatActivityEnterView.this.lineCount != ChatActivityEnterView.this.messageEditText.getLineCount()) {
@@ -9183,17 +9190,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (z && this.currentPopupContentType == 0) {
             state = ChatActivityEnterViewAnimatedIconView.State.KEYBOARD;
         } else {
-            EditTextCaption editTextCaption = this.messageEditText;
-            if (editTextCaption != null && !TextUtils.isEmpty(editTextCaption.getText())) {
+            EmojiView emojiView = this.emojiView;
+            if (emojiView == null) {
+                currentPage = MessagesController.getGlobalEmojiSettings().getInt("selected_page", 0);
+            } else {
+                currentPage = emojiView.getCurrentPage();
+            }
+            if (currentPage == 0 || (!this.allowStickers && !this.allowGifs)) {
                 state = ChatActivityEnterViewAnimatedIconView.State.SMILE;
             } else {
-                EmojiView emojiView = this.emojiView;
-                if (emojiView == null) {
-                    currentPage = MessagesController.getGlobalEmojiSettings().getInt("selected_page", 0);
-                } else {
-                    currentPage = emojiView.getCurrentPage();
-                }
-                if (currentPage == 0 || (!this.allowStickers && !this.allowGifs)) {
+                EditTextCaption editTextCaption = this.messageEditText;
+                if (editTextCaption != null && !TextUtils.isEmpty(editTextCaption.getText())) {
                     state = ChatActivityEnterViewAnimatedIconView.State.SMILE;
                 } else if (currentPage == 1) {
                     state = ChatActivityEnterViewAnimatedIconView.State.STICKER;

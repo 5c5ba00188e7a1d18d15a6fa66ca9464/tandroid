@@ -120,7 +120,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
                 if (i != 0) {
                     if (i != 1) {
                         return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));

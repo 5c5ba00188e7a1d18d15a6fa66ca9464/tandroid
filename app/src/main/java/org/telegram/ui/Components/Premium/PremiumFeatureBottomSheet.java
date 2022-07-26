@@ -177,7 +177,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
             @Override // androidx.viewpager.widget.PagerAdapter
             /* renamed from: instantiateItem */
-            public Object mo1580instantiateItem(ViewGroup viewGroup, int i3) {
+            public Object mo1563instantiateItem(ViewGroup viewGroup, int i3) {
                 ViewPage viewPage = new ViewPage(parentActivity, i3);
                 viewGroup.addView(viewPage);
                 viewPage.position = i3;

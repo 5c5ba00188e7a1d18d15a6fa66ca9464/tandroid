@@ -211,7 +211,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View textInfoPrivacyCell;
             if (i == 0) {
                 textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);

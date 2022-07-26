@@ -1341,7 +1341,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         @SuppressLint({"ClickableViewAccessibility"})
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             FeaturedStickerSetCell2 featuredStickerSetCell2;
             if (i == 0) {
                 final StickerSetCell stickerSetCell = new StickerSetCell(this.mContext, 1) { // from class: org.telegram.ui.StickersActivity.ListAdapter.2
@@ -1379,13 +1379,11 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                             }
                             ListAdapter.this.loadingFeaturedStickerSets.add(Long.valueOf(tLRPC$StickerSetCovered.set.id));
                         }
-                        updateButtonState(4, true);
                         MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).toggleStickerSet(StickersActivity.this.getParentActivity(), tLRPC$StickerSetCovered == 0 ? stickersSet : tLRPC$StickerSetCovered, 2, StickersActivity.this, false, false);
                     }
 
                     @Override // org.telegram.ui.Cells.StickerSetCell
                     protected void onRemoveButtonClick() {
-                        updateButtonState(3, true);
                         MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).toggleStickerSet(StickersActivity.this.getParentActivity(), getStickersSet(), 0, StickersActivity.this, false, false);
                     }
                 };

@@ -93,12 +93,10 @@ public class SvgHelper {
     public static class SvgDrawable extends Drawable {
         private static float gradientWidth;
         private static long lastUpdateTime;
-        private static long lastUpdateTimeBackground;
         private static int[] parentPosition = new int[2];
         private static WeakReference<Drawable> shiftDrawable;
         private static Runnable shiftRunnable;
         private static float totalTranslation;
-        private static float totalTranslationBackground;
         private Paint backgroundPaint;
         private float colorAlpha;
         private String currentColorKey;
@@ -162,20 +160,20 @@ public class SvgHelper {
                 long j2 = 0;
                 long j3 = 64;
                 if (z != 0) {
-                    long j4 = j - lastUpdateTimeBackground;
+                    long j4 = j - lastUpdateTime;
                     if (j4 <= 64) {
                         j3 = j4;
                     }
                     if (j3 > 0) {
-                        lastUpdateTimeBackground = j;
-                        totalTranslationBackground += (((float) j3) * gradientWidth) / 1800.0f;
+                        lastUpdateTime = j;
+                        totalTranslation += (((float) j3) * gradientWidth) / 1800.0f;
                         while (true) {
-                            float f5 = totalTranslationBackground;
+                            float f5 = totalTranslation;
                             float f6 = gradientWidth;
                             if (f5 < f6 * 2.0f) {
                                 break;
                             }
-                            totalTranslationBackground = f5 - (f6 * 2.0f);
+                            totalTranslation = f5 - (f6 * 2.0f);
                         }
                     }
                 } else if (shiftRunnable == null || shiftDrawable.get() == this) {
@@ -216,7 +214,7 @@ public class SvgHelper {
                 if (matrixArr[z ? 1 : 0] != null) {
                     matrixArr[z].reset();
                     if (z != 0) {
-                        this.placeholderMatrix[z].postTranslate(((-i) + totalTranslationBackground) - f, 0.0f);
+                        this.placeholderMatrix[z].postTranslate(((-i) + totalTranslation) - f, 0.0f);
                     } else {
                         this.placeholderMatrix[z].postTranslate(((-i) + totalTranslation) - f, 0.0f);
                     }

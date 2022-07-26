@@ -23,6 +23,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class MentionCell extends LinearLayout {
+    private boolean attached;
     private AvatarDrawable avatarDrawable;
     private Drawable emojiDrawable;
     private BackupImageView imageView;
@@ -66,6 +67,7 @@ public class MentionCell extends LinearLayout {
     }
 
     public void setUser(TLRPC$User tLRPC$User) {
+        resetEmojiSuggestion();
         if (tLRPC$User == null) {
             this.nameTextView.setText("");
             this.usernameTextView.setText("");
@@ -162,10 +164,13 @@ public class MentionCell extends LinearLayout {
                 Drawable drawable = this.emojiDrawable;
                 if (drawable instanceof AnimatedEmojiDrawable) {
                     ((AnimatedEmojiDrawable) drawable).removeView(this);
+                    this.emojiDrawable = null;
                 }
                 AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, 0, Long.parseLong(keywordResult.emoji.substring(9)));
                 this.emojiDrawable = make;
-                make.addView(this);
+                if (this.attached) {
+                    make.addView(this);
+                }
             } catch (Exception unused) {
                 this.emojiDrawable = Emoji.getEmojiDrawable(keywordResult.emoji);
             }
@@ -241,6 +246,7 @@ public class MentionCell extends LinearLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        this.attached = false;
         Drawable drawable = this.emojiDrawable;
         if (drawable instanceof AnimatedEmojiDrawable) {
             ((AnimatedEmojiDrawable) drawable).removeView(this);
@@ -250,6 +256,7 @@ public class MentionCell extends LinearLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        this.attached = true;
         Drawable drawable = this.emojiDrawable;
         if (drawable instanceof AnimatedEmojiDrawable) {
             ((AnimatedEmojiDrawable) drawable).addView(this);

@@ -936,7 +936,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public Item mo1580instantiateItem(ViewGroup viewGroup, int i) {
+        public Item mo1563instantiateItem(ViewGroup viewGroup, int i) {
             boolean z;
             Item item = this.objects.get(i);
             int realPosition = getRealPosition(i);

@@ -12,6 +12,6 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda1
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        MediaDataController.lambda$markFeaturedStickersByIdAsRead$50(tLObject, tLRPC$TL_error);
+        MediaDataController.lambda$removePeer$128(tLObject, tLRPC$TL_error);
     }
 }

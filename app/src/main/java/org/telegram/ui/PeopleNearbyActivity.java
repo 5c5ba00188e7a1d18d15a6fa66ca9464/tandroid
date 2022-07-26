@@ -1100,7 +1100,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             TextView textView;
             if (i == 0) {
                 View manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false);

@@ -168,7 +168,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0() {
-            RLottieDrawable.this.bitmapsCache.createCache();
+            BitmapsCache bitmapsCache = RLottieDrawable.this.bitmapsCache;
+            if (bitmapsCache != null) {
+                bitmapsCache.createCache();
+            }
             RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableCacheFinished);
         }
     }
@@ -1503,7 +1506,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         checkRunningTasks();
         if (this.loadingInBackground || this.secondLoadingInBackground) {
             this.destroyAfterLoading = true;
-        } else if (this.loadFrameTask == null && this.cacheGenerateTask == null) {
+        } else if (this.loadFrameTask == null && this.cacheGenerateTask == null && !this.generatingCache) {
             if (this.nativePtr != 0) {
                 destroy(this.nativePtr);
                 this.nativePtr = 0L;

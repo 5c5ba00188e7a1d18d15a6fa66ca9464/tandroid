@@ -185,7 +185,7 @@ public class NumberPicker extends LinearLayout {
 
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
             /* renamed from: getContentDescription */
-            public CharSequence mo2109getContentDescription(View view) {
+            public CharSequence mo2090getContentDescription(View view) {
                 NumberPicker numberPicker = NumberPicker.this;
                 return numberPicker.getContentDescription(numberPicker.mValue);
             }

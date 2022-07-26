@@ -106,7 +106,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         this.drawBitmaps = false;
         this.animationIndex = -1;
         this.resourcesProvider = resourcesProvider;
-        if (chatMessageCell.getMessageObject().textLayoutBlocks.size() > 1 || chatMessageCell.getMessageObject().textLayoutBlocks.isEmpty() || chatMessageCell.getMessageObject().textLayoutBlocks.get(0).textLayout.getLineCount() > 10) {
+        if (chatMessageCell.getMessageObject().textLayoutBlocks == null || chatMessageCell.getMessageObject().textLayoutBlocks.size() > 1 || chatMessageCell.getMessageObject().textLayoutBlocks.isEmpty() || chatMessageCell.getMessageObject().textLayoutBlocks.get(0).textLayout.getLineCount() > 10) {
             return;
         }
         this.messageView = chatMessageCell;

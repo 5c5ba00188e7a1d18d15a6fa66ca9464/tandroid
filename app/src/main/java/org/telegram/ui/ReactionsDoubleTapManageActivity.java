@@ -66,7 +66,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             /* renamed from: onCreateViewHolder */
-            public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+            public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
                 TextInfoPrivacyCell textInfoPrivacyCell;
                 if (i == 0) {
                     ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, ((BaseFragment) ReactionsDoubleTapManageActivity.this).parentLayout, 2);

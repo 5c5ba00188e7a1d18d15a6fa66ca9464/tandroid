@@ -50,12 +50,12 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
 
     @Override // com.google.android.exoplayer2.source.MediaSource
     public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
-        DataSource mo840createDataSource = this.dataSourceFactory.mo840createDataSource();
+        DataSource mo821createDataSource = this.dataSourceFactory.mo821createDataSource();
         TransferListener transferListener = this.transferListener;
         if (transferListener != null) {
-            mo840createDataSource.addTransferListener(transferListener);
+            mo821createDataSource.addTransferListener(transferListener);
         }
-        return new ProgressiveMediaPeriod(this.uri, mo840createDataSource, this.extractorsFactory.createExtractors(), this.drmSessionManager, this.loadableLoadErrorHandlingPolicy, createEventDispatcher(mediaPeriodId), this, allocator, this.customCacheKey, this.continueLoadingCheckIntervalBytes);
+        return new ProgressiveMediaPeriod(this.uri, mo821createDataSource, this.extractorsFactory.createExtractors(), this.drmSessionManager, this.loadableLoadErrorHandlingPolicy, createEventDispatcher(mediaPeriodId), this, allocator, this.customCacheKey, this.continueLoadingCheckIntervalBytes);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource

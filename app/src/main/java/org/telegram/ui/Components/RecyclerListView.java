@@ -274,7 +274,7 @@ public class RecyclerListView extends RecyclerView {
         public abstract int getCountForSection(int i);
 
         /* renamed from: getItem */
-        public abstract Object mo1747getItem(int i, int i2);
+        public abstract Object mo1730getItem(int i, int i2);
 
         public abstract int getItemViewType(int i, int i2);
 
@@ -336,7 +336,7 @@ public class RecyclerListView extends RecyclerView {
         }
 
         public final Object getItem(int i) {
-            return mo1747getItem(getSectionForPosition(i), getPositionInSectionForPosition(i));
+            return mo1730getItem(getSectionForPosition(i), getPositionInSectionForPosition(i));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

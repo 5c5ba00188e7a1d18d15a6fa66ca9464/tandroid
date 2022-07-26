@@ -26,7 +26,7 @@ public class StatsController extends BaseController {
         /* JADX WARN: Can't rename method to resolve collision */
         @Override // java.lang.ThreadLocal
         /* renamed from: initialValue */
-        public Long mo817initialValue() {
+        public Long mo798initialValue() {
             return Long.valueOf(System.currentTimeMillis() - 1000);
         }
     };

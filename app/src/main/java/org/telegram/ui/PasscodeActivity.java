@@ -1662,7 +1662,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View textCheckCell;
             View view;
             if (i == 0) {

@@ -180,10 +180,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void scrollToChild(int i, int i2) {
-        if (this.tabCount == 0) {
+        View childAt;
+        if (this.tabCount == 0 || (childAt = this.tabsContainer.getChildAt(i)) == null) {
             return;
         }
-        int left = this.tabsContainer.getChildAt(i).getLeft() + i2;
+        int left = childAt.getLeft() + i2;
         if (i > 0 || i2 > 0) {
             left -= this.scrollOffset;
         }

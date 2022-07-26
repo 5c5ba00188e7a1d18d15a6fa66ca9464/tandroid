@@ -614,7 +614,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             StickerSetCell stickerSetCell;
             if (i == 0) {
                 StickerSetCell stickerSetCell2 = new StickerSetCell(this.mContext, 3);
@@ -733,7 +733,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View stickerSetCell;
             if (i == 0) {
                 stickerSetCell = new StickerSetCell(this.mContext, 3);

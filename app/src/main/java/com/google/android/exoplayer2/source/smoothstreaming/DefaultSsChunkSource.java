@@ -49,11 +49,11 @@ public class DefaultSsChunkSource implements SsChunkSource {
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.SsChunkSource.Factory
         public SsChunkSource createChunkSource(LoaderErrorThrower loaderErrorThrower, SsManifest ssManifest, int i, TrackSelection trackSelection, TransferListener transferListener) {
-            DataSource mo840createDataSource = this.dataSourceFactory.mo840createDataSource();
+            DataSource mo821createDataSource = this.dataSourceFactory.mo821createDataSource();
             if (transferListener != null) {
-                mo840createDataSource.addTransferListener(transferListener);
+                mo821createDataSource.addTransferListener(transferListener);
             }
-            return new DefaultSsChunkSource(loaderErrorThrower, ssManifest, i, trackSelection, mo840createDataSource);
+            return new DefaultSsChunkSource(loaderErrorThrower, ssManifest, i, trackSelection, mo821createDataSource);
         }
     }
 

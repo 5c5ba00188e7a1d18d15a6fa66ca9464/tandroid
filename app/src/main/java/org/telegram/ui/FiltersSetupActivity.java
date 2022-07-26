@@ -848,7 +848,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             SuggestedFilterCell suggestedFilterCell;
             if (i == 0) {
                 View headerCell = new HeaderCell(this.mContext);
@@ -899,7 +899,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$7(SuggestedFilterCell suggestedFilterCell, View view) {
             final TLRPC$TL_dialogFilterSuggested suggestedFilter = suggestedFilterCell.getSuggestedFilter();
-            MessagesController.DialogFilter dialogFilter = new MessagesController.DialogFilter();
+            final MessagesController.DialogFilter dialogFilter = new MessagesController.DialogFilter();
             dialogFilter.name = suggestedFilter.filter.title;
             dialogFilter.id = 2;
             while (FiltersSetupActivity.this.getMessagesController().dialogFiltersById.get(dialogFilter.id) != null) {
@@ -953,13 +953,14 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             FilterCreateActivity.saveFilterToServer(dialogFilter, dialogFilter.flags, dialogFilter.name, dialogFilter.alwaysShow, dialogFilter.neverShow, dialogFilter.pinnedDialogs, true, true, true, true, false, FiltersSetupActivity.this, new Runnable() { // from class: org.telegram.ui.FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FiltersSetupActivity.ListAdapter.this.lambda$onCreateViewHolder$6(suggestedFilter);
+                    FiltersSetupActivity.ListAdapter.this.lambda$onCreateViewHolder$6(suggestedFilter, dialogFilter);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onCreateViewHolder$6(TLRPC$TL_dialogFilterSuggested tLRPC$TL_dialogFilterSuggested) {
+        public /* synthetic */ void lambda$onCreateViewHolder$6(TLRPC$TL_dialogFilterSuggested tLRPC$TL_dialogFilterSuggested, MessagesController.DialogFilter dialogFilter) {
+            int i = 0;
             FiltersSetupActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated, new Object[0]);
             FiltersSetupActivity.this.ignoreUpdates = false;
             ArrayList<TLRPC$TL_dialogFilterSuggested> arrayList = FiltersSetupActivity.this.getMessagesController().suggestedFilters;
@@ -967,23 +968,35 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             if (indexOf != -1) {
                 boolean z = FiltersSetupActivity.this.filtersStartRow == -1;
                 arrayList.remove(indexOf);
-                int i = indexOf + FiltersSetupActivity.this.recommendedStartRow;
-                int i2 = FiltersSetupActivity.this.createFilterRow;
-                int i3 = FiltersSetupActivity.this.recommendedHeaderRow;
-                int i4 = FiltersSetupActivity.this.recommendedSectionRow;
+                int i2 = indexOf + FiltersSetupActivity.this.recommendedStartRow;
+                int i3 = FiltersSetupActivity.this.createFilterRow;
+                int i4 = FiltersSetupActivity.this.recommendedHeaderRow;
+                int i5 = FiltersSetupActivity.this.recommendedSectionRow;
                 FiltersSetupActivity.this.updateRows(false);
-                if (i2 != -1 && FiltersSetupActivity.this.createFilterRow == -1) {
-                    FiltersSetupActivity.this.adapter.notifyItemRemoved(i2);
+                if (i3 != -1 && FiltersSetupActivity.this.createFilterRow == -1) {
+                    FiltersSetupActivity.this.adapter.notifyItemRemoved(i3);
                 }
-                if (i3 == -1 || FiltersSetupActivity.this.recommendedHeaderRow != -1) {
-                    FiltersSetupActivity.this.adapter.notifyItemRemoved(i);
+                if (i4 == -1 || FiltersSetupActivity.this.recommendedHeaderRow != -1) {
+                    FiltersSetupActivity.this.adapter.notifyItemRemoved(i2);
                 } else {
-                    FiltersSetupActivity.this.adapter.notifyItemRangeRemoved(i3, (i4 - i3) + 1);
+                    FiltersSetupActivity.this.adapter.notifyItemRangeRemoved(i4, (i5 - i4) + 1);
                 }
                 if (z) {
                     FiltersSetupActivity.this.adapter.notifyItemInserted(FiltersSetupActivity.this.filtersHeaderRow);
                 }
-                FiltersSetupActivity.this.adapter.notifyItemInserted(FiltersSetupActivity.this.filtersStartRow);
+                int i6 = 0;
+                for (int i7 = 0; i7 < FiltersSetupActivity.this.getMessagesController().dialogFilters.size(); i7++) {
+                    if (dialogFilter.id == FiltersSetupActivity.this.getMessagesController().dialogFilters.get(i7).id) {
+                        i6 = i7;
+                    }
+                }
+                if (!FiltersSetupActivity.this.getUserConfig().isPremium()) {
+                    i6--;
+                }
+                if (i6 >= 0) {
+                    i = i6;
+                }
+                FiltersSetupActivity.this.adapter.notifyItemInserted(FiltersSetupActivity.this.filtersStartRow + i);
                 return;
             }
             FiltersSetupActivity.this.updateRows(true);

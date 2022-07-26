@@ -192,6 +192,7 @@ public class PremiumGiftTierCell extends ViewGroup {
             this.priceTotalView.setText(giftTier.getFormattedPrice());
         } else {
             this.discountView.setText(LocaleController.formatString(R.string.GiftPremiumOptionDiscount, 10));
+            this.discountView.setVisibility(0);
             this.pricePerMonthView.setText(LocaleController.formatString(R.string.PricePerMonth, 100));
             this.priceTotalView.setText("USD00,00");
         }

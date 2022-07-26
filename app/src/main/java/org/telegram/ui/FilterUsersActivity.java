@@ -1143,7 +1143,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View groupCreateUserCell;
             if (i == 1) {
                 groupCreateUserCell = new GroupCreateUserCell(this.context, 1, 0, true);

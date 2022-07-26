@@ -10946,7 +10946,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             MentionsContainerView mentionsContainerView = ChatActivity.this.mentionContainer;
             if (mentionsContainerView != null && mentionsContainerView.getAdapter() != null) {
-                ChatActivity.this.mentionContainer.getAdapter().searchUsernameOrHashtag(charSequence.toString(), ChatActivity.this.chatActivityEnterView.getCursorPosition(), ChatActivity.this.messages, false, false);
+                ChatActivity.this.mentionContainer.getAdapter().searchUsernameOrHashtag(charSequence, ChatActivity.this.chatActivityEnterView.getCursorPosition(), ChatActivity.this.messages, false, false);
             }
             if (ChatActivity.this.waitingForCharaterEnterRunnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(ChatActivity.this.waitingForCharaterEnterRunnable);
@@ -18562,14 +18562,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3096
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3107
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:60)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:40)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int r54, int r55, java.lang.Object... r56) {
+    public void didReceivedNotification(int r55, int r56, java.lang.Object... r57) {
         /*
-            Method dump skipped, instructions count: 14089
+            Method dump skipped, instructions count: 14141
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -26024,7 +26024,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // androidx.viewpager.widget.PagerAdapter
         /* renamed from: instantiateItem */
-        public Object mo1580instantiateItem(ViewGroup viewGroup, final int i) {
+        public Object mo1563instantiateItem(ViewGroup viewGroup, final int i) {
             View view = (View) this.val$cachedViews.get(i);
             if (view != null) {
                 viewGroup.addView(view);
@@ -29673,7 +29673,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             ChatActionCell chatActionCell;
             ChatMessageCell chatMessageCell;
             if (i == 0) {

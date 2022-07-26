@@ -17,6 +17,7 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
     protected int mInterimTargetDx;
     protected int mInterimTargetDy;
     protected final LinearInterpolator mLinearInterpolator;
+    private int offset;
     private int scrollPosition;
 
     private int clampApplyScroll(int i, int i2) {
@@ -53,6 +54,10 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
         this.durationMultiplier = f;
         this.MILLISECONDS_PER_PX = (25.0f / context.getResources().getDisplayMetrics().densityDpi) * f;
         this.scrollPosition = i;
+    }
+
+    public void setOffset(int i) {
+        this.offset = i;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.SmoothScroller
@@ -121,13 +126,13 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
             int i = decoratedBottom - decoratedTop;
             int i2 = this.scrollPosition;
             if (i2 == 2) {
-                paddingTop = layoutManager.getPaddingTop();
+                paddingTop = layoutManager.getPaddingTop() + this.offset;
             } else if (i > height) {
                 paddingTop = 0;
             } else if (i2 == 0) {
                 paddingTop = (height - i) / 2;
             } else {
-                paddingTop = layoutManager.getPaddingTop() - AndroidUtilities.dp(88.0f);
+                paddingTop = (layoutManager.getPaddingTop() + this.offset) - AndroidUtilities.dp(88.0f);
             }
             int i3 = i + paddingTop;
             int i4 = paddingTop - decoratedTop;

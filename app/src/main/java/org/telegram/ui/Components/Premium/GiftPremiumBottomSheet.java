@@ -33,6 +33,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
@@ -269,6 +270,12 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     private void onGiftSuccess(boolean z) {
+        TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user.id);
+        if (userFull != null) {
+            this.user.premium = true;
+            MessagesController.getInstance(this.currentAccount).putUser(this.user, true);
+            NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.userInfoDidLoad, Long.valueOf(this.user.id), userFull);
+        }
         if (getBaseFragment() != null) {
             ArrayList<BaseFragment> arrayList = new ArrayList(((LaunchActivity) getBaseFragment().getParentActivity()).getActionBarLayout().fragmentsStack);
             ActionBarLayout parentLayout = getBaseFragment().getParentLayout();
@@ -433,7 +440,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             PremiumGiftTierCell premiumGiftTierCell;
             View view;
             if (i == 1) {

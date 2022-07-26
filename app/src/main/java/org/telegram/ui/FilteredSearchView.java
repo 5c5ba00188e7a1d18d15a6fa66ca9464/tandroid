@@ -963,7 +963,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             FrameLayout frameLayout;
             if (i == 0) {
                 SharedPhotoVideoCell sharedPhotoVideoCell = new SharedPhotoVideoCell(this.mContext, 1);
@@ -1146,7 +1146,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
         /* renamed from: getItem */
-        public Object mo1747getItem(int i, int i2) {
+        public Object mo1730getItem(int i, int i2) {
             return null;
         }
 
@@ -1264,7 +1264,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             GraySectionCell graySectionCell;
             if (i == 0) {
                 graySectionCell = new GraySectionCell(this.mContext);
@@ -1342,7 +1342,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
         /* renamed from: getItem */
-        public Object mo1747getItem(int i, int i2) {
+        public Object mo1730getItem(int i, int i2) {
             return null;
         }
 
@@ -1408,7 +1408,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             View graySectionCell;
             SharedDocumentCell sharedDocumentCell;
             if (i != 0) {
@@ -1635,7 +1635,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /* renamed from: onCreateViewHolder */
-        public RecyclerView.ViewHolder mo1758onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public RecyclerView.ViewHolder mo1741onCreateViewHolder(ViewGroup viewGroup, int i) {
             DialogCell dialogCell;
             if (i == 0) {
                 dialogCell = new DialogCell(null, viewGroup.getContext(), true, false);
