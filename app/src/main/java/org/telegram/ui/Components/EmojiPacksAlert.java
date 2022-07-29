@@ -182,7 +182,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                 AnimatedEmojiDrawable animatedEmojiDrawable = (AnimatedEmojiDrawable) EmojiPacksAlert.this.animatedEmojiDrawables.get(documentId);
                                 if (animatedEmojiDrawable == null) {
                                     LongSparseArray longSparseArray = EmojiPacksAlert.this.animatedEmojiDrawables;
-                                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(((BottomSheet) EmojiPacksAlert.this).currentAccount, 2, documentId);
+                                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(((BottomSheet) EmojiPacksAlert.this).currentAccount, 3, documentId);
                                     longSparseArray.put(documentId, make);
                                     animatedEmojiDrawable = make;
                                 }

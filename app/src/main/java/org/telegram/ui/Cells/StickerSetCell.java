@@ -176,7 +176,7 @@ public class StickerSetCell extends FrameLayout {
         textView4.setTextSize(1, 14.0f);
         this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.removeButtonView.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
-        this.removeButtonView.setTextColor(Theme.getColor("featuredStickers_addButton", resourcesProvider));
+        this.removeButtonView.setTextColor(Theme.getColor("featuredStickers_removeButtonText", resourcesProvider));
         this.removeButtonView.setBackground(Theme.AdaptiveRipple.createRect(0, Theme.getColor("featuredStickers_addButton", resourcesProvider) & 452984831, 4.0f));
         this.removeButtonView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
         this.removeButtonView.setGravity(17);
@@ -463,16 +463,11 @@ public class StickerSetCell extends FrameLayout {
     }
 
     public void setReorderable(final boolean z, boolean z2) {
-        TLRPC$StickerSet tLRPC$StickerSet;
-        TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = this.stickersSet;
-        int i = 0;
-        if (tLRPC$TL_messages_stickerSet != null && (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set) != null && tLRPC$StickerSet.emojis) {
-            z = false;
-        }
         if (this.option == 1) {
             float[] fArr = new float[2];
             float f = 0.0f;
             float f2 = 1.0f;
+            int i = 0;
             fArr[0] = z ? 1.0f : 0.0f;
             if (!z) {
                 f = 1.0f;

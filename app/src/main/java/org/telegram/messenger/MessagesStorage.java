@@ -2462,7 +2462,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:39:0x034a  */
     /* JADX WARN: Removed duplicated region for block: B:94:0x025e A[Catch: all -> 0x0278, Exception -> 0x027b, TryCatch #14 {Exception -> 0x027b, blocks: (B:91:0x0185, B:92:0x0188, B:94:0x025e, B:95:0x026d), top: B:90:0x0185 }] */
     /* JADX WARN: Type inference failed for: r6v12 */
-    /* JADX WARN: Type inference failed for: r6v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5067,7 +5067,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:45:0x00fd  */
-    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v3 */
     /* JADX WARN: Type inference failed for: r3v6 */
     /*
@@ -9389,7 +9389,7 @@ public class MessagesStorage extends BaseController {
         this.archiveUnreadCount = this.pendingArchiveUnreadCount;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x02dd A[Catch: Exception -> 0x02e5, TRY_LEAVE, TryCatch #0 {Exception -> 0x02e5, blocks: (B:3:0x0008, B:7:0x0024, B:8:0x003c, B:10:0x0042, B:13:0x0049, B:16:0x0050, B:23:0x005a, B:19:0x005e, B:32:0x0064, B:33:0x020b, B:35:0x0211, B:39:0x02cd, B:41:0x02dd, B:46:0x021b, B:48:0x0226, B:49:0x0234, B:51:0x023a, B:53:0x0262, B:54:0x0268, B:56:0x026d, B:58:0x028a, B:59:0x0274, B:62:0x028c, B:63:0x0295, B:65:0x029b, B:66:0x02a4, B:68:0x02aa, B:70:0x02c3, B:71:0x02c6, B:73:0x0069, B:76:0x0070, B:78:0x0076, B:80:0x0084, B:83:0x008c, B:85:0x0092, B:89:0x00ef, B:90:0x00a1, B:92:0x00c8, B:93:0x00cf, B:96:0x00f6, B:98:0x00fc, B:100:0x0103, B:101:0x012c, B:103:0x0132, B:105:0x014a, B:107:0x0150, B:109:0x0157, B:111:0x015e, B:113:0x0180, B:114:0x0187, B:116:0x01a4, B:118:0x0195, B:123:0x01ae, B:127:0x01bf, B:129:0x01c9, B:131:0x01d0, B:136:0x01d6, B:139:0x01dd, B:141:0x01e3), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x02dc A[Catch: Exception -> 0x02e4, TRY_LEAVE, TryCatch #0 {Exception -> 0x02e4, blocks: (B:3:0x0008, B:7:0x0024, B:8:0x003c, B:10:0x0042, B:13:0x0049, B:16:0x0050, B:23:0x005a, B:19:0x005e, B:32:0x0064, B:33:0x020a, B:35:0x0210, B:39:0x02cc, B:41:0x02dc, B:46:0x021a, B:48:0x0225, B:49:0x0233, B:51:0x0239, B:53:0x0261, B:54:0x0267, B:56:0x026c, B:58:0x0289, B:59:0x0273, B:62:0x028b, B:63:0x0294, B:65:0x029a, B:66:0x02a3, B:68:0x02a9, B:70:0x02c2, B:71:0x02c5, B:73:0x0069, B:76:0x0070, B:78:0x0076, B:80:0x0084, B:83:0x008c, B:85:0x0092, B:87:0x00a0, B:89:0x00c7, B:90:0x00ce, B:92:0x00d1, B:95:0x00f5, B:97:0x00fb, B:99:0x0102, B:100:0x012b, B:102:0x0131, B:104:0x0149, B:106:0x014f, B:108:0x0156, B:110:0x015d, B:112:0x017f, B:113:0x0186, B:115:0x01a3, B:117:0x0194, B:122:0x01ad, B:126:0x01be, B:128:0x01c8, B:130:0x01cf, B:135:0x01d5, B:138:0x01dc, B:140:0x01e2), top: B:2:0x0008 }] */
     /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9439,14 +9439,14 @@ public class MessagesStorage extends BaseController {
                                 longSparseIntArray4.put(keyAt2, queryFinalized2.intValue(0));
                             }
                             queryFinalized2.dispose();
-                            SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE dialogs SET inbox_max = max((SELECT inbox_max FROM dialogs WHERE did = ?), ?) WHERE did = ?");
-                            executeFast.requery();
-                            executeFast.bindLong(1, keyAt2);
-                            executeFast.bindInteger(2, i7);
-                            executeFast.bindLong(3, keyAt2);
-                            executeFast.step();
-                            executeFast.dispose();
                         }
+                        SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE dialogs SET inbox_max = max((SELECT inbox_max FROM dialogs WHERE did = ?), ?) WHERE did = ?");
+                        executeFast.requery();
+                        executeFast.bindLong(1, keyAt2);
+                        executeFast.bindInteger(2, i7);
+                        executeFast.bindLong(3, keyAt2);
+                        executeFast.step();
+                        executeFast.dispose();
                         i6++;
                         i2 = 2;
                         i5 = -1;

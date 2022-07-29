@@ -121,7 +121,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public static int getCacheTypeForEnterView() {
-        return SharedConfig.getDevicePerformanceClass() == 0 ? 0 : 1;
+        return SharedConfig.getDevicePerformanceClass() == 0 ? 0 : 2;
     }
 
     public void setTime(long j) {
@@ -408,7 +408,9 @@ public class AnimatedEmojiDrawable extends Drawable {
         this.cacheType = i;
         if (i == 0) {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
-        } else if (i == 1 || i == 3 || i == 2) {
+        } else if (i == 1) {
+            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintOneEmoji.ascent()) + Math.abs(Theme.chat_msgTextPaintOneEmoji.descent())) * 1.15f) / AndroidUtilities.density);
+        } else if (i == 2 || i == 4 || i == 3) {
             this.sizedp = 34;
         } else {
             this.sizedp = 34;
@@ -439,7 +441,9 @@ public class AnimatedEmojiDrawable extends Drawable {
         this.document = tLRPC$Document;
         if (i == 0) {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
-        } else if (i == 1 || i == 3 || i == 2) {
+        } else if (i == 1) {
+            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintOneEmoji.ascent()) + Math.abs(Theme.chat_msgTextPaintOneEmoji.descent())) * 1.15f) / AndroidUtilities.density);
+        } else if (i == 2 || i == 4 || i == 3) {
             this.sizedp = 34;
         } else {
             this.sizedp = 34;
@@ -485,10 +489,11 @@ public class AnimatedEmojiDrawable extends Drawable {
             imageReceiver.setUniqKeyPrefix(this.cacheType + "_");
         }
         String str3 = this.sizedp + "_" + this.sizedp + "_pcache";
-        if (this.cacheType != 0) {
+        int i2 = this.cacheType;
+        if (i2 != 0 && i2 != 1) {
             str3 = str3 + "_compress";
         }
-        boolean z = SharedConfig.getDevicePerformanceClass() == 0 && ((i = this.cacheType) == 1 || i == 2);
+        boolean z = SharedConfig.getDevicePerformanceClass() == 0 && ((i = this.cacheType) == 2 || i == 3);
         if ("video/webm".equals(this.document.mime_type)) {
             closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
             forDocument = ImageLocation.getForDocument(this.document);
@@ -506,7 +511,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             sb.append("@");
             sb.append(str3);
             String sb2 = sb.toString();
-            if (this.cacheType == 1 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
+            if (this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
                 svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
                 if (svgThumb != null) {
                     svgThumb.overrideWidthAndHeight(512, 512);
@@ -522,7 +527,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         ImageLocation imageLocation = z ? null : forDocument;
         TLRPC$Document tLRPC$Document = this.document;
         this.imageReceiver.setImage(imageLocation, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
-        if (this.cacheType == 2) {
+        if (this.cacheType == 3) {
             this.imageReceiver.setLayerNum(7);
         }
         this.imageReceiver.setAspectFit(true);

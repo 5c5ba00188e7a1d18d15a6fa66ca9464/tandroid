@@ -80,6 +80,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$TL_channels_exportMessageLink;
 import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
@@ -1988,40 +1989,64 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     protected void sendInternal(boolean z) {
-        int i = 0;
-        int i2 = 0;
+        int i;
+        String str;
+        ArrayList<Long> arrayList;
+        int i2;
+        char c = 0;
+        int i3 = 0;
         while (true) {
             boolean z2 = true;
-            if (i2 < this.selectedDialogs.size()) {
-                long keyAt = this.selectedDialogs.keyAt(i2);
+            if (i3 < this.selectedDialogs.size()) {
+                long keyAt = this.selectedDialogs.keyAt(i3);
                 Context context = getContext();
-                int i3 = this.currentAccount;
+                int i4 = this.currentAccount;
                 if (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) {
                     z2 = false;
                 }
-                if (AlertsCreator.checkSlowMode(context, i3, keyAt, z2)) {
+                if (AlertsCreator.checkSlowMode(context, i4, keyAt, z2)) {
                     return;
                 }
-                i2++;
+                i3++;
             } else {
+                CharSequence[] charSequenceArr = {this.commentTextView.getText()};
+                ArrayList<TLRPC$MessageEntity> entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true);
+                String str2 = null;
                 if (this.sendingMessageObjects != null) {
-                    ArrayList<Long> arrayList = new ArrayList();
-                    while (i < this.selectedDialogs.size()) {
-                        long keyAt2 = this.selectedDialogs.keyAt(i);
-                        if (this.frameLayout2.getTag() != null && this.commentTextView.length() > 0) {
-                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.commentTextView.getText().toString(), keyAt2, null, null, null, true, null, null, null, z, 0, null);
+                    ArrayList arrayList2 = new ArrayList();
+                    int i5 = 0;
+                    while (true) {
+                        if (i5 >= this.selectedDialogs.size()) {
+                            arrayList = arrayList2;
+                            break;
+                        }
+                        long keyAt2 = this.selectedDialogs.keyAt(i5);
+                        if (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) {
+                            i2 = i5;
+                            arrayList = arrayList2;
+                        } else {
+                            SendMessagesHelper sendMessagesHelper = SendMessagesHelper.getInstance(this.currentAccount);
+                            String charSequence = charSequenceArr[c] == null ? str2 : charSequenceArr[c].toString();
+                            i2 = i5;
+                            arrayList = arrayList2;
+                            sendMessagesHelper.sendMessage(charSequence, keyAt2, null, null, null, true, entities, null, null, z, 0, null);
                         }
                         int sendMessage = SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingMessageObjects, keyAt2, !this.showSendersName, false, z, 0);
                         if (sendMessage != 0) {
                             arrayList.add(Long.valueOf(keyAt2));
                         }
                         if (this.selectedDialogs.size() == 1) {
+                            str2 = null;
                             AlertsCreator.showSendMediaAlert(sendMessage, this.parentFragment, null);
                             if (sendMessage != 0) {
                                 break;
                             }
+                        } else {
+                            str2 = null;
                         }
-                        i++;
+                        i5 = i2 + 1;
+                        arrayList2 = arrayList;
+                        c = 0;
                     }
                     for (Long l : arrayList) {
                         this.selectedDialogs.remove(l.longValue());
@@ -2031,15 +2056,22 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     }
                 } else {
                     SwitchView switchView = this.switchView;
-                    int i4 = switchView != null ? switchView.currentTab : 0;
-                    if (this.sendingText[i4] != null) {
-                        while (i < this.selectedDialogs.size()) {
-                            long keyAt3 = this.selectedDialogs.keyAt(i);
-                            if (this.frameLayout2.getTag() != null && this.commentTextView.length() > 0) {
-                                SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.commentTextView.getText().toString(), keyAt3, null, null, null, true, null, null, null, z, 0, null);
+                    int i6 = switchView != null ? switchView.currentTab : 0;
+                    if (this.sendingText[i6] != null) {
+                        int i7 = 0;
+                        while (i7 < this.selectedDialogs.size()) {
+                            long keyAt3 = this.selectedDialogs.keyAt(i7);
+                            if (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) {
+                                i = i7;
+                                str = str2;
+                            } else {
+                                i = i7;
+                                str = str2;
+                                SendMessagesHelper.getInstance(this.currentAccount).sendMessage(charSequenceArr[0] == null ? str2 : charSequenceArr[0].toString(), keyAt3, null, null, null, true, entities, null, null, z, 0, null);
                             }
-                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingText[i4], keyAt3, null, null, null, true, null, null, null, z, 0, null);
-                            i++;
+                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingText[i6], keyAt3, null, null, null, true, null, null, null, z, 0, null);
+                            i7 = i + 1;
+                            str2 = str;
                         }
                     }
                     onSend(this.selectedDialogs, 1);

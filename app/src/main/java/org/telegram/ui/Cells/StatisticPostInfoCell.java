@@ -1,7 +1,9 @@
 package org.telegram.ui.Cells;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -15,6 +17,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
@@ -39,7 +42,33 @@ public class StatisticPostInfoCell extends FrameLayout {
         linearLayout.setOrientation(1);
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(0);
-        TextView textView = new TextView(context);
+        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Cells.StatisticPostInfoCell.1
+            AnimatedEmojiSpan.EmojiGroupedSpans stack;
+
+            @Override // android.widget.TextView
+            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                super.setText(charSequence, bufferType);
+                this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onAttachedToWindow() {
+                super.onAttachedToWindow();
+                this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+            }
+
+            @Override // android.view.View
+            protected void onDetachedFromWindow() {
+                super.onDetachedFromWindow();
+                AnimatedEmojiSpan.release(this, this.stack);
+            }
+
+            @Override // android.widget.TextView, android.view.View
+            protected void onDraw(Canvas canvas) {
+                super.onDraw(canvas);
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
+            }
+        };
         this.message = textView;
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.message.setTextSize(1, 15.0f);
@@ -76,7 +105,7 @@ public class StatisticPostInfoCell extends FrameLayout {
     }
 
     public void setData(StatisticActivity.RecentPostInfo recentPostInfo) {
-        String charSequence;
+        CharSequence charSequence;
         MessageObject messageObject = recentPostInfo.message;
         ArrayList<TLRPC$PhotoSize> arrayList = messageObject.photoThumbs;
         if (arrayList != null) {
@@ -89,13 +118,12 @@ public class StatisticPostInfoCell extends FrameLayout {
         if (messageObject.isMusic()) {
             charSequence = String.format("%s, %s", messageObject.getMusicTitle().trim(), messageObject.getMusicAuthor().trim());
         } else {
-            CharSequence charSequence2 = messageObject.caption;
-            if (charSequence2 == null) {
-                charSequence2 = messageObject.messageText;
+            charSequence = messageObject.caption;
+            if (charSequence == null) {
+                charSequence = messageObject.messageText;
             }
-            charSequence = charSequence2.toString();
         }
-        this.message.setText(charSequence.replace("\n", " ").trim());
+        this.message.setText(AndroidUtilities.trim(AndroidUtilities.replaceNewLines(new SpannableStringBuilder(charSequence)), null));
         this.views.setText(String.format(LocaleController.getPluralString("Views", recentPostInfo.counters.views), AndroidUtilities.formatCount(recentPostInfo.counters.views)));
         this.date.setText(LocaleController.formatDateAudio(recentPostInfo.message.messageOwner.date, false));
         this.shares.setText(String.format(LocaleController.getPluralString("Shares", recentPostInfo.counters.forwards), AndroidUtilities.formatCount(recentPostInfo.counters.forwards)));

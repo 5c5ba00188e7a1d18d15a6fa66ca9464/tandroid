@@ -435,7 +435,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 } else {
                     arrayList = emojipacks;
                 }
-                animatedEmojiDrawable = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, 3, thumbDocument);
+                animatedEmojiDrawable = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, 4, thumbDocument);
             } else {
                 arrayList = emojipacks;
             }

@@ -2576,7 +2576,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             try {
                 for (int childCount = this.mChildHelper.getChildCount() - 1; childCount >= 0; childCount--) {
                     ViewHolder childViewHolderInt = getChildViewHolderInt(this.mChildHelper.getChildAt(childCount));
-                    if (!childViewHolderInt.shouldIgnore()) {
+                    if (childViewHolderInt != null && !childViewHolderInt.shouldIgnore()) {
                         long changedHolderKey = getChangedHolderKey(childViewHolderInt);
                         ItemAnimator.ItemHolderInfo recordPostLayoutInformation = this.mItemAnimator.recordPostLayoutInformation(this.mState, childViewHolderInt);
                         ViewHolder fromOldChangeHolders = this.mViewInfoStore.getFromOldChangeHolders(changedHolderKey);
@@ -2605,7 +2605,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
                 StringBuilder sb = new StringBuilder();
                 for (int childCount2 = this.mChildHelper.getChildCount() - 1; childCount2 >= 0; childCount2--) {
                     ViewHolder childViewHolderInt2 = getChildViewHolderInt(this.mChildHelper.getChildAt(childCount2));
-                    if (!childViewHolderInt2.shouldIgnore()) {
+                    if (childViewHolderInt2 != null && !childViewHolderInt2.shouldIgnore()) {
                         sb.append("Holder at" + childCount2 + " " + childViewHolderInt2 + "\n");
                     }
                 }
@@ -2676,7 +2676,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         int i2 = Integer.MIN_VALUE;
         for (int i3 = 0; i3 < childCount; i3++) {
             ViewHolder childViewHolderInt = getChildViewHolderInt(this.mChildHelper.getChildAt(i3));
-            if (!childViewHolderInt.shouldIgnore()) {
+            if (childViewHolderInt != null && !childViewHolderInt.shouldIgnore()) {
                 int layoutPosition = childViewHolderInt.getLayoutPosition();
                 if (layoutPosition < i) {
                     i = layoutPosition;

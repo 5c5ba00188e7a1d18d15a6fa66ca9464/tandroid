@@ -43,7 +43,7 @@ public class EmojiReplacementCell extends FrameLayout {
                 long parseLong = Long.parseLong(this.emoji.substring(9));
                 AnimatedEmojiDrawable animatedEmojiDrawable = this.emojiDrawable;
                 if (animatedEmojiDrawable == null || animatedEmojiDrawable.getDocumentId() != parseLong) {
-                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, 1, parseLong);
+                    AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, 2, parseLong);
                     this.emojiDrawable = make;
                     make.addView(this);
                 }

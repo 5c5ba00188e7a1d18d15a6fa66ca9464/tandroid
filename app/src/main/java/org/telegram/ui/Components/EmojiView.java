@@ -2856,7 +2856,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         public void updateEmojiDrawables() {
-            EmojiView.this.animatedEmojiDrawables = AnimatedEmojiSpan.update(1, this, getAnimatedEmojiSpans(), EmojiView.this.animatedEmojiDrawables);
+            EmojiView.this.animatedEmojiDrawables = AnimatedEmojiSpan.update(2, this, getAnimatedEmojiSpans(), EmojiView.this.animatedEmojiDrawables);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView
@@ -3245,6 +3245,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     }
                     touchDownInfo.view.setPressed(true);
                     this.touches.put(Integer.valueOf(pointerId), touchDownInfo);
+                    stopScroll();
                 }
             }
             return super.dispatchTouchEvent(motionEvent) || (!z3 && !this.touches.isEmpty());
@@ -3466,7 +3467,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             textView3.setTextSize(1, 14.0f);
             this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.removeButtonView.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
-            this.removeButtonView.setTextColor(r17.getThemedColor("featuredStickers_addButton"));
+            this.removeButtonView.setTextColor(r17.getThemedColor("featuredStickers_removeButtonText"));
             this.removeButtonView.setBackground(Theme.AdaptiveRipple.createRect(0, r17.getThemedColor("featuredStickers_addButton") & 452984831, 16.0f));
             this.removeButtonView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
             this.removeButtonView.setGravity(17);

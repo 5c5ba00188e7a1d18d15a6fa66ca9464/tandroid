@@ -134,13 +134,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         if (chatMessageCell.getMessageObject().getEmojiOnlyCount() != 0) {
             if (chatMessageCell.getMessageObject().getEmojiOnlyCount() == 1) {
                 textPaint = Theme.chat_msgTextPaintOneEmoji;
-                dp = AndroidUtilities.dp(32.0f);
             } else if (chatMessageCell.getMessageObject().getEmojiOnlyCount() == 2) {
                 textPaint = Theme.chat_msgTextPaintTwoEmoji;
-                dp = AndroidUtilities.dp(28.0f);
             } else if (chatMessageCell.getMessageObject().getEmojiOnlyCount() == 3) {
                 textPaint = Theme.chat_msgTextPaintThreeEmoji;
-                dp = AndroidUtilities.dp(24.0f);
+            }
+            if (textPaint != null) {
+                dp = (int) (textPaint.getTextSize() + AndroidUtilities.dp(4.0f));
             }
         }
         if (charSequence instanceof Spannable) {

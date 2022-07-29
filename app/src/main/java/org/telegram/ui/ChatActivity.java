@@ -19069,7 +19069,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r4v32 */
     /* JADX WARN: Type inference failed for: r4v34 */
     /* JADX WARN: Type inference failed for: r6v13 */
-    /* JADX WARN: Type inference failed for: r6v14, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v14, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v16 */
     /* JADX WARN: Type inference failed for: r6v17 */
     /*
@@ -24174,7 +24174,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:640:0x167c  */
     /* JADX WARN: Removed duplicated region for block: B:641:0x163f  */
     /* JADX WARN: Type inference failed for: r11v14 */
-    /* JADX WARN: Type inference failed for: r11v15, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v15, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v36 */
     @SuppressLint({"ClickableViewAccessibility"})
     /*

@@ -102,11 +102,11 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         } else {
             this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLObject);
         }
-        if (tLRPC$StickerSet2 == null) {
-            return;
-        }
         switch (i2) {
             case 0:
+                if (tLRPC$StickerSet2 == null) {
+                    return;
+                }
                 if (tLRPC$StickerSet2.masks) {
                     this.titleTextView.setText(LocaleController.getString("MasksRemoved", R.string.MasksRemoved));
                     this.subtitleTextView.setText(LocaleController.formatString("MasksRemovedInfo", R.string.MasksRemovedInfo, tLRPC$StickerSet2.title));
@@ -126,6 +126,9 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     return;
                 }
             case 1:
+                if (tLRPC$StickerSet2 == null) {
+                    return;
+                }
                 if (tLRPC$StickerSet2.masks) {
                     this.titleTextView.setText(LocaleController.getString("MasksArchived", R.string.MasksArchived));
                     this.subtitleTextView.setText(LocaleController.formatString("MasksArchivedInfo", R.string.MasksArchivedInfo, tLRPC$StickerSet2.title));
@@ -135,6 +138,9 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                 this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", R.string.StickersArchivedInfo, tLRPC$StickerSet2.title));
                 return;
             case 2:
+                if (tLRPC$StickerSet2 == null) {
+                    return;
+                }
                 if (tLRPC$StickerSet2.masks) {
                     this.titleTextView.setText(LocaleController.getString("AddMasksInstalled", R.string.AddMasksInstalled));
                     this.subtitleTextView.setText(LocaleController.formatString("AddMasksInstalledInfo", R.string.AddMasksInstalledInfo, tLRPC$StickerSet2.title));
