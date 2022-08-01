@@ -275,6 +275,7 @@ public class Theme {
     public static Drawable chat_msgStickerRepliesDrawable = null;
     public static Drawable chat_msgStickerViewsDrawable = null;
     public static TextPaint chat_msgTextPaint = null;
+    public static TextPaint[] chat_msgTextPaintEmoji = null;
     public static TextPaint chat_msgTextPaintOneEmoji = null;
     public static TextPaint chat_msgTextPaintThreeEmoji = null;
     public static TextPaint chat_msgTextPaintTwoEmoji = null;
@@ -8552,6 +8553,7 @@ public class Theme {
             if (chat_msgTextPaint == null) {
                 chat_msgTextPaint = new TextPaint(1);
                 chat_msgGameTextPaint = new TextPaint(1);
+                chat_msgTextPaintEmoji = new TextPaint[6];
                 chat_msgTextPaintOneEmoji = new TextPaint(1);
                 chat_msgTextPaintTwoEmoji = new TextPaint(1);
                 chat_msgTextPaintThreeEmoji = new TextPaint(1);
@@ -8559,12 +8561,23 @@ public class Theme {
                 chat_msgBotButtonPaint = textPaint;
                 textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             }
-            chat_msgTextPaintOneEmoji.setTextSize(AndroidUtilities.dp(48.0f));
-            chat_msgTextPaintTwoEmoji.setTextSize(AndroidUtilities.dp(44.0f));
-            chat_msgTextPaintThreeEmoji.setTextSize(AndroidUtilities.dp(40.0f));
-            chat_msgTextPaint.setTextSize(AndroidUtilities.dp(SharedConfig.fontSize));
-            chat_msgGameTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
-            chat_msgBotButtonPaint.setTextSize(AndroidUtilities.dp(15.0f));
+            int i = 0;
+            float[] fArr = {0.7f, 0.52f, 0.37f, 0.28f, 0.25f, 0.19f};
+            while (true) {
+                TextPaint[] textPaintArr = chat_msgTextPaintEmoji;
+                if (i < textPaintArr.length) {
+                    textPaintArr[i] = new TextPaint(1);
+                    chat_msgTextPaintEmoji[i].setTextSize(AndroidUtilities.dp(fArr[i] * 120.0f));
+                    i++;
+                } else {
+                    chat_msgTextPaintOneEmoji.setTextSize(AndroidUtilities.dp(48.0f));
+                    chat_msgTextPaintTwoEmoji.setTextSize(AndroidUtilities.dp(44.0f));
+                    chat_msgTextPaintThreeEmoji.setTextSize(AndroidUtilities.dp(40.0f));
+                    chat_msgTextPaint.setTextSize(AndroidUtilities.dp(SharedConfig.fontSize));
+                    chat_msgGameTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
+                    chat_msgBotButtonPaint.setTextSize(AndroidUtilities.dp(15.0f));
+                }
+            }
         }
     }
 

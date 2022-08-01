@@ -217,7 +217,7 @@ public class BitmapsCache {
         return frame;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00d0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00cd A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -228,8 +228,8 @@ public class BitmapsCache {
         }
         RandomAccessFile randomAccessFile2 = null;
         try {
-            synchronized (this.mutex) {
-                try {
+            try {
+                synchronized (this.mutex) {
                     if (!this.cacheCreated || (randomAccessFile = this.cachedFile) == null) {
                         randomAccessFile = new RandomAccessFile(this.file, "r");
                         try {
@@ -249,7 +249,6 @@ public class BitmapsCache {
                                 this.source.getFirstFrame(bitmap);
                                 return 0;
                             } else if (this.frameOffsets.isEmpty()) {
-                                randomAccessFile.close();
                                 return -1;
                             }
                         } catch (Throwable th) {
@@ -294,9 +293,9 @@ public class BitmapsCache {
                         }
                         return -1;
                     }
-                } catch (Throwable th2) {
-                    th = th2;
                 }
+            } catch (Throwable th2) {
+                th = th2;
             }
         } catch (FileNotFoundException unused2) {
         } catch (IOException e3) {

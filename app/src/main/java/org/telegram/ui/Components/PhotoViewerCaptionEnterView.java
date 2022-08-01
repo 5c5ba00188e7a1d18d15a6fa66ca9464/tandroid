@@ -3,7 +3,10 @@ package org.telegram.ui.Components;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -42,11 +45,15 @@ import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$StickerSetCovered;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.PhotoViewerCaptionEnterView;
+import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto;
+import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class PhotoViewerCaptionEnterView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayoutPhoto.SizeNotifierFrameLayoutPhotoDelegate {
     private NumberTextView captionLimitView;
@@ -683,6 +690,11 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+            public /* synthetic */ boolean isUserSelf() {
+                return EmojiView.EmojiViewDelegate.-CC.$default$isUserSelf(this);
+            }
+
+            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ void onClearEmojiRecent() {
                 EmojiView.EmojiViewDelegate.-CC.$default$onClearEmojiRecent(this);
             }
@@ -749,6 +761,59 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 }
                 PhotoViewerCaptionEnterView.this.messageEditText.dispatchKeyEvent(new KeyEvent(0, 67));
                 return true;
+            }
+
+            /* loaded from: classes3.dex */
+            class 1 extends BaseFragment {
+                1() {
+                }
+
+                @Override // org.telegram.ui.ActionBar.BaseFragment
+                public int getCurrentAccount() {
+                    return this.currentAccount;
+                }
+
+                @Override // org.telegram.ui.ActionBar.BaseFragment
+                public Context getContext() {
+                    return PhotoViewerCaptionEnterView.this.getContext();
+                }
+
+                @Override // org.telegram.ui.ActionBar.BaseFragment
+                public Activity getParentActivity() {
+                    for (Context context = getContext(); context instanceof ContextWrapper; context = ((ContextWrapper) context).getBaseContext()) {
+                        if (context instanceof Activity) {
+                            return (Activity) context;
+                        }
+                    }
+                    return null;
+                }
+
+                @Override // org.telegram.ui.ActionBar.BaseFragment
+                public Dialog getVisibleDialog() {
+                    return new Dialog(PhotoViewerCaptionEnterView.this.getContext()) { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3.1.1
+                        @Override // android.app.Dialog, android.content.DialogInterface
+                        public void dismiss() {
+                            if ((1.this.getParentActivity() instanceof LaunchActivity) && ((LaunchActivity) 1.this.getParentActivity()).getActionBarLayout() != null) {
+                                1 r0 = 1.this;
+                                ((BaseFragment) r0).parentLayout = ((LaunchActivity) r0.getParentActivity()).getActionBarLayout();
+                                if (((BaseFragment) 1.this).parentLayout != null && ((BaseFragment) 1.this).parentLayout.getLastFragment() != null && ((BaseFragment) 1.this).parentLayout.getLastFragment().getVisibleDialog() != null) {
+                                    Dialog visibleDialog = ((BaseFragment) 1.this).parentLayout.getLastFragment().getVisibleDialog();
+                                    if (visibleDialog instanceof ChatAttachAlert) {
+                                        ((ChatAttachAlert) visibleDialog).dismiss(true);
+                                    } else {
+                                        visibleDialog.dismiss();
+                                    }
+                                }
+                            }
+                            PhotoViewer.getInstance().closePhoto(false, false);
+                        }
+                    };
+                }
+            }
+
+            @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+            public void onAnimatedEmojiUnlockClick() {
+                new PremiumFeatureBottomSheet(new 1(), 11, false).show();
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate

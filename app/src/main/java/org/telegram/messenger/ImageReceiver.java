@@ -1074,7 +1074,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             lottieAnimation.start();
         }
         AnimatedFileDrawable animation = getAnimation();
-        if (animation != null && this.parentView != null) {
+        if (animation != null) {
             animation.addParent(this);
         }
         if (animation != null && this.allowStartAnimation && this.currentOpenedLayerFlags == 0) {
@@ -1736,21 +1736,21 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return draw(canvas, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x0258, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:105:0x0252, code lost:
         if (r8.useRoundForThumb == false) goto L108;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x025a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x0254, code lost:
         if (r25 != null) goto L108;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:107:0x025c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:107:0x0256, code lost:
         r8.updateDrawableRadius(r14);
      */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x02ac  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02e4  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x01f0 A[Catch: Exception -> 0x0156, TryCatch #1 {Exception -> 0x0156, blocks: (B:26:0x0150, B:29:0x0175, B:33:0x0180, B:37:0x01f0, B:44:0x0200, B:47:0x0206, B:48:0x0209, B:49:0x0221, B:52:0x0227, B:54:0x02d9, B:57:0x02e0, B:61:0x0305, B:64:0x030b, B:88:0x027c, B:90:0x0280, B:93:0x0285, B:94:0x0290, B:96:0x02a4, B:98:0x02a8, B:99:0x02b0, B:100:0x028a, B:104:0x0256, B:107:0x025c, B:114:0x026e, B:117:0x0274, B:120:0x02c4, B:123:0x02e8, B:124:0x02fe, B:130:0x019b, B:134:0x01b0, B:135:0x01bc, B:137:0x01c2, B:140:0x01c8, B:141:0x01cb, B:144:0x01db, B:147:0x0166, B:150:0x016c, B:152:0x0172), top: B:25:0x0150 }] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0303 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x031c  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x027c A[Catch: Exception -> 0x0156, TryCatch #1 {Exception -> 0x0156, blocks: (B:26:0x0150, B:29:0x0175, B:33:0x0180, B:37:0x01f0, B:44:0x0200, B:47:0x0206, B:48:0x0209, B:49:0x0221, B:52:0x0227, B:54:0x02d9, B:57:0x02e0, B:61:0x0305, B:64:0x030b, B:88:0x027c, B:90:0x0280, B:93:0x0285, B:94:0x0290, B:96:0x02a4, B:98:0x02a8, B:99:0x02b0, B:100:0x028a, B:104:0x0256, B:107:0x025c, B:114:0x026e, B:117:0x0274, B:120:0x02c4, B:123:0x02e8, B:124:0x02fe, B:130:0x019b, B:134:0x01b0, B:135:0x01bc, B:137:0x01c2, B:140:0x01c8, B:141:0x01cb, B:144:0x01db, B:147:0x0166, B:150:0x016c, B:152:0x0172), top: B:25:0x0150 }] */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x02de  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x01ea A[Catch: Exception -> 0x0150, TryCatch #0 {Exception -> 0x0150, blocks: (B:26:0x014a, B:29:0x016f, B:33:0x017a, B:37:0x01ea, B:44:0x01fa, B:47:0x0200, B:48:0x0203, B:49:0x021b, B:52:0x0221, B:54:0x02d3, B:57:0x02da, B:61:0x02ff, B:64:0x0305, B:88:0x0276, B:90:0x027a, B:93:0x027f, B:94:0x028a, B:96:0x029e, B:98:0x02a2, B:99:0x02aa, B:100:0x0284, B:104:0x0250, B:107:0x0256, B:114:0x0268, B:117:0x026e, B:120:0x02be, B:123:0x02e2, B:124:0x02f8, B:130:0x0195, B:134:0x01aa, B:135:0x01b6, B:137:0x01bc, B:140:0x01c2, B:141:0x01c5, B:144:0x01d5, B:147:0x0160, B:150:0x0166, B:152:0x016c), top: B:25:0x014a }] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x02fd A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0276 A[Catch: Exception -> 0x0150, TryCatch #0 {Exception -> 0x0150, blocks: (B:26:0x014a, B:29:0x016f, B:33:0x017a, B:37:0x01ea, B:44:0x01fa, B:47:0x0200, B:48:0x0203, B:49:0x021b, B:52:0x0221, B:54:0x02d3, B:57:0x02da, B:61:0x02ff, B:64:0x0305, B:88:0x0276, B:90:0x027a, B:93:0x027f, B:94:0x028a, B:96:0x029e, B:98:0x02a2, B:99:0x02aa, B:100:0x0284, B:104:0x0250, B:107:0x0256, B:114:0x0268, B:117:0x026e, B:120:0x02be, B:123:0x02e2, B:124:0x02f8, B:130:0x0195, B:134:0x01aa, B:135:0x01b6, B:137:0x01bc, B:140:0x01c2, B:141:0x01c5, B:144:0x01d5, B:147:0x0160, B:150:0x0166, B:152:0x016c), top: B:25:0x014a }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1848,8 +1848,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 AnimatedFileDrawable animatedFileDrawable4 = backgroundThreadDrawHolder.animation;
                 RLottieDrawable rLottieDrawable3 = backgroundThreadDrawHolder.lottieDrawable;
                 int[] iArr4 = backgroundThreadDrawHolder.roundRadius;
-                Drawable unused = backgroundThreadDrawHolder.mediaDrawable;
-                BitmapShader unused2 = backgroundThreadDrawHolder.mediaShader;
                 Drawable drawable23 = backgroundThreadDrawHolder.mediaDrawable;
                 BitmapShader bitmapShader10 = backgroundThreadDrawHolder.mediaShader;
                 Drawable drawable24 = backgroundThreadDrawHolder.imageDrawable;

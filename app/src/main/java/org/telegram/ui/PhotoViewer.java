@@ -16762,7 +16762,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                         }
                         if (chatActivity2 != null) {
-                            chatActivity2.lambda$openDiscussionMessageChat$228(PhotoViewer.this.animationEndRunnable);
+                            chatActivity2.lambda$openDiscussionMessageChat$225(PhotoViewer.this.animationEndRunnable);
                             return;
                         }
                         PhotoViewer.this.animationEndRunnable.run();
@@ -17777,7 +17777,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:93:0x0302  */
     /* JADX WARN: Removed duplicated region for block: B:99:0x031d  */
     /* JADX WARN: Type inference failed for: r15v2 */
-    /* JADX WARN: Type inference failed for: r15v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v30 */
     /* JADX WARN: Type inference failed for: r15v39 */
     @SuppressLint({"NewApi", "DrawAllocation"})

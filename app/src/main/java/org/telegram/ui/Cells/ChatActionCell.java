@@ -905,10 +905,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 } else if (tLRPC$MessageMedia.document instanceof TLRPC$TL_documentEmpty) {
                     charSequence = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
                 } else {
-                    charSequence = messageObject.messageText;
+                    charSequence = AnimatedEmojiSpan.cloneSpans(messageObject.messageText);
                 }
             } else {
-                charSequence = messageObject.messageText;
+                charSequence = AnimatedEmojiSpan.cloneSpans(messageObject.messageText);
             }
         } else {
             charSequence = this.customText;

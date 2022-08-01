@@ -1333,4 +1333,8 @@ public class SharedConfig {
             prefs.edit().putLong("last_checked", j).apply();
         }
     }
+
+    public static boolean animationsEnabled() {
+        return MessagesController.getGlobalMainSettings().getBoolean("view_animations", true);
+    }
 }

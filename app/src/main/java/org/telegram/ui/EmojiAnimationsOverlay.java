@@ -221,7 +221,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
             return;
         }
         this.chatActivity.restartSticker(chatMessageCell);
-        if (!EmojiData.hasEmojiSupportVibration(chatMessageCell.getMessageObject().getStickerEmoji())) {
+        if (!EmojiData.hasEmojiSupportVibration(chatMessageCell.getMessageObject().getStickerEmoji()) && !chatMessageCell.getMessageObject().isPremiumSticker()) {
             chatMessageCell.performHapticFeedback(3);
         }
         showAnimationForCell(chatMessageCell, i2, false, true);
@@ -351,7 +351,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
             return false;
         }
         boolean showAnimationForCell = showAnimationForCell(chatMessageCell, -1, true, false);
-        if (showAnimationForCell && !EmojiData.hasEmojiSupportVibration(chatMessageCell.getMessageObject().getStickerEmoji()) && (!chatMessageCell.getMessageObject().isPremiumSticker() || z)) {
+        if (showAnimationForCell && !EmojiData.hasEmojiSupportVibration(chatMessageCell.getMessageObject().getStickerEmoji()) && !chatMessageCell.getMessageObject().isPremiumSticker()) {
             chatMessageCell.performHapticFeedback(3);
         }
         if (chatMessageCell.getMessageObject().isPremiumSticker()) {

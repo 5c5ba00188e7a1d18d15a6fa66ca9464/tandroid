@@ -4085,22 +4085,21 @@ public class ImageLoader {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:266:0x01a9, code lost:
-        if (r9.exists() == false) goto L285;
+    /* JADX WARN: Code restructure failed: missing block: B:268:0x01a9, code lost:
+        if (r9.exists() == false) goto L287;
      */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0648  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0650  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x04f6  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x019e  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x01ae  */
-    /* JADX WARN: Removed duplicated region for block: B:270:0x01b3  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x0204  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x01b0  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x063e  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0646  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x04f5  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x019e  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x01b3  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x0204  */
+    /* JADX WARN: Removed duplicated region for block: B:286:0x01b0  */
     /* JADX WARN: Removed duplicated region for block: B:57:0x02a5  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x04e0  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0521  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0526  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x055b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x051e  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0523  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0554 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4121,17 +4120,16 @@ public class ImageLoader {
         File file4;
         File file5;
         int i10;
-        ImageLoader imageLoader;
-        String str8;
         boolean z8;
         int i11;
+        File file6;
         boolean z9;
         int i12;
         long j2;
         boolean z10;
-        File file6;
         File file7;
-        String str9;
+        File file8;
+        String str8;
         boolean z11;
         int i13;
         boolean z12;
@@ -4139,9 +4137,10 @@ public class ImageLoader {
         int i14;
         CacheImage cacheImage;
         CacheImage cacheImage2;
+        String str9 = str;
         TLRPC$Document tLRPC$Document2 = tLRPC$Document;
         if (i != 2) {
-            CacheImage cacheImage3 = this.imageLoadingByUrl.get(str);
+            CacheImage cacheImage3 = this.imageLoadingByUrl.get(str9);
             CacheImage cacheImage4 = this.imageLoadingByKeys.get(str2);
             CacheImage cacheImage5 = this.imageLoadingByTag.get(i2);
             if (cacheImage5 != null) {
@@ -4257,15 +4256,15 @@ public class ImageLoader {
                             file3 = file2;
                             sb.append(tLRPC$Document2.id);
                             sb.append(".jpg");
-                            File file8 = new File(directory, sb.toString());
-                            if (file8.exists()) {
-                                file4 = file8;
+                            File file9 = new File(directory, sb.toString());
+                            if (file9.exists()) {
+                                file4 = file9;
                                 z6 = true;
                                 if (!TextUtils.isEmpty(str7)) {
                                     file5 = new File(str7);
                                 }
                                 file5 = null;
-                                File file9 = file5 != null ? file3 : file5;
+                                File file10 = file5 != null ? file3 : file5;
                                 if (file4 != null) {
                                     String attachFileName = FileLoader.getAttachFileName(tLRPC$Document2);
                                     ThumbGenerateInfo thumbGenerateInfo = this.waitingForQualityThumb.get(attachFileName);
@@ -4281,10 +4280,10 @@ public class ImageLoader {
                                         thumbGenerateInfo.imageReceiverGuidsArray.add(Integer.valueOf(i3));
                                     }
                                     this.waitingForQualityThumbByTag.put(i2, attachFileName);
-                                    if (!file9.exists() || !z3) {
+                                    if (!file10.exists() || !z3) {
                                         return;
                                     }
-                                    generateThumb(i9, file9, thumbGenerateInfo);
+                                    generateThumb(i9, file10, thumbGenerateInfo);
                                     return;
                                 }
                                 str6 = str3;
@@ -4317,303 +4316,250 @@ public class ImageLoader {
                 i8 = 2;
                 file = null;
             }
-            if (i != i8) {
-                boolean isEncrypted = imageLocation.isEncrypted();
-                CacheImage cacheImage6 = new CacheImage();
-                if (!z) {
-                    if (imageLocation.imageType != i8) {
-                        if (MessageObject.isGifDocument(imageLocation.webFile) || MessageObject.isGifDocument(imageLocation.document) || MessageObject.isRoundVideoDocument(imageLocation.document) || MessageObject.isVideoSticker(imageLocation.document)) {
-                            i8 = 2;
-                        } else {
-                            String str12 = imageLocation.path;
-                            if (str12 != null && !str12.startsWith("vthumb") && !str12.startsWith("thumb")) {
-                                String httpUrlExtension = getHttpUrlExtension(str12, "jpg");
-                                if (httpUrlExtension.equals("webm") || httpUrlExtension.equals("mp4") || httpUrlExtension.equals("gif")) {
-                                    cacheImage6.imageType = 2;
-                                } else if ("tgs".equals(str4)) {
-                                    cacheImage6.imageType = i7;
-                                }
-                                if (file == null) {
-                                    TLRPC$PhotoSize tLRPC$PhotoSize = imageLocation.photoSize;
-                                    if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) || (tLRPC$PhotoSize instanceof TLRPC$TL_photoPathSize)) {
+            if (i == i8) {
+                return;
+            }
+            boolean isEncrypted = imageLocation.isEncrypted();
+            CacheImage cacheImage6 = new CacheImage();
+            if (!z) {
+                if (imageLocation.imageType != i8) {
+                    if (MessageObject.isGifDocument(imageLocation.webFile) || MessageObject.isGifDocument(imageLocation.document) || MessageObject.isRoundVideoDocument(imageLocation.document) || MessageObject.isVideoSticker(imageLocation.document)) {
+                        i8 = 2;
+                    } else {
+                        String str12 = imageLocation.path;
+                        if (str12 != null && !str12.startsWith("vthumb") && !str12.startsWith("thumb")) {
+                            String httpUrlExtension = getHttpUrlExtension(str12, "jpg");
+                            if (httpUrlExtension.equals("webm") || httpUrlExtension.equals("mp4") || httpUrlExtension.equals("gif")) {
+                                cacheImage6.imageType = 2;
+                            } else if ("tgs".equals(str4)) {
+                                cacheImage6.imageType = i7;
+                            }
+                            if (file == null) {
+                                TLRPC$PhotoSize tLRPC$PhotoSize = imageLocation.photoSize;
+                                if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) || (tLRPC$PhotoSize instanceof TLRPC$TL_photoPathSize)) {
+                                    i10 = i6;
+                                    z6 = z6;
+                                    j2 = 0;
+                                    z10 = true;
+                                } else {
+                                    SecureDocument secureDocument = imageLocation.secureDocument;
+                                    if (secureDocument != null) {
+                                        cacheImage6.secureDocument = secureDocument;
+                                        boolean z14 = secureDocument.secureFile.dc_id == Integer.MIN_VALUE;
+                                        file = new File(FileLoader.getDirectory(4), str9);
                                         i10 = i6;
-                                        imageLoader = this;
-                                        str8 = str;
-                                        z6 = z6;
-                                        j2 = 0;
+                                        z10 = z14;
                                     } else {
-                                        SecureDocument secureDocument = imageLocation.secureDocument;
-                                        if (secureDocument != null) {
-                                            cacheImage6.secureDocument = secureDocument;
-                                            z10 = secureDocument.secureFile.dc_id == Integer.MIN_VALUE;
-                                            file = new File(FileLoader.getDirectory(4), str);
-                                            i10 = i6;
-                                            imageLoader = this;
-                                            str8 = str;
-                                            j2 = 0;
-                                        } else {
-                                            boolean z14 = z5;
-                                            boolean z15 = z6;
-                                            if (hasAutoplayFilter(str3) || isAnimatedAvatar(str6)) {
-                                                i10 = i6;
-                                            } else {
-                                                i10 = i6;
-                                                if (i10 != 0 || j <= 0 || imageLocation.path != null || isEncrypted) {
-                                                    File file10 = new File(FileLoader.getDirectory(4), str);
-                                                    if (file10.exists()) {
-                                                        z12 = true;
-                                                    } else {
-                                                        if (i10 == 2) {
-                                                            file10 = new File(FileLoader.getDirectory(4), str + ".enc");
+                                        boolean z15 = z5;
+                                        boolean z16 = z6;
+                                        if (!hasAutoplayFilter(str3) && !isAnimatedAvatar(str6)) {
+                                            if (i6 != 0 || j <= 0 || imageLocation.path != null || isEncrypted) {
+                                                File file11 = new File(FileLoader.getDirectory(4), str9);
+                                                if (file11.exists()) {
+                                                    z12 = true;
+                                                } else {
+                                                    if (i6 == 2) {
+                                                        file11 = new File(FileLoader.getDirectory(4), str9 + ".enc");
+                                                    }
+                                                    z12 = z16;
+                                                }
+                                                TLRPC$Document tLRPC$Document3 = imageLocation.document;
+                                                if (tLRPC$Document3 != null) {
+                                                    if (tLRPC$Document3 instanceof DocumentObject.ThemeDocument) {
+                                                        if (((DocumentObject.ThemeDocument) tLRPC$Document3).wallpaper == null) {
+                                                            i14 = 5;
+                                                            z13 = true;
+                                                        } else {
+                                                            z13 = z15;
+                                                            i14 = 5;
                                                         }
-                                                        z12 = z15;
-                                                    }
-                                                    TLRPC$Document tLRPC$Document3 = imageLocation.document;
-                                                    if (tLRPC$Document3 != null) {
-                                                        if (tLRPC$Document3 instanceof DocumentObject.ThemeDocument) {
-                                                            if (((DocumentObject.ThemeDocument) tLRPC$Document3).wallpaper == null) {
-                                                                i14 = 5;
-                                                                z13 = true;
-                                                            } else {
-                                                                z13 = z14;
-                                                                i14 = 5;
-                                                            }
-                                                            cacheImage6.imageType = i14;
-                                                            str8 = str;
-                                                            file = file10;
-                                                            z6 = z12;
-                                                            z10 = z13;
-                                                            j2 = 0;
-                                                            imageLoader = this;
-                                                        } else if ("application/x-tgsdice".equals(tLRPC$Document3.mime_type)) {
-                                                            cacheImage6.imageType = 1;
-                                                            imageLoader = this;
-                                                            str8 = str;
-                                                            file = file10;
-                                                            z6 = z12;
-                                                            j2 = 0;
-                                                        } else if ("application/x-tgsticker".equals(imageLocation.document.mime_type)) {
-                                                            cacheImage6.imageType = 1;
-                                                        } else if ("application/x-tgwallpattern".equals(imageLocation.document.mime_type)) {
-                                                            cacheImage6.imageType = 3;
-                                                        } else if (FileLoader.getDocumentFileName(imageLocation.document).endsWith(".svg")) {
-                                                            cacheImage6.imageType = 3;
-                                                        }
-                                                    }
-                                                    imageLoader = this;
-                                                    str8 = str;
-                                                    file = file10;
-                                                    z6 = z12;
-                                                    j2 = 0;
-                                                    z10 = z14;
-                                                    if (!hasAutoplayFilter(str3) || imageLoader.isAnimatedAvatar(str6)) {
-                                                        cacheImage6.imageType = 2;
-                                                        cacheImage6.size = j2;
-                                                        i11 = i4;
-                                                        z9 = z6;
-                                                        z8 = true;
-                                                    } else {
-                                                        i11 = i4;
-                                                        z8 = z10;
-                                                        z9 = z6;
-                                                    }
-                                                }
-                                            }
-                                            TLRPC$Document tLRPC$Document4 = imageLocation.document;
-                                            if (tLRPC$Document4 != null) {
-                                                if (tLRPC$Document4 instanceof TLRPC$TL_documentEncrypted) {
-                                                    file7 = new File(FileLoader.getDirectory(4), str);
-                                                } else if (MessageObject.isVideoDocument(tLRPC$Document4)) {
-                                                    file7 = new File(FileLoader.getDirectory(2), str);
-                                                } else {
-                                                    file7 = new File(FileLoader.getDirectory(3), str);
-                                                }
-                                                if ((isAnimatedAvatar(str6) || hasAutoplayFilter(str3)) && !file7.exists()) {
-                                                    File directory2 = FileLoader.getDirectory(4);
-                                                    StringBuilder sb2 = new StringBuilder();
-                                                    sb2.append(tLRPC$Document4.dc_id);
-                                                    sb2.append("_");
-                                                    str9 = "application/x-tgsticker";
-                                                    sb2.append(tLRPC$Document4.id);
-                                                    sb2.append(".temp");
-                                                    file7 = new File(directory2, sb2.toString());
-                                                } else {
-                                                    str9 = "application/x-tgsticker";
-                                                }
-                                                if (tLRPC$Document4 instanceof DocumentObject.ThemeDocument) {
-                                                    if (((DocumentObject.ThemeDocument) tLRPC$Document4).wallpaper == null) {
-                                                        i13 = 5;
-                                                        z11 = true;
-                                                    } else {
-                                                        z11 = z14;
-                                                        i13 = 5;
-                                                    }
-                                                    cacheImage6.imageType = i13;
-                                                } else if ("application/x-tgsdice".equals(imageLocation.document.mime_type)) {
-                                                    cacheImage6.imageType = 1;
-                                                    z11 = true;
-                                                } else {
-                                                    if (str9.equals(tLRPC$Document4.mime_type)) {
+                                                        cacheImage6.imageType = i14;
+                                                        file = file11;
+                                                        i10 = i6;
+                                                        z6 = z12;
+                                                        z10 = z13;
+                                                    } else if ("application/x-tgsdice".equals(tLRPC$Document3.mime_type)) {
                                                         cacheImage6.imageType = 1;
-                                                    } else if ("application/x-tgwallpattern".equals(tLRPC$Document4.mime_type)) {
+                                                        file = file11;
+                                                        i10 = i6;
+                                                        z6 = z12;
+                                                        j2 = 0;
+                                                        z10 = true;
+                                                    } else if ("application/x-tgsticker".equals(imageLocation.document.mime_type)) {
+                                                        cacheImage6.imageType = 1;
+                                                    } else if ("application/x-tgwallpattern".equals(imageLocation.document.mime_type)) {
                                                         cacheImage6.imageType = 3;
                                                     } else if (FileLoader.getDocumentFileName(imageLocation.document).endsWith(".svg")) {
                                                         cacheImage6.imageType = 3;
                                                     }
-                                                    z11 = z14;
                                                 }
-                                                z6 = z15;
-                                                j2 = tLRPC$Document4.size;
-                                                z10 = z11;
-                                                file = file7;
-                                                imageLoader = this;
-                                                str8 = str;
-                                            } else {
-                                                if (imageLocation.webFile != null) {
-                                                    str8 = str;
-                                                    file = new File(FileLoader.getDirectory(3), str8);
-                                                    imageLoader = this;
-                                                } else {
-                                                    str8 = str;
-                                                    if (i10 == 1) {
-                                                        file6 = new File(FileLoader.getDirectory(4), str8);
-                                                    } else {
-                                                        file6 = new File(FileLoader.getDirectory(0), str8);
-                                                    }
-                                                    imageLoader = this;
-                                                    file = file6;
-                                                    if (imageLoader.isAnimatedAvatar(str6) || (hasAutoplayFilter(str3) && imageLocation.location != null && !file.exists())) {
-                                                        file = new File(FileLoader.getDirectory(4), imageLocation.location.volume_id + "_" + imageLocation.location.local_id + ".temp");
-                                                    }
-                                                }
-                                                z10 = z14;
-                                                z6 = z15;
+                                                file = file11;
+                                                i10 = i6;
+                                                z6 = z12;
                                                 j2 = 0;
+                                                z10 = z15;
                                             }
-                                            if (!hasAutoplayFilter(str3)) {
+                                        }
+                                        TLRPC$Document tLRPC$Document4 = imageLocation.document;
+                                        if (tLRPC$Document4 != null) {
+                                            if (tLRPC$Document4 instanceof TLRPC$TL_documentEncrypted) {
+                                                file8 = new File(FileLoader.getDirectory(4), str9);
+                                            } else if (MessageObject.isVideoDocument(tLRPC$Document4)) {
+                                                file8 = new File(FileLoader.getDirectory(2), str9);
+                                            } else {
+                                                file8 = new File(FileLoader.getDirectory(3), str9);
                                             }
-                                            cacheImage6.imageType = 2;
-                                            cacheImage6.size = j2;
-                                            i11 = i4;
-                                            z9 = z6;
-                                            z8 = true;
+                                            if ((isAnimatedAvatar(str6) || AUTOPLAY_FILTER.equals(str6)) && !file8.exists()) {
+                                                File directory2 = FileLoader.getDirectory(4);
+                                                StringBuilder sb2 = new StringBuilder();
+                                                sb2.append(tLRPC$Document4.dc_id);
+                                                sb2.append("_");
+                                                str8 = "application/x-tgsticker";
+                                                sb2.append(tLRPC$Document4.id);
+                                                sb2.append(".temp");
+                                                file8 = new File(directory2, sb2.toString());
+                                            } else {
+                                                str8 = "application/x-tgsticker";
+                                            }
+                                            if (tLRPC$Document4 instanceof DocumentObject.ThemeDocument) {
+                                                if (((DocumentObject.ThemeDocument) tLRPC$Document4).wallpaper == null) {
+                                                    i13 = 5;
+                                                    z11 = true;
+                                                } else {
+                                                    z11 = z15;
+                                                    i13 = 5;
+                                                }
+                                                cacheImage6.imageType = i13;
+                                            } else if ("application/x-tgsdice".equals(imageLocation.document.mime_type)) {
+                                                cacheImage6.imageType = 1;
+                                                z11 = true;
+                                            } else {
+                                                if (str8.equals(tLRPC$Document4.mime_type)) {
+                                                    cacheImage6.imageType = 1;
+                                                } else if ("application/x-tgwallpattern".equals(tLRPC$Document4.mime_type)) {
+                                                    cacheImage6.imageType = 3;
+                                                } else if (FileLoader.getDocumentFileName(imageLocation.document).endsWith(".svg")) {
+                                                    cacheImage6.imageType = 3;
+                                                }
+                                                z11 = z15;
+                                            }
+                                            z6 = z16;
+                                            j2 = tLRPC$Document4.size;
+                                            z10 = z11;
+                                            file = file8;
+                                            str9 = str;
+                                            i10 = i6;
+                                        } else if (imageLocation.webFile != null) {
+                                            str9 = str;
+                                            file = new File(FileLoader.getDirectory(3), str9);
+                                            z10 = z15;
+                                            z6 = z16;
+                                            i10 = i6;
+                                        } else {
+                                            str9 = str;
+                                            i10 = i6;
+                                            if (i10 == 1) {
+                                                file7 = new File(FileLoader.getDirectory(4), str9);
+                                            } else {
+                                                file7 = new File(FileLoader.getDirectory(0), str9);
+                                            }
+                                            file = file7;
+                                            if (isAnimatedAvatar(str6) || (AUTOPLAY_FILTER.equals(str6) && imageLocation.location != null && !file.exists())) {
+                                                file = new File(FileLoader.getDirectory(4), imageLocation.location.volume_id + "_" + imageLocation.location.local_id + ".temp");
+                                            }
+                                            z10 = z15;
+                                            z6 = z16;
+                                            j2 = 0;
                                         }
-                                        if (!hasAutoplayFilter(str3)) {
-                                        }
-                                        cacheImage6.imageType = 2;
-                                        cacheImage6.size = j2;
-                                        i11 = i4;
-                                        z9 = z6;
-                                        z8 = true;
                                     }
-                                    z10 = true;
-                                    if (!hasAutoplayFilter(str3)) {
-                                    }
+                                    j2 = 0;
+                                }
+                                if (hasAutoplayFilter(str3) || isAnimatedAvatar(str6)) {
                                     cacheImage6.imageType = 2;
                                     cacheImage6.size = j2;
                                     i11 = i4;
-                                    z9 = z6;
+                                    file6 = file;
                                     z8 = true;
                                 } else {
-                                    i10 = i6;
-                                    imageLoader = this;
-                                    str8 = str;
-                                    z8 = z5;
                                     i11 = i4;
-                                    z9 = z6;
+                                    z8 = z10;
+                                    file6 = file;
                                 }
-                                cacheImage6.type = i11;
-                                cacheImage6.key = str2;
-                                cacheImage6.filter = str6;
+                                z9 = z6;
+                            } else {
+                                i10 = i6;
+                                z8 = z5;
+                                i11 = i4;
+                                file6 = file;
+                                z9 = z6;
+                            }
+                            cacheImage6.type = i11;
+                            cacheImage6.key = str2;
+                            cacheImage6.filter = str6;
+                            cacheImage6.imageLocation = imageLocation;
+                            cacheImage6.ext = str4;
+                            cacheImage6.currentAccount = i5;
+                            cacheImage6.parentObject = obj;
+                            i12 = imageLocation.imageType;
+                            if (i12 != 0) {
+                                cacheImage6.imageType = i12;
+                            }
+                            if (i10 == 2) {
+                                cacheImage6.encryptionKeyPath = new File(FileLoader.getInternalCacheDir(), str9 + ".enc.key");
+                            }
+                            String str13 = str5;
+                            cacheImage6.addImageReceiver(imageReceiver, str2, str3, i4, i3);
+                            if (!z8 || z9 || file6.exists()) {
+                                cacheImage6.finalFilePath = file6;
                                 cacheImage6.imageLocation = imageLocation;
-                                cacheImage6.ext = str4;
-                                cacheImage6.currentAccount = i5;
-                                cacheImage6.parentObject = obj;
-                                i12 = imageLocation.imageType;
-                                if (i12 != 0) {
-                                    cacheImage6.imageType = i12;
-                                }
-                                if (i10 == 2) {
-                                    cacheImage6.encryptionKeyPath = new File(FileLoader.getInternalCacheDir(), str8 + ".enc.key");
-                                }
-                                String str13 = str5;
-                                cacheImage6.addImageReceiver(imageReceiver, str2, str3, i4, i3);
-                                if (!z8 || z9 || file.exists()) {
-                                    cacheImage6.finalFilePath = file;
-                                    cacheImage6.imageLocation = imageLocation;
-                                    cacheImage6.cacheTask = new CacheOutTask(cacheImage6);
-                                    imageLoader.imageLoadingByKeys.put(str2, cacheImage6);
-                                    if (i != 0) {
-                                        imageLoader.cacheThumbOutQueue.postRunnable(cacheImage6.cacheTask);
-                                        return;
-                                    } else {
-                                        imageLoader.cacheOutQueue.postRunnable(cacheImage6.cacheTask);
-                                        return;
-                                    }
-                                }
-                                cacheImage6.url = str8;
-                                imageLoader.imageLoadingByUrl.put(str8, cacheImage6);
-                                String str14 = imageLocation.path;
-                                if (str14 != null) {
-                                    String MD5 = Utilities.MD5(str14);
-                                    cacheImage6.tempFilePath = new File(FileLoader.getDirectory(4), MD5 + "_temp.jpg");
-                                    cacheImage6.finalFilePath = file;
-                                    if (imageLocation.path.startsWith(str13)) {
-                                        ArtworkLoadTask artworkLoadTask = new ArtworkLoadTask(cacheImage6);
-                                        cacheImage6.artworkTask = artworkLoadTask;
-                                        imageLoader.artworkTasks.add(artworkLoadTask);
-                                        imageLoader.runArtworkTasks(false);
-                                        return;
-                                    }
-                                    HttpImageTask httpImageTask = new HttpImageTask(cacheImage6, j);
-                                    cacheImage6.httpTask = httpImageTask;
-                                    imageLoader.httpTasks.add(httpImageTask);
-                                    imageLoader.runHttpTasks(false);
+                                cacheImage6.cacheTask = new CacheOutTask(cacheImage6);
+                                this.imageLoadingByKeys.put(str2, cacheImage6);
+                                if (i != 0) {
+                                    this.cacheThumbOutQueue.postRunnable(cacheImage6.cacheTask);
+                                    return;
+                                } else {
+                                    this.cacheOutQueue.postRunnable(cacheImage6.cacheTask);
                                     return;
                                 }
-                                if (imageLocation.location != null) {
-                                    FileLoader.getInstance(i5).loadFile(imageLocation, obj, str4, i != 0 ? 2 : 1, (i6 != 0 || (j > 0 && imageLocation.key == null)) ? i6 : 1);
-                                } else if (imageLocation.document != null) {
-                                    FileLoader.getInstance(i5).loadFile(imageLocation.document, obj, i != 0 ? 2 : 1, i6);
-                                } else if (imageLocation.secureDocument != null) {
-                                    FileLoader.getInstance(i5).loadFile(imageLocation.secureDocument, i != 0 ? 2 : 1);
-                                } else if (imageLocation.webFile != null) {
-                                    FileLoader.getInstance(i5).loadFile(imageLocation.webFile, i != 0 ? 2 : 1, i6);
-                                }
-                                if (!imageReceiver.isForceLoding()) {
+                            }
+                            cacheImage6.url = str9;
+                            this.imageLoadingByUrl.put(str9, cacheImage6);
+                            String str14 = imageLocation.path;
+                            if (str14 != null) {
+                                String MD5 = Utilities.MD5(str14);
+                                cacheImage6.tempFilePath = new File(FileLoader.getDirectory(4), MD5 + "_temp.jpg");
+                                cacheImage6.finalFilePath = file6;
+                                if (imageLocation.path.startsWith(str13)) {
+                                    ArtworkLoadTask artworkLoadTask = new ArtworkLoadTask(cacheImage6);
+                                    cacheImage6.artworkTask = artworkLoadTask;
+                                    this.artworkTasks.add(artworkLoadTask);
+                                    runArtworkTasks(false);
                                     return;
                                 }
-                                imageLoader.forceLoadingImages.put(cacheImage6.key, 0);
+                                HttpImageTask httpImageTask = new HttpImageTask(cacheImage6, j);
+                                cacheImage6.httpTask = httpImageTask;
+                                this.httpTasks.add(httpImageTask);
+                                runHttpTasks(false);
                                 return;
                             }
+                            if (imageLocation.location != null) {
+                                FileLoader.getInstance(i5).loadFile(imageLocation, obj, str4, i != 0 ? 2 : 1, (i6 != 0 || (j > 0 && imageLocation.key == null)) ? i6 : 1);
+                            } else if (imageLocation.document != null) {
+                                FileLoader.getInstance(i5).loadFile(imageLocation.document, obj, i != 0 ? 2 : 1, i6);
+                            } else if (imageLocation.secureDocument != null) {
+                                FileLoader.getInstance(i5).loadFile(imageLocation.secureDocument, i != 0 ? 2 : 1);
+                            } else if (imageLocation.webFile != null) {
+                                FileLoader.getInstance(i5).loadFile(imageLocation.webFile, i != 0 ? 2 : 1, i6);
+                            }
+                            if (!imageReceiver.isForceLoding()) {
+                                return;
+                            }
+                            this.forceLoadingImages.put(cacheImage6.key, 0);
+                            return;
                         }
                     }
-                    cacheImage6.imageType = i8;
-                    if (file == null) {
-                    }
-                    cacheImage6.type = i11;
-                    cacheImage6.key = str2;
-                    cacheImage6.filter = str6;
-                    cacheImage6.imageLocation = imageLocation;
-                    cacheImage6.ext = str4;
-                    cacheImage6.currentAccount = i5;
-                    cacheImage6.parentObject = obj;
-                    i12 = imageLocation.imageType;
-                    if (i12 != 0) {
-                    }
-                    if (i10 == 2) {
-                    }
-                    String str132 = str5;
-                    cacheImage6.addImageReceiver(imageReceiver, str2, str3, i4, i3);
-                    if (!z8) {
-                    }
-                    cacheImage6.finalFilePath = file;
-                    cacheImage6.imageLocation = imageLocation;
-                    cacheImage6.cacheTask = new CacheOutTask(cacheImage6);
-                    imageLoader.imageLoadingByKeys.put(str2, cacheImage6);
-                    if (i != 0) {
-                    }
                 }
+                cacheImage6.imageType = i8;
                 if (file == null) {
                 }
                 cacheImage6.type = i11;
@@ -4628,16 +4574,40 @@ public class ImageLoader {
                 }
                 if (i10 == 2) {
                 }
-                String str1322 = str5;
+                String str132 = str5;
                 cacheImage6.addImageReceiver(imageReceiver, str2, str3, i4, i3);
                 if (!z8) {
                 }
-                cacheImage6.finalFilePath = file;
+                cacheImage6.finalFilePath = file6;
                 cacheImage6.imageLocation = imageLocation;
                 cacheImage6.cacheTask = new CacheOutTask(cacheImage6);
-                imageLoader.imageLoadingByKeys.put(str2, cacheImage6);
+                this.imageLoadingByKeys.put(str2, cacheImage6);
                 if (i != 0) {
                 }
+            }
+            if (file == null) {
+            }
+            cacheImage6.type = i11;
+            cacheImage6.key = str2;
+            cacheImage6.filter = str6;
+            cacheImage6.imageLocation = imageLocation;
+            cacheImage6.ext = str4;
+            cacheImage6.currentAccount = i5;
+            cacheImage6.parentObject = obj;
+            i12 = imageLocation.imageType;
+            if (i12 != 0) {
+            }
+            if (i10 == 2) {
+            }
+            String str1322 = str5;
+            cacheImage6.addImageReceiver(imageReceiver, str2, str3, i4, i3);
+            if (!z8) {
+            }
+            cacheImage6.finalFilePath = file6;
+            cacheImage6.imageLocation = imageLocation;
+            cacheImage6.cacheTask = new CacheOutTask(cacheImage6);
+            this.imageLoadingByKeys.put(str2, cacheImage6);
+            if (i != 0) {
             }
         }
     }

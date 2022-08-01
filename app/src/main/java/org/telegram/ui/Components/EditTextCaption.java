@@ -59,6 +59,12 @@ public class EditTextCaption extends EditTextBoldCursor {
         void onSpansChanged();
     }
 
+    protected void onContextMenuClose() {
+    }
+
+    protected void onContextMenuOpen() {
+    }
+
     protected void onLineCountChanged(int i, int i2) {
     }
 
@@ -286,6 +292,7 @@ public class EditTextCaption extends EditTextBoldCursor {
             @Override // android.view.ActionMode.Callback
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
                 EditTextCaption.this.copyPasteShowed = true;
+                EditTextCaption.this.onContextMenuOpen();
                 return callback.onCreateActionMode(actionMode, menu);
             }
 
@@ -310,6 +317,7 @@ public class EditTextCaption extends EditTextBoldCursor {
             @Override // android.view.ActionMode.Callback
             public void onDestroyActionMode(ActionMode actionMode) {
                 EditTextCaption.this.copyPasteShowed = false;
+                EditTextCaption.this.onContextMenuClose();
                 callback.onDestroyActionMode(actionMode);
             }
         };

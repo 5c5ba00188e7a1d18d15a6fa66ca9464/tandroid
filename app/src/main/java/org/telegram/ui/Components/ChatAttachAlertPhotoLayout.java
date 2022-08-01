@@ -292,6 +292,10 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (ChatAttachAlertPhotoLayout.selectedPhotos.isEmpty() && photoEntryAtPosition != null) {
                 ChatAttachAlertPhotoLayout.this.addToSelectedPhotos(photoEntryAtPosition, -1);
             }
+            ChatAttachAlert chatAttachAlert = ChatAttachAlertPhotoLayout.this.parentAlert;
+            if (chatAttachAlert.checkCaption(chatAttachAlert.commentTextView.getText())) {
+                return;
+            }
             ChatAttachAlertPhotoLayout.this.parentAlert.applyCaption();
             if (PhotoViewer.getInstance().hasCaptionForAllMedia) {
                 HashMap<Object, Object> selectedPhotos2 = getSelectedPhotos();
@@ -302,7 +306,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                         if (obj instanceof MediaController.PhotoEntry) {
                             MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
                             if (i3 == 0) {
-                                photoEntry.caption = PhotoViewer.getInstance().captionForAllMedia;
+                                CharSequence charSequence = PhotoViewer.getInstance().captionForAllMedia;
+                                photoEntry.caption = charSequence;
+                                if (ChatAttachAlertPhotoLayout.this.parentAlert.checkCaption(charSequence)) {
+                                    return;
+                                }
                             } else {
                                 photoEntry.caption = null;
                             }

@@ -2462,7 +2462,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:39:0x034a  */
     /* JADX WARN: Removed duplicated region for block: B:94:0x025e A[Catch: all -> 0x0278, Exception -> 0x027b, TryCatch #14 {Exception -> 0x027b, blocks: (B:91:0x0185, B:92:0x0188, B:94:0x025e, B:95:0x026d), top: B:90:0x0185 }] */
     /* JADX WARN: Type inference failed for: r6v12 */
-    /* JADX WARN: Type inference failed for: r6v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r6v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r6v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5067,7 +5067,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:45:0x00fd  */
-    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v3 */
     /* JADX WARN: Type inference failed for: r3v6 */
     /*

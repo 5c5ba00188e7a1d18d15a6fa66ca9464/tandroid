@@ -240,7 +240,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         if (i != 5) {
             z = false;
         }
-        tLRPC$TL_messages_getArchivedStickers.masks = z;
+        tLRPC$TL_messages_getArchivedStickers.emojis = z;
         getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getArchivedStickers, new RequestDelegate() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {

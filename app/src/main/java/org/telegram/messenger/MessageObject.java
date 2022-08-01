@@ -305,6 +305,7 @@ public class MessageObject {
     public static Pattern urlPattern;
     public static Pattern videoTimeUrlPattern;
     public boolean animateComments;
+    private int animatedEmojiCount;
     public boolean attachPathExists;
     public int audioPlayerDuration;
     public float audioProgress;
@@ -1349,7 +1350,11 @@ public class MessageObject {
             int[] iArr = allowsBigEmoji() ? new int[1] : null;
             CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr);
             this.messageText = replaceEmoji;
-            this.messageText = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
+            Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
+            this.messageText = replaceAnimatedEmoji;
+            if (iArr != null && iArr[0] > 1) {
+                replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+            }
             checkEmojiOnly(iArr);
             setType();
             this.emojiAnimatedSticker = null;
@@ -1425,7 +1430,7 @@ public class MessageObject {
                     this.type = 13;
                 } else if (isAnimatedSticker()) {
                     this.type = 15;
-                } else if (iArr != null && iArr[0] > 1) {
+                } else if (iArr != null && iArr[0] >= 1) {
                     this.type = 19;
                 }
             }
@@ -1484,62 +1489,105 @@ public class MessageObject {
     }
 
     private void checkEmojiOnly(int[] iArr) {
+        checkEmojiOnly(iArr == null ? null : Integer.valueOf(iArr[0]));
+    }
+
+    private void checkEmojiOnly(Integer num) {
         TextPaint textPaint;
-        if (iArr != null && iArr[0] >= 1 && iArr[0] <= 3) {
-            int i = iArr[0];
-            this.emojiOnlyCount = i;
-            if (i == 1) {
-                textPaint = Theme.chat_msgTextPaintOneEmoji;
-            } else if (i == 2) {
-                textPaint = Theme.chat_msgTextPaintTwoEmoji;
-            } else {
-                textPaint = Theme.chat_msgTextPaintThreeEmoji;
-            }
-            int textSize = (int) (textPaint.getTextSize() + AndroidUtilities.dp(4.0f));
+        int i = -1;
+        int i2 = 0;
+        if (num != null && num.intValue() >= 1) {
             CharSequence charSequence = this.messageText;
             Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
+            CharSequence charSequence2 = this.messageText;
+            AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spannable) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class);
+            this.animatedEmojiCount = 0;
+            if (animatedEmojiSpanArr != null) {
+                for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
+                    if (!animatedEmojiSpan.standard) {
+                        this.animatedEmojiCount++;
+                    }
+                }
+            }
+            boolean z = num.intValue() == this.animatedEmojiCount;
+            int intValue = num.intValue();
+            this.emojiOnlyCount = intValue;
+            switch (intValue) {
+                case 0:
+                case 1:
+                    if (!z) {
+                        textPaint = Theme.chat_msgTextPaintOneEmoji;
+                        break;
+                    }
+                case 2:
+                    textPaint = z ? Theme.chat_msgTextPaintEmoji[0] : Theme.chat_msgTextPaintOneEmoji;
+                    i = 1;
+                    break;
+                case 3:
+                    textPaint = z ? Theme.chat_msgTextPaintEmoji[1] : Theme.chat_msgTextPaintThreeEmoji;
+                    i = 1;
+                    break;
+                case 4:
+                    textPaint = Theme.chat_msgTextPaintEmoji[2];
+                    i = 1;
+                    break;
+                case 5:
+                    textPaint = Theme.chat_msgTextPaintEmoji[3];
+                    i = 2;
+                    break;
+                case 6:
+                    textPaint = Theme.chat_msgTextPaintEmoji[4];
+                    i = 2;
+                    break;
+                default:
+                    textPaint = Theme.chat_msgTextPaintEmoji[5];
+                    break;
+            }
+            int textSize = (int) (textPaint.getTextSize() + AndroidUtilities.dp(4.0f));
             if (emojiSpanArr != null && emojiSpanArr.length > 0) {
                 for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
                     emojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), textSize);
                 }
             }
-            CharSequence charSequence2 = this.messageText;
-            AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spannable) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class);
             if (animatedEmojiSpanArr == null || animatedEmojiSpanArr.length <= 0) {
                 return;
             }
-            for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
-                animatedEmojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), textSize, 1);
+            while (i2 < animatedEmojiSpanArr.length) {
+                animatedEmojiSpanArr[i2].replaceFontMetrics(textPaint.getFontMetricsInt(), textSize, i);
+                i2++;
             }
             return;
         }
         CharSequence charSequence3 = this.messageText;
         AnimatedEmojiSpan[] animatedEmojiSpanArr2 = (AnimatedEmojiSpan[]) ((Spannable) charSequence3).getSpans(0, charSequence3.length(), AnimatedEmojiSpan.class);
-        if (animatedEmojiSpanArr2 == null || animatedEmojiSpanArr2.length <= 0) {
+        if (animatedEmojiSpanArr2 != null && animatedEmojiSpanArr2.length > 0) {
+            this.animatedEmojiCount = animatedEmojiSpanArr2.length;
+            while (i2 < animatedEmojiSpanArr2.length) {
+                animatedEmojiSpanArr2[i2].replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), -1);
+                i2++;
+            }
             return;
         }
-        for (AnimatedEmojiSpan animatedEmojiSpan2 : animatedEmojiSpanArr2) {
-            animatedEmojiSpan2.replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), 0);
-        }
+        this.animatedEmojiCount = 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:477:0x0bd7, code lost:
-        if (r9.id == r11.id) goto L497;
+    /* JADX WARN: Code restructure failed: missing block: B:482:0x0bd7, code lost:
+        if (r9.id == r11.id) goto L502;
      */
     /* JADX WARN: Removed duplicated region for block: B:14:0x1489  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x14d7  */
     /* JADX WARN: Removed duplicated region for block: B:19:0x14da  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x04dc  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x04ec A[LOOP:0: B:212:0x04a9->B:225:0x04ec, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x0504 A[EDGE_INSN: B:226:0x0504->B:227:0x0504 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04dc  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x04ec A[LOOP:0: B:217:0x04a9->B:230:0x04ec, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0504 A[EDGE_INSN: B:231:0x0504->B:232:0x0504 ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:31:0x155d  */
-    /* JADX WARN: Removed duplicated region for block: B:484:0x0c2f  */
-    /* JADX WARN: Removed duplicated region for block: B:490:0x0cda  */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x0ce5  */
-    /* JADX WARN: Removed duplicated region for block: B:495:0x0c0a  */
-    /* JADX WARN: Removed duplicated region for block: B:496:0x0c1a  */
-    /* JADX WARN: Removed duplicated region for block: B:51:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x1556  */
+    /* JADX WARN: Removed duplicated region for block: B:489:0x0c2f  */
+    /* JADX WARN: Removed duplicated region for block: B:495:0x0cda  */
+    /* JADX WARN: Removed duplicated region for block: B:497:0x0ce5  */
+    /* JADX WARN: Removed duplicated region for block: B:500:0x0c0a  */
+    /* JADX WARN: Removed duplicated region for block: B:501:0x0c1a  */
+    /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x1556  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2476,7 +2524,11 @@ public class MessageObject {
                                                 iArr2 = allowsBigEmoji() ? new int[1] : iArr2;
                                                 CharSequence replaceEmoji = Emoji.replaceEmoji(messageObject.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr2);
                                                 messageObject.messageText = replaceEmoji;
-                                                messageObject.messageText = replaceAnimatedEmoji(replaceEmoji, messageObject.messageOwner.entities, textPaint.getFontMetricsInt());
+                                                Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, messageObject.messageOwner.entities, textPaint.getFontMetricsInt());
+                                                messageObject.messageText = replaceAnimatedEmoji;
+                                                if (iArr2 != null && iArr2[0] > 1) {
+                                                    messageObject.replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+                                                }
                                                 messageObject.checkEmojiOnly(iArr2);
                                                 setType();
                                                 measureInlineBotButtons();
@@ -2908,7 +2960,11 @@ public class MessageObject {
         }
         CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr);
         this.messageText = replaceEmoji;
-        this.messageText = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
+        Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
+        this.messageText = replaceAnimatedEmoji;
+        if (iArr != null && iArr[0] > 1) {
+            replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+        }
         checkEmojiOnly(iArr);
         generateLayout(user);
         setType();
@@ -4361,7 +4417,7 @@ public class MessageObject {
                 } else {
                     this.type = 15;
                 }
-            } else if (this.emojiOnlyCount > 1) {
+            } else if (this.emojiOnlyCount >= 1) {
                 this.type = 19;
             } else if (isMediaEmpty()) {
                 this.type = 0;
@@ -4481,21 +4537,23 @@ public class MessageObject {
             }
             if (!this.layoutCreated) {
                 this.layoutCreated = true;
-                int[] iArr = null;
-                TLRPC$User user = isFromUser() ? MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.messageOwner.from_id.user_id)) : null;
+                if (isFromUser()) {
+                    MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.messageOwner.from_id.user_id));
+                }
                 if (this.messageOwner.media instanceof TLRPC$TL_messageMediaGame) {
                     textPaint = Theme.chat_msgGameTextPaint;
                 } else {
                     textPaint = Theme.chat_msgTextPaint;
                 }
-                if (allowsBigEmoji()) {
-                    iArr = new int[1];
-                }
+                int[] iArr = allowsBigEmoji() ? new int[1] : null;
                 CharSequence replaceEmoji = Emoji.replaceEmoji(this.messageText, textPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, iArr);
                 this.messageText = replaceEmoji;
-                this.messageText = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
+                Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
+                this.messageText = replaceAnimatedEmoji;
+                if (iArr != null && iArr[0] > 1) {
+                    replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+                }
                 checkEmojiOnly(iArr);
-                generateLayout(user);
                 setType();
                 return true;
             }
@@ -5411,6 +5469,25 @@ public class MessageObject {
             return addEntitiesToText(charSequence, arrayList, isOutOwner(), true, z, z2);
         }
         return addEntitiesToText(charSequence, this.messageOwner.entities, isOutOwner(), true, z, z2);
+    }
+
+    public void replaceEmojiToLottieAnimated(CharSequence charSequence) {
+        if (!(charSequence instanceof Spannable)) {
+            return;
+        }
+        Spannable spannable = (Spannable) charSequence;
+        Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) spannable.getSpans(0, spannable.length(), Emoji.EmojiSpan.class);
+        for (int i = 0; i < emojiSpanArr.length; i++) {
+            TLRPC$Document emojiAnimatedSticker = MediaDataController.getInstance(this.currentAccount).getEmojiAnimatedSticker(emojiSpanArr[i].emoji);
+            if (emojiAnimatedSticker != null) {
+                int spanStart = spannable.getSpanStart(emojiSpanArr[i]);
+                int spanEnd = spannable.getSpanEnd(emojiSpanArr[i]);
+                spannable.removeSpan(emojiSpanArr[i].emoji);
+                AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(emojiAnimatedSticker, emojiSpanArr[i].fontMetrics);
+                animatedEmojiSpan.standard = true;
+                spannable.setSpan(animatedEmojiSpan, spanStart, spanEnd, 33);
+            }
+        }
     }
 
     public static Spannable replaceAnimatedEmoji(CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, Paint.FontMetricsInt fontMetricsInt) {
@@ -7067,7 +7144,7 @@ public class MessageObject {
         int size = tLRPC$Document.attributes.size();
         for (int i = 0; i < size; i++) {
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
-            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) {
+            if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker)) {
                 return tLRPC$DocumentAttribute.alt;
             }
         }
@@ -7184,7 +7261,6 @@ public class MessageObject {
         int min;
         TLRPC$PhotoSize closestPhotoSizeWithSize;
         int min2;
-        ArrayList<TextLayoutBlock> arrayList;
         int i3 = this.type;
         int i4 = 0;
         if (i3 == 0) {
@@ -7219,11 +7295,10 @@ public class MessageObject {
             if (i3 == 5) {
                 return AndroidUtilities.roundMessageSize;
             }
-            if (i3 == 19 && (arrayList = this.textLayoutBlocks) != null && arrayList.size() > 0) {
-                return this.textLayoutBlocks.get(0).height;
+            if (i3 == 19) {
+                return this.textHeight + AndroidUtilities.dp(30.0f);
             }
-            int i7 = this.type;
-            if (i7 == 13 || i7 == 15) {
+            if (i3 == 13 || i3 == 15) {
                 float f = AndroidUtilities.displaySize.y * 0.4f;
                 if (AndroidUtilities.isTablet()) {
                     i = AndroidUtilities.getMinTabletSide();
@@ -7234,8 +7309,8 @@ public class MessageObject {
                 TLRPC$Document document = getDocument();
                 if (document != null) {
                     int size = document.attributes.size();
-                    for (int i8 = 0; i8 < size; i8++) {
-                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i8);
+                    for (int i7 = 0; i7 < size; i7++) {
+                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i7);
                         if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) {
                             i4 = tLRPC$DocumentAttribute.w;
                             i2 = tLRPC$DocumentAttribute.h;
@@ -7246,7 +7321,7 @@ public class MessageObject {
                 i2 = 0;
                 if (i4 == 0) {
                     i2 = (int) f;
-                    i4 = i2 + AndroidUtilities.dp(100.0f);
+                    i4 = AndroidUtilities.dp(100.0f) + i2;
                 }
                 float f3 = i2;
                 if (f3 > f) {
@@ -7265,21 +7340,21 @@ public class MessageObject {
                 Point point = AndroidUtilities.displaySize;
                 min = Math.min(point.x, point.y);
             }
-            int i9 = (int) (min * 0.7f);
-            int dp = AndroidUtilities.dp(100.0f) + i9;
-            if (i9 > AndroidUtilities.getPhotoSize()) {
-                i9 = AndroidUtilities.getPhotoSize();
+            int i8 = (int) (min * 0.7f);
+            int dp = AndroidUtilities.dp(100.0f) + i8;
+            if (i8 > AndroidUtilities.getPhotoSize()) {
+                i8 = AndroidUtilities.getPhotoSize();
             }
             if (dp > AndroidUtilities.getPhotoSize()) {
                 dp = AndroidUtilities.getPhotoSize();
             }
             if (FileLoader.getClosestPhotoSizeWithSize(this.photoThumbs, AndroidUtilities.getPhotoSize()) != null) {
-                int i10 = (int) (closestPhotoSizeWithSize.h / (closestPhotoSizeWithSize.w / i9));
-                if (i10 == 0) {
-                    i10 = AndroidUtilities.dp(100.0f);
+                int i9 = (int) (closestPhotoSizeWithSize.h / (closestPhotoSizeWithSize.w / i8));
+                if (i9 == 0) {
+                    i9 = AndroidUtilities.dp(100.0f);
                 }
-                if (i10 <= dp) {
-                    dp = i10 < AndroidUtilities.dp(120.0f) ? AndroidUtilities.dp(120.0f) : i10;
+                if (i9 <= dp) {
+                    dp = i9 < AndroidUtilities.dp(120.0f) ? AndroidUtilities.dp(120.0f) : i9;
                 }
                 if (needDrawBluredPreview()) {
                     if (AndroidUtilities.isTablet()) {

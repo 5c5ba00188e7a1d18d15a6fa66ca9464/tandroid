@@ -3,7 +3,10 @@ package org.telegram.ui.Components;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -35,6 +38,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextEmoji;
 import org.telegram.ui.Components.EmojiView;
+import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 /* loaded from: classes3.dex */
 public class EditTextEmoji extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate {
@@ -70,6 +74,9 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     }
 
     protected void bottomPanelTranslationY(float f) {
+    }
+
+    protected void closeParent() {
     }
 
     protected void onLineCountChanged(int i, int i2) {
@@ -590,6 +597,11 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public /* synthetic */ boolean isUserSelf() {
+            return EmojiView.EmojiViewDelegate.-CC.$default$isUserSelf(this);
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
         public /* synthetic */ void onEmojiSettingsClick() {
             EmojiView.EmojiViewDelegate.-CC.$default$onEmojiSettingsClick(this);
         }
@@ -654,6 +666,47 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             }
             EditTextEmoji.this.editText.dispatchKeyEvent(new KeyEvent(0, 67));
             return true;
+        }
+
+        @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
+        public void onAnimatedEmojiUnlockClick() {
+            BaseFragment baseFragment = EditTextEmoji.this.parentFragment;
+            if (baseFragment == null) {
+                new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Components.EditTextEmoji.5.1
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public int getCurrentAccount() {
+                        return this.currentAccount;
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public Context getContext() {
+                        return EditTextEmoji.this.getContext();
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public Activity getParentActivity() {
+                        for (Context context = getContext(); context instanceof ContextWrapper; context = ((ContextWrapper) context).getBaseContext()) {
+                            if (context instanceof Activity) {
+                                return (Activity) context;
+                            }
+                        }
+                        return null;
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public Dialog getVisibleDialog() {
+                        return new Dialog(EditTextEmoji.this.getContext()) { // from class: org.telegram.ui.Components.EditTextEmoji.5.1.1
+                            @Override // android.app.Dialog, android.content.DialogInterface
+                            public void dismiss() {
+                                EditTextEmoji.this.hidePopup(false);
+                                EditTextEmoji.this.closeParent();
+                            }
+                        };
+                    }
+                }, 11, false).show();
+            } else {
+                baseFragment.showDialog(new PremiumFeatureBottomSheet(baseFragment, 11, false));
+            }
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate

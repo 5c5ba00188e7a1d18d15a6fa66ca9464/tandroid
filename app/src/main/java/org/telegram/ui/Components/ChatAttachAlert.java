@@ -109,6 +109,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.BotWebViewContainer;
+import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertAudioLayout;
 import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
@@ -494,6 +495,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         public void onSetBackButtonVisible(boolean z) {
             AndroidUtilities.updateImageViewImageAnimated(ChatAttachAlert.this.actionBar.getBackButton(), z ? R.drawable.ic_ab_back : R.drawable.ic_close_white);
         }
+    }
+
+    public boolean checkCaption(CharSequence charSequence) {
+        BaseFragment baseFragment = this.baseFragment;
+        if (baseFragment instanceof ChatActivity) {
+            return ChatActivityEnterView.checkPremiumAnimatedEmoji(this.currentAccount, ((ChatActivity) baseFragment).getDialogId(), this.baseFragment, this.sizeNotifierFrameLayout, charSequence);
+        }
+        return false;
     }
 
     /* loaded from: classes3.dex */
@@ -1698,8 +1707,29 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         private float initialTranslationY;
         private int lastNotifyWidth;
         final /* synthetic */ boolean val$forceDarkTheme;
+        private Bulletin.Delegate bulletinDelegate = new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.ChatAttachAlert.3.1
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onHide(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onOffsetChange(float f) {
+                Bulletin.Delegate.-CC.$default$onOffsetChange(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public /* synthetic */ void onShow(Bulletin bulletin) {
+                Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+            }
+
+            @Override // org.telegram.ui.Components.Bulletin.Delegate
+            public int getBottomOffset(int i) {
+                return AndroidUtilities.dp(52.0f);
+            }
+        };
         private RectF rect = new RectF();
-        AdjustPanLayoutHelper adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) { // from class: org.telegram.ui.Components.ChatAttachAlert.3.1
+        AdjustPanLayoutHelper adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) { // from class: org.telegram.ui.Components.ChatAttachAlert.3.2
             {
                 3.this = this;
             }
@@ -2382,12 +2412,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.adjustPanLayoutHelper.setResizableView(this);
             this.adjustPanLayoutHelper.onAttach();
             ChatAttachAlert.this.commentTextView.setAdjustPanLayoutHelper(this.adjustPanLayoutHelper);
+            Bulletin.addDelegate(this, this.bulletinDelegate);
         }
 
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         public void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             this.adjustPanLayoutHelper.onDetach();
+            Bulletin.removeDelegate(this);
         }
     }
 
@@ -2751,6 +2783,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             ChatAttachAlert.this.frameLayout2.invalidate();
             ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
             chatAttachAlert.updateLayout(chatAttachAlert.currentAttachLayout, true, 0);
+        }
+
+        @Override // org.telegram.ui.Components.EditTextEmoji
+        protected void closeParent() {
+            ChatAttachAlert.super.dismiss();
         }
     }
 
@@ -3181,6 +3218,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
                 edit.putBoolean("silent_" + chatActivity.getDialogId(), !z).commit();
             }
+        }
+        if (checkCaption(this.commentTextView.getText())) {
+            return;
         }
         applyCaption();
         this.buttonPressed = true;

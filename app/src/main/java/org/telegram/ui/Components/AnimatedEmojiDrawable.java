@@ -24,6 +24,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
@@ -41,12 +42,12 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 /* loaded from: classes3.dex */
 public class AnimatedEmojiDrawable extends Drawable {
-    static int count;
     private static HashMap<Integer, EmojiDocumentFetcher> fetchers;
     private static HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> globalEmojiCache;
     private float alpha = 1.0f;
     private boolean attached;
     private int cacheType;
+    int count;
     private TLRPC$Document document;
     private long documentId;
     private ArrayList<AnimatedEmojiSpan.AnimatedEmojiHolder> holders;
@@ -409,7 +410,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (i == 0) {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
         } else if (i == 1) {
-            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintOneEmoji.ascent()) + Math.abs(Theme.chat_msgTextPaintOneEmoji.descent())) * 1.15f) / AndroidUtilities.density);
+            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[2].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[2].descent())) * 1.15f) / AndroidUtilities.density);
         } else if (i == 2 || i == 4 || i == 3) {
             this.sizedp = 34;
         } else {
@@ -442,7 +443,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (i == 0) {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
         } else if (i == 1) {
-            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintOneEmoji.ascent()) + Math.abs(Theme.chat_msgTextPaintOneEmoji.descent())) * 1.15f) / AndroidUtilities.density);
+            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[2].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[2].descent())) * 1.15f) / AndroidUtilities.density);
         } else if (i == 2 || i == 4 || i == 3) {
             this.sizedp = 34;
         } else {
@@ -488,7 +489,10 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (this.cacheType != 0) {
             imageReceiver.setUniqKeyPrefix(this.cacheType + "_");
         }
-        String str3 = this.sizedp + "_" + this.sizedp + "_pcache";
+        String str3 = this.sizedp + "_" + this.sizedp;
+        if (this.cacheType != 1 || SharedConfig.getDevicePerformanceClass() < 2) {
+            str3 = str3 + "_pcache";
+        }
         int i2 = this.cacheType;
         if (i2 != 0 && i2 != 1) {
             str3 = str3 + "_compress";
@@ -556,6 +560,15 @@ public class AnimatedEmojiDrawable extends Drawable {
                 }
             }
         }
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("AnimatedEmojiDrawable{");
+        TLRPC$Document tLRPC$Document = this.document;
+        sb.append(tLRPC$Document == null ? "null" : MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document, null));
+        sb.append("}");
+        return sb.toString();
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -645,11 +658,11 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
         this.attached = z;
         if (z) {
-            count++;
+            this.count++;
             this.imageReceiver.onAttachedToWindow();
             return;
         }
-        count--;
+        this.count--;
         this.imageReceiver.onDetachedFromWindow();
     }
 

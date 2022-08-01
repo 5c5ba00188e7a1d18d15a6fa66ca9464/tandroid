@@ -221,9 +221,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     /* JADX INFO: Access modifiers changed from: private */
     public void invalidateInternal() {
         for (int i = 0; i < this.parents.size(); i++) {
-            if (this.parents.get(i).getParentView() != null) {
-                this.parents.get(i).getParentView().invalidate();
-            }
+            this.parents.get(i).invalidate();
         }
     }
 
@@ -852,7 +850,9 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     public void drawInBackground(Canvas canvas, float f, float f2, float f3, float f4, int i) {
         if (this.dstRectBackground == null) {
             this.dstRectBackground = new RectF();
-            this.backgroundPaint = new Paint();
+            Paint paint = new Paint();
+            this.backgroundPaint = paint;
+            paint.setFilterBitmap(true);
         }
         this.backgroundPaint.setAlpha(i);
         this.dstRectBackground.set(f, f2, f3 + f, f4 + f2);

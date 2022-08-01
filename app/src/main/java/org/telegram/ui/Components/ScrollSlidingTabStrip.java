@@ -1033,6 +1033,9 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                 int i4 = this.currentDragPosition;
                 if (i3 != i4) {
                     stickerSetPositionChanged(i3, i4);
+                    for (int i5 = 0; i5 < this.tabsContainer.getChildCount(); i5++) {
+                        this.tabsContainer.getChildAt(i5).setTag(R.id.index_tag, Integer.valueOf(i5));
+                    }
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda0

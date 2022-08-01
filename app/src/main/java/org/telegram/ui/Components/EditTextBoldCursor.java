@@ -490,8 +490,9 @@ public class EditTextBoldCursor extends EditTextEffects {
         this.supportRtlHint = z;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    protected void onScrollChanged(int i, int i2, int i3, int i4) {
+    public void onScrollChanged(int i, int i2, int i3, int i4) {
         super.onScrollChanged(i, i2, i3, i4);
         if (i != i3) {
             getParent().requestDisallowInterceptTouchEvent(true);
