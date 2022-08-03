@@ -3469,8 +3469,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             ChatActivityEnterView.this.delegate.needSendTyping();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:40:0x015b  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x01ab  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x015f  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x01af  */
         @Override // android.text.TextWatcher
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3493,7 +3493,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         for (ImageSpan imageSpan : (ImageSpan[]) editable.getSpans(0, editable.length(), ImageSpan.class)) {
                             editable.removeSpan(imageSpan);
                         }
-                        Emoji.replaceEmoji(editable, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                        Emoji.replaceEmoji(editable, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, null, true);
                         this.processChange = false;
                     }
                 }
@@ -7427,7 +7427,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             }
                         }
                     }
-                    str2 = Emoji.replaceEmoji(new SpannableStringBuilder(spannableStringBuilder), this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                    str2 = Emoji.replaceEmoji(new SpannableStringBuilder(spannableStringBuilder), this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, null, true);
                 }
                 if (this.draftMessage == null && !z3) {
                     this.draftMessage = this.messageEditText.length() > 0 ? this.messageEditText.getText() : null;
@@ -8469,10 +8469,15 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     private void createEmojiView() {
+        EmojiView emojiView = this.emojiView;
+        if (emojiView != null && emojiView.currentAccount != UserConfig.selectedAccount) {
+            this.sizeNotifierLayout.removeView(emojiView);
+            this.emojiView = null;
+        }
         if (this.emojiView != null) {
             return;
         }
-        EmojiView emojiView = new EmojiView(this.parentFragment, this.allowAnimatedEmoji, true, true, getContext(), true, this.info, this.sizeNotifierLayout, this.resourcesProvider) { // from class: org.telegram.ui.Components.ChatActivityEnterView.56
+        EmojiView emojiView2 = new EmojiView(this.parentFragment, this.allowAnimatedEmoji, true, true, getContext(), true, this.info, this.sizeNotifierLayout, this.resourcesProvider) { // from class: org.telegram.ui.Components.ChatActivityEnterView.56
             {
                 ChatActivityEnterView.this = this;
             }
@@ -8486,8 +8491,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 ChatActivityEnterView.this.delegate.bottomPanelTranslationYChanged(f);
             }
         };
-        this.emojiView = emojiView;
-        emojiView.setAllow(this.allowStickers, this.allowGifs, true);
+        this.emojiView = emojiView2;
+        emojiView2.setAllow(this.allowStickers, this.allowGifs, true);
         this.emojiView.setVisibility(8);
         this.emojiView.setShowing(false);
         this.emojiView.setDelegate(new 57());
@@ -8746,7 +8751,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         hashMap.put("id", tLRPC$BotInlineResult.id);
                         hashMap.put("query_id", "" + tLRPC$BotInlineResult.query_id);
                         hashMap.put("force_gif", "1");
-                        SendMessagesHelper.prepareSendingBotContextResult(ChatActivityEnterView.this.accountInstance, tLRPC$BotInlineResult, hashMap, ChatActivityEnterView.this.dialog_id, ChatActivityEnterView.this.replyingMessageObject, ChatActivityEnterView.this.getThreadMessage(), z, i);
+                        SendMessagesHelper.prepareSendingBotContextResult(ChatActivityEnterView.this.parentFragment, ChatActivityEnterView.this.accountInstance, tLRPC$BotInlineResult, hashMap, ChatActivityEnterView.this.dialog_id, ChatActivityEnterView.this.replyingMessageObject, ChatActivityEnterView.this.getThreadMessage(), z, i);
                         if (ChatActivityEnterView.this.searchingType != 0) {
                             ChatActivityEnterView.this.setSearchingTypeInternal(0, true);
                             ChatActivityEnterView.this.emojiView.closeSearch(true);
@@ -8996,8 +9001,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             return;
         }
         if (i == 1) {
-            if (i2 == 0 && this.emojiView == null) {
-                if (this.parentActivity == null) {
+            if (i2 == 0) {
+                if (this.parentActivity == null && this.emojiView == null) {
                     return;
                 }
                 createEmojiView();

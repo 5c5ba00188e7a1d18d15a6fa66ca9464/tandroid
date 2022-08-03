@@ -27,6 +27,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
@@ -439,9 +440,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         if (i == 1) {
             EmojiView emojiView = this.emojiView;
             boolean z = emojiView != null && emojiView.getVisibility() == 0;
-            if (this.emojiView == null) {
-                createEmojiView();
-            }
+            createEmojiView();
             this.emojiView.setVisibility(0);
             this.emojiViewVisible = true;
             EmojiView emojiView2 = this.emojiView;
@@ -540,12 +539,17 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     }
 
     protected void createEmojiView() {
+        EmojiView emojiView = this.emojiView;
+        if (emojiView != null && emojiView.currentAccount != UserConfig.selectedAccount) {
+            this.sizeNotifierLayout.removeView(emojiView);
+            this.emojiView = null;
+        }
         if (this.emojiView != null) {
             return;
         }
-        EmojiView emojiView = new EmojiView(this.parentFragment, this.allowAnimatedEmoji, false, false, getContext(), false, null, null, this.resourcesProvider);
-        this.emojiView = emojiView;
-        emojiView.setVisibility(8);
+        EmojiView emojiView2 = new EmojiView(this.parentFragment, this.allowAnimatedEmoji, false, false, getContext(), false, null, null, this.resourcesProvider);
+        this.emojiView = emojiView2;
+        emojiView2.setVisibility(8);
         if (AndroidUtilities.isTablet()) {
             this.emojiView.setForseMultiwindowLayout(true);
         }

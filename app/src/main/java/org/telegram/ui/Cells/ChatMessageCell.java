@@ -4500,45 +4500,45 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         AnimatedEmojiSpan.release(this, this.animatedEmojiStack);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(36:3564|(4:3566|(1:(3:3568|3569|(2:3572|3573)(1:3571))(2:3602|3603))|3574|(1:3576))(1:3604)|3577|(29:3582|3254|3255|(4:3257|(1:3259)(1:3555)|3260|(6:3262|(1:3264)|3265|(1:3267)(1:3554)|3268|(2:3270|(1:(4:3548|(1:3550)|3551|(1:3553)))(22:3274|(2:3276|(1:3278))|3279|3280|(3:3542|(1:3544)|3545)|3292|(2:3527|(2:3531|(1:3533)(1:3534)))(3:3296|(1:3526)(2:3302|(1:3304))|3305)|3306|(12:3311|3312|(1:3523)(1:3317)|3318|(1:3323)|3324|(2:3326|(1:3520)(6:3336|(3:3338|(1:3518)(1:3342)|3343)(1:3519)|3344|(3:3346|(2:3356|(2:(1:3360)|3361))(1:3352)|3353)(2:3362|(3:3364|(1:3366)(2:3368|(3:3370|(1:3372)(1:3395)|(3:3390|(1:3392)(1:3394)|3393)(2:3380|(3:3385|(1:3387)(1:3389)|3388)(1:3384)))(1:3396))|3367)(3:3397|(13:3422|(1:3424)(2:3514|(1:3516)(1:3517))|3425|(4:3429|3430|(4:3438|(2:3440|(1:3444))(1:3452)|(1:3451)(1:3449)|3450)(2:(2:3486|(3:3488|(1:3490)(1:3492)|3491)(2:3493|(1:3507)(5:3499|(1:3501)|3502|(1:3504)(1:3506)|3505)))(4:3460|(1:3462)|(2:3479|(1:3485)(1:3484))(5:3469|(1:3471)|3472|(1:3474)(1:3478)|3475)|3476)|3477)|3445)|3512|3430|(1:3432)|3508|3438|(0)(0)|(1:3447)|3451|3450)(3:3401|(5:3412|(1:3416)|3417|(1:3419)(1:3421)|3420)(3:3406|(1:3408)(1:3411)|3409)|3410)|3355))|3354|3355))(1:3522)|3521|3344|(0)(0)|3354|3355)|3524|3312|(0)|3523|3318|(2:3321|3323)|3324|(0)(0)|3521|3344|(0)(0)|3354|3355))))|3556|3280|(1:3546)(4:3282|3542|(0)|3545)|3292|(0)|3527|(18:3529|3531|(0)(0)|3306|(1:3525)(14:3308|3311|3312|(0)|3523|3318|(0)|3324|(0)(0)|3521|3344|(0)(0)|3354|3355)|3524|3312|(0)|3523|3318|(0)|3324|(0)(0)|3521|3344|(0)(0)|3354|3355)|3535|3531|(0)(0)|3306|(0)(0)|3524|3312|(0)|3523|3318|(0)|3324|(0)(0)|3521|3344|(0)(0)|3354|3355)|3584|3585|3586|(29:3595|3596|3255|(0)|3556|3280|(0)(0)|3292|(0)|3527|(0)|3535|3531|(0)(0)|3306|(0)(0)|3524|3312|(0)|3523|3318|(0)|3324|(0)(0)|3521|3344|(0)(0)|3354|3355)|3590|3255|(0)|3556|3280|(0)(0)|3292|(0)|3527|(0)|3535|3531|(0)(0)|3306|(0)(0)|3524|3312|(0)|3523|3318|(0)|3324|(0)(0)|3521|3344|(0)(0)|3354|3355) */
+    /* JADX WARN: Can't wrap try/catch for region: R(34:(3:3567|(4:3569|(1:(3:3571|3572|(2:3575|3576)(1:3574))(2:3605|3606))|3577|(1:3579))(1:3607)|3580)|(29:3585|3257|3258|(4:3260|(1:3262)(1:3558)|3263|(6:3265|(1:3267)|3268|(1:3270)(1:3557)|3271|(2:3273|(1:(4:3551|(1:3553)|3554|(1:3556)))(22:3277|(2:3279|(1:3281))|3282|3283|(3:3545|(1:3547)|3548)|3295|(2:3530|(2:3534|(1:3536)(1:3537)))(3:3299|(1:3529)(2:3305|(1:3307))|3308)|3309|(12:3314|3315|(1:3526)(1:3320)|3321|(1:3326)|3327|(2:3329|(1:3523)(6:3339|(3:3341|(1:3521)(1:3345)|3346)(1:3522)|3347|(3:3349|(2:3359|(2:(1:3363)|3364))(1:3355)|3356)(2:3365|(3:3367|(1:3369)(2:3371|(3:3373|(1:3375)(1:3398)|(3:3393|(1:3395)(1:3397)|3396)(2:3383|(3:3388|(1:3390)(1:3392)|3391)(1:3387)))(1:3399))|3370)(3:3400|(13:3425|(1:3427)(2:3517|(1:3519)(1:3520))|3428|(4:3432|3433|(4:3441|(2:3443|(1:3447))(1:3455)|(1:3454)(1:3452)|3453)(2:(2:3489|(3:3491|(1:3493)(1:3495)|3494)(2:3496|(1:3510)(5:3502|(1:3504)|3505|(1:3507)(1:3509)|3508)))(4:3463|(1:3465)|(2:3482|(1:3488)(1:3487))(5:3472|(1:3474)|3475|(1:3477)(1:3481)|3478)|3479)|3480)|3448)|3515|3433|(1:3435)|3511|3441|(0)(0)|(1:3450)|3454|3453)(3:3404|(5:3415|(1:3419)|3420|(1:3422)(1:3424)|3423)(3:3409|(1:3411)(1:3414)|3412)|3413)|3358))|3357|3358))(1:3525)|3524|3347|(0)(0)|3357|3358)|3527|3315|(0)|3526|3321|(2:3324|3326)|3327|(0)(0)|3524|3347|(0)(0)|3357|3358))))|3559|3283|(1:3549)(4:3285|3545|(0)|3548)|3295|(0)|3530|(18:3532|3534|(0)(0)|3309|(1:3528)(14:3311|3314|3315|(0)|3526|3321|(0)|3327|(0)(0)|3524|3347|(0)(0)|3357|3358)|3527|3315|(0)|3526|3321|(0)|3327|(0)(0)|3524|3347|(0)(0)|3357|3358)|3538|3534|(0)(0)|3309|(0)(0)|3527|3315|(0)|3526|3321|(0)|3327|(0)(0)|3524|3347|(0)(0)|3357|3358)|3587|3588|3589|(29:3598|3599|3258|(0)|3559|3283|(0)(0)|3295|(0)|3530|(0)|3538|3534|(0)(0)|3309|(0)(0)|3527|3315|(0)|3526|3321|(0)|3327|(0)(0)|3524|3347|(0)(0)|3357|3358)|3593|3258|(0)|3559|3283|(0)(0)|3295|(0)|3530|(0)|3538|3534|(0)(0)|3309|(0)(0)|3527|3315|(0)|3526|3321|(0)|3327|(0)(0)|3524|3347|(0)(0)|3357|3358) */
     /* JADX WARN: Code restructure failed: missing block: B:1002:0x11f9, code lost:
         if (r73.isSmallImage != false) goto L1675;
      */
     /* JADX WARN: Code restructure failed: missing block: B:2892:0x367d, code lost:
         if (r0 < (r73.timeWidth + org.telegram.messenger.AndroidUtilities.dp((r74.isOutOwner() ? 20 : 0) + 20))) goto L2895;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:3288:0x458a, code lost:
-        if (r3 >= (r73.captionWidth + org.telegram.messenger.AndroidUtilities.dp(10.0f))) goto L3292;
+    /* JADX WARN: Code restructure failed: missing block: B:3291:0x4597, code lost:
+        if (r3 >= (r73.captionWidth + org.telegram.messenger.AndroidUtilities.dp(10.0f))) goto L3295;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:3289:0x458c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:3292:0x4599, code lost:
         r3 = r73.captionWidth + org.telegram.messenger.AndroidUtilities.dp(10.0f);
         r4 = org.telegram.messenger.AndroidUtilities.dp(8.0f) + r3;
         r73.backgroundWidth = r4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:3290:0x459c, code lost:
-        if (r73.mediaBackground != false) goto L3292;
+    /* JADX WARN: Code restructure failed: missing block: B:3293:0x45a9, code lost:
+        if (r73.mediaBackground != false) goto L3295;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:3291:0x459e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:3294:0x45ab, code lost:
         r73.backgroundWidth = r4 + org.telegram.messenger.AndroidUtilities.dp(9.0f);
      */
     /* JADX WARN: Code restructure failed: missing block: B:34:0x008a, code lost:
-        if (r73.isPlayingRound != (org.telegram.messenger.MediaController.getInstance().isPlayingMessage(r73.currentMessageObject) && (r7 = r73.delegate) != null && !r7.keyboardIsOpened())) goto L3987;
+        if (r73.isPlayingRound != (org.telegram.messenger.MediaController.getInstance().isPlayingMessage(r73.currentMessageObject) && (r7 = r73.delegate) != null && !r7.keyboardIsOpened())) goto L3990;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:3598:0x445e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:3601:0x446b, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:3599:0x445f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:3602:0x446c, code lost:
         r5 = r0;
         r0 = r12;
         r12 = r6;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:3737:0x431f, code lost:
-        if (r5.isSmall == false) goto L3738;
+    /* JADX WARN: Code restructure failed: missing block: B:3740:0x432c, code lost:
+        if (r5.isSmall == false) goto L3741;
      */
     /* JADX WARN: Code restructure failed: missing block: B:950:0x0ec2, code lost:
         if (r3 != 13) goto L951;
      */
-    /* JADX WARN: Multi-variable search skipped. Vars limit reached: 6696 (expected less than 5000) */
+    /* JADX WARN: Multi-variable search skipped. Vars limit reached: 6700 (expected less than 5000) */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:1011:0x1238 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:1034:0x12f0  */
@@ -4561,16 +4561,16 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:1650:0x197b  */
     /* JADX WARN: Removed duplicated region for block: B:1696:0x1231  */
     /* JADX WARN: Removed duplicated region for block: B:1697:0x0fb6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x550f  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x551c  */
     /* JADX WARN: Removed duplicated region for block: B:1775:0x0f99  */
     /* JADX WARN: Removed duplicated region for block: B:1776:0x0f64  */
     /* JADX WARN: Removed duplicated region for block: B:1791:0x0ecd  */
     /* JADX WARN: Removed duplicated region for block: B:1800:0x0ef1  */
     /* JADX WARN: Removed duplicated region for block: B:1813:0x0dba  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x5556  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x557e  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x5563  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x558b  */
     /* JADX WARN: Removed duplicated region for block: B:1970:0x21d9  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x5592  */
+    /* JADX WARN: Removed duplicated region for block: B:200:0x559f  */
     /* JADX WARN: Removed duplicated region for block: B:2044:0x2447  */
     /* JADX WARN: Removed duplicated region for block: B:2047:0x245d  */
     /* JADX WARN: Removed duplicated region for block: B:2065:0x255d  */
@@ -4578,19 +4578,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:2079:0x256e  */
     /* JADX WARN: Removed duplicated region for block: B:2089:0x2467  */
     /* JADX WARN: Removed duplicated region for block: B:2098:0x244a  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x55c7  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x55d4  */
     /* JADX WARN: Removed duplicated region for block: B:2558:0x2fd7  */
     /* JADX WARN: Removed duplicated region for block: B:2561:0x301b  */
     /* JADX WARN: Removed duplicated region for block: B:257:0x02f9  */
-    /* JADX WARN: Removed duplicated region for block: B:2660:0x4be5  */
-    /* JADX WARN: Removed duplicated region for block: B:2671:0x4c31  */
-    /* JADX WARN: Removed duplicated region for block: B:2678:0x4c52  */
-    /* JADX WARN: Removed duplicated region for block: B:2681:0x4c69  */
-    /* JADX WARN: Removed duplicated region for block: B:2691:0x4ca4  */
-    /* JADX WARN: Removed duplicated region for block: B:2694:0x4cb1  */
-    /* JADX WARN: Removed duplicated region for block: B:2697:0x4cd4  */
-    /* JADX WARN: Removed duplicated region for block: B:2724:0x4cc1  */
-    /* JADX WARN: Removed duplicated region for block: B:2729:0x4c07  */
+    /* JADX WARN: Removed duplicated region for block: B:2660:0x4bf2  */
+    /* JADX WARN: Removed duplicated region for block: B:2671:0x4c3e  */
+    /* JADX WARN: Removed duplicated region for block: B:2678:0x4c5f  */
+    /* JADX WARN: Removed duplicated region for block: B:2681:0x4c76  */
+    /* JADX WARN: Removed duplicated region for block: B:2691:0x4cb1  */
+    /* JADX WARN: Removed duplicated region for block: B:2694:0x4cbe  */
+    /* JADX WARN: Removed duplicated region for block: B:2697:0x4ce1  */
+    /* JADX WARN: Removed duplicated region for block: B:2724:0x4cce  */
+    /* JADX WARN: Removed duplicated region for block: B:2729:0x4c14  */
     /* JADX WARN: Removed duplicated region for block: B:2782:0x32ec  */
     /* JADX WARN: Removed duplicated region for block: B:2793:0x331b  */
     /* JADX WARN: Removed duplicated region for block: B:2814:0x374c  */
@@ -4601,64 +4601,64 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:2855:0x3764  */
     /* JADX WARN: Removed duplicated region for block: B:2871:0x352c  */
     /* JADX WARN: Removed duplicated region for block: B:289:0x0352  */
-    /* JADX WARN: Removed duplicated region for block: B:2996:0x3b29  */
-    /* JADX WARN: Removed duplicated region for block: B:3001:0x3b3e  */
-    /* JADX WARN: Removed duplicated region for block: B:3012:0x3c45  */
-    /* JADX WARN: Removed duplicated region for block: B:3014:0x3c68  */
-    /* JADX WARN: Removed duplicated region for block: B:3046:0x3c34  */
-    /* JADX WARN: Removed duplicated region for block: B:3113:0x3d68  */
-    /* JADX WARN: Removed duplicated region for block: B:3116:0x3d72  */
-    /* JADX WARN: Removed duplicated region for block: B:3131:0x3de7  */
-    /* JADX WARN: Removed duplicated region for block: B:3132:0x3dec  */
-    /* JADX WARN: Removed duplicated region for block: B:3154:0x3e88 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:3157:0x3e96  */
-    /* JADX WARN: Removed duplicated region for block: B:3162:0x3eae  */
-    /* JADX WARN: Removed duplicated region for block: B:3169:0x3ec7  */
-    /* JADX WARN: Removed duplicated region for block: B:3179:0x3f15  */
-    /* JADX WARN: Removed duplicated region for block: B:3182:0x3f42  */
-    /* JADX WARN: Removed duplicated region for block: B:3185:0x3f4d  */
+    /* JADX WARN: Removed duplicated region for block: B:2999:0x3b36  */
+    /* JADX WARN: Removed duplicated region for block: B:3004:0x3b4b  */
+    /* JADX WARN: Removed duplicated region for block: B:3015:0x3c52  */
+    /* JADX WARN: Removed duplicated region for block: B:3017:0x3c75  */
+    /* JADX WARN: Removed duplicated region for block: B:3049:0x3c41  */
+    /* JADX WARN: Removed duplicated region for block: B:3116:0x3d75  */
+    /* JADX WARN: Removed duplicated region for block: B:3119:0x3d7f  */
+    /* JADX WARN: Removed duplicated region for block: B:3134:0x3df4  */
+    /* JADX WARN: Removed duplicated region for block: B:3135:0x3df9  */
+    /* JADX WARN: Removed duplicated region for block: B:3157:0x3e95 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:3160:0x3ea3  */
+    /* JADX WARN: Removed duplicated region for block: B:3165:0x3ebb  */
+    /* JADX WARN: Removed duplicated region for block: B:3172:0x3ed4  */
+    /* JADX WARN: Removed duplicated region for block: B:3182:0x3f22  */
+    /* JADX WARN: Removed duplicated region for block: B:3185:0x3f4f  */
     /* JADX WARN: Removed duplicated region for block: B:3188:0x3f5a  */
     /* JADX WARN: Removed duplicated region for block: B:318:0x03f8  */
-    /* JADX WARN: Removed duplicated region for block: B:3191:0x3f61  */
-    /* JADX WARN: Removed duplicated region for block: B:3194:0x3f9d  */
-    /* JADX WARN: Removed duplicated region for block: B:3257:0x447c  */
+    /* JADX WARN: Removed duplicated region for block: B:3191:0x3f67  */
+    /* JADX WARN: Removed duplicated region for block: B:3194:0x3f6e  */
+    /* JADX WARN: Removed duplicated region for block: B:3197:0x3faa  */
+    /* JADX WARN: Removed duplicated region for block: B:3260:0x4489  */
     /* JADX WARN: Removed duplicated region for block: B:326:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:3282:0x4560  */
-    /* JADX WARN: Removed duplicated region for block: B:3294:0x45ab A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:3308:0x46ab  */
-    /* JADX WARN: Removed duplicated region for block: B:3314:0x46bd A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:3320:0x46cc A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:3326:0x46d8  */
+    /* JADX WARN: Removed duplicated region for block: B:3285:0x456d  */
+    /* JADX WARN: Removed duplicated region for block: B:3297:0x45b8 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:3311:0x46b8  */
+    /* JADX WARN: Removed duplicated region for block: B:3317:0x46ca A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:3323:0x46d9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:3329:0x46e5  */
     /* JADX WARN: Removed duplicated region for block: B:332:0x0440 A[EDGE_INSN: B:332:0x0440->B:333:0x0440 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:3346:0x4722  */
-    /* JADX WARN: Removed duplicated region for block: B:3362:0x47e6  */
-    /* JADX WARN: Removed duplicated region for block: B:3440:0x4b57  */
-    /* JADX WARN: Removed duplicated region for block: B:3452:0x4b9a  */
+    /* JADX WARN: Removed duplicated region for block: B:3349:0x472f  */
+    /* JADX WARN: Removed duplicated region for block: B:3365:0x47f3  */
+    /* JADX WARN: Removed duplicated region for block: B:3443:0x4b64  */
+    /* JADX WARN: Removed duplicated region for block: B:3455:0x4ba7  */
     /* JADX WARN: Removed duplicated region for block: B:351:0x04f6  */
-    /* JADX WARN: Removed duplicated region for block: B:3522:0x471a  */
-    /* JADX WARN: Removed duplicated region for block: B:3525:0x46b5 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:3529:0x464e  */
-    /* JADX WARN: Removed duplicated region for block: B:3533:0x4666  */
-    /* JADX WARN: Removed duplicated region for block: B:3534:0x4691  */
-    /* JADX WARN: Removed duplicated region for block: B:3544:0x4575  */
-    /* JADX WARN: Removed duplicated region for block: B:3546:0x4580 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:3557:0x4348 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:3525:0x4727  */
+    /* JADX WARN: Removed duplicated region for block: B:3528:0x46c2 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:3532:0x465b  */
+    /* JADX WARN: Removed duplicated region for block: B:3536:0x4673  */
+    /* JADX WARN: Removed duplicated region for block: B:3537:0x469e  */
+    /* JADX WARN: Removed duplicated region for block: B:3547:0x4582  */
+    /* JADX WARN: Removed duplicated region for block: B:3549:0x458d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:3560:0x4355 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:360:0x056e  */
-    /* JADX WARN: Removed duplicated region for block: B:3727:0x42e9  */
-    /* JADX WARN: Removed duplicated region for block: B:3742:0x4339  */
-    /* JADX WARN: Removed duplicated region for block: B:3746:0x3f73  */
-    /* JADX WARN: Removed duplicated region for block: B:3754:0x3f50  */
-    /* JADX WARN: Removed duplicated region for block: B:3755:0x3f45  */
-    /* JADX WARN: Removed duplicated region for block: B:3757:0x3f09  */
-    /* JADX WARN: Removed duplicated region for block: B:3766:0x3e39  */
-    /* JADX WARN: Removed duplicated region for block: B:3786:0x3d7d  */
+    /* JADX WARN: Removed duplicated region for block: B:3730:0x42f6  */
+    /* JADX WARN: Removed duplicated region for block: B:3745:0x4346  */
+    /* JADX WARN: Removed duplicated region for block: B:3749:0x3f80  */
+    /* JADX WARN: Removed duplicated region for block: B:3757:0x3f5d  */
+    /* JADX WARN: Removed duplicated region for block: B:3758:0x3f52  */
+    /* JADX WARN: Removed duplicated region for block: B:3760:0x3f16  */
+    /* JADX WARN: Removed duplicated region for block: B:3769:0x3e46  */
+    /* JADX WARN: Removed duplicated region for block: B:3789:0x3d8a  */
     /* JADX WARN: Removed duplicated region for block: B:382:0x07d8  */
-    /* JADX WARN: Removed duplicated region for block: B:3836:0x2fdd  */
-    /* JADX WARN: Removed duplicated region for block: B:3877:0x076b  */
-    /* JADX WARN: Removed duplicated region for block: B:3950:0x054f  */
-    /* JADX WARN: Removed duplicated region for block: B:3951:0x0560  */
-    /* JADX WARN: Removed duplicated region for block: B:3960:0x0357  */
-    /* JADX WARN: Removed duplicated region for block: B:3973:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:3839:0x2fdd  */
+    /* JADX WARN: Removed duplicated region for block: B:3880:0x076b  */
+    /* JADX WARN: Removed duplicated region for block: B:3953:0x054f  */
+    /* JADX WARN: Removed duplicated region for block: B:3954:0x0560  */
+    /* JADX WARN: Removed duplicated region for block: B:3963:0x0357  */
+    /* JADX WARN: Removed duplicated region for block: B:3976:0x00d5  */
     /* JADX WARN: Removed duplicated region for block: B:439:0x0c6d  */
     /* JADX WARN: Removed duplicated region for block: B:445:0x0c7c  */
     /* JADX WARN: Removed duplicated region for block: B:451:0x0cc3  */
@@ -4667,30 +4667,30 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:471:0x0d48  */
     /* JADX WARN: Removed duplicated region for block: B:474:0x0d71  */
     /* JADX WARN: Removed duplicated region for block: B:479:0x0d80  */
-    /* JADX WARN: Removed duplicated region for block: B:487:0x4d49  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x4d56  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x00d3  */
-    /* JADX WARN: Removed duplicated region for block: B:494:0x4f3c  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x4f67  */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x5092  */
-    /* JADX WARN: Removed duplicated region for block: B:556:0x50cf  */
-    /* JADX WARN: Removed duplicated region for block: B:559:0x50e2  */
-    /* JADX WARN: Removed duplicated region for block: B:563:0x50ee  */
-    /* JADX WARN: Removed duplicated region for block: B:656:0x538f  */
-    /* JADX WARN: Removed duplicated region for block: B:663:0x53ac  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x53e5  */
-    /* JADX WARN: Removed duplicated region for block: B:673:0x541b  */
-    /* JADX WARN: Removed duplicated region for block: B:676:0x5426  */
-    /* JADX WARN: Removed duplicated region for block: B:680:0x5461  */
-    /* JADX WARN: Removed duplicated region for block: B:724:0x54dd  */
-    /* JADX WARN: Removed duplicated region for block: B:730:0x54ec  */
-    /* JADX WARN: Removed duplicated region for block: B:751:0x5459  */
-    /* JADX WARN: Removed duplicated region for block: B:754:0x5404  */
-    /* JADX WARN: Removed duplicated region for block: B:756:0x53bc  */
-    /* JADX WARN: Removed duplicated region for block: B:757:0x53c6  */
-    /* JADX WARN: Removed duplicated region for block: B:774:0x50dd  */
-    /* JADX WARN: Removed duplicated region for block: B:786:0x4f4b  */
-    /* JADX WARN: Removed duplicated region for block: B:795:0x4d67  */
-    /* JADX WARN: Removed duplicated region for block: B:841:0x4e6d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:494:0x4f49  */
+    /* JADX WARN: Removed duplicated region for block: B:499:0x4f74  */
+    /* JADX WARN: Removed duplicated region for block: B:542:0x509f  */
+    /* JADX WARN: Removed duplicated region for block: B:556:0x50dc  */
+    /* JADX WARN: Removed duplicated region for block: B:559:0x50ef  */
+    /* JADX WARN: Removed duplicated region for block: B:563:0x50fb  */
+    /* JADX WARN: Removed duplicated region for block: B:656:0x539c  */
+    /* JADX WARN: Removed duplicated region for block: B:663:0x53b9  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x53f2  */
+    /* JADX WARN: Removed duplicated region for block: B:673:0x5428  */
+    /* JADX WARN: Removed duplicated region for block: B:676:0x5433  */
+    /* JADX WARN: Removed duplicated region for block: B:680:0x546e  */
+    /* JADX WARN: Removed duplicated region for block: B:724:0x54ea  */
+    /* JADX WARN: Removed duplicated region for block: B:730:0x54f9  */
+    /* JADX WARN: Removed duplicated region for block: B:751:0x5466  */
+    /* JADX WARN: Removed duplicated region for block: B:754:0x5411  */
+    /* JADX WARN: Removed duplicated region for block: B:756:0x53c9  */
+    /* JADX WARN: Removed duplicated region for block: B:757:0x53d3  */
+    /* JADX WARN: Removed duplicated region for block: B:774:0x50ea  */
+    /* JADX WARN: Removed duplicated region for block: B:786:0x4f58  */
+    /* JADX WARN: Removed duplicated region for block: B:795:0x4d74  */
+    /* JADX WARN: Removed duplicated region for block: B:841:0x4e7a A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:891:0x0da2  */
     /* JADX WARN: Removed duplicated region for block: B:895:0x0dd6  */
     /* JADX WARN: Removed duplicated region for block: B:898:0x0deb  */
@@ -4885,16 +4885,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         char c5;
         char c6;
         MessageObject.GroupedMessagePosition groupedMessagePosition11;
-        int dp9;
         int parentWidth;
-        int dp10;
+        int dp9;
         MessageObject.GroupedMessagePosition groupedMessagePosition12;
         int i61;
         MessageObject messageObject3;
         HashMap hashMap;
         boolean z25;
         MessageObject.GroupedMessagePosition groupedMessagePosition13;
-        int dp11;
+        int dp10;
         int i62;
         int i63;
         TLRPC$ReplyMarkup tLRPC$ReplyMarkup;
@@ -4906,7 +4905,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         int min9;
         TLRPC$User user;
         int min10;
-        int dp12;
+        int dp11;
         int i65;
         TLRPC$ThemeSettings tLRPC$ThemeSettings;
         boolean z26;
@@ -4914,7 +4913,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         ReactionsLayoutInBubble reactionsLayoutInBubble4;
         int max;
         int parentWidth2;
-        int dp13;
+        int dp12;
         String str3;
         String str4;
         String str5;
@@ -5005,7 +5004,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         boolean z41;
         int i97;
         int min14;
-        int dp14;
+        int dp13;
         MessageObject.GroupedMessagePosition groupedMessagePosition14;
         String string6;
         int i98;
@@ -5497,22 +5496,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     if (z7) {
                         if (AndroidUtilities.isTablet()) {
                             min14 = AndroidUtilities.getMinTabletSide();
-                            dp14 = AndroidUtilities.dp(122.0f);
+                            dp13 = AndroidUtilities.dp(122.0f);
                         } else {
                             min14 = Math.min(getParentWidth(), AndroidUtilities.displaySize.y);
-                            dp14 = AndroidUtilities.dp(122.0f);
+                            dp13 = AndroidUtilities.dp(122.0f);
                         }
-                        i65 = min14 - dp14;
+                        i65 = min14 - dp13;
                         this.drawName = true;
                     } else {
                         if (AndroidUtilities.isTablet()) {
                             min10 = AndroidUtilities.getMinTabletSide();
-                            dp12 = AndroidUtilities.dp(80.0f);
+                            dp11 = AndroidUtilities.dp(80.0f);
                         } else {
                             min10 = Math.min(getParentWidth(), AndroidUtilities.displaySize.y);
-                            dp12 = AndroidUtilities.dp(80.0f);
+                            dp11 = AndroidUtilities.dp(80.0f);
                         }
-                        i65 = min10 - dp12;
+                        i65 = min10 - dp11;
                         this.drawName = this.isPinnedChat || (messageObject5.messageOwner.peer_id.channel_id != 0 && (!messageObject.isOutOwner() || messageObject.isSupergroup())) || (messageObject.isImportedForward() && messageObject5.messageOwner.fwd_from.from_id == null);
                     }
                     int i111 = i65;
@@ -5520,17 +5519,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     if (messageObject.isRoundVideo()) {
                         double d3 = this.availableTimeWidth;
                         double ceil5 = Math.ceil(Theme.chat_audioTimePaint.measureText("00:00"));
-                        double dp15 = messageObject.isOutOwner() ? 0 : AndroidUtilities.dp(64.0f);
-                        Double.isNaN(dp15);
+                        double dp14 = messageObject.isOutOwner() ? 0 : AndroidUtilities.dp(64.0f);
+                        Double.isNaN(dp14);
                         Double.isNaN(d3);
-                        this.availableTimeWidth = (int) (d3 - (ceil5 + dp15));
+                        this.availableTimeWidth = (int) (d3 - (ceil5 + dp14));
                     }
                     measureTime(messageObject);
-                    int dp16 = this.timeWidth + AndroidUtilities.dp(6.0f);
+                    int dp15 = this.timeWidth + AndroidUtilities.dp(6.0f);
                     if (messageObject.isOutOwner()) {
-                        dp16 += AndroidUtilities.dp(20.5f);
+                        dp15 += AndroidUtilities.dp(20.5f);
                     }
-                    int extraTimeX = dp16 + getExtraTimeX();
+                    int extraTimeX = dp15 + getExtraTimeX();
                     TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject5.messageOwner.media;
                     this.hasGamePreview = (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaGame) && (tLRPC$MessageMedia3.game instanceof TLRPC$TL_game);
                     this.hasInvoicePreview = tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaInvoice;
@@ -5608,10 +5607,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     if (messageObject.isRoundVideo()) {
                                         double d4 = this.availableTimeWidth;
                                         double ceil6 = Math.ceil(Theme.chat_audioTimePaint.measureText("00:00"));
-                                        double dp17 = messageObject.isOutOwner() ? 0 : AndroidUtilities.dp(64.0f);
-                                        Double.isNaN(dp17);
+                                        double dp16 = messageObject.isOutOwner() ? 0 : AndroidUtilities.dp(64.0f);
+                                        Double.isNaN(dp16);
                                         Double.isNaN(d4);
-                                        this.availableTimeWidth = (int) (d4 - (ceil6 + dp17));
+                                        this.availableTimeWidth = (int) (d4 - (ceil6 + dp16));
                                     }
                                     setMessageObjectInternal(messageObject);
                                     this.backgroundWidth = messageObject5.textWidth + (getExtraTextX() * 2) + ((!this.hasGamePreview || this.hasInvoicePreview) ? AndroidUtilities.dp(10.0f) : 0);
@@ -5641,24 +5640,24 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                         if (!AndroidUtilities.isTablet()) {
                                             if (z7) {
                                                 parentWidth2 = AndroidUtilities.getMinTabletSide();
-                                                dp13 = AndroidUtilities.dp(132.0f);
+                                                dp12 = AndroidUtilities.dp(132.0f);
                                             } else {
                                                 parentWidth2 = AndroidUtilities.getMinTabletSide();
-                                                dp13 = AndroidUtilities.dp(80.0f);
+                                                dp12 = AndroidUtilities.dp(80.0f);
                                             }
                                         } else if (z7) {
                                             parentWidth2 = getParentWidth();
-                                            dp13 = AndroidUtilities.dp(132.0f);
+                                            dp12 = AndroidUtilities.dp(132.0f);
                                         } else {
                                             parentWidth2 = getParentWidth();
-                                            dp13 = AndroidUtilities.dp(80.0f);
+                                            dp12 = AndroidUtilities.dp(80.0f);
                                         }
-                                        int i115 = parentWidth2 - dp13;
+                                        int i115 = parentWidth2 - dp12;
                                         if (this.drawSideButton != 0) {
                                             i115 -= AndroidUtilities.dp(20.0f);
                                         }
-                                        int dp18 = AndroidUtilities.dp(48.0f);
-                                        int dp19 = AndroidUtilities.dp(10.0f);
+                                        int dp17 = AndroidUtilities.dp(48.0f);
+                                        int dp18 = AndroidUtilities.dp(10.0f);
                                         if (!this.hasLinkPreview) {
                                             TLRPC$TL_webPage tLRPC$TL_webPage = (TLRPC$TL_webPage) messageObject5.messageOwner.media.webpage;
                                             String str19 = tLRPC$TL_webPage.site_name;
@@ -5807,10 +5806,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                         } else {
                                             string5 = "telegram_theme".equals(str18) ? LocaleController.getString("ColorTheme", R.string.ColorTheme) : str5;
                                         }
-                                        int dp20 = !this.hasInvoicePreview ? 0 : AndroidUtilities.dp(10.0f);
-                                        int i121 = i66 - dp20;
+                                        int dp19 = !this.hasInvoicePreview ? 0 : AndroidUtilities.dp(10.0f);
+                                        int i121 = i66 - dp19;
                                         if (this.isSmallImage) {
-                                            i121 -= dp18 + dp19;
+                                            i121 -= dp17 + dp18;
                                         }
                                         messageObject4 = this.currentMessageObject;
                                         String str25 = str4;
@@ -5971,7 +5970,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     try {
                                                                         tLRPC$Document3 = tLRPC$Document2;
                                                                         i70 = i121;
-                                                                        min11 = (int) Math.min((i122 < i74 || (max3 != 0 && this.isSmallImage)) ? i121 - (dp18 + dp19) : i121, Math.ceil(this.siteNameLayout.getLineWidth(i122)));
+                                                                        min11 = (int) Math.min((i122 < i74 || (max3 != 0 && this.isSmallImage)) ? i121 - (dp17 + dp18) : i121, Math.ceil(this.siteNameLayout.getLineWidth(i122)));
                                                                     } catch (Exception e3) {
                                                                         e = e3;
                                                                         tLRPC$Document3 = tLRPC$Document2;
@@ -6183,7 +6182,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     tLRPC$Document2 = tLRPC$Document3;
                                                                     i121 = i70;
                                                                 }
-                                                                min11 += dp18 + dp19;
+                                                                min11 += dp17 + dp18;
                                                                 i123 = Math.max(i123, min11);
                                                                 i122++;
                                                                 i111 = i69;
@@ -6304,7 +6303,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     i70 = i121;
                                                     str9 = string5;
                                                     this.siteNameWidth = i123;
-                                                    int i124 = i123 + dp20;
+                                                    int i124 = i123 + dp19;
                                                     max = Math.max(max, i124);
                                                     max2 = Math.max(0, i124);
                                                     i73 = i72;
@@ -6466,7 +6465,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     str10 = str7;
                                                                     min13 = (int) Math.min(i92, Math.ceil(this.titleLayout.getLineWidth(i127)));
                                                                 }
-                                                                i92 = i70 - (dp18 + dp19);
+                                                                i92 = i70 - (dp17 + dp18);
                                                                 str10 = str7;
                                                                 min13 = (int) Math.min(i92, Math.ceil(this.titleLayout.getLineWidth(i127)));
                                                             }
@@ -6571,14 +6570,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                         updateFlagSecure();
                                                                     }
                                                                 }
-                                                                int i129 = min13 + dp20;
+                                                                int i129 = min13 + dp19;
                                                                 max = Math.max(max, i129);
                                                                 max2 = Math.max(max2, i129);
                                                                 i127++;
                                                                 str7 = str10;
                                                             }
-                                                            min13 += dp18 + dp19;
-                                                            int i1292 = min13 + dp20;
+                                                            min13 += dp17 + dp18;
+                                                            int i1292 = min13 + dp19;
                                                             max = Math.max(max, i1292);
                                                             max2 = Math.max(max2, i1292);
                                                             i127++;
@@ -6643,7 +6642,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                         ceil2 = (int) Math.ceil(this.authorLayout.getLineWidth(0));
                                                         z29 = false;
                                                     }
-                                                    i90 = ceil2 + dp20;
+                                                    i90 = ceil2 + dp19;
                                                 } catch (Exception e12) {
                                                     e = e12;
                                                     z29 = false;
@@ -6790,9 +6789,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                             min12 = z52 ? width2 : Math.min((int) Math.ceil(this.descriptionLayout.getLineWidth(i134)), width2);
                                                         }
                                                         if (i134 < i73 || (i73 != 0 && ceil9 != 0 && this.isSmallImage)) {
-                                                            min12 += dp18 + dp19;
+                                                            min12 += dp17 + dp18;
                                                         }
-                                                        int i135 = min12 + dp20;
+                                                        int i135 = min12 + dp19;
                                                         if (max2 < i135) {
                                                             if (z28) {
                                                                 this.titleX += i135 - max2;
@@ -6815,7 +6814,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                 z30 = z27;
                                             }
                                             if (!z30) {
-                                                dp18 = i75;
+                                                dp17 = i75;
                                             }
                                             if (tLRPC$Document3 != null) {
                                                 messageObject5 = messageObject;
@@ -6828,7 +6827,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                         str11 = str25;
                                                         if (str11.equals("photo")) {
                                                             z31 = true;
-                                                            this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(messageObject5.photoThumbs, (!z31 || !z30) ? AndroidUtilities.getPhotoSize() : dp18, !z31);
+                                                            this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(messageObject5.photoThumbs, (!z31 || !z30) ? AndroidUtilities.getPhotoSize() : dp17, !z31);
                                                             this.photoParentObject = messageObject5.photoThumbsObject;
                                                             this.checkOnlyButtonPressed = !z31;
                                                             bitmapDrawable2 = this.currentMessageObject.strippedThumb;
@@ -6845,7 +6844,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                         str11 = str25;
                                                     }
                                                     z31 = false;
-                                                    this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(messageObject5.photoThumbs, (!z31 || !z30) ? AndroidUtilities.getPhotoSize() : dp18, !z31);
+                                                    this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(messageObject5.photoThumbs, (!z31 || !z30) ? AndroidUtilities.getPhotoSize() : dp17, !z31);
                                                     this.photoParentObject = messageObject5.photoThumbsObject;
                                                     this.checkOnlyButtonPressed = !z31;
                                                     bitmapDrawable2 = this.currentMessageObject.strippedThumb;
@@ -6913,9 +6912,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                         }
                                                         TLRPC$PhotoSize tLRPC$PhotoSize10 = this.currentPhotoObject;
                                                         if (tLRPC$PhotoSize10.w == 0 || tLRPC$PhotoSize10.h == 0) {
-                                                            int dp21 = AndroidUtilities.dp(150.0f);
-                                                            tLRPC$PhotoSize10.h = dp21;
-                                                            tLRPC$PhotoSize10.w = dp21;
+                                                            int dp20 = AndroidUtilities.dp(150.0f);
+                                                            tLRPC$PhotoSize10.h = dp20;
+                                                            tLRPC$PhotoSize10.w = dp20;
                                                         }
                                                     }
                                                     this.documentAttach = tLRPC$Document4;
@@ -6978,9 +6977,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                             }
                                                             TLRPC$PhotoSize tLRPC$PhotoSize15 = this.currentPhotoObject;
                                                             if (tLRPC$PhotoSize15.w == 0 || tLRPC$PhotoSize15.h == 0) {
-                                                                int dp22 = AndroidUtilities.dp(150.0f);
-                                                                tLRPC$PhotoSize15.h = dp22;
-                                                                tLRPC$PhotoSize15.w = dp22;
+                                                                int dp21 = AndroidUtilities.dp(150.0f);
+                                                                tLRPC$PhotoSize15.h = dp21;
+                                                                tLRPC$PhotoSize15.w = dp21;
                                                             }
                                                         }
                                                         createDocumentLayout(0, messageObject5);
@@ -7008,9 +7007,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                 }
                                                                 TLRPC$PhotoSize tLRPC$PhotoSize17 = this.currentPhotoObject;
                                                                 if (tLRPC$PhotoSize17.w == 0 || tLRPC$PhotoSize17.h == 0) {
-                                                                    int dp23 = AndroidUtilities.dp(150.0f);
-                                                                    tLRPC$PhotoSize17.h = dp23;
-                                                                    tLRPC$PhotoSize17.w = dp23;
+                                                                    int dp22 = AndroidUtilities.dp(150.0f);
+                                                                    tLRPC$PhotoSize17.h = dp22;
+                                                                    tLRPC$PhotoSize17.w = dp22;
                                                                 }
                                                             }
                                                             this.documentAttach = tLRPC$Document4;
@@ -7038,9 +7037,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     }
                                                                     TLRPC$PhotoSize tLRPC$PhotoSize19 = this.currentPhotoObject;
                                                                     if (tLRPC$PhotoSize19.w == 0 || tLRPC$PhotoSize19.h == 0) {
-                                                                        int dp24 = AndroidUtilities.dp(150.0f);
-                                                                        tLRPC$PhotoSize19.h = dp24;
-                                                                        tLRPC$PhotoSize19.w = dp24;
+                                                                        int dp23 = AndroidUtilities.dp(150.0f);
+                                                                        tLRPC$PhotoSize19.h = dp23;
+                                                                        tLRPC$PhotoSize19.w = dp23;
                                                                     }
                                                                 }
                                                                 this.documentAttach = tLRPC$Document4;
@@ -7075,9 +7074,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     }
                                                                     TLRPC$PhotoSize tLRPC$PhotoSize22 = this.currentPhotoObject;
                                                                     if (tLRPC$PhotoSize22.w == 0 || tLRPC$PhotoSize22.h == 0) {
-                                                                        int dp25 = AndroidUtilities.dp(150.0f);
-                                                                        tLRPC$PhotoSize22.h = dp25;
-                                                                        tLRPC$PhotoSize22.w = dp25;
+                                                                        int dp24 = AndroidUtilities.dp(150.0f);
+                                                                        tLRPC$PhotoSize22.h = dp24;
+                                                                        tLRPC$PhotoSize22.w = dp24;
                                                                     }
                                                                 }
                                                                 this.documentAttach = tLRPC$Document4;
@@ -7095,26 +7094,26 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     this.totalHeight += AndroidUtilities.dp(44.0f);
                                                                     this.linkPreviewHeight += AndroidUtilities.dp(44.0f);
                                                                     i78 = i77 - AndroidUtilities.dp(86.0f);
-                                                                    max = AndroidUtilities.isTablet() ? Math.max(max, (Math.min(AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(z7 ? 52.0f : 0.0f), AndroidUtilities.dp(220.0f)) - AndroidUtilities.dp(30.0f)) + dp20) : Math.max(max, (Math.min(getParentWidth() - AndroidUtilities.dp(z7 ? 52.0f : 0.0f), AndroidUtilities.dp(220.0f)) - AndroidUtilities.dp(30.0f)) + dp20);
+                                                                    max = AndroidUtilities.isTablet() ? Math.max(max, (Math.min(AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(z7 ? 52.0f : 0.0f), AndroidUtilities.dp(220.0f)) - AndroidUtilities.dp(30.0f)) + dp19) : Math.max(max, (Math.min(getParentWidth() - AndroidUtilities.dp(z7 ? 52.0f : 0.0f), AndroidUtilities.dp(220.0f)) - AndroidUtilities.dp(30.0f)) + dp19);
                                                                     calcBackgroundWidth(i78, i76, max);
                                                                 } else if (MessageObject.isMusicDocument(tLRPC$Document4)) {
                                                                     int createDocumentLayout = createDocumentLayout(this.backgroundWidth - AndroidUtilities.dp(10.0f), messageObject5);
                                                                     this.mediaOffsetY = this.currentMessageObject.textHeight + AndroidUtilities.dp(8.0f) + this.linkPreviewHeight;
                                                                     this.totalHeight += AndroidUtilities.dp(56.0f);
                                                                     this.linkPreviewHeight += AndroidUtilities.dp(56.0f);
-                                                                    int dp26 = i77 - AndroidUtilities.dp(86.0f);
-                                                                    int max7 = Math.max(max, createDocumentLayout + dp20 + AndroidUtilities.dp(94.0f));
+                                                                    int dp25 = i77 - AndroidUtilities.dp(86.0f);
+                                                                    int max7 = Math.max(max, createDocumentLayout + dp19 + AndroidUtilities.dp(94.0f));
                                                                     StaticLayout staticLayout7 = this.songLayout;
                                                                     if (staticLayout7 != null && staticLayout7.getLineCount() > 0) {
-                                                                        max7 = (int) Math.max(max7, this.songLayout.getLineWidth(0) + dp20 + AndroidUtilities.dp(86.0f));
+                                                                        max7 = (int) Math.max(max7, this.songLayout.getLineWidth(0) + dp19 + AndroidUtilities.dp(86.0f));
                                                                     }
                                                                     StaticLayout staticLayout8 = this.performerLayout;
                                                                     if (staticLayout8 != null && staticLayout8.getLineCount() > 0) {
-                                                                        max7 = (int) Math.max(max7, this.performerLayout.getLineWidth(0) + dp20 + AndroidUtilities.dp(86.0f));
+                                                                        max7 = (int) Math.max(max7, this.performerLayout.getLineWidth(0) + dp19 + AndroidUtilities.dp(86.0f));
                                                                     }
                                                                     max = max7;
-                                                                    calcBackgroundWidth(dp26, i76, max);
-                                                                    i78 = dp26;
+                                                                    calcBackgroundWidth(dp25, i76, max);
+                                                                    i78 = dp25;
                                                                 } else {
                                                                     createDocumentLayout(this.backgroundWidth - AndroidUtilities.dp(168.0f), messageObject5);
                                                                     this.drawImageButton = true;
@@ -7150,7 +7149,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             this.totalHeight += AndroidUtilities.dp(2.0f);
                                                                         }
                                                                         if (this.imageBackgroundSideColor != 0) {
-                                                                            dp18 = AndroidUtilities.dp(208.0f);
+                                                                            dp17 = AndroidUtilities.dp(208.0f);
                                                                         } else {
                                                                             TLRPC$PhotoSize tLRPC$PhotoSize23 = this.currentPhotoObject;
                                                                             if (!(tLRPC$PhotoSize23 instanceof TLRPC$TL_photoSizeEmpty) || (i81 = tLRPC$PhotoSize23.w) == 0) {
@@ -7161,19 +7160,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                                     } else {
                                                                                         parentWidth3 = getParentWidth();
                                                                                     }
-                                                                                    dp18 = (int) (parentWidth3 * 0.5f);
+                                                                                    dp17 = (int) (parentWidth3 * 0.5f);
                                                                                 } else if (i144 == 7) {
-                                                                                    dp18 = AndroidUtilities.roundMessageSize;
+                                                                                    dp17 = AndroidUtilities.roundMessageSize;
                                                                                     this.photoImage.setAllowDecodeSingleFrame(true);
                                                                                 }
                                                                             } else {
-                                                                                dp18 = i81;
+                                                                                dp17 = i81;
                                                                             }
                                                                         }
-                                                                        if (this.hasInvoicePreview && dp18 < (i88 = messageObject5.textWidth)) {
-                                                                            dp18 = i88 + AndroidUtilities.dp(22.0f);
+                                                                        if (this.hasInvoicePreview && dp17 < (i88 = messageObject5.textWidth)) {
+                                                                            dp17 = i88 + AndroidUtilities.dp(22.0f);
                                                                         }
-                                                                        int max8 = Math.max(max, (dp18 - (this.hasInvoicePreview ? AndroidUtilities.dp(12.0f) : 0)) + dp20);
+                                                                        int max8 = Math.max(max, (dp17 - (this.hasInvoicePreview ? AndroidUtilities.dp(12.0f) : 0)) + dp19);
                                                                         TLRPC$PhotoSize tLRPC$PhotoSize24 = this.currentPhotoObject;
                                                                         if (tLRPC$PhotoSize24 != null) {
                                                                             tLRPC$PhotoSize24.size = -1;
@@ -7188,7 +7187,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             this.imageBackgroundSideWidth = max8 - AndroidUtilities.dp(13.0f);
                                                                         }
                                                                         if (z30 || this.documentAttachType == 7) {
-                                                                            i82 = dp18;
+                                                                            i82 = dp17;
                                                                         } else if (this.hasGamePreview || this.hasInvoicePreview) {
                                                                             if (this.hasInvoicePreview) {
                                                                                 int size5 = webFile2.attributes.size();
@@ -7205,9 +7204,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             i84 = 640;
                                                                             i85 = 360;
                                                                             float f8 = i84;
-                                                                            float dp27 = f8 / (dp18 - AndroidUtilities.dp(2.0f));
-                                                                            dp18 = (int) (i85 / dp27);
-                                                                            i82 = (int) (f8 / dp27);
+                                                                            float dp26 = f8 / (dp17 - AndroidUtilities.dp(2.0f));
+                                                                            dp17 = (int) (i85 / dp26);
+                                                                            i82 = (int) (f8 / dp26);
                                                                         } else {
                                                                             if (this.drawInstantViewType == 7) {
                                                                                 i86 = 560;
@@ -7224,22 +7223,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                                 }
                                                                             }
                                                                             float f9 = i86;
-                                                                            float dp28 = f9 / (dp18 - AndroidUtilities.dp(2.0f));
-                                                                            i82 = (int) (f9 / dp28);
-                                                                            int i148 = (int) (i87 / dp28);
+                                                                            float dp27 = f9 / (dp17 - AndroidUtilities.dp(2.0f));
+                                                                            i82 = (int) (f9 / dp27);
+                                                                            int i148 = (int) (i87 / dp27);
                                                                             if (str9 == null || (!str9.toLowerCase().equals("instagram") && this.documentAttachType == 0)) {
                                                                                 int i149 = AndroidUtilities.displaySize.y;
                                                                                 if (i148 > i149 / 3) {
                                                                                     i148 = i149 / 3;
                                                                                     if (this.imageBackgroundSideColor != 0) {
                                                                                         float f10 = i148;
-                                                                                        float dp29 = f10 / AndroidUtilities.dp(160.0f);
-                                                                                        i82 = (int) (i82 / dp29);
-                                                                                        i148 = (int) (f10 / dp29);
+                                                                                        float dp28 = f10 / AndroidUtilities.dp(160.0f);
+                                                                                        i82 = (int) (i82 / dp28);
+                                                                                        i148 = (int) (f10 / dp28);
                                                                                     }
-                                                                                    dp18 = i148;
-                                                                                    if (dp18 < AndroidUtilities.dp(60.0f)) {
-                                                                                        dp18 = AndroidUtilities.dp(60.0f);
+                                                                                    dp17 = i148;
+                                                                                    if (dp17 < AndroidUtilities.dp(60.0f)) {
+                                                                                        dp17 = AndroidUtilities.dp(60.0f);
                                                                                     }
                                                                                 }
                                                                             } else {
@@ -7250,8 +7249,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             }
                                                                             if (this.imageBackgroundSideColor != 0) {
                                                                             }
-                                                                            dp18 = i148;
-                                                                            if (dp18 < AndroidUtilities.dp(60.0f)) {
+                                                                            dp17 = i148;
+                                                                            if (dp17 < AndroidUtilities.dp(60.0f)) {
                                                                             }
                                                                         }
                                                                         if (this.isSmallImage) {
@@ -7261,17 +7260,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             }
                                                                             this.linkPreviewHeight -= AndroidUtilities.dp(8.0f);
                                                                         } else {
-                                                                            this.totalHeight += AndroidUtilities.dp(12.0f) + dp18;
-                                                                            this.linkPreviewHeight += dp18;
+                                                                            this.totalHeight += AndroidUtilities.dp(12.0f) + dp17;
+                                                                            this.linkPreviewHeight += dp17;
                                                                         }
                                                                         if (this.documentAttachType == 8 && this.imageBackgroundSideColor == 0) {
-                                                                            this.photoImage.setImageCoords(0.0f, 0.0f, Math.max(max8 - AndroidUtilities.dp(13.0f), i82), dp18);
+                                                                            this.photoImage.setImageCoords(0.0f, 0.0f, Math.max(max8 - AndroidUtilities.dp(13.0f), i82), dp17);
                                                                         } else {
-                                                                            this.photoImage.setImageCoords(0.0f, 0.0f, i82, dp18);
+                                                                            this.photoImage.setImageCoords(0.0f, 0.0f, i82, dp17);
                                                                         }
                                                                         float f11 = AndroidUtilities.density;
                                                                         int i151 = (int) (i82 / f11);
-                                                                        int i152 = (int) (dp18 / f11);
+                                                                        int i152 = (int) (dp17 / f11);
                                                                         Locale locale = Locale.US;
                                                                         this.currentPhotoFilter = String.format(locale, "%d_%d", Integer.valueOf(i151), Integer.valueOf(i152));
                                                                         this.currentPhotoFilterThumb = String.format(locale, "%d_%d_b", Integer.valueOf(i151), Integer.valueOf(i152));
@@ -7497,13 +7496,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                         this.videoInfoLayout = new StaticLayout(spannableStringBuilder, Theme.chat_shipmentPaint, this.durationWidth + AndroidUtilities.dp(10.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                                                                         if (!this.drawPhotoImage) {
                                                                             this.totalHeight += AndroidUtilities.dp(6.0f);
-                                                                            int dp30 = this.timeWidth + AndroidUtilities.dp((messageObject.isOutOwner() ? 20 : 0) + 14);
+                                                                            int dp29 = this.timeWidth + AndroidUtilities.dp((messageObject.isOutOwner() ? 20 : 0) + 14);
                                                                             int i154 = this.durationWidth;
-                                                                            if (i154 + dp30 > i78) {
+                                                                            if (i154 + dp29 > i78) {
                                                                                 max = Math.max(i154, max);
                                                                                 this.totalHeight += AndroidUtilities.dp(12.0f);
                                                                             } else {
-                                                                                max = Math.max(i154 + dp30, max);
+                                                                                max = Math.max(i154 + dp29, max);
                                                                             }
                                                                         }
                                                                     }
@@ -7604,11 +7603,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             }
                             if (!AndroidUtilities.isTablet()) {
                             }
-                            int i1152 = parentWidth2 - dp13;
+                            int i1152 = parentWidth2 - dp12;
                             if (this.drawSideButton != 0) {
                             }
-                            int dp182 = AndroidUtilities.dp(48.0f);
-                            int dp192 = AndroidUtilities.dp(10.0f);
+                            int dp172 = AndroidUtilities.dp(48.0f);
+                            int dp182 = AndroidUtilities.dp(10.0f);
                             if (!this.hasLinkPreview) {
                             }
                             i68 = this.drawInstantViewType;
@@ -7617,7 +7616,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             }
                             if (!this.hasInvoicePreview) {
                             }
-                            int i1212 = i66 - dp20;
+                            int i1212 = i66 - dp19;
                             if (this.isSmallImage) {
                             }
                             messageObject4 = this.currentMessageObject;
@@ -7770,11 +7769,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 }
                                 if (!AndroidUtilities.isTablet()) {
                                 }
-                                int i11522 = parentWidth2 - dp13;
+                                int i11522 = parentWidth2 - dp12;
                                 if (this.drawSideButton != 0) {
                                 }
-                                int dp1822 = AndroidUtilities.dp(48.0f);
-                                int dp1922 = AndroidUtilities.dp(10.0f);
+                                int dp1722 = AndroidUtilities.dp(48.0f);
+                                int dp1822 = AndroidUtilities.dp(10.0f);
                                 if (!this.hasLinkPreview) {
                                 }
                                 i68 = this.drawInstantViewType;
@@ -7783,7 +7782,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 }
                                 if (!this.hasInvoicePreview) {
                                 }
-                                int i12122 = i66 - dp20;
+                                int i12122 = i66 - dp19;
                                 if (this.isSmallImage) {
                                 }
                                 messageObject4 = this.currentMessageObject;
@@ -7851,11 +7850,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
                     if (!AndroidUtilities.isTablet()) {
                     }
-                    int i115222 = parentWidth2 - dp13;
+                    int i115222 = parentWidth2 - dp12;
                     if (this.drawSideButton != 0) {
                     }
-                    int dp18222 = AndroidUtilities.dp(48.0f);
-                    int dp19222 = AndroidUtilities.dp(10.0f);
+                    int dp17222 = AndroidUtilities.dp(48.0f);
+                    int dp18222 = AndroidUtilities.dp(10.0f);
                     if (!this.hasLinkPreview) {
                     }
                     i68 = this.drawInstantViewType;
@@ -7864,7 +7863,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
                     if (!this.hasInvoicePreview) {
                     }
-                    int i121222 = i66 - dp20;
+                    int i121222 = i66 - dp19;
                     if (this.isSmallImage) {
                     }
                     messageObject4 = this.currentMessageObject;
@@ -7958,9 +7957,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         this.titleLayout = new StaticLayout(TextUtils.ellipsize(string4, Theme.chat_audioTitlePaint, f12, TextUtils.TruncateAt.END), Theme.chat_audioTitlePaint, maxNameWidth + AndroidUtilities.dp(2.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                         this.docTitleLayout = new StaticLayout(TextUtils.ellipsize(format2, Theme.chat_contactPhonePaint, f12, TextUtils.TruncateAt.END), Theme.chat_contactPhonePaint, maxNameWidth + AndroidUtilities.dp(2.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                         setMessageObjectInternal(messageObject);
-                        int dp31 = AndroidUtilities.dp(65.0f);
+                        int dp30 = AndroidUtilities.dp(65.0f);
                         int i157 = this.namesOffset;
-                        this.totalHeight = dp31 + i157;
+                        this.totalHeight = dp30 + i157;
                         if (this.drawPinnedTop) {
                             this.namesOffset = i157 - AndroidUtilities.dp(1.0f);
                         }
@@ -8025,9 +8024,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             if (!this.drawInstantView) {
                                 createInstantViewButton();
                             } else if (this.docTitleLayout.getLineCount() > 0) {
-                                int dp32 = this.backgroundWidth - AndroidUtilities.dp(110.0f);
+                                int dp31 = this.backgroundWidth - AndroidUtilities.dp(110.0f);
                                 StaticLayout staticLayout10 = this.docTitleLayout;
-                                if (dp32 - ((int) Math.ceil(staticLayout10.getLineWidth(staticLayout10.getLineCount() - 1))) < this.timeWidth) {
+                                if (dp31 - ((int) Math.ceil(staticLayout10.getLineWidth(staticLayout10.getLineCount() - 1))) < this.timeWidth) {
                                     this.totalHeight += AndroidUtilities.dp(8.0f);
                                 }
                             }
@@ -8037,9 +8036,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 ReactionsLayoutInBubble reactionsLayoutInBubble7 = this.reactionsLayoutInBubble;
                                 reactionsLayoutInBubble7.totalHeight = reactionsLayoutInBubble7.height + AndroidUtilities.dp(12.0f);
                                 this.reactionsLayoutInBubble.positionOffsetY += -AndroidUtilities.dp(4.0f);
-                                int dp33 = this.backgroundWidth - AndroidUtilities.dp(32.0f);
+                                int dp32 = this.backgroundWidth - AndroidUtilities.dp(32.0f);
                                 ReactionsLayoutInBubble reactionsLayoutInBubble8 = this.reactionsLayoutInBubble;
-                                if (dp33 - reactionsLayoutInBubble8.lastLineX < this.timeWidth) {
+                                if (dp32 - reactionsLayoutInBubble8.lastLineX < this.timeWidth) {
                                     reactionsLayoutInBubble8.totalHeight += AndroidUtilities.dp(12.0f);
                                     this.reactionsLayoutInBubble.positionOffsetY += -AndroidUtilities.dp(12.0f);
                                 }
@@ -8094,9 +8093,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                         createDocumentLayout(this.backgroundWidth, messageObject5);
                         setMessageObjectInternal(messageObject);
-                        int dp34 = AndroidUtilities.dp(70.0f);
+                        int dp33 = AndroidUtilities.dp(70.0f);
                         int i158 = this.namesOffset;
-                        this.totalHeight = dp34 + i158;
+                        this.totalHeight = dp33 + i158;
                         if (this.drawPinnedTop) {
                             this.namesOffset = i158 - AndroidUtilities.dp(1.0f);
                         }
@@ -8233,30 +8232,30 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 this.docTitleOffsetX = 0;
                             }
                         }
-                        int dp35 = min15 - AndroidUtilities.dp(messageObject.isOutOwner() ? 28.0f : 8.0f);
+                        int dp34 = min15 - AndroidUtilities.dp(messageObject.isOutOwner() ? 28.0f : 8.0f);
                         if (!this.isBot) {
                             TLRPC$Poll tLRPC$Poll4 = tLRPC$TL_messageMediaPoll3.poll;
                             TextPaint textPaint = (tLRPC$Poll4.public_voters || tLRPC$Poll4.multiple_choice) ? Theme.chat_locationAddressPaint : Theme.chat_livePaint;
                             if (tLRPC$Poll4.quiz) {
                                 int i162 = tLRPC$TL_messageMediaPoll3.results.total_voters;
-                                ellipsize = TextUtils.ellipsize(i162 == 0 ? LocaleController.getString("NoVotesQuiz", R.string.NoVotesQuiz) : LocaleController.formatPluralString("Answer", i162, new Object[0]), textPaint, dp35, TextUtils.TruncateAt.END);
+                                ellipsize = TextUtils.ellipsize(i162 == 0 ? LocaleController.getString("NoVotesQuiz", R.string.NoVotesQuiz) : LocaleController.formatPluralString("Answer", i162, new Object[0]), textPaint, dp34, TextUtils.TruncateAt.END);
                             } else {
                                 int i163 = tLRPC$TL_messageMediaPoll3.results.total_voters;
-                                ellipsize = TextUtils.ellipsize(i163 == 0 ? LocaleController.getString("NoVotes", R.string.NoVotes) : LocaleController.formatPluralString("Vote", i163, new Object[0]), textPaint, dp35, TextUtils.TruncateAt.END);
+                                ellipsize = TextUtils.ellipsize(i163 == 0 ? LocaleController.getString("NoVotes", R.string.NoVotes) : LocaleController.formatPluralString("Vote", i163, new Object[0]), textPaint, dp34, TextUtils.TruncateAt.END);
                             }
-                            StaticLayout staticLayout13 = new StaticLayout(ellipsize, textPaint, dp35, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            StaticLayout staticLayout13 = new StaticLayout(ellipsize, textPaint, dp34, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                             this.infoLayout = staticLayout13;
                             TLRPC$Poll tLRPC$Poll5 = tLRPC$TL_messageMediaPoll3.poll;
                             if (!tLRPC$Poll5.public_voters && !tLRPC$Poll5.multiple_choice) {
                                 this.infoX = (int) Math.ceil(staticLayout13.getLineCount() > 0 ? -this.infoLayout.getLineLeft(0) : 0.0d);
                                 this.availableTimeWidth = (int) ((f13 - this.infoLayout.getLineWidth(0)) - AndroidUtilities.dp(16.0f));
                             } else {
-                                double dp36 = this.backgroundWidth - AndroidUtilities.dp(28.0f);
+                                double dp35 = this.backgroundWidth - AndroidUtilities.dp(28.0f);
                                 double ceil10 = Math.ceil(this.infoLayout.getLineWidth(0));
-                                Double.isNaN(dp36);
+                                Double.isNaN(dp35);
                                 double lineLeft = this.infoLayout.getLineLeft(0);
                                 Double.isNaN(lineLeft);
-                                this.infoX = (int) (((dp36 - ceil10) / 2.0d) - lineLeft);
+                                this.infoX = (int) (((dp35 - ceil10) / 2.0d) - lineLeft);
                                 this.availableTimeWidth = min15;
                             }
                         }
@@ -8451,10 +8450,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 PollButton.access$1712((PollButton) arrayList7.get(i176), 1);
                             }
                         }
-                        int dp37 = this.backgroundWidth - AndroidUtilities.dp(76.0f);
+                        int dp36 = this.backgroundWidth - AndroidUtilities.dp(76.0f);
                         int size11 = this.pollButtons.size();
                         for (int i177 = 0; i177 < size11; i177++) {
-                            this.pollButtons.get(i177).percentProgress = Math.max(AndroidUtilities.dp(5.0f) / dp37, i170 != 0 ? pollButton.percent / i170 : 0.0f);
+                            this.pollButtons.get(i177).percentProgress = Math.max(AndroidUtilities.dp(5.0f) / dp36, i170 != 0 ? pollButton.percent / i170 : 0.0f);
                         }
                         setMessageObjectInternal(messageObject);
                         if (this.isBot && !this.drawInstantView) {
@@ -8465,9 +8464,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 height += AndroidUtilities.dp(13.0f);
                             }
                         }
-                        int dp38 = AndroidUtilities.dp(73.0f);
+                        int dp37 = AndroidUtilities.dp(73.0f);
                         int i178 = this.namesOffset;
-                        this.totalHeight = dp38 + i178 + height;
+                        this.totalHeight = dp37 + i178 + height;
                         if (this.drawPinnedTop) {
                             this.namesOffset = i178 - AndroidUtilities.dp(1.0f);
                         }
@@ -8487,9 +8486,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 i179 = Math.max(i179, (int) Math.ceil(Theme.chat_instantViewPaint.measureText(string2)));
                                 i180++;
                             }
-                            int dp39 = this.timeWidth + (messageObject.isOutOwner() ? AndroidUtilities.dp(20.0f) : 0) + getExtraTimeX();
+                            int dp38 = this.timeWidth + (messageObject.isOutOwner() ? AndroidUtilities.dp(20.0f) : 0) + getExtraTimeX();
                             ReactionsLayoutInBubble reactionsLayoutInBubble15 = this.reactionsLayoutInBubble;
-                            if (!reactionsLayoutInBubble15.isSmall && reactionsLayoutInBubble15.isEmpty && dp39 >= ((this.backgroundWidth - AndroidUtilities.dp(76.0f)) - i179) / 2) {
+                            if (!reactionsLayoutInBubble15.isSmall && reactionsLayoutInBubble15.isEmpty && dp38 >= ((this.backgroundWidth - AndroidUtilities.dp(76.0f)) - i179) / 2) {
                                 this.totalHeight += AndroidUtilities.dp(18.0f);
                                 this.instantTextNewLine = true;
                             }
@@ -8535,17 +8534,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     if (checkNeedDrawShareButton(messageObject)) {
                                         this.backgroundWidth -= AndroidUtilities.dp(20.0f);
                                     }
-                                    int dp40 = this.backgroundWidth - AndroidUtilities.dp(138.0f);
-                                    createDocumentLayout(dp40, messageObject5);
-                                    int dp41 = ((this.backgroundWidth - AndroidUtilities.dp(31.0f)) - AndroidUtilities.dp(10.0f)) - (getExtraTextX() * 2);
+                                    int dp39 = this.backgroundWidth - AndroidUtilities.dp(138.0f);
+                                    createDocumentLayout(dp39, messageObject5);
+                                    int dp40 = ((this.backgroundWidth - AndroidUtilities.dp(31.0f)) - AndroidUtilities.dp(10.0f)) - (getExtraTextX() * 2);
                                     if (!messageObject5.isRestrictedMessage && !TextUtils.isEmpty(messageObject5.caption)) {
                                         try {
                                             CharSequence charSequence5 = messageObject5.caption;
                                             this.currentCaption = charSequence5;
                                             if (Build.VERSION.SDK_INT >= 24) {
-                                                this.captionLayout = StaticLayout.Builder.obtain(charSequence5, 0, charSequence5.length(), Theme.chat_msgTextPaint, dp41).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
+                                                this.captionLayout = StaticLayout.Builder.obtain(charSequence5, 0, charSequence5.length(), Theme.chat_msgTextPaint, dp40).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
                                             } else {
-                                                this.captionLayout = new StaticLayout(messageObject5.caption, Theme.chat_msgTextPaint, dp41, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                                this.captionLayout = new StaticLayout(messageObject5.caption, Theme.chat_msgTextPaint, dp40, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                                             }
                                             updateCaptionSpoilers();
                                         } catch (Exception e15) {
@@ -8573,7 +8572,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     if (staticLayout17 != null) {
                                         int lineCount7 = staticLayout17.getLineCount();
                                         for (int i185 = 0; i185 < lineCount7; i185++) {
-                                            int ceil11 = ((int) Math.ceil(Math.min(dp41, this.captionLayout.getLineWidth(i185) + this.captionLayout.getLineLeft(i185)))) + AndroidUtilities.dp(31.0f);
+                                            int ceil11 = ((int) Math.ceil(Math.min(dp40, this.captionLayout.getLineWidth(i185) + this.captionLayout.getLineLeft(i185)))) + AndroidUtilities.dp(31.0f);
                                             if (ceil11 > i57) {
                                                 i57 = ceil11;
                                             }
@@ -8581,7 +8580,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     }
                                     ReactionsLayoutInBubble reactionsLayoutInBubble17 = this.reactionsLayoutInBubble;
                                     if (!reactionsLayoutInBubble17.isSmall) {
-                                        reactionsLayoutInBubble17.measure(dp41, 3);
+                                        reactionsLayoutInBubble17.measure(dp40, 3);
                                         ReactionsLayoutInBubble reactionsLayoutInBubble18 = this.reactionsLayoutInBubble;
                                         if (!reactionsLayoutInBubble18.isEmpty && reactionsLayoutInBubble18.width + AndroidUtilities.dp(31.0f) > i57) {
                                             i57 = this.reactionsLayoutInBubble.width + AndroidUtilities.dp(31.0f);
@@ -8589,9 +8588,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     }
                                     if (i57 > 0 && this.currentPosition == null) {
                                         this.backgroundWidth = i57;
-                                        dp40 = i57 - AndroidUtilities.dp(31.0f);
+                                        dp39 = i57 - AndroidUtilities.dp(31.0f);
                                     }
-                                    this.availableTimeWidth = dp40;
+                                    this.availableTimeWidth = dp39;
                                     if (this.drawPhotoImage) {
                                         i24 = AndroidUtilities.dp(86.0f);
                                         i23 = AndroidUtilities.dp(86.0f);
@@ -8606,10 +8605,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                         if (TextUtils.isEmpty(messageObject5.caption) && (staticLayout = this.infoLayout) != null) {
                                             int lineCount8 = staticLayout.getLineCount();
                                             measureTime(messageObject);
-                                            int dp42 = (this.backgroundWidth - AndroidUtilities.dp(122.0f)) - this.infoWidth;
+                                            int dp41 = (this.backgroundWidth - AndroidUtilities.dp(122.0f)) - this.infoWidth;
                                             ReactionsLayoutInBubble reactionsLayoutInBubble19 = this.reactionsLayoutInBubble;
                                             if (reactionsLayoutInBubble19.isSmall || reactionsLayoutInBubble19.isEmpty) {
-                                                if (dp42 < this.timeWidth) {
+                                                if (dp41 < this.timeWidth) {
                                                     dp8 = AndroidUtilities.dp(12.0f);
                                                 } else if (lineCount8 == 1) {
                                                     dp8 = AndroidUtilities.dp(4.0f);
@@ -8665,11 +8664,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                             if (checkNeedDrawShareButton(messageObject)) {
                                                 this.backgroundWidth -= AndroidUtilities.dp(20.0f);
                                             }
-                                            int dp43 = this.backgroundWidth - AndroidUtilities.dp(37.0f);
-                                            this.availableTimeWidth = dp43;
-                                            int dp44 = dp43 - AndroidUtilities.dp(54.0f);
-                                            int dp45 = this.backgroundWidth - AndroidUtilities.dp(17.0f);
-                                            int dp46 = AndroidUtilities.dp(195.0f);
+                                            int dp42 = this.backgroundWidth - AndroidUtilities.dp(37.0f);
+                                            this.availableTimeWidth = dp42;
+                                            int dp43 = dp42 - AndroidUtilities.dp(54.0f);
+                                            int dp44 = this.backgroundWidth - AndroidUtilities.dp(17.0f);
+                                            int dp45 = AndroidUtilities.dp(195.0f);
                                             double d7 = 268435456;
                                             Double.isNaN(d7);
                                             double d8 = d7 / 3.141592653589793d;
@@ -8680,9 +8679,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                             Double.isNaN(d7);
                                             double atan = ((1.5707963267948966d - (Math.atan(Math.exp((round - d7) / d8)) * 2.0d)) * 180.0d) / 3.141592653589793d;
                                             int i186 = this.currentAccount;
-                                            float f15 = dp45;
+                                            float f15 = dp44;
                                             float f16 = AndroidUtilities.density;
-                                            float f17 = dp46;
+                                            float f17 = dp45;
                                             this.currentUrl = AndroidUtilities.formapMapUrl(i186, atan, d6, (int) (f15 / f16), (int) (f17 / f16), false, 15, i47);
                                             this.lastWebFile = this.currentWebFile;
                                             long j3 = tLRPC$GeoPoint.access_hash;
@@ -8700,7 +8699,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                 this.backgroundWidth -= AndroidUtilities.dp(9.0f);
                                                 i50 = 0;
                                             }
-                                            this.docTitleLayout = new StaticLayout(TextUtils.ellipsize(LocaleController.getString("AttachLiveLocation", R.string.AttachLiveLocation), Theme.chat_locationTitlePaint, dp44, TextUtils.TruncateAt.END), Theme.chat_locationTitlePaint, dp44 + AndroidUtilities.dp(2.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                            this.docTitleLayout = new StaticLayout(TextUtils.ellipsize(LocaleController.getString("AttachLiveLocation", R.string.AttachLiveLocation), Theme.chat_locationTitlePaint, dp43, TextUtils.TruncateAt.END), Theme.chat_locationTitlePaint, dp43 + AndroidUtilities.dp(2.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                                             updateCurrentUserAndChat();
                                             TLRPC$User tLRPC$User2 = this.currentUser;
                                             if (tLRPC$User2 != null) {
@@ -8720,9 +8719,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                 }
                                             }
                                             int i187 = messageObject5.messageOwner.edit_date;
-                                            this.infoLayout = new StaticLayout(TextUtils.ellipsize(LocaleController.formatLocationUpdateDate(i187 != 0 ? i187 : tLRPC$Message.date), Theme.chat_locationAddressPaint, AndroidUtilities.dp(2.0f) + dp44, TextUtils.TruncateAt.END), Theme.chat_locationAddressPaint, dp44, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                                            i24 = dp45;
-                                            i49 = dp46;
+                                            this.infoLayout = new StaticLayout(TextUtils.ellipsize(LocaleController.formatLocationUpdateDate(i187 != 0 ? i187 : tLRPC$Message.date), Theme.chat_locationAddressPaint, AndroidUtilities.dp(2.0f) + dp43, TextUtils.TruncateAt.END), Theme.chat_locationAddressPaint, dp43, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                            i24 = dp44;
+                                            i49 = dp45;
                                             i48 = 2;
                                         } else if (!TextUtils.isEmpty(tLRPC$MessageMedia.title)) {
                                             if (AndroidUtilities.isTablet()) {
@@ -8734,23 +8733,23 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                             if (checkNeedDrawShareButton(messageObject)) {
                                                 this.backgroundWidth -= AndroidUtilities.dp(20.0f);
                                             }
-                                            int dp47 = this.backgroundWidth - AndroidUtilities.dp(34.0f);
-                                            this.availableTimeWidth = dp47;
-                                            int dp48 = this.backgroundWidth - AndroidUtilities.dp(17.0f);
-                                            int dp49 = AndroidUtilities.dp(195.0f);
+                                            int dp46 = this.backgroundWidth - AndroidUtilities.dp(34.0f);
+                                            this.availableTimeWidth = dp46;
+                                            int dp47 = this.backgroundWidth - AndroidUtilities.dp(17.0f);
+                                            int dp48 = AndroidUtilities.dp(195.0f);
                                             this.mediaBackground = false;
                                             int i188 = this.currentAccount;
-                                            float f19 = dp48;
+                                            float f19 = dp47;
                                             float f20 = AndroidUtilities.density;
-                                            float f21 = dp49;
+                                            float f21 = dp48;
                                             this.currentUrl = AndroidUtilities.formapMapUrl(i188, d5, d6, (int) (f19 / f20), (int) (f21 / f20), true, 15, i47);
                                             float f22 = AndroidUtilities.density;
                                             this.currentWebFile = WebFile.createWithGeoPoint(tLRPC$GeoPoint, (int) (f19 / f22), (int) (f21 / f22), 15, Math.min(2, (int) Math.ceil(f22)));
-                                            this.docTitleLayout = StaticLayoutEx.createStaticLayout(messageObject5.messageOwner.media.title, Theme.chat_locationTitlePaint, dp47 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp47, 1);
+                                            this.docTitleLayout = StaticLayoutEx.createStaticLayout(messageObject5.messageOwner.media.title, Theme.chat_locationTitlePaint, dp46 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp46, 1);
                                             i50 = 0 + AndroidUtilities.dp(50.0f);
                                             this.docTitleLayout.getLineCount();
                                             if (!TextUtils.isEmpty(messageObject5.messageOwner.media.address)) {
-                                                this.infoLayout = StaticLayoutEx.createStaticLayout(messageObject5.messageOwner.media.address, Theme.chat_locationAddressPaint, dp47, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp47, 1);
+                                                this.infoLayout = StaticLayoutEx.createStaticLayout(messageObject5.messageOwner.media.address, Theme.chat_locationAddressPaint, dp46, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp46, 1);
                                                 measureTime(messageObject);
                                                 int ceil12 = (this.backgroundWidth - ((int) Math.ceil(this.infoLayout.getLineWidth(0)))) - AndroidUtilities.dp(24.0f);
                                                 boolean z57 = this.infoLayout.getLineLeft(0) > 0.0f;
@@ -8760,8 +8759,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                             } else {
                                                 this.infoLayout = null;
                                             }
-                                            i24 = dp48;
-                                            i49 = dp49;
+                                            i24 = dp47;
+                                            i49 = dp48;
                                             i48 = 2;
                                         } else {
                                             if (AndroidUtilities.isTablet()) {
@@ -8774,18 +8773,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                 this.backgroundWidth -= AndroidUtilities.dp(20.0f);
                                             }
                                             this.availableTimeWidth = this.backgroundWidth - AndroidUtilities.dp(34.0f);
-                                            int dp50 = this.backgroundWidth - AndroidUtilities.dp(8.0f);
-                                            int dp51 = AndroidUtilities.dp(195.0f);
+                                            int dp49 = this.backgroundWidth - AndroidUtilities.dp(8.0f);
+                                            int dp50 = AndroidUtilities.dp(195.0f);
                                             int i189 = this.currentAccount;
-                                            float f23 = dp50;
+                                            float f23 = dp49;
                                             float f24 = AndroidUtilities.density;
-                                            float f25 = dp51;
+                                            float f25 = dp50;
                                             this.currentUrl = AndroidUtilities.formapMapUrl(i189, d5, d6, (int) (f23 / f24), (int) (f25 / f24), true, 15, i47);
                                             float f26 = AndroidUtilities.density;
                                             i48 = 2;
                                             this.currentWebFile = WebFile.createWithGeoPoint(tLRPC$GeoPoint, (int) (f23 / f26), (int) (f25 / f26), 15, Math.min(2, (int) Math.ceil(f26)));
-                                            i24 = dp50;
-                                            i49 = dp51;
+                                            i24 = dp49;
+                                            i49 = dp50;
                                             i50 = 0;
                                         }
                                         if (((int) messageObject.getDialogId()) != 0) {
@@ -8872,6 +8871,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     i23 = messageObject5.textHeight + AndroidUtilities.dp(30.0f);
                                     this.backgroundWidth = AndroidUtilities.dp(14.0f) + i24;
                                     this.availableTimeWidth = i24 - AndroidUtilities.dp(12.0f);
+                                    if (messageObject.getEmojiOnlyCount() > 4) {
+                                        i23 += AndroidUtilities.dp(8.0f);
+                                    }
                                     if (AndroidUtilities.isTablet()) {
                                         min6 = AndroidUtilities.getMinTabletSide();
                                         f3 = 0.4f;
@@ -9121,7 +9123,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                             min2 = (int) (min * 0.7f);
                                             z9 = false;
                                         }
-                                        int dp52 = AndroidUtilities.dp(100.0f) + min2;
+                                        int dp51 = AndroidUtilities.dp(100.0f) + min2;
                                         if (!z9) {
                                             if (messageObject5.type != 5 && checkNeedDrawShareButton(messageObject)) {
                                                 min2 -= AndroidUtilities.dp(20.0f);
@@ -9129,8 +9131,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                             if (min2 > AndroidUtilities.getPhotoSize()) {
                                                 min2 = AndroidUtilities.getPhotoSize();
                                             }
-                                            if (dp52 > AndroidUtilities.getPhotoSize()) {
-                                                dp52 = AndroidUtilities.getPhotoSize();
+                                            if (dp51 > AndroidUtilities.getPhotoSize()) {
+                                                dp51 = AndroidUtilities.getPhotoSize();
                                             }
                                         } else if (z7) {
                                             min2 -= AndroidUtilities.dp(52.0f);
@@ -9188,7 +9190,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                         i5 = 0;
                                                     }
                                                 }
-                                                Point messageSize = getMessageSize(i5, i4, min2, dp52);
+                                                Point messageSize = getMessageSize(i5, i4, min2, dp51);
                                                 int i202 = (int) messageSize.x;
                                                 i6 = (int) messageSize.y;
                                                 i7 = i202;
@@ -9225,24 +9227,24 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                         float f33 = i203 / f32;
                                                         int i204 = (int) (i203 / f33);
                                                         int i205 = (int) (tLRPC$DocumentAttribute9.h / f33);
-                                                        if (i205 > dp52) {
-                                                            i7 = (int) (i204 / (i205 / dp52));
+                                                        if (i205 > dp51) {
+                                                            i7 = (int) (i204 / (i205 / dp51));
                                                         } else {
                                                             if (i205 < AndroidUtilities.dp(120.0f)) {
-                                                                dp52 = AndroidUtilities.dp(120.0f);
-                                                                float f34 = tLRPC$DocumentAttribute9.h / dp52;
+                                                                dp51 = AndroidUtilities.dp(120.0f);
+                                                                float f34 = tLRPC$DocumentAttribute9.h / dp51;
                                                                 int i206 = tLRPC$DocumentAttribute9.w;
                                                                 if (i206 / f34 < f32) {
                                                                     i204 = (int) (i206 / f34);
                                                                 }
                                                             } else {
-                                                                dp52 = i205;
+                                                                dp51 = i205;
                                                             }
                                                             i7 = i204;
                                                         }
-                                                        if (i7 != 0 || dp52 == 0) {
-                                                            dp52 = AndroidUtilities.dp(150.0f);
-                                                            i7 = dp52;
+                                                        if (i7 != 0 || dp51 == 0) {
+                                                            dp51 = AndroidUtilities.dp(150.0f);
+                                                            i7 = dp51;
                                                         }
                                                         if (messageObject5.type == 3 && i7 < this.infoWidth + AndroidUtilities.dp(40.0f)) {
                                                             i7 = AndroidUtilities.dp(40.0f) + this.infoWidth;
@@ -9271,9 +9273,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                             double ceil14 = Math.ceil(Theme.chat_audioTimePaint.measureText("00:00"));
                                                             Double.isNaN(d11);
                                                             double d12 = d11 - ceil14;
-                                                            double dp53 = AndroidUtilities.dp(46.0f);
-                                                            Double.isNaN(dp53);
-                                                            this.availableTimeWidth = (int) (d12 - dp53);
+                                                            double dp52 = AndroidUtilities.dp(46.0f);
+                                                            Double.isNaN(dp52);
+                                                            this.availableTimeWidth = (int) (d12 - dp52);
                                                         }
                                                         measureTime(messageObject);
                                                         dp = AndroidUtilities.dp((SharedConfig.bubbleRadius >= 10 ? 22 : 18) + (messageObject.isOutOwner() ? 20 : 0)) + this.timeWidth;
@@ -9281,10 +9283,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                             i7 = dp;
                                                         }
                                                         if (messageObject.isRoundVideo()) {
-                                                            dp52 = Math.min(i7, dp52);
+                                                            dp51 = Math.min(i7, dp51);
                                                             this.drawBackground = false;
-                                                            this.photoImage.setRoundRadius(dp52 / 2);
-                                                            i7 = dp52;
+                                                            this.photoImage.setRoundRadius(dp51 / 2);
+                                                            i7 = dp51;
                                                             z11 = false;
                                                         } else {
                                                             if (messageObject.needDrawBluredPreview()) {
@@ -9293,8 +9295,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                 } else {
                                                                     min3 = Math.min(getParentWidth(), AndroidUtilities.displaySize.y);
                                                                 }
-                                                                dp52 = (int) (min3 * 0.5f);
-                                                                i7 = dp52;
+                                                                dp51 = (int) (min3 * 0.5f);
+                                                                i7 = dp51;
                                                             }
                                                             z11 = true;
                                                         }
@@ -9345,9 +9347,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                 }
                                                                 ceil15 += i209 - i210;
                                                             }
-                                                            int dp54 = ceil15 - AndroidUtilities.dp(9.0f);
+                                                            int dp53 = ceil15 - AndroidUtilities.dp(9.0f);
                                                             if (this.isAvatarVisible) {
-                                                                dp54 -= AndroidUtilities.dp(48.0f);
+                                                                dp53 -= AndroidUtilities.dp(48.0f);
                                                             }
                                                             if (this.currentPosition.siblingHeights != null) {
                                                                 int i212 = 0;
@@ -9364,7 +9366,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                             } else {
                                                                 ceil = (int) Math.ceil(max10 * groupedMessagePosition3.ph);
                                                             }
-                                                            this.backgroundWidth = dp54;
+                                                            this.backgroundWidth = dp53;
                                                             int i214 = this.currentPosition.flags;
                                                             if ((i214 & 2) != 0 && (i214 & 1) != 0) {
                                                                 dp5 = AndroidUtilities.dp(8.0f);
@@ -9375,9 +9377,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                             } else {
                                                                 dp5 = AndroidUtilities.dp(9.0f);
                                                             }
-                                                            int i215 = dp54 - dp5;
-                                                            int dp55 = !this.currentPosition.edge ? AndroidUtilities.dp(10.0f) + i215 : i215;
-                                                            dp2 = 0 + (dp55 - AndroidUtilities.dp(10.0f));
+                                                            int i215 = dp53 - dp5;
+                                                            int dp54 = !this.currentPosition.edge ? AndroidUtilities.dp(10.0f) + i215 : i215;
+                                                            dp2 = 0 + (dp54 - AndroidUtilities.dp(10.0f));
                                                             MessageObject.GroupedMessagePosition groupedMessagePosition22 = this.currentPosition;
                                                             int i216 = groupedMessagePosition22.flags;
                                                             if ((i216 & 8) != 0 || (this.currentMessagesGroup.hasSibling && (i216 & 4) == 0)) {
@@ -9390,7 +9392,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     MessageObject messageObject9 = this.currentMessagesGroup.messages.get(i218);
                                                                     MessageObject.GroupedMessagePosition groupedMessagePosition23 = this.currentMessagesGroup.posArray.get(i218);
                                                                     if (groupedMessagePosition23 == this.currentPosition || (groupedMessagePosition23.flags & 8) == 0) {
-                                                                        i29 = dp55;
+                                                                        i29 = dp54;
                                                                         i30 = ceil;
                                                                         i31 = size13;
                                                                         z19 = z18;
@@ -9402,7 +9404,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                         i31 = size13;
                                                                         int ceil19 = (int) Math.ceil((groupedMessagePosition23.pw / 1000.0f) * groupPhotosWidth2);
                                                                         if (groupedMessagePosition23.minY == 0 || ((!messageObject.isOutOwner() || (groupedMessagePosition23.flags & 1) == 0) && (messageObject.isOutOwner() || (groupedMessagePosition23.flags & 2) == 0))) {
-                                                                            i29 = dp55;
+                                                                            i29 = dp54;
                                                                             i33 = i217;
                                                                             z19 = z18;
                                                                             i32 = i218;
@@ -9413,7 +9415,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             int i221 = 0;
                                                                             while (true) {
                                                                                 if (i219 >= this.currentMessagesGroup.posArray.size()) {
-                                                                                    i29 = dp55;
+                                                                                    i29 = dp54;
                                                                                     i33 = i217;
                                                                                     z19 = z18;
                                                                                     i32 = i218;
@@ -9421,7 +9423,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                                     break;
                                                                                 }
                                                                                 MessageObject.GroupedMessagePosition groupedMessagePosition24 = this.currentMessagesGroup.posArray.get(i219);
-                                                                                i29 = dp55;
+                                                                                i29 = dp54;
                                                                                 byte b3 = groupedMessagePosition24.minY;
                                                                                 if (b3 == 0) {
                                                                                     z19 = z18;
@@ -9459,7 +9461,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                                     }
                                                                                 }
                                                                                 i219++;
-                                                                                dp55 = i29;
+                                                                                dp54 = i29;
                                                                                 z18 = z19;
                                                                                 i218 = i32;
                                                                                 i217 = i33;
@@ -9467,7 +9469,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             }
                                                                             ceil19 += i220 - i221;
                                                                         }
-                                                                        int dp56 = ceil19 - AndroidUtilities.dp(9.0f);
+                                                                        int dp55 = ceil19 - AndroidUtilities.dp(9.0f);
                                                                         int i222 = groupedMessagePosition23.flags;
                                                                         if ((i222 & 2) != 0 && (i222 & 1) != 0) {
                                                                             dp6 = AndroidUtilities.dp(8.0f);
@@ -9478,7 +9480,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                         } else {
                                                                             dp6 = AndroidUtilities.dp(9.0f);
                                                                         }
-                                                                        int i223 = dp56 - dp6;
+                                                                        int i223 = dp55 - dp6;
                                                                         if (this.isChat && !this.isThreadPost && !messageObject9.isOutOwner() && messageObject9.needDrawAvatar() && groupedMessagePosition23.edge) {
                                                                             i223 -= AndroidUtilities.dp(48.0f);
                                                                         }
@@ -9498,7 +9500,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                             i218 = i32 + 1;
                                                                             ceil = i30;
                                                                             size13 = i31;
-                                                                            dp55 = i29;
+                                                                            dp54 = i29;
                                                                             z18 = z19;
                                                                         } else {
                                                                             this.currentCaption = charSequence;
@@ -9508,15 +9510,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     i218 = i32 + 1;
                                                                     ceil = i30;
                                                                     size13 = i31;
-                                                                    dp55 = i29;
+                                                                    dp54 = i29;
                                                                     z18 = z19;
                                                                 }
-                                                                i27 = dp55;
+                                                                i27 = dp54;
                                                                 i28 = ceil;
                                                                 z12 = z18;
                                                                 dp2 = i217;
                                                             } else {
-                                                                i27 = dp55;
+                                                                i27 = dp54;
                                                                 i28 = ceil;
                                                                 z12 = z18;
                                                             }
@@ -9543,22 +9545,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                 if (i7 < i224) {
                                                                     dp2 = i224;
                                                                     z13 = true;
-                                                                    int dp57 = AndroidUtilities.dp(8.0f) + i7;
-                                                                    this.backgroundWidth = dp57;
+                                                                    int dp56 = AndroidUtilities.dp(8.0f) + i7;
+                                                                    this.backgroundWidth = dp56;
                                                                     if (!this.mediaBackground) {
-                                                                        this.backgroundWidth = dp57 + AndroidUtilities.dp(9.0f);
+                                                                        this.backgroundWidth = dp56 + AndroidUtilities.dp(9.0f);
                                                                     }
-                                                                    i9 = dp52;
+                                                                    i9 = dp51;
                                                                     i10 = i7;
                                                                 }
                                                             }
                                                             dp2 = i7 - AndroidUtilities.dp(10.0f);
                                                             z13 = false;
-                                                            int dp572 = AndroidUtilities.dp(8.0f) + i7;
-                                                            this.backgroundWidth = dp572;
+                                                            int dp562 = AndroidUtilities.dp(8.0f) + i7;
+                                                            this.backgroundWidth = dp562;
                                                             if (!this.mediaBackground) {
                                                             }
-                                                            i9 = dp52;
+                                                            i9 = dp51;
                                                             i10 = i7;
                                                         }
                                                         if (this.currentCaption != null) {
@@ -9906,7 +9908,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                                 int min17 = Math.min(max11, this.reactionsLayoutInBubble.width + dp + getExtraTimeX() + AndroidUtilities.dp(2.0f));
                                                                                 float f35 = this.reactionsLayoutInBubble.lastLineX;
                                                                                 if (!shouldDrawTimeOnMedia() && min17 - f35 < getExtraTimeX() + dp) {
-                                                                                    int dp58 = i13 + AndroidUtilities.dp(14.0f);
+                                                                                    int dp57 = i13 + AndroidUtilities.dp(14.0f);
                                                                                     this.reactionsLayoutInBubble.totalHeight += AndroidUtilities.dp(14.0f);
                                                                                     this.reactionsLayoutInBubble.positionOffsetY -= AndroidUtilities.dp(14.0f);
                                                                                     if (!z62) {
@@ -9916,14 +9918,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                                             this.captionWidth = i229;
                                                                                         }
                                                                                     }
-                                                                                    i14 = dp58;
+                                                                                    i14 = dp57;
                                                                                     c2 = 1;
                                                                                     measureText = (int) (Theme.chat_infoPaint.measureText("100%") + AndroidUtilities.dp(100.0f));
                                                                                     if (this.currentMessagesGroup == null && (((i26 = this.documentAttachType) == 4 || i26 == 2) && i7 < measureText)) {
-                                                                                        int dp59 = AndroidUtilities.dp(8.0f) + measureText;
-                                                                                        this.backgroundWidth = dp59;
+                                                                                        int dp58 = AndroidUtilities.dp(8.0f) + measureText;
+                                                                                        this.backgroundWidth = dp58;
                                                                                         if (!this.mediaBackground) {
-                                                                                            this.backgroundWidth = dp59 + AndroidUtilities.dp(9.0f);
+                                                                                            this.backgroundWidth = dp58 + AndroidUtilities.dp(9.0f);
                                                                                         }
                                                                                         i7 = measureText;
                                                                                     }
@@ -10220,8 +10222,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                     i14 = i13;
                                                                     measureText = (int) (Theme.chat_infoPaint.measureText("100%") + AndroidUtilities.dp(100.0f));
                                                                     if (this.currentMessagesGroup == null) {
-                                                                        int dp592 = AndroidUtilities.dp(8.0f) + measureText;
-                                                                        this.backgroundWidth = dp592;
+                                                                        int dp582 = AndroidUtilities.dp(8.0f) + measureText;
+                                                                        this.backgroundWidth = dp582;
                                                                         if (!this.mediaBackground) {
                                                                         }
                                                                         i7 = measureText;
@@ -10443,11 +10445,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     }
                                                 }
                                             }
-                                            dp52 = i6;
+                                            dp51 = i6;
                                             if (i7 != 0) {
                                             }
-                                            dp52 = AndroidUtilities.dp(150.0f);
-                                            i7 = dp52;
+                                            dp51 = AndroidUtilities.dp(150.0f);
+                                            i7 = dp51;
                                             if (messageObject5.type == 3) {
                                                 i7 = AndroidUtilities.dp(40.0f) + this.infoWidth;
                                             }
@@ -10537,11 +10539,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                         }
                                         while (i8 < document.attributes.size()) {
                                         }
-                                        dp52 = i6;
+                                        dp51 = i6;
                                         if (i7 != 0) {
                                         }
-                                        dp52 = AndroidUtilities.dp(150.0f);
-                                        i7 = dp52;
+                                        dp51 = AndroidUtilities.dp(150.0f);
+                                        i7 = dp51;
                                         if (messageObject5.type == 3) {
                                         }
                                         if (this.commentLayout != null) {
@@ -10771,92 +10773,92 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     if (!z7) {
                                         f7 = 50.0f;
                                     }
-                                    dp10 = AndroidUtilities.dp(f7);
+                                    dp9 = AndroidUtilities.dp(f7);
                                 } else {
                                     parentWidth = getParentWidth();
                                     if (!z7) {
                                         f7 = 50.0f;
                                     }
-                                    dp10 = AndroidUtilities.dp(f7);
+                                    dp9 = AndroidUtilities.dp(f7);
                                 }
-                                i234 = parentWidth - dp10;
+                                i234 = parentWidth - dp9;
                             }
                             c5 = 2;
-                            dp9 = ((i234 - AndroidUtilities.dp(31.0f)) - AndroidUtilities.dp(10.0f)) - (getExtraTextX() * 2);
-                        } catch (Exception e19) {
-                            e = e19;
-                            c5 = 2;
-                        }
-                        try {
-                            if (Build.VERSION.SDK_INT >= 24) {
-                                CharSequence charSequence7 = this.currentCaption;
-                                this.captionLayout = StaticLayout.Builder.obtain(charSequence7, i55, charSequence7.length(), Theme.chat_msgTextPaint, dp9).setBreakStrategy(r14).setHyphenationFrequency(i55).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
-                            } else {
-                                this.captionLayout = new StaticLayout(this.currentCaption, Theme.chat_msgTextPaint, dp9, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            int dp59 = ((i234 - AndroidUtilities.dp(31.0f)) - AndroidUtilities.dp(10.0f)) - (getExtraTextX() * 2);
+                            try {
+                                if (Build.VERSION.SDK_INT >= 24) {
+                                    CharSequence charSequence7 = this.currentCaption;
+                                    this.captionLayout = StaticLayout.Builder.obtain(charSequence7, i55, charSequence7.length(), Theme.chat_msgTextPaint, dp59).setBreakStrategy(r14).setHyphenationFrequency(i55).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
+                                } else {
+                                    this.captionLayout = new StaticLayout(this.currentCaption, Theme.chat_msgTextPaint, dp59, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                }
+                                updateSeekBarWaveformWidth();
+                                updateCaptionSpoilers();
+                            } catch (Exception e19) {
+                                e = e19;
+                                FileLog.e(e);
+                                if (this.captionLayout != null) {
+                                }
+                                groupedMessagePosition12 = this.currentPosition;
+                                if (groupedMessagePosition12 != null) {
+                                }
+                                i61 = this.widthBeforeNewTimeLine;
+                                if (i61 != -1) {
+                                }
+                                messageObject3 = this.currentMessageObject;
+                                if (messageObject3.eventId == 0) {
+                                }
+                                if (messageObject.isSponsored()) {
+                                }
+                                this.botButtons.clear();
+                                if (z46) {
+                                }
+                                if (!messageObject5.isRestrictedMessage) {
+                                }
+                                this.substractBackgroundHeight = 0;
+                                this.keyboardHeight = 0;
+                                if (this.drawCommentButton) {
+                                }
+                                z25 = this.drawPinnedBottom;
+                                if (!z25) {
+                                }
+                                if (!z25) {
+                                }
+                                if (!messageObject.isAnyKindOfSticker()) {
+                                }
+                                if (messageObject.isAnimatedEmoji()) {
+                                }
+                                if (!this.drawPhotoImage) {
+                                }
+                                if (this.documentAttachType != 5) {
+                                }
+                                if (z17) {
+                                }
+                                updateAnimatedEmojis();
+                                if (z46) {
+                                }
+                                transcribeButton = this.transcribeButton;
+                                if (transcribeButton != null) {
+                                }
+                                updateWaveform();
+                                if (!z46) {
+                                }
+                                z42 = true;
+                                z43 = false;
+                                z44 = false;
+                                updateButtonState(z43, z44, z42);
+                                if (!this.currentMessageObject.loadingCancelled) {
+                                }
+                                chatMessageCellDelegate2 = this.delegate;
+                                if (chatMessageCellDelegate2 != null) {
+                                }
+                                this.accessibilityVirtualViewBounds.clear();
+                                this.transitionParams.updatePhotoImageX = true;
+                                updateFlagSecure();
                             }
-                            updateSeekBarWaveformWidth();
-                            updateCaptionSpoilers();
                         } catch (Exception e20) {
                             e = e20;
-                            FileLog.e(e);
-                            if (this.captionLayout != null) {
-                            }
-                            groupedMessagePosition12 = this.currentPosition;
-                            if (groupedMessagePosition12 != null) {
-                            }
-                            i61 = this.widthBeforeNewTimeLine;
-                            if (i61 != -1) {
-                            }
-                            messageObject3 = this.currentMessageObject;
-                            if (messageObject3.eventId == 0) {
-                            }
-                            if (messageObject.isSponsored()) {
-                            }
-                            this.botButtons.clear();
-                            if (z46) {
-                            }
-                            if (!messageObject5.isRestrictedMessage) {
-                            }
-                            this.substractBackgroundHeight = 0;
-                            this.keyboardHeight = 0;
-                            if (this.drawCommentButton) {
-                            }
-                            z25 = this.drawPinnedBottom;
-                            if (!z25) {
-                            }
-                            if (!z25) {
-                            }
-                            if (!messageObject.isAnyKindOfSticker()) {
-                            }
-                            if (messageObject.isAnimatedEmoji()) {
-                            }
-                            if (!this.drawPhotoImage) {
-                            }
-                            if (this.documentAttachType != 5) {
-                            }
-                            if (z17) {
-                            }
-                            updateAnimatedEmojis();
-                            if (z46) {
-                            }
-                            transcribeButton = this.transcribeButton;
-                            if (transcribeButton != null) {
-                            }
-                            updateWaveform();
-                            if (!z46) {
-                            }
-                            z42 = true;
-                            z43 = false;
-                            z44 = false;
-                            updateButtonState(z43, z44, z42);
-                            if (!this.currentMessageObject.loadingCancelled) {
-                            }
-                            chatMessageCellDelegate2 = this.delegate;
-                            if (chatMessageCellDelegate2 != null) {
-                            }
-                            this.accessibilityVirtualViewBounds.clear();
-                            this.transitionParams.updatePhotoImageX = true;
-                            updateFlagSecure();
+                            c5 = 2;
                         }
                     }
                     if (this.captionLayout != null) {
@@ -11138,26 +11140,26 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             int dp69 = AndroidUtilities.dp(4.0f);
                             int i251 = SharedConfig.bubbleRadius;
                             if (i251 > 2) {
-                                dp11 = AndroidUtilities.dp(i251 - 2);
+                                dp10 = AndroidUtilities.dp(i251 - 2);
                             } else {
-                                dp11 = AndroidUtilities.dp(i251);
+                                dp10 = AndroidUtilities.dp(i251);
                             }
-                            int min18 = Math.min(AndroidUtilities.dp(3.0f), dp11);
-                            if (dp69 > dp11) {
-                                dp69 = dp11;
+                            int min18 = Math.min(AndroidUtilities.dp(3.0f), dp10);
+                            if (dp69 > dp10) {
+                                dp69 = dp10;
                             }
                             if (this.hasLinkPreview || this.hasGamePreview || this.hasInvoicePreview) {
-                                dp11 = dp69;
+                                dp10 = dp69;
                             }
-                            int i252 = (this.forwardedNameLayout[0] == null && this.replyNameLayout == null && !this.drawNameLayout) ? dp11 : dp69;
+                            int i252 = (this.forwardedNameLayout[0] == null && this.replyNameLayout == null && !this.drawNameLayout) ? dp10 : dp69;
                             if (this.captionLayout != null || this.drawCommentButton) {
-                                dp11 = dp69;
+                                dp10 = dp69;
                             }
                             if (this.documentAttachType == 1) {
                                 i63 = dp69;
                                 i62 = i63;
                             } else {
-                                i62 = dp11;
+                                i62 = dp10;
                                 i63 = i252;
                             }
                             MessageObject.GroupedMessagePosition groupedMessagePosition26 = this.currentPosition;
@@ -11168,12 +11170,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     i62 = i63;
                                 }
                                 if ((i253 & 1) == 0) {
-                                    dp11 = dp69;
-                                    i252 = dp11;
+                                    dp10 = dp69;
+                                    i252 = dp10;
                                 }
                                 if ((i253 & 8) == 0) {
-                                    dp11 = dp69;
-                                    i62 = dp11;
+                                    dp10 = dp69;
+                                    i62 = dp10;
                                 }
                                 if ((i253 & 4) == 0) {
                                     i63 = dp69;
@@ -11188,11 +11190,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                         if (this.currentMessageObject.isOutOwner()) {
                                             i62 = min18;
                                         } else {
-                                            dp11 = min18;
+                                            dp10 = min18;
                                         }
                                     }
                                     if (!this.mediaBackground || this.currentMessageObject.isOutOwner()) {
-                                        min18 = dp11;
+                                        min18 = dp10;
                                     }
                                     this.photoImage.setRoundRadius(dp69, i63, i62, min18);
                                 }
@@ -11204,7 +11206,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             }
                             if (!this.mediaBackground) {
                             }
-                            min18 = dp11;
+                            min18 = dp10;
                             this.photoImage.setRoundRadius(dp69, i63, i62, min18);
                         }
                         updateAnimatedEmojis();
@@ -13187,25 +13189,25 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0d90  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x0d81  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x0d30  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x0d1b  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x0c93  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0c76  */
-    /* JADX WARN: Removed duplicated region for block: B:264:0x0d88  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x08bc  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x090d  */
-    /* JADX WARN: Removed duplicated region for block: B:325:0x09ab  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x0905  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0c26  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0c33  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0c3a  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0c73  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0c90  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0cc2  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0d24  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0d3f  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0d9c  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x0d8d  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x0d3c  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x0d27  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x0c9f  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x0c82  */
+    /* JADX WARN: Removed duplicated region for block: B:264:0x0d94  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x08c8  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x0919  */
+    /* JADX WARN: Removed duplicated region for block: B:325:0x09b7  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x0911  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0c32  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0c3f  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0c46  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0c7f  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0c9c  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0cce  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0d30  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0d4b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -13325,22 +13327,23 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (staticLayout4 != null) {
                     this.textY = dp6 + staticLayout4.getLineBottom(staticLayout4.getLineCount() - 1);
                 }
-            } else {
-                MessageObject messageObject4 = this.currentMessageObject;
-                if (messageObject4.type == 19 && !messageObject4.isOut()) {
+            } else if (this.currentMessageObject.type == 19) {
+                this.textY = AndroidUtilities.dp(8.0f) + this.namesOffset;
+                if (!this.currentMessageObject.isOut()) {
                     this.textX = getCurrentBackgroundLeft();
-                    this.textY = AndroidUtilities.dp(8.0f) + this.namesOffset;
                 } else {
-                    this.textY = AndroidUtilities.dp(8.0f) + this.namesOffset;
+                    this.textX -= AndroidUtilities.dp(4.0f);
                 }
+            } else {
+                this.textY = AndroidUtilities.dp(8.0f) + this.namesOffset;
             }
             this.unmovedTextX = this.textX;
             if (this.currentMessageObject.textXOffset != 0.0f && this.replyNameLayout != null) {
                 int dp7 = this.backgroundWidth - AndroidUtilities.dp(31.0f);
-                MessageObject messageObject5 = this.currentMessageObject;
-                int i11 = dp7 - messageObject5.textWidth;
+                MessageObject messageObject4 = this.currentMessageObject;
+                int i11 = dp7 - messageObject4.textWidth;
                 if (!this.hasNewLineForTime) {
-                    i11 -= this.timeWidth + AndroidUtilities.dp((messageObject5.isOutOwner() ? 20 : 0) + 4);
+                    i11 -= this.timeWidth + AndroidUtilities.dp((messageObject4.isOutOwner() ? 20 : 0) + 4);
                 }
                 if (i11 > 0) {
                     this.textX += i11 - getExtraTimeX();
@@ -13734,8 +13737,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 canvas.translate(i21, AndroidUtilities.dp(44.0f) + this.namesOffset + this.mediaOffsetY);
                 this.durationLayout.draw(canvas);
                 canvas.restore();
-                MessageObject messageObject6 = this.currentMessageObject;
-                if (messageObject6.type != 0 && messageObject6.isContentUnread()) {
+                MessageObject messageObject5 = this.currentMessageObject;
+                if (messageObject5.type != 0 && messageObject5.isContentUnread()) {
                     Theme.chat_docBackPaint.setColor(getThemedColor(this.currentMessageObject.isOutOwner() ? "chat_outVoiceSeekbarFill" : "chat_inVoiceSeekbarFill"));
                     canvas.drawCircle(i21 + this.timeWidthAudio + AndroidUtilities.dp(6.0f), AndroidUtilities.dp(51.0f) + this.namesOffset + this.mediaOffsetY, AndroidUtilities.dp(3.0f), Theme.chat_docBackPaint);
                 }
@@ -13748,11 +13751,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 drawCaptionLayout(canvas, false, 1.0f);
             }
             if (!this.hasOldCaptionPreview) {
-                MessageObject messageObject7 = this.currentMessageObject;
-                int i25 = messageObject7.type;
+                MessageObject messageObject6 = this.currentMessageObject;
+                int i25 = messageObject6.type;
                 if (i25 != 1 && this.documentAttachType != 4 && i25 != 8) {
                     int i26 = this.backgroundDrawableLeft;
-                    if (!messageObject7.isOutOwner()) {
+                    if (!messageObject6.isOutOwner()) {
                         f12 = 17.0f;
                     }
                     imageX = i26 + AndroidUtilities.dp(f12);
@@ -15010,8 +15013,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return 4;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0110  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x011b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15057,13 +15060,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         } else {
             MessageObject.GroupedMessages groupedMessages = this.currentMessagesGroup;
+            int i4 = 0;
             if (groupedMessages != null && !groupedMessages.isDocuments) {
                 if (AndroidUtilities.isTablet()) {
                     parentWidth = AndroidUtilities.getMinTabletSide();
                 } else {
                     parentWidth = getParentWidth();
                 }
-                int i4 = 0;
                 int i5 = 0;
                 for (int i6 = 0; i6 < this.currentMessagesGroup.posArray.size(); i6++) {
                     if (this.currentMessagesGroup.posArray.get(i6).minY != 0) {
@@ -15079,7 +15082,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 return i5 - AndroidUtilities.dp(i4 + 31);
             } else if (i2 == 19) {
-                return (AndroidUtilities.displaySize.x - (messageObject.textWidth + AndroidUtilities.dp(14.0f))) - AndroidUtilities.dp(38.0f);
+                int dp3 = (AndroidUtilities.displaySize.x - (messageObject.textWidth + AndroidUtilities.dp(14.0f))) - AndroidUtilities.dp(52.0f);
+                if (this.isAvatarVisible) {
+                    i4 = AndroidUtilities.dp(48.0f);
+                }
+                return dp3 - i4;
             } else {
                 i = this.backgroundWidth;
                 dp2 = AndroidUtilities.dp(this.mediaBackground ? 22.0f : 31.0f);
@@ -17272,6 +17279,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (!this.wasLayout) {
             onLayout(false, getLeft(), getTop(), getRight(), getBottom());
         }
+        if (this.enterTransitionInProgress && this.currentMessageObject.isAnimatedEmojiStickers()) {
+            return;
+        }
         if (this.currentMessageObject.isOutOwner()) {
             Theme.chat_msgTextPaint.setColor(getThemedColor("chat_messageTextOut"));
             Theme.chat_msgGameTextPaint.setColor(getThemedColor("chat_messageTextOut"));
@@ -17969,8 +17979,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     public void drawOutboundsContent(Canvas canvas) {
-        drawAnimatedEmojis(canvas);
         float f = 1.0f;
+        if (!this.enterTransitionInProgress) {
+            drawAnimatedEmojis(canvas, 1.0f);
+        }
         if (!this.transitionParams.transitionBotButtons.isEmpty()) {
             TransitionParams transitionParams = this.transitionParams;
             if (transitionParams.animateBotButtonsChanged) {
@@ -17988,11 +18000,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         drawSideButton(canvas);
     }
 
-    public void drawAnimatedEmojis(Canvas canvas) {
-        drawAnimatedEmojiMessageText(canvas);
+    public void drawAnimatedEmojis(Canvas canvas, float f) {
+        drawAnimatedEmojiMessageText(canvas, f);
     }
 
-    private void drawAnimatedEmojiMessageText(Canvas canvas) {
+    private void drawAnimatedEmojiMessageText(Canvas canvas, float f) {
         TransitionParams transitionParams = this.transitionParams;
         if (transitionParams.animateChangeProgress != 1.0f && transitionParams.animateMessageText) {
             canvas.save();
@@ -18005,35 +18017,50 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     canvas.clipRect(bounds.left + AndroidUtilities.dp(4.0f), bounds.top + AndroidUtilities.dp(4.0f), bounds.right - AndroidUtilities.dp(4.0f), bounds.bottom - AndroidUtilities.dp(4.0f));
                 }
             }
-            drawAnimatedEmojiMessageText(canvas, this.transitionParams.animateOutTextBlocks, this.transitionParams.animateOutAnimateEmoji, false, 1.0f - this.transitionParams.animateChangeProgress);
-            drawAnimatedEmojiMessageText(canvas, this.currentMessageObject.textLayoutBlocks, this.animatedEmojiStack, true, this.transitionParams.animateChangeProgress);
+            drawAnimatedEmojiMessageText(canvas, this.transitionParams.animateOutTextBlocks, this.transitionParams.animateOutAnimateEmoji, false, f * (1.0f - this.transitionParams.animateChangeProgress));
+            drawAnimatedEmojiMessageText(canvas, this.currentMessageObject.textLayoutBlocks, this.animatedEmojiStack, true, f * this.transitionParams.animateChangeProgress);
             canvas.restore();
             return;
         }
-        drawAnimatedEmojiMessageText(canvas, this.currentMessageObject.textLayoutBlocks, this.animatedEmojiStack, true, 1.0f);
+        drawAnimatedEmojiMessageText(canvas, this.currentMessageObject.textLayoutBlocks, this.animatedEmojiStack, true, f);
     }
 
     private void drawAnimatedEmojiMessageText(Canvas canvas, ArrayList<MessageObject.TextLayoutBlock> arrayList, AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans, boolean z, float f) {
+        int size;
+        int i;
         if (arrayList == null || arrayList.isEmpty() || f == 0.0f) {
             return;
         }
-        int i = this.textY;
-        float f2 = i;
+        if (z) {
+            if (this.fullyDraw) {
+                this.firstVisibleBlockNum = 0;
+                this.lastVisibleBlockNum = arrayList.size();
+            }
+            i = this.firstVisibleBlockNum;
+            size = this.lastVisibleBlockNum;
+        } else {
+            size = arrayList.size();
+            i = 0;
+        }
+        int i2 = this.textY;
+        float f2 = i2;
         TransitionParams transitionParams = this.transitionParams;
         if (transitionParams.animateText) {
             float f3 = transitionParams.animateFromTextY;
             float f4 = transitionParams.animateChangeProgress;
-            f2 = (f3 * (1.0f - f4)) + (i * f4);
+            f2 = (f3 * (1.0f - f4)) + (i2 * f4);
         }
         float f5 = f2;
-        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            MessageObject.TextLayoutBlock textLayoutBlock = arrayList.get(i2);
-            canvas.save();
-            canvas.translate(this.textX - (textLayoutBlock.isRtl() ? (int) Math.ceil(this.currentMessageObject.textXOffset) : 0), textLayoutBlock.textYOffset + f5 + this.transitionYOffsetForDrawables);
-            getY();
-            getY();
-            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, textLayoutBlock.textLayout, emojiGroupedSpans, this.currentMessageObject.type == 19 ? 0.28f : 0.0f, textLayoutBlock.spoilers, 0.0f, 0.0f, 0.0f, f);
-            canvas.restore();
+        for (int i3 = i; i3 <= size && i3 < arrayList.size(); i3++) {
+            if (i3 >= 0) {
+                MessageObject.TextLayoutBlock textLayoutBlock = arrayList.get(i3);
+                canvas.save();
+                canvas.translate(this.textX - (textLayoutBlock.isRtl() ? (int) Math.ceil(this.currentMessageObject.textXOffset) : 0), textLayoutBlock.textYOffset + f5 + this.transitionYOffsetForDrawables);
+                float f6 = textLayoutBlock.textYOffset + f5 + this.transitionYOffsetForDrawables;
+                boolean z2 = this.transitionParams.messageEntering;
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, textLayoutBlock.textLayout, emojiGroupedSpans, 0.0f, textLayoutBlock.spoilers, 0.0f, 0.0f, f6, f);
+                canvas.restore();
+            }
         }
     }
 
@@ -23167,31 +23194,31 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             this.lastForwardNameWidth = ChatMessageCell.this.forwardedNameWidth;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:108:0x03e2  */
-        /* JADX WARN: Removed duplicated region for block: B:111:0x03f7  */
-        /* JADX WARN: Removed duplicated region for block: B:115:0x0449  */
-        /* JADX WARN: Removed duplicated region for block: B:118:0x0455  */
-        /* JADX WARN: Removed duplicated region for block: B:121:0x0461  */
-        /* JADX WARN: Removed duplicated region for block: B:124:0x0471  */
-        /* JADX WARN: Removed duplicated region for block: B:127:0x0480  */
-        /* JADX WARN: Removed duplicated region for block: B:132:0x04b8  */
-        /* JADX WARN: Removed duplicated region for block: B:135:0x04c5  */
-        /* JADX WARN: Removed duplicated region for block: B:146:0x04f8  */
-        /* JADX WARN: Removed duplicated region for block: B:154:0x03fd  */
-        /* JADX WARN: Removed duplicated region for block: B:164:0x0353  */
-        /* JADX WARN: Removed duplicated region for block: B:172:0x02c4  */
-        /* JADX WARN: Removed duplicated region for block: B:175:0x02ca  */
-        /* JADX WARN: Removed duplicated region for block: B:189:0x0309  */
-        /* JADX WARN: Removed duplicated region for block: B:197:0x026a  */
-        /* JADX WARN: Removed duplicated region for block: B:213:0x00e8  */
+        /* JADX WARN: Removed duplicated region for block: B:108:0x03e4  */
+        /* JADX WARN: Removed duplicated region for block: B:111:0x03f9  */
+        /* JADX WARN: Removed duplicated region for block: B:115:0x044b  */
+        /* JADX WARN: Removed duplicated region for block: B:118:0x0457  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x0463  */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x0473  */
+        /* JADX WARN: Removed duplicated region for block: B:127:0x0482  */
+        /* JADX WARN: Removed duplicated region for block: B:132:0x04ba  */
+        /* JADX WARN: Removed duplicated region for block: B:135:0x04c7  */
+        /* JADX WARN: Removed duplicated region for block: B:146:0x04fa  */
+        /* JADX WARN: Removed duplicated region for block: B:154:0x03ff  */
+        /* JADX WARN: Removed duplicated region for block: B:164:0x0355  */
+        /* JADX WARN: Removed duplicated region for block: B:172:0x02c6  */
+        /* JADX WARN: Removed duplicated region for block: B:175:0x02cc  */
+        /* JADX WARN: Removed duplicated region for block: B:189:0x030b  */
+        /* JADX WARN: Removed duplicated region for block: B:197:0x026c  */
+        /* JADX WARN: Removed duplicated region for block: B:213:0x00ea  */
         /* JADX WARN: Removed duplicated region for block: B:42:0x00c8  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x01e4  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x02a6  */
-        /* JADX WARN: Removed duplicated region for block: B:81:0x0319  */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x034e  */
-        /* JADX WARN: Removed duplicated region for block: B:88:0x0358  */
-        /* JADX WARN: Removed duplicated region for block: B:92:0x0374  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x0390  */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x01e6  */
+        /* JADX WARN: Removed duplicated region for block: B:77:0x02a8  */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x031b  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x0350  */
+        /* JADX WARN: Removed duplicated region for block: B:88:0x035a  */
+        /* JADX WARN: Removed duplicated region for block: B:92:0x0376  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x0392  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -23229,7 +23256,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         this.animateMessageText = true;
                         ArrayList<MessageObject.TextLayoutBlock> arrayList = this.lastDrawingTextBlocks;
                         this.animateOutTextBlocks = arrayList;
-                        this.animateOutAnimateEmoji = AnimatedEmojiSpan.update(0, ChatMessageCell.this, (AnimatedEmojiSpan.EmojiGroupedSpans) null, arrayList);
+                        this.animateOutAnimateEmoji = AnimatedEmojiSpan.update(0, (View) ChatMessageCell.this, this.animateOutAnimateEmoji, arrayList, true);
                         ChatMessageCell chatMessageCell4 = ChatMessageCell.this;
                         chatMessageCell4.animatedEmojiStack = AnimatedEmojiSpan.update(0, chatMessageCell4, chatMessageCell4.animatedEmojiStack, chatMessageCell4.currentMessageObject.textLayoutBlocks);
                         z = true;

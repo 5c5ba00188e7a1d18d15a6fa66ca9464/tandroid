@@ -690,7 +690,7 @@ public class QrActivity extends BaseFragment {
                 QrActivity.this.lambda$onItemSelected$9();
             }
         };
-        this.parentLayout.animateThemedValues(themeAnimationSettings);
+        this.parentLayout.animateThemedValues(themeAnimationSettings, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

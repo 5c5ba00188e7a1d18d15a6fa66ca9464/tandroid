@@ -123,6 +123,7 @@ public class SharedConfig {
     public static boolean streamAllVideo = false;
     public static boolean streamMedia = false;
     public static boolean streamMkv = false;
+    public static boolean suggestAnimatedEmoji = false;
     public static int suggestStickers = 0;
     public static int textSelectionHintShows = 0;
     public static boolean useFingerprint = true;
@@ -269,8 +270,8 @@ public class SharedConfig {
 
     /* JADX WARN: Removed duplicated region for block: B:41:0x022a  */
     /* JADX WARN: Removed duplicated region for block: B:55:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x016a A[Catch: Exception -> 0x0188, all -> 0x03bd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x016e A[Catch: Exception -> 0x0188, all -> 0x03bd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x016a A[Catch: Exception -> 0x0188, all -> 0x03c5, TryCatch #3 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x016e A[Catch: Exception -> 0x0188, all -> 0x03c5, TryCatch #3 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #2 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -375,6 +376,7 @@ public class SharedConfig {
                                 streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                                 streamMkv = sharedPreferences.getBoolean("streamMkv", false);
                                 suggestStickers = sharedPreferences.getInt("suggestStickers", 0);
+                                suggestAnimatedEmoji = sharedPreferences.getBoolean("suggestAnimatedEmoji", true);
                                 sortContactsByName = sharedPreferences.getBoolean("sortContactsByName", false);
                                 sortFilesByName = sharedPreferences.getBoolean("sortFilesByName", false);
                                 noSoundHintShowed = sharedPreferences.getBoolean("noSoundHintShowed", false);
@@ -463,6 +465,7 @@ public class SharedConfig {
                 streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                 streamMkv = sharedPreferences.getBoolean("streamMkv", false);
                 suggestStickers = sharedPreferences.getInt("suggestStickers", 0);
+                suggestAnimatedEmoji = sharedPreferences.getBoolean("suggestAnimatedEmoji", true);
                 sortContactsByName = sharedPreferences.getBoolean("sortContactsByName", false);
                 sortFilesByName = sharedPreferences.getBoolean("sortFilesByName", false);
                 noSoundHintShowed = sharedPreferences.getBoolean("noSoundHintShowed", false);
@@ -891,6 +894,13 @@ public class SharedConfig {
         allowBigEmoji = !allowBigEmoji;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("allowBigEmoji", allowBigEmoji);
+        edit.commit();
+    }
+
+    public static void toggleSuggestAnimatedEmoji() {
+        suggestAnimatedEmoji = !suggestAnimatedEmoji;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("suggestAnimatedEmoji", suggestAnimatedEmoji);
         edit.commit();
     }
 

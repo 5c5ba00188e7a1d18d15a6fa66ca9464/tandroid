@@ -4827,7 +4827,7 @@ public class Theme {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void sortAccents(ThemeInfo themeInfo) {
-        Collections.sort(themeInfo.themeAccents, Theme$$ExternalSyntheticLambda7.INSTANCE);
+        Collections.sort(themeInfo.themeAccents, Theme$$ExternalSyntheticLambda9.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5620,7 +5620,7 @@ public class Theme {
     }
 
     private static void sortThemes() {
-        Collections.sort(themes, Theme$$ExternalSyntheticLambda8.INSTANCE);
+        Collections.sort(themes, Theme$$ExternalSyntheticLambda10.INSTANCE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5792,6 +5792,10 @@ public class Theme {
         applyTheme(themeInfo, true, z);
     }
 
+    public static void applyThemeInBackground(ThemeInfo themeInfo, boolean z, Runnable runnable) {
+        applyThemeInBackground(themeInfo, true, true, z, runnable);
+    }
+
     public static void applyTheme(ThemeInfo themeInfo, boolean z, boolean z2) {
         applyTheme(themeInfo, z, true, z2);
     }
@@ -5927,6 +5931,186 @@ public class Theme {
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0064, code lost:
+        if (r10 == false) goto L42;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0066, code lost:
+        r0 = org.telegram.messenger.MessagesController.getGlobalMainSettings().edit();
+        r0.putString("theme", r9.getKey());
+        r0.apply();
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private static void applyThemeInBackground(final ThemeInfo themeInfo, final boolean z, boolean z2, final boolean z3, final Runnable runnable) {
+        if (themeInfo == null) {
+            if (runnable == null) {
+                return;
+            }
+            runnable.run();
+            return;
+        }
+        ThemeEditorView themeEditorView = ThemeEditorView.getInstance();
+        if (themeEditorView != null) {
+            themeEditorView.destroy();
+        }
+        try {
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        if (themeInfo.pathToFile == null && themeInfo.assetName == null) {
+            if (!z3 && z) {
+                SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+                edit.remove("theme");
+                edit.apply();
+            }
+            currentColorsNoAccent.clear();
+            themedWallpaperFileOffset = 0;
+            themedWallpaperLink = null;
+            wallpaper = null;
+            themedWallpaper = null;
+            if (!z3 && previousTheme == null) {
+                currentDayTheme = themeInfo;
+                if (isCurrentThemeNight()) {
+                    switchNightThemeDelay = 2000;
+                    lastDelayUpdateTime = SystemClock.elapsedRealtime();
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda219.INSTANCE, 2100L);
+                }
+            }
+            currentTheme = themeInfo;
+            refreshThemeColors();
+            if (previousTheme == null && z && !switchingNightTheme) {
+                MessagesController.getInstance(themeInfo.account).saveTheme(themeInfo, themeInfo.getAccent(false), z3, false);
+            }
+            if (runnable == null) {
+                return;
+            }
+            runnable.run();
+            return;
+        }
+        final String[] strArr = new String[1];
+        final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                Theme.lambda$applyThemeInBackground$2(strArr, themeInfo, z3, z, runnable);
+            }
+        };
+        String str = themeInfo.assetName;
+        if (str != null) {
+            getThemeFileValuesInBackground(null, str, null, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda11
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    Theme.lambda$applyThemeInBackground$3(runnable2, (HashMap) obj);
+                }
+            });
+        } else {
+            getThemeFileValuesInBackground(new File(themeInfo.pathToFile), null, strArr, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda12
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    Theme.lambda$applyThemeInBackground$4(runnable2, (HashMap) obj);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$applyThemeInBackground$2(String[] strArr, ThemeInfo themeInfo, boolean z, boolean z2, Runnable runnable) {
+        String[] split;
+        try {
+            Integer num = currentColorsNoAccent.get("wallpaperFileOffset");
+            themedWallpaperFileOffset = num != null ? num.intValue() : -1;
+            if (!TextUtils.isEmpty(strArr[0])) {
+                themedWallpaperLink = strArr[0];
+                File filesDirFixed = ApplicationLoader.getFilesDirFixed();
+                String absolutePath = new File(filesDirFixed, Utilities.MD5(themedWallpaperLink) + ".wp").getAbsolutePath();
+                try {
+                    String str = themeInfo.pathToWallpaper;
+                    if (str != null && !str.equals(absolutePath)) {
+                        new File(themeInfo.pathToWallpaper).delete();
+                    }
+                } catch (Exception unused) {
+                }
+                themeInfo.pathToWallpaper = absolutePath;
+                Uri parse = Uri.parse(themedWallpaperLink);
+                themeInfo.slug = parse.getQueryParameter("slug");
+                String queryParameter = parse.getQueryParameter("mode");
+                if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
+                    for (int i = 0; i < split.length; i++) {
+                        if ("blur".equals(split[i])) {
+                            themeInfo.isBlured = true;
+                        } else if ("motion".equals(split[i])) {
+                            themeInfo.isMotion = true;
+                        }
+                    }
+                }
+                Utilities.parseInt((CharSequence) parse.getQueryParameter("intensity")).intValue();
+                themeInfo.patternBgGradientRotation = 45;
+                try {
+                    String queryParameter2 = parse.getQueryParameter("bg_color");
+                    if (!TextUtils.isEmpty(queryParameter2)) {
+                        themeInfo.patternBgColor = Integer.parseInt(queryParameter2.substring(0, 6), 16) | (-16777216);
+                        if (queryParameter2.length() >= 13 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(6))) {
+                            themeInfo.patternBgGradientColor1 = Integer.parseInt(queryParameter2.substring(7, 13), 16) | (-16777216);
+                        }
+                        if (queryParameter2.length() >= 20 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(13))) {
+                            themeInfo.patternBgGradientColor2 = Integer.parseInt(queryParameter2.substring(14, 20), 16) | (-16777216);
+                        }
+                        if (queryParameter2.length() == 27 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(20))) {
+                            themeInfo.patternBgGradientColor3 = Integer.parseInt(queryParameter2.substring(21), 16) | (-16777216);
+                        }
+                    }
+                } catch (Exception unused2) {
+                }
+                try {
+                    String queryParameter3 = parse.getQueryParameter("rotation");
+                    if (!TextUtils.isEmpty(queryParameter3)) {
+                        themeInfo.patternBgGradientRotation = Utilities.parseInt((CharSequence) queryParameter3).intValue();
+                    }
+                } catch (Exception unused3) {
+                }
+            } else {
+                try {
+                    if (themeInfo.pathToWallpaper != null) {
+                        new File(themeInfo.pathToWallpaper).delete();
+                    }
+                } catch (Exception unused4) {
+                }
+                themeInfo.pathToWallpaper = null;
+                themedWallpaperLink = null;
+            }
+            if (!z && previousTheme == null) {
+                currentDayTheme = themeInfo;
+                if (isCurrentThemeNight()) {
+                    switchNightThemeDelay = 2000;
+                    lastDelayUpdateTime = SystemClock.elapsedRealtime();
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda219.INSTANCE, 2100L);
+                }
+            }
+            currentTheme = themeInfo;
+            refreshThemeColors();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        if (previousTheme == null && z2 && !switchingNightTheme) {
+            MessagesController.getInstance(themeInfo.account).saveTheme(themeInfo, themeInfo.getAccent(false), z, false);
+        }
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$applyThemeInBackground$3(Runnable runnable, HashMap hashMap) {
+        currentColorsNoAccent = hashMap;
+        runnable.run();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$applyThemeInBackground$4(Runnable runnable, HashMap hashMap) {
+        currentColorsNoAccent = hashMap;
+        runnable.run();
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public static boolean useBlackText(int i, int i2) {
         float red = Color.red(i) / 255.0f;
@@ -5955,16 +6139,16 @@ public class Theme {
         applyProfileTheme();
         applyChatTheme(false, z);
         final boolean z3 = !hasPreviousTheme;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.lambda$refreshThemeColors$2(z3);
+                Theme.lambda$refreshThemeColors$5(z3);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$refreshThemeColors$2(boolean z) {
+    public static /* synthetic */ void lambda$refreshThemeColors$5(boolean z) {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, Boolean.FALSE, Boolean.valueOf(z));
     }
 
@@ -6680,10 +6864,10 @@ public class Theme {
                         tLRPC$TL_inputTheme.access_hash = tLRPC$TL_theme.access_hash;
                         tLRPC$TL_inputTheme.id = tLRPC$TL_theme.id;
                         tLRPC$TL_account_getTheme.theme = tLRPC$TL_inputTheme;
-                        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getTheme, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda10
+                        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getTheme, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                Theme.lambda$checkCurrentRemoteTheme$4(Theme.ThemeAccent.this, themeInfo, tLRPC$TL_theme, tLObject, tLRPC$TL_error);
+                                Theme.lambda$checkCurrentRemoteTheme$7(Theme.ThemeAccent.this, themeInfo, tLRPC$TL_theme, tLObject, tLRPC$TL_error);
                             }
                         });
                     }
@@ -6694,11 +6878,11 @@ public class Theme {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkCurrentRemoteTheme$4(final ThemeAccent themeAccent, final ThemeInfo themeInfo, final TLRPC$TL_theme tLRPC$TL_theme, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda4
+    public static /* synthetic */ void lambda$checkCurrentRemoteTheme$7(final ThemeAccent themeAccent, final ThemeInfo themeInfo, final TLRPC$TL_theme tLRPC$TL_theme, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.lambda$checkCurrentRemoteTheme$3(TLObject.this, themeAccent, themeInfo, tLRPC$TL_theme);
+                Theme.lambda$checkCurrentRemoteTheme$6(TLObject.this, themeAccent, themeInfo, tLRPC$TL_theme);
             }
         });
     }
@@ -6709,7 +6893,7 @@ public class Theme {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$checkCurrentRemoteTheme$3(TLObject tLObject, ThemeAccent themeAccent, ThemeInfo themeInfo, TLRPC$TL_theme tLRPC$TL_theme) {
+    public static /* synthetic */ void lambda$checkCurrentRemoteTheme$6(TLObject tLObject, ThemeAccent themeAccent, ThemeInfo themeInfo, TLRPC$TL_theme tLRPC$TL_theme) {
         boolean z;
         TLRPC$WallPaperSettings tLRPC$WallPaperSettings;
         boolean z2 = true;
@@ -6786,21 +6970,21 @@ public class Theme {
             if (BuildVars.LOGS_ENABLED) {
                 Log.i("theme", "loading remote themes, hash " + tLRPC$TL_account_getThemes.hash);
             }
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getThemes, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getThemes, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    Theme.lambda$loadRemoteThemes$6(i, tLObject, tLRPC$TL_error);
+                    Theme.lambda$loadRemoteThemes$9(i, tLObject, tLRPC$TL_error);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadRemoteThemes$6(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$loadRemoteThemes$9(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.lambda$loadRemoteThemes$5(i, tLObject);
+                Theme.lambda$loadRemoteThemes$8(i, tLObject);
             }
         });
     }
@@ -6811,7 +6995,7 @@ public class Theme {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$loadRemoteThemes$5(int i, TLObject tLObject) {
+    public static /* synthetic */ void lambda$loadRemoteThemes$8(int i, TLObject tLObject) {
         boolean z;
         String baseThemeKey;
         ThemeInfo themeInfo;
@@ -8147,6 +8331,20 @@ public class Theme {
         }
     }
 
+    public static void getThemeFileValuesInBackground(final File file, final String str, final String[] strArr, final Utilities.Callback<HashMap<String, Integer>> callback) {
+        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                Theme.lambda$getThemeFileValuesInBackground$10(Utilities.Callback.this, file, str, strArr);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$getThemeFileValuesInBackground$10(Utilities.Callback callback, File file, String str, String[] strArr) {
+        callback.run(getThemeFileValues(file, str, strArr));
+    }
+
     public static HashMap<String, Integer> getThemeFileValues(File file, String str, String[] strArr) {
         int intValue;
         HashMap<String, Integer> hashMap = new HashMap<>(500);
@@ -8570,9 +8768,9 @@ public class Theme {
                     chat_msgTextPaintEmoji[i].setTextSize(AndroidUtilities.dp(fArr[i] * 120.0f));
                     i++;
                 } else {
-                    chat_msgTextPaintOneEmoji.setTextSize(AndroidUtilities.dp(48.0f));
-                    chat_msgTextPaintTwoEmoji.setTextSize(AndroidUtilities.dp(44.0f));
-                    chat_msgTextPaintThreeEmoji.setTextSize(AndroidUtilities.dp(40.0f));
+                    chat_msgTextPaintOneEmoji.setTextSize(AndroidUtilities.dp(46.0f));
+                    chat_msgTextPaintTwoEmoji.setTextSize(AndroidUtilities.dp(38.0f));
+                    chat_msgTextPaintThreeEmoji.setTextSize(AndroidUtilities.dp(30.0f));
                     chat_msgTextPaint.setTextSize(AndroidUtilities.dp(SharedConfig.fontSize));
                     chat_msgGameTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
                     chat_msgBotButtonPaint.setTextSize(AndroidUtilities.dp(15.0f));
@@ -9840,10 +10038,10 @@ public class Theme {
             f = themeInfo2.patternIntensity;
             final int i = (int) f;
             DispatchQueue dispatchQueue = Utilities.themeQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda5
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    Theme.lambda$loadWallpaper$8(Theme.OverrideWallpaperInfo.this, file, i, z2, z, tLRPC$Document);
+                    Theme.lambda$loadWallpaper$12(Theme.OverrideWallpaperInfo.this, file, i, z2, z, tLRPC$Document);
                 }
             };
             wallpaperLoadTask = runnable;
@@ -9852,10 +10050,10 @@ public class Theme {
         f = f2 * 100.0f;
         final int i2 = (int) f;
         DispatchQueue dispatchQueue2 = Utilities.themeQueue;
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda5
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.lambda$loadWallpaper$8(Theme.OverrideWallpaperInfo.this, file, i2, z2, z, tLRPC$Document);
+                Theme.lambda$loadWallpaper$12(Theme.OverrideWallpaperInfo.this, file, i2, z2, z, tLRPC$Document);
             }
         };
         wallpaperLoadTask = runnable2;
@@ -9863,7 +10061,7 @@ public class Theme {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadWallpaper$8(OverrideWallpaperInfo overrideWallpaperInfo, File file, int i, boolean z, boolean z2, TLRPC$Document tLRPC$Document) {
+    public static /* synthetic */ void lambda$loadWallpaper$12(OverrideWallpaperInfo overrideWallpaperInfo, File file, int i, boolean z, boolean z2, TLRPC$Document tLRPC$Document) {
         BackgroundDrawableSettings createBackgroundDrawable = createBackgroundDrawable(currentTheme, overrideWallpaperInfo, currentColors, file, themedWallpaperLink, themedWallpaperFileOffset, i, previousPhase, z, hasPreviousTheme, isApplyingAccent, z2, tLRPC$Document);
         Boolean bool = createBackgroundDrawable.isWallpaperMotion;
         isWallpaperMotion = bool != null ? bool.booleanValue() : isWallpaperMotion;
@@ -9877,13 +10075,13 @@ public class Theme {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.lambda$loadWallpaper$7(drawable);
+                Theme.lambda$loadWallpaper$11(drawable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$loadWallpaper$7(Drawable drawable) {
+    public static /* synthetic */ void lambda$loadWallpaper$11(Drawable drawable) {
         wallpaperLoadTask = null;
         createCommonChatResources();
         applyChatServiceMessageColor(null, null, drawable);
@@ -10433,14 +10631,14 @@ public class Theme {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                Theme.lambda$unrefAudioVisualizeDrawable$9(MessageObject.this);
+                Theme.lambda$unrefAudioVisualizeDrawable$13(MessageObject.this);
             }
         }, 200L);
         chat_msgAudioVisualizeDrawable = null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$unrefAudioVisualizeDrawable$9(MessageObject messageObject) {
+    public static /* synthetic */ void lambda$unrefAudioVisualizeDrawable$13(MessageObject messageObject) {
         AudioVisualizerDrawable remove = animatedOutVisualizerDrawables.remove(messageObject);
         if (remove != null) {
             remove.setParentView(null);

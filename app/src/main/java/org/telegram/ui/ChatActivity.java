@@ -64,6 +64,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
@@ -10748,7 +10749,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
         public void onContextMenuClose() {
             if (ChatActivity.this.suggestEmojiPanel != null) {
-                ChatActivity.this.suggestEmojiPanel.update();
+                ChatActivity.this.suggestEmojiPanel.fireUpdate();
             }
         }
 
@@ -11097,9 +11098,31 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AndroidUtilities.requestAdjustResize(ChatActivity.this.getParentActivity(), ((BaseFragment) ChatActivity.this).classGuid);
             }
             MentionsContainerView mentionsContainerView = ChatActivity.this.mentionContainer;
+            float f = 0.0f;
             if (mentionsContainerView != null) {
                 mentionsContainerView.animate().alpha(ChatActivity.this.chatActivityEnterView.isStickersExpanded() ? 0.0f : 1.0f).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
             }
+            if (ChatActivity.this.suggestEmojiPanel != null) {
+                ChatActivity.this.suggestEmojiPanel.setVisibility(0);
+                ViewPropertyAnimator animate = ChatActivity.this.suggestEmojiPanel.animate();
+                if (!ChatActivity.this.chatActivityEnterView.isStickersExpanded()) {
+                    f = 1.0f;
+                }
+                animate.alpha(f).setInterpolator(CubicBezierInterpolator.DEFAULT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChatActivity$36$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActivity.36.this.lambda$onStickersExpandedChange$3();
+                    }
+                }).start();
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onStickersExpandedChange$3() {
+            if (ChatActivity.this.suggestEmojiPanel == null || !ChatActivity.this.chatActivityEnterView.isStickersExpanded()) {
+                return;
+            }
+            ChatActivity.this.suggestEmojiPanel.setVisibility(8);
         }
 
         @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
@@ -12909,7 +12932,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         hashMap.put("query_id", "" + tLRPC$BotInlineResult.query_id);
         hashMap.put("bot", "" + contextBotId);
         hashMap.put("bot_name", this.mentionContainer.getAdapter().getContextBotName());
-        SendMessagesHelper.prepareSendingBotContextResult(getAccountInstance(), tLRPC$BotInlineResult, hashMap, this.dialog_id, this.replyingMessageObject, getThreadMessage(), z, i);
+        SendMessagesHelper.prepareSendingBotContextResult(this, getAccountInstance(), tLRPC$BotInlineResult, hashMap, this.dialog_id, this.replyingMessageObject, getThreadMessage(), z, i);
         this.chatActivityEnterView.setFieldText("");
         hideFieldPanel(false);
         getMediaDataController().increaseInlineRaiting(contextBotId);
@@ -14362,7 +14385,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         while (i3 < arrayList.size()) {
             SendMessagesHelper.SendingMediaInfo sendingMediaInfo2 = arrayList.get(i3);
             if (sendingMediaInfo2.inlineResult != null && sendingMediaInfo2.videoEditedInfo == null) {
-                SendMessagesHelper.prepareSendingBotContextResult(getAccountInstance(), sendingMediaInfo2.inlineResult, sendingMediaInfo2.params, this.dialog_id, this.replyingMessageObject, getThreadMessage(), z, i);
+                SendMessagesHelper.prepareSendingBotContextResult(this, getAccountInstance(), sendingMediaInfo2.inlineResult, sendingMediaInfo2.params, this.dialog_id, this.replyingMessageObject, getThreadMessage(), z, i);
                 arrayList.remove(i3);
                 i3--;
             }
@@ -14732,9 +14755,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         showFieldPanel(z, null, messageObject, null, null, true, 0, false, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0349  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x07a6  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x082d  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x034d  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x07b4  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x083b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -14858,7 +14881,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (tLRPC$Message != null) {
                                 spannableStringBuilder = MessageObject.replaceAnimatedEmoji(spannableStringBuilder, tLRPC$Message.entities, this.replyObjectTextView.getPaint().getFontMetricsInt());
                             }
-                            this.replyObjectTextView.setText(spannableStringBuilder);
+                            this.replyObjectTextView.setText(AnimatedEmojiSpan.cloneSpans(spannableStringBuilder));
                         }
                     }
                 }
@@ -14930,7 +14953,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if ((restrictionReason instanceof Spannable) && charSequence != null) {
                                 MediaDataController.addTextStyleRuns(messageObject4.messageOwner.entities, charSequence, (Spannable) restrictionReason);
                             }
-                            this.replyObjectTextView.setText(restrictionReason);
+                            this.replyObjectTextView.setText(AnimatedEmojiSpan.cloneSpans(restrictionReason));
                         }
                     }
                     charSequence = restrictionReason;
@@ -15034,7 +15057,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         i7++;
                         j3 = 0;
                     }
-                    if (i5 == -1 || i5 == 0 || i5 == 10 || i5 == 11) {
+                    if (i5 == -1 || i5 == 0 || i5 == 10 || i5 == 11 || i5 == 19) {
                         this.replyNameTextView.setText(LocaleController.formatPluralString("PreviewForwardMessagesCount", arrayList2.size(), new Object[0]));
                     } else if (i5 == 1) {
                         this.replyNameTextView.setText(LocaleController.formatPluralString("PreviewForwardPhoto", arrayList2.size(), new Object[0]));
@@ -15072,7 +15095,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     if (this.forwardingMessages.hideForwardSendersName) {
                         this.replyObjectTextView.setText(LocaleController.getString("HiddenSendersNameDescription", R.string.HiddenSendersNameDescription));
-                    } else if ((i5 == -1 || i5 == 0 || i5 == 10 || i5 == 11) && arrayList2.size() == 1 && arrayList2.get(0).messageText != null) {
+                    } else if ((i5 == -1 || i5 == 0 || i5 == 10 || i5 == 11 || i5 == 19) && arrayList2.size() == 1 && arrayList2.get(0).messageText != null) {
                         MessageObject messageObject7 = arrayList2.get(0);
                         CharSequence spannableStringBuilder2 = new SpannableStringBuilder(messageObject7.messageText.toString());
                         if (spannableStringBuilder2.length() > 150) {
@@ -15603,19 +15626,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         return arrayList.get(i4);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:250:0x0543  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x054f  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x00d3  */
-    /* JADX WARN: Removed duplicated region for block: B:316:0x06ce  */
-    /* JADX WARN: Removed duplicated region for block: B:338:0x0730  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00ce  */
-    /* JADX WARN: Removed duplicated region for block: B:354:0x076c  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:388:0x088d  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x0959  */
-    /* JADX WARN: Removed duplicated region for block: B:495:0x08ae  */
-    /* JADX WARN: Removed duplicated region for block: B:550:0x087f  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x055e  */
+    /* JADX WARN: Removed duplicated region for block: B:264:0x056a  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:325:0x06e7  */
+    /* JADX WARN: Removed duplicated region for block: B:347:0x0749  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x0785  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:397:0x08a5  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x096d  */
+    /* JADX WARN: Removed duplicated region for block: B:504:0x08c4  */
+    /* JADX WARN: Removed duplicated region for block: B:559:0x0897  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15660,8 +15683,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MessageObject messageObject5;
         View view4;
         ChatMessageCell chatMessageCell3;
-        TLRPC$Message tLRPC$Message;
-        TLRPC$MessageMedia tLRPC$MessageMedia;
         ChatListItemAnimator chatListItemAnimator;
         MessageObject messageObject6;
         boolean z6;
@@ -15864,8 +15885,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 updateReactionsMentionButton(true);
                             }
                             getDownloadController().checkUnviewedDownloads(chatMessageCell3.getId(), this.dialog_id);
+                            TLRPC$MessageMedia tLRPC$MessageMedia = messageObject8.messageOwner.media;
+                            boolean z11 = (tLRPC$MessageMedia != null && !tLRPC$MessageMedia.nopremium) || (messageObject8.isAnimatedEmojiStickerSingle() && this.dialog_id > 0);
                             ChatListItemAnimator chatListItemAnimator2 = this.chatListItemAnimator;
-                            if ((chatListItemAnimator2 == null || !chatListItemAnimator2.isRunning()) && ((!messageObject8.isOutOwner() || messageObject8.forcePlayEffect) && (tLRPC$MessageMedia = (tLRPC$Message = messageObject8.messageOwner).media) != null && !tLRPC$MessageMedia.nopremium && !tLRPC$Message.premiumEffectWasPlayed && messageObject8.isPremiumSticker() && this.emojiAnimationsOverlay.isIdle() && this.emojiAnimationsOverlay.checkPosition(chatMessageCell3, this.chatListViewPaddingTop, this.chatListView.getMeasuredHeight() - this.blurredViewBottomOffset))) {
+                            if ((chatListItemAnimator2 == null || !chatListItemAnimator2.isRunning()) && ((!messageObject8.isOutOwner() || messageObject8.forcePlayEffect) && z11 && !messageObject8.messageOwner.premiumEffectWasPlayed && ((messageObject8.isPremiumSticker() || messageObject8.isAnimatedEmojiStickerSingle()) && this.emojiAnimationsOverlay.isIdle() && this.emojiAnimationsOverlay.checkPosition(chatMessageCell3, this.chatListViewPaddingTop, this.chatListView.getMeasuredHeight() - this.blurredViewBottomOffset)))) {
                                 this.emojiAnimationsOverlay.onTapItem(chatMessageCell3, this, false);
                             }
                             messageObject4 = messageObject8;
@@ -16009,7 +16032,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         long j4 = currentTimeMillis;
         float f5 = f4;
-        boolean z11 = z7;
+        boolean z12 = z7;
         int i32 = i20;
         int i33 = i21;
         int i34 = i22;
@@ -16194,7 +16217,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     this.floatingDateViewOffset = 0.0f;
                 }
                 if (!isThreadChat()) {
-                    if (z11 != this.threadMessageVisible) {
+                    if (z12 != this.threadMessageVisible) {
                         updatePinnedMessageView(this.openAnimationStartTime != 0 && SystemClock.elapsedRealtime() >= this.openAnimationStartTime + 150);
                     }
                 } else {
@@ -16216,12 +16239,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     } else if (i2 != 0 && !this.pinnedMessageIds.isEmpty()) {
                         this.currentPinnedMessageId = i2;
                     }
-                    boolean z12 = (this.fromPullingDownTransition && this.fragmentView.getVisibility() == 0) || (this.openAnimationStartTime != 0 && SystemClock.elapsedRealtime() >= this.openAnimationStartTime + 150);
+                    boolean z13 = (this.fromPullingDownTransition && this.fragmentView.getVisibility() == 0) || (this.openAnimationStartTime != 0 && SystemClock.elapsedRealtime() >= this.openAnimationStartTime + 150);
                     int i42 = this.currentPinnedMessageId;
                     if (i2 != i42) {
-                        updatePinnedMessageView(z12, i2 == 0 ? 0 : i2 > i42 ? 1 : 2);
+                        updatePinnedMessageView(z13, i2 == 0 ? 0 : i2 > i42 ? 1 : 2);
                     } else {
-                        updatePinnedListButton(z12);
+                        updatePinnedListButton(z13);
                     }
                 }
                 chatActionCell = this.floatingDateView;
@@ -16953,7 +16976,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (this.suggestEmojiPanel == null || (chatActivityEnterView = this.chatActivityEnterView) == null || !chatActivityEnterView.hasText()) {
                 return;
             }
-            this.suggestEmojiPanel.update();
+            this.suggestEmojiPanel.fireUpdate();
             return;
         }
         if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChatRequested) {
@@ -18879,16 +18902,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x065f  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x0713  */
-    /* JADX WARN: Removed duplicated region for block: B:461:0x076c  */
-    /* JADX WARN: Removed duplicated region for block: B:546:0x09a5  */
-    /* JADX WARN: Removed duplicated region for block: B:553:0x09c2  */
-    /* JADX WARN: Removed duplicated region for block: B:556:0x09cc  */
-    /* JADX WARN: Removed duplicated region for block: B:567:0x09ef  */
-    /* JADX WARN: Removed duplicated region for block: B:573:0x0a08  */
-    /* JADX WARN: Removed duplicated region for block: B:588:0x0753 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:639:0x0709  */
+    /* JADX WARN: Removed duplicated region for block: B:444:0x0665  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x0719  */
+    /* JADX WARN: Removed duplicated region for block: B:463:0x0772  */
+    /* JADX WARN: Removed duplicated region for block: B:548:0x09ab  */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x09c8  */
+    /* JADX WARN: Removed duplicated region for block: B:558:0x09d2  */
+    /* JADX WARN: Removed duplicated region for block: B:569:0x09f5  */
+    /* JADX WARN: Removed duplicated region for block: B:575:0x0a0e  */
+    /* JADX WARN: Removed duplicated region for block: B:590:0x0759 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:641:0x070f  */
     /* JADX WARN: Type inference failed for: r4v32 */
     /* JADX WARN: Type inference failed for: r4v34 */
     /* JADX WARN: Type inference failed for: r6v13 */
@@ -19018,7 +19041,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         getMessagesController().loadFullChat(this.currentChat.id, 0, true);
                     }
                 }
-                if (messageObject6.wasJustSent && getUserConfig().isPremium()) {
+                if (messageObject6.wasJustSent && (getUserConfig().isPremium() || messageObject6.isAnimatedAnimatedEmoji())) {
                     messageObject6.forcePlayEffect = true;
                 }
             }
@@ -23970,8 +23993,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:880:0x0aed, code lost:
-        if (r0.edit_messages != false) goto L866;
+    /* JADX WARN: Code restructure failed: missing block: B:884:0x0afd, code lost:
+        if (r0.edit_messages != false) goto L870;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:141:0x02f0  */
@@ -23979,23 +24002,23 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:156:0x0316  */
     /* JADX WARN: Removed duplicated region for block: B:244:0x0504 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:245:0x0505  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x143e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x1447  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x1450  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x163c  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x167a  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x1686  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x16a8  */
-    /* JADX WARN: Removed duplicated region for block: B:543:0x1ee9  */
-    /* JADX WARN: Removed duplicated region for block: B:546:0x1ef5  */
-    /* JADX WARN: Removed duplicated region for block: B:549:0x1f0d  */
-    /* JADX WARN: Removed duplicated region for block: B:573:0x1fee  */
-    /* JADX WARN: Removed duplicated region for block: B:628:0x1efa  */
-    /* JADX WARN: Removed duplicated region for block: B:629:0x1eee  */
-    /* JADX WARN: Removed duplicated region for block: B:640:0x182b  */
-    /* JADX WARN: Removed duplicated region for block: B:641:0x168d  */
-    /* JADX WARN: Removed duplicated region for block: B:642:0x167c  */
-    /* JADX WARN: Removed duplicated region for block: B:643:0x163f  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x1456 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x145f  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x1468  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x1654  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x1692  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x169e  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x16c0  */
+    /* JADX WARN: Removed duplicated region for block: B:543:0x1f01  */
+    /* JADX WARN: Removed duplicated region for block: B:546:0x1f0d  */
+    /* JADX WARN: Removed duplicated region for block: B:549:0x1f25  */
+    /* JADX WARN: Removed duplicated region for block: B:573:0x2006  */
+    /* JADX WARN: Removed duplicated region for block: B:628:0x1f12  */
+    /* JADX WARN: Removed duplicated region for block: B:629:0x1f06  */
+    /* JADX WARN: Removed duplicated region for block: B:640:0x1843  */
+    /* JADX WARN: Removed duplicated region for block: B:641:0x16a5  */
+    /* JADX WARN: Removed duplicated region for block: B:642:0x1694  */
+    /* JADX WARN: Removed duplicated region for block: B:643:0x1657  */
     /* JADX WARN: Type inference failed for: r11v15 */
     /* JADX WARN: Type inference failed for: r11v16, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v37 */
@@ -25183,7 +25206,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     if (messageType == -1) {
                         MessageObject messageObject14 = this.selectedObject;
-                        if ((messageObject14.type == 0 || messageObject14.isAnimatedEmoji() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z20) {
+                        if ((messageObject14.type == 0 || messageObject14.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z20) {
                             arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                             arrayList13.add(3);
                             arrayList11.add(Integer.valueOf((int) R.drawable.msg_copy));
@@ -25298,7 +25321,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList11.add(Integer.valueOf((int) R.drawable.msg_reply));
                                 }
                                 MessageObject messageObject17 = this.selectedObject;
-                                if ((messageObject17.type == 0 || messageObject17.isDice() || this.selectedObject.isAnimatedEmoji() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z20) {
+                                if ((messageObject17.type == 0 || messageObject17.isDice() || this.selectedObject.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z20) {
                                     arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                                     arrayList13.add(3);
                                     arrayList11.add(Integer.valueOf((int) R.drawable.msg_copy));
@@ -25549,7 +25572,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList11.add(Integer.valueOf((int) R.drawable.msg_reply));
                                 }
                                 MessageObject messageObject20 = this.selectedObject;
-                                if ((messageObject20.type == 0 || messageObject20.isAnimatedEmoji() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z20) {
+                                if ((messageObject20.type == 0 || messageObject20.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z20) {
                                     arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                                     arrayList13.add(3);
                                     arrayList11.add(Integer.valueOf((int) R.drawable.msg_copy));
@@ -30273,8 +30296,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ChatActivity.this.invalidateMessagesVisiblePart();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:114:0x02a4, code lost:
-                if (r11.exists() != false) goto L115;
+            /* JADX WARN: Code restructure failed: missing block: B:110:0x0279, code lost:
+                if (r11.exists() != false) goto L111;
              */
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             /*
@@ -30301,7 +30324,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         return;
                     }
                     int i2 = 0;
-                    if ((messageObject.isAnimatedEmoji() && !MessageObject.isAnimatedEmoji(messageObject.getDocument())) || messageObject.isPremiumSticker()) {
+                    if (messageObject.isAnimatedEmoji() || messageObject.isPremiumSticker()) {
                         ChatActivity.this.restartSticker(chatMessageCell);
                         ChatActivity.this.emojiAnimationsOverlay.onTapItem(chatMessageCell, ChatActivity.this, true);
                         ChatActivity.this.chatListView.cancelClickRunnables(false);
@@ -30634,9 +30657,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         /* JADX WARN: Removed duplicated region for block: B:207:0x03d2  */
         /* JADX WARN: Removed duplicated region for block: B:215:0x03fd  */
         /* JADX WARN: Removed duplicated region for block: B:218:0x040d  */
-        /* JADX WARN: Removed duplicated region for block: B:245:0x03d4  */
-        /* JADX WARN: Removed duplicated region for block: B:256:0x0197  */
-        /* JADX WARN: Removed duplicated region for block: B:257:0x0128  */
+        /* JADX WARN: Removed duplicated region for block: B:247:0x03d4  */
+        /* JADX WARN: Removed duplicated region for block: B:258:0x0197  */
+        /* JADX WARN: Removed duplicated region for block: B:259:0x0128  */
         /* JADX WARN: Removed duplicated region for block: B:64:0x0126  */
         /* JADX WARN: Removed duplicated region for block: B:67:0x012d  */
         /* JADX WARN: Removed duplicated region for block: B:83:0x01e0  */
@@ -30848,7 +30871,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (indexOf != -1) {
                                 if (messageObject.type == 5 && ChatActivity.this.instantCameraView.getTextureView() != null) {
                                     chatMessageCell.getViewTreeObserver().addOnPreDrawListener(new 4(chatMessageCell));
-                                } else if (!messageObject.isAnyKindOfSticker()) {
+                                } else if (!messageObject.isAnyKindOfSticker() || messageObject.isAnimatedEmojiStickers()) {
                                     z6 = false;
                                     if (!z6 || ChatActivity.this.chatListItemAnimator == null) {
                                         ChatActivity.this.animatingMessageObjects.remove(indexOf);
@@ -32908,16 +32931,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return;
             }
             boolean booleanValue = bool != null ? bool.booleanValue() : Theme.getActiveTheme().isDark();
-            String str = null;
             String emoticon = emojiThemes != null ? emojiThemes.getEmoticon() : null;
             EmojiThemes emojiThemes2 = this.chatTheme;
-            if (emojiThemes2 != null) {
-                str = emojiThemes2.getEmoticon();
-            }
+            String emoticon2 = emojiThemes2 != null ? emojiThemes2.getEmoticon() : null;
             if (!isThemeChangeAvailable()) {
                 return;
             }
-            if (TextUtils.equals(str, emoticon) && this.isDark == booleanValue) {
+            if (TextUtils.equals(emoticon2, emoticon) && this.isDark == booleanValue) {
                 return;
             }
             this.isDark = booleanValue;
@@ -32987,7 +33007,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             themeAnimationSettings.onlyTopFragment = true;
             themeAnimationSettings.resourcesProvider = this;
             themeAnimationSettings.duration = 250L;
-            ((BaseFragment) ChatActivity.this).parentLayout.animateThemedValues(themeAnimationSettings);
+            ((BaseFragment) ChatActivity.this).parentLayout.animateThemedValues(themeAnimationSettings, null);
             Runnable runnable = ChatActivity.this.onThemeChange;
             if (runnable == null) {
                 return;

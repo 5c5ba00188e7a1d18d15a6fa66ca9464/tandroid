@@ -283,6 +283,7 @@ import org.telegram.ui.Components.spoilers.SpoilerEffect;
 /* loaded from: classes.dex */
 public class MessageObject {
     private static final int LINES_PER_BLOCK = 10;
+    private static final int LINES_PER_BLOCK_WITH_EMOJI = 5;
     public static final int MESSAGE_SEND_STATE_EDITING = 3;
     public static final int MESSAGE_SEND_STATE_SENDING = 1;
     public static final int MESSAGE_SEND_STATE_SEND_ERROR = 2;
@@ -405,6 +406,7 @@ public class MessageObject {
     public ArrayList<TextLayoutBlock> textLayoutBlocks;
     public int textWidth;
     public float textXOffset;
+    private int totalAnimatedEmojiCount;
     public int type;
     public boolean useCustomPhoto;
     public CharSequence vCardData;
@@ -1301,12 +1303,7 @@ public class MessageObject {
     }
 
     public MessageObject(int i, TLRPC$Message tLRPC$Message, MessageObject messageObject, AbstractMap<Long, TLRPC$User> abstractMap, AbstractMap<Long, TLRPC$Chat> abstractMap2, LongSparseArray<TLRPC$User> longSparseArray, LongSparseArray<TLRPC$Chat> longSparseArray2, boolean z, boolean z2, long j) {
-        AbstractMap<Long, TLRPC$Chat> abstractMap3;
-        LongSparseArray<TLRPC$Chat> longSparseArray3;
-        TLRPC$User tLRPC$User;
         TextPaint textPaint;
-        AnimatedEmojiSpan[] animatedEmojiSpanArr;
-        int i2;
         this.type = 1000;
         this.forceSeekTo = -1.0f;
         Theme.createCommonMessageResources();
@@ -1321,24 +1318,18 @@ public class MessageObject {
         }
         TLRPC$Peer tLRPC$Peer = tLRPC$Message.from_id;
         if (tLRPC$Peer instanceof TLRPC$TL_peerUser) {
-            tLRPC$User = getUser(abstractMap, longSparseArray, tLRPC$Peer.user_id);
-            abstractMap3 = abstractMap2;
-            longSparseArray3 = longSparseArray2;
-        } else {
-            abstractMap3 = abstractMap2;
-            longSparseArray3 = longSparseArray2;
-            tLRPC$User = null;
+            getUser(abstractMap, longSparseArray, tLRPC$Peer.user_id);
         }
-        updateMessageText(abstractMap, abstractMap3, longSparseArray, longSparseArray3);
+        updateMessageText(abstractMap, abstractMap2, longSparseArray, longSparseArray2);
         setType();
         measureInlineBotButtons();
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         gregorianCalendar.setTimeInMillis(this.messageOwner.date * 1000);
-        int i3 = gregorianCalendar.get(6);
-        int i4 = gregorianCalendar.get(1);
-        int i5 = gregorianCalendar.get(2);
-        this.dateKey = String.format("%d_%02d_%02d", Integer.valueOf(i4), Integer.valueOf(i5), Integer.valueOf(i3));
-        this.monthKey = String.format("%d_%02d", Integer.valueOf(i4), Integer.valueOf(i5));
+        int i2 = gregorianCalendar.get(6);
+        int i3 = gregorianCalendar.get(1);
+        int i4 = gregorianCalendar.get(2);
+        this.dateKey = String.format("%d_%02d_%02d", Integer.valueOf(i3), Integer.valueOf(i4), Integer.valueOf(i2));
+        this.monthKey = String.format("%d_%02d", Integer.valueOf(i3), Integer.valueOf(i4));
         createMessageSendInfo();
         generateCaption();
         if (z) {
@@ -1353,93 +1344,99 @@ public class MessageObject {
             Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
             this.messageText = replaceAnimatedEmoji;
             if (iArr != null && iArr[0] > 1) {
-                replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+                replaceEmojiToLottieFrame(replaceAnimatedEmoji);
             }
             checkEmojiOnly(iArr);
+            checkBigAnimatedEmoji();
             setType();
-            this.emojiAnimatedSticker = null;
-            this.emojiAnimatedStickerId = null;
-            if (this.emojiOnlyCount == 1) {
-                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-                if (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && !(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) && (((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaEmpty) || tLRPC$MessageMedia == null) && this.messageOwner.grouped_id == 0)) {
-                    if (tLRPC$Message.entities.isEmpty()) {
-                        String str = this.messageText;
-                        int indexOf = TextUtils.indexOf(str, "🏻");
-                        if (indexOf >= 0) {
-                            this.emojiAnimatedStickerColor = "_c1";
-                            str = str.subSequence(0, indexOf);
-                        } else {
-                            indexOf = TextUtils.indexOf(str, "🏼");
-                            if (indexOf >= 0) {
-                                this.emojiAnimatedStickerColor = "_c2";
-                                str = str.subSequence(0, indexOf);
-                            } else {
-                                indexOf = TextUtils.indexOf(str, "🏽");
-                                if (indexOf >= 0) {
-                                    this.emojiAnimatedStickerColor = "_c3";
-                                    str = str.subSequence(0, indexOf);
-                                } else {
-                                    indexOf = TextUtils.indexOf(str, "🏾");
-                                    if (indexOf >= 0) {
-                                        this.emojiAnimatedStickerColor = "_c4";
-                                        str = str.subSequence(0, indexOf);
-                                    } else {
-                                        indexOf = TextUtils.indexOf(str, "🏿");
-                                        if (indexOf >= 0) {
-                                            this.emojiAnimatedStickerColor = "_c5";
-                                            str = str.subSequence(0, indexOf);
-                                        } else {
-                                            this.emojiAnimatedStickerColor = "";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if (!TextUtils.isEmpty(this.emojiAnimatedStickerColor) && (i2 = indexOf + 2) < this.messageText.length()) {
-                            StringBuilder sb = new StringBuilder();
-                            sb.append(str.toString());
-                            CharSequence charSequence = this.messageText;
-                            sb.append(charSequence.subSequence(i2, charSequence.length()).toString());
-                            str = sb.toString();
-                        }
-                        if (TextUtils.isEmpty(this.emojiAnimatedStickerColor) || EmojiData.emojiColoredMap.contains(str.toString())) {
-                            this.emojiAnimatedSticker = MediaDataController.getInstance(this.currentAccount).getEmojiAnimatedSticker(str);
-                        }
-                    } else if (tLRPC$Message.entities.size() == 1 && (tLRPC$Message.entities.get(0) instanceof TLRPC$TL_messageEntityCustomEmoji)) {
-                        try {
-                            Long valueOf = Long.valueOf(((TLRPC$TL_messageEntityCustomEmoji) tLRPC$Message.entities.get(0)).document_id);
-                            this.emojiAnimatedStickerId = valueOf;
-                            TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, valueOf.longValue());
-                            this.emojiAnimatedSticker = findDocument;
-                            if (findDocument == null) {
-                                CharSequence charSequence2 = this.messageText;
-                                if ((charSequence2 instanceof Spanned) && (animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spanned) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class)) != null && animatedEmojiSpanArr.length == 1) {
-                                    this.emojiAnimatedSticker = animatedEmojiSpanArr[0].document;
-                                }
-                            }
-                        } catch (Exception unused) {
-                        }
-                    }
-                }
-            }
-            if (this.emojiAnimatedSticker == null && this.emojiAnimatedStickerId == null) {
-                generateLayout(tLRPC$User);
-            } else {
-                this.type = 1000;
-                if (isSticker()) {
-                    this.type = 13;
-                } else if (isAnimatedSticker()) {
-                    this.type = 15;
-                } else if (iArr != null && iArr[0] >= 1) {
-                    this.type = 19;
-                }
-            }
             createPathThumb();
         }
         this.layoutCreated = z;
         generateThumbs(false);
         if (z2) {
             checkMediaExistance();
+        }
+    }
+
+    private void checkBigAnimatedEmoji() {
+        AnimatedEmojiSpan[] animatedEmojiSpanArr;
+        int i;
+        this.emojiAnimatedSticker = null;
+        this.emojiAnimatedStickerId = null;
+        if (this.emojiOnlyCount == 1) {
+            TLRPC$Message tLRPC$Message = this.messageOwner;
+            TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
+            if (!(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && !(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) && (((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaEmpty) || tLRPC$MessageMedia == null) && tLRPC$Message.grouped_id == 0)) {
+                if (tLRPC$Message.entities.isEmpty()) {
+                    String str = this.messageText;
+                    int indexOf = TextUtils.indexOf(str, "🏻");
+                    if (indexOf >= 0) {
+                        this.emojiAnimatedStickerColor = "_c1";
+                        str = str.subSequence(0, indexOf);
+                    } else {
+                        indexOf = TextUtils.indexOf(str, "🏼");
+                        if (indexOf >= 0) {
+                            this.emojiAnimatedStickerColor = "_c2";
+                            str = str.subSequence(0, indexOf);
+                        } else {
+                            indexOf = TextUtils.indexOf(str, "🏽");
+                            if (indexOf >= 0) {
+                                this.emojiAnimatedStickerColor = "_c3";
+                                str = str.subSequence(0, indexOf);
+                            } else {
+                                indexOf = TextUtils.indexOf(str, "🏾");
+                                if (indexOf >= 0) {
+                                    this.emojiAnimatedStickerColor = "_c4";
+                                    str = str.subSequence(0, indexOf);
+                                } else {
+                                    indexOf = TextUtils.indexOf(str, "🏿");
+                                    if (indexOf >= 0) {
+                                        this.emojiAnimatedStickerColor = "_c5";
+                                        str = str.subSequence(0, indexOf);
+                                    } else {
+                                        this.emojiAnimatedStickerColor = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!TextUtils.isEmpty(this.emojiAnimatedStickerColor) && (i = indexOf + 2) < this.messageText.length()) {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(str.toString());
+                        CharSequence charSequence = this.messageText;
+                        sb.append(charSequence.subSequence(i, charSequence.length()).toString());
+                        str = sb.toString();
+                    }
+                    if (TextUtils.isEmpty(this.emojiAnimatedStickerColor) || EmojiData.emojiColoredMap.contains(str.toString())) {
+                        this.emojiAnimatedSticker = MediaDataController.getInstance(this.currentAccount).getEmojiAnimatedSticker(str);
+                    }
+                } else if (this.messageOwner.entities.size() == 1 && (this.messageOwner.entities.get(0) instanceof TLRPC$TL_messageEntityCustomEmoji)) {
+                    try {
+                        Long valueOf = Long.valueOf(((TLRPC$TL_messageEntityCustomEmoji) this.messageOwner.entities.get(0)).document_id);
+                        this.emojiAnimatedStickerId = valueOf;
+                        TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, valueOf.longValue());
+                        this.emojiAnimatedSticker = findDocument;
+                        if (findDocument == null) {
+                            CharSequence charSequence2 = this.messageText;
+                            if ((charSequence2 instanceof Spanned) && (animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spanned) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class)) != null && animatedEmojiSpanArr.length == 1) {
+                                this.emojiAnimatedSticker = animatedEmojiSpanArr[0].document;
+                            }
+                        }
+                    } catch (Exception unused) {
+                    }
+                }
+            }
+        }
+        if (this.emojiAnimatedSticker == null && this.emojiAnimatedStickerId == null) {
+            generateLayout(null);
+            return;
+        }
+        this.type = 1000;
+        if (isSticker()) {
+            this.type = 13;
+        } else if (!isAnimatedSticker()) {
+        } else {
+            this.type = 15;
         }
     }
 
@@ -1501,6 +1498,7 @@ public class MessageObject {
             Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), Emoji.EmojiSpan.class);
             CharSequence charSequence2 = this.messageText;
             AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spannable) charSequence2).getSpans(0, charSequence2.length(), AnimatedEmojiSpan.class);
+            this.emojiOnlyCount = Math.max(num.intValue(), (emojiSpanArr == null ? 0 : emojiSpanArr.length) + (animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length));
             this.animatedEmojiCount = 0;
             if (animatedEmojiSpanArr != null) {
                 for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
@@ -1509,59 +1507,90 @@ public class MessageObject {
                     }
                 }
             }
-            boolean z = num.intValue() == this.animatedEmojiCount;
-            int intValue = num.intValue();
-            this.emojiOnlyCount = intValue;
-            switch (intValue) {
-                case 0:
-                case 1:
-                    if (!z) {
-                        textPaint = Theme.chat_msgTextPaintOneEmoji;
-                        break;
+            int length = animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length;
+            this.totalAnimatedEmojiCount = length;
+            int i3 = this.emojiOnlyCount;
+            if (i3 != 0) {
+                int i4 = 100;
+                if (length <= 100) {
+                    int i5 = i3 - length;
+                    if (SharedConfig.getDevicePerformanceClass() < 2) {
+                        i4 = 50;
                     }
-                case 2:
-                    textPaint = z ? Theme.chat_msgTextPaintEmoji[0] : Theme.chat_msgTextPaintOneEmoji;
-                    i = 1;
-                    break;
-                case 3:
-                    textPaint = z ? Theme.chat_msgTextPaintEmoji[1] : Theme.chat_msgTextPaintThreeEmoji;
-                    i = 1;
-                    break;
-                case 4:
-                    textPaint = Theme.chat_msgTextPaintEmoji[2];
-                    i = 1;
-                    break;
-                case 5:
-                    textPaint = Theme.chat_msgTextPaintEmoji[3];
-                    i = 2;
-                    break;
-                case 6:
-                    textPaint = Theme.chat_msgTextPaintEmoji[4];
-                    i = 2;
-                    break;
-                default:
-                    textPaint = Theme.chat_msgTextPaintEmoji[5];
-                    break;
-            }
-            int textSize = (int) (textPaint.getTextSize() + AndroidUtilities.dp(4.0f));
-            if (emojiSpanArr != null && emojiSpanArr.length > 0) {
-                for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
-                    emojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), textSize);
+                    if (i5 < i4) {
+                        int i6 = this.emojiOnlyCount;
+                        boolean z = i6 == (animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length);
+                        switch (i6) {
+                            case 0:
+                            case 1:
+                                if (z) {
+                                    textPaint = Theme.chat_msgTextPaintEmoji[0];
+                                    break;
+                                } else {
+                                    textPaint = Theme.chat_msgTextPaintOneEmoji;
+                                    break;
+                                }
+                            case 2:
+                                textPaint = z ? Theme.chat_msgTextPaintEmoji[0] : Theme.chat_msgTextPaintOneEmoji;
+                                i = 1;
+                                break;
+                            case 3:
+                                textPaint = z ? Theme.chat_msgTextPaintEmoji[1] : Theme.chat_msgTextPaintOneEmoji;
+                                i = 1;
+                                break;
+                            case 4:
+                                textPaint = z ? Theme.chat_msgTextPaintEmoji[2] : Theme.chat_msgTextPaintTwoEmoji;
+                                i = 1;
+                                break;
+                            case 5:
+                                textPaint = z ? Theme.chat_msgTextPaintEmoji[3] : Theme.chat_msgTextPaintTwoEmoji;
+                                i = 2;
+                                break;
+                            case 6:
+                                textPaint = z ? Theme.chat_msgTextPaintEmoji[4] : Theme.chat_msgTextPaintTwoEmoji;
+                                i = 2;
+                                break;
+                            default:
+                                if (i6 > 9) {
+                                    i = 0;
+                                }
+                                textPaint = Theme.chat_msgTextPaintEmoji[5];
+                                break;
+                        }
+                        int textSize = (int) (textPaint.getTextSize() + AndroidUtilities.dp(4.0f));
+                        if (emojiSpanArr != null && emojiSpanArr.length > 0) {
+                            for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
+                                emojiSpan.replaceFontMetrics(textPaint.getFontMetricsInt(), textSize);
+                            }
+                        }
+                        if (animatedEmojiSpanArr == null || animatedEmojiSpanArr.length <= 0) {
+                            return;
+                        }
+                        while (i2 < animatedEmojiSpanArr.length) {
+                            animatedEmojiSpanArr[i2].replaceFontMetrics(textPaint.getFontMetricsInt(), textSize, i);
+                            i2++;
+                        }
+                        return;
+                    }
                 }
             }
-            if (animatedEmojiSpanArr == null || animatedEmojiSpanArr.length <= 0) {
+            if (animatedEmojiSpanArr != null && animatedEmojiSpanArr.length > 0) {
+                this.animatedEmojiCount = animatedEmojiSpanArr.length;
+                while (i2 < animatedEmojiSpanArr.length) {
+                    animatedEmojiSpanArr[i2].replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), -1);
+                    i2++;
+                }
                 return;
             }
-            while (i2 < animatedEmojiSpanArr.length) {
-                animatedEmojiSpanArr[i2].replaceFontMetrics(textPaint.getFontMetricsInt(), textSize, i);
-                i2++;
-            }
+            this.animatedEmojiCount = 0;
             return;
         }
         CharSequence charSequence3 = this.messageText;
         AnimatedEmojiSpan[] animatedEmojiSpanArr2 = (AnimatedEmojiSpan[]) ((Spannable) charSequence3).getSpans(0, charSequence3.length(), AnimatedEmojiSpan.class);
         if (animatedEmojiSpanArr2 != null && animatedEmojiSpanArr2.length > 0) {
-            this.animatedEmojiCount = animatedEmojiSpanArr2.length;
+            int length2 = animatedEmojiSpanArr2.length;
+            this.animatedEmojiCount = length2;
+            this.totalAnimatedEmojiCount = length2;
             while (i2 < animatedEmojiSpanArr2.length) {
                 animatedEmojiSpanArr2[i2].replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), -1);
                 i2++;
@@ -1569,6 +1598,7 @@ public class MessageObject {
             return;
         }
         this.animatedEmojiCount = 0;
+        this.totalAnimatedEmojiCount = 0;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:482:0x0bd7, code lost:
@@ -2527,7 +2557,7 @@ public class MessageObject {
                                                 Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, messageObject.messageOwner.entities, textPaint.getFontMetricsInt());
                                                 messageObject.messageText = replaceAnimatedEmoji;
                                                 if (iArr2 != null && iArr2[0] > 1) {
-                                                    messageObject.replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+                                                    messageObject.replaceEmojiToLottieFrame(replaceAnimatedEmoji);
                                                 }
                                                 messageObject.checkEmojiOnly(iArr2);
                                                 setType();
@@ -2963,7 +2993,7 @@ public class MessageObject {
         Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
         this.messageText = replaceAnimatedEmoji;
         if (iArr != null && iArr[0] > 1) {
-            replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+            replaceEmojiToLottieFrame(replaceAnimatedEmoji);
         }
         checkEmojiOnly(iArr);
         generateLayout(user);
@@ -3204,14 +3234,14 @@ public class MessageObject {
                     } else {
                         CharSequence charSequence = messageObject2.messageText;
                         if (charSequence != null && charSequence.length() > 0) {
-                            CharSequence charSequence2 = this.replyMessageObject.messageText;
-                            if (charSequence2.length() > 20) {
-                                charSequence2 = charSequence2.subSequence(0, 20);
+                            CharSequence cloneSpans = AnimatedEmojiSpan.cloneSpans(this.replyMessageObject.messageText);
+                            if (cloneSpans.length() > 20) {
+                                cloneSpans = cloneSpans.subSequence(0, 20);
                                 z = true;
                             } else {
                                 z = false;
                             }
-                            CharSequence replaceEmoji = Emoji.replaceEmoji(charSequence2, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                            CharSequence replaceEmoji = Emoji.replaceEmoji(cloneSpans, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
                             MessageObject messageObject3 = this.replyMessageObject;
                             Spannable spannable = replaceEmoji;
                             if (messageObject3 != null) {
@@ -4404,7 +4434,8 @@ public class MessageObject {
 
     public void setType() {
         int i;
-        int i2 = this.type;
+        int i2;
+        int i3 = this.type;
         this.type = 1000;
         this.isRoundVideoCached = 0;
         TLRPC$Message tLRPC$Message = this.messageOwner;
@@ -4417,74 +4448,87 @@ public class MessageObject {
                 } else {
                     this.type = 15;
                 }
-            } else if (this.emojiOnlyCount >= 1) {
-                this.type = 19;
-            } else if (isMediaEmpty()) {
-                this.type = 0;
-                if (TextUtils.isEmpty(this.messageText) && this.eventId == 0) {
-                    this.messageText = "Empty message";
-                }
             } else {
-                TLRPC$MessageMedia tLRPC$MessageMedia = this.messageOwner.media;
-                if (tLRPC$MessageMedia.ttl_seconds != 0 && ((tLRPC$MessageMedia.photo instanceof TLRPC$TL_photoEmpty) || (getDocument() instanceof TLRPC$TL_documentEmpty))) {
-                    this.contentType = 1;
-                    this.type = 10;
-                } else {
-                    TLRPC$MessageMedia tLRPC$MessageMedia2 = this.messageOwner.media;
-                    if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDice) {
-                        this.type = 15;
-                        if (tLRPC$MessageMedia2.document == null) {
-                            tLRPC$MessageMedia2.document = new TLRPC$TL_document();
-                            TLRPC$Document tLRPC$Document = this.messageOwner.media.document;
-                            tLRPC$Document.file_reference = new byte[0];
-                            tLRPC$Document.mime_type = "application/x-tgsdice";
-                            tLRPC$Document.dc_id = Integer.MIN_VALUE;
-                            tLRPC$Document.id = -2147483648L;
-                            TLRPC$TL_documentAttributeImageSize tLRPC$TL_documentAttributeImageSize = new TLRPC$TL_documentAttributeImageSize();
-                            tLRPC$TL_documentAttributeImageSize.w = 512;
-                            tLRPC$TL_documentAttributeImageSize.h = 512;
-                            this.messageOwner.media.document.attributes.add(tLRPC$TL_documentAttributeImageSize);
+                if (!isDice() && (i = this.emojiOnlyCount) >= 1) {
+                    int i4 = this.totalAnimatedEmojiCount;
+                    int i5 = 100;
+                    if (i4 <= 100) {
+                        int i6 = i - i4;
+                        if (SharedConfig.getDevicePerformanceClass() < 2) {
+                            i5 = 50;
                         }
-                    } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) {
-                        this.type = 1;
-                    } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGeo) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaVenue) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGeoLive)) {
-                        this.type = 4;
-                    } else if (isRoundVideo()) {
-                        this.type = 5;
-                    } else if (isVideo()) {
-                        this.type = 3;
-                    } else if (isVoice()) {
-                        this.type = 2;
-                    } else if (isMusic()) {
-                        this.type = 14;
+                        if (i6 < i5) {
+                            this.type = 19;
+                        }
+                    }
+                }
+                if (isMediaEmpty()) {
+                    this.type = 0;
+                    if (TextUtils.isEmpty(this.messageText) && this.eventId == 0) {
+                        this.messageText = "Empty message";
+                    }
+                } else {
+                    TLRPC$MessageMedia tLRPC$MessageMedia = this.messageOwner.media;
+                    if (tLRPC$MessageMedia.ttl_seconds != 0 && ((tLRPC$MessageMedia.photo instanceof TLRPC$TL_photoEmpty) || (getDocument() instanceof TLRPC$TL_documentEmpty))) {
+                        this.contentType = 1;
+                        this.type = 10;
                     } else {
-                        TLRPC$MessageMedia tLRPC$MessageMedia3 = this.messageOwner.media;
-                        if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaContact) {
-                            this.type = 12;
-                        } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaPoll) {
-                            this.type = 17;
-                            this.checkedVotes = new ArrayList<>();
-                        } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaUnsupported) {
-                            this.type = 0;
-                        } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaDocument) {
-                            TLRPC$Document document = getDocument();
-                            if (document != null && document.mime_type != null) {
-                                if (isGifDocument(document, hasValidGroupId())) {
-                                    this.type = 8;
-                                } else if (isSticker()) {
-                                    this.type = 13;
-                                } else if (isAnimatedSticker()) {
-                                    this.type = 15;
+                        TLRPC$MessageMedia tLRPC$MessageMedia2 = this.messageOwner.media;
+                        if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDice) {
+                            this.type = 15;
+                            if (tLRPC$MessageMedia2.document == null) {
+                                tLRPC$MessageMedia2.document = new TLRPC$TL_document();
+                                TLRPC$Document tLRPC$Document = this.messageOwner.media.document;
+                                tLRPC$Document.file_reference = new byte[0];
+                                tLRPC$Document.mime_type = "application/x-tgsdice";
+                                tLRPC$Document.dc_id = Integer.MIN_VALUE;
+                                tLRPC$Document.id = -2147483648L;
+                                TLRPC$TL_documentAttributeImageSize tLRPC$TL_documentAttributeImageSize = new TLRPC$TL_documentAttributeImageSize();
+                                tLRPC$TL_documentAttributeImageSize.w = 512;
+                                tLRPC$TL_documentAttributeImageSize.h = 512;
+                                this.messageOwner.media.document.attributes.add(tLRPC$TL_documentAttributeImageSize);
+                            }
+                        } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) {
+                            this.type = 1;
+                        } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGeo) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaVenue) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGeoLive)) {
+                            this.type = 4;
+                        } else if (isRoundVideo()) {
+                            this.type = 5;
+                        } else if (isVideo()) {
+                            this.type = 3;
+                        } else if (isVoice()) {
+                            this.type = 2;
+                        } else if (isMusic()) {
+                            this.type = 14;
+                        } else {
+                            TLRPC$MessageMedia tLRPC$MessageMedia3 = this.messageOwner.media;
+                            if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaContact) {
+                                this.type = 12;
+                            } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaPoll) {
+                                this.type = 17;
+                                this.checkedVotes = new ArrayList<>();
+                            } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaUnsupported) {
+                                this.type = 0;
+                            } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaDocument) {
+                                TLRPC$Document document = getDocument();
+                                if (document != null && document.mime_type != null) {
+                                    if (isGifDocument(document, hasValidGroupId())) {
+                                        this.type = 8;
+                                    } else if (isSticker()) {
+                                        this.type = 13;
+                                    } else if (isAnimatedSticker()) {
+                                        this.type = 15;
+                                    } else {
+                                        this.type = 9;
+                                    }
                                 } else {
                                     this.type = 9;
                                 }
-                            } else {
-                                this.type = 9;
+                            } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaGame) {
+                                this.type = 0;
+                            } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaInvoice) {
+                                this.type = 0;
                             }
-                        } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaGame) {
-                            this.type = 0;
-                        } else if (tLRPC$MessageMedia3 instanceof TLRPC$TL_messageMediaInvoice) {
-                            this.type = 0;
                         }
                     }
                 }
@@ -4518,7 +4562,7 @@ public class MessageObject {
                 this.type = 10;
             }
         }
-        if (i2 == 1000 || i2 == (i = this.type) || i == 19) {
+        if (i3 == 1000 || i3 == (i2 = this.type) || i2 == 19) {
             return;
         }
         updateMessageText(MessagesController.getInstance(this.currentAccount).getUsers(), MessagesController.getInstance(this.currentAccount).getChats(), null, null);
@@ -4551,9 +4595,10 @@ public class MessageObject {
                 Spannable replaceAnimatedEmoji = replaceAnimatedEmoji(replaceEmoji, this.messageOwner.entities, textPaint.getFontMetricsInt());
                 this.messageText = replaceAnimatedEmoji;
                 if (iArr != null && iArr[0] > 1) {
-                    replaceEmojiToLottieAnimated(replaceAnimatedEmoji);
+                    replaceEmojiToLottieFrame(replaceAnimatedEmoji);
                 }
                 checkEmojiOnly(iArr);
+                checkBigAnimatedEmoji();
                 setType();
                 return true;
             }
@@ -5471,18 +5516,25 @@ public class MessageObject {
         return addEntitiesToText(charSequence, this.messageOwner.entities, isOutOwner(), true, z, z2);
     }
 
-    public void replaceEmojiToLottieAnimated(CharSequence charSequence) {
+    public void replaceEmojiToLottieFrame(CharSequence charSequence) {
         if (!(charSequence instanceof Spannable)) {
             return;
         }
         Spannable spannable = (Spannable) charSequence;
         Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) spannable.getSpans(0, spannable.length(), Emoji.EmojiSpan.class);
+        AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spannable.getSpans(0, spannable.length(), AnimatedEmojiSpan.class);
+        if (emojiSpanArr == null) {
+            return;
+        }
+        if (emojiSpanArr.length + (animatedEmojiSpanArr == null ? 0 : animatedEmojiSpanArr.length) > 100) {
+            return;
+        }
         for (int i = 0; i < emojiSpanArr.length; i++) {
             TLRPC$Document emojiAnimatedSticker = MediaDataController.getInstance(this.currentAccount).getEmojiAnimatedSticker(emojiSpanArr[i].emoji);
             if (emojiAnimatedSticker != null) {
                 int spanStart = spannable.getSpanStart(emojiSpanArr[i]);
                 int spanEnd = spannable.getSpanEnd(emojiSpanArr[i]);
-                spannable.removeSpan(emojiSpanArr[i].emoji);
+                spannable.removeSpan(emojiSpanArr[i]);
                 AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(emojiAnimatedSticker, emojiSpanArr[i].fontMetrics);
                 animatedEmojiSpan.standard = true;
                 spannable.setSpan(animatedEmojiSpan, spanStart, spanEnd, 33);
@@ -5513,13 +5565,20 @@ public class MessageObject {
                     }
                 }
                 if (tLRPC$MessageEntity.offset + tLRPC$MessageEntity.length <= spannableString.length()) {
+                    int i3 = tLRPC$MessageEntity.offset;
+                    AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spannableString.getSpans(i3, tLRPC$MessageEntity.length + i3, AnimatedEmojiSpan.class);
+                    if (animatedEmojiSpanArr != null && animatedEmojiSpanArr.length > 0) {
+                        for (AnimatedEmojiSpan animatedEmojiSpan2 : animatedEmojiSpanArr) {
+                            spannableString.removeSpan(animatedEmojiSpan2);
+                        }
+                    }
                     if (tLRPC$TL_messageEntityCustomEmoji.document != null) {
                         animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document, fontMetricsInt);
                     } else {
                         animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document_id, fontMetricsInt);
                     }
-                    int i3 = tLRPC$MessageEntity.offset;
-                    spannableString.setSpan(animatedEmojiSpan, i3, tLRPC$MessageEntity.length + i3, 33);
+                    int i4 = tLRPC$MessageEntity.offset;
+                    spannableString.setSpan(animatedEmojiSpan, i4, tLRPC$MessageEntity.length + i4, 33);
                 }
             }
         }
@@ -5881,41 +5940,58 @@ public class MessageObject {
             if (needDrawShareButton() && !isOutOwner()) {
                 dp -= AndroidUtilities.dp(10.0f);
             }
-            int i2 = dp;
-            return this.messageOwner.media instanceof TLRPC$TL_messageMediaGame ? i2 - AndroidUtilities.dp(10.0f) : i2;
+            i = dp;
+            if (this.messageOwner.media instanceof TLRPC$TL_messageMediaGame) {
+                i -= AndroidUtilities.dp(10.0f);
+            }
+        }
+        int i2 = this.emojiOnlyCount;
+        if (i2 >= 1) {
+            int i3 = this.totalAnimatedEmojiCount;
+            int i4 = 100;
+            if (i3 > 100) {
+                return i;
+            }
+            int i5 = i2 - i3;
+            if (SharedConfig.getDevicePerformanceClass() < 2) {
+                i4 = 50;
+            }
+            return i5 < i4 ? (hasValidReplyMessageObject() || isForwarded()) ? Math.min(i, (int) (this.generatedWithMinSize * 0.65f)) : i : i;
         }
         return i;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(22:73|(1:75)(1:237)|76|(3:78|(1:(1:(2:82|(1:84))(1:85))(1:86))|87)(5:181|(1:183)(12:186|187|188|(5:226|227|228|229|230)(5:191|192|193|194|195)|196|197|198|(3:200|201|202)|207|208|(3:210|211|212)|216)|184|185|159)|88|(1:90)|91|92|93|94|(2:98|99)|105|106|107|(1:109)|110|(1:112)|113|(6:115|(14:117|118|119|120|121|122|(1:124)(1:144)|125|(1:127)(1:143)|(4:131|132|133|(4:135|136|137|138))|142|136|137|138)|151|152|(1:(1:155))(2:(1:161)|162)|156)(3:163|(5:165|(1:167)|168|(1:170)(1:173)|171)(1:174)|172)|157|158|159) */
-    /* JADX WARN: Code restructure failed: missing block: B:176:0x031f, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(22:(1:83)(1:248)|84|(3:86|(1:(1:(2:90|(1:92))(1:93))(1:94))|95)(5:190|(1:192)(12:195|196|197|(5:237|238|239|240|241)(5:201|202|203|204|205)|206|207|208|(3:210|211|212)|218|219|(3:221|222|223)(1:228)|224)|193|194|167)|96|(1:98)|99|100|101|102|(2:106|107)|186|113|114|115|(1:117)|118|(1:120)|121|(6:123|(14:125|126|127|128|129|130|(1:132)(1:152)|133|(1:135)(1:151)|(4:139|140|141|(4:143|144|145|146))|150|144|145|146)|159|160|(1:(1:163))(2:(1:169)|170)|164)(3:171|(5:173|(1:175)|176|(1:178)(1:181)|179)(1:182)|180)|165|166|167) */
+    /* JADX WARN: Code restructure failed: missing block: B:184:0x0356, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:177:0x0320, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:185:0x0357, code lost:
         org.telegram.messenger.FileLog.e(r0);
         r0 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:179:0x030c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:188:0x0343, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:180:0x030d, code lost:
-        r8 = 0.0f;
+    /* JADX WARN: Code restructure failed: missing block: B:189:0x0344, code lost:
+        r7 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x007b, code lost:
-        if ((r0.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaUnsupported) == false) goto L248;
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x007b, code lost:
+        if ((r0.media instanceof org.telegram.tgnet.TLRPC$TL_messageMediaUnsupported) == false) goto L262;
      */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x032e  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0333  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0344  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x014b  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0128 A[Catch: Exception -> 0x048b, TRY_LEAVE, TryCatch #3 {Exception -> 0x048b, blocks: (B:65:0x0104, B:67:0x010a, B:241:0x0128), top: B:64:0x0104 }] */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x00fe  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x010a A[Catch: Exception -> 0x048b, TryCatch #3 {Exception -> 0x048b, blocks: (B:65:0x0104, B:67:0x010a, B:241:0x0128), top: B:64:0x0104 }] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0149  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0365  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x036a  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x037b  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x043e  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x0175  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0138 A[Catch: Exception -> 0x04bb, TRY_LEAVE, TryCatch #7 {Exception -> 0x04bb, blocks: (B:69:0x0114, B:71:0x011a, B:254:0x0138), top: B:68:0x0114 }] */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x00fe  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x011a A[Catch: Exception -> 0x04bb, TryCatch #7 {Exception -> 0x04bb, blocks: (B:69:0x0114, B:71:0x011a, B:254:0x0138), top: B:68:0x0114 }] */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0173  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0186  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5924,44 +6000,44 @@ public class MessageObject {
         boolean z;
         TextPaint textPaint;
         int i;
+        int i2;
         StaticLayout staticLayout;
         int lineCount;
         int ceil;
-        int i2;
-        int min;
-        boolean z2;
         int i3;
+        int min;
+        Layout.Alignment alignment;
+        boolean z2;
         int i4;
         int i5;
-        StaticLayout staticLayout2;
-        TextPaint textPaint2;
-        TextLayoutBlock textLayoutBlock;
         int i6;
         int i7;
+        StaticLayout staticLayout2;
+        TextPaint textPaint2;
         int i8;
+        TextLayoutBlock textLayoutBlock;
         int i9;
-        StaticLayout staticLayout3;
-        int ceil2;
         int i10;
+        StaticLayout staticLayout3;
         int i11;
         int i12;
         float f;
+        int ceil2;
+        int i13;
         float f2;
-        StaticLayout staticLayout4;
         float f3;
         float f4;
-        float f5;
-        int i13;
-        int i14;
         boolean z3;
+        StaticLayout staticLayout4;
+        boolean z4;
+        float f5;
         MessageObject messageObject;
-        int i15 = this.type;
-        if ((i15 == 0 || i15 == 19) && this.messageOwner.peer_id != null && !TextUtils.isEmpty(this.messageText)) {
+        int i14 = this.type;
+        if ((i14 == 0 || i14 == 19) && this.messageOwner.peer_id != null && !TextUtils.isEmpty(this.messageText)) {
             generateLinkDescription();
             this.textLayoutBlocks = new ArrayList<>();
-            int i16 = 0;
             this.textWidth = 0;
-            int i17 = 1;
+            int i15 = 1;
             try {
                 if (!(this.messageOwner.send_state != 0 ? false : !tLRPC$Message.entities.isEmpty())) {
                     if (this.eventId == 0) {
@@ -5996,387 +6072,439 @@ public class MessageObject {
                         textPaint = Theme.chat_msgTextPaint;
                     }
                     TextPaint textPaint3 = textPaint;
+                    Layout.Alignment alignment2 = (this.type == 19 || !isOut()) ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE;
                     i = Build.VERSION.SDK_INT;
-                    int i18 = 24;
                     if (i < 24) {
                         CharSequence charSequence = this.messageText;
-                        staticLayout = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint3, maxMessageTextWidth).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
+                        staticLayout = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint3, maxMessageTextWidth).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment2).build();
+                        i2 = 24;
                     } else {
-                        staticLayout = new StaticLayout(this.messageText, textPaint3, maxMessageTextWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                        i2 = 24;
+                        staticLayout = new StaticLayout(this.messageText, textPaint3, maxMessageTextWidth, alignment2, 1.0f, 0.0f, false);
                     }
                     this.textHeight = staticLayout.getHeight();
                     this.linesCount = staticLayout.getLineCount();
-                    ceil = i < 24 ? 1 : (int) Math.ceil(lineCount / 10.0f);
+                    int i16 = this.totalAnimatedEmojiCount;
+                    int i17 = i16 < 50 ? 5 : 10;
+                    boolean z5 = i < i2 && i16 < 50;
+                    ceil = !z5 ? 1 : (int) Math.ceil(lineCount / i17);
                     float f6 = 0.0f;
-                    int i19 = 0;
+                    int i18 = 0;
+                    i3 = 0;
                     float f7 = 0.0f;
-                    for (i2 = 0; i2 < ceil; i2 = i4 + 1) {
-                        int i20 = Build.VERSION.SDK_INT;
-                        if (i20 >= i18) {
+                    while (i3 < ceil) {
+                        if (z5) {
                             min = this.linesCount;
                         } else {
-                            min = Math.min(10, this.linesCount - i19);
+                            min = Math.min(i17, this.linesCount - i18);
                         }
-                        int i21 = min;
                         TextLayoutBlock textLayoutBlock2 = new TextLayoutBlock();
-                        if (ceil == i17) {
+                        if (ceil == i15) {
                             textLayoutBlock2.textLayout = staticLayout;
                             textLayoutBlock2.textYOffset = f6;
-                            textLayoutBlock2.charactersOffset = i16;
+                            textLayoutBlock2.charactersOffset = 0;
                             textLayoutBlock2.charactersEnd = staticLayout.getText().length();
-                            int i22 = this.emojiOnlyCount;
-                            if (i22 != 0) {
-                                if (i22 == i17) {
+                            int i19 = this.emojiOnlyCount;
+                            if (i19 != 0) {
+                                if (i19 == i15) {
                                     this.textHeight -= AndroidUtilities.dp(5.3f);
                                     textLayoutBlock2.textYOffset -= AndroidUtilities.dp(5.3f);
-                                } else if (i22 == 2) {
+                                } else if (i19 == 2) {
                                     this.textHeight -= AndroidUtilities.dp(4.5f);
                                     textLayoutBlock2.textYOffset -= AndroidUtilities.dp(4.5f);
-                                } else if (i22 == 3) {
+                                } else if (i19 == 3) {
                                     this.textHeight -= AndroidUtilities.dp(4.2f);
                                     textLayoutBlock2.textYOffset -= AndroidUtilities.dp(4.2f);
                                 }
                             }
                             textLayoutBlock2.height = this.textHeight;
+                            i11 = min;
+                            alignment = alignment2;
                             textLayoutBlock = textLayoutBlock2;
-                            i6 = i21;
-                            i9 = i19;
-                            i4 = i2;
-                            i5 = ceil;
+                            i4 = i18;
+                            i5 = i3;
+                            i6 = ceil;
+                            i7 = i17;
                             staticLayout3 = staticLayout;
                             textPaint2 = textPaint3;
+                            i8 = maxMessageTextWidth;
                         } else {
-                            int lineStart = staticLayout.getLineStart(i19);
-                            int lineEnd = staticLayout.getLineEnd((i19 + i21) - 1);
+                            int lineStart = staticLayout.getLineStart(i18);
+                            int lineEnd = staticLayout.getLineEnd((i18 + min) - i15);
                             if (lineEnd < lineStart) {
+                                alignment = alignment2;
                                 z2 = addEntitiesToText;
-                                i3 = i19;
-                                i4 = i2;
-                                i5 = ceil;
+                                i4 = i18;
+                                i5 = i3;
+                                i6 = ceil;
+                                i7 = i17;
                                 staticLayout2 = staticLayout;
                                 textPaint2 = textPaint3;
+                                i8 = maxMessageTextWidth;
                             } else {
                                 textLayoutBlock2.charactersOffset = lineStart;
                                 textLayoutBlock2.charactersEnd = lineEnd;
                                 try {
                                     SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(this.messageText.subSequence(lineStart, lineEnd));
-                                    if (addEntitiesToText && i20 >= i18) {
-                                        StaticLayout.Builder obtain = StaticLayout.Builder.obtain(valueOf, i16, valueOf.length(), textPaint3, AndroidUtilities.dp(2.0f) + maxMessageTextWidth);
-                                        i17 = 1;
+                                    if (addEntitiesToText && Build.VERSION.SDK_INT >= i2) {
                                         try {
-                                            textLayoutBlock2.textLayout = obtain.setBreakStrategy(1).setHyphenationFrequency(i16).setAlignment(Layout.Alignment.ALIGN_NORMAL).build();
+                                            textLayoutBlock2.textLayout = StaticLayout.Builder.obtain(valueOf, 0, valueOf.length(), textPaint3, AndroidUtilities.dp(2.0f) + maxMessageTextWidth).setBreakStrategy(1).setHyphenationFrequency(0).setAlignment(alignment2).build();
+                                            alignment = alignment2;
                                             textLayoutBlock = textLayoutBlock2;
-                                            i6 = i21;
-                                            i9 = i19;
-                                            i7 = i2;
-                                            i8 = ceil;
+                                            i4 = i18;
+                                            i9 = i3;
+                                            i10 = ceil;
+                                            i7 = i17;
                                             staticLayout3 = staticLayout;
                                             textPaint2 = textPaint3;
+                                            i8 = maxMessageTextWidth;
                                         } catch (Exception e) {
                                             e = e;
+                                            alignment = alignment2;
                                             z2 = addEntitiesToText;
-                                            i3 = i19;
-                                            i4 = i2;
-                                            i5 = ceil;
+                                            i4 = i18;
+                                            i5 = i3;
+                                            i6 = ceil;
+                                            i7 = i17;
                                             staticLayout2 = staticLayout;
                                             textPaint2 = textPaint3;
+                                            i8 = maxMessageTextWidth;
                                             FileLog.e(e);
-                                            i19 = i3;
-                                            ceil = i5;
+                                            i12 = i4;
+                                            int i20 = i5 + 1;
+                                            i18 = i12;
+                                            maxMessageTextWidth = i8;
+                                            ceil = i6;
+                                            i17 = i7;
                                             textPaint3 = textPaint2;
+                                            alignment2 = alignment;
                                             addEntitiesToText = z2;
                                             staticLayout = staticLayout2;
-                                            i16 = 0;
+                                            i15 = 1;
                                             f6 = 0.0f;
-                                            i18 = 24;
+                                            i3 = i20;
+                                            i2 = 24;
                                         }
                                     } else {
                                         int length = valueOf.length();
                                         textLayoutBlock = textLayoutBlock2;
-                                        i6 = i21;
-                                        i7 = i2;
-                                        i3 = i19;
-                                        i8 = ceil;
+                                        i4 = i18;
+                                        i9 = i3;
+                                        i10 = ceil;
+                                        i7 = i17;
+                                        Layout.Alignment alignment3 = alignment2;
                                         staticLayout2 = staticLayout;
                                         textPaint2 = textPaint3;
+                                        alignment = alignment2;
+                                        i8 = maxMessageTextWidth;
                                         try {
-                                            textLayoutBlock.textLayout = new StaticLayout(valueOf, 0, length, textPaint3, maxMessageTextWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                                            i9 = i3;
+                                            textLayoutBlock.textLayout = new StaticLayout(valueOf, 0, length, textPaint3, maxMessageTextWidth, alignment3, 1.0f, 0.0f, false);
                                             staticLayout3 = staticLayout2;
                                         } catch (Exception e2) {
                                             e = e2;
                                             z2 = addEntitiesToText;
-                                            i4 = i7;
-                                            i5 = i8;
-                                            i17 = 1;
+                                            i5 = i9;
+                                            i6 = i10;
                                             FileLog.e(e);
-                                            i19 = i3;
-                                            ceil = i5;
+                                            i12 = i4;
+                                            int i202 = i5 + 1;
+                                            i18 = i12;
+                                            maxMessageTextWidth = i8;
+                                            ceil = i6;
+                                            i17 = i7;
                                             textPaint3 = textPaint2;
+                                            alignment2 = alignment;
                                             addEntitiesToText = z2;
                                             staticLayout = staticLayout2;
-                                            i16 = 0;
+                                            i15 = 1;
                                             f6 = 0.0f;
-                                            i18 = 24;
+                                            i3 = i202;
+                                            i2 = 24;
                                         }
                                     }
-                                    try {
-                                        float lineTop = staticLayout3.getLineTop(i9);
-                                        textLayoutBlock.textYOffset = lineTop;
-                                        i4 = i7;
-                                        if (i4 != 0) {
-                                            try {
-                                                textLayoutBlock.height = (int) (lineTop - f7);
-                                            } catch (Exception e3) {
-                                                e = e3;
-                                                z2 = addEntitiesToText;
-                                                staticLayout2 = staticLayout3;
-                                                i3 = i9;
-                                                i5 = i8;
-                                                i17 = 1;
-                                                FileLog.e(e);
-                                                i19 = i3;
-                                                ceil = i5;
-                                                textPaint3 = textPaint2;
-                                                addEntitiesToText = z2;
-                                                staticLayout = staticLayout2;
-                                                i16 = 0;
-                                                f6 = 0.0f;
-                                                i18 = 24;
-                                            }
+                                } catch (Exception e3) {
+                                    e = e3;
+                                    alignment = alignment2;
+                                    z2 = addEntitiesToText;
+                                    i4 = i18;
+                                    i5 = i3;
+                                    i6 = ceil;
+                                    i7 = i17;
+                                    staticLayout2 = staticLayout;
+                                    textPaint2 = textPaint3;
+                                    i8 = maxMessageTextWidth;
+                                }
+                                try {
+                                    float lineTop = staticLayout3.getLineTop(i4);
+                                    textLayoutBlock.textYOffset = lineTop;
+                                    i5 = i9;
+                                    if (i5 != 0) {
+                                        try {
+                                            textLayoutBlock.height = (int) (lineTop - f7);
+                                        } catch (Exception e4) {
+                                            e = e4;
+                                            z2 = addEntitiesToText;
+                                            staticLayout2 = staticLayout3;
+                                            i6 = i10;
+                                            FileLog.e(e);
+                                            i12 = i4;
+                                            int i2022 = i5 + 1;
+                                            i18 = i12;
+                                            maxMessageTextWidth = i8;
+                                            ceil = i6;
+                                            i17 = i7;
+                                            textPaint3 = textPaint2;
+                                            alignment2 = alignment;
+                                            addEntitiesToText = z2;
+                                            staticLayout = staticLayout2;
+                                            i15 = 1;
+                                            f6 = 0.0f;
+                                            i3 = i2022;
+                                            i2 = 24;
                                         }
-                                        int i23 = textLayoutBlock.height;
-                                        StaticLayout staticLayout5 = textLayoutBlock.textLayout;
-                                        textLayoutBlock.height = Math.max(i23, staticLayout5.getLineBottom(staticLayout5.getLineCount() - 1));
-                                        float f8 = textLayoutBlock.textYOffset;
-                                        i5 = i8;
-                                        if (i4 == i5 - 1) {
-                                            i6 = Math.max(i6, textLayoutBlock.textLayout.getLineCount());
-                                            try {
-                                                this.textHeight = Math.max(this.textHeight, (int) (textLayoutBlock.textYOffset + textLayoutBlock.textLayout.getHeight()));
-                                            } catch (Exception e4) {
-                                                FileLog.e(e4);
-                                            }
-                                        }
-                                        f7 = f8;
-                                    } catch (Exception e5) {
-                                        e = e5;
-                                        z2 = addEntitiesToText;
-                                        staticLayout2 = staticLayout3;
-                                        i3 = i9;
-                                        i4 = i7;
-                                        i5 = i8;
-                                        i17 = 1;
-                                        FileLog.e(e);
-                                        i19 = i3;
-                                        ceil = i5;
-                                        textPaint3 = textPaint2;
-                                        addEntitiesToText = z2;
-                                        staticLayout = staticLayout2;
-                                        i16 = 0;
-                                        f6 = 0.0f;
-                                        i18 = 24;
                                     }
+                                    int i21 = textLayoutBlock.height;
+                                    StaticLayout staticLayout5 = textLayoutBlock.textLayout;
+                                    textLayoutBlock.height = Math.max(i21, staticLayout5.getLineBottom(staticLayout5.getLineCount() - 1));
+                                    float f8 = textLayoutBlock.textYOffset;
+                                    i6 = i10;
+                                    if (i5 == i6 - 1) {
+                                        i11 = Math.max(min, textLayoutBlock.textLayout.getLineCount());
+                                        try {
+                                            this.textHeight = Math.max(this.textHeight, (int) (textLayoutBlock.textYOffset + textLayoutBlock.textLayout.getHeight()));
+                                        } catch (Exception e5) {
+                                            FileLog.e(e5);
+                                        }
+                                    } else {
+                                        i11 = min;
+                                    }
+                                    f7 = f8;
                                 } catch (Exception e6) {
                                     e = e6;
                                     z2 = addEntitiesToText;
-                                    i3 = i19;
-                                    i4 = i2;
-                                    i5 = ceil;
-                                    staticLayout2 = staticLayout;
-                                    textPaint2 = textPaint3;
-                                    i17 = 1;
+                                    staticLayout2 = staticLayout3;
+                                    i5 = i9;
+                                    i6 = i10;
+                                    FileLog.e(e);
+                                    i12 = i4;
+                                    int i20222 = i5 + 1;
+                                    i18 = i12;
+                                    maxMessageTextWidth = i8;
+                                    ceil = i6;
+                                    i17 = i7;
+                                    textPaint3 = textPaint2;
+                                    alignment2 = alignment;
+                                    addEntitiesToText = z2;
+                                    staticLayout = staticLayout2;
+                                    i15 = 1;
+                                    f6 = 0.0f;
+                                    i3 = i20222;
+                                    i2 = 24;
                                 }
                             }
-                            i19 = i3;
-                            ceil = i5;
+                            i12 = i4;
+                            int i202222 = i5 + 1;
+                            i18 = i12;
+                            maxMessageTextWidth = i8;
+                            ceil = i6;
+                            i17 = i7;
                             textPaint3 = textPaint2;
+                            alignment2 = alignment;
                             addEntitiesToText = z2;
                             staticLayout = staticLayout2;
-                            i16 = 0;
+                            i15 = 1;
                             f6 = 0.0f;
-                            i18 = 24;
+                            i3 = i202222;
+                            i2 = 24;
                         }
                         textLayoutBlock.spoilers.clear();
                         if (!this.isSpoilersRevealed) {
                             SpoilerEffect.addSpoilers(null, textLayoutBlock.textLayout, null, textLayoutBlock.spoilers);
                         }
                         this.textLayoutBlocks.add(textLayoutBlock);
-                        float f9 = textLayoutBlock.textLayout.getLineLeft(i6 - 1);
-                        float f10 = 0.0f;
-                        if (i4 == 0 && f9 >= 0.0f) {
+                        float lineLeft = textLayoutBlock.textLayout.getLineLeft(i11 - 1);
+                        float f9 = 0.0f;
+                        if (i5 == 0 && lineLeft >= 0.0f) {
                             try {
-                                this.textXOffset = f9;
+                                this.textXOffset = lineLeft;
                             } catch (Exception e7) {
                                 e = e7;
-                                if (i4 == 0) {
-                                    this.textXOffset = f10;
+                                if (i5 == 0) {
+                                    this.textXOffset = f9;
                                 }
                                 FileLog.e(e);
-                                f9 = 0.0f;
-                                float f11 = textLayoutBlock.textLayout.getLineWidth(i6 - 1);
-                                ceil2 = (int) Math.ceil(f11);
-                                if (ceil2 > maxMessageTextWidth + 80) {
+                                f = 0.0f;
+                                float f10 = textLayoutBlock.textLayout.getLineWidth(i11 - 1);
+                                ceil2 = (int) Math.ceil(f10);
+                                if (ceil2 > i8 + 80) {
                                 }
-                                i10 = i5 - 1;
-                                if (i4 == i10) {
+                                i13 = i6 - 1;
+                                if (i5 == i13) {
                                 }
-                                float f12 = ceil2;
-                                int ceil3 = (int) Math.ceil(Math.max(f10, f9) + f12);
-                                if (i6 <= 1) {
+                                float f11 = ceil2;
+                                int ceil3 = (int) Math.ceil(Math.max(f9, f) + f11);
+                                if (i11 <= 1) {
                                 }
-                                i19 = i12 + i11;
-                                ceil = i5;
+                                i12 = i4 + i11;
+                                int i2022222 = i5 + 1;
+                                i18 = i12;
+                                maxMessageTextWidth = i8;
+                                ceil = i6;
+                                i17 = i7;
                                 textPaint3 = textPaint2;
+                                alignment2 = alignment;
                                 addEntitiesToText = z2;
                                 staticLayout = staticLayout2;
-                                i16 = 0;
+                                i15 = 1;
                                 f6 = 0.0f;
-                                i18 = 24;
+                                i3 = i2022222;
+                                i2 = 24;
                             }
                         }
-                        float f112 = textLayoutBlock.textLayout.getLineWidth(i6 - 1);
-                        ceil2 = (int) Math.ceil(f112);
-                        if (ceil2 > maxMessageTextWidth + 80) {
-                            ceil2 = maxMessageTextWidth;
+                        f = lineLeft;
+                        float f102 = textLayoutBlock.textLayout.getLineWidth(i11 - 1);
+                        ceil2 = (int) Math.ceil(f102);
+                        if (ceil2 > i8 + 80) {
+                            ceil2 = i8;
                         }
-                        i10 = i5 - 1;
-                        if (i4 == i10) {
+                        i13 = i6 - 1;
+                        if (i5 == i13) {
                             this.lastLineWidth = ceil2;
                         }
-                        float f122 = ceil2;
-                        int ceil32 = (int) Math.ceil(Math.max(f10, f9) + f122);
-                        if (i6 <= 1) {
-                            int i24 = ceil2;
-                            z2 = addEntitiesToText;
-                            int i25 = ceil32;
-                            int i26 = 0;
+                        float f112 = ceil2;
+                        int ceil32 = (int) Math.ceil(Math.max(f9, f) + f112);
+                        if (i11 <= 1) {
+                            int i22 = ceil32;
+                            int i23 = ceil2;
+                            int i24 = 0;
+                            boolean z6 = false;
+                            float f12 = 0.0f;
                             float f13 = 0.0f;
-                            float f14 = 0.0f;
-                            boolean z4 = false;
-                            while (i26 < i6) {
+                            while (i24 < i11) {
                                 try {
-                                    f = textLayoutBlock.textLayout.getLineWidth(i26);
+                                    f2 = textLayoutBlock.textLayout.getLineWidth(i24);
                                 } catch (Exception e8) {
                                     FileLog.e(e8);
-                                    f = 0.0f;
-                                }
-                                try {
-                                    f2 = textLayoutBlock.textLayout.getLineLeft(i26);
-                                } catch (Exception e9) {
-                                    FileLog.e(e9);
                                     f2 = 0.0f;
                                 }
-                                float f15 = f2;
-                                if (f > maxMessageTextWidth + 20) {
-                                    staticLayout4 = staticLayout3;
-                                    f5 = 0.0f;
-                                    f3 = maxMessageTextWidth;
-                                    f4 = 0.0f;
-                                } else {
-                                    staticLayout4 = staticLayout3;
-                                    f3 = f;
-                                    f4 = f15;
-                                    f5 = 0.0f;
+                                try {
+                                    f3 = textLayoutBlock.textLayout.getLineLeft(i24);
+                                } catch (Exception e9) {
+                                    FileLog.e(e9);
+                                    f3 = 0.0f;
                                 }
-                                if (f4 > f5) {
-                                    i13 = i6;
-                                    this.textXOffset = Math.min(this.textXOffset, f4);
-                                    i14 = i9;
+                                if (f2 > i8 + 20) {
+                                    f4 = i8;
+                                    f3 = 0.0f;
+                                } else {
+                                    f4 = f2;
+                                }
+                                if (f3 > 0.0f) {
+                                    z3 = addEntitiesToText;
+                                    this.textXOffset = Math.min(this.textXOffset, f3);
+                                    staticLayout4 = staticLayout3;
                                     textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                                     this.hasRtl = true;
                                 } else {
-                                    i13 = i6;
-                                    i14 = i9;
+                                    z3 = addEntitiesToText;
+                                    staticLayout4 = staticLayout3;
                                     textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
                                 }
-                                if (!z4 && f4 == 0.0f) {
+                                if (!z6 && f3 == 0.0f) {
                                     try {
                                     } catch (Exception unused) {
-                                        z4 = true;
+                                        f5 = f13;
+                                        z6 = true;
                                     }
-                                    if (textLayoutBlock.textLayout.getParagraphDirection(i26) == 1) {
-                                        z3 = true;
-                                        z4 = z3;
-                                        f14 = Math.max(f14, f3);
-                                        float f16 = f4 + f3;
-                                        f13 = Math.max(f13, f16);
-                                        i24 = Math.max(i24, (int) Math.ceil(f3));
-                                        i25 = Math.max(i25, (int) Math.ceil(f16));
-                                        i26++;
-                                        i6 = i13;
-                                        i9 = i14;
+                                    if (textLayoutBlock.textLayout.getParagraphDirection(i24) == 1) {
+                                        z4 = true;
+                                        z6 = z4;
+                                        f5 = f13;
+                                        f13 = Math.max(f5, f4);
+                                        float f14 = f3 + f4;
+                                        f12 = Math.max(f12, f14);
+                                        i23 = Math.max(i23, (int) Math.ceil(f4));
+                                        i22 = Math.max(i22, (int) Math.ceil(f14));
+                                        i24++;
+                                        addEntitiesToText = z3;
                                         staticLayout3 = staticLayout4;
                                     }
                                 }
-                                z3 = z4;
-                                z4 = z3;
-                                f14 = Math.max(f14, f3);
-                                float f162 = f4 + f3;
-                                f13 = Math.max(f13, f162);
-                                i24 = Math.max(i24, (int) Math.ceil(f3));
-                                i25 = Math.max(i25, (int) Math.ceil(f162));
-                                i26++;
-                                i6 = i13;
-                                i9 = i14;
+                                z4 = z6;
+                                z6 = z4;
+                                f5 = f13;
+                                f13 = Math.max(f5, f4);
+                                float f142 = f3 + f4;
+                                f12 = Math.max(f12, f142);
+                                i23 = Math.max(i23, (int) Math.ceil(f4));
+                                i22 = Math.max(i22, (int) Math.ceil(f142));
+                                i24++;
+                                addEntitiesToText = z3;
                                 staticLayout3 = staticLayout4;
                             }
-                            i11 = i6;
+                            z2 = addEntitiesToText;
                             staticLayout2 = staticLayout3;
-                            i12 = i9;
-                            if (!z4) {
-                                if (i4 == i10) {
-                                    this.lastLineWidth = i24;
+                            float f15 = f13;
+                            int i25 = i23;
+                            if (!z6) {
+                                if (i5 == i13) {
+                                    this.lastLineWidth = i25;
                                 }
-                                f13 = f14;
-                            } else if (i4 == i10) {
+                                f12 = f15;
+                            } else if (i5 == i13) {
                                 this.lastLineWidth = ceil32;
                             }
-                            this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f13));
-                            i17 = 1;
+                            this.textWidth = Math.max(this.textWidth, (int) Math.ceil(f12));
                         } else {
                             z2 = addEntitiesToText;
-                            i11 = i6;
                             staticLayout2 = staticLayout3;
-                            i12 = i9;
-                            if (f9 > 0.0f) {
-                                float min2 = Math.min(this.textXOffset, f9);
+                            if (f > 0.0f) {
+                                float min2 = Math.min(this.textXOffset, f);
                                 this.textXOffset = min2;
                                 if (min2 == 0.0f) {
-                                    ceil2 = (int) (f122 + f9);
+                                    ceil2 = (int) (f112 + f);
                                 }
-                                i17 = 1;
-                                this.hasRtl = i5 != 1;
+                                this.hasRtl = i6 != 1;
                                 textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 1);
                             } else {
-                                i17 = 1;
                                 textLayoutBlock.directionFlags = (byte) (textLayoutBlock.directionFlags | 2);
                             }
-                            this.textWidth = Math.max(this.textWidth, Math.min(maxMessageTextWidth, ceil2));
+                            this.textWidth = Math.max(this.textWidth, Math.min(i8, ceil2));
                         }
-                        i19 = i12 + i11;
-                        ceil = i5;
+                        i12 = i4 + i11;
+                        int i20222222 = i5 + 1;
+                        i18 = i12;
+                        maxMessageTextWidth = i8;
+                        ceil = i6;
+                        i17 = i7;
                         textPaint3 = textPaint2;
+                        alignment2 = alignment;
                         addEntitiesToText = z2;
                         staticLayout = staticLayout2;
-                        i16 = 0;
+                        i15 = 1;
                         f6 = 0.0f;
-                        i18 = 24;
+                        i3 = i20222222;
+                        i2 = 24;
                     }
                     return;
                 }
                 i = Build.VERSION.SDK_INT;
-                int i182 = 24;
                 if (i < 24) {
                 }
                 this.textHeight = staticLayout.getHeight();
                 this.linesCount = staticLayout.getLineCount();
-                if (i < 24) {
+                int i162 = this.totalAnimatedEmojiCount;
+                if (i162 < 50) {
+                }
+                if (i < i2) {
+                }
+                if (!z5) {
                 }
                 float f62 = 0.0f;
-                int i192 = 0;
+                int i182 = 0;
+                i3 = 0;
                 float f72 = 0.0f;
-                while (i2 < ceil) {
+                while (i3 < ceil) {
                 }
                 return;
             } catch (Exception e10) {
@@ -6394,6 +6522,7 @@ public class MessageObject {
             if (!(this.messageOwner.media instanceof TLRPC$TL_messageMediaGame)) {
             }
             TextPaint textPaint32 = textPaint;
+            Layout.Alignment alignment22 = (this.type == 19 || !isOut()) ? Layout.Alignment.ALIGN_NORMAL : Layout.Alignment.ALIGN_OPPOSITE;
         }
     }
 
@@ -7382,7 +7511,7 @@ public class MessageObject {
         }
         for (int i = 0; i < document.attributes.size(); i++) {
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i);
-            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
+            if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji)) {
                 String str = tLRPC$DocumentAttribute.alt;
                 if (str != null && str.length() > 0) {
                     return tLRPC$DocumentAttribute.alt;
@@ -7400,6 +7529,10 @@ public class MessageObject {
 
     public boolean isAnimatedEmoji() {
         return (this.emojiAnimatedSticker == null && this.emojiAnimatedStickerId == null) ? false : true;
+    }
+
+    public boolean isAnimatedAnimatedEmoji() {
+        return isAnimatedEmoji() && isAnimatedEmoji(getDocument());
     }
 
     public boolean isDice() {
@@ -7455,6 +7588,14 @@ public class MessageObject {
     public boolean shouldDrawWithoutBackground() {
         int i = this.type;
         return i == 13 || i == 15 || i == 5 || i == 19;
+    }
+
+    public boolean isAnimatedEmojiStickers() {
+        return this.type == 19;
+    }
+
+    public boolean isAnimatedEmojiStickerSingle() {
+        return this.emojiAnimatedStickerId != null;
     }
 
     public boolean isLocation() {

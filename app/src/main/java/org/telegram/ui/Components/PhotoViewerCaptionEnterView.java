@@ -643,12 +643,17 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     private void createEmojiView() {
+        EmojiView emojiView = this.emojiView;
+        if (emojiView != null && emojiView.currentAccount != UserConfig.selectedAccount) {
+            this.sizeNotifierLayout.removeView(emojiView);
+            this.emojiView = null;
+        }
         if (this.emojiView != null) {
             return;
         }
-        EmojiView emojiView = new EmojiView(null, true, false, false, getContext(), false, null, null, null);
-        this.emojiView = emojiView;
-        emojiView.setDelegate(new EmojiView.EmojiViewDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3
+        EmojiView emojiView2 = new EmojiView(null, true, false, false, getContext(), false, null, null, null);
+        this.emojiView = emojiView2;
+        emojiView2.setDelegate(new EmojiView.EmojiViewDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
             public /* synthetic */ boolean canSchedule() {
                 return EmojiView.EmojiViewDelegate.-CC.$default$canSchedule(this);
@@ -935,9 +940,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     private void showPopup(int i, boolean z) {
         EmojiView emojiView;
         if (i == 1) {
-            if (this.emojiView == null) {
-                createEmojiView();
-            }
+            createEmojiView();
             this.emojiView.setVisibility(0);
             this.delegate.onEmojiViewOpen();
             if (this.keyboardHeight <= 0) {

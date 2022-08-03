@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Property;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Premium.PremiumButtonView;
 import org.telegram.ui.Components.ProgressButton;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
@@ -47,11 +49,16 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
     private final TextView delButton;
     private final BackupImageView imageView;
     private boolean isInstalled;
+    private boolean isLocked;
     private boolean needDivider;
     private final Theme.ResourcesProvider resourcesProvider;
     private TLRPC$StickerSetCovered stickersSet;
     private final TextView textView;
+    private final PremiumButtonView unlockButton;
     private final TextView valueTextView;
+
+    protected void onPremiumButtonClick() {
+    }
 
     public FeaturedStickerSetCell2(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -99,7 +106,34 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         textView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView3.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
         addView(textView3, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 14.0f, 0.0f));
+        PremiumButtonView premiumButtonView = new PremiumButtonView(context, AndroidUtilities.dp(4.0f), false);
+        this.unlockButton = premiumButtonView;
+        premiumButtonView.setIcon(R.raw.unlock_icon);
+        premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2$$ExternalSyntheticLambda0
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                FeaturedStickerSetCell2.this.lambda$new$0(view);
+            }
+        });
+        premiumButtonView.setVisibility(8);
+        try {
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) premiumButtonView.getIconView().getLayoutParams();
+            marginLayoutParams.leftMargin = AndroidUtilities.dp(1.0f);
+            marginLayoutParams.topMargin = AndroidUtilities.dp(1.0f);
+            int dp = AndroidUtilities.dp(20.0f);
+            marginLayoutParams.height = dp;
+            marginLayoutParams.width = dp;
+            ((ViewGroup.MarginLayoutParams) premiumButtonView.getTextView().getLayoutParams()).leftMargin = AndroidUtilities.dp(3.0f);
+            premiumButtonView.getChildAt(0).setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f), 0);
+        } catch (Exception unused) {
+        }
+        addView(this.unlockButton, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, 8388661, 0.0f, 16.0f, 10.0f, 0.0f));
         updateColors();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(View view) {
+        onPremiumButtonClick();
     }
 
     public TextView getTextView() {
@@ -120,10 +154,10 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         measureChildWithMargins(this.textView, i, measuredWidth, i2, 0);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:118:0x017f  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01ab  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x026d  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x017f  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x01c2  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x02de  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -252,10 +286,30 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                     this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLRPC$StickerSetCovered);
                 }
                 this.addButton.setVisibility(0);
-                boolean z7 = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
-                this.isInstalled = z7;
+                this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+                boolean z7 = UserConfig.getInstance(this.currentAccount).isPremium() && MessageObject.isPremiumEmojiPack(tLRPC$StickerSetCovered);
+                this.isLocked = z7;
                 if (z4) {
                     if (z7) {
+                        this.unlockButton.setVisibility(0);
+                        this.unlockButton.setAlpha(1.0f);
+                        this.unlockButton.setScaleX(1.0f);
+                        this.unlockButton.setScaleY(1.0f);
+                        this.addButton.setVisibility(4);
+                        this.addButton.setAlpha(0.0f);
+                        this.addButton.setScaleX(0.0f);
+                        this.addButton.setScaleY(0.0f);
+                        this.delButton.setVisibility(4);
+                        this.delButton.setAlpha(0.0f);
+                        this.delButton.setScaleX(0.0f);
+                        this.delButton.setScaleY(0.0f);
+                        return;
+                    }
+                    this.unlockButton.setVisibility(4);
+                    this.unlockButton.setAlpha(0.0f);
+                    this.unlockButton.setScaleX(0.0f);
+                    this.unlockButton.setScaleY(0.0f);
+                    if (this.isInstalled) {
                         this.delButton.setVisibility(0);
                         this.delButton.setAlpha(1.0f);
                         this.delButton.setScaleX(1.0f);
@@ -278,52 +332,72 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                 }
                 if (z7) {
                     this.delButton.setVisibility(0);
-                } else {
                     this.addButton.setVisibility(0);
+                } else {
+                    this.unlockButton.setVisibility(0);
+                    if (this.isInstalled) {
+                        this.delButton.setVisibility(0);
+                    } else {
+                        this.addButton.setVisibility(0);
+                    }
                 }
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.currentAnimation = animatorSet2;
                 animatorSet2.setDuration(250L);
                 AnimatorSet animatorSet3 = this.currentAnimation;
-                Animator[] animatorArr = new Animator[6];
+                Animator[] animatorArr = new Animator[8];
                 TextView textView3 = this.delButton;
                 Property property = View.ALPHA;
                 float[] fArr = new float[1];
-                fArr[0] = this.isInstalled ? 1.0f : 0.0f;
+                fArr[0] = (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f;
                 animatorArr[0] = ObjectAnimator.ofFloat(textView3, property, fArr);
                 TextView textView4 = this.delButton;
                 Property property2 = View.SCALE_X;
                 float[] fArr2 = new float[1];
-                fArr2[0] = this.isInstalled ? 1.0f : 0.0f;
+                fArr2[0] = (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f;
                 animatorArr[1] = ObjectAnimator.ofFloat(textView4, property2, fArr2);
                 TextView textView5 = this.delButton;
                 Property property3 = View.SCALE_Y;
                 float[] fArr3 = new float[1];
-                fArr3[0] = this.isInstalled ? 1.0f : 0.0f;
+                fArr3[0] = (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f;
                 animatorArr[2] = ObjectAnimator.ofFloat(textView5, property3, fArr3);
                 ProgressButton progressButton = this.addButton;
                 Property property4 = View.ALPHA;
                 float[] fArr4 = new float[1];
-                fArr4[0] = this.isInstalled ? 0.0f : 1.0f;
+                fArr4[0] = (this.isInstalled || this.isLocked) ? 0.0f : 1.0f;
                 animatorArr[3] = ObjectAnimator.ofFloat(progressButton, property4, fArr4);
                 ProgressButton progressButton2 = this.addButton;
                 Property property5 = View.SCALE_X;
                 float[] fArr5 = new float[1];
-                fArr5[0] = this.isInstalled ? 0.0f : 1.0f;
+                fArr5[0] = (this.isInstalled || this.isLocked) ? 0.0f : 1.0f;
                 animatorArr[4] = ObjectAnimator.ofFloat(progressButton2, property5, fArr5);
-                ProgressButton progressButton3 = this.addButton;
+                PremiumButtonView premiumButtonView = this.unlockButton;
                 Property property6 = View.SCALE_Y;
                 float[] fArr6 = new float[1];
-                if (this.isInstalled) {
+                fArr6[0] = !this.isLocked ? 0.0f : 1.0f;
+                animatorArr[5] = ObjectAnimator.ofFloat(premiumButtonView, property6, fArr6);
+                PremiumButtonView premiumButtonView2 = this.unlockButton;
+                Property property7 = View.SCALE_X;
+                float[] fArr7 = new float[1];
+                fArr7[0] = !this.isLocked ? 0.0f : 1.0f;
+                animatorArr[6] = ObjectAnimator.ofFloat(premiumButtonView2, property7, fArr7);
+                PremiumButtonView premiumButtonView3 = this.unlockButton;
+                Property property8 = View.SCALE_Y;
+                float[] fArr8 = new float[1];
+                if (!this.isLocked) {
                     f = 0.0f;
                 }
-                fArr6[0] = f;
-                animatorArr[5] = ObjectAnimator.ofFloat(progressButton3, property6, fArr6);
+                fArr8[0] = f;
+                animatorArr[7] = ObjectAnimator.ofFloat(premiumButtonView3, property8, fArr8);
                 animatorSet3.playTogether(animatorArr);
                 this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
-                        if (FeaturedStickerSetCell2.this.isInstalled) {
+                        if (FeaturedStickerSetCell2.this.isLocked) {
+                            FeaturedStickerSetCell2.this.addButton.setVisibility(4);
+                            FeaturedStickerSetCell2.this.delButton.setVisibility(4);
+                            FeaturedStickerSetCell2.this.unlockButton.setVisibility(4);
+                        } else if (FeaturedStickerSetCell2.this.isInstalled) {
                             FeaturedStickerSetCell2.this.addButton.setVisibility(4);
                         } else {
                             FeaturedStickerSetCell2.this.delButton.setVisibility(4);
@@ -340,9 +414,10 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         if (tLRPC$Document == null) {
         }
         this.addButton.setVisibility(0);
-        if (!z3) {
+        this.isInstalled = !z3 || MediaDataController.getInstance(this.currentAccount).isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
+        if (UserConfig.getInstance(this.currentAccount).isPremium()) {
         }
-        this.isInstalled = z7;
+        this.isLocked = z7;
         if (z4) {
         }
     }

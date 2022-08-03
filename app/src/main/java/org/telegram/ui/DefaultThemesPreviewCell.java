@@ -37,6 +37,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ThemeSmallPreviewView;
+import org.telegram.ui.DefaultThemesPreviewCell;
 @SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class DefaultThemesPreviewCell extends LinearLayout {
@@ -54,7 +55,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
     private int selectedPosition = -1;
     private Boolean wasPortrait = null;
 
-    public DefaultThemesPreviewCell(final Context context, final BaseFragment baseFragment, int i) {
+    public DefaultThemesPreviewCell(Context context, final BaseFragment baseFragment, int i) {
         super(context);
         LinearLayoutManager linearLayoutManager;
         this.currentType = i;
@@ -111,166 +112,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             this.browseThemesCell = textCell3;
             textCell3.setTextAndIcon(LocaleController.getString("SettingsBrowseThemes", R.string.SettingsBrowseThemes), R.drawable.msg_colors, false);
             addView(this.browseThemesCell, LayoutHelper.createFrame(-1, -2.0f));
-            this.dayNightCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1
-                /* JADX WARN: Removed duplicated region for block: B:24:0x0078  */
-                /* JADX WARN: Removed duplicated region for block: B:27:0x0087  */
-                /* JADX WARN: Removed duplicated region for block: B:30:0x0151  */
-                /* JADX WARN: Removed duplicated region for block: B:33:0x015c  */
-                /* JADX WARN: Removed duplicated region for block: B:45:0x01d1  */
-                /* JADX WARN: Removed duplicated region for block: B:47:0x01e6  */
-                /* JADX WARN: Removed duplicated region for block: B:49:0x0158  */
-                /* JADX WARN: Removed duplicated region for block: B:50:0x008d  */
-                /* JADX WARN: Removed duplicated region for block: B:51:0x007d  */
-                @Override // android.view.View.OnClickListener
-                @SuppressLint({"NotifyDataSetChanged"})
-                /*
-                    Code decompiled incorrectly, please refer to instructions dump.
-                */
-                public void onClick(View view) {
-                    boolean z;
-                    Theme.ThemeInfo theme;
-                    final Window window;
-                    if (DrawerProfileCell.switchingTheme) {
-                        return;
-                    }
-                    final int color = Theme.getColor("windowBackgroundWhiteBlueText4");
-                    final int color2 = Theme.getColor("windowBackgroundGray");
-                    DrawerProfileCell.switchingTheme = true;
-                    SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
-                    String str = "Blue";
-                    String string = sharedPreferences.getString("lastDayTheme", str);
-                    if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
-                        string = str;
-                    }
-                    String str2 = "Dark Blue";
-                    String string2 = sharedPreferences.getString("lastDarkTheme", str2);
-                    if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
-                        string2 = str2;
-                    }
-                    Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
-                    if (!string.equals(string2)) {
-                        str2 = string2;
-                    } else if (activeTheme.isDark() || string.equals(str2) || string.equals("Night")) {
-                        str2 = string2;
-                        z = !Theme.isCurrentThemeDark();
-                        if (!z) {
-                            theme = Theme.getTheme(str2);
-                        } else {
-                            theme = Theme.getTheme(str);
-                        }
-                        RLottieDrawable rLottieDrawable2 = DefaultThemesPreviewCell.this.darkThemeDrawable;
-                        rLottieDrawable2.setCustomEndFrame(!z ? rLottieDrawable2.getFramesCount() - 1 : 0);
-                        DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
-                        DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(r9);
-                        int[] iArr = {iArr[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
-                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell);
-                        DefaultThemesPreviewCell.this.updateDayNightMode();
-                        DefaultThemesPreviewCell.this.updateSelectedPosition();
-                        final int color3 = Theme.getColor("windowBackgroundWhiteBlueText4");
-                        DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(color3, PorterDuff.Mode.SRC_IN));
-                        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.1
-                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(color, color3, ((Float) valueAnimator.getAnimatedValue()).floatValue()), PorterDuff.Mode.SRC_IN));
-                            }
-                        });
-                        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.2
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(color3, PorterDuff.Mode.SRC_IN));
-                                super.onAnimationEnd(animator);
-                            }
-                        });
-                        ofFloat.setDuration(350L);
-                        ofFloat.start();
-                        final int color4 = Theme.getColor("windowBackgroundGray");
-                        Context context2 = context;
-                        window = !(context2 instanceof Activity) ? ((Activity) context2).getWindow() : null;
-                        if (window != null) {
-                            if (DefaultThemesPreviewCell.this.navBarAnimator != null && DefaultThemesPreviewCell.this.navBarAnimator.isRunning()) {
-                                int i3 = DefaultThemesPreviewCell.this.navBarColor;
-                                DefaultThemesPreviewCell.this.navBarAnimator.cancel();
-                                color2 = i3;
-                            }
-                            DefaultThemesPreviewCell.this.navBarAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-                            final float f = z ? 50.0f : 200.0f;
-                            DefaultThemesPreviewCell.this.navBarAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.3
-                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                    float max = Math.max(0.0f, Math.min(1.0f, ((((Float) valueAnimator.getAnimatedValue()).floatValue() * 350.0f) - f) / 150.0f));
-                                    DefaultThemesPreviewCell.this.navBarColor = ColorUtils.blendARGB(color2, color4, max);
-                                    boolean z2 = false;
-                                    AndroidUtilities.setNavigationBarColor(window, DefaultThemesPreviewCell.this.navBarColor, false);
-                                    Window window2 = window;
-                                    if (AndroidUtilities.computePerceivedBrightness(DefaultThemesPreviewCell.this.navBarColor) >= 0.721f) {
-                                        z2 = true;
-                                    }
-                                    AndroidUtilities.setLightNavigationBar(window2, z2);
-                                }
-                            });
-                            DefaultThemesPreviewCell.this.navBarAnimator.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.4
-                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                public void onAnimationEnd(Animator animator) {
-                                    boolean z2 = false;
-                                    AndroidUtilities.setNavigationBarColor(window, color4, false);
-                                    Window window2 = window;
-                                    if (AndroidUtilities.computePerceivedBrightness(color4) >= 0.721f) {
-                                        z2 = true;
-                                    }
-                                    AndroidUtilities.setLightNavigationBar(window2, z2);
-                                }
-                            });
-                            DefaultThemesPreviewCell.this.navBarAnimator.setDuration(350L);
-                            DefaultThemesPreviewCell.this.navBarAnimator.start();
-                        }
-                        if (!Theme.isCurrentThemeDay()) {
-                            DefaultThemesPreviewCell.this.dayNightCell.setTextAndIcon(LocaleController.getString("SettingsSwitchToNightMode", R.string.SettingsSwitchToNightMode), (Drawable) DefaultThemesPreviewCell.this.darkThemeDrawable, true);
-                            return;
-                        } else {
-                            DefaultThemesPreviewCell.this.dayNightCell.setTextAndIcon(LocaleController.getString("SettingsSwitchToDayMode", R.string.SettingsSwitchToDayMode), (Drawable) DefaultThemesPreviewCell.this.darkThemeDrawable, true);
-                            return;
-                        }
-                    }
-                    str = string;
-                    z = !Theme.isCurrentThemeDark();
-                    if (!z) {
-                    }
-                    RLottieDrawable rLottieDrawable22 = DefaultThemesPreviewCell.this.darkThemeDrawable;
-                    rLottieDrawable22.setCustomEndFrame(!z ? rLottieDrawable22.getFramesCount() - 1 : 0);
-                    DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
-                    DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(iArr);
-                    int[] iArr2 = {iArr2[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr2[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr2, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell);
-                    DefaultThemesPreviewCell.this.updateDayNightMode();
-                    DefaultThemesPreviewCell.this.updateSelectedPosition();
-                    final int color32 = Theme.getColor("windowBackgroundWhiteBlueText4");
-                    DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(color32, PorterDuff.Mode.SRC_IN));
-                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.1
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(color, color32, ((Float) valueAnimator.getAnimatedValue()).floatValue()), PorterDuff.Mode.SRC_IN));
-                        }
-                    });
-                    ofFloat2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.2
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(color32, PorterDuff.Mode.SRC_IN));
-                            super.onAnimationEnd(animator);
-                        }
-                    });
-                    ofFloat2.setDuration(350L);
-                    ofFloat2.start();
-                    final int color42 = Theme.getColor("windowBackgroundGray");
-                    Context context22 = context;
-                    window = !(context22 instanceof Activity) ? ((Activity) context22).getWindow() : null;
-                    if (window != null) {
-                    }
-                    if (!Theme.isCurrentThemeDay()) {
-                    }
-                }
-            });
+            this.dayNightCell.setOnClickListener(new 1(context));
             this.darkThemeDrawable.setPlayInDirectionOfCustomEndFrame(true);
             this.browseThemesCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
@@ -344,6 +186,166 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             SharedPreferences.Editor edit = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0).edit();
             edit.putString((this.currentType == 1 || themeInfo.isDark()) ? "lastDarkTheme" : "lastDayTheme", themeInfo.getKey());
             edit.commit();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 1 implements View.OnClickListener {
+        final /* synthetic */ Context val$context;
+
+        1(Context context) {
+            this.val$context = context;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0079  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0089  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x008f  */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x007e  */
+        @Override // android.view.View.OnClickListener
+        @SuppressLint({"NotifyDataSetChanged"})
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public void onClick(View view) {
+            final boolean z;
+            Theme.ThemeInfo theme;
+            if (DrawerProfileCell.switchingTheme) {
+                return;
+            }
+            final int color = Theme.getColor("windowBackgroundWhiteBlueText4");
+            final int color2 = Theme.getColor("windowBackgroundGray");
+            DrawerProfileCell.switchingTheme = true;
+            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
+            String str = "Blue";
+            String string = sharedPreferences.getString("lastDayTheme", str);
+            if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
+                string = str;
+            }
+            String str2 = "Dark Blue";
+            String string2 = sharedPreferences.getString("lastDarkTheme", str2);
+            if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
+                string2 = str2;
+            }
+            Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
+            if (!string.equals(string2)) {
+                str2 = string2;
+            } else if (activeTheme.isDark() || string.equals(str2) || string.equals("Night")) {
+                str2 = string2;
+                z = !Theme.isCurrentThemeDark();
+                if (!z) {
+                    theme = Theme.getTheme(str2);
+                } else {
+                    theme = Theme.getTheme(str);
+                }
+                Theme.ThemeInfo themeInfo = theme;
+                RLottieDrawable rLottieDrawable = DefaultThemesPreviewCell.this.darkThemeDrawable;
+                rLottieDrawable.setCustomEndFrame(!z ? rLottieDrawable.getFramesCount() - 1 : 0);
+                DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
+                DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(r10);
+                int[] iArr = {iArr[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
+                final Context context = this.val$context;
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell, new Runnable() { // from class: org.telegram.ui.DefaultThemesPreviewCell$1$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DefaultThemesPreviewCell.1.this.lambda$onClick$1(color, context, color2, z);
+                    }
+                });
+            }
+            str = string;
+            z = !Theme.isCurrentThemeDark();
+            if (!z) {
+            }
+            Theme.ThemeInfo themeInfo2 = theme;
+            RLottieDrawable rLottieDrawable2 = DefaultThemesPreviewCell.this.darkThemeDrawable;
+            rLottieDrawable2.setCustomEndFrame(!z ? rLottieDrawable2.getFramesCount() - 1 : 0);
+            DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
+            DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(iArr);
+            int[] iArr2 = {iArr2[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr2[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
+            final Context context2 = this.val$context;
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo2, Boolean.FALSE, iArr2, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell, new Runnable() { // from class: org.telegram.ui.DefaultThemesPreviewCell$1$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DefaultThemesPreviewCell.1.this.lambda$onClick$1(color, context2, color2, z);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$1(final int i, final Context context, final int i2, final boolean z) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DefaultThemesPreviewCell$1$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DefaultThemesPreviewCell.1.this.lambda$onClick$0(i, context, i2, z);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$0(final int i, Context context, int i2, boolean z) {
+            DefaultThemesPreviewCell.this.updateDayNightMode();
+            DefaultThemesPreviewCell.this.updateSelectedPosition();
+            final int color = Theme.getColor("windowBackgroundWhiteBlueText4");
+            DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(i, color, ((Float) valueAnimator.getAnimatedValue()).floatValue()), PorterDuff.Mode.SRC_IN));
+                }
+            });
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    DefaultThemesPreviewCell.this.darkThemeDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+                    super.onAnimationEnd(animator);
+                }
+            });
+            ofFloat.setDuration(350L);
+            ofFloat.start();
+            final int color2 = Theme.getColor("windowBackgroundGray");
+            final Window window = context instanceof Activity ? ((Activity) context).getWindow() : null;
+            if (window != null) {
+                if (DefaultThemesPreviewCell.this.navBarAnimator != null && DefaultThemesPreviewCell.this.navBarAnimator.isRunning()) {
+                    DefaultThemesPreviewCell.this.navBarAnimator.cancel();
+                }
+                final int i3 = (DefaultThemesPreviewCell.this.navBarAnimator == null || !DefaultThemesPreviewCell.this.navBarAnimator.isRunning()) ? i2 : DefaultThemesPreviewCell.this.navBarColor;
+                DefaultThemesPreviewCell.this.navBarAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+                final float f = z ? 50.0f : 200.0f;
+                DefaultThemesPreviewCell.this.navBarAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.3
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float max = Math.max(0.0f, Math.min(1.0f, ((((Float) valueAnimator.getAnimatedValue()).floatValue() * r2) - f) / r4));
+                        DefaultThemesPreviewCell.this.navBarColor = ColorUtils.blendARGB(i3, color2, max);
+                        boolean z2 = false;
+                        AndroidUtilities.setNavigationBarColor(window, DefaultThemesPreviewCell.this.navBarColor, false);
+                        Window window2 = window;
+                        if (AndroidUtilities.computePerceivedBrightness(DefaultThemesPreviewCell.this.navBarColor) >= 0.721f) {
+                            z2 = true;
+                        }
+                        AndroidUtilities.setLightNavigationBar(window2, z2);
+                    }
+                });
+                DefaultThemesPreviewCell.this.navBarAnimator.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.DefaultThemesPreviewCell.1.4
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        boolean z2 = false;
+                        AndroidUtilities.setNavigationBarColor(window, color2, false);
+                        Window window2 = window;
+                        if (AndroidUtilities.computePerceivedBrightness(color2) >= 0.721f) {
+                            z2 = true;
+                        }
+                        AndroidUtilities.setLightNavigationBar(window2, z2);
+                    }
+                });
+                DefaultThemesPreviewCell.this.navBarAnimator.setDuration(350L);
+                DefaultThemesPreviewCell.this.navBarAnimator.start();
+            }
+            if (Theme.isCurrentThemeDay()) {
+                DefaultThemesPreviewCell.this.dayNightCell.setTextAndIcon(LocaleController.getString("SettingsSwitchToNightMode", R.string.SettingsSwitchToNightMode), (Drawable) DefaultThemesPreviewCell.this.darkThemeDrawable, true);
+            } else {
+                DefaultThemesPreviewCell.this.dayNightCell.setTextAndIcon(LocaleController.getString("SettingsSwitchToDayMode", R.string.SettingsSwitchToDayMode), (Drawable) DefaultThemesPreviewCell.this.darkThemeDrawable, true);
+            }
         }
     }
 

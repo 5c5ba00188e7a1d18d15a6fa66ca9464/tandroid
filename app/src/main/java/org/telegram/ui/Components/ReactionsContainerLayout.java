@@ -162,9 +162,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         });
         recyclerListView.setLayoutManager(this.linearLayoutManager);
         recyclerListView.setOverScrollMode(2);
-        4 r7 = new 4(context);
-        this.listAdapter = r7;
-        recyclerListView.setAdapter(r7);
+        4 r0 = new 4(context);
+        this.listAdapter = r0;
+        recyclerListView.setAdapter(r0);
         recyclerListView.addOnScrollListener(new LeftRightShadowsListener());
         recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.5
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -222,6 +222,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         addView(recyclerListView, LayoutHelper.createFrame(-1, -1.0f));
         invalidateShaders();
         this.bgPaint.setColor(Theme.getColor("actionBarDefaultSubmenuBackground", resourcesProvider));
+        MediaDataController.getInstance(i).preloadReactions();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -478,6 +479,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.shadow.draw(canvas);
         canvas.drawCircle(width4, height2, f6, this.bgPaint);
         canvas.restore();
+        invalidate();
     }
 
     private void checkPressedProgress(Canvas canvas, ReactionHolderView reactionHolderView) {

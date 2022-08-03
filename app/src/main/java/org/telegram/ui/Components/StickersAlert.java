@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -819,6 +818,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             private boolean fullHeight;
             private int lastNotifyWidth;
             private RectF rect = new RectF();
+            private Boolean statusBarOpen;
 
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
@@ -971,9 +971,25 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 super.requestLayout();
             }
 
+            private void updateLightStatusBar(boolean z) {
+                Boolean bool = this.statusBarOpen;
+                if (bool == null || bool.booleanValue() != z) {
+                    boolean z2 = true;
+                    boolean z3 = AndroidUtilities.computePerceivedBrightness(StickersAlert.this.getThemedColor("dialogBackground")) > 0.721f;
+                    if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(StickersAlert.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
+                        z2 = false;
+                    }
+                    if (!z) {
+                        z3 = z2;
+                    }
+                    AndroidUtilities.setLightStatusBar(StickersAlert.this.getWindow(), z3);
+                }
+            }
+
             /* JADX WARN: Removed duplicated region for block: B:13:0x00b1  */
-            /* JADX WARN: Removed duplicated region for block: B:16:0x0148  */
-            /* JADX WARN: Removed duplicated region for block: B:19:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:16:0x016d  */
+            /* JADX WARN: Removed duplicated region for block: B:19:0x0173  */
+            /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -984,6 +1000,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 int dp = (StickersAlert.this.scrollOffsetY - ((BottomSheet) StickersAlert.this).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
                 int dp2 = (StickersAlert.this.scrollOffsetY - ((BottomSheet) StickersAlert.this).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(15.0f) + ((BottomSheet) StickersAlert.this).backgroundPaddingTop;
+                boolean z = false;
                 if (Build.VERSION.SDK_INT >= 21) {
                     int i2 = AndroidUtilities.statusBarHeight;
                     dp2 += i2;
@@ -1011,15 +1028,20 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                                 this.rect.set(((BottomSheet) StickersAlert.this).backgroundPaddingLeft, ((BottomSheet) StickersAlert.this).backgroundPaddingTop + dp2, getMeasuredWidth() - ((BottomSheet) StickersAlert.this).backgroundPaddingLeft, ((BottomSheet) StickersAlert.this).backgroundPaddingTop + dp2 + AndroidUtilities.dp(24.0f));
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
                             }
+                            int i7 = AndroidUtilities.statusBarHeight;
                             int dp3 = AndroidUtilities.dp(36.0f);
-                            this.rect.set((getMeasuredWidth() - dp3) / 2, dp, (getMeasuredWidth() + dp3) / 2, dp + AndroidUtilities.dp(4.0f));
+                            this.rect.set((getMeasuredWidth() - dp3) / 2, dp, (getMeasuredWidth() + dp3) / 2, AndroidUtilities.dp(4.0f) + dp);
                             Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("key_sheet_scrollUp"));
+                            Theme.dialogs_onlineCirclePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, (dp - AndroidUtilities.statusBarHeight) / AndroidUtilities.dp(16.0f))) * 255.0f));
                             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
+                            if (i > AndroidUtilities.statusBarHeight / 2) {
+                                z = true;
+                            }
+                            updateLightStatusBar(z);
                             if (i <= 0) {
                                 return;
                             }
-                            int themedColor = StickersAlert.this.getThemedColor("dialogBackground");
-                            Theme.dialogs_onlineCirclePaint.setColor(Color.argb(255, (int) (Color.red(themedColor) * 0.8f), (int) (Color.green(themedColor) * 0.8f), (int) (Color.blue(themedColor) * 0.8f)));
+                            Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("dialogBackground"));
                             canvas.drawRect(((BottomSheet) StickersAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) StickersAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             return;
                         }
@@ -1028,10 +1050,15 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         ((BottomSheet) StickersAlert.this).shadowDrawable.draw(canvas);
                         if (f != 1.0f) {
                         }
+                        int i72 = AndroidUtilities.statusBarHeight;
                         int dp32 = AndroidUtilities.dp(36.0f);
-                        this.rect.set((getMeasuredWidth() - dp32) / 2, dp, (getMeasuredWidth() + dp32) / 2, dp + AndroidUtilities.dp(4.0f));
+                        this.rect.set((getMeasuredWidth() - dp32) / 2, dp, (getMeasuredWidth() + dp32) / 2, AndroidUtilities.dp(4.0f) + dp);
                         Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("key_sheet_scrollUp"));
+                        Theme.dialogs_onlineCirclePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, (dp - AndroidUtilities.statusBarHeight) / AndroidUtilities.dp(16.0f))) * 255.0f));
                         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
+                        if (i > AndroidUtilities.statusBarHeight / 2) {
+                        }
+                        updateLightStatusBar(z);
                         if (i <= 0) {
                         }
                     }
@@ -1042,10 +1069,15 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 ((BottomSheet) StickersAlert.this).shadowDrawable.draw(canvas);
                 if (f != 1.0f) {
                 }
+                int i722 = AndroidUtilities.statusBarHeight;
                 int dp322 = AndroidUtilities.dp(36.0f);
-                this.rect.set((getMeasuredWidth() - dp322) / 2, dp, (getMeasuredWidth() + dp322) / 2, dp + AndroidUtilities.dp(4.0f));
+                this.rect.set((getMeasuredWidth() - dp322) / 2, dp, (getMeasuredWidth() + dp322) / 2, AndroidUtilities.dp(4.0f) + dp);
                 Theme.dialogs_onlineCirclePaint.setColor(StickersAlert.this.getThemedColor("key_sheet_scrollUp"));
+                Theme.dialogs_onlineCirclePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, (dp - AndroidUtilities.statusBarHeight) / AndroidUtilities.dp(16.0f))) * 255.0f));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
+                if (i > AndroidUtilities.statusBarHeight / 2) {
+                }
+                updateLightStatusBar(z);
                 if (i <= 0) {
                 }
             }

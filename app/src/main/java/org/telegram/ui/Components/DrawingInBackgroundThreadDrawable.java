@@ -25,14 +25,15 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     private int lastFrameId;
     Bitmap nextRenderingBitmap;
     Canvas nextRenderingCanvas;
+    int padding;
     protected boolean paused;
     private boolean reset;
     int width;
     public int currentLayerNum = 1;
     private Paint paint = new Paint(1);
     Runnable bitmapCreateTask = new Runnable() { // from class: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable.1
-        /* JADX WARN: Code restructure failed: missing block: B:7:0x001a, code lost:
-            if (r1.backgroundBitmap.getHeight() == r4.this$0.height) goto L8;
+        /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
+            if (r2.backgroundBitmap.getHeight() == r1) goto L8;
          */
         @Override // java.lang.Runnable
         /*
@@ -40,23 +41,29 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
         */
         public void run() {
             try {
-                Bitmap bitmap = DrawingInBackgroundThreadDrawable.this.backgroundBitmap;
+                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable = DrawingInBackgroundThreadDrawable.this;
+                int i = drawingInBackgroundThreadDrawable.height + drawingInBackgroundThreadDrawable.padding;
+                Bitmap bitmap = drawingInBackgroundThreadDrawable.backgroundBitmap;
                 if (bitmap != null) {
                     int width = bitmap.getWidth();
-                    DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable = DrawingInBackgroundThreadDrawable.this;
-                    if (width == drawingInBackgroundThreadDrawable.width) {
+                    DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable2 = DrawingInBackgroundThreadDrawable.this;
+                    if (width == drawingInBackgroundThreadDrawable2.width) {
                     }
                 }
                 Bitmap bitmap2 = DrawingInBackgroundThreadDrawable.this.backgroundBitmap;
                 if (bitmap2 != null) {
                     bitmap2.recycle();
                 }
-                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable2 = DrawingInBackgroundThreadDrawable.this;
-                drawingInBackgroundThreadDrawable2.backgroundBitmap = Bitmap.createBitmap(drawingInBackgroundThreadDrawable2.width, drawingInBackgroundThreadDrawable2.height, Bitmap.Config.ARGB_8888);
+                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable3 = DrawingInBackgroundThreadDrawable.this;
+                drawingInBackgroundThreadDrawable3.backgroundBitmap = Bitmap.createBitmap(drawingInBackgroundThreadDrawable3.width, i, Bitmap.Config.ARGB_8888);
                 DrawingInBackgroundThreadDrawable.this.backgroundCanvas = new Canvas(DrawingInBackgroundThreadDrawable.this.backgroundBitmap);
                 DrawingInBackgroundThreadDrawable.this.backgroundBitmap.eraseColor(0);
-                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable3 = DrawingInBackgroundThreadDrawable.this;
-                drawingInBackgroundThreadDrawable3.drawInBackground(drawingInBackgroundThreadDrawable3.backgroundCanvas);
+                DrawingInBackgroundThreadDrawable.this.backgroundCanvas.save();
+                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable4 = DrawingInBackgroundThreadDrawable.this;
+                drawingInBackgroundThreadDrawable4.backgroundCanvas.translate(0.0f, drawingInBackgroundThreadDrawable4.padding);
+                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable5 = DrawingInBackgroundThreadDrawable.this;
+                drawingInBackgroundThreadDrawable5.drawInBackground(drawingInBackgroundThreadDrawable5.backgroundCanvas);
+                DrawingInBackgroundThreadDrawable.this.backgroundCanvas.restore();
             } catch (Exception e) {
                 FileLog.e(e);
                 DrawingInBackgroundThreadDrawable.this.error = true;
@@ -137,14 +144,18 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
                 AndroidUtilities.recycleBitmaps(arrayList);
                 this.bitmap = null;
             }
+            int i3 = this.height + this.padding;
             Bitmap bitmap2 = this.nextRenderingBitmap;
-            if (bitmap2 == null || bitmap2.getHeight() != this.height || this.nextRenderingBitmap.getWidth() != this.width) {
-                this.nextRenderingBitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
+            if (bitmap2 == null || bitmap2.getHeight() != i3 || this.nextRenderingBitmap.getWidth() != this.width) {
+                this.nextRenderingBitmap = Bitmap.createBitmap(this.width, i3, Bitmap.Config.ARGB_8888);
                 this.nextRenderingCanvas = new Canvas(this.nextRenderingBitmap);
             } else {
                 this.nextRenderingBitmap.eraseColor(0);
             }
+            this.nextRenderingCanvas.save();
+            this.nextRenderingCanvas.translate(0.0f, this.padding);
             drawInUiThread(this.nextRenderingCanvas);
+            this.nextRenderingCanvas.restore();
         }
         if (!this.bitmapUpdating && !this.paused) {
             this.bitmapUpdating = true;
@@ -160,7 +171,10 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
             bitmap3 = this.nextRenderingBitmap;
         }
         this.paint.setAlpha((int) (f * 255.0f));
+        canvas.save();
+        canvas.translate(0.0f, -this.padding);
         canvas.drawBitmap(bitmap3, 0.0f, 0.0f, this.paint);
+        canvas.restore();
     }
 
     public void onAttachToWindow() {

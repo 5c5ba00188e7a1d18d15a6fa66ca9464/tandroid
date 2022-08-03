@@ -34,7 +34,7 @@ import org.xml.sax.XMLReader;
 public class CopyUtilities {
     public static Spannable fromHTML(String str) {
         try {
-            Spanned fromHtml = Build.VERSION.SDK_INT >= 24 ? Html.fromHtml("<inject/>" + str, 63, null, new HTMLTagAttributesHandler(new HTMLTagHandler())) : Html.fromHtml("<inject/>" + str, null, new HTMLTagAttributesHandler(new HTMLTagHandler()));
+            Spanned fromHtml = Build.VERSION.SDK_INT >= 24 ? Html.fromHtml("<inject>" + str + "</inject>", 63, null, new HTMLTagAttributesHandler(new HTMLTagHandler())) : Html.fromHtml("<inject>" + str + "</inject>", null, new HTMLTagAttributesHandler(new HTMLTagHandler()));
             if (fromHtml == null) {
                 return null;
             }

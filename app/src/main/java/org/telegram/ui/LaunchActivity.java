@@ -7500,8 +7500,14 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 lambda$runLinkRequest$61(dialogsActivity);
                 return;
             } else if (baseFragment instanceof ChatActivity) {
-                ((ChatActivity) baseFragment).openAttachBotLayout(tLRPC$User.id, str2);
-                return;
+                ChatActivity chatActivity = (ChatActivity) baseFragment;
+                if (!MediaDataController.canShowAttachMenuBot(tLRPC$TL_attachMenuBot, chatActivity.getCurrentUser() != null ? chatActivity.getCurrentUser() : chatActivity.getCurrentChat())) {
+                    BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString((int) R.string.BotAlreadyAddedToAttachMenu)).show();
+                    return;
+                } else {
+                    chatActivity.openAttachBotLayout(tLRPC$User.id, str2);
+                    return;
+                }
             } else {
                 BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString((int) R.string.BotAlreadyAddedToAttachMenu)).show();
                 return;
@@ -9587,17 +9593,20 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L122;
      */
     /* JADX WARN: Removed duplicated region for block: B:120:0x0277  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x05d8  */
-    /* JADX WARN: Removed duplicated region for block: B:227:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x05d9  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x05ef  */
+    /* JADX WARN: Removed duplicated region for block: B:230:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x05df  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void didReceivedNotification(int i, final int i2, Object... objArr) {
-        BaseFragment baseFragment;
         int i3;
-        String str;
+        BaseFragment baseFragment;
         int i4;
+        String str;
+        int i5;
         String str2;
         GroupCallActivity groupCallActivity;
         BaseFragment baseFragment2;
@@ -9650,8 +9659,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             if (num.intValue() != 2 && num.intValue() != 3) {
                 builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda4
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i5) {
-                        LaunchActivity.lambda$didReceivedNotification$83(i2, dialogInterface, i5);
+                    public final void onClick(DialogInterface dialogInterface, int i6) {
+                        LaunchActivity.lambda$didReceivedNotification$83(i2, dialogInterface, i6);
                     }
                 });
             }
@@ -9670,8 +9679,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     builder.setPositiveButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                     builder.setNegativeButton(LocaleController.getString("LogOut", R.string.LogOut), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda9
                         @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i5) {
-                            LaunchActivity.this.lambda$didReceivedNotification$84(dialogInterface, i5);
+                        public final void onClick(DialogInterface dialogInterface, int i6) {
+                            LaunchActivity.this.lambda$didReceivedNotification$84(dialogInterface, i6);
                         }
                     });
                 } else {
@@ -9696,8 +9705,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder2.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda12
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.this.lambda$didReceivedNotification$86(hashMap, i2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.this.lambda$didReceivedNotification$86(hashMap, i2, dialogInterface, i6);
                 }
             });
             builder2.setMessage(LocaleController.getString("ShareYouLocationUnable", R.string.ShareYouLocationUnable));
@@ -9773,20 +9782,20 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             builder3.setMessage(LocaleController.getString("UpdateContactsMessage", R.string.UpdateContactsMessage));
             builder3.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.lambda$didReceivedNotification$87(i2, hashMap2, booleanValue, booleanValue2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.lambda$didReceivedNotification$87(i2, hashMap2, booleanValue, booleanValue2, dialogInterface, i6);
                 }
             });
             builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda5
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.lambda$didReceivedNotification$88(i2, hashMap2, booleanValue, booleanValue2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.lambda$didReceivedNotification$88(i2, hashMap2, booleanValue, booleanValue2, dialogInterface, i6);
                 }
             });
             builder3.setOnBackButtonListener(new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    LaunchActivity.lambda$didReceivedNotification$89(i2, hashMap2, booleanValue, booleanValue2, dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    LaunchActivity.lambda$didReceivedNotification$89(i2, hashMap2, booleanValue, booleanValue2, dialogInterface, i6);
                 }
             });
             AlertDialog create = builder3.create();
@@ -9860,13 +9869,13 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     this.themeSwitchSunDrawable = rLottieImageView.getAnimatedDrawable();
                     float max = Math.max((float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1]))), Math.sqrt((iArr[0] * iArr[0]) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1])))), (float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + (iArr[1] * iArr[1])), Math.sqrt((iArr[0] * iArr[0]) + (iArr[1] * iArr[1]))));
                     View view3 = booleanValue4 ? this.drawerLayoutContainer : this.themeSwitchImageView;
-                    int i5 = iArr[0];
-                    int i6 = iArr[1];
+                    int i6 = iArr[0];
+                    int i7 = iArr[1];
                     float f = booleanValue4 ? 0.0f : max;
                     if (!booleanValue4) {
                         max = 0.0f;
                     }
-                    Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i5, i6, f, max);
+                    Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i6, i7, f, max);
                     createCircularReveal.setDuration(400L);
                     createCircularReveal.setInterpolator(Easings.easeInOutQuad);
                     createCircularReveal.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LaunchActivity.18
@@ -9917,7 +9926,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 Theme.ThemeInfo themeInfo = (Theme.ThemeInfo) objArr[0];
                 boolean booleanValue5 = ((Boolean) objArr[1]).booleanValue();
                 int intValue = ((Integer) objArr[3]).intValue();
-                this.actionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z);
+                this.actionBarLayout.animateThemedValues(themeInfo, intValue, booleanValue5, z, objArr.length <= 7 ? (Runnable) objArr[7] : null);
                 if (AndroidUtilities.isTablet()) {
                     return;
                 }
@@ -9930,7 +9939,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             Theme.ThemeInfo themeInfo2 = (Theme.ThemeInfo) objArr[0];
             boolean booleanValue52 = ((Boolean) objArr[1]).booleanValue();
             int intValue2 = ((Integer) objArr[3]).intValue();
-            this.actionBarLayout.animateThemedValues(themeInfo2, intValue2, booleanValue52, z);
+            this.actionBarLayout.animateThemedValues(themeInfo2, intValue2, booleanValue52, z, objArr.length <= 7 ? (Runnable) objArr[7] : null);
             if (AndroidUtilities.isTablet()) {
             }
         } else if (i == NotificationCenter.notificationsCountUpdated) {
@@ -9940,8 +9949,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             }
             Integer num2 = (Integer) objArr[0];
             int childCount = recyclerListView3.getChildCount();
-            for (int i7 = 0; i7 < childCount; i7++) {
-                View childAt2 = this.sideMenu.getChildAt(i7);
+            for (int i8 = 0; i8 < childCount; i8++) {
+                View childAt2 = this.sideMenu.getChildAt(i8);
                 if ((childAt2 instanceof DrawerUserCell) && ((DrawerUserCell) childAt2).getAccountNumber() == num2.intValue()) {
                     childAt2.invalidate();
                     return;
@@ -10057,21 +10066,25 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             FrameLayout container = (!GroupCallActivity.groupCallUiVisible || (groupCallActivity = GroupCallActivity.groupCallInstance) == null) ? null : groupCallActivity.getContainer();
             if (container == null) {
                 ArrayList<BaseFragment> arrayList9 = mainFragmentsStack;
+                i3 = 1;
                 baseFragment = arrayList9.get(arrayList9.size() - 1);
             } else {
+                i3 = 1;
                 baseFragment = null;
             }
+            int i9 = 1500;
             if (intValue3 == 0) {
-                TLRPC$Document tLRPC$Document = (TLRPC$Document) objArr[1];
                 int intValue4 = ((Integer) objArr[2]).intValue();
-                StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this, null, intValue4, tLRPC$Document, null);
-                int i8 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 1500;
-                if (baseFragment != null) {
-                    Bulletin.make(baseFragment, stickerSetBulletinLayout, i8).show();
-                } else {
-                    Bulletin.make(container, stickerSetBulletinLayout, i8).show();
+                StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this, null, intValue4, (TLRPC$Document) objArr[1], null);
+                if (intValue4 == 6 || intValue4 == 7) {
+                    i9 = 3500;
                 }
-            } else if (intValue3 == 1) {
+                if (baseFragment != null) {
+                    Bulletin.make(baseFragment, stickerSetBulletinLayout, i9).show();
+                } else {
+                    Bulletin.make(container, stickerSetBulletinLayout, i9).show();
+                }
+            } else if (intValue3 == i3) {
                 if (baseFragment != null) {
                     BulletinFactory.of(baseFragment).createErrorBulletin((String) objArr[1]).show();
                 } else {
@@ -10079,22 +10092,22 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 }
             } else if (intValue3 == 2) {
                 if (((Long) objArr[1]).longValue() > 0) {
-                    i3 = R.string.YourBioChanged;
+                    i4 = R.string.YourBioChanged;
                     str = "YourBioChanged";
                 } else {
-                    i3 = R.string.ChannelDescriptionChanged;
+                    i4 = R.string.ChannelDescriptionChanged;
                     str = "CannelDescriptionChanged";
                 }
-                (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str, i3)).show();
+                (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str, i4)).show();
             } else if (intValue3 == 3) {
                 if (((Long) objArr[1]).longValue() > 0) {
-                    i4 = R.string.YourNameChanged;
+                    i5 = R.string.YourNameChanged;
                     str2 = "YourNameChanged";
                 } else {
-                    i4 = R.string.ChannelTitleChanged;
+                    i5 = R.string.ChannelTitleChanged;
                     str2 = "CannelTitleChanged";
                 }
-                (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str2, i4)).show();
+                (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str2, i5)).show();
             } else if (intValue3 == 4) {
                 if (baseFragment != null) {
                     BulletinFactory.of(baseFragment).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], baseFragment.getResourceProvider()).show();
@@ -10102,7 +10115,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     BulletinFactory.of(container, null).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], null).show();
                 }
             } else if (intValue3 == 5) {
-                AppIconBulletinLayout appIconBulletinLayout = new AppIconBulletinLayout(this, (LauncherIconController.LauncherIcon) objArr[1], null);
+                AppIconBulletinLayout appIconBulletinLayout = new AppIconBulletinLayout(this, (LauncherIconController.LauncherIcon) objArr[i3], null);
                 if (baseFragment != null) {
                     Bulletin.make(baseFragment, appIconBulletinLayout, 1500).show();
                 } else {

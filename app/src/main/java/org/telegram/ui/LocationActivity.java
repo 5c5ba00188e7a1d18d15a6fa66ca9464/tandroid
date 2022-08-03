@@ -240,6 +240,11 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean hasForceLightStatusBar() {
+        return true;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isSwipeBackEnabled(MotionEvent motionEvent) {
         return false;
     }

@@ -122,6 +122,8 @@ public class CrossOutDrawable extends Drawable {
                 float f4 = dpf2;
                 float f5 = dp;
                 canvas.drawLine(f4, dpf22 - this.paint.getStrokeWidth(), f5, dp2 - this.paint.getStrokeWidth(), this.xRefPaint);
+                float strokeWidth = ((this.xRefPaint.getStrokeWidth() - this.paint.getStrokeWidth()) / 2.0f) + 1.0f;
+                canvas.drawLine(f4, dpf22 - strokeWidth, f5, dp2 - strokeWidth, this.xRefPaint);
                 canvas.drawLine(f4, dpf22, f5, dp2, this.paint);
                 canvas.restore();
                 return;

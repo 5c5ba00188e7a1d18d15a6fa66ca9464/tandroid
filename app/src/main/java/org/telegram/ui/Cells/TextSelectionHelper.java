@@ -39,6 +39,7 @@ import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.FloatingActionMode;
@@ -1299,18 +1300,19 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 if (i3 >= 0 && i3 <= length) {
                     textSelectionHelper6.fillLayoutForOffset(i3, textSelectionHelper6.layoutBlock);
                     TextSelectionHelper textSelectionHelper7 = TextSelectionHelper.this;
-                    StaticLayout staticLayout = textSelectionHelper7.layoutBlock.layout;
+                    LayoutBlock layoutBlock = textSelectionHelper7.layoutBlock;
+                    StaticLayout staticLayout = layoutBlock.layout;
                     if (staticLayout != null) {
-                        int i4 = textSelectionHelper7.selectionEnd;
+                        int i4 = textSelectionHelper7.selectionEnd - layoutBlock.charOffset;
                         int length2 = staticLayout.getText().length();
                         if (i4 > length2) {
                             i4 = length2;
                         }
                         int lineForOffset = staticLayout.getLineForOffset(i4);
                         float primaryHorizontal = staticLayout.getPrimaryHorizontal(i4);
-                        LayoutBlock layoutBlock = TextSelectionHelper.this.layoutBlock;
-                        float f2 = primaryHorizontal + layoutBlock.xOffset;
-                        float lineBottom = (int) (staticLayout.getLineBottom(lineForOffset) + layoutBlock.yOffset);
+                        LayoutBlock layoutBlock2 = TextSelectionHelper.this.layoutBlock;
+                        float f2 = primaryHorizontal + layoutBlock2.xOffset;
+                        float lineBottom = (int) (staticLayout.getLineBottom(lineForOffset) + layoutBlock2.yOffset);
                         float f3 = f + lineBottom;
                         if (f3 <= textSelectionHelper4.keyboardSize + i2 || f3 >= textSelectionHelper4.parentView.getMeasuredHeight()) {
                             TextSelectionHelper.this.endArea.setEmpty();
@@ -1368,13 +1370,15 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 if (i5 >= 0 && i5 <= length3) {
                     textSelectionHelper9.fillLayoutForOffset(i5, textSelectionHelper9.layoutBlock);
                     TextSelectionHelper textSelectionHelper10 = TextSelectionHelper.this;
-                    StaticLayout staticLayout2 = textSelectionHelper10.layoutBlock.layout;
+                    LayoutBlock layoutBlock3 = textSelectionHelper10.layoutBlock;
+                    StaticLayout staticLayout2 = layoutBlock3.layout;
                     if (staticLayout2 != null) {
-                        int lineForOffset2 = staticLayout2.getLineForOffset(textSelectionHelper10.selectionStart);
-                        float primaryHorizontal2 = staticLayout2.getPrimaryHorizontal(TextSelectionHelper.this.selectionStart);
-                        LayoutBlock layoutBlock2 = TextSelectionHelper.this.layoutBlock;
-                        float f11 = primaryHorizontal2 + layoutBlock2.xOffset;
-                        float lineBottom2 = (int) (staticLayout2.getLineBottom(lineForOffset2) + layoutBlock2.yOffset);
+                        int i6 = textSelectionHelper10.selectionStart - layoutBlock3.charOffset;
+                        int lineForOffset2 = staticLayout2.getLineForOffset(i6);
+                        float primaryHorizontal2 = staticLayout2.getPrimaryHorizontal(i6);
+                        LayoutBlock layoutBlock4 = TextSelectionHelper.this.layoutBlock;
+                        float f11 = primaryHorizontal2 + layoutBlock4.xOffset;
+                        float lineBottom2 = (int) (staticLayout2.getLineBottom(lineForOffset2) + layoutBlock4.yOffset);
                         float f12 = f10 + lineBottom2;
                         if (f12 > i2 + textSelectionHelper2.keyboardSize && f12 < textSelectionHelper2.parentView.getMeasuredHeight()) {
                             if (!staticLayout2.isRtlCharAt(TextSelectionHelper.this.selectionStart)) {
@@ -1684,12 +1688,14 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
 
     protected int[] offsetToCord(int i) {
         fillLayoutForOffset(i, this.layoutBlock);
-        StaticLayout staticLayout = this.layoutBlock.layout;
-        if (staticLayout == null || i > staticLayout.getText().length()) {
+        LayoutBlock layoutBlock = this.layoutBlock;
+        StaticLayout staticLayout = layoutBlock.layout;
+        int i2 = i - layoutBlock.charOffset;
+        if (staticLayout == null || i2 < 0 || i2 > staticLayout.getText().length()) {
             return this.tmpCoord;
         }
-        int lineForOffset = staticLayout.getLineForOffset(i);
-        this.tmpCoord[0] = (int) (staticLayout.getPrimaryHorizontal(i) + this.layoutBlock.xOffset);
+        int lineForOffset = staticLayout.getLineForOffset(i2);
+        this.tmpCoord[0] = (int) (staticLayout.getPrimaryHorizontal(i2) + this.layoutBlock.xOffset);
         this.tmpCoord[1] = staticLayout.getLineBottom(lineForOffset);
         int[] iArr = this.tmpCoord;
         iArr[1] = (int) (iArr[1] + this.layoutBlock.yOffset);
@@ -1829,6 +1835,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class LayoutBlock {
+        public int charOffset;
         StaticLayout layout;
         float xOffset;
         float yOffset;
@@ -1958,54 +1965,28 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             ((ChatMessageCell) this.selectedView).setSelectedBackgroundProgress(1.0f - this.enterProgress);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:26:0x004d  */
-        /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public void draw(MessageObject messageObject, MessageObject.TextLayoutBlock textLayoutBlock, Canvas canvas) {
             MessageObject messageObject2;
-            int i;
-            int i2;
             Cell cell = this.selectedView;
             if (cell == null || ((ChatMessageCell) cell).getMessageObject() == null || this.isDescription || (messageObject2 = ((ChatMessageCell) this.selectedView).getMessageObject()) == null || messageObject2.textLayoutBlocks == null || messageObject.getId() != this.selectedCellId) {
                 return;
             }
-            int i3 = this.selectionStart;
-            int i4 = this.selectionEnd;
-            if (messageObject2.textLayoutBlocks.size() > 1) {
-                int i5 = textLayoutBlock.charactersOffset;
-                if (i3 < i5) {
-                    i3 = i5;
-                }
-                int i6 = textLayoutBlock.charactersEnd;
-                if (i3 > i6) {
-                    i3 = i6;
-                }
-                if (i4 < i5) {
-                    i4 = i5;
-                }
-                if (i4 > i6) {
-                    i = i3;
-                    i2 = i6;
-                    if (i != i2) {
-                        return;
-                    }
-                    if (messageObject2.isOutOwner()) {
-                        this.selectionPaint.setColor(getThemedColor("chat_outTextSelectionHighlight"));
-                        this.selectionHandlePaint.setColor(getThemedColor("chat_outTextSelectionHighlight"));
-                    } else {
-                        this.selectionPaint.setColor(getThemedColor("chat_inTextSelectionHighlight"));
-                        this.selectionHandlePaint.setColor(getThemedColor("chat_inTextSelectionHighlight"));
-                    }
-                    drawSelection(canvas, textLayoutBlock.textLayout, i, i2, true, true);
-                    return;
-                }
+            int i = this.selectionStart;
+            int i2 = textLayoutBlock.charactersOffset;
+            int i3 = this.selectionEnd - i2;
+            int clamp = Utilities.clamp(i - i2, textLayoutBlock.textLayout.getText().length(), 0);
+            int clamp2 = Utilities.clamp(i3, textLayoutBlock.textLayout.getText().length(), 0);
+            if (clamp == clamp2) {
+                return;
             }
-            i = i3;
-            i2 = i4;
-            if (i != i2) {
+            if (messageObject2.isOutOwner()) {
+                this.selectionPaint.setColor(getThemedColor("chat_outTextSelectionHighlight"));
+                this.selectionHandlePaint.setColor(getThemedColor("chat_outTextSelectionHighlight"));
+            } else {
+                this.selectionPaint.setColor(getThemedColor("chat_inTextSelectionHighlight"));
+                this.selectionHandlePaint.setColor(getThemedColor("chat_inTextSelectionHighlight"));
             }
+            drawSelection(canvas, textLayoutBlock.textLayout, clamp, clamp2, true, true);
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -2055,7 +2036,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
             if (i5 < 0) {
                 return -1;
             }
-            return staticLayout2.getOffsetForHorizontal(i5, i8);
+            return this.layoutBlock.charOffset + staticLayout2.getOffsetForHorizontal(i5, i8);
         }
 
         private void fillLayoutForCoords(int i, int i2, ChatMessageCell chatMessageCell, LayoutBlock layoutBlock, boolean z) {
@@ -2063,16 +2044,18 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 return;
             }
             MessageObject messageObject = chatMessageCell.getMessageObject();
+            int i3 = 0;
             if (!z ? this.isDescription : this.maybeIsDescription) {
                 layoutBlock.layout = chatMessageCell.getDescriptionlayout();
                 layoutBlock.xOffset = 0.0f;
                 layoutBlock.yOffset = 0.0f;
+                layoutBlock.charOffset = 0;
             } else if (chatMessageCell.hasCaptionLayout()) {
                 layoutBlock.layout = chatMessageCell.getCaptionLayout();
                 layoutBlock.xOffset = 0.0f;
                 layoutBlock.yOffset = 0.0f;
+                layoutBlock.charOffset = 0;
             } else {
-                int i3 = 0;
                 for (int i4 = 0; i4 < messageObject.textLayoutBlocks.size(); i4++) {
                     MessageObject.TextLayoutBlock textLayoutBlock = messageObject.textLayoutBlocks.get(i4);
                     float f = i2;
@@ -2084,6 +2067,7 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                             i3 = (int) Math.ceil(messageObject.textXOffset);
                         }
                         layoutBlock.xOffset = -i3;
+                        layoutBlock.charOffset = textLayoutBlock.charactersOffset;
                         return;
                     }
                 }
@@ -2098,43 +2082,43 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 return;
             }
             MessageObject messageObject = chatMessageCell.getMessageObject();
+            int i2 = 0;
             if (this.isDescription) {
                 layoutBlock.layout = chatMessageCell.getDescriptionlayout();
                 layoutBlock.yOffset = 0.0f;
                 layoutBlock.xOffset = 0.0f;
+                layoutBlock.charOffset = 0;
             } else if (chatMessageCell.hasCaptionLayout()) {
                 layoutBlock.layout = chatMessageCell.getCaptionLayout();
                 layoutBlock.yOffset = 0.0f;
                 layoutBlock.xOffset = 0.0f;
+                layoutBlock.charOffset = 0;
             } else {
                 ArrayList<MessageObject.TextLayoutBlock> arrayList = messageObject.textLayoutBlocks;
                 if (arrayList == null) {
                     layoutBlock.layout = null;
-                    return;
-                }
-                int i2 = 0;
-                if (arrayList.size() == 1) {
+                } else if (arrayList.size() == 1) {
                     layoutBlock.layout = messageObject.textLayoutBlocks.get(0).textLayout;
                     layoutBlock.yOffset = 0.0f;
-                    if (messageObject.textLayoutBlocks.get(0).isRtl()) {
-                        i2 = (int) Math.ceil(messageObject.textXOffset);
-                    }
-                    layoutBlock.xOffset = -i2;
-                    return;
-                }
-                for (int i3 = 0; i3 < messageObject.textLayoutBlocks.size(); i3++) {
-                    MessageObject.TextLayoutBlock textLayoutBlock = messageObject.textLayoutBlocks.get(i3);
-                    if (i >= textLayoutBlock.charactersOffset && i <= textLayoutBlock.charactersEnd) {
-                        layoutBlock.layout = messageObject.textLayoutBlocks.get(i3).textLayout;
-                        layoutBlock.yOffset = messageObject.textLayoutBlocks.get(i3).textYOffset;
-                        if (textLayoutBlock.isRtl()) {
-                            i2 = (int) Math.ceil(messageObject.textXOffset);
+                    layoutBlock.xOffset = -(messageObject.textLayoutBlocks.get(0).isRtl() ? (int) Math.ceil(messageObject.textXOffset) : 0);
+                    layoutBlock.charOffset = 0;
+                } else {
+                    for (int i3 = 0; i3 < messageObject.textLayoutBlocks.size(); i3++) {
+                        MessageObject.TextLayoutBlock textLayoutBlock = messageObject.textLayoutBlocks.get(i3);
+                        int i4 = i - textLayoutBlock.charactersOffset;
+                        if (i4 >= 0 && i4 <= textLayoutBlock.textLayout.getText().length()) {
+                            layoutBlock.layout = textLayoutBlock.textLayout;
+                            layoutBlock.yOffset = textLayoutBlock.textYOffset;
+                            if (textLayoutBlock.isRtl()) {
+                                i2 = (int) Math.ceil(messageObject.textXOffset);
+                            }
+                            layoutBlock.xOffset = -i2;
+                            layoutBlock.charOffset = textLayoutBlock.charactersOffset;
+                            return;
                         }
-                        layoutBlock.xOffset = -i2;
-                        return;
                     }
+                    layoutBlock.layout = null;
                 }
-                layoutBlock.layout = null;
             }
         }
 

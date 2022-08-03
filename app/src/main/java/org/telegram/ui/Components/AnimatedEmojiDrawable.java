@@ -128,6 +128,9 @@ public class AnimatedEmojiDrawable extends Drawable {
     public void setTime(long j) {
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
+            if (this.cacheType == 5) {
+                j = 0;
+            }
             imageReceiver.setCurrentTime(j);
         }
     }
@@ -135,6 +138,9 @@ public class AnimatedEmojiDrawable extends Drawable {
     public void update(long j) {
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
+            if (this.cacheType == 5) {
+                j = 0;
+            }
             if (imageReceiver.getLottieAnimation() != null) {
                 this.imageReceiver.getLottieAnimation().updateCurrentFrame(j, true);
             }
@@ -413,6 +419,8 @@ public class AnimatedEmojiDrawable extends Drawable {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[2].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[2].descent())) * 1.15f) / AndroidUtilities.density);
         } else if (i == 2 || i == 4 || i == 3) {
             this.sizedp = 34;
+        } else if (i == 5) {
+            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[0].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[0].descent())) * 1.15f) / AndroidUtilities.density);
         } else {
             this.sizedp = 34;
         }
@@ -446,6 +454,8 @@ public class AnimatedEmojiDrawable extends Drawable {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[2].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[2].descent())) * 1.15f) / AndroidUtilities.density);
         } else if (i == 2 || i == 4 || i == 3) {
             this.sizedp = 34;
+        } else if (i == 5) {
+            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[0].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[0].descent())) * 1.15f) / AndroidUtilities.density);
         } else {
             this.sizedp = 34;
         }
@@ -464,9 +474,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     private void initDocument() {
         String str;
         SvgHelper.SvgDrawable svgThumb;
-        String str2;
         SvgHelper.SvgDrawable svgDrawable;
-        TLRPC$PhotoSize closestPhotoSizeWithSize;
         ImageLocation forDocument;
         int i;
         if (this.document == null || this.imageReceiver != null) {
@@ -480,28 +488,32 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
 
             @Override // org.telegram.messenger.ImageReceiver
-            protected boolean setImageBitmapByKey(Drawable drawable, String str3, int i2, boolean z, int i3) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i2, boolean z, int i3) {
                 AnimatedEmojiDrawable.this.invalidate();
-                return super.setImageBitmapByKey(drawable, str3, i2, z, i3);
+                return super.setImageBitmapByKey(drawable, str2, i2, z, i3);
             }
         };
         this.imageReceiver = imageReceiver;
         if (this.cacheType != 0) {
             imageReceiver.setUniqKeyPrefix(this.cacheType + "_");
         }
-        String str3 = this.sizedp + "_" + this.sizedp;
-        if (this.cacheType != 1 || SharedConfig.getDevicePerformanceClass() < 2) {
-            str3 = str3 + "_pcache";
-        }
-        int i2 = this.cacheType;
-        if (i2 != 0 && i2 != 1) {
-            str3 = str3 + "_compress";
-        }
         boolean z = SharedConfig.getDevicePerformanceClass() == 0 && ((i = this.cacheType) == 2 || i == 3);
+        String str2 = this.sizedp + "_" + this.sizedp;
+        int i2 = this.cacheType;
+        if (i2 != 5 && (i2 != 1 || SharedConfig.getDevicePerformanceClass() < 2)) {
+            str2 = str2 + "_pcache";
+        }
+        int i3 = this.cacheType;
+        if (i3 != 0 && i3 != 1) {
+            str2 = str2 + "_compress";
+        }
+        if (this.cacheType == 5) {
+            str2 = str2 + "firstframe";
+        }
+        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
         if ("video/webm".equals(this.document.mime_type)) {
-            closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
             forDocument = ImageLocation.getForDocument(this.document);
-            str2 = str3 + "_" + ImageLoader.AUTOPLAY_FILTER;
+            str2 = str2 + "_" + ImageLoader.AUTOPLAY_FILTER;
             svgDrawable = null;
         } else {
             StringBuilder sb = new StringBuilder();
@@ -513,7 +525,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             sb.append(str);
             sb.append(this.documentId);
             sb.append("@");
-            sb.append(str3);
+            sb.append(str2);
             String sb2 = sb.toString();
             if (this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
                 svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
@@ -523,23 +535,36 @@ public class AnimatedEmojiDrawable extends Drawable {
             } else {
                 svgThumb = null;
             }
-            str2 = str3;
             svgDrawable = svgThumb;
-            closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
             forDocument = ImageLocation.getForDocument(this.document);
         }
-        ImageLocation imageLocation = z ? null : forDocument;
-        TLRPC$Document tLRPC$Document = this.document;
-        this.imageReceiver.setImage(imageLocation, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
+        if (z) {
+            forDocument = null;
+        }
+        if (this.cacheType == 5) {
+            ImageReceiver imageReceiver2 = this.imageReceiver;
+            TLRPC$Document tLRPC$Document = this.document;
+            imageReceiver2.setImage(null, null, forDocument, str2, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
+        } else {
+            TLRPC$Document tLRPC$Document2 = this.document;
+            this.imageReceiver.setImage(forDocument, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
+        }
         if (this.cacheType == 3) {
             this.imageReceiver.setLayerNum(7);
         }
         this.imageReceiver.setAspectFit(true);
-        this.imageReceiver.setAllowStartLottieAnimation(true);
-        this.imageReceiver.setAllowStartAnimation(true);
-        this.imageReceiver.setAutoRepeat(1);
+        if (this.cacheType != 5) {
+            this.imageReceiver.setAllowStartLottieAnimation(true);
+            this.imageReceiver.setAllowStartAnimation(true);
+            this.imageReceiver.setAutoRepeat(1);
+        } else {
+            this.imageReceiver.setAllowStartAnimation(false);
+            this.imageReceiver.setAllowStartLottieAnimation(false);
+            this.imageReceiver.setAutoRepeat(0);
+        }
         this.imageReceiver.setAllowDecodeSingleFrame(true);
         updateAttachState();
+        invalidate();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

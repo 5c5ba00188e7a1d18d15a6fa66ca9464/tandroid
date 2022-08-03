@@ -473,7 +473,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.buttonsView.addView(this.removeButtonView, LayoutHelper.createFrame(-1, -1.0f, 80, 0.0f, 0.0f, 0.0f, 19.0f));
         PremiumButtonView premiumButtonView = new PremiumButtonView(context, false);
         this.premiumButtonView = premiumButtonView;
-        premiumButtonView.setIcon(R.raw.unlock_icon);
+        premiumButtonView.setButton(LocaleController.getString("UnlockPremiumEmoji", R.string.UnlockPremiumEmoji), new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda1
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view2) {
+                EmojiPacksAlert.this.lambda$new$1(view2);
+            }
+        });
+        this.premiumButtonView.setIcon(R.raw.unlock_icon);
         this.premiumButtonView.buttonLayout.setClickable(true);
         this.buttonsView.addView(this.premiumButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 12.0f, 10.0f, 12.0f, 10.0f));
         updateButton();
@@ -514,6 +520,11 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         tLRPC$TL_inputStickerSetID.access_hash = tLRPC$StickerSet.access_hash;
         arrayList3.add(tLRPC$TL_inputStickerSetID);
         new EmojiPacksAlert(baseFragment, getContext(), resourcesProvider, arrayList3).show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(View view) {
+        showPremiumAlert();
     }
 
     private void updateShowButton(boolean z, boolean z2) {
@@ -630,23 +641,23 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         ConnectionsManager.getInstance(baseFragment.getCurrentAccount()).sendRequest(tLRPC$TL_messages_installStickerSet, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                EmojiPacksAlert.lambda$installSet$3(TLRPC$TL_messages_stickerSet.this, z, baseFragment, callback, runnable, tLObject, tLRPC$TL_error);
+                EmojiPacksAlert.lambda$installSet$4(TLRPC$TL_messages_stickerSet.this, z, baseFragment, callback, runnable, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$installSet$3(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final boolean z, final BaseFragment baseFragment, final Utilities.Callback callback, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$installSet$4(final TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, final boolean z, final BaseFragment baseFragment, final Utilities.Callback callback, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                EmojiPacksAlert.lambda$installSet$2(TLRPC$TL_messages_stickerSet.this, tLRPC$TL_error, z, baseFragment, tLObject, callback, runnable);
+                EmojiPacksAlert.lambda$installSet$3(TLRPC$TL_messages_stickerSet.this, tLRPC$TL_error, z, baseFragment, tLObject, callback, runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$installSet$2(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, TLRPC$TL_error tLRPC$TL_error, boolean z, BaseFragment baseFragment, TLObject tLObject, Utilities.Callback callback, final Runnable runnable) {
+    public static /* synthetic */ void lambda$installSet$3(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, TLRPC$TL_error tLRPC$TL_error, boolean z, BaseFragment baseFragment, TLObject tLObject, Utilities.Callback callback, final Runnable runnable) {
         int i;
         TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
         if (tLRPC$StickerSet.masks) {
@@ -679,13 +690,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         MediaDataController.getInstance(baseFragment.getCurrentAccount()).loadStickers(i, false, true, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda5
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                EmojiPacksAlert.lambda$installSet$1(runnable, (ArrayList) obj);
+                EmojiPacksAlert.lambda$installSet$2(runnable, (ArrayList) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$installSet$1(Runnable runnable, ArrayList arrayList) {
+    public static /* synthetic */ void lambda$installSet$2(Runnable runnable, ArrayList arrayList) {
         if (runnable != null) {
             runnable.run();
         }
@@ -702,13 +713,12 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         if (this.loadAnimator != null) {
             return;
         }
-        this.loadT = 0.0f;
-        this.loadAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+        this.loadAnimator = ValueAnimator.ofFloat(this.loadT, 1.0f);
         this.fromY = Float.valueOf(this.lastY + this.containerView.getY());
         this.loadAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                EmojiPacksAlert.this.lambda$loadAnimation$4(valueAnimator);
+                EmojiPacksAlert.this.lambda$loadAnimation$5(valueAnimator);
             }
         });
         this.loadAnimator.setDuration(250L);
@@ -717,13 +727,12 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAnimation$4(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$loadAnimation$5(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.loadT = floatValue;
         this.listView.setAlpha(floatValue);
         this.addButtonView.setAlpha(this.loadT);
         this.removeButtonView.setAlpha(this.loadT);
-        this.premiumButtonView.setAlpha(this.loadT);
         this.containerView.invalidate();
     }
 
@@ -765,24 +774,18 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
             i3++;
         }
-        if (!this.loaded && arrayList.size() > 0) {
+        boolean z = this.customEmojiPacks.inputStickerSets != null && arrayList.size() == this.customEmojiPacks.inputStickerSets.size();
+        if (!this.loaded && z) {
             loadAnimation();
         }
-        boolean z = arrayList.size() > 0;
         this.loaded = z;
         if (!z) {
             this.listView.setAlpha(0.0f);
         }
-        if (arrayList4.size() <= 0 && arrayList3.size() > 0 && !isPremium) {
+        if ((arrayList4.size() <= 0 && arrayList3.size() >= 0 && !isPremium) || !this.loaded) {
             this.premiumButtonView.setVisibility(0);
             this.addButtonView.setVisibility(8);
             this.removeButtonView.setVisibility(8);
-            this.premiumButtonView.setButton(LocaleController.getString("UnlockPremiumEmoji", R.string.UnlockPremiumEmoji), new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda1
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    EmojiPacksAlert.this.lambda$updateButton$5(view);
-                }
-            });
             updateShowButton(true, !this.first);
         } else {
             this.premiumButtonView.setVisibility(4);
@@ -823,11 +826,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
         }
         this.first = false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateButton$5(View view) {
-        showPremiumAlert();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1053,7 +1051,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 textView.setTextSize(1, 13.0f);
                 textView.setTextColor(EmojiPacksAlert.this.getThemedColor("chat_emojiPanelTrendingDescription"));
                 textView.setText(AndroidUtilities.replaceTags(LocaleController.getString("PremiumPreviewEmojiPack", R.string.PremiumPreviewEmojiPack)));
-                textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f));
+                textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(30.0f), AndroidUtilities.dp(14.0f));
             }
         }
 

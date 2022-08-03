@@ -1208,77 +1208,87 @@ public class ImageLoader {
             this.cacheImage = cacheImage;
         }
 
-        /* JADX WARN: Can't wrap try/catch for region: R(10:845|(2:847|(8:849|850|851|(1:853)(1:861)|854|(1:856)(1:859)|857|858))|864|850|851|(0)(0)|854|(0)(0)|857|858) */
-        /* JADX WARN: Can't wrap try/catch for region: R(23:(6:800|801|802|803|(1:805)(1:818)|806)|(2:808|(21:810|811|812|255|(14:257|(3:259|(1:261)(1:787)|262)(3:788|(3:790|(1:792)(1:795)|793)(2:796|(1:798))|794)|263|(1:265)|266|267|268|(12:270|(6:742|743|744|745|746|747)(1:272)|273|274|(1:276)(2:731|(1:733)(2:734|(1:736)(1:737)))|277|278|280|281|(1:283)|(1:724)(11:289|290|291|292|(2:683|(12:690|691|(1:712)(1:695)|(1:697)|698|699|700|701|(3:706|707|(1:709))|710|707|(0))(3:685|(1:687)(1:689)|688))(2:(7:668|669|670|671|672|673|674)(1:296)|297)|298|(1:667)(1:302)|303|(1:305)|306|(1:666)(4:312|(1:313)|315|316))|317)(3:756|(11:758|759|760|(1:762)(1:781)|763|764|765|(1:767)|768|(4:770|(1:771)|773|774)(1:777)|775)(1:784)|776)|318|319|(3:542|543|7a0)(6:321|(1:323)|(3:526|527|(5:529|530|(3:533|534|(1:536))(1:532)|326|9ec))|325|326|9ec)|357|(3:360|(1:362)(1:364)|363)|(3:(1:373)(1:376)|374|375)(3:(1:368)(1:371)|369|370))|799|263|(0)|266|267|268|(0)(0)|318|319|(0)(0)|357|(3:360|(0)(0)|363)|(0)|(0)(0)|374|375))|817|811|812|255|(0)|799|263|(0)|266|267|268|(0)(0)|318|319|(0)(0)|357|(0)|(0)|(0)(0)|374|375) */
-        /* JADX WARN: Can't wrap try/catch for region: R(25:238|(1:844)(1:245)|246|(2:248|(1:842))(1:843)|252|(28:800|801|802|803|(1:805)(1:818)|806|(2:808|(21:810|811|812|255|(14:257|(3:259|(1:261)(1:787)|262)(3:788|(3:790|(1:792)(1:795)|793)(2:796|(1:798))|794)|263|(1:265)|266|267|268|(12:270|(6:742|743|744|745|746|747)(1:272)|273|274|(1:276)(2:731|(1:733)(2:734|(1:736)(1:737)))|277|278|280|281|(1:283)|(1:724)(11:289|290|291|292|(2:683|(12:690|691|(1:712)(1:695)|(1:697)|698|699|700|701|(3:706|707|(1:709))|710|707|(0))(3:685|(1:687)(1:689)|688))(2:(7:668|669|670|671|672|673|674)(1:296)|297)|298|(1:667)(1:302)|303|(1:305)|306|(1:666)(4:312|(1:313)|315|316))|317)(3:756|(11:758|759|760|(1:762)(1:781)|763|764|765|(1:767)|768|(4:770|(1:771)|773|774)(1:777)|775)(1:784)|776)|318|319|(3:542|543|7a0)(6:321|(1:323)|(3:526|527|(5:529|530|(3:533|534|(1:536))(1:532)|326|9ec))|325|326|9ec)|357|(3:360|(1:362)(1:364)|363)|(3:(1:373)(1:376)|374|375)(3:(1:368)(1:371)|369|370))|799|263|(0)|266|267|268|(0)(0)|318|319|(0)(0)|357|(3:360|(0)(0)|363)|(0)|(0)(0)|374|375))|817|811|812|255|(0)|799|263|(0)|266|267|268|(0)(0)|318|319|(0)(0)|357|(0)|(0)|(0)(0)|374|375)|254|255|(0)|799|263|(0)|266|267|268|(0)(0)|318|319|(0)(0)|357|(0)|(0)|(0)(0)|374|375) */
-        /* JADX WARN: Code restructure failed: missing block: B:785:0x0777, code lost:
+        /* JADX WARN: Can't wrap try/catch for region: R(10:846|(2:848|(8:850|851|852|(1:854)(1:862)|855|(1:857)(1:860)|858|859))|865|851|852|(0)(0)|855|(0)(0)|858|859) */
+        /* JADX WARN: Can't wrap try/catch for region: R(21:254|(28:802|803|804|805|(1:807)(1:820)|808|(2:810|(21:812|813|814|257|(14:259|(3:261|(1:263)(1:789)|264)(3:790|(3:792|(1:794)(1:797)|795)(2:798|(1:800))|796)|265|(1:267)|268|269|270|(12:272|(6:744|745|746|747|748|749)(1:274)|275|276|(1:278)(2:733|(1:735)(2:736|(1:738)(1:739)))|279|280|281|282|(1:284)|(1:725)(11:290|291|292|293|(2:684|(12:691|692|(1:713)(1:696)|(1:698)|699|700|701|702|(3:707|708|(1:710))|711|708|(0))(3:686|(1:688)(1:690)|689))(2:(7:669|670|671|672|673|674|675)(1:297)|298)|299|(1:668)(1:303)|304|(1:306)|307|(1:667)(4:313|(1:314)|316|317))|318)(3:758|(11:760|761|762|(1:764)(1:783)|765|766|767|(1:769)|770|(4:772|(1:773)|775|776)(1:779)|777)(1:786)|778)|319|320|(3:543|544|7b8)(6:322|(1:324)|(3:527|528|(5:530|531|(3:534|535|(1:537))(1:533)|327|a04))|326|327|a04)|358|(3:361|(1:363)(1:365)|364)|(3:(1:374)(1:377)|375|376)(3:(1:369)(1:372)|370|371))|801|265|(0)|268|269|270|(0)(0)|319|320|(0)(0)|358|(3:361|(0)(0)|364)|(0)|(0)(0)|375|376))|819|813|814|257|(0)|801|265|(0)|268|269|270|(0)(0)|319|320|(0)(0)|358|(0)|(0)|(0)(0)|375|376)|256|257|(0)|801|265|(0)|268|269|270|(0)(0)|319|320|(0)(0)|358|(0)|(0)|(0)(0)|375|376) */
+        /* JADX WARN: Can't wrap try/catch for region: R(23:(6:802|803|804|805|(1:807)(1:820)|808)|(2:810|(21:812|813|814|257|(14:259|(3:261|(1:263)(1:789)|264)(3:790|(3:792|(1:794)(1:797)|795)(2:798|(1:800))|796)|265|(1:267)|268|269|270|(12:272|(6:744|745|746|747|748|749)(1:274)|275|276|(1:278)(2:733|(1:735)(2:736|(1:738)(1:739)))|279|280|281|282|(1:284)|(1:725)(11:290|291|292|293|(2:684|(12:691|692|(1:713)(1:696)|(1:698)|699|700|701|702|(3:707|708|(1:710))|711|708|(0))(3:686|(1:688)(1:690)|689))(2:(7:669|670|671|672|673|674|675)(1:297)|298)|299|(1:668)(1:303)|304|(1:306)|307|(1:667)(4:313|(1:314)|316|317))|318)(3:758|(11:760|761|762|(1:764)(1:783)|765|766|767|(1:769)|770|(4:772|(1:773)|775|776)(1:779)|777)(1:786)|778)|319|320|(3:543|544|7b8)(6:322|(1:324)|(3:527|528|(5:530|531|(3:534|535|(1:537))(1:533)|327|a04))|326|327|a04)|358|(3:361|(1:363)(1:365)|364)|(3:(1:374)(1:377)|375|376)(3:(1:369)(1:372)|370|371))|801|265|(0)|268|269|270|(0)(0)|319|320|(0)(0)|358|(3:361|(0)(0)|364)|(0)|(0)(0)|375|376))|819|813|814|257|(0)|801|265|(0)|268|269|270|(0)(0)|319|320|(0)(0)|358|(0)|(0)|(0)(0)|375|376) */
+        /* JADX WARN: Code restructure failed: missing block: B:787:0x078f, code lost:
             r0 = th;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:786:0x0778, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:788:0x0790, code lost:
             r32 = r12;
             r33 = r13;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:78:0x01ca, code lost:
-            if (r0[1] == (-117)) goto L79;
+        /* JADX WARN: Code restructure failed: missing block: B:79:0x01d6, code lost:
+            if (r0[1] == (-117)) goto L80;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:814:0x0464, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:816:0x047c, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:815:0x0465, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:817:0x047d, code lost:
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:862:0x0cee, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:863:0x0d06, code lost:
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:863:0x0cef, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:864:0x0d07, code lost:
             org.telegram.messenger.FileLog.e(r0);
             r5 = null;
          */
-        /* JADX WARN: Not initialized variable reg: 30, insn: 0x05eb: MOVE  (r8 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]) = (r30 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]), block:B:718:0x05e7 */
-        /* JADX WARN: Not initialized variable reg: 31, insn: 0x05ed: MOVE  (r5 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]) = (r31 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]), block:B:718:0x05e7 */
-        /* JADX WARN: Removed duplicated region for block: B:114:0x025c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:170:0x02a6  */
-        /* JADX WARN: Removed duplicated region for block: B:187:0x0376  */
-        /* JADX WARN: Removed duplicated region for block: B:203:0x038e  */
-        /* JADX WARN: Removed duplicated region for block: B:257:0x049b  */
-        /* JADX WARN: Removed duplicated region for block: B:265:0x050a  */
-        /* JADX WARN: Removed duplicated region for block: B:270:0x051c A[Catch: all -> 0x0777, TRY_LEAVE, TryCatch #12 {all -> 0x0777, blocks: (B:268:0x0516, B:270:0x051c), top: B:267:0x0516 }] */
-        /* JADX WARN: Removed duplicated region for block: B:321:0x09a2  */
-        /* JADX WARN: Removed duplicated region for block: B:328:0x09ed A[Catch: all -> 0x0c5a, TRY_ENTER, TryCatch #42 {all -> 0x0c5d, blocks: (B:534:0x09c9, B:536:0x09d1, B:326:0x09e1, B:327:0x09ec, B:334:0x09f6, B:337:0x09fe, B:340:0x0a05, B:341:0x0a0e, B:345:0x0a17, B:523:0x0a27, B:525:0x0a0a, B:328:0x09ed, B:330:0x09f1, B:332:0x09f3), top: B:533:0x09c9 }] */
-        /* JADX WARN: Removed duplicated region for block: B:349:0x0b4b  */
-        /* JADX WARN: Removed duplicated region for block: B:359:0x0c6d A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:362:0x0c7b  */
-        /* JADX WARN: Removed duplicated region for block: B:364:0x0c7d  */
-        /* JADX WARN: Removed duplicated region for block: B:366:0x0c92 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:373:0x0ca4  */
-        /* JADX WARN: Removed duplicated region for block: B:376:0x0caa  */
-        /* JADX WARN: Removed duplicated region for block: B:377:0x0b63 A[Catch: all -> 0x0c58, TryCatch #35 {all -> 0x0c58, blocks: (B:473:0x0add, B:350:0x0b4d, B:352:0x0b57, B:354:0x0b5d, B:377:0x0b63, B:379:0x0b69, B:385:0x0b7f, B:391:0x0b8d, B:393:0x0b93, B:395:0x0bb0, B:397:0x0b9d, B:399:0x0ba3, B:402:0x0bb8, B:404:0x0bc6, B:405:0x0bd1, B:408:0x0bd8), top: B:472:0x0add }] */
-        /* JADX WARN: Removed duplicated region for block: B:395:0x0bb0 A[Catch: all -> 0x0c58, TryCatch #35 {all -> 0x0c58, blocks: (B:473:0x0add, B:350:0x0b4d, B:352:0x0b57, B:354:0x0b5d, B:377:0x0b63, B:379:0x0b69, B:385:0x0b7f, B:391:0x0b8d, B:393:0x0b93, B:395:0x0bb0, B:397:0x0b9d, B:399:0x0ba3, B:402:0x0bb8, B:404:0x0bc6, B:405:0x0bd1, B:408:0x0bd8), top: B:472:0x0add }] */
-        /* JADX WARN: Removed duplicated region for block: B:438:0x0c4b A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:454:0x0a3b A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x0104  */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x0130  */
-        /* JADX WARN: Removed duplicated region for block: B:542:0x0795 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x024b  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x0250  */
-        /* JADX WARN: Removed duplicated region for block: B:709:0x064b A[Catch: all -> 0x06c3, TryCatch #19 {all -> 0x06c3, blocks: (B:298:0x067a, B:302:0x0688, B:306:0x06a2, B:313:0x06b2, B:316:0x06bc, B:666:0x06bf, B:667:0x0691, B:701:0x0633, B:703:0x0639, B:707:0x0643, B:709:0x064b, B:687:0x0664, B:688:0x0673, B:689:0x066e), top: B:292:0x05a1 }] */
-        /* JADX WARN: Removed duplicated region for block: B:756:0x06fe  */
-        /* JADX WARN: Removed duplicated region for block: B:82:0x01f3  */
-        /* JADX WARN: Removed duplicated region for block: B:832:0x0486 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x01f6  */
-        /* JADX WARN: Removed duplicated region for block: B:853:0x0ce6  */
-        /* JADX WARN: Removed duplicated region for block: B:856:0x0cf5  */
-        /* JADX WARN: Removed duplicated region for block: B:859:0x0cfc  */
-        /* JADX WARN: Removed duplicated region for block: B:861:0x0ce8  */
-        /* JADX WARN: Removed duplicated region for block: B:91:0x0212  */
-        /* JADX WARN: Removed duplicated region for block: B:92:0x0230  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x020e  */
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Not initialized variable reg: 30, insn: 0x0603: MOVE  (r8 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]) = (r30 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]), block:B:719:0x05ff */
+        /* JADX WARN: Not initialized variable reg: 31, insn: 0x0605: MOVE  (r5 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]) = (r31 I:??[int, float, boolean, short, byte, char, OBJECT, ARRAY]), block:B:719:0x05ff */
+        /* JADX WARN: Removed duplicated region for block: B:116:0x0270 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:171:0x02ba  */
+        /* JADX WARN: Removed duplicated region for block: B:188:0x038c  */
+        /* JADX WARN: Removed duplicated region for block: B:204:0x03a6  */
+        /* JADX WARN: Removed duplicated region for block: B:259:0x04b3  */
+        /* JADX WARN: Removed duplicated region for block: B:267:0x0522  */
+        /* JADX WARN: Removed duplicated region for block: B:272:0x0534 A[Catch: all -> 0x078f, TRY_LEAVE, TryCatch #29 {all -> 0x078f, blocks: (B:270:0x052e, B:272:0x0534), top: B:269:0x052e }] */
+        /* JADX WARN: Removed duplicated region for block: B:322:0x09ba  */
+        /* JADX WARN: Removed duplicated region for block: B:329:0x0a05 A[Catch: all -> 0x0c72, TRY_ENTER, TryCatch #17 {all -> 0x0c75, blocks: (B:535:0x09e1, B:537:0x09e9, B:327:0x09f9, B:328:0x0a04, B:335:0x0a0e, B:338:0x0a16, B:341:0x0a1d, B:342:0x0a26, B:346:0x0a2f, B:524:0x0a3f, B:526:0x0a22, B:329:0x0a05, B:331:0x0a09, B:333:0x0a0b), top: B:534:0x09e1 }] */
+        /* JADX WARN: Removed duplicated region for block: B:350:0x0b63  */
+        /* JADX WARN: Removed duplicated region for block: B:360:0x0c85 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:363:0x0c93  */
+        /* JADX WARN: Removed duplicated region for block: B:365:0x0c95  */
+        /* JADX WARN: Removed duplicated region for block: B:367:0x0caa A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:374:0x0cbc  */
+        /* JADX WARN: Removed duplicated region for block: B:377:0x0cc2  */
+        /* JADX WARN: Removed duplicated region for block: B:378:0x0b7b A[Catch: all -> 0x0c70, TryCatch #11 {all -> 0x0c70, blocks: (B:474:0x0af5, B:351:0x0b65, B:353:0x0b6f, B:355:0x0b75, B:378:0x0b7b, B:380:0x0b81, B:386:0x0b97, B:392:0x0ba5, B:394:0x0bab, B:396:0x0bc8, B:398:0x0bb5, B:400:0x0bbb, B:403:0x0bd0, B:405:0x0bde, B:406:0x0be9, B:409:0x0bf0), top: B:473:0x0af5 }] */
+        /* JADX WARN: Removed duplicated region for block: B:396:0x0bc8 A[Catch: all -> 0x0c70, TryCatch #11 {all -> 0x0c70, blocks: (B:474:0x0af5, B:351:0x0b65, B:353:0x0b6f, B:355:0x0b75, B:378:0x0b7b, B:380:0x0b81, B:386:0x0b97, B:392:0x0ba5, B:394:0x0bab, B:396:0x0bc8, B:398:0x0bb5, B:400:0x0bbb, B:403:0x0bd0, B:405:0x0bde, B:406:0x0be9, B:409:0x0bf0), top: B:473:0x0af5 }] */
+        /* JADX WARN: Removed duplicated region for block: B:439:0x0c63 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:455:0x0a53 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x013b  */
+        /* JADX WARN: Removed duplicated region for block: B:543:0x07ad A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:710:0x0663 A[Catch: all -> 0x06db, TryCatch #37 {all -> 0x06db, blocks: (B:299:0x0692, B:303:0x06a0, B:307:0x06ba, B:314:0x06ca, B:317:0x06d4, B:667:0x06d7, B:668:0x06a9, B:702:0x064b, B:704:0x0651, B:708:0x065b, B:710:0x0663, B:688:0x067c, B:689:0x068b, B:690:0x0686), top: B:293:0x05b9 }] */
+        /* JADX WARN: Removed duplicated region for block: B:758:0x0716  */
+        /* JADX WARN: Removed duplicated region for block: B:854:0x0cfe  */
+        /* JADX WARN: Removed duplicated region for block: B:857:0x0d0d  */
+        /* JADX WARN: Removed duplicated region for block: B:860:0x0d14  */
+        /* JADX WARN: Removed duplicated region for block: B:862:0x0d00  */
+        /* JADX WARN: Removed duplicated region for block: B:86:0x0204  */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x0222  */
+        /* JADX WARN: Removed duplicated region for block: B:94:0x0240  */
+        /* JADX WARN: Removed duplicated region for block: B:95:0x021e  */
+        /* JADX WARN: Type inference failed for: r37v0, types: [org.telegram.messenger.ImageLoader$CacheOutTask] */
+        /* JADX WARN: Type inference failed for: r6v0 */
+        /* JADX WARN: Type inference failed for: r6v46 */
+        /* JADX WARN: Type inference failed for: r6v60 */
+        /* JADX WARN: Type inference failed for: r6v61 */
+        /* JADX WARN: Type inference failed for: r6v63 */
+        /* JADX WARN: Type inference failed for: r6v64 */
+        /* JADX WARN: Type inference failed for: r6v65 */
+        /* JADX WARN: Type inference failed for: r6v66 */
+        /* JADX WARN: Type inference failed for: r6v67 */
+        /* JADX WARN: Type inference failed for: r6v68 */
+        /* JADX WARN: Type inference failed for: r6v69 */
+        /* JADX WARN: Type inference failed for: r6v70 */
+        /* JADX WARN: Type inference failed for: r6v71 */
         @Override // java.lang.Runnable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void run() {
-            Drawable drawable;
+            ThemePreviewDrawable themePreviewDrawable;
             SecureDocumentKey secureDocumentKey;
             byte[] bArr;
             Throwable th;
@@ -1341,16 +1351,18 @@ public class ImageLoader {
             BitmapsCache.CacheOptions cacheOptions2;
             int i8;
             boolean z17;
-            String str5;
             boolean z18;
             boolean z19;
+            String str5;
+            boolean z20;
             int i9;
             int i10;
             Throwable th3;
             RandomAccessFile randomAccessFile3;
+            RandomAccessFile randomAccessFile4;
             BitmapsCache.CacheOptions cacheOptions3;
             RLottieDrawable rLottieDrawable;
-            boolean z20;
+            boolean z21;
             synchronized (this.sync) {
                 this.runningThread = Thread.currentThread();
                 Thread.interrupted();
@@ -1369,16 +1381,22 @@ public class ImageLoader {
                 if (i11 == 5) {
                     try {
                         CacheImage cacheImage2 = this.cacheImage;
-                        drawable = new ThemePreviewDrawable(cacheImage2.finalFilePath, (DocumentObject.ThemeDocument) cacheImage2.imageLocation.document);
+                        themePreviewDrawable = new ThemePreviewDrawable(cacheImage2.finalFilePath, (DocumentObject.ThemeDocument) cacheImage2.imageLocation.document);
                     } catch (Throwable th4) {
                         FileLog.e(th4);
-                        drawable = null;
+                        themePreviewDrawable = null;
                     }
-                    onPostExecute(drawable);
+                    onPostExecute(themePreviewDrawable);
                     return;
                 }
-                boolean z21 = true;
-                boolean z22 = false;
+                ?? r6 = 4;
+                r6 = 4;
+                r6 = 4;
+                r6 = 4;
+                ?? r62 = 4;
+                ?? r63 = 4;
+                boolean z22 = true;
+                boolean z23 = false;
                 if (i11 == 3 || i11 == 4) {
                     Point point = AndroidUtilities.displaySize;
                     int i12 = point.x;
@@ -1414,83 +1432,88 @@ public class ImageLoader {
                             if (parseFloat3 > 90.0f || parseFloat4 > 90.0f || this.cacheImage.filter.contains("nolimit")) {
                                 min3 = min5;
                                 min2 = min4;
-                                z20 = false;
+                                z21 = false;
                             } else {
                                 min2 = Math.min(min4, 160);
                                 min3 = Math.min(min5, 160);
-                                z20 = true;
+                                z21 = true;
                             }
-                            z18 = (split2.length >= 3 && "pcache".equals(split2[2])) || (!this.cacheImage.filter.contains("nolimit") && SharedConfig.getDevicePerformanceClass() != 2);
-                            if (this.cacheImage.filter.contains("lastframe")) {
-                                z19 = true;
-                                if (split2.length >= 3) {
-                                    if ("nr".equals(split2[2])) {
-                                        str5 = null;
-                                    } else if (!"nrs".equals(split2[2])) {
-                                        if ("dice".equals(split2[2])) {
-                                            str5 = split2[3];
-                                        }
-                                    } else {
-                                        str5 = null;
-                                        i9 = 3;
-                                        if (split2.length >= 5) {
-                                            if ("c1".equals(split2[4])) {
-                                                z17 = z20;
-                                                i10 = 12;
-                                            } else if ("c2".equals(split2[4])) {
-                                                z17 = z20;
-                                                i10 = 3;
-                                            } else if ("c3".equals(split2[4])) {
-                                                z17 = z20;
-                                                i10 = 4;
-                                            } else if ("c4".equals(split2[4])) {
-                                                z17 = z20;
-                                                i10 = 5;
-                                            } else if ("c5".equals(split2[4])) {
-                                                z17 = z20;
-                                                i10 = 6;
-                                            }
-                                            i8 = min2;
-                                        }
-                                        z17 = z20;
-                                        i10 = 0;
-                                        i8 = min2;
-                                    }
-                                    i9 = 2;
-                                    if (split2.length >= 5) {
-                                    }
-                                    z17 = z20;
-                                    i10 = 0;
-                                    i8 = min2;
-                                }
-                                str5 = null;
-                                i9 = 1;
-                                if (split2.length >= 5) {
-                                }
-                                z17 = z20;
-                                i10 = 0;
-                                i8 = min2;
-                            }
+                            z19 = (split2.length >= 3 && "pcache".equals(split2[2])) || (!this.cacheImage.filter.contains("nolimit") && SharedConfig.getDevicePerformanceClass() != 2);
+                            z20 = this.cacheImage.filter.contains("lastframe");
+                            z18 = this.cacheImage.filter.contains("firstframe");
                         } else {
-                            z20 = false;
+                            z21 = false;
                             z18 = false;
+                            z19 = false;
+                            z20 = false;
                         }
-                        z19 = false;
                         if (split2.length >= 3) {
+                            if ("nr".equals(split2[2])) {
+                                str5 = null;
+                            } else if (!"nrs".equals(split2[2])) {
+                                if ("dice".equals(split2[2])) {
+                                    str5 = split2[3];
+                                }
+                            } else {
+                                str5 = null;
+                                i9 = 3;
+                                if (split2.length >= 5) {
+                                    if ("c1".equals(split2[4])) {
+                                        z17 = z21;
+                                        i10 = 12;
+                                    } else if ("c2".equals(split2[4])) {
+                                        z17 = z21;
+                                        i10 = 3;
+                                    } else if ("c3".equals(split2[4])) {
+                                        z17 = z21;
+                                        i10 = 4;
+                                    } else if ("c4".equals(split2[4])) {
+                                        z17 = z21;
+                                        i10 = 5;
+                                    } else {
+                                        String str8 = split2[4];
+                                        boolean equals = "c5".equals(str8);
+                                        r63 = str8;
+                                        if (equals) {
+                                            z17 = z21;
+                                            i10 = 6;
+                                            r62 = str8;
+                                        }
+                                    }
+                                    i8 = min2;
+                                    r6 = r62;
+                                }
+                                z17 = z21;
+                                i10 = 0;
+                                r62 = r63;
+                                i8 = min2;
+                                r6 = r62;
+                            }
+                            i9 = 2;
+                            if (split2.length >= 5) {
+                            }
+                            z17 = z21;
+                            i10 = 0;
+                            r62 = r63;
+                            i8 = min2;
+                            r6 = r62;
                         }
                         str5 = null;
                         i9 = 1;
                         if (split2.length >= 5) {
                         }
-                        z17 = z20;
+                        z17 = z21;
                         i10 = 0;
+                        r62 = r63;
                         i8 = min2;
+                        r6 = r62;
                     } else {
                         i8 = min2;
                         z17 = false;
-                        str5 = null;
                         z18 = false;
                         z19 = false;
+                        str5 = null;
+                        z20 = false;
                         i9 = 1;
                         i10 = 0;
                     }
@@ -1504,41 +1527,45 @@ public class ImageLoader {
                     } else {
                         File file = this.cacheImage.finalFilePath;
                         try {
-                            randomAccessFile3 = new RandomAccessFile(this.cacheImage.finalFilePath, "r");
                             try {
+                                randomAccessFile4 = new RandomAccessFile(this.cacheImage.finalFilePath, "r");
                                 try {
                                     byte[] bArr2 = this.cacheImage.type == 1 ? ImageLoader.headerThumb : ImageLoader.header;
-                                    randomAccessFile3.readFully(bArr2, 0, 2);
+                                    randomAccessFile4.readFully(bArr2, 0, 2);
                                     if (bArr2[0] == 31) {
                                     }
-                                    z21 = false;
+                                    z22 = false;
                                     try {
-                                        randomAccessFile3.close();
+                                        randomAccessFile4.close();
                                     } catch (Exception e) {
                                         FileLog.e(e);
                                     }
                                 } catch (Exception e2) {
                                     e = e2;
                                     FileLog.e((Throwable) e, false);
-                                    if (randomAccessFile3 != null) {
+                                    if (randomAccessFile4 != null) {
                                         try {
-                                            randomAccessFile3.close();
+                                            randomAccessFile4.close();
                                         } catch (Exception e3) {
                                             FileLog.e(e3);
                                         }
                                     }
-                                    z21 = false;
-                                    if (!z19) {
+                                    z22 = false;
+                                    if (!z20) {
+                                        z23 = z19;
+                                    }
+                                    if (!z23) {
                                     }
                                     if (!z22) {
                                     }
-                                    if (!z21) {
+                                    if (!z20) {
                                     }
-                                    if (!z19) {
-                                    }
+                                    loadLastFrame(rLottieDrawable, i14, i8, z20);
+                                    return;
                                 }
                             } catch (Throwable th5) {
                                 th3 = th5;
+                                randomAccessFile3 = r6;
                                 if (randomAccessFile3 != null) {
                                     try {
                                         randomAccessFile3.close();
@@ -1550,7 +1577,7 @@ public class ImageLoader {
                             }
                         } catch (Exception e5) {
                             e = e5;
-                            randomAccessFile3 = null;
+                            randomAccessFile4 = null;
                         } catch (Throwable th6) {
                             th3 = th6;
                             randomAccessFile3 = null;
@@ -1558,45 +1585,45 @@ public class ImageLoader {
                             }
                             throw th3;
                         }
-                        if (!z19) {
-                            z22 = z18;
+                        if (!z20 && !z18) {
+                            z23 = z19;
                         }
-                        if (!z22) {
+                        if (!z23) {
                             BitmapsCache.CacheOptions cacheOptions4 = new BitmapsCache.CacheOptions();
-                            String str8 = this.cacheImage.filter;
-                            if (str8 != null && str8.contains("compress")) {
+                            String str9 = this.cacheImage.filter;
+                            if (str9 != null && str9.contains("compress")) {
                                 cacheOptions4.compressQuality = 60;
                             }
                             cacheOptions3 = cacheOptions4;
                         } else {
                             cacheOptions3 = null;
                         }
-                        if (!z21) {
+                        if (!z22) {
                             File file2 = this.cacheImage.finalFilePath;
                             rLottieDrawable = new RLottieDrawable(file2, ImageLoader.decompressGzip(file2), i8, i14, cacheOptions3, z17, null, i10);
                         } else {
                             rLottieDrawable = new RLottieDrawable(this.cacheImage.finalFilePath, i8, i14, cacheOptions3, z17, null, i10);
                         }
                     }
-                    if (!z19) {
-                        loadLastFrame(rLottieDrawable, i14, i8);
+                    if (!z20 || z18) {
+                        loadLastFrame(rLottieDrawable, i14, i8, z20);
                         return;
                     }
                     rLottieDrawable.setAutoRepeat(i9);
                     onPostExecute(rLottieDrawable);
                 } else if (i11 == 2) {
                     long j = imageLocation != null ? imageLocation.videoSeekTo : 0L;
-                    String str9 = cacheImage.filter;
-                    if (str9 != null) {
-                        String[] split3 = str9.split("_");
+                    String str10 = cacheImage.filter;
+                    if (str10 != null) {
+                        String[] split3 = str10.split("_");
                         if (split3.length >= 2) {
                             float parseFloat5 = Float.parseFloat(split3[0]);
                             float parseFloat6 = Float.parseFloat(split3[1]);
                             if (parseFloat5 <= 90.0f && parseFloat6 <= 90.0f && !this.cacheImage.filter.contains("nolimit")) {
                                 z15 = true;
                                 z16 = false;
-                                for (String str10 : split3) {
-                                    if ("pcache".equals(str10)) {
+                                for (String str11 : split3) {
+                                    if ("pcache".equals(str11)) {
                                         z16 = true;
                                     }
                                 }
@@ -1621,8 +1648,8 @@ public class ImageLoader {
                             long j2 = tLRPC$Document != null ? cacheImage4.size : imageLocation2.currentSize;
                             if (z16) {
                                 BitmapsCache.CacheOptions cacheOptions5 = new BitmapsCache.CacheOptions();
-                                String str11 = this.cacheImage.filter;
-                                if (str11 != null && str11.contains("compress")) {
+                                String str12 = this.cacheImage.filter;
+                                if (str12 != null && str12.contains("compress")) {
                                     cacheOptions5.compressQuality = 60;
                                 }
                                 cacheOptions = cacheOptions5;
@@ -1632,17 +1659,17 @@ public class ImageLoader {
                             CacheImage cacheImage5 = this.cacheImage;
                             animatedFileDrawable = new AnimatedFileDrawable(cacheImage5.finalFilePath, false, j2, tLRPC$Document, tLRPC$Document == null ? cacheImage5.imageLocation : null, cacheImage5.parentObject, j, cacheImage5.currentAccount, false, cacheOptions);
                             if (!MessageObject.isWebM(tLRPC$Document) && !MessageObject.isVideoSticker(tLRPC$Document) && !ImageLoader.this.isAnimatedAvatar(this.cacheImage.filter)) {
-                                z21 = false;
+                                z22 = false;
                             }
-                            animatedFileDrawable.setIsWebmSticker(z21);
+                            animatedFileDrawable.setIsWebmSticker(z22);
                             animatedFileDrawable.setLimitFps(z15);
                             Thread.interrupted();
                             onPostExecute(animatedFileDrawable);
                         }
                     }
-                    String str12 = this.cacheImage.filter;
-                    if (str12 != null) {
-                        String[] split4 = str12.split("_");
+                    String str13 = this.cacheImage.filter;
+                    if (str13 != null) {
+                        String[] split4 = str13.split("_");
                         if (split4.length >= 2) {
                             float parseFloat7 = Float.parseFloat(split4[0]);
                             float parseFloat8 = Float.parseFloat(split4[1]);
@@ -1651,8 +1678,8 @@ public class ImageLoader {
                             i6 = (int) (parseFloat7 * f7);
                             if (!z16) {
                                 BitmapsCache.CacheOptions cacheOptions6 = new BitmapsCache.CacheOptions();
-                                String str13 = this.cacheImage.filter;
-                                if (str13 != null && str13.contains("compress")) {
+                                String str14 = this.cacheImage.filter;
+                                if (str14 != null && str14.contains("compress")) {
                                     cacheOptions6.compressQuality = 60;
                                 }
                                 cacheOptions2 = cacheOptions6;
@@ -1661,13 +1688,13 @@ public class ImageLoader {
                             }
                             CacheImage cacheImage6 = this.cacheImage;
                             File file3 = cacheImage6.finalFilePath;
-                            boolean equals = "d".equals(cacheImage6.filter);
+                            boolean equals2 = "d".equals(cacheImage6.filter);
                             CacheImage cacheImage7 = this.cacheImage;
-                            animatedFileDrawable = new AnimatedFileDrawable(file3, equals, 0L, cacheImage7.imageLocation.document, null, null, j, cacheImage7.currentAccount, false, i6, i7, cacheOptions2);
+                            animatedFileDrawable = new AnimatedFileDrawable(file3, equals2, 0L, cacheImage7.imageLocation.document, null, null, j, cacheImage7.currentAccount, false, i6, i7, cacheOptions2);
                             if (!MessageObject.isWebM(this.cacheImage.imageLocation.document) && !MessageObject.isVideoSticker(this.cacheImage.imageLocation.document) && !ImageLoader.this.isAnimatedAvatar(this.cacheImage.filter)) {
-                                z21 = false;
+                                z22 = false;
                             }
-                            animatedFileDrawable.setIsWebmSticker(z21);
+                            animatedFileDrawable.setIsWebmSticker(z22);
                             animatedFileDrawable.setLimitFps(z15);
                             Thread.interrupted();
                             onPostExecute(animatedFileDrawable);
@@ -1679,19 +1706,19 @@ public class ImageLoader {
                     }
                     CacheImage cacheImage62 = this.cacheImage;
                     File file32 = cacheImage62.finalFilePath;
-                    boolean equals2 = "d".equals(cacheImage62.filter);
+                    boolean equals22 = "d".equals(cacheImage62.filter);
                     CacheImage cacheImage72 = this.cacheImage;
-                    animatedFileDrawable = new AnimatedFileDrawable(file32, equals2, 0L, cacheImage72.imageLocation.document, null, null, j, cacheImage72.currentAccount, false, i6, i7, cacheOptions2);
+                    animatedFileDrawable = new AnimatedFileDrawable(file32, equals22, 0L, cacheImage72.imageLocation.document, null, null, j, cacheImage72.currentAccount, false, i6, i7, cacheOptions2);
                     if (!MessageObject.isWebM(this.cacheImage.imageLocation.document)) {
-                        z21 = false;
+                        z22 = false;
                     }
-                    animatedFileDrawable.setIsWebmSticker(z21);
+                    animatedFileDrawable.setIsWebmSticker(z22);
                     animatedFileDrawable.setLimitFps(z15);
                     Thread.interrupted();
                     onPostExecute(animatedFileDrawable);
                 } else {
                     File file4 = cacheImage.finalFilePath;
-                    boolean z23 = (cacheImage.secureDocument == null && (cacheImage.encryptionKeyPath == null || file4 == null || !file4.getAbsolutePath().endsWith(".enc"))) ? false : true;
+                    boolean z24 = (cacheImage.secureDocument == null && (cacheImage.encryptionKeyPath == null || file4 == null || !file4.getAbsolutePath().endsWith(".enc"))) ? false : true;
                     SecureDocument secureDocument = this.cacheImage.secureDocument;
                     if (secureDocument != null) {
                         secureDocumentKey = secureDocument.secureDocumentKey;
@@ -1703,10 +1730,10 @@ public class ImageLoader {
                         secureDocumentKey = null;
                         bArr = null;
                     }
-                    if (Build.VERSION.SDK_INT < 19) {
-                        try {
-                            randomAccessFile2 = new RandomAccessFile(file4, "r");
+                    try {
+                        if (Build.VERSION.SDK_INT < 19) {
                             try {
+                                randomAccessFile2 = new RandomAccessFile(file4, "r");
                                 try {
                                     byte[] bArr3 = this.cacheImage.type == 1 ? ImageLoader.headerThumb : ImageLoader.header;
                                     randomAccessFile2.readFully(bArr3, 0, bArr3.length);
@@ -1733,7 +1760,7 @@ public class ImageLoader {
                                     options.inSampleSize = 1;
                                     if (Build.VERSION.SDK_INT < 21) {
                                     }
-                                    boolean z24 = ImageLoader.this.canForce8888;
+                                    boolean z25 = ImageLoader.this.canForce8888;
                                     str3 = this.cacheImage.filter;
                                     if (str3 != null) {
                                     }
@@ -1750,224 +1777,177 @@ public class ImageLoader {
                                     }
                                     onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                 }
+                            } catch (Exception e8) {
+                                e = e8;
+                                randomAccessFile2 = null;
                             } catch (Throwable th7) {
                                 th = th7;
-                                randomAccessFile = randomAccessFile2;
+                                randomAccessFile = null;
                                 if (randomAccessFile != null) {
                                     try {
                                         randomAccessFile.close();
-                                    } catch (Exception e8) {
-                                        FileLog.e(e8);
+                                    } catch (Exception e9) {
+                                        FileLog.e(e9);
                                     }
                                 }
                                 throw th;
                             }
-                        } catch (Exception e9) {
-                            e = e9;
-                            randomAccessFile2 = null;
-                        } catch (Throwable th8) {
-                            th = th8;
-                            randomAccessFile = null;
-                            if (randomAccessFile != null) {
-                            }
-                            throw th;
-                        }
-                        if (lowerCase.startsWith("riff")) {
-                            if (lowerCase.endsWith("webp")) {
-                                z = true;
-                                randomAccessFile2.close();
-                                str = this.cacheImage.imageLocation.path;
-                                if (str != null) {
-                                    if (str.startsWith("thumb://")) {
-                                        int indexOf = str.indexOf(":", 8);
-                                        if (indexOf >= 0) {
-                                            l3 = Long.valueOf(Long.parseLong(str.substring(8, indexOf)));
-                                            str4 = str.substring(indexOf + 1);
-                                        } else {
-                                            str4 = null;
-                                            l3 = null;
-                                        }
-                                        l = l3;
-                                        z2 = false;
-                                        z3 = false;
-                                        str2 = str4;
-                                    } else {
-                                        if (str.startsWith("vthumb://")) {
-                                            int indexOf2 = str.indexOf(":", 9);
-                                            if (indexOf2 >= 0) {
-                                                l2 = Long.valueOf(Long.parseLong(str.substring(9, indexOf2)));
-                                                z2 = true;
+                            if (lowerCase.startsWith("riff")) {
+                                if (lowerCase.endsWith("webp")) {
+                                    z = true;
+                                    randomAccessFile2.close();
+                                    str = this.cacheImage.imageLocation.path;
+                                    if (str != null) {
+                                        if (str.startsWith("thumb://")) {
+                                            int indexOf = str.indexOf(":", 8);
+                                            if (indexOf >= 0) {
+                                                l3 = Long.valueOf(Long.parseLong(str.substring(8, indexOf)));
+                                                str4 = str.substring(indexOf + 1);
                                             } else {
-                                                l2 = null;
-                                                z2 = false;
+                                                str4 = null;
+                                                l3 = null;
                                             }
-                                            l = l2;
-                                            str2 = null;
-                                        } else if (!str.startsWith("http")) {
+                                            l = l3;
                                             z2 = false;
-                                            str2 = null;
-                                            l = null;
+                                            z3 = false;
+                                            str2 = str4;
+                                        } else {
+                                            if (str.startsWith("vthumb://")) {
+                                                int indexOf2 = str.indexOf(":", 9);
+                                                if (indexOf2 >= 0) {
+                                                    l2 = Long.valueOf(Long.parseLong(str.substring(9, indexOf2)));
+                                                    z2 = true;
+                                                } else {
+                                                    l2 = null;
+                                                    z2 = false;
+                                                }
+                                                l = l2;
+                                                str2 = null;
+                                            } else if (!str.startsWith("http")) {
+                                                z2 = false;
+                                                str2 = null;
+                                                l = null;
+                                            }
+                                            z3 = false;
                                         }
-                                        z3 = false;
-                                    }
-                                    BitmapFactory.Options options2 = new BitmapFactory.Options();
-                                    options2.inSampleSize = 1;
-                                    if (Build.VERSION.SDK_INT < 21) {
-                                        options2.inPurgeable = true;
-                                    }
-                                    boolean z242 = ImageLoader.this.canForce8888;
-                                    str3 = this.cacheImage.filter;
-                                    if (str3 != null) {
-                                        String[] split5 = str3.split("_");
-                                        if (split5.length >= 2) {
-                                            try {
-                                                f2 = Float.parseFloat(split5[0]) * AndroidUtilities.density;
+                                        BitmapFactory.Options options2 = new BitmapFactory.Options();
+                                        options2.inSampleSize = 1;
+                                        if (Build.VERSION.SDK_INT < 21) {
+                                            options2.inPurgeable = true;
+                                        }
+                                        boolean z252 = ImageLoader.this.canForce8888;
+                                        str3 = this.cacheImage.filter;
+                                        if (str3 != null) {
+                                            String[] split5 = str3.split("_");
+                                            if (split5.length >= 2) {
                                                 try {
-                                                    f5 = f2;
-                                                    f4 = Float.parseFloat(split5[1]) * AndroidUtilities.density;
+                                                    f2 = Float.parseFloat(split5[0]) * AndroidUtilities.density;
+                                                    try {
+                                                        f5 = f2;
+                                                        f4 = Float.parseFloat(split5[1]) * AndroidUtilities.density;
+                                                    } catch (Throwable th8) {
+                                                        th = th8;
+                                                        z4 = z;
+                                                        z5 = z2;
+                                                        c = 0;
+                                                        bitmap = null;
+                                                        th2 = th;
+                                                        f = 0.0f;
+                                                        float f8 = f2;
+                                                        i = 1;
+                                                        FileLog.e(th2, !(th2 instanceof FileNotFoundException));
+                                                        f3 = f8;
+                                                        if (this.cacheImage.type == i) {
+                                                        }
+                                                        Thread.interrupted();
+                                                        if (BuildVars.LOGS_ENABLED) {
+                                                        }
+                                                        if (!z6) {
+                                                        }
+                                                        onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                    }
                                                 } catch (Throwable th9) {
                                                     th = th9;
                                                     z4 = z;
                                                     z5 = z2;
-                                                    c = 0;
-                                                    bitmap = null;
-                                                    th2 = th;
-                                                    f = 0.0f;
-                                                    float f8 = f2;
-                                                    i = 1;
-                                                    FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                                    f3 = f8;
-                                                    if (this.cacheImage.type == i) {
-                                                    }
-                                                    Thread.interrupted();
-                                                    if (BuildVars.LOGS_ENABLED) {
-                                                    }
-                                                    if (!z6) {
-                                                    }
-                                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                    f2 = 0.0f;
                                                 }
-                                            } catch (Throwable th10) {
-                                                th = th10;
-                                                z4 = z;
-                                                z5 = z2;
-                                                f2 = 0.0f;
-                                            }
-                                        } else {
-                                            f4 = 0.0f;
-                                            f5 = 0.0f;
-                                        }
-                                        try {
-                                            if (this.cacheImage.filter.contains("b2")) {
-                                                c = 3;
-                                            } else if (this.cacheImage.filter.contains("b1")) {
-                                                c = 2;
                                             } else {
-                                                c = this.cacheImage.filter.contains("b") ? (char) 1 : (char) 0;
+                                                f4 = 0.0f;
+                                                f5 = 0.0f;
                                             }
                                             try {
-                                                z22 = this.cacheImage.filter.contains(i.TAG);
+                                                if (this.cacheImage.filter.contains("b2")) {
+                                                    c = 3;
+                                                } else if (this.cacheImage.filter.contains("b1")) {
+                                                    c = 2;
+                                                } else {
+                                                    c = this.cacheImage.filter.contains("b") ? (char) 1 : (char) 0;
+                                                }
                                                 try {
-                                                    if (this.cacheImage.filter.contains("f")) {
-                                                        z242 = true;
-                                                    }
-                                                    if (z || f5 == 0.0f || f4 == 0.0f) {
-                                                        z12 = z242;
-                                                        c2 = c;
-                                                        z4 = z;
-                                                        z5 = z2;
-                                                    } else {
-                                                        try {
-                                                            options2.inJustDecodeBounds = true;
+                                                    z23 = this.cacheImage.filter.contains(i.TAG);
+                                                    try {
+                                                        if (this.cacheImage.filter.contains("f")) {
+                                                            z252 = true;
+                                                        }
+                                                        if (z || f5 == 0.0f || f4 == 0.0f) {
+                                                            z12 = z252;
+                                                            c2 = c;
+                                                            z4 = z;
+                                                            z5 = z2;
+                                                        } else {
                                                             try {
+                                                                options2.inJustDecodeBounds = true;
                                                                 try {
-                                                                    if (l == null || str2 != null) {
-                                                                        z12 = z242;
-                                                                        c2 = c;
-                                                                        if (secureDocumentKey != null) {
-                                                                            try {
-                                                                                RandomAccessFile randomAccessFile4 = new RandomAccessFile(file4, "r");
-                                                                                int length = (int) randomAccessFile4.length();
-                                                                                byte[] bArr4 = (byte[]) ImageLoader.bytesLocal.get();
-                                                                                if (bArr4 == null || bArr4.length < length) {
-                                                                                    bArr4 = null;
-                                                                                }
-                                                                                if (bArr4 == null) {
-                                                                                    bArr4 = new byte[length];
-                                                                                    ImageLoader.bytesLocal.set(bArr4);
-                                                                                }
-                                                                                randomAccessFile4.readFully(bArr4, 0, length);
-                                                                                randomAccessFile4.close();
-                                                                                EncryptedFileInputStream.decryptBytesWithKeyFile(bArr4, 0, length, secureDocumentKey);
-                                                                                z4 = z;
-                                                                                z5 = z2;
-                                                                                byte[] computeSHA256 = Utilities.computeSHA256(bArr4, 0, length);
-                                                                                if (bArr != null && Arrays.equals(computeSHA256, bArr)) {
-                                                                                    z14 = false;
-                                                                                    int i15 = bArr4[0] & 255;
-                                                                                    int i16 = length - i15;
-                                                                                    if (!z14) {
-                                                                                        BitmapFactory.decodeByteArray(bArr4, i15, i16, options2);
-                                                                                    }
-                                                                                }
-                                                                                z14 = true;
-                                                                                int i152 = bArr4[0] & 255;
-                                                                                int i162 = length - i152;
-                                                                                if (!z14) {
-                                                                                }
-                                                                            } catch (Throwable th11) {
-                                                                                th = th11;
-                                                                                z4 = z;
-                                                                                z5 = z2;
-                                                                                th2 = th;
-                                                                                f = f4;
-                                                                                f2 = f5;
-                                                                                c = c2;
-                                                                                z242 = z12;
-                                                                                bitmap = null;
-                                                                                float f82 = f2;
-                                                                                i = 1;
-                                                                                FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                                                                f3 = f82;
-                                                                                if (this.cacheImage.type == i) {
-                                                                                }
-                                                                                Thread.interrupted();
-                                                                                if (BuildVars.LOGS_ENABLED) {
-                                                                                }
-                                                                                if (!z6) {
-                                                                                }
-                                                                                onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                                                            }
-                                                                        } else {
-                                                                            z4 = z;
-                                                                            z5 = z2;
-                                                                            if (z23) {
-                                                                                fileInputStream3 = new EncryptedFileInputStream(file4, this.cacheImage.encryptionKeyPath);
-                                                                            } else {
-                                                                                fileInputStream3 = new FileInputStream(file4);
-                                                                            }
-                                                                            BitmapFactory.decodeStream(fileInputStream3, null, options2);
-                                                                            fileInputStream3.close();
-                                                                        }
-                                                                    } else {
-                                                                        if (z2) {
-                                                                            try {
-                                                                                c2 = c;
+                                                                    try {
+                                                                        if (l == null || str2 != null) {
+                                                                            z12 = z252;
+                                                                            c2 = c;
+                                                                            if (secureDocumentKey != null) {
                                                                                 try {
-                                                                                    z12 = z242;
-                                                                                    MediaStore.Video.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
-                                                                                } catch (Throwable th12) {
-                                                                                    th = th12;
+                                                                                    RandomAccessFile randomAccessFile5 = new RandomAccessFile(file4, "r");
+                                                                                    int length = (int) randomAccessFile5.length();
+                                                                                    byte[] bArr4 = (byte[]) ImageLoader.bytesLocal.get();
+                                                                                    if (bArr4 == null || bArr4.length < length) {
+                                                                                        bArr4 = null;
+                                                                                    }
+                                                                                    if (bArr4 == null) {
+                                                                                        bArr4 = new byte[length];
+                                                                                        ImageLoader.bytesLocal.set(bArr4);
+                                                                                    }
+                                                                                    randomAccessFile5.readFully(bArr4, 0, length);
+                                                                                    randomAccessFile5.close();
+                                                                                    EncryptedFileInputStream.decryptBytesWithKeyFile(bArr4, 0, length, secureDocumentKey);
                                                                                     z4 = z;
                                                                                     z5 = z2;
-                                                                                    c = c2;
-                                                                                    bitmap = null;
+                                                                                    byte[] computeSHA256 = Utilities.computeSHA256(bArr4, 0, length);
+                                                                                    if (bArr != null && Arrays.equals(computeSHA256, bArr)) {
+                                                                                        z14 = false;
+                                                                                        int i15 = bArr4[0] & 255;
+                                                                                        int i16 = length - i15;
+                                                                                        if (!z14) {
+                                                                                            BitmapFactory.decodeByteArray(bArr4, i15, i16, options2);
+                                                                                        }
+                                                                                    }
+                                                                                    z14 = true;
+                                                                                    int i152 = bArr4[0] & 255;
+                                                                                    int i162 = length - i152;
+                                                                                    if (!z14) {
+                                                                                    }
+                                                                                } catch (Throwable th10) {
+                                                                                    th = th10;
+                                                                                    z4 = z;
+                                                                                    z5 = z2;
                                                                                     th2 = th;
                                                                                     f = f4;
                                                                                     f2 = f5;
-                                                                                    float f822 = f2;
+                                                                                    c = c2;
+                                                                                    z252 = z12;
+                                                                                    bitmap = null;
+                                                                                    float f82 = f2;
                                                                                     i = 1;
                                                                                     FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                                                                    f3 = f822;
+                                                                                    f3 = f82;
                                                                                     if (this.cacheImage.type == i) {
                                                                                     }
                                                                                     Thread.interrupted();
@@ -1977,159 +1957,129 @@ public class ImageLoader {
                                                                                     }
                                                                                     onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                                                                 }
-                                                                            } catch (Throwable th13) {
-                                                                                th = th13;
+                                                                            } else {
                                                                                 z4 = z;
                                                                                 z5 = z2;
+                                                                                if (z24) {
+                                                                                    fileInputStream3 = new EncryptedFileInputStream(file4, this.cacheImage.encryptionKeyPath);
+                                                                                } else {
+                                                                                    fileInputStream3 = new FileInputStream(file4);
+                                                                                }
+                                                                                BitmapFactory.decodeStream(fileInputStream3, null, options2);
+                                                                                fileInputStream3.close();
                                                                             }
                                                                         } else {
-                                                                            z12 = z242;
-                                                                            c2 = c;
-                                                                            MediaStore.Images.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
+                                                                            if (z2) {
+                                                                                try {
+                                                                                    c2 = c;
+                                                                                    try {
+                                                                                        z12 = z252;
+                                                                                        MediaStore.Video.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
+                                                                                    } catch (Throwable th11) {
+                                                                                        th = th11;
+                                                                                        z4 = z;
+                                                                                        z5 = z2;
+                                                                                        c = c2;
+                                                                                        bitmap = null;
+                                                                                        th2 = th;
+                                                                                        f = f4;
+                                                                                        f2 = f5;
+                                                                                        float f822 = f2;
+                                                                                        i = 1;
+                                                                                        FileLog.e(th2, !(th2 instanceof FileNotFoundException));
+                                                                                        f3 = f822;
+                                                                                        if (this.cacheImage.type == i) {
+                                                                                        }
+                                                                                        Thread.interrupted();
+                                                                                        if (BuildVars.LOGS_ENABLED) {
+                                                                                        }
+                                                                                        if (!z6) {
+                                                                                        }
+                                                                                        onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                                                    }
+                                                                                } catch (Throwable th12) {
+                                                                                    th = th12;
+                                                                                    z4 = z;
+                                                                                    z5 = z2;
+                                                                                }
+                                                                            } else {
+                                                                                z12 = z252;
+                                                                                c2 = c;
+                                                                                MediaStore.Images.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
+                                                                            }
+                                                                            z4 = z;
+                                                                            z5 = z2;
                                                                         }
+                                                                        float f9 = options2.outWidth;
+                                                                        float f10 = options2.outHeight;
+                                                                        if (f5 >= f4 && f9 > f10) {
+                                                                            min = Math.max(f9 / f5, f10 / f4);
+                                                                        } else {
+                                                                            min = Math.min(f9 / f5, f10 / f4);
+                                                                        }
+                                                                        if (min < 1.2f) {
+                                                                            min = 1.0f;
+                                                                        }
+                                                                        options2.inJustDecodeBounds = false;
+                                                                        if (min > 1.0f && (f9 > f5 || f10 > f4)) {
+                                                                            int i17 = 1;
+                                                                            do {
+                                                                                i17 *= 2;
+                                                                            } while (i17 * 2 < min);
+                                                                            options2.inSampleSize = i17;
+                                                                        } else {
+                                                                            options2.inSampleSize = (int) min;
+                                                                        }
+                                                                    } catch (Throwable th13) {
+                                                                        th = th13;
                                                                         z4 = z;
                                                                         z5 = z2;
-                                                                    }
-                                                                    float f9 = options2.outWidth;
-                                                                    float f10 = options2.outHeight;
-                                                                    if (f5 >= f4 && f9 > f10) {
-                                                                        min = Math.max(f9 / f5, f10 / f4);
-                                                                    } else {
-                                                                        min = Math.min(f9 / f5, f10 / f4);
-                                                                    }
-                                                                    if (min < 1.2f) {
-                                                                        min = 1.0f;
-                                                                    }
-                                                                    options2.inJustDecodeBounds = false;
-                                                                    if (min > 1.0f && (f9 > f5 || f10 > f4)) {
-                                                                        int i17 = 1;
-                                                                        do {
-                                                                            i17 *= 2;
-                                                                        } while (i17 * 2 < min);
-                                                                        options2.inSampleSize = i17;
-                                                                    } else {
-                                                                        options2.inSampleSize = (int) min;
+                                                                        c = c3;
+                                                                        z252 = z13;
                                                                     }
                                                                 } catch (Throwable th14) {
                                                                     th = th14;
-                                                                    z4 = z;
-                                                                    z5 = z2;
-                                                                    c = c3;
-                                                                    z242 = z13;
                                                                 }
                                                             } catch (Throwable th15) {
                                                                 th = th15;
+                                                                z4 = z;
+                                                                z5 = z2;
+                                                                th2 = th;
+                                                                f = f4;
+                                                                f2 = f5;
+                                                                bitmap = null;
+                                                                float f8222 = f2;
+                                                                i = 1;
+                                                                FileLog.e(th2, !(th2 instanceof FileNotFoundException));
+                                                                f3 = f8222;
+                                                                if (this.cacheImage.type == i) {
+                                                                }
+                                                                Thread.interrupted();
+                                                                if (BuildVars.LOGS_ENABLED) {
+                                                                }
+                                                                if (!z6) {
+                                                                }
+                                                                onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                                             }
-                                                        } catch (Throwable th16) {
-                                                            th = th16;
-                                                            z4 = z;
-                                                            z5 = z2;
-                                                            th2 = th;
-                                                            f = f4;
-                                                            f2 = f5;
-                                                            bitmap = null;
-                                                            float f8222 = f2;
-                                                            i = 1;
-                                                            FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                                            f3 = f8222;
-                                                            if (this.cacheImage.type == i) {
-                                                            }
-                                                            Thread.interrupted();
-                                                            if (BuildVars.LOGS_ENABLED) {
-                                                            }
-                                                            if (!z6) {
-                                                            }
-                                                            onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                                         }
+                                                        c = c2;
+                                                        z252 = z12;
+                                                        bitmap4 = null;
+                                                    } catch (Throwable th16) {
+                                                        th = th16;
                                                     }
-                                                    c = c2;
-                                                    z242 = z12;
-                                                    bitmap4 = null;
                                                 } catch (Throwable th17) {
-                                                    th = th17;
-                                                }
-                                            } catch (Throwable th18) {
-                                                z4 = z;
-                                                z5 = z2;
-                                                th2 = th18;
-                                                f = f4;
-                                                f2 = f5;
-                                                bitmap = null;
-                                                z22 = false;
-                                                float f82222 = f2;
-                                                i = 1;
-                                                FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                                f3 = f82222;
-                                                if (this.cacheImage.type == i) {
-                                                }
-                                                Thread.interrupted();
-                                                if (BuildVars.LOGS_ENABLED) {
-                                                }
-                                                if (!z6) {
-                                                }
-                                                onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                            }
-                                        } catch (Throwable th19) {
-                                            z4 = z;
-                                            z5 = z2;
-                                            th2 = th19;
-                                            f = f4;
-                                            f2 = f5;
-                                            c = 0;
-                                            bitmap = null;
-                                            z22 = false;
-                                            float f822222 = f2;
-                                            i = 1;
-                                            FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                            f3 = f822222;
-                                            if (this.cacheImage.type == i) {
-                                            }
-                                            Thread.interrupted();
-                                            if (BuildVars.LOGS_ENABLED) {
-                                            }
-                                            if (!z6) {
-                                            }
-                                            onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                        }
-                                    } else {
-                                        z4 = z;
-                                        z5 = z2;
-                                        if (str2 != null) {
-                                            try {
-                                                options2.inJustDecodeBounds = true;
-                                                options2.inPreferredConfig = z242 ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
-                                                FileInputStream fileInputStream4 = new FileInputStream(file4);
-                                                Bitmap decodeStream = BitmapFactory.decodeStream(fileInputStream4, null, options2);
-                                                try {
-                                                    fileInputStream4.close();
-                                                    int i18 = options2.outWidth;
-                                                    int i19 = options2.outHeight;
-                                                    options2.inJustDecodeBounds = false;
-                                                    float min6 = (Math.min(i19, i18) / Math.max(66, Math.min(AndroidUtilities.getRealScreenSize().x, AndroidUtilities.getRealScreenSize().y))) * 6.0f;
-                                                    if (min6 < 1.0f) {
-                                                        min6 = 1.0f;
-                                                    }
-                                                    if (min6 > 1.0f) {
-                                                        int i20 = 1;
-                                                        do {
-                                                            i20 *= 2;
-                                                        } while (i20 * 2 <= min6);
-                                                        options2.inSampleSize = i20;
-                                                    } else {
-                                                        options2.inSampleSize = (int) min6;
-                                                    }
-                                                    bitmap4 = decodeStream;
-                                                } catch (Throwable th20) {
-                                                    th2 = th20;
-                                                    bitmap = decodeStream;
-                                                    f = 0.0f;
-                                                    f2 = 0.0f;
-                                                    c = 0;
-                                                    z22 = false;
-                                                    float f8222222 = f2;
+                                                    z4 = z;
+                                                    z5 = z2;
+                                                    th2 = th17;
+                                                    f = f4;
+                                                    f2 = f5;
+                                                    bitmap = null;
+                                                    z23 = false;
+                                                    float f82222 = f2;
                                                     i = 1;
                                                     FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                                    f3 = f8222222;
+                                                    f3 = f82222;
                                                     if (this.cacheImage.type == i) {
                                                     }
                                                     Thread.interrupted();
@@ -2139,18 +2089,19 @@ public class ImageLoader {
                                                     }
                                                     onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                                 }
-                                            } catch (Throwable th21) {
-                                                th = th21;
-                                                th2 = th;
-                                                f = 0.0f;
-                                                f2 = 0.0f;
+                                            } catch (Throwable th18) {
+                                                z4 = z;
+                                                z5 = z2;
+                                                th2 = th18;
+                                                f = f4;
+                                                f2 = f5;
                                                 c = 0;
                                                 bitmap = null;
-                                                z22 = false;
-                                                float f82222222 = f2;
+                                                z23 = false;
+                                                float f822222 = f2;
                                                 i = 1;
                                                 FileLog.e(th2, !(th2 instanceof FileNotFoundException));
-                                                f3 = f82222222;
+                                                f3 = f822222;
                                                 if (this.cacheImage.type == i) {
                                                 }
                                                 Thread.interrupted();
@@ -2161,157 +2112,46 @@ public class ImageLoader {
                                                 onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                             }
                                         } else {
-                                            bitmap4 = null;
-                                        }
-                                        f4 = 0.0f;
-                                        c = 0;
-                                        z22 = false;
-                                        f5 = 0.0f;
-                                    }
-                                    bitmap = bitmap4;
-                                    f = f4;
-                                    f3 = f5;
-                                    i = 1;
-                                    if (this.cacheImage.type == i) {
-                                        try {
-                                            ImageLoader.this.lastCacheOutTime = SystemClock.elapsedRealtime();
-                                        } catch (Throwable th22) {
-                                            th = th22;
-                                            z6 = false;
-                                        }
-                                        synchronized (this.sync) {
-                                            if (this.isCancelled) {
-                                                return;
-                                            }
-                                            if (z4) {
-                                                RandomAccessFile randomAccessFile5 = new RandomAccessFile(file4, "r");
-                                                MappedByteBuffer map = randomAccessFile5.getChannel().map(FileChannel.MapMode.READ_ONLY, 0L, file4.length());
-                                                BitmapFactory.Options options3 = new BitmapFactory.Options();
-                                                options3.inJustDecodeBounds = true;
-                                                Utilities.loadWebpImage(null, map, map.limit(), options3, true);
-                                                bitmap = Bitmaps.createBitmap(options3.outWidth, options3.outHeight, Bitmap.Config.ARGB_8888);
-                                                Utilities.loadWebpImage(bitmap, map, map.limit(), null, !options2.inPurgeable);
-                                                randomAccessFile5.close();
-                                            } else {
-                                                if (!options2.inPurgeable && secureDocumentKey == null) {
-                                                    if (z23) {
-                                                        fileInputStream = new EncryptedFileInputStream(file4, this.cacheImage.encryptionKeyPath);
-                                                    } else {
-                                                        fileInputStream = new FileInputStream(file4);
-                                                    }
-                                                    bitmap = BitmapFactory.decodeStream(fileInputStream, null, options2);
-                                                    fileInputStream.close();
-                                                }
-                                                RandomAccessFile randomAccessFile6 = new RandomAccessFile(file4, "r");
-                                                int length2 = (int) randomAccessFile6.length();
-                                                byte[] bArr5 = (byte[]) ImageLoader.bytesThumbLocal.get();
-                                                if (bArr5 == null || bArr5.length < length2) {
-                                                    bArr5 = null;
-                                                }
-                                                if (bArr5 == null) {
-                                                    bArr5 = new byte[length2];
-                                                    ImageLoader.bytesThumbLocal.set(bArr5);
-                                                }
-                                                randomAccessFile6.readFully(bArr5, 0, length2);
-                                                randomAccessFile6.close();
-                                                if (secureDocumentKey != null) {
-                                                    EncryptedFileInputStream.decryptBytesWithKeyFile(bArr5, 0, length2, secureDocumentKey);
-                                                    byte[] computeSHA2562 = Utilities.computeSHA256(bArr5, 0, length2);
-                                                    if (bArr != null && Arrays.equals(computeSHA2562, bArr)) {
-                                                        z7 = false;
-                                                        i3 = bArr5[0] & 255;
-                                                        length2 -= i3;
-                                                    }
-                                                    z7 = true;
-                                                    i3 = bArr5[0] & 255;
-                                                    length2 -= i3;
-                                                } else {
-                                                    if (z23) {
-                                                        EncryptedFileInputStream.decryptBytesWithKeyFile(bArr5, 0, length2, this.cacheImage.encryptionKeyPath);
-                                                    }
-                                                    z7 = false;
-                                                    i3 = 0;
-                                                }
-                                                if (!z7) {
-                                                    bitmap = BitmapFactory.decodeByteArray(bArr5, i3, length2, options2);
-                                                }
-                                            }
-                                            if (bitmap == null) {
-                                                if (file4.length() == 0 || this.cacheImage.filter == null) {
-                                                    file4.delete();
-                                                }
-                                                z6 = false;
-                                            } else {
-                                                if (this.cacheImage.filter != null) {
-                                                    float width = bitmap.getWidth();
-                                                    float height = bitmap.getHeight();
-                                                    if (!options2.inPurgeable && f3 != 0.0f && width != f3 && width > f3 + 20.0f && bitmap != (createScaledBitmap = Bitmaps.createScaledBitmap(bitmap, (int) f3, (int) (height / (width / f3)), true))) {
-                                                        bitmap.recycle();
-                                                        bitmap = createScaledBitmap;
-                                                    }
-                                                }
-                                                z6 = z22 ? Utilities.needInvert(bitmap, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes()) != 0 : false;
+                                            z4 = z;
+                                            z5 = z2;
+                                            if (str2 != null) {
                                                 try {
-                                                    if (c == 1) {
-                                                        if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
-                                                            Utilities.blurBitmap(bitmap, 3, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
-                                                        }
-                                                    } else if (c == 2) {
-                                                        if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
-                                                            Utilities.blurBitmap(bitmap, 1, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
-                                                        }
-                                                    } else if (c == 3) {
-                                                        if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
-                                                            Utilities.blurBitmap(bitmap, 7, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
-                                                            Utilities.blurBitmap(bitmap, 7, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
-                                                            Utilities.blurBitmap(bitmap, 7, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
-                                                        }
-                                                    } else if (c == 0) {
-                                                        if (options2.inPurgeable) {
-                                                            Utilities.pinBitmap(bitmap);
-                                                        }
-                                                    }
-                                                } catch (Throwable th23) {
-                                                    th = th23;
-                                                    FileLog.e(th);
-                                                    i2 = 0;
-                                                    Thread.interrupted();
-                                                    if (BuildVars.LOGS_ENABLED) {
-                                                    }
-                                                    if (!z6) {
-                                                    }
-                                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                                }
-                                            }
-                                            i2 = 0;
-                                        }
-                                    } else {
-                                        int i21 = 20;
-                                        if (l != null) {
-                                            i21 = 0;
-                                        }
-                                        if (i21 != 0) {
-                                            try {
-                                            } catch (Throwable th24) {
-                                                th = th24;
-                                            }
-                                            if (ImageLoader.this.lastCacheOutTime != 0) {
-                                                bitmap2 = bitmap;
-                                                boolean z25 = z22;
-                                                long j3 = i21;
-                                                if (ImageLoader.this.lastCacheOutTime > SystemClock.elapsedRealtime() - j3) {
+                                                    options2.inJustDecodeBounds = true;
+                                                    options2.inPreferredConfig = z252 ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
+                                                    FileInputStream fileInputStream4 = new FileInputStream(file4);
+                                                    Bitmap decodeStream = BitmapFactory.decodeStream(fileInputStream4, null, options2);
                                                     try {
-                                                        z8 = z25;
-                                                        if (Build.VERSION.SDK_INT < 21) {
-                                                            Thread.sleep(j3);
+                                                        fileInputStream4.close();
+                                                        int i18 = options2.outWidth;
+                                                        int i19 = options2.outHeight;
+                                                        options2.inJustDecodeBounds = false;
+                                                        float min6 = (Math.min(i19, i18) / Math.max(66, Math.min(AndroidUtilities.getRealScreenSize().x, AndroidUtilities.getRealScreenSize().y))) * 6.0f;
+                                                        if (min6 < 1.0f) {
+                                                            min6 = 1.0f;
                                                         }
-                                                    } catch (Throwable th25) {
-                                                        th = th25;
-                                                        bitmap = bitmap2;
-                                                        i2 = 0;
-                                                        z9 = false;
-                                                        FileLog.e(th);
-                                                        z6 = z9;
+                                                        if (min6 > 1.0f) {
+                                                            int i20 = 1;
+                                                            do {
+                                                                i20 *= 2;
+                                                            } while (i20 * 2 <= min6);
+                                                            options2.inSampleSize = i20;
+                                                        } else {
+                                                            options2.inSampleSize = (int) min6;
+                                                        }
+                                                        bitmap4 = decodeStream;
+                                                    } catch (Throwable th19) {
+                                                        th2 = th19;
+                                                        bitmap = decodeStream;
+                                                        f = 0.0f;
+                                                        f2 = 0.0f;
+                                                        c = 0;
+                                                        z23 = false;
+                                                        float f8222222 = f2;
+                                                        i = 1;
+                                                        FileLog.e(th2, !(th2 instanceof FileNotFoundException));
+                                                        f3 = f8222222;
+                                                        if (this.cacheImage.type == i) {
+                                                        }
                                                         Thread.interrupted();
                                                         if (BuildVars.LOGS_ENABLED) {
                                                         }
@@ -2319,79 +2159,380 @@ public class ImageLoader {
                                                         }
                                                         onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                                     }
-                                                } else {
-                                                    z8 = z25;
-                                                }
-                                                ImageLoader.this.lastCacheOutTime = SystemClock.elapsedRealtime();
-                                                synchronized (this.sync) {
-                                                    if (this.isCancelled) {
-                                                        return;
+                                                } catch (Throwable th20) {
+                                                    th = th20;
+                                                    th2 = th;
+                                                    f = 0.0f;
+                                                    f2 = 0.0f;
+                                                    c = 0;
+                                                    bitmap = null;
+                                                    z23 = false;
+                                                    float f82222222 = f2;
+                                                    i = 1;
+                                                    FileLog.e(th2, !(th2 instanceof FileNotFoundException));
+                                                    f3 = f82222222;
+                                                    if (this.cacheImage.type == i) {
                                                     }
-                                                    if (!z242) {
-                                                        CacheImage cacheImage8 = this.cacheImage;
-                                                        if (cacheImage8.filter != null && c == 0 && cacheImage8.imageLocation.path == null) {
-                                                            options2.inPreferredConfig = Bitmap.Config.RGB_565;
-                                                            options2.inDither = false;
-                                                            if (l != null || str2 != null) {
-                                                                bitmap = bitmap2;
-                                                            } else if (z5) {
-                                                                bitmap = MediaStore.Video.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
-                                                            } else {
-                                                                bitmap = MediaStore.Images.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
+                                                    Thread.interrupted();
+                                                    if (BuildVars.LOGS_ENABLED) {
+                                                    }
+                                                    if (!z6) {
+                                                    }
+                                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                }
+                                            } else {
+                                                bitmap4 = null;
+                                            }
+                                            f4 = 0.0f;
+                                            c = 0;
+                                            z23 = false;
+                                            f5 = 0.0f;
+                                        }
+                                        bitmap = bitmap4;
+                                        f = f4;
+                                        f3 = f5;
+                                        i = 1;
+                                        if (this.cacheImage.type == i) {
+                                            try {
+                                                ImageLoader.this.lastCacheOutTime = SystemClock.elapsedRealtime();
+                                            } catch (Throwable th21) {
+                                                th = th21;
+                                                z6 = false;
+                                            }
+                                            synchronized (this.sync) {
+                                                if (this.isCancelled) {
+                                                    return;
+                                                }
+                                                if (z4) {
+                                                    RandomAccessFile randomAccessFile6 = new RandomAccessFile(file4, "r");
+                                                    MappedByteBuffer map = randomAccessFile6.getChannel().map(FileChannel.MapMode.READ_ONLY, 0L, file4.length());
+                                                    BitmapFactory.Options options3 = new BitmapFactory.Options();
+                                                    options3.inJustDecodeBounds = true;
+                                                    Utilities.loadWebpImage(null, map, map.limit(), options3, true);
+                                                    bitmap = Bitmaps.createBitmap(options3.outWidth, options3.outHeight, Bitmap.Config.ARGB_8888);
+                                                    Utilities.loadWebpImage(bitmap, map, map.limit(), null, !options2.inPurgeable);
+                                                    randomAccessFile6.close();
+                                                } else {
+                                                    if (!options2.inPurgeable && secureDocumentKey == null) {
+                                                        if (z24) {
+                                                            fileInputStream = new EncryptedFileInputStream(file4, this.cacheImage.encryptionKeyPath);
+                                                        } else {
+                                                            fileInputStream = new FileInputStream(file4);
+                                                        }
+                                                        bitmap = BitmapFactory.decodeStream(fileInputStream, null, options2);
+                                                        fileInputStream.close();
+                                                    }
+                                                    RandomAccessFile randomAccessFile7 = new RandomAccessFile(file4, "r");
+                                                    int length2 = (int) randomAccessFile7.length();
+                                                    byte[] bArr5 = (byte[]) ImageLoader.bytesThumbLocal.get();
+                                                    if (bArr5 == null || bArr5.length < length2) {
+                                                        bArr5 = null;
+                                                    }
+                                                    if (bArr5 == null) {
+                                                        bArr5 = new byte[length2];
+                                                        ImageLoader.bytesThumbLocal.set(bArr5);
+                                                    }
+                                                    randomAccessFile7.readFully(bArr5, 0, length2);
+                                                    randomAccessFile7.close();
+                                                    if (secureDocumentKey != null) {
+                                                        EncryptedFileInputStream.decryptBytesWithKeyFile(bArr5, 0, length2, secureDocumentKey);
+                                                        byte[] computeSHA2562 = Utilities.computeSHA256(bArr5, 0, length2);
+                                                        if (bArr != null && Arrays.equals(computeSHA2562, bArr)) {
+                                                            z7 = false;
+                                                            i3 = bArr5[0] & 255;
+                                                            length2 -= i3;
+                                                        }
+                                                        z7 = true;
+                                                        i3 = bArr5[0] & 255;
+                                                        length2 -= i3;
+                                                    } else {
+                                                        if (z24) {
+                                                            EncryptedFileInputStream.decryptBytesWithKeyFile(bArr5, 0, length2, this.cacheImage.encryptionKeyPath);
+                                                        }
+                                                        z7 = false;
+                                                        i3 = 0;
+                                                    }
+                                                    if (!z7) {
+                                                        bitmap = BitmapFactory.decodeByteArray(bArr5, i3, length2, options2);
+                                                    }
+                                                }
+                                                if (bitmap == null) {
+                                                    if (file4.length() == 0 || this.cacheImage.filter == null) {
+                                                        file4.delete();
+                                                    }
+                                                    z6 = false;
+                                                } else {
+                                                    if (this.cacheImage.filter != null) {
+                                                        float width = bitmap.getWidth();
+                                                        float height = bitmap.getHeight();
+                                                        if (!options2.inPurgeable && f3 != 0.0f && width != f3 && width > f3 + 20.0f && bitmap != (createScaledBitmap = Bitmaps.createScaledBitmap(bitmap, (int) f3, (int) (height / (width / f3)), true))) {
+                                                            bitmap.recycle();
+                                                            bitmap = createScaledBitmap;
+                                                        }
+                                                    }
+                                                    z6 = z23 ? Utilities.needInvert(bitmap, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes()) != 0 : false;
+                                                    try {
+                                                        if (c == 1) {
+                                                            if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
+                                                                Utilities.blurBitmap(bitmap, 3, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
                                                             }
-                                                            if (bitmap == null) {
-                                                                try {
-                                                                } catch (Throwable th26) {
-                                                                    th = th26;
-                                                                    i2 = 0;
-                                                                    z9 = false;
-                                                                    FileLog.e(th);
-                                                                    z6 = z9;
-                                                                    Thread.interrupted();
-                                                                    if (BuildVars.LOGS_ENABLED) {
-                                                                    }
-                                                                    if (!z6) {
-                                                                    }
-                                                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                                                }
-                                                                if (z4) {
-                                                                    RandomAccessFile randomAccessFile7 = new RandomAccessFile(file4, "r");
-                                                                    MappedByteBuffer map2 = randomAccessFile7.getChannel().map(FileChannel.MapMode.READ_ONLY, 0L, file4.length());
-                                                                    BitmapFactory.Options options4 = new BitmapFactory.Options();
-                                                                    options4.inJustDecodeBounds = true;
-                                                                    Utilities.loadWebpImage(null, map2, map2.limit(), options4, true);
-                                                                    bitmap = Bitmaps.createBitmap(options4.outWidth, options4.outHeight, Bitmap.Config.ARGB_8888);
-                                                                    Utilities.loadWebpImage(bitmap, map2, map2.limit(), null, !options2.inPurgeable);
-                                                                    randomAccessFile7.close();
+                                                        } else if (c == 2) {
+                                                            if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
+                                                                Utilities.blurBitmap(bitmap, 1, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
+                                                            }
+                                                        } else if (c == 3) {
+                                                            if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
+                                                                Utilities.blurBitmap(bitmap, 7, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
+                                                                Utilities.blurBitmap(bitmap, 7, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
+                                                                Utilities.blurBitmap(bitmap, 7, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
+                                                            }
+                                                        } else if (c == 0) {
+                                                            if (options2.inPurgeable) {
+                                                                Utilities.pinBitmap(bitmap);
+                                                            }
+                                                        }
+                                                    } catch (Throwable th22) {
+                                                        th = th22;
+                                                        FileLog.e(th);
+                                                        i2 = 0;
+                                                        Thread.interrupted();
+                                                        if (BuildVars.LOGS_ENABLED) {
+                                                        }
+                                                        if (!z6) {
+                                                        }
+                                                        onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                    }
+                                                }
+                                                i2 = 0;
+                                            }
+                                        } else {
+                                            int i21 = 20;
+                                            if (l != null) {
+                                                i21 = 0;
+                                            }
+                                            if (i21 != 0) {
+                                                try {
+                                                } catch (Throwable th23) {
+                                                    th = th23;
+                                                }
+                                                if (ImageLoader.this.lastCacheOutTime != 0) {
+                                                    bitmap2 = bitmap;
+                                                    boolean z26 = z23;
+                                                    long j3 = i21;
+                                                    if (ImageLoader.this.lastCacheOutTime > SystemClock.elapsedRealtime() - j3) {
+                                                        try {
+                                                            z8 = z26;
+                                                            if (Build.VERSION.SDK_INT < 21) {
+                                                                Thread.sleep(j3);
+                                                            }
+                                                        } catch (Throwable th24) {
+                                                            th = th24;
+                                                            bitmap = bitmap2;
+                                                            i2 = 0;
+                                                            z9 = false;
+                                                            FileLog.e(th);
+                                                            z6 = z9;
+                                                            Thread.interrupted();
+                                                            if (BuildVars.LOGS_ENABLED) {
+                                                            }
+                                                            if (!z6) {
+                                                            }
+                                                            onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                        }
+                                                    } else {
+                                                        z8 = z26;
+                                                    }
+                                                    ImageLoader.this.lastCacheOutTime = SystemClock.elapsedRealtime();
+                                                    synchronized (this.sync) {
+                                                        if (this.isCancelled) {
+                                                            return;
+                                                        }
+                                                        if (!z252) {
+                                                            CacheImage cacheImage8 = this.cacheImage;
+                                                            if (cacheImage8.filter != null && c == 0 && cacheImage8.imageLocation.path == null) {
+                                                                options2.inPreferredConfig = Bitmap.Config.RGB_565;
+                                                                options2.inDither = false;
+                                                                if (l != null || str2 != null) {
+                                                                    bitmap = bitmap2;
+                                                                } else if (z5) {
+                                                                    bitmap = MediaStore.Video.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
                                                                 } else {
-                                                                    if (!options2.inPurgeable && secureDocumentKey == null && Build.VERSION.SDK_INT > 29) {
-                                                                        if (z23) {
-                                                                            fileInputStream2 = new EncryptedFileInputStream(file4, this.cacheImage.encryptionKeyPath);
-                                                                        } else {
-                                                                            fileInputStream2 = new FileInputStream(file4);
+                                                                    bitmap = MediaStore.Images.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), l.longValue(), 1, options2);
+                                                                }
+                                                                if (bitmap == null) {
+                                                                    try {
+                                                                    } catch (Throwable th25) {
+                                                                        th = th25;
+                                                                        i2 = 0;
+                                                                        z9 = false;
+                                                                        FileLog.e(th);
+                                                                        z6 = z9;
+                                                                        Thread.interrupted();
+                                                                        if (BuildVars.LOGS_ENABLED) {
                                                                         }
-                                                                        if (this.cacheImage.imageLocation.document instanceof TLRPC$TL_document) {
-                                                                            try {
-                                                                                attributeInt = new ExifInterface(fileInputStream2).getAttributeInt("Orientation", 1);
-                                                                            } catch (Throwable unused) {
-                                                                            }
-                                                                            if (attributeInt == 3) {
-                                                                                i5 = 180;
-                                                                            } else if (attributeInt != 6) {
-                                                                                if (attributeInt == 8) {
-                                                                                    i5 = 270;
-                                                                                }
-                                                                                i5 = 0;
+                                                                        if (!z6) {
+                                                                        }
+                                                                        onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                                    }
+                                                                    if (z4) {
+                                                                        RandomAccessFile randomAccessFile8 = new RandomAccessFile(file4, "r");
+                                                                        MappedByteBuffer map2 = randomAccessFile8.getChannel().map(FileChannel.MapMode.READ_ONLY, 0L, file4.length());
+                                                                        BitmapFactory.Options options4 = new BitmapFactory.Options();
+                                                                        options4.inJustDecodeBounds = true;
+                                                                        Utilities.loadWebpImage(null, map2, map2.limit(), options4, true);
+                                                                        bitmap = Bitmaps.createBitmap(options4.outWidth, options4.outHeight, Bitmap.Config.ARGB_8888);
+                                                                        Utilities.loadWebpImage(bitmap, map2, map2.limit(), null, !options2.inPurgeable);
+                                                                        randomAccessFile8.close();
+                                                                    } else {
+                                                                        if (!options2.inPurgeable && secureDocumentKey == null && Build.VERSION.SDK_INT > 29) {
+                                                                            if (z24) {
+                                                                                fileInputStream2 = new EncryptedFileInputStream(file4, this.cacheImage.encryptionKeyPath);
                                                                             } else {
-                                                                                i5 = 90;
+                                                                                fileInputStream2 = new FileInputStream(file4);
+                                                                            }
+                                                                            if (this.cacheImage.imageLocation.document instanceof TLRPC$TL_document) {
+                                                                                try {
+                                                                                    attributeInt = new ExifInterface(fileInputStream2).getAttributeInt("Orientation", 1);
+                                                                                } catch (Throwable unused) {
+                                                                                }
+                                                                                if (attributeInt == 3) {
+                                                                                    i5 = 180;
+                                                                                } else if (attributeInt != 6) {
+                                                                                    if (attributeInt == 8) {
+                                                                                        i5 = 270;
+                                                                                    }
+                                                                                    i5 = 0;
+                                                                                } else {
+                                                                                    i5 = 90;
+                                                                                }
+                                                                                try {
+                                                                                    fileInputStream2.getChannel().position(0L);
+                                                                                    i2 = i5;
+                                                                                    rect = null;
+                                                                                } catch (Throwable th26) {
+                                                                                    th = th26;
+                                                                                    i2 = i5;
+                                                                                    z9 = false;
+                                                                                    FileLog.e(th);
+                                                                                    z6 = z9;
+                                                                                    Thread.interrupted();
+                                                                                    if (BuildVars.LOGS_ENABLED) {
+                                                                                    }
+                                                                                    if (!z6) {
+                                                                                    }
+                                                                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                                                }
+                                                                            } else {
+                                                                                rect = null;
+                                                                                i2 = 0;
                                                                             }
                                                                             try {
-                                                                                fileInputStream2.getChannel().position(0L);
-                                                                                i2 = i5;
-                                                                                rect = null;
-                                                                            } catch (Throwable th27) {
-                                                                                th = th27;
-                                                                                i2 = i5;
+                                                                                bitmap = BitmapFactory.decodeStream(fileInputStream2, rect, options2);
+                                                                                fileInputStream2.close();
+                                                                                if (bitmap == null) {
+                                                                                    if (z3 && (file4.length() == 0 || this.cacheImage.filter == null)) {
+                                                                                        file4.delete();
+                                                                                    }
+                                                                                    z9 = false;
+                                                                                } else {
+                                                                                    if (this.cacheImage.filter != null) {
+                                                                                        float width2 = bitmap.getWidth();
+                                                                                        float height2 = bitmap.getHeight();
+                                                                                        if (!options2.inPurgeable && f3 != 0.0f && width2 != f3 && width2 > f3 + 20.0f) {
+                                                                                            if (width2 <= height2 || f3 <= f) {
+                                                                                                float f11 = height2 / f;
+                                                                                                if (f11 > 1.0f) {
+                                                                                                    createScaledBitmap2 = Bitmaps.createScaledBitmap(bitmap, (int) (width2 / f11), (int) f, true);
+                                                                                                    if (bitmap != createScaledBitmap2) {
+                                                                                                        bitmap.recycle();
+                                                                                                        bitmap = createScaledBitmap2;
+                                                                                                    }
+                                                                                                }
+                                                                                                createScaledBitmap2 = bitmap;
+                                                                                                if (bitmap != createScaledBitmap2) {
+                                                                                                }
+                                                                                            } else {
+                                                                                                float f12 = width2 / f3;
+                                                                                                if (f12 > 1.0f) {
+                                                                                                    createScaledBitmap2 = Bitmaps.createScaledBitmap(bitmap, (int) f3, (int) (height2 / f12), true);
+                                                                                                    if (bitmap != createScaledBitmap2) {
+                                                                                                    }
+                                                                                                }
+                                                                                                createScaledBitmap2 = bitmap;
+                                                                                                if (bitmap != createScaledBitmap2) {
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        if (bitmap != null) {
+                                                                                            if (z8) {
+                                                                                                Bitmap createScaledBitmap3 = bitmap.getWidth() * bitmap.getHeight() > 22500 ? Bitmaps.createScaledBitmap(bitmap, 100, 100, false) : bitmap;
+                                                                                                z9 = Utilities.needInvert(createScaledBitmap3, options2.inPurgeable ? 0 : 1, createScaledBitmap3.getWidth(), createScaledBitmap3.getHeight(), createScaledBitmap3.getRowBytes()) != 0;
+                                                                                                if (createScaledBitmap3 != bitmap) {
+                                                                                                    try {
+                                                                                                        createScaledBitmap3.recycle();
+                                                                                                    } catch (Throwable th27) {
+                                                                                                        th = th27;
+                                                                                                        FileLog.e(th);
+                                                                                                        z6 = z9;
+                                                                                                        Thread.interrupted();
+                                                                                                        if (BuildVars.LOGS_ENABLED) {
+                                                                                                        }
+                                                                                                        if (!z6) {
+                                                                                                        }
+                                                                                                        onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                                                                    }
+                                                                                                }
+                                                                                            } else {
+                                                                                                z9 = false;
+                                                                                            }
+                                                                                            if (c != 0 && (height2 > 100.0f || width2 > 100.0f)) {
+                                                                                                height2 = 80.0f;
+                                                                                                bitmap = Bitmaps.createScaledBitmap(bitmap, 80, 80, false);
+                                                                                                width2 = 80.0f;
+                                                                                            }
+                                                                                            if (c == 0 || height2 >= 100.0f || width2 >= 100.0f) {
+                                                                                                bitmap3 = bitmap;
+                                                                                                z11 = false;
+                                                                                                if (!z11) {
+                                                                                                    try {
+                                                                                                        if (options2.inPurgeable) {
+                                                                                                            Utilities.pinBitmap(bitmap3);
+                                                                                                        }
+                                                                                                    } catch (Throwable th28) {
+                                                                                                        th = th28;
+                                                                                                        bitmap = bitmap3;
+                                                                                                        FileLog.e(th);
+                                                                                                        z6 = z9;
+                                                                                                        Thread.interrupted();
+                                                                                                        if (BuildVars.LOGS_ENABLED) {
+                                                                                                        }
+                                                                                                        if (!z6) {
+                                                                                                        }
+                                                                                                        onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                                                                                    }
+                                                                                                }
+                                                                                                bitmap = bitmap3;
+                                                                                            } else {
+                                                                                                if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
+                                                                                                    Utilities.blurBitmap(bitmap, 3, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
+                                                                                                }
+                                                                                                bitmap3 = bitmap;
+                                                                                                z11 = true;
+                                                                                                if (!z11) {
+                                                                                                }
+                                                                                                bitmap = bitmap3;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                    bitmap3 = bitmap;
+                                                                                    z9 = false;
+                                                                                    z11 = false;
+                                                                                    if (!z11) {
+                                                                                    }
+                                                                                    bitmap = bitmap3;
+                                                                                }
+                                                                            } catch (Throwable th29) {
+                                                                                th = th29;
                                                                                 z9 = false;
                                                                                 FileLog.e(th);
                                                                                 z6 = z9;
@@ -2402,240 +2543,148 @@ public class ImageLoader {
                                                                                 }
                                                                                 onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                                                             }
-                                                                        } else {
-                                                                            rect = null;
-                                                                            i2 = 0;
-                                                                        }
-                                                                        try {
-                                                                            bitmap = BitmapFactory.decodeStream(fileInputStream2, rect, options2);
-                                                                            fileInputStream2.close();
-                                                                            if (bitmap == null) {
-                                                                                if (z3 && (file4.length() == 0 || this.cacheImage.filter == null)) {
-                                                                                    file4.delete();
-                                                                                }
-                                                                                z9 = false;
-                                                                            } else {
-                                                                                if (this.cacheImage.filter != null) {
-                                                                                    float width2 = bitmap.getWidth();
-                                                                                    float height2 = bitmap.getHeight();
-                                                                                    if (!options2.inPurgeable && f3 != 0.0f && width2 != f3 && width2 > f3 + 20.0f) {
-                                                                                        if (width2 <= height2 || f3 <= f) {
-                                                                                            float f11 = height2 / f;
-                                                                                            if (f11 > 1.0f) {
-                                                                                                createScaledBitmap2 = Bitmaps.createScaledBitmap(bitmap, (int) (width2 / f11), (int) f, true);
-                                                                                                if (bitmap != createScaledBitmap2) {
-                                                                                                    bitmap.recycle();
-                                                                                                    bitmap = createScaledBitmap2;
-                                                                                                }
-                                                                                            }
-                                                                                            createScaledBitmap2 = bitmap;
-                                                                                            if (bitmap != createScaledBitmap2) {
-                                                                                            }
-                                                                                        } else {
-                                                                                            float f12 = width2 / f3;
-                                                                                            if (f12 > 1.0f) {
-                                                                                                createScaledBitmap2 = Bitmaps.createScaledBitmap(bitmap, (int) f3, (int) (height2 / f12), true);
-                                                                                                if (bitmap != createScaledBitmap2) {
-                                                                                                }
-                                                                                            }
-                                                                                            createScaledBitmap2 = bitmap;
-                                                                                            if (bitmap != createScaledBitmap2) {
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                    if (bitmap != null) {
-                                                                                        if (z8) {
-                                                                                            Bitmap createScaledBitmap3 = bitmap.getWidth() * bitmap.getHeight() > 22500 ? Bitmaps.createScaledBitmap(bitmap, 100, 100, false) : bitmap;
-                                                                                            z9 = Utilities.needInvert(createScaledBitmap3, options2.inPurgeable ? 0 : 1, createScaledBitmap3.getWidth(), createScaledBitmap3.getHeight(), createScaledBitmap3.getRowBytes()) != 0;
-                                                                                            if (createScaledBitmap3 != bitmap) {
-                                                                                                try {
-                                                                                                    createScaledBitmap3.recycle();
-                                                                                                } catch (Throwable th28) {
-                                                                                                    th = th28;
-                                                                                                    FileLog.e(th);
-                                                                                                    z6 = z9;
-                                                                                                    Thread.interrupted();
-                                                                                                    if (BuildVars.LOGS_ENABLED) {
-                                                                                                    }
-                                                                                                    if (!z6) {
-                                                                                                    }
-                                                                                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                                                                                }
-                                                                                            }
-                                                                                        } else {
-                                                                                            z9 = false;
-                                                                                        }
-                                                                                        if (c != 0 && (height2 > 100.0f || width2 > 100.0f)) {
-                                                                                            height2 = 80.0f;
-                                                                                            bitmap = Bitmaps.createScaledBitmap(bitmap, 80, 80, false);
-                                                                                            width2 = 80.0f;
-                                                                                        }
-                                                                                        if (c == 0 || height2 >= 100.0f || width2 >= 100.0f) {
-                                                                                            bitmap3 = bitmap;
-                                                                                            z11 = false;
-                                                                                            if (!z11) {
-                                                                                                try {
-                                                                                                    if (options2.inPurgeable) {
-                                                                                                        Utilities.pinBitmap(bitmap3);
-                                                                                                    }
-                                                                                                } catch (Throwable th29) {
-                                                                                                    th = th29;
-                                                                                                    bitmap = bitmap3;
-                                                                                                    FileLog.e(th);
-                                                                                                    z6 = z9;
-                                                                                                    Thread.interrupted();
-                                                                                                    if (BuildVars.LOGS_ENABLED) {
-                                                                                                    }
-                                                                                                    if (!z6) {
-                                                                                                    }
-                                                                                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                                                                                }
-                                                                                            }
-                                                                                            bitmap = bitmap3;
-                                                                                        } else {
-                                                                                            if (bitmap.getConfig() == Bitmap.Config.ARGB_8888) {
-                                                                                                Utilities.blurBitmap(bitmap, 3, options2.inPurgeable ? 0 : 1, bitmap.getWidth(), bitmap.getHeight(), bitmap.getRowBytes());
-                                                                                            }
-                                                                                            bitmap3 = bitmap;
-                                                                                            z11 = true;
-                                                                                            if (!z11) {
-                                                                                            }
-                                                                                            bitmap = bitmap3;
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                bitmap3 = bitmap;
-                                                                                z9 = false;
-                                                                                z11 = false;
-                                                                                if (!z11) {
-                                                                                }
-                                                                                bitmap = bitmap3;
-                                                                            }
-                                                                        } catch (Throwable th30) {
-                                                                            th = th30;
-                                                                            z9 = false;
-                                                                            FileLog.e(th);
                                                                             z6 = z9;
-                                                                            Thread.interrupted();
-                                                                            if (BuildVars.LOGS_ENABLED) {
-                                                                            }
-                                                                            if (!z6) {
-                                                                            }
-                                                                            onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                                                         }
-                                                                        z6 = z9;
-                                                                    }
-                                                                    RandomAccessFile randomAccessFile8 = new RandomAccessFile(file4, "r");
-                                                                    int length3 = (int) randomAccessFile8.length();
-                                                                    byte[] bArr6 = (byte[]) ImageLoader.bytesLocal.get();
-                                                                    if (bArr6 == null || bArr6.length < length3) {
-                                                                        bArr6 = null;
-                                                                    }
-                                                                    if (bArr6 == null) {
-                                                                        bArr6 = new byte[length3];
-                                                                        ImageLoader.bytesLocal.set(bArr6);
-                                                                    }
-                                                                    randomAccessFile8.readFully(bArr6, 0, length3);
-                                                                    randomAccessFile8.close();
-                                                                    if (secureDocumentKey != null) {
-                                                                        EncryptedFileInputStream.decryptBytesWithKeyFile(bArr6, 0, length3, secureDocumentKey);
-                                                                        byte[] computeSHA2563 = Utilities.computeSHA256(bArr6, 0, length3);
-                                                                        if (bArr != null && Arrays.equals(computeSHA2563, bArr)) {
-                                                                            z10 = false;
+                                                                        RandomAccessFile randomAccessFile9 = new RandomAccessFile(file4, "r");
+                                                                        int length3 = (int) randomAccessFile9.length();
+                                                                        byte[] bArr6 = (byte[]) ImageLoader.bytesLocal.get();
+                                                                        if (bArr6 == null || bArr6.length < length3) {
+                                                                            bArr6 = null;
+                                                                        }
+                                                                        if (bArr6 == null) {
+                                                                            bArr6 = new byte[length3];
+                                                                            ImageLoader.bytesLocal.set(bArr6);
+                                                                        }
+                                                                        randomAccessFile9.readFully(bArr6, 0, length3);
+                                                                        randomAccessFile9.close();
+                                                                        if (secureDocumentKey != null) {
+                                                                            EncryptedFileInputStream.decryptBytesWithKeyFile(bArr6, 0, length3, secureDocumentKey);
+                                                                            byte[] computeSHA2563 = Utilities.computeSHA256(bArr6, 0, length3);
+                                                                            if (bArr != null && Arrays.equals(computeSHA2563, bArr)) {
+                                                                                z10 = false;
+                                                                                i4 = bArr6[0] & 255;
+                                                                                length3 -= i4;
+                                                                            }
+                                                                            z10 = true;
                                                                             i4 = bArr6[0] & 255;
                                                                             length3 -= i4;
+                                                                        } else {
+                                                                            if (z24) {
+                                                                                EncryptedFileInputStream.decryptBytesWithKeyFile(bArr6, 0, length3, this.cacheImage.encryptionKeyPath);
+                                                                            }
+                                                                            z10 = false;
+                                                                            i4 = 0;
                                                                         }
-                                                                        z10 = true;
-                                                                        i4 = bArr6[0] & 255;
-                                                                        length3 -= i4;
-                                                                    } else {
-                                                                        if (z23) {
-                                                                            EncryptedFileInputStream.decryptBytesWithKeyFile(bArr6, 0, length3, this.cacheImage.encryptionKeyPath);
+                                                                        if (!z10) {
+                                                                            bitmap = BitmapFactory.decodeByteArray(bArr6, i4, length3, options2);
                                                                         }
-                                                                        z10 = false;
-                                                                        i4 = 0;
-                                                                    }
-                                                                    if (!z10) {
-                                                                        bitmap = BitmapFactory.decodeByteArray(bArr6, i4, length3, options2);
                                                                     }
                                                                 }
+                                                                i2 = 0;
+                                                                if (bitmap == null) {
+                                                                }
+                                                                z6 = z9;
                                                             }
-                                                            i2 = 0;
-                                                            if (bitmap == null) {
-                                                            }
-                                                            z6 = z9;
                                                         }
+                                                        options2.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                                                        options2.inDither = false;
+                                                        if (l != null) {
+                                                        }
+                                                        bitmap = bitmap2;
+                                                        if (bitmap == null) {
+                                                        }
+                                                        i2 = 0;
+                                                        if (bitmap == null) {
+                                                        }
+                                                        z6 = z9;
                                                     }
-                                                    options2.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                                                    options2.inDither = false;
-                                                    if (l != null) {
-                                                    }
-                                                    bitmap = bitmap2;
-                                                    if (bitmap == null) {
-                                                    }
-                                                    i2 = 0;
-                                                    if (bitmap == null) {
-                                                    }
-                                                    z6 = z9;
                                                 }
                                             }
+                                            bitmap2 = bitmap;
+                                            z8 = z23;
+                                            ImageLoader.this.lastCacheOutTime = SystemClock.elapsedRealtime();
+                                            synchronized (this.sync) {
+                                            }
                                         }
-                                        bitmap2 = bitmap;
-                                        z8 = z22;
-                                        ImageLoader.this.lastCacheOutTime = SystemClock.elapsedRealtime();
-                                        synchronized (this.sync) {
+                                        Thread.interrupted();
+                                        if (BuildVars.LOGS_ENABLED && z24) {
+                                            StringBuilder sb = new StringBuilder();
+                                            sb.append("Image Loader image is empty = ");
+                                            sb.append(bitmap != null);
+                                            sb.append(" ");
+                                            sb.append(file4);
+                                            FileLog.e(sb.toString());
                                         }
+                                        if (!z6 || i2 != 0) {
+                                            onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                                        } else {
+                                            onPostExecute(bitmap != null ? new BitmapDrawable(bitmap) : null);
+                                            return;
+                                        }
+                                    }
+                                    z2 = false;
+                                    str2 = null;
+                                    l = null;
+                                    z3 = true;
+                                    BitmapFactory.Options options22 = new BitmapFactory.Options();
+                                    options22.inSampleSize = 1;
+                                    if (Build.VERSION.SDK_INT < 21) {
+                                    }
+                                    boolean z2522 = ImageLoader.this.canForce8888;
+                                    str3 = this.cacheImage.filter;
+                                    if (str3 != null) {
+                                    }
+                                    bitmap = bitmap4;
+                                    f = f4;
+                                    f3 = f5;
+                                    i = 1;
+                                    if (this.cacheImage.type == i) {
                                     }
                                     Thread.interrupted();
-                                    if (BuildVars.LOGS_ENABLED && z23) {
-                                        StringBuilder sb = new StringBuilder();
-                                        sb.append("Image Loader image is empty = ");
-                                        sb.append(bitmap != null);
-                                        sb.append(" ");
-                                        sb.append(file4);
-                                        FileLog.e(sb.toString());
+                                    if (BuildVars.LOGS_ENABLED) {
+                                        StringBuilder sb2 = new StringBuilder();
+                                        sb2.append("Image Loader image is empty = ");
+                                        sb2.append(bitmap != null);
+                                        sb2.append(" ");
+                                        sb2.append(file4);
+                                        FileLog.e(sb2.toString());
                                     }
-                                    if (!z6 || i2 != 0) {
-                                        onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
-                                    } else {
-                                        onPostExecute(bitmap != null ? new BitmapDrawable(bitmap) : null);
-                                        return;
+                                    if (!z6) {
                                     }
+                                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                                 }
-                                z2 = false;
-                                str2 = null;
-                                l = null;
-                                z3 = true;
-                                BitmapFactory.Options options22 = new BitmapFactory.Options();
-                                options22.inSampleSize = 1;
-                                if (Build.VERSION.SDK_INT < 21) {
-                                }
-                                boolean z2422 = ImageLoader.this.canForce8888;
-                                str3 = this.cacheImage.filter;
-                                if (str3 != null) {
-                                }
-                                bitmap = bitmap4;
-                                f = f4;
-                                f3 = f5;
-                                i = 1;
-                                if (this.cacheImage.type == i) {
-                                }
-                                Thread.interrupted();
-                                if (BuildVars.LOGS_ENABLED) {
-                                    StringBuilder sb2 = new StringBuilder();
-                                    sb2.append("Image Loader image is empty = ");
-                                    sb2.append(bitmap != null);
-                                    sb2.append(" ");
-                                    sb2.append(file4);
-                                    FileLog.e(sb2.toString());
-                                }
-                                if (!z6) {
-                                }
-                                onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                             }
+                            z = false;
+                            randomAccessFile2.close();
+                            str = this.cacheImage.imageLocation.path;
+                            if (str != null) {
+                            }
+                            z2 = false;
+                            str2 = null;
+                            l = null;
+                            z3 = true;
+                            BitmapFactory.Options options222 = new BitmapFactory.Options();
+                            options222.inSampleSize = 1;
+                            if (Build.VERSION.SDK_INT < 21) {
+                            }
+                            boolean z25222 = ImageLoader.this.canForce8888;
+                            str3 = this.cacheImage.filter;
+                            if (str3 != null) {
+                            }
+                            bitmap = bitmap4;
+                            f = f4;
+                            f3 = f5;
+                            i = 1;
+                            if (this.cacheImage.type == i) {
+                            }
+                            Thread.interrupted();
+                            if (BuildVars.LOGS_ENABLED) {
+                            }
+                            if (!z6) {
+                            }
+                            onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                         }
                         z = false;
-                        randomAccessFile2.close();
                         str = this.cacheImage.imageLocation.path;
                         if (str != null) {
                         }
@@ -2643,11 +2692,11 @@ public class ImageLoader {
                         str2 = null;
                         l = null;
                         z3 = true;
-                        BitmapFactory.Options options222 = new BitmapFactory.Options();
-                        options222.inSampleSize = 1;
+                        BitmapFactory.Options options2222 = new BitmapFactory.Options();
+                        options2222.inSampleSize = 1;
                         if (Build.VERSION.SDK_INT < 21) {
                         }
-                        boolean z24222 = ImageLoader.this.canForce8888;
+                        boolean z252222 = ImageLoader.this.canForce8888;
                         str3 = this.cacheImage.filter;
                         if (str3 != null) {
                         }
@@ -2663,68 +2712,50 @@ public class ImageLoader {
                         if (!z6) {
                         }
                         onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
+                    } catch (Throwable th30) {
+                        th = th30;
+                        randomAccessFile = 19;
                     }
-                    z = false;
-                    str = this.cacheImage.imageLocation.path;
-                    if (str != null) {
-                    }
-                    z2 = false;
-                    str2 = null;
-                    l = null;
-                    z3 = true;
-                    BitmapFactory.Options options2222 = new BitmapFactory.Options();
-                    options2222.inSampleSize = 1;
-                    if (Build.VERSION.SDK_INT < 21) {
-                    }
-                    boolean z242222 = ImageLoader.this.canForce8888;
-                    str3 = this.cacheImage.filter;
-                    if (str3 != null) {
-                    }
-                    bitmap = bitmap4;
-                    f = f4;
-                    f3 = f5;
-                    i = 1;
-                    if (this.cacheImage.type == i) {
-                    }
-                    Thread.interrupted();
-                    if (BuildVars.LOGS_ENABLED) {
-                    }
-                    if (!z6) {
-                    }
-                    onPostExecute(bitmap == null ? new ExtendedBitmapDrawable(bitmap, z6, i2) : null);
                 }
             }
         }
 
-        private void loadLastFrame(final RLottieDrawable rLottieDrawable, int i, int i2) {
+        private void loadLastFrame(final RLottieDrawable rLottieDrawable, final int i, final int i2, final boolean z) {
             final Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
             final Canvas canvas = new Canvas(createBitmap);
-            canvas.scale(2.0f, 2.0f, i / 2.0f, i2 / 2.0f);
+            if (z) {
+                canvas.scale(2.0f, 2.0f, i / 2.0f, i2 / 2.0f);
+            }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheOutTask$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.CacheOutTask.this.lambda$loadLastFrame$1(rLottieDrawable, canvas, createBitmap);
+                    ImageLoader.CacheOutTask.this.lambda$loadLastFrame$1(rLottieDrawable, canvas, z, i, i2, createBitmap);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loadLastFrame$1(final RLottieDrawable rLottieDrawable, final Canvas canvas, final Bitmap bitmap) {
+        public /* synthetic */ void lambda$loadLastFrame$1(final RLottieDrawable rLottieDrawable, final Canvas canvas, final boolean z, final int i, final int i2, final Bitmap bitmap) {
             rLottieDrawable.setOnFrameReadyRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$CacheOutTask$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ImageLoader.CacheOutTask.this.lambda$loadLastFrame$0(rLottieDrawable, canvas, bitmap);
+                    ImageLoader.CacheOutTask.this.lambda$loadLastFrame$0(rLottieDrawable, canvas, z, i, i2, bitmap);
                 }
             });
-            rLottieDrawable.setCurrentFrame(rLottieDrawable.getFramesCount() - 1, true, true);
+            rLottieDrawable.setCurrentFrame(z ? rLottieDrawable.getFramesCount() - 1 : 0, true, true);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loadLastFrame$0(RLottieDrawable rLottieDrawable, Canvas canvas, Bitmap bitmap) {
+        public /* synthetic */ void lambda$loadLastFrame$0(RLottieDrawable rLottieDrawable, Canvas canvas, boolean z, int i, int i2, Bitmap bitmap) {
             BitmapDrawable bitmapDrawable = null;
             rLottieDrawable.setOnFrameReadyRunnable(null);
             if (rLottieDrawable.getBackgroundBitmap() != null || rLottieDrawable.getRenderingBitmap() != null) {
-                canvas.drawBitmap(rLottieDrawable.getBackgroundBitmap() != null ? rLottieDrawable.getBackgroundBitmap() : rLottieDrawable.getRenderingBitmap(), 0.0f, 0.0f, (Paint) null);
+                Bitmap backgroundBitmap = rLottieDrawable.getBackgroundBitmap() != null ? rLottieDrawable.getBackgroundBitmap() : rLottieDrawable.getRenderingBitmap();
+                canvas.save();
+                if (!z) {
+                    canvas.scale(backgroundBitmap.getWidth() / i, backgroundBitmap.getHeight() / i2, i / 2.0f, i2 / 2.0f);
+                }
+                canvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
                 bitmapDrawable = new BitmapDrawable(bitmap);
             }
             onPostExecute(bitmapDrawable);

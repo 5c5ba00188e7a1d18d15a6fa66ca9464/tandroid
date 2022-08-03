@@ -33,6 +33,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class RLottieDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
     public static DispatchQueue lottieCacheGenerateQueue;
+    private boolean allowVibration;
     private boolean applyTransformation;
     private boolean applyingLayerColors;
     NativePtrArgs args;
@@ -249,6 +250,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.customEndFrame = -1;
         this.newColorUpdates = new HashMap<>();
         this.pendingColorUpdates = new HashMap<>();
+        this.allowVibration = true;
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
@@ -513,6 +515,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.customEndFrame = -1;
         this.newColorUpdates = new HashMap<>();
         this.pendingColorUpdates = new HashMap<>();
+        this.allowVibration = true;
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
@@ -780,6 +783,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.customEndFrame = -1;
         this.newColorUpdates = new HashMap<>();
         this.pendingColorUpdates = new HashMap<>();
+        this.allowVibration = true;
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
@@ -1141,6 +1145,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.customEndFrame = -1;
         this.newColorUpdates = new HashMap<>();
         this.pendingColorUpdates = new HashMap<>();
+        this.allowVibration = true;
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
@@ -1882,7 +1887,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                     return;
                 }
                 HashMap<Integer, Integer> hashMap = this.vibrationPattern;
-                if (hashMap != null && this.currentParentView != null && (num = hashMap.get(Integer.valueOf(this.currentFrame - 1))) != null) {
+                if (hashMap != null && this.currentParentView != null && this.allowVibration && (num = hashMap.get(Integer.valueOf(this.currentFrame - 1))) != null) {
                     this.currentParentView.performHapticFeedback(num.intValue() == 1 ? 0 : 3, 2);
                 }
                 setCurrentFrame(j2, j3, i, false);
@@ -1891,6 +1896,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         } else {
             setCurrentFrame(j2, j3, i, true);
         }
+    }
+
+    public void setAllowVibration(boolean z) {
+        this.allowVibration = z;
     }
 
     @Override // android.graphics.drawable.Drawable

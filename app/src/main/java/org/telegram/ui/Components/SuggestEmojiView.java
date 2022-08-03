@@ -29,6 +29,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.ActionBar.Theme;
@@ -48,6 +49,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     private boolean forceClose;
     private String[] lastLang;
     private String lastQuery;
+    private int lastQueryType;
     private float lastSpanY;
     private final LinearLayoutManager layout;
     private Drawable leftGradient;
@@ -62,6 +64,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     private boolean show;
     private AnimatedFloat showFloat1;
     private AnimatedFloat showFloat2;
+    private Runnable updateRunnable;
     private ArrayList<MediaDataController.KeywordResult> keywordResults = new ArrayList<>();
     private Path path = new Path();
     private Path circlePath = new Path();
@@ -80,6 +83,25 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             protected void onMeasure(int i2, int i3) {
                 setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(6.66f));
                 super.onMeasure(i2, i3);
+            }
+
+            @Override // android.view.View
+            public void setVisibility(int i2) {
+                boolean z = true;
+                boolean z2 = getVisibility() == i2;
+                super.setVisibility(i2);
+                if (!z2) {
+                    if (i2 != 0) {
+                        z = false;
+                    }
+                    for (int i3 = 0; i3 < SuggestEmojiView.this.listView.getChildCount(); i3++) {
+                        if (z) {
+                            ((Adapter.EmojiImageView) SuggestEmojiView.this.listView.getChildAt(i3)).attach();
+                        } else {
+                            ((Adapter.EmojiImageView) SuggestEmojiView.this.listView.getChildAt(i3)).detach();
+                        }
+                    }
+                }
             }
         };
         this.containerView = frameLayout;
@@ -125,7 +147,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         defaultItemAnimator.setTranslationInterpolator(cubicBezierInterpolator);
         recyclerListView.setItemAnimator(defaultItemAnimator);
         recyclerListView.setSelectorDrawableColor(Theme.getColor("listSelectorSDK21", resourcesProvider));
-        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda4
+        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 SuggestEmojiView.this.lambda$new$0(view, i2);
@@ -145,7 +167,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
                 if (chatActivityEnterView.getVisibility() == 0) {
-                    SuggestEmojiView.this.update();
+                    SuggestEmojiView.this.fireUpdate();
                 }
             }
         });
@@ -164,7 +186,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     }
 
     public void onTextSelectionChanged(int i, int i2) {
-        update();
+        fireUpdate();
     }
 
     @Override // android.view.View
@@ -182,15 +204,39 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     }
 
     public void forceClose() {
+        Runnable runnable = this.updateRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.updateRunnable = null;
+        }
         this.show = false;
         this.forceClose = true;
         this.containerView.invalidate();
     }
 
+    public void fireUpdate() {
+        Runnable runnable = this.updateRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.updateRunnable = null;
+        }
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                SuggestEmojiView.this.update();
+            }
+        };
+        this.updateRunnable = runnable2;
+        AndroidUtilities.runOnUIThread(runnable2, 16L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public void update() {
+        this.updateRunnable = null;
         ChatActivityEnterView chatActivityEnterView = this.enterView;
         if (chatActivityEnterView == null || chatActivityEnterView.getEditField() == null || this.enterView.getFieldText() == null) {
             this.show = false;
+            this.forceClose = true;
             this.containerView.invalidate();
             return;
         }
@@ -202,8 +248,9 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             return;
         }
         CharSequence fieldText = this.enterView.getFieldText();
-        Emoji.EmojiSpan[] emojiSpanArr = fieldText instanceof Spanned ? (Emoji.EmojiSpan[]) ((Spanned) fieldText).getSpans(Math.max(0, selectionEnd - 24), selectionEnd, Emoji.EmojiSpan.class) : null;
-        if (emojiSpanArr != null && emojiSpanArr.length > 0) {
+        boolean z = fieldText instanceof Spanned;
+        Emoji.EmojiSpan[] emojiSpanArr = z ? (Emoji.EmojiSpan[]) ((Spanned) fieldText).getSpans(Math.max(0, selectionEnd - 24), selectionEnd, Emoji.EmojiSpan.class) : null;
+        if (emojiSpanArr != null && emojiSpanArr.length > 0 && SharedConfig.suggestAnimatedEmoji) {
             Emoji.EmojiSpan emojiSpan = emojiSpanArr[emojiSpanArr.length - 1];
             if (emojiSpan != null) {
                 Spanned spanned = (Spanned) fieldText;
@@ -212,7 +259,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
                 if (selectionStart == spanEnd) {
                     String substring = fieldText.toString().substring(spanStart, spanEnd);
                     this.show = true;
-                    setVisibility(0);
+                    this.containerView.setVisibility(0);
                     this.arrowToSpan = emojiSpan;
                     this.arrowToEnd = null;
                     this.arrowToStart = null;
@@ -221,13 +268,16 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
                     return;
                 }
             }
-        } else if (selectionEnd < 52) {
-            this.show = true;
-            setVisibility(0);
-            this.arrowToSpan = null;
-            searchKeywords(fieldText.toString().substring(0, selectionEnd));
-            this.containerView.invalidate();
-            return;
+        } else {
+            AnimatedEmojiSpan[] animatedEmojiSpanArr = z ? (AnimatedEmojiSpan[]) ((Spanned) fieldText).getSpans(Math.max(0, selectionEnd), selectionEnd, AnimatedEmojiSpan.class) : null;
+            if ((animatedEmojiSpanArr == null || animatedEmojiSpanArr.length == 0) && selectionEnd < 52) {
+                this.show = true;
+                this.containerView.setVisibility(0);
+                this.arrowToSpan = null;
+                searchKeywords(fieldText.toString().substring(0, selectionEnd));
+                this.containerView.invalidate();
+                return;
+            }
         }
         Runnable runnable = this.searchRunnable;
         if (runnable != null) {
@@ -239,40 +289,46 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     }
 
     private void searchKeywords(final String str) {
-        if (str != null) {
-            String str2 = this.lastQuery;
-            if (str2 != null && str2.equals(str) && !this.keywordResults.isEmpty()) {
-                return;
+        if (str == null) {
+            return;
+        }
+        String str2 = this.lastQuery;
+        if (str2 != null && this.lastQueryType == 1 && str2.equals(str) && !this.keywordResults.isEmpty()) {
+            this.forceClose = false;
+            this.containerView.setVisibility(0);
+            this.lastSpanY = AndroidUtilities.dp(10.0f);
+            this.containerView.invalidate();
+            return;
+        }
+        this.lastQueryType = 1;
+        this.lastQuery = str;
+        final String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
+        String[] strArr = this.lastLang;
+        if (strArr == null || !Arrays.equals(currentKeyboardLanguage, strArr)) {
+            MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
+        }
+        this.lastLang = currentKeyboardLanguage;
+        Runnable runnable = this.searchRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.searchRunnable = null;
+        }
+        this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                SuggestEmojiView.this.lambda$searchKeywords$2(currentKeyboardLanguage, str);
             }
-            this.lastQuery = str;
-            final String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
-            String[] strArr = this.lastLang;
-            if (strArr == null || !Arrays.equals(currentKeyboardLanguage, strArr)) {
-                MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
-            }
-            this.lastLang = currentKeyboardLanguage;
-            Runnable runnable = this.searchRunnable;
-            if (runnable != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable);
-                this.searchRunnable = null;
-            }
-            this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SuggestEmojiView.this.lambda$searchKeywords$2(currentKeyboardLanguage, str);
-                }
-            };
-            if (this.keywordResults.isEmpty()) {
-                AndroidUtilities.runOnUIThread(this.searchRunnable, 600L);
-            } else {
-                this.searchRunnable.run();
-            }
+        };
+        if (this.keywordResults.isEmpty()) {
+            AndroidUtilities.runOnUIThread(this.searchRunnable, 600L);
+        } else {
+            this.searchRunnable.run();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchKeywords$2(String[] strArr, final String str) {
-        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(strArr, str, true, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
+        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(strArr, str, true, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
             public final void run(ArrayList arrayList, String str2) {
                 SuggestEmojiView.this.lambda$searchKeywords$1(str, arrayList, str2);
@@ -285,11 +341,12 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         if (str.equals(this.lastQuery)) {
             if (arrayList != null && !arrayList.isEmpty()) {
                 this.forceClose = false;
-                setVisibility(0);
+                this.containerView.setVisibility(0);
                 this.lastSpanY = AndroidUtilities.dp(10.0f);
                 this.keywordResults = arrayList;
                 this.arrowToStart = 0;
                 this.arrowToEnd = Integer.valueOf(str.length());
+                this.containerView.invalidate();
                 this.adapter.notifyDataSetChanged();
                 return;
             }
@@ -298,28 +355,33 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     }
 
     private void searchAnimated(final String str) {
-        if (str != null) {
-            String str2 = this.lastQuery;
-            if (str2 != null && str2.equals(str) && !this.keywordResults.isEmpty()) {
-                return;
+        if (str == null) {
+            return;
+        }
+        String str2 = this.lastQuery;
+        if (str2 != null && this.lastQueryType == 2 && str2.equals(str) && !this.keywordResults.isEmpty()) {
+            this.forceClose = false;
+            this.containerView.setVisibility(0);
+            this.containerView.invalidate();
+            return;
+        }
+        this.lastQuery = str;
+        this.lastQueryType = 2;
+        Runnable runnable = this.searchRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.searchRunnable = null;
+        }
+        this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                SuggestEmojiView.this.lambda$searchAnimated$4(str);
             }
-            this.lastQuery = str;
-            Runnable runnable = this.searchRunnable;
-            if (runnable != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable);
-                this.searchRunnable = null;
-            }
-            this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SuggestEmojiView.this.lambda$searchAnimated$4(str);
-                }
-            };
-            if (this.keywordResults.isEmpty()) {
-                AndroidUtilities.runOnUIThread(this.searchRunnable, 600L);
-            } else {
-                this.searchRunnable.run();
-            }
+        };
+        if (this.keywordResults.isEmpty()) {
+            AndroidUtilities.runOnUIThread(this.searchRunnable, 600L);
+        } else {
+            this.searchRunnable.run();
         }
     }
 
@@ -327,7 +389,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$searchAnimated$4(final String str) {
         final ArrayList<MediaDataController.KeywordResult> arrayList = new ArrayList<>(1);
         arrayList.add(new MediaDataController.KeywordResult(str, null));
-        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda1
+        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.this.lambda$searchAnimated$3(str, arrayList);
@@ -341,21 +403,44 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             arrayList.remove(arrayList.size() - 1);
             if (!arrayList.isEmpty()) {
                 this.forceClose = false;
-                setVisibility(0);
+                this.containerView.setVisibility(0);
                 this.keywordResults = arrayList;
                 this.adapter.notifyDataSetChanged();
+                this.containerView.invalidate();
                 return;
             }
             forceClose();
         }
     }
 
+    private CharSequence makeEmoji(String str) {
+        AnimatedEmojiSpan animatedEmojiSpan;
+        Paint.FontMetricsInt fontMetricsInt = this.enterView.getEditField().getPaint().getFontMetricsInt();
+        if (str != null && str.startsWith("animated_")) {
+            try {
+                long parseLong = Long.parseLong(str.substring(9));
+                TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, parseLong);
+                SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(findDocument));
+                if (findDocument == null) {
+                    animatedEmojiSpan = new AnimatedEmojiSpan(parseLong, fontMetricsInt);
+                } else {
+                    animatedEmojiSpan = new AnimatedEmojiSpan(findDocument, fontMetricsInt);
+                }
+                spannableString.setSpan(animatedEmojiSpan, 0, spannableString.length(), 33);
+                return spannableString;
+            } catch (Exception unused) {
+                return null;
+            }
+        }
+        return Emoji.replaceEmoji(str, fontMetricsInt, AndroidUtilities.dp(20.0f), true);
+    }
+
     private void onClick(String str) {
         ChatActivityEnterView chatActivityEnterView;
         int intValue;
         int intValue2;
-        SpannableString spannableString;
-        AnimatedEmojiSpan animatedEmojiSpan;
+        CharSequence makeEmoji;
+        AnimatedEmojiSpan[] animatedEmojiSpanArr;
         if (!this.show || (chatActivityEnterView = this.enterView) == null || !(chatActivityEnterView.getFieldText() instanceof Spanned)) {
             return;
         }
@@ -372,27 +457,8 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             this.arrowToEnd = null;
             this.arrowToStart = null;
         }
-        Paint.FontMetricsInt fontMetricsInt = this.enterView.getEditField().getPaint().getFontMetricsInt();
-        if (str != null && str.startsWith("animated_")) {
-            try {
-                long parseLong = Long.parseLong(str.substring(9));
-                TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, parseLong);
-                SpannableString spannableString2 = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(findDocument));
-                if (findDocument == null) {
-                    animatedEmojiSpan = new AnimatedEmojiSpan(parseLong, fontMetricsInt);
-                } else {
-                    animatedEmojiSpan = new AnimatedEmojiSpan(findDocument, fontMetricsInt);
-                }
-                spannableString2.setSpan(animatedEmojiSpan, 0, spannableString2.length(), 33);
-                spannableString = spannableString2;
-            } catch (Exception unused) {
-                return;
-            }
-        } else {
-            spannableString = Emoji.replaceEmoji(str, fontMetricsInt, AndroidUtilities.dp(20.0f), true);
-        }
         Editable text = this.enterView.getEditField().getText();
-        if (intValue < 0 || intValue2 < 0 || intValue > text.length() || intValue2 > text.length()) {
+        if (text == null || intValue < 0 || intValue2 < 0 || intValue > text.length() || intValue2 > text.length()) {
             return;
         }
         if (this.arrowToSpan != null) {
@@ -401,8 +467,34 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             }
             this.arrowToSpan = null;
         }
-        text.replace(intValue, intValue2, spannableString);
+        String obj = text.toString();
+        String substring = obj.substring(intValue, intValue2);
+        int length = substring.length();
+        while (true) {
+            intValue2 -= length;
+            if (intValue2 < 0) {
+                break;
+            }
+            int i = intValue2 + length;
+            if (!obj.substring(intValue2, i).equals(substring) || (makeEmoji = makeEmoji(str)) == null || ((animatedEmojiSpanArr = (AnimatedEmojiSpan[]) text.getSpans(intValue2, i, AnimatedEmojiSpan.class)) != null && animatedEmojiSpanArr.length > 0)) {
+                break;
+            }
+            Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) text.getSpans(intValue2, i, Emoji.EmojiSpan.class);
+            if (emojiSpanArr != null) {
+                for (Emoji.EmojiSpan emojiSpan : emojiSpanArr) {
+                    text.removeSpan(emojiSpan);
+                }
+            }
+            text.replace(intValue2, i, makeEmoji);
+        }
+        try {
+            performHapticFeedback(3, 1);
+        } catch (Exception unused) {
+        }
+        Emoji.addRecentEmoji(str);
         this.show = false;
+        this.forceClose = true;
+        this.lastQueryType = 0;
         this.containerView.invalidate();
     }
 
@@ -424,7 +516,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         float f2 = this.showFloat2.set((!this.show || this.forceClose || this.keywordResults.isEmpty()) ? 0.0f : 1.0f);
         float f3 = this.arrowXAnimated.set(this.arrowX);
         if (f <= 0.0f && f2 <= 0.0f && (!this.show || this.forceClose || this.keywordResults.isEmpty())) {
-            setVisibility(8);
+            this.containerView.setVisibility(8);
         }
         this.path.rewind();
         float left = this.listView.getLeft();
@@ -520,25 +612,6 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    @Override // android.view.View
-    public void setVisibility(int i) {
-        boolean z = true;
-        boolean z2 = getVisibility() == i;
-        super.setVisibility(i);
-        if (!z2) {
-            if (i != 0) {
-                z = false;
-            }
-            for (int i2 = 0; i2 < this.listView.getChildCount(); i2++) {
-                if (z) {
-                    ((Adapter.EmojiImageView) this.listView.getChildAt(i2)).attach();
-                } else {
-                    ((Adapter.EmojiImageView) this.listView.getChildAt(i2)).detach();
-                }
-            }
-        }
-    }
-
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         float f = this.listViewWidthAnimated.get();
@@ -579,7 +652,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             if (this.keywordResults.isEmpty()) {
                 return;
             }
-            update();
+            fireUpdate();
         } else if (i == NotificationCenter.emojiLoaded) {
             for (int i3 = 0; i3 < this.listView.getChildCount(); i3++) {
                 this.listView.getChildAt(i3).invalidate();
@@ -662,15 +735,6 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
                     }
                     this.drawable.draw(canvas);
                 }
-            }
-
-            @Override // android.view.View
-            public boolean performClick() {
-                try {
-                    performHapticFeedback(3, 1);
-                } catch (Exception unused) {
-                }
-                return super.performClick();
             }
 
             @Override // android.view.View

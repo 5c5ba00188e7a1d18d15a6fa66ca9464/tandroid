@@ -263,7 +263,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     private boolean firstStickersAttach = true;
     private final int[] tabsMinusDy = new int[3];
     private ObjectAnimator[] tabsYAnimators = new ObjectAnimator[3];
-    private int currentAccount = UserConfig.selectedAccount;
+    public int currentAccount = UserConfig.selectedAccount;
     private ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = new ArrayList<>();
     private ArrayList<TLRPC$Document> recentGifs = new ArrayList<>();
     private ArrayList<TLRPC$Document> recentStickers = new ArrayList<>();
@@ -556,7 +556,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     public static /* synthetic */ void lambda$static$0() {
     }
 
-    public static /* synthetic */ void access$4500(EmojiView emojiView) {
+    public static /* synthetic */ void access$4400(EmojiView emojiView) {
         emojiView.openPremiumAnimatedEmojiFeature();
     }
 
@@ -1118,19 +1118,19 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     return;
                 }
                 EmojiView.this.showBottomTab(false, true);
+                BulletinFactory of = EmojiView.this.fragment != null ? BulletinFactory.of(EmojiView.this.fragment) : BulletinFactory.of(EmojiView.this.bulletinContainer, EmojiView.this.resourcesProvider);
                 if (EmojiView.this.premiumBulletin || EmojiView.this.fragment == null) {
-                    BulletinFactory of = BulletinFactory.of(EmojiView.this.bulletinContainer, EmojiView.this.resourcesProvider);
                     SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint", R.string.UnlockPremiumEmojiHint));
                     String string = LocaleController.getString("PremiumMore", R.string.PremiumMore);
                     final EmojiView emojiView2 = EmojiView.this;
                     of.createEmojiBulletin(tLRPC$Document, replaceTags, string, new Runnable() { // from class: org.telegram.ui.Components.EmojiView$ImageViewEmoji$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
-                            EmojiView.access$4500(EmojiView.this);
+                            EmojiView.access$4400(EmojiView.this);
                         }
                     }).show();
                 } else {
-                    BulletinFactory.of(EmojiView.this.bulletinContainer, EmojiView.this.resourcesProvider).createSimpleBulletin(R.raw.saved_messages, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint2", R.string.UnlockPremiumEmojiHint2)), LocaleController.getString("Open", R.string.Open), new Runnable() { // from class: org.telegram.ui.Components.EmojiView$ImageViewEmoji$$ExternalSyntheticLambda1
+                    of.createSimpleBulletin(R.raw.saved_messages, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint2", R.string.UnlockPremiumEmojiHint2)), LocaleController.getString("Open", R.string.Open), new Runnable() { // from class: org.telegram.ui.Components.EmojiView$ImageViewEmoji$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             EmojiView.ImageViewEmoji.this.lambda$sendEmoji$1();
@@ -1872,7 +1872,6 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 }
             });
         }
-        this.emojiTabs.showRecent(!getRecentEmoji().isEmpty());
         this.emojiTabs.setBackgroundColor(getThemedColor("chat_emojiPanelBackground"));
         this.emojiAdapter.processEmoji();
         EmojiTabsStrip emojiTabsStrip = this.emojiTabs;
@@ -6774,22 +6773,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     this.totalItems = i6 + 1;
                     sparseArray.put(i6, "search");
                     i5++;
-                } else if (i4 == -4) {
-                    MediaDataController mediaDataController = MediaDataController.getInstance(EmojiView.this.currentAccount);
-                    SharedPreferences emojiSettings = MessagesController.getEmojiSettings(EmojiView.this.currentAccount);
-                    ArrayList<TLRPC$StickerSetCovered> featuredStickerSets = mediaDataController.getFeaturedStickerSets();
-                    if (!EmojiView.this.featuredStickerSets.isEmpty() && emojiSettings.getLong("featured_hidden", 0L) != featuredStickerSets.get(i2).set.id) {
-                        SparseArray<Object> sparseArray2 = this.cache;
-                        int i7 = this.totalItems;
-                        this.totalItems = i7 + 1;
-                        sparseArray2.put(i7, "trend1");
-                        SparseArray<Object> sparseArray3 = this.cache;
-                        int i8 = this.totalItems;
-                        this.totalItems = i8 + 1;
-                        sparseArray3.put(i8, "trend2");
-                        i5 += 2;
-                    }
-                } else {
+                } else if (i4 != -4) {
                     TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = null;
                     if (i4 == -3) {
                         arrayList = EmojiView.this.favouriteStickers;
@@ -6815,20 +6799,20 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         EmojiView.this.groupStickerPackPosition = this.totalItems;
                         if (arrayList.isEmpty()) {
                             this.rowStartPack.put(i5, tLRPC$TL_messages_stickerSet);
-                            int i9 = i5 + 1;
+                            int i7 = i5 + 1;
                             this.positionToRow.put(this.totalItems, i5);
-                            this.rowStartPack.put(i9, tLRPC$TL_messages_stickerSet);
-                            this.positionToRow.put(this.totalItems + 1, i9);
-                            SparseArray<Object> sparseArray4 = this.cache;
-                            int i10 = this.totalItems;
-                            this.totalItems = i10 + 1;
-                            sparseArray4.put(i10, tLRPC$TL_messages_stickerSet);
-                            SparseArray<Object> sparseArray5 = this.cache;
-                            int i11 = this.totalItems;
-                            this.totalItems = i11 + 1;
-                            sparseArray5.put(i11, "group");
+                            this.rowStartPack.put(i7, tLRPC$TL_messages_stickerSet);
+                            this.positionToRow.put(this.totalItems + 1, i7);
+                            SparseArray<Object> sparseArray2 = this.cache;
+                            int i8 = this.totalItems;
+                            this.totalItems = i8 + 1;
+                            sparseArray2.put(i8, tLRPC$TL_messages_stickerSet);
+                            SparseArray<Object> sparseArray3 = this.cache;
+                            int i9 = this.totalItems;
+                            this.totalItems = i9 + 1;
+                            sparseArray3.put(i9, "group");
                             arrayList2 = arrayList3;
-                            i5 = i9 + 1;
+                            i5 = i7 + 1;
                             i4++;
                             arrayList3 = arrayList2;
                             i2 = 0;
@@ -6843,40 +6827,40 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                             this.cache.put(this.totalItems, arrayList);
                         }
                         this.positionToRow.put(this.totalItems, i5);
-                        int i12 = 0;
-                        while (i12 < arrayList.size()) {
-                            int i13 = i12 + 1;
-                            int i14 = this.totalItems + i13;
-                            this.cache.put(i14, arrayList.get(i12));
+                        int i10 = 0;
+                        while (i10 < arrayList.size()) {
+                            int i11 = i10 + 1;
+                            int i12 = this.totalItems + i11;
+                            this.cache.put(i12, arrayList.get(i10));
                             if (tLRPC$TL_messages_stickerSet != null) {
-                                this.cacheParents.put(i14, tLRPC$TL_messages_stickerSet);
+                                this.cacheParents.put(i12, tLRPC$TL_messages_stickerSet);
                             } else {
-                                this.cacheParents.put(i14, obj);
+                                this.cacheParents.put(i12, obj);
                             }
-                            this.positionToRow.put(this.totalItems + i13, i5 + 1 + (i12 / this.stickersPerRow));
-                            i12 = i13;
+                            this.positionToRow.put(this.totalItems + i11, i5 + 1 + (i10 / this.stickersPerRow));
+                            i10 = i11;
                             arrayList3 = arrayList3;
                         }
                         arrayList2 = arrayList3;
-                        int i15 = 0;
+                        int i13 = 0;
                         while (true) {
                             i = ceil + 1;
-                            if (i15 >= i) {
+                            if (i13 >= i) {
                                 break;
                             }
                             if (tLRPC$TL_messages_stickerSet != null) {
-                                this.rowStartPack.put(i5 + i15, tLRPC$TL_messages_stickerSet);
+                                this.rowStartPack.put(i5 + i13, tLRPC$TL_messages_stickerSet);
                             } else if (i4 == -1) {
-                                this.rowStartPack.put(i5 + i15, "premium");
+                                this.rowStartPack.put(i5 + i13, "premium");
                             } else {
                                 if (i4 == -2) {
-                                    this.rowStartPack.put(i5 + i15, "recent");
+                                    this.rowStartPack.put(i5 + i13, "recent");
                                 } else {
-                                    this.rowStartPack.put(i5 + i15, "fav");
+                                    this.rowStartPack.put(i5 + i13, "fav");
                                 }
-                                i15++;
+                                i13++;
                             }
-                            i15++;
+                            i13++;
                         }
                         this.totalItems += (ceil * this.stickersPerRow) + 1;
                         i5 += i;
@@ -6884,6 +6868,21 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         arrayList3 = arrayList2;
                         i2 = 0;
                         i3 = -5;
+                    }
+                } else {
+                    MediaDataController mediaDataController = MediaDataController.getInstance(EmojiView.this.currentAccount);
+                    SharedPreferences emojiSettings = MessagesController.getEmojiSettings(EmojiView.this.currentAccount);
+                    ArrayList<TLRPC$StickerSetCovered> featuredStickerSets = mediaDataController.getFeaturedStickerSets();
+                    if (!EmojiView.this.featuredStickerSets.isEmpty() && emojiSettings.getLong("featured_hidden", 0L) != featuredStickerSets.get(i2).set.id) {
+                        SparseArray<Object> sparseArray4 = this.cache;
+                        int i14 = this.totalItems;
+                        this.totalItems = i14 + 1;
+                        sparseArray4.put(i14, "trend1");
+                        SparseArray<Object> sparseArray5 = this.cache;
+                        int i15 = this.totalItems;
+                        this.totalItems = i15 + 1;
+                        sparseArray5.put(i15, "trend2");
+                        i5 += 2;
                     }
                 }
                 arrayList2 = arrayList3;
@@ -8386,26 +8385,26 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         EmojiView.GifSearchPreloader.this.lambda$preload$1(str, str2, z, str3, tLObject, tLRPC$TL_error);
                     }
                 };
-                if (!z) {
-                    MessagesController messagesController = MessagesController.getInstance(EmojiView.this.currentAccount);
-                    TLObject userOrChat = messagesController.getUserOrChat(messagesController.gifSearchBot);
-                    if (!(userOrChat instanceof TLRPC$User)) {
-                        return;
-                    }
+                if (z) {
                     this.loadingKeys.add(str3);
-                    TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults = new TLRPC$TL_messages_getInlineBotResults();
-                    if (str == null) {
-                        str = "";
-                    }
-                    tLRPC$TL_messages_getInlineBotResults.query = str;
-                    tLRPC$TL_messages_getInlineBotResults.bot = messagesController.getInputUser((TLRPC$User) userOrChat);
-                    tLRPC$TL_messages_getInlineBotResults.offset = str2;
-                    tLRPC$TL_messages_getInlineBotResults.peer = new TLRPC$TL_inputPeerEmpty();
-                    ConnectionsManager.getInstance(EmojiView.this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, requestDelegate, 2);
+                    MessagesStorage.getInstance(EmojiView.this.currentAccount).getBotCache(str3, requestDelegate);
+                    return;
+                }
+                MessagesController messagesController = MessagesController.getInstance(EmojiView.this.currentAccount);
+                TLObject userOrChat = messagesController.getUserOrChat(messagesController.gifSearchBot);
+                if (!(userOrChat instanceof TLRPC$User)) {
                     return;
                 }
                 this.loadingKeys.add(str3);
-                MessagesStorage.getInstance(EmojiView.this.currentAccount).getBotCache(str3, requestDelegate);
+                TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults = new TLRPC$TL_messages_getInlineBotResults();
+                if (str == null) {
+                    str = "";
+                }
+                tLRPC$TL_messages_getInlineBotResults.query = str;
+                tLRPC$TL_messages_getInlineBotResults.bot = messagesController.getInputUser((TLRPC$User) userOrChat);
+                tLRPC$TL_messages_getInlineBotResults.offset = str2;
+                tLRPC$TL_messages_getInlineBotResults.peer = new TLRPC$TL_inputPeerEmpty();
+                ConnectionsManager.getInstance(EmojiView.this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, requestDelegate, 2);
             }
         }
 
@@ -8652,7 +8651,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return false;
         }
 
-        static /* synthetic */ int access$19604(StickersSearchGridAdapter stickersSearchGridAdapter) {
+        static /* synthetic */ int access$19504(StickersSearchGridAdapter stickersSearchGridAdapter) {
             int i = stickersSearchGridAdapter.emojiSearchId + 1;
             stickersSearchGridAdapter.emojiSearchId = i;
             return i;
@@ -8678,10 +8677,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 StickersSearchGridAdapter.this.localPacksByName.clear();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:16:0x007b, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:16:0x0079, code lost:
                 if (r5.charAt(r9) <= 57343) goto L17;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:26:0x0095, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:26:0x0093, code lost:
                 if (r5.charAt(r9) != 9794) goto L27;
              */
             @Override // java.lang.Runnable
@@ -8697,7 +8696,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 EmojiView.this.stickersSearchField.progressDrawable.startAnimation();
                 StickersSearchGridAdapter stickersSearchGridAdapter = StickersSearchGridAdapter.this;
                 stickersSearchGridAdapter.cleared = false;
-                final int access$19604 = StickersSearchGridAdapter.access$19604(stickersSearchGridAdapter);
+                final int access$19504 = StickersSearchGridAdapter.access$19504(stickersSearchGridAdapter);
                 final ArrayList arrayList = new ArrayList(0);
                 final LongSparseArray longSparseArray = new LongSparseArray(0);
                 final HashMap<String, ArrayList<TLRPC$Document>> allStickers = MediaDataController.getInstance(EmojiView.this.currentAccount).getAllStickers();
@@ -8757,7 +8756,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
                         @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
                         public void run(ArrayList<MediaDataController.KeywordResult> arrayList3, String str) {
-                            if (access$19604 != StickersSearchGridAdapter.this.emojiSearchId) {
+                            if (access$19504 != StickersSearchGridAdapter.this.emojiSearchId) {
                                 return;
                             }
                             int size2 = arrayList3.size();
