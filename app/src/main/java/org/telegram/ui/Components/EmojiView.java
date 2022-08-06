@@ -3458,6 +3458,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     public class EmojiPackHeader extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         TextView addButtonView;
         FrameLayout buttonsView;
+        private int currentButtonState;
         boolean divider;
         TextView headerView;
         RLottieImageView lockView;
@@ -3480,7 +3481,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             TextView textView = new TextView(context);
             this.headerView = textView;
             textView.setTextColor(r17.getThemedColor("chat_emojiPanelStickerSetName"));
-            this.headerView.setTextSize(1, 14.0f);
+            this.headerView.setTextSize(1, 15.0f);
             this.headerView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.headerView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiView$EmojiPackHeader$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
@@ -3674,7 +3675,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
+            ((ViewGroup.MarginLayoutParams) this.headerView.getLayoutParams()).topMargin = AndroidUtilities.dp(this.currentButtonState == 0 ? 10.0f : 15.0f);
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.currentButtonState == 0 ? 32.0f : 42.0f), 1073741824));
         }
 
         public void setStickerSet(EmojiPack emojiPack, boolean z) {
@@ -3798,7 +3800,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             if (this.divider) {
-                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.getShadowHeight(), Theme.dividerPaint);
+                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), 1.0f, Theme.dividerPaint);
             }
             super.onDraw(canvas);
         }
@@ -3817,12 +3819,16 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         public void updateState(final int i, boolean z) {
+            int i2 = 0;
+            if ((i == 0) != (this.currentButtonState == 0)) {
+                requestLayout();
+            }
+            this.currentButtonState = i;
             AnimatorSet animatorSet = this.stateAnimator;
             if (animatorSet != null) {
                 animatorSet.cancel();
                 this.stateAnimator = null;
             }
-            int i2 = 0;
             this.premiumButtonView.setEnabled(i == 1);
             this.addButtonView.setEnabled(i == 2);
             this.removeButtonView.setEnabled(i == 3);

@@ -111,17 +111,17 @@ public class MenuDrawable extends Drawable {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:33:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x032d  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x03a0  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x03bd  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x040c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0420  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x048b  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x03d3  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x03e3  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x034c  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01c9  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0379  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x03ec  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0409  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0458  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x046c  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x04d7  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x047b  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x041f  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x042f  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0398  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0215  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -198,15 +198,17 @@ public class MenuDrawable extends Drawable {
                     canvas.rotate(this.currentRotation * (this.reverseAngle ? -180 : 180), AndroidUtilities.dp(9.0f), 0.0f);
                     this.paint.setColor(i9);
                     this.paint.setAlpha(this.alpha);
-                    canvas.drawLine(this.roundCap ? AndroidUtilities.dp(0.25f) * this.currentRotation : 0.0f, 0.0f, (AndroidUtilities.dp(18.0f) - (AndroidUtilities.dp(3.0f) * this.currentRotation)) - f3, 0.0f, this.paint);
+                    canvas.drawLine(this.roundCap ? (AndroidUtilities.dp(0.5f) * this.currentRotation) + ((this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation)) : 0.0f, 0.0f, ((AndroidUtilities.dp(18.0f) - (AndroidUtilities.dp(3.0f) * this.currentRotation)) - f3) - (this.roundCap ? (this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation) : 0.0f), 0.0f, this.paint);
                     dp3 = (AndroidUtilities.dp(5.0f) * (1.0f - Math.abs(this.currentRotation))) - (AndroidUtilities.dp(0.5f) * Math.abs(this.currentRotation));
                     dp4 = AndroidUtilities.dp(18.0f) - (AndroidUtilities.dp(2.5f) * Math.abs(this.currentRotation));
                     dp5 = AndroidUtilities.dp(5.0f) + (AndroidUtilities.dp(2.0f) * Math.abs(this.currentRotation));
                     dp6 = AndroidUtilities.dp(7.5f) * Math.abs(this.currentRotation);
                     if (this.roundCap) {
-                        dp3 += AndroidUtilities.dp(0.5f) * this.currentRotation;
-                        dp4 += AndroidUtilities.dp(0.5f) * this.currentRotation;
+                        dp6 += (this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation);
+                        float dp7 = dp3 + (AndroidUtilities.dp(0.5f) * this.currentRotation);
+                        dp4 -= (AndroidUtilities.dp(0.5f) * this.currentRotation) + ((this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation));
                         dp5 -= AndroidUtilities.dp(0.25f) * this.currentRotation;
+                        dp3 = dp7 + (AndroidUtilities.dp(0.25f) * this.currentRotation);
                     }
                 } else {
                     canvas.rotate(this.currentRotation * (this.reverseAngle ? -225 : 135), AndroidUtilities.dp(9.0f), 0.0f);
@@ -247,17 +249,17 @@ public class MenuDrawable extends Drawable {
                 i2 = this.type;
                 i3 = TYPE_DEFAULT;
                 if ((i2 != i3 && this.currentRotation != 1.0f) || (this.previousType != i3 && this.typeAnimationProgress != 1.0f)) {
-                    float dp7 = AndroidUtilities.dp(17.0f);
+                    float dp8 = AndroidUtilities.dp(17.0f);
                     float f13 = -AndroidUtilities.dp(4.5f);
                     float f14 = AndroidUtilities.density * 5.5f;
                     float f15 = this.currentRotation;
-                    canvas.scale(1.0f - f15, 1.0f - f15, dp7, f13);
+                    canvas.scale(1.0f - f15, 1.0f - f15, dp8, f13);
                     if (this.type == TYPE_DEFAULT) {
                         f14 *= 1.0f - this.typeAnimationProgress;
                     }
                     this.backPaint.setColor(i);
                     this.backPaint.setAlpha(this.alpha);
-                    canvas.drawCircle(dp7, f13, f14, this.paint);
+                    canvas.drawCircle(dp8, f13, f14, this.paint);
                     i4 = this.type;
                     i5 = TYPE_UDPATE_AVAILABLE;
                     if (i4 != i5 || this.previousType == i5) {
@@ -267,8 +269,8 @@ public class MenuDrawable extends Drawable {
                         } else {
                             this.backPaint.setAlpha(this.alpha);
                         }
-                        canvas.drawLine(dp7, f13 - AndroidUtilities.dp(2.0f), dp7, f13, this.backPaint);
-                        canvas.drawPoint(dp7, AndroidUtilities.dp(2.5f) + f13, this.backPaint);
+                        canvas.drawLine(dp8, f13 - AndroidUtilities.dp(2.0f), dp8, f13, this.backPaint);
+                        canvas.drawPoint(dp8, AndroidUtilities.dp(2.5f) + f13, this.backPaint);
                     }
                     i6 = this.type;
                     i7 = TYPE_UDPATE_DOWNLOADING;
@@ -280,7 +282,7 @@ public class MenuDrawable extends Drawable {
                             this.backPaint.setAlpha(this.alpha);
                         }
                         float max = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
-                        this.rect.set(dp7 - AndroidUtilities.dp(3.0f), f13 - AndroidUtilities.dp(3.0f), dp7 + AndroidUtilities.dp(3.0f), f13 + AndroidUtilities.dp(3.0f));
+                        this.rect.set(dp8 - AndroidUtilities.dp(3.0f), f13 - AndroidUtilities.dp(3.0f), dp8 + AndroidUtilities.dp(3.0f), f13 + AndroidUtilities.dp(3.0f));
                         canvas.drawArc(this.rect, this.downloadRadOffset, max, false, this.backPaint);
                         float f16 = this.downloadRadOffset + (((float) (360 * j2)) / 2500.0f);
                         this.downloadRadOffset = f16;
@@ -327,16 +329,16 @@ public class MenuDrawable extends Drawable {
         i2 = this.type;
         i3 = TYPE_DEFAULT;
         if (i2 != i3) {
-            float dp72 = AndroidUtilities.dp(17.0f);
+            float dp82 = AndroidUtilities.dp(17.0f);
             float f132 = -AndroidUtilities.dp(4.5f);
             float f142 = AndroidUtilities.density * 5.5f;
             float f152 = this.currentRotation;
-            canvas.scale(1.0f - f152, 1.0f - f152, dp72, f132);
+            canvas.scale(1.0f - f152, 1.0f - f152, dp82, f132);
             if (this.type == TYPE_DEFAULT) {
             }
             this.backPaint.setColor(i);
             this.backPaint.setAlpha(this.alpha);
-            canvas.drawCircle(dp72, f132, f142, this.paint);
+            canvas.drawCircle(dp82, f132, f142, this.paint);
             i4 = this.type;
             i5 = TYPE_UDPATE_AVAILABLE;
             if (i4 != i5) {
@@ -344,8 +346,8 @@ public class MenuDrawable extends Drawable {
             this.backPaint.setStrokeWidth(AndroidUtilities.density * 1.66f);
             if (this.previousType == TYPE_UDPATE_AVAILABLE) {
             }
-            canvas.drawLine(dp72, f132 - AndroidUtilities.dp(2.0f), dp72, f132, this.backPaint);
-            canvas.drawPoint(dp72, AndroidUtilities.dp(2.5f) + f132, this.backPaint);
+            canvas.drawLine(dp82, f132 - AndroidUtilities.dp(2.0f), dp82, f132, this.backPaint);
+            canvas.drawPoint(dp82, AndroidUtilities.dp(2.5f) + f132, this.backPaint);
             i6 = this.type;
             i7 = TYPE_UDPATE_DOWNLOADING;
             if (i6 != i7) {
@@ -354,7 +356,7 @@ public class MenuDrawable extends Drawable {
             if (this.previousType == TYPE_UDPATE_DOWNLOADING) {
             }
             float max2 = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
-            this.rect.set(dp72 - AndroidUtilities.dp(3.0f), f132 - AndroidUtilities.dp(3.0f), dp72 + AndroidUtilities.dp(3.0f), f132 + AndroidUtilities.dp(3.0f));
+            this.rect.set(dp82 - AndroidUtilities.dp(3.0f), f132 - AndroidUtilities.dp(3.0f), dp82 + AndroidUtilities.dp(3.0f), f132 + AndroidUtilities.dp(3.0f));
             canvas.drawArc(this.rect, this.downloadRadOffset, max2, false, this.backPaint);
             float f162 = this.downloadRadOffset + (((float) (360 * j2)) / 2500.0f);
             this.downloadRadOffset = f162;
@@ -367,16 +369,16 @@ public class MenuDrawable extends Drawable {
             invalidateSelf();
             canvas.restore();
         }
-        float dp722 = AndroidUtilities.dp(17.0f);
+        float dp822 = AndroidUtilities.dp(17.0f);
         float f1322 = -AndroidUtilities.dp(4.5f);
         float f1422 = AndroidUtilities.density * 5.5f;
         float f1522 = this.currentRotation;
-        canvas.scale(1.0f - f1522, 1.0f - f1522, dp722, f1322);
+        canvas.scale(1.0f - f1522, 1.0f - f1522, dp822, f1322);
         if (this.type == TYPE_DEFAULT) {
         }
         this.backPaint.setColor(i);
         this.backPaint.setAlpha(this.alpha);
-        canvas.drawCircle(dp722, f1322, f1422, this.paint);
+        canvas.drawCircle(dp822, f1322, f1422, this.paint);
         i4 = this.type;
         i5 = TYPE_UDPATE_AVAILABLE;
         if (i4 != i5) {
@@ -384,8 +386,8 @@ public class MenuDrawable extends Drawable {
         this.backPaint.setStrokeWidth(AndroidUtilities.density * 1.66f);
         if (this.previousType == TYPE_UDPATE_AVAILABLE) {
         }
-        canvas.drawLine(dp722, f1322 - AndroidUtilities.dp(2.0f), dp722, f1322, this.backPaint);
-        canvas.drawPoint(dp722, AndroidUtilities.dp(2.5f) + f1322, this.backPaint);
+        canvas.drawLine(dp822, f1322 - AndroidUtilities.dp(2.0f), dp822, f1322, this.backPaint);
+        canvas.drawPoint(dp822, AndroidUtilities.dp(2.5f) + f1322, this.backPaint);
         i6 = this.type;
         i7 = TYPE_UDPATE_DOWNLOADING;
         if (i6 != i7) {
@@ -394,7 +396,7 @@ public class MenuDrawable extends Drawable {
         if (this.previousType == TYPE_UDPATE_DOWNLOADING) {
         }
         float max22 = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
-        this.rect.set(dp722 - AndroidUtilities.dp(3.0f), f1322 - AndroidUtilities.dp(3.0f), dp722 + AndroidUtilities.dp(3.0f), f1322 + AndroidUtilities.dp(3.0f));
+        this.rect.set(dp822 - AndroidUtilities.dp(3.0f), f1322 - AndroidUtilities.dp(3.0f), dp822 + AndroidUtilities.dp(3.0f), f1322 + AndroidUtilities.dp(3.0f));
         canvas.drawArc(this.rect, this.downloadRadOffset, max22, false, this.backPaint);
         float f1622 = this.downloadRadOffset + (((float) (360 * j2)) / 2500.0f);
         this.downloadRadOffset = f1622;

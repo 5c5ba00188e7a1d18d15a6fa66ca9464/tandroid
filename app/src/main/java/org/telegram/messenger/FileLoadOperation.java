@@ -806,13 +806,13 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public long[] getDownloadedLengthFromOffset(final int i, final long j) {
+    public long[] getDownloadedLengthFromOffset(final long j, final long j2) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final long[] jArr = new long[2];
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$getDownloadedLengthFromOffset$2(jArr, i, j, countDownLatch);
+                FileLoadOperation.this.lambda$getDownloadedLengthFromOffset$2(jArr, j, j2, countDownLatch);
             }
         });
         try {
@@ -823,8 +823,8 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$getDownloadedLengthFromOffset$2(long[] jArr, int i, long j, CountDownLatch countDownLatch) {
-        jArr[0] = getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, i, j);
+    public /* synthetic */ void lambda$getDownloadedLengthFromOffset$2(long[] jArr, long j, long j2, CountDownLatch countDownLatch) {
+        jArr[0] = getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, j, j2);
         if (this.state == 3) {
             jArr[1] = 1;
         }

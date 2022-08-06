@@ -24,7 +24,7 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
         this.parentObject = obj;
         this.currentAccount = i;
         this.preview = z;
-        this.loadOperation = FileLoader.getInstance(i).loadStreamFile(this, this.document, this.location, this.parentObject, 0, this.preview);
+        this.loadOperation = FileLoader.getInstance(i).loadStreamFile(this, this.document, this.location, this.parentObject, 0L, this.preview);
     }
 
     public boolean isFinishedLoadingFile() {
@@ -35,9 +35,12 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
         return this.finishedFilePath;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0072 A[Catch: all -> 0x00a4, TRY_ENTER, TryCatch #1 {Exception -> 0x00ac, blocks: (B:18:0x0025, B:20:0x002a, B:22:0x0030, B:25:0x0042, B:27:0x004a, B:29:0x0050, B:33:0x006f, B:34:0x0071, B:39:0x008b, B:41:0x008f, B:42:0x009a, B:50:0x0057, B:35:0x0072, B:46:0x0076, B:47:0x0081, B:37:0x0083, B:38:0x008a), top: B:17:0x0025 }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public int read(int i, int i2) {
-        long[] downloadedLengthFromOffset;
-        long j;
+        boolean z;
         synchronized (this.sync) {
             if (this.canceled) {
                 return 0;
@@ -45,47 +48,54 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
             if (i2 == 0) {
                 return 0;
             }
-            long j2 = 0;
-            while (j2 == 0) {
+            long j = 0;
+            for (long j2 = 0; j == j2; j2 = 0) {
                 try {
-                    downloadedLengthFromOffset = this.loadOperation.getDownloadedLengthFromOffset(i, i2);
-                    j = downloadedLengthFromOffset[0];
-                } catch (Exception e) {
-                    e = e;
-                }
-                try {
-                    if (!this.finishedLoadingFile && downloadedLengthFromOffset[1] != 0) {
-                        this.finishedLoadingFile = true;
-                        this.finishedFilePath = this.loadOperation.getCacheFileFinal().getAbsolutePath();
-                    }
-                    if (j == 0) {
-                        if (this.loadOperation.isPaused() || this.lastOffset != i || this.preview) {
-                            FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, this.location, this.parentObject, i, this.preview);
+                    long j3 = i;
+                    long[] downloadedLengthFromOffset = this.loadOperation.getDownloadedLengthFromOffset(j3, i2);
+                    long j4 = downloadedLengthFromOffset[0];
+                    try {
+                        if (!this.finishedLoadingFile && downloadedLengthFromOffset[1] != j2) {
+                            this.finishedLoadingFile = true;
+                            this.finishedFilePath = this.loadOperation.getCacheFileFinal().getAbsolutePath();
                         }
-                        synchronized (this.sync) {
-                            if (this.canceled) {
-                                FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.document);
-                                return 0;
+                        if (j4 == j2) {
+                            if (!this.loadOperation.isPaused() && this.lastOffset == j3 && !this.preview) {
+                                z = true;
+                                synchronized (this.sync) {
+                                    if (this.canceled) {
+                                        FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.document);
+                                        return 0;
+                                    }
+                                    int i3 = z ? 1 : 0;
+                                    int i4 = z ? 1 : 0;
+                                    this.countDownLatch = new CountDownLatch(i3);
+                                }
+                                if (!this.preview) {
+                                    FileLoader.getInstance(this.currentAccount).setLoadingVideo(this.document, false, z);
+                                }
+                                this.waitingForLoad = z;
+                                this.countDownLatch.await();
+                                this.waitingForLoad = false;
                             }
-                            this.countDownLatch = new CountDownLatch(1);
+                            z = true;
+                            FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, this.location, this.parentObject, j3, this.preview);
+                            synchronized (this.sync) {
+                            }
                         }
-                        if (!this.preview) {
-                            FileLoader.getInstance(this.currentAccount).setLoadingVideo(this.document, false, true);
-                        }
-                        this.waitingForLoad = true;
-                        this.countDownLatch.await();
-                        this.waitingForLoad = false;
+                        j = j4;
+                    } catch (Exception e) {
+                        e = e;
+                        j = j4;
+                        FileLog.e((Throwable) e, false);
+                        return (int) j;
                     }
-                    j2 = j;
                 } catch (Exception e2) {
                     e = e2;
-                    j2 = j;
-                    FileLog.e((Throwable) e, false);
-                    return (int) j2;
                 }
             }
-            this.lastOffset = i + j2;
-            return (int) j2;
+            this.lastOffset = i + j;
+            return (int) j;
         }
     }
 

@@ -129,6 +129,7 @@ public class TrendingStickersAlert extends BottomSheet {
     /* loaded from: classes3.dex */
     public class AlertContainerView extends SizeNotifierFrameLayout {
         private ValueAnimator statusBarAnimator;
+        private boolean statusBarOpen;
         private final Paint paint = new Paint(1);
         private boolean gluedToTop = false;
         private boolean ignoreLayout = false;
@@ -247,16 +248,44 @@ public class TrendingStickersAlert extends BottomSheet {
             canvas.restore();
         }
 
+        private void updateLightStatusBar(boolean z) {
+            if (this.statusBarOpen != z) {
+                this.statusBarOpen = z;
+                boolean z2 = true;
+                boolean z3 = AndroidUtilities.computePerceivedBrightness(TrendingStickersAlert.this.getThemedColor("dialogBackground")) > 0.721f;
+                if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(TrendingStickersAlert.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
+                    z2 = false;
+                }
+                if (!z) {
+                    z3 = z2;
+                }
+                AndroidUtilities.setLightStatusBar(TrendingStickersAlert.this.getWindow(), z3);
+            }
+        }
+
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         public void dispatchDraw(Canvas canvas) {
-            super.dispatchDraw(canvas);
             float fraction = getFraction();
+            boolean z = true;
+            int i = 0;
+            setStatusBarVisible(fraction == 0.0f && Build.VERSION.SDK_INT >= 21 && !TrendingStickersAlert.this.isDismissed(), true);
+            if (this.statusBarAlpha <= 0.5f) {
+                z = false;
+            }
+            updateLightStatusBar(z);
+            if (this.statusBarAlpha > 0.0f) {
+                this.paint.setColor(TrendingStickersAlert.this.getThemedColor("dialogBackground"));
+                int max = (int) Math.max(0.0f, TrendingStickersAlert.this.scrollOffsetY + (TrendingStickersAlert.this.topOffset * (1.0f - getFraction())) + AndroidUtilities.dp(24.0f) + TrendingStickersAlert.this.layout.getTranslationY() + ((Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0) - TrendingStickersAlert.this.topOffset));
+                canvas.drawRect(((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, AndroidUtilities.lerp(max, -AndroidUtilities.statusBarHeight, this.statusBarAlpha), getMeasuredWidth() - ((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, max, this.paint);
+            }
+            super.dispatchDraw(canvas);
             canvas.save();
             float translationY = TrendingStickersAlert.this.layout.getTranslationY();
-            int i = Build.VERSION.SDK_INT;
-            boolean z = false;
-            canvas.translate(0.0f, (translationY + (i >= 21 ? AndroidUtilities.statusBarHeight : 0)) - TrendingStickersAlert.this.topOffset);
+            if (Build.VERSION.SDK_INT >= 21) {
+                i = AndroidUtilities.statusBarHeight;
+            }
+            canvas.translate(0.0f, (translationY + i) - TrendingStickersAlert.this.topOffset);
             int dp = AndroidUtilities.dp(36.0f);
             int dp2 = AndroidUtilities.dp(4.0f);
             int i2 = (int) (dp2 * 2.0f * (1.0f - fraction));
@@ -266,15 +295,6 @@ public class TrendingStickersAlert extends BottomSheet {
             TrendingStickersAlert.this.shapeDrawable.setBounds((getWidth() - dp) / 2, TrendingStickersAlert.this.scrollOffsetY + AndroidUtilities.dp(10.0f) + i2, (getWidth() + dp) / 2, TrendingStickersAlert.this.scrollOffsetY + AndroidUtilities.dp(10.0f) + i2 + dp2);
             TrendingStickersAlert.this.shapeDrawable.draw(canvas);
             canvas.restore();
-            if (fraction == 0.0f && i >= 21 && !TrendingStickersAlert.this.isDismissed()) {
-                z = true;
-            }
-            setStatusBarVisible(z, true);
-            if (this.statusBarAlpha > 0.0f) {
-                int themedColor2 = TrendingStickersAlert.this.getThemedColor("dialogBackground");
-                this.paint.setColor(Color.argb((int) (this.statusBarAlpha * 255.0f), (int) (Color.red(themedColor2) * 0.8f), (int) (Color.green(themedColor2) * 0.8f), (int) (Color.blue(themedColor2) * 0.8f)));
-                canvas.drawRect(((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, 0.0f, getMeasuredWidth() - ((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, this.paint);
-            }
         }
 
         @Override // android.view.View

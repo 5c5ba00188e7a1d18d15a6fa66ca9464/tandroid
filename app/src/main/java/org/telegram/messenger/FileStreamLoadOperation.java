@@ -22,7 +22,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
     private long bytesRemaining;
     private CountDownLatch countDownLatch;
     private int currentAccount;
-    private int currentOffset;
+    private long currentOffset;
     private TLRPC$Document document;
     private RandomAccessFile file;
     private FileLoadOperation loadOperation;
@@ -75,15 +75,15 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
         TLRPC$Document tLRPC$Document = this.document;
         Object obj = this.parentObject;
-        int i = (int) dataSpec.position;
-        this.currentOffset = i;
-        this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, i, false);
-        long j = dataSpec.length;
-        if (j == -1) {
-            j = this.document.size - dataSpec.position;
+        long j = dataSpec.position;
+        this.currentOffset = j;
+        this.loadOperation = fileLoader.loadStreamFile(this, tLRPC$Document, null, obj, j, false);
+        long j2 = dataSpec.length;
+        if (j2 == -1) {
+            j2 = this.document.size - dataSpec.position;
         }
-        this.bytesRemaining = j;
-        if (j < 0) {
+        this.bytesRemaining = j2;
+        if (j2 < 0) {
             throw new EOFException();
         }
         this.opened = true;
@@ -129,8 +129,9 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             return 0;
         }
         this.file.readFully(bArr, i, i3);
-        this.currentOffset += i3;
-        this.bytesRemaining -= i3;
+        long j2 = i3;
+        this.currentOffset += j2;
+        this.bytesRemaining -= j2;
         bytesTransferred(i3);
         return i3;
     }
