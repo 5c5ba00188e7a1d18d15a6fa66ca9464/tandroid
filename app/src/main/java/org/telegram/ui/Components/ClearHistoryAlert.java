@@ -13,14 +13,13 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$User;
@@ -107,12 +106,12 @@ public class ClearHistoryAlert extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0108  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0474  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0483  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x00e2  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x045f  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x046d  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02f3  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x00e1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -310,7 +309,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     });
                     this.linearLayout.addView(bottomSheetCell, LayoutHelper.createLinear(-1, 50, 51, 0, 0, 0, 0));
                     View shadowSectionCell = new ShadowSectionCell(context);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     combinedDrawable.setFullsize(true);
                     shadowSectionCell.setBackgroundDrawable(combinedDrawable);
                     this.linearLayout.addView(shadowSectionCell, LayoutHelper.createLinear(-1, -2));
@@ -364,7 +363,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 slideChooseView.setOptions(this.currentTimer, LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever), LocaleController.getString("AutoDelete24Hours", R.string.AutoDelete24Hours), LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days), LocaleController.getString("AutoDelete1Month", R.string.AutoDelete1Month));
                 this.linearLayout.addView(slideChooseView, LayoutHelper.createLinear(-1, -2, 0.0f, 8.0f, 0.0f, 0.0f));
                 FrameLayout frameLayout = new FrameLayout(context);
-                CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 combinedDrawable2.setFullsize(true);
                 frameLayout.setBackgroundDrawable(combinedDrawable2);
                 this.linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
@@ -420,7 +419,7 @@ public class ClearHistoryAlert extends BottomSheet {
         slideChooseView2.setOptions(this.currentTimer, LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever), LocaleController.getString("AutoDelete24Hours", R.string.AutoDelete24Hours), LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days), LocaleController.getString("AutoDelete1Month", R.string.AutoDelete1Month));
         this.linearLayout.addView(slideChooseView2, LayoutHelper.createLinear(-1, -2, 0.0f, 8.0f, 0.0f, 0.0f));
         FrameLayout frameLayout2 = new FrameLayout(context);
-        CombinedDrawable combinedDrawable22 = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+        CombinedDrawable combinedDrawable22 = new CombinedDrawable(new ColorDrawable(getThemedColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
         combinedDrawable22.setFullsize(true);
         frameLayout2.setBackgroundDrawable(combinedDrawable22);
         this.linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, -2));
@@ -471,7 +470,7 @@ public class ClearHistoryAlert extends BottomSheet {
             } else if (i2 == 2) {
                 i = 604800;
             } else if (i2 == 1) {
-                i = RemoteMessageConst.DEFAULT_TTL;
+                i = 86400;
             } else {
                 i = 0;
                 i3 = 71;

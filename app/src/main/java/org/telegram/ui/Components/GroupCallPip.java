@@ -27,7 +27,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.Components.GroupCallPip;
@@ -204,7 +204,8 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.iconView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.group_pip_delete_icon, "2131558459", AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f), true, null);
+        int i2 = R.raw.group_pip_delete_icon;
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f), true, null);
         this.deleteIcon = rLottieDrawable;
         rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
         rLottieImageView.setAnimation(this.deleteIcon);
@@ -214,24 +215,24 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
             int lastSize = -1;
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
-                super.onLayout(z, i2, i3, i4, i5);
+            protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                super.onLayout(z, i3, i4, i5, i6);
                 android.graphics.Point point = AndroidUtilities.displaySize;
-                int i6 = point.x + point.y;
-                int i7 = this.lastSize;
-                if (i7 > 0 && i7 != i6) {
+                int i7 = point.x + point.y;
+                int i8 = this.lastSize;
+                if (i8 > 0 && i8 != i7) {
                     setVisibility(8);
                     GroupCallPip groupCallPip = GroupCallPip.this;
                     groupCallPip.showAlert = false;
                     groupCallPip.checkButtonAlpha();
                 }
-                this.lastSize = i6;
+                this.lastSize = i7;
             }
 
             @Override // android.view.View
-            public void setVisibility(int i2) {
-                super.setVisibility(i2);
-                if (i2 == 8) {
+            public void setVisibility(int i3) {
+                super.setVisibility(i3);
+                if (i3 == 8) {
                     this.lastSize = -1;
                 }
             }

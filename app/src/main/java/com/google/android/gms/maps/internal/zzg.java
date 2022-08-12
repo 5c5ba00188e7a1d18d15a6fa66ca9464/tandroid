@@ -48,6 +48,14 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
+    public final void animateCameraWithCallback(IObjectWrapper iObjectWrapper, zzd zzdVar) throws RemoteException {
+        Parcel zza = zza();
+        com.google.android.gms.internal.maps.zzc.zzf(zza, iObjectWrapper);
+        com.google.android.gms.internal.maps.zzc.zzf(zza, zzdVar);
+        zzc(6, zza);
+    }
+
+    @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void animateCameraWithDurationAndCallback(IObjectWrapper iObjectWrapper, int i, zzd zzdVar) throws RemoteException {
         Parcel zza = zza();
         com.google.android.gms.internal.maps.zzc.zzf(zza, iObjectWrapper);

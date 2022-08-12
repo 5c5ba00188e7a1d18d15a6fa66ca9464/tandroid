@@ -40,9 +40,9 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -327,12 +327,12 @@ public class FilterTabsView extends FrameLayout {
         /* JADX WARN: Removed duplicated region for block: B:102:0x0759  */
         /* JADX WARN: Removed duplicated region for block: B:107:0x078d  */
         /* JADX WARN: Removed duplicated region for block: B:113:0x079c  */
-        /* JADX WARN: Removed duplicated region for block: B:116:0x07b5  */
-        /* JADX WARN: Removed duplicated region for block: B:121:0x07e5  */
-        /* JADX WARN: Removed duplicated region for block: B:124:0x0801  */
-        /* JADX WARN: Removed duplicated region for block: B:127:0x085f  */
-        /* JADX WARN: Removed duplicated region for block: B:129:0x0892  */
-        /* JADX WARN: Removed duplicated region for block: B:132:0x07c3  */
+        /* JADX WARN: Removed duplicated region for block: B:116:0x07b4  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x07e4  */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x0800  */
+        /* JADX WARN: Removed duplicated region for block: B:127:0x085e  */
+        /* JADX WARN: Removed duplicated region for block: B:129:0x0891  */
+        /* JADX WARN: Removed duplicated region for block: B:132:0x07c2  */
         /* JADX WARN: Removed duplicated region for block: B:165:0x0519  */
         /* JADX WARN: Removed duplicated region for block: B:171:0x056c  */
         /* JADX WARN: Removed duplicated region for block: B:176:0x05bc  */
@@ -1566,14 +1566,20 @@ public class FilterTabsView extends FrameLayout {
         if (!this.tabs.isEmpty()) {
             int size = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(7.0f)) - AndroidUtilities.dp(7.0f);
             Tab findDefaultTab = findDefaultTab();
-            findDefaultTab.setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+            int i3 = R.string.FilterAllChats;
+            String str = "FilterAllChats";
+            findDefaultTab.setTitle(LocaleController.getString(str, i3));
             int width = findDefaultTab.getWidth(false);
-            findDefaultTab.setTitle(this.allTabsWidth > size ? LocaleController.getString("FilterAllChatsShort", R.string.FilterAllChatsShort) : LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+            if (this.allTabsWidth > size) {
+                i3 = R.string.FilterAllChatsShort;
+                str = "FilterAllChatsShort";
+            }
+            findDefaultTab.setTitle(LocaleController.getString(str, i3));
             int width2 = (this.allTabsWidth - width) + findDefaultTab.getWidth(false);
-            int i3 = this.additionalTabWidth;
+            int i4 = this.additionalTabWidth;
             int size2 = width2 < size ? (size - width2) / this.tabs.size() : 0;
             this.additionalTabWidth = size2;
-            if (i3 != size2) {
+            if (i4 != size2) {
                 this.ignoreLayout = true;
                 RecyclerView.ItemAnimator itemAnimator = this.listView.getItemAnimator();
                 this.listView.setItemAnimator(null);
@@ -1693,7 +1699,7 @@ public class FilterTabsView extends FrameLayout {
         this.orderChanged = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0079  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0078  */
     /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

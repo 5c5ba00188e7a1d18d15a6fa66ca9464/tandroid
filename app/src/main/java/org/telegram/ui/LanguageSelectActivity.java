@@ -29,8 +29,8 @@ import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -463,8 +463,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             this.header = headerCell;
             headerCell.setFocusable(true);
             this.header.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-            this.header.setText(LocaleController.getString("TranslateMessages", R.string.TranslateMessages));
-            this.header.setContentDescription(LocaleController.getString("TranslateMessages", R.string.TranslateMessages));
+            HeaderCell headerCell2 = this.header;
+            int i = R.string.TranslateMessages;
+            headerCell2.setText(LocaleController.getString("TranslateMessages", i));
+            this.header.setContentDescription(LocaleController.getString("TranslateMessages", i));
             addView(this.header, LayoutHelper.createLinear(-1, -2));
             boolean value = getValue();
             TextCheckCell textCheckCell = new TextCheckCell(context);
@@ -496,16 +498,20 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             textInfoPrivacyCell.setTopPadding(11);
             this.info.setBottomPadding(16);
             this.info.setFocusable(true);
-            this.info.setText(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
-            this.info.setContentDescription(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
+            TextInfoPrivacyCell textInfoPrivacyCell2 = this.info;
+            int i2 = R.string.TranslateMessagesInfo1;
+            textInfoPrivacyCell2.setText(LocaleController.getString("TranslateMessagesInfo1", i2));
+            this.info.setContentDescription(LocaleController.getString("TranslateMessagesInfo1", i2));
             addView(this.info, LayoutHelper.createLinear(-1, -2));
-            TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
-            this.info2 = textInfoPrivacyCell2;
-            textInfoPrivacyCell2.setTopPadding(0);
+            TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
+            this.info2 = textInfoPrivacyCell3;
+            textInfoPrivacyCell3.setTopPadding(0);
             this.info2.setBottomPadding(16);
             this.info2.setFocusable(true);
-            this.info2.setText(LocaleController.getString("TranslateMessagesInfo2", R.string.TranslateMessagesInfo2));
-            this.info2.setContentDescription(LocaleController.getString("TranslateMessagesInfo2", R.string.TranslateMessagesInfo2));
+            TextInfoPrivacyCell textInfoPrivacyCell4 = this.info2;
+            int i3 = R.string.TranslateMessagesInfo2;
+            textInfoPrivacyCell4.setText(LocaleController.getString("TranslateMessagesInfo2", i3));
+            this.info2.setContentDescription(LocaleController.getString("TranslateMessagesInfo2", i3));
             this.info2.setAlpha(value ? 0.0f : f);
             addView(this.info2, LayoutHelper.createLinear(-1, -2));
             updateHeight();
@@ -728,19 +734,19 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:29:0x0088, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x0086, code lost:
             if (r12 == (r10.this$0.searchResult.size() - 1)) goto L30;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x008a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x0088, code lost:
             r12 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:40:0x008c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:40:0x008a, code lost:
             r12 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:47:0x00bf, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:47:0x00bd, code lost:
             if (r12 == (r10.this$0.unofficialLanguages.size() - 1)) goto L30;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:52:0x00f1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:52:0x00ef, code lost:
             if (r12 == (r10.this$0.sortedLanguages.size() - 1)) goto L30;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -771,10 +777,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 }
                 ShadowSectionCell shadowSectionCell = (ShadowSectionCell) viewHolder.itemView;
                 if (!LanguageSelectActivity.this.unofficialLanguages.isEmpty() && i == LanguageSelectActivity.this.unofficialLanguages.size()) {
-                    shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     return;
                 } else {
-                    shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     return;
                 }
             }

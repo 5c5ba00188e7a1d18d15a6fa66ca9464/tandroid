@@ -15,8 +15,6 @@ import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.util.ClientLibraryUtils;
 import com.google.android.gms.signin.SignInOptions;
-import com.google.android.gms.signin.zae;
-import com.huawei.hms.framework.network.grs.GrsBaseInfo;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -49,7 +47,7 @@ public final class zaar extends GoogleApiClient implements zabn {
     private zabk zaq;
     private final ClientSettings zar;
     private final Map<Api<?>, Boolean> zas;
-    private final Api.AbstractClientBuilder<? extends zae, SignInOptions> zat;
+    private final Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> zat;
     private final ListenerHolders zau;
     private final ArrayList<zaq> zav;
     private Integer zaw;
@@ -57,7 +55,7 @@ public final class zaar extends GoogleApiClient implements zabn {
     private zabo zah = null;
     final Queue<BaseImplementation$ApiMethodImpl<?, ?>> zaa = new LinkedList();
 
-    public zaar(Context context, Lock lock, Looper looper, ClientSettings clientSettings, GoogleApiAvailability googleApiAvailability, Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder, Map<Api<?>, Boolean> map, List<GoogleApiClient.ConnectionCallbacks> list, List<GoogleApiClient.OnConnectionFailedListener> list2, Map<Api.AnyClientKey<?>, Api.Client> map2, int i, int i2, ArrayList<zaq> arrayList) {
+    public zaar(Context context, Lock lock, Looper looper, ClientSettings clientSettings, GoogleApiAvailability googleApiAvailability, Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder, Map<Api<?>, Boolean> map, List<GoogleApiClient.ConnectionCallbacks> list, List<GoogleApiClient.OnConnectionFailedListener> list2, Map<Api.AnyClientKey<?>, Api.Client> map2, int i, int i2, ArrayList<zaq> arrayList) {
         this.zam = ClientLibraryUtils.isPackageSide() ? 10000L : 120000L;
         this.zan = 5000L;
         this.zac = new HashSet();
@@ -91,30 +89,7 @@ public final class zaar extends GoogleApiClient implements zabn {
     }
 
     private static String zab(int i) {
-        return i != 1 ? i != 2 ? i != 3 ? GrsBaseInfo.CountryCodeSource.UNKNOWN : "SIGN_IN_MODE_NONE" : "SIGN_IN_MODE_OPTIONAL" : "SIGN_IN_MODE_REQUIRED";
-    }
-
-    @Override // com.google.android.gms.common.api.GoogleApiClient
-    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T enqueue(T t) {
-        Api<?> api = t.getApi();
-        boolean containsKey = this.zab.containsKey(t.getClientKey());
-        String zad = api != null ? api.zad() : "the API";
-        StringBuilder sb = new StringBuilder(String.valueOf(zad).length() + 65);
-        sb.append("GoogleApiClient is not configured to use ");
-        sb.append(zad);
-        sb.append(" required for this call.");
-        Preconditions.checkArgument(containsKey, sb.toString());
-        this.zaf.lock();
-        try {
-            zabo zaboVar = this.zah;
-            if (zaboVar == null) {
-                this.zaa.add(t);
-                return t;
-            }
-            return (T) zaboVar.zaa((zabo) t);
-        } finally {
-            this.zaf.unlock();
-        }
+        return i != 1 ? i != 2 ? i != 3 ? "UNKNOWN" : "SIGN_IN_MODE_NONE" : "SIGN_IN_MODE_OPTIONAL" : "SIGN_IN_MODE_REQUIRED";
     }
 
     @Override // com.google.android.gms.common.api.GoogleApiClient
@@ -146,13 +121,6 @@ public final class zaar extends GoogleApiClient implements zabn {
         } finally {
             this.zaf.unlock();
         }
-    }
-
-    @Override // com.google.android.gms.common.api.GoogleApiClient
-    public final <C extends Api.Client> C getClient(Api.AnyClientKey<C> anyClientKey) {
-        C c = (C) this.zab.get(anyClientKey);
-        Preconditions.checkNotNull(c, "Appropriate Api was not requested.");
-        return c;
     }
 
     @Override // com.google.android.gms.common.api.GoogleApiClient
@@ -374,11 +342,6 @@ public final class zaar extends GoogleApiClient implements zabn {
         if (i == 2) {
             zad();
         }
-    }
-
-    @Override // com.google.android.gms.common.api.GoogleApiClient
-    public final Context getContext() {
-        return this.zaj;
     }
 
     @Override // com.google.android.gms.common.api.GoogleApiClient

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
@@ -688,7 +688,9 @@ public class ColorPicker extends FrameLayout {
         while (true) {
             RadioButton[] radioButtonArr = this.radioButton;
             if (i4 < radioButtonArr.length) {
-                boolean z2 = radioButtonArr[i4].getTag(R.id.index_tag) != null;
+                RadioButton radioButton = radioButtonArr[i4];
+                int i6 = R.id.index_tag;
+                boolean z2 = radioButton.getTag(i6) != null;
                 if (i4 < this.colorsCount) {
                     this.radioButton[i4].setVisibility(0);
                     if (arrayList != null) {
@@ -711,7 +713,7 @@ public class ColorPicker extends FrameLayout {
                         }
                         this.radioButton[i4].setTranslationX(i5);
                     }
-                    this.radioButton[i4].setTag(R.id.index_tag, 1);
+                    this.radioButton[i4].setTag(i6, 1);
                 } else {
                     if (arrayList == null) {
                         this.radioButton[i4].setVisibility(4);
@@ -728,7 +730,7 @@ public class ColorPicker extends FrameLayout {
                     if (!z) {
                         this.radioButton[i4].setTranslationX(i5);
                     }
-                    this.radioButton[i4].setTag(R.id.index_tag, null);
+                    this.radioButton[i4].setTag(i6, null);
                 }
                 i5 += AndroidUtilities.dp(30.0f) + AndroidUtilities.dp(13.0f);
                 i4++;

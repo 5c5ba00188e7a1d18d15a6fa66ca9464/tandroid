@@ -34,7 +34,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.internal.mlkit_language_id.zzdp$$ExternalSyntheticBackport0;
-import com.huawei.hms.framework.common.ContainerUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -50,9 +49,9 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.time.SunDate;
 import org.telegram.tgnet.TLRPC$TL_theme;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -981,7 +980,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         if (i == 3) {
             this.actionBar.setTitle(LocaleController.getString("BrowseThemes", R.string.BrowseThemes));
             ActionBarMenu createMenu = this.actionBar.createMenu();
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun, "2131558561", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+            int i2 = R.raw.sun;
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
             this.sunDrawable = rLottieDrawable;
             if (this.lastIsDarkTheme) {
                 rLottieDrawable.setCurrentFrame(rLottieDrawable.getFramesCount() - 1);
@@ -1016,18 +1016,18 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
-                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
+            public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i2, f, f2);
+            public /* synthetic */ void onDoubleTap(View view, int i3, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i3, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view, int i2, float f, float f2) {
-                ThemeActivity.this.lambda$createView$5(view, i2, f, f2);
+            public final void onItemClick(View view, int i3, float f, float f2) {
+                ThemeActivity.this.lambda$createView$5(view, i3, f, f2);
             }
         });
         return this.fragmentView;
@@ -1039,8 +1039,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         1() {
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:53:0x015a  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x015f  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0156  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x015b  */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1886,8 +1886,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         str = LocaleController.getString("Delete", R.string.Delete);
                     }
                     charSequenceArr2[4] = str;
-                    iArr = new int[]{R.drawable.msg_share, R.drawable.msg_shareout, R.drawable.msg_edit, R.drawable.msg_link, R.drawable.msg_delete};
                     z = z2;
+                    iArr = new int[]{R.drawable.msg_share, R.drawable.msg_shareout, R.drawable.msg_edit, R.drawable.msg_link, R.drawable.msg_delete};
                     charSequenceArr = charSequenceArr2;
                 }
                 builder.setItems(charSequenceArr, iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda2
@@ -1908,7 +1908,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Removed duplicated region for block: B:36:0x0106  */
         /* JADX WARN: Removed duplicated region for block: B:41:0x0129 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x012a A[Catch: Exception -> 0x0176, TRY_LEAVE, TryCatch #4 {Exception -> 0x0176, blocks: (B:39:0x0123, B:42:0x012a, B:46:0x0160, B:45:0x0159, B:52:0x0151, B:50:0x013e), top: B:38:0x0123, inners: #7 }] */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x012a A[Catch: Exception -> 0x0188, TRY_LEAVE, TryCatch #3 {Exception -> 0x0188, blocks: (B:39:0x0123, B:42:0x012a, B:46:0x0173, B:45:0x016c, B:52:0x0164, B:50:0x013e), top: B:38:0x0123, inners: #6 }] */
         /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:71:0x00dd -> B:29:0x00fc). Please submit an issue!!! */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1935,7 +1935,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     StringBuilder sb = new StringBuilder();
                     for (Map.Entry<String, Integer> entry : Theme.getDefaultColors().entrySet()) {
                         sb.append(entry.getKey());
-                        sb.append(ContainerUtils.KEY_VALUE_DELIMITER);
+                        sb.append("=");
                         sb.append(entry.getValue());
                         sb.append("\n");
                     }
@@ -2002,7 +2002,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     intent.setType("text/xml");
                     if (Build.VERSION.SDK_INT >= 24) {
                         try {
-                            intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(ThemeActivity.this.getParentActivity(), "org.telegram.messenger.beta.provider", file2));
+                            intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(ThemeActivity.this.getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", file2));
                             intent.setFlags(1);
                         } catch (Exception unused) {
                             intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(file2));
@@ -2204,7 +2204,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     break;
                 case 2:
                     View textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     themePreviewMessagesCell = textInfoPrivacyCell;
                     break;
                 case 3:
@@ -2364,7 +2364,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 case 19:
                     themePreviewMessagesCell = new RadioButtonCell(this.mContext);
                     break;
-                case org.telegram.messenger.R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     Context context2 = this.mContext;
                     ThemeActivity themeActivity2 = ThemeActivity.this;
                     themePreviewMessagesCell = new AppIconsSelectorCell(context2, themeActivity2, ((BaseFragment) themeActivity2).currentAccount);
@@ -2449,10 +2449,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     }
                 case 3:
                     if ((i == ThemeActivity.this.nightTypeInfoRow && ThemeActivity.this.themeInfoRow == -1) || ((i == ThemeActivity.this.themeInfoRow && ThemeActivity.this.nightTypeInfoRow != -1) || i == ThemeActivity.this.saveToGallerySectionRow)) {
-                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                         return;
                     } else {
-                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                         return;
                     }
                 case 4:
@@ -2513,7 +2513,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                                                         if (i != ThemeActivity.this.appIconHeaderRow) {
                                                             return;
                                                         }
-                                                        headerCell.setText(LocaleController.getString((int) R.string.AppIcon));
+                                                        headerCell.setText(LocaleController.getString(R.string.AppIcon));
                                                         return;
                                                     }
                                                     headerCell.setText(LocaleController.getString("SelectTheme", R.string.SelectTheme));

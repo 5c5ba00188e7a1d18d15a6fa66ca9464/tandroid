@@ -46,9 +46,9 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.ResultCallback;
@@ -94,7 +94,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     private final TextView titleView;
     private int prevSelectedPosition = -1;
     private final boolean originalIsDark = Theme.getActiveTheme().isDark();
-    private boolean forceDark = !Theme.getActiveTheme().isDark();
+    private boolean forceDark = Theme.getActiveTheme().isDark() ^ true;
     private final LinearSmoothScroller scroller = new LinearSmoothScroller(this, getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.2
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.recyclerview.widget.LinearSmoothScroller
@@ -132,7 +132,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         this.rootLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 8388659, 0.0f, 0.0f, 62.0f, 0.0f));
         int themedColor = getThemedColor("featuredStickers_addButton");
         int dp = AndroidUtilities.dp(28.0f);
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun_outline, "2131558562", dp, dp, false, null);
+        int i2 = R.raw.sun_outline;
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(i2, "" + i2, dp, dp, false, null);
         this.darkThemeDrawable = rLottieDrawable;
         setForceDark(Theme.getActiveTheme().isDark(), false);
         rLottieDrawable.setAllowDecodeSingleFrame(true);
@@ -173,8 +174,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         recyclerListView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
         recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                ChatThemeBottomSheet.this.lambda$new$1(themeDelegate, view, i2);
+            public final void onItemClick(View view, int i3) {
+                ChatThemeBottomSheet.this.lambda$new$1(themeDelegate, view, i3);
             }
         });
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(getContext(), this.resourcesProvider);

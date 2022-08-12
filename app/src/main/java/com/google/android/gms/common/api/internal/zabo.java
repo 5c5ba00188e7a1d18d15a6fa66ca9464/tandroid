@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public interface zabo {
-    <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T zaa(T t);
-
     void zaa();
 
     void zaa(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr);

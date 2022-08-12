@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
-import com.huawei.hms.adapter.internal.AvailableCode;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -9,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.telegram.messenger.CharacterCompat;
-import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
@@ -777,18 +775,18 @@ public final class zzko<T> implements zzlc<T> {
                         break;
                     case 18:
                     case 19:
-                    case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                    case 20:
                     case 21:
-                    case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                    case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                    case 22:
+                    case 23:
                     case 24:
-                    case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
-                    case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
-                    case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
-                    case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                    case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                    case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
-                    case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                    case 25:
+                    case 26:
+                    case 27:
+                    case 28:
+                    case 29:
+                    case 30:
+                    case 31:
                     case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                     case 33:
                     case 34:
@@ -960,18 +958,18 @@ public final class zzko<T> implements zzlc<T> {
                     break;
                 case 18:
                 case 19:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                 case 21:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 22:
+                case 23:
                 case 24:
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
-                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
                 case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                 case 33:
                 case 34:
@@ -1311,18 +1309,18 @@ public final class zzko<T> implements zzlc<T> {
                     break;
                 case 18:
                 case 19:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                 case 21:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 22:
+                case 23:
                 case 24:
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
-                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
                 case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                 case 33:
                 case 34:
@@ -1635,40 +1633,40 @@ public final class zzko<T> implements zzlc<T> {
                     case 19:
                         zzb3 = zzle.zzh(i8, zza(t, j2), false);
                         break;
-                    case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                    case 20:
                         zzb3 = zzle.zza(i8, (List<Long>) zza(t, j2), false);
                         break;
                     case 21:
                         zzb3 = zzle.zzb(i8, (List<Long>) zza(t, j2), false);
                         break;
-                    case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                    case 22:
                         zzb3 = zzle.zze(i8, zza(t, j2), false);
                         break;
-                    case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                    case 23:
                         zzb3 = zzle.zzi(i8, zza(t, j2), false);
                         break;
                     case 24:
                         zzb3 = zzle.zzh(i8, zza(t, j2), false);
                         break;
-                    case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                    case 25:
                         zzb3 = zzle.zzj(i8, zza(t, j2), false);
                         break;
-                    case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                    case 26:
                         zzb3 = zzle.zza(i8, zza(t, j2));
                         break;
-                    case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                    case 27:
                         zzb3 = zzle.zza(i8, zza(t, j2), zza(i5));
                         break;
-                    case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                    case 28:
                         zzb3 = zzle.zzb(i8, zza(t, j2));
                         break;
-                    case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                    case 29:
                         zzb3 = zzle.zzf(i8, zza(t, j2), false);
                         break;
-                    case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                    case 30:
                         zzb3 = zzle.zzd(i8, zza(t, j2), false);
                         break;
-                    case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                    case 31:
                         zzb3 = zzle.zzh(i8, zza(t, j2), false);
                         break;
                     case ConnectionsManager.RequestFlagForceDownload /* 32 */:
@@ -2233,7 +2231,7 @@ public final class zzko<T> implements zzlc<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     zzh = zzle.zza(i14, (List<Long>) unsafe2.getObject(t, j3), false);
                     i11 += zzh;
                     j = 0;
@@ -2247,14 +2245,14 @@ public final class zzko<T> implements zzlc<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                case 22:
                     zzh = zzle.zze(i14, (List) unsafe2.getObject(t, j3), false);
                     i11 += zzh;
                     j = 0;
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 23:
                     zzh = zzle.zzi(i14, (List) unsafe2.getObject(t, j3), false);
                     i11 += zzh;
                     j = 0;
@@ -2268,49 +2266,49 @@ public final class zzko<T> implements zzlc<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                case 25:
                     zzh = zzle.zzj(i14, (List) unsafe2.getObject(t, j3), false);
                     i11 += zzh;
                     j = 0;
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                case 26:
                     zzb2 = zzle.zza(i14, (List) unsafe2.getObject(t, j3));
                     i11 += zzb2;
                     j = 0;
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                case 27:
                     zzb2 = zzle.zza(i14, (List<?>) unsafe2.getObject(t, j3), zza(i10));
                     i11 += zzb2;
                     j = 0;
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                case 28:
                     zzb2 = zzle.zzb(i14, (List) unsafe2.getObject(t, j3));
                     i11 += zzb2;
                     j = 0;
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                case 29:
                     zzb2 = zzle.zzf(i14, (List) unsafe2.getObject(t, j3), false);
                     i11 += zzb2;
                     j = 0;
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                case 30:
                     zzh = zzle.zzd(i14, (List) unsafe2.getObject(t, j3), false);
                     i11 += zzh;
                     j = 0;
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                case 31:
                     zzh = zzle.zzh(i14, (List) unsafe2.getObject(t, j3), false);
                     i11 += zzh;
                     j = 0;
@@ -2884,40 +2882,40 @@ public final class zzko<T> implements zzlc<T> {
                             case 19:
                                 zzle.zzb(this.zzc[length2], (List<Float>) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                            case 20:
                                 zzle.zzc(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
                             case 21:
                                 zzle.zzd(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                            case 22:
                                 zzle.zzh(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                            case 23:
                                 zzle.zzf(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
                             case 24:
                                 zzle.zzk(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                            case 25:
                                 zzle.zzn(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                            case 26:
                                 zzle.zza(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar);
                                 break;
-                            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                            case 27:
                                 zzle.zza(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, zza(length2));
                                 break;
-                            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                            case 28:
                                 zzle.zzb(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar);
                                 break;
-                            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                            case 29:
                                 zzle.zzi(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                            case 30:
                                 zzle.zzm(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                            case 31:
                                 zzle.zzl(this.zzc[length2], (List) zzma.zzf(t, zzd & 1048575), zzmrVar, false);
                                 break;
                             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
@@ -3264,40 +3262,40 @@ public final class zzko<T> implements zzlc<T> {
                             case 19:
                                 zzle.zzb(this.zzc[i], (List<Float>) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                            case 20:
                                 zzle.zzc(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
                             case 21:
                                 zzle.zzd(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                            case 22:
                                 zzle.zzh(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                            case 23:
                                 zzle.zzf(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
                             case 24:
                                 zzle.zzk(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                            case 25:
                                 zzle.zzn(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                            case 26:
                                 zzle.zza(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar);
                                 break;
-                            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                            case 27:
                                 zzle.zza(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, zza(i));
                                 break;
-                            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                            case 28:
                                 zzle.zzb(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar);
                                 break;
-                            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                            case 29:
                                 zzle.zzi(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                            case 30:
                                 zzle.zzm(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
-                            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                            case 31:
                                 zzle.zzl(this.zzc[i], (List) zzma.zzf(t, zzd2 & 1048575), zzmrVar, false);
                                 break;
                             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
@@ -3660,40 +3658,40 @@ public final class zzko<T> implements zzlc<T> {
                         case 19:
                             zzle.zzb(this.zzc[i], (List<Float>) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                        case 20:
                             zzle.zzc(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
                         case 21:
                             zzle.zzd(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                        case 22:
                             zzle.zzh(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                        case 23:
                             zzle.zzf(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
                         case 24:
                             zzle.zzk(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                        case 25:
                             zzle.zzn(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                        case 26:
                             zzle.zza(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar);
                             break;
-                        case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                        case 27:
                             zzle.zza(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, zza(i));
                             break;
-                        case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                        case 28:
                             zzle.zzb(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar);
                             break;
-                        case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                        case 29:
                             zzle.zzi(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                        case 30:
                             zzle.zzm(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
-                        case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                        case 31:
                             zzle.zzl(this.zzc[i], (List) unsafe.getObject(t, j), zzmrVar, false);
                             break;
                         case ConnectionsManager.RequestFlagForceDownload /* 32 */:
@@ -3987,7 +3985,7 @@ public final class zzko<T> implements zzlc<T> {
                     }
                 }
                 return i9;
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
             case 21:
             case 37:
             case 38:
@@ -4019,8 +4017,8 @@ public final class zzko<T> implements zzlc<T> {
                     return zzb2;
                 }
                 return i9;
-            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+            case 22:
+            case 29:
             case 39:
             case 43:
                 if (i5 == 2) {
@@ -4030,7 +4028,7 @@ public final class zzko<T> implements zzlc<T> {
                     return zzhl.zza(i3, bArr, i, i2, zzjlVar, zzhnVar);
                 }
                 return i9;
-            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+            case 23:
             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
             case 40:
             case 46:
@@ -4064,7 +4062,7 @@ public final class zzko<T> implements zzlc<T> {
                 }
                 return i9;
             case 24:
-            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+            case 31:
             case 41:
             case 45:
                 if (i5 == 2) {
@@ -4096,7 +4094,7 @@ public final class zzko<T> implements zzlc<T> {
                     }
                 }
                 return i9;
-            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+            case 25:
             case 42:
                 if (i5 == 2) {
                     zzhr zzhrVar = (zzhr) zzjlVar;
@@ -4124,7 +4122,7 @@ public final class zzko<T> implements zzlc<T> {
                     }
                 }
                 return i9;
-            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+            case 26:
                 if (i5 == 2) {
                     if ((j & 536870912) == 0) {
                         i9 = zzhl.zza(bArr, i9, zzhnVar);
@@ -4201,12 +4199,12 @@ public final class zzko<T> implements zzlc<T> {
                     }
                 }
                 return i9;
-            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+            case 27:
                 if (i5 == 2) {
                     return zzhl.zza(zza(i6), i3, bArr, i, i2, zzjlVar, zzhnVar);
                 }
                 return i9;
-            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+            case 28:
                 if (i5 == 2) {
                     int zza12 = zzhl.zza(bArr, i9, zzhnVar);
                     int i23 = zzhnVar.zza;
@@ -4249,7 +4247,7 @@ public final class zzko<T> implements zzlc<T> {
                     return zza12;
                 }
                 return i9;
-            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+            case 30:
             case 44:
                 if (i5 != 2) {
                     if (i5 == 0) {

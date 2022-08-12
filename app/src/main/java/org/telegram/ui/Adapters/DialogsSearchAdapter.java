@@ -31,10 +31,10 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -1263,23 +1263,23 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return new RecyclerListView.Holder(recyclerListView);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:147:0x035d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:147:0x0355, code lost:
         if (r6.startsWith("@" + r4.username) != false) goto L148;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x0367  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0434  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x043f  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x045c  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x0479  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x047b  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x045e  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x035f  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0436  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0453  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0470  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0472  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0455  */
     /* JADX WARN: Type inference failed for: r2v20, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v23, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v24 */
     /* JADX WARN: Type inference failed for: r2v4 */
     /* JADX WARN: Type inference failed for: r2v5 */
-    /* JADX WARN: Type inference failed for: r2v50 */
+    /* JADX WARN: Type inference failed for: r2v52 */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1661,7 +1661,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         this.lastShowMoreUpdate = elapsedRealtime;
         int size = arrayList.isEmpty() ? 0 : arrayList.size();
-        boolean z = getItemCount() > (Math.min(size, this.globalSearchCollapsed ? 4 : Integer.MAX_VALUE) + i) + 1;
+        boolean z = getItemCount() > (Math.min(size, this.globalSearchCollapsed ? 4 : ConnectionsManager.DEFAULT_DATACENTER_ID) + i) + 1;
         DefaultItemAnimator defaultItemAnimator = this.itemAnimator;
         if (defaultItemAnimator != null) {
             long j = 200;

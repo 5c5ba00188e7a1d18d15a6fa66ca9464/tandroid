@@ -1,6 +1,5 @@
 package j$.util.concurrent;
 
-import com.huawei.hms.framework.common.ContainerUtils;
 import j$.util.Iterator;
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
@@ -32,6 +31,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Stream;
+import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* loaded from: classes2.dex */
 public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable, j$.util.concurrent.b {
@@ -667,7 +667,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         public String toString() {
-            return this.a + ContainerUtils.KEY_VALUE_DELIMITER + this.b;
+            return this.a + "=" + this.b;
         }
     }
 
@@ -729,7 +729,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
 
         public final String toString() {
-            return this.b + ContainerUtils.KEY_VALUE_DELIMITER + this.c;
+            return this.b + "=" + this.c;
         }
     }
 
@@ -2005,7 +2005,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     static final int l(int i2) {
-        return (i2 ^ (i2 >>> 16)) & Integer.MAX_VALUE;
+        return (i2 ^ (i2 >>> 16)) & ConnectionsManager.DEFAULT_DATACENTER_ID;
     }
 
     static final l n(l[] lVarArr, int i2) {
@@ -2055,7 +2055,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 concurrentHashMap.transferIndex = length;
                 lVarArr3 = lVarArr5;
             } catch (Throwable unused) {
-                concurrentHashMap.sizeCtl = Integer.MAX_VALUE;
+                concurrentHashMap.sizeCtl = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 return;
             }
         } else {
@@ -3401,10 +3401,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         if (m2 < 0) {
             return 0;
         }
-        if (m2 <= 2147483647L) {
-            return (int) m2;
-        }
-        return Integer.MAX_VALUE;
+        return m2 > 2147483647L ? ConnectionsManager.DEFAULT_DATACENTER_ID : (int) m2;
     }
 
     @Override // java.util.AbstractMap

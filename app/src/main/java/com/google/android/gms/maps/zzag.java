@@ -80,4 +80,53 @@ final class zzag implements LifecycleDelegate {
             throw new RuntimeRemoteException(e);
         }
     }
+
+    @Override // com.google.android.gms.dynamic.LifecycleDelegate
+    public final void onStart() {
+        try {
+            this.zzb.onStart();
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    @Override // com.google.android.gms.dynamic.LifecycleDelegate
+    public final void onStop() {
+        try {
+            this.zzb.onStop();
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    public final void zzb() {
+        try {
+            this.zzb.onExitAmbient();
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    @Override // com.google.android.gms.dynamic.LifecycleDelegate
+    public final void onSaveInstanceState(Bundle bundle) {
+        try {
+            Bundle bundle2 = new Bundle();
+            zzbz.zza(bundle, bundle2);
+            this.zzb.onSaveInstanceState(bundle2);
+            zzbz.zza(bundle2, bundle);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    public final void zza(Bundle bundle) {
+        try {
+            Bundle bundle2 = new Bundle();
+            zzbz.zza(bundle, bundle2);
+            this.zzb.onEnterAmbient(bundle2);
+            zzbz.zza(bundle2, bundle);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
 }

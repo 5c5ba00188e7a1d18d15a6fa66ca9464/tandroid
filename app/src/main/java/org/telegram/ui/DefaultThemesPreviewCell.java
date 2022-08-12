@@ -24,7 +24,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$TL_theme;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.EmojiThemes;
@@ -97,7 +97,8 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         recyclerListView.setEmptyView(flickerLoadingView);
         recyclerListView.setAnimateEmptyView(true, 0);
         if (this.currentType == 0) {
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun_outline, "2131558562", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+            int i3 = R.raw.sun_outline;
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
             this.darkThemeDrawable = rLottieDrawable;
             rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
             this.darkThemeDrawable.beginApplyLayerColors();
@@ -142,11 +143,11 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         updateDayNightMode();
         updateSelectedPosition();
         updateColors();
-        int i3 = this.selectedPosition;
-        if (i3 < 0 || (linearLayoutManager = this.layoutManager) == null) {
+        int i4 = this.selectedPosition;
+        if (i4 < 0 || (linearLayoutManager = this.layoutManager) == null) {
             return;
         }
-        linearLayoutManager.scrollToPositionWithOffset(i3, AndroidUtilities.dp(16.0f));
+        linearLayoutManager.scrollToPositionWithOffset(i4, AndroidUtilities.dp(16.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

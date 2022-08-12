@@ -10,10 +10,6 @@ import com.google.android.gms.internal.location.zzc;
 /* compiled from: com.google.android.gms:play-services-location@@18.0.0 */
 /* loaded from: classes.dex */
 public abstract class zzbc extends zzb implements zzbd {
-    public zzbc() {
-        super("com.google.android.gms.location.ILocationListener");
-    }
-
     public static zzbd zzb(IBinder iBinder) {
         IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.location.ILocationListener");
         if (queryLocalInterface instanceof zzbd) {

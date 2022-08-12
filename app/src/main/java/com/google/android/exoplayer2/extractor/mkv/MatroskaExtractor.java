@@ -24,8 +24,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.AvcConfig;
 import com.google.android.exoplayer2.video.ColorInfo;
 import com.google.android.exoplayer2.video.HevcConfig;
-import com.huawei.hms.adapter.internal.AvailableCode;
-import com.huawei.hms.support.api.entity.core.JosStatusCodes;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -36,7 +34,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
@@ -1457,7 +1454,7 @@ public class MatroskaExtractor implements Extractor {
             this.minMasteringLuminance = -1.0f;
             this.channelCount = 1;
             this.audioBitDepth = -1;
-            this.sampleRate = JosStatusCodes.RTN_CODE_COMMON_ERROR;
+            this.sampleRate = 8000;
             this.codecDelayNs = 0L;
             this.seekPreRollNs = 0L;
             this.flagDefault = true;
@@ -1843,14 +1840,14 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     str2 = "video/x-unknown";
                     str5 = str2;
                     singletonList = null;
                     i2 = -1;
                     i3 = -1;
                     break;
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                case 22:
                     pcmEncoding = Util.getPcmEncoding(this.audioBitDepth);
                     if (pcmEncoding == 0) {
                         Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to " + str5);
@@ -1863,7 +1860,7 @@ public class MatroskaExtractor implements Extractor {
                     str5 = "audio/raw";
                     singletonList = null;
                     i3 = -1;
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 23:
                     str5 = "text/x-ssa";
                     singletonList = null;
                     i2 = -1;
@@ -1879,34 +1876,34 @@ public class MatroskaExtractor implements Extractor {
                     i2 = -1;
                     i3 = -1;
                     break;
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                case 25:
                     str5 = "application/x-subrip";
                     singletonList = null;
                     i2 = -1;
                     i3 = -1;
                     break;
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                case 26:
                     str2 = "video/mpeg2";
                     str5 = str2;
                     singletonList = null;
                     i2 = -1;
                     i3 = -1;
                     break;
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                case 27:
                     str2 = "audio/eac3";
                     str5 = str2;
                     singletonList = null;
                     i2 = -1;
                     i3 = -1;
                     break;
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                case 28:
                     singletonList = Collections.singletonList(this.codecPrivate);
                     str = "audio/flac";
                     str5 = str;
                     i2 = -1;
                     i3 = -1;
                     break;
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                case 29:
                     singletonList = new ArrayList<>(3);
                     singletonList.add(this.codecPrivate);
                     ByteBuffer allocate = ByteBuffer.allocate(8);

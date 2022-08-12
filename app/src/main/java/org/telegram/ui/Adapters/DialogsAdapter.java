@@ -29,9 +29,9 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -510,7 +510,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                 };
                 frameLayout.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
                 View view = new View(this.mContext);
-                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                view.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                 frameLayout.addView(view, LayoutHelper.createFrame(-1, -1.0f));
                 dialogCell = frameLayout;
                 break;
@@ -529,7 +529,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                 break;
             case 8:
                 shadowSectionCell = new ShadowSectionCell(this.mContext);
-                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                 combinedDrawable.setFullsize(true);
                 shadowSectionCell.setBackgroundDrawable(combinedDrawable);
                 dialogCell = shadowSectionCell;
@@ -592,7 +592,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                         }
                     }
                 };
-                CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                 combinedDrawable2.setFullsize(true);
                 shadowSectionCell.setBackgroundDrawable(combinedDrawable2);
                 dialogCell = shadowSectionCell;
@@ -766,10 +766,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
             TextCell textCell = (TextCell) viewHolder.itemView;
             textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
             String string = LocaleController.getString("CreateGroupForImport", R.string.CreateGroupForImport);
+            int i10 = R.drawable.msg_groups_create;
             if (this.dialogsCount != 0) {
                 z = true;
             }
-            textCell.setTextAndIcon(string, R.drawable.msg_groups_create, z);
+            textCell.setTextAndIcon(string, i10, z);
             textCell.setIsInDialogs();
             textCell.setOffsetFromImage(75);
         }

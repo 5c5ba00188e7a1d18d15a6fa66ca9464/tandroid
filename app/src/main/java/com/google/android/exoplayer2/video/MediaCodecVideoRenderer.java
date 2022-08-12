@@ -34,14 +34,11 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
-import com.huawei.hms.adapter.internal.AvailableCode;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
@@ -798,14 +795,14 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
-    @TargetApi(AvailableCode.HMS_IS_SPOOF)
+    @TargetApi(29)
     private static void setHdr10PlusInfoV29(MediaCodec mediaCodec, byte[] bArr) {
         Bundle bundle = new Bundle();
         bundle.putByteArray("hdr10-plus-info", bArr);
         mediaCodec.setParameters(bundle);
     }
 
-    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     private static void setOutputSurfaceV23(MediaCodec mediaCodec, Surface surface) {
         mediaCodec.setOutputSurface(surface);
     }
@@ -834,7 +831,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         mediaFormat.setInteger("max-height", codecMaxValues.height);
         MediaFormatUtil.maybeSetInteger(mediaFormat, "max-input-size", codecMaxValues.inputSize);
         if (Util.SDK_INT >= 23) {
-            mediaFormat.setInteger(RemoteMessageConst.Notification.PRIORITY, 0);
+            mediaFormat.setInteger("priority", 0);
             if (f != -1.0f) {
                 mediaFormat.setFloat("operating-rate", f);
             }
@@ -1024,7 +1021,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return "NVIDIA".equals(Util.MANUFACTURER);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0655 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0653 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1951,18 +1948,18 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 17:
                             case 18:
                             case 19:
-                            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                            case 20:
                             case 21:
-                            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                            case 22:
+                            case 23:
                             case 24:
-                            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
-                            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
-                            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
-                            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                            case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
-                            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                            case 25:
+                            case 26:
+                            case 27:
+                            case 28:
+                            case 29:
+                            case 30:
+                            case 31:
                             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                             case '!':
                             case '\"':
@@ -2118,7 +2115,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     /* loaded from: classes.dex */
     public final class OnFrameRenderedListenerV23 implements MediaCodec.OnFrameRenderedListener, Handler.Callback {
         private final Handler handler;

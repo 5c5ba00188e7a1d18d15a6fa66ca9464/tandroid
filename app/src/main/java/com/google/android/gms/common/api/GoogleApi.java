@@ -14,7 +14,9 @@ import com.google.android.gms.common.api.internal.ApiExceptionMapper;
 import com.google.android.gms.common.api.internal.ApiKey;
 import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
+import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.api.internal.NonGmsServiceBrokerClient;
+import com.google.android.gms.common.api.internal.RegistrationMethods;
 import com.google.android.gms.common.api.internal.StatusExceptionMapper;
 import com.google.android.gms.common.api.internal.TaskApiCall;
 import com.google.android.gms.common.api.internal.zabl;
@@ -123,11 +125,6 @@ public class GoogleApi<O extends Api.ApiOptions> {
     }
 
     @RecentlyNonNull
-    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T doRead(@RecentlyNonNull T t) {
-        return (T) zaa(0, (int) t);
-    }
-
-    @RecentlyNonNull
     public <TResult, A extends Api.AnyClient> Task<TResult> doRead(@RecentlyNonNull TaskApiCall<A, TResult> taskApiCall) {
         return zaa(0, taskApiCall);
     }
@@ -150,6 +147,25 @@ public class GoogleApi<O extends Api.ApiOptions> {
     @RecentlyNonNull
     public <TResult, A extends Api.AnyClient> Task<TResult> doBestEffortWrite(@RecentlyNonNull TaskApiCall<A, TResult> taskApiCall) {
         return zaa(2, taskApiCall);
+    }
+
+    @RecentlyNonNull
+    public <A extends Api.AnyClient> Task<Void> doRegisterEventListener(@RecentlyNonNull RegistrationMethods<A, ?> registrationMethods) {
+        Preconditions.checkNotNull(registrationMethods);
+        Preconditions.checkNotNull(registrationMethods.register.getListenerKey(), "Listener has already been released.");
+        Preconditions.checkNotNull(registrationMethods.zaa.getListenerKey(), "Listener has already been released.");
+        return this.zaj.zaa(this, registrationMethods.register, registrationMethods.zaa, registrationMethods.zab);
+    }
+
+    @RecentlyNonNull
+    public Task<Boolean> doUnregisterEventListener(@RecentlyNonNull ListenerHolder.ListenerKey<?> listenerKey) {
+        return doUnregisterEventListener(listenerKey, 0);
+    }
+
+    @RecentlyNonNull
+    public Task<Boolean> doUnregisterEventListener(@RecentlyNonNull ListenerHolder.ListenerKey<?> listenerKey, int i) {
+        Preconditions.checkNotNull(listenerKey, "Listener key cannot be null.");
+        return this.zaj.zaa(this, listenerKey, i);
     }
 
     public final Api.Client zaa(Looper looper, GoogleApiManager.zaa<O> zaaVar) {
@@ -188,8 +204,9 @@ public class GoogleApi<O extends Api.ApiOptions> {
         return this.zaa;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @RecentlyNullable
-    protected String getContextAttributionTag() {
+    public String getContextAttributionTag() {
         return this.zab;
     }
 

@@ -17,9 +17,19 @@ public interface IMapViewDelegate extends IInterface {
 
     void onDestroy() throws RemoteException;
 
+    void onEnterAmbient(@RecentlyNonNull Bundle bundle) throws RemoteException;
+
+    void onExitAmbient() throws RemoteException;
+
     void onLowMemory() throws RemoteException;
 
     void onPause() throws RemoteException;
 
     void onResume() throws RemoteException;
+
+    void onSaveInstanceState(@RecentlyNonNull Bundle bundle) throws RemoteException;
+
+    void onStart() throws RemoteException;
+
+    void onStop() throws RemoteException;
 }

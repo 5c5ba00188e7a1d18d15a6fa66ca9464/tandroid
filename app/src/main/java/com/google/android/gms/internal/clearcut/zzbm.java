@@ -1,4 +1,6 @@
 package com.google.android.gms.internal.clearcut;
+
+import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzbm extends zzbk {
@@ -10,7 +12,7 @@ public final class zzbm extends zzbk {
 
     private zzbm(byte[] bArr, int i, int i2, boolean z) {
         super();
-        this.zzfx = Integer.MAX_VALUE;
+        this.zzfx = ConnectionsManager.DEFAULT_DATACENTER_ID;
         this.limit = i2 + i;
         this.pos = i;
         this.zzfw = i;

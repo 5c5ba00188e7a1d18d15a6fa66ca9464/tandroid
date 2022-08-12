@@ -41,6 +41,18 @@ public final class zzl extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.IMapViewDelegate
+    public final void onEnterAmbient(Bundle bundle) throws RemoteException {
+        Parcel zza = zza();
+        com.google.android.gms.internal.maps.zzc.zzd(zza, bundle);
+        zzc(10, zza);
+    }
+
+    @Override // com.google.android.gms.maps.internal.IMapViewDelegate
+    public final void onExitAmbient() throws RemoteException {
+        zzc(11, zza());
+    }
+
+    @Override // com.google.android.gms.maps.internal.IMapViewDelegate
     public final void onLowMemory() throws RemoteException {
         zzc(6, zza());
     }
@@ -53,5 +65,26 @@ public final class zzl extends com.google.android.gms.internal.maps.zza implemen
     @Override // com.google.android.gms.maps.internal.IMapViewDelegate
     public final void onResume() throws RemoteException {
         zzc(3, zza());
+    }
+
+    @Override // com.google.android.gms.maps.internal.IMapViewDelegate
+    public final void onSaveInstanceState(Bundle bundle) throws RemoteException {
+        Parcel zza = zza();
+        com.google.android.gms.internal.maps.zzc.zzd(zza, bundle);
+        Parcel zzH = zzH(7, zza);
+        if (zzH.readInt() != 0) {
+            bundle.readFromParcel(zzH);
+        }
+        zzH.recycle();
+    }
+
+    @Override // com.google.android.gms.maps.internal.IMapViewDelegate
+    public final void onStart() throws RemoteException {
+        zzc(12, zza());
+    }
+
+    @Override // com.google.android.gms.maps.internal.IMapViewDelegate
+    public final void onStop() throws RemoteException {
+        zzc(13, zza());
     }
 }

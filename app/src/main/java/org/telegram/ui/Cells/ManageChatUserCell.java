@@ -12,9 +12,9 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
@@ -251,7 +251,7 @@ public class ManageChatUserCell extends FrameLayout {
         this.dividerColor = str;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x0190, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x018d, code lost:
         if (r12.equals(r6) == false) goto L105;
      */
     /* JADX WARN: Code restructure failed: missing block: B:35:0x0067, code lost:

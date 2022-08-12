@@ -21,8 +21,8 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
@@ -54,13 +54,13 @@ public class GroupCreateSpan extends View {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0097, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0096, code lost:
         if (r1.equals("non_contacts") != false) goto L8;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x025f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0210  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0218  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

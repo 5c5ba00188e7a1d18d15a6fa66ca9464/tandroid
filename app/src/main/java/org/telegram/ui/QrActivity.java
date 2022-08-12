@@ -60,9 +60,9 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_error;
@@ -709,7 +709,7 @@ public class QrActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onItemSelected$7() {
-        final Bitmap bitmap = SvgHelper.getBitmap((int) R.raw.default_pattern, this.backgroundView.getWidth(), this.backgroundView.getHeight(), -16777216);
+        final Bitmap bitmap = SvgHelper.getBitmap(R.raw.default_pattern, this.backgroundView.getWidth(), this.backgroundView.getHeight(), -16777216);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.QrActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
@@ -980,38 +980,38 @@ public class QrActivity extends BaseFragment {
             this.gradientDrawable.posAnimationProgress = f;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x010c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x0109, code lost:
             if (r9 <= r5) goto L68;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:31:0x010e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:31:0x010b, code lost:
             r6 = 2;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x0111, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x010e, code lost:
             if (r6 <= 1) goto L67;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:33:0x0113, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x0110, code lost:
             r10 = (((int) (r7.getBounds().width() + r9)) / 2) + org.telegram.messenger.AndroidUtilities.dp(2.0f);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x0127, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x0124, code lost:
             if (r10 <= r5) goto L66;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x0129, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x0126, code lost:
             r7 = (((int) (r9 + r7.getBounds().width())) / 3) + org.telegram.messenger.AndroidUtilities.dp(4.0f);
             r20 = 3;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:36:0x0141, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x013e, code lost:
             r3 = 3;
             r23 = 0;
             r5 = org.telegram.ui.Components.StaticLayoutEx.createStaticLayout(r8, r15, r7, android.text.Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, null, java.lang.Math.min(org.telegram.messenger.AndroidUtilities.dp(10.0f) + r7, r33.contentBitmap.getWidth()), r20);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:66:0x013e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:66:0x013b, code lost:
             r20 = r6;
             r7 = r10;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:67:0x0126, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:67:0x0123, code lost:
             r10 = r5;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:68:0x0110, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:68:0x010d, code lost:
             r6 = 1;
          */
         /*
@@ -1156,7 +1156,7 @@ public class QrActivity extends BaseFragment {
         private final Window window;
         private final Paint backgroundPaint = new Paint(1);
         public int prevSelectedPosition = -1;
-        private boolean forceDark = !Theme.getActiveTheme().isDark();
+        private boolean forceDark = Theme.getActiveTheme().isDark() ^ true;
 
         protected void setDarkTheme(boolean z) {
         }
@@ -1258,7 +1258,8 @@ public class QrActivity extends BaseFragment {
             frameLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 8388659, 0.0f, 0.0f, 62.0f, 0.0f));
             int themedColor = baseFragment.getThemedColor("featuredStickers_addButton");
             int dp = AndroidUtilities.dp(28.0f);
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun_outline, "2131558562", dp, dp, false, null);
+            int i = R.raw.sun_outline;
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(i, "" + i, dp, dp, false, null);
             this.darkThemeDrawable = rLottieDrawable;
             setForceDark(Theme.getActiveTheme().isDark(), false);
             rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
@@ -1306,17 +1307,17 @@ public class QrActivity extends BaseFragment {
             recyclerListView.setLayoutManager(layoutManager);
             recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.QrActivity$ThemeListViewController$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public final void onItemClick(View view, int i) {
-                    QrActivity.ThemeListViewController.this.onItemClicked(view, i);
+                public final void onItemClick(View view, int i2) {
+                    QrActivity.ThemeListViewController.this.onItemClicked(view, i2);
                 }
             });
             recyclerListView.setOnScrollListener(new RecyclerView.OnScrollListener(QrActivity.this) { // from class: org.telegram.ui.QrActivity.ThemeListViewController.4
                 private int yScroll = 0;
 
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-                    super.onScrolled(recyclerView, i, i2);
-                    this.yScroll += i2;
+                public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+                    super.onScrolled(recyclerView, i2, i3);
+                    this.yScroll += i3;
                     ThemeListViewController.this.topShadow.setAlpha((this.yScroll * 1.0f) / AndroidUtilities.dp(6.0f));
                 }
             });
@@ -1324,12 +1325,13 @@ public class QrActivity extends BaseFragment {
             View view = new View(parentActivity);
             this.topShadow = view;
             view.setAlpha(0.0f);
-            view.setBackground(ContextCompat.getDrawable(parentActivity, R.drawable.shadowdown));
+            int i2 = R.drawable.shadowdown;
+            view.setBackground(ContextCompat.getDrawable(parentActivity, i2));
             view.setRotation(180.0f);
             frameLayout.addView(view);
             View view2 = new View(parentActivity);
             this.bottomShadow = view2;
-            view2.setBackground(ContextCompat.getDrawable(parentActivity, R.drawable.shadowdown));
+            view2.setBackground(ContextCompat.getDrawable(parentActivity, i2));
             frameLayout.addView(view2);
             TextView textView2 = new TextView(parentActivity);
             this.shareButton = textView2;

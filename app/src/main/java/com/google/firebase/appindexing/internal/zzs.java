@@ -7,7 +7,6 @@ import com.google.android.gms.common.api.internal.TaskApiCall;
 import com.google.android.gms.internal.icing.zzaa;
 import com.google.android.gms.internal.icing.zzae;
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.huawei.hms.api.ConnectionResult;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
@@ -16,7 +15,7 @@ public abstract class zzs extends TaskApiCall<zzae, Void> implements BaseImpleme
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzs() {
-        super(null, false, ConnectionResult.SERVICE_UPDATING);
+        super(null, false, 9004);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

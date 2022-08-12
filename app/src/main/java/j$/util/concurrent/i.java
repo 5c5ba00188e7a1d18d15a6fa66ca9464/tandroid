@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
 public class i extends Random {
     private static final AtomicInteger d = new AtomicInteger();
@@ -173,7 +174,7 @@ public class i extends Random {
 
     @Override // java.util.Random
     public IntStream ints() {
-        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, Long.MAX_VALUE, Integer.MAX_VALUE, 0), false));
+        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0), false));
     }
 
     final long j() {
@@ -304,7 +305,7 @@ public class i extends Random {
     @Override // java.util.Random
     public IntStream ints(long j) {
         if (j >= 0) {
-            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, j, Integer.MAX_VALUE, 0), false));
+            return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(o1.s(new g(0L, j, ConnectionsManager.DEFAULT_DATACENTER_ID, 0), false));
         }
         throw new IllegalArgumentException("size must be non-negative");
     }

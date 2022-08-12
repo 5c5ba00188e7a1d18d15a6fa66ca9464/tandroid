@@ -48,8 +48,8 @@ import org.telegram.messenger.Intro;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -151,7 +151,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         };
         this.frameContainerView = frameLayout2;
         scrollView.addView(frameLayout2, LayoutHelper.createScroll(-1, -2, 51));
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.sun, String.valueOf((int) R.raw.sun), AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+        int i = R.raw.sun;
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(i, String.valueOf(i), AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
         this.darkThemeDrawable = rLottieDrawable;
         rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
         this.darkThemeDrawable.beginApplyLayerColors();
@@ -159,7 +160,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.darkThemeDrawable.setCustomEndFrame(Theme.getCurrentTheme().isDark() ? this.darkThemeDrawable.getFramesCount() - 1 : 0);
         this.darkThemeDrawable.setCurrentFrame(Theme.getCurrentTheme().isDark() ? this.darkThemeDrawable.getFramesCount() - 1 : 0, false);
         Theme.getCurrentTheme().isDark();
-        rLottieImageView.setContentDescription(LocaleController.getString((int) R.string.AccDescrSwitchToDayTheme));
+        rLottieImageView.setContentDescription(LocaleController.getString(R.string.AccDescrSwitchToDayTheme));
         rLottieImageView.setAnimation(this.darkThemeDrawable);
         frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
@@ -181,27 +182,27 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.frameContainerView.addView(this.viewPager, LayoutHelper.createFrame(-1, -1.0f));
         this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() { // from class: org.telegram.ui.IntroActivity.3
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrolled(int i, float f, int i2) {
-                IntroActivity.this.bottomPages.setPageOffset(i, f);
+            public void onPageScrolled(int i2, float f, int i3) {
+                IntroActivity.this.bottomPages.setPageOffset(i2, f);
                 float measuredWidth = IntroActivity.this.viewPager.getMeasuredWidth();
                 if (measuredWidth == 0.0f) {
                     return;
                 }
-                Intro.setScrollOffset((((i * measuredWidth) + i2) - (IntroActivity.this.currentViewPagerPage * measuredWidth)) / measuredWidth);
+                Intro.setScrollOffset((((i2 * measuredWidth) + i3) - (IntroActivity.this.currentViewPagerPage * measuredWidth)) / measuredWidth);
             }
 
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageSelected(int i) {
-                IntroActivity.this.currentViewPagerPage = i;
+            public void onPageSelected(int i2) {
+                IntroActivity.this.currentViewPagerPage = i2;
             }
 
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
-            public void onPageScrollStateChanged(int i) {
-                if (i == 1) {
+            public void onPageScrollStateChanged(int i2) {
+                if (i2 == 1) {
                     IntroActivity.this.dragging = true;
                     IntroActivity introActivity = IntroActivity.this;
                     introActivity.startDragX = introActivity.viewPager.getCurrentItem() * IntroActivity.this.viewPager.getMeasuredWidth();
-                } else if (i != 0 && i != 2) {
+                } else if (i2 != 0 && i2 != 2) {
                 } else {
                     if (IntroActivity.this.dragging) {
                         IntroActivity.this.justEndDragging = true;
@@ -235,11 +236,11 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
 
             @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i, int i2) {
-                if (View.MeasureSpec.getSize(i) > AndroidUtilities.dp(260.0f)) {
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824), i2);
+            protected void onMeasure(int i2, int i3) {
+                if (View.MeasureSpec.getSize(i2) > AndroidUtilities.dp(260.0f)) {
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(320.0f), 1073741824), i3);
                 } else {
-                    super.onMeasure(i, i2);
+                    super.onMeasure(i2, i3);
                 }
             }
         };
@@ -305,7 +306,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         rLottieImageView.getLocationInWindow(r4);
         int[] iArr = {iArr[0] + (rLottieImageView.getMeasuredWidth() / 2), iArr[1] + (rLottieImageView.getMeasuredHeight() / 2)};
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), rLottieImageView);
-        rLottieImageView.setContentDescription(LocaleController.getString((int) R.string.AccDescrSwitchToDayTheme));
+        rLottieImageView.setContentDescription(LocaleController.getString(R.string.AccDescrSwitchToDayTheme));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -4,7 +4,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda2;
 /* loaded from: classes3.dex */
 public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {

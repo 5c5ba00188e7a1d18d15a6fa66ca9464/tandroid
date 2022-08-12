@@ -41,10 +41,10 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$InputDocument;
@@ -452,9 +452,9 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
     }
 
     private void updateSettingsButton() {
+        int i = R.drawable.photo_paint_brush;
         this.colorPicker.settingsButton.setContentDescription(LocaleController.getString("AccDescrBrushType", R.string.AccDescrBrushType));
         EntityView entityView = this.currentEntityView;
-        int i = R.drawable.photo_paint_brush;
         if (entityView != null) {
             if (entityView instanceof StickerView) {
                 i = R.drawable.msg_photo_flip;
@@ -1537,11 +1537,12 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         this.popupLayout.addView((View) buttonForBrush(0, R.drawable.msg_draw_pen, LocaleController.getString("PaintPen", R.string.PaintPen), this.currentBrush == 0), LayoutHelper.createLinear(-1, 54));
         this.popupLayout.addView((View) buttonForBrush(1, R.drawable.msg_draw_marker, LocaleController.getString("PaintMarker", R.string.PaintMarker), this.currentBrush == 1), LayoutHelper.createLinear(-1, 54));
         this.popupLayout.addView((View) buttonForBrush(2, R.drawable.msg_draw_neon, LocaleController.getString("PaintNeon", R.string.PaintNeon), this.currentBrush == 2), LayoutHelper.createLinear(-1, 54));
+        int i = R.drawable.msg_draw_arrow;
         String string = LocaleController.getString("PaintArrow", R.string.PaintArrow);
         if (this.currentBrush == 3) {
             z = true;
         }
-        this.popupLayout.addView((View) buttonForBrush(3, R.drawable.msg_draw_arrow, string, z), LayoutHelper.createLinear(-1, 54));
+        this.popupLayout.addView((View) buttonForBrush(3, i, string, z), LayoutHelper.createLinear(-1, 54));
     }
 
     private LinearLayout buttonForText(final int i, String str, int i2, boolean z) {

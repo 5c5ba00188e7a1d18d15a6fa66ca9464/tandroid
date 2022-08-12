@@ -71,21 +71,7 @@ public abstract class GoogleApiClient {
     }
 
     @RecentlyNonNull
-    public <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T enqueue(@RecentlyNonNull T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @RecentlyNonNull
     public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(@RecentlyNonNull T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    public <C extends Api.Client> C getClient(@RecentlyNonNull Api.AnyClientKey<C> anyClientKey) {
-        throw new UnsupportedOperationException();
-    }
-
-    @RecentlyNonNull
-    public Context getContext() {
         throw new UnsupportedOperationException();
     }
 

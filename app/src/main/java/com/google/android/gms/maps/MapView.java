@@ -3,6 +3,7 @@ package com.google.android.gms.maps;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
@@ -41,6 +42,22 @@ public class MapView extends FrameLayout {
         this.zza.onDestroy();
     }
 
+    public void onEnterAmbient(Bundle bundle) {
+        Preconditions.checkMainThread("onEnterAmbient() must be called on the main thread");
+        zzah zzahVar = this.zza;
+        if (zzahVar.getDelegate() != null) {
+            zzahVar.getDelegate().zza(bundle);
+        }
+    }
+
+    public void onExitAmbient() {
+        Preconditions.checkMainThread("onExitAmbient() must be called on the main thread");
+        zzah zzahVar = this.zza;
+        if (zzahVar.getDelegate() != null) {
+            zzahVar.getDelegate().zzb();
+        }
+    }
+
     public void onLowMemory() {
         this.zza.onLowMemory();
     }
@@ -51,5 +68,35 @@ public class MapView extends FrameLayout {
 
     public void onResume() {
         this.zza.onResume();
+    }
+
+    public void onSaveInstanceState(@RecentlyNonNull Bundle bundle) {
+        this.zza.onSaveInstanceState(bundle);
+    }
+
+    public void onStart() {
+        this.zza.onStart();
+    }
+
+    public void onStop() {
+        this.zza.onStop();
+    }
+
+    public MapView(@RecentlyNonNull Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        this.zza = new zzah(this, context, GoogleMapOptions.createFromAttributes(context, attributeSet));
+        setClickable(true);
+    }
+
+    public MapView(@RecentlyNonNull Context context, @RecentlyNonNull AttributeSet attributeSet, int i) {
+        super(context, attributeSet, i);
+        this.zza = new zzah(this, context, GoogleMapOptions.createFromAttributes(context, attributeSet));
+        setClickable(true);
+    }
+
+    public MapView(@RecentlyNonNull Context context, GoogleMapOptions googleMapOptions) {
+        super(context);
+        this.zza = new zzah(this, context, googleMapOptions);
+        setClickable(true);
     }
 }

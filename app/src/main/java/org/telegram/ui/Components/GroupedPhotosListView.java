@@ -16,6 +16,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$PageBlock;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 /* loaded from: classes3.dex */
@@ -498,7 +499,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             int size = this.imagesToDraw.size();
             int i4 = 0;
             i2 = Integer.MIN_VALUE;
-            i3 = Integer.MAX_VALUE;
+            i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
             while (i4 < size) {
                 ImageReceiver imageReceiver = this.imagesToDraw.get(i4);
                 int param = imageReceiver.getParam();

@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$MessagesFilter;
@@ -299,153 +299,157 @@ public class FiltersView extends RecyclerListView {
         if (trim.length() < 3) {
             return;
         }
-        if (LocaleController.getString("SearchTipToday", R.string.SearchTipToday).toLowerCase().startsWith(trim) || "today".startsWith(trim)) {
+        int i = R.string.SearchTipToday;
+        if (LocaleController.getString("SearchTipToday", i).toLowerCase().startsWith(trim) || "today".startsWith(trim)) {
             Calendar calendar = Calendar.getInstance();
-            int i = calendar.get(1);
-            int i2 = calendar.get(2);
-            int i3 = calendar.get(5);
-            calendar.set(i, i2, i3, 0, 0, 0);
+            int i2 = calendar.get(1);
+            int i3 = calendar.get(2);
+            int i4 = calendar.get(5);
+            calendar.set(i2, i3, i4, 0, 0, 0);
             long timeInMillis = calendar.getTimeInMillis();
-            calendar.set(i, i2, i3 + 1, 0, 0, 0);
-            arrayList.add(new DateData(LocaleController.getString("SearchTipToday", R.string.SearchTipToday), timeInMillis, calendar.getTimeInMillis() - 1));
-        } else if (LocaleController.getString("SearchTipYesterday", R.string.SearchTipYesterday).toLowerCase().startsWith(trim) || "yesterday".startsWith(trim)) {
+            calendar.set(i2, i3, i4 + 1, 0, 0, 0);
+            arrayList.add(new DateData(LocaleController.getString("SearchTipToday", i), timeInMillis, calendar.getTimeInMillis() - 1));
+            return;
+        }
+        int i5 = R.string.SearchTipYesterday;
+        if (LocaleController.getString("SearchTipYesterday", i5).toLowerCase().startsWith(trim) || "yesterday".startsWith(trim)) {
             Calendar calendar2 = Calendar.getInstance();
-            int i4 = calendar2.get(1);
-            int i5 = calendar2.get(2);
-            int i6 = calendar2.get(5);
-            calendar2.set(i4, i5, i6, 0, 0, 0);
-            calendar2.set(i4, i5, i6 + 1, 0, 0, 0);
-            arrayList.add(new DateData(LocaleController.getString("SearchTipYesterday", R.string.SearchTipYesterday), calendar2.getTimeInMillis() - 86400000, calendar2.getTimeInMillis() - 86400001));
-        } else {
-            int dayOfWeek = getDayOfWeek(trim);
-            if (dayOfWeek >= 0) {
-                Calendar calendar3 = Calendar.getInstance();
-                long timeInMillis2 = calendar3.getTimeInMillis();
-                calendar3.set(7, dayOfWeek);
-                if (calendar3.getTimeInMillis() > timeInMillis2) {
-                    calendar3.setTimeInMillis(calendar3.getTimeInMillis() - 604800000);
+            int i6 = calendar2.get(1);
+            int i7 = calendar2.get(2);
+            int i8 = calendar2.get(5);
+            calendar2.set(i6, i7, i8, 0, 0, 0);
+            calendar2.set(i6, i7, i8 + 1, 0, 0, 0);
+            arrayList.add(new DateData(LocaleController.getString("SearchTipYesterday", i5), calendar2.getTimeInMillis() - 86400000, calendar2.getTimeInMillis() - 86400001));
+            return;
+        }
+        int dayOfWeek = getDayOfWeek(trim);
+        if (dayOfWeek >= 0) {
+            Calendar calendar3 = Calendar.getInstance();
+            long timeInMillis2 = calendar3.getTimeInMillis();
+            calendar3.set(7, dayOfWeek);
+            if (calendar3.getTimeInMillis() > timeInMillis2) {
+                calendar3.setTimeInMillis(calendar3.getTimeInMillis() - 604800000);
+            }
+            int i9 = calendar3.get(1);
+            int i10 = calendar3.get(2);
+            int i11 = calendar3.get(5);
+            calendar3.set(i9, i10, i11, 0, 0, 0);
+            long timeInMillis3 = calendar3.getTimeInMillis();
+            calendar3.set(i9, i10, i11 + 1, 0, 0, 0);
+            arrayList.add(new DateData(LocaleController.getInstance().formatterWeekLong.format(timeInMillis3), timeInMillis3, calendar3.getTimeInMillis() - 1));
+            return;
+        }
+        Matcher matcher = shortDate.matcher(trim);
+        if (matcher.matches()) {
+            String group = matcher.group(1);
+            String group2 = matcher.group(3);
+            int parseInt = Integer.parseInt(group);
+            int parseInt2 = Integer.parseInt(group2);
+            if (parseInt <= 0 || parseInt > 31) {
+                if (parseInt < 2013 || parseInt2 > 12) {
+                    return;
                 }
-                int i7 = calendar3.get(1);
-                int i8 = calendar3.get(2);
-                int i9 = calendar3.get(5);
-                calendar3.set(i7, i8, i9, 0, 0, 0);
-                long timeInMillis3 = calendar3.getTimeInMillis();
-                calendar3.set(i7, i8, i9 + 1, 0, 0, 0);
-                arrayList.add(new DateData(LocaleController.getInstance().formatterWeekLong.format(timeInMillis3), timeInMillis3, calendar3.getTimeInMillis() - 1));
+                createForMonthYear(arrayList, parseInt2 - 1, parseInt);
+                return;
+            } else if (parseInt2 >= 2013 && parseInt <= 12) {
+                createForMonthYear(arrayList, parseInt - 1, parseInt2);
+                return;
+            } else if (parseInt2 > 12) {
+                return;
+            } else {
+                createForDayMonth(arrayList, parseInt - 1, parseInt2 - 1);
                 return;
             }
-            Matcher matcher = shortDate.matcher(trim);
-            if (matcher.matches()) {
-                String group = matcher.group(1);
-                String group2 = matcher.group(3);
-                int parseInt = Integer.parseInt(group);
-                int parseInt2 = Integer.parseInt(group2);
-                if (parseInt <= 0 || parseInt > 31) {
-                    if (parseInt < 2013 || parseInt2 > 12) {
+        }
+        Matcher matcher2 = longDate.matcher(trim);
+        if (matcher2.matches()) {
+            String group3 = matcher2.group(1);
+            String group4 = matcher2.group(3);
+            String group5 = matcher2.group(5);
+            if (!matcher2.group(2).equals(matcher2.group(4))) {
+                return;
+            }
+            int parseInt3 = Integer.parseInt(group3);
+            int parseInt4 = Integer.parseInt(group4) - 1;
+            int parseInt5 = Integer.parseInt(group5);
+            if (parseInt5 >= 10 && parseInt5 <= 99) {
+                parseInt5 += 2000;
+            }
+            int i12 = Calendar.getInstance().get(1);
+            if (!validDateForMont(parseInt3 - 1, parseInt4) || parseInt5 < 2013 || parseInt5 > i12) {
+                return;
+            }
+            Calendar calendar4 = Calendar.getInstance();
+            int i13 = parseInt5;
+            calendar4.set(i13, parseInt4, parseInt3, 0, 0, 0);
+            long timeInMillis4 = calendar4.getTimeInMillis();
+            calendar4.set(i13, parseInt4, parseInt3 + 1, 0, 0, 0);
+            arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis4), timeInMillis4, calendar4.getTimeInMillis() - 1));
+        } else if (yearPatter.matcher(trim).matches()) {
+            int intValue = Integer.valueOf(trim).intValue();
+            int i14 = Calendar.getInstance().get(1);
+            if (intValue < 2013) {
+                while (i14 >= 2013) {
+                    Calendar calendar5 = Calendar.getInstance();
+                    calendar5.set(i14, 0, 1, 0, 0, 0);
+                    long timeInMillis5 = calendar5.getTimeInMillis();
+                    calendar5.set(i14 + 1, 0, 1, 0, 0, 0);
+                    arrayList.add(new DateData(Integer.toString(i14), timeInMillis5, calendar5.getTimeInMillis() - 1));
+                    i14--;
+                }
+            } else if (intValue <= i14) {
+                Calendar calendar6 = Calendar.getInstance();
+                calendar6.set(intValue, 0, 1, 0, 0, 0);
+                long timeInMillis6 = calendar6.getTimeInMillis();
+                calendar6.set(intValue + 1, 0, 1, 0, 0, 0);
+                arrayList.add(new DateData(Integer.toString(intValue), timeInMillis6, calendar6.getTimeInMillis() - 1));
+            }
+        } else {
+            Matcher matcher3 = monthYearOrDayPatter.matcher(trim);
+            if (matcher3.matches()) {
+                String group6 = matcher3.group(1);
+                String group7 = matcher3.group(2);
+                int month = getMonth(group6);
+                if (month >= 0) {
+                    int intValue2 = Integer.valueOf(group7).intValue();
+                    if (intValue2 > 0 && intValue2 <= 31) {
+                        createForDayMonth(arrayList, intValue2 - 1, month);
+                        return;
+                    } else if (intValue2 >= 2013) {
+                        createForMonthYear(arrayList, month, intValue2);
                         return;
                     }
-                    createForMonthYear(arrayList, parseInt2 - 1, parseInt);
-                    return;
-                } else if (parseInt2 >= 2013 && parseInt <= 12) {
-                    createForMonthYear(arrayList, parseInt - 1, parseInt2);
-                    return;
-                } else if (parseInt2 > 12) {
-                    return;
-                } else {
-                    createForDayMonth(arrayList, parseInt - 1, parseInt2 - 1);
-                    return;
                 }
             }
-            Matcher matcher2 = longDate.matcher(trim);
-            if (matcher2.matches()) {
-                String group3 = matcher2.group(1);
-                String group4 = matcher2.group(3);
-                String group5 = matcher2.group(5);
-                if (!matcher2.group(2).equals(matcher2.group(4))) {
-                    return;
-                }
-                int parseInt3 = Integer.parseInt(group3);
-                int parseInt4 = Integer.parseInt(group4) - 1;
-                int parseInt5 = Integer.parseInt(group5);
-                if (parseInt5 >= 10 && parseInt5 <= 99) {
-                    parseInt5 += 2000;
-                }
-                int i10 = Calendar.getInstance().get(1);
-                if (!validDateForMont(parseInt3 - 1, parseInt4) || parseInt5 < 2013 || parseInt5 > i10) {
-                    return;
-                }
-                Calendar calendar4 = Calendar.getInstance();
-                int i11 = parseInt5;
-                calendar4.set(i11, parseInt4, parseInt3, 0, 0, 0);
-                long timeInMillis4 = calendar4.getTimeInMillis();
-                calendar4.set(i11, parseInt4, parseInt3 + 1, 0, 0, 0);
-                arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis4), timeInMillis4, calendar4.getTimeInMillis() - 1));
-            } else if (yearPatter.matcher(trim).matches()) {
-                int intValue = Integer.valueOf(trim).intValue();
-                int i12 = Calendar.getInstance().get(1);
-                if (intValue < 2013) {
-                    while (i12 >= 2013) {
-                        Calendar calendar5 = Calendar.getInstance();
-                        calendar5.set(i12, 0, 1, 0, 0, 0);
-                        long timeInMillis5 = calendar5.getTimeInMillis();
-                        calendar5.set(i12 + 1, 0, 1, 0, 0, 0);
-                        arrayList.add(new DateData(Integer.toString(i12), timeInMillis5, calendar5.getTimeInMillis() - 1));
-                        i12--;
-                    }
-                } else if (intValue <= i12) {
-                    Calendar calendar6 = Calendar.getInstance();
-                    calendar6.set(intValue, 0, 1, 0, 0, 0);
-                    long timeInMillis6 = calendar6.getTimeInMillis();
-                    calendar6.set(intValue + 1, 0, 1, 0, 0, 0);
-                    arrayList.add(new DateData(Integer.toString(intValue), timeInMillis6, calendar6.getTimeInMillis() - 1));
-                }
-            } else {
-                Matcher matcher3 = monthYearOrDayPatter.matcher(trim);
-                if (matcher3.matches()) {
-                    String group6 = matcher3.group(1);
-                    String group7 = matcher3.group(2);
-                    int month = getMonth(group6);
-                    if (month >= 0) {
-                        int intValue2 = Integer.valueOf(group7).intValue();
-                        if (intValue2 > 0 && intValue2 <= 31) {
-                            createForDayMonth(arrayList, intValue2 - 1, month);
-                            return;
-                        } else if (intValue2 >= 2013) {
-                            createForMonthYear(arrayList, month, intValue2);
-                            return;
-                        }
+            Matcher matcher4 = yearOrDayAndMonthPatter.matcher(trim);
+            if (matcher4.matches()) {
+                String group8 = matcher4.group(1);
+                int month2 = getMonth(matcher4.group(2));
+                if (month2 >= 0) {
+                    int intValue3 = Integer.valueOf(group8).intValue();
+                    if (intValue3 > 0 && intValue3 <= 31) {
+                        createForDayMonth(arrayList, intValue3 - 1, month2);
+                        return;
+                    } else if (intValue3 >= 2013) {
+                        createForMonthYear(arrayList, month2, intValue3);
                     }
                 }
-                Matcher matcher4 = yearOrDayAndMonthPatter.matcher(trim);
-                if (matcher4.matches()) {
-                    String group8 = matcher4.group(1);
-                    int month2 = getMonth(matcher4.group(2));
-                    if (month2 >= 0) {
-                        int intValue3 = Integer.valueOf(group8).intValue();
-                        if (intValue3 > 0 && intValue3 <= 31) {
-                            createForDayMonth(arrayList, intValue3 - 1, month2);
-                            return;
-                        } else if (intValue3 >= 2013) {
-                            createForMonthYear(arrayList, month2, intValue3);
-                        }
-                    }
-                }
-                if (TextUtils.isEmpty(trim) || trim.length() <= 2) {
-                    return;
-                }
-                int month3 = getMonth(trim);
-                long timeInMillis7 = Calendar.getInstance().getTimeInMillis();
-                if (month3 < 0) {
-                    return;
-                }
-                for (int i13 = Calendar.getInstance().get(1); i13 >= 2013; i13--) {
-                    Calendar calendar7 = Calendar.getInstance();
-                    calendar7.set(i13, month3, 1, 0, 0, 0);
-                    long timeInMillis8 = calendar7.getTimeInMillis();
-                    if (timeInMillis8 <= timeInMillis7) {
-                        calendar7.add(2, 1);
-                        arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis8), timeInMillis8, calendar7.getTimeInMillis() - 1));
-                    }
+            }
+            if (TextUtils.isEmpty(trim) || trim.length() <= 2) {
+                return;
+            }
+            int month3 = getMonth(trim);
+            long timeInMillis7 = Calendar.getInstance().getTimeInMillis();
+            if (month3 < 0) {
+                return;
+            }
+            for (int i15 = Calendar.getInstance().get(1); i15 >= 2013; i15--) {
+                Calendar calendar7 = Calendar.getInstance();
+                calendar7.set(i15, month3, 1, 0, 0, 0);
+                long timeInMillis8 = calendar7.getTimeInMillis();
+                if (timeInMillis8 <= timeInMillis7) {
+                    calendar7.add(2, 1);
+                    arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis8), timeInMillis8, calendar7.getTimeInMillis() - 1));
                 }
             }
         }

@@ -40,7 +40,6 @@ import androidx.annotation.Keep;
 import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,9 +53,9 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -368,7 +367,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         this.addToGroup = bundle.getBoolean("addToGroup", false);
         this.chatAddType = bundle.getInt("chatAddType", 0);
         this.chatId = bundle.getLong("chatId");
-        this.channelId = bundle.getLong(RemoteMessageConst.Notification.CHANNEL_ID);
+        this.channelId = bundle.getLong("channelId");
         if (this.isAlwaysShare || this.isNeverShare || this.addToGroup) {
             this.maxCount = 0;
         } else {
@@ -1087,10 +1086,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 }
                 TLRPC$Chat chat = messagesController.getChat(Long.valueOf(j));
                 if (this.selectedContacts.size() > 5) {
+                    int i2 = R.string.AddMembersAlertNamesText;
                     Object[] objArr = new Object[2];
                     objArr[0] = LocaleController.formatPluralString("Members", this.selectedContacts.size(), new Object[0]);
                     objArr[1] = chat == null ? "" : chat.title;
-                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, objArr)));
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", i2, objArr)));
                     String format = String.format("%d", Integer.valueOf(this.selectedContacts.size()));
                     int indexOf = TextUtils.indexOf(spannableStringBuilder, format);
                     if (indexOf >= 0) {
@@ -1098,10 +1098,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     }
                     builder.setMessage(spannableStringBuilder);
                 } else {
+                    int i3 = R.string.AddMembersAlertNamesText;
                     Object[] objArr2 = new Object[2];
                     objArr2[0] = sb;
                     objArr2[1] = chat == null ? "" : chat.title;
-                    builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, objArr2)));
+                    builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", i3, objArr2)));
                 }
                 final CheckBoxCell[] checkBoxCellArr = new CheckBoxCell[1];
                 if (!ChatObject.isChannel(chat)) {
@@ -1128,16 +1129,16 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 }
                 builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        GroupCreateActivity.this.lambda$onDonePressed$6(checkBoxCellArr, dialogInterface, i2);
+                    public final void onClick(DialogInterface dialogInterface, int i4) {
+                        GroupCreateActivity.this.lambda$onDonePressed$6(checkBoxCellArr, dialogInterface, i4);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
             } else if (this.chatType == 2) {
                 ArrayList<TLRPC$InputUser> arrayList = new ArrayList<>();
-                for (int i2 = 0; i2 < this.selectedContacts.size(); i2++) {
-                    TLRPC$InputUser inputUser = getMessagesController().getInputUser(getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(i2))));
+                for (int i4 = 0; i4 < this.selectedContacts.size(); i4++) {
+                    TLRPC$InputUser inputUser = getMessagesController().getInputUser(getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(i4))));
                     if (inputUser != null) {
                         arrayList.add(inputUser);
                     }
@@ -1154,8 +1155,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     onAddToGroupDone(0);
                 } else {
                     ArrayList<Long> arrayList2 = new ArrayList<>();
-                    for (int i3 = 0; i3 < this.selectedContacts.size(); i3++) {
-                        arrayList2.add(Long.valueOf(this.selectedContacts.keyAt(i3)));
+                    for (int i5 = 0; i5 < this.selectedContacts.size(); i5++) {
+                        arrayList2.add(Long.valueOf(this.selectedContacts.keyAt(i5)));
                     }
                     if (this.isAlwaysShare || this.isNeverShare) {
                         GroupCreateActivityDelegate groupCreateActivityDelegate = this.delegate;
@@ -1167,8 +1168,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                         Bundle bundle2 = new Bundle();
                         int size = arrayList2.size();
                         long[] jArr = new long[size];
-                        for (int i4 = 0; i4 < size; i4++) {
-                            jArr[i4] = arrayList2.get(i4).longValue();
+                        for (int i6 = 0; i6 < size; i6++) {
+                            jArr[i6] = arrayList2.get(i6).longValue();
                         }
                         bundle2.putLongArray("result", jArr);
                         bundle2.putInt("chatType", this.chatType);

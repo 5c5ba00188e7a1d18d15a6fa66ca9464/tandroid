@@ -52,6 +52,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
@@ -66,9 +67,9 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -1420,7 +1421,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return this.videoTextureView;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x0246, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x0258, code lost:
         if (r0.exists() != false) goto L91;
      */
     /*
@@ -1537,7 +1538,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 intent.setType(this.selectedObject.getDocument().mime_type);
                 if (Build.VERSION.SDK_INT >= 24) {
                     try {
-                        intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(getParentActivity(), "org.telegram.messenger.beta.provider", new File(str3)));
+                        intent.putExtra("android.intent.extra.STREAM", FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", new File(str3)));
                         intent.setFlags(1);
                     } catch (Exception unused) {
                         intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(new File(str3)));
@@ -1834,8 +1835,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
         int childCount = recyclerListView.getChildCount();
         int measuredHeight = this.chatListView.getMeasuredHeight();
-        int i = Integer.MAX_VALUE;
-        int i2 = Integer.MAX_VALUE;
+        int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         boolean z2 = false;
         ChatMessageCell chatMessageCell = null;
         View view = null;
@@ -2524,7 +2525,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 EmbedBottomSheet.show(ChannelAdminLogActivity.this.getParentActivity(), messageObject, ChannelAdminLogActivity.this.provider, str2, str3, str4, str, i, i2, false);
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:35:0x0109, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:35:0x011c, code lost:
                 if (r9.exists() != false) goto L36;
              */
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2555,7 +2556,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             Intent intent = new Intent("android.intent.action.VIEW");
                             if (Build.VERSION.SDK_INT >= 24) {
                                 intent.setFlags(1);
-                                intent.setDataAndType(FileProvider.getUriForFile(ChannelAdminLogActivity.this.getParentActivity(), "org.telegram.messenger.beta.provider", file2), "video/mp4");
+                                intent.setDataAndType(FileProvider.getUriForFile(ChannelAdminLogActivity.this.getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", file2), "video/mp4");
                             } else {
                                 intent.setDataAndType(Uri.fromFile(file2), "video/mp4");
                             }
@@ -2564,7 +2565,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             ChannelAdminLogActivity.this.alertUserOpenError(messageObject);
                         }
                     } else if (i2 == 4) {
-                        if (!AndroidUtilities.isGoogleMapsInstalled(ChannelAdminLogActivity.this)) {
+                        if (!AndroidUtilities.isMapsInstalled(ChannelAdminLogActivity.this)) {
                             return;
                         }
                         LocationActivity locationActivity = new LocationActivity(0);

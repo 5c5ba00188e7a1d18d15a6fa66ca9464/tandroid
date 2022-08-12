@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.RandomAccessFile;
@@ -487,7 +486,7 @@ public class FileUploadOperation {
                     z = false;
                     if (!z) {
                         z2 = this.isBigFile;
-                        if (!z2 || i5 >= this.uploadStartTime - RemoteMessageConst.DEFAULT_TTL) {
+                        if (!z2 || i5 >= this.uploadStartTime - 86400) {
                             if (!z2) {
                             }
                             if (i5 != 0) {
@@ -618,7 +617,7 @@ public class FileUploadOperation {
                 public final void run() {
                     FileUploadOperation.this.lambda$startUploadRequest$6();
                 }
-            }, this.forceSmallFile ? 4 : 0, Integer.MAX_VALUE, this.slowNetwork ? 4 : ((i19 % 4) << 16) | 4, true));
+            }, this.forceSmallFile ? 4 : 0, ConnectionsManager.DEFAULT_DATACENTER_ID, this.slowNetwork ? 4 : ((i19 % 4) << 16) | 4, true));
         } catch (Exception e2) {
             FileLog.e(e2);
             this.state = 4;

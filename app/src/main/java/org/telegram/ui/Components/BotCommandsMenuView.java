@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$BotInfo;
 import org.telegram.tgnet.TLRPC$TL_botCommand;
 import org.telegram.ui.ActionBar.MenuDrawable;
@@ -36,22 +36,10 @@ public class BotCommandsMenuView extends View {
     int lastSize;
     StaticLayout menuTextLayout;
     final TextPaint textPaint;
+    RLottieDrawable webViewAnimation;
     final RectF rectTmp = new RectF();
     final Paint paint = new Paint(1);
-    RLottieDrawable webViewAnimation = new RLottieDrawable(R.raw.bot_webview_sheet_to_cross, String.valueOf((int) R.raw.bot_webview_sheet_to_cross) + hashCode(), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f)) { // from class: org.telegram.ui.Components.BotCommandsMenuView.2
-        @Override // android.graphics.drawable.Drawable
-        public void invalidateSelf() {
-            super.invalidateSelf();
-            BotCommandsMenuView.this.invalidate();
-        }
-
-        @Override // org.telegram.ui.Components.RLottieDrawable
-        protected void invalidateInternal() {
-            super.invalidateInternal();
-            BotCommandsMenuView.this.invalidate();
-        }
-    };
-    private String menuText = LocaleController.getString((int) R.string.BotsMenuTitle);
+    private String menuText = LocaleController.getString(R.string.BotsMenuTitle);
     boolean drawBackgroundDrawable = true;
 
     protected void onTranslationChanged(float f) {
@@ -69,6 +57,20 @@ public class BotCommandsMenuView extends View {
             }
         };
         this.backDrawable = menuDrawable;
+        int i = R.raw.bot_webview_sheet_to_cross;
+        this.webViewAnimation = new RLottieDrawable(i, String.valueOf(i) + hashCode(), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f)) { // from class: org.telegram.ui.Components.BotCommandsMenuView.2
+            @Override // android.graphics.drawable.Drawable
+            public void invalidateSelf() {
+                super.invalidateSelf();
+                BotCommandsMenuView.this.invalidate();
+            }
+
+            @Override // org.telegram.ui.Components.RLottieDrawable
+            protected void invalidateInternal() {
+                super.invalidateInternal();
+                BotCommandsMenuView.this.invalidate();
+            }
+        };
         updateColors();
         menuDrawable.setMiniIcon(true);
         menuDrawable.setRotateToBack(false);
@@ -237,7 +239,7 @@ public class BotCommandsMenuView extends View {
 
     public boolean setMenuText(String str) {
         if (str == null) {
-            str = LocaleController.getString((int) R.string.BotsMenuTitle);
+            str = LocaleController.getString(R.string.BotsMenuTitle);
         }
         String str2 = this.menuText;
         boolean z = str2 == null || !str2.equals(str);

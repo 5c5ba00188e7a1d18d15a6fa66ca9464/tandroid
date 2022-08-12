@@ -21,27 +21,27 @@ public final class zag extends zac<Boolean> {
 
     @Override // com.google.android.gms.common.api.internal.zac
     public final void zab(GoogleApiManager.zaa<?> zaaVar) throws RemoteException {
-        if (zaaVar.zac().remove(this.zac) != null) {
-            zaaVar.zab();
-            throw null;
-        } else {
-            this.zab.trySetResult(Boolean.FALSE);
+        zabv remove = zaaVar.zac().remove(this.zac);
+        if (remove != null) {
+            remove.zab.unregisterListener(zaaVar.zab(), this.zab);
+            remove.zaa.clearListener();
+            return;
         }
+        this.zab.trySetResult(Boolean.FALSE);
     }
 
     @Override // com.google.android.gms.common.api.internal.zad
     public final Feature[] zac(GoogleApiManager.zaa<?> zaaVar) {
-        if (zaaVar.zac().get(this.zac) == null) {
+        zabv zabvVar = zaaVar.zac().get(this.zac);
+        if (zabvVar == null) {
             return null;
         }
-        throw null;
+        return zabvVar.zaa.getRequiredFeatures();
     }
 
     @Override // com.google.android.gms.common.api.internal.zad
     public final boolean zad(GoogleApiManager.zaa<?> zaaVar) {
-        if (zaaVar.zac().get(this.zac) == null) {
-            return false;
-        }
-        throw null;
+        zabv zabvVar = zaaVar.zac().get(this.zac);
+        return zabvVar != null && zabvVar.zaa.zaa();
     }
 }

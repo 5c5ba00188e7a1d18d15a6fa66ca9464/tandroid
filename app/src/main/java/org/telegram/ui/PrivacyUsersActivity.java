@@ -18,7 +18,7 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -466,17 +466,17 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                             textInfoPrivacyCell.setText(null);
                         }
                         if (PrivacyUsersActivity.this.usersStartRow == -1) {
-                            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                             return;
                         } else {
-                            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                             return;
                         }
                     } else if (i != PrivacyUsersActivity.this.usersDetailRow) {
                         return;
                     } else {
                         textInfoPrivacyCell.setText("");
-                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                         return;
                     }
                 } else if (itemViewType == 2) {
@@ -514,11 +514,16 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                     return;
                 }
                 if (user.bot) {
-                    string2 = LocaleController.getString("Bot", R.string.Bot).substring(0, 1).toUpperCase() + LocaleController.getString("Bot", R.string.Bot).substring(1);
+                    StringBuilder sb = new StringBuilder();
+                    int i2 = R.string.Bot;
+                    sb.append(LocaleController.getString("Bot", i2).substring(0, 1).toUpperCase());
+                    sb.append(LocaleController.getString("Bot", i2).substring(1));
+                    string2 = sb.toString();
                 } else {
                     String str = user.phone;
                     if (str != null && str.length() != 0) {
-                        string2 = PhoneFormat.getInstance().format("+" + user.phone);
+                        PhoneFormat phoneFormat = PhoneFormat.getInstance();
+                        string2 = phoneFormat.format("+" + user.phone);
                     } else {
                         string2 = LocaleController.getString("NumberUnknown", R.string.NumberUnknown);
                     }
@@ -533,9 +538,9 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             if (chat == null) {
                 return;
             }
-            int i2 = chat.participants_count;
-            if (i2 != 0) {
-                string = LocaleController.formatPluralString("Members", i2, new Object[0]);
+            int i3 = chat.participants_count;
+            if (i3 != 0) {
+                string = LocaleController.formatPluralString("Members", i3, new Object[0]);
             } else if (chat.has_geo) {
                 string = LocaleController.getString("MegaLocation", R.string.MegaLocation);
             } else if (TextUtils.isEmpty(chat.username)) {

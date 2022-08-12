@@ -53,8 +53,6 @@ import android.util.SparseArray;
 import android.util.StateSet;
 import android.view.View;
 import androidx.core.graphics.ColorUtils;
-import com.huawei.hms.framework.common.ContainerUtils;
-import com.huawei.hms.opendevice.c;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -91,11 +89,11 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda219;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.time.SunDate;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -2171,7 +2169,7 @@ public class Theme {
                     String key = entry.getKey();
                     if (str == null || (!"chat_wallpaper".equals(key) && !"chat_wallpaper_gradient_to".equals(key) && !"key_chat_wallpaper_gradient_to2".equals(key) && !"key_chat_wallpaper_gradient_to3".equals(key))) {
                         sb2.append(key);
-                        sb2.append(ContainerUtils.KEY_VALUE_DELIMITER);
+                        sb2.append("=");
                         sb2.append(entry.getValue());
                         sb2.append("\n");
                     }
@@ -2315,7 +2313,7 @@ public class Theme {
         }
 
         public boolean isColor() {
-            return c.a.equals(this.slug);
+            return "c".equals(this.slug);
         }
 
         public boolean isTheme() {
@@ -4463,7 +4461,7 @@ public class Theme {
         } else {
             String string2 = sharedPreferences2.getString("themes", null);
             if (!TextUtils.isEmpty(string2)) {
-                for (String str : string2.split(ContainerUtils.FIELD_DELIMITER)) {
+                for (String str : string2.split("&")) {
                     ThemeInfo createWithString = ThemeInfo.createWithString(str);
                     if (createWithString != null) {
                         otherThemes.add(createWithString);
@@ -4735,7 +4733,7 @@ public class Theme {
                     overrideWallpaperInfo.color = globalMainSettings.getInt("selectedColor", 0);
                     overrideWallpaperInfo.slug = globalMainSettings.getString("selectedBackgroundSlug", "");
                     if (j3 >= -100 && j3 <= -1 && overrideWallpaperInfo.color != 0) {
-                        overrideWallpaperInfo.slug = c.a;
+                        overrideWallpaperInfo.slug = "c";
                         overrideWallpaperInfo.fileName = "";
                         overrideWallpaperInfo.originalFileName = "";
                     } else {
@@ -5006,7 +5004,7 @@ public class Theme {
         if (r2 <= 31) goto L17;
      */
     /* JADX WARN: Code restructure failed: missing block: B:17:0x005c, code lost:
-        org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.beta.R.drawable.newyear);
+        org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.newyear);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetX = -org.telegram.messenger.AndroidUtilities.dp(3.0f);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetY = -org.telegram.messenger.AndroidUtilities.dp(1.0f);
      */
@@ -6746,7 +6744,7 @@ public class Theme {
             String key = entry.getKey();
             if ((!(drawable instanceof BitmapDrawable) && str == null) || (!"chat_wallpaper".equals(key) && !"chat_wallpaper_gradient_to".equals(key) && !"key_chat_wallpaper_gradient_to2".equals(key) && !"key_chat_wallpaper_gradient_to3".equals(key))) {
                 sb.append(key);
-                sb.append(ContainerUtils.KEY_VALUE_DELIMITER);
+                sb.append("=");
                 sb.append(entry.getValue());
                 sb.append("\n");
             }
@@ -7326,17 +7324,17 @@ public class Theme {
         return num.intValue();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:162:0x03bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:162:0x03b9, code lost:
         if (android.text.TextUtils.isEmpty(r6[0]) == false) goto L101;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x04b0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x04c7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x028a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x02c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x00b2 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x04ac A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x04c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x0286 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x02bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x00b2 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
     /* JADX WARN: Removed duplicated region for block: B:192:0x0123 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00ba A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00ba A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
     /* JADX WARN: Removed duplicated region for block: B:248:0x0118  */
     /* JADX WARN: Removed duplicated region for block: B:251:0x0104  */
     /* JADX WARN: Removed duplicated region for block: B:252:0x00fc  */
@@ -7346,20 +7344,20 @@ public class Theme {
     /* JADX WARN: Removed duplicated region for block: B:259:0x00cd  */
     /* JADX WARN: Removed duplicated region for block: B:261:0x00be  */
     /* JADX WARN: Removed duplicated region for block: B:262:0x00b7  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00d1 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00d9 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00f7 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00ff A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00d1 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00d9 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00f7 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00ff A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
     /* JADX WARN: Removed duplicated region for block: B:40:0x0108 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:46:0x01e6  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x024b A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x034d  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x04e4 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x052c A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0545 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x05f7 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0619 A[Catch: all -> 0x0680, TryCatch #18 {all -> 0x0680, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x024b, B:52:0x0257, B:56:0x0267, B:61:0x0272, B:71:0x04e4, B:72:0x0503, B:74:0x052c, B:76:0x0545, B:77:0x0567, B:79:0x05f7, B:82:0x0619, B:83:0x0641, B:188:0x0347, B:67:0x0353, B:68:0x039b, B:90:0x035b, B:91:0x0367, B:93:0x0371, B:96:0x037f, B:97:0x037b, B:99:0x03b0, B:129:0x04b0, B:133:0x04b6, B:142:0x04c7, B:146:0x04cd, B:161:0x03b6, B:138:0x04c2, B:84:0x0669), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0502  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0247 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0349  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x04e0 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0528 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0541 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x05f3 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0615 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x04fe  */
     /* JADX WARN: Type inference failed for: r3v30 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -8473,7 +8471,9 @@ public class Theme {
             Resources resources = context.getResources();
             avatarDrawables[0] = resources.getDrawable(R.drawable.chats_saved);
             avatarDrawables[1] = resources.getDrawable(R.drawable.ghost);
-            avatarDrawables[2] = resources.getDrawable(R.drawable.msg_folders_private);
+            Drawable[] drawableArr = avatarDrawables;
+            int i = R.drawable.msg_folders_private;
+            drawableArr[2] = resources.getDrawable(i);
             avatarDrawables[3] = resources.getDrawable(R.drawable.msg_folders_requests);
             avatarDrawables[4] = resources.getDrawable(R.drawable.msg_folders_groups);
             avatarDrawables[5] = resources.getDrawable(R.drawable.msg_folders_channels);
@@ -8481,7 +8481,7 @@ public class Theme {
             avatarDrawables[7] = resources.getDrawable(R.drawable.msg_folders_muted);
             avatarDrawables[8] = resources.getDrawable(R.drawable.msg_folders_read);
             avatarDrawables[9] = resources.getDrawable(R.drawable.msg_folders_archive);
-            avatarDrawables[10] = resources.getDrawable(R.drawable.msg_folders_private);
+            avatarDrawables[10] = resources.getDrawable(i);
             avatarDrawables[11] = resources.getDrawable(R.drawable.chats_replies);
             RLottieDrawable rLottieDrawable = dialogs_archiveAvatarDrawable;
             if (rLottieDrawable != null) {
@@ -8634,9 +8634,10 @@ public class Theme {
             dialogs_errorPaint = new Paint(1);
             dialogs_actionMessagePaint = new Paint(1);
             dialogs_lockDrawable = resources.getDrawable(R.drawable.list_secret);
-            dialogs_checkDrawable = resources.getDrawable(R.drawable.list_check).mutate();
+            int i2 = R.drawable.list_check;
+            dialogs_checkDrawable = resources.getDrawable(i2).mutate();
             dialogs_playDrawable = resources.getDrawable(R.drawable.minithumb_play).mutate();
-            dialogs_checkReadDrawable = resources.getDrawable(R.drawable.list_check).mutate();
+            dialogs_checkReadDrawable = resources.getDrawable(i2).mutate();
             dialogs_halfCheckDrawable = resources.getDrawable(R.drawable.list_halfcheck);
             dialogs_clockDrawable = new MsgClockDrawable();
             dialogs_errorDrawable = resources.getDrawable(R.drawable.list_warning_sign);
@@ -8917,66 +8918,81 @@ public class Theme {
             playPauseAnimator.addSvgKeyFrame("M 47.421 16.941 C 50.544 18.191 50.783 19.91 50.769 22.706 C 50.761 24.484 50.76 23.953 50.79 26.073 C 50.814 27.835 49.334 30 47.124 30 L 5 30.01 C 2.79 30.01 1 28.22 1 26.01 L 1.001 10.823 C 1.001 8.218 3.532 6.895 5.572 7.26 C 7.493 8.01 47.421 16.941 47.421 16.941 Z", 267.0f);
             playPauseAnimator.addSvgKeyFrame("M 47.641 17.125 C 50.641 18.207 51.09 19.935 51.078 22.653 C 51.07 24.191 51.062 21.23 51.088 23.063 C 51.109 24.886 49.587 27 47.377 27 L 5 27.009 C 2.79 27.009 1 25.219 1 23.009 L 0.983 11.459 C 0.983 8.908 3.414 7.522 5.476 7.838 C 7.138 8.486 47.641 17.125 47.641 17.125 Z", 300.0f);
             playPauseAnimator.addSvgKeyFrame("M 48 7 C 50.21 7 52 8.79 52 11 C 52 19 52 19 52 19 C 52 21.21 50.21 23 48 23 L 4 23 C 1.79 23 0 21.21 0 19 L 0 11 C 0 8.79 1.79 7 4 7 C 48 7 48 7 48 7 Z", 383.0f);
-            chat_msgOutCheckDrawable = resources.getDrawable(R.drawable.msg_check_s).mutate();
-            chat_msgOutCheckSelectedDrawable = resources.getDrawable(R.drawable.msg_check_s).mutate();
-            chat_msgOutCheckReadDrawable = resources.getDrawable(R.drawable.msg_check_s).mutate();
-            chat_msgOutCheckReadSelectedDrawable = resources.getDrawable(R.drawable.msg_check_s).mutate();
-            chat_msgMediaCheckDrawable = resources.getDrawable(R.drawable.msg_check_s).mutate();
-            chat_msgStickerCheckDrawable = resources.getDrawable(R.drawable.msg_check_s).mutate();
-            chat_msgOutHalfCheckDrawable = resources.getDrawable(R.drawable.msg_halfcheck).mutate();
-            chat_msgOutHalfCheckSelectedDrawable = resources.getDrawable(R.drawable.msg_halfcheck).mutate();
-            chat_msgMediaHalfCheckDrawable = resources.getDrawable(R.drawable.msg_halfcheck_s).mutate();
-            chat_msgStickerHalfCheckDrawable = resources.getDrawable(R.drawable.msg_halfcheck_s).mutate();
+            int i = R.drawable.msg_check_s;
+            chat_msgOutCheckDrawable = resources.getDrawable(i).mutate();
+            chat_msgOutCheckSelectedDrawable = resources.getDrawable(i).mutate();
+            chat_msgOutCheckReadDrawable = resources.getDrawable(i).mutate();
+            chat_msgOutCheckReadSelectedDrawable = resources.getDrawable(i).mutate();
+            chat_msgMediaCheckDrawable = resources.getDrawable(i).mutate();
+            chat_msgStickerCheckDrawable = resources.getDrawable(i).mutate();
+            int i2 = R.drawable.msg_halfcheck;
+            chat_msgOutHalfCheckDrawable = resources.getDrawable(i2).mutate();
+            chat_msgOutHalfCheckSelectedDrawable = resources.getDrawable(i2).mutate();
+            int i3 = R.drawable.msg_halfcheck_s;
+            chat_msgMediaHalfCheckDrawable = resources.getDrawable(i3).mutate();
+            chat_msgStickerHalfCheckDrawable = resources.getDrawable(i3).mutate();
             chat_msgClockDrawable = new MsgClockDrawable();
-            chat_msgInViewsDrawable = resources.getDrawable(R.drawable.msg_views).mutate();
-            chat_msgInViewsSelectedDrawable = resources.getDrawable(R.drawable.msg_views).mutate();
-            chat_msgOutViewsDrawable = resources.getDrawable(R.drawable.msg_views).mutate();
-            chat_msgOutViewsSelectedDrawable = resources.getDrawable(R.drawable.msg_views).mutate();
-            chat_msgInRepliesDrawable = resources.getDrawable(R.drawable.msg_reply_small).mutate();
-            chat_msgInRepliesSelectedDrawable = resources.getDrawable(R.drawable.msg_reply_small).mutate();
-            chat_msgOutRepliesDrawable = resources.getDrawable(R.drawable.msg_reply_small).mutate();
-            chat_msgOutRepliesSelectedDrawable = resources.getDrawable(R.drawable.msg_reply_small).mutate();
-            chat_msgInPinnedDrawable = resources.getDrawable(R.drawable.msg_pin_mini).mutate();
-            chat_msgInPinnedSelectedDrawable = resources.getDrawable(R.drawable.msg_pin_mini).mutate();
-            chat_msgOutPinnedDrawable = resources.getDrawable(R.drawable.msg_pin_mini).mutate();
-            chat_msgOutPinnedSelectedDrawable = resources.getDrawable(R.drawable.msg_pin_mini).mutate();
-            chat_msgMediaPinnedDrawable = resources.getDrawable(R.drawable.msg_pin_mini).mutate();
-            chat_msgStickerPinnedDrawable = resources.getDrawable(R.drawable.msg_pin_mini).mutate();
-            chat_msgMediaViewsDrawable = resources.getDrawable(R.drawable.msg_views).mutate();
-            chat_msgMediaRepliesDrawable = resources.getDrawable(R.drawable.msg_reply_small).mutate();
-            chat_msgStickerViewsDrawable = resources.getDrawable(R.drawable.msg_views).mutate();
-            chat_msgStickerRepliesDrawable = resources.getDrawable(R.drawable.msg_reply_small).mutate();
-            chat_msgInMenuDrawable = resources.getDrawable(R.drawable.msg_actions).mutate();
-            chat_msgInMenuSelectedDrawable = resources.getDrawable(R.drawable.msg_actions).mutate();
-            chat_msgOutMenuDrawable = resources.getDrawable(R.drawable.msg_actions).mutate();
-            chat_msgOutMenuSelectedDrawable = resources.getDrawable(R.drawable.msg_actions).mutate();
+            int i4 = R.drawable.msg_views;
+            chat_msgInViewsDrawable = resources.getDrawable(i4).mutate();
+            chat_msgInViewsSelectedDrawable = resources.getDrawable(i4).mutate();
+            chat_msgOutViewsDrawable = resources.getDrawable(i4).mutate();
+            chat_msgOutViewsSelectedDrawable = resources.getDrawable(i4).mutate();
+            int i5 = R.drawable.msg_reply_small;
+            chat_msgInRepliesDrawable = resources.getDrawable(i5).mutate();
+            chat_msgInRepliesSelectedDrawable = resources.getDrawable(i5).mutate();
+            chat_msgOutRepliesDrawable = resources.getDrawable(i5).mutate();
+            chat_msgOutRepliesSelectedDrawable = resources.getDrawable(i5).mutate();
+            int i6 = R.drawable.msg_pin_mini;
+            chat_msgInPinnedDrawable = resources.getDrawable(i6).mutate();
+            chat_msgInPinnedSelectedDrawable = resources.getDrawable(i6).mutate();
+            chat_msgOutPinnedDrawable = resources.getDrawable(i6).mutate();
+            chat_msgOutPinnedSelectedDrawable = resources.getDrawable(i6).mutate();
+            chat_msgMediaPinnedDrawable = resources.getDrawable(i6).mutate();
+            chat_msgStickerPinnedDrawable = resources.getDrawable(i6).mutate();
+            chat_msgMediaViewsDrawable = resources.getDrawable(i4).mutate();
+            chat_msgMediaRepliesDrawable = resources.getDrawable(i5).mutate();
+            chat_msgStickerViewsDrawable = resources.getDrawable(i4).mutate();
+            chat_msgStickerRepliesDrawable = resources.getDrawable(i5).mutate();
+            int i7 = R.drawable.msg_actions;
+            chat_msgInMenuDrawable = resources.getDrawable(i7).mutate();
+            chat_msgInMenuSelectedDrawable = resources.getDrawable(i7).mutate();
+            chat_msgOutMenuDrawable = resources.getDrawable(i7).mutate();
+            chat_msgOutMenuSelectedDrawable = resources.getDrawable(i7).mutate();
             chat_msgMediaMenuDrawable = resources.getDrawable(R.drawable.video_actions);
-            chat_msgInInstantDrawable = resources.getDrawable(R.drawable.msg_instant).mutate();
-            chat_msgOutInstantDrawable = resources.getDrawable(R.drawable.msg_instant).mutate();
+            int i8 = R.drawable.msg_instant;
+            chat_msgInInstantDrawable = resources.getDrawable(i8).mutate();
+            chat_msgOutInstantDrawable = resources.getDrawable(i8).mutate();
             chat_msgErrorDrawable = resources.getDrawable(R.drawable.msg_warning);
             chat_muteIconDrawable = resources.getDrawable(R.drawable.list_mute).mutate();
             chat_lockIconDrawable = resources.getDrawable(R.drawable.ic_lock_header);
-            chat_msgInCallDrawable[0] = resources.getDrawable(R.drawable.chat_calls_voice).mutate();
-            chat_msgInCallSelectedDrawable[0] = resources.getDrawable(R.drawable.chat_calls_voice).mutate();
-            chat_msgOutCallDrawable[0] = resources.getDrawable(R.drawable.chat_calls_voice).mutate();
-            chat_msgOutCallSelectedDrawable[0] = resources.getDrawable(R.drawable.chat_calls_voice).mutate();
-            chat_msgInCallDrawable[1] = resources.getDrawable(R.drawable.chat_calls_video).mutate();
-            chat_msgInCallSelectedDrawable[1] = resources.getDrawable(R.drawable.chat_calls_video).mutate();
-            chat_msgOutCallDrawable[1] = resources.getDrawable(R.drawable.chat_calls_video).mutate();
-            chat_msgOutCallSelectedDrawable[1] = resources.getDrawable(R.drawable.chat_calls_video).mutate();
+            Drawable[] drawableArr = chat_msgInCallDrawable;
+            int i9 = R.drawable.chat_calls_voice;
+            drawableArr[0] = resources.getDrawable(i9).mutate();
+            chat_msgInCallSelectedDrawable[0] = resources.getDrawable(i9).mutate();
+            chat_msgOutCallDrawable[0] = resources.getDrawable(i9).mutate();
+            chat_msgOutCallSelectedDrawable[0] = resources.getDrawable(i9).mutate();
+            Drawable[] drawableArr2 = chat_msgInCallDrawable;
+            int i10 = R.drawable.chat_calls_video;
+            drawableArr2[1] = resources.getDrawable(i10).mutate();
+            chat_msgInCallSelectedDrawable[1] = resources.getDrawable(i10).mutate();
+            chat_msgOutCallDrawable[1] = resources.getDrawable(i10).mutate();
+            chat_msgOutCallSelectedDrawable[1] = resources.getDrawable(i10).mutate();
             chat_msgCallUpGreenDrawable = resources.getDrawable(R.drawable.chat_calls_outgoing).mutate();
-            chat_msgCallDownRedDrawable = resources.getDrawable(R.drawable.chat_calls_incoming).mutate();
-            chat_msgCallDownGreenDrawable = resources.getDrawable(R.drawable.chat_calls_incoming).mutate();
-            for (int i = 0; i < 2; i++) {
-                chat_pollCheckDrawable[i] = resources.getDrawable(R.drawable.poll_right).mutate();
-                chat_pollCrossDrawable[i] = resources.getDrawable(R.drawable.poll_wrong).mutate();
-                chat_pollHintDrawable[i] = resources.getDrawable(R.drawable.msg_emoji_objects).mutate();
-                chat_psaHelpDrawable[i] = resources.getDrawable(R.drawable.msg_psa).mutate();
+            int i11 = R.drawable.chat_calls_incoming;
+            chat_msgCallDownRedDrawable = resources.getDrawable(i11).mutate();
+            chat_msgCallDownGreenDrawable = resources.getDrawable(i11).mutate();
+            for (int i12 = 0; i12 < 2; i12++) {
+                chat_pollCheckDrawable[i12] = resources.getDrawable(R.drawable.poll_right).mutate();
+                chat_pollCrossDrawable[i12] = resources.getDrawable(R.drawable.poll_wrong).mutate();
+                chat_pollHintDrawable[i12] = resources.getDrawable(R.drawable.msg_emoji_objects).mutate();
+                chat_psaHelpDrawable[i12] = resources.getDrawable(R.drawable.msg_psa).mutate();
             }
-            calllog_msgCallUpRedDrawable = resources.getDrawable(R.drawable.ic_call_made_green_18dp).mutate();
-            calllog_msgCallUpGreenDrawable = resources.getDrawable(R.drawable.ic_call_made_green_18dp).mutate();
-            calllog_msgCallDownRedDrawable = resources.getDrawable(R.drawable.ic_call_received_green_18dp).mutate();
-            calllog_msgCallDownGreenDrawable = resources.getDrawable(R.drawable.ic_call_received_green_18dp).mutate();
+            int i13 = R.drawable.ic_call_made_green_18dp;
+            calllog_msgCallUpRedDrawable = resources.getDrawable(i13).mutate();
+            calllog_msgCallUpGreenDrawable = resources.getDrawable(i13).mutate();
+            int i14 = R.drawable.ic_call_received_green_18dp;
+            calllog_msgCallDownRedDrawable = resources.getDrawable(i14).mutate();
+            calllog_msgCallDownGreenDrawable = resources.getDrawable(i14).mutate();
             chat_msgAvatarLiveLocationDrawable = resources.getDrawable(R.drawable.livepin).mutate();
             chat_inlineResultFile = resources.getDrawable(R.drawable.bot_file);
             chat_inlineResultAudio = resources.getDrawable(R.drawable.bot_music);
@@ -9008,14 +9024,14 @@ public class Theme {
             chat_filePath[0].lineTo(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(3.0f));
             chat_filePath[0].lineTo(AndroidUtilities.dp(21.0f), AndroidUtilities.dp(10.0f));
             chat_filePath[0].lineTo(AndroidUtilities.dp(21.0f), AndroidUtilities.dp(20.0f));
-            int i2 = dp * 2;
-            rectF.set(AndroidUtilities.dp(21.0f) - i2, AndroidUtilities.dp(19.0f) - dp, AndroidUtilities.dp(21.0f), AndroidUtilities.dp(19.0f) + dp);
+            int i15 = dp * 2;
+            rectF.set(AndroidUtilities.dp(21.0f) - i15, AndroidUtilities.dp(19.0f) - dp, AndroidUtilities.dp(21.0f), AndroidUtilities.dp(19.0f) + dp);
             chat_filePath[0].arcTo(rectF, 0.0f, 90.0f, false);
             chat_filePath[0].lineTo(AndroidUtilities.dp(6.0f), AndroidUtilities.dp(21.0f));
-            rectF.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp(19.0f) - dp, AndroidUtilities.dp(5.0f) + i2, AndroidUtilities.dp(19.0f) + dp);
+            rectF.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp(19.0f) - dp, AndroidUtilities.dp(5.0f) + i15, AndroidUtilities.dp(19.0f) + dp);
             chat_filePath[0].arcTo(rectF, 90.0f, 90.0f, false);
             chat_filePath[0].lineTo(AndroidUtilities.dp(5.0f), AndroidUtilities.dp(4.0f));
-            rectF.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(5.0f) + i2, AndroidUtilities.dp(3.0f) + i2);
+            rectF.set(AndroidUtilities.dp(5.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp(5.0f) + i15, AndroidUtilities.dp(3.0f) + i15);
             chat_filePath[0].arcTo(rectF, 180.0f, 90.0f, false);
             chat_filePath[0].close();
             chat_filePath[1] = new Path();
@@ -9023,71 +9039,93 @@ public class Theme {
             chat_filePath[1].lineTo(AndroidUtilities.dp(19.0f), AndroidUtilities.dp(10.0f));
             chat_filePath[1].lineTo(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(10.0f));
             chat_filePath[1].close();
-            chat_flameIcon = resources.getDrawable(R.drawable.burn).mutate();
-            chat_gifIcon = resources.getDrawable(R.drawable.msg_round_gif_m).mutate();
-            chat_fileStatesDrawable[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_play_m);
-            chat_fileStatesDrawable[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_play_m);
-            chat_fileStatesDrawable[1][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_pause_m);
-            chat_fileStatesDrawable[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_pause_m);
-            chat_fileStatesDrawable[2][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_load_m);
-            chat_fileStatesDrawable[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_load_m);
-            chat_fileStatesDrawable[3][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_file_s);
-            chat_fileStatesDrawable[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_file_s);
-            chat_fileStatesDrawable[4][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_cancel_m);
-            chat_fileStatesDrawable[4][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_cancel_m);
-            chat_fileStatesDrawable[5][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_play_m);
-            chat_fileStatesDrawable[5][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_play_m);
-            chat_fileStatesDrawable[6][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_pause_m);
-            chat_fileStatesDrawable[6][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_pause_m);
-            chat_fileStatesDrawable[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_load_m);
-            chat_fileStatesDrawable[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_load_m);
-            chat_fileStatesDrawable[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_file_s);
-            chat_fileStatesDrawable[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_file_s);
-            chat_fileStatesDrawable[9][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_cancel_m);
-            chat_fileStatesDrawable[9][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_round_cancel_m);
-            chat_photoStatesDrawables[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_load_m);
-            chat_photoStatesDrawables[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_load_m);
-            chat_photoStatesDrawables[1][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_cancel_m);
-            chat_photoStatesDrawables[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_cancel_m);
-            chat_photoStatesDrawables[2][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_gif_m);
-            chat_photoStatesDrawables[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_gif_m);
-            chat_photoStatesDrawables[3][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_play_m);
-            chat_photoStatesDrawables[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_play_m);
-            Drawable[][] drawableArr = chat_photoStatesDrawables;
-            Drawable[] drawableArr2 = drawableArr[4];
-            Drawable[] drawableArr3 = drawableArr[4];
-            Drawable drawable = resources.getDrawable(R.drawable.burn);
-            drawableArr3[1] = drawable;
-            drawableArr2[0] = drawable;
-            Drawable[][] drawableArr4 = chat_photoStatesDrawables;
-            Drawable[] drawableArr5 = drawableArr4[5];
-            Drawable[] drawableArr6 = drawableArr4[5];
+            int i16 = R.drawable.burn;
+            chat_flameIcon = resources.getDrawable(i16).mutate();
+            int i17 = R.drawable.msg_round_gif_m;
+            chat_gifIcon = resources.getDrawable(i17).mutate();
+            Drawable[] drawableArr3 = chat_fileStatesDrawable[0];
+            int dp2 = AndroidUtilities.dp(44.0f);
+            int i18 = R.drawable.msg_round_play_m;
+            drawableArr3[0] = createCircleDrawableWithIcon(dp2, i18);
+            chat_fileStatesDrawable[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i18);
+            Drawable[] drawableArr4 = chat_fileStatesDrawable[1];
+            int dp3 = AndroidUtilities.dp(44.0f);
+            int i19 = R.drawable.msg_round_pause_m;
+            drawableArr4[0] = createCircleDrawableWithIcon(dp3, i19);
+            chat_fileStatesDrawable[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i19);
+            Drawable[] drawableArr5 = chat_fileStatesDrawable[2];
+            int dp4 = AndroidUtilities.dp(44.0f);
+            int i20 = R.drawable.msg_round_load_m;
+            drawableArr5[0] = createCircleDrawableWithIcon(dp4, i20);
+            chat_fileStatesDrawable[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i20);
+            Drawable[] drawableArr6 = chat_fileStatesDrawable[3];
+            int dp5 = AndroidUtilities.dp(44.0f);
+            int i21 = R.drawable.msg_round_file_s;
+            drawableArr6[0] = createCircleDrawableWithIcon(dp5, i21);
+            chat_fileStatesDrawable[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i21);
+            Drawable[] drawableArr7 = chat_fileStatesDrawable[4];
+            int dp6 = AndroidUtilities.dp(44.0f);
+            int i22 = R.drawable.msg_round_cancel_m;
+            drawableArr7[0] = createCircleDrawableWithIcon(dp6, i22);
+            chat_fileStatesDrawable[4][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i22);
+            chat_fileStatesDrawable[5][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i18);
+            chat_fileStatesDrawable[5][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i18);
+            chat_fileStatesDrawable[6][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i19);
+            chat_fileStatesDrawable[6][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i19);
+            chat_fileStatesDrawable[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i20);
+            chat_fileStatesDrawable[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i20);
+            chat_fileStatesDrawable[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i21);
+            chat_fileStatesDrawable[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i21);
+            chat_fileStatesDrawable[9][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i22);
+            chat_fileStatesDrawable[9][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i22);
+            chat_photoStatesDrawables[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i20);
+            chat_photoStatesDrawables[0][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i20);
+            chat_photoStatesDrawables[1][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i22);
+            chat_photoStatesDrawables[1][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i22);
+            chat_photoStatesDrawables[2][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i17);
+            chat_photoStatesDrawables[2][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i17);
+            chat_photoStatesDrawables[3][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i18);
+            chat_photoStatesDrawables[3][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i18);
+            Drawable[][] drawableArr8 = chat_photoStatesDrawables;
+            Drawable[] drawableArr9 = drawableArr8[4];
+            Drawable[] drawableArr10 = drawableArr8[4];
+            Drawable drawable = resources.getDrawable(i16);
+            drawableArr10[1] = drawable;
+            drawableArr9[0] = drawable;
+            Drawable[][] drawableArr11 = chat_photoStatesDrawables;
+            Drawable[] drawableArr12 = drawableArr11[5];
+            Drawable[] drawableArr13 = drawableArr11[5];
             Drawable drawable2 = resources.getDrawable(R.drawable.circle);
-            drawableArr6[1] = drawable2;
-            drawableArr5[0] = drawable2;
-            Drawable[][] drawableArr7 = chat_photoStatesDrawables;
-            Drawable[] drawableArr8 = drawableArr7[6];
-            Drawable[] drawableArr9 = drawableArr7[6];
+            drawableArr13[1] = drawable2;
+            drawableArr12[0] = drawable2;
+            Drawable[][] drawableArr14 = chat_photoStatesDrawables;
+            Drawable[] drawableArr15 = drawableArr14[6];
+            Drawable[] drawableArr16 = drawableArr14[6];
             Drawable drawable3 = resources.getDrawable(R.drawable.photocheck);
-            drawableArr9[1] = drawable3;
-            drawableArr8[0] = drawable3;
-            chat_photoStatesDrawables[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_load_m);
-            chat_photoStatesDrawables[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_load_m);
-            chat_photoStatesDrawables[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_cancel_m);
-            chat_photoStatesDrawables[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_cancel_m);
-            chat_photoStatesDrawables[10][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_load_m);
-            chat_photoStatesDrawables[10][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_load_m);
-            chat_photoStatesDrawables[11][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_cancel_m);
-            chat_photoStatesDrawables[11][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), R.drawable.msg_round_cancel_m);
-            chat_contactDrawable[0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_contact);
-            chat_contactDrawable[1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), R.drawable.msg_contact);
-            chat_locationDrawable[0] = resources.getDrawable(R.drawable.msg_location).mutate();
-            chat_locationDrawable[1] = resources.getDrawable(R.drawable.msg_location).mutate();
+            drawableArr16[1] = drawable3;
+            drawableArr15[0] = drawable3;
+            chat_photoStatesDrawables[7][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i20);
+            chat_photoStatesDrawables[7][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i20);
+            chat_photoStatesDrawables[8][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i22);
+            chat_photoStatesDrawables[8][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i22);
+            chat_photoStatesDrawables[10][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i20);
+            chat_photoStatesDrawables[10][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i20);
+            chat_photoStatesDrawables[11][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i22);
+            chat_photoStatesDrawables[11][1] = createCircleDrawableWithIcon(AndroidUtilities.dp(48.0f), i22);
+            Drawable[] drawableArr17 = chat_contactDrawable;
+            int dp7 = AndroidUtilities.dp(44.0f);
+            int i23 = R.drawable.msg_contact;
+            drawableArr17[0] = createCircleDrawableWithIcon(dp7, i23);
+            chat_contactDrawable[1] = createCircleDrawableWithIcon(AndroidUtilities.dp(44.0f), i23);
+            Drawable[] drawableArr18 = chat_locationDrawable;
+            int i24 = R.drawable.msg_location;
+            drawableArr18[0] = resources.getDrawable(i24).mutate();
+            chat_locationDrawable[1] = resources.getDrawable(i24).mutate();
             chat_composeShadowDrawable = context.getResources().getDrawable(R.drawable.compose_panel_shadow).mutate();
             chat_composeShadowRoundDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
             try {
-                int dp2 = AndroidUtilities.roundMessageSize + AndroidUtilities.dp(6.0f);
-                Bitmap createBitmap = Bitmap.createBitmap(dp2, dp2, Bitmap.Config.ARGB_8888);
+                int dp8 = AndroidUtilities.roundMessageSize + AndroidUtilities.dp(6.0f);
+                Bitmap createBitmap = Bitmap.createBitmap(dp8, dp8, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(createBitmap);
                 Paint paint2 = new Paint(1);
                 paint2.setColor(0);
@@ -9095,10 +9133,10 @@ public class Theme {
                 paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
                 Paint paint3 = new Paint(1);
                 paint3.setShadowLayer(AndroidUtilities.dp(4.0f), 0.0f, 0.0f, 1593835520);
-                int i3 = 0;
-                while (i3 < 2) {
-                    canvas.drawCircle(dp2 / 2, dp2 / 2, (AndroidUtilities.roundMessageSize / 2) - AndroidUtilities.dp(1.0f), i3 == 0 ? paint3 : paint2);
-                    i3++;
+                int i25 = 0;
+                while (i25 < 2) {
+                    canvas.drawCircle(dp8 / 2, dp8 / 2, (AndroidUtilities.roundMessageSize / 2) - AndroidUtilities.dp(1.0f), i25 == 0 ? paint3 : paint2);
+                    i25++;
                 }
                 try {
                     canvas.setBitmap(null);
@@ -10320,7 +10358,7 @@ public class Theme {
             Point point2 = AndroidUtilities.displaySize;
             i2 = Math.max(point2.x, point2.y);
         }
-        motionBackgroundDrawable.setPatternBitmap(34, SvgHelper.getBitmap((int) R.raw.default_pattern, i, i2, -16777216));
+        motionBackgroundDrawable.setPatternBitmap(34, SvgHelper.getBitmap(R.raw.default_pattern, i, i2, -16777216));
         motionBackgroundDrawable.setPatternColorFilter(motionBackgroundDrawable.getPatternColor());
         return motionBackgroundDrawable;
     }

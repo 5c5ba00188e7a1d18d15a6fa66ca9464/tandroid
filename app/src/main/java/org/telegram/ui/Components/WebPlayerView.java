@@ -33,9 +33,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.huawei.hms.framework.common.ContainerUtils;
-import com.huawei.hms.push.constant.RemoteMessageConst;
-import com.huawei.hms.support.hianalytics.HiAnalyticsConstant;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -64,8 +61,8 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.ui.Components.VideoPlayer;
@@ -191,8 +188,8 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     public static class JSExtractor {
         private String jsCode;
         ArrayList<String> codeLines = new ArrayList<>();
-        private String[] operators = {HiAnalyticsConstant.REPORT_VAL_SEPARATOR, "^", ContainerUtils.FIELD_DELIMITER, ">>", "<<", "-", "+", "%", "/", "*"};
-        private String[] assign_operators = {"|=", "^=", "&=", ">>=", "<<=", "-=", "+=", "%=", "/=", "*=", ContainerUtils.KEY_VALUE_DELIMITER};
+        private String[] operators = {"|", "^", "&", ">>", "<<", "-", "+", "%", "/", "*"};
+        private String[] assign_operators = {"|=", "^=", "&=", ">>=", "<<=", "-=", "+=", "%=", "/=", "*=", "="};
 
         public JSExtractor(String str) {
             this.jsCode = str;
@@ -673,7 +670,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     return strArr2;
                 }
                 if (downloadUrlContent2 != null) {
-                    String[] split = downloadUrlContent2.split(ContainerUtils.FIELD_DELIMITER);
+                    String[] split = downloadUrlContent2.split("&");
                     boolean z5 = z4;
                     Object obj = strArr2;
                     int i4 = 0;
@@ -681,7 +678,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     z3 = false;
                     while (i4 < split.length) {
                         if (split[i4].startsWith("dashmpd")) {
-                            String[] split2 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
+                            String[] split2 = split[i4].split("=");
                             if (split2.length == i2) {
                                 try {
                                     this.result[c2] = URLDecoder.decode(split2[c], "UTF-8");
@@ -692,7 +689,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                             str8 = str9;
                             z3 = true;
                         } else if (split[i4].startsWith("url_encoded_fmt_stream_map")) {
-                            String[] split3 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
+                            String[] split3 = split[i4].split("=");
                             if (split3.length == i2) {
                                 try {
                                     String[] split4 = URLDecoder.decode(split3[c], "UTF-8").split("[&,]");
@@ -700,7 +697,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                     int i5 = 0;
                                     boolean z6 = false;
                                     while (i5 < split4.length) {
-                                        String[] split5 = split4[i5].split(ContainerUtils.KEY_VALUE_DELIMITER);
+                                        String[] split5 = split4[i5].split("=");
                                         String[] strArr4 = split4;
                                         str8 = str9;
                                         try {
@@ -708,7 +705,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                                 if (URLDecoder.decode(split5[1], "UTF-8").contains("video/mp4")) {
                                                     z6 = true;
                                                 }
-                                            } else if (split5[0].startsWith(RemoteMessageConst.Notification.URL)) {
+                                            } else if (split5[0].startsWith("url")) {
                                                 str11 = URLDecoder.decode(split5[1], "UTF-8");
                                             } else if (split5[0].startsWith("itag")) {
                                                 str11 = null;
@@ -740,12 +737,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                         } else {
                             str8 = str9;
                             if (split[i4].startsWith("use_cipher_signature")) {
-                                String[] split6 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
+                                String[] split6 = split[i4].split("=");
                                 if (split6.length == 2 && split6[1].toLowerCase().equals("true")) {
                                     z5 = true;
                                 }
                             } else if (split[i4].startsWith("hlsvp")) {
-                                String[] split7 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
+                                String[] split7 = split[i4].split("=");
                                 if (split7.length == 2) {
                                     try {
                                         obj = URLDecoder.decode(split7[1], "UTF-8");
@@ -754,7 +751,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                     }
                                 }
                             } else if (split[i4].startsWith("livestream")) {
-                                String[] split8 = split[i4].split(ContainerUtils.KEY_VALUE_DELIMITER);
+                                String[] split8 = split[i4].split("=");
                                 if (split8.length == 2 && split8[1].toLowerCase().equals("1")) {
                                     z2 = true;
                                 }
@@ -987,14 +984,14 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 if (jSONObject.has("hls")) {
                     JSONObject jSONObject2 = jSONObject.getJSONObject("hls");
                     try {
-                        this.results[0] = jSONObject2.getString(RemoteMessageConst.Notification.URL);
+                        this.results[0] = jSONObject2.getString("url");
                     } catch (Exception unused) {
-                        this.results[0] = jSONObject2.getJSONObject("cdns").getJSONObject(jSONObject2.getString("default_cdn")).getString(RemoteMessageConst.Notification.URL);
+                        this.results[0] = jSONObject2.getJSONObject("cdns").getJSONObject(jSONObject2.getString("default_cdn")).getString("url");
                     }
                     this.results[1] = "hls";
                 } else if (jSONObject.has("progressive")) {
                     this.results[1] = "other";
-                    this.results[0] = jSONObject.getJSONArray("progressive").getJSONObject(0).getString(RemoteMessageConst.Notification.URL);
+                    this.results[0] = jSONObject.getJSONArray("progressive").getJSONObject(0).getString("url");
                 }
             } catch (Exception e) {
                 FileLog.e(e);

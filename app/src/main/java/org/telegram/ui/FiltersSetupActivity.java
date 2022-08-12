@@ -29,8 +29,8 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$DialogFilter;
@@ -325,12 +325,12 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:50:0x00fb  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x010f  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x0115  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x0145  */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x014d  */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x00da  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x00f5  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0108  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x0110  */
+        /* JADX WARN: Removed duplicated region for block: B:62:0x0140  */
+        /* JADX WARN: Removed duplicated region for block: B:66:0x0148  */
+        /* JADX WARN: Removed duplicated region for block: B:69:0x00d4  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -854,7 +854,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 suggestedFilterCell = headerCell;
             } else if (i == 1) {
                 View hintInnerCell = new HintInnerCell(this.mContext);
-                hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_top, "windowBackgroundGrayShadow"));
+                hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_top, "windowBackgroundGrayShadow"));
                 suggestedFilterCell = hintInnerCell;
             } else if (i == 2) {
                 final FilterCell filterCell = new FilterCell(this.mContext);
@@ -1025,9 +1025,9 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 filterCell.setFilter(FiltersSetupActivity.this.getMessagesController().dialogFilters.get(i2), true);
             } else if (itemViewType == 3) {
                 if (i == FiltersSetupActivity.this.createSectionRow) {
-                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 } else {
-                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                 }
             } else if (itemViewType != 4) {
                 if (itemViewType != 5) {

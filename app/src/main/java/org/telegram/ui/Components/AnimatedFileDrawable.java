@@ -859,14 +859,19 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         drawInternal(canvas, true, 0L);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00af  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x015c  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void drawInternal(Canvas canvas, boolean z, long j) {
+        float width;
         if (!canLoadFrames() || this.destroyWhenDone) {
             return;
         }
         long currentTimeMillis = j == 0 ? System.currentTimeMillis() : j;
         RectF rectF = z ? this.dstRectBackground : this.dstRect;
         Paint paint = z ? this.backgroundPaint : getPaint();
-        int i = 0;
         if (!z) {
             updateCurrentFrame(currentTimeMillis, false);
         }
@@ -874,75 +879,96 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         if (bitmap == null) {
             return;
         }
-        if (this.applyTransformation) {
-            int width = bitmap.getWidth();
+        float f = this.scaleX;
+        float f2 = this.scaleY;
+        if (z) {
+            int width2 = bitmap.getWidth();
             int height = this.renderingBitmap.getHeight();
             int[] iArr = this.metaData;
             if (iArr[2] == 90 || iArr[2] == 270) {
-                height = width;
-                width = height;
+                height = width2;
+                width2 = height;
             }
-            rectF.set(getBounds());
-            this.scaleX = rectF.width() / width;
-            this.scaleY = rectF.height() / height;
-            this.applyTransformation = false;
-        }
-        if (hasRoundRadius()) {
-            if (this.renderingShader == null) {
-                Bitmap bitmap2 = this.backgroundBitmap;
-                Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-                this.renderingShader = new BitmapShader(bitmap2, tileMode, tileMode);
-            }
-            paint.setShader(this.renderingShader);
-            this.shaderMatrix.reset();
-            this.shaderMatrix.setTranslate(rectF.left, rectF.top);
-            int[] iArr2 = this.metaData;
-            if (iArr2[2] == 90) {
-                this.shaderMatrix.preRotate(90.0f);
-                this.shaderMatrix.preTranslate(0.0f, -rectF.width());
-            } else if (iArr2[2] == 180) {
-                this.shaderMatrix.preRotate(180.0f);
-                this.shaderMatrix.preTranslate(-rectF.width(), -rectF.height());
-            } else if (iArr2[2] == 270) {
-                this.shaderMatrix.preRotate(270.0f);
-                this.shaderMatrix.preTranslate(-rectF.height(), 0.0f);
-            }
-            this.shaderMatrix.preScale(this.scaleX, this.scaleY);
-            this.renderingShader.setLocalMatrix(this.shaderMatrix);
-            if (this.invalidatePath) {
-                this.invalidatePath = false;
-                while (true) {
-                    int[] iArr3 = this.roundRadius;
-                    if (i >= iArr3.length) {
-                        break;
-                    }
-                    float[] fArr = radii;
-                    int i2 = i * 2;
-                    fArr[i2] = iArr3[i];
-                    fArr[i2 + 1] = iArr3[i];
-                    i++;
+            width = rectF.width() / width2;
+            f2 = rectF.height() / height;
+        } else {
+            if (this.applyTransformation) {
+                int width3 = bitmap.getWidth();
+                int height2 = this.renderingBitmap.getHeight();
+                int[] iArr2 = this.metaData;
+                if (iArr2[2] == 90 || iArr2[2] == 270) {
+                    height2 = width3;
+                    width3 = height2;
                 }
-                this.roundPath.reset();
-                this.roundPath.addRoundRect(this.actualDrawRect, radii, Path.Direction.CW);
-                this.roundPath.close();
+                rectF.set(getBounds());
+                width = rectF.width() / width3;
+                this.scaleX = width;
+                f2 = rectF.height() / height2;
+                this.scaleY = f2;
+                this.applyTransformation = false;
             }
-            canvas.drawPath(this.roundPath, paint);
+            if (!hasRoundRadius()) {
+                if (this.renderingShader == null) {
+                    Bitmap bitmap2 = this.backgroundBitmap;
+                    Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+                    this.renderingShader = new BitmapShader(bitmap2, tileMode, tileMode);
+                }
+                paint.setShader(this.renderingShader);
+                this.shaderMatrix.reset();
+                this.shaderMatrix.setTranslate(rectF.left, rectF.top);
+                int[] iArr3 = this.metaData;
+                if (iArr3[2] == 90) {
+                    this.shaderMatrix.preRotate(90.0f);
+                    this.shaderMatrix.preTranslate(0.0f, -rectF.width());
+                } else if (iArr3[2] == 180) {
+                    this.shaderMatrix.preRotate(180.0f);
+                    this.shaderMatrix.preTranslate(-rectF.width(), -rectF.height());
+                } else if (iArr3[2] == 270) {
+                    this.shaderMatrix.preRotate(270.0f);
+                    this.shaderMatrix.preTranslate(-rectF.height(), 0.0f);
+                }
+                this.shaderMatrix.preScale(f, f2);
+                this.renderingShader.setLocalMatrix(this.shaderMatrix);
+                if (this.invalidatePath) {
+                    this.invalidatePath = false;
+                    int i = 0;
+                    while (true) {
+                        int[] iArr4 = this.roundRadius;
+                        if (i >= iArr4.length) {
+                            break;
+                        }
+                        float[] fArr = radii;
+                        int i2 = i * 2;
+                        fArr[i2] = iArr4[i];
+                        fArr[i2 + 1] = iArr4[i];
+                        i++;
+                    }
+                    this.roundPath.reset();
+                    this.roundPath.addRoundRect(this.actualDrawRect, radii, Path.Direction.CW);
+                    this.roundPath.close();
+                }
+                canvas.drawPath(this.roundPath, paint);
+                return;
+            }
+            canvas.translate(rectF.left, rectF.top);
+            int[] iArr5 = this.metaData;
+            if (iArr5[2] == 90) {
+                canvas.rotate(90.0f);
+                canvas.translate(0.0f, -rectF.width());
+            } else if (iArr5[2] == 180) {
+                canvas.rotate(180.0f);
+                canvas.translate(-rectF.width(), -rectF.height());
+            } else if (iArr5[2] == 270) {
+                canvas.rotate(270.0f);
+                canvas.translate(-rectF.height(), 0.0f);
+            }
+            canvas.scale(f, f2);
+            canvas.drawBitmap(this.renderingBitmap, 0.0f, 0.0f, paint);
             return;
         }
-        canvas.translate(rectF.left, rectF.top);
-        int[] iArr4 = this.metaData;
-        if (iArr4[2] == 90) {
-            canvas.rotate(90.0f);
-            canvas.translate(0.0f, -rectF.width());
-        } else if (iArr4[2] == 180) {
-            canvas.rotate(180.0f);
-            canvas.translate(-rectF.width(), -rectF.height());
-        } else if (iArr4[2] == 270) {
-            canvas.rotate(270.0f);
-            canvas.translate(-rectF.height(), 0.0f);
+        f = width;
+        if (!hasRoundRadius()) {
         }
-        canvas.scale(this.scaleX, this.scaleY);
-        canvas.drawBitmap(this.renderingBitmap, 0.0f, 0.0f, paint);
     }
 
     public long getLastFrameTimestamp() {
@@ -1136,7 +1162,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         long j = this.cacheGenerateNativePtr;
         Bitmap bitmap2 = this.generatingCacheBitmap;
         getVideoFrame(j, bitmap2, this.metaData, bitmap2.getRowBytes(), false, this.startTime, this.endTime);
-        if (this.cacheGenerateTimestamp != 0 && this.metaData[3] == 0) {
+        long j2 = this.cacheGenerateTimestamp;
+        if ((j2 != 0 && this.metaData[3] == 0) || j2 > this.metaData[3]) {
             return 0;
         }
         bitmap.eraseColor(0);

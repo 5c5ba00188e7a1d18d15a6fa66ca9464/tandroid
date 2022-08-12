@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.widget.NestedScrollView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -40,8 +39,9 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$TL_restrictionReason;
 import org.telegram.tgnet.TLRPC$TL_userContact_old2;
 import org.telegram.tgnet.TLRPC$User;
@@ -267,10 +267,10 @@ public class PhonebookShareAlert extends BottomSheet {
 
     /* JADX WARN: Removed duplicated region for block: B:39:0x0105  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x02e6  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x02f0  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x02ed  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0236  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x0126  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -839,7 +839,7 @@ public class PhonebookShareAlert extends BottomSheet {
             this.buttonTextView.setEnabled(z);
             TextView textView = this.buttonTextView;
             if (!z) {
-                themedColor &= Integer.MAX_VALUE;
+                themedColor &= ConnectionsManager.DEFAULT_DATACENTER_ID;
             }
             textView.setTextColor(themedColor);
         }
@@ -1154,7 +1154,7 @@ public class PhonebookShareAlert extends BottomSheet {
                     }
                     Intent intent3 = intent;
                     intent3.putExtra("finishActivityOnSaveCompleted", true);
-                    intent3.putParcelableArrayListExtra(RemoteMessageConst.DATA, arrayList);
+                    intent3.putParcelableArrayListExtra("data", arrayList);
                     try {
                         PhonebookShareAlert.this.parentFragment.getParentActivity().startActivity(intent3);
                         PhonebookShareAlert.this.dismiss();
@@ -1396,35 +1396,42 @@ public class PhonebookShareAlert extends BottomSheet {
 
         public void onBindViewHolder(View view, int i, int i2) {
             AndroidUtilities.VcardItem vcardItem;
+            int i3;
             boolean z = true;
             if (i2 == 1) {
                 TextCheckBoxCell textCheckBoxCell = (TextCheckBoxCell) view;
-                int i3 = PhonebookShareAlert.this.phoneStartRow;
-                int i4 = R.drawable.msg_info;
-                if (i < i3 || i >= PhonebookShareAlert.this.phoneEndRow) {
+                if (i < PhonebookShareAlert.this.phoneStartRow || i >= PhonebookShareAlert.this.phoneEndRow) {
                     vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i - PhonebookShareAlert.this.vcardStartRow);
-                    int i5 = vcardItem.type;
-                    if (i5 == 1) {
-                        i4 = R.drawable.msg_mention;
-                    } else if (i5 == 2) {
-                        i4 = R.drawable.msg_location;
-                    } else if (i5 == 3) {
-                        i4 = R.drawable.msg_link;
-                    } else if (i5 != 4) {
-                        if (i5 == 5) {
-                            i4 = R.drawable.msg_calendar2;
-                        } else if (i5 == 6) {
-                            i4 = "ORG".equalsIgnoreCase(vcardItem.getRawType(true)) ? R.drawable.msg_work : R.drawable.msg_jobtitle;
+                    int i4 = vcardItem.type;
+                    if (i4 == 1) {
+                        i3 = R.drawable.msg_mention;
+                    } else if (i4 == 2) {
+                        i3 = R.drawable.msg_location;
+                    } else if (i4 == 3) {
+                        i3 = R.drawable.msg_link;
+                    } else if (i4 == 4) {
+                        i3 = R.drawable.msg_info;
+                    } else if (i4 == 5) {
+                        i3 = R.drawable.msg_calendar2;
+                    } else if (i4 == 6) {
+                        if ("ORG".equalsIgnoreCase(vcardItem.getRawType(true))) {
+                            i3 = R.drawable.msg_work;
+                        } else {
+                            i3 = R.drawable.msg_jobtitle;
                         }
+                    } else if (i4 == 20) {
+                        i3 = R.drawable.msg_info;
+                    } else {
+                        i3 = R.drawable.msg_info;
                     }
                 } else {
                     vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(i - PhonebookShareAlert.this.phoneStartRow);
-                    i4 = R.drawable.msg_calls;
+                    i3 = R.drawable.msg_calls;
                 }
                 if (i == getItemCount() - 1) {
                     z = false;
                 }
-                textCheckBoxCell.setVCardItem(vcardItem, i4, z);
+                textCheckBoxCell.setVCardItem(vcardItem, i3, z);
             }
         }
 

@@ -20,6 +20,4 @@ public abstract class PendingResult<R extends Result> {
     public abstract void cancel();
 
     public abstract boolean isCanceled();
-
-    public abstract void setResultCallback(@RecentlyNonNull ResultCallback<? super R> resultCallback);
 }

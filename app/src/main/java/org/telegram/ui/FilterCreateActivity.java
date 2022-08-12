@@ -28,7 +28,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -1122,17 +1122,17 @@ public class FilterCreateActivity extends BaseFragment {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:115:0x01be, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:115:0x01bd, code lost:
             if (r12 == (r10.this$0.excludeEndRow - 1)) goto L68;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:67:0x0185, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:67:0x0184, code lost:
             if (r12 == (r10.this$0.includeEndRow - 1)) goto L68;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:68:0x0188, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:68:0x0187, code lost:
             r3 = false;
          */
-        /* JADX WARN: Removed duplicated region for block: B:72:0x01cb  */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x0205  */
+        /* JADX WARN: Removed duplicated region for block: B:72:0x01ca  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x0201  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1161,10 +1161,10 @@ public class FilterCreateActivity extends BaseFragment {
             if (itemViewType != 1) {
                 if (itemViewType == 3) {
                     if (i == FilterCreateActivity.this.removeSectionRow) {
-                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                         return;
                     } else {
-                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                         return;
                     }
                 } else if (itemViewType != 4) {
@@ -1180,10 +1180,10 @@ public class FilterCreateActivity extends BaseFragment {
                         textInfoPrivacyCell.setText(LocaleController.getString("FilterIncludeInfo", R.string.FilterIncludeInfo));
                     }
                     if (i == FilterCreateActivity.this.excludeSectionRow && FilterCreateActivity.this.removeSectionRow == -1) {
-                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                         return;
                     } else {
-                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                        viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                         return;
                     }
                 } else {
@@ -1197,18 +1197,20 @@ public class FilterCreateActivity extends BaseFragment {
                                     }
                                     textCell.setColors("switchTrackChecked", "windowBackgroundWhiteBlueText4");
                                     String string4 = LocaleController.getString("FilterRemoveChats", R.string.FilterRemoveChats);
+                                    int i2 = R.drawable.msg_chats_add;
                                     if (i + 1 != FilterCreateActivity.this.excludeSectionRow) {
                                         z = true;
                                     }
-                                    textCell.setTextAndIcon(string4, R.drawable.msg_chats_add, z);
+                                    textCell.setTextAndIcon(string4, i2, z);
                                     return;
                                 }
                                 textCell.setColors("switchTrackChecked", "windowBackgroundWhiteBlueText4");
                                 String string5 = LocaleController.getString("FilterAddChats", R.string.FilterAddChats);
+                                int i3 = R.drawable.msg_chats_add;
                                 if (i + 1 != FilterCreateActivity.this.includeSectionRow) {
                                     z = true;
                                 }
-                                textCell.setTextAndIcon(string5, R.drawable.msg_chats_add, z);
+                                textCell.setTextAndIcon(string5, i3, z);
                                 return;
                             }
                             textCell.setColors("switchTrackChecked", "windowBackgroundWhiteBlueText4");
@@ -1314,9 +1316,9 @@ public class FilterCreateActivity extends BaseFragment {
                 if (chat == null) {
                     return;
                 }
-                int i2 = chat.participants_count;
-                if (i2 != 0) {
-                    string2 = LocaleController.formatPluralString("Members", i2, new Object[0]);
+                int i4 = chat.participants_count;
+                if (i4 != 0) {
+                    string2 = LocaleController.formatPluralString("Members", i4, new Object[0]);
                 } else if (TextUtils.isEmpty(chat.username)) {
                     if (ChatObject.isChannel(chat) && !chat.megagroup) {
                         string2 = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate);

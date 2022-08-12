@@ -45,9 +45,9 @@ import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
@@ -1153,11 +1153,11 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x01ce  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x01e4  */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x0224  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x01c3  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x01d9  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x0219  */
         /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x01d4  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x01c9  */
         /* JADX WARN: Type inference failed for: r1v2, types: [org.telegram.ui.Cells.GroupCreateUserCell] */
         /* JADX WARN: Type inference failed for: r7v0 */
         /* JADX WARN: Type inference failed for: r7v1 */

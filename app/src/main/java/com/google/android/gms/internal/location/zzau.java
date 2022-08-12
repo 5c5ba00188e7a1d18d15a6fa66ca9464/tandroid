@@ -8,15 +8,6 @@ import com.google.android.gms.location.LocationListener;
 final class zzau extends com.google.android.gms.location.zzbc {
     private final ListenerHolder<LocationListener> zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzau(ListenerHolder<LocationListener> listenerHolder) {
-        this.zza = listenerHolder;
-    }
-
-    public final synchronized void zzc() {
-        this.zza.clear();
-    }
-
     @Override // com.google.android.gms.location.zzbd
     public final synchronized void zzd(Location location) {
         this.zza.notifyListener(new zzat(this, location));

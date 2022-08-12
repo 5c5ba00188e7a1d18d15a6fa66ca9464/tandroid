@@ -36,14 +36,11 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
 import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
-import com.huawei.hms.framework.common.hianalytics.CrashHianalyticsData;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -60,9 +57,9 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -222,7 +219,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         addView(this.flickerView, LayoutHelper.createFrame(-1, -2, 48));
         TextView textView = new TextView(context);
         this.webViewNotAvailableText = textView;
-        textView.setText(LocaleController.getString((int) R.string.BotWebViewNotAvailablePlaceholder));
+        textView.setText(LocaleController.getString(R.string.BotWebViewNotAvailablePlaceholder));
         this.webViewNotAvailableText.setTextColor(getColor("windowBackgroundWhiteGrayText"));
         this.webViewNotAvailableText.setTextSize(1, 15.0f);
         this.webViewNotAvailableText.setGravity(17);
@@ -374,7 +371,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             Intent intent = new Intent("android.intent.action.GET_CONTENT");
             intent.addCategory("android.intent.category.OPENABLE");
             intent.setType("*/*");
-            activity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString((int) R.string.BotWebViewFileChooserTitle)), 3000);
+            activity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString(R.string.BotWebViewFileChooserTitle)), 3000);
             return true;
         }
 
@@ -555,12 +552,12 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     return;
                 }
                 this.isRequestingPageOpen = true;
-                new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString((int) R.string.OpenUrlTitle)).setMessage(LocaleController.formatString(R.string.OpenUrlAlert2, uri.toString())).setPositiveButton(LocaleController.getString((int) R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda0
+                new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.OpenUrlTitle)).setMessage(LocaleController.formatString(R.string.OpenUrlAlert2, uri.toString())).setPositiveButton(LocaleController.getString(R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
                         BotWebViewContainer.this.lambda$onOpenUri$1(uri, dialogInterface, i);
                     }
-                }).setNegativeButton(LocaleController.getString((int) R.string.Cancel), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda4
+                }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.BotWebViewContainer$$ExternalSyntheticLambda4
                     @Override // android.content.DialogInterface.OnDismissListener
                     public final void onDismiss(DialogInterface dialogInterface) {
                         BotWebViewContainer.this.lambda$onOpenUri$2(dialogInterface);
@@ -1051,12 +1048,12 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         r12 = "windowBackgroundGray";
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02d3 A[Catch: Exception -> 0x02f1, TryCatch #8 {Exception -> 0x02f1, blocks: (B:116:0x01e3, B:129:0x02d3, B:131:0x02d9, B:133:0x02e6, B:136:0x0229, B:137:0x022d, B:149:0x026d, B:151:0x0270, B:152:0x0273, B:153:0x0247, B:156:0x0251, B:159:0x025a, B:162:0x0277, B:163:0x0281, B:172:0x02c2, B:173:0x02c5, B:174:0x02c8, B:175:0x02cb, B:176:0x02ce, B:177:0x0285, B:180:0x028f, B:183:0x0298, B:186:0x02a2, B:189:0x02ac, B:192:0x0202, B:195:0x020c, B:198:0x0216), top: B:115:0x01e3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:135:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0273 A[Catch: Exception -> 0x02f1, TryCatch #8 {Exception -> 0x02f1, blocks: (B:116:0x01e3, B:129:0x02d3, B:131:0x02d9, B:133:0x02e6, B:136:0x0229, B:137:0x022d, B:149:0x026d, B:151:0x0270, B:152:0x0273, B:153:0x0247, B:156:0x0251, B:159:0x025a, B:162:0x0277, B:163:0x0281, B:172:0x02c2, B:173:0x02c5, B:174:0x02c8, B:175:0x02cb, B:176:0x02ce, B:177:0x0285, B:180:0x028f, B:183:0x0298, B:186:0x02a2, B:189:0x02ac, B:192:0x0202, B:195:0x020c, B:198:0x0216), top: B:115:0x01e3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0277 A[Catch: Exception -> 0x02f1, TryCatch #8 {Exception -> 0x02f1, blocks: (B:116:0x01e3, B:129:0x02d3, B:131:0x02d9, B:133:0x02e6, B:136:0x0229, B:137:0x022d, B:149:0x026d, B:151:0x0270, B:152:0x0273, B:153:0x0247, B:156:0x0251, B:159:0x025a, B:162:0x0277, B:163:0x0281, B:172:0x02c2, B:173:0x02c5, B:174:0x02c8, B:175:0x02cb, B:176:0x02ce, B:177:0x0285, B:180:0x028f, B:183:0x0298, B:186:0x02a2, B:189:0x02ac, B:192:0x0202, B:195:0x020c, B:198:0x0216), top: B:115:0x01e3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x02d3 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x01e3, B:119:0x02d3, B:121:0x02d9, B:123:0x02e6, B:126:0x0229, B:127:0x022d, B:139:0x026d, B:141:0x0270, B:142:0x0273, B:143:0x0247, B:146:0x0251, B:149:0x025a, B:152:0x0277, B:153:0x0281, B:162:0x02c2, B:163:0x02c5, B:164:0x02c8, B:165:0x02cb, B:166:0x02ce, B:167:0x0285, B:170:0x028f, B:173:0x0298, B:176:0x02a2, B:179:0x02ac, B:182:0x0202, B:185:0x020c, B:188:0x0216), top: B:105:0x01e3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:125:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0267  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0273 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x01e3, B:119:0x02d3, B:121:0x02d9, B:123:0x02e6, B:126:0x0229, B:127:0x022d, B:139:0x026d, B:141:0x0270, B:142:0x0273, B:143:0x0247, B:146:0x0251, B:149:0x025a, B:152:0x0277, B:153:0x0281, B:162:0x02c2, B:163:0x02c5, B:164:0x02c8, B:165:0x02cb, B:166:0x02ce, B:167:0x0285, B:170:0x028f, B:173:0x0298, B:176:0x02a2, B:179:0x02ac, B:182:0x0202, B:185:0x020c, B:188:0x0216), top: B:105:0x01e3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0277 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x01e3, B:119:0x02d3, B:121:0x02d9, B:123:0x02e6, B:126:0x0229, B:127:0x022d, B:139:0x026d, B:141:0x0270, B:142:0x0273, B:143:0x0247, B:146:0x0251, B:149:0x025a, B:152:0x0277, B:153:0x0281, B:162:0x02c2, B:163:0x02c5, B:164:0x02c8, B:165:0x02cb, B:166:0x02ce, B:167:0x0285, B:170:0x028f, B:173:0x0298, B:176:0x02a2, B:179:0x02ac, B:182:0x0202, B:185:0x020c, B:188:0x0216), top: B:105:0x01e3 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1201,7 +1198,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         switch (c) {
             case 0:
                 try {
-                    Uri parse = Uri.parse(new JSONObject(str2).optString(RemoteMessageConst.Notification.URL));
+                    Uri parse = Uri.parse(new JSONObject(str2).optString("url"));
                     if (!WHITELISTED_SCHEMES.contains(parse.getScheme())) {
                         return;
                     }
@@ -1230,7 +1227,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     }
                     JSONObject jSONObject = new JSONObject(str2);
                     String optString = jSONObject.optString("title", null);
-                    String string = jSONObject.getString(CrashHianalyticsData.MESSAGE);
+                    String string = jSONObject.getString("message");
                     JSONArray jSONArray = jSONObject.getJSONArray("buttons");
                     AlertDialog.Builder message = new AlertDialog.Builder(getContext()).setTitle(optString).setMessage(string);
                     ArrayList arrayList = new ArrayList();
@@ -1240,7 +1237,6 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     if (arrayList.size() > 3) {
                         return;
                     }
-                    Collections.reverse(arrayList);
                     final AtomicBoolean atomicBoolean = new AtomicBoolean();
                     if (arrayList.size() >= 1) {
                         final PopupButton popupButton = (PopupButton) arrayList.get(0);
@@ -1364,7 +1360,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 return;
             case '\n':
                 try {
-                    this.delegate.onSendWebViewData(new JSONObject(str2).optString(RemoteMessageConst.DATA));
+                    this.delegate.onSendWebViewData(new JSONObject(str2).optString("data"));
                     return;
                 } catch (JSONException e6) {
                     FileLog.e(e6);
@@ -1402,7 +1398,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                         if (botWebViewVibrationEffect2 != null) {
                         }
                     } else if (hashCode != 193071555) {
-                        if (hashCode == 595233003 && optString4.equals(RemoteMessageConst.NOTIFICATION)) {
+                        if (hashCode == 595233003 && optString4.equals("notification")) {
                             c2 = 1;
                             if (c2 != 0) {
                                 String optString5 = jSONObject2.optString("impact_style");
@@ -1542,7 +1538,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     boolean optBoolean2 = jSONObject3.optBoolean("is_active", false);
                     String trim = jSONObject3.optString("text", this.lastButtonText).trim();
                     boolean z = jSONObject3.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
-                    int parseColor = jSONObject3.has(RemoteMessageConst.Notification.COLOR) ? Color.parseColor(jSONObject3.optString(RemoteMessageConst.Notification.COLOR)) : this.lastButtonColor;
+                    int parseColor = jSONObject3.has("color") ? Color.parseColor(jSONObject3.optString("color")) : this.lastButtonColor;
                     int parseColor2 = jSONObject3.has("text_color") ? Color.parseColor(jSONObject3.optString("text_color")) : this.lastButtonTextColor;
                     boolean z2 = jSONObject3.optBoolean("is_progress_visible", false) && z;
                     this.lastButtonColor = parseColor;
@@ -1580,7 +1576,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 }
             case 15:
                 try {
-                    this.delegate.onWebAppSetBackgroundColor(Color.parseColor(new JSONObject(str2).optString(RemoteMessageConst.Notification.COLOR, "#ffffff")) | (-16777216));
+                    this.delegate.onWebAppSetBackgroundColor(Color.parseColor(new JSONObject(str2).optString("color", "#ffffff")) | (-16777216));
                     return;
                 } catch (IllegalArgumentException | JSONException e11) {
                     FileLog.e(e11);
@@ -1721,7 +1717,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         public String textColorKey;
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Removed duplicated region for block: B:12:0x007f  */
+        /* JADX WARN: Removed duplicated region for block: B:12:0x007c  */
         /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1772,9 +1768,9 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     break;
             }
             if (c == 2) {
-                this.text = LocaleController.getString((int) R.string.OK);
+                this.text = LocaleController.getString(R.string.OK);
             } else if (c == 3) {
-                this.text = LocaleController.getString((int) R.string.Close);
+                this.text = LocaleController.getString(R.string.Close);
             } else if (c != 4) {
                 if (c == 5) {
                     this.textColorKey = "dialogTextRed";
@@ -1785,7 +1781,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 this.text = jSONObject.getString("text");
                 return;
             } else {
-                this.text = LocaleController.getString((int) R.string.Cancel);
+                this.text = LocaleController.getString(R.string.Cancel);
             }
             z = false;
             if (z) {

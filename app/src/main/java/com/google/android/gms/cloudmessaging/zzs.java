@@ -1,7 +1,6 @@
 package com.google.android.gms.cloudmessaging;
 
 import android.os.Bundle;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 /* compiled from: com.google.android.gms:play-services-cloud-messaging@@16.0.0 */
 /* loaded from: classes.dex */
 final class zzs extends zzq<Bundle> {
@@ -19,7 +18,7 @@ final class zzs extends zzq<Bundle> {
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.cloudmessaging.zzq
     public final void zza(Bundle bundle) {
-        Bundle bundle2 = bundle.getBundle(RemoteMessageConst.DATA);
+        Bundle bundle2 = bundle.getBundle("data");
         if (bundle2 == null) {
             bundle2 = Bundle.EMPTY;
         }

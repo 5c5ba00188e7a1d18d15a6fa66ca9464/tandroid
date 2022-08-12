@@ -79,7 +79,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.huawei.hms.adapter.internal.AvailableCode;
 import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -104,11 +103,11 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.WebFile;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -500,7 +499,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TLRPC$RichText textItem;
 
         private TL_pageBlockListItem(ArticleViewer articleViewer) {
-            this.index = Integer.MAX_VALUE;
+            this.index = ConnectionsManager.DEFAULT_DATACENTER_ID;
         }
     }
 
@@ -530,7 +529,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TLRPC$RichText textItem;
 
         private TL_pageBlockOrderedListItem(ArticleViewer articleViewer) {
-            this.index = Integer.MAX_VALUE;
+            this.index = ConnectionsManager.DEFAULT_DATACENTER_ID;
         }
     }
 
@@ -3696,7 +3695,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.searchField.setTextSize(1, 18.0f);
         this.searchField.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
         this.searchField.setSingleLine(true);
-        this.searchField.setHint(LocaleController.getString("Search", R.string.Search));
+        EditTextBoldCursor editTextBoldCursor2 = this.searchField;
+        int i4 = R.string.Search;
+        editTextBoldCursor2.setHint(LocaleController.getString("Search", i4));
         this.searchField.setBackgroundResource(0);
         this.searchField.setPadding(0, 0, 0, 0);
         this.searchField.setInputType(this.searchField.getInputType() | 524288);
@@ -3724,9 +3725,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         this.searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda16
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView, int i4, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
                 boolean lambda$setParentActivity$15;
-                lambda$setParentActivity$15 = ArticleViewer.this.lambda$setParentActivity$15(textView, i4, keyEvent);
+                lambda$setParentActivity$15 = ArticleViewer.this.lambda$setParentActivity$15(textView, i5, keyEvent);
                 return lambda$setParentActivity$15;
             }
         });
@@ -3805,7 +3806,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.menuButton.setDuplicateParentStateEnabled(false);
         this.menuButton.setClickable(true);
         this.menuButton.setIcon(R.drawable.ic_ab_other);
-        this.menuButton.addSubItem(1, R.drawable.msg_search, LocaleController.getString("Search", R.string.Search));
+        this.menuButton.addSubItem(1, R.drawable.msg_search, LocaleController.getString("Search", i4));
         this.menuButton.addSubItem(2, R.drawable.msg_share, LocaleController.getString("ShareFile", R.string.ShareFile));
         this.menuButton.addSubItem(3, R.drawable.msg_openin, LocaleController.getString("OpenInExternalApp", R.string.OpenInExternalApp));
         this.menuButton.addSubItem(4, R.drawable.msg_settings_old, LocaleController.getString("Settings", R.string.Settings));
@@ -3824,8 +3825,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         });
         this.menuButton.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda38
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
-            public final void onItemClick(int i4) {
-                ArticleViewer.this.lambda$setParentActivity$20(i4);
+            public final void onItemClick(int i5) {
+                ArticleViewer.this.lambda$setParentActivity$20(i5);
             }
         });
         FrameLayout frameLayout6 = new FrameLayout(this, this.parentActivity) { // from class: org.telegram.ui.ArticleViewer.17
@@ -3890,17 +3891,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         layoutParams.type = 98;
         layoutParams.softInputMode = 48;
         layoutParams.flags = 131072;
-        int i4 = 1792;
+        int i5 = 1792;
         int color = Theme.getColor("windowBackgroundGray", null, true);
         boolean z = AndroidUtilities.computePerceivedBrightness(color) >= 0.721f;
         if (z && i3 >= 26) {
-            i4 = 1808;
+            i5 = 1808;
             this.navigationBarPaint.setColor(color);
         } else if (!z) {
             this.navigationBarPaint.setColor(color);
         }
         WindowManager.LayoutParams layoutParams2 = this.windowLayoutParams;
-        layoutParams2.systemUiVisibility = i4;
+        layoutParams2.systemUiVisibility = i5;
         if (i3 >= 21) {
             layoutParams2.flags |= -2147417856;
             if (i3 >= 28) {
@@ -6300,32 +6301,32 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     case 19:
                         textView = new BlockAudioCell(this.context, this);
                         break;
-                    case org.telegram.messenger.R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                    case 20:
                         textView = new BlockKickerCell(this.context, this);
                         break;
                     case 21:
                         textView = new BlockOrderedListItemCell(this.context, this);
                         break;
-                    case org.telegram.messenger.R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                    case 22:
                         blockVideoCell = new BlockMapCell(this.context, this, 0);
                         textView = blockVideoCell;
                         break;
-                    case org.telegram.messenger.R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                    case 23:
                         textView = new BlockRelatedArticlesCell(this.context, this);
                         break;
                     case 24:
                         textView = new BlockDetailsCell(this.context, this);
                         break;
-                    case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                    case 25:
                         textView = new BlockTableCell(this.context, this);
                         break;
-                    case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                    case 26:
                         textView = new BlockRelatedArticlesHeaderCell(this.context, this);
                         break;
-                    case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                    case 27:
                         textView = new BlockDetailsBottomCell(this.context);
                         break;
-                    case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                    case 28:
                         textView = new BlockRelatedArticlesShadowCell(this.context);
                         break;
                     default:
@@ -6457,13 +6458,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         blockAudioCell.setBlock(tLRPC$TL_pageBlockAudio, z4, z);
                         return;
-                    case org.telegram.messenger.R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                    case 20:
                         ((BlockKickerCell) viewHolder.itemView).setBlock((TLRPC$TL_pageBlockKicker) tLRPC$PageBlock2);
                         return;
                     case 21:
                         ((BlockOrderedListItemCell) viewHolder.itemView).setBlock((TL_pageBlockOrderedListItem) tLRPC$PageBlock2);
                         return;
-                    case org.telegram.messenger.R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                    case 22:
                         BlockMapCell blockMapCell = (BlockMapCell) viewHolder.itemView;
                         TLRPC$TL_pageBlockMap tLRPC$TL_pageBlockMap = (TLRPC$TL_pageBlockMap) tLRPC$PageBlock2;
                         boolean z5 = i2 == 0;
@@ -6472,19 +6473,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         blockMapCell.setBlock(tLRPC$TL_pageBlockMap, z5, z);
                         return;
-                    case org.telegram.messenger.R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                    case 23:
                         ((BlockRelatedArticlesCell) viewHolder.itemView).setBlock((TL_pageBlockRelatedArticlesChild) tLRPC$PageBlock2);
                         return;
                     case 24:
                         ((BlockDetailsCell) viewHolder.itemView).setBlock((TLRPC$TL_pageBlockDetails) tLRPC$PageBlock2);
                         return;
-                    case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                    case 25:
                         ((BlockTableCell) viewHolder.itemView).setBlock((TLRPC$TL_pageBlockTable) tLRPC$PageBlock2);
                         return;
-                    case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                    case 26:
                         ((BlockRelatedArticlesHeaderCell) viewHolder.itemView).setBlock((TLRPC$TL_pageBlockRelatedArticles) tLRPC$PageBlock2);
                         return;
-                    case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                    case 27:
                         BlockDetailsBottomCell blockDetailsBottomCell = (BlockDetailsBottomCell) viewHolder.itemView;
                         return;
                     default:
@@ -10497,7 +10498,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         public BlockRelatedArticlesShadowCell(Context context) {
             super(context);
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, -16777216));
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, -16777216));
             this.shadowDrawable = combinedDrawable;
             combinedDrawable.setFullsize(true);
             setBackgroundDrawable(this.shadowDrawable);

@@ -15,8 +15,8 @@ import java.util.List;
 import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class NotificationImageProvider extends ContentProvider implements NotificationCenter.NotificationCenterDelegate {
-    public static final String AUTHORITY = "org.telegram.messenger.beta.notification_image_provider";
-    private static final UriMatcher matcher;
+    private static String authority;
+    private static UriMatcher matcher;
     private HashSet<String> waitingForFiles = new HashSet<>();
     private final Object sync = new Object();
     private HashMap<String, Long> fileStartTimes = new HashMap<>();
@@ -46,10 +46,20 @@ public class NotificationImageProvider extends ContentProvider implements Notifi
         return 0;
     }
 
-    static {
-        UriMatcher uriMatcher = new UriMatcher(-1);
-        matcher = uriMatcher;
-        uriMatcher.addURI(AUTHORITY, "msg_media_raw/#/*", 1);
+    public static String getAuthority() {
+        if (authority == null) {
+            authority = ApplicationLoader.getApplicationId() + ".notification_image_provider";
+        }
+        return authority;
+    }
+
+    private static UriMatcher getUriMatcher() {
+        if (matcher == null) {
+            UriMatcher uriMatcher = new UriMatcher(-1);
+            matcher = uriMatcher;
+            uriMatcher.addURI(getAuthority(), "msg_media_raw/#/*", 1);
+        }
+        return matcher;
     }
 
     @Override // android.content.ContentProvider
@@ -80,7 +90,7 @@ public class NotificationImageProvider extends ContentProvider implements Notifi
         if (!"r".equals(str)) {
             throw new SecurityException("Can only open files for read");
         }
-        if (matcher.match(uri) == 1) {
+        if (getUriMatcher().match(uri) == 1) {
             List<String> pathSegments = uri.getPathSegments();
             Integer.parseInt(pathSegments.get(1));
             String str2 = pathSegments.get(2);

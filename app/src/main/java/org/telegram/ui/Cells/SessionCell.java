@@ -17,9 +17,9 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_authorization;
 import org.telegram.tgnet.TLRPC$TL_webAuthorization;
@@ -305,15 +305,14 @@ public class SessionCell extends FrameLayout {
     }
 
     public static Drawable createDrawable(TLRPC$TL_authorization tLRPC$TL_authorization) {
+        int i;
         String lowerCase = tLRPC$TL_authorization.platform.toLowerCase();
         if (lowerCase.isEmpty()) {
             lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
         }
         String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
-        boolean contains = lowerCase2.contains("safari");
-        int i = R.drawable.device_web_other;
         String str = "avatar_backgroundCyan";
-        if (contains) {
+        if (lowerCase2.contains("safari")) {
             i = R.drawable.device_web_safari;
         } else if (lowerCase2.contains("edge")) {
             i = R.drawable.device_web_edge;
@@ -323,7 +322,9 @@ public class SessionCell extends FrameLayout {
             i = R.drawable.device_web_opera;
         } else if (lowerCase2.contains("firefox")) {
             i = R.drawable.device_web_firefox;
-        } else if (!lowerCase2.contains("vivaldi")) {
+        } else if (lowerCase2.contains("vivaldi")) {
+            i = R.drawable.device_web_other;
+        } else {
             if (lowerCase.contains("ios")) {
                 i = lowerCase2.contains("ipad") ? R.drawable.device_tablet_ios : R.drawable.device_phone_ios;
                 str = "avatar_backgroundBlue";
@@ -336,6 +337,8 @@ public class SessionCell extends FrameLayout {
                 str = "avatar_backgroundGreen";
             } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
                 i = R.drawable.device_desktop_other;
+            } else {
+                i = R.drawable.device_web_other;
             }
             Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("avatar_text"), PorterDuff.Mode.SRC_IN));

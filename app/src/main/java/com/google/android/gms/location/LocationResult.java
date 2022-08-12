@@ -42,6 +42,15 @@ public final class LocationResult extends AbstractSafeParcelable implements Refl
     }
 
     @RecentlyNonNull
+    public Location getLastLocation() {
+        int size = this.zzb.size();
+        if (size == 0) {
+            return null;
+        }
+        return this.zzb.get(size - 1);
+    }
+
+    @RecentlyNonNull
     public List<Location> getLocations() {
         return this.zzb;
     }

@@ -4,8 +4,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.SystemClock;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.ui.Components.RLottieDrawable;
@@ -16,8 +16,10 @@ public class GroupCallStatusIcon {
     RLottieImageView iconView;
     boolean isSpeaking;
     boolean lastRaisedHand;
+    RLottieDrawable micDrawable;
     private boolean mutedByMe;
     TLRPC$TL_groupCallParticipant participant;
+    RLottieDrawable shakeHandDrawable;
     boolean updateRunnableScheduled;
     private Runnable shakeHandCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda3
         @Override // java.lang.Runnable
@@ -43,8 +45,6 @@ public class GroupCallStatusIcon {
             GroupCallStatusIcon.this.lambda$new$3();
         }
     };
-    RLottieDrawable micDrawable = new RLottieDrawable(R.raw.voice_mini, "2131558598", AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
-    RLottieDrawable shakeHandDrawable = new RLottieDrawable(R.raw.hand_2, "2131558461", AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), true, null);
 
     /* loaded from: classes3.dex */
     public interface Callback {
@@ -87,6 +87,13 @@ public class GroupCallStatusIcon {
             rLottieImageView.setAnimation(this.shakeHandDrawable);
             this.iconView.playAnimation();
         }
+    }
+
+    public GroupCallStatusIcon() {
+        int i = R.raw.voice_mini;
+        this.micDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), true, null);
+        int i2 = R.raw.hand_2;
+        this.shakeHandDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), true, null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

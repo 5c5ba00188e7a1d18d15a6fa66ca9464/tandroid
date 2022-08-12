@@ -104,13 +104,17 @@ public class VideoEncodingService extends Service implements NotificationCenter.
             builder.setSmallIcon(17301640);
             this.builder.setWhen(System.currentTimeMillis());
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
+            this.builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
             if (booleanExtra) {
-                this.builder.setTicker(LocaleController.getString("SendingGif", org.telegram.messenger.beta.R.string.SendingGif));
-                this.builder.setContentText(LocaleController.getString("SendingGif", org.telegram.messenger.beta.R.string.SendingGif));
+                NotificationCompat.Builder builder2 = this.builder;
+                int i5 = R.string.SendingGif;
+                builder2.setTicker(LocaleController.getString("SendingGif", i5));
+                this.builder.setContentText(LocaleController.getString("SendingGif", i5));
             } else {
-                this.builder.setTicker(LocaleController.getString("SendingVideo", org.telegram.messenger.beta.R.string.SendingVideo));
-                this.builder.setContentText(LocaleController.getString("SendingVideo", org.telegram.messenger.beta.R.string.SendingVideo));
+                NotificationCompat.Builder builder3 = this.builder;
+                int i6 = R.string.SendingVideo;
+                builder3.setTicker(LocaleController.getString("SendingVideo", i6));
+                this.builder.setContentText(LocaleController.getString("SendingVideo", i6));
             }
         }
         this.currentProgress = 0;

@@ -11,8 +11,7 @@ import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.util.ArrayUtils;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.zzu;
@@ -46,14 +45,14 @@ public final class zzaz extends zzi {
         return true;
     }
 
-    public final void zzC(LocationRequest locationRequest, ListenerHolder<LocationListener> listenerHolder, zzai zzaiVar) throws RemoteException {
+    public final void zzB(zzba zzbaVar, ListenerHolder<LocationCallback> listenerHolder, zzai zzaiVar) throws RemoteException {
         synchronized (this.zzf) {
-            this.zzf.zzd(locationRequest, listenerHolder, zzaiVar);
+            this.zzf.zze(zzbaVar, listenerHolder, zzaiVar);
         }
     }
 
-    public final void zzF(ListenerHolder.ListenerKey<LocationListener> listenerKey, zzai zzaiVar) throws RemoteException {
-        this.zzf.zzh(listenerKey, zzaiVar);
+    public final void zzH(ListenerHolder.ListenerKey<LocationCallback> listenerKey, zzai zzaiVar) throws RemoteException {
+        this.zzf.zzi(listenerKey, zzaiVar);
     }
 
     public final void zzL(LocationSettingsRequest locationSettingsRequest, BaseImplementation$ResultHolder<LocationSettingsResult> baseImplementation$ResultHolder, String str) throws RemoteException {

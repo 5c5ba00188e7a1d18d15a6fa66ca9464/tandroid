@@ -4,7 +4,6 @@ import android.content.Context;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailabilityLight;
 import com.google.android.gms.common.api.Api;
-import com.google.android.gms.signin.zae;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.annotation.concurrent.GuardedBy;
@@ -30,8 +29,8 @@ public final class zaag extends zaap {
         boolean z;
         Context context2;
         zaaz zaazVar;
-        zae zaeVar;
-        zae zaeVar2;
+        com.google.android.gms.signin.zae zaeVar;
+        com.google.android.gms.signin.zae zaeVar2;
         zaaz zaazVar2;
         Context context3;
         boolean z2;

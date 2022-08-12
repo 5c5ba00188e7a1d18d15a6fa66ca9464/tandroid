@@ -23,9 +23,9 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.SimpleTextView;
@@ -283,19 +283,22 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                 if (giftTier != null) {
                     String str = "";
                     if (premiumPreviewBottomSheet.isOutboundGift) {
+                        int i2 = R.string.TelegramPremiumUserGiftedPremiumOutboundDialogTitle;
                         Object[] objArr = new Object[2];
                         TLRPC$User tLRPC$User = premiumPreviewBottomSheet.user;
                         objArr[0] = tLRPC$User != null ? tLRPC$User.first_name : str;
                         objArr[1] = Integer.valueOf(giftTier.getMonths());
-                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.TelegramPremiumUserGiftedPremiumOutboundDialogTitle, objArr), null));
+                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i2, objArr), null));
+                        int i3 = R.string.TelegramPremiumUserGiftedPremiumOutboundDialogSubtitle;
                         Object[] objArr2 = new Object[1];
                         TLRPC$User tLRPC$User2 = PremiumPreviewBottomSheet.this.user;
                         if (tLRPC$User2 != null) {
                             str = tLRPC$User2.first_name;
                         }
                         objArr2[0] = str;
-                        textView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.TelegramPremiumUserGiftedPremiumOutboundDialogSubtitle, objArr2), null));
+                        textView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i3, objArr2), null));
                     } else {
+                        int i4 = R.string.TelegramPremiumUserGiftedPremiumDialogTitle;
                         Object[] objArr3 = new Object[2];
                         TLRPC$User tLRPC$User3 = premiumPreviewBottomSheet.user;
                         if (tLRPC$User3 != null) {
@@ -303,19 +306,20 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                         }
                         objArr3[0] = str;
                         objArr3[1] = Integer.valueOf(giftTier.getMonths());
-                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.TelegramPremiumUserGiftedPremiumDialogTitle, objArr3), null));
-                        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString((int) R.string.TelegramPremiumUserGiftedPremiumDialogSubtitle)));
+                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i4, objArr3), null));
+                        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserGiftedPremiumDialogSubtitle)));
                     }
                 } else {
+                    int i5 = R.string.TelegramPremiumUserDialogTitle;
                     TLRPC$User tLRPC$User4 = premiumPreviewBottomSheet.user;
-                    textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(R.string.TelegramPremiumUserDialogTitle, ContactsController.formatName(tLRPC$User4.first_name, tLRPC$User4.last_name)), null));
-                    textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString((int) R.string.TelegramPremiumUserDialogSubtitle)));
+                    textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i5, ContactsController.formatName(tLRPC$User4.first_name, tLRPC$User4.last_name)), null));
+                    textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserDialogSubtitle)));
                 }
                 PremiumPreviewBottomSheet.this.starParticlesView = new StarParticlesView(context);
                 FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.3
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, i3);
+                    protected void onMeasure(int i6, int i7) {
+                        super.onMeasure(i6, i7);
                         PremiumPreviewBottomSheet premiumPreviewBottomSheet2 = PremiumPreviewBottomSheet.this;
                         premiumPreviewBottomSheet2.starParticlesView.setTranslationY((premiumPreviewBottomSheet2.iconTextureView.getTop() + (PremiumPreviewBottomSheet.this.iconTextureView.getMeasuredHeight() / 2.0f)) - (PremiumPreviewBottomSheet.this.starParticlesView.getMeasuredHeight() / 2.0f));
                     }
@@ -334,8 +338,8 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
             } else if (i == 3) {
                 view = new View(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.5
                     @Override // android.view.View
-                    protected void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(68.0f), 1073741824));
+                    protected void onMeasure(int i6, int i7) {
+                        super.onMeasure(i6, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(68.0f), 1073741824));
                     }
                 };
             } else if (i != 4) {

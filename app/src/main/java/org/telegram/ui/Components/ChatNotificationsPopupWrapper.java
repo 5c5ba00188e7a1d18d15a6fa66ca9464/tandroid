@@ -3,11 +3,10 @@ package org.telegram.ui.Components;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -74,7 +73,10 @@ public class ChatNotificationsPopupWrapper {
                 ChatNotificationsPopupWrapper.this.lambda$new$1(callback, view);
             }
         });
-        ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_mute_1h, LocaleController.getString("MuteFor1h", R.string.MuteFor1h), false, resourcesProvider);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = this.windowLayout;
+        int i2 = R.drawable.msg_mute_1h;
+        int i3 = R.string.MuteFor1h;
+        ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, i2, LocaleController.getString("MuteFor1h", i3), false, resourcesProvider);
         this.muteForLastSelected = addItem3;
         addItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
@@ -82,7 +84,7 @@ public class ChatNotificationsPopupWrapper {
                 ChatNotificationsPopupWrapper.this.lambda$new$2(callback, view);
             }
         });
-        ActionBarMenuSubItem addItem4 = ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_mute_1h, LocaleController.getString("MuteFor1h", R.string.MuteFor1h), false, resourcesProvider);
+        ActionBarMenuSubItem addItem4 = ActionBarMenuItem.addItem(this.windowLayout, i2, LocaleController.getString("MuteFor1h", i3), false, resourcesProvider);
         this.muteForLastSelected2 = addItem4;
         addItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
@@ -238,8 +240,8 @@ public class ChatNotificationsPopupWrapper {
 
     private String formatMuteForTime(int i) {
         StringBuilder sb = new StringBuilder();
-        int i2 = i / RemoteMessageConst.DEFAULT_TTL;
-        int i3 = (i - (RemoteMessageConst.DEFAULT_TTL * i2)) / 3600;
+        int i2 = i / 86400;
+        int i3 = (i - (86400 * i2)) / 3600;
         if (i2 != 0) {
             sb.append(i2);
             sb.append(LocaleController.getString("SecretChatTimerDays", R.string.SecretChatTimerDays));

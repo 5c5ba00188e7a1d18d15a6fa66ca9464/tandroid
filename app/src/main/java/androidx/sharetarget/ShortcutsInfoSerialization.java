@@ -9,7 +9,6 @@ import android.util.Xml;
 import androidx.collection.ArrayMap;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.util.AtomicFile;
-import com.huawei.hms.support.api.entity.core.CommonCode;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -125,7 +124,7 @@ class ShortcutsInfoSerialization {
                 if (next == 2) {
                     String name = parser.getName();
                     name.hashCode();
-                    if (name.equals(CommonCode.Resolution.HAS_RESOLUTION_FROM_APK)) {
+                    if (name.equals("intent")) {
                         Intent parseIntent = parseIntent(parser);
                         if (parseIntent != null) {
                             arrayList.add(parseIntent);
@@ -220,13 +219,13 @@ class ShortcutsInfoSerialization {
     }
 
     private static void serializeIntent(XmlSerializer serializer, Intent intent) throws IOException {
-        serializer.startTag(null, CommonCode.Resolution.HAS_RESOLUTION_FROM_APK);
+        serializer.startTag(null, "intent");
         serializeAttribute(serializer, "action", intent.getAction());
         if (intent.getComponent() != null) {
             serializeAttribute(serializer, "targetPackage", intent.getComponent().getPackageName());
             serializeAttribute(serializer, "targetClass", intent.getComponent().getClassName());
         }
-        serializer.endTag(null, CommonCode.Resolution.HAS_RESOLUTION_FROM_APK);
+        serializer.endTag(null, "intent");
     }
 
     private static void serializeCategory(XmlSerializer serializer, String category) throws IOException {

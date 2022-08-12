@@ -20,12 +20,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
@@ -77,7 +76,7 @@ public class LinkEditActivity extends BaseFragment {
     private HeaderCell usesHeaderCell;
     private boolean firstLayout = true;
     private ArrayList<Integer> dispalyedDates = new ArrayList<>();
-    private final int[] defaultDates = {3600, RemoteMessageConst.DEFAULT_TTL, 604800};
+    private final int[] defaultDates = {3600, 86400, 604800};
     private ArrayList<Integer> dispalyedUses = new ArrayList<>();
     private final int[] defaultUses = {1, 10, 100};
 
@@ -325,7 +324,8 @@ public class LinkEditActivity extends BaseFragment {
         });
         linearLayout.addView(this.approveCell, LayoutHelper.createLinear(-1, 56));
         TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
-        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+        int i4 = R.drawable.greydivider;
+        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, i4, "windowBackgroundGrayShadow"));
         textInfoPrivacyCell.setText(LocaleController.getString("ApproveNewMembersDescription", R.string.ApproveNewMembersDescription));
         linearLayout.addView(textInfoPrivacyCell);
         HeaderCell headerCell = new HeaderCell(context);
@@ -349,8 +349,8 @@ public class LinkEditActivity extends BaseFragment {
         });
         this.timeChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
-            public final void onOptionSelected(int i4) {
-                LinkEditActivity.this.lambda$createView$3(i4);
+            public final void onOptionSelected(int i5) {
+                LinkEditActivity.this.lambda$createView$3(i5);
             }
 
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
@@ -372,8 +372,8 @@ public class LinkEditActivity extends BaseFragment {
         this.usesChooseView = slideChooseView2;
         slideChooseView2.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
-            public final void onOptionSelected(int i4) {
-                LinkEditActivity.this.lambda$createView$4(i4);
+            public final void onOptionSelected(int i5) {
+                LinkEditActivity.this.lambda$createView$4(i5);
             }
 
             @Override // org.telegram.ui.Components.SlideChooseView.Callback
@@ -401,11 +401,11 @@ public class LinkEditActivity extends BaseFragment {
         this.usesEditText.setInputType(2);
         this.usesEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.6
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
             }
 
             @Override // android.text.TextWatcher
@@ -447,11 +447,11 @@ public class LinkEditActivity extends BaseFragment {
         this.nameEditText = editText2;
         editText2.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.8
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
             }
 
             @Override // android.text.TextWatcher
@@ -480,7 +480,8 @@ public class LinkEditActivity extends BaseFragment {
         linearLayout.addView(this.nameEditText, LayoutHelper.createLinear(-1, 50));
         TextInfoPrivacyCell textInfoPrivacyCell4 = new TextInfoPrivacyCell(context);
         this.dividerName = textInfoPrivacyCell4;
-        textInfoPrivacyCell4.setBackground(Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+        int i5 = R.drawable.greydivider_bottom;
+        textInfoPrivacyCell4.setBackground(Theme.getThemedDrawable(context, i5, "windowBackgroundGrayShadow"));
         this.dividerName.setText(LocaleController.getString("LinkNameHelp", R.string.LinkNameHelp));
         linearLayout.addView(this.dividerName);
         if (this.type == 1) {
@@ -514,8 +515,8 @@ public class LinkEditActivity extends BaseFragment {
             }
         });
         this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
-        this.dividerUses.setBackgroundDrawable(Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-        this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+        this.dividerUses.setBackgroundDrawable(Theme.getThemedDrawable(context, i5, "windowBackgroundGrayShadow"));
+        this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, i4, "windowBackgroundGrayShadow"));
         this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
         this.usesEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.usesEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
@@ -1019,8 +1020,10 @@ public class LinkEditActivity extends BaseFragment {
         TextInfoPrivacyCell textInfoPrivacyCell = this.dividerUses;
         if (textInfoPrivacyCell != null) {
             Context context = textInfoPrivacyCell.getContext();
-            this.dividerUses.setBackgroundDrawable(Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-            this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+            TextInfoPrivacyCell textInfoPrivacyCell2 = this.dividerUses;
+            int i = R.drawable.greydivider_bottom;
+            textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawable(context, i, "windowBackgroundGrayShadow"));
+            this.divider.setBackgroundDrawable(Theme.getThemedDrawable(context, R.drawable.greydivider, "windowBackgroundGrayShadow"));
             this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
             this.usesEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             this.usesEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
@@ -1032,7 +1035,7 @@ public class LinkEditActivity extends BaseFragment {
                 textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
             }
             this.createTextView.setTextColor(Theme.getColor("actionBarDefaultTitle"));
-            this.dividerName.setBackground(Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+            this.dividerName.setBackground(Theme.getThemedDrawable(context, i, "windowBackgroundGrayShadow"));
             this.nameEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             this.nameEditText.setHintTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
         }

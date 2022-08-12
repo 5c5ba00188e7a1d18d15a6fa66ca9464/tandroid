@@ -5,7 +5,6 @@ import android.media.AudioManager;
 import android.os.Build;
 import java.util.Arrays;
 import java.util.List;
-import org.telegram.messenger.R;
 import org.webrtc.ContextUtils;
 import org.webrtc.Logging;
 import org.webrtc.MediaStreamTrack;
@@ -61,11 +60,11 @@ public final class WebRtcAudioUtils {
                 return "TYPE_TELEPHONY";
             case 19:
                 return "TYPE_AUX_LINE";
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
                 return "TYPE_IP";
             case 21:
                 return "TYPE_BUS";
-            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+            case 22:
                 return "TYPE_USB_HEADSET";
             default:
                 return "TYPE_UNKNOWN";

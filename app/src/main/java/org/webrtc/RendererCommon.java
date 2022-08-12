@@ -3,6 +3,7 @@ package org.webrtc;
 import android.graphics.Point;
 import android.opengl.Matrix;
 import android.view.View;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
 public class RendererCommon {
     private static float BALANCED_VISIBLE_FRACTION = 0.5625f;
@@ -65,8 +66,8 @@ public class RendererCommon {
         */
         public Point measure(boolean z, int i, int i2, int i3, int i4) {
             float f;
-            int defaultSize = View.getDefaultSize(Integer.MAX_VALUE, i);
-            int defaultSize2 = View.getDefaultSize(Integer.MAX_VALUE, i2);
+            int defaultSize = View.getDefaultSize(ConnectionsManager.DEFAULT_DATACENTER_ID, i);
+            int defaultSize2 = View.getDefaultSize(ConnectionsManager.DEFAULT_DATACENTER_ID, i2);
             if (i3 == 0 || i4 == 0 || defaultSize == 0 || defaultSize2 == 0) {
                 return new Point(defaultSize, defaultSize2);
             }

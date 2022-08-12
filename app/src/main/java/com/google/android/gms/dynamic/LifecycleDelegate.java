@@ -14,4 +14,10 @@ public interface LifecycleDelegate {
     void onPause();
 
     void onResume();
+
+    void onSaveInstanceState(@RecentlyNonNull Bundle bundle);
+
+    void onStart();
+
+    void onStop();
 }

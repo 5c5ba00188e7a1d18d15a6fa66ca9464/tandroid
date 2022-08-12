@@ -16,8 +16,7 @@ import android.view.WindowManager;
 import android.widget.PopupMenu;
 import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.R;
-@TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+@TargetApi(23)
 /* loaded from: classes3.dex */
 public final class FloatingActionMode extends ActionMode {
     private final ActionMode.Callback2 mCallback;

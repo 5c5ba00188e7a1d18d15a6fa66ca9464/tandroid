@@ -10,9 +10,9 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$User;
@@ -52,19 +52,19 @@ public final class BulletinFactory {
     /* JADX WARN: Init of enum VIDEO_TO_DOWNLOADS can be incorrect */
     /* loaded from: classes3.dex */
     public enum FileType {
-        PHOTO("PhotoSavedHint", R.string.PhotoSavedHint, r7),
-        PHOTOS("PhotosSavedHint", r7),
-        VIDEO("VideoSavedHint", R.string.VideoSavedHint, r7),
-        VIDEOS("VideosSavedHint", r7),
-        MEDIA("MediaSavedHint", r7),
-        PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", R.string.PhotoSavedToDownloadsHint, r5),
-        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, r5),
+        PHOTO("PhotoSavedHint", r4, r13),
+        PHOTOS("PhotosSavedHint", r13),
+        VIDEO("VideoSavedHint", R.string.VideoSavedHint, r13),
+        VIDEOS("VideosSavedHint", r13),
+        MEDIA("MediaSavedHint", r13),
+        PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", r18, r13),
+        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, r13),
         GIF("GifSavedHint", R.string.GifSavedHint, Icon.SAVED_TO_GIFS),
-        GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, r5),
-        AUDIO("AudioSavedHint", R.string.AudioSavedHint, r11),
-        AUDIOS("AudiosSavedHint", r11),
-        UNKNOWN("FileSavedHint", R.string.FileSavedHint, r5),
-        UNKNOWNS("FilesSavedHint", r5);
+        GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, r13),
+        AUDIO("AudioSavedHint", r28, r9),
+        AUDIOS("AudiosSavedHint", r9),
+        UNKNOWN("FileSavedHint", R.string.FileSavedHint, r13),
+        UNKNOWNS("FilesSavedHint", r13);
         
         private final Icon icon;
         private final String localeKey;
@@ -72,8 +72,11 @@ public final class BulletinFactory {
         private final boolean plural;
 
         static {
+            int i = R.string.PhotoSavedHint;
             Icon icon = Icon.SAVED_TO_GALLERY;
+            int i2 = R.string.PhotoSavedToDownloadsHint;
             Icon icon2 = Icon.SAVED_TO_DOWNLOADS;
+            int i3 = R.string.AudioSavedHint;
             Icon icon3 = Icon.SAVED_TO_MUSIC;
         }
 
@@ -217,7 +220,7 @@ public final class BulletinFactory {
     public Bulletin createRestrictVoiceMessagesPremiumBulletin() {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), null);
         lottieLayout.setAnimation(R.raw.voip_muted, new String[0]);
-        String string = LocaleController.getString((int) R.string.PrivacyVoiceMessagesPremiumOnly);
+        String string = LocaleController.getString(R.string.PrivacyVoiceMessagesPremiumOnly);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
         int indexOf = string.indexOf(42);
         int lastIndexOf = string.lastIndexOf(42);
@@ -310,8 +313,8 @@ public final class BulletinFactory {
         return createMuteBulletin(baseFragment, i, 0, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0080  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0089  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0083  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x008b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -335,9 +338,7 @@ public final class BulletinFactory {
                 }
                 lottieLayout.textView.setText(formatString);
                 return Bulletin.make(baseFragment, lottieLayout, 1500);
-            } else if (i != 5) {
-                throw new IllegalArgumentException();
-            } else {
+            } else if (i == 5) {
                 formatString = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(i2));
                 z = true;
                 z2 = true;
@@ -350,6 +351,8 @@ public final class BulletinFactory {
                 }
                 lottieLayout.textView.setText(formatString);
                 return Bulletin.make(baseFragment, lottieLayout, 1500);
+            } else {
+                throw new IllegalArgumentException();
             }
         } else {
             formatString = LocaleController.getString("NotificationsMutedHint", R.string.NotificationsMutedHint);
@@ -414,7 +417,7 @@ public final class BulletinFactory {
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:8:0x00ae  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x00aa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -439,7 +442,11 @@ public final class BulletinFactory {
                 }
                 return Bulletin.make(frameLayout, lottieLayout, 1500);
             }
-            replaceTags = DialogObject.isChatDialog(j) ? AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j)).title)) : AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j)))));
+            if (DialogObject.isChatDialog(j)) {
+                replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToGroup", R.string.InvLinkToGroup, MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-j)).title));
+            } else {
+                replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToUser", R.string.InvLinkToUser, UserObject.getFirstName(MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(j)))));
+            }
             lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
         } else {
             replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
@@ -453,7 +460,7 @@ public final class BulletinFactory {
         return Bulletin.make(frameLayout, lottieLayout, 1500);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x00ff  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

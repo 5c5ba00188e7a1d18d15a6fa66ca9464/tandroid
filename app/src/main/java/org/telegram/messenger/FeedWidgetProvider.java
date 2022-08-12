@@ -39,14 +39,15 @@ public class FeedWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context, FeedWidgetService.class);
         intent.putExtra("appWidgetId", i);
         intent.setData(Uri.parse(intent.toUri(1)));
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), (int) org.telegram.messenger.beta.R.layout.feed_widget_layout);
-        remoteViews.setRemoteAdapter(i, org.telegram.messenger.beta.R.id.list_view, intent);
-        remoteViews.setEmptyView(org.telegram.messenger.beta.R.id.list_view, org.telegram.messenger.beta.R.id.empty_view);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.feed_widget_layout);
+        int i2 = R.id.list_view;
+        remoteViews.setRemoteAdapter(i, i2, intent);
+        remoteViews.setEmptyView(i2, R.id.empty_view);
         Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-        intent2.setAction("com.tmessages.openchat" + Math.random() + Integer.MAX_VALUE);
+        intent2.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
         intent2.addFlags(ConnectionsManager.FileTypeFile);
         intent2.addCategory("android.intent.category.LAUNCHER");
-        remoteViews.setPendingIntentTemplate(org.telegram.messenger.beta.R.id.list_view, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728));
+        remoteViews.setPendingIntentTemplate(i2, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728));
         appWidgetManager.updateAppWidget(i, remoteViews);
     }
 }

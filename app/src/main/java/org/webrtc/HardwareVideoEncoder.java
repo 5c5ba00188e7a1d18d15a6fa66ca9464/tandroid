@@ -367,8 +367,8 @@ public class HardwareVideoEncoder implements VideoEncoder {
     @Override // org.webrtc.VideoEncoder
     public VideoCodecStatus setRateAllocation(VideoEncoder.BitrateAllocation bitrateAllocation, int i) {
         this.encodeThreadChecker.checkIsOnValidThread();
-        if (i > 30) {
-            i = 30;
+        if (i > MAX_VIDEO_FRAMERATE) {
+            i = MAX_VIDEO_FRAMERATE;
         }
         this.bitrateAdjuster.setTargets(bitrateAllocation.getSum(), i);
         return VideoCodecStatus.OK;

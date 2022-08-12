@@ -41,7 +41,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$InputFile;
@@ -482,11 +482,12 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                 GroupCreateFinalActivity.this.lambda$createView$4(view2);
             }
         });
-        this.cameraDrawable = new RLottieDrawable(R.raw.camera, "2131558413", AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false, null);
+        int i3 = R.raw.camera;
+        this.cameraDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false, null);
         RLottieImageView rLottieImageView = new RLottieImageView(context) { // from class: org.telegram.ui.GroupCreateFinalActivity.6
             @Override // android.view.View
-            public void invalidate(int i3, int i4, int i5, int i6) {
-                super.invalidate(i3, i4, i5, i6);
+            public void invalidate(int i4, int i5, int i6, int i7) {
+                super.invalidate(i4, i5, i6, i7);
                 GroupCreateFinalActivity.this.avatarOverlay.invalidate();
             }
 
@@ -524,8 +525,8 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         showAvatarProgress(false, false);
         EditTextEmoji editTextEmoji2 = new EditTextEmoji(context, sizeNotifierFrameLayout2, this, 0, false);
         this.editText = editTextEmoji2;
-        int i3 = this.chatType;
-        if (i3 == 0 || i3 == 4) {
+        int i4 = this.chatType;
+        if (i4 == 0 || i4 == 4) {
             i = R.string.EnterGroupNamePlaceholder;
             str = "EnterGroupNamePlaceholder";
         } else {
@@ -558,22 +559,22 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         linearLayout.addView(this.listView, LayoutHelper.createLinear(-1, -1));
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.GroupCreateFinalActivity.8
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i4) {
-                if (i4 == 1) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i5) {
+                if (i5 == 1) {
                     AndroidUtilities.hideKeyboard(GroupCreateFinalActivity.this.editText);
                 }
             }
         });
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view2, int i4) {
-                GroupCreateFinalActivity.this.lambda$createView$6(view2, i4);
+            public final void onItemClick(View view2, int i5) {
+                GroupCreateFinalActivity.this.lambda$createView$6(view2, i5);
             }
         });
         this.floatingButtonContainer = new FrameLayout(context);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-        int i4 = Build.VERSION.SDK_INT;
-        if (i4 < 21) {
+        int i5 = Build.VERSION.SDK_INT;
+        if (i5 < 21) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -581,7 +582,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             createSimpleSelectorCircleDrawable = combinedDrawable;
         }
         this.floatingButtonContainer.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
-        if (i4 >= 21) {
+        if (i5 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             sizeNotifierFrameLayout = sizeNotifierFrameLayout2;
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
@@ -599,14 +600,14 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         }
         VerticalPositionAutoAnimator.attach(this.floatingButtonContainer);
         View view2 = this.floatingButtonContainer;
-        int i5 = 60;
-        int i6 = i4 >= 21 ? 56 : 60;
-        float f = i4 >= 21 ? 56.0f : 60.0f;
+        int i6 = 60;
+        int i7 = i5 >= 21 ? 56 : 60;
+        float f = i5 >= 21 ? 56.0f : 60.0f;
         boolean z6 = LocaleController.isRTL;
         if (!z6) {
             i2 = 5;
         }
-        sizeNotifierFrameLayout.addView(view2, LayoutHelper.createFrame(i6, f, i2 | 80, z6 ? 14.0f : 0.0f, 0.0f, z6 ? 0.0f : 14.0f, 14.0f));
+        sizeNotifierFrameLayout.addView(view2, LayoutHelper.createFrame(i7, f, i2 | 80, z6 ? 14.0f : 0.0f, 0.0f, z6 ? 0.0f : 14.0f, 14.0f));
         this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
@@ -622,10 +623,10 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         this.floatingButtonContainer.setContentDescription(LocaleController.getString("Done", R.string.Done));
         FrameLayout frameLayout7 = this.floatingButtonContainer;
         ImageView imageView2 = this.floatingButtonIcon;
-        if (i4 >= 21) {
-            i5 = 56;
+        if (i5 >= 21) {
+            i6 = 56;
         }
-        frameLayout7.addView(imageView2, LayoutHelper.createFrame(i5, i4 >= 21 ? 56.0f : 60.0f));
+        frameLayout7.addView(imageView2, LayoutHelper.createFrame(i6, i5 >= 21 ? 56.0f : 60.0f));
         ContextProgressView contextProgressView = new ContextProgressView(context, 1);
         this.progressView = contextProgressView;
         contextProgressView.setAlpha(0.0f);
@@ -680,7 +681,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(View view, int i) {
-        if (!(view instanceof TextSettingsCell) || !AndroidUtilities.isGoogleMapsInstalled(this)) {
+        if (!(view instanceof TextSettingsCell) || !AndroidUtilities.isMapsInstalled(this)) {
             return;
         }
         LocationActivity locationActivity = new LocationActivity(4);
@@ -1001,7 +1002,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             TextSettingsCell textSettingsCell;
             if (i == 0) {
                 View shadowSectionCell = new ShadowSectionCell(this.context);
-                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.context, (int) R.drawable.greydivider_top, "windowBackgroundGrayShadow"));
+                CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(this.context, R.drawable.greydivider_top, "windowBackgroundGrayShadow"));
                 combinedDrawable.setFullsize(true);
                 shadowSectionCell.setBackgroundDrawable(combinedDrawable);
                 textSettingsCell = shadowSectionCell;

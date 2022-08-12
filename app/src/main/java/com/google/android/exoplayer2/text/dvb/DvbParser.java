@@ -13,7 +13,6 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 final class DvbParser {
@@ -188,7 +187,7 @@ final class DvbParser {
                     break;
                 }
                 break;
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
                 if (readBits2 == subtitleService.subtitlePageId) {
                     subtitleService.displayDefinition = parseDisplayDefinition(parsableBitArray);
                     break;

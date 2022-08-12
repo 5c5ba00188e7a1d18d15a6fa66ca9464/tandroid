@@ -22,15 +22,11 @@ public class BuildVars {
     private static Boolean betaApp;
     private static Boolean standaloneApp;
 
-    public static boolean isHuaweiStoreApp() {
-        return false;
-    }
-
     static {
         boolean z = true;
         NO_SCOPED_STORAGE = Build.VERSION.SDK_INT <= 29;
-        BUILD_VERSION = 2751;
-        BUILD_VERSION_STRING = BuildConfig.VERSION_NAME;
+        BUILD_VERSION = 2753;
+        BUILD_VERSION_STRING = "8.9.1";
         APP_ID = 4;
         APP_HASH = "014b35b6184100b085b0d0572f9b5103";
         APPCENTER_HASH = "f9726602-67c9-48d2-b5d0-4761f1c1a8f3";
@@ -61,8 +57,12 @@ public class BuildVars {
 
     public static boolean isBetaApp() {
         if (betaApp == null) {
-            betaApp = Boolean.valueOf(ApplicationLoader.applicationContext != null && BuildConfig.APPLICATION_ID.equals(ApplicationLoader.applicationContext.getPackageName()));
+            betaApp = Boolean.valueOf(ApplicationLoader.applicationContext != null && "org.telegram.messenger.beta".equals(ApplicationLoader.applicationContext.getPackageName()));
         }
         return betaApp.booleanValue();
+    }
+
+    public static boolean isHuaweiStoreApp() {
+        return ApplicationLoader.isHuaweiStoreBuild();
     }
 }

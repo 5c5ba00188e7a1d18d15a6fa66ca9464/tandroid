@@ -46,10 +46,10 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Dialog;
@@ -633,69 +633,69 @@ public class DialogCell extends BaseCell {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(17:912|(2:914|(1:916)(1:928))(2:929|(2:931|(1:933)(1:934))(2:935|(1:937)(14:938|(2:940|(1:942)(1:943))(1:944)|918|919|920|(1:922)(1:925)|923|828|(1:863)(6:832|833|834|835|836|837)|838|(1:842)|843|(4:845|(1:847)|848|(1:850)(1:851))|852)))|917|918|919|920|(0)(0)|923|828|(1:830)|859|863|838|(2:840|842)|843|(0)|852) */
-    /* JADX WARN: Code restructure failed: missing block: B:1127:0x0472, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1127:0x0471, code lost:
         if (r2.post_messages == false) goto L525;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1133:0x047e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1133:0x047d, code lost:
         if (r2.kicked != false) goto L525;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:926:0x0af0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:926:0x0adf, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:927:0x0af1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:927:0x0ae0, code lost:
         org.telegram.messenger.FileLog.e(r0);
      */
-    /* JADX WARN: Removed duplicated region for block: B:1017:0x0ece  */
-    /* JADX WARN: Removed duplicated region for block: B:1018:0x0c50  */
-    /* JADX WARN: Removed duplicated region for block: B:1078:0x0e1e  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x14a1  */
-    /* JADX WARN: Removed duplicated region for block: B:1134:0x0484  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x14c6  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x1696  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x17a6 A[Catch: Exception -> 0x1868, TryCatch #6 {Exception -> 0x1868, blocks: (B:148:0x1771, B:150:0x1775, B:153:0x178d, B:155:0x1793, B:156:0x17a2, B:158:0x17a6, B:160:0x17ba, B:162:0x17c0, B:164:0x17c4, B:167:0x17d1, B:169:0x17ce, B:172:0x17d4, B:174:0x17d8, B:177:0x17dd, B:179:0x17e1, B:181:0x17ed, B:182:0x17f7, B:183:0x1842, B:305:0x180f, B:308:0x1815, B:309:0x181c, B:312:0x1832, B:315:0x1779, B:317:0x177d, B:319:0x1782), top: B:147:0x1771 }] */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x17e1 A[Catch: Exception -> 0x1868, TryCatch #6 {Exception -> 0x1868, blocks: (B:148:0x1771, B:150:0x1775, B:153:0x178d, B:155:0x1793, B:156:0x17a2, B:158:0x17a6, B:160:0x17ba, B:162:0x17c0, B:164:0x17c4, B:167:0x17d1, B:169:0x17ce, B:172:0x17d4, B:174:0x17d8, B:177:0x17dd, B:179:0x17e1, B:181:0x17ed, B:182:0x17f7, B:183:0x1842, B:305:0x180f, B:308:0x1815, B:309:0x181c, B:312:0x1832, B:315:0x1779, B:317:0x177d, B:319:0x1782), top: B:147:0x1771 }] */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x1873  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x1a6c  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x1a7d A[Catch: Exception -> 0x1aa8, TryCatch #5 {Exception -> 0x1aa8, blocks: (B:244:0x1a70, B:246:0x1a7d, B:247:0x1a7f, B:249:0x1a98, B:250:0x1a9f), top: B:243:0x1a70 }] */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x1a98 A[Catch: Exception -> 0x1aa8, TryCatch #5 {Exception -> 0x1aa8, blocks: (B:244:0x1a70, B:246:0x1a7d, B:247:0x1a7f, B:249:0x1a98, B:250:0x1a9f), top: B:243:0x1a70 }] */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x1ab0  */
+    /* JADX WARN: Removed duplicated region for block: B:1017:0x0ebb  */
+    /* JADX WARN: Removed duplicated region for block: B:1018:0x0c3f  */
+    /* JADX WARN: Removed duplicated region for block: B:1078:0x0e0b  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x1487  */
+    /* JADX WARN: Removed duplicated region for block: B:1134:0x0483  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x14ac  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x167c  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x178c A[Catch: Exception -> 0x184e, TryCatch #2 {Exception -> 0x184e, blocks: (B:148:0x1757, B:150:0x175b, B:153:0x1773, B:155:0x1779, B:156:0x1788, B:158:0x178c, B:160:0x17a0, B:162:0x17a6, B:164:0x17aa, B:167:0x17b7, B:169:0x17b4, B:172:0x17ba, B:174:0x17be, B:177:0x17c3, B:179:0x17c7, B:181:0x17d3, B:182:0x17dd, B:183:0x1828, B:305:0x17f5, B:308:0x17fb, B:309:0x1802, B:312:0x1818, B:315:0x175f, B:317:0x1763, B:319:0x1768), top: B:147:0x1757 }] */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x17c7 A[Catch: Exception -> 0x184e, TryCatch #2 {Exception -> 0x184e, blocks: (B:148:0x1757, B:150:0x175b, B:153:0x1773, B:155:0x1779, B:156:0x1788, B:158:0x178c, B:160:0x17a0, B:162:0x17a6, B:164:0x17aa, B:167:0x17b7, B:169:0x17b4, B:172:0x17ba, B:174:0x17be, B:177:0x17c3, B:179:0x17c7, B:181:0x17d3, B:182:0x17dd, B:183:0x1828, B:305:0x17f5, B:308:0x17fb, B:309:0x1802, B:312:0x1818, B:315:0x175f, B:317:0x1763, B:319:0x1768), top: B:147:0x1757 }] */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x1859  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x1a52  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x1a63 A[Catch: Exception -> 0x1a8e, TryCatch #1 {Exception -> 0x1a8e, blocks: (B:244:0x1a56, B:246:0x1a63, B:247:0x1a65, B:249:0x1a7e, B:250:0x1a85), top: B:243:0x1a56 }] */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x1a7e A[Catch: Exception -> 0x1a8e, TryCatch #1 {Exception -> 0x1a8e, blocks: (B:244:0x1a56, B:246:0x1a63, B:247:0x1a65, B:249:0x1a7e, B:250:0x1a85), top: B:243:0x1a56 }] */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x1a96  */
     /* JADX WARN: Removed duplicated region for block: B:271:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x19da  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x182d  */
-    /* JADX WARN: Removed duplicated region for block: B:313:0x1830  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x14f6  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x1436  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x1454  */
-    /* JADX WARN: Removed duplicated region for block: B:423:0x126e  */
-    /* JADX WARN: Removed duplicated region for block: B:426:0x1284  */
-    /* JADX WARN: Removed duplicated region for block: B:441:0x11cb  */
-    /* JADX WARN: Removed duplicated region for block: B:453:0x1171  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x1156  */
-    /* JADX WARN: Removed duplicated region for block: B:514:0x0423  */
-    /* JADX WARN: Removed duplicated region for block: B:519:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:528:0x0489  */
-    /* JADX WARN: Removed duplicated region for block: B:539:0x0ee6  */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0f0b  */
-    /* JADX WARN: Removed duplicated region for block: B:545:0x1041  */
-    /* JADX WARN: Removed duplicated region for block: B:553:0x10a9  */
-    /* JADX WARN: Removed duplicated region for block: B:555:0x10b9  */
-    /* JADX WARN: Removed duplicated region for block: B:561:0x110b  */
-    /* JADX WARN: Removed duplicated region for block: B:587:0x10a0  */
-    /* JADX WARN: Removed duplicated region for block: B:588:0x0f1f  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x1117  */
-    /* JADX WARN: Removed duplicated region for block: B:649:0x0eee  */
-    /* JADX WARN: Removed duplicated region for block: B:659:0x050e  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x1161  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x1189  */
-    /* JADX WARN: Removed duplicated region for block: B:736:0x0ed8  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x119d  */
-    /* JADX WARN: Removed duplicated region for block: B:830:0x0b97  */
-    /* JADX WARN: Removed duplicated region for block: B:840:0x0be2  */
-    /* JADX WARN: Removed duplicated region for block: B:845:0x0bf3  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x12cd  */
-    /* JADX WARN: Removed duplicated region for block: B:922:0x0add A[Catch: Exception -> 0x0af0, TryCatch #0 {Exception -> 0x0af0, blocks: (B:920:0x0ad2, B:922:0x0add, B:923:0x0ae5), top: B:919:0x0ad2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:925:0x0ae4  */
-    /* JADX WARN: Removed duplicated region for block: B:999:0x0e2e  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x19c0  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x1813  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x1816  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x14dc  */
+    /* JADX WARN: Removed duplicated region for block: B:414:0x141c  */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x143a  */
+    /* JADX WARN: Removed duplicated region for block: B:423:0x1254  */
+    /* JADX WARN: Removed duplicated region for block: B:426:0x126a  */
+    /* JADX WARN: Removed duplicated region for block: B:441:0x11b1  */
+    /* JADX WARN: Removed duplicated region for block: B:453:0x1157  */
+    /* JADX WARN: Removed duplicated region for block: B:455:0x113c  */
+    /* JADX WARN: Removed duplicated region for block: B:514:0x0422  */
+    /* JADX WARN: Removed duplicated region for block: B:519:0x042e  */
+    /* JADX WARN: Removed duplicated region for block: B:528:0x0488  */
+    /* JADX WARN: Removed duplicated region for block: B:539:0x0ed3  */
+    /* JADX WARN: Removed duplicated region for block: B:542:0x0ef8  */
+    /* JADX WARN: Removed duplicated region for block: B:545:0x102e  */
+    /* JADX WARN: Removed duplicated region for block: B:553:0x1094  */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x10a3  */
+    /* JADX WARN: Removed duplicated region for block: B:561:0x10f2  */
+    /* JADX WARN: Removed duplicated region for block: B:587:0x108b  */
+    /* JADX WARN: Removed duplicated region for block: B:588:0x0f0c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x10fd  */
+    /* JADX WARN: Removed duplicated region for block: B:649:0x0edb  */
+    /* JADX WARN: Removed duplicated region for block: B:659:0x050d  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x1147  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x116f  */
+    /* JADX WARN: Removed duplicated region for block: B:736:0x0ec5  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x1183  */
+    /* JADX WARN: Removed duplicated region for block: B:830:0x0b86  */
+    /* JADX WARN: Removed duplicated region for block: B:840:0x0bd1  */
+    /* JADX WARN: Removed duplicated region for block: B:845:0x0be2  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x12b3  */
+    /* JADX WARN: Removed duplicated region for block: B:922:0x0acc A[Catch: Exception -> 0x0adf, TryCatch #0 {Exception -> 0x0adf, blocks: (B:920:0x0ac1, B:922:0x0acc, B:923:0x0ad4), top: B:919:0x0ac1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:925:0x0ad3  */
+    /* JADX WARN: Removed duplicated region for block: B:999:0x0e1b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1127,7 +1127,11 @@ public class DialogCell extends BaseCell {
                                                     } else if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChatDiscarded) {
                                                         str11 = LocaleController.getString("EncryptionRejected", R.string.EncryptionRejected);
                                                     } else if (tLRPC$EncryptedChat instanceof TLRPC$TL_encryptedChat) {
-                                                        str11 = tLRPC$EncryptedChat.admin_id == UserConfig.getInstance(this.currentAccount).getClientUserId() ? LocaleController.formatString("EncryptedChatStartedOutgoing", R.string.EncryptedChatStartedOutgoing, UserObject.getFirstName(this.user)) : LocaleController.getString("EncryptedChatStartedIncoming", R.string.EncryptedChatStartedIncoming);
+                                                        if (tLRPC$EncryptedChat.admin_id == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
+                                                            str11 = LocaleController.formatString("EncryptedChatStartedOutgoing", R.string.EncryptedChatStartedOutgoing, UserObject.getFirstName(this.user));
+                                                        } else {
+                                                            str11 = LocaleController.getString("EncryptedChatStartedIncoming", R.string.EncryptedChatStartedIncoming);
+                                                        }
                                                     }
                                                 } else if (this.dialogsType == 3 && UserObject.isUserSelf(this.user)) {
                                                     charSequence5 = null;
@@ -2407,7 +2411,7 @@ public class DialogCell extends BaseCell {
                 StaticLayout staticLayout4 = this.messageLayout;
                 if (staticLayout4 != null && (lineCount2 = staticLayout4.getLineCount()) > 0) {
                     int i40 = 0;
-                    int i41 = Integer.MAX_VALUE;
+                    int i41 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                     while (true) {
                         if (i40 >= lineCount2) {
                             break;
@@ -3147,42 +3151,48 @@ public class DialogCell extends BaseCell {
         invalidate();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:672:0x0639, code lost:
-        if (r0.type != 2) goto L673;
+    /* JADX WARN: Code restructure failed: missing block: B:673:0x0613, code lost:
+        if (r0.type != 2) goto L674;
      */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0858  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x0991  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x09a3  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x0ab6  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0ef0  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0f23  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x0f5b  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x1303  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x130a  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x132f  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x1393  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x13e0  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x1417  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x1470  */
-    /* JADX WARN: Removed duplicated region for block: B:312:0x1485  */
-    /* JADX WARN: Removed duplicated region for block: B:324:0x14d2  */
-    /* JADX WARN: Removed duplicated region for block: B:326:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:328:0x14af  */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x1441  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x13ec  */
-    /* JADX WARN: Removed duplicated region for block: B:353:0x13ff  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x1041  */
-    /* JADX WARN: Removed duplicated region for block: B:406:0x121b  */
-    /* JADX WARN: Removed duplicated region for block: B:410:0x12a8  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x12bd  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x12d1  */
-    /* JADX WARN: Removed duplicated region for block: B:426:0x12e4  */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x0b02  */
-    /* JADX WARN: Removed duplicated region for block: B:576:0x09dc  */
-    /* JADX WARN: Removed duplicated region for block: B:577:0x0994  */
-    /* JADX WARN: Removed duplicated region for block: B:589:0x09e7  */
-    /* JADX WARN: Removed duplicated region for block: B:602:0x0a2e  */
-    /* JADX WARN: Removed duplicated region for block: B:640:0x0923  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0826  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x08fb  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x095c  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x096e  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x0a57  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x0a81  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0ebb  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x0edb  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0eee  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0f26  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x0f2d  */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x12ce  */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x12d5  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x12fa  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x135e  */
+    /* JADX WARN: Removed duplicated region for block: B:293:0x13ab  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x13e4  */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x143c  */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x1450  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x1496  */
+    /* JADX WARN: Removed duplicated region for block: B:330:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:331:0x1476  */
+    /* JADX WARN: Removed duplicated region for block: B:339:0x140e  */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x13b7  */
+    /* JADX WARN: Removed duplicated region for block: B:355:0x13ca  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x100c  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x11e6  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x1273  */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x1288  */
+    /* JADX WARN: Removed duplicated region for block: B:421:0x129c  */
+    /* JADX WARN: Removed duplicated region for block: B:428:0x12af  */
+    /* JADX WARN: Removed duplicated region for block: B:466:0x0acd  */
+    /* JADX WARN: Removed duplicated region for block: B:578:0x09a7  */
+    /* JADX WARN: Removed duplicated region for block: B:579:0x095f  */
+    /* JADX WARN: Removed duplicated region for block: B:591:0x09b2  */
+    /* JADX WARN: Removed duplicated region for block: B:604:0x09f9  */
+    /* JADX WARN: Removed duplicated region for block: B:641:0x08ee  */
+    /* JADX WARN: Removed duplicated region for block: B:644:0x07f4  */
+    /* JADX WARN: Removed duplicated region for block: B:646:0x07f9  */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -3191,31 +3201,32 @@ public class DialogCell extends BaseCell {
     protected void onDraw(Canvas canvas) {
         int color;
         int color2;
-        String string;
         int i;
-        String str;
+        String string;
         int i2;
+        String str;
         String str2;
         float f;
         RLottieDrawable rLottieDrawable;
+        float f2;
         boolean z;
         String str3;
         long j;
         int i3;
         Canvas canvas2;
         String str4;
-        float f2;
-        int i4;
         float f3;
+        float f4;
+        int i4;
         int dp;
         int dp2;
         int dp3;
-        float f4;
+        float f5;
         float interpolation;
         long j2;
-        float f5;
-        boolean z2;
         float f6;
+        boolean z2;
+        float f7;
         boolean z3;
         TLRPC$User tLRPC$User;
         TLRPC$Chat tLRPC$Chat;
@@ -3224,20 +3235,21 @@ public class DialogCell extends BaseCell {
         float dp5;
         float dp6;
         float dp7;
-        float f7;
+        float f8;
         float dp8;
         float dp9;
         float dp10;
-        float f8;
         float f9;
+        float f10;
         float dp11;
         PullForegroundDrawable pullForegroundDrawable;
         int i6;
         boolean z4;
+        float f11;
         int i7;
-        float f10;
         int i8;
         StatusDrawable chatStatusDrawable;
+        int i9;
         PullForegroundDrawable pullForegroundDrawable2;
         if (this.currentDialogId == 0 && this.customDialog == null) {
             return;
@@ -3263,81 +3275,80 @@ public class DialogCell extends BaseCell {
             canvas.save();
             canvas.clipRect(0.0f, this.topClip * this.clipProgress, getMeasuredWidth(), getMeasuredHeight() - ((int) (this.bottomClip * this.clipProgress)));
         }
-        float f11 = 8.0f;
+        float f12 = 8.0f;
         if (this.translationX != 0.0f || this.cornerProgress != 0.0f) {
             canvas.save();
             if (this.currentDialogFolderId != 0) {
                 if (this.archiveHidden) {
                     color = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                     color2 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
-                    string = LocaleController.getString("UnhideFromTop", R.string.UnhideFromTop);
-                    this.translationDrawable = Theme.dialogs_unpinArchiveDrawable;
                     i = R.string.UnhideFromTop;
+                    string = LocaleController.getString("UnhideFromTop", i);
+                    this.translationDrawable = Theme.dialogs_unpinArchiveDrawable;
                 } else {
                     color = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
                     color2 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
-                    string = LocaleController.getString("HideOnTop", R.string.HideOnTop);
-                    this.translationDrawable = Theme.dialogs_pinArchiveDrawable;
                     i = R.string.HideOnTop;
+                    string = LocaleController.getString("HideOnTop", i);
+                    this.translationDrawable = Theme.dialogs_pinArchiveDrawable;
                 }
             } else if (this.promoDialog) {
                 color = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
                 color2 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
-                string = LocaleController.getString("PsaHide", R.string.PsaHide);
-                this.translationDrawable = Theme.dialogs_hidePsaDrawable;
                 i = R.string.PsaHide;
+                string = LocaleController.getString("PsaHide", i);
+                this.translationDrawable = Theme.dialogs_hidePsaDrawable;
             } else if (this.folderId == 0) {
                 color = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
                 color2 = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                 if (SharedConfig.getChatSwipeAction(this.currentAccount) == 3) {
                     if (this.dialogMuted) {
-                        string = LocaleController.getString("SwipeUnmute", R.string.SwipeUnmute);
-                        this.translationDrawable = Theme.dialogs_swipeUnmuteDrawable;
                         i = R.string.SwipeUnmute;
+                        string = LocaleController.getString("SwipeUnmute", i);
+                        this.translationDrawable = Theme.dialogs_swipeUnmuteDrawable;
                     } else {
-                        string = LocaleController.getString("SwipeMute", R.string.SwipeMute);
-                        this.translationDrawable = Theme.dialogs_swipeMuteDrawable;
                         i = R.string.SwipeMute;
+                        string = LocaleController.getString("SwipeMute", i);
+                        this.translationDrawable = Theme.dialogs_swipeMuteDrawable;
                     }
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 4) {
-                    string = LocaleController.getString("SwipeDeleteChat", R.string.SwipeDeleteChat);
+                    i = R.string.SwipeDeleteChat;
+                    string = LocaleController.getString("SwipeDeleteChat", i);
                     color = Theme.getColor("dialogSwipeRemove", this.resourcesProvider);
                     this.translationDrawable = Theme.dialogs_swipeDeleteDrawable;
-                    i = R.string.SwipeDeleteChat;
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 1) {
                     if (this.unreadCount > 0 || this.markUnread) {
-                        string = LocaleController.getString("SwipeMarkAsRead", R.string.SwipeMarkAsRead);
-                        this.translationDrawable = Theme.dialogs_swipeReadDrawable;
                         i = R.string.SwipeMarkAsRead;
+                        string = LocaleController.getString("SwipeMarkAsRead", i);
+                        this.translationDrawable = Theme.dialogs_swipeReadDrawable;
                     } else {
-                        string = LocaleController.getString("SwipeMarkAsUnread", R.string.SwipeMarkAsUnread);
-                        this.translationDrawable = Theme.dialogs_swipeUnreadDrawable;
                         i = R.string.SwipeMarkAsUnread;
+                        string = LocaleController.getString("SwipeMarkAsUnread", i);
+                        this.translationDrawable = Theme.dialogs_swipeUnreadDrawable;
                     }
                 } else if (SharedConfig.getChatSwipeAction(this.currentAccount) == 0) {
                     if (this.drawPin) {
-                        string = LocaleController.getString("SwipeUnpin", R.string.SwipeUnpin);
-                        this.translationDrawable = Theme.dialogs_swipeUnpinDrawable;
                         i = R.string.SwipeUnpin;
+                        string = LocaleController.getString("SwipeUnpin", i);
+                        this.translationDrawable = Theme.dialogs_swipeUnpinDrawable;
                     } else {
-                        string = LocaleController.getString("SwipePin", R.string.SwipePin);
-                        this.translationDrawable = Theme.dialogs_swipePinDrawable;
                         i = R.string.SwipePin;
+                        string = LocaleController.getString("SwipePin", i);
+                        this.translationDrawable = Theme.dialogs_swipePinDrawable;
                     }
                 } else {
-                    string = LocaleController.getString("Archive", R.string.Archive);
-                    this.translationDrawable = Theme.dialogs_archiveDrawable;
                     i = R.string.Archive;
+                    string = LocaleController.getString("Archive", i);
+                    this.translationDrawable = Theme.dialogs_archiveDrawable;
                 }
             } else {
                 color = Theme.getColor("chats_archivePinBackground", this.resourcesProvider);
                 color2 = Theme.getColor("chats_archiveBackground", this.resourcesProvider);
-                string = LocaleController.getString("Unarchive", R.string.Unarchive);
-                this.translationDrawable = Theme.dialogs_unarchiveDrawable;
                 i = R.string.Unarchive;
+                string = LocaleController.getString("Unarchive", i);
+                this.translationDrawable = Theme.dialogs_unarchiveDrawable;
             }
-            String str5 = string;
-            int i9 = color2;
+            int i10 = color2;
             if (this.swipeCanceled && (rLottieDrawable = this.lastDrawTranslationDrawable) != null) {
                 this.translationDrawable = rLottieDrawable;
                 i = this.lastDrawSwipeMessageStringId;
@@ -3345,7 +3356,6 @@ public class DialogCell extends BaseCell {
                 this.lastDrawTranslationDrawable = this.translationDrawable;
                 this.lastDrawSwipeMessageStringId = i;
             }
-            int i10 = i;
             if (!this.translationAnimationStarted && Math.abs(this.translationX) > AndroidUtilities.dp(43.0f)) {
                 this.translationAnimationStarted = true;
                 this.translationDrawable.setProgress(0.0f);
@@ -3355,10 +3365,9 @@ public class DialogCell extends BaseCell {
             float measuredWidth = this.translationX + getMeasuredWidth();
             if (this.currentRevealProgress < 1.0f) {
                 Theme.dialogs_pinnedPaint.setColor(color);
-                str = str5;
-                i2 = i9;
+                i2 = i;
+                str = string;
                 str2 = "chats_archivePinBackground";
-                f = 1.0f;
                 canvas.drawRect(measuredWidth - AndroidUtilities.dp(8.0f), 0.0f, getMeasuredWidth(), getMeasuredHeight(), Theme.dialogs_pinnedPaint);
                 if (this.currentRevealProgress == 0.0f) {
                     if (Theme.dialogs_archiveDrawableRecolored) {
@@ -3375,10 +3384,9 @@ public class DialogCell extends BaseCell {
                     }
                 }
             } else {
-                str = str5;
-                i2 = i9;
+                i2 = i;
+                str = string;
                 str2 = "chats_archivePinBackground";
-                f = 1.0f;
             }
             int measuredWidth2 = (getMeasuredWidth() - AndroidUtilities.dp(43.0f)) - (this.translationDrawable.getIntrinsicWidth() / 2);
             int dp12 = AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.0f : 9.0f);
@@ -3387,7 +3395,7 @@ public class DialogCell extends BaseCell {
             if (this.currentRevealProgress > 0.0f) {
                 canvas.save();
                 canvas.clipRect(measuredWidth - AndroidUtilities.dp(8.0f), 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                Theme.dialogs_pinnedPaint.setColor(i2);
+                Theme.dialogs_pinnedPaint.setColor(i10);
                 canvas.drawCircle(intrinsicWidth, intrinsicHeight, ((float) Math.sqrt((intrinsicWidth * intrinsicWidth) + ((intrinsicHeight - getMeasuredHeight()) * (intrinsicHeight - getMeasuredHeight())))) * AndroidUtilities.accelerateInterpolator.getInterpolation(this.currentRevealProgress), Theme.dialogs_pinnedPaint);
                 canvas.restore();
                 if (!Theme.dialogs_archiveDrawableRecolored) {
@@ -3405,24 +3413,25 @@ public class DialogCell extends BaseCell {
             }
             canvas.save();
             canvas.translate(measuredWidth2, dp12);
-            float f12 = this.currentRevealBounceProgress;
-            if (f12 != 0.0f && f12 != f) {
-                float interpolation2 = this.interpolator.getInterpolation(f12) + f;
+            float f13 = this.currentRevealBounceProgress;
+            f = 1.0f;
+            if (f13 != 0.0f && f13 != 1.0f) {
+                float interpolation2 = this.interpolator.getInterpolation(f13) + 1.0f;
                 canvas.scale(interpolation2, interpolation2, this.translationDrawable.getIntrinsicWidth() / 2, this.translationDrawable.getIntrinsicHeight() / 2);
             }
             BaseCell.setDrawableBounds((Drawable) this.translationDrawable, 0, 0);
             this.translationDrawable.draw(canvas);
             canvas.restore();
             canvas.clipRect(measuredWidth, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-            String str6 = str;
-            int ceil = (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(str6));
-            if (this.swipeMessageTextId != i10 || this.swipeMessageWidth != getMeasuredWidth()) {
-                this.swipeMessageTextId = i10;
+            int ceil = (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(str));
+            int i11 = i2;
+            if (this.swipeMessageTextId != i11 || this.swipeMessageWidth != getMeasuredWidth()) {
+                this.swipeMessageTextId = i11;
                 this.swipeMessageWidth = getMeasuredWidth();
-                StaticLayout staticLayout = new StaticLayout(str6, Theme.dialogs_archiveTextPaint, Math.min(AndroidUtilities.dp(80.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                StaticLayout staticLayout = new StaticLayout(str, Theme.dialogs_archiveTextPaint, Math.min(AndroidUtilities.dp(80.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                 this.swipeMessageTextLayout = staticLayout;
                 if (staticLayout.getLineCount() > 1) {
-                    this.swipeMessageTextLayout = new StaticLayout(str6, Theme.dialogs_archiveTextPaintSmall, Math.min(AndroidUtilities.dp(82.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                    this.swipeMessageTextLayout = new StaticLayout(str, Theme.dialogs_archiveTextPaintSmall, Math.min(AndroidUtilities.dp(82.0f), ceil), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                 }
             }
             if (this.swipeMessageTextLayout != null) {
@@ -3449,10 +3458,13 @@ public class DialogCell extends BaseCell {
         }
         float dp13 = AndroidUtilities.dp(8.0f) * this.cornerProgress;
         if (this.isSelected) {
+            f2 = 0.0f;
             this.rect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
             canvas.drawRoundRect(this.rect, dp13, dp13, Theme.dialogs_tabletSeletedPaint);
+        } else {
+            f2 = 0.0f;
         }
-        if (this.currentDialogFolderId != 0 && (!SharedConfig.archiveHidden || this.archiveBackgroundProgress != 0.0f)) {
+        if (this.currentDialogFolderId != 0 && (!SharedConfig.archiveHidden || this.archiveBackgroundProgress != f2)) {
             Theme.dialogs_pinnedPaint.setColor(AndroidUtilities.getOffsetColor(0, Theme.getColor("chats_pinnedOverlay", this.resourcesProvider), this.archiveBackgroundProgress, f));
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), Theme.dialogs_pinnedPaint);
         } else if (this.drawPin || this.drawPinBackground) {
@@ -3477,22 +3489,23 @@ public class DialogCell extends BaseCell {
             canvas.restore();
         }
         if (this.translationX != 0.0f) {
-            float f13 = this.cornerProgress;
-            if (f13 < f) {
-                float f14 = f13 + (((float) j4) / 150.0f);
-                this.cornerProgress = f14;
-                if (f14 > f) {
+            float f14 = this.cornerProgress;
+            if (f14 < f) {
+                float f15 = f14 + (((float) j4) / 150.0f);
+                this.cornerProgress = f15;
+                if (f15 > f) {
                     this.cornerProgress = f;
                 }
                 z = true;
+            } else {
+                z = false;
             }
-            z = false;
         } else {
-            float f15 = this.cornerProgress;
-            if (f15 > 0.0f) {
-                float f16 = f15 - (((float) j4) / 150.0f);
-                this.cornerProgress = f16;
-                if (f16 < 0.0f) {
+            float f16 = this.cornerProgress;
+            if (f16 > 0.0f) {
+                float f17 = f16 - (((float) j4) / 150.0f);
+                this.cornerProgress = f17;
+                if (f17 < 0.0f) {
                     this.cornerProgress = 0.0f;
                 }
                 z = true;
@@ -3503,13 +3516,13 @@ public class DialogCell extends BaseCell {
             BaseCell.setDrawableBounds(Theme.dialogs_lockDrawable, this.nameLockLeft, this.nameLockTop);
             Theme.dialogs_lockDrawable.draw(canvas);
         }
-        float f17 = 10.0f;
+        float f18 = 10.0f;
         if (this.nameLayout != null) {
             if (this.currentDialogFolderId != 0) {
                 TextPaint[] textPaintArr = Theme.dialogs_namePaint;
-                int i11 = this.paintIndex;
-                TextPaint textPaint = textPaintArr[i11];
-                TextPaint textPaint2 = textPaintArr[i11];
+                int i12 = this.paintIndex;
+                TextPaint textPaint = textPaintArr[i12];
+                TextPaint textPaint2 = textPaintArr[i12];
                 int color3 = Theme.getColor("chats_nameArchived", this.resourcesProvider);
                 textPaint2.linkColor = color3;
                 textPaint.setColor(color3);
@@ -3519,17 +3532,17 @@ public class DialogCell extends BaseCell {
                     if (customDialog != null) {
                     }
                     TextPaint[] textPaintArr2 = Theme.dialogs_namePaint;
-                    int i12 = this.paintIndex;
-                    TextPaint textPaint3 = textPaintArr2[i12];
-                    TextPaint textPaint4 = textPaintArr2[i12];
+                    int i13 = this.paintIndex;
+                    TextPaint textPaint3 = textPaintArr2[i13];
+                    TextPaint textPaint4 = textPaintArr2[i13];
                     int color4 = Theme.getColor("chats_name", this.resourcesProvider);
                     textPaint4.linkColor = color4;
                     textPaint3.setColor(color4);
                 }
                 TextPaint[] textPaintArr3 = Theme.dialogs_namePaint;
-                int i13 = this.paintIndex;
-                TextPaint textPaint5 = textPaintArr3[i13];
-                TextPaint textPaint6 = textPaintArr3[i13];
+                int i14 = this.paintIndex;
+                TextPaint textPaint5 = textPaintArr3[i14];
+                TextPaint textPaint6 = textPaintArr3[i14];
                 int color5 = Theme.getColor("chats_secretName", this.resourcesProvider);
                 textPaint6.linkColor = color5;
                 textPaint5.setColor(color5);
@@ -3575,26 +3588,26 @@ public class DialogCell extends BaseCell {
             if (this.currentDialogFolderId != 0) {
                 if (this.chat != null) {
                     TextPaint[] textPaintArr4 = Theme.dialogs_messagePaint;
-                    int i14 = this.paintIndex;
-                    TextPaint textPaint10 = textPaintArr4[i14];
-                    TextPaint textPaint11 = textPaintArr4[i14];
+                    int i15 = this.paintIndex;
+                    TextPaint textPaint10 = textPaintArr4[i15];
+                    TextPaint textPaint11 = textPaintArr4[i15];
                     int color9 = Theme.getColor("chats_nameMessageArchived", this.resourcesProvider);
                     textPaint11.linkColor = color9;
                     textPaint10.setColor(color9);
                 } else {
                     TextPaint[] textPaintArr5 = Theme.dialogs_messagePaint;
-                    int i15 = this.paintIndex;
-                    TextPaint textPaint12 = textPaintArr5[i15];
-                    TextPaint textPaint13 = textPaintArr5[i15];
+                    int i16 = this.paintIndex;
+                    TextPaint textPaint12 = textPaintArr5[i16];
+                    TextPaint textPaint13 = textPaintArr5[i16];
                     int color10 = Theme.getColor("chats_messageArchived", this.resourcesProvider);
                     textPaint13.linkColor = color10;
                     textPaint12.setColor(color10);
                 }
             } else {
                 TextPaint[] textPaintArr6 = Theme.dialogs_messagePaint;
-                int i16 = this.paintIndex;
-                TextPaint textPaint14 = textPaintArr6[i16];
-                TextPaint textPaint15 = textPaintArr6[i16];
+                int i17 = this.paintIndex;
+                TextPaint textPaint14 = textPaintArr6[i17];
+                TextPaint textPaint15 = textPaintArr6[i17];
                 int color11 = Theme.getColor("chats_message", this.resourcesProvider);
                 textPaint15.linkColor = color11;
                 textPaint14.setColor(color11);
@@ -3606,22 +3619,22 @@ public class DialogCell extends BaseCell {
                     canvas.save();
                     SpoilerEffect.clipOutCanvas(canvas, this.spoilers);
                     this.messageLayout.draw(canvas);
-                    f10 = 1.0f;
                     str3 = "windowBackgroundWhite";
                     i7 = 1;
                     j = j4;
+                    f11 = 1.0f;
                 } catch (Exception e2) {
                     e = e2;
                     str3 = "windowBackgroundWhite";
                     j = j4;
+                    f11 = 1.0f;
                     i7 = 1;
-                    f10 = 1.0f;
                 }
                 try {
                     AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.messageLayout, this.animatedEmojiStack, -0.075f, this.spoilers, 0.0f, 0.0f, 0.0f, 1.0f);
                     canvas.restore();
-                    for (int i17 = 0; i17 < this.spoilers.size(); i17++) {
-                        SpoilerEffect spoilerEffect = this.spoilers.get(i17);
+                    for (int i18 = 0; i18 < this.spoilers.size(); i18++) {
+                        SpoilerEffect spoilerEffect = this.spoilers.get(i18);
                         spoilerEffect.setColor(this.messageLayout.getPaint().getColor());
                         spoilerEffect.draw(canvas);
                     }
@@ -3631,6 +3644,58 @@ public class DialogCell extends BaseCell {
                     canvas.restore();
                     i8 = this.printingStringType;
                     if (i8 >= 0) {
+                        canvas.save();
+                        i9 = this.printingStringType;
+                        i3 = 4;
+                        if (i9 != i7) {
+                        }
+                        canvas.translate(this.statusDrawableLeft, this.messageTop + (i9 != i7 ? AndroidUtilities.dp(f11) : 0));
+                        chatStatusDrawable.draw(canvas);
+                        int i19 = this.statusDrawableLeft;
+                        invalidate(i19, this.messageTop, chatStatusDrawable.getIntrinsicWidth() + i19, this.messageTop + chatStatusDrawable.getIntrinsicHeight());
+                        canvas.restore();
+                        if (this.currentDialogFolderId != 0) {
+                        }
+                        if (this.dialogsType == i4) {
+                        }
+                        if (!this.drawVerified) {
+                        }
+                        if (!this.drawReorder) {
+                        }
+                        Theme.dialogs_reorderDrawable.setAlpha((int) (this.reorderIconProgress * 255.0f));
+                        BaseCell.setDrawableBounds(Theme.dialogs_reorderDrawable, this.pinLeft, this.pinTop);
+                        Theme.dialogs_reorderDrawable.draw(canvas2);
+                        if (this.drawError) {
+                        }
+                        if (this.animatingArchiveAvatar) {
+                        }
+                        if (this.currentDialogFolderId != 0) {
+                        }
+                        this.avatarImage.draw(canvas2);
+                        if (this.hasMessageThumb) {
+                        }
+                        if (this.animatingArchiveAvatar) {
+                        }
+                        if (this.isDialogCell) {
+                        }
+                        j2 = j;
+                        f6 = 0.0f;
+                        if (this.translationX != f6) {
+                        }
+                        if (this.currentDialogFolderId != 0) {
+                        }
+                        if (this.useSeparator) {
+                        }
+                        if (this.clipProgress != 0.0f) {
+                        }
+                        z2 = this.drawReorder;
+                        if (!z2) {
+                        }
+                        if (z2) {
+                        }
+                        z3 = true;
+                        if (this.archiveHidden) {
+                        }
                     }
                     i3 = 4;
                     if (this.currentDialogFolderId != 0) {
@@ -3644,7 +3709,7 @@ public class DialogCell extends BaseCell {
                     Theme.dialogs_reorderDrawable.setAlpha((int) (this.reorderIconProgress * 255.0f));
                     BaseCell.setDrawableBounds(Theme.dialogs_reorderDrawable, this.pinLeft, this.pinTop);
                     Theme.dialogs_reorderDrawable.draw(canvas2);
-                    if (!this.drawError) {
+                    if (this.drawError) {
                     }
                     if (this.animatingArchiveAvatar) {
                     }
@@ -3656,34 +3721,10 @@ public class DialogCell extends BaseCell {
                     if (this.animatingArchiveAvatar) {
                     }
                     if (this.isDialogCell) {
-                        tLRPC$User = this.user;
-                        if (tLRPC$User == null) {
-                        }
-                        j2 = j;
-                        tLRPC$Chat = this.chat;
-                        if (tLRPC$Chat != null) {
-                        }
-                        f5 = 0.0f;
-                        if (this.translationX != f5) {
-                        }
-                        if (this.currentDialogFolderId != 0) {
-                        }
-                        if (this.useSeparator) {
-                        }
-                        if (this.clipProgress != 0.0f) {
-                        }
-                        z2 = this.drawReorder;
-                        if (!z2) {
-                        }
-                        if (!z2) {
-                        }
-                        z = true;
-                        if (!this.archiveHidden) {
-                        }
                     }
                     j2 = j;
-                    f5 = 0.0f;
-                    if (this.translationX != f5) {
+                    f6 = 0.0f;
+                    if (this.translationX != f6) {
                     }
                     if (this.currentDialogFolderId != 0) {
                     }
@@ -3694,722 +3735,728 @@ public class DialogCell extends BaseCell {
                     z2 = this.drawReorder;
                     if (!z2) {
                     }
-                    if (!z2) {
+                    if (z2) {
                     }
-                    z = true;
-                    if (!this.archiveHidden) {
+                    z3 = true;
+                    if (this.archiveHidden) {
                     }
                 }
             } else {
                 str3 = "windowBackgroundWhite";
                 j = j4;
+                f11 = 1.0f;
                 i7 = 1;
-                f10 = 1.0f;
                 this.messageLayout.draw(canvas);
                 AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.messageLayout, this.animatedEmojiStack, -0.075f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             }
             canvas.restore();
             i8 = this.printingStringType;
-            if (i8 >= 0 || (chatStatusDrawable = Theme.getChatStatusDrawable(i8)) == null) {
-                i3 = 4;
-            } else {
+            if (i8 >= 0 && (chatStatusDrawable = Theme.getChatStatusDrawable(i8)) != null) {
                 canvas.save();
-                int i18 = this.printingStringType;
+                i9 = this.printingStringType;
                 i3 = 4;
-                if (i18 == i7 || i18 == 4) {
-                    canvas.translate(this.statusDrawableLeft, this.messageTop + (i18 == i7 ? AndroidUtilities.dp(f10) : 0));
+                if (i9 != i7 || i9 == 4) {
+                    canvas.translate(this.statusDrawableLeft, this.messageTop + (i9 != i7 ? AndroidUtilities.dp(f11) : 0));
                 } else {
                     canvas.translate(this.statusDrawableLeft, this.messageTop + ((AndroidUtilities.dp(18.0f) - chatStatusDrawable.getIntrinsicHeight()) / 2.0f));
                 }
                 chatStatusDrawable.draw(canvas);
-                int i19 = this.statusDrawableLeft;
-                invalidate(i19, this.messageTop, chatStatusDrawable.getIntrinsicWidth() + i19, this.messageTop + chatStatusDrawable.getIntrinsicHeight());
+                int i192 = this.statusDrawableLeft;
+                invalidate(i192, this.messageTop, chatStatusDrawable.getIntrinsicWidth() + i192, this.messageTop + chatStatusDrawable.getIntrinsicHeight());
                 canvas.restore();
-            }
-        } else {
-            str3 = "windowBackgroundWhite";
-            j = j4;
-            i3 = 4;
-        }
-        if (this.currentDialogFolderId != 0) {
-            int i20 = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
-            int i21 = this.lastStatusDrawableParams;
-            if (i21 >= 0 && i21 != i20 && !this.statusDrawableAnimationInProgress) {
-                createStatusDrawableAnimator(i21, i20);
-            }
-            boolean z5 = this.statusDrawableAnimationInProgress;
-            if (z5) {
-                i20 = this.animateToStatusDrawableParams;
-            }
-            boolean z6 = (i20 & 1) != 0;
-            boolean z7 = (i20 & 2) != 0;
-            boolean z8 = (i20 & i3) != 0;
-            if (z5) {
-                int i22 = this.animateFromStatusDrawableParams;
-                boolean z9 = (i22 & 1) != 0;
-                boolean z10 = (i22 & 2) != 0;
-                boolean z11 = (i22 & i3) != 0;
-                if (!z6 && !z9 && z11 && !z10 && z7 && z8) {
-                    i4 = 2;
-                    f3 = 0.0f;
-                    canvas2 = canvas;
-                    drawCheckStatus(canvas, z6, z7, z8, true, this.statusDrawableProgress);
-                    str4 = str3;
-                    f2 = 1.0f;
-                } else {
-                    i4 = 2;
-                    f3 = 0.0f;
-                    f2 = 1.0f;
-                    boolean z12 = z9;
-                    boolean z13 = z10;
-                    boolean z14 = z11;
-                    str4 = str3;
-                    canvas2 = canvas;
-                    drawCheckStatus(canvas, z12, z13, z14, false, 1.0f - this.statusDrawableProgress);
-                    drawCheckStatus(canvas, z6, z7, z8, false, this.statusDrawableProgress);
-                }
-            } else {
-                canvas2 = canvas;
-                str4 = str3;
-                f2 = 1.0f;
-                i4 = 2;
-                f3 = 0.0f;
-                drawCheckStatus(canvas, z6, z7, z8, false, 1.0f);
-            }
-            this.lastStatusDrawableParams = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
-        } else {
-            canvas2 = canvas;
-            str4 = str3;
-            f2 = 1.0f;
-            i4 = 2;
-            f3 = 0.0f;
-        }
-        if (this.dialogsType == i4 && (((z4 = this.dialogMuted) || this.dialogMutedProgress > f3) && !this.drawVerified && this.drawScam == 0 && !this.drawPremium)) {
-            if (z4) {
-                float f18 = this.dialogMutedProgress;
-                if (f18 != f2) {
-                    float f19 = f18 + 0.10666667f;
-                    this.dialogMutedProgress = f19;
-                    if (f19 > f2) {
-                        this.dialogMutedProgress = f2;
+                if (this.currentDialogFolderId != 0) {
+                    int i20 = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
+                    int i21 = this.lastStatusDrawableParams;
+                    if (i21 >= 0 && i21 != i20 && !this.statusDrawableAnimationInProgress) {
+                        createStatusDrawableAnimator(i21, i20);
+                    }
+                    boolean z5 = this.statusDrawableAnimationInProgress;
+                    if (z5) {
+                        i20 = this.animateToStatusDrawableParams;
+                    }
+                    boolean z6 = (i20 & 1) != 0;
+                    boolean z7 = (i20 & 2) != 0;
+                    boolean z8 = (i20 & i3) != 0;
+                    if (z5) {
+                        int i22 = this.animateFromStatusDrawableParams;
+                        boolean z9 = (i22 & 1) != 0;
+                        boolean z10 = (i22 & 2) != 0;
+                        boolean z11 = (i22 & i3) != 0;
+                        if (!z6 && !z9 && z11 && !z10 && z7 && z8) {
+                            f4 = 1.0f;
+                            i4 = 2;
+                            str4 = str3;
+                            drawCheckStatus(canvas, z6, z7, z8, true, this.statusDrawableProgress);
+                            canvas2 = canvas;
+                            f3 = 0.0f;
+                        } else {
+                            str4 = str3;
+                            f4 = 1.0f;
+                            i4 = 2;
+                            boolean z12 = z9;
+                            f3 = 0.0f;
+                            boolean z13 = z10;
+                            canvas2 = canvas;
+                            drawCheckStatus(canvas, z12, z13, z11, false, 1.0f - this.statusDrawableProgress);
+                            drawCheckStatus(canvas, z6, z7, z8, false, this.statusDrawableProgress);
+                        }
                     } else {
-                        invalidate();
+                        canvas2 = canvas;
+                        str4 = str3;
+                        f3 = 0.0f;
+                        f4 = 1.0f;
+                        i4 = 2;
+                        drawCheckStatus(canvas, z6, z7, z8, false, 1.0f);
+                    }
+                    this.lastStatusDrawableParams = (this.drawClock ? 1 : 0) + (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
+                } else {
+                    canvas2 = canvas;
+                    str4 = str3;
+                    f3 = 0.0f;
+                    f4 = 1.0f;
+                    i4 = 2;
+                }
+                if (this.dialogsType == i4 && (((z4 = this.dialogMuted) || this.dialogMutedProgress > f3) && !this.drawVerified && this.drawScam == 0 && !this.drawPremium)) {
+                    if (z4) {
+                        float f19 = this.dialogMutedProgress;
+                        if (f19 != f4) {
+                            float f20 = f19 + 0.10666667f;
+                            this.dialogMutedProgress = f20;
+                            if (f20 > f4) {
+                                this.dialogMutedProgress = f4;
+                            } else {
+                                invalidate();
+                            }
+                            BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, this.nameMuteLeft - AndroidUtilities.dp((!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 0.0f : 1.0f), AndroidUtilities.dp(!SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f));
+                            if (this.dialogMutedProgress == f4) {
+                                canvas.save();
+                                float f21 = this.dialogMutedProgress;
+                                canvas2.scale(f21, f21, Theme.dialogs_muteDrawable.getBounds().centerX(), Theme.dialogs_muteDrawable.getBounds().centerY());
+                                Theme.dialogs_muteDrawable.setAlpha((int) (this.dialogMutedProgress * 255.0f));
+                                Theme.dialogs_muteDrawable.draw(canvas2);
+                                Theme.dialogs_muteDrawable.setAlpha(255);
+                                canvas.restore();
+                            } else {
+                                Theme.dialogs_muteDrawable.draw(canvas2);
+                            }
+                        }
+                    }
+                    if (!z4) {
+                        float f22 = this.dialogMutedProgress;
+                        if (f22 != f3) {
+                            float f23 = f22 - 0.10666667f;
+                            this.dialogMutedProgress = f23;
+                            if (f23 < f3) {
+                                this.dialogMutedProgress = f3;
+                            } else {
+                                invalidate();
+                            }
+                        }
                     }
                     BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, this.nameMuteLeft - AndroidUtilities.dp((!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 0.0f : 1.0f), AndroidUtilities.dp(!SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f));
-                    if (this.dialogMutedProgress == f2) {
-                        canvas.save();
-                        float f20 = this.dialogMutedProgress;
-                        canvas2.scale(f20, f20, Theme.dialogs_muteDrawable.getBounds().centerX(), Theme.dialogs_muteDrawable.getBounds().centerY());
-                        Theme.dialogs_muteDrawable.setAlpha((int) (this.dialogMutedProgress * 255.0f));
-                        Theme.dialogs_muteDrawable.draw(canvas2);
-                        Theme.dialogs_muteDrawable.setAlpha(255);
-                        canvas.restore();
+                    if (this.dialogMutedProgress == f4) {
+                    }
+                } else if (!this.drawVerified) {
+                    BaseCell.setDrawableBounds(Theme.dialogs_verifiedDrawable, this.nameMuteLeft - AndroidUtilities.dp(f4), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 13.5f : 16.5f));
+                    BaseCell.setDrawableBounds(Theme.dialogs_verifiedCheckDrawable, this.nameMuteLeft - AndroidUtilities.dp(f4), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 13.5f : 16.5f));
+                    Theme.dialogs_verifiedDrawable.draw(canvas2);
+                    Theme.dialogs_verifiedCheckDrawable.draw(canvas2);
+                } else if (this.drawPremium) {
+                    Drawable drawable = PremiumGradient.getInstance().premiumStarDrawableMini;
+                    BaseCell.setDrawableBounds(drawable, this.nameMuteLeft - AndroidUtilities.dp(f4), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.5f : 15.5f));
+                    drawable.draw(canvas2);
+                } else {
+                    int i23 = this.drawScam;
+                    if (i23 != 0) {
+                        BaseCell.setDrawableBounds((Drawable) (i23 == 1 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable), this.nameMuteLeft, AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.0f : 15.0f));
+                        (this.drawScam == 1 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).draw(canvas2);
+                    }
+                    if (!this.drawReorder || this.reorderIconProgress != f3) {
+                        Theme.dialogs_reorderDrawable.setAlpha((int) (this.reorderIconProgress * 255.0f));
+                        BaseCell.setDrawableBounds(Theme.dialogs_reorderDrawable, this.pinLeft, this.pinTop);
+                        Theme.dialogs_reorderDrawable.draw(canvas2);
+                    }
+                    if (this.drawError) {
+                        Theme.dialogs_errorDrawable.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                        this.rect.set(this.errorLeft, this.errorTop, i6 + AndroidUtilities.dp(23.0f), this.errorTop + AndroidUtilities.dp(23.0f));
+                        RectF rectF = this.rect;
+                        float f24 = AndroidUtilities.density;
+                        canvas2.drawRoundRect(rectF, f24 * 11.5f, f24 * 11.5f, Theme.dialogs_errorPaint);
+                        BaseCell.setDrawableBounds(Theme.dialogs_errorDrawable, this.errorLeft + AndroidUtilities.dp(5.5f), this.errorTop + AndroidUtilities.dp(5.0f));
+                        Theme.dialogs_errorDrawable.draw(canvas2);
                     } else {
-                        Theme.dialogs_muteDrawable.draw(canvas2);
-                    }
-                }
-            }
-            if (!z4) {
-                float f21 = this.dialogMutedProgress;
-                if (f21 != f3) {
-                    float f22 = f21 - 0.10666667f;
-                    this.dialogMutedProgress = f22;
-                    if (f22 < f3) {
-                        this.dialogMutedProgress = f3;
-                    } else {
-                        invalidate();
-                    }
-                }
-            }
-            BaseCell.setDrawableBounds(Theme.dialogs_muteDrawable, this.nameMuteLeft - AndroidUtilities.dp((!this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 0.0f : 1.0f), AndroidUtilities.dp(!SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f));
-            if (this.dialogMutedProgress == f2) {
-            }
-        } else if (!this.drawVerified) {
-            BaseCell.setDrawableBounds(Theme.dialogs_verifiedDrawable, this.nameMuteLeft - AndroidUtilities.dp(f2), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 13.5f : 16.5f));
-            BaseCell.setDrawableBounds(Theme.dialogs_verifiedCheckDrawable, this.nameMuteLeft - AndroidUtilities.dp(f2), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 13.5f : 16.5f));
-            Theme.dialogs_verifiedDrawable.draw(canvas2);
-            Theme.dialogs_verifiedCheckDrawable.draw(canvas2);
-        } else if (this.drawPremium) {
-            Drawable drawable = PremiumGradient.getInstance().premiumStarDrawableMini;
-            BaseCell.setDrawableBounds(drawable, this.nameMuteLeft - AndroidUtilities.dp(f2), AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.5f : 15.5f));
-            drawable.draw(canvas2);
-        } else {
-            int i23 = this.drawScam;
-            if (i23 != 0) {
-                BaseCell.setDrawableBounds((Drawable) (i23 == 1 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable), this.nameMuteLeft, AndroidUtilities.dp((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? 12.0f : 15.0f));
-                (this.drawScam == 1 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).draw(canvas2);
-            }
-        }
-        if (!this.drawReorder || this.reorderIconProgress != f3) {
-            Theme.dialogs_reorderDrawable.setAlpha((int) (this.reorderIconProgress * 255.0f));
-            BaseCell.setDrawableBounds(Theme.dialogs_reorderDrawable, this.pinLeft, this.pinTop);
-            Theme.dialogs_reorderDrawable.draw(canvas2);
-        }
-        if (!this.drawError) {
-            Theme.dialogs_errorDrawable.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-            this.rect.set(this.errorLeft, this.errorTop, i6 + AndroidUtilities.dp(23.0f), this.errorTop + AndroidUtilities.dp(23.0f));
-            RectF rectF = this.rect;
-            float f23 = AndroidUtilities.density;
-            canvas2.drawRoundRect(rectF, f23 * 11.5f, f23 * 11.5f, Theme.dialogs_errorPaint);
-            BaseCell.setDrawableBounds(Theme.dialogs_errorDrawable, this.errorLeft + AndroidUtilities.dp(5.5f), this.errorTop + AndroidUtilities.dp(5.0f));
-            Theme.dialogs_errorDrawable.draw(canvas2);
-        } else {
-            boolean z15 = this.drawCount;
-            if (((z15 || this.drawMention) && this.drawCount2) || this.countChangeProgress != f2 || this.drawReactionMention || this.reactionsMentionsChangeProgress != f2) {
-                if ((z15 && this.drawCount2) || this.countChangeProgress != f2) {
-                    int i24 = this.unreadCount;
-                    float f24 = (i24 != 0 || this.markUnread) ? this.countChangeProgress : f2 - this.countChangeProgress;
-                    StaticLayout staticLayout2 = this.countOldLayout;
-                    if (staticLayout2 == null || i24 == 0) {
-                        if (i24 != 0) {
-                            staticLayout2 = this.countLayout;
-                        }
-                        Paint paint = (this.dialogMuted || this.currentDialogFolderId != 0) ? Theme.dialogs_countGrayPaint : Theme.dialogs_countPaint;
-                        paint.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                        Theme.dialogs_countTextPaint.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                        this.rect.set(this.countLeft - AndroidUtilities.dp(5.5f), this.countTop, dp3 + this.countWidth + AndroidUtilities.dp(11.0f), this.countTop + AndroidUtilities.dp(23.0f));
-                        if (f24 != f2) {
-                            if (this.drawPin) {
-                                Theme.dialogs_pinnedDrawable.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                                BaseCell.setDrawableBounds(Theme.dialogs_pinnedDrawable, this.pinLeft, this.pinTop);
-                                canvas.save();
-                                float f25 = f2 - f24;
-                                canvas2.scale(f25, f25, Theme.dialogs_pinnedDrawable.getBounds().centerX(), Theme.dialogs_pinnedDrawable.getBounds().centerY());
-                                Theme.dialogs_pinnedDrawable.draw(canvas2);
-                                canvas.restore();
-                            }
-                            canvas.save();
-                            canvas2.scale(f24, f24, this.rect.centerX(), this.rect.centerY());
-                        }
-                        RectF rectF2 = this.rect;
-                        float f26 = AndroidUtilities.density;
-                        canvas2.drawRoundRect(rectF2, f26 * 11.5f, f26 * 11.5f, paint);
-                        if (staticLayout2 != null) {
-                            canvas.save();
-                            canvas2.translate(this.countLeft, this.countTop + AndroidUtilities.dp(4.0f));
-                            staticLayout2.draw(canvas2);
-                            canvas.restore();
-                        }
-                        if (f24 != f2) {
-                            canvas.restore();
-                        }
-                    } else {
-                        Paint paint2 = (this.dialogMuted || this.currentDialogFolderId != 0) ? Theme.dialogs_countGrayPaint : Theme.dialogs_countPaint;
-                        paint2.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                        Theme.dialogs_countTextPaint.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                        float f27 = f24 * 2.0f;
-                        float f28 = f27 > f2 ? 1.0f : f27;
-                        float f29 = f2 - f28;
-                        float f30 = (this.countLeft * f28) + (this.countLeftOld * f29);
-                        float dp14 = f30 - AndroidUtilities.dp(5.5f);
-                        this.rect.set(dp14, this.countTop, (this.countWidth * f28) + dp14 + (this.countWidthOld * f29) + AndroidUtilities.dp(11.0f), this.countTop + AndroidUtilities.dp(23.0f));
-                        if (f24 <= 0.5f) {
-                            f4 = 0.1f;
-                            interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(f27);
-                        } else {
-                            f4 = 0.1f;
-                            interpolation = CubicBezierInterpolator.EASE_IN.getInterpolation(f2 - ((f24 - 0.5f) * 2.0f));
-                        }
-                        float f31 = (interpolation * f4) + f2;
-                        canvas.save();
-                        canvas2.scale(f31, f31, this.rect.centerX(), this.rect.centerY());
-                        RectF rectF3 = this.rect;
-                        float f32 = AndroidUtilities.density;
-                        canvas2.drawRoundRect(rectF3, f32 * 11.5f, f32 * 11.5f, paint2);
-                        if (this.countAnimationStableLayout != null) {
-                            canvas.save();
-                            canvas2.translate(f30, this.countTop + AndroidUtilities.dp(4.0f));
-                            this.countAnimationStableLayout.draw(canvas2);
-                            canvas.restore();
-                        }
-                        int alpha = Theme.dialogs_countTextPaint.getAlpha();
-                        float f33 = alpha;
-                        Theme.dialogs_countTextPaint.setAlpha((int) (f33 * f28));
-                        if (this.countAnimationInLayout != null) {
-                            canvas.save();
-                            canvas2.translate(f30, ((this.countAnimationIncrement ? AndroidUtilities.dp(13.0f) : -AndroidUtilities.dp(13.0f)) * f29) + this.countTop + AndroidUtilities.dp(4.0f));
-                            this.countAnimationInLayout.draw(canvas2);
-                            canvas.restore();
-                        } else if (this.countLayout != null) {
-                            canvas.save();
-                            canvas2.translate(f30, ((this.countAnimationIncrement ? AndroidUtilities.dp(13.0f) : -AndroidUtilities.dp(13.0f)) * f29) + this.countTop + AndroidUtilities.dp(4.0f));
-                            this.countLayout.draw(canvas2);
-                            canvas.restore();
-                        }
-                        if (this.countOldLayout != null) {
-                            Theme.dialogs_countTextPaint.setAlpha((int) (f33 * f29));
-                            canvas.save();
-                            canvas2.translate(f30, ((this.countAnimationIncrement ? -AndroidUtilities.dp(13.0f) : AndroidUtilities.dp(13.0f)) * f28) + this.countTop + AndroidUtilities.dp(4.0f));
-                            this.countOldLayout.draw(canvas2);
-                            canvas.restore();
-                        }
-                        Theme.dialogs_countTextPaint.setAlpha(alpha);
-                        canvas.restore();
-                    }
-                }
-                if (this.drawMention) {
-                    Theme.dialogs_countPaint.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                    this.rect.set(this.mentionLeft - AndroidUtilities.dp(5.5f), this.countTop, dp2 + this.mentionWidth + AndroidUtilities.dp(11.0f), this.countTop + AndroidUtilities.dp(23.0f));
-                    Paint paint3 = (!this.dialogMuted || this.folderId == 0) ? Theme.dialogs_countPaint : Theme.dialogs_countGrayPaint;
-                    RectF rectF4 = this.rect;
-                    float f34 = AndroidUtilities.density;
-                    canvas2.drawRoundRect(rectF4, f34 * 11.5f, f34 * 11.5f, paint3);
-                    if (this.mentionLayout != null) {
-                        Theme.dialogs_countTextPaint.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                        canvas.save();
-                        canvas2.translate(this.mentionLeft, this.countTop + AndroidUtilities.dp(4.0f));
-                        this.mentionLayout.draw(canvas2);
-                        canvas.restore();
-                    } else {
-                        Theme.dialogs_mentionDrawable.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                        BaseCell.setDrawableBounds(Theme.dialogs_mentionDrawable, this.mentionLeft - AndroidUtilities.dp(2.0f), this.countTop + AndroidUtilities.dp(3.2f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
-                        Theme.dialogs_mentionDrawable.draw(canvas2);
-                    }
-                }
-                if (this.drawReactionMention || this.reactionsMentionsChangeProgress != f2) {
-                    Theme.dialogs_reactionsCountPaint.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                    this.rect.set(this.reactionMentionLeft - AndroidUtilities.dp(5.5f), this.countTop, dp + AndroidUtilities.dp(23.0f), this.countTop + AndroidUtilities.dp(23.0f));
-                    Paint paint4 = Theme.dialogs_reactionsCountPaint;
-                    canvas.save();
-                    float f35 = this.reactionsMentionsChangeProgress;
-                    if (f35 != f2) {
-                        if (!this.drawReactionMention) {
-                            f35 = f2 - f35;
-                        }
-                        canvas2.scale(f35, f35, this.rect.centerX(), this.rect.centerY());
-                    }
-                    RectF rectF5 = this.rect;
-                    float f36 = AndroidUtilities.density;
-                    canvas2.drawRoundRect(rectF5, f36 * 11.5f, f36 * 11.5f, paint4);
-                    Theme.dialogs_reactionsMentionDrawable.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                    BaseCell.setDrawableBounds(Theme.dialogs_reactionsMentionDrawable, this.reactionMentionLeft - AndroidUtilities.dp(2.0f), this.countTop + AndroidUtilities.dp(3.8f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
-                    Theme.dialogs_reactionsMentionDrawable.draw(canvas2);
-                    canvas.restore();
-                }
-            } else if (this.drawPin) {
-                Theme.dialogs_pinnedDrawable.setAlpha((int) ((f2 - this.reorderIconProgress) * 255.0f));
-                BaseCell.setDrawableBounds(Theme.dialogs_pinnedDrawable, this.pinLeft, this.pinTop);
-                Theme.dialogs_pinnedDrawable.draw(canvas2);
-            }
-        }
-        if (this.animatingArchiveAvatar) {
-            canvas.save();
-            float interpolation3 = this.interpolator.getInterpolation(this.animatingArchiveAvatarProgress / 170.0f) + f2;
-            canvas2.scale(interpolation3, interpolation3, this.avatarImage.getCenterX(), this.avatarImage.getCenterY());
-        }
-        if (this.currentDialogFolderId != 0 || (pullForegroundDrawable = this.archivedChatsDrawable) == null || !pullForegroundDrawable.isDraw()) {
-            this.avatarImage.draw(canvas2);
-        }
-        if (this.hasMessageThumb) {
-            this.thumbImage.draw(canvas2);
-            if (this.drawPlay) {
-                BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage.getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage.getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
-                Theme.dialogs_playDrawable.draw(canvas2);
-            }
-        }
-        if (this.animatingArchiveAvatar) {
-            canvas.restore();
-        }
-        if (this.isDialogCell && this.currentDialogFolderId == 0) {
-            tLRPC$User = this.user;
-            if (tLRPC$User == null && !MessagesController.isSupportUser(tLRPC$User) && !this.user.bot) {
-                boolean isOnline = isOnline();
-                if (isOnline || this.onlineProgress != 0.0f) {
-                    float imageY2 = this.avatarImage.getImageY2();
-                    if (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
-                        f11 = 6.0f;
-                    }
-                    int dp15 = (int) (imageY2 - AndroidUtilities.dp(f11));
-                    if (LocaleController.isRTL) {
-                        float imageX = this.avatarImage.getImageX();
-                        if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
-                            f17 = 6.0f;
-                        }
-                        dp11 = imageX + AndroidUtilities.dp(f17);
-                    } else {
-                        float imageX2 = this.avatarImage.getImageX2();
-                        if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
-                            f17 = 6.0f;
-                        }
-                        dp11 = imageX2 - AndroidUtilities.dp(f17);
-                    }
-                    Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str4, this.resourcesProvider));
-                    float f37 = (int) dp11;
-                    float f38 = dp15;
-                    canvas2.drawCircle(f37, f38, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
-                    Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("chats_onlineCircle", this.resourcesProvider));
-                    canvas2.drawCircle(f37, f38, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
-                    if (isOnline) {
-                        float f39 = this.onlineProgress;
-                        if (f39 < f2) {
-                            j2 = j;
-                            float f40 = f39 + (((float) j2) / 150.0f);
-                            this.onlineProgress = f40;
-                            if (f40 > f2) {
-                                this.onlineProgress = f2;
-                            }
-                        }
-                    } else {
-                        j2 = j;
-                        float f41 = this.onlineProgress;
-                        if (f41 > 0.0f) {
-                            float f42 = f41 - (((float) j2) / 150.0f);
-                            this.onlineProgress = f42;
-                            if (f42 < 0.0f) {
-                                this.onlineProgress = 0.0f;
-                            }
-                        }
-                    }
-                    z = true;
-                }
-            } else {
-                j2 = j;
-                tLRPC$Chat = this.chat;
-                if (tLRPC$Chat != null) {
-                    boolean z16 = tLRPC$Chat.call_active && tLRPC$Chat.call_not_empty;
-                    this.hasCall = z16;
-                    if (z16 || this.chatCallProgress != 0.0f) {
-                        CheckBox2 checkBox2 = this.checkBox;
-                        float progress = (checkBox2 == null || !checkBox2.isChecked()) ? 1.0f : f2 - this.checkBox.getProgress();
-                        float imageY22 = this.avatarImage.getImageY2();
-                        if (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
-                            f11 = 6.0f;
-                        }
-                        int dp16 = (int) (imageY22 - AndroidUtilities.dp(f11));
-                        if (LocaleController.isRTL) {
-                            float imageX3 = this.avatarImage.getImageX();
-                            if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
-                                f17 = 6.0f;
-                            }
-                            dp4 = imageX3 + AndroidUtilities.dp(f17);
-                        } else {
-                            float imageX22 = this.avatarImage.getImageX2();
-                            if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
-                                f17 = 6.0f;
-                            }
-                            dp4 = imageX22 - AndroidUtilities.dp(f17);
-                        }
-                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str4, this.resourcesProvider));
-                        float f43 = (int) dp4;
-                        float f44 = dp16;
-                        canvas2.drawCircle(f43, f44, AndroidUtilities.dp(11.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
-                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("chats_onlineCircle", this.resourcesProvider));
-                        canvas2.drawCircle(f43, f44, AndroidUtilities.dp(9.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
-                        Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str4, this.resourcesProvider));
-                        int i25 = this.progressStage;
-                        if (i25 == 0) {
-                            dp5 = AndroidUtilities.dp(f2) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
-                            dp9 = AndroidUtilities.dp(3.0f);
-                            dp10 = AndroidUtilities.dp(2.0f);
-                            f8 = this.innerProgress;
-                        } else {
-                            if (i25 == 1) {
-                                dp5 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
-                                dp6 = AndroidUtilities.dp(f2);
-                                dp7 = AndroidUtilities.dp(4.0f);
-                                f7 = this.innerProgress;
-                            } else if (i25 == 2) {
-                                dp5 = AndroidUtilities.dp(f2) + (AndroidUtilities.dp(2.0f) * this.innerProgress);
-                                dp9 = AndroidUtilities.dp(5.0f);
-                                dp10 = AndroidUtilities.dp(4.0f);
-                                f8 = this.innerProgress;
-                            } else if (i25 == 3) {
-                                dp5 = AndroidUtilities.dp(3.0f) - (AndroidUtilities.dp(2.0f) * this.innerProgress);
-                                dp6 = AndroidUtilities.dp(f2);
-                                dp7 = AndroidUtilities.dp(2.0f);
-                                f7 = this.innerProgress;
-                            } else if (i25 == 4) {
-                                dp5 = AndroidUtilities.dp(f2) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
-                                dp9 = AndroidUtilities.dp(3.0f);
-                                dp10 = AndroidUtilities.dp(2.0f);
-                                f8 = this.innerProgress;
-                            } else if (i25 == 5) {
-                                dp5 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
-                                dp6 = AndroidUtilities.dp(f2);
-                                dp7 = AndroidUtilities.dp(4.0f);
-                                f7 = this.innerProgress;
-                            } else if (i25 == 6) {
-                                dp5 = AndroidUtilities.dp(f2) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
-                                dp8 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
-                                if (this.chatCallProgress >= f2 || progress < f2) {
+                        boolean z14 = this.drawCount;
+                        if (((z14 || this.drawMention) && this.drawCount2) || this.countChangeProgress != f4 || this.drawReactionMention || this.reactionsMentionsChangeProgress != f4) {
+                            if ((z14 && this.drawCount2) || this.countChangeProgress != f4) {
+                                int i24 = this.unreadCount;
+                                float f25 = (i24 != 0 || this.markUnread) ? this.countChangeProgress : f4 - this.countChangeProgress;
+                                StaticLayout staticLayout2 = this.countOldLayout;
+                                if (staticLayout2 == null || i24 == 0) {
+                                    if (i24 != 0) {
+                                        staticLayout2 = this.countLayout;
+                                    }
+                                    Paint paint = (this.dialogMuted || this.currentDialogFolderId != 0) ? Theme.dialogs_countGrayPaint : Theme.dialogs_countPaint;
+                                    paint.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                    Theme.dialogs_countTextPaint.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                    this.rect.set(this.countLeft - AndroidUtilities.dp(5.5f), this.countTop, dp3 + this.countWidth + AndroidUtilities.dp(11.0f), this.countTop + AndroidUtilities.dp(23.0f));
+                                    if (f25 != f4) {
+                                        if (this.drawPin) {
+                                            Theme.dialogs_pinnedDrawable.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                            BaseCell.setDrawableBounds(Theme.dialogs_pinnedDrawable, this.pinLeft, this.pinTop);
+                                            canvas.save();
+                                            float f26 = f4 - f25;
+                                            canvas2.scale(f26, f26, Theme.dialogs_pinnedDrawable.getBounds().centerX(), Theme.dialogs_pinnedDrawable.getBounds().centerY());
+                                            Theme.dialogs_pinnedDrawable.draw(canvas2);
+                                            canvas.restore();
+                                        }
+                                        canvas.save();
+                                        canvas2.scale(f25, f25, this.rect.centerX(), this.rect.centerY());
+                                    }
+                                    RectF rectF2 = this.rect;
+                                    float f27 = AndroidUtilities.density;
+                                    canvas2.drawRoundRect(rectF2, f27 * 11.5f, f27 * 11.5f, paint);
+                                    if (staticLayout2 != null) {
+                                        canvas.save();
+                                        canvas2.translate(this.countLeft, this.countTop + AndroidUtilities.dp(4.0f));
+                                        staticLayout2.draw(canvas2);
+                                        canvas.restore();
+                                    }
+                                    if (f25 != f4) {
+                                        canvas.restore();
+                                    }
+                                } else {
+                                    Paint paint2 = (this.dialogMuted || this.currentDialogFolderId != 0) ? Theme.dialogs_countGrayPaint : Theme.dialogs_countPaint;
+                                    paint2.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                    Theme.dialogs_countTextPaint.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                    float f28 = f25 * 2.0f;
+                                    float f29 = f28 > f4 ? 1.0f : f28;
+                                    float f30 = f4 - f29;
+                                    float f31 = (this.countLeft * f29) + (this.countLeftOld * f30);
+                                    float dp14 = f31 - AndroidUtilities.dp(5.5f);
+                                    this.rect.set(dp14, this.countTop, (this.countWidth * f29) + dp14 + (this.countWidthOld * f30) + AndroidUtilities.dp(11.0f), this.countTop + AndroidUtilities.dp(23.0f));
+                                    if (f25 <= 0.5f) {
+                                        f5 = 0.1f;
+                                        interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(f28);
+                                    } else {
+                                        f5 = 0.1f;
+                                        interpolation = CubicBezierInterpolator.EASE_IN.getInterpolation(f4 - ((f25 - 0.5f) * 2.0f));
+                                    }
+                                    float f32 = (interpolation * f5) + f4;
                                     canvas.save();
-                                    float f45 = this.chatCallProgress;
-                                    canvas2.scale(f45 * progress, f45 * progress, f43, f44);
-                                }
-                                this.rect.set(i5 - AndroidUtilities.dp(f2), f44 - dp5, AndroidUtilities.dp(f2) + i5, dp5 + f44);
-                                canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                                float f46 = f44 - dp8;
-                                float f47 = f44 + dp8;
-                                this.rect.set(i5 - AndroidUtilities.dp(5.0f), f46, i5 - AndroidUtilities.dp(3.0f), f47);
-                                canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                                this.rect.set(AndroidUtilities.dp(3.0f) + i5, f46, i5 + AndroidUtilities.dp(5.0f), f47);
-                                canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                                if (this.chatCallProgress >= f2 || progress < f2) {
+                                    canvas2.scale(f32, f32, this.rect.centerX(), this.rect.centerY());
+                                    RectF rectF3 = this.rect;
+                                    float f33 = AndroidUtilities.density;
+                                    canvas2.drawRoundRect(rectF3, f33 * 11.5f, f33 * 11.5f, paint2);
+                                    if (this.countAnimationStableLayout != null) {
+                                        canvas.save();
+                                        canvas2.translate(f31, this.countTop + AndroidUtilities.dp(4.0f));
+                                        this.countAnimationStableLayout.draw(canvas2);
+                                        canvas.restore();
+                                    }
+                                    int alpha = Theme.dialogs_countTextPaint.getAlpha();
+                                    float f34 = alpha;
+                                    Theme.dialogs_countTextPaint.setAlpha((int) (f34 * f29));
+                                    if (this.countAnimationInLayout != null) {
+                                        canvas.save();
+                                        canvas2.translate(f31, ((this.countAnimationIncrement ? AndroidUtilities.dp(13.0f) : -AndroidUtilities.dp(13.0f)) * f30) + this.countTop + AndroidUtilities.dp(4.0f));
+                                        this.countAnimationInLayout.draw(canvas2);
+                                        canvas.restore();
+                                    } else if (this.countLayout != null) {
+                                        canvas.save();
+                                        canvas2.translate(f31, ((this.countAnimationIncrement ? AndroidUtilities.dp(13.0f) : -AndroidUtilities.dp(13.0f)) * f30) + this.countTop + AndroidUtilities.dp(4.0f));
+                                        this.countLayout.draw(canvas2);
+                                        canvas.restore();
+                                    }
+                                    if (this.countOldLayout != null) {
+                                        Theme.dialogs_countTextPaint.setAlpha((int) (f34 * f30));
+                                        canvas.save();
+                                        canvas2.translate(f31, ((this.countAnimationIncrement ? -AndroidUtilities.dp(13.0f) : AndroidUtilities.dp(13.0f)) * f29) + this.countTop + AndroidUtilities.dp(4.0f));
+                                        this.countOldLayout.draw(canvas2);
+                                        canvas.restore();
+                                    }
+                                    Theme.dialogs_countTextPaint.setAlpha(alpha);
                                     canvas.restore();
                                 }
-                                float f48 = (float) j2;
-                                f9 = this.innerProgress + (f48 / 400.0f);
-                                this.innerProgress = f9;
-                                if (f9 >= f2) {
-                                    this.innerProgress = 0.0f;
-                                    int i26 = this.progressStage + 1;
-                                    this.progressStage = i26;
-                                    if (i26 >= 8) {
-                                        this.progressStage = 0;
-                                    }
+                            }
+                            if (this.drawMention) {
+                                Theme.dialogs_countPaint.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                this.rect.set(this.mentionLeft - AndroidUtilities.dp(5.5f), this.countTop, dp2 + this.mentionWidth + AndroidUtilities.dp(11.0f), this.countTop + AndroidUtilities.dp(23.0f));
+                                Paint paint3 = (!this.dialogMuted || this.folderId == 0) ? Theme.dialogs_countPaint : Theme.dialogs_countGrayPaint;
+                                RectF rectF4 = this.rect;
+                                float f35 = AndroidUtilities.density;
+                                canvas2.drawRoundRect(rectF4, f35 * 11.5f, f35 * 11.5f, paint3);
+                                if (this.mentionLayout != null) {
+                                    Theme.dialogs_countTextPaint.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                    canvas.save();
+                                    canvas2.translate(this.mentionLeft, this.countTop + AndroidUtilities.dp(4.0f));
+                                    this.mentionLayout.draw(canvas2);
+                                    canvas.restore();
+                                } else {
+                                    Theme.dialogs_mentionDrawable.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                    BaseCell.setDrawableBounds(Theme.dialogs_mentionDrawable, this.mentionLeft - AndroidUtilities.dp(2.0f), this.countTop + AndroidUtilities.dp(3.2f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
+                                    Theme.dialogs_mentionDrawable.draw(canvas2);
                                 }
-                                if (this.hasCall) {
-                                    float f49 = this.chatCallProgress;
-                                    if (f49 < f2) {
-                                        float f50 = f49 + (f48 / 150.0f);
-                                        this.chatCallProgress = f50;
-                                        if (f50 > f2) {
-                                            this.chatCallProgress = f2;
+                            }
+                            if (this.drawReactionMention || this.reactionsMentionsChangeProgress != f4) {
+                                Theme.dialogs_reactionsCountPaint.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                this.rect.set(this.reactionMentionLeft - AndroidUtilities.dp(5.5f), this.countTop, dp + AndroidUtilities.dp(23.0f), this.countTop + AndroidUtilities.dp(23.0f));
+                                Paint paint4 = Theme.dialogs_reactionsCountPaint;
+                                canvas.save();
+                                float f36 = this.reactionsMentionsChangeProgress;
+                                if (f36 != f4) {
+                                    if (!this.drawReactionMention) {
+                                        f36 = f4 - f36;
+                                    }
+                                    canvas2.scale(f36, f36, this.rect.centerX(), this.rect.centerY());
+                                }
+                                RectF rectF5 = this.rect;
+                                float f37 = AndroidUtilities.density;
+                                canvas2.drawRoundRect(rectF5, f37 * 11.5f, f37 * 11.5f, paint4);
+                                Theme.dialogs_reactionsMentionDrawable.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                                BaseCell.setDrawableBounds(Theme.dialogs_reactionsMentionDrawable, this.reactionMentionLeft - AndroidUtilities.dp(2.0f), this.countTop + AndroidUtilities.dp(3.8f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
+                                Theme.dialogs_reactionsMentionDrawable.draw(canvas2);
+                                canvas.restore();
+                            }
+                        } else if (this.drawPin) {
+                            Theme.dialogs_pinnedDrawable.setAlpha((int) ((f4 - this.reorderIconProgress) * 255.0f));
+                            BaseCell.setDrawableBounds(Theme.dialogs_pinnedDrawable, this.pinLeft, this.pinTop);
+                            Theme.dialogs_pinnedDrawable.draw(canvas2);
+                        }
+                    }
+                    if (this.animatingArchiveAvatar) {
+                        canvas.save();
+                        float interpolation3 = this.interpolator.getInterpolation(this.animatingArchiveAvatarProgress / 170.0f) + f4;
+                        canvas2.scale(interpolation3, interpolation3, this.avatarImage.getCenterX(), this.avatarImage.getCenterY());
+                    }
+                    if (this.currentDialogFolderId != 0 || (pullForegroundDrawable = this.archivedChatsDrawable) == null || !pullForegroundDrawable.isDraw()) {
+                        this.avatarImage.draw(canvas2);
+                    }
+                    if (this.hasMessageThumb) {
+                        this.thumbImage.draw(canvas2);
+                        if (this.drawPlay) {
+                            BaseCell.setDrawableBounds(Theme.dialogs_playDrawable, (int) (this.thumbImage.getCenterX() - (Theme.dialogs_playDrawable.getIntrinsicWidth() / 2)), (int) (this.thumbImage.getCenterY() - (Theme.dialogs_playDrawable.getIntrinsicHeight() / 2)));
+                            Theme.dialogs_playDrawable.draw(canvas2);
+                        }
+                    }
+                    if (this.animatingArchiveAvatar) {
+                        canvas.restore();
+                    }
+                    if (this.isDialogCell && this.currentDialogFolderId == 0) {
+                        tLRPC$User = this.user;
+                        if (tLRPC$User == null && !MessagesController.isSupportUser(tLRPC$User) && !this.user.bot) {
+                            boolean isOnline = isOnline();
+                            if (isOnline || this.onlineProgress != 0.0f) {
+                                float imageY2 = this.avatarImage.getImageY2();
+                                if (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
+                                    f12 = 6.0f;
+                                }
+                                int dp15 = (int) (imageY2 - AndroidUtilities.dp(f12));
+                                if (LocaleController.isRTL) {
+                                    float imageX = this.avatarImage.getImageX();
+                                    if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
+                                        f18 = 6.0f;
+                                    }
+                                    dp11 = imageX + AndroidUtilities.dp(f18);
+                                } else {
+                                    float imageX2 = this.avatarImage.getImageX2();
+                                    if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
+                                        f18 = 6.0f;
+                                    }
+                                    dp11 = imageX2 - AndroidUtilities.dp(f18);
+                                }
+                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str4, this.resourcesProvider));
+                                float f38 = (int) dp11;
+                                float f39 = dp15;
+                                canvas2.drawCircle(f38, f39, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("chats_onlineCircle", this.resourcesProvider));
+                                canvas2.drawCircle(f38, f39, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                                if (isOnline) {
+                                    float f40 = this.onlineProgress;
+                                    if (f40 < f4) {
+                                        j2 = j;
+                                        float f41 = f40 + (((float) j2) / 150.0f);
+                                        this.onlineProgress = f41;
+                                        if (f41 > f4) {
+                                            this.onlineProgress = f4;
                                         }
                                     }
-                                    f5 = 0.0f;
                                 } else {
-                                    float f51 = this.chatCallProgress;
-                                    f5 = 0.0f;
-                                    if (f51 > 0.0f) {
-                                        float f52 = f51 - (f48 / 150.0f);
-                                        this.chatCallProgress = f52;
-                                        if (f52 < 0.0f) {
-                                            this.chatCallProgress = 0.0f;
+                                    j2 = j;
+                                    float f42 = this.onlineProgress;
+                                    if (f42 > 0.0f) {
+                                        float f43 = f42 - (((float) j2) / 150.0f);
+                                        this.onlineProgress = f43;
+                                        if (f43 < 0.0f) {
+                                            this.onlineProgress = 0.0f;
                                         }
                                     }
                                 }
                                 z = true;
-                                if (this.translationX != f5) {
-                                    canvas.restore();
-                                }
-                                if (this.currentDialogFolderId != 0 && this.translationX == f5 && this.archivedChatsDrawable != null) {
-                                    canvas.save();
-                                    canvas2.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                                    this.archivedChatsDrawable.draw(canvas2);
-                                    canvas.restore();
-                                }
-                                if (this.useSeparator) {
-                                    int dp17 = (this.fullSeparator || (this.currentDialogFolderId != 0 && this.archiveHidden && !this.fullSeparator2) || (this.fullSeparator2 && !this.archiveHidden)) ? 0 : AndroidUtilities.dp(72.0f);
+                            }
+                        } else {
+                            j2 = j;
+                            tLRPC$Chat = this.chat;
+                            if (tLRPC$Chat != null) {
+                                boolean z15 = tLRPC$Chat.call_active && tLRPC$Chat.call_not_empty;
+                                this.hasCall = z15;
+                                if (z15 || this.chatCallProgress != 0.0f) {
+                                    CheckBox2 checkBox2 = this.checkBox;
+                                    float progress = (checkBox2 == null || !checkBox2.isChecked()) ? 1.0f : f4 - this.checkBox.getProgress();
+                                    float imageY22 = this.avatarImage.getImageY2();
+                                    if (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
+                                        f12 = 6.0f;
+                                    }
+                                    int dp16 = (int) (imageY22 - AndroidUtilities.dp(f12));
                                     if (LocaleController.isRTL) {
-                                        canvas.drawLine(0.0f, getMeasuredHeight() - 1, getMeasuredWidth() - dp17, getMeasuredHeight() - 1, Theme.dividerPaint);
-                                    } else {
-                                        canvas.drawLine(dp17, getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, Theme.dividerPaint);
-                                        if (this.clipProgress != 0.0f) {
-                                            if (Build.VERSION.SDK_INT != 24) {
-                                                canvas.restore();
-                                            } else {
-                                                Theme.dialogs_pinnedPaint.setColor(Theme.getColor(str4, this.resourcesProvider));
-                                                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), this.topClip * this.clipProgress, Theme.dialogs_pinnedPaint);
-                                                canvas.drawRect(0.0f, getMeasuredHeight() - ((int) (this.bottomClip * this.clipProgress)), getMeasuredWidth(), getMeasuredHeight(), Theme.dialogs_pinnedPaint);
-                                            }
+                                        float imageX3 = this.avatarImage.getImageX();
+                                        if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
+                                            f18 = 6.0f;
                                         }
-                                        z2 = this.drawReorder;
-                                        if (!z2 || this.reorderIconProgress != 0.0f) {
-                                            if (!z2) {
-                                                float f53 = this.reorderIconProgress;
-                                                if (f53 < f2) {
-                                                    float f54 = f53 + (((float) j2) / 170.0f);
-                                                    this.reorderIconProgress = f54;
-                                                    if (f54 > f2) {
-                                                        this.reorderIconProgress = f2;
-                                                    }
-                                                    f6 = 0.0f;
+                                        dp4 = imageX3 + AndroidUtilities.dp(f18);
+                                    } else {
+                                        float imageX22 = this.avatarImage.getImageX2();
+                                        if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
+                                            f18 = 6.0f;
+                                        }
+                                        dp4 = imageX22 - AndroidUtilities.dp(f18);
+                                    }
+                                    Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str4, this.resourcesProvider));
+                                    float f44 = (int) dp4;
+                                    float f45 = dp16;
+                                    canvas2.drawCircle(f44, f45, AndroidUtilities.dp(11.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
+                                    Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("chats_onlineCircle", this.resourcesProvider));
+                                    canvas2.drawCircle(f44, f45, AndroidUtilities.dp(9.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
+                                    Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str4, this.resourcesProvider));
+                                    int i25 = this.progressStage;
+                                    if (i25 == 0) {
+                                        dp5 = AndroidUtilities.dp(f4) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
+                                        dp9 = AndroidUtilities.dp(3.0f);
+                                        dp10 = AndroidUtilities.dp(2.0f);
+                                        f9 = this.innerProgress;
+                                    } else {
+                                        if (i25 == 1) {
+                                            dp5 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
+                                            dp6 = AndroidUtilities.dp(f4);
+                                            dp7 = AndroidUtilities.dp(4.0f);
+                                            f8 = this.innerProgress;
+                                        } else if (i25 == 2) {
+                                            dp5 = AndroidUtilities.dp(f4) + (AndroidUtilities.dp(2.0f) * this.innerProgress);
+                                            dp9 = AndroidUtilities.dp(5.0f);
+                                            dp10 = AndroidUtilities.dp(4.0f);
+                                            f9 = this.innerProgress;
+                                        } else if (i25 == 3) {
+                                            dp5 = AndroidUtilities.dp(3.0f) - (AndroidUtilities.dp(2.0f) * this.innerProgress);
+                                            dp6 = AndroidUtilities.dp(f4);
+                                            dp7 = AndroidUtilities.dp(2.0f);
+                                            f8 = this.innerProgress;
+                                        } else if (i25 == 4) {
+                                            dp5 = AndroidUtilities.dp(f4) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
+                                            dp9 = AndroidUtilities.dp(3.0f);
+                                            dp10 = AndroidUtilities.dp(2.0f);
+                                            f9 = this.innerProgress;
+                                        } else if (i25 == 5) {
+                                            dp5 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
+                                            dp6 = AndroidUtilities.dp(f4);
+                                            dp7 = AndroidUtilities.dp(4.0f);
+                                            f8 = this.innerProgress;
+                                        } else if (i25 == 6) {
+                                            dp5 = AndroidUtilities.dp(f4) + (AndroidUtilities.dp(4.0f) * this.innerProgress);
+                                            dp8 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
+                                            if (this.chatCallProgress >= f4 || progress < f4) {
+                                                canvas.save();
+                                                float f46 = this.chatCallProgress;
+                                                canvas2.scale(f46 * progress, f46 * progress, f44, f45);
+                                            }
+                                            this.rect.set(i5 - AndroidUtilities.dp(f4), f45 - dp5, AndroidUtilities.dp(f4) + i5, dp5 + f45);
+                                            canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                            float f47 = f45 - dp8;
+                                            float f48 = f45 + dp8;
+                                            this.rect.set(i5 - AndroidUtilities.dp(5.0f), f47, i5 - AndroidUtilities.dp(3.0f), f48);
+                                            canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                            this.rect.set(AndroidUtilities.dp(3.0f) + i5, f47, i5 + AndroidUtilities.dp(5.0f), f48);
+                                            canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                            if (this.chatCallProgress >= f4 || progress < f4) {
+                                                canvas.restore();
+                                            }
+                                            float f49 = (float) j2;
+                                            f10 = this.innerProgress + (f49 / 400.0f);
+                                            this.innerProgress = f10;
+                                            if (f10 >= f4) {
+                                                this.innerProgress = 0.0f;
+                                                int i26 = this.progressStage + 1;
+                                                this.progressStage = i26;
+                                                if (i26 >= 8) {
+                                                    this.progressStage = 0;
                                                 }
-                                            } else {
-                                                float f55 = this.reorderIconProgress;
+                                            }
+                                            if (this.hasCall) {
+                                                float f50 = this.chatCallProgress;
+                                                if (f50 < f4) {
+                                                    float f51 = f50 + (f49 / 150.0f);
+                                                    this.chatCallProgress = f51;
+                                                    if (f51 > f4) {
+                                                        this.chatCallProgress = f4;
+                                                    }
+                                                }
                                                 f6 = 0.0f;
-                                                if (f55 > 0.0f) {
-                                                    float f56 = f55 - (((float) j2) / 170.0f);
-                                                    this.reorderIconProgress = f56;
-                                                    if (f56 < 0.0f) {
-                                                        this.reorderIconProgress = 0.0f;
-                                                    }
-                                                }
-                                                if (!this.archiveHidden) {
-                                                    float f57 = this.archiveBackgroundProgress;
-                                                    if (f57 > f6) {
-                                                        float f58 = f57 - (((float) j2) / 230.0f);
-                                                        this.archiveBackgroundProgress = f58;
-                                                        if (f58 < f6) {
-                                                            this.archiveBackgroundProgress = f6;
-                                                        }
-                                                        if (this.avatarDrawable.getAvatarType() == 2) {
-                                                            this.avatarDrawable.setArchivedAvatarHiddenProgress(CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(this.archiveBackgroundProgress));
-                                                        }
-                                                        z = true;
-                                                    }
-                                                    if (this.animatingArchiveAvatar) {
-                                                        float f59 = this.animatingArchiveAvatarProgress + ((float) j2);
-                                                        this.animatingArchiveAvatarProgress = f59;
-                                                        if (f59 >= 170.0f) {
-                                                            this.animatingArchiveAvatarProgress = 170.0f;
-                                                            this.animatingArchiveAvatar = false;
-                                                        }
-                                                        z = true;
-                                                    }
-                                                    if (!this.drawRevealBackground) {
-                                                        float f60 = this.currentRevealBounceProgress;
-                                                        if (f60 < f2) {
-                                                            float f61 = f60 + (((float) j2) / 170.0f);
-                                                            this.currentRevealBounceProgress = f61;
-                                                            if (f61 > f2) {
-                                                                this.currentRevealBounceProgress = f2;
-                                                                z = true;
-                                                            }
-                                                        }
-                                                        float f62 = this.currentRevealProgress;
-                                                        if (f62 < f2) {
-                                                            float f63 = f62 + (((float) j2) / 300.0f);
-                                                            this.currentRevealProgress = f63;
-                                                            if (f63 > f2) {
-                                                                this.currentRevealProgress = f2;
-                                                            }
-                                                            z3 = true;
-                                                            if (!z3) {
-                                                                return;
-                                                            }
-                                                            invalidate();
-                                                            return;
-                                                        }
-                                                        z3 = z;
-                                                        if (!z3) {
-                                                        }
-                                                    } else {
-                                                        if (this.currentRevealBounceProgress == f2) {
-                                                            this.currentRevealBounceProgress = 0.0f;
-                                                            z3 = true;
-                                                        } else {
-                                                            z3 = z;
-                                                        }
-                                                        float f64 = this.currentRevealProgress;
-                                                        if (f64 > 0.0f) {
-                                                            float f65 = f64 - (((float) j2) / 300.0f);
-                                                            this.currentRevealProgress = f65;
-                                                            if (f65 < 0.0f) {
-                                                                this.currentRevealProgress = 0.0f;
-                                                            }
-                                                            z3 = true;
-                                                        }
-                                                        if (!z3) {
-                                                        }
-                                                    }
-                                                } else {
-                                                    float f66 = this.archiveBackgroundProgress;
-                                                    if (f66 < f2) {
-                                                        float f67 = f66 + (((float) j2) / 230.0f);
-                                                        this.archiveBackgroundProgress = f67;
-                                                        if (f67 > f2) {
-                                                            this.archiveBackgroundProgress = f2;
-                                                        }
-                                                        if (this.avatarDrawable.getAvatarType() == 2) {
-                                                            this.avatarDrawable.setArchivedAvatarHiddenProgress(CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(this.archiveBackgroundProgress));
-                                                        }
-                                                        z = true;
-                                                    }
-                                                    if (this.animatingArchiveAvatar) {
-                                                    }
-                                                    if (!this.drawRevealBackground) {
+                                            } else {
+                                                float f52 = this.chatCallProgress;
+                                                f6 = 0.0f;
+                                                if (f52 > 0.0f) {
+                                                    float f53 = f52 - (f49 / 150.0f);
+                                                    this.chatCallProgress = f53;
+                                                    if (f53 < 0.0f) {
+                                                        this.chatCallProgress = 0.0f;
                                                     }
                                                 }
                                             }
                                             z = true;
-                                            if (!this.archiveHidden) {
+                                            if (this.translationX != f6) {
+                                                canvas.restore();
                                             }
+                                            if (this.currentDialogFolderId != 0 && this.translationX == f6 && this.archivedChatsDrawable != null) {
+                                                canvas.save();
+                                                canvas2.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                                                this.archivedChatsDrawable.draw(canvas2);
+                                                canvas.restore();
+                                            }
+                                            if (this.useSeparator) {
+                                                int dp17 = (this.fullSeparator || (this.currentDialogFolderId != 0 && this.archiveHidden && !this.fullSeparator2) || (this.fullSeparator2 && !this.archiveHidden)) ? 0 : AndroidUtilities.dp(72.0f);
+                                                if (LocaleController.isRTL) {
+                                                    canvas.drawLine(0.0f, getMeasuredHeight() - 1, getMeasuredWidth() - dp17, getMeasuredHeight() - 1, Theme.dividerPaint);
+                                                } else {
+                                                    canvas.drawLine(dp17, getMeasuredHeight() - 1, getMeasuredWidth(), getMeasuredHeight() - 1, Theme.dividerPaint);
+                                                    if (this.clipProgress != 0.0f) {
+                                                        if (Build.VERSION.SDK_INT != 24) {
+                                                            canvas.restore();
+                                                        } else {
+                                                            Theme.dialogs_pinnedPaint.setColor(Theme.getColor(str4, this.resourcesProvider));
+                                                            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), this.topClip * this.clipProgress, Theme.dialogs_pinnedPaint);
+                                                            canvas.drawRect(0.0f, getMeasuredHeight() - ((int) (this.bottomClip * this.clipProgress)), getMeasuredWidth(), getMeasuredHeight(), Theme.dialogs_pinnedPaint);
+                                                        }
+                                                    }
+                                                    z2 = this.drawReorder;
+                                                    if (!z2 || this.reorderIconProgress != 0.0f) {
+                                                        if (z2) {
+                                                            float f54 = this.reorderIconProgress;
+                                                            if (f54 < f4) {
+                                                                float f55 = f54 + (((float) j2) / 170.0f);
+                                                                this.reorderIconProgress = f55;
+                                                                if (f55 > f4) {
+                                                                    this.reorderIconProgress = f4;
+                                                                }
+                                                                f7 = 0.0f;
+                                                            }
+                                                        } else {
+                                                            float f56 = this.reorderIconProgress;
+                                                            f7 = 0.0f;
+                                                            if (f56 > 0.0f) {
+                                                                float f57 = f56 - (((float) j2) / 170.0f);
+                                                                this.reorderIconProgress = f57;
+                                                                if (f57 < 0.0f) {
+                                                                    this.reorderIconProgress = 0.0f;
+                                                                }
+                                                            }
+                                                            z3 = z;
+                                                            if (this.archiveHidden) {
+                                                                float f58 = this.archiveBackgroundProgress;
+                                                                if (f58 > f7) {
+                                                                    float f59 = f58 - (((float) j2) / 230.0f);
+                                                                    this.archiveBackgroundProgress = f59;
+                                                                    if (f59 < f7) {
+                                                                        this.archiveBackgroundProgress = f7;
+                                                                    }
+                                                                    if (this.avatarDrawable.getAvatarType() == 2) {
+                                                                        this.avatarDrawable.setArchivedAvatarHiddenProgress(CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(this.archiveBackgroundProgress));
+                                                                    }
+                                                                    z3 = true;
+                                                                }
+                                                                if (this.animatingArchiveAvatar) {
+                                                                    float f60 = this.animatingArchiveAvatarProgress + ((float) j2);
+                                                                    this.animatingArchiveAvatarProgress = f60;
+                                                                    if (f60 >= 170.0f) {
+                                                                        this.animatingArchiveAvatarProgress = 170.0f;
+                                                                        this.animatingArchiveAvatar = false;
+                                                                    }
+                                                                    z3 = true;
+                                                                }
+                                                                if (!this.drawRevealBackground) {
+                                                                    float f61 = this.currentRevealBounceProgress;
+                                                                    if (f61 < f4) {
+                                                                        float f62 = f61 + (((float) j2) / 170.0f);
+                                                                        this.currentRevealBounceProgress = f62;
+                                                                        if (f62 > f4) {
+                                                                            this.currentRevealBounceProgress = f4;
+                                                                            z3 = true;
+                                                                        }
+                                                                    }
+                                                                    float f63 = this.currentRevealProgress;
+                                                                    if (f63 < f4) {
+                                                                        float f64 = f63 + (((float) j2) / 300.0f);
+                                                                        this.currentRevealProgress = f64;
+                                                                        if (f64 > f4) {
+                                                                            this.currentRevealProgress = f4;
+                                                                        }
+                                                                        z3 = true;
+                                                                    }
+                                                                    if (z3) {
+                                                                        return;
+                                                                    }
+                                                                    invalidate();
+                                                                    return;
+                                                                }
+                                                                if (this.currentRevealBounceProgress == f4) {
+                                                                    this.currentRevealBounceProgress = 0.0f;
+                                                                    z3 = true;
+                                                                }
+                                                                float f65 = this.currentRevealProgress;
+                                                                if (f65 > 0.0f) {
+                                                                    float f66 = f65 - (((float) j2) / 300.0f);
+                                                                    this.currentRevealProgress = f66;
+                                                                    if (f66 < 0.0f) {
+                                                                        this.currentRevealProgress = 0.0f;
+                                                                    }
+                                                                    z3 = true;
+                                                                }
+                                                                if (z3) {
+                                                                }
+                                                            } else {
+                                                                float f67 = this.archiveBackgroundProgress;
+                                                                if (f67 < f4) {
+                                                                    float f68 = f67 + (((float) j2) / 230.0f);
+                                                                    this.archiveBackgroundProgress = f68;
+                                                                    if (f68 > f4) {
+                                                                        this.archiveBackgroundProgress = f4;
+                                                                    }
+                                                                    if (this.avatarDrawable.getAvatarType() == 2) {
+                                                                        this.avatarDrawable.setArchivedAvatarHiddenProgress(CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(this.archiveBackgroundProgress));
+                                                                    }
+                                                                    z3 = true;
+                                                                }
+                                                                if (this.animatingArchiveAvatar) {
+                                                                }
+                                                                if (!this.drawRevealBackground) {
+                                                                }
+                                                            }
+                                                        }
+                                                        z3 = true;
+                                                        if (this.archiveHidden) {
+                                                        }
+                                                    }
+                                                    f7 = 0.0f;
+                                                    z3 = z;
+                                                    if (this.archiveHidden) {
+                                                    }
+                                                }
+                                            }
+                                            if (this.clipProgress != 0.0f) {
+                                            }
+                                            z2 = this.drawReorder;
+                                            if (!z2) {
+                                            }
+                                            if (z2) {
+                                            }
+                                            z3 = true;
+                                            if (this.archiveHidden) {
+                                            }
+                                        } else {
+                                            dp5 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
+                                            dp6 = AndroidUtilities.dp(f4);
+                                            dp7 = AndroidUtilities.dp(2.0f);
+                                            f8 = this.innerProgress;
                                         }
-                                        f6 = 0.0f;
-                                        if (!this.archiveHidden) {
+                                        dp8 = dp6 + (dp7 * f8);
+                                        if (this.chatCallProgress >= f4) {
+                                        }
+                                        canvas.save();
+                                        float f462 = this.chatCallProgress;
+                                        canvas2.scale(f462 * progress, f462 * progress, f44, f45);
+                                        this.rect.set(i5 - AndroidUtilities.dp(f4), f45 - dp5, AndroidUtilities.dp(f4) + i5, dp5 + f45);
+                                        canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                        float f472 = f45 - dp8;
+                                        float f482 = f45 + dp8;
+                                        this.rect.set(i5 - AndroidUtilities.dp(5.0f), f472, i5 - AndroidUtilities.dp(3.0f), f482);
+                                        canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                        this.rect.set(AndroidUtilities.dp(3.0f) + i5, f472, i5 + AndroidUtilities.dp(5.0f), f482);
+                                        canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                        if (this.chatCallProgress >= f4) {
+                                        }
+                                        canvas.restore();
+                                        float f492 = (float) j2;
+                                        f10 = this.innerProgress + (f492 / 400.0f);
+                                        this.innerProgress = f10;
+                                        if (f10 >= f4) {
+                                        }
+                                        if (this.hasCall) {
+                                        }
+                                        z = true;
+                                        if (this.translationX != f6) {
+                                        }
+                                        if (this.currentDialogFolderId != 0) {
+                                            canvas.save();
+                                            canvas2.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                                            this.archivedChatsDrawable.draw(canvas2);
+                                            canvas.restore();
+                                        }
+                                        if (this.useSeparator) {
+                                        }
+                                        if (this.clipProgress != 0.0f) {
+                                        }
+                                        z2 = this.drawReorder;
+                                        if (!z2) {
+                                        }
+                                        if (z2) {
+                                        }
+                                        z3 = true;
+                                        if (this.archiveHidden) {
                                         }
                                     }
+                                    dp8 = dp9 - (dp10 * f9);
+                                    if (this.chatCallProgress >= f4) {
+                                    }
+                                    canvas.save();
+                                    float f4622 = this.chatCallProgress;
+                                    canvas2.scale(f4622 * progress, f4622 * progress, f44, f45);
+                                    this.rect.set(i5 - AndroidUtilities.dp(f4), f45 - dp5, AndroidUtilities.dp(f4) + i5, dp5 + f45);
+                                    canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                    float f4722 = f45 - dp8;
+                                    float f4822 = f45 + dp8;
+                                    this.rect.set(i5 - AndroidUtilities.dp(5.0f), f4722, i5 - AndroidUtilities.dp(3.0f), f4822);
+                                    canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                    this.rect.set(AndroidUtilities.dp(3.0f) + i5, f4722, i5 + AndroidUtilities.dp(5.0f), f4822);
+                                    canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), Theme.dialogs_onlineCirclePaint);
+                                    if (this.chatCallProgress >= f4) {
+                                    }
+                                    canvas.restore();
+                                    float f4922 = (float) j2;
+                                    f10 = this.innerProgress + (f4922 / 400.0f);
+                                    this.innerProgress = f10;
+                                    if (f10 >= f4) {
+                                    }
+                                    if (this.hasCall) {
+                                    }
+                                    z = true;
+                                    if (this.translationX != f6) {
+                                    }
+                                    if (this.currentDialogFolderId != 0) {
+                                    }
+                                    if (this.useSeparator) {
+                                    }
+                                    if (this.clipProgress != 0.0f) {
+                                    }
+                                    z2 = this.drawReorder;
+                                    if (!z2) {
+                                    }
+                                    if (z2) {
+                                    }
+                                    z3 = true;
+                                    if (this.archiveHidden) {
+                                    }
                                 }
-                                if (this.clipProgress != 0.0f) {
-                                }
-                                z2 = this.drawReorder;
-                                if (!z2) {
-                                }
-                                if (!z2) {
-                                }
-                                z = true;
-                                if (!this.archiveHidden) {
-                                }
-                            } else {
-                                dp5 = AndroidUtilities.dp(5.0f) - (AndroidUtilities.dp(4.0f) * this.innerProgress);
-                                dp6 = AndroidUtilities.dp(f2);
-                                dp7 = AndroidUtilities.dp(2.0f);
-                                f7 = this.innerProgress;
-                            }
-                            dp8 = dp6 + (dp7 * f7);
-                            if (this.chatCallProgress >= f2) {
-                            }
-                            canvas.save();
-                            float f452 = this.chatCallProgress;
-                            canvas2.scale(f452 * progress, f452 * progress, f43, f44);
-                            this.rect.set(i5 - AndroidUtilities.dp(f2), f44 - dp5, AndroidUtilities.dp(f2) + i5, dp5 + f44);
-                            canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                            float f462 = f44 - dp8;
-                            float f472 = f44 + dp8;
-                            this.rect.set(i5 - AndroidUtilities.dp(5.0f), f462, i5 - AndroidUtilities.dp(3.0f), f472);
-                            canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                            this.rect.set(AndroidUtilities.dp(3.0f) + i5, f462, i5 + AndroidUtilities.dp(5.0f), f472);
-                            canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                            if (this.chatCallProgress >= f2) {
-                            }
-                            canvas.restore();
-                            float f482 = (float) j2;
-                            f9 = this.innerProgress + (f482 / 400.0f);
-                            this.innerProgress = f9;
-                            if (f9 >= f2) {
-                            }
-                            if (this.hasCall) {
-                            }
-                            z = true;
-                            if (this.translationX != f5) {
-                            }
-                            if (this.currentDialogFolderId != 0) {
-                                canvas.save();
-                                canvas2.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                                this.archivedChatsDrawable.draw(canvas2);
-                                canvas.restore();
-                            }
-                            if (this.useSeparator) {
-                            }
-                            if (this.clipProgress != 0.0f) {
-                            }
-                            z2 = this.drawReorder;
-                            if (!z2) {
-                            }
-                            if (!z2) {
-                            }
-                            z = true;
-                            if (!this.archiveHidden) {
                             }
                         }
-                        dp8 = dp9 - (dp10 * f8);
-                        if (this.chatCallProgress >= f2) {
-                        }
-                        canvas.save();
-                        float f4522 = this.chatCallProgress;
-                        canvas2.scale(f4522 * progress, f4522 * progress, f43, f44);
-                        this.rect.set(i5 - AndroidUtilities.dp(f2), f44 - dp5, AndroidUtilities.dp(f2) + i5, dp5 + f44);
-                        canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                        float f4622 = f44 - dp8;
-                        float f4722 = f44 + dp8;
-                        this.rect.set(i5 - AndroidUtilities.dp(5.0f), f4622, i5 - AndroidUtilities.dp(3.0f), f4722);
-                        canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                        this.rect.set(AndroidUtilities.dp(3.0f) + i5, f4622, i5 + AndroidUtilities.dp(5.0f), f4722);
-                        canvas2.drawRoundRect(this.rect, AndroidUtilities.dp(f2), AndroidUtilities.dp(f2), Theme.dialogs_onlineCirclePaint);
-                        if (this.chatCallProgress >= f2) {
-                        }
-                        canvas.restore();
-                        float f4822 = (float) j2;
-                        f9 = this.innerProgress + (f4822 / 400.0f);
-                        this.innerProgress = f9;
-                        if (f9 >= f2) {
-                        }
-                        if (this.hasCall) {
-                        }
-                        z = true;
-                        if (this.translationX != f5) {
+                        f6 = 0.0f;
+                        if (this.translationX != f6) {
                         }
                         if (this.currentDialogFolderId != 0) {
                         }
@@ -4420,35 +4467,124 @@ public class DialogCell extends BaseCell {
                         z2 = this.drawReorder;
                         if (!z2) {
                         }
-                        if (!z2) {
+                        if (z2) {
                         }
-                        z = true;
-                        if (!this.archiveHidden) {
+                        z3 = true;
+                        if (this.archiveHidden) {
                         }
                     }
+                    j2 = j;
+                    f6 = 0.0f;
+                    if (this.translationX != f6) {
+                    }
+                    if (this.currentDialogFolderId != 0) {
+                    }
+                    if (this.useSeparator) {
+                    }
+                    if (this.clipProgress != 0.0f) {
+                    }
+                    z2 = this.drawReorder;
+                    if (!z2) {
+                    }
+                    if (z2) {
+                    }
+                    z3 = true;
+                    if (this.archiveHidden) {
+                    }
+                }
+                if (!this.drawReorder) {
+                }
+                Theme.dialogs_reorderDrawable.setAlpha((int) (this.reorderIconProgress * 255.0f));
+                BaseCell.setDrawableBounds(Theme.dialogs_reorderDrawable, this.pinLeft, this.pinTop);
+                Theme.dialogs_reorderDrawable.draw(canvas2);
+                if (this.drawError) {
+                }
+                if (this.animatingArchiveAvatar) {
+                }
+                if (this.currentDialogFolderId != 0) {
+                }
+                this.avatarImage.draw(canvas2);
+                if (this.hasMessageThumb) {
+                }
+                if (this.animatingArchiveAvatar) {
+                }
+                if (this.isDialogCell) {
+                    tLRPC$User = this.user;
+                    if (tLRPC$User == null) {
+                    }
+                    j2 = j;
+                    tLRPC$Chat = this.chat;
+                    if (tLRPC$Chat != null) {
+                    }
+                    f6 = 0.0f;
+                    if (this.translationX != f6) {
+                    }
+                    if (this.currentDialogFolderId != 0) {
+                    }
+                    if (this.useSeparator) {
+                    }
+                    if (this.clipProgress != 0.0f) {
+                    }
+                    z2 = this.drawReorder;
+                    if (!z2) {
+                    }
+                    if (z2) {
+                    }
+                    z3 = true;
+                    if (this.archiveHidden) {
+                    }
+                }
+                j2 = j;
+                f6 = 0.0f;
+                if (this.translationX != f6) {
+                }
+                if (this.currentDialogFolderId != 0) {
+                }
+                if (this.useSeparator) {
+                }
+                if (this.clipProgress != 0.0f) {
+                }
+                z2 = this.drawReorder;
+                if (!z2) {
+                }
+                if (z2) {
+                }
+                z3 = true;
+                if (this.archiveHidden) {
                 }
             }
-            f5 = 0.0f;
-            if (this.translationX != f5) {
-            }
-            if (this.currentDialogFolderId != 0) {
-            }
-            if (this.useSeparator) {
-            }
-            if (this.clipProgress != 0.0f) {
-            }
-            z2 = this.drawReorder;
-            if (!z2) {
-            }
-            if (!z2) {
-            }
-            z = true;
-            if (!this.archiveHidden) {
-            }
+        } else {
+            str3 = "windowBackgroundWhite";
+            j = j4;
+        }
+        i3 = 4;
+        if (this.currentDialogFolderId != 0) {
+        }
+        if (this.dialogsType == i4) {
+        }
+        if (!this.drawVerified) {
+        }
+        if (!this.drawReorder) {
+        }
+        Theme.dialogs_reorderDrawable.setAlpha((int) (this.reorderIconProgress * 255.0f));
+        BaseCell.setDrawableBounds(Theme.dialogs_reorderDrawable, this.pinLeft, this.pinTop);
+        Theme.dialogs_reorderDrawable.draw(canvas2);
+        if (this.drawError) {
+        }
+        if (this.animatingArchiveAvatar) {
+        }
+        if (this.currentDialogFolderId != 0) {
+        }
+        this.avatarImage.draw(canvas2);
+        if (this.hasMessageThumb) {
+        }
+        if (this.animatingArchiveAvatar) {
+        }
+        if (this.isDialogCell) {
         }
         j2 = j;
-        f5 = 0.0f;
-        if (this.translationX != f5) {
+        f6 = 0.0f;
+        if (this.translationX != f6) {
         }
         if (this.currentDialogFolderId != 0) {
         }
@@ -4459,10 +4595,10 @@ public class DialogCell extends BaseCell {
         z2 = this.drawReorder;
         if (!z2) {
         }
-        if (!z2) {
+        if (z2) {
         }
-        z = true;
-        if (!this.archiveHidden) {
+        z3 = true;
+        if (this.archiveHidden) {
         }
     }
 

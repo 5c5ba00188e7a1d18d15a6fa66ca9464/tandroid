@@ -1,9 +1,11 @@
 package j$.util;
+
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
 public class h implements j$.util.function.l {
     private long count;
     private long sum;
-    private int min = Integer.MAX_VALUE;
+    private int min = ConnectionsManager.DEFAULT_DATACENTER_ID;
     private int max = Integer.MIN_VALUE;
 
     @Override // j$.util.function.l

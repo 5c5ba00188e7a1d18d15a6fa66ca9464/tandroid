@@ -20,7 +20,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import org.telegram.messenger.R;
 import org.webrtc.CalledByNative;
 import org.webrtc.Logging;
 import org.webrtc.ThreadUtils;
@@ -257,7 +256,7 @@ public class WebRtcAudioRecord {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     public void setPreferredDevice(AudioDeviceInfo audioDeviceInfo) {
         StringBuilder sb = new StringBuilder();
         sb.append("setPreferredDevice ");
@@ -317,7 +316,7 @@ public class WebRtcAudioRecord {
         return true;
     }
 
-    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     private static AudioRecord createAudioRecordOnMOrHigher(int i, int i2, int i3, int i4, int i5) {
         Logging.d(TAG, "createAudioRecordOnMOrHigher");
         return new AudioRecord.Builder().setAudioSource(i).setAudioFormat(new AudioFormat.Builder().setEncoding(i4).setSampleRate(i2).setChannelMask(i3).build()).setBufferSizeInBytes(i5).build();
@@ -332,7 +331,7 @@ public class WebRtcAudioRecord {
         Logging.d(TAG, "AudioRecord: session ID: " + this.audioRecord.getAudioSessionId() + ", channels: " + this.audioRecord.getChannelCount() + ", sample rate: " + this.audioRecord.getSampleRate());
     }
 
-    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     private void logMainParametersExtended() {
         if (Build.VERSION.SDK_INT >= 23) {
             Logging.d(TAG, "AudioRecord: buffer size in frames: " + this.audioRecord.getBufferSizeInFrames());

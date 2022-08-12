@@ -57,10 +57,10 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -1524,11 +1524,11 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         shareAlert.show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x01c2  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x01c1  */
     /* JADX WARN: Removed duplicated region for block: B:152:0x00bc  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x0086  */
     /* JADX WARN: Removed duplicated region for block: B:49:0x0096  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x019f  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x019e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1682,13 +1682,14 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet3 = this.stickerSet;
                 if (tLRPC$TL_messages_stickerSet3 != null && (tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet3.set) != null && tLRPC$StickerSet2.masks) {
                     formatString2 = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("MasksCount", tLRPC$TL_messages_stickerSet3.documents.size(), new Object[0]));
-                } else if (tLRPC$TL_messages_stickerSet3 == null || (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet3.set) == null || !tLRPC$StickerSet.emojis) {
+                } else if (tLRPC$TL_messages_stickerSet3 != null && (tLRPC$StickerSet = tLRPC$TL_messages_stickerSet3.set) != null && tLRPC$StickerSet.emojis) {
+                    formatString2 = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet3.documents.size(), new Object[0]));
+                } else {
+                    int i3 = R.string.AddStickersCount;
                     Object[] objArr = new Object[1];
                     ArrayList<TLRPC$Document> arrayList = tLRPC$TL_messages_stickerSet3.documents;
                     objArr[0] = LocaleController.formatPluralString("Stickers", arrayList == null ? 0 : arrayList.size(), new Object[0]);
-                    formatString2 = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, objArr);
-                } else {
-                    formatString2 = LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet3.documents.size(), new Object[0]));
+                    formatString2 = LocaleController.formatString("AddStickersCount", i3, objArr);
                 }
                 setButton(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda9
                     @Override // android.view.View.OnClickListener
@@ -1701,8 +1702,10 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 TLRPC$StickerSet tLRPC$StickerSet5 = tLRPC$TL_messages_stickerSet4.set;
                 if (tLRPC$StickerSet5.masks) {
                     formatString = LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("MasksCount", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0]));
+                } else if (tLRPC$StickerSet5.emojis) {
+                    formatString = LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0]));
                 } else {
-                    formatString = tLRPC$StickerSet5.emojis ? LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("EmojiCountButton", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0])) : LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("Stickers", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0]));
+                    formatString = LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("Stickers", tLRPC$TL_messages_stickerSet4.documents.size(), new Object[0]));
                 }
                 if (this.stickerSet.set.official) {
                     setButton(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda11
@@ -1735,13 +1738,14 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         StickersAlert.this.lambda$updateFields$20(view);
                     }
                 };
+                int i4 = R.string.ImportStickers;
                 Object[] objArr2 = new Object[1];
                 ArrayList arrayList4 = this.importingStickersPaths;
                 if (arrayList4 == null) {
                     arrayList4 = this.importingStickers;
                 }
                 objArr2[0] = LocaleController.formatPluralString("Stickers", arrayList4.size(), new Object[0]);
-                setButton(onClickListener, LocaleController.formatString("ImportStickers", R.string.ImportStickers, objArr2), "dialogTextBlue2");
+                setButton(onClickListener, LocaleController.formatString("ImportStickers", i4, objArr2), "dialogTextBlue2");
                 this.pickerBottomLayout.setEnabled(true);
                 return;
             }

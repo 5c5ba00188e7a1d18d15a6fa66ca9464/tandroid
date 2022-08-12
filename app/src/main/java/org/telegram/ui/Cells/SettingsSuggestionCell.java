@@ -11,8 +11,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
@@ -115,8 +115,9 @@ public class SettingsSuggestionCell extends LinearLayout {
         }
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).clientUserId));
         TextView textView = this.textView;
+        int i2 = R.string.CheckPhoneNumber;
         PhoneFormat phoneFormat = PhoneFormat.getInstance();
-        textView.setText(LocaleController.formatString("CheckPhoneNumber", R.string.CheckPhoneNumber, phoneFormat.format("+" + user.phone)));
+        textView.setText(LocaleController.formatString("CheckPhoneNumber", i2, phoneFormat.format("+" + user.phone)));
         String string = LocaleController.getString("CheckPhoneNumberInfo", R.string.CheckPhoneNumberInfo);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
         int indexOf = string.indexOf("**");

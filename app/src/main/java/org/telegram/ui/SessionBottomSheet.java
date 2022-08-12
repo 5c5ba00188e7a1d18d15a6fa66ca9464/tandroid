@@ -21,7 +21,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$TL_account_changeAuthorizationSettings;
@@ -305,78 +305,73 @@ public class SessionBottomSheet extends BottomSheet {
         BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x00c4, code lost:
-        if (r13.app_name.toLowerCase().contains("desktop") != false) goto L39;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x00fc  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x00e0  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00f1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void setAnimation(TLRPC$TL_authorization tLRPC$TL_authorization, RLottieImageView rLottieImageView) {
+        int i;
         boolean z;
         String lowerCase = tLRPC$TL_authorization.platform.toLowerCase();
         if (lowerCase.isEmpty()) {
             lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
         }
         String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
-        boolean contains = lowerCase2.contains("safari");
-        int i = R.raw.windows_30;
         String str = "avatar_backgroundBlue";
-        if (contains) {
+        if (lowerCase2.contains("safari")) {
             i = R.raw.safari_30;
         } else if (lowerCase2.contains("edge")) {
             i = R.raw.edge_30;
-        } else {
-            if (!lowerCase2.contains("chrome")) {
-                if (lowerCase2.contains("opera") || lowerCase2.contains("firefox") || lowerCase2.contains("vivaldi")) {
-                    if (lowerCase2.contains("opera")) {
-                        i = R.drawable.device_web_opera;
-                    } else {
-                        i = lowerCase2.contains("firefox") ? R.drawable.device_web_firefox : R.drawable.device_web_other;
-                    }
-                    str = "avatar_backgroundPink";
-                    z = false;
-                    rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
-                    if (!z) {
-                        rLottieImageView.setAnimation(i, 50, 50, new int[]{0, Theme.getColor(str)});
-                        return;
-                    } else {
-                        rLottieImageView.setImageDrawable(ContextCompat.getDrawable(getContext(), i));
-                        return;
-                    }
-                }
-                if (lowerCase.contains("ubuntu")) {
-                    i = R.raw.ubuntu_30;
-                } else if (lowerCase.contains("ios")) {
-                    i = lowerCase2.contains("ipad") ? R.raw.ipad_30 : R.raw.iphone_30;
-                } else {
-                    if (!lowerCase.contains("windows")) {
-                        if (lowerCase.contains("macos")) {
-                            i = R.raw.mac_30;
-                        } else if (lowerCase.contains("android")) {
-                            i = R.raw.android_30;
-                            str = "avatar_backgroundGreen";
-                        }
-                    }
-                    str = "avatar_backgroundCyan";
-                }
-                z = true;
-                rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
-                if (!z) {
-                }
+        } else if (lowerCase2.contains("chrome")) {
+            i = R.raw.chrome_30;
+        } else if (lowerCase2.contains("opera") || lowerCase2.contains("firefox") || lowerCase2.contains("vivaldi")) {
+            if (lowerCase2.contains("opera")) {
+                i = R.drawable.device_web_opera;
+            } else if (lowerCase2.contains("firefox")) {
+                i = R.drawable.device_web_firefox;
+            } else {
+                i = R.drawable.device_web_other;
             }
             str = "avatar_backgroundPink";
-            z = true;
-            i = R.raw.chrome_30;
+            z = false;
             rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
-            if (!z) {
+            if (z) {
+                rLottieImageView.setAnimation(i, 50, 50, new int[]{0, Theme.getColor(str)});
+                return;
+            } else {
+                rLottieImageView.setImageDrawable(ContextCompat.getDrawable(getContext(), i));
+                return;
+            }
+        } else {
+            if (lowerCase.contains("ubuntu")) {
+                i = R.raw.ubuntu_30;
+            } else if (lowerCase.contains("ios")) {
+                i = lowerCase2.contains("ipad") ? R.raw.ipad_30 : R.raw.iphone_30;
+            } else {
+                if (lowerCase.contains("windows")) {
+                    i = R.raw.windows_30;
+                } else if (lowerCase.contains("macos")) {
+                    i = R.raw.mac_30;
+                } else if (lowerCase.contains("android")) {
+                    i = R.raw.android_30;
+                    str = "avatar_backgroundGreen";
+                } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
+                    i = R.raw.windows_30;
+                } else {
+                    i = R.raw.chrome_30;
+                }
+                str = "avatar_backgroundCyan";
+            }
+            z = true;
+            rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
+            if (z) {
             }
         }
         str = "avatar_backgroundPink";
         z = true;
         rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)));
-        if (!z) {
+        if (z) {
         }
     }
 

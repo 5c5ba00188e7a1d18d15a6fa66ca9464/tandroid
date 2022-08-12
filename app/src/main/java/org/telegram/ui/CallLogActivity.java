@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -39,7 +40,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -446,12 +447,14 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         mutate.setBounds(0, 0, mutate.getIntrinsicWidth(), this.greenDrawable.getIntrinsicHeight());
         this.greenDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("calls_callReceivedGreenIcon"), PorterDuff.Mode.MULTIPLY));
         this.iconOut = new ImageSpan(this.greenDrawable, 0);
-        Drawable mutate2 = getParentActivity().getResources().getDrawable(R.drawable.ic_call_received_green_18dp).mutate();
+        Resources resources = getParentActivity().getResources();
+        int i = R.drawable.ic_call_received_green_18dp;
+        Drawable mutate2 = resources.getDrawable(i).mutate();
         this.greenDrawable2 = mutate2;
         mutate2.setBounds(0, 0, mutate2.getIntrinsicWidth(), this.greenDrawable2.getIntrinsicHeight());
         this.greenDrawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("calls_callReceivedGreenIcon"), PorterDuff.Mode.MULTIPLY));
         this.iconIn = new ImageSpan(this.greenDrawable2, 0);
-        Drawable mutate3 = getParentActivity().getResources().getDrawable(R.drawable.ic_call_received_green_18dp).mutate();
+        Drawable mutate3 = getParentActivity().getResources().getDrawable(i).mutate();
         this.redDrawable = mutate3;
         mutate3.setBounds(0, 0, mutate3.getIntrinsicWidth(), this.redDrawable.getIntrinsicHeight());
         this.redDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("calls_callReceivedRedIcon"), PorterDuff.Mode.MULTIPLY));
@@ -461,16 +464,16 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         this.actionBar.setTitle(LocaleController.getString("Calls", R.string.Calls));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.CallLogActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i) {
-                if (i == -1) {
+            public void onItemClick(int i2) {
+                if (i2 == -1) {
                     if (((BaseFragment) CallLogActivity.this).actionBar.isActionModeShowed()) {
                         CallLogActivity.this.hideActionMode(true);
                     } else {
                         CallLogActivity.this.finishFragment();
                     }
-                } else if (i == 1) {
+                } else if (i2 == 1) {
                     CallLogActivity.this.showDeleteAlert(true);
-                } else if (i != 2) {
+                } else if (i2 != 2) {
                 } else {
                     CallLogActivity.this.showDeleteAlert(false);
                 }
@@ -507,15 +510,15 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i) {
-                CallLogActivity.this.lambda$createView$0(view, i);
+            public final void onItemClick(View view, int i2) {
+                CallLogActivity.this.lambda$createView$0(view, i2);
             }
         });
         this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda9
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view, int i) {
+            public final boolean onItemClick(View view, int i2) {
                 boolean lambda$createView$1;
-                lambda$createView$1 = CallLogActivity.this.lambda$createView$1(view, i);
+                lambda$createView$1 = CallLogActivity.this.lambda$createView$1(view, i2);
                 return lambda$createView$1;
             }
         });
@@ -530,8 +533,8 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         imageView.setVisibility(0);
         this.floatingButton.setScaleType(ImageView.ScaleType.CENTER);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-        int i = Build.VERSION.SDK_INT;
-        if (i < 21) {
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 < 21) {
             Drawable mutate4 = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate4.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate4, createSimpleSelectorCircleDrawable, 0, 0);
@@ -542,7 +545,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
         this.floatingButton.setImageResource(R.drawable.ic_call);
         this.floatingButton.setContentDescription(LocaleController.getString("Call", R.string.Call));
-        if (i >= 21) {
+        if (i2 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButton, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
@@ -556,10 +559,10 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             });
         }
         ImageView imageView2 = this.floatingButton;
-        int i2 = i >= 21 ? 56 : 60;
-        float f = i >= 21 ? 56.0f : 60.0f;
+        int i3 = i2 >= 21 ? 56 : 60;
+        float f = i2 >= 21 ? 56.0f : 60.0f;
         boolean z = LocaleController.isRTL;
-        frameLayout2.addView(imageView2, LayoutHelper.createFrame(i2, f, (z ? 3 : 5) | 80, z ? 14.0f : 0.0f, 0.0f, z ? 0.0f : 14.0f, 14.0f));
+        frameLayout2.addView(imageView2, LayoutHelper.createFrame(i3, f, (z ? 3 : 5) | 80, z ? 14.0f : 0.0f, 0.0f, z ? 0.0f : 14.0f, 14.0f));
         this.floatingButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -1170,7 +1173,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                     headerCell = flickerLoadingView;
                 } else if (i == 2) {
                     callCell = new TextInfoPrivacyCell(this.mContext);
-                    callCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    callCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 } else if (i == 3) {
                     HeaderCell headerCell2 = new HeaderCell(this.mContext, "windowBackgroundWhiteBlueHeader", 21, 15, 2, false, CallLogActivity.this.getResourceProvider());
                     headerCell2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));

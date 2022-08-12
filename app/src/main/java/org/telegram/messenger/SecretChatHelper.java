@@ -18,6 +18,7 @@ import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.tgnet.AbstractSerializedData;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLClassStore;
@@ -957,8 +958,8 @@ public class SecretChatHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.encryptedChatUpdated, tLRPC$EncryptedChat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:296:0x07da  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x07ea  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x07d9  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x07e9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1607,7 +1608,7 @@ public class SecretChatHelper extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDecryptedObject$10(long j) {
-        getNotificationsController().processReadMessages(null, j, 0, Integer.MAX_VALUE, false);
+        getNotificationsController().processReadMessages(null, j, 0, ConnectionsManager.DEFAULT_DATACENTER_ID, false);
         LongSparseIntArray longSparseIntArray = new LongSparseIntArray(1);
         longSparseIntArray.put(j, 0);
         getNotificationsController().processDialogsUpdateRead(longSparseIntArray);
@@ -2499,9 +2500,9 @@ public class SecretChatHelper extends BaseController {
                 FileLog.e(e);
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
-            builder.setMessage(LocaleController.getString("CreateEncryptedChatError", org.telegram.messenger.beta.R.string.CreateEncryptedChatError));
-            builder.setPositiveButton(LocaleController.getString("OK", org.telegram.messenger.beta.R.string.OK), null);
+            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setMessage(LocaleController.getString("CreateEncryptedChatError", R.string.CreateEncryptedChatError));
+            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder.show().setCanceledOnTouchOutside(true);
         }
     }

@@ -10,17 +10,17 @@ import android.location.Location;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
-import com.google.android.gms.maps.model.LatLng;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.IMapsProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.LocationController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Message;
@@ -215,7 +215,7 @@ public class SharingLiveLocationCell extends FrameLayout {
                 this.avatarImageView.setForUserOrChat(chat, this.avatarDrawable);
             }
         }
-        LatLng position = liveLocation.marker.getPosition();
+        IMapsProvider.LatLng position = liveLocation.marker.getPosition();
         this.location.setLatitude(position.latitude);
         this.location.setLongitude(position.longitude);
         TLRPC$Message tLRPC$Message = liveLocation.object;

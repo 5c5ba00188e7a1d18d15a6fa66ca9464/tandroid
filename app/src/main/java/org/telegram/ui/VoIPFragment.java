@@ -56,10 +56,10 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.EncryptionKeyEmojifier;
 import org.telegram.messenger.voip.Instance;
 import org.telegram.messenger.voip.VideoCapturerDevice;
@@ -1496,9 +1496,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x05a7  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0259 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x025a  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x0593  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0249 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x024a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1523,7 +1523,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         } else {
             if (i3 != 3) {
                 if (i3 == 4) {
-                    this.statusTextView.setText(LocaleController.getString("VoipFailed", R.string.VoipFailed), false, z6);
+                    VoIPStatusTextView voIPStatusTextView = this.statusTextView;
+                    int i4 = R.string.VoipFailed;
+                    voIPStatusTextView.setText(LocaleController.getString("VoipFailed", i4), false, z6);
                     VoIPService sharedInstance2 = VoIPService.getSharedInstance();
                     String lastError = sharedInstance2 != null ? sharedInstance2.getLastError() : Instance.ERROR_UNKNOWN;
                     if (!TextUtils.equals(lastError, Instance.ERROR_UNKNOWN)) {
@@ -1533,15 +1535,15 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                         } else if (TextUtils.equals(lastError, Instance.ERROR_PEER_OUTDATED)) {
                             if (this.isVideoCall) {
                                 final boolean[] zArr = new boolean[1];
-                                AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString("VoipFailed", R.string.VoipFailed)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerVideoOutdated", R.string.VoipPeerVideoOutdated, UserObject.getFirstName(this.callingUser)))).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda5
+                                AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString("VoipFailed", i4)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerVideoOutdated", R.string.VoipPeerVideoOutdated, UserObject.getFirstName(this.callingUser)))).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda5
                                     @Override // android.content.DialogInterface.OnClickListener
-                                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                                        VoIPFragment.this.lambda$updateViewState$17(dialogInterface, i4);
+                                    public final void onClick(DialogInterface dialogInterface, int i5) {
+                                        VoIPFragment.this.lambda$updateViewState$17(dialogInterface, i5);
                                     }
                                 }).setPositiveButton(LocaleController.getString("VoipPeerVideoOutdatedMakeVoice", R.string.VoipPeerVideoOutdatedMakeVoice), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda7
                                     @Override // android.content.DialogInterface.OnClickListener
-                                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                                        VoIPFragment.this.lambda$updateViewState$18(zArr, dialogInterface, i4);
+                                    public final void onClick(DialogInterface dialogInterface, int i5) {
+                                        VoIPFragment.this.lambda$updateViewState$18(zArr, dialogInterface, i5);
                                     }
                                 }).show();
                                 show.setCanceledOnTouchOutside(true);
@@ -1696,7 +1698,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                     if (!this.uiVisible) {
                         dp -= AndroidUtilities.dp(50.0f);
                     }
-                    int i4 = dp;
+                    int i5 = dp;
                     if (z6) {
                         if (this.lockOnScreen || !this.uiVisible) {
                             if (this.backIcon.getVisibility() != 0) {
@@ -1715,8 +1717,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                         this.backIcon.setAlpha(this.lockOnScreen ? 0.0f : 1.0f);
                         this.notificationsLayout.setTranslationY((-AndroidUtilities.dp(16.0f)) - (this.uiVisible ? AndroidUtilities.dp(80.0f) : 0));
                     }
-                    int i5 = this.currentState;
-                    if (i5 != 10 && i5 != 11) {
+                    int i6 = this.currentState;
+                    if (i6 != 10 && i6 != 11) {
                         updateButtons(z6);
                     }
                     if (z4) {
@@ -1724,16 +1726,16 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                     }
                     this.statusTextView.showReconnect(z3, z6);
                     if (z6) {
-                        if (i4 != this.statusLayoutAnimateToOffset) {
-                            this.statusLayout.animate().translationY(i4).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+                        if (i5 != this.statusLayoutAnimateToOffset) {
+                            this.statusLayout.animate().translationY(i5).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
                         }
                     } else {
-                        this.statusLayout.setTranslationY(i4);
+                        this.statusLayout.setTranslationY(i5);
                     }
-                    this.statusLayoutAnimateToOffset = i4;
+                    this.statusLayoutAnimateToOffset = i5;
                     this.overlayBackground.setShowBlackout(this.currentUserIsVideo || this.callingUserIsVideo, z6);
-                    int i6 = this.currentState;
-                    this.canSwitchToPip = (i6 == 11 || i6 == 17 || (!this.currentUserIsVideo && !this.callingUserIsVideo)) ? false : true;
+                    int i7 = this.currentState;
+                    this.canSwitchToPip = (i7 == 11 || i7 == 17 || (!this.currentUserIsVideo && !this.callingUserIsVideo)) ? false : true;
                     if (sharedInstance != null) {
                         if (this.currentUserIsVideo) {
                             sharedInstance.sharedUIParams.tapToVideoTooltipWasShowed = true;
@@ -2537,7 +2539,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
     }
 
-    @TargetApi(org.telegram.messenger.R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     private void onRequestPermissionsResultInternal(int i, String[] strArr, int[] iArr) {
         if (i == 101) {
             if (VoIPService.getSharedInstance() == null) {

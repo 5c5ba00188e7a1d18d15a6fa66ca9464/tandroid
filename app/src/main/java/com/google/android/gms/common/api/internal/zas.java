@@ -14,7 +14,6 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.signin.SignInOptions;
-import com.google.android.gms.signin.zae;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public final class zas implements zabo {
     @GuardedBy("mLock")
     private int zan = 0;
 
-    public static zas zaa(Context context, zaar zaarVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map<Api.AnyClientKey<?>, Api.Client> map, ClientSettings clientSettings, Map<Api<?>, Boolean> map2, Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder, ArrayList<zaq> arrayList) {
+    public static zas zaa(Context context, zaar zaarVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map<Api.AnyClientKey<?>, Api.Client> map, ClientSettings clientSettings, Map<Api<?>, Boolean> map2, Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder, ArrayList<zaq> arrayList) {
         ArrayMap arrayMap = new ArrayMap();
         ArrayMap arrayMap2 = new ArrayMap();
         Api.Client client = null;
@@ -91,7 +90,7 @@ public final class zas implements zabo {
         return new zas(context, zaarVar, lock, looper, googleApiAvailabilityLight, arrayMap, arrayMap2, clientSettings, abstractClientBuilder, client, arrayList2, arrayList3, arrayMap3, arrayMap4);
     }
 
-    private zas(Context context, zaar zaarVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map<Api.AnyClientKey<?>, Api.Client> map, Map<Api.AnyClientKey<?>, Api.Client> map2, ClientSettings clientSettings, Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder, Api.Client client, ArrayList<zaq> arrayList, ArrayList<zaq> arrayList2, Map<Api<?>, Boolean> map3, Map<Api<?>, Boolean> map4) {
+    private zas(Context context, zaar zaarVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map<Api.AnyClientKey<?>, Api.Client> map, Map<Api.AnyClientKey<?>, Api.Client> map2, ClientSettings clientSettings, Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder, Api.Client client, ArrayList<zaq> arrayList, ArrayList<zaq> arrayList2, Map<Api<?>, Boolean> map3, Map<Api<?>, Boolean> map4) {
         this.zaa = context;
         this.zab = zaarVar;
         this.zam = lock;
@@ -107,19 +106,6 @@ public final class zas implements zabo {
             arrayMap.put(anyClientKey2, this.zae);
         }
         this.zaf = Collections.unmodifiableMap(arrayMap);
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zabo
-    @GuardedBy("mLock")
-    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T zaa(T t) {
-        if (zac((BaseImplementation$ApiMethodImpl<? extends Result, ? extends Api.AnyClient>) t)) {
-            if (zaj()) {
-                t.setFailedResult(new Status(4, (String) null, zak()));
-                return t;
-            }
-            return (T) this.zae.zaa((zaaz) t);
-        }
-        return (T) this.zad.zaa((zaaz) t);
     }
 
     @Override // com.google.android.gms.common.api.internal.zabo

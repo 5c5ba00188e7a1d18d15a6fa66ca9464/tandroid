@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import com.microsoft.appcenter.Constants;
 import com.microsoft.appcenter.Flags;
 import com.microsoft.appcenter.ingestion.models.Log;
@@ -72,7 +71,7 @@ public class DatabasePersistence extends Persistence {
         contentValues.put("target_token", str3);
         contentValues.put("type", str4);
         contentValues.put("target_key", str5);
-        contentValues.put(RemoteMessageConst.Notification.PRIORITY, Integer.valueOf(i));
+        contentValues.put("priority", Integer.valueOf(i));
         return contentValues;
     }
 
@@ -115,7 +114,7 @@ public class DatabasePersistence extends Persistence {
                     throw new Persistence.PersistenceException("Log is too large (" + length + " bytes) to store in database. Current maximum database size is " + maxSize + " bytes.");
                 }
                 String str4 = serializeLog;
-                long put = this.mDatabaseManager.put(getContentValues(str, str4, str2, log.getType(), str3, Flags.getPersistenceFlag(i, false)), RemoteMessageConst.Notification.PRIORITY);
+                long put = this.mDatabaseManager.put(getContentValues(str, str4, str2, log.getType(), str3, Flags.getPersistenceFlag(i, false)), "priority");
                 if (put == -1) {
                     throw new Persistence.PersistenceException("Failed to store a log to the Persistence database for log type " + log.getType() + ".");
                 }

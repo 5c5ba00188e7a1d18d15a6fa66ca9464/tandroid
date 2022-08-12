@@ -3,8 +3,7 @@ package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 import com.coremedia.iso.IsoTypeReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import org.telegram.messenger.R;
-@Descriptor(tags = {R.styleable.MapAttrs_uiZoomControls})
+@Descriptor(tags = {20})
 /* loaded from: classes.dex */
 public class ProfileLevelIndicationDescriptor extends BaseDescriptor {
     int profileLevelIndicationIndex;

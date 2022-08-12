@@ -1,5 +1,6 @@
 package org.telegram.ui.Components.Premium;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -15,8 +16,8 @@ import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class PremiumGradient {
@@ -25,10 +26,10 @@ public class PremiumGradient {
     Paint lockedPremiumPaint;
     private final GradientTools mainGradient;
     private final Paint mainGradientPaint;
-    public Drawable premiumStarDrawableMini = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
+    public Drawable premiumStarColoredDrawable;
+    public Drawable premiumStarDrawableMini;
     public InternalDrawable premiumStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_settings_premium));
     public InternalDrawable premiumStarMenuDrawable2 = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_normal));
-    public Drawable premiumStarColoredDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
 
     public static PremiumGradient getInstance() {
         if (instance == null) {
@@ -41,6 +42,10 @@ public class PremiumGradient {
         GradientTools gradientTools = new GradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
         this.mainGradient = gradientTools;
         this.mainGradientPaint = gradientTools.paint;
+        Context context = ApplicationLoader.applicationContext;
+        int i = R.drawable.msg_premium_liststar;
+        this.premiumStarDrawableMini = ContextCompat.getDrawable(context, i).mutate();
+        this.premiumStarColoredDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i).mutate();
         gradientTools.chekColors();
         checkIconColors();
     }

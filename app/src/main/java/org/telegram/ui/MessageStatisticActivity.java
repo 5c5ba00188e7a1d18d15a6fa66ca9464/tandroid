@@ -37,7 +37,7 @@ import org.telegram.messenger.LruCache;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -246,10 +246,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:44:0x02d1  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0331  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x02d6  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x02cc  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x032c  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x02d1  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -888,7 +888,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             return new RecyclerListView.Holder(headerCell);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:28:0x00e9  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x00e7  */
         /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
@@ -902,7 +902,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             boolean z = true;
             if (itemViewType != 0) {
                 if (itemViewType == 1) {
-                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     return;
                 } else if (itemViewType == 2) {
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
@@ -1136,7 +1136,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             ((StatisticActivity.BaseChartCell) view).recolor();
             view.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         } else if (view instanceof ShadowSectionCell) {
-            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(ApplicationLoader.applicationContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"), 0, 0);
+            CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(ApplicationLoader.applicationContext, R.drawable.greydivider, "windowBackgroundGrayShadow"), 0, 0);
             combinedDrawable.setFullsize(true);
             view.setBackground(combinedDrawable);
         } else if (view instanceof ChartHeaderView) {

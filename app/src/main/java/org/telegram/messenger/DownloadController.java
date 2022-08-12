@@ -1470,7 +1470,7 @@ public class DownloadController extends BaseController implements NotificationCe
             if (i != 0) {
                 return;
             }
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", org.telegram.messenger.beta.R.string.MessageNotFound, new Object[0]));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", R.string.MessageNotFound, new Object[0]));
         }
     }
 

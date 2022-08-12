@@ -15,8 +15,8 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.NumberPicker;
 /* loaded from: classes3.dex */
@@ -294,10 +294,24 @@ public class SwipeGestureSettingsView extends FrameLayout {
     }
 
     public RLottieDrawable getIcon(int i) {
+        int i2;
         RLottieDrawable[] rLottieDrawableArr = this.icons;
         if (rLottieDrawableArr[i] == null) {
-            int i2 = i != 1 ? i != 2 ? i != 3 ? i != 4 ? i != 5 ? R.raw.swipe_pin : R.raw.swipe_disabled : R.raw.swipe_delete : R.raw.swipe_mute : R.raw.chats_archive : R.raw.swipe_read;
-            rLottieDrawableArr[i] = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
+            if (i == 1) {
+                i2 = R.raw.swipe_read;
+            } else if (i == 2) {
+                i2 = R.raw.chats_archive;
+            } else if (i == 3) {
+                i2 = R.raw.swipe_mute;
+            } else if (i == 4) {
+                i2 = R.raw.swipe_delete;
+            } else if (i != 5) {
+                i2 = R.raw.swipe_pin;
+            } else {
+                i2 = R.raw.swipe_disabled;
+            }
+            int i3 = i2;
+            rLottieDrawableArr[i] = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
             updateIconColor(i);
         }
         return this.icons[i];

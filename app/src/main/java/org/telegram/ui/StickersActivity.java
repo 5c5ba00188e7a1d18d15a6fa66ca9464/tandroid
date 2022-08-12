@@ -37,9 +37,9 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -1079,7 +1079,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:156:0x040e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:156:0x03f0, code lost:
             if (r5 == false) goto L157;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1167,10 +1167,10 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     if (i == StickersActivity.this.featuredStickersShowMoreRow) {
                         textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
                         if (StickersActivity.this.currentType == 5) {
-                            textCell.setTextAndIcon(LocaleController.getString((int) R.string.ShowMoreEmojiPacks), R.drawable.msg_trending, false);
+                            textCell.setTextAndIcon(LocaleController.getString(R.string.ShowMoreEmojiPacks), R.drawable.msg_trending, false);
                             return;
                         } else {
-                            textCell.setTextAndIcon(LocaleController.getString((int) R.string.ShowMoreStickers), R.drawable.msg_trending, false);
+                            textCell.setTextAndIcon(LocaleController.getString(R.string.ShowMoreStickers), R.drawable.msg_trending, false);
                             return;
                         }
                     }
@@ -1191,7 +1191,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                                 return;
                             }
                         }
-                        textCell.setTextAndValueAndIcon(LocaleController.getString((int) R.string.ArchivedStickers), str, R.drawable.msg_archived_stickers, true);
+                        textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.ArchivedStickers), str, R.drawable.msg_archived_stickers, true);
                         return;
                     } else if (i == StickersActivity.this.masksRow) {
                         MediaDataController mediaDataController = MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount);
@@ -1230,7 +1230,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     if (i != StickersActivity.this.stickersShadowRow) {
                         return;
                     }
-                    viewHolder.itemView.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    viewHolder.itemView.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     return;
                 case 4:
                     TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
@@ -1459,7 +1459,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                 featuredStickerSetCell2 = stickerSetCell;
             } else if (i == 1) {
                 View textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
-                textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 featuredStickerSetCell2 = textInfoPrivacyCell;
             } else if (i == 2) {
                 View textCell = new TextCell(this.mContext);

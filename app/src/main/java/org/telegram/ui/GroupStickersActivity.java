@@ -27,7 +27,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -151,7 +151,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 }
             }
         });
-        this.searchItem.setSearchFieldHint(LocaleController.getString((int) R.string.Search));
+        this.searchItem.setSearchFieldHint(LocaleController.getString(R.string.Search));
         this.listAdapter = new ListAdapter(context);
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -263,7 +263,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 boolean z3;
                 int findFirstVisibleItemPosition = GroupStickersActivity.this.layoutManager.findFirstVisibleItemPosition();
                 RecyclerListView.Holder holder = (RecyclerListView.Holder) GroupStickersActivity.this.listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
-                int top = holder != null ? holder.itemView.getTop() : Integer.MAX_VALUE;
+                int top = holder != null ? holder.itemView.getTop() : ConnectionsManager.DEFAULT_DATACENTER_ID;
                 int i = GroupStickersActivity.this.selectedStickerSetIndex;
                 if (isChecked) {
                     GroupStickersActivity.this.selectedStickerSet = null;
@@ -621,8 +621,8 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 stickerSetCell = stickerSetCell2;
             } else {
                 HeaderCell headerCell = new HeaderCell(this.mContext, "windowBackgroundWhiteGrayText4", 21, 0, 0, false, GroupStickersActivity.this.getResourceProvider());
-                headerCell.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
-                headerCell.setText(LocaleController.getString((int) R.string.ChooseStickerMyStickerSets));
+                headerCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                headerCell.setText(LocaleController.getString(R.string.ChooseStickerMyStickerSets));
                 stickerSetCell = headerCell;
             }
             stickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
@@ -699,7 +699,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 if (itemViewType != 4) {
                     return;
                 }
-                ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString((int) R.string.ChooseStickerSetHeader));
+                ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString(R.string.ChooseStickerSetHeader));
             } else if (i != GroupStickersActivity.this.infoRow) {
             } else {
                 String string = LocaleController.getString("ChooseStickerSetMy", R.string.ChooseStickerSetMy);
@@ -738,7 +738,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 stickerSetCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             } else if (i == 1) {
                 stickerSetCell = new TextInfoPrivacyCell(this.mContext);
-                stickerSetCell.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                stickerSetCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
             } else {
                 stickerSetCell = new HeaderCell(this.mContext);
                 stickerSetCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));

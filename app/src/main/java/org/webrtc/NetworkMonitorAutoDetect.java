@@ -22,7 +22,6 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.messenger.R;
 import org.webrtc.NetworkChangeDetector;
 import org.webrtc.NetworkMonitorAutoDetect;
 /* loaded from: classes3.dex */
@@ -520,7 +519,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
                 case 19:
                 default:
                     return NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN_CELLULAR;
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     return NetworkChangeDetector.ConnectionType.CONNECTION_5G;
             }
         } else if (i == 1) {

@@ -890,7 +890,7 @@ public class FragmentedMp4Extractor implements Extractor {
                 throw new ParserException("Unhandled indirect reference");
             }
             long readUnsignedInt2 = parsableByteArray.readUnsignedInt();
-            iArr[i] = readInt & Integer.MAX_VALUE;
+            iArr[i] = readInt & ConnectionsManager.DEFAULT_DATACENTER_ID;
             jArr[i] = j3;
             jArr3[i] = j5;
             long j6 = j4 + readUnsignedInt2;

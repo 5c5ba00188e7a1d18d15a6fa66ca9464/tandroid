@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import com.huawei.hms.framework.common.ContainerUtils;
 import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.List;
@@ -23,10 +22,10 @@ import org.telegram.messenger.CustomTabsCopyReceiver;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.ShareBroadcastReceiver;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.support.customtabs.CustomTabsCallback;
 import org.telegram.messenger.support.customtabs.CustomTabsClient;
 import org.telegram.messenger.support.customtabs.CustomTabsIntent;
@@ -253,7 +252,7 @@ public class Browser {
                 if (encodedFragment != null) {
                     uri3 = uri3.substring(0, uri3.indexOf("#" + encodedFragment));
                 }
-                String str3 = uri3.indexOf(63) >= 0 ? uri3 + ContainerUtils.FIELD_DELIMITER + str2 : uri3 + "?" + str2;
+                String str3 = uri3.indexOf(63) >= 0 ? uri3 + "&" + str2 : uri3 + "?" + str2;
                 if (encodedFragment != null) {
                     str3 = str3 + "#" + encodedFragment;
                 }

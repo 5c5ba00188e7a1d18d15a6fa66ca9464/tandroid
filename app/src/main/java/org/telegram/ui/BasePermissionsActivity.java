@@ -11,8 +11,8 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
@@ -22,7 +22,6 @@ public class BasePermissionsActivity extends Activity {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public boolean checkPermissionsResult(int i, String[] strArr, int[] iArr) {
-        String string;
         if (iArr == null) {
             iArr = new int[0];
         }
@@ -41,12 +40,7 @@ public class BasePermissionsActivity extends Activity {
             }
         } else if (i == 4 || i == 151) {
             if (!z) {
-                if (i == 151) {
-                    string = LocaleController.getString("PermissionNoStorageAvatar", R.string.PermissionNoStorageAvatar);
-                } else {
-                    string = LocaleController.getString("PermissionStorageWithHint", R.string.PermissionStorageWithHint);
-                }
-                showPermissionErrorAlert(R.raw.permission_request_folder, string);
+                showPermissionErrorAlert(R.raw.permission_request_folder, i == 151 ? LocaleController.getString("PermissionNoStorageAvatar", R.string.PermissionNoStorageAvatar) : LocaleController.getString("PermissionStorageWithHint", R.string.PermissionStorageWithHint));
             } else {
                 ImageLoader.getInstance().checkMediaPaths();
             }

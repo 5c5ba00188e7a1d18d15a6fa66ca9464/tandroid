@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BubbleActivity;
 import org.telegram.ui.Cells.PhotoEditRadioCell;
@@ -228,8 +228,8 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x04d5  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x04d7  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x04cc  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x04ce  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

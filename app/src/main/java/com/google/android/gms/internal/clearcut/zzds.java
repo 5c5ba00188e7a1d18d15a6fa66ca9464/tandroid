@@ -1,12 +1,10 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
-import com.huawei.hms.adapter.internal.AvailableCode;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
@@ -435,7 +433,7 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i8;
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
             case 21:
             case 37:
             case 38:
@@ -465,8 +463,8 @@ final class zzds<T> implements zzef<T> {
                     return zzb;
                 }
                 return i8;
-            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+            case 22:
+            case 29:
             case 39:
             case 43:
                 if (i5 == 2) {
@@ -476,7 +474,7 @@ final class zzds<T> implements zzef<T> {
                     return zzax.zza(i3, bArr, i, i2, zzcnVar, zzayVar);
                 }
                 return i8;
-            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+            case 23:
             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
             case 40:
             case 46:
@@ -510,7 +508,7 @@ final class zzds<T> implements zzef<T> {
                 }
                 return i8;
             case 24:
-            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+            case 31:
             case 41:
             case 45:
                 if (i5 == 2) {
@@ -542,7 +540,7 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i8;
-            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+            case 25:
             case 42:
                 if (i5 != 2) {
                     if (i5 == 0) {
@@ -563,7 +561,7 @@ final class zzds<T> implements zzef<T> {
                     throw zzco.zzbl();
                 }
                 return zza;
-            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+            case 26:
                 if (i5 == 2) {
                     int i19 = ((j & 536870912) > 0L ? 1 : ((j & 536870912) == 0L ? 0 : -1));
                     i8 = zzax.zza(bArr, i8, zzayVar);
@@ -626,19 +624,19 @@ final class zzds<T> implements zzef<T> {
                     }
                 }
                 return i8;
-            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+            case 27:
                 if (i5 == 2) {
                     return zza(zzad(i6), i3, bArr, i, i2, zzcnVar, zzayVar);
                 }
                 return i8;
-            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+            case 28:
                 if (i5 == 2) {
                     int zza10 = zzax.zza(bArr, i8, zzayVar);
                     int i24 = zzayVar.zzfd;
                     break;
                 }
                 return i8;
-            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+            case 30:
             case 44:
                 if (i5 != 2) {
                     if (i5 == 0) {
@@ -2038,7 +2036,7 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzb(this.zzmi[i10], (List<Float>) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                        case 20:
                             zzeh.zzc(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2046,11 +2044,11 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzd(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                        case 22:
                             zzeh.zzh(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                        case 23:
                             zzeh.zzf(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2058,28 +2056,28 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzk(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                        case 25:
                             zzeh.zzn(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                        case 26:
                             zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
-                        case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                        case 27:
                             zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, zzad(i10));
                             break;
-                        case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                        case 28:
                             zzeh.zzb(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
-                        case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                        case 29:
                             zzeh.zzi(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                        case 30:
                             zzeh.zzm(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                        case 31:
                             zzeh.zzl(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2521,18 +2519,18 @@ final class zzds<T> implements zzef<T> {
                     break;
                 case 18:
                 case 19:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                 case 21:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 22:
+                case 23:
                 case 24:
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
-                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
                 case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                 case 33:
                 case 34:
@@ -2670,18 +2668,18 @@ final class zzds<T> implements zzef<T> {
                 case 10:
                 case 18:
                 case 19:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                 case 21:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 22:
+                case 23:
                 case 24:
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
-                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
                 case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                 case 33:
                 case 34:
@@ -3080,40 +3078,40 @@ final class zzds<T> implements zzef<T> {
                             case 19:
                                 zzeh.zzb(this.zzmi[length2], (List<Float>) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                            case 20:
                                 zzeh.zzc(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case 21:
                                 zzeh.zzd(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                            case 22:
                                 zzeh.zzh(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                            case 23:
                                 zzeh.zzf(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case 24:
                                 zzeh.zzk(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                            case 25:
                                 zzeh.zzn(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                            case 26:
                                 zzeh.zza(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
-                            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                            case 27:
                                 zzeh.zza(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, zzad(length2));
                                 break;
-                            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                            case 28:
                                 zzeh.zzb(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar);
                                 break;
-                            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                            case 29:
                                 zzeh.zzi(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                            case 30:
                                 zzeh.zzm(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                            case 31:
                                 zzeh.zzl(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
@@ -3482,40 +3480,40 @@ final class zzds<T> implements zzef<T> {
                             case 19:
                                 zzeh.zzb(this.zzmi[i], (List<Float>) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                            case 20:
                                 zzeh.zzc(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case 21:
                                 zzeh.zzd(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                            case 22:
                                 zzeh.zzh(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                            case 23:
                                 zzeh.zzf(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case 24:
                                 zzeh.zzk(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                            case 25:
                                 zzeh.zzn(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                            case 26:
                                 zzeh.zza(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
-                            case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                            case 27:
                                 zzeh.zza(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, zzad(i));
                                 break;
-                            case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                            case 28:
                                 zzeh.zzb(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar);
                                 break;
-                            case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                            case 29:
                                 zzeh.zzi(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                            case 30:
                                 zzeh.zzm(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                            case 31:
                                 zzeh.zzl(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case ConnectionsManager.RequestFlagForceDownload /* 32 */:
@@ -4123,18 +4121,18 @@ final class zzds<T> implements zzef<T> {
                     break;
                 case 18:
                 case 19:
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                 case 21:
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 22:
+                case 23:
                 case 24:
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
-                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
-                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
                 case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                 case 33:
                 case 34:
@@ -4527,7 +4525,7 @@ final class zzds<T> implements zzef<T> {
                     case 17:
                         break;
                     case 18:
-                    case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                    case 23:
                     case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                         zzw = zzeh.zzw(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
@@ -4535,12 +4533,12 @@ final class zzds<T> implements zzef<T> {
                         break;
                     case 19:
                     case 24:
-                    case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                    case 31:
                         zzw = zzeh.zzv(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
                         break;
-                    case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                    case 20:
                         zzw = zzeh.zzo(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
@@ -4550,37 +4548,37 @@ final class zzds<T> implements zzef<T> {
                         i9 += zzw;
                         j = 0;
                         break;
-                    case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                    case 22:
                         zzw = zzeh.zzs(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
                         break;
-                    case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                    case 25:
                         zzw = zzeh.zzx(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
                         break;
-                    case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                    case 26:
                         zzw = zzeh.zzc(i11, (List) unsafe.getObject(t, j3));
                         i9 += zzw;
                         j = 0;
                         break;
-                    case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                    case 27:
                         zzw = zzeh.zzc(i11, (List<?>) unsafe.getObject(t, j3), zzad(i8));
                         i9 += zzw;
                         j = 0;
                         break;
-                    case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                    case 28:
                         zzw = zzeh.zzd(i11, (List) unsafe.getObject(t, j3));
                         i9 += zzw;
                         j = 0;
                         break;
-                    case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                    case 29:
                         zzw = zzeh.zzt(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
                         break;
-                    case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                    case 30:
                         zzw = zzeh.zzr(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
@@ -4983,40 +4981,40 @@ final class zzds<T> implements zzef<T> {
                     zzw2 = zzbn.zzc(i18, (zzdo) zzfd.zzo(t, j4), zzad(i15));
                     break;
                 case 18:
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 23:
                 case ConnectionsManager.RequestFlagForceDownload /* 32 */:
                     zzw2 = zzeh.zzw(i18, zzd(t, j4), false);
                     break;
                 case 19:
                 case 24:
-                case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                case 31:
                     zzw2 = zzeh.zzv(i18, zzd(t, j4), false);
                     break;
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     zzw2 = zzeh.zzo(i18, zzd(t, j4), false);
                     break;
                 case 21:
                     zzw2 = zzeh.zzp(i18, zzd(t, j4), false);
                     break;
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                case 22:
                     zzw2 = zzeh.zzs(i18, zzd(t, j4), false);
                     break;
-                case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                case 25:
                     zzw2 = zzeh.zzx(i18, zzd(t, j4), false);
                     break;
-                case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                case 26:
                     zzw2 = zzeh.zzc(i18, zzd(t, j4));
                     break;
-                case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                case 27:
                     zzw2 = zzeh.zzc(i18, (List<?>) zzd(t, j4), zzad(i15));
                     break;
-                case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                case 28:
                     zzw2 = zzeh.zzd(i18, zzd(t, j4));
                     break;
-                case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                case 29:
                     zzw2 = zzeh.zzt(i18, zzd(t, j4), false);
                     break;
-                case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                case 30:
                     zzw2 = zzeh.zzr(i18, zzd(t, j4), false);
                     break;
                 case 33:

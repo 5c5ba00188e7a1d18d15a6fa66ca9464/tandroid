@@ -7,11 +7,10 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$PhoneCall;
 import org.telegram.ui.Components.voip.VoIPHelper;
-@TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+@TargetApi(23)
 /* loaded from: classes3.dex */
 public class VoIPPermissionActivity extends Activity {
     @Override // android.app.Activity

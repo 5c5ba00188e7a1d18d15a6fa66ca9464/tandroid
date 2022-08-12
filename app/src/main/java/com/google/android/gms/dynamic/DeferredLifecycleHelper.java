@@ -92,6 +92,10 @@ public abstract class DeferredLifecycleHelper<T extends LifecycleDelegate> {
         }
     }
 
+    public void onStart() {
+        zaa((Bundle) null, new zag(this));
+    }
+
     public void onResume() {
         zaa((Bundle) null, new zaf(this));
     }
@@ -105,6 +109,15 @@ public abstract class DeferredLifecycleHelper<T extends LifecycleDelegate> {
         }
     }
 
+    public void onStop() {
+        T t = this.zaa;
+        if (t != null) {
+            t.onStop();
+        } else {
+            zaa(4);
+        }
+    }
+
     public void onDestroy() {
         T t = this.zaa;
         if (t != null) {
@@ -112,6 +125,19 @@ public abstract class DeferredLifecycleHelper<T extends LifecycleDelegate> {
         } else {
             zaa(1);
         }
+    }
+
+    public void onSaveInstanceState(@RecentlyNonNull Bundle bundle) {
+        T t = this.zaa;
+        if (t != null) {
+            t.onSaveInstanceState(bundle);
+            return;
+        }
+        Bundle bundle2 = this.zab;
+        if (bundle2 == null) {
+            return;
+        }
+        bundle.putAll(bundle2);
     }
 
     public void onLowMemory() {

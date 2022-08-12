@@ -42,12 +42,6 @@ public final class zaao implements zaaw {
     }
 
     @Override // com.google.android.gms.common.api.internal.zaaw
-    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T zaa(T t) {
-        this.zaa.zad.zaa.add(t);
-        return t;
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zaaw
     public final <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T zab(T t) {
         throw new IllegalStateException("GoogleApiClient is not connected yet.");
     }

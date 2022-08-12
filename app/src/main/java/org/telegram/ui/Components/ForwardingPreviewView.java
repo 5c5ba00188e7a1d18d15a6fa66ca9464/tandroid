@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Outline;
 import android.graphics.PorterDuff;
@@ -35,7 +36,7 @@ import org.telegram.messenger.ForwardingMessagesParams;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$KeyboardButton;
 import org.telegram.tgnet.TLRPC$Peer;
@@ -468,7 +469,9 @@ public class ForwardingPreviewView extends FrameLayout {
         LinearLayout linearLayout2 = new LinearLayout(context);
         this.buttonsLayout = linearLayout2;
         linearLayout2.setOrientation(1);
-        Drawable mutate = getContext().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
+        Resources resources = getContext().getResources();
+        int i4 = R.drawable.popup_fixed_alert;
+        Drawable mutate = resources.getDrawable(i4).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         this.buttonsLayout.setBackground(mutate);
         this.menuContainer.addView(this.buttonsLayout, LayoutHelper.createFrame(-1, -2.0f));
@@ -501,8 +504,8 @@ public class ForwardingPreviewView extends FrameLayout {
         if (this.forwardingMessagesParams.hasCaption) {
             View view = new View(this, context) { // from class: org.telegram.ui.Components.ForwardingPreviewView.11
                 @Override // android.view.View
-                protected void onMeasure(int i4, int i5) {
-                    super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(2, 1073741824));
+                protected void onMeasure(int i5, int i6) {
+                    super.onMeasure(i5, View.MeasureSpec.makeMeasureSpec(2, 1073741824));
                 }
             };
             view.setBackgroundColor(getThemedColor("divider"));
@@ -521,7 +524,7 @@ public class ForwardingPreviewView extends FrameLayout {
         LinearLayout linearLayout3 = new LinearLayout(context);
         this.buttonsLayout2 = linearLayout3;
         linearLayout3.setOrientation(1);
-        Drawable mutate2 = getContext().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
+        Drawable mutate2 = getContext().getResources().getDrawable(i4).mutate();
         mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogBackground"), PorterDuff.Mode.MULTIPLY));
         this.buttonsLayout2.setBackground(mutate2);
         this.menuContainer.addView(this.buttonsLayout2, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, this.forwardingMessagesParams.hasSenders ? -8.0f : 0.0f, 0.0f, 0.0f));

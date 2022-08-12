@@ -18,7 +18,6 @@ import com.google.android.gms.common.internal.zzt;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.common.wrappers.Wrappers;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.concurrent.atomic.AtomicBoolean;
 /* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
 /* loaded from: classes.dex */
@@ -140,7 +139,7 @@ public class GooglePlayServicesUtilLight {
             return;
         }
         try {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(RemoteMessageConst.NOTIFICATION);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService("notification");
             if (notificationManager == null) {
                 return;
             }

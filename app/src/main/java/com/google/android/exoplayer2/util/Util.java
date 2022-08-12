@@ -17,7 +17,6 @@ import android.text.TextUtils;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.upstream.DataSource;
-import com.huawei.hms.opendevice.i;
 import j$.util.DesugarTimeZone;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -42,7 +41,6 @@ import java.util.zip.Inflater;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
@@ -329,7 +327,7 @@ public final class Util {
             lowerInvariant = str3 + lowerInvariant.substring(str2.length());
             str2 = str3;
         }
-        return ("no".equals(str2) || i.TAG.equals(str2) || "zh".equals(str2)) ? maybeReplaceGrandfatheredLanguageTags(lowerInvariant) : lowerInvariant;
+        return ("no".equals(str2) || "i".equals(str2) || "zh".equals(str2)) ? maybeReplaceGrandfatheredLanguageTags(lowerInvariant) : lowerInvariant;
     }
 
     public static String fromUtf8Bytes(byte[] bArr) {
@@ -900,7 +898,7 @@ public final class Util {
                 return 6;
             case 18:
                 return 2;
-            case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+            case 20:
                 return 9;
         }
     }

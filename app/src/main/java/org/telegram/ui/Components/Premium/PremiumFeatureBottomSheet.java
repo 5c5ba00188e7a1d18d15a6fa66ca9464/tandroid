@@ -27,9 +27,10 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -322,16 +323,16 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         if (this.onlySelectedType) {
             int i = this.startType;
             if (i == 4) {
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString((int) R.string.UnlockPremiumReactions));
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.UnlockPremiumReactions));
                 this.premiumButtonView.setIcon(R.raw.unlock_icon);
                 return;
             } else if (i == 3) {
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString((int) R.string.AboutTelegramPremium));
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.AboutTelegramPremium));
                 return;
             } else if (i != 10) {
                 return;
             } else {
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString((int) R.string.UnlockPremiumIcons));
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.UnlockPremiumIcons));
                 this.premiumButtonView.setIcon(R.raw.unlock_icon);
                 return;
             }
@@ -520,8 +521,9 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$getViewForPosition$3(HashMap hashMap, ReactionDrawingObject reactionDrawingObject, ReactionDrawingObject reactionDrawingObject2) {
-        int i = Integer.MAX_VALUE;
-        int intValue = hashMap.containsKey(reactionDrawingObject.reaction.reaction) ? ((Integer) hashMap.get(reactionDrawingObject.reaction.reaction)).intValue() : Integer.MAX_VALUE;
+        boolean containsKey = hashMap.containsKey(reactionDrawingObject.reaction.reaction);
+        int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int intValue = containsKey ? ((Integer) hashMap.get(reactionDrawingObject.reaction.reaction)).intValue() : ConnectionsManager.DEFAULT_DATACENTER_ID;
         if (hashMap.containsKey(reactionDrawingObject2.reaction.reaction)) {
             i = ((Integer) hashMap.get(reactionDrawingObject2.reaction.reaction)).intValue();
         }

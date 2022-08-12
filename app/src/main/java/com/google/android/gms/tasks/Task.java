@@ -41,6 +41,10 @@ public abstract class Task<TResult> {
         throw new UnsupportedOperationException("addOnCanceledListener is not implemented");
     }
 
+    public <TContinuationResult> Task<TContinuationResult> continueWith(Continuation<TResult, TContinuationResult> continuation) {
+        throw new UnsupportedOperationException("continueWith is not implemented");
+    }
+
     public <TContinuationResult> Task<TContinuationResult> continueWith(Executor executor, Continuation<TResult, TContinuationResult> continuation) {
         throw new UnsupportedOperationException("continueWith is not implemented");
     }

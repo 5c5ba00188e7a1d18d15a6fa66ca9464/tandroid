@@ -31,17 +31,16 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SRPHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -201,33 +200,32 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0265  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x02c3  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x032c  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x035a  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0469  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0474  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0524  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x053d  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x056d  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0580  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x054c  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0533  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0477  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x045e  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x040e  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x032f  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x02c6  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0213  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0232  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0261  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x02c1  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0327  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0355  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0400  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0429  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x045f  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x046a  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x051a  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0532  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x055f  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0572  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0540  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0528  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x046d  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0464  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x040a  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0403  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0263  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0234  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0215  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -296,7 +294,8 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 linearLayout.addView(this.subtitleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
                 OutlineTextContainerView outlineTextContainerView = new OutlineTextContainerView(context);
                 this.passwordOutlineView = outlineTextContainerView;
-                outlineTextContainerView.setText(LocaleController.getString((int) R.string.EnterPassword));
+                int i3 = R.string.EnterPassword;
+                outlineTextContainerView.setText(LocaleController.getString(i3));
                 this.passwordOutlineView.animateSelection(1.0f, false);
                 linearLayout.addView(this.passwordOutlineView, LayoutHelper.createLinear(-1, -2, 1, 24, 24, 24, 0));
                 EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
@@ -311,7 +310,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.passwordEditText.setTypeface(Typeface.DEFAULT);
                 this.passwordEditText.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
                 this.passwordEditText.setCursorWidth(1.5f);
-                this.passwordEditText.setContentDescription(LocaleController.getString((int) R.string.EnterPassword));
+                this.passwordEditText.setContentDescription(LocaleController.getString(i3));
                 int dp = AndroidUtilities.dp(16.0f);
                 this.passwordEditText.setPadding(dp, dp, dp, dp);
                 this.passwordOutlineView.addView(this.passwordEditText, LayoutHelper.createFrame(-1, -2.0f));
@@ -324,19 +323,19 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 });
                 this.passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda10
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView3, int i3, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView3, int i4, KeyEvent keyEvent) {
                         boolean lambda$createView$2;
-                        lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView3, i3, keyEvent);
+                        lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView3, i4, keyEvent);
                         return lambda$createView$2;
                     }
                 });
                 this.passwordEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationActivity.2
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+                    public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+                    public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                     }
 
                     @Override // android.text.TextWatcher
@@ -423,10 +422,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.floatingButtonIcon.setProgress(0.0f);
                 this.floatingButtonIcon.setColor(Theme.getColor("chats_actionIcon"));
                 this.floatingButtonIcon.setDrawBackground(false);
-                this.floatingButtonContainer.setContentDescription(LocaleController.getString((int) R.string.Next));
+                this.floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.Next));
                 this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56.0f : 60.0f));
                 Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-                if (i2 >= 21) {
+                if (i2 < 21) {
                     Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
                     mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
                     CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -451,14 +450,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 recyclerListView2.setAdapter(listAdapter);
                 this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda38
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                    public final void onItemClick(View view, int i3) {
-                        TwoStepVerificationActivity.this.lambda$createView$7(view, i3);
+                    public final void onItemClick(View view, int i4) {
+                        TwoStepVerificationActivity.this.lambda$createView$7(view, i4);
                     }
                 });
                 RadialProgressView radialProgressView = new RadialProgressView(this, context) { // from class: org.telegram.ui.TwoStepVerificationActivity.4
                     @Override // android.view.View
-                    protected void onMeasure(int i3, int i4) {
-                        super.onMeasure(i3, i4);
+                    protected void onMeasure(int i4, int i5) {
+                        super.onMeasure(i4, i5);
                         ((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight / 2;
                     }
                 };
@@ -478,9 +477,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 if (this.delegate == null) {
                     this.titleTextView.setText(LocaleController.getString("PleaseEnterCurrentPasswordTransfer", R.string.PleaseEnterCurrentPasswordTransfer));
                 } else {
-                    this.titleTextView.setText(LocaleController.getString((int) R.string.YourPassword));
+                    this.titleTextView.setText(LocaleController.getString(R.string.YourPassword));
                     this.subtitleTextView.setVisibility(0);
-                    this.subtitleTextView.setText(LocaleController.getString((int) R.string.LoginPasswordTextShort));
+                    this.subtitleTextView.setText(LocaleController.getString(R.string.LoginPasswordTextShort));
                 }
                 if (!this.passwordEntered) {
                     this.fragmentView.setBackgroundColor(Theme.getColor("windowBackgroundGray"));
@@ -511,7 +510,8 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         linearLayout.addView(this.subtitleTextView, LayoutHelper.createLinear(-2, -2, 1, 24, 8, 24, 0));
         OutlineTextContainerView outlineTextContainerView2 = new OutlineTextContainerView(context);
         this.passwordOutlineView = outlineTextContainerView2;
-        outlineTextContainerView2.setText(LocaleController.getString((int) R.string.EnterPassword));
+        int i32 = R.string.EnterPassword;
+        outlineTextContainerView2.setText(LocaleController.getString(i32));
         this.passwordOutlineView.animateSelection(1.0f, false);
         linearLayout.addView(this.passwordOutlineView, LayoutHelper.createLinear(-1, -2, 1, 24, 24, 24, 0));
         EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context);
@@ -526,7 +526,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         this.passwordEditText.setTypeface(Typeface.DEFAULT);
         this.passwordEditText.setCursorColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
         this.passwordEditText.setCursorWidth(1.5f);
-        this.passwordEditText.setContentDescription(LocaleController.getString((int) R.string.EnterPassword));
+        this.passwordEditText.setContentDescription(LocaleController.getString(i32));
         int dp2 = AndroidUtilities.dp(16.0f);
         this.passwordEditText.setPadding(dp2, dp2, dp2, dp2);
         this.passwordOutlineView.addView(this.passwordEditText, LayoutHelper.createFrame(-1, -2.0f));
@@ -539,19 +539,19 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         });
         this.passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda10
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView32, int i3, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView32, int i4, KeyEvent keyEvent) {
                 boolean lambda$createView$2;
-                lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView32, i3, keyEvent);
+                lambda$createView$2 = TwoStepVerificationActivity.this.lambda$createView$2(textView32, i4, keyEvent);
                 return lambda$createView$2;
             }
         });
         this.passwordEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TwoStepVerificationActivity.2
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
 
             @Override // android.text.TextWatcher
@@ -627,10 +627,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         this.floatingButtonIcon.setProgress(0.0f);
         this.floatingButtonIcon.setColor(Theme.getColor("chats_actionIcon"));
         this.floatingButtonIcon.setDrawBackground(false);
-        this.floatingButtonContainer.setContentDescription(LocaleController.getString((int) R.string.Next));
+        this.floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.Next));
         this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56.0f : 60.0f));
         Drawable createSimpleSelectorCircleDrawable2 = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-        if (i2 >= 21) {
+        if (i2 < 21) {
         }
         this.floatingButtonContainer.setBackground(createSimpleSelectorCircleDrawable2);
         frameLayout2.addView(this.floatingButtonContainer, LayoutHelper.createFrame(i2 < 21 ? 56 : 60, i2 < 21 ? 56.0f : 60.0f, 85, 0.0f, 0.0f, 24.0f, 16.0f));
@@ -650,14 +650,14 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         recyclerListView22.setAdapter(listAdapter2);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda38
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i3) {
-                TwoStepVerificationActivity.this.lambda$createView$7(view, i3);
+            public final void onItemClick(View view, int i4) {
+                TwoStepVerificationActivity.this.lambda$createView$7(view, i4);
             }
         });
         RadialProgressView radialProgressView2 = new RadialProgressView(this, context) { // from class: org.telegram.ui.TwoStepVerificationActivity.4
             @Override // android.view.View
-            protected void onMeasure(int i3, int i4) {
-                super.onMeasure(i3, i4);
+            protected void onMeasure(int i4, int i5) {
+                super.onMeasure(i4, i5);
                 ((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin = AndroidUtilities.statusBarHeight / 2;
             }
         };
@@ -883,9 +883,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         } else {
             int currentTime = ((TLRPC$TL_account_resetPasswordFailedWait) tLObject).retry_date - getConnectionsManager().getCurrentTime();
             if (currentTime > 86400) {
-                formatPluralString = LocaleController.formatPluralString("Days", currentTime / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Days", currentTime / 86400, new Object[0]);
             } else if (currentTime > 3600) {
-                formatPluralString = LocaleController.formatPluralString("Hours", currentTime / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
+                formatPluralString = LocaleController.formatPluralString("Hours", currentTime / 86400, new Object[0]);
             } else if (currentTime > 60) {
                 formatPluralString = LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]);
             } else {
@@ -902,7 +902,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0117  */
     /* JADX WARN: Removed duplicated region for block: B:30:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -919,7 +919,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             if (currentTime <= i) {
                 int max = Math.max(1, i - getConnectionsManager().getCurrentTime());
                 if (max > 86400) {
-                    format = LocaleController.formatPluralString("Days", max / RemoteMessageConst.DEFAULT_TTL, new Object[0]);
+                    format = LocaleController.formatPluralString("Days", max / 86400, new Object[0]);
                 } else if (max >= 3600) {
                     format = LocaleController.formatPluralString("Hours", max / 3600, new Object[0]);
                 } else {
@@ -1785,11 +1785,11 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                         return;
                     }
                     textInfoPrivacyCell.setText(LocaleController.getString("EnabledPasswordText", R.string.EnabledPasswordText));
-                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     return;
                 }
                 textInfoPrivacyCell.setText(LocaleController.getString("SetAdditionalPasswordInfo", R.string.SetAdditionalPasswordInfo));
-                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 return;
             }
             TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;

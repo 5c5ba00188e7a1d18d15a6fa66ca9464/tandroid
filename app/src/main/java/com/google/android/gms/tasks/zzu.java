@@ -169,6 +169,11 @@ public final class zzu<TResult> extends Task<TResult> {
     }
 
     @Override // com.google.android.gms.tasks.Task
+    public final <TContinuationResult> Task<TContinuationResult> continueWith(Continuation<TResult, TContinuationResult> continuation) {
+        return continueWith(TaskExecutors.MAIN_THREAD, continuation);
+    }
+
+    @Override // com.google.android.gms.tasks.Task
     public final <TContinuationResult> Task<TContinuationResult> continueWith(Executor executor, Continuation<TResult, TContinuationResult> continuation) {
         zzu zzuVar = new zzu();
         this.zzb.zza(new zzc(zzv.zza(executor), continuation, zzuVar));

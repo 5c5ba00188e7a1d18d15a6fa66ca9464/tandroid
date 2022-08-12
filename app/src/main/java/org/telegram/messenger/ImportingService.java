@@ -80,13 +80,17 @@ public class ImportingService extends Service implements NotificationCenter.Noti
             builder.setSmallIcon(17301640);
             this.builder.setWhen(System.currentTimeMillis());
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
+            this.builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
             if (hasImportingHistory()) {
-                this.builder.setTicker(LocaleController.getString("ImporImportingService", org.telegram.messenger.beta.R.string.ImporImportingService));
-                this.builder.setContentText(LocaleController.getString("ImporImportingService", org.telegram.messenger.beta.R.string.ImporImportingService));
+                NotificationCompat.Builder builder2 = this.builder;
+                int i3 = R.string.ImporImportingService;
+                builder2.setTicker(LocaleController.getString("ImporImportingService", i3));
+                this.builder.setContentText(LocaleController.getString("ImporImportingService", i3));
             } else {
-                this.builder.setTicker(LocaleController.getString("ImporImportingStickersService", org.telegram.messenger.beta.R.string.ImporImportingStickersService));
-                this.builder.setContentText(LocaleController.getString("ImporImportingStickersService", org.telegram.messenger.beta.R.string.ImporImportingStickersService));
+                NotificationCompat.Builder builder3 = this.builder;
+                int i4 = R.string.ImporImportingStickersService;
+                builder3.setTicker(LocaleController.getString("ImporImportingStickersService", i4));
+                this.builder.setContentText(LocaleController.getString("ImporImportingStickersService", i4));
             }
         }
         this.builder.setProgress(100, 0, true);

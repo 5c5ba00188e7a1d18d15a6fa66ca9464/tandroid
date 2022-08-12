@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.zip.Inflater;
-import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class PgsDecoder extends SimpleSubtitleDecoder {
@@ -68,13 +67,13 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             cueBuilder.reset();
         } else {
             switch (readUnsignedByte) {
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     cueBuilder.parsePaletteSection(parsableByteArray, readUnsignedShort);
                     break;
                 case 21:
                     cueBuilder.parseBitmapSection(parsableByteArray, readUnsignedShort);
                     break;
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                case 22:
                     cueBuilder.parseIdentifierSection(parsableByteArray, readUnsignedShort);
                     break;
             }

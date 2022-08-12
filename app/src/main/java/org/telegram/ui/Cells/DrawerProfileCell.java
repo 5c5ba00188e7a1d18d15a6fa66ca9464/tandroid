@@ -28,9 +28,9 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.Theme;
@@ -61,10 +61,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private ImageView shadowView;
     private SnowflakesEffect snowflakesEffect;
     StarParticlesView.Drawable starParticlesDrawable;
+    private RLottieDrawable sunDrawable;
     private Rect srcRect = new Rect();
     private Rect destRect = new Rect();
     private Paint paint = new Paint();
-    private RLottieDrawable sunDrawable = new RLottieDrawable(R.raw.sun, "2131558561", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
 
     public DrawerProfileCell(Context context, final DrawerLayoutContainer drawerLayoutContainer) {
         super(context);
@@ -103,6 +103,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.arrowView.setImageResource(R.drawable.msg_expand);
         addView(this.arrowView, LayoutHelper.createFrame(59, 59, 85));
         setArrowState(false);
+        int i = R.raw.sun;
+        this.sunDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
         if (Theme.isCurrentThemeDay()) {
             this.sunDrawable.setCustomEndFrame(36);
         } else {

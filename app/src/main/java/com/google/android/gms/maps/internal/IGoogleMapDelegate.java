@@ -19,6 +19,8 @@ public interface IGoogleMapDelegate extends IInterface {
 
     void animateCamera(@RecentlyNonNull IObjectWrapper iObjectWrapper) throws RemoteException;
 
+    void animateCameraWithCallback(IObjectWrapper iObjectWrapper, @Nullable zzd zzdVar) throws RemoteException;
+
     void animateCameraWithDurationAndCallback(IObjectWrapper iObjectWrapper, int i, @Nullable zzd zzdVar) throws RemoteException;
 
     @RecentlyNonNull

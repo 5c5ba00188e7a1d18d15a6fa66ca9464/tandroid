@@ -61,7 +61,6 @@ public class FirebaseMessaging {
     private final RequestDeduplicator requestDeduplicator;
     @GuardedBy("this")
     private boolean syncScheduledOrRunning;
-    private final Executor taskExecutor;
     private final Task<TopicsSubscriber> topicsSubscriberTask;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -142,22 +141,6 @@ public class FirebaseMessaging {
             if (isEnabled()) {
                 FirebaseMessaging.this.startSyncIfNecessary();
             }
-        }
-
-        synchronized void setEnabled(boolean z) {
-            initialize();
-            EventHandler<DataCollectionDefaultChange> eventHandler = this.dataCollectionDefaultChangeEventHandler;
-            if (eventHandler != null) {
-                this.subscriber.unsubscribe(DataCollectionDefaultChange.class, eventHandler);
-                this.dataCollectionDefaultChangeEventHandler = null;
-            }
-            SharedPreferences.Editor edit = FirebaseMessaging.this.firebaseApp.getApplicationContext().getSharedPreferences("com.google.firebase.messaging", 0).edit();
-            edit.putBoolean("auto_init", z);
-            edit.apply();
-            if (z) {
-                FirebaseMessaging.this.startSyncIfNecessary();
-            }
-            this.autoInitEnabled = Boolean.valueOf(z);
         }
     }
 
@@ -351,10 +334,6 @@ public class FirebaseMessaging {
         }
     }
 
-    public void setAutoInitEnabled(boolean z) {
-        this.autoInit.setEnabled(z);
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setSyncScheduledOrRunning(boolean z) {
         this.syncScheduledOrRunning = z;
@@ -396,7 +375,6 @@ public class FirebaseMessaging {
         FcmLifecycleCallbacks fcmLifecycleCallbacks = new FcmLifecycleCallbacks();
         this.lifecycleCallbacks = fcmLifecycleCallbacks;
         this.metadata = metadata;
-        this.taskExecutor = executor;
         this.gmsRpc = gmsRpc;
         this.requestDeduplicator = new RequestDeduplicator(executor);
         this.fileIoExecutor = executor2;

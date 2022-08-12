@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class NumberPicker extends LinearLayout {
@@ -100,14 +101,14 @@ public class NumberPicker extends LinearLayout {
         return 0.9f;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
     static /* synthetic */ boolean access$280(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mIncrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mIncrementVirtualButtonPressed = r2;
         return r2;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
     static /* synthetic */ boolean access$480(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mDecrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mDecrementVirtualButtonPressed = r2;
@@ -889,9 +890,9 @@ public class NumberPicker extends LinearLayout {
     private void fling(int i) {
         this.mPreviousScrollerY = 0;
         if (i > 0) {
-            this.mFlingScroller.fling(0, 0, 0, i, 0, 0, 0, Integer.MAX_VALUE);
+            this.mFlingScroller.fling(0, 0, 0, i, 0, 0, 0, ConnectionsManager.DEFAULT_DATACENTER_ID);
         } else {
-            this.mFlingScroller.fling(0, Integer.MAX_VALUE, 0, i, 0, 0, 0, Integer.MAX_VALUE);
+            this.mFlingScroller.fling(0, ConnectionsManager.DEFAULT_DATACENTER_ID, 0, i, 0, 0, 0, ConnectionsManager.DEFAULT_DATACENTER_ID);
         }
         invalidate();
     }

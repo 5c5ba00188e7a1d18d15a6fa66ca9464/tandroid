@@ -29,9 +29,9 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$FileLocation;
@@ -444,8 +444,10 @@ public class GroupCallUserCell extends FrameLayout {
         this.fullAboutTextView.setTextColor(Theme.getColor("voipgroup_mutedIcon"));
         this.fullAboutTextView.setVisibility(8);
         addView(this.fullAboutTextView, LayoutHelper.createFrame(-1, 60.0f, (LocaleController.isRTL ? 5 : 3) | 48, 14.0f, 32.0f, 14.0f, 0.0f));
-        this.muteDrawable = new RLottieDrawable(R.raw.voice_outlined2, "2131558601", AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
-        this.shakeHandDrawable = new RLottieDrawable(R.raw.hand_1, "2131558460", AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
+        int i3 = R.raw.voice_outlined2;
+        this.muteDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
+        int i4 = R.raw.hand_1;
+        this.shakeHandDrawable = new RLottieDrawable(i4, "" + i4, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.muteButton = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -655,23 +657,23 @@ public class GroupCallUserCell extends FrameLayout {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x03e1  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x04a1  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0418  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x045a  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x048a  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0432  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x0349  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x02b8  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x02d6  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x03d9  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0499  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x0410  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0452  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0482  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0341  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x02b2  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0268  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x017a  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x018d  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x02a5 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02b0  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x02f4  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0343  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0291  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x029f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x02aa  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x02ee  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x033b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -881,12 +883,13 @@ public class GroupCallUserCell extends FrameLayout {
                             if (i6 != 100) {
                                 this.statusTextView[1].setLeftDrawable(this.speakingDrawable);
                                 SimpleTextView simpleTextView = this.statusTextView[1];
+                                int i7 = R.string.SpeakingWithVolume;
                                 Object[] objArr = new Object[1];
                                 if (participantVolume < 100) {
                                     i6 = 1;
                                 }
                                 objArr[0] = Integer.valueOf(i6);
-                                simpleTextView.setText(LocaleController.formatString("SpeakingWithVolume", R.string.SpeakingWithVolume, objArr));
+                                simpleTextView.setText(LocaleController.formatString("SpeakingWithVolume", i7, objArr));
                             } else {
                                 this.statusTextView[1].setLeftDrawable((Drawable) null);
                                 this.statusTextView[1].setText(LocaleController.getString("Speaking", R.string.Speaking));
@@ -900,47 +903,47 @@ public class GroupCallUserCell extends FrameLayout {
                                     arrayList = new ArrayList();
                                 }
                                 if (i != 0) {
-                                    int i7 = 0;
+                                    int i8 = 0;
                                     while (true) {
                                         SimpleTextView[] simpleTextViewArr = this.statusTextView;
-                                        if (i7 >= simpleTextViewArr.length) {
+                                        if (i8 >= simpleTextViewArr.length) {
                                             break;
                                         }
-                                        SimpleTextView simpleTextView2 = simpleTextViewArr[i7];
+                                        SimpleTextView simpleTextView2 = simpleTextViewArr[i8];
                                         Property property = View.TRANSLATION_Y;
                                         float[] fArr = new float[1];
-                                        if (i7 == i) {
+                                        if (i8 == i) {
                                             dp = 0.0f;
                                         } else {
-                                            dp = AndroidUtilities.dp(i7 == 0 ? 2.0f : -2.0f);
+                                            dp = AndroidUtilities.dp(i8 == 0 ? 2.0f : -2.0f);
                                         }
                                         fArr[0] = dp;
                                         arrayList.add(ObjectAnimator.ofFloat(simpleTextView2, property, fArr));
-                                        SimpleTextView simpleTextView3 = this.statusTextView[i7];
+                                        SimpleTextView simpleTextView3 = this.statusTextView[i8];
                                         Property property2 = View.ALPHA;
                                         float[] fArr2 = new float[1];
-                                        fArr2[0] = i7 == i ? 1.0f : 0.0f;
+                                        fArr2[0] = i8 == i ? 1.0f : 0.0f;
                                         arrayList.add(ObjectAnimator.ofFloat(simpleTextView3, property2, fArr2));
-                                        i7++;
+                                        i8++;
                                     }
                                 } else {
-                                    int i8 = 0;
+                                    int i9 = 0;
                                     while (true) {
                                         SimpleTextView[] simpleTextViewArr2 = this.statusTextView;
-                                        if (i8 >= simpleTextViewArr2.length) {
+                                        if (i9 >= simpleTextViewArr2.length) {
                                             break;
                                         }
-                                        SimpleTextView simpleTextView4 = simpleTextViewArr2[i8];
+                                        SimpleTextView simpleTextView4 = simpleTextViewArr2[i9];
                                         Property property3 = View.TRANSLATION_Y;
                                         float[] fArr3 = new float[1];
-                                        fArr3[0] = i8 == i ? 0.0f : AndroidUtilities.dp(-2.0f);
+                                        fArr3[0] = i9 == i ? 0.0f : AndroidUtilities.dp(-2.0f);
                                         arrayList.add(ObjectAnimator.ofFloat(simpleTextView4, property3, fArr3));
-                                        SimpleTextView simpleTextView5 = this.statusTextView[i8];
+                                        SimpleTextView simpleTextView5 = this.statusTextView[i9];
                                         Property property4 = View.ALPHA;
                                         float[] fArr4 = new float[1];
-                                        fArr4[0] = i8 == i ? 1.0f : 0.0f;
+                                        fArr4[0] = i9 == i ? 1.0f : 0.0f;
                                         arrayList.add(ObjectAnimator.ofFloat(simpleTextView5, property4, fArr4));
-                                        i8++;
+                                        i9++;
                                     }
                                 }
                             } else {

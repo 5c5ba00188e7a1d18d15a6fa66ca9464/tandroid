@@ -18,7 +18,6 @@ import java.net.NetworkInterface;
 import java.util.Enumeration;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class JNIUtilities {
     public static int getMaxVideoResolution() {
@@ -29,7 +28,7 @@ public class JNIUtilities {
         return "";
     }
 
-    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     public static String getCurrentNetworkInterfaceName() {
         LinkProperties linkProperties;
         ConnectivityManager connectivityManager = (ConnectivityManager) ApplicationLoader.applicationContext.getSystemService("connectivity");

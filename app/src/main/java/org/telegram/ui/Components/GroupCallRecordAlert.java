@@ -24,8 +24,8 @@ import androidx.viewpager.widget.ViewPager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
@@ -341,6 +341,7 @@ public class GroupCallRecordAlert extends BottomSheet {
 
         @Override // androidx.viewpager.widget.PagerAdapter
         public Object instantiateItem(ViewGroup viewGroup, final int i) {
+            int i2;
             ImageView imageView = new ImageView(GroupCallRecordAlert.this.getContext()) { // from class: org.telegram.ui.Components.GroupCallRecordAlert.Adapter.1
                 @Override // android.view.View
                 public void onInitializeAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
@@ -368,7 +369,14 @@ public class GroupCallRecordAlert extends BottomSheet {
             } else {
                 imageView.setContentDescription(LocaleController.getString("VoipRecordLandscape", R.string.VoipRecordLandscape));
             }
-            SvgHelper.SvgDrawable drawable = SvgHelper.getDrawable(RLottieDrawable.readRes(null, i == 0 ? R.raw.record_audio : i == 1 ? R.raw.record_video_p : R.raw.record_video_l));
+            if (i == 0) {
+                i2 = R.raw.record_audio;
+            } else if (i == 1) {
+                i2 = R.raw.record_video_p;
+            } else {
+                i2 = R.raw.record_video_l;
+            }
+            SvgHelper.SvgDrawable drawable = SvgHelper.getDrawable(RLottieDrawable.readRes(null, i2));
             drawable.setAspectFill(false);
             imageView.setImageDrawable(drawable);
             if (imageView.getParent() != null) {

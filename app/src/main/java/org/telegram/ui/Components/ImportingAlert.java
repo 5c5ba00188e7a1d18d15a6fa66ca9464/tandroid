@@ -15,8 +15,8 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
@@ -130,7 +130,8 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 17.0f, 20.0f, 17.0f, 0.0f));
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.import_finish, "2131558475", AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), false, null);
+        int i = R.raw.import_finish;
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f), false, null);
         this.completedDrawable = rLottieDrawable;
         rLottieDrawable.setAllowDecodeSingleFrame(true);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
@@ -165,24 +166,24 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         this.cell.background.setPivotY(AndroidUtilities.dp(48.0f));
         this.cell.background.setScaleY(0.04f);
         frameLayout.addView(this.cell, LayoutHelper.createFrame(-1, 50.0f, 51, 34.0f, 247.0f, 34.0f, 0.0f));
-        for (int i = 0; i < 2; i++) {
-            this.importCountTextView[i] = new TextView(context);
-            this.importCountTextView[i].setTextSize(1, 16.0f);
-            this.importCountTextView[i].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            this.importCountTextView[i].setTextColor(getThemedColor("dialogTextBlack"));
-            frameLayout.addView(this.importCountTextView[i], LayoutHelper.createFrame(-2, -2.0f, 49, 17.0f, 340.0f, 17.0f, 0.0f));
-            this.infoTextView[i] = new TextView(context);
-            this.infoTextView[i].setTextSize(1, 14.0f);
-            this.infoTextView[i].setTextColor(getThemedColor("dialogTextGray3"));
-            this.infoTextView[i].setGravity(1);
-            frameLayout.addView(this.infoTextView[i], LayoutHelper.createFrame(-2, -2.0f, 49, 30.0f, 368.0f, 30.0f, 44.0f));
-            if (i == 0) {
-                this.infoTextView[i].setText(LocaleController.getString("ImportImportingInfo", R.string.ImportImportingInfo));
+        for (int i2 = 0; i2 < 2; i2++) {
+            this.importCountTextView[i2] = new TextView(context);
+            this.importCountTextView[i2].setTextSize(1, 16.0f);
+            this.importCountTextView[i2].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            this.importCountTextView[i2].setTextColor(getThemedColor("dialogTextBlack"));
+            frameLayout.addView(this.importCountTextView[i2], LayoutHelper.createFrame(-2, -2.0f, 49, 17.0f, 340.0f, 17.0f, 0.0f));
+            this.infoTextView[i2] = new TextView(context);
+            this.infoTextView[i2].setTextSize(1, 14.0f);
+            this.infoTextView[i2].setTextColor(getThemedColor("dialogTextGray3"));
+            this.infoTextView[i2].setGravity(1);
+            frameLayout.addView(this.infoTextView[i2], LayoutHelper.createFrame(-2, -2.0f, 49, 30.0f, 368.0f, 30.0f, 44.0f));
+            if (i2 == 0) {
+                this.infoTextView[i2].setText(LocaleController.getString("ImportImportingInfo", R.string.ImportImportingInfo));
             } else {
-                this.infoTextView[i].setAlpha(0.0f);
-                this.infoTextView[i].setTranslationY(AndroidUtilities.dp(10.0f));
-                this.importCountTextView[i].setAlpha(0.0f);
-                this.importCountTextView[i].setTranslationY(AndroidUtilities.dp(10.0f));
+                this.infoTextView[i2].setAlpha(0.0f);
+                this.infoTextView[i2].setTranslationY(AndroidUtilities.dp(10.0f));
+                this.importCountTextView[i2].setAlpha(0.0f);
+                this.importCountTextView[i2].setTranslationY(AndroidUtilities.dp(10.0f));
             }
         }
         if (this.parentFragment != null) {

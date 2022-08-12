@@ -16,7 +16,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class CryptoUtils {
     static final ICryptoFactory DEFAULT_CRYPTO_FACTORY = new ICryptoFactory() { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1
@@ -116,7 +115,7 @@ public class CryptoUtils {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:15:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    @TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -9,8 +9,7 @@ import java.security.Signature;
 import javax.crypto.Cipher;
 import javax.crypto.Mac;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
-@TargetApi(R.styleable.MapAttrs_zOrderOnTop)
+@TargetApi(23)
 /* loaded from: classes.dex */
 public final class FingerprintManagerCompatApi23 {
 

@@ -12,7 +12,6 @@ import com.google.android.gms.wallet.wobs.TimeInterval;
 import com.google.android.gms.wallet.wobs.UriData;
 import com.google.android.gms.wallet.wobs.WalletObjectMessage;
 import java.util.ArrayList;
-import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
 /* loaded from: classes.dex */
 public final class zzr implements Parcelable.Creator<LoyaltyWalletObject> {
@@ -101,16 +100,16 @@ public final class zzr implements Parcelable.Creator<LoyaltyWalletObject> {
                 case 19:
                     z = SafeParcelReader.readBoolean(parcel, readHeader);
                     break;
-                case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                case 20:
                     newArrayList4 = SafeParcelReader.createTypedList(parcel, readHeader, UriData.CREATOR);
                     break;
                 case 21:
                     newArrayList5 = SafeParcelReader.createTypedList(parcel, readHeader, TextModuleData.CREATOR);
                     break;
-                case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                case 22:
                     newArrayList6 = SafeParcelReader.createTypedList(parcel, readHeader, UriData.CREATOR);
                     break;
-                case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                case 23:
                     loyaltyPoints = (LoyaltyPoints) SafeParcelReader.createParcelable(parcel, readHeader, LoyaltyPoints.CREATOR);
                     break;
                 default:

@@ -20,6 +20,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class BitmapsCache {
     private static final int N = Utilities.clamp(Runtime.getRuntime().availableProcessors() - 2, 8, 1);
@@ -42,6 +43,7 @@ public class BitmapsCache {
     /* loaded from: classes.dex */
     public static class CacheOptions {
         public int compressQuality = 100;
+        public boolean fallback = false;
     }
 
     /* loaded from: classes.dex */
@@ -217,7 +219,7 @@ public class BitmapsCache {
         return frame;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00cd A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00d0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -228,8 +230,8 @@ public class BitmapsCache {
         }
         RandomAccessFile randomAccessFile2 = null;
         try {
-            try {
-                synchronized (this.mutex) {
+            synchronized (this.mutex) {
+                try {
                     if (!this.cacheCreated || (randomAccessFile = this.cachedFile) == null) {
                         randomAccessFile = new RandomAccessFile(this.file, "r");
                         try {
@@ -249,6 +251,7 @@ public class BitmapsCache {
                                 this.source.getFirstFrame(bitmap);
                                 return 0;
                             } else if (this.frameOffsets.isEmpty()) {
+                                randomAccessFile.close();
                                 return -1;
                             }
                         } catch (Throwable th) {
@@ -293,9 +296,9 @@ public class BitmapsCache {
                         }
                         return -1;
                     }
+                } catch (Throwable th2) {
+                    th = th2;
                 }
-            } catch (Throwable th2) {
-                th = th2;
             }
         } catch (FileNotFoundException unused2) {
         } catch (IOException e3) {
@@ -360,7 +363,10 @@ public class BitmapsCache {
 
         private static int hugeCapacity(int i) {
             if (i >= 0) {
-                return i > 2147483639 ? Integer.MAX_VALUE : 2147483639;
+                if (i <= 2147483639) {
+                    return 2147483639;
+                }
+                return ConnectionsManager.DEFAULT_DATACENTER_ID;
             }
             throw new OutOfMemoryError();
         }

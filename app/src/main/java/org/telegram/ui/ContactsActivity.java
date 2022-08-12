@@ -43,7 +43,6 @@ import android.widget.ImageView;
 import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -55,12 +54,12 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SecretChatHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$User;
@@ -161,7 +160,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             this.needForwardCount = this.arguments.getBoolean("needForwardCount", true);
             this.allowBots = this.arguments.getBoolean("allowBots", true);
             this.allowSelf = this.arguments.getBoolean("allowSelf", true);
-            this.channelId = this.arguments.getLong(RemoteMessageConst.Notification.CHANNEL_ID, 0L);
+            this.channelId = this.arguments.getLong("channelId", 0L);
             this.needFinishFragment = this.arguments.getBoolean("needFinishFragment", true);
             this.chatId = this.arguments.getLong("chat_id", 0L);
             this.disableSections = this.arguments.getBoolean("disableSections", false);
@@ -200,30 +199,30 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(17:1|(2:3|(1:5)(2:86|(1:88)(1:89)))(1:90)|6|(3:10|(1:12)(1:14)|13)|15|(1:17)(2:77|(2:79|(1:84)(1:83))(11:85|19|20|21|(2:23|(1:25)(1:73))(1:74)|26|(20:30|(1:32)(1:66)|33|(1:35)(1:65)|36|(1:38)|39|(1:41)(1:64)|42|(1:44)(1:63)|45|(1:47)|48|(1:50)(1:62)|51|(1:53)|54|(1:56)(1:61)|(1:58)(1:60)|59)|67|(1:69)|70|71))|18|19|20|21|(0)(0)|26|(21:28|30|(0)(0)|33|(0)(0)|36|(0)|39|(0)(0)|42|(0)(0)|45|(0)|48|(0)(0)|51|(0)|54|(0)(0)|(0)(0)|59)|67|(0)|70|71) */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x0126, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x011c, code lost:
         r23.hasGps = false;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0141  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x020e  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0217  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0273  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x02c4  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x02e0  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0343  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x034a  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x034d  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0346  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x021a  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0211  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0367  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0149  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0202  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0229  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0267  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02b7  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0333  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x033a  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x033d  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0336  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x020e  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0205  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0357  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x013f  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -329,8 +328,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
             }
         });
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", R.string.Search));
+        int i4 = R.string.Search;
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", i4));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", i4));
         if (!this.createSecretChat && !this.returnAsResult) {
             ActionBarMenuItem addItem = createMenu.addItem(1, this.sortByName ? R.drawable.msg_contacts_time : R.drawable.msg_contacts_name);
             this.sortItem = addItem;
@@ -345,7 +345,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 ContactsActivity.this.showItemsAnimated();
             }
         };
-        int i4 = 3;
+        int i5 = 3;
         if (this.chatId != 0) {
             i2 = ChatObject.canUserDoAdminAction(getMessagesController().getChat(Long.valueOf(this.chatId)), 3);
         } else if (this.channelId != 0) {
@@ -383,8 +383,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             this.listViewAdapter.setDisableSections(this.disableSections);
             FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.ContactsActivity.5
                 @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                protected void onLayout(boolean z2, int i5, int i6, int i7, int i8) {
-                    super.onLayout(z2, i5, i6, i7, i8);
+                protected void onLayout(boolean z2, int i6, int i7, int i8, int i9) {
+                    super.onLayout(z2, i6, i7, i8, i9);
                     if (ContactsActivity.this.listView.getAdapter() == ContactsActivity.this.listViewAdapter) {
                         if (ContactsActivity.this.emptyView.getVisibility() != 0) {
                             return;
@@ -410,10 +410,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
             RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.ContactsActivity.6
                 @Override // android.view.View
-                public void setPadding(int i5, int i6, int i7, int i8) {
-                    super.setPadding(i5, i6, i7, i8);
+                public void setPadding(int i6, int i7, int i8, int i9) {
+                    super.setPadding(i6, i7, i8, i9);
                     if (ContactsActivity.this.emptyView != null) {
-                        ContactsActivity.this.emptyView.setPadding(i5, i6, i7, i8);
+                        ContactsActivity.this.emptyView.setPadding(i6, i7, i8, i9);
                     }
                 }
             };
@@ -431,16 +431,16 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             this.listView.setAnimateEmptyView(true, 0);
             this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public final void onItemClick(View view, int i5) {
-                    ContactsActivity.this.lambda$createView$1(i, view, i5);
+                public final void onItemClick(View view, int i6) {
+                    ContactsActivity.this.lambda$createView$1(i, view, i6);
                 }
             });
             this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ContactsActivity.7
                 private boolean scrollingManually;
 
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                public void onScrollStateChanged(RecyclerView recyclerView, int i5) {
-                    if (i5 == 1) {
+                public void onScrollStateChanged(RecyclerView recyclerView, int i6) {
+                    if (i6 == 1) {
                         if (ContactsActivity.this.searching && ContactsActivity.this.searchWas) {
                             AndroidUtilities.hideKeyboard(ContactsActivity.this.getParentActivity().getCurrentFocus());
                         }
@@ -457,9 +457,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
-                public void onScrolled(RecyclerView recyclerView, int i5, int i6) {
+                public void onScrolled(RecyclerView recyclerView, int i6, int i7) {
                     boolean z2;
-                    super.onScrolled(recyclerView, i5, i6);
+                    super.onScrolled(recyclerView, i6, i7);
                     if (ContactsActivity.this.floatingButtonContainer == null || ContactsActivity.this.floatingButtonContainer.getVisibility() == 8) {
                         return;
                     }
@@ -468,7 +468,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     View childAt = recyclerView.getChildAt(0);
                     int top = childAt != null ? childAt.getTop() : 0;
                     if (ContactsActivity.this.prevPosition == findFirstVisibleItemPosition) {
-                        int i7 = ContactsActivity.this.prevTop - top;
+                        int i8 = ContactsActivity.this.prevTop - top;
                         z2 = top < ContactsActivity.this.prevTop;
                     } else {
                         if (findFirstVisibleItemPosition > ContactsActivity.this.prevPosition) {
@@ -489,13 +489,13 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 FrameLayout frameLayout3 = new FrameLayout(context);
                 this.floatingButtonContainer = frameLayout3;
                 i3 = Build.VERSION.SDK_INT;
-                int i5 = (i3 < 21 ? 56 : 60) + 20;
+                int i6 = (i3 < 21 ? 56 : 60) + 20;
                 float f = (i3 < 21 ? 56 : 60) + 20;
                 z = LocaleController.isRTL;
                 if (!z) {
-                    i4 = 5;
+                    i5 = 5;
                 }
-                frameLayout.addView(frameLayout3, LayoutHelper.createFrame(i5, f, i4 | 80, !z ? 4.0f : 0.0f, 0.0f, !z ? 0.0f : 4.0f, 0.0f));
+                frameLayout.addView(frameLayout3, LayoutHelper.createFrame(i6, f, i5 | 80, !z ? 4.0f : 0.0f, 0.0f, !z ? 0.0f : 4.0f, 0.0f));
                 this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -572,8 +572,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.listViewAdapter.setDisableSections(this.disableSections);
         FrameLayout frameLayout22 = new FrameLayout(context) { // from class: org.telegram.ui.ContactsActivity.5
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i52, int i6, int i7, int i8) {
-                super.onLayout(z2, i52, i6, i7, i8);
+            protected void onLayout(boolean z2, int i62, int i7, int i8, int i9) {
+                super.onLayout(z2, i62, i7, i8, i9);
                 if (ContactsActivity.this.listView.getAdapter() == ContactsActivity.this.listViewAdapter) {
                     if (ContactsActivity.this.emptyView.getVisibility() != 0) {
                         return;
@@ -599,10 +599,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView3 = new RecyclerListView(context) { // from class: org.telegram.ui.ContactsActivity.6
             @Override // android.view.View
-            public void setPadding(int i52, int i6, int i7, int i8) {
-                super.setPadding(i52, i6, i7, i8);
+            public void setPadding(int i62, int i7, int i8, int i9) {
+                super.setPadding(i62, i7, i8, i9);
                 if (ContactsActivity.this.emptyView != null) {
-                    ContactsActivity.this.emptyView.setPadding(i52, i6, i7, i8);
+                    ContactsActivity.this.emptyView.setPadding(i62, i7, i8, i9);
                 }
             }
         };
@@ -620,16 +620,16 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.listView.setAnimateEmptyView(true, 0);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i52) {
-                ContactsActivity.this.lambda$createView$1(i, view, i52);
+            public final void onItemClick(View view, int i62) {
+                ContactsActivity.this.lambda$createView$1(i, view, i62);
             }
         });
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ContactsActivity.7
             private boolean scrollingManually;
 
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i52) {
-                if (i52 == 1) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i62) {
+                if (i62 == 1) {
                     if (ContactsActivity.this.searching && ContactsActivity.this.searchWas) {
                         AndroidUtilities.hideKeyboard(ContactsActivity.this.getParentActivity().getCurrentFocus());
                     }
@@ -646,9 +646,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onScrolled(RecyclerView recyclerView, int i52, int i6) {
+            public void onScrolled(RecyclerView recyclerView, int i62, int i7) {
                 boolean z2;
-                super.onScrolled(recyclerView, i52, i6);
+                super.onScrolled(recyclerView, i62, i7);
                 if (ContactsActivity.this.floatingButtonContainer == null || ContactsActivity.this.floatingButtonContainer.getVisibility() == 8) {
                     return;
                 }
@@ -657,7 +657,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 View childAt = recyclerView.getChildAt(0);
                 int top = childAt != null ? childAt.getTop() : 0;
                 if (ContactsActivity.this.prevPosition == findFirstVisibleItemPosition) {
-                    int i7 = ContactsActivity.this.prevTop - top;
+                    int i8 = ContactsActivity.this.prevTop - top;
                     z2 = top < ContactsActivity.this.prevTop;
                 } else {
                     if (findFirstVisibleItemPosition > ContactsActivity.this.prevPosition) {
@@ -678,12 +678,12 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             FrameLayout frameLayout32 = new FrameLayout(context);
             this.floatingButtonContainer = frameLayout32;
             i3 = Build.VERSION.SDK_INT;
-            int i52 = (i3 < 21 ? 56 : 60) + 20;
+            int i62 = (i3 < 21 ? 56 : 60) + 20;
             float f2 = (i3 < 21 ? 56 : 60) + 20;
             z = LocaleController.isRTL;
             if (!z) {
             }
-            frameLayout.addView(frameLayout32, LayoutHelper.createFrame(i52, f2, i4 | 80, !z ? 4.0f : 0.0f, 0.0f, !z ? 0.0f : 4.0f, 0.0f));
+            frameLayout.addView(frameLayout32, LayoutHelper.createFrame(i62, f2, i5 | 80, !z ? 4.0f : 0.0f, 0.0f, !z ? 0.0f : 4.0f, 0.0f));
             this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -1111,7 +1111,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         askForPermissons(false);
     }
 
-    @TargetApi(org.telegram.messenger.R.styleable.MapAttrs_zOrderOnTop)
+    @TargetApi(23)
     private void askForPermissons(boolean z) {
         Activity parentActivity = getParentActivity();
         if (parentActivity == null || !UserConfig.getInstance(this.currentAccount).syncContacts || parentActivity.checkSelfPermission("android.permission.READ_CONTACTS") == 0) {

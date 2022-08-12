@@ -7,7 +7,6 @@ import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import java.util.HashMap;
 import java.util.Map;
 /* compiled from: com.google.android.gms:play-services-location@@18.0.0 */
@@ -35,37 +34,37 @@ public final class zzav {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public final void zzd(LocationRequest locationRequest, ListenerHolder<LocationListener> listenerHolder, zzai zzaiVar) throws RemoteException {
-        zzau zzauVar;
-        zzau zzauVar2;
+    public final void zze(zzba zzbaVar, ListenerHolder<LocationCallback> listenerHolder, zzai zzaiVar) throws RemoteException {
+        zzar zzarVar;
         zzi.zzp(((zzh) this.zza).zza);
-        ListenerHolder.ListenerKey<LocationListener> listenerKey = listenerHolder.getListenerKey();
+        ListenerHolder.ListenerKey<LocationCallback> listenerKey = listenerHolder.getListenerKey();
         if (listenerKey == null) {
-            zzauVar2 = null;
+            zzarVar = null;
         } else {
-            synchronized (this.zzd) {
-                zzauVar = this.zzd.get(listenerKey);
-                if (zzauVar == null) {
-                    zzauVar = new zzau(listenerHolder);
+            synchronized (this.zzf) {
+                zzar zzarVar2 = this.zzf.get(listenerKey);
+                if (zzarVar2 == null) {
+                    zzarVar2 = new zzar(listenerHolder);
                 }
-                this.zzd.put(listenerKey, zzauVar);
+                zzarVar = zzarVar2;
+                this.zzf.put(listenerKey, zzarVar);
             }
-            zzauVar2 = zzauVar;
         }
-        if (zzauVar2 == null) {
+        zzar zzarVar3 = zzarVar;
+        if (zzarVar3 == null) {
             return;
         }
-        ((zzh) this.zza).zza().zzo(new zzbc(1, zzba.zza(null, locationRequest), zzauVar2, null, null, zzaiVar));
+        ((zzh) this.zza).zza().zzo(new zzbc(1, zzbaVar, null, null, zzarVar3, zzaiVar));
     }
 
-    public final void zzh(ListenerHolder.ListenerKey<LocationListener> listenerKey, zzai zzaiVar) throws RemoteException {
+    public final void zzi(ListenerHolder.ListenerKey<LocationCallback> listenerKey, zzai zzaiVar) throws RemoteException {
         zzi.zzp(((zzh) this.zza).zza);
         Preconditions.checkNotNull(listenerKey, "Invalid null listener key");
-        synchronized (this.zzd) {
-            zzau remove = this.zzd.remove(listenerKey);
+        synchronized (this.zzf) {
+            zzar remove = this.zzf.remove(listenerKey);
             if (remove != null) {
                 remove.zzc();
-                ((zzh) this.zza).zza().zzo(zzbc.zza(remove, zzaiVar));
+                ((zzh) this.zza).zza().zzo(zzbc.zzc(remove, zzaiVar));
             }
         }
     }

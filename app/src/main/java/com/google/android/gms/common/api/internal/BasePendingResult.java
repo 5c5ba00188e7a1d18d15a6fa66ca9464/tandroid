@@ -156,30 +156,6 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     }
 
     @Override // com.google.android.gms.common.api.PendingResult
-    public final void setResultCallback(ResultCallback<? super R> resultCallback) {
-        synchronized (this.zab) {
-            if (resultCallback == null) {
-                this.zag = null;
-                return;
-            }
-            boolean z = true;
-            Preconditions.checkState(!this.zak, "Result has already been consumed.");
-            if (this.zao != null) {
-                z = false;
-            }
-            Preconditions.checkState(z, "Cannot set callbacks if then() has been called.");
-            if (isCanceled()) {
-                return;
-            }
-            if (isReady()) {
-                this.zac.zaa(resultCallback, zac());
-            } else {
-                this.zag = resultCallback;
-            }
-        }
-    }
-
-    @Override // com.google.android.gms.common.api.PendingResult
     public final void addStatusListener(@RecentlyNonNull PendingResult.StatusListener statusListener) {
         Preconditions.checkArgument(statusListener != null, "Callback cannot be null.");
         synchronized (this.zab) {

@@ -25,7 +25,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -493,16 +493,16 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0043, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x0042, code lost:
             if (r10 == (r8.this$0.searchResult.size() - 1)) goto L15;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0045, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x0044, code lost:
             r10 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x0047, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x0046, code lost:
             r10 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x0060, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x005f, code lost:
             if (r10 == (r8.this$0.sortedLanguages.size() - 1)) goto L15;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -518,7 +518,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
                 if (itemViewType != 1) {
                     return;
                 }
-                ((ShadowSectionCell) viewHolder.itemView).setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                ((ShadowSectionCell) viewHolder.itemView).setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 return;
             }
             boolean z3 = this.search;

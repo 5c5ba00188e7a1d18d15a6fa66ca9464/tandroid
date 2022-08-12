@@ -113,17 +113,17 @@ public class LocationSharingService extends Service implements NotificationCente
             int i = sharingLocationInfo.messageObject.currentAccount;
             if (DialogObject.isUserDialog(dialogId)) {
                 formatPluralString = UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(dialogId)));
-                string = LocaleController.getString("AttachLiveLocationIsSharing", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharing);
+                string = LocaleController.getString("AttachLiveLocationIsSharing", R.string.AttachLiveLocationIsSharing);
             } else {
                 TLRPC$Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-dialogId));
                 formatPluralString = chat != null ? chat.title : "";
-                string = LocaleController.getString("AttachLiveLocationIsSharingChat", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChat);
+                string = LocaleController.getString("AttachLiveLocationIsSharingChat", R.string.AttachLiveLocationIsSharingChat);
             }
         } else {
             formatPluralString = LocaleController.formatPluralString("Chats", infos.size(), new Object[0]);
-            string = LocaleController.getString("AttachLiveLocationIsSharingChats", org.telegram.messenger.beta.R.string.AttachLiveLocationIsSharingChats);
+            string = LocaleController.getString("AttachLiveLocationIsSharingChats", R.string.AttachLiveLocationIsSharingChats);
         }
-        String format = String.format(string, LocaleController.getString("AttachLiveLocation", org.telegram.messenger.beta.R.string.AttachLiveLocation), formatPluralString);
+        String format = String.format(string, LocaleController.getString("AttachLiveLocation", R.string.AttachLiveLocation), formatPluralString);
         this.builder.setTicker(format);
         this.builder.setContentText(format);
         if (!z) {
@@ -145,12 +145,12 @@ public class LocationSharingService extends Service implements NotificationCente
             NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
             this.builder = builder;
             builder.setWhen(System.currentTimeMillis());
-            this.builder.setSmallIcon(org.telegram.messenger.beta.R.drawable.live_loc);
+            this.builder.setSmallIcon(R.drawable.live_loc);
             this.builder.setContentIntent(activity);
             NotificationsController.checkOtherNotificationsChannel();
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
-            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", org.telegram.messenger.beta.R.string.StopLiveLocation), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 134217728));
+            this.builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
+            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", R.string.StopLiveLocation), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 134217728));
         }
         updateNotification(false);
         startForeground(6, this.builder.build());

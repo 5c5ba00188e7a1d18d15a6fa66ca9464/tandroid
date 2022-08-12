@@ -244,4 +244,13 @@ public class GoogleMap {
             throw new RuntimeRemoteException(e);
         }
     }
+
+    public final void animateCamera(@RecentlyNonNull CameraUpdate cameraUpdate, CancelableCallback cancelableCallback) {
+        try {
+            Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
+            this.zza.animateCameraWithCallback(cameraUpdate.zza(), cancelableCallback == null ? null : new zzaa(cancelableCallback));
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
 }

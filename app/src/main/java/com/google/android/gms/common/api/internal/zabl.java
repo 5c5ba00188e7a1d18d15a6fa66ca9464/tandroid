@@ -1,6 +1,5 @@
 package com.google.android.gms.common.api.internal;
 
-import android.content.Context;
 import android.os.Looper;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Api.ApiOptions;
@@ -23,11 +22,6 @@ public final class zabl<O extends Api.ApiOptions> extends zaab {
     }
 
     @Override // com.google.android.gms.common.api.GoogleApiClient
-    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T enqueue(T t) {
-        return (T) this.zaa.doRead((GoogleApi<O>) t);
-    }
-
-    @Override // com.google.android.gms.common.api.GoogleApiClient
     public final <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(T t) {
         return (T) this.zaa.doWrite((GoogleApi<O>) t);
     }
@@ -35,10 +29,5 @@ public final class zabl<O extends Api.ApiOptions> extends zaab {
     @Override // com.google.android.gms.common.api.GoogleApiClient
     public final Looper getLooper() {
         return this.zaa.getLooper();
-    }
-
-    @Override // com.google.android.gms.common.api.GoogleApiClient
-    public final Context getContext() {
-        return this.zaa.getApplicationContext();
     }
 }

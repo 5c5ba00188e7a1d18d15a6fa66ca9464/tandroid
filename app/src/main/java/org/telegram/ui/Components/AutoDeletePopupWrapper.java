@@ -4,10 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -79,10 +78,11 @@ public class AutoDeletePopupWrapper {
         addItem2.setColors(Theme.getColor("dialogTextRed2"), Theme.getColor("dialogTextRed2"));
         FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.setBackgroundColor(Theme.getColor("actionBarDefaultSubmenuSeparator", resourcesProvider));
-        frameLayout.setTag(R.id.fit_width_tag, 1);
+        int i = R.id.fit_width_tag;
+        frameLayout.setTag(i, 1);
         this.windowLayout.addView((View) frameLayout, LayoutHelper.createLinear(-1, 8));
         TextView textView = new TextView(context);
-        textView.setTag(R.id.fit_width_tag, 1);
+        textView.setTag(i, 1);
         textView.setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
         textView.setTextSize(1, 13.0f);
         textView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
@@ -93,7 +93,7 @@ public class AutoDeletePopupWrapper {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Callback callback, View view) {
         dismiss();
-        callback.setAutoDeleteHistory(RemoteMessageConst.DEFAULT_TTL, 70);
+        callback.setAutoDeleteHistory(86400, 70);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

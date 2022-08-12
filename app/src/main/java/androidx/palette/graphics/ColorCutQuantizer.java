@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ColorCutQuantizer {
@@ -145,9 +146,9 @@ public final class ColorCutQuantizer {
             ColorCutQuantizer colorCutQuantizer = ColorCutQuantizer.this;
             int[] iArr = colorCutQuantizer.mColors;
             int[] iArr2 = colorCutQuantizer.mHistogram;
-            int i = Integer.MAX_VALUE;
-            int i2 = Integer.MAX_VALUE;
-            int i3 = Integer.MAX_VALUE;
+            int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
+            int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+            int i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
             int i4 = Integer.MIN_VALUE;
             int i5 = Integer.MIN_VALUE;
             int i6 = Integer.MIN_VALUE;

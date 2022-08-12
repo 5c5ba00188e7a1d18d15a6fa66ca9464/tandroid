@@ -5540,7 +5540,7 @@ public class MediaDataController extends BaseController {
             } else if (i2 != 0) {
                 getMessagesStorage().closeHolesInMedia(j, i4, i2, i3);
             } else {
-                getMessagesStorage().closeHolesInMedia(j, i4, Integer.MAX_VALUE, i3);
+                getMessagesStorage().closeHolesInMedia(j, i4, ConnectionsManager.DEFAULT_DATACENTER_ID, i3);
             }
         }
         getMessagesStorage().getDatabase().commitTransaction();
@@ -5655,14 +5655,14 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0262  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0279  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0292 A[Catch: all -> 0x02cd, TryCatch #3 {all -> 0x02cd, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ee, B:35:0x00f9, B:37:0x0102, B:38:0x0107, B:39:0x0112, B:41:0x0118, B:43:0x0133, B:45:0x015c, B:48:0x0168, B:50:0x0174, B:51:0x0187, B:54:0x0264, B:57:0x027b, B:59:0x0292, B:61:0x0297, B:62:0x02ab, B:64:0x02b8, B:65:0x02c3, B:68:0x02be, B:69:0x029f, B:88:0x025e, B:94:0x0177, B:96:0x017d, B:101:0x0146, B:105:0x00f4), top: B:2:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0297 A[Catch: all -> 0x02cd, TryCatch #3 {all -> 0x02cd, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ee, B:35:0x00f9, B:37:0x0102, B:38:0x0107, B:39:0x0112, B:41:0x0118, B:43:0x0133, B:45:0x015c, B:48:0x0168, B:50:0x0174, B:51:0x0187, B:54:0x0264, B:57:0x027b, B:59:0x0292, B:61:0x0297, B:62:0x02ab, B:64:0x02b8, B:65:0x02c3, B:68:0x02be, B:69:0x029f, B:88:0x025e, B:94:0x0177, B:96:0x017d, B:101:0x0146, B:105:0x00f4), top: B:2:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x02b8 A[Catch: all -> 0x02cd, TryCatch #3 {all -> 0x02cd, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ee, B:35:0x00f9, B:37:0x0102, B:38:0x0107, B:39:0x0112, B:41:0x0118, B:43:0x0133, B:45:0x015c, B:48:0x0168, B:50:0x0174, B:51:0x0187, B:54:0x0264, B:57:0x027b, B:59:0x0292, B:61:0x0297, B:62:0x02ab, B:64:0x02b8, B:65:0x02c3, B:68:0x02be, B:69:0x029f, B:88:0x025e, B:94:0x0177, B:96:0x017d, B:101:0x0146, B:105:0x00f4), top: B:2:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x02be A[Catch: all -> 0x02cd, TryCatch #3 {all -> 0x02cd, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ee, B:35:0x00f9, B:37:0x0102, B:38:0x0107, B:39:0x0112, B:41:0x0118, B:43:0x0133, B:45:0x015c, B:48:0x0168, B:50:0x0174, B:51:0x0187, B:54:0x0264, B:57:0x027b, B:59:0x0292, B:61:0x0297, B:62:0x02ab, B:64:0x02b8, B:65:0x02c3, B:68:0x02be, B:69:0x029f, B:88:0x025e, B:94:0x0177, B:96:0x017d, B:101:0x0146, B:105:0x00f4), top: B:2:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x029f A[Catch: all -> 0x02cd, TryCatch #3 {all -> 0x02cd, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ee, B:35:0x00f9, B:37:0x0102, B:38:0x0107, B:39:0x0112, B:41:0x0118, B:43:0x0133, B:45:0x015c, B:48:0x0168, B:50:0x0174, B:51:0x0187, B:54:0x0264, B:57:0x027b, B:59:0x0292, B:61:0x0297, B:62:0x02ab, B:64:0x02b8, B:65:0x02c3, B:68:0x02be, B:69:0x029f, B:88:0x025e, B:94:0x0177, B:96:0x017d, B:101:0x0146, B:105:0x00f4), top: B:2:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x01b7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0260  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0290 A[Catch: all -> 0x02ca, TryCatch #2 {all -> 0x02ca, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ec, B:35:0x00f7, B:37:0x0100, B:38:0x0105, B:39:0x0110, B:41:0x0116, B:43:0x0131, B:45:0x015a, B:48:0x0166, B:50:0x0172, B:51:0x0185, B:54:0x0262, B:57:0x0279, B:59:0x0290, B:61:0x0295, B:62:0x02a8, B:64:0x02b5, B:65:0x02c0, B:68:0x02bb, B:69:0x029d, B:88:0x025c, B:94:0x0175, B:96:0x017b, B:101:0x0144, B:105:0x00f2), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0295 A[Catch: all -> 0x02ca, TryCatch #2 {all -> 0x02ca, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ec, B:35:0x00f7, B:37:0x0100, B:38:0x0105, B:39:0x0110, B:41:0x0116, B:43:0x0131, B:45:0x015a, B:48:0x0166, B:50:0x0172, B:51:0x0185, B:54:0x0262, B:57:0x0279, B:59:0x0290, B:61:0x0295, B:62:0x02a8, B:64:0x02b5, B:65:0x02c0, B:68:0x02bb, B:69:0x029d, B:88:0x025c, B:94:0x0175, B:96:0x017b, B:101:0x0144, B:105:0x00f2), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x02b5 A[Catch: all -> 0x02ca, TryCatch #2 {all -> 0x02ca, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ec, B:35:0x00f7, B:37:0x0100, B:38:0x0105, B:39:0x0110, B:41:0x0116, B:43:0x0131, B:45:0x015a, B:48:0x0166, B:50:0x0172, B:51:0x0185, B:54:0x0262, B:57:0x0279, B:59:0x0290, B:61:0x0295, B:62:0x02a8, B:64:0x02b5, B:65:0x02c0, B:68:0x02bb, B:69:0x029d, B:88:0x025c, B:94:0x0175, B:96:0x017b, B:101:0x0144, B:105:0x00f2), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x02bb A[Catch: all -> 0x02ca, TryCatch #2 {all -> 0x02ca, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ec, B:35:0x00f7, B:37:0x0100, B:38:0x0105, B:39:0x0110, B:41:0x0116, B:43:0x0131, B:45:0x015a, B:48:0x0166, B:50:0x0172, B:51:0x0185, B:54:0x0262, B:57:0x0279, B:59:0x0290, B:61:0x0295, B:62:0x02a8, B:64:0x02b5, B:65:0x02c0, B:68:0x02bb, B:69:0x029d, B:88:0x025c, B:94:0x0175, B:96:0x017b, B:101:0x0144, B:105:0x00f2), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x029d A[Catch: all -> 0x02ca, TryCatch #2 {all -> 0x02ca, blocks: (B:3:0x0004, B:5:0x0009, B:6:0x002a, B:9:0x0045, B:11:0x004b, B:12:0x004f, B:14:0x0055, B:17:0x0077, B:19:0x007d, B:21:0x008d, B:23:0x0090, B:26:0x0096, B:28:0x009c, B:32:0x00a3, B:34:0x00ec, B:35:0x00f7, B:37:0x0100, B:38:0x0105, B:39:0x0110, B:41:0x0116, B:43:0x0131, B:45:0x015a, B:48:0x0166, B:50:0x0172, B:51:0x0185, B:54:0x0262, B:57:0x0279, B:59:0x0290, B:61:0x0295, B:62:0x02a8, B:64:0x02b5, B:65:0x02c0, B:68:0x02bb, B:69:0x029d, B:88:0x025c, B:94:0x0175, B:96:0x017b, B:101:0x0144, B:105:0x00f2), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x01b5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5704,7 +5704,9 @@ public class MediaDataController extends BaseController {
             Intent intent = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
             intent.setAction("new_dialog");
             ArrayList arrayList6 = new ArrayList();
-            arrayList6.add(new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "compose").setShortLabel(LocaleController.getString("NewConversationShortcut", org.telegram.messenger.beta.R.string.NewConversationShortcut)).setLongLabel(LocaleController.getString("NewConversationShortcut", org.telegram.messenger.beta.R.string.NewConversationShortcut)).setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.shortcut_compose)).setIntent(intent).build());
+            ShortcutInfoCompat.Builder builder = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "compose");
+            int i4 = R.string.NewConversationShortcut;
+            arrayList6.add(builder.setShortLabel(LocaleController.getString("NewConversationShortcut", i4)).setLongLabel(LocaleController.getString("NewConversationShortcut", i4)).setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_compose)).setIntent(intent).build());
             if (arrayList3.contains("compose")) {
                 ShortcutManagerCompat.updateShortcuts(ApplicationLoader.applicationContext, arrayList6);
             } else {
@@ -5813,7 +5815,7 @@ public class MediaDataController extends BaseController {
                             if (bitmap != null) {
                                 intent32.setIcon(IconCompat.createWithBitmap(bitmap));
                             } else {
-                                intent32.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.shortcut_user));
+                                intent32.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_user));
                             }
                             arrayList6.add(intent32.build());
                             if (arrayList3.contains(str2)) {
@@ -6361,17 +6363,18 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(20:2|3|(2:5|(1:7)(1:9))(2:99|(1:101)(2:102|(2:104|(5:14|(3:16|(1:18)(2:88|(1:90)(4:91|(2:93|94)|95|94))|19)(4:96|(2:98|94)|95|94)|(2:(2:83|84)(1:59)|(8:62|63|64|(3:66|(1:68)(1:76)|69)(3:77|(1:79)|80)|70|71|72|73))(1:22)|23|(4:25|(1:27)(1:(2:31|(1:33)(1:34))(2:35|(1:40)(1:39)))|28|29)(4:41|(1:43)(2:46|(2:48|(1:50)(1:51))(2:52|(1:57)(1:56)))|44|45))(1:13))(1:105)))|10|(0)|14|(0)(0)|(0)|(0)(0)|(0)|62|63|64|(0)(0)|70|71|72|73|23|(0)(0)) */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x0171, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(22:1|2|3|(2:5|(1:7)(1:9))(2:99|(1:101)(2:102|(2:104|(5:14|(3:16|(1:18)(2:88|(1:90)(4:91|(2:93|94)|95|94))|19)(4:96|(2:98|94)|95|94)|(2:(2:83|84)(1:59)|(8:62|63|64|(3:66|(1:68)(1:76)|69)(3:77|(1:79)|80)|70|71|72|73))(1:22)|23|(4:25|(1:27)(1:(2:31|(1:33)(1:34))(2:35|(1:40)(1:39)))|28|29)(4:41|(1:43)(2:46|(2:48|(1:50)(1:51))(2:52|(1:57)(1:56)))|44|45))(1:13))(1:105)))|10|(0)|14|(0)(0)|(0)|(0)(0)|(0)|62|63|64|(0)(0)|70|71|72|73|23|(0)(0)|(1:(0))) */
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x016e, code lost:
         r0 = th;
      */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0062 A[Catch: Exception -> 0x0253, TryCatch #3 {Exception -> 0x0253, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0175, B:25:0x0187, B:27:0x01a9, B:28:0x01e8, B:31:0x01b3, B:33:0x01b7, B:34:0x01c1, B:35:0x01cb, B:37:0x01d1, B:39:0x01d5, B:40:0x01df, B:41:0x01f2, B:43:0x01f9, B:44:0x0238, B:48:0x0203, B:50:0x0207, B:51:0x0211, B:52:0x021b, B:54:0x0221, B:56:0x0225, B:57:0x022f, B:82:0x0172, B:88:0x0074, B:90:0x007a, B:91:0x0084, B:93:0x0090, B:96:0x0093, B:98:0x0099, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0187 A[Catch: Exception -> 0x0253, TryCatch #3 {Exception -> 0x0253, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0175, B:25:0x0187, B:27:0x01a9, B:28:0x01e8, B:31:0x01b3, B:33:0x01b7, B:34:0x01c1, B:35:0x01cb, B:37:0x01d1, B:39:0x01d5, B:40:0x01df, B:41:0x01f2, B:43:0x01f9, B:44:0x0238, B:48:0x0203, B:50:0x0207, B:51:0x0211, B:52:0x021b, B:54:0x0221, B:56:0x0225, B:57:0x022f, B:82:0x0172, B:88:0x0074, B:90:0x007a, B:91:0x0084, B:93:0x0090, B:96:0x0093, B:98:0x0099, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01f2 A[Catch: Exception -> 0x0253, TryCatch #3 {Exception -> 0x0253, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0175, B:25:0x0187, B:27:0x01a9, B:28:0x01e8, B:31:0x01b3, B:33:0x01b7, B:34:0x01c1, B:35:0x01cb, B:37:0x01d1, B:39:0x01d5, B:40:0x01df, B:41:0x01f2, B:43:0x01f9, B:44:0x0238, B:48:0x0203, B:50:0x0207, B:51:0x0211, B:52:0x021b, B:54:0x0221, B:56:0x0225, B:57:0x022f, B:82:0x0172, B:88:0x0074, B:90:0x007a, B:91:0x0084, B:93:0x0090, B:96:0x0093, B:98:0x0099, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00bd  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x00d8 A[Catch: all -> 0x0171, TryCatch #1 {all -> 0x0171, blocks: (B:64:0x00c4, B:66:0x00d8, B:68:0x00e3, B:69:0x00ec, B:70:0x0142, B:72:0x016c, B:76:0x00e9, B:77:0x00f3, B:79:0x00fe, B:80:0x010c), top: B:63:0x00c4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x00f3 A[Catch: all -> 0x0171, TryCatch #1 {all -> 0x0171, blocks: (B:64:0x00c4, B:66:0x00d8, B:68:0x00e3, B:69:0x00ec, B:70:0x0142, B:72:0x016c, B:76:0x00e9, B:77:0x00f3, B:79:0x00fe, B:80:0x010c), top: B:63:0x00c4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x00a8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0093 A[Catch: Exception -> 0x0253, TryCatch #3 {Exception -> 0x0253, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0175, B:25:0x0187, B:27:0x01a9, B:28:0x01e8, B:31:0x01b3, B:33:0x01b7, B:34:0x01c1, B:35:0x01cb, B:37:0x01d1, B:39:0x01d5, B:40:0x01df, B:41:0x01f2, B:43:0x01f9, B:44:0x0238, B:48:0x0203, B:50:0x0207, B:51:0x0211, B:52:0x021b, B:54:0x0221, B:56:0x0225, B:57:0x022f, B:82:0x0172, B:88:0x0074, B:90:0x007a, B:91:0x0084, B:93:0x0090, B:96:0x0093, B:98:0x0099, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0062 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0172, B:25:0x0178, B:27:0x019a, B:28:0x01e1, B:31:0x01a4, B:33:0x01a8, B:34:0x01b4, B:35:0x01c0, B:37:0x01c6, B:39:0x01ca, B:40:0x01d6, B:41:0x01eb, B:43:0x01f2, B:44:0x0239, B:48:0x01fc, B:50:0x0200, B:51:0x020c, B:52:0x0218, B:54:0x021e, B:56:0x0222, B:57:0x022e, B:82:0x016f, B:88:0x0073, B:90:0x0079, B:91:0x0082, B:93:0x008e, B:96:0x0091, B:98:0x0097, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0178 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0172, B:25:0x0178, B:27:0x019a, B:28:0x01e1, B:31:0x01a4, B:33:0x01a8, B:34:0x01b4, B:35:0x01c0, B:37:0x01c6, B:39:0x01ca, B:40:0x01d6, B:41:0x01eb, B:43:0x01f2, B:44:0x0239, B:48:0x01fc, B:50:0x0200, B:51:0x020c, B:52:0x0218, B:54:0x021e, B:56:0x0222, B:57:0x022e, B:82:0x016f, B:88:0x0073, B:90:0x0079, B:91:0x0082, B:93:0x008e, B:96:0x0091, B:98:0x0097, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01eb A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0172, B:25:0x0178, B:27:0x019a, B:28:0x01e1, B:31:0x01a4, B:33:0x01a8, B:34:0x01b4, B:35:0x01c0, B:37:0x01c6, B:39:0x01ca, B:40:0x01d6, B:41:0x01eb, B:43:0x01f2, B:44:0x0239, B:48:0x01fc, B:50:0x0200, B:51:0x020c, B:52:0x0218, B:54:0x021e, B:56:0x0222, B:57:0x022e, B:82:0x016f, B:88:0x0073, B:90:0x0079, B:91:0x0082, B:93:0x008e, B:96:0x0091, B:98:0x0097, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x00d6 A[Catch: all -> 0x016e, TryCatch #3 {all -> 0x016e, blocks: (B:64:0x00c2, B:66:0x00d6, B:68:0x00e1, B:69:0x00ea, B:70:0x0140, B:72:0x0169, B:76:0x00e7, B:77:0x00f1, B:79:0x00fc, B:80:0x010a), top: B:63:0x00c2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x00f1 A[Catch: all -> 0x016e, TryCatch #3 {all -> 0x016e, blocks: (B:64:0x00c2, B:66:0x00d6, B:68:0x00e1, B:69:0x00ea, B:70:0x0140, B:72:0x0169, B:76:0x00e7, B:77:0x00f1, B:79:0x00fc, B:80:0x010a), top: B:63:0x00c2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x00a6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0091 A[Catch: Exception -> 0x0254, TryCatch #2 {Exception -> 0x0254, blocks: (B:3:0x0002, B:5:0x000d, B:9:0x0020, B:16:0x0062, B:18:0x0068, B:23:0x0172, B:25:0x0178, B:27:0x019a, B:28:0x01e1, B:31:0x01a4, B:33:0x01a8, B:34:0x01b4, B:35:0x01c0, B:37:0x01c6, B:39:0x01ca, B:40:0x01d6, B:41:0x01eb, B:43:0x01f2, B:44:0x0239, B:48:0x01fc, B:50:0x0200, B:51:0x020c, B:52:0x0218, B:54:0x021e, B:56:0x0222, B:57:0x022e, B:82:0x016f, B:88:0x0073, B:90:0x0079, B:91:0x0082, B:93:0x008e, B:96:0x0091, B:98:0x0097, B:99:0x002f, B:101:0x0035, B:102:0x0044, B:104:0x004a), top: B:2:0x0002 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6403,9 +6406,9 @@ public class MediaDataController extends BaseController {
                 }
                 if (tLRPC$User == null) {
                     if (UserObject.isReplyUser(tLRPC$User)) {
-                        str = LocaleController.getString("RepliesTitle", org.telegram.messenger.beta.R.string.RepliesTitle);
+                        str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                     } else if (UserObject.isUserSelf(tLRPC$User)) {
-                        str = LocaleController.getString("SavedMessages", org.telegram.messenger.beta.R.string.SavedMessages);
+                        str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                     } else {
                         str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
@@ -6471,7 +6474,7 @@ public class MediaDataController extends BaseController {
                             canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
                             canvas.restore();
                         }
-                        Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.beta.R.drawable.book_logo);
+                        Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
                         int dp2 = AndroidUtilities.dp(15.0f);
                         int i = dp - dp2;
                         int dp3 = i - AndroidUtilities.dp(2.0f);
@@ -6490,14 +6493,14 @@ public class MediaDataController extends BaseController {
                         intent.setIcon(IconCompat.createWithBitmap(bitmap));
                     } else if (tLRPC$User != null) {
                         if (tLRPC$User.bot) {
-                            intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_bot));
+                            intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_bot));
                         } else {
-                            intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_user));
+                            intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_user));
                         }
                     } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                        intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_channel));
+                        intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_channel));
                     } else {
-                        intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_group));
+                        intent.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group));
                     }
                     ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, intent.build(), null);
                     return;
@@ -6507,14 +6510,14 @@ public class MediaDataController extends BaseController {
                     intent2.putExtra("android.intent.extra.shortcut.ICON", bitmap);
                 } else if (tLRPC$User != null) {
                     if (tLRPC$User.bot) {
-                        intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_bot));
+                        intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_bot));
                     } else {
-                        intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_user));
+                        intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_user));
                     }
                 } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                    intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_channel));
+                    intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_channel));
                 } else {
-                    intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, org.telegram.messenger.beta.R.drawable.book_group));
+                    intent2.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_group));
                 }
                 intent2.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent);
                 intent2.putExtra("android.intent.extra.shortcut.NAME", str);
@@ -6541,7 +6544,7 @@ public class MediaDataController extends BaseController {
             Canvas canvas2 = new Canvas(createBitmap2);
             if (!z) {
             }
-            Drawable drawable2 = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.beta.R.drawable.book_logo);
+            Drawable drawable2 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
             int dp22 = AndroidUtilities.dp(15.0f);
             int i2 = dp5 - dp22;
             int dp32 = i2 - AndroidUtilities.dp(2.0f);
@@ -8926,13 +8929,13 @@ public class MediaDataController extends BaseController {
             return true;
         }
         if (tLRPC$Document.size > MessagesController.getInstance(this.currentAccount).ringtoneSizeMax) {
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLargeError", org.telegram.messenger.beta.R.string.TooLargeError, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", org.telegram.messenger.beta.R.string.ErrorRingtoneSizeTooBig, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / 1024)));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLargeError", R.string.TooLargeError, new Object[0]), LocaleController.formatString("ErrorRingtoneSizeTooBig", R.string.ErrorRingtoneSizeTooBig, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneSizeMax / 1024)));
             return false;
         }
         for (int i = 0; i < tLRPC$Document.attributes.size(); i++) {
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
             if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeAudio) && tLRPC$DocumentAttribute.duration > MessagesController.getInstance(this.currentAccount).ringtoneDurationMax) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLongError", org.telegram.messenger.beta.R.string.TooLongError, new Object[0]), LocaleController.formatString("ErrorRingtoneDurationTooLong", org.telegram.messenger.beta.R.string.ErrorRingtoneDurationTooLong, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneDurationMax)));
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 4, LocaleController.formatString("TooLongError", R.string.TooLongError, new Object[0]), LocaleController.formatString("ErrorRingtoneDurationTooLong", R.string.ErrorRingtoneDurationTooLong, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).ringtoneDurationMax)));
                 return false;
             }
         }
@@ -9417,9 +9420,9 @@ public class MediaDataController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$getEmojiSuggestions$187(ArrayList arrayList, KeywordResult keywordResult, KeywordResult keywordResult2) {
         int indexOf = arrayList.indexOf(keywordResult.emoji);
-        int i = Integer.MAX_VALUE;
+        int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
         if (indexOf < 0) {
-            indexOf = Integer.MAX_VALUE;
+            indexOf = ConnectionsManager.DEFAULT_DATACENTER_ID;
         }
         int indexOf2 = arrayList.indexOf(keywordResult2.emoji);
         if (indexOf2 >= 0) {

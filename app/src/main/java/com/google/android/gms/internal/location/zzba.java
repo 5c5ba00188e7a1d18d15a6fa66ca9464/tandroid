@@ -108,4 +108,9 @@ public final class zzba extends AbstractSafeParcelable {
         SafeParcelWriter.writeLong(parcel, 14, this.zzl);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
+
+    public final zzba zzc(String str) {
+        this.zzk = str;
+        return this;
+    }
 }

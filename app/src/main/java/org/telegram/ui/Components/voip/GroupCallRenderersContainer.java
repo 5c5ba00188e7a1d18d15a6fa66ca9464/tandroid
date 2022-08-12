@@ -31,8 +31,8 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -268,7 +268,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         imageView3.setVisibility(4);
         this.pipView.setAlpha(0.0f);
         this.pipView.setImageResource(R.drawable.ic_goinline);
-        this.pipView.setContentDescription(LocaleController.getString((int) R.string.AccDescrPipMode));
+        this.pipView.setContentDescription(LocaleController.getString(R.string.AccDescrPipMode));
         int dp = AndroidUtilities.dp(4.0f);
         this.pipView.setPadding(dp, dp, dp, dp);
         this.pipView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(-1, 55)));

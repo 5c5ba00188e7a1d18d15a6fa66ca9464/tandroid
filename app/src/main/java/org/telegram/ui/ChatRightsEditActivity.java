@@ -26,7 +26,6 @@ import android.widget.TimePicker;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.util.ArrayList;
 import java.util.Calendar;
 import org.telegram.messenger.AccountInstance;
@@ -36,8 +35,8 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -796,7 +795,7 @@ public class ChatRightsEditActivity extends BaseFragment {
             this.bannedRights.until_date = 0;
             this.listViewAdapter.notifyItemChanged(this.untilDateRow);
         } else if (intValue == 1) {
-            this.bannedRights.until_date = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() + RemoteMessageConst.DEFAULT_TTL;
+            this.bannedRights.until_date = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() + 86400;
             this.listViewAdapter.notifyItemChanged(this.untilDateRow);
         } else if (intValue == 2) {
             this.bannedRights.until_date = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() + 604800;
@@ -1017,7 +1016,8 @@ public class ChatRightsEditActivity extends BaseFragment {
                 linearLayout2.setOrientation(0);
                 linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
                 ImageView imageView = new ImageView(getParentActivity());
-                imageView.setImageResource(R.drawable.list_circle);
+                int i = R.drawable.list_circle;
+                imageView.setImageResource(i);
                 imageView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
                 imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlack"), PorterDuff.Mode.MULTIPLY));
                 TextView textView2 = new TextView(getParentActivity());
@@ -1036,7 +1036,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                 linearLayout3.setOrientation(0);
                 linearLayout.addView(linearLayout3, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
                 ImageView imageView2 = new ImageView(getParentActivity());
-                imageView2.setImageResource(R.drawable.list_circle);
+                imageView2.setImageResource(i);
                 imageView2.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
                 imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("dialogTextBlack"), PorterDuff.Mode.MULTIPLY));
                 TextView textView3 = new TextView(getParentActivity());
@@ -1054,8 +1054,8 @@ public class ChatRightsEditActivity extends BaseFragment {
                 if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text)) {
                     builder2.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda7
                         @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            ChatRightsEditActivity.this.lambda$initTransfer$10(dialogInterface, i);
+                        public final void onClick(DialogInterface dialogInterface, int i2) {
+                            ChatRightsEditActivity.this.lambda$initTransfer$10(dialogInterface, i2);
                         }
                     });
                     builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1347,15 +1347,16 @@ public class ChatRightsEditActivity extends BaseFragment {
     public void onDonePressed() {
         String string;
         String formatString;
+        int i;
         if (this.loading) {
             return;
         }
-        int i = 2;
+        int i2 = 2;
         boolean z = true;
         if (!ChatObject.isChannel(this.currentChat)) {
-            int i2 = this.currentType;
-            if (i2 != 1) {
-                if (i2 == 0) {
+            int i3 = this.currentType;
+            if (i3 != 1) {
+                if (i3 == 0) {
                     if (isDefaultAdminRights()) {
                         if (this.rankRow != -1) {
                             String str = this.currentRank;
@@ -1375,8 +1376,8 @@ public class ChatRightsEditActivity extends BaseFragment {
             });
             return;
         }
-        int i3 = this.currentType;
-        if (i3 == 0 || i3 == 2) {
+        int i4 = this.currentType;
+        if (i4 == 0 || i4 == 2) {
             if (this.rankRow != -1) {
                 String str2 = this.currentRank;
                 if (str2.codePointCount(0, str2.length()) > 16) {
@@ -1409,8 +1410,8 @@ public class ChatRightsEditActivity extends BaseFragment {
                 tLRPC$TL_chatAdminRights3.other = false;
             }
         }
-        int i4 = this.currentType;
-        if (i4 == 0) {
+        int i5 = this.currentType;
+        if (i5 == 0) {
             boolean z2 = this.delegate == null;
             setLoading(true);
             MessagesController.getInstance(this.currentAccount).setUserAdminRole(this.chatId, this.currentUser, this.adminRights, this.currentRank, this.isChannel, this, this.isAddingNew, false, null, new Runnable() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda13
@@ -1427,42 +1428,49 @@ public class ChatRightsEditActivity extends BaseFragment {
                 }
             });
             z = z2;
-        } else if (i4 == 1) {
+        } else if (i5 == 1) {
             MessagesController.getInstance(this.currentAccount).setParticipantBannedRole(this.chatId, this.currentUser, null, this.bannedRights, this.isChannel, getFragmentForAlert(1));
             TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = this.bannedRights;
             if (tLRPC$TL_chatBannedRights.send_messages || tLRPC$TL_chatBannedRights.send_stickers || tLRPC$TL_chatBannedRights.embed_links || tLRPC$TL_chatBannedRights.send_media || tLRPC$TL_chatBannedRights.send_gifs || tLRPC$TL_chatBannedRights.send_games || tLRPC$TL_chatBannedRights.send_inline) {
-                i = 1;
+                i2 = 1;
             } else {
                 tLRPC$TL_chatBannedRights.until_date = 0;
             }
             ChatRightsEditActivityDelegate chatRightsEditActivityDelegate = this.delegate;
             if (chatRightsEditActivityDelegate != null) {
-                chatRightsEditActivityDelegate.didSetRights(i, this.adminRights, tLRPC$TL_chatBannedRights, this.currentRank);
+                chatRightsEditActivityDelegate.didSetRights(i2, this.adminRights, tLRPC$TL_chatBannedRights, this.currentRank);
             }
-        } else if (i4 == 2) {
+        } else if (i5 == 2) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            String str3 = "AddBot";
             if (this.asAdmin) {
                 string = LocaleController.getString("AddBotAdmin", R.string.AddBotAdmin);
             } else {
-                string = LocaleController.getString("AddBot", R.string.AddBot);
+                string = LocaleController.getString(str3, R.string.AddBot);
             }
             builder.setTitle(string);
             boolean z3 = ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup;
             TLRPC$Chat tLRPC$Chat = this.currentChat;
-            String str3 = tLRPC$Chat == null ? "" : tLRPC$Chat.title;
+            String str4 = tLRPC$Chat == null ? "" : tLRPC$Chat.title;
             if (!this.asAdmin) {
-                formatString = LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(this.currentUser), str3);
+                formatString = LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(this.currentUser), str4);
             } else if (z3) {
-                formatString = LocaleController.formatString("AddBotMessageAdminChannel", R.string.AddBotMessageAdminChannel, str3);
+                formatString = LocaleController.formatString("AddBotMessageAdminChannel", R.string.AddBotMessageAdminChannel, str4);
             } else {
-                formatString = LocaleController.formatString("AddBotMessageAdminGroup", R.string.AddBotMessageAdminGroup, str3);
+                formatString = LocaleController.formatString("AddBotMessageAdminGroup", R.string.AddBotMessageAdminGroup, str4);
             }
             builder.setMessage(AndroidUtilities.replaceTags(formatString));
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            builder.setPositiveButton(this.asAdmin ? LocaleController.getString("AddAsAdmin", R.string.AddAsAdmin) : LocaleController.getString("AddBot", R.string.AddBot), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda8
+            if (this.asAdmin) {
+                i = R.string.AddAsAdmin;
+                str3 = "AddAsAdmin";
+            } else {
+                i = R.string.AddBot;
+            }
+            builder.setPositiveButton(LocaleController.getString(str3, i), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatRightsEditActivity$$ExternalSyntheticLambda8
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    ChatRightsEditActivity.this.lambda$onDonePressed$21(dialogInterface, i5);
+                public final void onClick(DialogInterface dialogInterface, int i6) {
+                    ChatRightsEditActivity.this.lambda$onDonePressed$21(dialogInterface, i6);
                 }
             });
             showDialog(builder.create());
@@ -1846,7 +1854,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                     break;
                 case 1:
                     textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
-                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     break;
                 case 2:
                 default:
@@ -2031,14 +2039,9 @@ public class ChatRightsEditActivity extends BaseFragment {
                     TextCheckCell2 textCheckCell2 = (TextCheckCell2) viewHolder.itemView;
                     boolean z2 = ChatRightsEditActivity.this.currentType != 2 || ChatRightsEditActivity.this.asAdmin;
                     boolean z3 = ChatRightsEditActivity.this.currentChat != null && ChatRightsEditActivity.this.currentChat.creator;
-                    int i2 = ChatRightsEditActivity.this.manageRow;
-                    int i3 = R.drawable.permission_locked;
-                    if (i == i2) {
+                    if (i == ChatRightsEditActivity.this.manageRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("ManageGroup", R.string.ManageGroup), ChatRightsEditActivity.this.asAdmin, true);
-                        if (ChatRightsEditActivity.this.myAdminRights.add_admins || z3) {
-                            i3 = 0;
-                        }
-                        textCheckCell2.setIcon(i3);
+                        textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.add_admins || z3) ? 0 : R.drawable.permission_locked);
                     } else if (i == ChatRightsEditActivity.this.changeInfoRow) {
                         if (ChatRightsEditActivity.this.currentType == 0 || ChatRightsEditActivity.this.currentType == 2) {
                             if (ChatRightsEditActivity.this.isChannel) {
@@ -2047,33 +2050,21 @@ public class ChatRightsEditActivity extends BaseFragment {
                                 textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminChangeGroupInfo", R.string.EditAdminChangeGroupInfo), (z2 && ChatRightsEditActivity.this.adminRights.change_info) || !ChatRightsEditActivity.this.defaultBannedRights.change_info, true);
                             }
                             if (ChatRightsEditActivity.this.currentType == 2) {
-                                if (ChatRightsEditActivity.this.myAdminRights.change_info || z3) {
-                                    i3 = 0;
-                                }
-                                textCheckCell2.setIcon(i3);
+                                textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.change_info || z3) ? 0 : R.drawable.permission_locked);
                             }
                         } else if (ChatRightsEditActivity.this.currentType == 1) {
                             textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsChangeInfo", R.string.UserRestrictionsChangeInfo), !ChatRightsEditActivity.this.bannedRights.change_info && !ChatRightsEditActivity.this.defaultBannedRights.change_info, false);
-                            if (!ChatRightsEditActivity.this.defaultBannedRights.change_info) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.change_info ? R.drawable.permission_locked : 0);
                         }
                     } else if (i == ChatRightsEditActivity.this.postMessagesRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminPostMessages", R.string.EditAdminPostMessages), z2 && ChatRightsEditActivity.this.adminRights.post_messages, true);
                         if (ChatRightsEditActivity.this.currentType == 2) {
-                            if (ChatRightsEditActivity.this.myAdminRights.post_messages || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.post_messages || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.editMesagesRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminEditMessages", R.string.EditAdminEditMessages), z2 && ChatRightsEditActivity.this.adminRights.edit_messages, true);
                         if (ChatRightsEditActivity.this.currentType == 2) {
-                            if (ChatRightsEditActivity.this.myAdminRights.edit_messages || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.edit_messages || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.deleteMessagesRow) {
                         if (ChatRightsEditActivity.this.isChannel) {
@@ -2082,42 +2073,27 @@ public class ChatRightsEditActivity extends BaseFragment {
                             textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminGroupDeleteMessages", R.string.EditAdminGroupDeleteMessages), z2 && ChatRightsEditActivity.this.adminRights.delete_messages, true);
                         }
                         if (ChatRightsEditActivity.this.currentType == 2) {
-                            if (ChatRightsEditActivity.this.myAdminRights.delete_messages || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.delete_messages || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.addAdminsRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminAddAdmins", R.string.EditAdminAddAdmins), z2 && ChatRightsEditActivity.this.adminRights.add_admins, ChatRightsEditActivity.this.anonymousRow != -1);
                         if (ChatRightsEditActivity.this.currentType == 2) {
-                            if (ChatRightsEditActivity.this.myAdminRights.add_admins || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.add_admins || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.anonymousRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminSendAnonymously", R.string.EditAdminSendAnonymously), z2 && ChatRightsEditActivity.this.adminRights.anonymous, false);
                         if (ChatRightsEditActivity.this.currentType == 2) {
-                            if (ChatRightsEditActivity.this.myAdminRights.anonymous || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.anonymous || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.banUsersRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminBanUsers", R.string.EditAdminBanUsers), z2 && ChatRightsEditActivity.this.adminRights.ban_users, true);
                         if (ChatRightsEditActivity.this.currentType == 2) {
-                            if (ChatRightsEditActivity.this.myAdminRights.ban_users || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.ban_users || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.startVoiceChatRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("StartVoipChatPermission", R.string.StartVoipChatPermission), z2 && ChatRightsEditActivity.this.adminRights.manage_call, true);
                         if (ChatRightsEditActivity.this.currentType == 2) {
-                            if (ChatRightsEditActivity.this.myAdminRights.manage_call || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.manage_call || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.addUsersRow) {
                         if (ChatRightsEditActivity.this.currentType == 0) {
@@ -2128,63 +2104,36 @@ public class ChatRightsEditActivity extends BaseFragment {
                             }
                         } else if (ChatRightsEditActivity.this.currentType == 1) {
                             textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsInviteUsers", R.string.UserRestrictionsInviteUsers), !ChatRightsEditActivity.this.bannedRights.invite_users && !ChatRightsEditActivity.this.defaultBannedRights.invite_users, true);
-                            if (!ChatRightsEditActivity.this.defaultBannedRights.invite_users) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.invite_users ? R.drawable.permission_locked : 0);
                         } else if (ChatRightsEditActivity.this.currentType == 2) {
                             textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminAddUsersViaLink", R.string.EditAdminAddUsersViaLink), z2 && ChatRightsEditActivity.this.adminRights.invite_users, true);
-                            if (ChatRightsEditActivity.this.myAdminRights.invite_users || z3) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.invite_users || z3) ? 0 : R.drawable.permission_locked);
                         }
                     } else if (i == ChatRightsEditActivity.this.pinMessagesRow) {
                         if (ChatRightsEditActivity.this.currentType == 0 || ChatRightsEditActivity.this.currentType == 2) {
                             textCheckCell2.setTextAndCheck(LocaleController.getString("EditAdminPinMessages", R.string.EditAdminPinMessages), (z2 && ChatRightsEditActivity.this.adminRights.pin_messages) || !ChatRightsEditActivity.this.defaultBannedRights.pin_messages, true);
                             if (ChatRightsEditActivity.this.currentType == 2) {
-                                if (ChatRightsEditActivity.this.myAdminRights.pin_messages || z3) {
-                                    i3 = 0;
-                                }
-                                textCheckCell2.setIcon(i3);
+                                textCheckCell2.setIcon((ChatRightsEditActivity.this.myAdminRights.pin_messages || z3) ? 0 : R.drawable.permission_locked);
                             }
                         } else if (ChatRightsEditActivity.this.currentType == 1) {
                             textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsPinMessages", R.string.UserRestrictionsPinMessages), !ChatRightsEditActivity.this.bannedRights.pin_messages && !ChatRightsEditActivity.this.defaultBannedRights.pin_messages, true);
-                            if (!ChatRightsEditActivity.this.defaultBannedRights.pin_messages) {
-                                i3 = 0;
-                            }
-                            textCheckCell2.setIcon(i3);
+                            textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.pin_messages ? R.drawable.permission_locked : 0);
                         }
                     } else if (i == ChatRightsEditActivity.this.sendMessagesRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSend", R.string.UserRestrictionsSend), !ChatRightsEditActivity.this.bannedRights.send_messages && !ChatRightsEditActivity.this.defaultBannedRights.send_messages, true);
-                        if (!ChatRightsEditActivity.this.defaultBannedRights.send_messages) {
-                            i3 = 0;
-                        }
-                        textCheckCell2.setIcon(i3);
+                        textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.send_messages ? R.drawable.permission_locked : 0);
                     } else if (i == ChatRightsEditActivity.this.sendMediaRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendMedia", R.string.UserRestrictionsSendMedia), !ChatRightsEditActivity.this.bannedRights.send_media && !ChatRightsEditActivity.this.defaultBannedRights.send_media, true);
-                        if (!ChatRightsEditActivity.this.defaultBannedRights.send_media) {
-                            i3 = 0;
-                        }
-                        textCheckCell2.setIcon(i3);
+                        textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.send_media ? R.drawable.permission_locked : 0);
                     } else if (i == ChatRightsEditActivity.this.sendStickersRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendStickers", R.string.UserRestrictionsSendStickers), !ChatRightsEditActivity.this.bannedRights.send_stickers && !ChatRightsEditActivity.this.defaultBannedRights.send_stickers, true);
-                        if (!ChatRightsEditActivity.this.defaultBannedRights.send_stickers) {
-                            i3 = 0;
-                        }
-                        textCheckCell2.setIcon(i3);
+                        textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.send_stickers ? R.drawable.permission_locked : 0);
                     } else if (i == ChatRightsEditActivity.this.embedLinksRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsEmbedLinks", R.string.UserRestrictionsEmbedLinks), !ChatRightsEditActivity.this.bannedRights.embed_links && !ChatRightsEditActivity.this.defaultBannedRights.embed_links, true);
-                        if (!ChatRightsEditActivity.this.defaultBannedRights.embed_links) {
-                            i3 = 0;
-                        }
-                        textCheckCell2.setIcon(i3);
+                        textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.embed_links ? R.drawable.permission_locked : 0);
                     } else if (i == ChatRightsEditActivity.this.sendPollsRow) {
                         textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendPolls", R.string.UserRestrictionsSendPolls), !ChatRightsEditActivity.this.bannedRights.send_polls && !ChatRightsEditActivity.this.defaultBannedRights.send_polls, true);
-                        if (!ChatRightsEditActivity.this.defaultBannedRights.send_polls) {
-                            i3 = 0;
-                        }
-                        textCheckCell2.setIcon(i3);
+                        textCheckCell2.setIcon(ChatRightsEditActivity.this.defaultBannedRights.send_polls ? R.drawable.permission_locked : 0);
                     }
                     if (ChatRightsEditActivity.this.currentType == 2) {
                         return;
@@ -2211,30 +2160,21 @@ public class ChatRightsEditActivity extends BaseFragment {
                     } else {
                         shadowSectionCell.setAlpha(1.0f);
                     }
-                    int i4 = ChatRightsEditActivity.this.rightsShadowRow;
-                    int i5 = R.drawable.greydivider;
-                    if (i != i4) {
-                        if (i != ChatRightsEditActivity.this.removeAdminShadowRow) {
-                            if (i == ChatRightsEditActivity.this.rankInfoRow) {
-                                Context context = this.mContext;
-                                if (!ChatRightsEditActivity.this.canEdit) {
-                                    i5 = R.drawable.greydivider_bottom;
-                                }
-                                shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(context, i5, "windowBackgroundGrayShadow"));
-                                return;
-                            }
-                            shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    if (i == ChatRightsEditActivity.this.rightsShadowRow) {
+                        shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (ChatRightsEditActivity.this.removeAdminRow == -1 && ChatRightsEditActivity.this.rankRow == -1) ? R.drawable.greydivider_bottom : R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                        return;
+                    } else if (i != ChatRightsEditActivity.this.removeAdminShadowRow) {
+                        if (i == ChatRightsEditActivity.this.rankInfoRow) {
+                            shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, ChatRightsEditActivity.this.canEdit ? R.drawable.greydivider : R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                            return;
+                        } else {
+                            shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                             return;
                         }
-                        shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    } else {
+                        shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                         return;
                     }
-                    Context context2 = this.mContext;
-                    if (ChatRightsEditActivity.this.removeAdminRow == -1 && ChatRightsEditActivity.this.rankRow == -1) {
-                        i5 = R.drawable.greydivider_bottom;
-                    }
-                    shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(context2, i5, "windowBackgroundGrayShadow"));
-                    return;
                 case 6:
                     TextDetailCell textDetailCell = (TextDetailCell) viewHolder.itemView;
                     if (i != ChatRightsEditActivity.this.untilDateRow) {

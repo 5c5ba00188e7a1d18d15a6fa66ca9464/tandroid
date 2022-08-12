@@ -42,8 +42,8 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -952,7 +952,7 @@ public class ManageLinksActivity extends BaseFragment {
                     break;
                 case 7:
                     View shadowSectionCell = new ShadowSectionCell(this.mContext);
-                    shadowSectionCell.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    shadowSectionCell.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     textInfoPrivacyCell = shadowSectionCell;
                     linkActionView = textInfoPrivacyCell;
                     break;
@@ -966,7 +966,7 @@ public class ManageLinksActivity extends BaseFragment {
                 case 9:
                     TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(this.mContext);
                     textInfoPrivacyCell2.setText(LocaleController.getString("CreateNewLinkHelp", R.string.CreateNewLinkHelp));
-                    textInfoPrivacyCell2.setBackground(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    textInfoPrivacyCell2.setBackground(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     textInfoPrivacyCell = textInfoPrivacyCell2;
                     linkActionView = textInfoPrivacyCell;
                     break;
@@ -977,7 +977,7 @@ public class ManageLinksActivity extends BaseFragment {
                     break;
                 default:
                     View hintInnerCell = new HintInnerCell(ManageLinksActivity.this, this.mContext);
-                    hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, (int) R.drawable.greydivider_bottom, "windowBackgroundWhite"));
+                    hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundWhite"));
                     linkActionView = hintInnerCell;
                     break;
             }
@@ -1254,7 +1254,7 @@ public class ManageLinksActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:11:0x00fd  */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x00f5  */
         /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1269,23 +1269,23 @@ public class ManageLinksActivity extends BaseFragment {
             final ArrayList arrayList3 = new ArrayList();
             if (this.invite.revoked) {
                 arrayList.add(LocaleController.getString("Delete", R.string.Delete));
-                arrayList2.add(Integer.valueOf((int) R.drawable.msg_delete));
+                arrayList2.add(Integer.valueOf(R.drawable.msg_delete));
                 arrayList3.add(4);
             } else {
                 arrayList.add(LocaleController.getString("CopyLink", R.string.CopyLink));
-                arrayList2.add(Integer.valueOf((int) R.drawable.msg_copy));
+                arrayList2.add(Integer.valueOf(R.drawable.msg_copy));
                 arrayList3.add(0);
                 arrayList.add(LocaleController.getString("ShareLink", R.string.ShareLink));
-                arrayList2.add(Integer.valueOf((int) R.drawable.msg_share));
+                arrayList2.add(Integer.valueOf(R.drawable.msg_share));
                 arrayList3.add(1);
                 if (!this.invite.permanent && ManageLinksActivity.this.canEdit) {
                     arrayList.add(LocaleController.getString("EditLink", R.string.EditLink));
-                    arrayList2.add(Integer.valueOf((int) R.drawable.msg_edit));
+                    arrayList2.add(Integer.valueOf(R.drawable.msg_edit));
                     arrayList3.add(2);
                 }
                 if (ManageLinksActivity.this.canEdit) {
                     arrayList.add(LocaleController.getString("RevokeLink", R.string.RevokeLink));
-                    arrayList2.add(Integer.valueOf((int) R.drawable.msg_delete));
+                    arrayList2.add(Integer.valueOf(R.drawable.msg_delete));
                     arrayList3.add(3);
                 } else {
                     z = false;
@@ -1616,9 +1616,7 @@ public class ManageLinksActivity extends BaseFragment {
                 dotDividerSpan2.setTopPadding(AndroidUtilities.dp(1.5f));
                 spannableStringBuilder3.append((CharSequence) "  .  ").setSpan(dotDividerSpan2, spannableStringBuilder3.length() - 3, spannableStringBuilder3.length() - 2, 0);
                 boolean z = tLRPC$TL_chatInviteExported.revoked;
-                if (!z && (i3 = tLRPC$TL_chatInviteExported.usage_limit) > 0 && tLRPC$TL_chatInviteExported.usage >= i3) {
-                    spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", R.string.LinkLimitReached));
-                } else {
+                if (z || (i3 = tLRPC$TL_chatInviteExported.usage_limit) <= 0 || tLRPC$TL_chatInviteExported.usage < i3) {
                     if (z) {
                         i2 = R.string.Revoked;
                         str = "Revoked";
@@ -1627,6 +1625,8 @@ public class ManageLinksActivity extends BaseFragment {
                         str = "Expired";
                     }
                     spannableStringBuilder3.append((CharSequence) LocaleController.getString(str, i2));
+                } else {
+                    spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", R.string.LinkLimitReached));
                 }
                 this.subtitleView.setText(spannableStringBuilder3);
             } else if (tLRPC$TL_chatInviteExported.expire_date > 0) {

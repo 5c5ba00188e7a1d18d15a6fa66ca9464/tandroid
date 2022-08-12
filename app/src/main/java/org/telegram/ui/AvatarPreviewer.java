@@ -30,8 +30,8 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.beta.R;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$Photo;
@@ -124,17 +124,24 @@ public class AvatarPreviewer {
         }
     }
 
+    /* JADX WARN: Init of enum OPEN_GROUP can be incorrect */
+    /* JADX WARN: Init of enum SEND_MESSAGE can be incorrect */
     /* loaded from: classes3.dex */
     public enum MenuItem {
         OPEN_PROFILE("OpenProfile", R.string.OpenProfile, R.drawable.msg_openprofile),
         OPEN_CHANNEL("OpenChannel2", R.string.OpenChannel2, R.drawable.msg_channel),
-        OPEN_GROUP("OpenGroup2", R.string.OpenGroup2, R.drawable.msg_discussion),
-        SEND_MESSAGE("SendMessage", R.string.SendMessage, R.drawable.msg_discussion),
+        OPEN_GROUP("OpenGroup2", r17, r12),
+        SEND_MESSAGE("SendMessage", R.string.SendMessage, r12),
         MENTION("Mention", R.string.Mention, R.drawable.msg_mention);
         
         private final int iconResId;
         private final String labelKey;
         private final int labelResId;
+
+        static {
+            int i = R.string.OpenGroup2;
+            int i2 = R.drawable.msg_discussion;
+        }
 
         MenuItem(String str, int i, int i2) {
             this.labelKey = str;

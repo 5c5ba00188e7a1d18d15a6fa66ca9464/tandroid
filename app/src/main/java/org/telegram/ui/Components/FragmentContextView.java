@@ -50,10 +50,10 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
-import org.telegram.messenger.beta.R;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -488,7 +488,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         });
         this.avatars.setVisibility(8);
         addView(this.avatars, LayoutHelper.createFrame(108, i, 51));
-        this.muteDrawable = new RLottieDrawable(R.raw.voice_muted, "2131558599", AndroidUtilities.dp(16.0f), AndroidUtilities.dp(20.0f), true, null);
+        int i3 = R.raw.voice_muted;
+        this.muteDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(20.0f), true, null);
         7 r1 = new 7(context);
         this.muteButton = r1;
         r1.setColorFilter(new PorterDuffColorFilter(getThemedColor("returnToCallText"), PorterDuff.Mode.MULTIPLY));
@@ -1024,7 +1025,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         view.setPadding(0, ((int) (getVisibility() == 0 ? this.topPadding : 0.0f)) + dp, 0, 0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x01c9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x01c8, code lost:
         if (r1.getGroupCall().call.rtmp_stream != false) goto L66;
      */
     /*
@@ -2013,7 +2014,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     }
 
     /* JADX WARN: Removed duplicated region for block: B:25:0x0096  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0144  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0142  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2173,7 +2174,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                                     this.timeLayout = null;
                                     this.joinButton.setVisibility(0);
                                     if (groupCall2.call.rtmp_stream) {
-                                        this.titleTextView.setText(LocaleController.getString((int) R.string.VoipChannelVoiceChat), false);
+                                        this.titleTextView.setText(LocaleController.getString(R.string.VoipChannelVoiceChat), false);
                                     } else if (ChatObject.isChannelOrGiga(currentChat)) {
                                         this.titleTextView.setText(LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat), false);
                                     } else {
@@ -2475,7 +2476,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getCurrentChat() != null && ((ChatActivity) this.fragment).getCurrentChat().id == sharedInstance.getChat().id) {
                     TLRPC$Chat currentChat = ((ChatActivity) this.fragment).getCurrentChat();
                     if (VoIPService.hasRtmpStream()) {
-                        this.titleTextView.setText(LocaleController.getString((int) R.string.VoipChannelViewVoiceChat), false);
+                        this.titleTextView.setText(LocaleController.getString(R.string.VoipChannelViewVoiceChat), false);
                         return;
                     } else if (ChatObject.isChannelOrGiga(currentChat)) {
                         this.titleTextView.setText(LocaleController.getString("VoipChannelViewVoiceChat", R.string.VoipChannelViewVoiceChat), false);

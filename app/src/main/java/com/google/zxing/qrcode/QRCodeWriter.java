@@ -15,8 +15,8 @@ import com.google.zxing.qrcode.encoder.ByteMatrix;
 import com.google.zxing.qrcode.encoder.Encoder;
 import java.util.Arrays;
 import java.util.Map;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.messenger.beta.R;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes.dex */
 public final class QRCodeWriter {
@@ -31,7 +31,7 @@ public final class QRCodeWriter {
         return encode(str, i, i2, map, bitmap, 1.0f, -1, -16777216);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03d5  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03d4  */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0054  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

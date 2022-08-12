@@ -12,25 +12,24 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.signin.SignInOptions;
-import com.google.android.gms.signin.zae;
 import java.util.Set;
 /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
 /* loaded from: classes.dex */
 public final class zace extends com.google.android.gms.signin.internal.zab implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private static Api.AbstractClientBuilder<? extends zae, SignInOptions> zaa = com.google.android.gms.signin.zab.zaa;
+    private static Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> zaa = com.google.android.gms.signin.zab.zaa;
     private final Context zab;
     private final Handler zac;
-    private final Api.AbstractClientBuilder<? extends zae, SignInOptions> zad;
+    private final Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> zad;
     private Set<Scope> zae;
     private ClientSettings zaf;
-    private zae zag;
+    private com.google.android.gms.signin.zae zag;
     private zach zah;
 
     public zace(Context context, Handler handler, ClientSettings clientSettings) {
         this(context, handler, clientSettings, zaa);
     }
 
-    private zace(Context context, Handler handler, ClientSettings clientSettings, Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder) {
+    private zace(Context context, Handler handler, ClientSettings clientSettings, Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder) {
         this.zab = context;
         this.zac = handler;
         this.zaf = (ClientSettings) Preconditions.checkNotNull(clientSettings, "ClientSettings must not be null");
@@ -39,12 +38,12 @@ public final class zace extends com.google.android.gms.signin.internal.zab imple
     }
 
     public final void zaa(zach zachVar) {
-        zae zaeVar = this.zag;
+        com.google.android.gms.signin.zae zaeVar = this.zag;
         if (zaeVar != null) {
             zaeVar.disconnect();
         }
         this.zaf.zaa(Integer.valueOf(System.identityHashCode(this)));
-        Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder = this.zad;
+        Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder = this.zad;
         Context context = this.zab;
         Looper looper = this.zac.getLooper();
         ClientSettings clientSettings = this.zaf;
@@ -59,7 +58,7 @@ public final class zace extends com.google.android.gms.signin.internal.zab imple
     }
 
     public final void zaa() {
-        zae zaeVar = this.zag;
+        com.google.android.gms.signin.zae zaeVar = this.zag;
         if (zaeVar != null) {
             zaeVar.disconnect();
         }

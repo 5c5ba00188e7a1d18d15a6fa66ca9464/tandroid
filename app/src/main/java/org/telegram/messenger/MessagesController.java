@@ -20,9 +20,6 @@ import android.util.SparseIntArray;
 import androidx.collection.LongSparseArray;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.util.Consumer;
-import com.huawei.hms.adapter.internal.AvailableCode;
-import com.huawei.hms.android.HwBuildEx;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.util.AbstractMap;
@@ -721,7 +718,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public ArrayList<TLRPC$Dialog> dialogsForBlock = new ArrayList<>();
     public ArrayList<TLRPC$Dialog> dialogsGroupsOnly = new ArrayList<>();
     public DialogFilter[] selectedDialogFilter = new DialogFilter[2];
-    private int dialogsLoadedTillDate = Integer.MAX_VALUE;
+    private int dialogsLoadedTillDate = ConnectionsManager.DEFAULT_DATACENTER_ID;
     public ConcurrentHashMap<Long, Integer> dialogs_read_inbox_max = new ConcurrentHashMap<>(100, 1.0f, 2);
     public ConcurrentHashMap<Long, Integer> dialogs_read_outbox_max = new ConcurrentHashMap<>(100, 1.0f, 2);
     public LongSparseArray<TLRPC$Dialog> dialogs_dict = new LongSparseArray<>();
@@ -1565,7 +1562,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.remoteConfigLoaded = this.mainPreferences.getBoolean("remoteConfigLoaded", false);
         this.secretWebpagePreview = this.mainPreferences.getInt("secretWebpage2", 2);
         this.maxGroupCount = this.mainPreferences.getInt("maxGroupCount", 200);
-        this.maxMegagroupCount = this.mainPreferences.getInt("maxMegagroupCount", HwBuildEx.VersionCodes.CUR_DEVELOPMENT);
+        this.maxMegagroupCount = this.mainPreferences.getInt("maxMegagroupCount", 10000);
         this.maxRecentGifsCount = this.mainPreferences.getInt("maxRecentGifsCount", 200);
         this.maxRecentStickersCount = this.mainPreferences.getInt("maxRecentStickersCount", 30);
         this.maxFaveStickersCount = this.mainPreferences.getInt("maxFaveStickersCount", 5);
@@ -1575,8 +1572,8 @@ public class MessagesController extends BaseController implements NotificationCe
         this.callReceiveTimeout = this.mainPreferences.getInt("callReceiveTimeout", 20000);
         this.callRingTimeout = this.mainPreferences.getInt("callRingTimeout", 90000);
         this.callConnectTimeout = this.mainPreferences.getInt("callConnectTimeout", 30000);
-        this.callPacketTimeout = this.mainPreferences.getInt("callPacketTimeout", HwBuildEx.VersionCodes.CUR_DEVELOPMENT);
-        this.updateCheckDelay = this.mainPreferences.getInt("updateCheckDelay", RemoteMessageConst.DEFAULT_TTL);
+        this.callPacketTimeout = this.mainPreferences.getInt("callPacketTimeout", 10000);
+        this.updateCheckDelay = this.mainPreferences.getInt("updateCheckDelay", 86400);
         this.maxPinnedDialogsCount = this.mainPreferences.getInt("maxPinnedDialogsCount", 5);
         this.maxFolderPinnedDialogsCount = this.mainPreferences.getInt("maxFolderPinnedDialogsCount", 100);
         this.maxMessageLength = this.mainPreferences.getInt("maxMessageLength", 4096);
@@ -3221,7 +3218,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else {
                             break;
                         }
-                    case R.styleable.MapAttrs_uiZoomControls /* 20 */:
+                    case 20:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         TLRPC$JSONValue tLRPC$JSONValue25 = tLRPC$TL_jsonObjectValue.value;
@@ -3251,7 +3248,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             break;
                         }
                         break;
-                    case R.styleable.MapAttrs_useViewLifecycle /* 22 */:
+                    case 22:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         try {
@@ -3268,8 +3265,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                         TLRPC$TL_jsonObject tLRPC$TL_jsonObject7 = (TLRPC$TL_jsonObject) tLRPC$JSONValue28;
                                         int size7 = tLRPC$TL_jsonObject7.value.size();
                                         tLRPC$TL_jsonObject4 = tLRPC$TL_jsonObject6;
-                                        int i23 = Integer.MAX_VALUE;
-                                        int i24 = Integer.MAX_VALUE;
+                                        int i23 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                                        int i24 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                                         int i25 = 0;
                                         while (i25 < size7) {
                                             int i26 = size6;
@@ -3324,7 +3321,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             FileLog.e(e);
                             break;
                         }
-                    case R.styleable.MapAttrs_zOrderOnTop /* 23 */:
+                    case 23:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         TLRPC$JSONValue tLRPC$JSONValue29 = tLRPC$TL_jsonObjectValue.value;
@@ -3353,7 +3350,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             break;
                         }
                         break;
-                    case AvailableCode.ERROR_ON_ACTIVITY_RESULT /* 25 */:
+                    case 25:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         TLRPC$JSONValue tLRPC$JSONValue31 = tLRPC$TL_jsonObjectValue.value;
@@ -3371,7 +3368,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else {
                             break;
                         }
-                    case AvailableCode.ERROR_NO_ACTIVITY /* 26 */:
+                    case 26:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         TLRPC$JSONValue tLRPC$JSONValue32 = tLRPC$TL_jsonObjectValue.value;
@@ -3389,7 +3386,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else {
                             break;
                         }
-                    case AvailableCode.USER_IGNORE_PREVIOUS_POPUP /* 27 */:
+                    case 27:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         TLRPC$JSONValue tLRPC$JSONValue33 = tLRPC$TL_jsonObjectValue.value;
@@ -3400,7 +3397,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             break;
                         }
                         break;
-                    case AvailableCode.APP_IS_BACKGROUND_OR_LOCKED /* 28 */:
+                    case 28:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         ArrayList<String> arrayList = new ArrayList<>();
@@ -3430,7 +3427,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else {
                             break;
                         }
-                    case AvailableCode.HMS_IS_SPOOF /* 29 */:
+                    case 29:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         HashSet hashSet5 = new HashSet();
@@ -3453,7 +3450,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else {
                             break;
                         }
-                    case AvailableCode.USER_ALREADY_KNOWS_SERVICE_UNAVAILABLE /* 30 */:
+                    case 30:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         HashSet hashSet6 = new HashSet();
@@ -3476,7 +3473,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else {
                             break;
                         }
-                    case AvailableCode.CURRENT_SHOWING_SERVICE_UNAVAILABLE /* 31 */:
+                    case 31:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
                         TLRPC$JSONValue tLRPC$JSONValue40 = tLRPC$TL_jsonObjectValue.value;
@@ -4924,7 +4921,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.dialogsServerOnly.clear();
         this.dialogsForward.clear();
         this.allDialogs.clear();
-        this.dialogsLoadedTillDate = Integer.MAX_VALUE;
+        this.dialogsLoadedTillDate = ConnectionsManager.DEFAULT_DATACENTER_ID;
         this.dialogsCanAddUsers.clear();
         this.dialogsMyChannels.clear();
         this.dialogsMyGroups.clear();
@@ -8198,7 +8195,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 return;
             }
             boolean z6 = inputPeer instanceof TLRPC$TL_inputPeerChannel;
-            int i14 = Integer.MAX_VALUE;
+            int i14 = ConnectionsManager.DEFAULT_DATACENTER_ID;
             if (!z6 || i4 != 0) {
                 if (i5 <= 0 || i5 == Integer.MAX_VALUE) {
                     z2 = false;
@@ -8271,7 +8268,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         tLRPC$TL_inputChannel.channel_id = inputPeer.channel_id;
                         tLRPC$TL_inputChannel.access_hash = inputPeer.access_hash;
                         if (i5 <= 0) {
-                            i5 = Integer.MAX_VALUE;
+                            i5 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                         }
                         tLRPC$TL_channels_deleteHistory.max_id = i5;
                         getConnectionsManager().sendRequest(tLRPC$TL_channels_deleteHistory, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda287
@@ -8845,7 +8842,7 @@ public class MessagesController extends BaseController implements NotificationCe
         int i2;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         int size = this.pollsToCheck.size();
-        int i3 = Integer.MAX_VALUE;
+        int i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         int i4 = 0;
         while (i4 < size) {
             SparseArray<MessageObject> valueAt = this.pollsToCheck.valueAt(i4);
@@ -9424,153 +9421,164 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     private void updatePrintingStrings() {
-        String str;
+        Iterator<Map.Entry<Long, ConcurrentHashMap<Integer, ArrayList<PrintingUser>>>> it;
+        Iterator<Map.Entry<Integer, ArrayList<PrintingUser>>> it2;
+        String formatString;
         int i;
-        int i2;
         final LongSparseArray longSparseArray = new LongSparseArray();
         final LongSparseArray longSparseArray2 = new LongSparseArray();
-        for (Map.Entry<Long, ConcurrentHashMap<Integer, ArrayList<PrintingUser>>> entry : this.printingUsers.entrySet()) {
-            Long key = entry.getKey();
+        Iterator<Map.Entry<Long, ConcurrentHashMap<Integer, ArrayList<PrintingUser>>>> it3 = this.printingUsers.entrySet().iterator();
+        while (it3.hasNext()) {
+            Map.Entry<Long, ConcurrentHashMap<Integer, ArrayList<PrintingUser>>> next = it3.next();
+            Long key = next.getKey();
             boolean isEncryptedDialog = DialogObject.isEncryptedDialog(key.longValue());
-            for (Map.Entry<Integer, ArrayList<PrintingUser>> entry2 : entry.getValue().entrySet()) {
-                Integer key2 = entry2.getKey();
-                ArrayList<PrintingUser> value = entry2.getValue();
+            Iterator<Map.Entry<Integer, ArrayList<PrintingUser>>> it4 = next.getValue().entrySet().iterator();
+            while (it4.hasNext()) {
+                Map.Entry<Integer, ArrayList<PrintingUser>> next2 = it4.next();
+                Integer key2 = next2.getKey();
+                ArrayList<PrintingUser> value = next2.getValue();
                 SparseArray sparseArray = new SparseArray();
                 SparseArray sparseArray2 = new SparseArray();
                 longSparseArray.put(key.longValue(), sparseArray);
                 longSparseArray2.put(key.longValue(), sparseArray2);
-                String str2 = "IsTypingGroup";
                 if (key.longValue() > 0 || isEncryptedDialog || value.size() == 1) {
+                    it = it3;
+                    it2 = it4;
                     PrintingUser printingUser = value.get(0);
                     TLRPC$User user = getUser(Long.valueOf(printingUser.userId));
                     if (user != null) {
                         TLRPC$SendMessageAction tLRPC$SendMessageAction = printingUser.action;
                         if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordAudioAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsRecordingAudio", org.telegram.messenger.beta.R.string.IsRecordingAudio, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsRecordingAudio", R.string.IsRecordingAudio, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("RecordingAudio", org.telegram.messenger.beta.R.string.RecordingAudio));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("RecordingAudio", R.string.RecordingAudio));
                             }
                             sparseArray2.put(key2.intValue(), 1);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordRoundAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsRecordingRound", org.telegram.messenger.beta.R.string.IsRecordingRound, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsRecordingRound", R.string.IsRecordingRound, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("RecordingRound", org.telegram.messenger.beta.R.string.RecordingRound));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("RecordingRound", R.string.RecordingRound));
                             }
                             sparseArray2.put(key2.intValue(), 4);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadRoundAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingVideo", org.telegram.messenger.beta.R.string.IsSendingVideo, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", org.telegram.messenger.beta.R.string.SendingVideoStatus));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus));
                             }
                             sparseArray2.put(key2.intValue(), 4);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadAudioAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingAudio", org.telegram.messenger.beta.R.string.IsSendingAudio, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingAudio", R.string.IsSendingAudio, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingAudio", org.telegram.messenger.beta.R.string.SendingAudio));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingAudio", R.string.SendingAudio));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadVideoAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingVideo", org.telegram.messenger.beta.R.string.IsSendingVideo, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", org.telegram.messenger.beta.R.string.SendingVideoStatus));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordVideoAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsRecordingVideo", org.telegram.messenger.beta.R.string.IsRecordingVideo, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsRecordingVideo", R.string.IsRecordingVideo, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("RecordingVideoStatus", org.telegram.messenger.beta.R.string.RecordingVideoStatus));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("RecordingVideoStatus", R.string.RecordingVideoStatus));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadDocumentAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingFile", org.telegram.messenger.beta.R.string.IsSendingFile, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingFile", R.string.IsSendingFile, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingFile", org.telegram.messenger.beta.R.string.SendingFile));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingFile", R.string.SendingFile));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadPhotoAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingPhoto", org.telegram.messenger.beta.R.string.IsSendingPhoto, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingPhoto", R.string.IsSendingPhoto, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingPhoto", org.telegram.messenger.beta.R.string.SendingPhoto));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingPhoto", R.string.SendingPhoto));
                             }
                             sparseArray2.put(key2.intValue(), 2);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGamePlayAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingGame", org.telegram.messenger.beta.R.string.IsSendingGame, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSendingGame", R.string.IsSendingGame, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingGame", org.telegram.messenger.beta.R.string.SendingGame));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SendingGame", R.string.SendingGame));
                             }
                             sparseArray2.put(key2.intValue(), 3);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGeoLocationAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSelectingLocation", org.telegram.messenger.beta.R.string.IsSelectingLocation, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSelectingLocation", R.string.IsSelectingLocation, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingLocation", org.telegram.messenger.beta.R.string.SelectingLocation));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingLocation", R.string.SelectingLocation));
                             }
                             sparseArray2.put(key2.intValue(), 0);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseContactAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSelectingContact", org.telegram.messenger.beta.R.string.IsSelectingContact, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsSelectingContact", R.string.IsSelectingContact, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingContact", org.telegram.messenger.beta.R.string.SelectingContact));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("SelectingContact", R.string.SelectingContact));
                             }
                             sparseArray2.put(key2.intValue(), 0);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageEmojiInteractionSeen) {
-                            String str3 = ((TLRPC$TL_sendMessageEmojiInteractionSeen) tLRPC$SendMessageAction).emoticon;
-                            sparseArray.put(key2.intValue(), (key.longValue() >= 0 || isEncryptedDialog) ? LocaleController.formatString("EnjoyngAnimations", org.telegram.messenger.beta.R.string.EnjoyngAnimations, str3) : LocaleController.formatString("IsEnjoyngAnimations", org.telegram.messenger.beta.R.string.IsEnjoyngAnimations, getUserNameForTyping(user), str3));
+                            String str = ((TLRPC$TL_sendMessageEmojiInteractionSeen) tLRPC$SendMessageAction).emoticon;
+                            if (key.longValue() < 0 && !isEncryptedDialog) {
+                                formatString = LocaleController.formatString("IsEnjoyngAnimations", R.string.IsEnjoyngAnimations, getUserNameForTyping(user), str);
+                            } else {
+                                formatString = LocaleController.formatString("EnjoyngAnimations", R.string.EnjoyngAnimations, str);
+                            }
+                            sparseArray.put(key2.intValue(), formatString);
                             sparseArray2.put(key2.intValue(), 5);
                         } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseStickerAction) {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsChoosingSticker", org.telegram.messenger.beta.R.string.IsChoosingSticker, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsChoosingSticker", R.string.IsChoosingSticker, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("ChoosingSticker", org.telegram.messenger.beta.R.string.ChoosingSticker));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("ChoosingSticker", R.string.ChoosingSticker));
                             }
                             sparseArray2.put(key2.intValue(), 5);
                         } else {
                             if (key.longValue() < 0 && !isEncryptedDialog) {
-                                sparseArray.put(key2.intValue(), LocaleController.formatString(str2, org.telegram.messenger.beta.R.string.IsTypingGroup, getUserNameForTyping(user)));
+                                sparseArray.put(key2.intValue(), LocaleController.formatString("IsTypingGroup", R.string.IsTypingGroup, getUserNameForTyping(user)));
                             } else {
-                                sparseArray.put(key2.intValue(), LocaleController.getString("Typing", org.telegram.messenger.beta.R.string.Typing));
+                                sparseArray.put(key2.intValue(), LocaleController.getString("Typing", R.string.Typing));
                             }
                             sparseArray2.put(key2.intValue(), 0);
                         }
                     }
                 } else {
                     StringBuilder sb = new StringBuilder();
-                    Iterator<PrintingUser> it = value.iterator();
-                    int i3 = 0;
+                    Iterator<PrintingUser> it5 = value.iterator();
+                    int i2 = 0;
                     while (true) {
-                        if (!it.hasNext()) {
-                            str = str2;
-                            i = i3;
+                        if (!it5.hasNext()) {
+                            it = it3;
+                            it2 = it4;
                             break;
                         }
-                        str = str2;
-                        TLRPC$User user2 = getUser(Long.valueOf(it.next().userId));
+                        it = it3;
+                        it2 = it4;
+                        TLRPC$User user2 = getUser(Long.valueOf(it5.next().userId));
                         if (user2 != null) {
                             if (sb.length() != 0) {
                                 sb.append(", ");
                             }
                             sb.append(getUserNameForTyping(user2));
-                            i3++;
+                            i2++;
                         }
-                        i = i3;
-                        if (i == 2) {
+                        if (i2 == 2) {
                             break;
                         }
-                        i3 = i;
-                        str2 = str;
+                        it3 = it;
+                        it4 = it2;
                     }
                     if (sb.length() != 0) {
-                        if (i == 1) {
-                            sparseArray.put(key2.intValue(), LocaleController.formatString(str, org.telegram.messenger.beta.R.string.IsTypingGroup, sb.toString()));
+                        if (i2 == 1) {
+                            sparseArray.put(key2.intValue(), LocaleController.formatString("IsTypingGroup", R.string.IsTypingGroup, sb.toString()));
                         } else if (value.size() > 2) {
                             try {
                                 sparseArray.put(key2.intValue(), String.format(LocaleController.getPluralString("AndMoreTypingGroup", value.size() - 2), sb.toString(), Integer.valueOf(value.size() - 2)));
@@ -9578,14 +9586,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                 sparseArray.put(key2.intValue(), "LOC_ERR: AndMoreTypingGroup");
                             }
                         } else {
-                            i2 = 0;
-                            sparseArray.put(key2.intValue(), LocaleController.formatString("AreTypingGroup", org.telegram.messenger.beta.R.string.AreTypingGroup, sb.toString()));
-                            sparseArray2.put(key2.intValue(), Integer.valueOf(i2));
+                            i = 0;
+                            sparseArray.put(key2.intValue(), LocaleController.formatString("AreTypingGroup", R.string.AreTypingGroup, sb.toString()));
+                            sparseArray2.put(key2.intValue(), Integer.valueOf(i));
                         }
-                        i2 = 0;
-                        sparseArray2.put(key2.intValue(), Integer.valueOf(i2));
+                        i = 0;
+                        sparseArray2.put(key2.intValue(), Integer.valueOf(i));
                     }
                 }
+                it3 = it;
+                it4 = it2;
             }
         }
         this.lastPrintingStringCount = longSparseArray.size();
@@ -10443,9 +10453,9 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             if (!z2 || i2 != 2) {
                 i13 = i3;
-                i14 = Integer.MAX_VALUE;
+                i14 = ConnectionsManager.DEFAULT_DATACENTER_ID;
             } else {
-                i14 = Integer.MAX_VALUE;
+                i14 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 for (int i18 = 0; i18 < tLRPC$messages_Messages.messages.size(); i18++) {
                     TLRPC$Message tLRPC$Message = tLRPC$messages_Messages.messages.get(i18);
                     if ((!tLRPC$Message.out || tLRPC$Message.from_scheduled) && (i16 = tLRPC$Message.id) > i3 && i16 < i14) {
@@ -10556,7 +10566,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_folder tLRPC$TL_folder = new TLRPC$TL_folder();
         tLRPC$TL_dialogFolder.folder = tLRPC$TL_folder;
         tLRPC$TL_folder.id = i;
-        tLRPC$TL_folder.title = LocaleController.getString("ArchivedChats", org.telegram.messenger.beta.R.string.ArchivedChats);
+        tLRPC$TL_folder.title = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);
         tLRPC$TL_dialogFolder.pinned = true;
         int i2 = 0;
         for (int i3 = 0; i3 < this.allDialogs.size(); i3++) {
@@ -10870,8 +10880,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 boolean z = notificationsSettings.getBoolean("EnableGroup", true);
                 SharedPreferences.Editor edit = notificationsSettings.edit();
                 if (!z) {
-                    edit.putInt("EnableGroup2", Integer.MAX_VALUE);
-                    edit.putInt("EnableChannel2", Integer.MAX_VALUE);
+                    edit.putInt("EnableGroup2", ConnectionsManager.DEFAULT_DATACENTER_ID);
+                    edit.putInt("EnableChannel2", ConnectionsManager.DEFAULT_DATACENTER_ID);
                 }
                 edit.remove("EnableGroup").commit();
                 editor = edit;
@@ -10882,7 +10892,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     editor = notificationsSettings.edit();
                 }
                 if (!z2) {
-                    editor.putInt("EnableAll2", Integer.MAX_VALUE);
+                    editor.putInt("EnableAll2", ConnectionsManager.DEFAULT_DATACENTER_ID);
                 }
                 editor.remove("EnableAll").commit();
             }
@@ -11508,7 +11518,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 int i7 = 0;
                 for (int i8 = 2; i7 < i8; i8 = 2) {
-                    getUserConfig().setDialogsLoadOffset(i7, Integer.MAX_VALUE, getUserConfig().migrateOffsetDate, getUserConfig().migrateOffsetUserId, getUserConfig().migrateOffsetChatId, getUserConfig().migrateOffsetChannelId, getUserConfig().migrateOffsetAccess);
+                    getUserConfig().setDialogsLoadOffset(i7, ConnectionsManager.DEFAULT_DATACENTER_ID, getUserConfig().migrateOffsetDate, getUserConfig().migrateOffsetUserId, getUserConfig().migrateOffsetChatId, getUserConfig().migrateOffsetChannelId, getUserConfig().migrateOffsetAccess);
                     i7++;
                 }
                 i2 = -1;
@@ -11886,7 +11896,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 j2 = 0;
                 j3 = 0;
                 j4 = 0;
-                i8 = Integer.MAX_VALUE;
+                i8 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 i9 = 0;
             } else {
                 int size2 = totalDialogsCount + tLRPC$messages_Dialogs3.dialogs.size();
@@ -12397,7 +12407,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 } else if (i2 != 2) {
                     edit.putInt("notify2_" + j, 2);
                     if (tLRPC$Dialog != null) {
-                        tLRPC$Dialog.notify_settings.mute_until = Integer.MAX_VALUE;
+                        tLRPC$Dialog.notify_settings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
                     }
                     i = 0;
                 } else {
@@ -12458,7 +12468,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     editor.putInt("notify2_" + peerId, 0);
                 } else if (tLRPC$Dialog.notify_settings.mute_until > getConnectionsManager().getCurrentTime() + 31536000) {
                     editor.putInt("notify2_" + peerId, 2);
-                    tLRPC$Dialog.notify_settings.mute_until = Integer.MAX_VALUE;
+                    tLRPC$Dialog.notify_settings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 } else {
                     editor.putInt("notify2_" + peerId, 3);
                     editor.putInt("notifyuntil_" + peerId, tLRPC$Dialog.notify_settings.mute_until);
@@ -13213,7 +13223,7 @@ public class MessagesController extends BaseController implements NotificationCe
         int currentTime = getConnectionsManager().getCurrentTime();
         int size2 = arrayList.size();
         boolean z = false;
-        int i3 = Integer.MAX_VALUE;
+        int i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         for (int i4 = 0; i4 < size2; i4++) {
             MessageObject messageObject = arrayList.get(i4);
             if (messageObject.type == 17) {
@@ -17907,30 +17917,30 @@ public class MessagesController extends BaseController implements NotificationCe
         return z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:1001:0x14a6  */
-    /* JADX WARN: Removed duplicated region for block: B:1042:0x155f  */
-    /* JADX WARN: Removed duplicated region for block: B:1044:0x1565  */
-    /* JADX WARN: Removed duplicated region for block: B:1047:0x1570  */
-    /* JADX WARN: Removed duplicated region for block: B:1059:0x15c2  */
-    /* JADX WARN: Removed duplicated region for block: B:1080:0x1626  */
-    /* JADX WARN: Removed duplicated region for block: B:1086:0x1659  */
-    /* JADX WARN: Removed duplicated region for block: B:1089:0x1667  */
-    /* JADX WARN: Removed duplicated region for block: B:1092:0x1677  */
-    /* JADX WARN: Removed duplicated region for block: B:1095:0x168a  */
-    /* JADX WARN: Removed duplicated region for block: B:1105:0x16a4  */
-    /* JADX WARN: Removed duplicated region for block: B:1107:0x16aa  */
-    /* JADX WARN: Removed duplicated region for block: B:1108:0x165e  */
-    /* JADX WARN: Removed duplicated region for block: B:1112:0x1635  */
-    /* JADX WARN: Removed duplicated region for block: B:1119:0x138e  */
-    /* JADX WARN: Removed duplicated region for block: B:1195:0x18aa  */
-    /* JADX WARN: Removed duplicated region for block: B:1201:0x18d1  */
-    /* JADX WARN: Removed duplicated region for block: B:1207:0x18fd  */
-    /* JADX WARN: Removed duplicated region for block: B:1213:0x1924  */
-    /* JADX WARN: Removed duplicated region for block: B:1219:0x194a  */
-    /* JADX WARN: Removed duplicated region for block: B:841:0x126e  */
-    /* JADX WARN: Removed duplicated region for block: B:913:0x1362  */
-    /* JADX WARN: Removed duplicated region for block: B:922:0x1391  */
-    /* JADX WARN: Removed duplicated region for block: B:944:0x1408  */
+    /* JADX WARN: Removed duplicated region for block: B:1038:0x1568  */
+    /* JADX WARN: Removed duplicated region for block: B:1040:0x156e  */
+    /* JADX WARN: Removed duplicated region for block: B:1043:0x1579  */
+    /* JADX WARN: Removed duplicated region for block: B:1055:0x15cb  */
+    /* JADX WARN: Removed duplicated region for block: B:1076:0x162f  */
+    /* JADX WARN: Removed duplicated region for block: B:1082:0x1662  */
+    /* JADX WARN: Removed duplicated region for block: B:1085:0x1670  */
+    /* JADX WARN: Removed duplicated region for block: B:1088:0x1680  */
+    /* JADX WARN: Removed duplicated region for block: B:1091:0x1693  */
+    /* JADX WARN: Removed duplicated region for block: B:1101:0x16ad  */
+    /* JADX WARN: Removed duplicated region for block: B:1103:0x16b3  */
+    /* JADX WARN: Removed duplicated region for block: B:1104:0x1667  */
+    /* JADX WARN: Removed duplicated region for block: B:1108:0x163e  */
+    /* JADX WARN: Removed duplicated region for block: B:1115:0x1397  */
+    /* JADX WARN: Removed duplicated region for block: B:1191:0x18b3  */
+    /* JADX WARN: Removed duplicated region for block: B:1197:0x18da  */
+    /* JADX WARN: Removed duplicated region for block: B:1203:0x1906  */
+    /* JADX WARN: Removed duplicated region for block: B:1209:0x192d  */
+    /* JADX WARN: Removed duplicated region for block: B:1215:0x1953  */
+    /* JADX WARN: Removed duplicated region for block: B:837:0x1277  */
+    /* JADX WARN: Removed duplicated region for block: B:909:0x136b  */
+    /* JADX WARN: Removed duplicated region for block: B:918:0x139a  */
+    /* JADX WARN: Removed duplicated region for block: B:940:0x1411  */
+    /* JADX WARN: Removed duplicated region for block: B:997:0x14af  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -19303,16 +19313,33 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                     if (num4 == null) {
                                                                         num4 = Integer.valueOf(getMessagesStorage().getDialogReadMax(false, j31));
                                                                     }
-                                                                    if (tLRPC$TL_updateReadChannelInbox.max_id > num4.intValue() || tLRPC$TL_updateReadChannelInbox.still_unread_count != 0) {
-                                                                        if (longSparseIntArray7 == null) {
-                                                                            longSparseIntArray7 = new LongSparseIntArray();
-                                                                        }
-                                                                        LongSparseIntArray longSparseIntArray14 = longSparseIntArray10 == null ? new LongSparseIntArray() : longSparseIntArray10;
-                                                                        longSparseIntArray7.put(j31, tLRPC$TL_updateReadChannelInbox.max_id);
-                                                                        longSparseIntArray14.put(j31, tLRPC$TL_updateReadChannelInbox.still_unread_count);
-                                                                        this.dialogs_read_inbox_max.put(Long.valueOf(j31), Integer.valueOf(Math.max(num4.intValue(), tLRPC$TL_updateReadChannelInbox.max_id)));
-                                                                        longSparseIntArray10 = longSparseIntArray14;
+                                                                    if (longSparseIntArray7 == null) {
+                                                                        longSparseIntArray7 = new LongSparseIntArray();
                                                                     }
+                                                                    if (longSparseIntArray10 == null) {
+                                                                        longSparseIntArray10 = new LongSparseIntArray();
+                                                                    }
+                                                                    LongSparseIntArray longSparseIntArray14 = longSparseIntArray10;
+                                                                    longSparseIntArray7.put(j31, tLRPC$TL_updateReadChannelInbox.max_id);
+                                                                    longSparseIntArray14.put(j31, tLRPC$TL_updateReadChannelInbox.still_unread_count);
+                                                                    this.dialogs_read_inbox_max.put(Long.valueOf(j31), Integer.valueOf(Math.max(num4.intValue(), tLRPC$TL_updateReadChannelInbox.max_id)));
+                                                                    j2 = j15;
+                                                                    longSparseArray24 = longSparseArray7;
+                                                                    arrayList24 = arrayList58;
+                                                                    longSparseIntArray10 = longSparseIntArray14;
+                                                                    longSparseArray30 = longSparseArray16;
+                                                                    longSparseArray22 = longSparseArray11;
+                                                                    longSparseArray25 = longSparseArray8;
+                                                                    arrayList19 = arrayList5;
+                                                                    longSparseIntArray8 = longSparseIntArray2;
+                                                                    longSparseArray20 = longSparseArray5;
+                                                                    longSparseArray23 = longSparseArray38;
+                                                                    arrayList20 = arrayList9;
+                                                                    longSparseArray21 = longSparseArray6;
+                                                                    i8 = i2 + 1;
+                                                                    size3 = i10;
+                                                                    j15 = j2;
+                                                                    j16 = j4;
                                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateReadChannelOutbox) {
                                                                     TLRPC$TL_updateReadChannelOutbox tLRPC$TL_updateReadChannelOutbox = (TLRPC$TL_updateReadChannelOutbox) tLRPC$Update;
                                                                     if (BuildVars.LOGS_ENABLED) {
@@ -20405,7 +20432,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                     if (i19 > currentTime + 31536000) {
                                                         edit.putInt("notify2_" + j6, 2);
                                                         if (tLRPC$Dialog2 != null) {
-                                                            tLRPC$TL_updateNotifySettings.notify_settings.mute_until = Integer.MAX_VALUE;
+                                                            tLRPC$TL_updateNotifySettings.notify_settings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
                                                         }
                                                         i13 = 0;
                                                     } else {
@@ -22309,8 +22336,8 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
-        builder.setTitle(LocaleController.getString("AppName", org.telegram.messenger.beta.R.string.AppName));
-        builder.setPositiveButton(LocaleController.getString("OK", org.telegram.messenger.beta.R.string.OK), null);
+        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
         builder.setMessage(str);
         baseFragment.showDialog(builder.create());
     }
@@ -22526,7 +22553,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (baseFragment.getParentActivity() == null) {
         } else {
             try {
-                BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString("NoUsernameFound", org.telegram.messenger.beta.R.string.NoUsernameFound)).show();
+                BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString("NoUsernameFound", R.string.NoUsernameFound)).show();
             } catch (Exception e) {
                 FileLog.e(e);
             }

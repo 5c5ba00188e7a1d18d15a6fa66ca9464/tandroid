@@ -106,7 +106,7 @@ public class VideoCapturerDevice {
     public static /* synthetic */ void lambda$checkScreenCapturerSize$1(VideoCapturerDevice videoCapturerDevice, Point point) {
         VideoCapturer videoCapturer = videoCapturerDevice.videoCapturer;
         if (videoCapturer != null) {
-            videoCapturer.changeCaptureFormat(point.x, point.y, 30);
+            videoCapturer.changeCaptureFormat(point.x, point.y, CAPTURE_FPS);
         }
     }
 
@@ -258,7 +258,7 @@ public class VideoCapturerDevice {
             }
             this.nativeCapturerObserver = nativeGetJavaVideoCapturerObserver(j);
             this.videoCapturer.initialize(this.videoCapturerSurfaceTextureHelper, ApplicationLoader.applicationContext, this.nativeCapturerObserver);
-            this.videoCapturer.startCapture(point.x, point.y, 30);
+            this.videoCapturer.startCapture(point.x, point.y, CAPTURE_FPS);
             WebRtcAudioRecord webRtcAudioRecord = WebRtcAudioRecord.Instance;
             if (webRtcAudioRecord == null) {
                 return;
@@ -313,7 +313,7 @@ public class VideoCapturerDevice {
         }
         this.nativeCapturerObserver = nativeGetJavaVideoCapturerObserver(this.nativePtr);
         this.videoCapturer.initialize(this.videoCapturerSurfaceTextureHelper, ApplicationLoader.applicationContext, this.nativeCapturerObserver);
-        this.videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, 30);
+        this.videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, CAPTURE_FPS);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -389,7 +389,7 @@ public class VideoCapturerDevice {
             return;
         }
         if (i == 2) {
-            videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, 30);
+            videoCapturer.startCapture(CAPTURE_WIDTH, CAPTURE_HEIGHT, CAPTURE_FPS);
             return;
         }
         try {

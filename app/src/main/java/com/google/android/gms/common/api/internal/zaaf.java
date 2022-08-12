@@ -14,8 +14,6 @@ import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.signin.SignInOptions;
-import com.google.android.gms.signin.zae;
-import com.huawei.hms.framework.network.grs.GrsBaseInfo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,7 +33,7 @@ public final class zaaf implements zaaw {
     private ConnectionResult zae;
     private int zaf;
     private int zah;
-    private zae zak;
+    private com.google.android.gms.signin.zae zak;
     private boolean zal;
     private boolean zam;
     private boolean zan;
@@ -44,13 +42,13 @@ public final class zaaf implements zaaw {
     private boolean zaq;
     private final ClientSettings zar;
     private final Map<Api<?>, Boolean> zas;
-    private final Api.AbstractClientBuilder<? extends zae, SignInOptions> zat;
+    private final Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> zat;
     private int zag = 0;
     private final Bundle zai = new Bundle();
     private final Set<Api.AnyClientKey> zaj = new HashSet();
     private ArrayList<Future<?>> zau = new ArrayList<>();
 
-    public zaaf(zaaz zaazVar, ClientSettings clientSettings, Map<Api<?>, Boolean> map, GoogleApiAvailabilityLight googleApiAvailabilityLight, Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder, Lock lock, Context context) {
+    public zaaf(zaaz zaazVar, ClientSettings clientSettings, Map<Api<?>, Boolean> map, GoogleApiAvailabilityLight googleApiAvailabilityLight, Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder, Lock lock, Context context) {
         this.zaa = zaazVar;
         this.zar = clientSettings;
         this.zas = map;
@@ -61,7 +59,7 @@ public final class zaaf implements zaaw {
     }
 
     private static String zac(int i) {
-        return i != 0 ? i != 1 ? GrsBaseInfo.CountryCodeSource.UNKNOWN : "STEP_GETTING_REMOTE_SERVICE" : "STEP_SERVICE_BINDINGS_AND_SIGN_IN";
+        return i != 0 ? i != 1 ? "UNKNOWN" : "STEP_GETTING_REMOTE_SERVICE" : "STEP_SERVICE_BINDINGS_AND_SIGN_IN";
     }
 
     @Override // com.google.android.gms.common.api.internal.zaaw
@@ -102,7 +100,7 @@ public final class zaaf implements zaaw {
             Preconditions.checkNotNull(this.zat);
             this.zar.zaa(Integer.valueOf(System.identityHashCode(this.zaa.zad)));
             zaam zaamVar = new zaam(this, null);
-            Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder = this.zat;
+            Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder = this.zat;
             Context context = this.zac;
             Looper looper = this.zaa.zad.getLooper();
             ClientSettings clientSettings = this.zar;
@@ -226,7 +224,7 @@ public final class zaaf implements zaaw {
     private final void zaf() {
         this.zaa.zai();
         zaba.zaa().execute(new zaae(this));
-        zae zaeVar = this.zak;
+        com.google.android.gms.signin.zae zaeVar = this.zak;
         if (zaeVar != null) {
             if (this.zap) {
                 zaeVar.zaa((IAccountAccessor) Preconditions.checkNotNull(this.zao), this.zaq);
@@ -237,12 +235,6 @@ public final class zaaf implements zaaw {
             ((Api.Client) Preconditions.checkNotNull(this.zaa.zaa.get(anyClientKey))).disconnect();
         }
         this.zaa.zae.zaa(this.zai.isEmpty() ? null : this.zai);
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zaaw
-    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T zaa(T t) {
-        this.zaa.zad.zaa.add(t);
-        return t;
     }
 
     @Override // com.google.android.gms.common.api.internal.zaaw
@@ -317,7 +309,7 @@ public final class zaaf implements zaaw {
 
     @GuardedBy("mLock")
     private final void zaa(boolean z) {
-        zae zaeVar = this.zak;
+        com.google.android.gms.signin.zae zaeVar = this.zak;
         if (zaeVar != null) {
             if (zaeVar.isConnected() && z) {
                 zaeVar.zaa();

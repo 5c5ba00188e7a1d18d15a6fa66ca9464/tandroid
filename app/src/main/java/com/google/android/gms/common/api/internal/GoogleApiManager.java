@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.os.RemoteException;
 import android.util.Log;
 import androidx.annotation.RecentlyNonNull;
 import androidx.collection.ArrayMap;
@@ -220,9 +221,20 @@ public class GoogleApiManager implements Handler.Callback {
             zac(ConnectionResult.RESULT_SUCCESS);
             zaq();
             Iterator<zabv> it = this.zag.values().iterator();
-            if (it.hasNext()) {
-                RegisterListenerMethod<Api.AnyClient, ?> registerListenerMethod = it.next().zaa;
-                throw null;
+            while (it.hasNext()) {
+                zabv next = it.next();
+                if (zaa(next.zaa.getRequiredFeatures()) != null) {
+                    it.remove();
+                } else {
+                    try {
+                        next.zaa.registerListener(this.zac, new TaskCompletionSource<>());
+                    } catch (DeadObjectException unused) {
+                        onConnectionSuspended(3);
+                        this.zac.disconnect("DeadObjectException thrown while calling register listener method.");
+                    } catch (RemoteException unused2) {
+                        it.remove();
+                    }
+                }
             }
             zap();
             zar();
@@ -753,6 +765,26 @@ public class GoogleApiManager implements Handler.Callback {
         }
         int zaa2 = this.zam.zaa(this.zak, 203390000);
         return zaa2 == -1 || zaa2 == 0;
+    }
+
+    @RecentlyNonNull
+    public final <O extends Api.ApiOptions> Task<Void> zaa(@RecentlyNonNull GoogleApi<O> googleApi, @RecentlyNonNull RegisterListenerMethod<Api.AnyClient, ?> registerListenerMethod, @RecentlyNonNull UnregisterListenerMethod<Api.AnyClient, ?> unregisterListenerMethod, @RecentlyNonNull Runnable runnable) {
+        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        zaa(taskCompletionSource, registerListenerMethod.zab(), (GoogleApi<?>) googleApi);
+        zae zaeVar = new zae(new zabv(registerListenerMethod, unregisterListenerMethod, runnable), taskCompletionSource);
+        Handler handler = this.zat;
+        handler.sendMessage(handler.obtainMessage(8, new zabu(zaeVar, this.zao.get(), googleApi)));
+        return taskCompletionSource.getTask();
+    }
+
+    @RecentlyNonNull
+    public final <O extends Api.ApiOptions> Task<Boolean> zaa(@RecentlyNonNull GoogleApi<O> googleApi, @RecentlyNonNull ListenerHolder.ListenerKey<?> listenerKey, int i) {
+        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        zaa(taskCompletionSource, i, (GoogleApi<?>) googleApi);
+        zag zagVar = new zag(listenerKey, taskCompletionSource);
+        Handler handler = this.zat;
+        handler.sendMessage(handler.obtainMessage(13, new zabu(zagVar, this.zao.get(), googleApi)));
+        return taskCompletionSource.getTask();
     }
 
     private final <T> void zaa(TaskCompletionSource<T> taskCompletionSource, int i, GoogleApi<?> googleApi) {

@@ -364,12 +364,12 @@ public class ContactsController extends BaseController {
             str = "https://telegram.org/dl";
         }
         if (i <= 1) {
-            return LocaleController.formatString("InviteText2", org.telegram.messenger.beta.R.string.InviteText2, str);
+            return LocaleController.formatString("InviteText2", R.string.InviteText2, str);
         }
         try {
             return String.format(LocaleController.getPluralString("InviteTextNum", i), Integer.valueOf(i), str);
         } catch (Exception unused) {
-            return LocaleController.formatString("InviteText2", org.telegram.messenger.beta.R.string.InviteText2, str);
+            return LocaleController.formatString("InviteText2", R.string.InviteText2, str);
         }
     }
 
@@ -377,7 +377,7 @@ public class ContactsController extends BaseController {
         boolean z;
         AccountManager accountManager = AccountManager.get(ApplicationLoader.applicationContext);
         try {
-            Account[] accountsByType = accountManager.getAccountsByType("org.telegram.messenger");
+            Account[] accountsByType = accountManager.getAccountsByType(BuildConfig.LIBRARY_PACKAGE_NAME);
             this.systemAccount = null;
             for (int i = 0; i < accountsByType.length; i++) {
                 Account account = accountsByType[i];
@@ -414,7 +414,7 @@ public class ContactsController extends BaseController {
                 return;
             }
             try {
-                Account account2 = new Account("" + getUserConfig().getClientUserId(), "org.telegram.messenger");
+                Account account2 = new Account("" + getUserConfig().getClientUserId(), BuildConfig.LIBRARY_PACKAGE_NAME);
                 this.systemAccount = account2;
                 accountManager.addAccountExplicitly(account2, "", null);
             } catch (Exception unused3) {
@@ -427,7 +427,7 @@ public class ContactsController extends BaseController {
         try {
             this.systemAccount = null;
             AccountManager accountManager = AccountManager.get(ApplicationLoader.applicationContext);
-            Account[] accountsByType = accountManager.getAccountsByType("org.telegram.messenger");
+            Account[] accountsByType = accountManager.getAccountsByType(BuildConfig.LIBRARY_PACKAGE_NAME);
             for (int i = 0; i < accountsByType.length; i++) {
                 Account account = accountsByType[i];
                 int i2 = 0;
@@ -554,7 +554,7 @@ public class ContactsController extends BaseController {
         TLRPC$User currentUser;
         AccountManager accountManager = AccountManager.get(ApplicationLoader.applicationContext);
         try {
-            Account[] accountsByType = accountManager.getAccountsByType("org.telegram.messenger");
+            Account[] accountsByType = accountManager.getAccountsByType(BuildConfig.LIBRARY_PACKAGE_NAME);
             this.systemAccount = null;
             for (Account account : accountsByType) {
                 int i = 0;
@@ -574,7 +574,7 @@ public class ContactsController extends BaseController {
         } catch (Throwable unused) {
         }
         try {
-            Account account2 = new Account("" + getUserConfig().getClientUserId(), "org.telegram.messenger");
+            Account account2 = new Account("" + getUserConfig().getClientUserId(), BuildConfig.LIBRARY_PACKAGE_NAME);
             this.systemAccount = account2;
             accountManager.addAccountExplicitly(account2, "", null);
         } catch (Exception unused2) {
@@ -686,10 +686,10 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:103:0x032d A[Catch: all -> 0x0345, TRY_LEAVE, TryCatch #4 {all -> 0x0345, blocks: (B:101:0x0328, B:103:0x032d), top: B:100:0x0328 }] */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0332 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x033f  */
-    /* JADX WARN: Removed duplicated region for block: B:89:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x032d A[Catch: all -> 0x0345, TRY_LEAVE, TryCatch #4 {all -> 0x0345, blocks: (B:103:0x0328, B:105:0x032d), top: B:102:0x0328 }] */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0332 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x033f  */
+    /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r9v1 */
     /* JADX WARN: Type inference failed for: r9v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v4 */
@@ -759,7 +759,7 @@ public class ContactsController extends BaseController {
                                                         if (cursor != null) {
                                                         }
                                                         hashMap2 = hashMap;
-                                                        if (hashMap2 != null) {
+                                                        if (hashMap2 == null) {
                                                         }
                                                     } finally {
                                                         if (cursor != null) {
@@ -832,19 +832,19 @@ public class ContactsController extends BaseController {
                                                     String string5 = cursor.getString(3);
                                                     ArrayList<String> arrayList2 = contact2.phoneTypes;
                                                     if (string5 == null) {
-                                                        string5 = LocaleController.getString("PhoneMobile", org.telegram.messenger.beta.R.string.PhoneMobile);
+                                                        string5 = LocaleController.getString("PhoneMobile", R.string.PhoneMobile);
                                                     }
                                                     arrayList2.add(string5);
                                                 } else if (i5 == 1) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneHome", org.telegram.messenger.beta.R.string.PhoneHome));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneHome", R.string.PhoneHome));
                                                 } else if (i5 == 2) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMobile", org.telegram.messenger.beta.R.string.PhoneMobile));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMobile", R.string.PhoneMobile));
                                                 } else if (i5 == 3) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneWork", org.telegram.messenger.beta.R.string.PhoneWork));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneWork", R.string.PhoneWork));
                                                 } else if (i5 == 12) {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMain", org.telegram.messenger.beta.R.string.PhoneMain));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneMain", R.string.PhoneMain));
                                                 } else {
-                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneOther", org.telegram.messenger.beta.R.string.PhoneOther));
+                                                    contact2.phoneTypes.add(LocaleController.getString("PhoneOther", R.string.PhoneOther));
                                                 }
                                                 hashMap4.put(substring, contact2);
                                                 contactsController = this;
@@ -883,91 +883,105 @@ public class ContactsController extends BaseController {
                     String join = TextUtils.join(",", arrayList);
                     Uri uri = ContactsContract.Data.CONTENT_URI;
                     try {
-                        cursor2 = contentResolver.query(uri, this.projectionNames, "lookup IN (" + join + ") AND mimetype = 'vnd.android.cursor.item/name'", null, null);
-                        if (cursor2 != null) {
-                            while (cursor2.moveToNext()) {
-                                String string6 = cursor2.getString(0);
-                                String string7 = cursor2.getString(1);
-                                String string8 = cursor2.getString(2);
-                                String string9 = cursor2.getString(3);
-                                Contact contact3 = hashMap2 != null ? hashMap2.get(string6) : null;
-                                if (contact3 != null && !contact3.namesFilled) {
-                                    if (contact3.isGoodProvider) {
-                                        if (string7 != null) {
-                                            contact3.first_name = string7;
-                                        } else {
-                                            contact3.first_name = "";
-                                        }
-                                        if (string8 != null) {
-                                            contact3.last_name = string8;
-                                        } else {
-                                            contact3.last_name = "";
-                                        }
-                                        if (!TextUtils.isEmpty(string9)) {
-                                            if (!TextUtils.isEmpty(contact3.first_name)) {
-                                                contact3.first_name += " " + string9;
+                        Cursor query = contentResolver.query(uri, this.projectionNames, "lookup IN (" + join + ") AND mimetype = 'vnd.android.cursor.item/name'", null, null);
+                        if (query != null) {
+                            while (query.moveToNext()) {
+                                try {
+                                    String string6 = query.getString(0);
+                                    String string7 = query.getString(1);
+                                    String string8 = query.getString(2);
+                                    String string9 = query.getString(3);
+                                    Contact contact3 = hashMap2 != null ? hashMap2.get(string6) : null;
+                                    if (contact3 != null && !contact3.namesFilled) {
+                                        if (contact3.isGoodProvider) {
+                                            if (string7 != null) {
+                                                contact3.first_name = string7;
                                             } else {
-                                                contact3.first_name = string9;
+                                                contact3.first_name = "";
+                                            }
+                                            if (string8 != null) {
+                                                contact3.last_name = string8;
+                                            } else {
+                                                contact3.last_name = "";
+                                            }
+                                            if (!TextUtils.isEmpty(string9)) {
+                                                if (!TextUtils.isEmpty(contact3.first_name)) {
+                                                    contact3.first_name += " " + string9;
+                                                } else {
+                                                    contact3.first_name = string9;
+                                                }
+                                            }
+                                        } else if ((!isNotValidNameString(string7) && (contact3.first_name.contains(string7) || string7.contains(contact3.first_name))) || (!isNotValidNameString(string8) && (contact3.last_name.contains(string8) || string7.contains(contact3.last_name)))) {
+                                            if (string7 != null) {
+                                                contact3.first_name = string7;
+                                            } else {
+                                                contact3.first_name = "";
+                                            }
+                                            if (!TextUtils.isEmpty(string9)) {
+                                                if (!TextUtils.isEmpty(contact3.first_name)) {
+                                                    contact3.first_name += " " + string9;
+                                                } else {
+                                                    contact3.first_name = string9;
+                                                }
+                                            }
+                                            if (string8 != null) {
+                                                contact3.last_name = string8;
+                                            } else {
+                                                contact3.last_name = "";
                                             }
                                         }
-                                    } else if ((!isNotValidNameString(string7) && (contact3.first_name.contains(string7) || string7.contains(contact3.first_name))) || (!isNotValidNameString(string8) && (contact3.last_name.contains(string8) || string7.contains(contact3.last_name)))) {
-                                        if (string7 != null) {
-                                            contact3.first_name = string7;
-                                        } else {
-                                            contact3.first_name = "";
-                                        }
-                                        if (!TextUtils.isEmpty(string9)) {
-                                            if (!TextUtils.isEmpty(contact3.first_name)) {
-                                                contact3.first_name += " " + string9;
-                                            } else {
-                                                contact3.first_name = string9;
-                                            }
-                                        }
-                                        if (string8 != null) {
-                                            contact3.last_name = string8;
-                                        } else {
-                                            contact3.last_name = "";
+                                        contact3.namesFilled = true;
+                                    }
+                                } catch (Throwable th4) {
+                                    th = th4;
+                                    cursor = query;
+                                    hashMap = hashMap2;
+                                    FileLog.e(th);
+                                    if (hashMap != null) {
+                                        hashMap.clear();
+                                    }
+                                    if (cursor != null) {
+                                        try {
+                                            cursor.close();
+                                        } catch (Exception e2) {
+                                            FileLog.e(e2);
                                         }
                                     }
-                                    contact3.namesFilled = true;
+                                    hashMap2 = hashMap;
+                                    if (hashMap2 == null) {
+                                    }
                                 }
                             }
                             try {
-                                cursor2.close();
+                                query.close();
                             } catch (Exception unused2) {
                             }
                             cursor3 = null;
                         } else {
-                            cursor3 = cursor2;
+                            cursor3 = query;
                         }
-                    } catch (Throwable th4) {
-                        th = th4;
+                    } catch (Throwable th5) {
+                        th = th5;
                         cursor = cursor2;
                         hashMap = hashMap2;
                         FileLog.e(th);
                         if (hashMap != null) {
-                            hashMap.clear();
                         }
                         if (cursor != null) {
-                            try {
-                                cursor.close();
-                            } catch (Exception e2) {
-                                FileLog.e(e2);
-                            }
                         }
                         hashMap2 = hashMap;
-                        if (hashMap2 != null) {
+                        if (hashMap2 == null) {
                         }
                     }
-                } catch (Throwable th5) {
-                    th = th5;
+                } catch (Throwable th6) {
+                    th = th6;
                 }
-            } catch (Throwable th6) {
-                th = th6;
+            } catch (Throwable th7) {
+                th = th7;
                 hashMap = null;
                 cursor = null;
             }
-            return hashMap2 != null ? hashMap2 : new HashMap<>();
+            return hashMap2 == null ? hashMap2 : new HashMap<>();
         }
     }
 
@@ -2653,7 +2667,7 @@ public class ContactsController extends BaseController {
         newInsert3.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.profile");
         newInsert3.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert3.withValue("data2", "Telegram Profile");
-        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", org.telegram.messenger.beta.R.string.ContactShortcutMessage, str));
+        newInsert3.withValue("data3", LocaleController.formatString("ContactShortcutMessage", R.string.ContactShortcutMessage, str));
         newInsert3.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert3.build());
         ContentProviderOperation.Builder newInsert4 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
@@ -2661,7 +2675,7 @@ public class ContactsController extends BaseController {
         newInsert4.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call");
         newInsert4.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert4.withValue("data2", "Telegram Voice Call");
-        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", org.telegram.messenger.beta.R.string.ContactShortcutVoiceCall, str));
+        newInsert4.withValue("data3", LocaleController.formatString("ContactShortcutVoiceCall", R.string.ContactShortcutVoiceCall, str));
         newInsert4.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert4.build());
         ContentProviderOperation.Builder newInsert5 = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
@@ -2669,7 +2683,7 @@ public class ContactsController extends BaseController {
         newInsert5.withValue("mimetype", "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call.video");
         newInsert5.withValue("data1", Long.valueOf(tLRPC$User.id));
         newInsert5.withValue("data2", "Telegram Video Call");
-        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", org.telegram.messenger.beta.R.string.ContactShortcutVideoCall, str));
+        newInsert5.withValue("data3", LocaleController.formatString("ContactShortcutVideoCall", R.string.ContactShortcutVideoCall, str));
         newInsert5.withValue("data4", Long.valueOf(tLRPC$User.id));
         arrayList.add(newInsert5.build());
         try {
@@ -2893,7 +2907,7 @@ public class ContactsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
         getNotificationCenter().postNotificationName(NotificationCenter.contactsDidLoad, new Object[0]);
         if (z) {
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("DeletedFromYourContacts", org.telegram.messenger.beta.R.string.DeletedFromYourContacts, str));
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, 1, LocaleController.formatString("DeletedFromYourContacts", R.string.DeletedFromYourContacts, str));
         }
     }
 

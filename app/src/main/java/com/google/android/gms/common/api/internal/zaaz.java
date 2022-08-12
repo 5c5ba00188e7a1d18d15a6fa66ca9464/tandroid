@@ -10,7 +10,6 @@ import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.signin.SignInOptions;
-import com.google.android.gms.signin.zae;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -35,11 +34,11 @@ public final class zaaz implements zabo, zap {
     private final zabb zaj;
     private final ClientSettings zak;
     private final Map<Api<?>, Boolean> zal;
-    private final Api.AbstractClientBuilder<? extends zae, SignInOptions> zam;
+    private final Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> zam;
     @NotOnlyInitialized
     private volatile zaaw zan;
 
-    public zaaz(Context context, zaar zaarVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map<Api.AnyClientKey<?>, Api.Client> map, ClientSettings clientSettings, Map<Api<?>, Boolean> map2, Api.AbstractClientBuilder<? extends zae, SignInOptions> abstractClientBuilder, ArrayList<zaq> arrayList, zabn zabnVar) {
+    public zaaz(Context context, zaar zaarVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map<Api.AnyClientKey<?>, Api.Client> map, ClientSettings clientSettings, Map<Api<?>, Boolean> map2, Api.AbstractClientBuilder<? extends com.google.android.gms.signin.zae, SignInOptions> abstractClientBuilder, ArrayList<zaq> arrayList, zabn zabnVar) {
         this.zah = context;
         this.zaf = lock;
         this.zai = googleApiAvailabilityLight;
@@ -68,13 +67,6 @@ public final class zaaz implements zabo, zap {
 
     @Override // com.google.android.gms.common.api.internal.zabo
     public final void zag() {
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zabo
-    @GuardedBy("mLock")
-    public final <A extends Api.AnyClient, R extends Result, T extends BaseImplementation$ApiMethodImpl<R, A>> T zaa(T t) {
-        t.zab();
-        return (T) this.zan.zaa((zaaw) t);
     }
 
     @Override // com.google.android.gms.common.api.internal.zabo

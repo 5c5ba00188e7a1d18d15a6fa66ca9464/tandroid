@@ -38,7 +38,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.beta.R;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
@@ -351,15 +351,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return checkDiscard();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:117:0x05bf  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0633  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x066d  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x06fc  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x070a  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x074b  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x07cf  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0815  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x06ea  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x05b6  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0628  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x0662  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x06f1  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x06ff  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x073c  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x07c0  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0807  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x06df  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -922,7 +922,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 if (!this.isChannel && (tLRPC$ChatFull2 = this.info) != null && tLRPC$ChatFull2.can_set_stickers) {
                     TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
                     this.stickersInfoCell = textInfoPrivacyCell2;
-                    textInfoPrivacyCell2.setText(LocaleController.getString((int) R.string.GroupStickersInfo));
+                    textInfoPrivacyCell2.setText(LocaleController.getString(R.string.GroupStickersInfo));
                     linearLayout.addView(this.stickersInfoCell, LayoutHelper.createLinear(-1, -2));
                 }
                 if (this.currentChat.creator) {
@@ -948,15 +948,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     });
                     ShadowSectionCell shadowSectionCell4 = new ShadowSectionCell(context);
                     this.deleteInfoCell = shadowSectionCell4;
-                    shadowSectionCell4.setBackground(Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    shadowSectionCell4.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     linearLayout.addView(this.deleteInfoCell, LayoutHelper.createLinear(-1, -2));
                 }
                 textInfoPrivacyCell = this.stickersInfoCell;
                 if (textInfoPrivacyCell != null) {
                     if (this.deleteInfoCell == null) {
-                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, (int) R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                     } else {
-                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, (int) R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     }
                 }
                 UndoView undoView = new UndoView(context);
@@ -1061,7 +1061,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (!this.isChannel) {
             TextInfoPrivacyCell textInfoPrivacyCell22 = new TextInfoPrivacyCell(context);
             this.stickersInfoCell = textInfoPrivacyCell22;
-            textInfoPrivacyCell22.setText(LocaleController.getString((int) R.string.GroupStickersInfo));
+            textInfoPrivacyCell22.setText(LocaleController.getString(R.string.GroupStickersInfo));
             linearLayout.addView(this.stickersInfoCell, LayoutHelper.createLinear(-1, -2));
         }
         if (this.currentChat.creator) {
@@ -1159,7 +1159,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$9(View view) {
-        if (!AndroidUtilities.isGoogleMapsInstalled(this)) {
+        if (!AndroidUtilities.isMapsInstalled(this)) {
             return;
         }
         LocationActivity locationActivity = new LocationActivity(4);
@@ -1381,7 +1381,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
             }
             if (this.cameraDrawable == null) {
-                this.cameraDrawable = new RLottieDrawable(R.raw.camera_outline, "2131558415", AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
+                int i = R.raw.camera_outline;
+                this.cameraDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
             }
             this.setAvatarCell.imageView.setTranslationY(-AndroidUtilities.dp(9.0f));
             this.setAvatarCell.imageView.setTranslationX(-AndroidUtilities.dp(8.0f));
@@ -1489,7 +1490,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.avatarImage.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, this.currentChat);
         this.setAvatarCell.setTextAndIcon(LocaleController.getString("ChatSetNewPhoto", R.string.ChatSetNewPhoto), R.drawable.msg_addphoto, true);
         if (this.cameraDrawable == null) {
-            this.cameraDrawable = new RLottieDrawable(R.raw.camera_outline, "2131558415", AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
+            int i = R.raw.camera_outline;
+            this.cameraDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
         }
         this.setAvatarCell.imageView.setTranslationY(-AndroidUtilities.dp(9.0f));
         this.setAvatarCell.imageView.setTranslationX(-AndroidUtilities.dp(8.0f));
@@ -1906,8 +1908,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     String string7 = LocaleController.getString("ChannelBlacklist", R.string.ChannelBlacklist);
                     TLRPC$ChatFull tLRPC$ChatFull6 = this.info;
                     String format2 = String.format("%d", Integer.valueOf(Math.max(tLRPC$ChatFull6.banned_count, tLRPC$ChatFull6.kicked_count)));
+                    int i5 = R.drawable.msg_user_remove;
                     TextCell textCell5 = this.logCell;
-                    textCell4.setTextAndValueAndIcon(string7, format2, R.drawable.msg_user_remove, textCell5 != null && textCell5.getVisibility() == 0);
+                    textCell4.setTextAndValueAndIcon(string7, format2, i5, textCell5 != null && textCell5.getVisibility() == 0);
                 } else {
                     if (ChatObject.isChannel(this.currentChat)) {
                         this.membersCell.setTextAndValueAndIcon(LocaleController.getString("ChannelMembers", R.string.ChannelMembers), String.format("%d", Integer.valueOf(this.info.participants_count)), R.drawable.msg_groups, true);
@@ -1920,31 +1923,34 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         String string8 = LocaleController.getString("ChannelBlacklist", R.string.ChannelBlacklist);
                         TLRPC$ChatFull tLRPC$ChatFull7 = this.info;
                         String format3 = String.format("%d", Integer.valueOf(Math.max(tLRPC$ChatFull7.banned_count, tLRPC$ChatFull7.kicked_count)));
+                        int i6 = R.drawable.msg_user_remove;
                         TextCell textCell7 = this.logCell;
-                        textCell6.setTextAndValueAndIcon(string8, format3, R.drawable.msg_user_remove, textCell7 != null && textCell7.getVisibility() == 0);
+                        textCell6.setTextAndValueAndIcon(string8, format3, i6, textCell7 != null && textCell7.getVisibility() == 0);
                     } else {
                         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights = tLRPC$Chat2.default_banned_rights;
                         if (tLRPC$TL_chatBannedRights != null) {
-                            int i5 = !tLRPC$TL_chatBannedRights.send_stickers ? 1 : 0;
+                            i = !tLRPC$TL_chatBannedRights.send_stickers ? 1 : 0;
                             if (!tLRPC$TL_chatBannedRights.send_media) {
-                                i5++;
+                                i++;
                             }
                             if (!tLRPC$TL_chatBannedRights.embed_links) {
-                                i5++;
+                                i++;
                             }
                             if (!tLRPC$TL_chatBannedRights.send_messages) {
-                                i5++;
+                                i++;
                             }
                             if (!tLRPC$TL_chatBannedRights.pin_messages) {
-                                i5++;
+                                i++;
                             }
                             if (!tLRPC$TL_chatBannedRights.send_polls) {
-                                i5++;
+                                i++;
                             }
                             if (!tLRPC$TL_chatBannedRights.invite_users) {
-                                i5++;
+                                i++;
                             }
-                            i = !tLRPC$TL_chatBannedRights.change_info ? i5 + 1 : i5;
+                            if (!tLRPC$TL_chatBannedRights.change_info) {
+                                i++;
+                            }
                         } else {
                             i = 8;
                         }
@@ -1954,8 +1960,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     if (textCell8 != null) {
                         String string9 = LocaleController.getString("MemberRequests", R.string.MemberRequests);
                         String format4 = String.format("%d", Integer.valueOf(this.info.requests_pending));
+                        int i7 = R.drawable.msg_requests;
                         TextCell textCell9 = this.logCell;
-                        textCell8.setTextAndValueAndIcon(string9, format4, R.drawable.msg_requests, textCell9 != null && textCell9.getVisibility() == 0);
+                        textCell8.setTextAndValueAndIcon(string9, format4, i7, textCell9 != null && textCell9.getVisibility() == 0);
                     }
                 }
                 TextCell textCell10 = this.adminCell;
@@ -1968,17 +1975,20 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     textCell2.setTextAndIcon(LocaleController.getString("ChannelSubscribers", R.string.ChannelSubscribers), R.drawable.msg_groups, true);
                     TextCell textCell11 = this.blockCell;
                     String string11 = LocaleController.getString("ChannelBlacklist", R.string.ChannelBlacklist);
+                    int i8 = R.drawable.msg_chats_remove;
                     TextCell textCell12 = this.logCell;
-                    textCell11.setTextAndIcon(string11, R.drawable.msg_chats_remove, textCell12 != null && textCell12.getVisibility() == 0);
+                    textCell11.setTextAndIcon(string11, i8, textCell12 != null && textCell12.getVisibility() == 0);
                 } else {
                     String string12 = LocaleController.getString("ChannelMembers", R.string.ChannelMembers);
+                    int i9 = R.drawable.msg_groups;
                     TextCell textCell13 = this.logCell;
-                    textCell2.setTextAndIcon(string12, R.drawable.msg_groups, textCell13 != null && textCell13.getVisibility() == 0);
+                    textCell2.setTextAndIcon(string12, i9, textCell13 != null && textCell13.getVisibility() == 0);
                     if (this.currentChat.gigagroup) {
                         TextCell textCell14 = this.blockCell;
                         String string13 = LocaleController.getString("ChannelBlacklist", R.string.ChannelBlacklist);
+                        int i10 = R.drawable.msg_chats_remove;
                         TextCell textCell15 = this.logCell;
-                        textCell14.setTextAndIcon(string13, R.drawable.msg_chats_remove, textCell15 != null && textCell15.getVisibility() == 0);
+                        textCell14.setTextAndIcon(string13, i10, textCell15 != null && textCell15.getVisibility() == 0);
                     } else {
                         this.blockCell.setTextAndIcon(LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions), R.drawable.msg_permissions, true);
                     }
@@ -1999,9 +2009,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (textCell16 == null || this.info == null) {
             return;
         }
-        String string14 = LocaleController.getString((int) R.string.GroupStickers);
+        String string14 = LocaleController.getString(R.string.GroupStickers);
         TLRPC$StickerSet tLRPC$StickerSet = this.info.stickerset;
-        textCell16.setTextAndValueAndIcon(string14, tLRPC$StickerSet != null ? tLRPC$StickerSet.title : LocaleController.getString((int) R.string.Add), R.drawable.msg_sticker, false);
+        textCell16.setTextAndValueAndIcon(string14, tLRPC$StickerSet != null ? tLRPC$StickerSet.title : LocaleController.getString(R.string.Add), R.drawable.msg_sticker, false);
     }
 
     private void updateReactionsCell() {

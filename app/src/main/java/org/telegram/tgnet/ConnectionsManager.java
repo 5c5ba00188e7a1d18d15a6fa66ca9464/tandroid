@@ -11,7 +11,6 @@ import android.util.Base64;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.huawei.hms.push.constant.RemoteMessageConst;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -324,11 +323,11 @@ public class ConnectionsManager extends BaseController {
     }
 
     public int sendRequest(TLObject tLObject, RequestDelegate requestDelegate, int i) {
-        return sendRequest(tLObject, requestDelegate, null, null, null, i, Integer.MAX_VALUE, 1, true);
+        return sendRequest(tLObject, requestDelegate, null, null, null, i, DEFAULT_DATACENTER_ID, 1, true);
     }
 
     public int sendRequest(TLObject tLObject, RequestDelegate requestDelegate, int i, int i2) {
-        return sendRequest(tLObject, requestDelegate, null, null, null, i, Integer.MAX_VALUE, i2, true);
+        return sendRequest(tLObject, requestDelegate, null, null, null, i, DEFAULT_DATACENTER_ID, i2, true);
     }
 
     public int sendRequest(TLObject tLObject, RequestDelegateTimestamp requestDelegateTimestamp, int i, int i2, int i3) {
@@ -336,7 +335,7 @@ public class ConnectionsManager extends BaseController {
     }
 
     public int sendRequest(TLObject tLObject, RequestDelegate requestDelegate, QuickAckDelegate quickAckDelegate, int i) {
-        return sendRequest(tLObject, requestDelegate, null, quickAckDelegate, null, i, Integer.MAX_VALUE, 1, true);
+        return sendRequest(tLObject, requestDelegate, null, quickAckDelegate, null, i, DEFAULT_DATACENTER_ID, 1, true);
     }
 
     public int sendRequest(TLObject tLObject, RequestDelegate requestDelegate, QuickAckDelegate quickAckDelegate, WriteToSocketDelegate writeToSocketDelegate, int i, int i2, int i3, boolean z) {
@@ -1066,7 +1065,7 @@ public class ConnectionsManager extends BaseController {
             if (jSONObject.has("Answer") && (length = (jSONArray = jSONObject.getJSONArray("Answer")).length()) > 0) {
                 ArrayList arrayList = new ArrayList(length);
                 for (int i = 0; i < length; i++) {
-                    arrayList.add(jSONArray.getJSONObject(i).getString(RemoteMessageConst.DATA));
+                    arrayList.add(jSONArray.getJSONObject(i).getString("data"));
                 }
                 ResolvedDomain resolvedDomain = new ResolvedDomain(arrayList, SystemClock.elapsedRealtime());
                 try {
@@ -1171,7 +1170,7 @@ public class ConnectionsManager extends BaseController {
                         for (int i3 = 0; i3 < length; i3++) {
                             JSONObject jSONObject = jSONArray.getJSONObject(i3);
                             if (jSONObject.getInt("type") == 16) {
-                                arrayList.add(jSONObject.getString(RemoteMessageConst.DATA));
+                                arrayList.add(jSONObject.getString("data"));
                             }
                         }
                         Collections.sort(arrayList, ConnectionsManager$DnsTxtLoadTask$$ExternalSyntheticLambda1.INSTANCE);
@@ -1323,7 +1322,7 @@ public class ConnectionsManager extends BaseController {
                 for (int i2 = 0; i2 < length; i2++) {
                     JSONObject jSONObject = jSONArray.getJSONObject(i2);
                     if (jSONObject.getInt("type") == 16) {
-                        arrayList.add(jSONObject.getString(RemoteMessageConst.DATA));
+                        arrayList.add(jSONObject.getString("data"));
                     }
                 }
                 Collections.sort(arrayList, ConnectionsManager$GoogleDnsLoadTask$$ExternalSyntheticLambda1.INSTANCE);
@@ -1468,7 +1467,7 @@ public class ConnectionsManager extends BaseController {
                         for (int i2 = 0; i2 < length; i2++) {
                             JSONObject jSONObject = jSONArray.getJSONObject(i2);
                             if (jSONObject.getInt("type") == 16) {
-                                arrayList.add(jSONObject.getString(RemoteMessageConst.DATA));
+                                arrayList.add(jSONObject.getString("data"));
                             }
                         }
                         Collections.sort(arrayList, ConnectionsManager$MozillaDnsLoadTask$$ExternalSyntheticLambda1.INSTANCE);
