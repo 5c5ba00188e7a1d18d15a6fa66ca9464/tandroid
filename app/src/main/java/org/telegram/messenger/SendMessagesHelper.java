@@ -12143,11 +12143,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:19:0x04b0  */
     /* JADX WARN: Removed duplicated region for block: B:25:0x04fa  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0505  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x04f2  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0454  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x045a  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0466  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0505  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x04f2  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0454  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x045a  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0466  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12409,7 +12409,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                             }
                                             if (DialogObject.isEncryptedDialog(j)) {
                                             }
-                                            if (inputPeer.user_id == 0) {
+                                            if (inputPeer == null) {
                                                 break;
                                             }
                                             final TLRPC$TL_document tLRPC$TL_document3 = tLRPC$TL_document;
@@ -12605,7 +12605,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             strArr[0] = getKeyForPhotoSize(accountInstance, closestPhotoSizeWithSize, bitmapArr, true, true);
         }
         inputPeer = DialogObject.isEncryptedDialog(j) ? accountInstance.getMessagesController().getInputPeer(j) : null;
-        if (inputPeer.user_id == 0 && accountInstance.getMessagesController().getUserFull(inputPeer.user_id) != null && accountInstance.getMessagesController().getUserFull(inputPeer.user_id).voice_messages_forbidden && tLRPC$TL_document != null) {
+        if (inputPeer == null && inputPeer.user_id != 0 && accountInstance.getMessagesController().getUserFull(inputPeer.user_id) != null && accountInstance.getMessagesController().getUserFull(inputPeer.user_id).voice_messages_forbidden && tLRPC$TL_document != null) {
             if (MessageObject.isVoiceDocument(tLRPC$TL_document)) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda75
                     @Override // java.lang.Runnable

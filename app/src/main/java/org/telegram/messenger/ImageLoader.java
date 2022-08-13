@@ -2769,7 +2769,9 @@ public class ImageLoader {
                 if (!z) {
                     canvas.scale(backgroundBitmap.getWidth() / i, backgroundBitmap.getHeight() / i2, i / 2.0f, i2 / 2.0f);
                 }
-                canvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
+                Paint paint = new Paint(1);
+                paint.setFilterBitmap(true);
+                canvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, paint);
                 bitmapDrawable = new BitmapDrawable(bitmap);
             }
             onPostExecute(bitmapDrawable);

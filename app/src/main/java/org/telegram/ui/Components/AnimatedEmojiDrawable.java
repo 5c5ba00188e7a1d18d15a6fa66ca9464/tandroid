@@ -473,7 +473,6 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     private void initDocument() {
         String str;
-        SvgHelper.SvgDrawable svgThumb;
         SvgHelper.SvgDrawable svgDrawable;
         ImageLocation forDocument;
         int i;
@@ -514,7 +513,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         if ("video/webm".equals(this.document.mime_type)) {
             forDocument = ImageLocation.getForDocument(this.document);
             str2 = str2 + "_" + ImageLoader.AUTOPLAY_FILTER;
-            svgDrawable = null;
+            svgDrawable = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
         } else {
             StringBuilder sb = new StringBuilder();
             if (this.cacheType != 0) {
@@ -528,26 +527,27 @@ public class AnimatedEmojiDrawable extends Drawable {
             sb.append(str2);
             String sb2 = sb.toString();
             if (this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
-                svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
-                if (svgThumb != null) {
+                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+                if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, false)) {
                     svgThumb.overrideWidthAndHeight(512, 512);
                 }
+                svgDrawable = svgThumb;
             } else {
-                svgThumb = null;
+                svgDrawable = null;
             }
-            svgDrawable = svgThumb;
             forDocument = ImageLocation.getForDocument(this.document);
         }
+        SvgHelper.SvgDrawable svgDrawable2 = svgDrawable;
         if (z) {
             forDocument = null;
         }
         if (this.cacheType == 5) {
             ImageReceiver imageReceiver2 = this.imageReceiver;
             TLRPC$Document tLRPC$Document = this.document;
-            imageReceiver2.setImage(null, null, forDocument, str2, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
+            imageReceiver2.setImage(null, null, forDocument, str2, null, null, svgDrawable2, tLRPC$Document.size, null, tLRPC$Document, 1);
         } else {
             TLRPC$Document tLRPC$Document2 = this.document;
-            this.imageReceiver.setImage(forDocument, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
+            this.imageReceiver.setImage(forDocument, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable2, tLRPC$Document2.size, null, tLRPC$Document2, 1);
         }
         if (this.cacheType == 3) {
             this.imageReceiver.setLayerNum(7);

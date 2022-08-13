@@ -85,6 +85,9 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         void onSizeChanged(int i, boolean z);
     }
 
+    private void checkLayerType() {
+    }
+
     protected AdjustPanLayoutHelper createAdjustPanLayoutHelper() {
         return null;
     }
@@ -307,14 +310,6 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         this.translationX = i;
         this.translationY = i2;
         this.backgroundView.invalidate();
-    }
-
-    private void checkLayerType() {
-        if (this.parallaxEffect == null && (this.backgroundDrawable instanceof MotionBackgroundDrawable) && SharedConfig.getDevicePerformanceClass() == 2) {
-            this.backgroundView.setLayerType(2, null);
-        } else {
-            this.backgroundView.setLayerType(0, null);
-        }
     }
 
     public Drawable getBackgroundImage() {

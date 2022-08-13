@@ -2,6 +2,7 @@ package org.telegram.messenger.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import j$.util.Comparator$-CC;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -189,7 +190,11 @@ public class BitmapsCache {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCache$0(Bitmap[] bitmapArr, int i, ByteArrayOutputStream[] byteArrayOutputStreamArr, int i2, RandomAccessFile randomAccessFile, ArrayList arrayList, CountDownLatch[] countDownLatchArr) {
-        bitmapArr[i].compress(Bitmap.CompressFormat.WEBP, this.compressQuality, byteArrayOutputStreamArr[i]);
+        Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.WEBP;
+        if (Build.VERSION.SDK_INT <= 26) {
+            compressFormat = Bitmap.CompressFormat.PNG;
+        }
+        bitmapArr[i].compress(compressFormat, this.compressQuality, byteArrayOutputStreamArr[i]);
         int i3 = byteArrayOutputStreamArr[i].count;
         try {
             synchronized (this.mutex) {
@@ -288,7 +293,7 @@ public class BitmapsCache {
                             }
                         }
                         return -1;
-                    } catch (IOException e2) {
+                    } catch (Exception e2) {
                         e = e2;
                         randomAccessFile2 = randomAccessFile;
                         FileLog.e(e);
@@ -301,7 +306,7 @@ public class BitmapsCache {
                 }
             }
         } catch (FileNotFoundException unused2) {
-        } catch (IOException e3) {
+        } catch (Exception e3) {
             e = e3;
         }
     }
