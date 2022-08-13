@@ -36,6 +36,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
@@ -64,6 +65,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
+import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
 import org.telegram.tgnet.TLRPC$InputFile;
@@ -107,6 +109,7 @@ import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
+import org.telegram.ui.ProfileActivity;
 /* loaded from: classes3.dex */
 public class StickersAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private GridAdapter adapter;
@@ -1498,30 +1501,60 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         if (context == null) {
             context = getContext();
         }
-        ShareAlert shareAlert = new ShareAlert(context, null, str2, false, str2, false, this.resourcesProvider) { // from class: org.telegram.ui.Components.StickersAlert.10
-            @Override // org.telegram.ui.Components.ShareAlert, org.telegram.ui.ActionBar.BottomSheet
-            public void dismissInternal() {
-                super.dismissInternal();
-                if (StickersAlert.this.parentFragment instanceof ChatActivity) {
-                    AndroidUtilities.requestAdjustResize(StickersAlert.this.parentFragment.getParentActivity(), StickersAlert.this.parentFragment.getClassGuid());
-                    if (((ChatActivity) StickersAlert.this.parentFragment).getChatActivityEnterView().getVisibility() != 0) {
-                        return;
-                    }
-                    StickersAlert.this.parentFragment.getFragmentView().requestLayout();
-                }
-            }
-        };
+        10 r11 = new 10(context, null, str2, false, str2, false, this.resourcesProvider);
         BaseFragment baseFragment2 = this.parentFragment;
         if (baseFragment2 != null) {
-            baseFragment2.showDialog(shareAlert);
+            baseFragment2.showDialog(r11);
             BaseFragment baseFragment3 = this.parentFragment;
             if (!(baseFragment3 instanceof ChatActivity)) {
                 return;
             }
-            shareAlert.setCalcMandatoryInsets(((ChatActivity) baseFragment3).isKeyboardVisible());
+            r11.setCalcMandatoryInsets(((ChatActivity) baseFragment3).isKeyboardVisible());
             return;
         }
-        shareAlert.show();
+        r11.show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 10 extends ShareAlert {
+        10(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2, Theme.ResourcesProvider resourcesProvider) {
+            super(context, arrayList, str, z, str2, z2, resourcesProvider);
+        }
+
+        @Override // org.telegram.ui.Components.ShareAlert, org.telegram.ui.ActionBar.BottomSheet
+        public void dismissInternal() {
+            super.dismissInternal();
+            if (StickersAlert.this.parentFragment instanceof ChatActivity) {
+                AndroidUtilities.requestAdjustResize(StickersAlert.this.parentFragment.getParentActivity(), StickersAlert.this.parentFragment.getClassGuid());
+                if (((ChatActivity) StickersAlert.this.parentFragment).getChatActivityEnterView().getVisibility() != 0) {
+                    return;
+                }
+                StickersAlert.this.parentFragment.getFragmentView().requestLayout();
+            }
+        }
+
+        @Override // org.telegram.ui.Components.ShareAlert
+        protected void onSend(final LongSparseArray<TLRPC$Dialog> longSparseArray, final int i) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersAlert$10$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StickersAlert.10.this.lambda$onSend$0(longSparseArray, i);
+                }
+            }, 100L);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onSend$0(LongSparseArray longSparseArray, int i) {
+            UndoView undoView = StickersAlert.this.parentFragment instanceof ChatActivity ? ((ChatActivity) StickersAlert.this.parentFragment).getUndoView() : StickersAlert.this.parentFragment instanceof ProfileActivity ? ((ProfileActivity) StickersAlert.this.parentFragment).getUndoView() : null;
+            if (undoView != null) {
+                if (longSparseArray.size() == 1) {
+                    undoView.showWithAction(((TLRPC$Dialog) longSparseArray.valueAt(0)).id, 53, Integer.valueOf(i));
+                } else {
+                    undoView.showWithAction(0L, 53, Integer.valueOf(i), Integer.valueOf(longSparseArray.size()), (Runnable) null, (Runnable) null);
+                }
+            }
+        }
     }
 
     /* JADX WARN: Removed duplicated region for block: B:101:0x01c1  */

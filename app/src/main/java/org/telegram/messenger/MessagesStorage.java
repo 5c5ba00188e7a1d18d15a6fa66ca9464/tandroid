@@ -9530,7 +9530,7 @@ public class MessagesStorage extends BaseController {
         this.archiveUnreadCount = this.pendingArchiveUnreadCount;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x02f6 A[Catch: Exception -> 0x02fe, TRY_LEAVE, TryCatch #0 {Exception -> 0x02fe, blocks: (B:3:0x0008, B:7:0x0024, B:8:0x003c, B:10:0x0042, B:13:0x0049, B:16:0x0050, B:23:0x005a, B:19:0x005e, B:32:0x0064, B:33:0x0224, B:35:0x022a, B:39:0x02e6, B:41:0x02f6, B:46:0x0234, B:48:0x023f, B:49:0x024d, B:51:0x0253, B:53:0x027b, B:54:0x0281, B:56:0x0286, B:58:0x02a3, B:59:0x028d, B:62:0x02a5, B:63:0x02ae, B:65:0x02b4, B:66:0x02bd, B:68:0x02c3, B:70:0x02dc, B:71:0x02df, B:73:0x0069, B:76:0x0071, B:78:0x0077, B:80:0x0085, B:81:0x00a7, B:85:0x00af, B:87:0x00b6, B:89:0x00de, B:90:0x00e5, B:92:0x00f2, B:93:0x00e9, B:95:0x00ef, B:100:0x011b, B:102:0x0121, B:104:0x0128, B:105:0x0151, B:107:0x0157, B:109:0x016f, B:111:0x0175, B:113:0x017c, B:115:0x0183, B:117:0x01a3, B:118:0x01aa, B:122:0x01b8, B:120:0x01c2, B:128:0x01c9, B:132:0x01d8, B:134:0x01e2, B:136:0x01e9, B:141:0x01ed, B:144:0x01f4, B:146:0x01fa), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x02f8 A[Catch: Exception -> 0x0300, TRY_LEAVE, TryCatch #0 {Exception -> 0x0300, blocks: (B:3:0x0008, B:7:0x0024, B:8:0x003c, B:10:0x0042, B:13:0x0049, B:16:0x0050, B:23:0x005a, B:19:0x005e, B:32:0x0064, B:33:0x0226, B:35:0x022c, B:39:0x02e8, B:41:0x02f8, B:46:0x0236, B:48:0x0241, B:49:0x024f, B:51:0x0255, B:53:0x027d, B:54:0x0283, B:56:0x0288, B:58:0x02a5, B:59:0x028f, B:62:0x02a7, B:63:0x02b0, B:65:0x02b6, B:66:0x02bf, B:68:0x02c5, B:70:0x02de, B:71:0x02e1, B:73:0x0069, B:76:0x0071, B:78:0x0077, B:80:0x0081, B:82:0x0087, B:83:0x00a9, B:87:0x00b1, B:89:0x00b8, B:91:0x00e0, B:92:0x00e7, B:94:0x00f4, B:95:0x00eb, B:97:0x00f1, B:102:0x011d, B:104:0x0123, B:106:0x012a, B:107:0x0153, B:109:0x0159, B:111:0x0171, B:113:0x0177, B:115:0x017e, B:117:0x0185, B:119:0x01a5, B:120:0x01ac, B:124:0x01ba, B:122:0x01c4, B:130:0x01cb, B:134:0x01da, B:136:0x01e4, B:138:0x01eb, B:143:0x01ef, B:146:0x01f6, B:148:0x01fc), top: B:2:0x0008 }] */
     /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9564,7 +9564,9 @@ public class MessagesStorage extends BaseController {
                     while (i4 < longSparseIntArray.size()) {
                         long keyAt = longSparseIntArray4.keyAt(i4);
                         int i5 = longSparseIntArray4.get(keyAt);
-                        if (longSparseIntArray3.get(keyAt, i3) != i3) {
+                        if (longSparseIntArray3 == null || longSparseIntArray3.get(keyAt, i3) == i3) {
+                            z = true;
+                        } else {
                             SQLiteDatabase sQLiteDatabase = this.database;
                             Locale locale = Locale.US;
                             Object[] objArr = new Object[i];
@@ -9576,8 +9578,6 @@ public class MessagesStorage extends BaseController {
                                 z = false;
                             }
                             queryFinalized2.dispose();
-                        } else {
-                            z = true;
                         }
                         if (z) {
                             SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(Locale.US, "SELECT COUNT(mid) FROM messages_v2 WHERE uid = %d AND mid > %d AND read_state IN(0,2) AND out = 0", Long.valueOf(keyAt), Integer.valueOf(i5)), new Object[0]);

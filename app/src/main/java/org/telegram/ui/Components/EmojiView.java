@@ -3165,6 +3165,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         animatedEmojiDrawable.update(j);
                         imageViewEmoji.backgroundThreadDrawHolder = animatedEmojiDrawable.getImageReceiver().setDrawInBackgroundThread(imageViewEmoji.backgroundThreadDrawHolder);
                         imageViewEmoji.backgroundThreadDrawHolder.time = j;
+                        imageViewEmoji.backgroundThreadDrawHolder.overrideAlpha = 1.0f;
                         animatedEmojiDrawable.setAlpha(255);
                         int height = (int) (imageViewEmoji.getHeight() * 0.03f);
                         android.graphics.Rect rect = AndroidUtilities.rectTmp2;
