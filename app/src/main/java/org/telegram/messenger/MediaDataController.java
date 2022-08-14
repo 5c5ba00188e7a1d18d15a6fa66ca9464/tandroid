@@ -9388,7 +9388,7 @@ public class MediaDataController extends BaseController {
                 return lambda$getEmojiSuggestions$187;
             }
         });
-        if (z2) {
+        if (z2 && SharedConfig.suggestAnimatedEmoji) {
             fillWithAnimatedEmoji(arrayList2, null, new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {

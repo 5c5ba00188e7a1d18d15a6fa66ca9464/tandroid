@@ -37,11 +37,6 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
         return new GoogleLocationRequest(LocationRequest.create());
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getLastLocation$0(Consumer consumer, Task task) {
-        consumer.accept((Location) task.getResult());
-    }
-
     @Override // org.telegram.messenger.ILocationServiceProvider
     public void getLastLocation(final Consumer<Location> consumer) {
         this.locationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener() { // from class: org.telegram.messenger.GoogleLocationProvider$$ExternalSyntheticLambda1
@@ -50,6 +45,14 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
                 GoogleLocationProvider.lambda$getLastLocation$0(Consumer.this, task);
             }
         });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$getLastLocation$0(Consumer consumer, Task task) {
+        if (task.getException() != null) {
+            return;
+        }
+        consumer.accept((Location) task.getResult());
     }
 
     @Override // org.telegram.messenger.ILocationServiceProvider

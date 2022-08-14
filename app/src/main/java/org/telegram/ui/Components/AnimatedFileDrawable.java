@@ -62,6 +62,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     public boolean isWebmSticker;
     private long lastFrameDecodeTime;
     private long lastFrameTime;
+    int lastMetadata;
     private int lastTimeStamp;
     private boolean limitFps;
     private Runnable loadFrameRunnable;
@@ -101,6 +102,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     private AnimatedFileDrawableStream stream;
     private long streamFileSize;
     private final Object sync;
+    int tryCount;
     private Runnable uiRunnable;
     private Runnable uiRunnableGenerateCache;
     private Runnable uiRunnableNoFrame;
@@ -1163,9 +1165,22 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         Bitmap bitmap2 = this.generatingCacheBitmap;
         getVideoFrame(j, bitmap2, this.metaData, bitmap2.getRowBytes(), false, this.startTime, this.endTime);
         long j2 = this.cacheGenerateTimestamp;
-        if ((j2 != 0 && this.metaData[3] == 0) || j2 > this.metaData[3]) {
-            return 0;
+        if (j2 != 0) {
+            int[] iArr2 = this.metaData;
+            if (iArr2[3] == 0 || j2 > iArr2[3]) {
+                return 0;
+            }
         }
+        int i = this.lastMetadata;
+        int[] iArr3 = this.metaData;
+        if (i == iArr3[3]) {
+            int i2 = this.tryCount + 1;
+            this.tryCount = i2;
+            if (i2 > 5) {
+                return 0;
+            }
+        }
+        this.lastMetadata = iArr3[3];
         bitmap.eraseColor(0);
         canvas.save();
         float width = this.renderingWidth / this.generatingCacheBitmap.getWidth();
