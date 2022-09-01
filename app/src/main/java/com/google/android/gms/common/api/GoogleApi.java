@@ -181,6 +181,11 @@ public class GoogleApi<O extends Api.ApiOptions> {
     }
 
     @RecentlyNonNull
+    public O getApiOptions() {
+        return this.zad;
+    }
+
+    @RecentlyNonNull
     public ApiKey<O> getApiKey() {
         return this.zae;
     }

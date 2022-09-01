@@ -6,8 +6,8 @@ public abstract class TLRPC$MessageReactions extends TLObject {
     public boolean can_see_list;
     public int flags;
     public boolean min;
-    public ArrayList<TLRPC$TL_reactionCount> results = new ArrayList<>();
-    public ArrayList<TLRPC$TL_messagePeerReaction> recent_reactions = new ArrayList<>();
+    public ArrayList<TLRPC$ReactionCount> results = new ArrayList<>();
+    public ArrayList<TLRPC$MessagePeerReaction> recent_reactions = new ArrayList<>();
 
     public static TLRPC$TL_messageReactions TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions;
@@ -29,7 +29,7 @@ public abstract class TLRPC$MessageReactions extends TLObject {
                     }
                     int readInt323 = abstractSerializedData2.readInt32(z2);
                     for (int i2 = 0; i2 < readInt323; i2++) {
-                        TLRPC$TL_reactionCount TLdeserialize = TLRPC$TL_reactionCount.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                        TLRPC$ReactionCount TLdeserialize = TLRPC$ReactionCount.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if (TLdeserialize == null) {
                             return;
                         }
@@ -70,7 +70,7 @@ public abstract class TLRPC$MessageReactions extends TLObject {
                     }
                     int readInt323 = abstractSerializedData2.readInt32(z2);
                     for (int i2 = 0; i2 < readInt323; i2++) {
-                        TLRPC$TL_reactionCount TLdeserialize = TLRPC$TL_reactionCount.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                        TLRPC$ReactionCount TLdeserialize = TLRPC$ReactionCount.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if (TLdeserialize == null) {
                             return;
                         }
@@ -88,7 +88,7 @@ public abstract class TLRPC$MessageReactions extends TLObject {
                     }
                     int readInt325 = abstractSerializedData2.readInt32(z2);
                     for (int i3 = 0; i3 < readInt325; i3++) {
-                        TLRPC$TL_messagePeerReaction TLdeserialize2 = TLRPC$MessagePeerReaction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                        TLRPC$MessagePeerReaction TLdeserialize2 = TLRPC$MessagePeerReaction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if (TLdeserialize2 == null) {
                             return;
                         }

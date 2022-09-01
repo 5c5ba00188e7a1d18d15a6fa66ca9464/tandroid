@@ -55,6 +55,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
     private int customViewOffset;
     private String dialogButtonColorKey;
     private float dimAlpha;
+    private boolean dimCustom;
     private boolean dimEnabled;
     private boolean dismissDialogByButtons;
     private Runnable dismissRunnable;
@@ -215,6 +216,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         this.itemViews = new ArrayList<>();
         this.dimEnabled = true;
         this.dimAlpha = 0.6f;
+        this.dimCustom = false;
         this.topAnimationAutoRepeat = true;
         this.resourcesProvider = resourcesProvider;
         this.backgroundPaddings = new Rect();
@@ -288,9 +290,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             FrameLayout frameLayout = new FrameLayout(getContext());
             this.titleContainer = frameLayout;
             r1.addView(frameLayout, LayoutHelper.createLinear(-2, -2, 24.0f, 0.0f, 24.0f, 0.0f));
-            TextView textView = new TextView(getContext());
-            this.titleTextView = textView;
-            textView.setText(this.title);
+            SpoilersTextView spoilersTextView = new SpoilersTextView(getContext(), false);
+            this.titleTextView = spoilersTextView;
+            spoilersTextView.setText(this.title);
             this.titleTextView.setTextColor(getThemedColor("dialogTextBlack"));
             this.titleTextView.setTextSize(1, 20.0f);
             this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -298,18 +300,18 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             this.titleContainer.addView(this.titleTextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 0.0f, 19.0f, 0.0f, this.subtitle != null ? 2 : this.items != null ? 14 : 10));
         }
         if (this.secondTitle != null && this.title != null) {
-            TextView textView2 = new TextView(getContext());
-            this.secondTitleTextView = textView2;
-            textView2.setText(this.secondTitle);
+            TextView textView = new TextView(getContext());
+            this.secondTitleTextView = textView;
+            textView.setText(this.secondTitle);
             this.secondTitleTextView.setTextColor(getThemedColor("dialogTextGray3"));
             this.secondTitleTextView.setTextSize(1, 18.0f);
             this.secondTitleTextView.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
             this.titleContainer.addView(this.secondTitleTextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 3 : 5) | 48, 0.0f, 21.0f, 0.0f, 0.0f));
         }
         if (this.subtitle != null) {
-            TextView textView3 = new TextView(getContext());
-            this.subtitleTextView = textView3;
-            textView3.setText(this.subtitle);
+            TextView textView2 = new TextView(getContext());
+            this.subtitleTextView = textView2;
+            textView2.setText(this.subtitle);
             this.subtitleTextView.setTextColor(getThemedColor("dialogIcon"));
             this.subtitleTextView.setTextSize(1, 14.0f);
             this.subtitleTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
@@ -346,9 +348,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             linearLayout.setOrientation(1);
             this.contentScrollView.addView(this.scrollContainer, new FrameLayout.LayoutParams(-1, -2));
         }
-        SpoilersTextView spoilersTextView = new SpoilersTextView(getContext());
-        this.messageTextView = spoilersTextView;
-        spoilersTextView.setTextColor(getThemedColor("dialogTextBlack"));
+        SpoilersTextView spoilersTextView2 = new SpoilersTextView(getContext(), false);
+        this.messageTextView = spoilersTextView2;
+        spoilersTextView2.setTextColor(getThemedColor("dialogTextBlack"));
         this.messageTextView.setTextSize(1, 16.0f);
         this.messageTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
         this.messageTextView.setLinkTextColor(getThemedColor("dialogTextLink"));
@@ -368,9 +370,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             this.messageTextView.setLines(1);
             this.messageTextView.setEllipsize(TextUtils.TruncateAt.END);
             FrameLayout frameLayout3 = this.progressViewContainer;
-            TextView textView4 = this.messageTextView;
+            TextView textView3 = this.messageTextView;
             boolean z2 = LocaleController.isRTL;
-            frameLayout3.addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 16, z2 ? 0 : 62, 0.0f, z2 ? 62 : 0, 0.0f));
+            frameLayout3.addView(textView3, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 16, z2 ? 0 : 62, 0.0f, z2 ? 62 : 0, 0.0f));
         } else if (i6 == 2) {
             r1.addView(this.messageTextView, LayoutHelper.createLinear(-2, -2, (LocaleController.isRTL ? 5 : 3) | 48, 24, this.title == null ? 19 : 0, 24, 20));
             LineProgressView lineProgressView = new LineProgressView(getContext());
@@ -379,9 +381,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             this.lineProgressView.setProgressColor(getThemedColor("dialogLineProgress"));
             this.lineProgressView.setBackColor(getThemedColor("dialogLineProgressBackground"));
             r1.addView(this.lineProgressView, LayoutHelper.createLinear(-1, 4, 19, 24, 0, 24, 0));
-            TextView textView5 = new TextView(getContext());
-            this.lineProgressViewPercent = textView5;
-            textView5.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            TextView textView4 = new TextView(getContext());
+            this.lineProgressViewPercent = textView4;
+            textView4.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.lineProgressViewPercent.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
             this.lineProgressViewPercent.setTextColor(getThemedColor("dialogTextGray2"));
             this.lineProgressViewPercent.setTextSize(1, 14.0f);
@@ -546,7 +548,42 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             this.buttonsLayout.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
             r1.addView(this.buttonsLayout, LayoutHelper.createLinear(-1, 52));
             if (this.positiveButtonText != null) {
-                TextView textView6 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.4
+                TextView textView5 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.4
+                    @Override // android.widget.TextView, android.view.View
+                    public void setEnabled(boolean z3) {
+                        super.setEnabled(z3);
+                        setAlpha(z3 ? 1.0f : 0.5f);
+                    }
+
+                    @Override // android.widget.TextView
+                    public void setTextColor(int i8) {
+                        super.setTextColor(i8);
+                        setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(i8));
+                    }
+                };
+                textView5.setMinWidth(AndroidUtilities.dp(64.0f));
+                textView5.setTag(-1);
+                textView5.setTextSize(1, 14.0f);
+                textView5.setTextColor(getThemedColor(this.dialogButtonColorKey));
+                textView5.setGravity(17);
+                textView5.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                textView5.setText(this.positiveButtonText.toString().toUpperCase());
+                textView5.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(getThemedColor(this.dialogButtonColorKey)));
+                textView5.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
+                if (this.verticalButtons) {
+                    this.buttonsLayout.addView(textView5, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
+                } else {
+                    this.buttonsLayout.addView(textView5, LayoutHelper.createFrame(-2, 36, 53));
+                }
+                textView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda5
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view3) {
+                        AlertDialog.this.lambda$onCreate$2(view3);
+                    }
+                });
+            }
+            if (this.negativeButtonText != null) {
+                TextView textView6 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
                     @Override // android.widget.TextView, android.view.View
                     public void setEnabled(boolean z3) {
                         super.setEnabled(z3);
@@ -560,28 +597,30 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                     }
                 };
                 textView6.setMinWidth(AndroidUtilities.dp(64.0f));
-                textView6.setTag(-1);
+                textView6.setTag(-2);
                 textView6.setTextSize(1, 14.0f);
                 textView6.setTextColor(getThemedColor(this.dialogButtonColorKey));
                 textView6.setGravity(17);
                 textView6.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                textView6.setText(this.positiveButtonText.toString().toUpperCase());
+                textView6.setEllipsize(TextUtils.TruncateAt.END);
+                textView6.setSingleLine(true);
+                textView6.setText(this.negativeButtonText.toString().toUpperCase());
                 textView6.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(getThemedColor(this.dialogButtonColorKey)));
                 textView6.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                 if (this.verticalButtons) {
-                    this.buttonsLayout.addView(textView6, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
+                    this.buttonsLayout.addView(textView6, 0, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
                 } else {
                     this.buttonsLayout.addView(textView6, LayoutHelper.createFrame(-2, 36, 53));
                 }
-                textView6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda5
+                textView6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view3) {
-                        AlertDialog.this.lambda$onCreate$2(view3);
+                        AlertDialog.this.lambda$onCreate$3(view3);
                     }
                 });
             }
-            if (this.negativeButtonText != null) {
-                TextView textView7 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
+            if (this.neutralButtonText != null) {
+                TextView textView7 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
                     @Override // android.widget.TextView, android.view.View
                     public void setEnabled(boolean z3) {
                         super.setEnabled(z3);
@@ -595,53 +634,16 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                     }
                 };
                 textView7.setMinWidth(AndroidUtilities.dp(64.0f));
-                textView7.setTag(-2);
+                textView7.setTag(-3);
                 textView7.setTextSize(1, 14.0f);
                 textView7.setTextColor(getThemedColor(this.dialogButtonColorKey));
                 textView7.setGravity(17);
                 textView7.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 textView7.setEllipsize(TextUtils.TruncateAt.END);
                 textView7.setSingleLine(true);
-                textView7.setText(this.negativeButtonText.toString().toUpperCase());
-                textView7.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(getThemedColor(this.dialogButtonColorKey)));
+                textView7.setText(this.neutralButtonText.toString().toUpperCase());
+                textView7.setBackground(Theme.getRoundRectSelectorDrawable(getThemedColor(this.dialogButtonColorKey)));
                 textView7.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
-                if (this.verticalButtons) {
-                    this.buttonsLayout.addView(textView7, 0, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
-                } else {
-                    this.buttonsLayout.addView(textView7, LayoutHelper.createFrame(-2, 36, 53));
-                }
-                textView7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda4
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view3) {
-                        AlertDialog.this.lambda$onCreate$3(view3);
-                    }
-                });
-            }
-            if (this.neutralButtonText != null) {
-                TextView textView8 = new TextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
-                    @Override // android.widget.TextView, android.view.View
-                    public void setEnabled(boolean z3) {
-                        super.setEnabled(z3);
-                        setAlpha(z3 ? 1.0f : 0.5f);
-                    }
-
-                    @Override // android.widget.TextView
-                    public void setTextColor(int i8) {
-                        super.setTextColor(i8);
-                        setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(i8));
-                    }
-                };
-                textView8.setMinWidth(AndroidUtilities.dp(64.0f));
-                textView8.setTag(-3);
-                textView8.setTextSize(1, 14.0f);
-                textView8.setTextColor(getThemedColor(this.dialogButtonColorKey));
-                textView8.setGravity(17);
-                textView8.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                textView8.setEllipsize(TextUtils.TruncateAt.END);
-                textView8.setSingleLine(true);
-                textView8.setText(this.neutralButtonText.toString().toUpperCase());
-                textView8.setBackground(Theme.getRoundRectSelectorDrawable(getThemedColor(this.dialogButtonColorKey)));
-                textView8.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
                 if (this.verticalButtons) {
                     ViewGroup viewGroup = this.buttonsLayout;
                     if (LocaleController.isRTL) {
@@ -651,11 +653,11 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                         i = -2;
                         i2 = 5;
                     }
-                    viewGroup.addView(textView8, 1, LayoutHelper.createLinear(i, 36, i2));
+                    viewGroup.addView(textView7, 1, LayoutHelper.createLinear(i, 36, i2));
                 } else {
-                    this.buttonsLayout.addView(textView8, LayoutHelper.createFrame(-2, 36, 51));
+                    this.buttonsLayout.addView(textView7, LayoutHelper.createFrame(-2, 36, 51));
                 }
-                textView8.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda3
+                textView7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view3) {
                         AlertDialog.this.lambda$onCreate$4(view3);
@@ -674,7 +676,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         if (this.progressViewStyle == 3) {
             layoutParams.width = -1;
         } else {
-            if (this.dimEnabled) {
+            if (this.dimEnabled && !this.dimCustom) {
                 layoutParams.dimAmount = this.dimAlpha;
                 layoutParams.flags |= 2;
             } else {

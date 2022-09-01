@@ -287,7 +287,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) arrayList.get(i2);
             getMessagesController().putChat(tLRPC$Chat, false);
-            getMessagesController().deleteParticipantFromChat(tLRPC$Chat.id, user, null);
+            getMessagesController().deleteParticipantFromChat(tLRPC$Chat.id, user);
         }
         finishFragment();
     }

@@ -36,8 +36,10 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$ChatParticipants;
+import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$TL_channelFull;
 import org.telegram.tgnet.TLRPC$TL_chatFull;
+import org.telegram.tgnet.TLRPC$TL_emojiStatus;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$UserStatus;
@@ -46,6 +48,7 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AutoDeletePopupWrapper;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
@@ -57,6 +60,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private int currentAccount;
     private int currentConnectionState;
     StatusDrawable currentTypingDrawable;
+    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable;
     private boolean[] isOnline;
     private int largerWidth;
     private CharSequence lastSubtitle;
@@ -156,11 +160,13 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         };
         this.titleTextView = simpleTextView;
-        simpleTextView.setTextColor(getThemedColor("actionBarDefaultTitle"));
+        simpleTextView.setEllipsizeByGradient(true);
+        this.titleTextView.setTextColor(getThemedColor("actionBarDefaultTitle"));
         this.titleTextView.setTextSize(18);
         this.titleTextView.setGravity(3);
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.titleTextView.setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
+        this.titleTextView.setPadding(0, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f));
         addView(this.titleTextView);
         SimpleTextView simpleTextView2 = new SimpleTextView(context) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
             @Override // org.telegram.ui.ActionBar.SimpleTextView
@@ -180,10 +186,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         };
         this.subtitleTextView = simpleTextView2;
-        simpleTextView2.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
+        simpleTextView2.setEllipsizeByGradient(true);
+        this.subtitleTextView.setTextColor(getThemedColor("actionBarDefaultSubtitle"));
         this.subtitleTextView.setTag("actionBarDefaultSubtitle");
         this.subtitleTextView.setTextSize(14);
         this.subtitleTextView.setGravity(3);
+        this.subtitleTextView.setPadding(0, 0, AndroidUtilities.dp(12.0f), 0);
         addView(this.subtitleTextView);
         if (this.parentFragment != null) {
             ImageView imageView = new ImageView(context);
@@ -213,33 +221,33 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         }
         ChatActivity chatActivity2 = this.parentFragment;
-        if (chatActivity2 == null || chatActivity2.getChatMode() != 0) {
-            return;
-        }
-        if (!this.parentFragment.isThreadChat() && !UserObject.isReplyUser(this.parentFragment.getCurrentUser())) {
-            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda1
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    ChatAvatarContainer.this.lambda$new$2(view);
-                }
-            });
-        }
-        TLRPC$Chat currentChat = this.parentFragment.getCurrentChat();
-        this.statusDrawables[0] = new TypingDotsDrawable(true);
-        this.statusDrawables[1] = new RecordStatusDrawable(true);
-        this.statusDrawables[2] = new SendingFileDrawable(true);
-        this.statusDrawables[3] = new PlayingGameDrawable(false, resourcesProvider);
-        this.statusDrawables[4] = new RoundStatusDrawable(true);
-        this.statusDrawables[5] = new ChoosingStickerStatusDrawable(true);
-        int i = 0;
-        while (true) {
-            StatusDrawable[] statusDrawableArr = this.statusDrawables;
-            if (i >= statusDrawableArr.length) {
-                return;
+        if (chatActivity2 != null && chatActivity2.getChatMode() == 0) {
+            if (!this.parentFragment.isThreadChat() && !UserObject.isReplyUser(this.parentFragment.getCurrentUser())) {
+                setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda1
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        ChatAvatarContainer.this.lambda$new$2(view);
+                    }
+                });
             }
-            statusDrawableArr[i].setIsChat(currentChat != null);
-            i++;
+            TLRPC$Chat currentChat = this.parentFragment.getCurrentChat();
+            this.statusDrawables[0] = new TypingDotsDrawable(true);
+            this.statusDrawables[1] = new RecordStatusDrawable(true);
+            this.statusDrawables[2] = new SendingFileDrawable(true);
+            this.statusDrawables[3] = new PlayingGameDrawable(false, resourcesProvider);
+            this.statusDrawables[4] = new RoundStatusDrawable(true);
+            this.statusDrawables[5] = new ChoosingStickerStatusDrawable(true);
+            int i = 0;
+            while (true) {
+                StatusDrawable[] statusDrawableArr = this.statusDrawables;
+                if (i >= statusDrawableArr.length) {
+                    break;
+                }
+                statusDrawableArr[i].setIsChat(currentChat != null);
+                i++;
+            }
         }
+        this.emojiStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.titleTextView, AndroidUtilities.dp(24.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -411,11 +419,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        int size = View.MeasureSpec.getSize(i);
+        int size = View.MeasureSpec.getSize(i) + this.titleTextView.getPaddingRight();
         int i3 = 54;
         int dp = size - AndroidUtilities.dp((this.avatarImageView.getVisibility() == 0 ? 54 : 0) + 16);
         this.avatarImageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
-        this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), Integer.MIN_VALUE));
+        this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), Integer.MIN_VALUE));
         this.subtitleTextView.measure(View.MeasureSpec.makeMeasureSpec(dp, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), Integer.MIN_VALUE));
         ImageView imageView = this.timeItem;
         if (imageView != null) {
@@ -511,13 +519,13 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
         int i9 = i8 + i5;
         if (this.subtitleTextView.getVisibility() != 8) {
-            this.titleTextView.layout(i9, AndroidUtilities.dp(1.3f) + currentActionBarHeight, this.titleTextView.getMeasuredWidth() + i9, this.titleTextView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(1.3f));
+            this.titleTextView.layout(i9, (AndroidUtilities.dp(1.3f) + currentActionBarHeight) - this.titleTextView.getPaddingTop(), this.titleTextView.getMeasuredWidth() + i9, (((this.titleTextView.getTextHeight() + currentActionBarHeight) + AndroidUtilities.dp(1.3f)) - this.titleTextView.getPaddingTop()) + this.titleTextView.getPaddingBottom());
             SimpleTextView simpleTextView = this.titleTextLargerCopyView;
             if (simpleTextView != null) {
                 simpleTextView.layout(i9, AndroidUtilities.dp(1.3f) + currentActionBarHeight, this.titleTextLargerCopyView.getMeasuredWidth() + i9, this.titleTextLargerCopyView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(1.3f));
             }
         } else {
-            this.titleTextView.layout(i9, AndroidUtilities.dp(11.0f) + currentActionBarHeight, this.titleTextView.getMeasuredWidth() + i9, this.titleTextView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(11.0f));
+            this.titleTextView.layout(i9, (AndroidUtilities.dp(11.0f) + currentActionBarHeight) - this.titleTextView.getPaddingTop(), this.titleTextView.getMeasuredWidth() + i9, (((this.titleTextView.getTextHeight() + currentActionBarHeight) + AndroidUtilities.dp(11.0f)) - this.titleTextView.getPaddingTop()) + this.titleTextView.getPaddingBottom());
             SimpleTextView simpleTextView2 = this.titleTextLargerCopyView;
             if (simpleTextView2 != null) {
                 simpleTextView2.layout(i9, AndroidUtilities.dp(11.0f) + currentActionBarHeight, this.titleTextLargerCopyView.getMeasuredWidth() + i9, this.titleTextLargerCopyView.getTextHeight() + currentActionBarHeight + AndroidUtilities.dp(11.0f));
@@ -601,10 +609,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     public void setTitle(CharSequence charSequence) {
-        setTitle(charSequence, false, false, false, false);
+        setTitle(charSequence, false, false, false, false, null);
     }
 
-    public void setTitle(CharSequence charSequence, boolean z, boolean z2, boolean z3, boolean z4) {
+    public void setTitle(CharSequence charSequence, boolean z, boolean z2, boolean z3, boolean z4, TLRPC$EmojiStatus tLRPC$EmojiStatus) {
         if (charSequence != null) {
             charSequence = Emoji.replaceEmoji(charSequence, this.titleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
         }
@@ -628,12 +636,23 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.rightDrawableIsScamOrVerified = true;
             this.rightDrawableContentDescription = LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified);
         } else if (z4) {
+            boolean z5 = tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus;
             if (this.premiumIconHiddable) {
-                this.titleTextView.setCanHideRightDrawable(true);
+                this.titleTextView.setCanHideRightDrawable(!z5);
             }
-            Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
-            mutate3.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
-            this.titleTextView.setRightDrawable(mutate3);
+            this.titleTextView.setRightDrawableOutside(z5);
+            if ((this.titleTextView.getRightDrawable() instanceof AnimatedEmojiDrawable.WrapSizeDrawable) && (((AnimatedEmojiDrawable.WrapSizeDrawable) this.titleTextView.getRightDrawable()).getDrawable() instanceof AnimatedEmojiDrawable)) {
+                ((AnimatedEmojiDrawable) ((AnimatedEmojiDrawable.WrapSizeDrawable) this.titleTextView.getRightDrawable()).getDrawable()).removeView(this.titleTextView);
+            }
+            if (z5) {
+                this.emojiStatusDrawable.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id, true);
+            } else {
+                Drawable mutate3 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
+                mutate3.setColorFilter(new PorterDuffColorFilter(getThemedColor("profile_verifiedBackground"), PorterDuff.Mode.MULTIPLY));
+                this.emojiStatusDrawable.set(mutate3, true);
+            }
+            this.emojiStatusDrawable.setColor(Integer.valueOf(getThemedColor("profile_verifiedBackground")));
+            this.titleTextView.setRightDrawable(this.emojiStatusDrawable);
             this.rightDrawableIsScamOrVerified = true;
             this.rightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
         } else if (!(this.titleTextView.getRightDrawable() instanceof ScamDrawable)) {

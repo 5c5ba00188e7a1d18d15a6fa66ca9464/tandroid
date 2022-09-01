@@ -44,6 +44,8 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     @RecentlyNonNull
     public static final Scope zaa = new Scope("profile");
     @RecentlyNonNull
+    public static final Scope zab = new Scope("email");
+    @RecentlyNonNull
     public static final Scope zac = new Scope("openid");
     @RecentlyNonNull
     public static final Scope zae = new Scope("https://www.googleapis.com/auth/games");
@@ -119,6 +121,12 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         }
 
         @RecentlyNonNull
+        public final Builder requestEmail() {
+            this.zaa.add(GoogleSignInOptions.zab);
+            return this;
+        }
+
+        @RecentlyNonNull
         public final Builder requestProfile() {
             this.zaa.add(GoogleSignInOptions.zaa);
             return this;
@@ -128,6 +136,13 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         public final Builder requestScopes(@RecentlyNonNull Scope scope, @RecentlyNonNull Scope... scopeArr) {
             this.zaa.add(scope);
             this.zaa.addAll(Arrays.asList(scopeArr));
+            return this;
+        }
+
+        @RecentlyNonNull
+        public final Builder requestIdToken(@RecentlyNonNull String str) {
+            this.zad = true;
+            this.zae = zaa(str);
             return this;
         }
 
@@ -150,6 +165,13 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
                 requestId();
             }
             return new GoogleSignInOptions(3, new ArrayList(this.zaa), this.zaf, this.zad, this.zab, this.zac, this.zae, this.zag, this.zah, this.zai, null);
+        }
+
+        private final String zaa(String str) {
+            Preconditions.checkNotEmpty(str);
+            String str2 = this.zae;
+            Preconditions.checkArgument(str2 == null || str2.equals(str), "two different server client ids provided");
+            return str;
         }
     }
 
@@ -329,7 +351,6 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     }
 
     static {
-        new Scope("email");
         Scope scope = new Scope("https://www.googleapis.com/auth/games_lite");
         zad = scope;
         new Builder().requestScopes(scope, new Scope[0]).build();

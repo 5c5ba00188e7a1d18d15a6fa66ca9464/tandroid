@@ -32,17 +32,18 @@ import org.telegram.ui.PremiumPreviewFragment;
 public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private View divider;
     PremiumGradient.GradientTools gradientTools;
+    int headerRow;
     int lastViewRow;
     final ArrayList<Limit> limits;
     int limitsStartRow;
     PremiumButtonView premiumButtonView;
     int rowCount;
+    private PremiumPreviewFragment.SubscriptionTier selectedTier;
     ImageView titleImage;
+    FrameLayout titleLayout;
     float titleProgress;
     TextView titleView;
     private int totalGradientHeight;
-    int headerRow = 0;
-    FrameLayout titleLayout = new FrameLayout(getContext());
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
@@ -52,10 +53,15 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
     public void setParentFragment(PremiumPreviewFragment premiumPreviewFragment) {
     }
 
-    public DoubledLimitsBottomSheet(final BaseFragment baseFragment, final int i) {
+    public DoubledLimitsBottomSheet(BaseFragment baseFragment, int i) {
+        this(baseFragment, i, null);
+    }
+
+    public DoubledLimitsBottomSheet(final BaseFragment baseFragment, final int i, PremiumPreviewFragment.SubscriptionTier subscriptionTier) {
         super(baseFragment, false, false);
         ArrayList<Limit> arrayList = new ArrayList<>();
         this.limits = arrayList;
+        this.selectedTier = subscriptionTier;
         PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradient1", "premiumGradient2", "premiumGradient3", "premiumGradient4");
         this.gradientTools = gradientTools;
         gradientTools.x1 = 0.0f;
@@ -77,8 +83,10 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.rowCount = 0;
         int i2 = 0 + 1;
         this.rowCount = i2;
+        this.headerRow = 0;
         this.limitsStartRow = i2;
         this.rowCount = i2 + arrayList.size();
+        this.titleLayout = new FrameLayout(getContext());
         TextView textView = new TextView(getContext());
         this.titleView = textView;
         textView.setText(LocaleController.getString("DoubledLimits", R.string.DoubledLimits));
@@ -104,7 +112,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
         this.containerView.addView(this.divider, LayoutHelper.createFrame(-1, 72.0f, 80, 0.0f, 0.0f, 0.0f, 0.0f));
         PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), true);
         this.premiumButtonView = premiumButtonView;
-        premiumButtonView.buttonTextView.setText(PremiumPreviewFragment.getPremiumButtonText(i));
+        premiumButtonView.buttonTextView.setText(PremiumPreviewFragment.getPremiumButtonText(i, this.selectedTier));
         this.containerView.addView(this.premiumButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 16.0f, 0.0f, 16.0f, 12.0f));
         this.premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
@@ -125,7 +133,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(int i, BaseFragment baseFragment, View view) {
         if (!UserConfig.getInstance(i).isPremium()) {
-            PremiumPreviewFragment.buyPremium(baseFragment, "double_limits");
+            PremiumPreviewFragment.buyPremium(baseFragment, this.selectedTier, "double_limits");
         }
         dismiss();
     }
@@ -282,7 +290,7 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.billingProductDetailsUpdated || i == NotificationCenter.premiumPromoUpdated) {
-            this.premiumButtonView.buttonTextView.setText(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount));
+            this.premiumButtonView.buttonTextView.setText(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount, this.selectedTier));
         } else if (i != NotificationCenter.currentUserPremiumStatusChanged) {
         } else {
             bindPremium(UserConfig.getInstance(this.currentAccount).isPremium());

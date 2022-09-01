@@ -12,6 +12,6 @@ public final /* synthetic */ class PremiumPreviewFragment$$ExternalSyntheticLamb
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        PremiumPreviewFragment.lambda$sentShowScreenStat$12(tLObject, tLRPC$TL_error);
+        PremiumPreviewFragment.lambda$sentShowFeaturePreview$17(tLObject, tLRPC$TL_error);
     }
 }

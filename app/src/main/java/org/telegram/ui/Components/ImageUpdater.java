@@ -652,7 +652,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
             PhotoCropActivity photoCropActivity = new PhotoCropActivity(bundle);
             photoCropActivity.setDelegate(this);
-            launchActivity.lambda$runLinkRequest$61(photoCropActivity);
+            launchActivity.lambda$runLinkRequest$62(photoCropActivity);
         } catch (Exception e) {
             FileLog.e(e);
             processBitmap(ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);
@@ -665,7 +665,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         photoEntry.isVideo = z;
         photoEntry.thumbPath = str2;
         arrayList.add(photoEntry);
-        PhotoViewer.getInstance().setParentActivity(this.parentFragment.getParentActivity());
+        PhotoViewer.getInstance().setParentActivity(this.parentFragment);
         PhotoViewer.getInstance().openPhotoForSelect(arrayList, 0, 1, false, new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.Components.ImageUpdater.4
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public boolean allowCaption() {
@@ -735,7 +735,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                 }
             } else {
                 this.parentFragment.getParentActivity().overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
-                PhotoViewer.getInstance().setParentActivity(this.parentFragment.getParentActivity());
+                PhotoViewer.getInstance().setParentActivity(this.parentFragment);
                 try {
                     attributeInt = new ExifInterface(this.currentPicturePath).getAttributeInt("Orientation", 1);
                 } catch (Exception e) {

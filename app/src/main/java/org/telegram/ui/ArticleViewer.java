@@ -12841,7 +12841,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             indexOf = 0;
         }
         PhotoViewer photoViewer = PhotoViewer.getInstance();
-        photoViewer.setParentActivity(this.parentActivity);
+        photoViewer.setParentActivity(this.parentFragment);
         return photoViewer.openPhoto(indexOf, new RealPageBlocksAdapter(webpageAdapter.currentPage, list), new PageBlocksPhotoViewerProvider(list));
     }
 

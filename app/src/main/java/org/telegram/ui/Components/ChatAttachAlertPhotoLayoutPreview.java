@@ -1645,9 +1645,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         }
 
         /* JADX WARN: Removed duplicated region for block: B:180:0x0433  */
-        /* JADX WARN: Removed duplicated region for block: B:183:0x04a2  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x04ca  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x04d9  */
+        /* JADX WARN: Removed duplicated region for block: B:183:0x049c  */
+        /* JADX WARN: Removed duplicated region for block: B:90:0x04c4  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x04d3  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1907,11 +1907,13 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                                     AndroidUtilities.hideKeyboard(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.baseFragment.getFragmentView().findFocus());
                                     AndroidUtilities.hideKeyboard(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.getContainer().findFocus());
                                 }
-                                PhotoViewer.getInstance().setParentActivity(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.baseFragment.getParentActivity(), ChatAttachAlertPhotoLayoutPreview.this.resourcesProvider);
-                                PhotoViewer.getInstance().setParentAlert(ChatAttachAlertPhotoLayoutPreview.this.parentAlert);
                                 PhotoViewer photoViewer = PhotoViewer.getInstance();
+                                ChatAttachAlertPhotoLayoutPreview chatAttachAlertPhotoLayoutPreview2 = ChatAttachAlertPhotoLayoutPreview.this;
+                                photoViewer.setParentActivity(chatAttachAlertPhotoLayoutPreview2.parentAlert.baseFragment, chatAttachAlertPhotoLayoutPreview2.resourcesProvider);
+                                PhotoViewer.getInstance().setParentAlert(ChatAttachAlertPhotoLayoutPreview.this.parentAlert);
+                                PhotoViewer photoViewer2 = PhotoViewer.getInstance();
                                 ChatAttachAlert chatAttachAlert2 = ChatAttachAlertPhotoLayoutPreview.this.parentAlert;
-                                photoViewer.setMaxSelectedPhotos(chatAttachAlert2.maxSelectedPhotos, chatAttachAlert2.allowOrder);
+                                photoViewer2.setMaxSelectedPhotos(chatAttachAlert2.maxSelectedPhotos, chatAttachAlert2.allowOrder);
                                 this.photoViewerProvider.init(photos);
                                 PhotoViewer.getInstance().openPhotoForSelect(new ArrayList<>(photos), indexOf4, i2, false, this.photoViewerProvider, chatActivity);
                                 if (ChatAttachAlertPhotoLayoutPreview.this.photoLayout.captionForAllMedia()) {
@@ -1924,11 +1926,13 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         chatActivity = null;
                         if (!chatAttachAlert.delegate.needEnterComment()) {
                         }
-                        PhotoViewer.getInstance().setParentActivity(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.baseFragment.getParentActivity(), ChatAttachAlertPhotoLayoutPreview.this.resourcesProvider);
+                        PhotoViewer photoViewer3 = PhotoViewer.getInstance();
+                        ChatAttachAlertPhotoLayoutPreview chatAttachAlertPhotoLayoutPreview22 = ChatAttachAlertPhotoLayoutPreview.this;
+                        photoViewer3.setParentActivity(chatAttachAlertPhotoLayoutPreview22.parentAlert.baseFragment, chatAttachAlertPhotoLayoutPreview22.resourcesProvider);
                         PhotoViewer.getInstance().setParentAlert(ChatAttachAlertPhotoLayoutPreview.this.parentAlert);
-                        PhotoViewer photoViewer2 = PhotoViewer.getInstance();
+                        PhotoViewer photoViewer22 = PhotoViewer.getInstance();
                         ChatAttachAlert chatAttachAlert22 = ChatAttachAlertPhotoLayoutPreview.this.parentAlert;
-                        photoViewer2.setMaxSelectedPhotos(chatAttachAlert22.maxSelectedPhotos, chatAttachAlert22.allowOrder);
+                        photoViewer22.setMaxSelectedPhotos(chatAttachAlert22.maxSelectedPhotos, chatAttachAlert22.allowOrder);
                         this.photoViewerProvider.init(photos);
                         PhotoViewer.getInstance().openPhotoForSelect(new ArrayList<>(photos), indexOf4, i2, false, this.photoViewerProvider, chatActivity);
                         if (ChatAttachAlertPhotoLayoutPreview.this.photoLayout.captionForAllMedia()) {

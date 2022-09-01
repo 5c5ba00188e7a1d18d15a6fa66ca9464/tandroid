@@ -6,6 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import androidx.core.app.RemoteInput;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.telegram.messenger.MessageObject;
+import org.telegram.tgnet.TLRPC$MessageEntity;
+import org.telegram.tgnet.TLRPC$ReplyMarkup;
+import org.telegram.tgnet.TLRPC$WebPage;
 /* loaded from: classes.dex */
 public class AutoMessageReplyReceiver extends BroadcastReceiver {
     @Override // android.content.BroadcastReceiver
@@ -25,7 +31,7 @@ public class AutoMessageReplyReceiver extends BroadcastReceiver {
         if (longExtra == 0 || intExtra == 0 || !UserConfig.isValidAccount(intExtra2)) {
             return;
         }
-        SendMessagesHelper.getInstance(intExtra2).sendMessage(charSequence.toString(), longExtra, null, null, null, true, null, null, null, true, 0, null);
+        SendMessagesHelper.getInstance(intExtra2).sendMessage(charSequence.toString(), longExtra, (MessageObject) null, (MessageObject) null, (TLRPC$WebPage) null, true, (ArrayList<TLRPC$MessageEntity>) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, true, 0, (MessageObject.SendAnimationData) null, false);
         MessagesController.getInstance(intExtra2).markDialogAsRead(longExtra, intExtra, intExtra, 0, false, 0, 0, true, 0);
     }
 }

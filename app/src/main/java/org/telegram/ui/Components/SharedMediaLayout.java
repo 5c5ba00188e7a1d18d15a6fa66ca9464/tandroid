@@ -87,8 +87,10 @@ import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$InputPeer;
 import org.telegram.tgnet.TLRPC$InputUser;
 import org.telegram.tgnet.TLRPC$Message;
+import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC$ReplyMarkup;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantAdmin;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantCreator;
 import org.telegram.tgnet.TLRPC$TL_chatChannelParticipant;
@@ -1541,7 +1543,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.photoVideoOptionsItem.setTranslationY(AndroidUtilities.dp(10.0f));
         this.photoVideoOptionsItem.setVisibility(4);
         Drawable mutate = ContextCompat.getDrawable(context, R.drawable.ic_ab_other).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundWhiteGrayText2"), PorterDuff.Mode.MULTIPLY));
+        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor("actionBarActionModeDefaultIcon"), PorterDuff.Mode.MULTIPLY));
         this.photoVideoOptionsItem.setImageDrawable(mutate);
         this.photoVideoOptionsItem.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         this.actionBar.addView(this.photoVideoOptionsItem, LayoutHelper.createFrame(48, 56, 85));
@@ -1565,7 +1567,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         BackDrawable backDrawable = new BackDrawable(true);
         this.backDrawable = backDrawable;
         imageView3.setImageDrawable(backDrawable);
-        this.backDrawable.setColor(getThemedColor("windowBackgroundWhiteGrayText2"));
+        this.backDrawable.setColor(getThemedColor("actionBarActionModeDefaultIcon"));
         this.closeButton.setBackground(Theme.createSelectorDrawable(getThemedColor("actionBarActionModeDefaultSelector"), 1));
         this.closeButton.setContentDescription(LocaleController.getString("Close", R.string.Close));
         this.actionModeLayout.addView(this.closeButton, new LinearLayout.LayoutParams(AndroidUtilities.dp(54.0f), -1));
@@ -3746,7 +3748,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             for (int i3 = 0; i3 < arrayList.size(); i3++) {
                 long longValue = ((Long) arrayList.get(i3)).longValue();
                 if (charSequence != null) {
-                    this.profileActivity.getSendMessagesHelper().sendMessage(charSequence.toString(), longValue, null, null, null, true, null, null, null, true, 0, null);
+                    this.profileActivity.getSendMessagesHelper().sendMessage(charSequence.toString(), longValue, (MessageObject) null, (MessageObject) null, (TLRPC$WebPage) null, true, (ArrayList<TLRPC$MessageEntity>) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, true, 0, (MessageObject.SendAnimationData) null, false);
                 }
                 this.profileActivity.getSendMessagesHelper().sendMessage(arrayList2, longValue, false, false, true, 0);
             }
@@ -5377,7 +5379,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         } else if (i3 == 0) {
             int i6 = i - this.sharedMediaData[i3].startOffset;
             if (i6 >= 0 && i6 < this.sharedMediaData[i3].messages.size()) {
-                PhotoViewer.getInstance().setParentActivity(this.profileActivity.getParentActivity());
+                PhotoViewer.getInstance().setParentActivity(this.profileActivity);
                 PhotoViewer.getInstance().openPhoto(this.sharedMediaData[i3].messages, i6, this.dialog_id, this.mergeDialogId, this.provider);
             }
         } else if (i3 == 2 || i3 == 4) {
@@ -5385,7 +5387,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 ((SharedAudioCell) view).didPressedButton();
             }
         } else if (i3 == 5) {
-            PhotoViewer.getInstance().setParentActivity(this.profileActivity.getParentActivity());
+            PhotoViewer.getInstance().setParentActivity(this.profileActivity);
             int indexOf = this.sharedMediaData[i3].messages.indexOf(messageObject);
             if (indexOf < 0) {
                 ArrayList<MessageObject> arrayList = new ArrayList<>();
@@ -5400,7 +5402,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 TLRPC$Document document = messageObject.getDocument();
                 if (sharedDocumentCell2.isLoaded()) {
                     if (messageObject.canPreviewDocument()) {
-                        PhotoViewer.getInstance().setParentActivity(this.profileActivity.getParentActivity());
+                        PhotoViewer.getInstance().setParentActivity(this.profileActivity);
                         int indexOf2 = this.sharedMediaData[i3].messages.indexOf(messageObject);
                         if (indexOf2 < 0) {
                             ArrayList<MessageObject> arrayList2 = new ArrayList<>();
@@ -5463,7 +5465,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public void openWebView(TLRPC$WebPage tLRPC$WebPage, MessageObject messageObject) {
-        EmbedBottomSheet.show(this.profileActivity.getParentActivity(), messageObject, this.provider, tLRPC$WebPage.site_name, tLRPC$WebPage.description, tLRPC$WebPage.url, tLRPC$WebPage.embed_url, tLRPC$WebPage.embed_width, tLRPC$WebPage.embed_height, false);
+        EmbedBottomSheet.show(this.profileActivity, messageObject, this.provider, tLRPC$WebPage.site_name, tLRPC$WebPage.description, tLRPC$WebPage.url, tLRPC$WebPage.embed_url, tLRPC$WebPage.embed_width, tLRPC$WebPage.embed_height, false);
     }
 
     private void recycleAdapter(RecyclerView.Adapter adapter) {
@@ -7286,7 +7288,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             arrayList.add(new ThemeDescription(this.forwardItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "windowBackgroundWhiteGrayText2"));
             arrayList.add(new ThemeDescription(this.forwardItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "actionBarActionModeDefaultSelector"));
         }
-        arrayList.add(new ThemeDescription(this.closeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, new Drawable[]{this.backDrawable}, null, "windowBackgroundWhiteGrayText2"));
+        arrayList.add(new ThemeDescription(this.closeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, new Drawable[]{this.backDrawable}, null, "actionBarActionModeDefaultIcon"));
         arrayList.add(new ThemeDescription(this.closeButton, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "actionBarActionModeDefaultSelector"));
         arrayList.add(new ThemeDescription(this.actionModeLayout, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
         arrayList.add(new ThemeDescription(this.scrollSlidingTextTabStrip, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));

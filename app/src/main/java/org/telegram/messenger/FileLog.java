@@ -152,7 +152,7 @@ public class FileLog {
         if (getInstance().streamWriter == null) {
             return;
         }
-        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda1
+        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 FileLog.lambda$e$1(str);
@@ -185,7 +185,7 @@ public class FileLog {
         ensureInitied();
         th.printStackTrace();
         if (getInstance().streamWriter != null) {
-            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda4
+            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     FileLog.lambda$e$2(th);
@@ -212,6 +212,54 @@ public class FileLog {
         }
     }
 
+    public static void fatal(Throwable th) {
+        fatal(th, true);
+    }
+
+    public static void fatal(final Throwable th, boolean z) {
+        if (!BuildVars.LOGS_ENABLED) {
+            return;
+        }
+        if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
+            AndroidUtilities.appCenterLog(th);
+        }
+        ensureInitied();
+        th.printStackTrace();
+        if (getInstance().streamWriter != null) {
+            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FileLog.lambda$fatal$3(th);
+                }
+            });
+            return;
+        }
+        th.printStackTrace();
+        if (!BuildVars.DEBUG_PRIVATE_VERSION) {
+            return;
+        }
+        System.exit(2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$fatal$3(Throwable th) {
+        try {
+            OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
+            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + th + "\n");
+            StackTraceElement[] stackTrace = th.getStackTrace();
+            for (int i = 0; i < stackTrace.length; i++) {
+                OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
+                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + stackTrace[i] + "\n");
+            }
+            getInstance().streamWriter.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (BuildVars.DEBUG_PRIVATE_VERSION) {
+            System.exit(2);
+        }
+    }
+
     private static boolean needSent(Throwable th) {
         return !(th instanceof InterruptedException) && !(th instanceof MediaCodecVideoConvertor.ConversionCanceledException);
     }
@@ -228,13 +276,13 @@ public class FileLog {
         getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                FileLog.lambda$d$3(str);
+                FileLog.lambda$d$4(str);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$d$3(String str) {
+    public static /* synthetic */ void lambda$d$4(String str) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
             outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " D/tmessages: " + str + "\n");
@@ -253,16 +301,16 @@ public class FileLog {
         if (getInstance().streamWriter == null) {
             return;
         }
-        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda2
+        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                FileLog.lambda$w$4(str);
+                FileLog.lambda$w$5(str);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$w$4(String str) {
+    public static /* synthetic */ void lambda$w$5(String str) {
         try {
             OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
             outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " W/tmessages: " + str + "\n");

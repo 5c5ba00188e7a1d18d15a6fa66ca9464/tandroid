@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
+import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
@@ -82,9 +83,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     ValueAnimator messageEditTextAnimator;
     private int messageEditTextPredrawHeigth;
     private int messageEditTextPredrawScrollY;
-    Paint paint;
     private boolean popupAnimating;
-    private final Theme.ResourcesProvider resourcesProvider;
     private ValueAnimator sendButtonColorAnimator;
     private boolean shouldAnimateEditTextWithBounds;
     private SizeNotifierFrameLayoutPhoto sizeNotifierLayout;
@@ -92,7 +91,9 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     private View windowView;
     boolean sendButtonEnabled = true;
     private float sendButtonEnabledProgress = 1.0f;
+    Paint paint = new Paint();
     float offset = 0.0f;
+    private final Theme.ResourcesProvider resourcesProvider = new DarkTheme();
     private Drawable doneDrawable = Theme.createCircleDrawable(AndroidUtilities.dp(16.0f), -10043398);
 
     /* loaded from: classes3.dex */
@@ -124,10 +125,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     public PhotoViewerCaptionEnterView(Context context, SizeNotifierFrameLayoutPhoto sizeNotifierFrameLayoutPhoto, View view, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
-        Paint paint = new Paint();
-        this.paint = paint;
-        this.resourcesProvider = resourcesProvider;
-        paint.setColor(2130706432);
+        this.paint.setColor(2130706432);
         setWillNotDraw(false);
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -642,6 +640,217 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         return editTextCaption.getSelectionStart();
     }
 
+    /* loaded from: classes3.dex */
+    private class DarkTheme implements Theme.ResourcesProvider {
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ void applyServiceShaderMatrix(int i, int i2, float f, float f2) {
+            Theme.applyServiceShaderMatrix(i, i2, f, f2);
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ int getColorOrDefault(String str) {
+            return getColor(str);
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ Integer getCurrentColor(String str) {
+            Integer color;
+            color = getColor(str);
+            return color;
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ Drawable getDrawable(String str) {
+            return Theme.ResourcesProvider.-CC.$default$getDrawable(this, str);
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ Paint getPaint(String str) {
+            return Theme.ResourcesProvider.-CC.$default$getPaint(this, str);
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ boolean hasGradientService() {
+            return Theme.ResourcesProvider.-CC.$default$hasGradientService(this);
+        }
+
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public /* synthetic */ void setAnimatedColor(String str, int i) {
+            Theme.ResourcesProvider.-CC.$default$setAnimatedColor(this, str, i);
+        }
+
+        private DarkTheme(PhotoViewerCaptionEnterView photoViewerCaptionEnterView) {
+        }
+
+        /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+        @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
+        public Integer getColor(String str) {
+            char c;
+            str.hashCode();
+            switch (str.hashCode()) {
+                case -2139469579:
+                    if (str.equals("chat_emojiPanelEmptyText")) {
+                        c = 0;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -1850167367:
+                    if (str.equals("chat_emojiPanelShadowLine")) {
+                        c = 1;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -1849805674:
+                    if (str.equals("dialogBackground")) {
+                        c = 2;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -1815610844:
+                    if (str.equals("chat_emojiPanelStickerPackSelectorLine")) {
+                        c = 3;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -1633591792:
+                    if (str.equals("chat_emojiPanelStickerPackSelector")) {
+                        c = 4;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -1345036363:
+                    if (str.equals("chat_emojiSearchBackground")) {
+                        c = 5;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -1285599213:
+                    if (str.equals("chat_emojiBottomPanelIcon")) {
+                        c = 6;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -343666293:
+                    if (str.equals("windowBackgroundWhite")) {
+                        c = 7;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case -249481380:
+                    if (str.equals("listSelectorSDK21")) {
+                        c = '\b';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 339397761:
+                    if (str.equals("windowBackgroundWhiteBlackText")) {
+                        c = '\t';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 421601145:
+                    if (str.equals("chat_emojiPanelIconSelected")) {
+                        c = '\n';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 634019162:
+                    if (str.equals("chat_emojiPanelBackspace")) {
+                        c = 11;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 1674318617:
+                    if (str.equals("divider")) {
+                        c = '\f';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 1929729373:
+                    if (str.equals("progressCircle")) {
+                        c = '\r';
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 1976399936:
+                    if (str.equals("chat_emojiSearchIcon")) {
+                        c = 14;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 2067556030:
+                    if (str.equals("chat_emojiPanelIcon")) {
+                        c = 15;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                case 2133456819:
+                    if (str.equals("chat_emojiPanelBackground")) {
+                        c = 16;
+                        break;
+                    }
+                    c = 65535;
+                    break;
+                default:
+                    c = 65535;
+                    break;
+            }
+            switch (c) {
+                case 0:
+                    return -8553090;
+                case 1:
+                    return -1610612736;
+                case 2:
+                    return -14803426;
+                case 3:
+                    return -10177041;
+                case 4:
+                case 5:
+                    return 181267199;
+                case 6:
+                    return -9539985;
+                case 7:
+                    return -15198183;
+                case '\b':
+                    return 771751936;
+                case '\t':
+                    return -1;
+                case '\n':
+                    return -10177041;
+                case 11:
+                    return -9539985;
+                case '\f':
+                    return -16777216;
+                case '\r':
+                    return -10177027;
+                case 14:
+                    return -9211020;
+                case 15:
+                    return -9539985;
+                case 16:
+                    return -14803425;
+                default:
+                    return null;
+            }
+        }
+    }
+
     private void createEmojiView() {
         EmojiView emojiView = this.emojiView;
         if (emojiView != null && emojiView.currentAccount != UserConfig.selectedAccount) {
@@ -651,7 +860,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         if (this.emojiView != null) {
             return;
         }
-        EmojiView emojiView2 = new EmojiView(null, true, false, false, getContext(), false, null, null, null);
+        EmojiView emojiView2 = new EmojiView(null, true, false, false, getContext(), false, null, null, this.resourcesProvider);
         this.emojiView = emojiView2;
         emojiView2.setDelegate(new EmojiView.EmojiViewDelegate() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.3
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
@@ -705,8 +914,8 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public /* synthetic */ void onEmojiSettingsClick() {
-                EmojiView.EmojiViewDelegate.-CC.$default$onEmojiSettingsClick(this);
+            public /* synthetic */ void onEmojiSettingsClick(ArrayList arrayList) {
+                EmojiView.EmojiViewDelegate.-CC.$default$onEmojiSettingsClick(this, arrayList);
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
@@ -822,7 +1031,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
 
             @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-            public void onCustomEmojiSelected(long j, TLRPC$Document tLRPC$Document, String str) {
+            public void onCustomEmojiSelected(long j, TLRPC$Document tLRPC$Document, String str, boolean z) {
                 AnimatedEmojiSpan animatedEmojiSpan;
                 int selectionEnd = PhotoViewerCaptionEnterView.this.messageEditText.getSelectionEnd();
                 if (selectionEnd < 0) {
@@ -1141,5 +1350,9 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
         return color != null ? color.intValue() : Theme.getColor(str);
+    }
+
+    public Theme.ResourcesProvider getResourcesProvider() {
+        return this.resourcesProvider;
     }
 }

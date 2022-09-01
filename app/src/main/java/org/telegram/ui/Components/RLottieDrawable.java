@@ -2,13 +2,14 @@ package org.telegram.ui.Components;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 import java.io.File;
@@ -39,11 +40,13 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private boolean applyingLayerColors;
     NativePtrArgs args;
     protected int autoRepeat;
+    protected int autoRepeatCount;
     protected int autoRepeatPlayCount;
     protected volatile Bitmap backgroundBitmap;
     private Paint backgroundPaint;
     BitmapsCache bitmapsCache;
     protected Runnable cacheGenerateTask;
+    private Runnable cancelCache;
     protected int currentFrame;
     private View currentParentView;
     protected int customEndFrame;
@@ -100,7 +103,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private boolean shouldLimitFps;
     private boolean singleFrameDecoded;
     public boolean skipFrameUpdate;
-    long startTime;
     protected int timeBetweenFrames;
     protected Runnable uiRunnable;
     private Runnable uiRunnableCacheFinished;
@@ -154,10 +156,12 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 if (rLottieDrawable2.cacheGenerateTask != null) {
                     return;
                 }
-                rLottieDrawable2.startTime = System.currentTimeMillis();
-                RLottieDrawable rLottieDrawable3 = RLottieDrawable.this;
-                rLottieDrawable3.generatingCache = true;
+                rLottieDrawable2.generatingCache = true;
+                if (RLottieDrawable.lottieCacheGenerateQueue == null) {
+                    RLottieDrawable.createCacheGenQueue();
+                }
                 DispatchQueue dispatchQueue = RLottieDrawable.lottieCacheGenerateQueue;
+                RLottieDrawable rLottieDrawable3 = RLottieDrawable.this;
                 Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$3$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -246,8 +250,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public RLottieDrawable(File file, int i, int i2, BitmapsCache.CacheOptions cacheOptions, boolean z, int[] iArr, int i3) {
         int[] iArr2;
-        char c;
         boolean z2;
+        char c;
         int[] iArr3 = new int[3];
         this.metaData = iArr3;
         this.customEndFrame = -1;
@@ -258,6 +262,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
+        this.autoRepeatCount = -1;
         this.scaleX = 1.0f;
         this.scaleY = 1.0f;
         this.dstRect = new RectF();
@@ -294,12 +299,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
-            private long lastUpdate = 0;
-
             @Override // java.lang.Runnable
             public void run() {
                 long j;
                 int frame;
+                BitmapsCache bitmapsCache;
                 if (RLottieDrawable.this.isRecycled) {
                     return;
                 }
@@ -329,66 +333,42 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                 RLottieDrawable.this.pendingReplaceColors = null;
                             }
                             try {
-                                int i4 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
                                 RLottieDrawable rLottieDrawable3 = RLottieDrawable.this;
-                                if (!rLottieDrawable3.precache || rLottieDrawable3.bitmapsCache == null || (rLottieDrawable3.fallbackCache && RLottieDrawable.this.generatingCache)) {
-                                    if (RLottieDrawable.this.fallbackCache) {
-                                        long elapsedRealtime = SystemClock.elapsedRealtime();
-                                        long j2 = this.lastUpdate;
-                                        if (j2 > 0) {
-                                            int max = Math.max(1, Math.min(4, Math.round(((float) (elapsedRealtime - j2)) / 16.0f)));
-                                            RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
-                                            int i5 = rLottieDrawable4.currentFrame;
-                                            int i6 = i5 + max;
-                                            int i7 = rLottieDrawable4.customEndFrame;
-                                            if (i6 > (i7 >= 0 ? i7 : rLottieDrawable4.metaData[0])) {
-                                                if (i7 < 0) {
-                                                    i7 = rLottieDrawable4.metaData[0];
-                                                }
-                                                i4 = i7 - i5;
-                                            } else {
-                                                i4 = max;
-                                            }
-                                        }
-                                        this.lastUpdate = elapsedRealtime;
+                                int i4 = rLottieDrawable3.isDice;
+                                if (i4 == 1) {
+                                    j = rLottieDrawable3.nativePtr;
+                                } else if (i4 == 2) {
+                                    j = rLottieDrawable3.secondNativePtr;
+                                    if (RLottieDrawable.this.setLastFrame) {
+                                        RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
+                                        rLottieDrawable4.currentFrame = rLottieDrawable4.secondFramesCount - 1;
                                     }
-                                    RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
-                                    int i8 = rLottieDrawable5.isDice;
-                                    if (i8 == 1) {
-                                        j = rLottieDrawable5.nativePtr;
-                                    } else if (i8 == 2) {
-                                        j = rLottieDrawable5.secondNativePtr;
-                                        if (RLottieDrawable.this.setLastFrame) {
-                                            RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
-                                            rLottieDrawable6.currentFrame = rLottieDrawable6.secondFramesCount - 1;
-                                        }
-                                    } else {
-                                        j = rLottieDrawable5.nativePtr;
-                                    }
-                                    long j3 = j;
-                                    RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
-                                    int i9 = rLottieDrawable7.currentFrame;
-                                    Bitmap bitmap = rLottieDrawable7.backgroundBitmap;
-                                    RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
-                                    frame = RLottieDrawable.getFrame(j3, i9, bitmap, rLottieDrawable8.width, rLottieDrawable8.height, rLottieDrawable8.backgroundBitmap.getRowBytes(), true);
                                 } else {
+                                    j = rLottieDrawable3.nativePtr;
+                                }
+                                long j2 = j;
+                                int i5 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
+                                RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
+                                if (rLottieDrawable5.precache && (bitmapsCache = rLottieDrawable5.bitmapsCache) != null) {
                                     try {
-                                        RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
-                                        frame = rLottieDrawable9.bitmapsCache.getFrame(rLottieDrawable9.currentFrame / i4, rLottieDrawable9.backgroundBitmap);
+                                        frame = bitmapsCache.getFrame(rLottieDrawable5.currentFrame / i5, rLottieDrawable5.backgroundBitmap);
                                     } catch (Exception e) {
                                         FileLog.e(e);
                                         frame = 0;
                                     }
+                                } else {
+                                    int i6 = rLottieDrawable5.currentFrame;
+                                    Bitmap bitmap = rLottieDrawable5.backgroundBitmap;
+                                    RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
+                                    frame = RLottieDrawable.getFrame(j2, i6, bitmap, rLottieDrawable6.width, rLottieDrawable6.height, rLottieDrawable6.backgroundBitmap.getRowBytes(), true);
                                 }
-                                BitmapsCache bitmapsCache = RLottieDrawable.this.bitmapsCache;
-                                if (bitmapsCache != null && bitmapsCache.needGenCache()) {
+                                BitmapsCache bitmapsCache2 = RLottieDrawable.this.bitmapsCache;
+                                if (bitmapsCache2 != null && bitmapsCache2.needGenCache()) {
                                     if (!RLottieDrawable.this.genCacheSend) {
                                         RLottieDrawable.this.genCacheSend = true;
                                         RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableGenerateCache);
                                     }
-                                    if (!RLottieDrawable.this.fallbackCache) {
-                                        frame = -1;
-                                    }
+                                    frame = -1;
                                 }
                                 if (frame == -1) {
                                     RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
@@ -399,22 +379,22 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                     countDownLatch.countDown();
                                     return;
                                 }
-                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
-                                rLottieDrawable10.nextRenderingBitmap = rLottieDrawable10.backgroundBitmap;
-                                RLottieDrawable rLottieDrawable11 = RLottieDrawable.this;
-                                int i10 = rLottieDrawable11.isDice;
-                                if (i10 == 1) {
-                                    int i11 = rLottieDrawable11.currentFrame;
-                                    int i12 = i11 + i4;
-                                    int i13 = rLottieDrawable11.diceSwitchFramesCount;
-                                    if (i13 == -1) {
-                                        i13 = rLottieDrawable11.metaData[0];
+                                RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
+                                rLottieDrawable7.nextRenderingBitmap = rLottieDrawable7.backgroundBitmap;
+                                RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
+                                int i7 = rLottieDrawable8.isDice;
+                                if (i7 == 1) {
+                                    int i8 = rLottieDrawable8.currentFrame;
+                                    int i9 = i8 + i5;
+                                    int i10 = rLottieDrawable8.diceSwitchFramesCount;
+                                    if (i10 == -1) {
+                                        i10 = rLottieDrawable8.metaData[0];
                                     }
-                                    if (i12 < i13) {
-                                        rLottieDrawable11.currentFrame = i11 + i4;
+                                    if (i9 < i10) {
+                                        rLottieDrawable8.currentFrame = i8 + i5;
                                     } else {
-                                        rLottieDrawable11.currentFrame = 0;
-                                        rLottieDrawable11.nextFrameIsLast = false;
+                                        rLottieDrawable8.currentFrame = 0;
+                                        rLottieDrawable8.nextFrameIsLast = false;
                                         if (RLottieDrawable.this.secondNativePtr != 0) {
                                             RLottieDrawable.this.isDice = 2;
                                         }
@@ -423,67 +403,72 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                             RLottieDrawable.this.resetVibrationAfterRestart = false;
                                         }
                                     }
-                                } else if (i10 == 2) {
-                                    int i14 = rLottieDrawable11.currentFrame;
-                                    if (i14 + i4 < rLottieDrawable11.secondFramesCount) {
-                                        rLottieDrawable11.currentFrame = i14 + i4;
+                                } else if (i7 == 2) {
+                                    int i11 = rLottieDrawable8.currentFrame;
+                                    if (i11 + i5 < rLottieDrawable8.secondFramesCount) {
+                                        rLottieDrawable8.currentFrame = i11 + i5;
                                     } else {
-                                        rLottieDrawable11.nextFrameIsLast = true;
+                                        rLottieDrawable8.nextFrameIsLast = true;
                                         RLottieDrawable.this.autoRepeatPlayCount++;
                                     }
                                 } else {
-                                    int i15 = rLottieDrawable11.customEndFrame;
-                                    if (i15 >= 0 && rLottieDrawable11.playInDirectionOfCustomEndFrame) {
-                                        int i16 = rLottieDrawable11.currentFrame;
-                                        if (i16 > i15) {
-                                            if (i16 - i4 >= i15) {
-                                                rLottieDrawable11.currentFrame = i16 - i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                    int i12 = rLottieDrawable8.customEndFrame;
+                                    if (i12 >= 0 && rLottieDrawable8.playInDirectionOfCustomEndFrame) {
+                                        int i13 = rLottieDrawable8.currentFrame;
+                                        if (i13 > i12) {
+                                            if (i13 - i5 >= i12) {
+                                                rLottieDrawable8.currentFrame = i13 - i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
-                                        } else if (i16 + i4 < i15) {
-                                            rLottieDrawable11.currentFrame = i16 + i4;
-                                            rLottieDrawable11.nextFrameIsLast = false;
+                                        } else if (i13 + i5 < i12) {
+                                            rLottieDrawable8.currentFrame = i13 + i5;
+                                            rLottieDrawable8.nextFrameIsLast = false;
                                         } else {
-                                            rLottieDrawable11.nextFrameIsLast = true;
+                                            rLottieDrawable8.nextFrameIsLast = true;
                                             RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                         }
                                     } else {
-                                        int i17 = rLottieDrawable11.currentFrame;
-                                        int i18 = i17 + i4;
-                                        if (i15 < 0) {
-                                            i15 = rLottieDrawable11.metaData[0];
+                                        int i14 = rLottieDrawable8.currentFrame;
+                                        int i15 = i14 + i5;
+                                        if (i12 < 0) {
+                                            i12 = rLottieDrawable8.metaData[0];
                                         }
-                                        if (i18 < i15) {
-                                            if (rLottieDrawable11.autoRepeat == 3) {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                        if (i15 < i12) {
+                                            if (rLottieDrawable8.autoRepeat == 3) {
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.autoRepeatPlayCount++;
                                             } else {
-                                                rLottieDrawable11.currentFrame = i17 + i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                                rLottieDrawable8.currentFrame = i14 + i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             }
                                         } else {
-                                            int i19 = rLottieDrawable11.autoRepeat;
-                                            if (i19 == 1) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                            int i16 = rLottieDrawable8.autoRepeat;
+                                            if (i16 == 1) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                                 if (RLottieDrawable.this.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
-                                            } else if (i19 == 2) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = true;
-                                                RLottieDrawable rLottieDrawable12 = RLottieDrawable.this;
-                                                rLottieDrawable12.autoRepeatPlayCount++;
-                                                if (rLottieDrawable12.resetVibrationAfterRestart) {
+                                                RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
+                                                int i17 = rLottieDrawable9.autoRepeatCount;
+                                                if (i17 > 0) {
+                                                    rLottieDrawable9.autoRepeatCount = i17 - 1;
+                                                }
+                                            } else if (i16 == 2) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = true;
+                                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
+                                                rLottieDrawable10.autoRepeatPlayCount++;
+                                                if (rLottieDrawable10.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
                                         }
@@ -520,7 +505,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             createCacheGenQueue();
         }
         if (this.precache) {
-            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2);
+            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             NativePtrArgs nativePtrArgs = new NativePtrArgs();
             this.args = nativePtrArgs;
             nativePtrArgs.file = file.getAbsoluteFile();
@@ -542,8 +527,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         } else {
             iArr2 = iArr3;
-            c = 1;
             z2 = false;
+            c = 1;
             this.nativePtr = create(file.getAbsolutePath(), null, i, i2, iArr2, this.precache, iArr, this.shouldLimitFps, i3);
             if (this.nativePtr == 0) {
                 file.delete();
@@ -569,6 +554,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
+        this.autoRepeatCount = -1;
         this.scaleX = 1.0f;
         this.scaleY = 1.0f;
         this.dstRect = new RectF();
@@ -605,12 +591,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
-            private long lastUpdate = 0;
-
             @Override // java.lang.Runnable
             public void run() {
                 long j;
                 int frame;
+                BitmapsCache bitmapsCache;
                 if (RLottieDrawable.this.isRecycled) {
                     return;
                 }
@@ -640,66 +625,42 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                 RLottieDrawable.this.pendingReplaceColors = null;
                             }
                             try {
-                                int i4 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
                                 RLottieDrawable rLottieDrawable3 = RLottieDrawable.this;
-                                if (!rLottieDrawable3.precache || rLottieDrawable3.bitmapsCache == null || (rLottieDrawable3.fallbackCache && RLottieDrawable.this.generatingCache)) {
-                                    if (RLottieDrawable.this.fallbackCache) {
-                                        long elapsedRealtime = SystemClock.elapsedRealtime();
-                                        long j2 = this.lastUpdate;
-                                        if (j2 > 0) {
-                                            int max = Math.max(1, Math.min(4, Math.round(((float) (elapsedRealtime - j2)) / 16.0f)));
-                                            RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
-                                            int i5 = rLottieDrawable4.currentFrame;
-                                            int i6 = i5 + max;
-                                            int i7 = rLottieDrawable4.customEndFrame;
-                                            if (i6 > (i7 >= 0 ? i7 : rLottieDrawable4.metaData[0])) {
-                                                if (i7 < 0) {
-                                                    i7 = rLottieDrawable4.metaData[0];
-                                                }
-                                                i4 = i7 - i5;
-                                            } else {
-                                                i4 = max;
-                                            }
-                                        }
-                                        this.lastUpdate = elapsedRealtime;
+                                int i4 = rLottieDrawable3.isDice;
+                                if (i4 == 1) {
+                                    j = rLottieDrawable3.nativePtr;
+                                } else if (i4 == 2) {
+                                    j = rLottieDrawable3.secondNativePtr;
+                                    if (RLottieDrawable.this.setLastFrame) {
+                                        RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
+                                        rLottieDrawable4.currentFrame = rLottieDrawable4.secondFramesCount - 1;
                                     }
-                                    RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
-                                    int i8 = rLottieDrawable5.isDice;
-                                    if (i8 == 1) {
-                                        j = rLottieDrawable5.nativePtr;
-                                    } else if (i8 == 2) {
-                                        j = rLottieDrawable5.secondNativePtr;
-                                        if (RLottieDrawable.this.setLastFrame) {
-                                            RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
-                                            rLottieDrawable6.currentFrame = rLottieDrawable6.secondFramesCount - 1;
-                                        }
-                                    } else {
-                                        j = rLottieDrawable5.nativePtr;
-                                    }
-                                    long j3 = j;
-                                    RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
-                                    int i9 = rLottieDrawable7.currentFrame;
-                                    Bitmap bitmap = rLottieDrawable7.backgroundBitmap;
-                                    RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
-                                    frame = RLottieDrawable.getFrame(j3, i9, bitmap, rLottieDrawable8.width, rLottieDrawable8.height, rLottieDrawable8.backgroundBitmap.getRowBytes(), true);
                                 } else {
+                                    j = rLottieDrawable3.nativePtr;
+                                }
+                                long j2 = j;
+                                int i5 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
+                                RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
+                                if (rLottieDrawable5.precache && (bitmapsCache = rLottieDrawable5.bitmapsCache) != null) {
                                     try {
-                                        RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
-                                        frame = rLottieDrawable9.bitmapsCache.getFrame(rLottieDrawable9.currentFrame / i4, rLottieDrawable9.backgroundBitmap);
+                                        frame = bitmapsCache.getFrame(rLottieDrawable5.currentFrame / i5, rLottieDrawable5.backgroundBitmap);
                                     } catch (Exception e) {
                                         FileLog.e(e);
                                         frame = 0;
                                     }
+                                } else {
+                                    int i6 = rLottieDrawable5.currentFrame;
+                                    Bitmap bitmap = rLottieDrawable5.backgroundBitmap;
+                                    RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
+                                    frame = RLottieDrawable.getFrame(j2, i6, bitmap, rLottieDrawable6.width, rLottieDrawable6.height, rLottieDrawable6.backgroundBitmap.getRowBytes(), true);
                                 }
-                                BitmapsCache bitmapsCache = RLottieDrawable.this.bitmapsCache;
-                                if (bitmapsCache != null && bitmapsCache.needGenCache()) {
+                                BitmapsCache bitmapsCache2 = RLottieDrawable.this.bitmapsCache;
+                                if (bitmapsCache2 != null && bitmapsCache2.needGenCache()) {
                                     if (!RLottieDrawable.this.genCacheSend) {
                                         RLottieDrawable.this.genCacheSend = true;
                                         RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableGenerateCache);
                                     }
-                                    if (!RLottieDrawable.this.fallbackCache) {
-                                        frame = -1;
-                                    }
+                                    frame = -1;
                                 }
                                 if (frame == -1) {
                                     RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
@@ -710,22 +671,22 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                     countDownLatch.countDown();
                                     return;
                                 }
-                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
-                                rLottieDrawable10.nextRenderingBitmap = rLottieDrawable10.backgroundBitmap;
-                                RLottieDrawable rLottieDrawable11 = RLottieDrawable.this;
-                                int i10 = rLottieDrawable11.isDice;
-                                if (i10 == 1) {
-                                    int i11 = rLottieDrawable11.currentFrame;
-                                    int i12 = i11 + i4;
-                                    int i13 = rLottieDrawable11.diceSwitchFramesCount;
-                                    if (i13 == -1) {
-                                        i13 = rLottieDrawable11.metaData[0];
+                                RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
+                                rLottieDrawable7.nextRenderingBitmap = rLottieDrawable7.backgroundBitmap;
+                                RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
+                                int i7 = rLottieDrawable8.isDice;
+                                if (i7 == 1) {
+                                    int i8 = rLottieDrawable8.currentFrame;
+                                    int i9 = i8 + i5;
+                                    int i10 = rLottieDrawable8.diceSwitchFramesCount;
+                                    if (i10 == -1) {
+                                        i10 = rLottieDrawable8.metaData[0];
                                     }
-                                    if (i12 < i13) {
-                                        rLottieDrawable11.currentFrame = i11 + i4;
+                                    if (i9 < i10) {
+                                        rLottieDrawable8.currentFrame = i8 + i5;
                                     } else {
-                                        rLottieDrawable11.currentFrame = 0;
-                                        rLottieDrawable11.nextFrameIsLast = false;
+                                        rLottieDrawable8.currentFrame = 0;
+                                        rLottieDrawable8.nextFrameIsLast = false;
                                         if (RLottieDrawable.this.secondNativePtr != 0) {
                                             RLottieDrawable.this.isDice = 2;
                                         }
@@ -734,67 +695,72 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                             RLottieDrawable.this.resetVibrationAfterRestart = false;
                                         }
                                     }
-                                } else if (i10 == 2) {
-                                    int i14 = rLottieDrawable11.currentFrame;
-                                    if (i14 + i4 < rLottieDrawable11.secondFramesCount) {
-                                        rLottieDrawable11.currentFrame = i14 + i4;
+                                } else if (i7 == 2) {
+                                    int i11 = rLottieDrawable8.currentFrame;
+                                    if (i11 + i5 < rLottieDrawable8.secondFramesCount) {
+                                        rLottieDrawable8.currentFrame = i11 + i5;
                                     } else {
-                                        rLottieDrawable11.nextFrameIsLast = true;
+                                        rLottieDrawable8.nextFrameIsLast = true;
                                         RLottieDrawable.this.autoRepeatPlayCount++;
                                     }
                                 } else {
-                                    int i15 = rLottieDrawable11.customEndFrame;
-                                    if (i15 >= 0 && rLottieDrawable11.playInDirectionOfCustomEndFrame) {
-                                        int i16 = rLottieDrawable11.currentFrame;
-                                        if (i16 > i15) {
-                                            if (i16 - i4 >= i15) {
-                                                rLottieDrawable11.currentFrame = i16 - i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                    int i12 = rLottieDrawable8.customEndFrame;
+                                    if (i12 >= 0 && rLottieDrawable8.playInDirectionOfCustomEndFrame) {
+                                        int i13 = rLottieDrawable8.currentFrame;
+                                        if (i13 > i12) {
+                                            if (i13 - i5 >= i12) {
+                                                rLottieDrawable8.currentFrame = i13 - i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
-                                        } else if (i16 + i4 < i15) {
-                                            rLottieDrawable11.currentFrame = i16 + i4;
-                                            rLottieDrawable11.nextFrameIsLast = false;
+                                        } else if (i13 + i5 < i12) {
+                                            rLottieDrawable8.currentFrame = i13 + i5;
+                                            rLottieDrawable8.nextFrameIsLast = false;
                                         } else {
-                                            rLottieDrawable11.nextFrameIsLast = true;
+                                            rLottieDrawable8.nextFrameIsLast = true;
                                             RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                         }
                                     } else {
-                                        int i17 = rLottieDrawable11.currentFrame;
-                                        int i18 = i17 + i4;
-                                        if (i15 < 0) {
-                                            i15 = rLottieDrawable11.metaData[0];
+                                        int i14 = rLottieDrawable8.currentFrame;
+                                        int i15 = i14 + i5;
+                                        if (i12 < 0) {
+                                            i12 = rLottieDrawable8.metaData[0];
                                         }
-                                        if (i18 < i15) {
-                                            if (rLottieDrawable11.autoRepeat == 3) {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                        if (i15 < i12) {
+                                            if (rLottieDrawable8.autoRepeat == 3) {
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.autoRepeatPlayCount++;
                                             } else {
-                                                rLottieDrawable11.currentFrame = i17 + i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                                rLottieDrawable8.currentFrame = i14 + i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             }
                                         } else {
-                                            int i19 = rLottieDrawable11.autoRepeat;
-                                            if (i19 == 1) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                            int i16 = rLottieDrawable8.autoRepeat;
+                                            if (i16 == 1) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                                 if (RLottieDrawable.this.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
-                                            } else if (i19 == 2) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = true;
-                                                RLottieDrawable rLottieDrawable12 = RLottieDrawable.this;
-                                                rLottieDrawable12.autoRepeatPlayCount++;
-                                                if (rLottieDrawable12.resetVibrationAfterRestart) {
+                                                RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
+                                                int i17 = rLottieDrawable9.autoRepeatCount;
+                                                if (i17 > 0) {
+                                                    rLottieDrawable9.autoRepeatCount = i17 - 1;
+                                                }
+                                            } else if (i16 == 2) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = true;
+                                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
+                                                rLottieDrawable10.autoRepeatPlayCount++;
+                                                if (rLottieDrawable10.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
                                         }
@@ -829,7 +795,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             createCacheGenQueue();
         }
         if (this.precache) {
-            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2);
+            this.bitmapsCache = new BitmapsCache(file, this, cacheOptions, i, i2, !z);
             NativePtrArgs nativePtrArgs = new NativePtrArgs();
             this.args = nativePtrArgs;
             nativePtrArgs.file = file.getAbsoluteFile();
@@ -882,6 +848,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
+        this.autoRepeatCount = -1;
         this.scaleX = 1.0f;
         this.scaleY = 1.0f;
         this.dstRect = new RectF();
@@ -918,12 +885,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
-            private long lastUpdate = 0;
-
             @Override // java.lang.Runnable
             public void run() {
                 long j;
                 int frame;
+                BitmapsCache bitmapsCache;
                 if (RLottieDrawable.this.isRecycled) {
                     return;
                 }
@@ -953,66 +919,42 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                 RLottieDrawable.this.pendingReplaceColors = null;
                             }
                             try {
-                                int i4 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
                                 RLottieDrawable rLottieDrawable3 = RLottieDrawable.this;
-                                if (!rLottieDrawable3.precache || rLottieDrawable3.bitmapsCache == null || (rLottieDrawable3.fallbackCache && RLottieDrawable.this.generatingCache)) {
-                                    if (RLottieDrawable.this.fallbackCache) {
-                                        long elapsedRealtime = SystemClock.elapsedRealtime();
-                                        long j2 = this.lastUpdate;
-                                        if (j2 > 0) {
-                                            int max = Math.max(1, Math.min(4, Math.round(((float) (elapsedRealtime - j2)) / 16.0f)));
-                                            RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
-                                            int i5 = rLottieDrawable4.currentFrame;
-                                            int i6 = i5 + max;
-                                            int i7 = rLottieDrawable4.customEndFrame;
-                                            if (i6 > (i7 >= 0 ? i7 : rLottieDrawable4.metaData[0])) {
-                                                if (i7 < 0) {
-                                                    i7 = rLottieDrawable4.metaData[0];
-                                                }
-                                                i4 = i7 - i5;
-                                            } else {
-                                                i4 = max;
-                                            }
-                                        }
-                                        this.lastUpdate = elapsedRealtime;
+                                int i4 = rLottieDrawable3.isDice;
+                                if (i4 == 1) {
+                                    j = rLottieDrawable3.nativePtr;
+                                } else if (i4 == 2) {
+                                    j = rLottieDrawable3.secondNativePtr;
+                                    if (RLottieDrawable.this.setLastFrame) {
+                                        RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
+                                        rLottieDrawable4.currentFrame = rLottieDrawable4.secondFramesCount - 1;
                                     }
-                                    RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
-                                    int i8 = rLottieDrawable5.isDice;
-                                    if (i8 == 1) {
-                                        j = rLottieDrawable5.nativePtr;
-                                    } else if (i8 == 2) {
-                                        j = rLottieDrawable5.secondNativePtr;
-                                        if (RLottieDrawable.this.setLastFrame) {
-                                            RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
-                                            rLottieDrawable6.currentFrame = rLottieDrawable6.secondFramesCount - 1;
-                                        }
-                                    } else {
-                                        j = rLottieDrawable5.nativePtr;
-                                    }
-                                    long j3 = j;
-                                    RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
-                                    int i9 = rLottieDrawable7.currentFrame;
-                                    Bitmap bitmap = rLottieDrawable7.backgroundBitmap;
-                                    RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
-                                    frame = RLottieDrawable.getFrame(j3, i9, bitmap, rLottieDrawable8.width, rLottieDrawable8.height, rLottieDrawable8.backgroundBitmap.getRowBytes(), true);
                                 } else {
+                                    j = rLottieDrawable3.nativePtr;
+                                }
+                                long j2 = j;
+                                int i5 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
+                                RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
+                                if (rLottieDrawable5.precache && (bitmapsCache = rLottieDrawable5.bitmapsCache) != null) {
                                     try {
-                                        RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
-                                        frame = rLottieDrawable9.bitmapsCache.getFrame(rLottieDrawable9.currentFrame / i4, rLottieDrawable9.backgroundBitmap);
+                                        frame = bitmapsCache.getFrame(rLottieDrawable5.currentFrame / i5, rLottieDrawable5.backgroundBitmap);
                                     } catch (Exception e) {
                                         FileLog.e(e);
                                         frame = 0;
                                     }
+                                } else {
+                                    int i6 = rLottieDrawable5.currentFrame;
+                                    Bitmap bitmap = rLottieDrawable5.backgroundBitmap;
+                                    RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
+                                    frame = RLottieDrawable.getFrame(j2, i6, bitmap, rLottieDrawable6.width, rLottieDrawable6.height, rLottieDrawable6.backgroundBitmap.getRowBytes(), true);
                                 }
-                                BitmapsCache bitmapsCache = RLottieDrawable.this.bitmapsCache;
-                                if (bitmapsCache != null && bitmapsCache.needGenCache()) {
+                                BitmapsCache bitmapsCache2 = RLottieDrawable.this.bitmapsCache;
+                                if (bitmapsCache2 != null && bitmapsCache2.needGenCache()) {
                                     if (!RLottieDrawable.this.genCacheSend) {
                                         RLottieDrawable.this.genCacheSend = true;
                                         RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableGenerateCache);
                                     }
-                                    if (!RLottieDrawable.this.fallbackCache) {
-                                        frame = -1;
-                                    }
+                                    frame = -1;
                                 }
                                 if (frame == -1) {
                                     RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
@@ -1023,22 +965,22 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                     countDownLatch.countDown();
                                     return;
                                 }
-                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
-                                rLottieDrawable10.nextRenderingBitmap = rLottieDrawable10.backgroundBitmap;
-                                RLottieDrawable rLottieDrawable11 = RLottieDrawable.this;
-                                int i10 = rLottieDrawable11.isDice;
-                                if (i10 == 1) {
-                                    int i11 = rLottieDrawable11.currentFrame;
-                                    int i12 = i11 + i4;
-                                    int i13 = rLottieDrawable11.diceSwitchFramesCount;
-                                    if (i13 == -1) {
-                                        i13 = rLottieDrawable11.metaData[0];
+                                RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
+                                rLottieDrawable7.nextRenderingBitmap = rLottieDrawable7.backgroundBitmap;
+                                RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
+                                int i7 = rLottieDrawable8.isDice;
+                                if (i7 == 1) {
+                                    int i8 = rLottieDrawable8.currentFrame;
+                                    int i9 = i8 + i5;
+                                    int i10 = rLottieDrawable8.diceSwitchFramesCount;
+                                    if (i10 == -1) {
+                                        i10 = rLottieDrawable8.metaData[0];
                                     }
-                                    if (i12 < i13) {
-                                        rLottieDrawable11.currentFrame = i11 + i4;
+                                    if (i9 < i10) {
+                                        rLottieDrawable8.currentFrame = i8 + i5;
                                     } else {
-                                        rLottieDrawable11.currentFrame = 0;
-                                        rLottieDrawable11.nextFrameIsLast = false;
+                                        rLottieDrawable8.currentFrame = 0;
+                                        rLottieDrawable8.nextFrameIsLast = false;
                                         if (RLottieDrawable.this.secondNativePtr != 0) {
                                             RLottieDrawable.this.isDice = 2;
                                         }
@@ -1047,67 +989,72 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                             RLottieDrawable.this.resetVibrationAfterRestart = false;
                                         }
                                     }
-                                } else if (i10 == 2) {
-                                    int i14 = rLottieDrawable11.currentFrame;
-                                    if (i14 + i4 < rLottieDrawable11.secondFramesCount) {
-                                        rLottieDrawable11.currentFrame = i14 + i4;
+                                } else if (i7 == 2) {
+                                    int i11 = rLottieDrawable8.currentFrame;
+                                    if (i11 + i5 < rLottieDrawable8.secondFramesCount) {
+                                        rLottieDrawable8.currentFrame = i11 + i5;
                                     } else {
-                                        rLottieDrawable11.nextFrameIsLast = true;
+                                        rLottieDrawable8.nextFrameIsLast = true;
                                         RLottieDrawable.this.autoRepeatPlayCount++;
                                     }
                                 } else {
-                                    int i15 = rLottieDrawable11.customEndFrame;
-                                    if (i15 >= 0 && rLottieDrawable11.playInDirectionOfCustomEndFrame) {
-                                        int i16 = rLottieDrawable11.currentFrame;
-                                        if (i16 > i15) {
-                                            if (i16 - i4 >= i15) {
-                                                rLottieDrawable11.currentFrame = i16 - i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                    int i12 = rLottieDrawable8.customEndFrame;
+                                    if (i12 >= 0 && rLottieDrawable8.playInDirectionOfCustomEndFrame) {
+                                        int i13 = rLottieDrawable8.currentFrame;
+                                        if (i13 > i12) {
+                                            if (i13 - i5 >= i12) {
+                                                rLottieDrawable8.currentFrame = i13 - i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
-                                        } else if (i16 + i4 < i15) {
-                                            rLottieDrawable11.currentFrame = i16 + i4;
-                                            rLottieDrawable11.nextFrameIsLast = false;
+                                        } else if (i13 + i5 < i12) {
+                                            rLottieDrawable8.currentFrame = i13 + i5;
+                                            rLottieDrawable8.nextFrameIsLast = false;
                                         } else {
-                                            rLottieDrawable11.nextFrameIsLast = true;
+                                            rLottieDrawable8.nextFrameIsLast = true;
                                             RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                         }
                                     } else {
-                                        int i17 = rLottieDrawable11.currentFrame;
-                                        int i18 = i17 + i4;
-                                        if (i15 < 0) {
-                                            i15 = rLottieDrawable11.metaData[0];
+                                        int i14 = rLottieDrawable8.currentFrame;
+                                        int i15 = i14 + i5;
+                                        if (i12 < 0) {
+                                            i12 = rLottieDrawable8.metaData[0];
                                         }
-                                        if (i18 < i15) {
-                                            if (rLottieDrawable11.autoRepeat == 3) {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                        if (i15 < i12) {
+                                            if (rLottieDrawable8.autoRepeat == 3) {
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.autoRepeatPlayCount++;
                                             } else {
-                                                rLottieDrawable11.currentFrame = i17 + i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                                rLottieDrawable8.currentFrame = i14 + i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             }
                                         } else {
-                                            int i19 = rLottieDrawable11.autoRepeat;
-                                            if (i19 == 1) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                            int i16 = rLottieDrawable8.autoRepeat;
+                                            if (i16 == 1) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                                 if (RLottieDrawable.this.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
-                                            } else if (i19 == 2) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = true;
-                                                RLottieDrawable rLottieDrawable12 = RLottieDrawable.this;
-                                                rLottieDrawable12.autoRepeatPlayCount++;
-                                                if (rLottieDrawable12.resetVibrationAfterRestart) {
+                                                RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
+                                                int i17 = rLottieDrawable9.autoRepeatCount;
+                                                if (i17 > 0) {
+                                                    rLottieDrawable9.autoRepeatCount = i17 - 1;
+                                                }
+                                            } else if (i16 == 2) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = true;
+                                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
+                                                rLottieDrawable10.autoRepeatPlayCount++;
+                                                if (rLottieDrawable10.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
                                         }
@@ -1171,7 +1118,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 return false;
             }
             this.loadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda2
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setBaseDice$1(readRes);
@@ -1184,7 +1131,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBaseDice$1(String str) {
         this.nativePtr = createWithJson(str, "dice", this.metaData, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 RLottieDrawable.this.lambda$setBaseDice$0();
@@ -1219,7 +1166,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 this.setLastFrame = true;
             }
             this.secondLoadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda3
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setDiceNumber$4(readRes);
@@ -1232,7 +1179,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setDiceNumber$4(String str) {
         if (this.destroyAfterLoading) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setDiceNumber$2();
@@ -1242,7 +1189,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
         final int[] iArr = new int[3];
         this.secondNativePtr = createWithJson(str, "dice", iArr, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 RLottieDrawable.this.lambda$setDiceNumber$3(iArr);
@@ -1283,6 +1230,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.parentViews = new ArrayList<>();
         this.diceSwitchFramesCount = -1;
         this.autoRepeat = 1;
+        this.autoRepeatCount = -1;
         this.scaleX = 1.0f;
         this.scaleY = 1.0f;
         this.dstRect = new RectF();
@@ -1319,12 +1267,11 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
-            private long lastUpdate = 0;
-
             @Override // java.lang.Runnable
             public void run() {
                 long j;
                 int frame;
+                BitmapsCache bitmapsCache;
                 if (RLottieDrawable.this.isRecycled) {
                     return;
                 }
@@ -1354,66 +1301,42 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                 RLottieDrawable.this.pendingReplaceColors = null;
                             }
                             try {
-                                int i4 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
                                 RLottieDrawable rLottieDrawable3 = RLottieDrawable.this;
-                                if (!rLottieDrawable3.precache || rLottieDrawable3.bitmapsCache == null || (rLottieDrawable3.fallbackCache && RLottieDrawable.this.generatingCache)) {
-                                    if (RLottieDrawable.this.fallbackCache) {
-                                        long elapsedRealtime = SystemClock.elapsedRealtime();
-                                        long j2 = this.lastUpdate;
-                                        if (j2 > 0) {
-                                            int max = Math.max(1, Math.min(4, Math.round(((float) (elapsedRealtime - j2)) / 16.0f)));
-                                            RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
-                                            int i5 = rLottieDrawable4.currentFrame;
-                                            int i6 = i5 + max;
-                                            int i7 = rLottieDrawable4.customEndFrame;
-                                            if (i6 > (i7 >= 0 ? i7 : rLottieDrawable4.metaData[0])) {
-                                                if (i7 < 0) {
-                                                    i7 = rLottieDrawable4.metaData[0];
-                                                }
-                                                i4 = i7 - i5;
-                                            } else {
-                                                i4 = max;
-                                            }
-                                        }
-                                        this.lastUpdate = elapsedRealtime;
+                                int i4 = rLottieDrawable3.isDice;
+                                if (i4 == 1) {
+                                    j = rLottieDrawable3.nativePtr;
+                                } else if (i4 == 2) {
+                                    j = rLottieDrawable3.secondNativePtr;
+                                    if (RLottieDrawable.this.setLastFrame) {
+                                        RLottieDrawable rLottieDrawable4 = RLottieDrawable.this;
+                                        rLottieDrawable4.currentFrame = rLottieDrawable4.secondFramesCount - 1;
                                     }
-                                    RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
-                                    int i8 = rLottieDrawable5.isDice;
-                                    if (i8 == 1) {
-                                        j = rLottieDrawable5.nativePtr;
-                                    } else if (i8 == 2) {
-                                        j = rLottieDrawable5.secondNativePtr;
-                                        if (RLottieDrawable.this.setLastFrame) {
-                                            RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
-                                            rLottieDrawable6.currentFrame = rLottieDrawable6.secondFramesCount - 1;
-                                        }
-                                    } else {
-                                        j = rLottieDrawable5.nativePtr;
-                                    }
-                                    long j3 = j;
-                                    RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
-                                    int i9 = rLottieDrawable7.currentFrame;
-                                    Bitmap bitmap = rLottieDrawable7.backgroundBitmap;
-                                    RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
-                                    frame = RLottieDrawable.getFrame(j3, i9, bitmap, rLottieDrawable8.width, rLottieDrawable8.height, rLottieDrawable8.backgroundBitmap.getRowBytes(), true);
                                 } else {
+                                    j = rLottieDrawable3.nativePtr;
+                                }
+                                long j2 = j;
+                                int i5 = RLottieDrawable.this.shouldLimitFps ? 2 : 1;
+                                RLottieDrawable rLottieDrawable5 = RLottieDrawable.this;
+                                if (rLottieDrawable5.precache && (bitmapsCache = rLottieDrawable5.bitmapsCache) != null) {
                                     try {
-                                        RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
-                                        frame = rLottieDrawable9.bitmapsCache.getFrame(rLottieDrawable9.currentFrame / i4, rLottieDrawable9.backgroundBitmap);
+                                        frame = bitmapsCache.getFrame(rLottieDrawable5.currentFrame / i5, rLottieDrawable5.backgroundBitmap);
                                     } catch (Exception e) {
                                         FileLog.e(e);
                                         frame = 0;
                                     }
+                                } else {
+                                    int i6 = rLottieDrawable5.currentFrame;
+                                    Bitmap bitmap = rLottieDrawable5.backgroundBitmap;
+                                    RLottieDrawable rLottieDrawable6 = RLottieDrawable.this;
+                                    frame = RLottieDrawable.getFrame(j2, i6, bitmap, rLottieDrawable6.width, rLottieDrawable6.height, rLottieDrawable6.backgroundBitmap.getRowBytes(), true);
                                 }
-                                BitmapsCache bitmapsCache = RLottieDrawable.this.bitmapsCache;
-                                if (bitmapsCache != null && bitmapsCache.needGenCache()) {
+                                BitmapsCache bitmapsCache2 = RLottieDrawable.this.bitmapsCache;
+                                if (bitmapsCache2 != null && bitmapsCache2.needGenCache()) {
                                     if (!RLottieDrawable.this.genCacheSend) {
                                         RLottieDrawable.this.genCacheSend = true;
                                         RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableGenerateCache);
                                     }
-                                    if (!RLottieDrawable.this.fallbackCache) {
-                                        frame = -1;
-                                    }
+                                    frame = -1;
                                 }
                                 if (frame == -1) {
                                     RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
@@ -1424,22 +1347,22 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                     countDownLatch.countDown();
                                     return;
                                 }
-                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
-                                rLottieDrawable10.nextRenderingBitmap = rLottieDrawable10.backgroundBitmap;
-                                RLottieDrawable rLottieDrawable11 = RLottieDrawable.this;
-                                int i10 = rLottieDrawable11.isDice;
-                                if (i10 == 1) {
-                                    int i11 = rLottieDrawable11.currentFrame;
-                                    int i12 = i11 + i4;
-                                    int i13 = rLottieDrawable11.diceSwitchFramesCount;
-                                    if (i13 == -1) {
-                                        i13 = rLottieDrawable11.metaData[0];
+                                RLottieDrawable rLottieDrawable7 = RLottieDrawable.this;
+                                rLottieDrawable7.nextRenderingBitmap = rLottieDrawable7.backgroundBitmap;
+                                RLottieDrawable rLottieDrawable8 = RLottieDrawable.this;
+                                int i7 = rLottieDrawable8.isDice;
+                                if (i7 == 1) {
+                                    int i8 = rLottieDrawable8.currentFrame;
+                                    int i9 = i8 + i5;
+                                    int i10 = rLottieDrawable8.diceSwitchFramesCount;
+                                    if (i10 == -1) {
+                                        i10 = rLottieDrawable8.metaData[0];
                                     }
-                                    if (i12 < i13) {
-                                        rLottieDrawable11.currentFrame = i11 + i4;
+                                    if (i9 < i10) {
+                                        rLottieDrawable8.currentFrame = i8 + i5;
                                     } else {
-                                        rLottieDrawable11.currentFrame = 0;
-                                        rLottieDrawable11.nextFrameIsLast = false;
+                                        rLottieDrawable8.currentFrame = 0;
+                                        rLottieDrawable8.nextFrameIsLast = false;
                                         if (RLottieDrawable.this.secondNativePtr != 0) {
                                             RLottieDrawable.this.isDice = 2;
                                         }
@@ -1448,67 +1371,72 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                                             RLottieDrawable.this.resetVibrationAfterRestart = false;
                                         }
                                     }
-                                } else if (i10 == 2) {
-                                    int i14 = rLottieDrawable11.currentFrame;
-                                    if (i14 + i4 < rLottieDrawable11.secondFramesCount) {
-                                        rLottieDrawable11.currentFrame = i14 + i4;
+                                } else if (i7 == 2) {
+                                    int i11 = rLottieDrawable8.currentFrame;
+                                    if (i11 + i5 < rLottieDrawable8.secondFramesCount) {
+                                        rLottieDrawable8.currentFrame = i11 + i5;
                                     } else {
-                                        rLottieDrawable11.nextFrameIsLast = true;
+                                        rLottieDrawable8.nextFrameIsLast = true;
                                         RLottieDrawable.this.autoRepeatPlayCount++;
                                     }
                                 } else {
-                                    int i15 = rLottieDrawable11.customEndFrame;
-                                    if (i15 >= 0 && rLottieDrawable11.playInDirectionOfCustomEndFrame) {
-                                        int i16 = rLottieDrawable11.currentFrame;
-                                        if (i16 > i15) {
-                                            if (i16 - i4 >= i15) {
-                                                rLottieDrawable11.currentFrame = i16 - i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                    int i12 = rLottieDrawable8.customEndFrame;
+                                    if (i12 >= 0 && rLottieDrawable8.playInDirectionOfCustomEndFrame) {
+                                        int i13 = rLottieDrawable8.currentFrame;
+                                        if (i13 > i12) {
+                                            if (i13 - i5 >= i12) {
+                                                rLottieDrawable8.currentFrame = i13 - i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
-                                        } else if (i16 + i4 < i15) {
-                                            rLottieDrawable11.currentFrame = i16 + i4;
-                                            rLottieDrawable11.nextFrameIsLast = false;
+                                        } else if (i13 + i5 < i12) {
+                                            rLottieDrawable8.currentFrame = i13 + i5;
+                                            rLottieDrawable8.nextFrameIsLast = false;
                                         } else {
-                                            rLottieDrawable11.nextFrameIsLast = true;
+                                            rLottieDrawable8.nextFrameIsLast = true;
                                             RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                         }
                                     } else {
-                                        int i17 = rLottieDrawable11.currentFrame;
-                                        int i18 = i17 + i4;
-                                        if (i15 < 0) {
-                                            i15 = rLottieDrawable11.metaData[0];
+                                        int i14 = rLottieDrawable8.currentFrame;
+                                        int i15 = i14 + i5;
+                                        if (i12 < 0) {
+                                            i12 = rLottieDrawable8.metaData[0];
                                         }
-                                        if (i18 < i15) {
-                                            if (rLottieDrawable11.autoRepeat == 3) {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                        if (i15 < i12) {
+                                            if (rLottieDrawable8.autoRepeat == 3) {
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.autoRepeatPlayCount++;
                                             } else {
-                                                rLottieDrawable11.currentFrame = i17 + i4;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                                rLottieDrawable8.currentFrame = i14 + i5;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                             }
                                         } else {
-                                            int i19 = rLottieDrawable11.autoRepeat;
-                                            if (i19 == 1) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = false;
+                                            int i16 = rLottieDrawable8.autoRepeat;
+                                            if (i16 == 1) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = false;
                                                 if (RLottieDrawable.this.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
-                                            } else if (i19 == 2) {
-                                                rLottieDrawable11.currentFrame = 0;
-                                                rLottieDrawable11.nextFrameIsLast = true;
-                                                RLottieDrawable rLottieDrawable12 = RLottieDrawable.this;
-                                                rLottieDrawable12.autoRepeatPlayCount++;
-                                                if (rLottieDrawable12.resetVibrationAfterRestart) {
+                                                RLottieDrawable rLottieDrawable9 = RLottieDrawable.this;
+                                                int i17 = rLottieDrawable9.autoRepeatCount;
+                                                if (i17 > 0) {
+                                                    rLottieDrawable9.autoRepeatCount = i17 - 1;
+                                                }
+                                            } else if (i16 == 2) {
+                                                rLottieDrawable8.currentFrame = 0;
+                                                rLottieDrawable8.nextFrameIsLast = true;
+                                                RLottieDrawable rLottieDrawable10 = RLottieDrawable.this;
+                                                rLottieDrawable10.autoRepeatPlayCount++;
+                                                if (rLottieDrawable10.resetVibrationAfterRestart) {
                                                     RLottieDrawable.this.vibrationPattern = null;
                                                     RLottieDrawable.this.resetVibrationAfterRestart = false;
                                                 }
                                             } else {
-                                                rLottieDrawable11.nextFrameIsLast = true;
+                                                rLottieDrawable8.nextFrameIsLast = true;
                                                 RLottieDrawable.this.checkDispatchOnAnimationEnd();
                                             }
                                         }
@@ -1641,6 +1569,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             return;
         }
         this.parentViews.add(imageReceiver);
+        checkCacheCancel();
     }
 
     public void removeParentView(ImageReceiver imageReceiver) {
@@ -1648,6 +1577,43 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             return;
         }
         this.parentViews.remove(imageReceiver);
+        checkCacheCancel();
+    }
+
+    public void checkCacheCancel() {
+        Runnable runnable;
+        View view;
+        if (this.bitmapsCache == null || lottieCacheGenerateQueue == null || this.cacheGenerateTask == null) {
+            return;
+        }
+        boolean z = true;
+        boolean z2 = this.parentViews.isEmpty() && getCallback() == null;
+        if (Build.VERSION.SDK_INT < 19 ? !z2 || this.masterParent != null : !z2 || ((view = this.masterParent) != null && view.isAttachedToWindow())) {
+            z = false;
+        }
+        if (z && this.cancelCache == null) {
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RLottieDrawable.this.lambda$checkCacheCancel$5();
+                }
+            };
+            this.cancelCache = runnable2;
+            AndroidUtilities.runOnUIThread(runnable2, 600L);
+        } else if (z || (runnable = this.cancelCache) == null) {
+        } else {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.cancelCache = null;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkCacheCancel$5() {
+        lottieCacheGenerateQueue.cancelRunnable(this.cacheGenerateTask);
+        BitmapsCache bitmapsCache = this.bitmapsCache;
+        if (bitmapsCache != null) {
+            bitmapsCache.cancelCreate();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -1709,6 +1675,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.autoRepeat = i;
     }
 
+    public void setAutoRepeatCount(int i) {
+        this.autoRepeatCount = i;
+    }
+
     protected void finalize() throws Throwable {
         try {
             recycle();
@@ -1736,7 +1706,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     public boolean restart() {
-        if (this.autoRepeat < 2 || this.autoRepeatPlayCount == 0) {
+        if ((this.autoRepeat < 2 || this.autoRepeatPlayCount == 0) && this.autoRepeatCount < 0) {
             return false;
         }
         this.autoRepeatPlayCount = 0;
@@ -1942,7 +1912,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
             this.onFinishCallback = null;
         }
-        if (this.nextFrameIsLast) {
+        if (this.nextFrameIsLast || (this.autoRepeatCount == 0 && this.autoRepeat == 1)) {
             stop();
         }
         this.loadFrameTask = null;
@@ -1973,7 +1943,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         drawInternal(canvas, false, 0L);
     }
 
-    public void drawInBackground(Canvas canvas, float f, float f2, float f3, float f4, int i) {
+    public void drawInBackground(Canvas canvas, float f, float f2, float f3, float f4, int i, ColorFilter colorFilter) {
         if (this.dstRectBackground == null) {
             this.dstRectBackground = new RectF();
             Paint paint = new Paint(1);
@@ -1981,6 +1951,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             paint.setFilterBitmap(true);
         }
         this.backgroundPaint.setAlpha(i);
+        this.backgroundPaint.setColorFilter(colorFilter);
         this.dstRectBackground.set(f, f2, f3 + f, f4 + f2);
         drawInternal(canvas, true, 0L);
     }
@@ -2048,11 +2019,15 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
         long j2 = j;
         long j3 = j2 - this.lastFrameTime;
-        float f = AndroidUtilities.screenRefreshRate;
-        if (f <= 60.0f || (z && f <= 80.0f)) {
-            i = this.timeBetweenFrames - 6;
+        if (z && !this.shouldLimitFps) {
+            i = this.timeBetweenFrames - 16;
         } else {
-            i = this.timeBetweenFrames;
+            float f = AndroidUtilities.screenRefreshRate;
+            if (f <= 60.0f || (z && f <= 80.0f)) {
+                i = this.timeBetweenFrames - 6;
+            } else {
+                i = this.timeBetweenFrames;
+            }
         }
         if (this.isRunning) {
             if (this.renderingBitmap == null && this.nextRenderingBitmap == null) {
@@ -2201,5 +2176,58 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
         private NativePtrArgs() {
         }
+    }
+
+    public void checkCache(final Runnable runnable) {
+        if (this.bitmapsCache == null) {
+            AndroidUtilities.runOnUIThread(runnable);
+        } else {
+            loadFrameRunnableQueue.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RLottieDrawable.this.lambda$checkCache$8(runnable);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkCache$8(final Runnable runnable) {
+        if (this.bitmapsCache.cacheExist()) {
+            AndroidUtilities.runOnUIThread(runnable);
+        } else {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RLottieDrawable.this.lambda$checkCache$7(runnable);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkCache$7(final Runnable runnable) {
+        this.generatingCache = true;
+        if (lottieCacheGenerateQueue == null) {
+            createCacheGenQueue();
+        }
+        DispatchQueue dispatchQueue = lottieCacheGenerateQueue;
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                RLottieDrawable.this.lambda$checkCache$6(runnable);
+            }
+        };
+        this.cacheGenerateTask = runnable2;
+        dispatchQueue.postRunnable(runnable2);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$checkCache$6(Runnable runnable) {
+        BitmapsCache bitmapsCache = this.bitmapsCache;
+        if (bitmapsCache != null) {
+            bitmapsCache.createCache();
+        }
+        AndroidUtilities.runOnUIThread(runnable);
     }
 }

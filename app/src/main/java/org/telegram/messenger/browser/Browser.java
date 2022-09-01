@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.regex.Matcher;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -455,8 +456,35 @@ public class Browser {
     }
 
     public static boolean isInternalUri(Uri uri, boolean z, boolean[] zArr) {
+        String str;
+        String str2;
         String host = uri.getHost();
-        String lowerCase = host != null ? host.toLowerCase() : "";
+        String str3 = "";
+        String lowerCase = host != null ? host.toLowerCase() : str3;
+        Matcher matcher = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(lowerCase);
+        if (matcher.find()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("https://t.me/");
+            sb.append(matcher.group(1));
+            if (TextUtils.isEmpty(uri.getPath())) {
+                str = str3;
+            } else {
+                str = "/" + uri.getPath();
+            }
+            sb.append(str);
+            if (TextUtils.isEmpty(uri.getQuery())) {
+                str2 = str3;
+            } else {
+                str2 = "?" + uri.getQuery();
+            }
+            sb.append(str2);
+            uri = Uri.parse(sb.toString());
+            String host2 = uri.getHost();
+            if (host2 != null) {
+                str3 = host2.toLowerCase();
+            }
+            lowerCase = str3;
+        }
         if ("ton".equals(uri.getScheme())) {
             try {
                 List<ResolveInfo> queryIntentActivities = ApplicationLoader.applicationContext.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri), 0);

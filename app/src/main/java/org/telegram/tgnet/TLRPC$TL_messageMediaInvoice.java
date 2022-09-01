@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageMediaInvoice extends TLRPC$MessageMedia {
-    public static int constructor = -2074799289;
+    public static int constructor = -156940077;
     public TLRPC$WebDocument photo;
 
     @Override // org.telegram.tgnet.TLObject
@@ -25,6 +25,9 @@ public class TLRPC$TL_messageMediaInvoice extends TLRPC$MessageMedia {
         this.currency = abstractSerializedData.readString(z);
         this.total_amount = abstractSerializedData.readInt64(z);
         this.start_param = abstractSerializedData.readString(z);
+        if ((this.flags & 16) != 0) {
+            this.extended_media = TLRPC$MessageExtendedMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -46,5 +49,8 @@ public class TLRPC$TL_messageMediaInvoice extends TLRPC$MessageMedia {
         abstractSerializedData.writeString(this.currency);
         abstractSerializedData.writeInt64(this.total_amount);
         abstractSerializedData.writeString(this.start_param);
+        if ((this.flags & 16) != 0) {
+            this.extended_media.serializeToStream(abstractSerializedData);
+        }
     }
 }

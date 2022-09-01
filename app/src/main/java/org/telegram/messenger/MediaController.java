@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -3430,6 +3431,40 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
+    private void setBluetoothScoOn(boolean z) {
+        AudioManager audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+        if ((!audioManager.isBluetoothScoAvailableOffCall() || !SharedConfig.recordViaSco) && z) {
+            return;
+        }
+        BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (defaultAdapter != null) {
+            try {
+                if (defaultAdapter.getProfileConnectionState(1) != 2) {
+                }
+                if (!z && !audioManager.isBluetoothScoOn()) {
+                    audioManager.startBluetoothSco();
+                    return;
+                } else if (z || !audioManager.isBluetoothScoOn()) {
+                } else {
+                    audioManager.stopBluetoothSco();
+                    return;
+                }
+            } catch (SecurityException unused) {
+                return;
+            } catch (Throwable th) {
+                FileLog.e(th);
+                return;
+            }
+        }
+        if (z) {
+            return;
+        }
+        if (!z) {
+        }
+        if (z) {
+        }
+    }
+
     public boolean playMessage(final MessageObject messageObject) {
         File file;
         boolean z;
@@ -4227,6 +4262,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             });
             return;
         }
+        setBluetoothScoOn(true);
         this.sendAfterDone = 0;
         TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
         this.recordingAudio = tLRPC$TL_document;
@@ -4280,6 +4316,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
+            setBluetoothScoOn(false);
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -4428,7 +4465,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (j > 700) {
             if (i == 1) {
                 c = 1;
-                SendMessagesHelper.getInstance(this.recordingCurrentAccount).sendMessage(tLRPC$TL_document, null, file.getAbsolutePath(), this.recordDialogId, this.recordReplyingMsg, this.recordReplyingTopMsg, null, null, null, null, z, i2, 0, null, null);
+                SendMessagesHelper.getInstance(this.recordingCurrentAccount).sendMessage(tLRPC$TL_document, null, file.getAbsolutePath(), this.recordDialogId, this.recordReplyingMsg, this.recordReplyingTopMsg, null, null, null, null, z, i2, 0, null, null, false);
             } else {
                 c = 1;
             }
@@ -4482,6 +4519,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.sendAfterDoneNotify = z;
             this.sendAfterDoneScheduleDate = i2;
             audioRecord.stop();
+            setBluetoothScoOn(false);
         } catch (Exception e) {
             FileLog.e(e);
             File file = this.recordingAudioFile;
@@ -4725,7 +4763,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 return;
             }
             this.loadingMessageObjects.put(FileLoader.getAttachFileName(document), messageObject);
-            this.currentAccount.getFileLoader().loadFile(document, messageObject, 1, 0);
+            this.currentAccount.getFileLoader().loadFile(document, messageObject, 0, 0);
         }
 
         /* JADX WARN: Removed duplicated region for block: B:98:0x0169 A[EXC_TOP_SPLITTER, SYNTHETIC] */

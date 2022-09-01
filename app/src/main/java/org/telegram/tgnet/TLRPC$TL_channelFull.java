@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
-    public static int constructor = -362240487;
+    public static int constructor = -231385849;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -141,17 +141,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         if ((this.flags & 1073741824) == 0) {
             return;
         }
-        int readInt329 = abstractSerializedData.readInt32(z);
-        if (readInt329 != 481674261) {
-            if (z) {
-                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt329)));
-            }
-            return;
-        }
-        int readInt3210 = abstractSerializedData.readInt32(z);
-        for (int i4 = 0; i4 < readInt3210; i4++) {
-            this.available_reactions.add(abstractSerializedData.readString(z));
-        }
+        this.available_reactions = TLRPC$ChatReactions.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -277,12 +267,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
             this.default_send_as.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 1073741824) != 0) {
-            abstractSerializedData.writeInt32(481674261);
-            int size4 = this.available_reactions.size();
-            abstractSerializedData.writeInt32(size4);
-            for (int i13 = 0; i13 < size4; i13++) {
-                abstractSerializedData.writeString(this.available_reactions.get(i13));
-            }
+            this.available_reactions.serializeToStream(abstractSerializedData);
         }
     }
 }

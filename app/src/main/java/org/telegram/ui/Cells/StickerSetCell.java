@@ -310,6 +310,7 @@ public class StickerSetCell extends FrameLayout {
         }
         imageView.setVisibility(i);
         ArrayList<TLRPC$Document> arrayList = tLRPC$TL_messages_stickerSet.documents;
+        TLRPC$Document tLRPC$Document = null;
         String str = "EmojiCount";
         if (arrayList != null && !arrayList.isEmpty()) {
             TextView textView = this.valueTextView;
@@ -317,7 +318,22 @@ public class StickerSetCell extends FrameLayout {
                 str = "Stickers";
             }
             textView.setText(LocaleController.formatPluralString(str, arrayList.size(), new Object[0]));
-            TLRPC$Document tLRPC$Document = arrayList.get(0);
+            int i2 = 0;
+            while (true) {
+                if (i2 < arrayList.size()) {
+                    TLRPC$Document tLRPC$Document2 = arrayList.get(i2);
+                    if (tLRPC$Document2 != null && tLRPC$Document2.id == tLRPC$TL_messages_stickerSet.set.thumb_document_id) {
+                        tLRPC$Document = tLRPC$Document2;
+                        break;
+                    }
+                    i2++;
+                } else {
+                    break;
+                }
+            }
+            if (tLRPC$Document == null) {
+                tLRPC$Document = arrayList.get(0);
+            }
             TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_messages_stickerSet.set.thumbs, 90);
             if (closestPhotoSizeWithSize == null) {
                 closestPhotoSizeWithSize = tLRPC$Document;
@@ -329,16 +345,17 @@ public class StickerSetCell extends FrameLayout {
             } else {
                 forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$TL_messages_stickerSet.set.thumb_version);
             }
+            ImageLocation imageLocation = forSticker;
             if ((!z4 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) && !MessageObject.isVideoSticker(tLRPC$Document)) {
-                if (forSticker != null && forSticker.imageType == 1) {
-                    this.imageView.setImage(forSticker, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
+                if (imageLocation != null && imageLocation.imageType == 1) {
+                    this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
                 } else {
-                    this.imageView.setImage(forSticker, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
+                    this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
                 }
             } else if (svgThumb != null) {
                 this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$TL_messages_stickerSet);
             } else {
-                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", forSticker, (String) null, 0, tLRPC$TL_messages_stickerSet);
+                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$TL_messages_stickerSet);
             }
         } else {
             TextView textView2 = this.valueTextView;

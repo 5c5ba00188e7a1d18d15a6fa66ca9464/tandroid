@@ -26,7 +26,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     private int contentHeight;
     public final boolean hasFixedSize;
     protected RecyclerListView recyclerListView;
-    public float topPadding = 0.4f;
+    public float topPadding;
     boolean wasDrawn;
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
@@ -48,8 +48,13 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     public void onViewCreated(FrameLayout frameLayout) {
     }
 
-    public BottomSheetWithRecyclerListView(BaseFragment baseFragment, boolean z, final boolean z2) {
-        super(baseFragment.getParentActivity(), z);
+    public BottomSheetWithRecyclerListView(BaseFragment baseFragment, boolean z, boolean z2) {
+        this(baseFragment, z, z2, null);
+    }
+
+    public BottomSheetWithRecyclerListView(BaseFragment baseFragment, boolean z, final boolean z2, Theme.ResourcesProvider resourcesProvider) {
+        super(baseFragment.getParentActivity(), z, resourcesProvider);
+        this.topPadding = 0.4f;
         this.baseFragment = baseFragment;
         this.hasFixedSize = z2;
         final Activity parentActivity = baseFragment.getParentActivity();

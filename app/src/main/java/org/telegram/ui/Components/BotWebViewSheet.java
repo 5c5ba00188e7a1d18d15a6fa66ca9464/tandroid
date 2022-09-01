@@ -828,7 +828,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     Bundle bundle = new Bundle();
                     bundle.putLong("user_id", j2);
                     if (BotWebViewSheet.this.parentActivity instanceof LaunchActivity) {
-                        ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$61(new ChatActivity(bundle));
+                        ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$62(new ChatActivity(bundle));
                     }
                     BotWebViewSheet.this.dismiss();
                 } else if (i4 == R.id.menu_reload_page) {
@@ -869,6 +869,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             TLRPC$TL_messages_requestWebView tLRPC$TL_messages_requestWebView = new TLRPC$TL_messages_requestWebView();
             tLRPC$TL_messages_requestWebView.peer = MessagesController.getInstance(i).getInputPeer(j);
             tLRPC$TL_messages_requestWebView.bot = MessagesController.getInstance(i).getInputUser(j2);
+            tLRPC$TL_messages_requestWebView.platform = "android";
             if (str2 != null) {
                 tLRPC$TL_messages_requestWebView.url = str2;
                 tLRPC$TL_messages_requestWebView.flags |= 2;
@@ -893,6 +894,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         } else if (i2 == 1) {
             TLRPC$TL_messages_requestSimpleWebView tLRPC$TL_messages_requestSimpleWebView = new TLRPC$TL_messages_requestSimpleWebView();
             tLRPC$TL_messages_requestSimpleWebView.bot = MessagesController.getInstance(i).getInputUser(j2);
+            tLRPC$TL_messages_requestSimpleWebView.platform = "android";
             if (z2) {
                 TLRPC$TL_dataJSON tLRPC$TL_dataJSON2 = new TLRPC$TL_dataJSON();
                 tLRPC$TL_messages_requestSimpleWebView.theme_params = tLRPC$TL_dataJSON2;
@@ -911,6 +913,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             TLRPC$TL_messages_requestWebView tLRPC$TL_messages_requestWebView2 = new TLRPC$TL_messages_requestWebView();
             tLRPC$TL_messages_requestWebView2.bot = MessagesController.getInstance(i).getInputUser(j2);
             tLRPC$TL_messages_requestWebView2.peer = MessagesController.getInstance(i).getInputPeer(j2);
+            tLRPC$TL_messages_requestWebView2.platform = "android";
             tLRPC$TL_messages_requestWebView2.url = str2;
             tLRPC$TL_messages_requestWebView2.flags |= 2;
             if (z2) {

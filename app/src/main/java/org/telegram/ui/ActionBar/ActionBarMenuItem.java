@@ -829,11 +829,7 @@ public class ActionBarMenuItem extends FrameLayout {
             actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.x - AndroidUtilities.dp(40.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.displaySize.y, Integer.MIN_VALUE));
             this.processedPopupClick = false;
             this.popupWindow.setFocusable(true);
-            if (actionBarPopupWindowLayout.getMeasuredWidth() == 0) {
-                updateOrShowPopup(true, true);
-            } else {
-                updateOrShowPopup(true, false);
-            }
+            updateOrShowPopup(true, actionBarPopupWindowLayout.getMeasuredWidth() == 0);
             this.popupLayout.updateRadialSelectors();
             if (this.popupLayout.getSwipeBack() != null) {
                 this.popupLayout.getSwipeBack().closeForeground(false);

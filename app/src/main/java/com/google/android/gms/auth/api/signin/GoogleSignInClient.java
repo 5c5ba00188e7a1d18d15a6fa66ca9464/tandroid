@@ -1,6 +1,7 @@
 package com.google.android.gms.auth.api.signin;
 
 import android.content.Context;
+import android.content.Intent;
 import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.internal.zbm;
@@ -34,6 +35,22 @@ public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
             }
         }
         return zba;
+    }
+
+    public Intent getSignInIntent() {
+        Context applicationContext = getApplicationContext();
+        int zba2 = zba();
+        int i = zba2 - 1;
+        if (zba2 != 0) {
+            if (i == 2) {
+                return zbm.zba(applicationContext, getApiOptions());
+            }
+            if (i == 3) {
+                return zbm.zbc(applicationContext, getApiOptions());
+            }
+            return zbm.zbb(applicationContext, getApiOptions());
+        }
+        throw null;
     }
 
     @RecentlyNonNull

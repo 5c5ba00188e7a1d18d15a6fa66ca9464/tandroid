@@ -1,32 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
-public class TLRPC$TL_account_password extends TLObject {
-    public static int constructor = 408623183;
-    public TLRPC$PasswordKdfAlgo current_algo;
-    public String email_unconfirmed_pattern;
-    public int flags;
-    public boolean has_password;
-    public boolean has_recovery;
-    public boolean has_secure_values;
-    public String hint;
-    public TLRPC$PasswordKdfAlgo new_algo;
-    public TLRPC$SecurePasswordKdfAlgo new_secure_algo;
-    public int pending_reset_date;
-    public byte[] secure_random;
-    public byte[] srp_B;
-    public long srp_id;
-
-    public static TLRPC$TL_account_password TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        if (constructor != i) {
-            if (z) {
-                throw new RuntimeException(String.format("can't parse magic %x in TL_account_password", Integer.valueOf(i)));
-            }
-            return null;
-        }
-        TLRPC$TL_account_password tLRPC$TL_account_password = new TLRPC$TL_account_password();
-        tLRPC$TL_account_password.readParams(abstractSerializedData, z);
-        return tLRPC$TL_account_password;
-    }
+public class TLRPC$TL_account_password extends TLRPC$account_Password {
+    public static int constructor = -1787080453;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -60,6 +35,9 @@ public class TLRPC$TL_account_password extends TLObject {
         if ((this.flags & 32) != 0) {
             this.pending_reset_date = abstractSerializedData.readInt32(z);
         }
+        if ((this.flags & 64) != 0) {
+            this.login_email_pattern = abstractSerializedData.readString(z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -92,6 +70,9 @@ public class TLRPC$TL_account_password extends TLObject {
         abstractSerializedData.writeByteArray(this.secure_random);
         if ((this.flags & 32) != 0) {
             abstractSerializedData.writeInt32(this.pending_reset_date);
+        }
+        if ((this.flags & 64) != 0) {
+            abstractSerializedData.writeString(this.login_email_pattern);
         }
     }
 }

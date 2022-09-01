@@ -2,11 +2,14 @@ package org.telegram.ui.Components;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,13 +31,17 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$InputStickerSet;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_inputStickerSetEmojiDefaultStatuses;
+import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
 import org.telegram.tgnet.TLRPC$TL_messages_getCustomEmojiDocuments;
 import org.telegram.tgnet.TLRPC$Vector;
 import org.telegram.ui.ActionBar.Theme;
@@ -47,6 +54,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     private float alpha = 1.0f;
     private boolean attached;
     private int cacheType;
+    private ColorFilter colorFilterToSet;
     int count;
     private TLRPC$Document document;
     private long documentId;
@@ -60,19 +68,12 @@ public class AnimatedEmojiDrawable extends Drawable {
         void run(TLRPC$Document tLRPC$Document);
     }
 
-    private void drawDebugCacheType(Canvas canvas) {
-    }
-
     private void drawPlaceholder(Canvas canvas, float f, float f2, float f3) {
     }
 
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {
         return -2;
-    }
-
-    @Override // android.graphics.drawable.Drawable
-    public void setColorFilter(ColorFilter colorFilter) {
     }
 
     public static AnimatedEmojiDrawable make(int i, int i2, long j) {
@@ -128,7 +129,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     public void setTime(long j) {
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
-            if (this.cacheType == 5) {
+            if (this.cacheType == 8) {
                 j = 0;
             }
             imageReceiver.setCurrentTime(j);
@@ -138,7 +139,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     public void update(long j) {
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
-            if (this.cacheType == 5) {
+            if (this.cacheType == 8) {
                 j = 0;
             }
             if (imageReceiver.getLottieAnimation() != null) {
@@ -413,17 +414,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
         }, 0L, 150L, new LinearInterpolator());
         this.cacheType = i;
-        if (i == 0) {
-            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
-        } else if (i == 1) {
-            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[2].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[2].descent())) * 1.15f) / AndroidUtilities.density);
-        } else if (i == 2 || i == 4 || i == 3) {
-            this.sizedp = 34;
-        } else if (i == 5) {
-            this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[0].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[0].descent())) * 1.15f) / AndroidUtilities.density);
-        } else {
-            this.sizedp = 34;
-        }
+        updateSize();
         this.documentId = j;
         getDocumentFetcher(i2).fetchDocument(j, new ReceivedDocument() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.AnimatedEmojiDrawable.ReceivedDocument
@@ -448,18 +439,21 @@ public class AnimatedEmojiDrawable extends Drawable {
         }, 0L, 150L, new LinearInterpolator());
         this.cacheType = i;
         this.document = tLRPC$Document;
+        updateSize();
+        initDocument();
+    }
+
+    private void updateSize() {
+        int i = this.cacheType;
         if (i == 0) {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
-        } else if (i == 1) {
+        } else if (i == 1 || i == 4) {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[2].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[2].descent())) * 1.15f) / AndroidUtilities.density);
-        } else if (i == 2 || i == 4 || i == 3) {
-            this.sizedp = 34;
-        } else if (i == 5) {
+        } else if (i == 8) {
             this.sizedp = (int) (((Math.abs(Theme.chat_msgTextPaintEmoji[0].ascent()) + Math.abs(Theme.chat_msgTextPaintEmoji[0].descent())) * 1.15f) / AndroidUtilities.density);
         } else {
             this.sizedp = 34;
         }
-        initDocument();
     }
 
     public long getDocumentId() {
@@ -471,15 +465,27 @@ public class AnimatedEmojiDrawable extends Drawable {
         return this.document;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0183  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x018c  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x01e8  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0206  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0186  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void initDocument() {
-        String str;
         SvgHelper.SvgDrawable svgDrawable;
-        ImageLocation forDocument;
+        ImageLocation imageLocation;
+        String str;
+        SvgHelper.SvgDrawable svgDrawable2;
         int i;
+        int i2;
         if (this.document == null || this.imageReceiver != null) {
             return;
         }
-        ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable.1
+        this.imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable.1
             @Override // org.telegram.messenger.ImageReceiver
             public void invalidate() {
                 AnimatedEmojiDrawable.this.invalidate();
@@ -487,34 +493,37 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
 
             @Override // org.telegram.messenger.ImageReceiver
-            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i2, boolean z, int i3) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
                 AnimatedEmojiDrawable.this.invalidate();
-                return super.setImageBitmapByKey(drawable, str2, i2, z, i3);
+                return super.setImageBitmapByKey(drawable, str2, i3, z, i4);
             }
         };
-        this.imageReceiver = imageReceiver;
-        if (this.cacheType != 0) {
-            imageReceiver.setUniqKeyPrefix(this.cacheType + "_");
+        if (this.colorFilterToSet != null && canOverrideColor()) {
+            this.imageReceiver.setColorFilter(this.colorFilterToSet);
         }
-        boolean z = SharedConfig.getDevicePerformanceClass() == 0 && ((i = this.cacheType) == 2 || i == 3);
+        if (this.cacheType != 0) {
+            this.imageReceiver.setUniqKeyPrefix(this.cacheType + "_");
+        }
+        this.imageReceiver.setVideoThumbIsSame(true);
+        boolean z = SharedConfig.getDevicePerformanceClass() == 0 && ((i2 = this.cacheType) == 2 || i2 == 3 || i2 == 5);
         String str2 = this.sizedp + "_" + this.sizedp;
-        int i2 = this.cacheType;
-        if (i2 != 5 && (i2 != 1 || SharedConfig.getDevicePerformanceClass() < 2)) {
+        int i3 = this.cacheType;
+        if (i3 != 8 && (i3 != 1 || SharedConfig.getDevicePerformanceClass() < 2)) {
             str2 = str2 + "_pcache";
         }
-        int i3 = this.cacheType;
-        if (i3 != 0 && i3 != 1) {
+        int i4 = this.cacheType;
+        if (i4 != 0 && i4 != 1) {
             str2 = str2 + "_compress";
         }
-        if (this.cacheType == 5) {
+        if (this.cacheType == 8) {
             str2 = str2 + "firstframe";
         }
         TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
         if ("video/webm".equals(this.document.mime_type)) {
-            forDocument = ImageLocation.getForDocument(this.document);
+            imageLocation = ImageLocation.getForDocument(this.document);
             str2 = str2 + "_" + ImageLoader.AUTOPLAY_FILTER;
-            svgDrawable = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
-        } else {
+            svgDrawable2 = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+        } else if ("application/x-tgsticker".equals(this.document.mime_type)) {
             StringBuilder sb = new StringBuilder();
             if (this.cacheType != 0) {
                 str = this.cacheType + "_";
@@ -528,39 +537,64 @@ public class AnimatedEmojiDrawable extends Drawable {
             String sb2 = sb.toString();
             if (this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
                 SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
-                if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, false)) {
+                if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                     svgThumb.overrideWidthAndHeight(512, 512);
                 }
-                svgDrawable = svgThumb;
+                svgDrawable2 = svgThumb;
             } else {
-                svgDrawable = null;
+                svgDrawable2 = null;
             }
-            forDocument = ImageLocation.getForDocument(this.document);
-        }
-        SvgHelper.SvgDrawable svgDrawable2 = svgDrawable;
-        if (z) {
-            forDocument = null;
-        }
-        if (this.cacheType == 5) {
-            ImageReceiver imageReceiver2 = this.imageReceiver;
-            TLRPC$Document tLRPC$Document = this.document;
-            imageReceiver2.setImage(null, null, forDocument, str2, null, null, svgDrawable2, tLRPC$Document.size, null, tLRPC$Document, 1);
+            imageLocation = ImageLocation.getForDocument(this.document);
         } else {
-            TLRPC$Document tLRPC$Document2 = this.document;
-            this.imageReceiver.setImage(forDocument, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable2, tLRPC$Document2.size, null, tLRPC$Document2, 1);
+            SvgHelper.SvgDrawable svgThumb2 = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+            if (svgThumb2 != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
+                svgThumb2.overrideWidthAndHeight(512, 512);
+            }
+            svgDrawable = svgThumb2;
+            imageLocation = null;
+            ImageLocation imageLocation2 = !z ? null : imageLocation;
+            if (this.cacheType != 8) {
+                ImageReceiver imageReceiver = this.imageReceiver;
+                TLRPC$Document tLRPC$Document = this.document;
+                imageReceiver.setImage(null, null, imageLocation2, str2, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
+            } else {
+                TLRPC$Document tLRPC$Document2 = this.document;
+                this.imageReceiver.setImage(imageLocation2, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
+            }
+            if (this.cacheType == 7) {
+                this.imageReceiver.setAutoRepeatCount(2);
+            }
+            i = this.cacheType;
+            if (i != 3 || i == 5 || i == 4) {
+                this.imageReceiver.setLayerNum(7);
+            }
+            this.imageReceiver.setAspectFit(true);
+            if (this.cacheType == 8) {
+                this.imageReceiver.setAllowStartLottieAnimation(true);
+                this.imageReceiver.setAllowStartAnimation(true);
+                this.imageReceiver.setAutoRepeat(1);
+            } else {
+                this.imageReceiver.setAllowStartAnimation(false);
+                this.imageReceiver.setAllowStartLottieAnimation(false);
+                this.imageReceiver.setAutoRepeat(0);
+            }
+            this.imageReceiver.setAllowDecodeSingleFrame(true);
+            updateAttachState();
+            invalidate();
         }
-        if (this.cacheType == 3) {
-            this.imageReceiver.setLayerNum(7);
+        svgDrawable = svgDrawable2;
+        if (!z) {
         }
+        if (this.cacheType != 8) {
+        }
+        if (this.cacheType == 7) {
+        }
+        i = this.cacheType;
+        if (i != 3) {
+        }
+        this.imageReceiver.setLayerNum(7);
         this.imageReceiver.setAspectFit(true);
-        if (this.cacheType != 5) {
-            this.imageReceiver.setAllowStartLottieAnimation(true);
-            this.imageReceiver.setAllowStartAnimation(true);
-            this.imageReceiver.setAutoRepeat(1);
-        } else {
-            this.imageReceiver.setAllowStartAnimation(false);
-            this.imageReceiver.setAllowStartLottieAnimation(false);
-            this.imageReceiver.setAutoRepeat(0);
+        if (this.cacheType == 8) {
         }
         this.imageReceiver.setAllowDecodeSingleFrame(true);
         updateAttachState();
@@ -598,7 +632,6 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
-        drawDebugCacheType(canvas);
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setImageCoords(getBounds());
@@ -609,7 +642,6 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public void draw(Canvas canvas, android.graphics.Rect rect, float f) {
-        drawDebugCacheType(canvas);
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setImageCoords(rect);
@@ -622,7 +654,6 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public void draw(Canvas canvas, ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
-        drawDebugCacheType(canvas);
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setAlpha(this.alpha);
@@ -663,10 +694,10 @@ public class AnimatedEmojiDrawable extends Drawable {
         updateAttachState();
     }
 
-    public void removeView(View view) {
+    public void removeView(Drawable.Callback callback) {
         ArrayList<View> arrayList = this.views;
         if (arrayList != null) {
-            arrayList.remove(view);
+            arrayList.remove(callback);
         }
         updateAttachState();
     }
@@ -691,6 +722,20 @@ public class AnimatedEmojiDrawable extends Drawable {
         this.imageReceiver.onDetachedFromWindow();
     }
 
+    public boolean canOverrideColor() {
+        TLRPC$Document tLRPC$Document = this.document;
+        if (tLRPC$Document != null) {
+            TLRPC$InputStickerSet inputStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
+            return (inputStickerSet instanceof TLRPC$TL_inputStickerSetEmojiDefaultStatuses) || ((inputStickerSet instanceof TLRPC$TL_inputStickerSetID) && inputStickerSet.id == 773947703670341676L);
+        }
+        return false;
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    public int getAlpha() {
+        return (int) (this.alpha * 255.0f);
+    }
+
     @Override // android.graphics.drawable.Drawable
     public void setAlpha(int i) {
         float f = i / 255.0f;
@@ -701,7 +746,381 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
+    @Override // android.graphics.drawable.Drawable
+    public void setColorFilter(ColorFilter colorFilter) {
+        if (this.imageReceiver == null) {
+            this.colorFilterToSet = colorFilter;
+        } else if (!canOverrideColor()) {
+        } else {
+            this.imageReceiver.setColorFilter(colorFilter);
+        }
+    }
+
     public ImageReceiver getImageReceiver() {
         return this.imageReceiver;
+    }
+
+    /* loaded from: classes3.dex */
+    public static class WrapSizeDrawable extends Drawable {
+        private int alpha = 255;
+        private Drawable drawable;
+        int height;
+        int width;
+
+        public WrapSizeDrawable(Drawable drawable, int i, int i2) {
+            this.drawable = drawable;
+            this.width = i;
+            this.height = i2;
+        }
+
+        public Drawable getDrawable() {
+            return this.drawable;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            Drawable drawable = this.drawable;
+            if (drawable != null) {
+                drawable.setBounds(getBounds());
+                this.drawable.setAlpha(this.alpha);
+                this.drawable.draw(canvas);
+            }
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return this.width;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return this.height;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+            this.alpha = i;
+            Drawable drawable = this.drawable;
+            if (drawable != null) {
+                drawable.setAlpha(i);
+            }
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+            Drawable drawable = this.drawable;
+            if (drawable != null) {
+                drawable.setColorFilter(colorFilter);
+            }
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            Drawable drawable = this.drawable;
+            if (drawable != null) {
+                return drawable.getOpacity();
+            }
+            return -2;
+        }
+    }
+
+    /* loaded from: classes3.dex */
+    public static class SwapAnimatedEmojiDrawable extends Drawable {
+        private int alpha;
+        private int cacheType;
+        public boolean center;
+        private AnimatedFloat changeProgress;
+        private ColorFilter colorFilter;
+        private Drawable[] drawables;
+        private Integer lastColor;
+        private OvershootInterpolator overshootInterpolator;
+        private View parentView;
+        private int size;
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
+
+        public SwapAnimatedEmojiDrawable(View view, int i) {
+            this(view, i, 7);
+        }
+
+        public SwapAnimatedEmojiDrawable(View view, int i, int i2) {
+            this.center = false;
+            this.overshootInterpolator = new OvershootInterpolator(2.0f);
+            AnimatedFloat animatedFloat = new AnimatedFloat((View) null, 300L, CubicBezierInterpolator.EASE_OUT);
+            this.changeProgress = animatedFloat;
+            this.drawables = new Drawable[2];
+            this.alpha = 255;
+            this.parentView = view;
+            animatedFloat.setParent(view);
+            this.size = i;
+            this.cacheType = i2;
+        }
+
+        public void setParentView(View view) {
+            removeParentView(this.parentView);
+            this.parentView = view;
+            addParentView(view);
+            this.changeProgress.setParent(view);
+            this.parentView = view;
+        }
+
+        public void addParentView(View view) {
+            Drawable[] drawableArr = this.drawables;
+            if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr[0]).addView(view);
+            }
+            Drawable[] drawableArr2 = this.drawables;
+            if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr2[1]).addView(view);
+            }
+        }
+
+        public void removeParentView(View view) {
+            Drawable[] drawableArr = this.drawables;
+            if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr[0]).removeView(view);
+            }
+            Drawable[] drawableArr2 = this.drawables;
+            if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(view);
+            }
+        }
+
+        public void play() {
+            AnimatedEmojiDrawable animatedEmojiDrawable;
+            ImageReceiver imageReceiver;
+            if (!(getDrawable() instanceof AnimatedEmojiDrawable) || (imageReceiver = (animatedEmojiDrawable = (AnimatedEmojiDrawable) getDrawable()).getImageReceiver()) == null) {
+                return;
+            }
+            if (animatedEmojiDrawable.cacheType == 7) {
+                imageReceiver.setAutoRepeatCount(2);
+            }
+            imageReceiver.startAnimation();
+        }
+
+        public void setColor(Integer num) {
+            Integer num2 = this.lastColor;
+            if (num2 == null && num == null) {
+                return;
+            }
+            if (num2 != null && num != null && num2 == num) {
+                return;
+            }
+            this.lastColor = num;
+            this.colorFilter = num != null ? new PorterDuffColorFilter(num.intValue(), PorterDuff.Mode.MULTIPLY) : null;
+        }
+
+        public Integer getColor() {
+            return this.lastColor;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            float f = this.changeProgress.set(1.0f);
+            android.graphics.Rect bounds = getBounds();
+            Drawable[] drawableArr = this.drawables;
+            if (drawableArr[1] != null && f < 1.0f) {
+                drawableArr[1].setAlpha((int) (this.alpha * (1.0f - f)));
+                Drawable[] drawableArr2 = this.drawables;
+                if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                    drawableArr2[1].setBounds(bounds);
+                } else if (this.center) {
+                    drawableArr2[1].setBounds(bounds.centerX() - (this.drawables[1].getIntrinsicWidth() / 2), bounds.centerY() - (this.drawables[1].getIntrinsicHeight() / 2), bounds.centerX() + (this.drawables[1].getIntrinsicWidth() / 2), bounds.centerY() + (this.drawables[1].getIntrinsicHeight() / 2));
+                } else {
+                    drawableArr2[1].setBounds(bounds.left, bounds.centerY() - (this.drawables[1].getIntrinsicHeight() / 2), bounds.left + this.drawables[1].getIntrinsicWidth(), bounds.centerY() + (this.drawables[1].getIntrinsicHeight() / 2));
+                }
+                this.drawables[1].setColorFilter(this.colorFilter);
+                this.drawables[1].draw(canvas);
+                this.drawables[1].setColorFilter(null);
+            }
+            if (this.drawables[0] != null) {
+                canvas.save();
+                if (this.drawables[0] instanceof AnimatedEmojiDrawable) {
+                    if (f < 1.0f) {
+                        float interpolation = this.overshootInterpolator.getInterpolation(f);
+                        canvas.scale(interpolation, interpolation, bounds.centerX(), bounds.centerY());
+                    }
+                    this.drawables[0].setBounds(bounds);
+                } else if (this.center) {
+                    if (f < 1.0f) {
+                        float interpolation2 = this.overshootInterpolator.getInterpolation(f);
+                        canvas.scale(interpolation2, interpolation2, bounds.centerX(), bounds.centerY());
+                    }
+                    this.drawables[0].setBounds(bounds.centerX() - (this.drawables[0].getIntrinsicWidth() / 2), bounds.centerY() - (this.drawables[0].getIntrinsicHeight() / 2), bounds.centerX() + (this.drawables[0].getIntrinsicWidth() / 2), bounds.centerY() + (this.drawables[0].getIntrinsicHeight() / 2));
+                } else {
+                    if (f < 1.0f) {
+                        float interpolation3 = this.overshootInterpolator.getInterpolation(f);
+                        canvas.scale(interpolation3, interpolation3, bounds.left + (this.drawables[0].getIntrinsicWidth() / 2.0f), bounds.centerY());
+                    }
+                    this.drawables[0].setBounds(bounds.left, bounds.centerY() - (this.drawables[0].getIntrinsicHeight() / 2), bounds.left + this.drawables[0].getIntrinsicWidth(), bounds.centerY() + (this.drawables[0].getIntrinsicHeight() / 2));
+                }
+                this.drawables[0].setAlpha(this.alpha);
+                this.drawables[0].setColorFilter(this.colorFilter);
+                this.drawables[0].draw(canvas);
+                this.drawables[0].setColorFilter(null);
+                canvas.restore();
+            }
+        }
+
+        public Drawable getDrawable() {
+            return this.drawables[0];
+        }
+
+        public void set(long j, boolean z) {
+            set(j, this.cacheType, z);
+        }
+
+        public void set(long j, int i, boolean z) {
+            Drawable[] drawableArr = this.drawables;
+            if (!(drawableArr[0] instanceof AnimatedEmojiDrawable) || ((AnimatedEmojiDrawable) drawableArr[0]).getDocumentId() != j) {
+                if (z) {
+                    this.changeProgress.set(0.0f, true);
+                    Drawable[] drawableArr2 = this.drawables;
+                    if (drawableArr2[1] != null) {
+                        if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this.parentView);
+                        }
+                        this.drawables[1] = null;
+                    }
+                    Drawable[] drawableArr3 = this.drawables;
+                    drawableArr3[1] = drawableArr3[0];
+                    drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
+                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                } else {
+                    this.changeProgress.set(1.0f, true);
+                    detach();
+                    this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
+                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                }
+                this.lastColor = -1;
+                this.colorFilter = null;
+                play();
+                View view = this.parentView;
+                if (view == null) {
+                    return;
+                }
+                view.invalidate();
+            }
+        }
+
+        public void set(TLRPC$Document tLRPC$Document, boolean z) {
+            set(tLRPC$Document, this.cacheType, z);
+        }
+
+        public void set(TLRPC$Document tLRPC$Document, int i, boolean z) {
+            Drawable[] drawableArr = this.drawables;
+            if (!(drawableArr[0] instanceof AnimatedEmojiDrawable) || tLRPC$Document == null || ((AnimatedEmojiDrawable) drawableArr[0]).getDocumentId() != tLRPC$Document.id) {
+                if (z) {
+                    this.changeProgress.set(0.0f, true);
+                    Drawable[] drawableArr2 = this.drawables;
+                    if (drawableArr2[1] != null) {
+                        if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this.parentView);
+                        }
+                        this.drawables[1] = null;
+                    }
+                    Drawable[] drawableArr3 = this.drawables;
+                    drawableArr3[1] = drawableArr3[0];
+                    if (tLRPC$Document != null) {
+                        drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
+                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                    } else {
+                        drawableArr3[0] = null;
+                    }
+                } else {
+                    this.changeProgress.set(1.0f, true);
+                    detach();
+                    if (tLRPC$Document != null) {
+                        this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
+                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                    } else {
+                        this.drawables[0] = null;
+                    }
+                }
+                this.lastColor = -1;
+                this.colorFilter = null;
+                play();
+                View view = this.parentView;
+                if (view == null) {
+                    return;
+                }
+                view.invalidate();
+            }
+        }
+
+        public void set(Drawable drawable, boolean z) {
+            if (this.drawables[0] == drawable) {
+                return;
+            }
+            if (z) {
+                this.changeProgress.set(0.0f, true);
+                Drawable[] drawableArr = this.drawables;
+                if (drawableArr[1] != null) {
+                    if (drawableArr[1] instanceof AnimatedEmojiDrawable) {
+                        ((AnimatedEmojiDrawable) drawableArr[1]).removeView(this.parentView);
+                    }
+                    this.drawables[1] = null;
+                }
+                Drawable[] drawableArr2 = this.drawables;
+                drawableArr2[1] = drawableArr2[0];
+                drawableArr2[0] = drawable;
+            } else {
+                this.changeProgress.set(1.0f, true);
+                detach();
+                this.drawables[0] = drawable;
+            }
+            this.lastColor = -1;
+            this.colorFilter = null;
+            play();
+            View view = this.parentView;
+            if (view == null) {
+                return;
+            }
+            view.invalidate();
+        }
+
+        public void detach() {
+            Drawable[] drawableArr = this.drawables;
+            if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr[0]).removeView(this.parentView);
+            }
+            Drawable[] drawableArr2 = this.drawables;
+            if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this.parentView);
+            }
+        }
+
+        public void attach() {
+            Drawable[] drawableArr = this.drawables;
+            if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr[0]).addView(this.parentView);
+            }
+            Drawable[] drawableArr2 = this.drawables;
+            if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawableArr2[1]).addView(this.parentView);
+            }
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return this.size;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return this.size;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+            this.alpha = i;
+        }
     }
 }

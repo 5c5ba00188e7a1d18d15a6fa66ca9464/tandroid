@@ -419,11 +419,54 @@ public abstract class TLRPC$Update extends TLObject {
                     }
                 };
                 break;
+            case 674706841:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateUserEmojiStatus();
+                break;
             case 791390623:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChannelWebPage();
                 break;
             case 791617983:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateReadHistoryOutbox();
+                break;
+            case 821314523:
+                tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateRecentEmojiStatuses
+                    public static int constructor = 821314523;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                    }
+                };
+                break;
+            case 834816008:
+                tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateStickerSets
+                    public static int constructor = 834816008;
+                    public boolean emojis;
+                    public int flags;
+                    public boolean masks;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        boolean z3 = false;
+                        this.masks = (readInt32 & 1) != 0;
+                        if ((readInt32 & 2) != 0) {
+                            z3 = true;
+                        }
+                        this.emojis = z3;
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        int i2 = this.masks ? this.flags | 1 : this.flags & (-2);
+                        this.flags = i2;
+                        int i3 = this.emojis ? i2 | 2 : i2 & (-3);
+                        this.flags = i3;
+                        abstractSerializedData2.writeInt32(i3);
+                    }
+                };
                 break;
             case 889491791:
                 tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateDialogFilters
@@ -443,16 +486,6 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case 1037718609:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChatParticipantAdd();
-                break;
-            case 1135492588:
-                tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateStickerSets
-                    public static int constructor = 1135492588;
-
-                    @Override // org.telegram.tgnet.TLObject
-                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                        abstractSerializedData2.writeInt32(constructor);
-                    }
-                };
                 break;
             case 1153291573:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChannelReadMessagesContents();
@@ -492,6 +525,9 @@ public abstract class TLRPC$Update extends TLObject {
                     }
                 };
                 break;
+            case 1517529484:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateMessageExtendedMedia();
+                break;
             case 1538885128:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updatePinnedChannelMessages();
                 break;
@@ -515,6 +551,16 @@ public abstract class TLRPC$Update extends TLObject {
                 break;
             case 1852826908:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateDialogPinned();
+                break;
+            case 1870160884:
+                tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateRecentReactions
+                    public static int constructor = 1870160884;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                    }
+                };
                 break;
             case 1885586395:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updatePendingJoinRequests();

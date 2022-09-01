@@ -303,6 +303,7 @@ public class AboutLinkCell extends FrameLayout {
         this.textY = dp2;
         canvas.translate(0.0f, dp2);
         try {
+            Theme.profile_aboutTextPaint.linkColor = Theme.getColor("chat_messageLinkIn", this.resourcesProvider);
             staticLayout = this.firstThreeLinesLayout;
         } catch (Exception e) {
             FileLog.e(e);

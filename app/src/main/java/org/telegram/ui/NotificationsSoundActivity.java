@@ -363,7 +363,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0098 A[Catch: Exception -> 0x00d1, TryCatch #0 {Exception -> 0x00d1, blocks: (B:15:0x003c, B:17:0x0044, B:21:0x005a, B:23:0x005e, B:25:0x0062, B:26:0x007b, B:28:0x007f, B:30:0x0085, B:34:0x0098, B:36:0x00a6, B:38:0x00ac, B:39:0x00c5), top: B:14:0x003c }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0098 A[Catch: Exception -> 0x00d2, TryCatch #0 {Exception -> 0x00d2, blocks: (B:15:0x003c, B:17:0x0043, B:21:0x005a, B:23:0x005e, B:25:0x0062, B:26:0x007b, B:28:0x007f, B:30:0x0085, B:34:0x0098, B:36:0x00a6, B:38:0x00ac, B:39:0x00c5), top: B:14:0x003c }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -415,7 +415,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                                 } else {
                                     FileLoader fileLoader = getFileLoader();
                                     TLRPC$Document tLRPC$Document = toneCell.tone.document;
-                                    fileLoader.loadFile(tLRPC$Document, tLRPC$Document, 2, 0);
+                                    fileLoader.loadFile(tLRPC$Document, tLRPC$Document, 3, 0);
                                 }
                             }
                         }
@@ -426,7 +426,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                         }
                         FileLoader fileLoader2 = getFileLoader();
                         TLRPC$Document tLRPC$Document2 = toneCell.tone.document;
-                        fileLoader2.loadFile(tLRPC$Document2, tLRPC$Document2, 2, 0);
+                        fileLoader2.loadFile(tLRPC$Document2, tLRPC$Document2, 3, 0);
                     }
                 }
             } catch (Exception e) {

@@ -70,7 +70,7 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface, int i) {
-        this.parentFragment.presentFragment(new StickersActivity(this.currentType));
+        this.parentFragment.presentFragment(new StickersActivity(this.currentType, null));
         dialogInterface.dismiss();
     }
 

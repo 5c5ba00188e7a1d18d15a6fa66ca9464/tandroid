@@ -73,6 +73,7 @@ public class PipVideoOverlay {
     private boolean onSideToDismiss;
     private EmbedBottomSheet parentSheet;
     private PhotoViewer photoViewer;
+    private PhotoViewerWebView photoViewerWebView;
     private PipConfig pipConfig;
     private int pipHeight;
     private int pipWidth;
@@ -137,14 +138,22 @@ public class PipVideoOverlay {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4() {
-        VideoPlayer videoPlayer;
         PhotoViewer photoViewer = this.photoViewer;
-        if (photoViewer == null || (videoPlayer = photoViewer.getVideoPlayer()) == null) {
+        if (photoViewer == null) {
             return;
         }
-        this.videoProgress = ((float) videoPlayer.getCurrentPosition()) / ((float) videoPlayer.getDuration());
-        if (this.photoViewer == null) {
-            this.bufferProgress = ((float) videoPlayer.getBufferedPosition()) / ((float) videoPlayer.getDuration());
+        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        if (photoViewerWebView != null) {
+            this.videoProgress = photoViewerWebView.getCurrentPosition() / this.photoViewerWebView.getVideoDuration();
+            this.bufferProgress = this.photoViewerWebView.getBufferedPosition();
+        } else {
+            VideoPlayer videoPlayer = photoViewer.getVideoPlayer();
+            if (videoPlayer == null) {
+                return;
+            }
+            float duration = (float) getDuration();
+            this.videoProgress = ((float) videoPlayer.getCurrentPosition()) / duration;
+            this.bufferProgress = ((float) videoPlayer.getBufferedPosition()) / duration;
         }
         this.videoProgressView.invalidate();
         AndroidUtilities.runOnUIThread(this.progressRunnable, 500L);
@@ -209,33 +218,79 @@ public class PipVideoOverlay {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onLongClick() {
-        PhotoViewer photoViewer = this.photoViewer;
-        if (photoViewer == null || photoViewer.getVideoPlayer() == null || this.isDismissing || this.isVideoCompleted || this.isScrolling || this.scaleGestureDetector.isInProgress() || !this.canLongClick) {
+    /* JADX INFO: Access modifiers changed from: private */
+    public long getCurrentPosition() {
+        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        if (photoViewerWebView != null) {
+            return photoViewerWebView.getCurrentPosition();
+        }
+        VideoPlayer videoPlayer = this.photoViewer.getVideoPlayer();
+        if (videoPlayer != null) {
+            return videoPlayer.getCurrentPosition();
+        }
+        return 0L;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void seekTo(long j) {
+        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        if (photoViewerWebView != null) {
+            photoViewerWebView.seekTo(j);
             return;
         }
         VideoPlayer videoPlayer = this.photoViewer.getVideoPlayer();
-        boolean z = false;
-        if (this.longClickStartPoint[0] >= getSuggestedWidth() * this.scaleFactor * 0.5f) {
-            z = true;
-        }
-        long currentPosition = videoPlayer.getCurrentPosition();
-        long duration = videoPlayer.getDuration();
-        if (currentPosition == -9223372036854775807L || duration < 15000) {
+        if (videoPlayer == null) {
             return;
         }
-        this.photoViewer.getVideoPlayerRewinder().startRewind(videoPlayer, z, this.photoViewer.getCurrentVideoSpeed());
-        if (this.isShowingControls) {
-            return;
+        videoPlayer.seekTo(j);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public long getDuration() {
+        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        if (photoViewerWebView != null) {
+            return photoViewerWebView.getVideoDuration();
         }
-        this.isShowingControls = true;
-        toggleControls(true);
-        if (this.postedDismissControls) {
-            return;
+        VideoPlayer videoPlayer = this.photoViewer.getVideoPlayer();
+        if (videoPlayer != null) {
+            return videoPlayer.getDuration();
         }
-        AndroidUtilities.runOnUIThread(this.dismissControlsCallback, 1500L);
-        this.postedDismissControls = true;
+        return 0L;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onLongClick() {
+        PhotoViewer photoViewer = this.photoViewer;
+        if (photoViewer != null) {
+            if ((photoViewer.getVideoPlayer() == null && this.photoViewerWebView == null) || this.isDismissing || this.isVideoCompleted || this.isScrolling || this.scaleGestureDetector.isInProgress() || !this.canLongClick) {
+                return;
+            }
+            VideoPlayer videoPlayer = this.photoViewer.getVideoPlayer();
+            boolean z = false;
+            if (this.longClickStartPoint[0] >= getSuggestedWidth() * this.scaleFactor * 0.5f) {
+                z = true;
+            }
+            long currentPosition = getCurrentPosition();
+            long duration = getDuration();
+            if (currentPosition == -9223372036854775807L || duration < 15000) {
+                return;
+            }
+            if (this.photoViewerWebView != null) {
+                this.photoViewer.getVideoPlayerRewinder().startRewind(this.photoViewerWebView, z, this.photoViewer.getCurrentVideoSpeed());
+            } else {
+                this.photoViewer.getVideoPlayerRewinder().startRewind(videoPlayer, z, this.photoViewer.getCurrentVideoSpeed());
+            }
+            if (this.isShowingControls) {
+                return;
+            }
+            this.isShowingControls = true;
+            toggleControls(true);
+            if (this.postedDismissControls) {
+                return;
+            }
+            AndroidUtilities.runOnUIThread(this.dismissControlsCallback, 1500L);
+            this.postedDismissControls = true;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -392,9 +447,14 @@ public class PipVideoOverlay {
             }
         } catch (IllegalArgumentException unused) {
         }
+        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        if (photoViewerWebView != null) {
+            photoViewerWebView.showControls();
+        }
         this.videoProgressView = null;
         this.innerView = null;
         this.photoViewer = null;
+        this.photoViewerWebView = null;
         this.parentSheet = null;
         this.consumingChild = null;
         this.isScrolling = false;
@@ -418,13 +478,23 @@ public class PipVideoOverlay {
     }
 
     private void updatePlayButtonInternal() {
-        VideoPlayer videoPlayer;
+        boolean isPlaying;
         PhotoViewer photoViewer = this.photoViewer;
-        if (photoViewer == null || (videoPlayer = photoViewer.getVideoPlayer()) == null || this.playPauseButton == null) {
+        if (photoViewer == null || this.playPauseButton == null) {
             return;
         }
+        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        if (photoViewerWebView != null) {
+            isPlaying = photoViewerWebView.isPlaying();
+        } else {
+            VideoPlayer videoPlayer = photoViewer.getVideoPlayer();
+            if (videoPlayer == null) {
+                return;
+            }
+            isPlaying = videoPlayer.isPlaying();
+        }
         AndroidUtilities.cancelRunOnUIThread(this.progressRunnable);
-        if (!videoPlayer.isPlaying()) {
+        if (!isPlaying) {
             if (this.isVideoCompleted) {
                 this.playPauseButton.setImageResource(R.drawable.pip_replay_large);
                 return;
@@ -518,11 +588,16 @@ public class PipVideoOverlay {
     }
 
     public static boolean show(boolean z, Activity activity, View view, int i, int i2, boolean z2) {
-        return instance.showInternal(z, activity, view, i, i2, z2);
+        return show(z, activity, null, view, i, i2, z2);
     }
 
-    private boolean showInternal(final boolean z, Activity activity, View view, int i, int i2, boolean z2) {
+    public static boolean show(boolean z, Activity activity, PhotoViewerWebView photoViewerWebView, View view, int i, int i2, boolean z2) {
+        return instance.showInternal(z, activity, view, photoViewerWebView, i, i2, z2);
+    }
+
+    private boolean showInternal(final boolean z, Activity activity, View view, PhotoViewerWebView photoViewerWebView, int i, int i2, boolean z2) {
         int i3;
+        PhotoViewerWebView photoViewerWebView2;
         if (this.isVisible) {
             return false;
         }
@@ -530,6 +605,12 @@ public class PipVideoOverlay {
         this.mVideoWidth = i;
         this.mVideoHeight = i2;
         this.aspectRatio = null;
+        if (photoViewerWebView != null && photoViewerWebView.isControllable()) {
+            this.photoViewerWebView = photoViewerWebView;
+            photoViewerWebView.hideControls();
+        } else {
+            this.photoViewerWebView = null;
+        }
         float pipX = getPipConfig().getPipX();
         float pipY = getPipConfig().getPipY();
         this.scaleFactor = getPipConfig().getScaleFactor();
@@ -760,9 +841,10 @@ public class PipVideoOverlay {
                 PipVideoOverlay.this.lambda$showInternal$11(view3);
             }
         });
-        boolean z3 = this.innerView instanceof WebView;
+        View view3 = this.innerView;
+        boolean z3 = (view3 instanceof WebView) || (view3 instanceof PhotoViewerWebView);
         this.isWebView = z3;
-        this.playPauseButton.setVisibility(z3 ? 8 : 0);
+        this.playPauseButton.setVisibility((!z3 || ((photoViewerWebView2 = this.photoViewerWebView) != null && photoViewerWebView2.isControllable())) ? 0 : 8);
         this.controlsView.addView(this.playPauseButton, LayoutHelper.createFrame(38, 38, 17));
         VideoProgressView videoProgressView = new VideoProgressView(context);
         this.videoProgressView = videoProgressView;
@@ -979,18 +1061,18 @@ public class PipVideoOverlay {
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:32:0x00ab  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x00b6  */
         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public boolean onDoubleTap(MotionEvent motionEvent) {
             boolean z = false;
-            if (PipVideoOverlay.this.photoViewer != null && PipVideoOverlay.this.photoViewer.getVideoPlayer() != null && !PipVideoOverlay.this.isDismissing && !PipVideoOverlay.this.isVideoCompleted && !PipVideoOverlay.this.isScrolling && !PipVideoOverlay.this.scaleGestureDetector.isInProgress() && PipVideoOverlay.this.canLongClick) {
-                VideoPlayer videoPlayer = PipVideoOverlay.this.photoViewer.getVideoPlayer();
+            if (PipVideoOverlay.this.photoViewer != null && ((PipVideoOverlay.this.photoViewer.getVideoPlayer() != null || PipVideoOverlay.this.photoViewerWebView != null) && !PipVideoOverlay.this.isDismissing && !PipVideoOverlay.this.isVideoCompleted && !PipVideoOverlay.this.isScrolling && !PipVideoOverlay.this.scaleGestureDetector.isInProgress() && PipVideoOverlay.this.canLongClick)) {
+                PipVideoOverlay.this.photoViewer.getVideoPlayer();
                 boolean z2 = motionEvent.getX() >= (((float) PipVideoOverlay.this.getSuggestedWidth()) * PipVideoOverlay.this.scaleFactor) * 0.5f;
-                long currentPosition = videoPlayer.getCurrentPosition();
-                long duration = videoPlayer.getDuration();
+                long currentPosition = PipVideoOverlay.this.getCurrentPosition();
+                long duration = PipVideoOverlay.this.getDuration();
                 if (currentPosition != -9223372036854775807L && duration >= 15000) {
                     long j = 10000;
                     long j2 = z2 ? currentPosition + 10000 : currentPosition - 10000;
@@ -1006,7 +1088,7 @@ public class PipVideoOverlay {
                                 PipVideoOverlay.this.videoForwardDrawable.setOneShootAnimation(true);
                                 PipVideoOverlay.this.videoForwardDrawable.setLeftSide(!z2);
                                 PipVideoOverlay.this.videoForwardDrawable.addTime(10000L);
-                                videoPlayer.seekTo(j2);
+                                PipVideoOverlay.this.seekTo(j2);
                                 PipVideoOverlay pipVideoOverlay = PipVideoOverlay.this;
                                 if (!z2) {
                                     j = -10000;
@@ -1043,11 +1125,13 @@ public class PipVideoOverlay {
 
         @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.OnGestureListener
         public boolean hasDoubleTap() {
-            if (PipVideoOverlay.this.photoViewer == null || PipVideoOverlay.this.photoViewer.getVideoPlayer() == null || PipVideoOverlay.this.isDismissing || PipVideoOverlay.this.isVideoCompleted || PipVideoOverlay.this.isScrolling || PipVideoOverlay.this.scaleGestureDetector.isInProgress() || !PipVideoOverlay.this.canLongClick) {
-                return false;
+            if (PipVideoOverlay.this.photoViewer != null) {
+                if ((PipVideoOverlay.this.photoViewer.getVideoPlayer() == null && PipVideoOverlay.this.photoViewerWebView == null) || PipVideoOverlay.this.isDismissing || PipVideoOverlay.this.isVideoCompleted || PipVideoOverlay.this.isScrolling || PipVideoOverlay.this.scaleGestureDetector.isInProgress() || !PipVideoOverlay.this.canLongClick) {
+                    return false;
+                }
+                return PipVideoOverlay.this.getCurrentPosition() != -9223372036854775807L && PipVideoOverlay.this.getDuration() >= 15000;
             }
-            VideoPlayer videoPlayer = PipVideoOverlay.this.photoViewer.getVideoPlayer();
-            return videoPlayer.getCurrentPosition() != -9223372036854775807L && videoPlayer.getDuration() >= 15000;
+            return false;
         }
 
         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -1163,15 +1247,27 @@ public class PipVideoOverlay {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showInternal$11(View view) {
-        VideoPlayer videoPlayer;
         PhotoViewer photoViewer = this.photoViewer;
-        if (photoViewer == null || (videoPlayer = photoViewer.getVideoPlayer()) == null) {
+        if (photoViewer == null) {
             return;
         }
-        if (videoPlayer.isPlaying()) {
-            videoPlayer.pause();
+        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        if (photoViewerWebView != null) {
+            if (photoViewerWebView.isPlaying()) {
+                this.photoViewerWebView.pauseVideo();
+            } else {
+                this.photoViewerWebView.playVideo();
+            }
         } else {
-            videoPlayer.play();
+            VideoPlayer videoPlayer = photoViewer.getVideoPlayer();
+            if (videoPlayer == null) {
+                return;
+            }
+            if (videoPlayer.isPlaying()) {
+                videoPlayer.pause();
+            } else {
+                videoPlayer.play();
+            }
         }
         updatePlayButton();
     }
@@ -1216,19 +1312,18 @@ public class PipVideoOverlay {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            if (PipVideoOverlay.this.isWebView) {
-                return;
+            if (!PipVideoOverlay.this.isWebView || (PipVideoOverlay.this.photoViewerWebView != null && PipVideoOverlay.this.photoViewerWebView.isControllable())) {
+                int width = getWidth();
+                int dp = AndroidUtilities.dp(10.0f);
+                float f = (width - dp) - dp;
+                int i = ((int) (PipVideoOverlay.this.videoProgress * f)) + dp;
+                float height = getHeight() - AndroidUtilities.dp(8.0f);
+                if (PipVideoOverlay.this.bufferProgress != 0.0f) {
+                    float f2 = dp;
+                    canvas.drawLine(f2, height, f2 + (f * PipVideoOverlay.this.bufferProgress), height, this.bufferPaint);
+                }
+                canvas.drawLine(dp, height, i, height, this.progressPaint);
             }
-            int width = getWidth();
-            int dp = AndroidUtilities.dp(10.0f);
-            float f = (width - dp) - dp;
-            int i = ((int) (PipVideoOverlay.this.videoProgress * f)) + dp;
-            float height = getHeight() - AndroidUtilities.dp(8.0f);
-            if (PipVideoOverlay.this.bufferProgress != 0.0f) {
-                float f2 = dp;
-                canvas.drawLine(f2, height, f2 + (f * PipVideoOverlay.this.bufferProgress), height, this.bufferPaint);
-            }
-            canvas.drawLine(dp, height, i, height, this.progressPaint);
         }
     }
 

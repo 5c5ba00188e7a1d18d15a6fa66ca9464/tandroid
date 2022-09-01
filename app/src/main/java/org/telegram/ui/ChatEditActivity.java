@@ -26,8 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -47,21 +45,26 @@ import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$ChatParticipant;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
+import org.telegram.tgnet.TLRPC$ChatReactions;
 import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$InputFile;
 import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$PhotoSize;
+import org.telegram.tgnet.TLRPC$Reaction;
 import org.telegram.tgnet.TLRPC$StickerSet;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.tgnet.TLRPC$TL_channelLocation;
 import org.telegram.tgnet.TLRPC$TL_chatBannedRights;
 import org.telegram.tgnet.TLRPC$TL_chatParticipantAdmin;
 import org.telegram.tgnet.TLRPC$TL_chatParticipantCreator;
+import org.telegram.tgnet.TLRPC$TL_chatReactionsNone;
+import org.telegram.tgnet.TLRPC$TL_chatReactionsSome;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_messages_exportedChatInvites;
 import org.telegram.tgnet.TLRPC$TL_messages_getExportedChatInvites;
 import org.telegram.tgnet.TLRPC$TL_photo;
+import org.telegram.tgnet.TLRPC$TL_reactionEmoji;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -94,6 +97,7 @@ import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class ChatEditActivity extends BaseFragment implements ImageUpdater.ImageUpdaterDelegate, NotificationCenter.NotificationCenterDelegate {
     private TextCell adminCell;
+    private TLRPC$ChatReactions availableReactions;
     private TLRPC$FileLocation avatar;
     private AnimatorSet avatarAnimation;
     private LinearLayout avatarContainer;
@@ -138,7 +142,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     private TextDetailCell typeCell;
     private LinearLayout typeEditContainer;
     private UndoView undoView;
-    private List<String> availableReactions = Collections.emptyList();
     private PhotoViewer.PhotoViewerProvider provider = new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.ChatEditActivity.1
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC$FileLocation tLRPC$FileLocation, int i, boolean z) {
@@ -1091,7 +1094,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (this.imageUpdater.isUploadingImage() || (tLRPC$ChatPhoto = (chat = getMessagesController().getChat(Long.valueOf(this.chatId))).photo) == null || tLRPC$ChatPhoto.photo_big == null) {
             return;
         }
-        PhotoViewer.getInstance().setParentActivity(getParentActivity());
+        PhotoViewer.getInstance().setParentActivity(this);
         TLRPC$ChatPhoto tLRPC$ChatPhoto2 = chat.photo;
         int i = tLRPC$ChatPhoto2.dc_id;
         if (i != 0) {
@@ -2015,15 +2018,30 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     private void updateReactionsCell() {
-        int i = 0;
-        for (int i2 = 0; i2 < this.availableReactions.size(); i2++) {
-            TLRPC$TL_availableReaction tLRPC$TL_availableReaction = getMediaDataController().getReactionsMap().get(this.availableReactions.get(i2));
-            if (tLRPC$TL_availableReaction != null && !tLRPC$TL_availableReaction.inactive) {
-                i++;
+        String string;
+        TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
+        TLRPC$ChatReactions tLRPC$ChatReactions = this.availableReactions;
+        if (tLRPC$ChatReactions == null || (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsNone)) {
+            string = LocaleController.getString("ReactionsOff", R.string.ReactionsOff);
+        } else if (tLRPC$ChatReactions instanceof TLRPC$TL_chatReactionsSome) {
+            TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = (TLRPC$TL_chatReactionsSome) tLRPC$ChatReactions;
+            int i = 0;
+            for (int i2 = 0; i2 < tLRPC$TL_chatReactionsSome.reactions.size(); i2++) {
+                TLRPC$Reaction tLRPC$Reaction = tLRPC$TL_chatReactionsSome.reactions.get(i2);
+                if ((tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) && (tLRPC$TL_availableReaction = getMediaDataController().getReactionsMap().get(((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon)) != null && !tLRPC$TL_availableReaction.inactive) {
+                    i++;
+                }
             }
+            int min = Math.min(getMediaDataController().getEnabledReactionsList().size(), i);
+            if (min == 0) {
+                string = LocaleController.getString("ReactionsOff", R.string.ReactionsOff);
+            } else {
+                string = LocaleController.formatString("ReactionsCount", R.string.ReactionsCount, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size()));
+            }
+        } else {
+            string = LocaleController.getString("ReactionsAll", R.string.ReactionsAll);
         }
-        int min = Math.min(getMediaDataController().getEnabledReactionsList().size(), i);
-        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", R.string.Reactions), min == 0 ? LocaleController.getString("ReactionsOff", R.string.ReactionsOff) : LocaleController.formatString("ReactionsCount", R.string.ReactionsCount, Integer.valueOf(min), Integer.valueOf(getMediaDataController().getEnabledReactionsList().size())), R.drawable.msg_reactions2, true);
+        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", R.string.Reactions), string, R.drawable.msg_reactions2, true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

@@ -29,7 +29,8 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
     private SideMenultItemAnimator itemAnimator;
     private Context mContext;
     private DrawerLayoutContainer mDrawerLayoutContainer;
-    private DrawerProfileCell profileCell;
+    private View.OnClickListener onPremiumDrawableClick;
+    public DrawerProfileCell profileCell;
     private ArrayList<Item> items = new ArrayList<>(11);
     private ArrayList<Integer> accountNumbers = new ArrayList<>();
 
@@ -86,6 +87,10 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         return this.accountsShown;
     }
 
+    public void setOnPremiumDrawableClick(View.OnClickListener onClickListener) {
+        this.onPremiumDrawableClick = onClickListener;
+    }
+
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void notifyDataSetChanged() {
         resetItems();
@@ -102,7 +107,14 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         if (i == 0) {
-            DrawerProfileCell drawerProfileCell = new DrawerProfileCell(this.mContext, this.mDrawerLayoutContainer);
+            DrawerProfileCell drawerProfileCell = new DrawerProfileCell(this.mContext, this.mDrawerLayoutContainer) { // from class: org.telegram.ui.Adapters.DrawerLayoutAdapter.1
+                @Override // org.telegram.ui.Cells.DrawerProfileCell
+                protected void onPremiumClick() {
+                    if (DrawerLayoutAdapter.this.onPremiumDrawableClick != null) {
+                        DrawerLayoutAdapter.this.onPremiumDrawableClick.onClick(this);
+                    }
+                }
+            };
             this.profileCell = drawerProfileCell;
             view = drawerProfileCell;
         } else if (i == 2) {
@@ -244,6 +256,15 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             i7 = R.drawable.msg_help;
             i8 = R.drawable.msg_nearby;
         }
+        UserConfig userConfig = UserConfig.getInstance(UserConfig.selectedAccount);
+        if (userConfig != null && userConfig.isPremium()) {
+            if (userConfig.getEmojiStatus() != null) {
+                this.items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), 0, R.raw.emoji_status_change_to_set));
+            } else {
+                this.items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), 0, R.raw.emoji_status_set_to_change));
+            }
+            this.items.add(null);
+        }
         this.items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), i));
         this.items.add(new Item(6, LocaleController.getString("Contacts", R.string.Contacts), i2));
         this.items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), i3));
@@ -295,6 +316,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
     public static class Item {
         public int icon;
         public int id;
+        public int lottieIcon;
         public String text;
 
         public Item(int i, String str, int i2) {
@@ -303,8 +325,15 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             this.text = str;
         }
 
+        public Item(int i, String str, int i2, int i3) {
+            this.icon = i2;
+            this.lottieIcon = i3;
+            this.id = i;
+            this.text = str;
+        }
+
         public void bind(DrawerActionCell drawerActionCell) {
-            drawerActionCell.setTextAndIcon(this.id, this.text, this.icon);
+            drawerActionCell.setTextAndIcon(this.id, this.text, this.icon, this.lottieIcon);
         }
     }
 }

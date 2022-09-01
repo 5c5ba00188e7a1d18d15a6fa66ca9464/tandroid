@@ -18,7 +18,7 @@ public class TLRPC$TL_messageReactions extends TLRPC$MessageReactions {
         }
         int readInt323 = abstractSerializedData.readInt32(z);
         for (int i = 0; i < readInt323; i++) {
-            TLRPC$TL_reactionCount TLdeserialize = TLRPC$TL_reactionCount.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            TLRPC$ReactionCount TLdeserialize = TLRPC$ReactionCount.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if (TLdeserialize == null) {
                 return;
             }
@@ -36,7 +36,7 @@ public class TLRPC$TL_messageReactions extends TLRPC$MessageReactions {
         }
         int readInt325 = abstractSerializedData.readInt32(z);
         for (int i2 = 0; i2 < readInt325; i2++) {
-            TLRPC$TL_messagePeerReaction TLdeserialize2 = TLRPC$MessagePeerReaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            TLRPC$MessagePeerReaction TLdeserialize2 = TLRPC$MessagePeerReaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if (TLdeserialize2 == null) {
                 return;
             }

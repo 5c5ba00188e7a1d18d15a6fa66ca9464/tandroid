@@ -24,13 +24,16 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
+import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$FileLocation;
+import org.telegram.tgnet.TLRPC$TL_emojiStatus;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox;
@@ -52,6 +55,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private CharSequence currentName;
     private Object currentObject;
     private CharSequence currentStatus;
+    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatus;
     private ImageView imageView;
     private TLRPC$FileLocation lastAvatar;
     private String lastName;
@@ -136,6 +140,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             i5 = (i2 != 2 ? 0 : i7) + 28 + i3;
         }
         addView(view3, LayoutHelper.createFrame(-1, 20.0f, i6, f, 10.0f, i5, 0.0f));
+        this.emojiStatus = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f));
         SimpleTextView simpleTextView2 = new SimpleTextView(context);
         this.statusTextView = simpleTextView2;
         simpleTextView2.setTextSize(15);
@@ -394,7 +399,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:146:0x010a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:150:0x010a, code lost:
         if (r7.equals("groups") == false) goto L44;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -610,7 +615,14 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.nameTextView.setText(charSequence3);
         }
         if (tLRPC$User != null && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
-            this.nameTextView.setRightDrawable(PremiumGradient.getInstance().premiumStarDrawableMini);
+            TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
+            if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) {
+                this.emojiStatus.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id, false);
+                this.emojiStatus.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+                this.nameTextView.setRightDrawable(this.emojiStatus);
+            } else {
+                this.nameTextView.setRightDrawable(PremiumGradient.getInstance().premiumStarDrawableMini);
+            }
             this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
         } else {
             this.nameTextView.setRightDrawable((Drawable) null);
@@ -695,11 +707,13 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
+        this.emojiStatus.attach();
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
+        this.emojiStatus.detach();
     }
 }

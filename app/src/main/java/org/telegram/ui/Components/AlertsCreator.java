@@ -794,7 +794,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$7(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$61(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$62(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1124,7 +1124,7 @@ public class AlertsCreator {
                 if (ChatObject.isNotInChat(tLRPC$Chat)) {
                     accountInstance.getMessagesController().deleteDialog(j, 0);
                 } else {
-                    accountInstance.getMessagesController().deleteParticipantFromChat(-j, accountInstance.getMessagesController().getUser(Long.valueOf(accountInstance.getUserConfig().getClientUserId())), null);
+                    accountInstance.getMessagesController().deleteParticipantFromChat(-j, accountInstance.getMessagesController().getUser(Long.valueOf(accountInstance.getUserConfig().getClientUserId())));
                 }
             } else {
                 accountInstance.getMessagesController().deleteDialog(j, 0);
@@ -5266,7 +5266,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createFreeSpaceDialog$103(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$61(new CacheControlActivity());
+        launchActivity.lambda$runLinkRequest$62(new CacheControlActivity());
     }
 
     public static Dialog createPrioritySelectDialog(Activity activity, long j, int i, Runnable runnable) {
@@ -5616,12 +5616,12 @@ public class AlertsCreator {
         accountSelectDelegate.didSelectAccount(((AccountSelectCell) view).getAccountNumber());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0631  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0739  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x062f  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0737  */
     /* JADX WARN: Removed duplicated region for block: B:130:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x06fe  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x0708  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x063e  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x06fc  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0706  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x063c  */
     /* JADX WARN: Removed duplicated region for block: B:19:0x0057  */
     /* JADX WARN: Removed duplicated region for block: B:23:0x0078  */
     /* JADX WARN: Removed duplicated region for block: B:341:0x00f3  */
@@ -6015,7 +6015,7 @@ public class AlertsCreator {
                 builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda17
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i31) {
-                        AlertsCreator.lambda$createDeleteMessagesAlert$118(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i29, j3, zArr11, z, sparseArrayArr, tLRPC$User7, tLRPC$Chat5, zArr12, tLRPC$Chat, tLRPC$ChatFull, runnable, dialogInterface, i31);
+                        AlertsCreator.lambda$createDeleteMessagesAlert$118(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i29, j3, zArr11, z, sparseArrayArr, tLRPC$User7, tLRPC$Chat5, zArr12, tLRPC$Chat, runnable, dialogInterface, i31);
                     }
                 });
                 if (i9 != 1) {
@@ -6120,7 +6120,7 @@ public class AlertsCreator {
             builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda17
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i312) {
-                    AlertsCreator.lambda$createDeleteMessagesAlert$118(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i292, j32, zArr112, z, sparseArrayArr, tLRPC$User72, tLRPC$Chat52, zArr122, tLRPC$Chat, tLRPC$ChatFull, runnable, dialogInterface, i312);
+                    AlertsCreator.lambda$createDeleteMessagesAlert$118(MessageObject.this, groupedMessages, tLRPC$EncryptedChat, i292, j32, zArr112, z, sparseArrayArr, tLRPC$User72, tLRPC$Chat52, zArr122, tLRPC$Chat, runnable, dialogInterface, i312);
                 }
             });
             if (i9 != 1) {
@@ -6223,7 +6223,7 @@ public class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    public static /* synthetic */ void lambda$createDeleteMessagesAlert$118(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, TLRPC$EncryptedChat tLRPC$EncryptedChat, int i, long j, boolean[] zArr, boolean z, SparseArray[] sparseArrayArr, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean[] zArr2, TLRPC$Chat tLRPC$Chat2, TLRPC$ChatFull tLRPC$ChatFull, Runnable runnable, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$createDeleteMessagesAlert$118(MessageObject messageObject, MessageObject.GroupedMessages groupedMessages, TLRPC$EncryptedChat tLRPC$EncryptedChat, int i, long j, boolean[] zArr, boolean z, SparseArray[] sparseArrayArr, TLRPC$User tLRPC$User, TLRPC$Chat tLRPC$Chat, boolean[] zArr2, TLRPC$Chat tLRPC$Chat2, Runnable runnable, DialogInterface dialogInterface, int i2) {
         int i3;
         ArrayList<Integer> arrayList;
         ArrayList arrayList2;
@@ -6295,7 +6295,7 @@ public class AlertsCreator {
         }
         if (tLRPC$User != null || tLRPC$Chat != null) {
             if (zArr2[i3]) {
-                MessagesController.getInstance(i).deleteParticipantFromChat(tLRPC$Chat2.id, tLRPC$User, tLRPC$Chat, tLRPC$ChatFull, false, false);
+                MessagesController.getInstance(i).deleteParticipantFromChat(tLRPC$Chat2.id, tLRPC$User, tLRPC$Chat, false, false);
             }
             if (zArr2[1]) {
                 TLRPC$TL_channels_reportSpam tLRPC$TL_channels_reportSpam = new TLRPC$TL_channels_reportSpam();

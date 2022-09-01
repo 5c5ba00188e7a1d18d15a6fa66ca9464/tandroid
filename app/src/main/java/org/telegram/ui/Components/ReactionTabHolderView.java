@@ -21,10 +21,10 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SvgHelper;
+import org.telegram.tgnet.TLRPC$ReactionCount;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
-import org.telegram.tgnet.TLRPC$TL_reactionCount;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 /* loaded from: classes3.dex */
 public class ReactionTabHolderView extends FrameLayout {
     private int count;
@@ -34,7 +34,7 @@ public class ReactionTabHolderView extends FrameLayout {
     private float outlineProgress;
     View overlaySelectorView;
     private BackupImageView reactView;
-    private String reaction;
+    private ReactionsLayoutInBubble.VisibleReaction reaction;
     private Paint outlinePaint = new Paint(1);
     private Paint bgPaint = new Paint(1);
     private RectF rect = new RectF();
@@ -89,22 +89,26 @@ public class ReactionTabHolderView extends FrameLayout {
         this.reactView.setVisibility(8);
     }
 
-    public void setCounter(int i, TLRPC$TL_reactionCount tLRPC$TL_reactionCount) {
-        int i2 = tLRPC$TL_reactionCount.count;
+    public void setCounter(int i, TLRPC$ReactionCount tLRPC$ReactionCount) {
+        int i2 = tLRPC$ReactionCount.count;
         this.count = i2;
         this.counterView.setText(String.format("%s", LocaleController.formatShortNumber(i2, null)));
-        String str = tLRPC$TL_reactionCount.reaction;
-        this.reaction = null;
-        for (TLRPC$TL_availableReaction tLRPC$TL_availableReaction : MediaDataController.getInstance(i).getReactionsList()) {
-            if (tLRPC$TL_availableReaction.reaction.equals(str)) {
-                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon, "windowBackgroundGray", 1.0f);
-                this.reaction = tLRPC$TL_availableReaction.reaction;
-                this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastframe", "webp", svgThumb, tLRPC$TL_availableReaction);
-                this.reactView.setVisibility(0);
-                this.iconView.setVisibility(8);
-                return;
+        ReactionsLayoutInBubble.VisibleReaction fromTLReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(tLRPC$ReactionCount.reaction);
+        this.reaction = fromTLReaction;
+        if (fromTLReaction.emojicon != null) {
+            for (TLRPC$TL_availableReaction tLRPC$TL_availableReaction : MediaDataController.getInstance(i).getReactionsList()) {
+                if (tLRPC$TL_availableReaction.reaction.equals(this.reaction.emojicon)) {
+                    this.reactView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastframe", "webp", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon, "windowBackgroundGray", 1.0f), tLRPC$TL_availableReaction);
+                    this.reactView.setVisibility(0);
+                    this.iconView.setVisibility(8);
+                    return;
+                }
             }
+            return;
         }
+        this.reactView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(0, i, this.reaction.documentId));
+        this.reactView.setVisibility(0);
+        this.iconView.setVisibility(8);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -124,9 +128,9 @@ public class ReactionTabHolderView extends FrameLayout {
         if (this.outlineProgress > 0.5d) {
             accessibilityNodeInfo.setSelected(true);
         }
-        String str = this.reaction;
-        if (str != null) {
-            accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrNumberOfPeopleReactions", this.count, str));
+        ReactionsLayoutInBubble.VisibleReaction visibleReaction = this.reaction;
+        if (visibleReaction != null) {
+            accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrNumberOfPeopleReactions", this.count, visibleReaction));
         } else {
             accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrNumberOfReactions", this.count, new Object[0]));
         }

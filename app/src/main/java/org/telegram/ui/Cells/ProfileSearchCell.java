@@ -28,14 +28,18 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
 import org.telegram.tgnet.TLRPC$Dialog;
+import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$FileLocation;
+import org.telegram.tgnet.TLRPC$TL_emojiStatus;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.CheckBox2;
+import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 /* loaded from: classes3.dex */
 public class ProfileSearchCell extends BaseCell implements NotificationCenter.NotificationCenterDelegate {
@@ -53,7 +57,6 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
     private boolean drawCheck;
     private boolean drawCount;
     private boolean drawNameLock;
-    private boolean drawPremium;
     private TLRPC$EncryptedChat encryptedChat;
     private boolean[] isOnline;
     private TLRPC$FileLocation lastAvatar;
@@ -69,6 +72,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
     private RectF rect;
     private Theme.ResourcesProvider resourcesProvider;
     private boolean savedMessages;
+    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable statusDrawable;
     private StaticLayout statusLayout;
     private int statusLeft;
     private CharSequence subLabel;
@@ -97,6 +101,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         this.checkBox.setDrawUnchecked(false);
         this.checkBox.setDrawBackgroundAsArc(3);
         addView(this.checkBox);
+        this.statusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(20.0f));
     }
 
     public void setData(TLObject tLObject, TLRPC$EncryptedChat tLRPC$EncryptedChat, CharSequence charSequence, CharSequence charSequence2, boolean z, boolean z2) {
@@ -182,13 +187,11 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         String str;
         TLRPC$UserStatus tLRPC$UserStatus;
         int dp;
-        String lowerCase;
         int i;
         String str2;
         String userName;
         this.drawNameLock = false;
         this.drawCheck = false;
-        this.drawPremium = false;
         if (this.encryptedChat != null) {
             this.drawNameLock = true;
             this.dialog_id = DialogObject.makeEncryptedDialogId(tLRPC$EncryptedChat.id);
@@ -200,6 +203,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 this.nameLeft = AndroidUtilities.dp(11.0f);
             }
             this.nameLockTop = AndroidUtilities.dp(22.0f);
+            updateStatus(false, null, false);
         } else {
             TLRPC$Chat tLRPC$Chat = this.chat;
             if (tLRPC$Chat != null) {
@@ -210,6 +214,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 } else {
                     this.nameLeft = AndroidUtilities.dp(11.0f);
                 }
+                updateStatus(this.drawCheck, null, false);
             } else {
                 TLRPC$User tLRPC$User = this.user;
                 if (tLRPC$User != null) {
@@ -222,7 +227,10 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                     this.nameLockTop = AndroidUtilities.dp(21.0f);
                     TLRPC$User tLRPC$User2 = this.user;
                     this.drawCheck = tLRPC$User2.verified;
-                    this.drawPremium = !tLRPC$User2.self && MessagesController.getInstance(this.currentAccount).isPremiumUser(this.user);
+                    if (!tLRPC$User2.self) {
+                        MessagesController.getInstance(this.currentAccount).isPremiumUser(this.user);
+                    }
+                    updateStatus(this.drawCheck, this.user, false);
                 }
             }
         }
@@ -303,8 +311,10 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         }
         TLRPC$Chat tLRPC$Chat3 = this.chat;
         if (tLRPC$Chat3 == null || this.subLabel != null) {
-            str = this.subLabel;
-            if (str == null) {
+            CharSequence charSequence = this.subLabel;
+            if (charSequence != null) {
+                str = charSequence;
+            } else {
                 TLRPC$User tLRPC$User5 = this.user;
                 if (tLRPC$User5 == null) {
                     str = null;
@@ -347,28 +357,26 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 if (!tLRPC$Chat4.megagroup) {
                     int i2 = tLRPC$Chat4.participants_count;
                     if (i2 != 0) {
-                        lowerCase = LocaleController.formatPluralString("Subscribers", i2, new Object[0]);
+                        str = LocaleController.formatPluralString("Subscribers", i2, new Object[0]);
                     } else if (TextUtils.isEmpty(tLRPC$Chat4.username)) {
-                        lowerCase = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate).toLowerCase();
+                        str = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate).toLowerCase();
                     } else {
-                        lowerCase = LocaleController.getString("ChannelPublic", R.string.ChannelPublic).toLowerCase();
+                        str = LocaleController.getString("ChannelPublic", R.string.ChannelPublic).toLowerCase();
                     }
-                    str = lowerCase;
                     this.nameTop = AndroidUtilities.dp(19.0f);
                 }
             }
             TLRPC$Chat tLRPC$Chat5 = this.chat;
             int i3 = tLRPC$Chat5.participants_count;
             if (i3 != 0) {
-                lowerCase = LocaleController.formatPluralString("Members", i3, new Object[0]);
+                str = LocaleController.formatPluralString("Members", i3, new Object[0]);
             } else if (tLRPC$Chat5.has_geo) {
-                lowerCase = LocaleController.getString("MegaLocation", R.string.MegaLocation);
+                str = LocaleController.getString("MegaLocation", R.string.MegaLocation);
             } else if (TextUtils.isEmpty(tLRPC$Chat5.username)) {
-                lowerCase = LocaleController.getString("MegaPrivate", R.string.MegaPrivate).toLowerCase();
+                str = LocaleController.getString("MegaPrivate", R.string.MegaPrivate).toLowerCase();
             } else {
-                lowerCase = LocaleController.getString("MegaPublic", R.string.MegaPublic).toLowerCase();
+                str = LocaleController.getString("MegaPublic", R.string.MegaPublic).toLowerCase();
             }
-            str = lowerCase;
             this.nameTop = AndroidUtilities.dp(19.0f);
         }
         if (!TextUtils.isEmpty(str)) {
@@ -437,18 +445,42 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         this.nameLockLeft += getPaddingLeft();
     }
 
+    public void updateStatus(boolean z, TLRPC$User tLRPC$User, boolean z2) {
+        if (z) {
+            this.statusDrawable.set(new CombinedDrawable(Theme.dialogs_verifiedDrawable, Theme.dialogs_verifiedCheckDrawable, 0, 0), z2);
+            this.statusDrawable.setColor(null);
+            return;
+        }
+        if (tLRPC$User != null && !tLRPC$User.self) {
+            TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
+            if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) {
+                this.statusDrawable.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id, z2);
+                this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+                return;
+            }
+        }
+        if (tLRPC$User != null && !tLRPC$User.self && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
+            this.statusDrawable.set(PremiumGradient.getInstance().premiumStarDrawableMini, z2);
+            this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+            return;
+        }
+        this.statusDrawable.set((Drawable) null, z2);
+        this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+    }
+
     public void update(int i) {
         Drawable drawable;
         TLRPC$Dialog tLRPC$Dialog;
         String str;
         TLRPC$User tLRPC$User;
+        TLRPC$User tLRPC$User2;
         TLRPC$FileLocation tLRPC$FileLocation;
         Drawable drawable2;
-        TLRPC$User tLRPC$User2 = this.user;
+        TLRPC$User tLRPC$User3 = this.user;
         TLRPC$FileLocation tLRPC$FileLocation2 = null;
         boolean z = true;
-        if (tLRPC$User2 != null) {
-            this.avatarDrawable.setInfo(tLRPC$User2);
+        if (tLRPC$User3 != null) {
+            this.avatarDrawable.setInfo(tLRPC$User3);
             if (UserObject.isReplyUser(this.user)) {
                 this.avatarDrawable.setAvatarType(12);
                 this.avatarImage.setImage(null, null, this.avatarDrawable, null, null, 0);
@@ -457,18 +489,18 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 this.avatarImage.setImage(null, null, this.avatarDrawable, null, null, 0);
             } else {
                 Drawable drawable3 = this.avatarDrawable;
-                TLRPC$User tLRPC$User3 = this.user;
-                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User3.photo;
+                TLRPC$User tLRPC$User4 = this.user;
+                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User4.photo;
                 if (tLRPC$UserProfilePhoto != null) {
                     tLRPC$FileLocation2 = tLRPC$UserProfilePhoto.photo_small;
                     Drawable drawable4 = tLRPC$UserProfilePhoto.strippedBitmap;
                     if (drawable4 != null) {
                         drawable2 = drawable4;
-                        this.avatarImage.setImage(ImageLocation.getForUserOrChat(tLRPC$User3, 1), "50_50", ImageLocation.getForUserOrChat(this.user, 2), "50_50", drawable2, this.user, 0);
+                        this.avatarImage.setImage(ImageLocation.getForUserOrChat(tLRPC$User4, 1), "50_50", ImageLocation.getForUserOrChat(this.user, 2), "50_50", drawable2, this.user, 0);
                     }
                 }
                 drawable2 = drawable3;
-                this.avatarImage.setImage(ImageLocation.getForUserOrChat(tLRPC$User3, 1), "50_50", ImageLocation.getForUserOrChat(this.user, 2), "50_50", drawable2, this.user, 0);
+                this.avatarImage.setImage(ImageLocation.getForUserOrChat(tLRPC$User4, 1), "50_50", ImageLocation.getForUserOrChat(this.user, 2), "50_50", drawable2, this.user, 0);
             }
         } else {
             TLRPC$Chat tLRPC$Chat = this.chat;
@@ -494,11 +526,14 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         }
         if (i != 0) {
             boolean z2 = !(((MessagesController.UPDATE_MASK_AVATAR & i) == 0 || this.user == null) && ((MessagesController.UPDATE_MASK_CHAT_AVATAR & i) == 0 || this.chat == null)) && (((tLRPC$FileLocation = this.lastAvatar) != null && tLRPC$FileLocation2 == null) || ((tLRPC$FileLocation == null && tLRPC$FileLocation2 != null) || !(tLRPC$FileLocation == null || (tLRPC$FileLocation.volume_id == tLRPC$FileLocation2.volume_id && tLRPC$FileLocation.local_id == tLRPC$FileLocation2.local_id))));
-            if (!z2 && (MessagesController.UPDATE_MASK_STATUS & i) != 0 && (tLRPC$User = this.user) != null) {
-                TLRPC$UserStatus tLRPC$UserStatus = tLRPC$User.status;
+            if (!z2 && (MessagesController.UPDATE_MASK_STATUS & i) != 0 && (tLRPC$User2 = this.user) != null) {
+                TLRPC$UserStatus tLRPC$UserStatus = tLRPC$User2.status;
                 if ((tLRPC$UserStatus != null ? tLRPC$UserStatus.expires : 0) != this.lastStatus) {
                     z2 = true;
                 }
+            }
+            if (!z2 && (MessagesController.UPDATE_MASK_EMOJI_STATUS & i) != 0 && (tLRPC$User = this.user) != null) {
+                updateStatus(tLRPC$User.verified, tLRPC$User, true);
             }
             if ((!z2 && (MessagesController.UPDATE_MASK_NAME & i) != 0 && this.user != null) || ((MessagesController.UPDATE_MASK_CHAT_NAME & i) != 0 && this.chat != null)) {
                 if (this.user != null) {
@@ -517,9 +552,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 return;
             }
         }
-        TLRPC$User tLRPC$User4 = this.user;
-        if (tLRPC$User4 != null) {
-            TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User4.status;
+        TLRPC$User tLRPC$User5 = this.user;
+        if (tLRPC$User5 != null) {
+            TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User5.status;
             if (tLRPC$UserStatus2 != null) {
                 this.lastStatus = tLRPC$UserStatus2.expires;
             } else {
@@ -564,37 +599,26 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             canvas.translate(this.nameLeft, this.nameTop);
             this.nameLayout.draw(canvas);
             canvas.restore();
-            boolean z = this.drawCheck;
-            if (z || this.drawPremium) {
-                Drawable drawable = z ? Theme.dialogs_verifiedDrawable : PremiumGradient.getInstance().premiumStarDrawableMini;
-                if (LocaleController.isRTL) {
-                    if (this.nameLayout.getLineLeft(0) == 0.0f) {
-                        lineRight = (this.nameLeft - AndroidUtilities.dp(6.0f)) - drawable.getIntrinsicWidth();
-                    } else {
-                        float lineWidth = this.nameLayout.getLineWidth(0);
-                        double d = this.nameLeft + this.nameWidth;
-                        double ceil = Math.ceil(lineWidth);
-                        Double.isNaN(d);
-                        double dp2 = AndroidUtilities.dp(6.0f);
-                        Double.isNaN(dp2);
-                        double d2 = (d - ceil) - dp2;
-                        double intrinsicWidth = drawable.getIntrinsicWidth();
-                        Double.isNaN(intrinsicWidth);
-                        lineRight = (int) (d2 - intrinsicWidth);
-                    }
+            if (LocaleController.isRTL) {
+                if (this.nameLayout.getLineLeft(0) == 0.0f) {
+                    lineRight = (this.nameLeft - AndroidUtilities.dp(6.0f)) - this.statusDrawable.getIntrinsicWidth();
                 } else {
-                    lineRight = (int) (this.nameLeft + this.nameLayout.getLineRight(0) + AndroidUtilities.dp(6.0f));
+                    float lineWidth = this.nameLayout.getLineWidth(0);
+                    double d = this.nameLeft + this.nameWidth;
+                    double ceil = Math.ceil(lineWidth);
+                    Double.isNaN(d);
+                    double dp2 = AndroidUtilities.dp(6.0f);
+                    Double.isNaN(dp2);
+                    double d2 = (d - ceil) - dp2;
+                    double intrinsicWidth = this.statusDrawable.getIntrinsicWidth();
+                    Double.isNaN(intrinsicWidth);
+                    lineRight = (int) (d2 - intrinsicWidth);
                 }
-                if (this.drawCheck) {
-                    BaseCell.setDrawableBounds(Theme.dialogs_verifiedDrawable, lineRight, this.nameTop + AndroidUtilities.dp(3.0f));
-                    BaseCell.setDrawableBounds(Theme.dialogs_verifiedCheckDrawable, lineRight, this.nameTop + AndroidUtilities.dp(3.0f));
-                    Theme.dialogs_verifiedDrawable.draw(canvas);
-                    Theme.dialogs_verifiedCheckDrawable.draw(canvas);
-                } else if (this.drawPremium) {
-                    BaseCell.setDrawableBounds(drawable, lineRight, this.nameTop + AndroidUtilities.dp(1.5f));
-                    drawable.draw(canvas);
-                }
+            } else {
+                lineRight = (int) (this.nameLeft + this.nameLayout.getLineRight(0) + AndroidUtilities.dp(6.0f));
             }
+            BaseCell.setDrawableBounds(this.statusDrawable, lineRight, this.nameTop + ((this.nameLayout.getHeight() - this.statusDrawable.getIntrinsicHeight()) / 2.0f));
+            this.statusDrawable.draw(canvas);
         }
         if (this.statusLayout != null) {
             canvas.save();

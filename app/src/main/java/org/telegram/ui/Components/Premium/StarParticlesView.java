@@ -51,8 +51,9 @@ public class StarParticlesView extends View {
         drawable.init();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    protected void onMeasure(int i, int i2) {
+    public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         int measuredWidth = getMeasuredWidth() << (getMeasuredHeight() + 16);
         this.drawable.rect.set(0.0f, 0.0f, AndroidUtilities.dp(140.0f), AndroidUtilities.dp(140.0f));
@@ -140,6 +141,7 @@ public class StarParticlesView extends View {
         public boolean checkTime = true;
         public boolean isCircle = true;
         public boolean useBlur = false;
+        public boolean forceMaxAlpha = false;
         public boolean roundEffect = true;
         public int type = -1;
         public String colorKey = "premiumStartSmallStarsColor";
@@ -275,7 +277,9 @@ public class StarParticlesView extends View {
                             if (this.roundEffect) {
                                 mainGradientPaint.setPathEffect(new CornerPathEffect(AndroidUtilities.dpf2(this.size1 / 5.0f)));
                             }
-                            if (this.useBlur) {
+                            if (this.forceMaxAlpha) {
+                                mainGradientPaint.setAlpha(255);
+                            } else if (this.useBlur) {
                                 mainGradientPaint.setAlpha(60);
                             } else {
                                 mainGradientPaint.setAlpha(120);

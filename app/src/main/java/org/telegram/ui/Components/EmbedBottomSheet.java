@@ -50,6 +50,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$MessageMedia;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EmbedBottomSheet;
@@ -140,22 +141,22 @@ public class EmbedBottomSheet extends BottomSheet {
         }
     }
 
-    public static void show(Activity activity, MessageObject messageObject, PhotoViewer.PhotoViewerProvider photoViewerProvider, String str, String str2, String str3, String str4, int i, int i2, boolean z) {
-        show(activity, messageObject, photoViewerProvider, str, str2, str3, str4, i, i2, -1, z);
+    public static void show(BaseFragment baseFragment, MessageObject messageObject, PhotoViewer.PhotoViewerProvider photoViewerProvider, String str, String str2, String str3, String str4, int i, int i2, boolean z) {
+        show(baseFragment, messageObject, photoViewerProvider, str, str2, str3, str4, i, i2, -1, z);
     }
 
-    public static void show(Activity activity, MessageObject messageObject, PhotoViewer.PhotoViewerProvider photoViewerProvider, String str, String str2, String str3, String str4, int i, int i2, int i3, boolean z) {
+    public static void show(BaseFragment baseFragment, MessageObject messageObject, PhotoViewer.PhotoViewerProvider photoViewerProvider, String str, String str2, String str3, String str4, int i, int i2, int i3, boolean z) {
         TLRPC$MessageMedia tLRPC$MessageMedia;
         EmbedBottomSheet embedBottomSheet = instance;
         if (embedBottomSheet != null) {
             embedBottomSheet.destroy();
         }
         if (((messageObject == null || (tLRPC$MessageMedia = messageObject.messageOwner.media) == null || tLRPC$MessageMedia.webpage == null) ? null : WebPlayerView.getYouTubeVideoId(str4)) != null) {
-            PhotoViewer.getInstance().setParentActivity(activity);
+            PhotoViewer.getInstance().setParentActivity(baseFragment);
             PhotoViewer.getInstance().openPhoto(messageObject, i3, null, 0L, 0L, photoViewerProvider);
             return;
         }
-        EmbedBottomSheet embedBottomSheet2 = new EmbedBottomSheet(activity, str, str2, str3, str4, i, i2, i3);
+        EmbedBottomSheet embedBottomSheet2 = new EmbedBottomSheet(baseFragment.getParentActivity(), str, str2, str3, str4, i, i2, i3);
         embedBottomSheet2.setCalcMandatoryInsets(z);
         embedBottomSheet2.show();
     }

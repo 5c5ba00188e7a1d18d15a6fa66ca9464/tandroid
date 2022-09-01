@@ -53,6 +53,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private android.graphics.Rect emojiDrawableBounds = new android.graphics.Rect();
     private boolean loadingDrawableBoundsSet = false;
     private int lastWidth = -1;
+    public boolean checkWidth = true;
 
     /* loaded from: classes3.dex */
     private class BoldAndAccent extends CharacterStyle {
@@ -68,19 +69,21 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x00eb, code lost:
-        r5 = null;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0107, code lost:
+        r4 = null;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList) {
+    public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList, int i2) {
         super(context);
+        String string;
         String str;
         TLRPC$Document tLRPC$Document;
         TLRPC$TL_messages_stickerSet stickerSet;
         TLRPC$StickerSet tLRPC$StickerSet;
         ArrayList<TLRPC$Document> arrayList2;
+        String formatPluralString;
         this.loadT = 0.0f;
         this.currentAccount = i;
         setBackground(Theme.createRadSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), 0, 6));
@@ -89,18 +92,27 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setColor(Theme.getColor("actionBarDefaultSubmenuItem", resourcesProvider));
         if (arrayList.size() > 1) {
-            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.formatPluralString("MessageContainsEmojiPacks", arrayList.size(), new Object[0]));
+            if (i2 == 0) {
+                formatPluralString = LocaleController.formatPluralString("MessageContainsEmojiPacks", arrayList.size(), new Object[0]);
+            } else {
+                formatPluralString = LocaleController.formatPluralString("MessageContainsReactionsPacks", arrayList.size(), new Object[0]);
+            }
+            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(formatPluralString);
             this.mainText = replaceTags;
             SpannableStringBuilder spannableStringBuilder = replaceTags;
             TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) spannableStringBuilder.getSpans(0, replaceTags.length(), TypefaceSpan.class);
-            for (int i2 = 0; typefaceSpanArr != null && i2 < typefaceSpanArr.length; i2++) {
-                int spanStart = spannableStringBuilder.getSpanStart(typefaceSpanArr[i2]);
-                int spanEnd = spannableStringBuilder.getSpanEnd(typefaceSpanArr[i2]);
-                spannableStringBuilder.removeSpan(typefaceSpanArr[i2]);
+            for (int i3 = 0; typefaceSpanArr != null && i3 < typefaceSpanArr.length; i3++) {
+                int spanStart = spannableStringBuilder.getSpanStart(typefaceSpanArr[i3]);
+                int spanEnd = spannableStringBuilder.getSpanEnd(typefaceSpanArr[i3]);
+                spannableStringBuilder.removeSpan(typefaceSpanArr[i3]);
                 spannableStringBuilder.setSpan(new BoldAndAccent(), spanStart, spanEnd, 33);
             }
         } else if (arrayList.size() == 1) {
-            String string = LocaleController.getString("MessageContainsEmojiPack", R.string.MessageContainsEmojiPack);
+            if (i2 == 0) {
+                string = LocaleController.getString("MessageContainsEmojiPack", R.string.MessageContainsEmojiPack);
+            } else {
+                string = LocaleController.getString("MessageContainsReactionsPack", R.string.MessageContainsReactionsPack);
+            }
             String[] split = string.split("%s");
             if (split.length <= 1) {
                 this.mainText = string;
@@ -113,16 +125,16 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 tLRPC$Document = null;
             } else {
                 str = tLRPC$StickerSet.title;
-                int i3 = 0;
+                int i4 = 0;
                 while (true) {
                     ArrayList<TLRPC$Document> arrayList3 = stickerSet.documents;
-                    if (arrayList3 == null || i3 >= arrayList3.size()) {
+                    if (arrayList3 == null || i4 >= arrayList3.size()) {
                         break;
-                    } else if (stickerSet.documents.get(i3).id == stickerSet.set.thumb_document_id) {
-                        tLRPC$Document = stickerSet.documents.get(i3);
+                    } else if (stickerSet.documents.get(i4).id == stickerSet.set.thumb_document_id) {
+                        tLRPC$Document = stickerSet.documents.get(i4);
                         break;
                     } else {
-                        i3++;
+                        i4++;
                     }
                 }
                 if (tLRPC$Document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
@@ -133,10 +145,10 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(tLRPC$Document));
                 spannableString.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
                     @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
-                    public void draw(Canvas canvas, CharSequence charSequence, int i4, int i5, float f, int i6, int i7, int i8, Paint paint) {
-                        int i9 = i8 + i6;
-                        int i10 = this.measuredSize;
-                        MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i9 - i10) / 2, (int) (f + i10), (i9 + i10) / 2);
+                    public void draw(Canvas canvas, CharSequence charSequence, int i5, int i6, float f, int i7, int i8, int i9, Paint paint) {
+                        int i10 = i9 + i7;
+                        int i11 = this.measuredSize;
+                        MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i10 - i11) / 2, (int) (f + i11), (i10 + i11) / 2);
                     }
                 }, 0, spannableString.length(), 33);
                 AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, tLRPC$Document);
@@ -212,14 +224,18 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
+        int i3;
         setPadding(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(13.0f), AndroidUtilities.dp(8.0f));
         int size = View.MeasureSpec.getSize(i);
-        int i3 = this.lastWidth;
-        if (i3 > 0) {
+        if (this.checkWidth && (i3 = this.lastWidth) > 0) {
             size = Math.min(size, i3);
         }
         this.lastWidth = size;
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(updateLayout((size - getPaddingLeft()) - getPaddingRight(), false) + getPaddingTop() + getPaddingBottom(), 1073741824));
+        int paddingLeft = (size - getPaddingLeft()) - getPaddingRight();
+        if (paddingLeft < 0) {
+            paddingLeft = 0;
+        }
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(updateLayout(paddingLeft, false) + getPaddingTop() + getPaddingBottom(), 1073741824));
     }
 
     @Override // android.view.View
@@ -383,6 +399,10 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        AnimatedEmojiDrawable animatedEmojiDrawable = this.emojiDrawable;
+        if (animatedEmojiDrawable != null) {
+            animatedEmojiDrawable.addView(this);
+        }
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
     }
 }

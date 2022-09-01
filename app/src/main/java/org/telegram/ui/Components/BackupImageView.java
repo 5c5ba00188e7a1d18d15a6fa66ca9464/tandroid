@@ -14,6 +14,8 @@ import org.telegram.messenger.SecureDocument;
 import org.telegram.tgnet.TLObject;
 /* loaded from: classes3.dex */
 public class BackupImageView extends View {
+    public AnimatedEmojiDrawable animatedEmojiDrawable;
+    boolean attached;
     protected int width = -1;
     protected int height = -1;
     protected ImageReceiver imageReceiver = new ImageReceiver(this);
@@ -149,30 +151,60 @@ public class BackupImageView extends View {
     @Override // android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        this.attached = false;
         this.imageReceiver.onDetachedFromWindow();
+        AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
+        if (animatedEmojiDrawable != null) {
+            animatedEmojiDrawable.removeView(this);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
+        this.attached = true;
         this.imageReceiver.onAttachedToWindow();
+        AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
+        if (animatedEmojiDrawable != null) {
+            animatedEmojiDrawable.addView(this);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
+        AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
+        ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
+        if (imageReceiver == null) {
+            return;
+        }
         if (this.width != -1 && this.height != -1) {
             int height = getHeight();
             int i = this.height;
-            this.imageReceiver.setImageCoords((getWidth() - this.width) / 2, (height - i) / 2, this.width, i);
+            imageReceiver.setImageCoords((getWidth() - this.width) / 2, (height - i) / 2, this.width, i);
         } else {
-            this.imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), getHeight());
+            imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), getHeight());
         }
-        this.imageReceiver.draw(canvas);
+        imageReceiver.draw(canvas);
     }
 
     public void setColorFilter(ColorFilter colorFilter) {
         this.imageReceiver.setColorFilter(colorFilter);
+    }
+
+    public void setAnimatedEmojiDrawable(AnimatedEmojiDrawable animatedEmojiDrawable) {
+        AnimatedEmojiDrawable animatedEmojiDrawable2 = this.animatedEmojiDrawable;
+        if (animatedEmojiDrawable2 == animatedEmojiDrawable) {
+            return;
+        }
+        if (this.attached && animatedEmojiDrawable2 != null) {
+            animatedEmojiDrawable2.removeView(this);
+        }
+        this.animatedEmojiDrawable = animatedEmojiDrawable;
+        if (!this.attached || animatedEmojiDrawable == null) {
+            return;
+        }
+        animatedEmojiDrawable.addView(this);
     }
 }

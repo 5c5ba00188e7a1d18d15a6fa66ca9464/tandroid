@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_user extends TLRPC$User {
-    public static int constructor = 1073147056;
+    public static int constructor = 1570352622;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -25,7 +25,8 @@ public class TLRPC$TL_user extends TLRPC$User {
         this.apply_min_photo = (33554432 & readInt32) != 0;
         this.fake = (67108864 & readInt32) != 0;
         this.bot_attach_menu = (134217728 & readInt32) != 0;
-        this.premium = (readInt32 & 268435456) != 0;
+        this.premium = (268435456 & readInt32) != 0;
+        this.attach_menu_enabled = (readInt32 & 536870912) != 0;
         this.id = abstractSerializedData.readInt64(z);
         if ((this.flags & 1) != 0) {
             this.access_hash = abstractSerializedData.readInt64(z);
@@ -74,6 +75,9 @@ public class TLRPC$TL_user extends TLRPC$User {
         if ((this.flags & 4194304) != 0) {
             this.lang_code = abstractSerializedData.readString(z);
         }
+        if ((this.flags & 1073741824) != 0) {
+            this.emoji_status = TLRPC$EmojiStatus.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -113,7 +117,9 @@ public class TLRPC$TL_user extends TLRPC$User {
         this.flags = i16;
         int i17 = this.premium ? i16 | 268435456 : i16 & (-268435457);
         this.flags = i17;
-        abstractSerializedData.writeInt32(i17);
+        int i18 = this.attach_menu_enabled ? i17 | 536870912 : i17 & (-536870913);
+        this.flags = i18;
+        abstractSerializedData.writeInt32(i18);
         abstractSerializedData.writeInt64(this.id);
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeInt64(this.access_hash);
@@ -143,8 +149,8 @@ public class TLRPC$TL_user extends TLRPC$User {
             abstractSerializedData.writeInt32(481674261);
             int size = this.restriction_reason.size();
             abstractSerializedData.writeInt32(size);
-            for (int i18 = 0; i18 < size; i18++) {
-                this.restriction_reason.get(i18).serializeToStream(abstractSerializedData);
+            for (int i19 = 0; i19 < size; i19++) {
+                this.restriction_reason.get(i19).serializeToStream(abstractSerializedData);
             }
         }
         if ((this.flags & 524288) != 0) {
@@ -152,6 +158,9 @@ public class TLRPC$TL_user extends TLRPC$User {
         }
         if ((this.flags & 4194304) != 0) {
             abstractSerializedData.writeString(this.lang_code);
+        }
+        if ((this.flags & 1073741824) != 0) {
+            this.emoji_status.serializeToStream(abstractSerializedData);
         }
     }
 }

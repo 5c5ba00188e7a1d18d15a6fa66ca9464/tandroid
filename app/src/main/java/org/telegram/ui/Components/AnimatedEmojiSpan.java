@@ -1,6 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spannable;
@@ -26,6 +27,8 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     public TLRPC$Document document;
     public long documentId;
     private Paint.FontMetricsInt fontMetrics;
+    public boolean fromEmojiKeyboard;
+    public boolean full;
     float lastDrawnCx;
     float lastDrawnCy;
     int measuredSize;
@@ -45,6 +48,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     public AnimatedEmojiSpan(long j, float f, Paint.FontMetricsInt fontMetricsInt) {
+        this.full = false;
         this.size = AndroidUtilities.dp(20.0f);
         this.cacheType = -1;
         this.recordPositions = true;
@@ -96,15 +100,23 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
             }
             this.measuredSize = (int) (i3 * this.scale);
         } else {
-            if (fontMetricsInt != null) {
-                fontMetricsInt.ascent = fontMetricsInt2.ascent;
-                fontMetricsInt.descent = fontMetricsInt2.descent;
-                fontMetricsInt.top = fontMetricsInt2.top;
-                fontMetricsInt.bottom = fontMetricsInt2.bottom;
-            }
             this.measuredSize = (int) (this.size * this.scale);
+            if (fontMetricsInt != null) {
+                if (!this.full) {
+                    fontMetricsInt.ascent = fontMetricsInt2.ascent;
+                    fontMetricsInt.descent = fontMetricsInt2.descent;
+                    fontMetricsInt.top = fontMetricsInt2.top;
+                    fontMetricsInt.bottom = fontMetricsInt2.bottom;
+                } else {
+                    float abs = Math.abs(fontMetricsInt2.bottom) + Math.abs(this.fontMetrics.top);
+                    fontMetricsInt.ascent = (int) Math.ceil((this.fontMetrics.top / abs) * this.measuredSize);
+                    fontMetricsInt.descent = (int) Math.ceil((this.fontMetrics.bottom / abs) * this.measuredSize);
+                    fontMetricsInt.top = (int) Math.ceil((this.fontMetrics.top / abs) * this.measuredSize);
+                    fontMetricsInt.bottom = (int) Math.ceil((this.fontMetrics.bottom / abs) * this.measuredSize);
+                }
+            }
         }
-        return this.measuredSize;
+        return this.measuredSize - 1;
     }
 
     @Override // android.text.style.ReplacementSpan
@@ -122,6 +134,10 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     public static void drawAnimatedEmojis(Canvas canvas, Layout layout, EmojiGroupedSpans emojiGroupedSpans, float f, List<SpoilerEffect> list, float f2, float f3, float f4, float f5) {
+        drawAnimatedEmojis(canvas, layout, emojiGroupedSpans, f, list, f2, f3, f4, f5, null);
+    }
+
+    public static void drawAnimatedEmojis(Canvas canvas, Layout layout, EmojiGroupedSpans emojiGroupedSpans, float f, List<SpoilerEffect> list, float f2, float f3, float f4, float f5, ColorFilter colorFilter) {
         boolean z;
         if (canvas == null || layout == null || emojiGroupedSpans == null) {
             return;
@@ -141,7 +157,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
             }
             SpansChunk spansChunk = emojiGroupedSpans.backgroundDrawingArray.get(i);
             if (spansChunk.layout == layout) {
-                spansChunk.draw(canvas, list, currentTimeMillis, f2, f3, f4, f5);
+                spansChunk.draw(canvas, list, currentTimeMillis, f2, f3, f4, f5, colorFilter);
                 break;
             }
             i++;
@@ -293,17 +309,18 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         int i4 = 0;
         while (i4 < layoutArr.length) {
             Layout layout = layoutArr[i4];
-            if (layout == null || !(layout.getText() instanceof Spannable)) {
+            if (layout == null || !(layout.getText() instanceof Spanned)) {
                 animatedEmojiSpanArr = null;
             } else {
-                Spannable spannable = (Spannable) layout.getText();
-                animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spannable.getSpans(i3, spannable.length(), AnimatedEmojiSpan.class);
+                Spanned spanned = (Spanned) layout.getText();
+                animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spanned.getSpans(i3, spanned.length(), AnimatedEmojiSpan.class);
                 for (int i5 = 0; animatedEmojiSpanArr != null && i5 < animatedEmojiSpanArr.length; i5++) {
                     AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr[i5];
                     if (animatedEmojiSpan != null) {
-                        if (z2) {
-                            int spanStart = spannable.getSpanStart(animatedEmojiSpan);
-                            int spanEnd = spannable.getSpanEnd(animatedEmojiSpan);
+                        if (z2 && (layout.getText() instanceof Spannable)) {
+                            int spanStart = spanned.getSpanStart(animatedEmojiSpan);
+                            int spanEnd = spanned.getSpanEnd(animatedEmojiSpan);
+                            Spannable spannable = (Spannable) spanned;
                             spannable.removeSpan(animatedEmojiSpan);
                             animatedEmojiSpan = cloneSpan(animatedEmojiSpan);
                             spannable.setSpan(animatedEmojiSpan, spanStart, spanEnd, 33);
@@ -327,7 +344,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                             AnimatedEmojiHolder animatedEmojiHolder2 = new AnimatedEmojiHolder(view, z);
                             animatedEmojiHolder2.layout = layout;
                             if (animatedEmojiSpan.standard) {
-                                i2 = 5;
+                                i2 = 8;
                             } else {
                                 i2 = animatedEmojiSpan.cacheType;
                                 if (i2 < 0) {
@@ -339,14 +356,14 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                                 animatedEmojiHolder2.drawable = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i2, tLRPC$Document);
                             } else {
                                 animatedEmojiHolder2.drawable = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i2, animatedEmojiSpan.documentId);
-                                spannable = spannable;
+                                spanned = spanned;
                             }
-                            animatedEmojiHolder2.insideSpoiler = isInsideSpoiler(layout, spannable.getSpanStart(animatedEmojiSpan), spannable.getSpanEnd(animatedEmojiSpan));
+                            animatedEmojiHolder2.insideSpoiler = isInsideSpoiler(layout, spanned.getSpanStart(animatedEmojiSpan), spanned.getSpanEnd(animatedEmojiSpan));
                             animatedEmojiHolder2.drawableBounds = new android.graphics.Rect();
                             animatedEmojiHolder2.span = animatedEmojiSpan;
                             emojiGroupedSpans2.add(layout, animatedEmojiHolder2);
                         } else {
-                            animatedEmojiHolder.insideSpoiler = isInsideSpoiler(layout, spannable.getSpanStart(animatedEmojiSpan), spannable.getSpanEnd(animatedEmojiSpan));
+                            animatedEmojiHolder.insideSpoiler = isInsideSpoiler(layout, spanned.getSpanStart(animatedEmojiSpan), spanned.getSpanEnd(animatedEmojiSpan));
                         }
                     }
                 }
@@ -442,7 +459,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
             if (animatedEmojiSpan != null && longSparseArray.get(animatedEmojiSpan.getDocumentId()) == null) {
                 if (animatedEmojiSpan.standard) {
-                    i2 = 5;
+                    i2 = 8;
                 } else {
                     i2 = animatedEmojiSpan.cacheType;
                     if (i2 < 0) {
@@ -592,12 +609,12 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
                     }
 
                     @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
-                    public void drawInUiThread(Canvas canvas) {
+                    public void drawInUiThread(Canvas canvas, float f) {
                         long currentTimeMillis = System.currentTimeMillis();
                         for (int i = 0; i < SpansChunk.this.holders.size(); i++) {
                             AnimatedEmojiHolder animatedEmojiHolder = SpansChunk.this.holders.get(i);
                             if (animatedEmojiHolder.span.spanDrawn) {
-                                animatedEmojiHolder.draw(canvas, currentTimeMillis, 0.0f, 0.0f, 1.0f);
+                                animatedEmojiHolder.draw(canvas, currentTimeMillis, 0.0f, 0.0f, f);
                             }
                         }
                     }
@@ -658,10 +675,12 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
             }
         }
 
-        public void draw(Canvas canvas, List<SpoilerEffect> list, long j, float f, float f2, float f3, float f4) {
+        public void draw(Canvas canvas, List<SpoilerEffect> list, long j, float f, float f2, float f3, float f4, ColorFilter colorFilter) {
+            AnimatedEmojiDrawable animatedEmojiDrawable;
             for (int i = 0; i < this.holders.size(); i++) {
                 AnimatedEmojiHolder animatedEmojiHolder = this.holders.get(i);
-                if (animatedEmojiHolder != null && animatedEmojiHolder.drawable != null) {
+                if (animatedEmojiHolder != null && (animatedEmojiDrawable = animatedEmojiHolder.drawable) != null) {
+                    animatedEmojiDrawable.setColorFilter(colorFilter);
                     AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiHolder.span;
                     if (animatedEmojiSpan.spanDrawn) {
                         float f5 = animatedEmojiSpan.measuredSize / 2.0f;

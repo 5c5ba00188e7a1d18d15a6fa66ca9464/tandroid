@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import org.telegram.ui.ActionBar.Theme;
 public class ReactedHeaderView extends FrameLayout {
     private AvatarsImageView avatarsImageView;
     private int currentAccount;
+    private int fixedWidth;
     private FlickerLoadingView flickerLoadingView;
     private ImageView iconView;
     private boolean ignoreLayout;
@@ -288,6 +290,9 @@ public class ReactedHeaderView extends FrameLayout {
         } else {
             formatPluralString = String.format(LocaleController.getPluralString("Reacted", i), i == this.seenUsers.size() ? String.valueOf(i) : i + "/" + this.seenUsers.size());
         }
+        if (getMeasuredWidth() > 0) {
+            this.fixedWidth = getMeasuredWidth();
+        }
         this.titleView.setText(formatPluralString);
         TLRPC$TL_messageReactions tLRPC$TL_messageReactions = this.message.messageOwner.reactions;
         if (tLRPC$TL_messageReactions != null && tLRPC$TL_messageReactions.results.size() == 1 && !tLRPC$TL_messages_messageReactionsList.reactions.isEmpty()) {
@@ -391,6 +396,10 @@ public class ReactedHeaderView extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
+        int i3 = this.fixedWidth;
+        if (i3 > 0) {
+            i = View.MeasureSpec.makeMeasureSpec(i3, 1073741824);
+        }
         if (this.flickerLoadingView.getVisibility() == 0) {
             this.ignoreLayout = true;
             this.flickerLoadingView.setVisibility(8);

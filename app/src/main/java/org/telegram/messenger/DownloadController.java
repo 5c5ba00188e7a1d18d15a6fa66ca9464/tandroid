@@ -1306,7 +1306,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
         z = z2;
         if (!z) {
-            this.downloadingFiles.add(messageObject);
+            this.downloadingFiles.add(0, messageObject);
             getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -1577,6 +1577,24 @@ public class DownloadController extends BaseController implements NotificationCe
         this.downloadingFiles.addAll(arrayList);
         this.recentDownloadingFiles.clear();
         this.recentDownloadingFiles.addAll(arrayList2);
+    }
+
+    public void swapLoadingPriority(MessageObject messageObject, MessageObject messageObject2) {
+        int indexOf = this.downloadingFiles.indexOf(messageObject);
+        int indexOf2 = this.downloadingFiles.indexOf(messageObject2);
+        if (indexOf >= 0 && indexOf2 >= 0) {
+            this.downloadingFiles.set(indexOf, messageObject2);
+            this.downloadingFiles.set(indexOf2, messageObject);
+        }
+        updateFilesLoadingPriority();
+    }
+
+    public void updateFilesLoadingPriority() {
+        for (int size = this.downloadingFiles.size() - 1; size >= 0; size--) {
+            if (getFileLoader().isLoadingFile(this.downloadingFiles.get(size).getFileName())) {
+                getFileLoader().loadFile(this.downloadingFiles.get(size).getDocument(), this.downloadingFiles.get(size), 2, 0);
+            }
+        }
     }
 
     public void clearRecentDownloadedFiles() {

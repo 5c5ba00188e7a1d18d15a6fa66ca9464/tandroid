@@ -39,6 +39,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.FiltersView;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.FireworksEffect;
@@ -86,6 +87,7 @@ public class ActionBar extends FrameLayout {
     protected int itemsBackgroundColor;
     protected int itemsColor;
     private CharSequence lastOverlayTitle;
+    private Drawable lastRightDrawable;
     private Runnable lastRunnable;
     private CharSequence lastTitle;
     private boolean manualStart;
@@ -98,6 +100,7 @@ public class ActionBar extends FrameLayout {
     private Rect rect;
     Rect rectTmp;
     private final Theme.ResourcesProvider resourcesProvider;
+    private View.OnClickListener rightDrawableOnClickListener;
     AnimatorSet searchVisibleAnimator;
     private SnowflakesEffect snowflakesEffect;
     private CharSequence subtitle;
@@ -396,7 +399,7 @@ public class ActionBar extends FrameLayout {
             return;
         }
         simpleTextViewArr[i] = new SimpleTextView(getContext());
-        this.titleTextView[i].setGravity(3);
+        this.titleTextView[i].setGravity(19);
         int i2 = this.titleColorToSet;
         if (i2 != 0) {
             this.titleTextView[i].setTextColor(i2);
@@ -404,6 +407,9 @@ public class ActionBar extends FrameLayout {
             this.titleTextView[i].setTextColor(getThemedColor("actionBarDefaultTitle"));
         }
         this.titleTextView[i].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+        this.titleTextView[i].setDrawablePadding(AndroidUtilities.dp(4.0f));
+        this.titleTextView[i].setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
+        this.titleTextView[i].setRightDrawableTopPadding(-AndroidUtilities.dp(1.0f));
         addView(this.titleTextView[i], 0, LayoutHelper.createFrame(-2, -2, 51));
     }
 
@@ -412,16 +418,40 @@ public class ActionBar extends FrameLayout {
     }
 
     public void setTitle(CharSequence charSequence) {
+        setTitle(charSequence, null);
+    }
+
+    public void setTitle(CharSequence charSequence, Drawable drawable) {
         if (charSequence != null && this.titleTextView[0] == null) {
             createTitleTextView(0);
         }
         SimpleTextView[] simpleTextViewArr = this.titleTextView;
         if (simpleTextViewArr[0] != null) {
-            this.lastTitle = charSequence;
             simpleTextViewArr[0].setVisibility((charSequence == null || this.isSearchFieldVisible) ? 4 : 0);
-            this.titleTextView[0].setText(charSequence);
+            SimpleTextView simpleTextView = this.titleTextView[0];
+            this.lastTitle = charSequence;
+            simpleTextView.setText(charSequence);
+            SimpleTextView simpleTextView2 = this.titleTextView[0];
+            this.lastRightDrawable = drawable;
+            simpleTextView2.setRightDrawable(drawable);
+            this.titleTextView[0].setRightDrawableOnClick(this.rightDrawableOnClickListener);
+            if (drawable instanceof AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) drawable).setParentView(this.titleTextView[0]);
+            }
         }
         this.fromBottom = false;
+    }
+
+    public void setRightDrawableOnClick(View.OnClickListener onClickListener) {
+        this.rightDrawableOnClickListener = onClickListener;
+        SimpleTextView[] simpleTextViewArr = this.titleTextView;
+        if (simpleTextViewArr[0] != null) {
+            simpleTextViewArr[0].setRightDrawableOnClick(onClickListener);
+        }
+        SimpleTextView[] simpleTextViewArr2 = this.titleTextView;
+        if (simpleTextViewArr2[1] != null) {
+            simpleTextViewArr2[1].setRightDrawableOnClick(this.rightDrawableOnClickListener);
+        }
     }
 
     public void setTitleColor(int i) {
@@ -486,6 +516,10 @@ public class ActionBar extends FrameLayout {
 
     public SimpleTextView getTitleTextView() {
         return this.titleTextView[0];
+    }
+
+    public SimpleTextView getTitleTextView2() {
+        return this.titleTextView[1];
     }
 
     public String getTitle() {
@@ -1249,7 +1283,7 @@ public class ActionBar extends FrameLayout {
                 }
                 SimpleTextView[] simpleTextViewArr5 = this.titleTextView;
                 if (simpleTextViewArr5[i3] != null && simpleTextViewArr5[i3].getVisibility() != 8) {
-                    this.titleTextView[i3].measure(View.MeasureSpec.makeMeasureSpec(measuredWidth, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f), Integer.MIN_VALUE));
+                    this.titleTextView[i3].measure(View.MeasureSpec.makeMeasureSpec(measuredWidth, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(24.0f) + this.titleTextView[i3].getPaddingTop() + this.titleTextView[i3].getPaddingBottom(), Integer.MIN_VALUE));
                     if (this.centerScale) {
                         CharSequence text = this.titleTextView[i3].getText();
                         SimpleTextView[] simpleTextViewArr6 = this.titleTextView;
@@ -1286,8 +1320,8 @@ public class ActionBar extends FrameLayout {
         this.isMenuOffsetSuppressed = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x0201  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x020e  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x021d  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x022a  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1332,7 +1366,7 @@ public class ActionBar extends FrameLayout {
                 }
                 SimpleTextView[] simpleTextViewArr2 = this.titleTextView;
                 int i13 = currentActionBarHeight + i11;
-                simpleTextViewArr2[i12].layout(dp, i13, simpleTextViewArr2[i12].getMeasuredWidth() + dp, this.titleTextView[i12].getTextHeight() + i13);
+                simpleTextViewArr2[i12].layout(dp, i13 - simpleTextViewArr2[i12].getPaddingTop(), this.titleTextView[i12].getMeasuredWidth() + dp, ((i13 + this.titleTextView[i12].getTextHeight()) - this.titleTextView[i12].getPaddingTop()) + this.titleTextView[i12].getPaddingBottom());
             }
         }
         SimpleTextView simpleTextView2 = this.subtitleTextView;
@@ -1428,7 +1462,7 @@ public class ActionBar extends FrameLayout {
         this.lastRunnable = runnable;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0155  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01ad  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1455,6 +1489,7 @@ public class ActionBar extends FrameLayout {
         }
         this.lastOverlayTitle = str;
         String string = str != null ? LocaleController.getString(str, i) : this.lastTitle;
+        Drawable drawable = str != null ? null : this.lastRightDrawable;
         if (str == null || (indexOf = TextUtils.indexOf(string, "...")) < 0) {
             z = false;
             spannableString = string;
@@ -1479,6 +1514,12 @@ public class ActionBar extends FrameLayout {
                         createTitleTextView(1);
                     }
                     this.titleTextView[1].setText(spannableString);
+                    this.titleTextView[1].setDrawablePadding(AndroidUtilities.dp(4.0f));
+                    this.titleTextView[1].setRightDrawable(drawable);
+                    this.titleTextView[1].setRightDrawableOnClick(this.rightDrawableOnClickListener);
+                    if (drawable instanceof AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) {
+                        ((AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) drawable).setParentView(this.titleTextView[1]);
+                    }
                     if (z) {
                         this.ellipsizeSpanAnimator.addView(this.titleTextView[1]);
                     }
@@ -1525,6 +1566,12 @@ public class ActionBar extends FrameLayout {
             invalidate();
         }
         this.titleTextView[0].setText(spannableString);
+        this.titleTextView[0].setDrawablePadding(AndroidUtilities.dp(4.0f));
+        this.titleTextView[0].setRightDrawable(drawable);
+        this.titleTextView[0].setRightDrawableOnClick(this.rightDrawableOnClickListener);
+        if (drawable instanceof AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) {
+            ((AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) drawable).setParentView(this.titleTextView[0]);
+        }
         if (z) {
             this.ellipsizeSpanAnimator.addView(this.titleTextView[0]);
         } else {

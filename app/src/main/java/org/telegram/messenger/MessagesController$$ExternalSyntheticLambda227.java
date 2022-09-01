@@ -11,8 +11,8 @@ public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda22
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$processChannelsUpdatesQueue$259;
-        lambda$processChannelsUpdatesQueue$259 = MessagesController.lambda$processChannelsUpdatesQueue$259((TLRPC$Updates) obj, (TLRPC$Updates) obj2);
-        return lambda$processChannelsUpdatesQueue$259;
+        int lambda$processChannelsUpdatesQueue$260;
+        lambda$processChannelsUpdatesQueue$260 = MessagesController.lambda$processChannelsUpdatesQueue$260((TLRPC$Updates) obj, (TLRPC$Updates) obj2);
+        return lambda$processChannelsUpdatesQueue$260;
     }
 }

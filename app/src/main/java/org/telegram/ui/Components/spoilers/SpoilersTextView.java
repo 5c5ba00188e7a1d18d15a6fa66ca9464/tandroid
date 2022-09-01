@@ -18,25 +18,33 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes3.dex */
 public class SpoilersTextView extends TextView {
+    private SpoilersClickDetector clickDetector;
     private boolean isSpoilersRevealed;
+    private Path path;
+    private List<SpoilerEffect> spoilers;
+    private Stack<SpoilerEffect> spoilersPool;
     private Paint xRefPaint;
-    private List<SpoilerEffect> spoilers = new ArrayList();
-    private Stack<SpoilerEffect> spoilersPool = new Stack<>();
-    private Path path = new Path();
-    private SpoilersClickDetector clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
-        @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
-        public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
-            SpoilersTextView.this.lambda$new$2(spoilerEffect, f, f2);
-        }
-    });
 
     public SpoilersTextView(Context context) {
+        this(context, true);
+    }
+
+    public SpoilersTextView(Context context, final boolean z) {
         super(context);
+        this.spoilers = new ArrayList();
+        this.spoilersPool = new Stack<>();
+        this.path = new Path();
+        this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
+            public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
+                SpoilersTextView.this.lambda$new$2(z, spoilerEffect, f, f2);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(SpoilerEffect spoilerEffect, float f, float f2) {
-        if (this.isSpoilersRevealed) {
+    public /* synthetic */ void lambda$new$2(boolean z, SpoilerEffect spoilerEffect, float f, float f2) {
+        if (this.isSpoilersRevealed || !z) {
             return;
         }
         spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda0

@@ -2149,7 +2149,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         if (!ChatObject.isChannel(this.currentChat)) {
             return;
         }
-        getMessagesController().deleteParticipantFromChat(this.chatId, getMessagesController().getUser(Long.valueOf(j)), null);
+        getMessagesController().deleteParticipantFromChat(this.chatId, getMessagesController().getUser(Long.valueOf(j)));
         ChatUsersActivityDelegate chatUsersActivityDelegate = this.delegate;
         if (chatUsersActivityDelegate != null) {
             chatUsersActivityDelegate.didKickParticipant(j);
@@ -2492,7 +2492,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createMenuForParticipant$6(final ArrayList arrayList, TLRPC$User tLRPC$User, final long j, final boolean z, final TLObject tLObject, final int i, final TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, final TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights, final String str, DialogInterface dialogInterface, final int i2) {
         if (((Integer) arrayList.get(i2)).intValue() == 2) {
-            getMessagesController().deleteParticipantFromChat(this.chatId, tLRPC$User, null);
+            getMessagesController().deleteParticipantFromChat(this.chatId, tLRPC$User);
             removeParticipants(j);
             if (this.currentChat == null || tLRPC$User == null || !BulletinFactory.canShowBulletin(this)) {
                 return;
@@ -2561,7 +2561,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             } else {
                 chat = getMessagesController().getChat(Long.valueOf(-j));
             }
-            getMessagesController().deleteParticipantFromChat(this.chatId, tLRPC$User, chat, null, false, false);
+            getMessagesController().deleteParticipantFromChat(this.chatId, tLRPC$User, chat, false, false);
         } else {
             if (i == 0) {
                 if (i2 == 3) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda2;
 /* loaded from: classes3.dex */
@@ -45,31 +46,57 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
                 rLottieDrawable.stop();
                 rLottieDrawable.setProgress(0.0f, false);
                 setAnimation(rLottieDrawable);
-                return;
-            }
-            TransitState state3 = getState(state2, this.currentState);
-            if (state3 == this.animatingState) {
-                return;
-            }
-            this.animatingState = state3;
-            RLottieDrawable rLottieDrawable2 = this.stateMap.get(state3);
-            rLottieDrawable2.stop();
-            rLottieDrawable2.setProgress(0.0f, false);
-            rLottieDrawable2.setAutoRepeat(0);
-            rLottieDrawable2.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatActivityEnterViewAnimatedIconView.this.lambda$setState$0();
+            } else {
+                TransitState state3 = getState(state2, this.currentState);
+                if (state3 == this.animatingState) {
+                    return;
                 }
-            });
-            setAnimation(rLottieDrawable2);
-            AndroidUtilities.runOnUIThread(new ChatActionCell$$ExternalSyntheticLambda2(rLottieDrawable2));
+                this.animatingState = state3;
+                RLottieDrawable rLottieDrawable2 = this.stateMap.get(state3);
+                rLottieDrawable2.stop();
+                rLottieDrawable2.setProgress(0.0f, false);
+                rLottieDrawable2.setAutoRepeat(0);
+                rLottieDrawable2.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatActivityEnterViewAnimatedIconView.this.lambda$setState$0();
+                    }
+                });
+                setAnimation(rLottieDrawable2);
+                AndroidUtilities.runOnUIThread(new ChatActionCell$$ExternalSyntheticLambda2(rLottieDrawable2));
+            }
+            int i = 2.$SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State[state.ordinal()];
+            if (i == 1) {
+                setContentDescription(LocaleController.getString("AccDescrVoiceMessage", R.string.AccDescrVoiceMessage));
+            } else if (i != 2) {
+            } else {
+                setContentDescription(LocaleController.getString("AccDescrVideoMessage", R.string.AccDescrVideoMessage));
+            }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setState$0() {
         this.animatingState = null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public static /* synthetic */ class 2 {
+        static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State;
+
+        static {
+            int[] iArr = new int[State.values().length];
+            $SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State = iArr;
+            try {
+                iArr[State.VOICE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State[State.VIDEO.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
     }
 
     private TransitState getAnyState(State state) {

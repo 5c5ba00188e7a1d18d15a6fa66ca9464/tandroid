@@ -26,6 +26,19 @@ public abstract class TLRPC$InputStickerSet extends TLObject {
             case 42402760:
                 tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetAnimatedEmoji();
                 break;
+            case 80008398:
+                tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetEmojiGenericAnimations();
+                break;
+            case 701560302:
+                tLRPC$TL_inputStickerSetShortName = new TLRPC$InputStickerSet() { // from class: org.telegram.tgnet.TLRPC$TL_inputStickerSetEmojiDefaultStatuses
+                    public static int constructor = 701560302;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                    }
+                };
+                break;
             default:
                 tLRPC$TL_inputStickerSetShortName = null;
                 break;

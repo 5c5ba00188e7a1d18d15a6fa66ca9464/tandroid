@@ -61,9 +61,11 @@ public class SharedConfig {
     public static int emojiInteractionsHintCount = 0;
     public static int fastScrollHintCount = 0;
     public static int fontSize = 0;
+    public static boolean forceDisableTabletMode = false;
     public static boolean forceRtmpStream = false;
     public static boolean forwardingOptionsHintShown = false;
     public static boolean hasCameraCache = false;
+    public static boolean hasEmailLogin = false;
     public static boolean inappCamera = false;
     public static boolean isWaitingForPasscodeEnter = false;
     public static int ivFontSize = 0;
@@ -104,6 +106,7 @@ public class SharedConfig {
     public static String pushStringStatus = "";
     public static int pushType = 2;
     public static boolean raiseToSpeak = false;
+    public static boolean recordViaSco = false;
     public static int repeatMode = 0;
     public static boolean roundCamera16to9 = false;
     public static boolean saveIncomingPhotos = false;
@@ -147,6 +150,7 @@ public class SharedConfig {
         autoplayGifs = true;
         autoplayVideo = true;
         raiseToSpeak = false;
+        recordViaSco = true;
         customTabs = true;
         directShare = true;
         inappCamera = true;
@@ -237,6 +241,7 @@ public class SharedConfig {
                 edit.putBoolean("forwardingOptionsHintShown", forwardingOptionsHintShown);
                 edit.putInt("lockRecordAudioVideoHint", lockRecordAudioVideoHint);
                 edit.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
+                edit.putBoolean("hasEmailLogin", hasEmailLogin);
                 TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = pendingAppUpdate;
                 if (tLRPC$TL_help_appUpdate != null) {
                     try {
@@ -267,10 +272,10 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x022a  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x016a A[Catch: Exception -> 0x0188, all -> 0x03c5, TryCatch #3 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x016e A[Catch: Exception -> 0x0188, all -> 0x03c5, TryCatch #3 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0232  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0235  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x016a A[Catch: Exception -> 0x0188, all -> 0x03dd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x016e A[Catch: Exception -> 0x0188, all -> 0x03dd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -353,6 +358,7 @@ public class SharedConfig {
                                 autoplayVideo = sharedPreferences.getBoolean("autoplay_video", true);
                                 mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
                                 raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
+                                recordViaSco = sharedPreferences.getBoolean("record_via_sco", true);
                                 customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                                 directShare = sharedPreferences.getBoolean("direct_share", true);
                                 boolean z = sharedPreferences.getBoolean("shuffleMusic", false);
@@ -372,6 +378,7 @@ public class SharedConfig {
                                 smoothKeyboard = sharedPreferences.getBoolean("smoothKeyboard2", true);
                                 pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", false);
                                 chatBlur = sharedPreferences.getBoolean("chatBlur", true);
+                                forceDisableTabletMode = sharedPreferences.getBoolean("forceDisableTabletMode", false);
                                 streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                                 streamMkv = sharedPreferences.getBoolean("streamMkv", false);
                                 suggestStickers = sharedPreferences.getInt("suggestStickers", 0);
@@ -407,6 +414,7 @@ public class SharedConfig {
                                 mediaColumnsCount = sharedPreferences.getInt("mediaColumnsCount", 3);
                                 fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
                                 dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
+                                hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
                                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                                 configLoaded = true;
                                 if (Build.VERSION.SDK_INT >= 19) {
@@ -442,6 +450,7 @@ public class SharedConfig {
                 autoplayVideo = sharedPreferences.getBoolean("autoplay_video", true);
                 mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
                 raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
+                recordViaSco = sharedPreferences.getBoolean("record_via_sco", true);
                 customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                 directShare = sharedPreferences.getBoolean("direct_share", true);
                 boolean z2 = sharedPreferences.getBoolean("shuffleMusic", false);
@@ -461,6 +470,7 @@ public class SharedConfig {
                 smoothKeyboard = sharedPreferences.getBoolean("smoothKeyboard2", true);
                 pauseMusicOnRecord = sharedPreferences.getBoolean("pauseMusicOnRecord", false);
                 chatBlur = sharedPreferences.getBoolean("chatBlur", true);
+                forceDisableTabletMode = sharedPreferences.getBoolean("forceDisableTabletMode", false);
                 streamAllVideo = sharedPreferences.getBoolean("streamAllVideo", BuildVars.DEBUG_VERSION);
                 streamMkv = sharedPreferences.getBoolean("streamMkv", false);
                 suggestStickers = sharedPreferences.getInt("suggestStickers", 0);
@@ -496,6 +506,7 @@ public class SharedConfig {
                 mediaColumnsCount = sharedPreferences.getInt("mediaColumnsCount", 3);
                 fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
                 dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
+                hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
                 try {
@@ -1000,6 +1011,13 @@ public class SharedConfig {
         edit.commit();
     }
 
+    public static void toggleRecordViaSco() {
+        recordViaSco = !recordViaSco;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("record_via_sco", recordViaSco);
+        edit.commit();
+    }
+
     public static void toggleCustomTabs() {
         customTabs = !customTabs;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
@@ -1076,6 +1094,13 @@ public class SharedConfig {
         chatBlur = !chatBlur;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("chatBlur", chatBlur);
+        edit.commit();
+    }
+
+    public static void toggleForceDisableTabletMode() {
+        forceDisableTabletMode = !forceDisableTabletMode;
+        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+        edit.putBoolean("forceDisableTabletMode", forceDisableTabletMode);
         edit.commit();
     }
 

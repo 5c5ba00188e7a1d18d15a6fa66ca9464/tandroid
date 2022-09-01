@@ -2,14 +2,21 @@ package org.telegram.ui.Components.Premium;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -26,15 +33,23 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$InputStickerSet;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ShadowSectionCell;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.FireworksOverlay;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.LinkSpanDrawable;
+import org.telegram.ui.Components.LoadingSpan;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconRenderer;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.GiftPremiumBottomSheet;
@@ -45,8 +60,9 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PremiumFeatureCell;
 import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes3.dex */
-public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
+public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     boolean animateConfetti;
+    FrameLayout bulletinContainer;
     FrameLayout buttonContainer;
     int buttonRow;
     int[] coords;
@@ -65,6 +81,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
     ViewGroup iconContainer;
     GLIconTextureView iconTextureView;
     boolean isOutboundGift;
+    public View overrideTitleIcon;
     int paddingRow;
     ArrayList<PremiumPreviewFragment.PremiumFeatureData> premiumFeatures;
     int rowCount;
@@ -76,18 +93,22 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
     public float startEnterFromX1;
     public float startEnterFromY;
     public float startEnterFromY1;
+    public TLRPC$InputStickerSet statusStickerSet;
+    private TextView subtitleView;
+    private LinkSpanDrawable.LinksTextView titleView;
     int totalGradientHeight;
     TLRPC$User user;
 
-    public PremiumPreviewBottomSheet(BaseFragment baseFragment, int i, TLRPC$User tLRPC$User) {
-        this(baseFragment, i, tLRPC$User, null);
+    public PremiumPreviewBottomSheet(BaseFragment baseFragment, int i, TLRPC$User tLRPC$User, Theme.ResourcesProvider resourcesProvider) {
+        this(baseFragment, i, tLRPC$User, null, resourcesProvider);
     }
 
-    public PremiumPreviewBottomSheet(final BaseFragment baseFragment, final int i, TLRPC$User tLRPC$User, GiftPremiumBottomSheet.GiftTier giftTier) {
-        super(baseFragment, false, false);
+    public PremiumPreviewBottomSheet(final BaseFragment baseFragment, final int i, TLRPC$User tLRPC$User, GiftPremiumBottomSheet.GiftTier giftTier, Theme.ResourcesProvider resourcesProvider) {
+        super(baseFragment, false, false, resourcesProvider);
         this.premiumFeatures = new ArrayList<>();
         this.coords = new int[2];
         this.enterTransitionProgress = 0.0f;
+        fixNavigationBar();
         this.fragment = baseFragment;
         this.topPadding = 0.26f;
         this.user = tLRPC$User;
@@ -123,7 +144,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
             this.buttonRow = i4;
         }
         this.recyclerListView.setPadding(AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(6.0f), 0);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda3
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i5) {
                 PremiumPreviewBottomSheet.this.lambda$new$0(i, baseFragment, view, i5);
@@ -134,6 +155,9 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         FireworksOverlay fireworksOverlay = new FireworksOverlay(getContext());
         this.fireworksOverlay = fireworksOverlay;
         this.container.addView(fireworksOverlay, LayoutHelper.createFrame(-1, -1.0f));
+        FrameLayout frameLayout = new FrameLayout(getContext());
+        this.bulletinContainer = frameLayout;
+        this.container.addView(frameLayout, LayoutHelper.createFrame(-1, 140, 87));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -161,7 +185,10 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     private void showDialog(Dialog dialog) {
-        this.iconTextureView.setDialogVisible(true);
+        GLIconTextureView gLIconTextureView = this.iconTextureView;
+        if (gLIconTextureView != null) {
+            gLIconTextureView.setDialogVisible(true);
+        }
         this.starParticlesView.setPaused(true);
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnDismissListener
@@ -174,7 +201,10 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showDialog$1(DialogInterface dialogInterface) {
-        this.iconTextureView.setDialogVisible(false);
+        GLIconTextureView gLIconTextureView = this.iconTextureView;
+        if (gLIconTextureView != null) {
+            gLIconTextureView.setDialogVisible(false);
+        }
         this.starParticlesView.setPaused(false);
     }
 
@@ -182,16 +212,15 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
     public void onViewCreated(FrameLayout frameLayout) {
         super.onViewCreated(frameLayout);
         PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), false);
-        premiumButtonView.setButton(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.1
+        premiumButtonView.setButton(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount, null), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                PremiumPreviewFragment.sentPremiumButtonClick();
-                PremiumPreviewFragment.buyPremium(PremiumPreviewBottomSheet.this.fragment, "profile");
+            public final void onClick(View view) {
+                PremiumPreviewBottomSheet.this.lambda$onViewCreated$2(view);
             }
         });
         this.buttonContainer = new FrameLayout(getContext());
         View view = new View(getContext());
-        view.setBackgroundColor(Theme.getColor("divider"));
+        view.setBackgroundColor(getThemedColor("divider"));
         this.buttonContainer.addView(view, LayoutHelper.createFrame(-1, 1.0f));
         view.getLayoutParams().height = 1;
         AndroidUtilities.updateViewVisibilityAnimated(view, true, 1.0f, false);
@@ -202,12 +231,156 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onViewCreated$2(View view) {
+        PremiumPreviewFragment.sentPremiumButtonClick();
+        PremiumPreviewFragment.buyPremium(this.fragment, "profile");
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onPreMeasure(int i, int i2) {
         super.onPreMeasure(i, i2);
         measureGradient(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
         this.container.getLocationOnScreen(this.coords);
+    }
+
+    public void setTitle() {
+        TLRPC$Document tLRPC$Document;
+        SpannableStringBuilder spannableStringBuilder;
+        LinkSpanDrawable.LinksTextView linksTextView = this.titleView;
+        if (linksTextView == null || this.subtitleView == null) {
+            return;
+        }
+        if (this.statusStickerSet != null) {
+            int i = R.string.TelegramPremiumUserStatusDialogTitle;
+            TLRPC$User tLRPC$User = this.user;
+            CharSequence replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.formatString(i, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), "<STICKERSET>"), "windowBackgroundWhiteBlueButton", null);
+            SpannableStringBuilder spannableStringBuilder2 = replaceSingleTag instanceof SpannableStringBuilder ? (SpannableStringBuilder) replaceSingleTag : new SpannableStringBuilder(replaceSingleTag);
+            int indexOf = replaceSingleTag.toString().indexOf("<STICKERSET>");
+            if (indexOf >= 0) {
+                TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.statusStickerSet, false);
+                if (stickerSet == null || stickerSet.documents.isEmpty()) {
+                    tLRPC$Document = null;
+                } else {
+                    tLRPC$Document = stickerSet.documents.get(0);
+                    if (stickerSet.set != null) {
+                        int i2 = 0;
+                        while (true) {
+                            if (i2 >= stickerSet.documents.size()) {
+                                break;
+                            } else if (stickerSet.documents.get(i2).id == stickerSet.set.thumb_document_id) {
+                                tLRPC$Document = stickerSet.documents.get(i2);
+                                break;
+                            } else {
+                                i2++;
+                            }
+                        }
+                    }
+                }
+                if (tLRPC$Document != null) {
+                    spannableStringBuilder = new SpannableStringBuilder("x");
+                    spannableStringBuilder.setSpan(new AnimatedEmojiSpan(tLRPC$Document, this.titleView.getPaint().getFontMetricsInt()), 0, spannableStringBuilder.length(), 33);
+                    if (stickerSet != null && stickerSet.set != null) {
+                        spannableStringBuilder.append((CharSequence) " ").append((CharSequence) stickerSet.set.title);
+                    }
+                } else {
+                    spannableStringBuilder = new SpannableStringBuilder("xxxxxx");
+                    spannableStringBuilder.setSpan(new LoadingSpan(this.titleView, AndroidUtilities.dp(100.0f)), 0, spannableStringBuilder.length(), 33);
+                }
+                spannableStringBuilder2.replace(indexOf, indexOf + 12, (CharSequence) spannableStringBuilder);
+                spannableStringBuilder2.setSpan(new ClickableSpan(this) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.1
+                    @Override // android.text.style.ClickableSpan
+                    public void onClick(View view) {
+                    }
+
+                    @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                    public void updateDrawState(TextPaint textPaint) {
+                        super.updateDrawState(textPaint);
+                        textPaint.setUnderlineText(false);
+                    }
+                }, indexOf, spannableStringBuilder.length() + indexOf, 33);
+                this.titleView.setOnLinkPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda4
+                    @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView.OnLinkPress
+                    public final void run(ClickableSpan clickableSpan) {
+                        PremiumPreviewBottomSheet.this.lambda$setTitle$3(clickableSpan);
+                    }
+                });
+            }
+            this.titleView.setText(spannableStringBuilder2, (TextView.BufferType) null);
+            this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserStatusDialogSubtitle)));
+            return;
+        }
+        GiftPremiumBottomSheet.GiftTier giftTier = this.giftTier;
+        if (giftTier != null) {
+            String str = "";
+            if (this.isOutboundGift) {
+                int i3 = R.string.TelegramPremiumUserGiftedPremiumOutboundDialogTitle;
+                Object[] objArr = new Object[2];
+                TLRPC$User tLRPC$User2 = this.user;
+                objArr[0] = tLRPC$User2 != null ? tLRPC$User2.first_name : str;
+                objArr[1] = Integer.valueOf(giftTier.getMonths());
+                linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i3, objArr), "windowBackgroundWhiteBlueButton", null));
+                TextView textView = this.subtitleView;
+                int i4 = R.string.TelegramPremiumUserGiftedPremiumOutboundDialogSubtitle;
+                Object[] objArr2 = new Object[1];
+                TLRPC$User tLRPC$User3 = this.user;
+                if (tLRPC$User3 != null) {
+                    str = tLRPC$User3.first_name;
+                }
+                objArr2[0] = str;
+                textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i4, objArr2), "windowBackgroundWhiteBlueButton", null));
+                return;
+            }
+            int i5 = R.string.TelegramPremiumUserGiftedPremiumDialogTitle;
+            Object[] objArr3 = new Object[2];
+            TLRPC$User tLRPC$User4 = this.user;
+            if (tLRPC$User4 != null) {
+                str = tLRPC$User4.first_name;
+            }
+            objArr3[0] = str;
+            objArr3[1] = Integer.valueOf(giftTier.getMonths());
+            linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i5, objArr3), "windowBackgroundWhiteBlueButton", null));
+            this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserGiftedPremiumDialogSubtitle)));
+            return;
+        }
+        int i6 = R.string.TelegramPremiumUserDialogTitle;
+        TLRPC$User tLRPC$User5 = this.user;
+        linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i6, ContactsController.formatName(tLRPC$User5.first_name, tLRPC$User5.last_name)), "windowBackgroundWhiteBlueButton", null));
+        this.subtitleView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserDialogSubtitle)));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setTitle$3(ClickableSpan clickableSpan) {
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(this.statusStickerSet);
+        new EmojiPacksAlert(new BaseFragment() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.2
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public int getCurrentAccount() {
+                return this.currentAccount;
+            }
+
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public FrameLayout getLayoutContainer() {
+                return PremiumPreviewBottomSheet.this.bulletinContainer;
+            }
+
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public View getFragmentView() {
+                return ((BottomSheet) PremiumPreviewBottomSheet.this).containerView;
+            }
+
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public Dialog showDialog(Dialog dialog) {
+                dialog.show();
+                return dialog;
+            }
+        }, getContext(), this.resourcesProvider, arrayList) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.3
+            @Override // org.telegram.ui.Components.EmojiPacksAlert
+            protected void onCloseByLink() {
+                PremiumPreviewBottomSheet.this.dismiss();
+            }
+        }.show();
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
@@ -242,86 +415,118 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                 };
                 PremiumPreviewBottomSheet.this.iconContainer = linearLayout;
                 linearLayout.setOrientation(1);
-                PremiumPreviewBottomSheet.this.iconTextureView = new GLIconTextureView(this, context, 1) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.2
-                    /* JADX INFO: Access modifiers changed from: protected */
-                    @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
-                    public void onAttachedToWindow() {
-                        super.onAttachedToWindow();
-                        setPaused(false);
-                    }
+                PremiumPreviewBottomSheet premiumPreviewBottomSheet = PremiumPreviewBottomSheet.this;
+                View view2 = premiumPreviewBottomSheet.overrideTitleIcon;
+                if (view2 == null) {
+                    premiumPreviewBottomSheet.iconTextureView = new GLIconTextureView(this, context, 1) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.2
+                        /* JADX INFO: Access modifiers changed from: protected */
+                        @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
+                        public void onAttachedToWindow() {
+                            super.onAttachedToWindow();
+                            setPaused(false);
+                        }
 
+                        /* JADX INFO: Access modifiers changed from: protected */
+                        @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.View
+                        public void onDetachedFromWindow() {
+                            super.onDetachedFromWindow();
+                            setPaused(true);
+                        }
+                    };
+                    Bitmap createBitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+                    new Canvas(createBitmap).drawColor(ColorUtils.blendARGB(PremiumPreviewBottomSheet.this.getThemedColor("premiumGradient2"), PremiumPreviewBottomSheet.this.getThemedColor("dialogBackground"), 0.5f));
+                    PremiumPreviewBottomSheet.this.iconTextureView.setBackgroundBitmap(createBitmap);
+                    GLIconRenderer gLIconRenderer = PremiumPreviewBottomSheet.this.iconTextureView.mRenderer;
+                    gLIconRenderer.colorKey1 = "premiumGradient2";
+                    gLIconRenderer.colorKey2 = "premiumGradient1";
+                    gLIconRenderer.updateColors();
+                    linearLayout.addView(PremiumPreviewBottomSheet.this.iconTextureView, LayoutHelper.createLinear(160, 160, 1));
+                } else {
+                    if (view2.getParent() != null) {
+                        ((ViewGroup) PremiumPreviewBottomSheet.this.overrideTitleIcon.getParent()).removeView(PremiumPreviewBottomSheet.this.overrideTitleIcon);
+                    }
+                    linearLayout.addView(PremiumPreviewBottomSheet.this.overrideTitleIcon, LayoutHelper.createLinear(140, 140, 1.0f, 17, 10, 10, 10, 10));
+                }
+                if (PremiumPreviewBottomSheet.this.titleView == null) {
+                    final PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(ColorUtils.setAlphaComponent(PremiumPreviewBottomSheet.this.getThemedColor("windowBackgroundWhiteLinkText"), 178), PorterDuff.Mode.MULTIPLY);
+                    PremiumPreviewBottomSheet.this.titleView = new LinkSpanDrawable.LinksTextView(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.3
+                        private Layout lastLayout;
+                        AnimatedEmojiSpan.EmojiGroupedSpans stack;
+
+                        @Override // android.view.View
+                        protected void onDetachedFromWindow() {
+                            super.onDetachedFromWindow();
+                            AnimatedEmojiSpan.release(this, this.stack);
+                            this.lastLayout = null;
+                        }
+
+                        @Override // android.view.View
+                        protected void dispatchDraw(Canvas canvas) {
+                            super.dispatchDraw(canvas);
+                            if (this.lastLayout != getLayout()) {
+                                AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.stack;
+                                Layout layout = getLayout();
+                                this.lastLayout = layout;
+                                this.stack = AnimatedEmojiSpan.update(3, this, emojiGroupedSpans, layout);
+                            }
+                            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f, porterDuffColorFilter);
+                        }
+                    };
+                    PremiumPreviewBottomSheet.this.titleView.setTextSize(1, 16.0f);
+                    PremiumPreviewBottomSheet.this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                    PremiumPreviewBottomSheet.this.titleView.setGravity(1);
+                    PremiumPreviewBottomSheet.this.titleView.setTextColor(PremiumPreviewBottomSheet.this.getThemedColor("windowBackgroundWhiteBlackText"));
+                    PremiumPreviewBottomSheet.this.titleView.setLinkTextColor(PremiumPreviewBottomSheet.this.getThemedColor("windowBackgroundWhiteLinkText"));
+                }
+                if (PremiumPreviewBottomSheet.this.titleView.getParent() != null) {
+                    ((ViewGroup) PremiumPreviewBottomSheet.this.titleView.getParent()).removeView(PremiumPreviewBottomSheet.this.titleView);
+                }
+                linearLayout.addView(PremiumPreviewBottomSheet.this.titleView, LayoutHelper.createLinear(-2, -2, 0.0f, 1, 40, 0, 40, 0));
+                if (PremiumPreviewBottomSheet.this.subtitleView == null) {
+                    PremiumPreviewBottomSheet.this.subtitleView = new TextView(context);
+                    PremiumPreviewBottomSheet.this.subtitleView.setTextSize(1, 14.0f);
+                    PremiumPreviewBottomSheet.this.subtitleView.setGravity(1);
+                    PremiumPreviewBottomSheet.this.subtitleView.setTextColor(PremiumPreviewBottomSheet.this.getThemedColor("windowBackgroundWhiteBlackText"));
+                    PremiumPreviewBottomSheet.this.subtitleView.setLinkTextColor(PremiumPreviewBottomSheet.this.getThemedColor("windowBackgroundWhiteLinkText"));
+                }
+                if (PremiumPreviewBottomSheet.this.subtitleView.getParent() != null) {
+                    ((ViewGroup) PremiumPreviewBottomSheet.this.subtitleView.getParent()).removeView(PremiumPreviewBottomSheet.this.subtitleView);
+                }
+                linearLayout.addView(PremiumPreviewBottomSheet.this.subtitleView, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 16, 9, 16, 20));
+                PremiumPreviewBottomSheet.this.setTitle();
+                PremiumPreviewBottomSheet.this.starParticlesView = new StarParticlesView(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.4
                     /* JADX INFO: Access modifiers changed from: protected */
-                    @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.View
-                    public void onDetachedFromWindow() {
-                        super.onDetachedFromWindow();
-                        setPaused(true);
+                    @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
+                    public void onMeasure(int i2, int i3) {
+                        super.onMeasure(i2, i3);
+                        this.drawable.rect2.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(52.0f));
                     }
                 };
-                Bitmap createBitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
-                new Canvas(createBitmap).drawColor(ColorUtils.blendARGB(Theme.getColor("premiumGradient2"), Theme.getColor("dialogBackground"), 0.5f));
-                PremiumPreviewBottomSheet.this.iconTextureView.setBackgroundBitmap(createBitmap);
-                GLIconRenderer gLIconRenderer = PremiumPreviewBottomSheet.this.iconTextureView.mRenderer;
-                gLIconRenderer.colorKey1 = "premiumGradient1";
-                gLIconRenderer.colorKey2 = "premiumGradient2";
-                gLIconRenderer.updateColors();
-                linearLayout.addView(PremiumPreviewBottomSheet.this.iconTextureView, LayoutHelper.createLinear(160, 160, 1));
-                TextView textView = new TextView(context);
-                textView.setTextSize(1, 16.0f);
-                textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                textView.setGravity(1);
-                textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-                textView.setLinkTextColor(Theme.getColor("windowBackgroundWhiteLinkText"));
-                linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 0.0f, 1, 40, 0, 40, 0));
-                TextView textView2 = new TextView(context);
-                textView2.setTextSize(1, 14.0f);
-                textView2.setGravity(1);
-                textView2.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-                textView2.setLinkTextColor(Theme.getColor("windowBackgroundWhiteLinkText"));
-                linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 16, 9, 16, 20));
-                PremiumPreviewBottomSheet premiumPreviewBottomSheet = PremiumPreviewBottomSheet.this;
-                GiftPremiumBottomSheet.GiftTier giftTier = premiumPreviewBottomSheet.giftTier;
-                if (giftTier != null) {
-                    String str = "";
-                    if (premiumPreviewBottomSheet.isOutboundGift) {
-                        int i2 = R.string.TelegramPremiumUserGiftedPremiumOutboundDialogTitle;
-                        Object[] objArr = new Object[2];
-                        TLRPC$User tLRPC$User = premiumPreviewBottomSheet.user;
-                        objArr[0] = tLRPC$User != null ? tLRPC$User.first_name : str;
-                        objArr[1] = Integer.valueOf(giftTier.getMonths());
-                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i2, objArr), null));
-                        int i3 = R.string.TelegramPremiumUserGiftedPremiumOutboundDialogSubtitle;
-                        Object[] objArr2 = new Object[1];
-                        TLRPC$User tLRPC$User2 = PremiumPreviewBottomSheet.this.user;
-                        if (tLRPC$User2 != null) {
-                            str = tLRPC$User2.first_name;
-                        }
-                        objArr2[0] = str;
-                        textView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i3, objArr2), null));
-                    } else {
-                        int i4 = R.string.TelegramPremiumUserGiftedPremiumDialogTitle;
-                        Object[] objArr3 = new Object[2];
-                        TLRPC$User tLRPC$User3 = premiumPreviewBottomSheet.user;
-                        if (tLRPC$User3 != null) {
-                            str = tLRPC$User3.first_name;
-                        }
-                        objArr3[0] = str;
-                        objArr3[1] = Integer.valueOf(giftTier.getMonths());
-                        textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i4, objArr3), null));
-                        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserGiftedPremiumDialogSubtitle)));
-                    }
-                } else {
-                    int i5 = R.string.TelegramPremiumUserDialogTitle;
-                    TLRPC$User tLRPC$User4 = premiumPreviewBottomSheet.user;
-                    textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.formatString(i5, ContactsController.formatName(tLRPC$User4.first_name, tLRPC$User4.last_name)), null));
-                    textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.TelegramPremiumUserDialogSubtitle)));
-                }
-                PremiumPreviewBottomSheet.this.starParticlesView = new StarParticlesView(context);
-                FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.3
+                FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.5
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i6, int i7) {
-                        super.onMeasure(i6, i7);
+                    protected void onMeasure(int i2, int i3) {
+                        float f;
+                        float top;
+                        int measuredHeight;
+                        StarParticlesView starParticlesView;
+                        super.onMeasure(i2, i3);
                         PremiumPreviewBottomSheet premiumPreviewBottomSheet2 = PremiumPreviewBottomSheet.this;
-                        premiumPreviewBottomSheet2.starParticlesView.setTranslationY((premiumPreviewBottomSheet2.iconTextureView.getTop() + (PremiumPreviewBottomSheet.this.iconTextureView.getMeasuredHeight() / 2.0f)) - (PremiumPreviewBottomSheet.this.starParticlesView.getMeasuredHeight() / 2.0f));
+                        GLIconTextureView gLIconTextureView = premiumPreviewBottomSheet2.iconTextureView;
+                        if (gLIconTextureView != null) {
+                            top = gLIconTextureView.getTop();
+                            measuredHeight = PremiumPreviewBottomSheet.this.iconTextureView.getMeasuredHeight();
+                        } else {
+                            View view3 = premiumPreviewBottomSheet2.overrideTitleIcon;
+                            if (view3 != null) {
+                                top = view3.getTop();
+                                measuredHeight = PremiumPreviewBottomSheet.this.overrideTitleIcon.getMeasuredHeight();
+                            } else {
+                                f = 0.0f;
+                                PremiumPreviewBottomSheet.this.starParticlesView.setTranslationY(f - (starParticlesView.getMeasuredHeight() / 2.0f));
+                            }
+                        }
+                        f = top + (measuredHeight / 2.0f);
+                        PremiumPreviewBottomSheet.this.starParticlesView.setTranslationY(f - (starParticlesView.getMeasuredHeight() / 2.0f));
                     }
                 };
                 frameLayout.setClipChildren(false);
@@ -329,21 +534,27 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
                 frameLayout.addView(linearLayout);
                 StarParticlesView.Drawable drawable = PremiumPreviewBottomSheet.this.starParticlesView.drawable;
                 drawable.useGradient = true;
+                drawable.useBlur = false;
+                drawable.forceMaxAlpha = true;
+                drawable.checkBounds = true;
                 drawable.init();
                 PremiumPreviewBottomSheet premiumPreviewBottomSheet2 = PremiumPreviewBottomSheet.this;
-                premiumPreviewBottomSheet2.iconTextureView.setStarParticlesView(premiumPreviewBottomSheet2.starParticlesView);
+                GLIconTextureView gLIconTextureView = premiumPreviewBottomSheet2.iconTextureView;
+                if (gLIconTextureView != null) {
+                    gLIconTextureView.setStarParticlesView(premiumPreviewBottomSheet2.starParticlesView);
+                }
                 view = frameLayout;
             } else if (i == 2) {
-                view = new ShadowSectionCell(context, 12, Theme.getColor("windowBackgroundGray"));
+                view = new ShadowSectionCell(context, 12, PremiumPreviewBottomSheet.this.getThemedColor("windowBackgroundGray"));
             } else if (i == 3) {
-                view = new View(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.5
+                view = new View(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.7
                     @Override // android.view.View
-                    protected void onMeasure(int i6, int i7) {
-                        super.onMeasure(i6, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(68.0f), 1073741824));
+                    protected void onMeasure(int i2, int i3) {
+                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(68.0f), 1073741824));
                     }
                 };
             } else if (i != 4) {
-                view = new PremiumFeatureCell(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.4
+                view = new PremiumFeatureCell(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.6
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.PremiumFeatureCell, android.view.ViewGroup, android.view.View
                     public void dispatchDraw(Canvas canvas) {
@@ -425,17 +636,17 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         super.show();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4);
         if (this.animateConfetti) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PremiumPreviewBottomSheet.this.lambda$show$2();
+                    PremiumPreviewBottomSheet.this.lambda$show$4();
                 }
             }, 200L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$show$2() {
+    public /* synthetic */ void lambda$show$4() {
         try {
             this.container.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -459,9 +670,18 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public void mainContainerDispatchDraw(Canvas canvas) {
+        View view = this.overrideTitleIcon;
+        if (view != null) {
+            view.setVisibility(this.enterTransitionInProgress ? 4 : 0);
+        }
         super.mainContainerDispatchDraw(canvas);
         if (this.startEnterFromView == null || !this.enterTransitionInProgress) {
             return;
+        }
+        View view2 = this.overrideTitleIcon;
+        View view3 = view2 == null ? this.iconTextureView : view2;
+        if (view3 == view2) {
+            view2.setVisibility(0);
         }
         canvas.save();
         float[] fArr = {this.startEnterFromX, this.startEnterFromY};
@@ -471,16 +691,17 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         float f = (-iArr[0]) + this.startEnterFromX1 + fArr[0];
         float f2 = (-iArr[1]) + this.startEnterFromY1 + fArr[1];
         float intrinsicWidth = this.startEnterFromScale * rightDrawable.getIntrinsicWidth();
-        float measuredHeight = this.iconTextureView.getMeasuredHeight() * 0.8f;
+        float measuredHeight = view3.getMeasuredHeight() * 0.8f;
         float f3 = measuredHeight / intrinsicWidth;
         float f4 = intrinsicWidth / measuredHeight;
-        float measuredWidth = this.iconTextureView.getMeasuredWidth() / 2.0f;
-        for (View view = this.iconTextureView; view != this.container && view != null; view = (View) view.getParent()) {
-            measuredWidth += view.getX();
+        float measuredWidth = view3.getMeasuredWidth() / 2.0f;
+        for (View view4 = view3; view4 != this.container && view4 != null; view4 = (View) view4.getParent()) {
+            measuredWidth += view4.getX();
         }
-        float y = this.iconTextureView.getY() + ((View) this.iconTextureView.getParent()).getY() + ((View) this.iconTextureView.getParent().getParent()).getY() + (this.iconTextureView.getMeasuredHeight() / 2.0f);
+        AnimatorSet animatorSet = this.currentSheetAnimation;
+        float translationY = ((animatorSet == null || !animatorSet.isRunning() || this.currentSheetAnimationType != 1) ? this.containerView.getTranslationY() : 0.0f) + view3.getY() + ((View) view3.getParent()).getY() + ((View) view3.getParent().getParent()).getY() + (view3.getMeasuredHeight() / 2.0f);
         float lerp = AndroidUtilities.lerp(f, measuredWidth, CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(this.enterTransitionProgress));
-        float lerp2 = AndroidUtilities.lerp(f2, y, this.enterTransitionProgress);
+        float lerp2 = AndroidUtilities.lerp(f2, translationY, this.enterTransitionProgress);
         float f5 = this.startEnterFromScale;
         float f6 = this.enterTransitionProgress;
         float f7 = (f5 * (1.0f - f6)) + (f3 * f6);
@@ -495,8 +716,8 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         canvas.restore();
         float lerp3 = AndroidUtilities.lerp(f4, 1.0f, this.enterTransitionProgress);
         canvas.scale(lerp3, lerp3, lerp, lerp2);
-        canvas.translate(lerp - (this.iconTextureView.getMeasuredWidth() / 2.0f), lerp2 - (this.iconTextureView.getMeasuredHeight() / 2.0f));
-        this.iconTextureView.draw(canvas);
+        canvas.translate(lerp - (view3.getMeasuredWidth() / 2.0f), lerp2 - (view3.getMeasuredHeight() / 2.0f));
+        view3.draw(canvas);
         canvas.restore();
     }
 
@@ -512,14 +733,17 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         this.iconContainer.invalidate();
         this.startEnterFromView.getRightDrawable().setAlpha(0);
         this.startEnterFromView.invalidate();
-        this.iconTextureView.startEnterAnimation(-360, 100L);
+        GLIconTextureView gLIconTextureView = this.iconTextureView;
+        if (gLIconTextureView != null) {
+            gLIconTextureView.startEnterAnimation(-360, 100L);
+        }
         this.enterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                PremiumPreviewBottomSheet.this.lambda$onCustomOpenAnimation$3(valueAnimator);
+                PremiumPreviewBottomSheet.this.lambda$onCustomOpenAnimation$5(valueAnimator);
             }
         });
-        this.enterAnimator.addListener(new 2());
+        this.enterAnimator.addListener(new 4());
         this.enterAnimator.setDuration(600L);
         this.enterAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.enterAnimator.start();
@@ -527,15 +751,15 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCustomOpenAnimation$3(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$onCustomOpenAnimation$5(ValueAnimator valueAnimator) {
         this.enterTransitionProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.container.invalidate();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 2 extends AnimatorListenerAdapter {
-        2() {
+    public class 4 extends AnimatorListenerAdapter {
+        4() {
         }
 
         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -546,10 +770,10 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
             premiumPreviewBottomSheet.iconContainer.invalidate();
             ValueAnimator ofInt = ValueAnimator.ofInt(0, 255);
             final Drawable rightDrawable = PremiumPreviewBottomSheet.this.startEnterFromView.getRightDrawable();
-            ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$2$$ExternalSyntheticLambda0
+            ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$4$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    PremiumPreviewBottomSheet.2.this.lambda$onAnimationEnd$0(rightDrawable, valueAnimator);
+                    PremiumPreviewBottomSheet.4.this.lambda$onAnimationEnd$0(rightDrawable, valueAnimator);
                 }
             });
             ofInt.start();
@@ -560,6 +784,26 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView {
         public /* synthetic */ void lambda$onAnimationEnd$0(Drawable drawable, ValueAnimator valueAnimator) {
             drawable.setAlpha(((Integer) valueAnimator.getAnimatedValue()).intValue());
             PremiumPreviewBottomSheet.this.startEnterFromView.invalidate();
+        }
+    }
+
+    @Override // android.app.Dialog, android.view.Window.Callback
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
+    }
+
+    @Override // android.app.Dialog, android.view.Window.Callback
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
+    }
+
+    @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    public void didReceivedNotification(int i, int i2, Object... objArr) {
+        TLRPC$InputStickerSet tLRPC$InputStickerSet;
+        if (i == NotificationCenter.groupStickersDidLoad && (tLRPC$InputStickerSet = this.statusStickerSet) != null && tLRPC$InputStickerSet.id == ((Long) objArr[0]).longValue()) {
+            setTitle();
         }
     }
 }

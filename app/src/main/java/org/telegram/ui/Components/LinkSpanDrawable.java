@@ -58,7 +58,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         this.mReleaseStart = -1L;
         this.mSpan = s;
         this.mResourcesProvider = resourcesProvider;
-        setColor(getThemedColor("chat_linkSelectBackground"));
+        setColor(Theme.getColor("chat_linkSelectBackground", resourcesProvider));
         this.mTouchX = f;
         this.mTouchY = f2;
         this.mLongPressDuration = ViewConfiguration.getLongPressTimeout();
@@ -192,12 +192,6 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             }
         }
         return interpolation < 1.0f || this.mReleaseStart >= 0 || (this.mSupportsLongPress && elapsedRealtime - this.mStart < this.mLongPressDuration + this.mDuration);
-    }
-
-    private int getThemedColor(String str) {
-        Theme.ResourcesProvider resourcesProvider = this.mResourcesProvider;
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-        return color != null ? color.intValue() : Theme.getColor(str);
     }
 
     /* loaded from: classes3.dex */
@@ -499,8 +493,13 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.widget.TextView, android.view.View
         public void onDraw(Canvas canvas) {
-            if (!this.isCustomLinkCollector && this.links.draw(canvas)) {
-                invalidate();
+            if (!this.isCustomLinkCollector) {
+                canvas.save();
+                canvas.translate(getPaddingLeft(), getPaddingTop());
+                if (this.links.draw(canvas)) {
+                    invalidate();
+                }
+                canvas.restore();
             }
             super.onDraw(canvas);
         }

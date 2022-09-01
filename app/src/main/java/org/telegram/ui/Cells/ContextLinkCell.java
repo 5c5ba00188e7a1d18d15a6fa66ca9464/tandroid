@@ -1034,7 +1034,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 if (this.documentAttach != null) {
                     FileLoader.getInstance(this.currentAccount).loadFile(this.documentAttach, this.inlineResult, 1, 0);
                 } else if (this.inlineResult.content instanceof TLRPC$TL_webDocument) {
-                    FileLoader.getInstance(this.currentAccount).loadFile(WebFile.createWithWebDocument(this.inlineResult.content), 1, 1);
+                    FileLoader.getInstance(this.currentAccount).loadFile(WebFile.createWithWebDocument(this.inlineResult.content), 3, 1);
                 }
                 this.buttonState = 4;
                 this.radialProgress.setIcon(getIconForCurrentState(), false, true);

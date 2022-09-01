@@ -5,7 +5,7 @@ public class TLRPC$TL_account_getPassword extends TLObject {
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        return TLRPC$TL_account_password.TLdeserialize(abstractSerializedData, i, z);
+        return TLRPC$account_Password.TLdeserialize(abstractSerializedData, i, z);
     }
 
     @Override // org.telegram.tgnet.TLObject

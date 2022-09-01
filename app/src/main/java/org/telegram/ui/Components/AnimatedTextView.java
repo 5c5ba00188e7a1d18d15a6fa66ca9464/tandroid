@@ -139,12 +139,12 @@ public class AnimatedTextView extends View {
                         canvas.save();
                         int i3 = intValue >= 0 ? lerp : this.currentWidth;
                         if (this.isRTL) {
-                            intValue2 = ((i3 - intValue2) - this.currentLayout[i2].getWidth()) - (width - i3);
+                            intValue2 = (((-intValue2) + (i3 * 2)) - this.currentLayout[i2].getWidth()) - width;
                         }
                         int i4 = this.gravity;
                         if ((i4 & 1) > 0) {
                             f4 = (width - i3) / 2.0f;
-                        } else if ((i4 & 5) > 0) {
+                        } else if ((i4 & 5) > 0 || this.isRTL) {
                             f4 = width - i3;
                         } else {
                             canvas.translate(intValue2, f3);
@@ -168,13 +168,13 @@ public class AnimatedTextView extends View {
                         this.textPaint.setAlpha((int) (this.alpha * (1.0f - f9)));
                         canvas.save();
                         if (this.isRTL) {
-                            intValue3 = ((this.oldWidth - intValue3) - this.oldLayout[i].getWidth()) - (width - this.oldWidth);
+                            intValue3 = (((-intValue3) + (this.oldWidth * 2)) - this.oldLayout[i].getWidth()) - width;
                         }
                         int i5 = this.gravity;
                         if ((i5 & 1) > 0) {
                             f2 = (width - this.oldWidth) / 2.0f;
                         } else {
-                            if ((i5 & 5) > 0) {
+                            if ((i5 & 5) > 0 || this.isRTL) {
                                 f2 = width - this.oldWidth;
                             }
                             canvas.translate(intValue3, f10);
@@ -196,12 +196,12 @@ public class AnimatedTextView extends View {
                         canvas.save();
                         float intValue4 = this.currentLayoutOffsets[i].intValue();
                         if (this.isRTL) {
-                            intValue4 = ((this.currentWidth - intValue4) - this.currentLayout[i].getWidth()) - (width - this.currentWidth);
+                            intValue4 = (((-intValue4) + (this.currentWidth * 2)) - this.currentLayout[i].getWidth()) - width;
                         }
                         int i6 = this.gravity;
                         if ((i6 & 1) > 0) {
                             f = (width - this.currentWidth) / 2.0f;
-                        } else if ((i6 & 5) > 0) {
+                        } else if ((i6 & 5) > 0 || this.isRTL) {
                             f = width - this.currentWidth;
                         } else {
                             canvas.translate(intValue4, 0.0f);

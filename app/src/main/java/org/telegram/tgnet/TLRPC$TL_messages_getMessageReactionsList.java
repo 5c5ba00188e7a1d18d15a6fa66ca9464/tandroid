@@ -1,13 +1,13 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_getMessageReactionsList extends TLObject {
-    public static int constructor = -521245833;
+    public static int constructor = 1176190792;
     public int flags;
     public int id;
     public int limit;
     public String offset;
     public TLRPC$InputPeer peer;
-    public String reaction;
+    public TLRPC$Reaction reaction;
 
     @Override // org.telegram.tgnet.TLObject
     public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -21,7 +21,7 @@ public class TLRPC$TL_messages_getMessageReactionsList extends TLObject {
         this.peer.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeInt32(this.id);
         if ((this.flags & 1) != 0) {
-            abstractSerializedData.writeString(this.reaction);
+            this.reaction.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 2) != 0) {
             abstractSerializedData.writeString(this.offset);
