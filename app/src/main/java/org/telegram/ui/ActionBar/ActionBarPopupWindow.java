@@ -825,7 +825,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         this.windowAnimatorSet = animatorSet;
         animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, 255));
         this.windowAnimatorSet.setDuration((i2 * 16) + ImageReceiver.DEFAULT_CROSSFADE_DURATION);
-        this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.1
+        this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.2
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 ActionBarPopupWindowLayout actionBarPopupWindowLayout3;
@@ -931,7 +931,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                 animatorSet3.playTogether(animatorArr);
                 this.windowAnimatorSet.setDuration(this.dismissAnimationDuration);
             }
-            this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.2
+            this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     ActionBarPopupWindow.this.windowAnimatorSet = null;

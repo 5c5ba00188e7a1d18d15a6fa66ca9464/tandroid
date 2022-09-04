@@ -100,9 +100,9 @@ public class CustomEmojiReactionsWindow {
             }
         });
         this.containerView = new ContainerView(context);
-        2 r15 = new 2(context, false, null, 1, resourcesProvider, reactionsContainerLayout, baseFragment);
-        this.selectAnimatedEmojiDialog = r15;
-        r15.setOnLongPressedListener(new SelectAnimatedEmojiDialog.onLongPressedListener(this) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.3
+        2 r9 = new 2(baseFragment, context, false, null, 1, resourcesProvider, reactionsContainerLayout, baseFragment);
+        this.selectAnimatedEmojiDialog = r9;
+        r9.setOnLongPressedListener(new SelectAnimatedEmojiDialog.onLongPressedListener(this) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.3
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.onLongPressedListener
             public void onLongPressed(SelectAnimatedEmojiDialog.ImageViewEmoji imageViewEmoji) {
                 if (imageViewEmoji.isDefaultReaction) {
@@ -177,10 +177,10 @@ public class CustomEmojiReactionsWindow {
         final /* synthetic */ ReactionsContainerLayout val$reactionsContainerLayout;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        2(Context context, boolean z, Integer num, int i, Theme.ResourcesProvider resourcesProvider, ReactionsContainerLayout reactionsContainerLayout, BaseFragment baseFragment) {
-            super(context, z, num, i, resourcesProvider);
+        2(BaseFragment baseFragment, Context context, boolean z, Integer num, int i, Theme.ResourcesProvider resourcesProvider, ReactionsContainerLayout reactionsContainerLayout, BaseFragment baseFragment2) {
+            super(baseFragment, context, z, num, i, resourcesProvider);
             this.val$reactionsContainerLayout = reactionsContainerLayout;
-            this.val$baseFragment = baseFragment;
+            this.val$baseFragment = baseFragment2;
         }
 
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
@@ -189,7 +189,7 @@ public class CustomEmojiReactionsWindow {
         }
 
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-        protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document) {
+        protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
             if (!UserConfig.getInstance(this.val$baseFragment.getCurrentAccount()).isPremium()) {
                 CustomEmojiReactionsWindow.this.windowView.performHapticFeedback(3);
                 BulletinFactory.of(CustomEmojiReactionsWindow.this.windowView, null).createEmojiBulletin(tLRPC$Document, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiReaction", R.string.UnlockPremiumEmojiReaction)), LocaleController.getString("PremiumMore", R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$2$$ExternalSyntheticLambda0

@@ -38,8 +38,10 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$Document;
+import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.tgnet.TLRPC$TL_emojiStatus;
+import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.SimpleTextView;
@@ -458,6 +460,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         int i2 = this.lastAccount;
         if (i2 >= 0) {
             NotificationCenter.getInstance(i2).removeObserver(this, NotificationCenter.userEmojiStatusUpdated);
+            NotificationCenter.getInstance(this.lastAccount).removeObserver(this, NotificationCenter.updateInterfaces);
             this.lastAccount = -1;
         }
         if (this.nameTextView.getRightDrawable() instanceof AnimatedEmojiDrawable.WrapSizeDrawable) {
@@ -651,9 +654,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         if (i != i2) {
             if (i2 >= 0) {
                 NotificationCenter.getInstance(i2).removeObserver(this, NotificationCenter.userEmojiStatusUpdated);
+                NotificationCenter.getInstance(this.lastAccount).removeObserver(this, NotificationCenter.updateInterfaces);
             }
             this.lastAccount = i;
             NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.userEmojiStatusUpdated);
+            this.lastAccount = i;
+            NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.updateInterfaces);
         }
         this.lastUser = tLRPC$User;
         if (tLRPC$User == null) {
@@ -668,8 +674,13 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         this.drawPremium = false;
         this.nameTextView.setText(userName);
+        TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
         String str = "chats_menuPhoneCats";
-        if (tLRPC$User.emoji_status instanceof TLRPC$TL_emojiStatus) {
+        if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
+            this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
+            this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
+            this.status.set(((TLRPC$TL_emojiStatusUntil) tLRPC$User.emoji_status).document_id, true);
+        } else if (tLRPC$User.emoji_status instanceof TLRPC$TL_emojiStatus) {
             this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
             this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
             this.status.set(((TLRPC$TL_emojiStatus) tLRPC$User.emoji_status).document_id, true);
@@ -761,7 +772,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             this.nameTextView.invalidate();
         } else if (i == NotificationCenter.userEmojiStatusUpdated) {
             setUser((TLRPC$User) objArr[0], this.accountsShown);
-        } else if (i != NotificationCenter.currentUserPremiumStatusChanged) {
+        } else if (i != NotificationCenter.currentUserPremiumStatusChanged && i != NotificationCenter.updateInterfaces) {
         } else {
             setUser(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser(), this.accountsShown);
         }

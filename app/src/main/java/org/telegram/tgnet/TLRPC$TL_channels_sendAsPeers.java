@@ -3,8 +3,8 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_sendAsPeers extends TLObject {
-    public static int constructor = -2091463255;
-    public ArrayList<TLRPC$Peer> peers = new ArrayList<>();
+    public static int constructor = -191450938;
+    public ArrayList<TLRPC$TL_sendAsPeer> peers = new ArrayList<>();
     public ArrayList<TLRPC$Chat> chats = new ArrayList<>();
     public ArrayList<TLRPC$User> users = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class TLRPC$TL_channels_sendAsPeers extends TLObject {
         }
         int readInt322 = abstractSerializedData.readInt32(z);
         for (int i = 0; i < readInt322; i++) {
-            TLRPC$Peer TLdeserialize = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            TLRPC$TL_sendAsPeer TLdeserialize = TLRPC$TL_sendAsPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if (TLdeserialize == null) {
                 return;
             }

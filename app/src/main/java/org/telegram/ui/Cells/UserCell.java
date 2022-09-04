@@ -28,6 +28,7 @@ import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$FileLocation;
 import org.telegram.tgnet.TLRPC$TL_emojiStatus;
+import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$UserStatus;
@@ -399,7 +400,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:150:0x010a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:155:0x010a, code lost:
         if (r7.equals("groups") == false) goto L44;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -616,12 +617,19 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         }
         if (tLRPC$User != null && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User)) {
             TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
-            if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) {
-                this.emojiStatus.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id, false);
+            if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
+                this.emojiStatus.set(((TLRPC$TL_emojiStatusUntil) tLRPC$User.emoji_status).document_id, false);
                 this.emojiStatus.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
                 this.nameTextView.setRightDrawable(this.emojiStatus);
             } else {
-                this.nameTextView.setRightDrawable(PremiumGradient.getInstance().premiumStarDrawableMini);
+                TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User.emoji_status;
+                if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
+                    this.emojiStatus.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id, false);
+                    this.emojiStatus.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
+                    this.nameTextView.setRightDrawable(this.emojiStatus);
+                } else {
+                    this.nameTextView.setRightDrawable(PremiumGradient.getInstance().premiumStarDrawableMini);
+                }
             }
             this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
         } else {

@@ -667,6 +667,28 @@ public class Bulletin {
 
         /* loaded from: classes3.dex */
         public interface Callback {
+
+            /* loaded from: classes3.dex */
+            public final /* synthetic */ class -CC {
+                public static void $default$onAttach(Callback callback, Layout layout, Bulletin bulletin) {
+                }
+
+                public static void $default$onDetach(Callback callback, Layout layout) {
+                }
+
+                public static void $default$onEnterTransitionEnd(Callback callback, Layout layout) {
+                }
+
+                public static void $default$onEnterTransitionStart(Callback callback, Layout layout) {
+                }
+
+                public static void $default$onExitTransitionEnd(Callback callback, Layout layout) {
+                }
+
+                public static void $default$onExitTransitionStart(Callback callback, Layout layout) {
+                }
+            }
+
             void onAttach(Layout layout, Bulletin bulletin);
 
             void onDetach(Layout layout);

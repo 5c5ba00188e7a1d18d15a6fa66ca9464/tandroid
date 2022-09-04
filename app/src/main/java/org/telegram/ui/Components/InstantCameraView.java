@@ -2098,10 +2098,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Removed duplicated region for block: B:14:0x0050  */
         /* JADX WARN: Removed duplicated region for block: B:21:0x006a  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x00ca  */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x012e  */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x021d  */
-        /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x00d6  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00e3  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x0136  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x0225  */
+        /* JADX WARN: Removed duplicated region for block: B:54:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2146,7 +2147,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     GLES20.glEnableVertexAttribArray(this.positionHandle);
                     GLES20.glEnableVertexAttribArray(this.textureHandle);
                     GLES20.glUniform2f(this.resolutionHandle, this.videoWidth, this.videoHeight);
-                    if (InstantCameraView.this.oldCameraTexture[0] != 0) {
+                    if (InstantCameraView.this.oldCameraTexture[0] != 0 && InstantCameraView.this.oldTextureTextureBuffer != null) {
                         if (!this.blendEnabled) {
                             GLES20.glEnable(3042);
                             this.blendEnabled = true;
@@ -2230,6 +2231,15 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             GLES20.glEnableVertexAttribArray(this.textureHandle);
             GLES20.glUniform2f(this.resolutionHandle, this.videoWidth, this.videoHeight);
             if (InstantCameraView.this.oldCameraTexture[0] != 0) {
+                if (!this.blendEnabled) {
+                }
+                if (InstantCameraView.this.oldTexturePreviewSize != null) {
+                }
+                GLES20.glVertexAttribPointer(this.textureHandle, 2, 5126, false, 8, (Buffer) InstantCameraView.this.oldTextureTextureBuffer);
+                GLES20.glUniformMatrix4fv(this.textureMatrixHandle, 1, false, InstantCameraView.this.moldSTMatrix, 0);
+                GLES20.glUniform1f(this.alphaHandle, 1.0f);
+                GLES20.glBindTexture(36197, InstantCameraView.this.oldCameraTexture[0]);
+                GLES20.glDrawArrays(5, 0, 4);
             }
             if (InstantCameraView.this.previewSize != null) {
             }

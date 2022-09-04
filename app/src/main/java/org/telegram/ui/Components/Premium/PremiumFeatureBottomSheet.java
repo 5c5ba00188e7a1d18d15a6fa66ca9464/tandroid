@@ -74,6 +74,9 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     public PremiumFeatureBottomSheet(final BaseFragment baseFragment, Context context, int i, int i2, final boolean z, PremiumPreviewFragment.SubscriptionTier subscriptionTier) {
         super(context, false);
         this.premiumFeatures = new ArrayList<>();
+        if (baseFragment == null) {
+            throw new RuntimeException("fragmnet can't be null");
+        }
         this.selectedTier = subscriptionTier;
         fixNavigationBar();
         this.startType = i2;
@@ -319,10 +322,10 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                 chatAttachAlert.dismiss(true);
             }
         }
-        if (baseFragment.getVisibleDialog() != null) {
+        if (baseFragment != null && baseFragment.getVisibleDialog() != null) {
             baseFragment.getVisibleDialog().dismiss();
         }
-        if (z) {
+        if (z && baseFragment != null) {
             baseFragment.presentFragment(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(premiumFeatureData.type)));
         } else {
             PremiumPreviewFragment.buyPremium(baseFragment, this.selectedTier, PremiumPreviewFragment.featureTypeToServerString(premiumFeatureData.type));

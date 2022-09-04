@@ -506,7 +506,6 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         ArrayList<TLRPC$Document> arrayList;
         TLRPC$Document tLRPC$Document;
         TLRPC$VideoSize tLRPC$VideoSize;
-        Boolean bool;
         Runnable runnable;
         boolean z3;
         int i2 = i;
@@ -587,8 +586,12 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                             ArrayList arrayList2 = new ArrayList();
                             for (int i6 = 0; i6 < arrayList.size(); i6++) {
                                 TLRPC$Document tLRPC$Document2 = arrayList.get(i6);
-                                if (tLRPC$Document2 != null && (bool = this.preloaded.get(Long.valueOf(tLRPC$Document2.id))) != null && bool.booleanValue()) {
-                                    arrayList2.add(Integer.valueOf(i6));
+                                if (tLRPC$Document2 != null) {
+                                    HashMap<Long, Boolean> hashMap = this.preloaded;
+                                    Boolean bool = hashMap != null ? hashMap.get(Long.valueOf(tLRPC$Document2.id)) : null;
+                                    if (bool != null && bool.booleanValue()) {
+                                        arrayList2.add(Integer.valueOf(i6));
+                                    }
                                 }
                             }
                             if (arrayList2.isEmpty()) {

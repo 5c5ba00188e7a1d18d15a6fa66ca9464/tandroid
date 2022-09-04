@@ -7376,10 +7376,10 @@ public class LoginActivity extends BaseFragment {
         public /* synthetic */ void lambda$onShow$21() {
             this.inboxImageView.getAnimatedDrawable().setCurrentFrame(0, false);
             this.inboxImageView.playAnimation();
-            this.codeFieldContainer.setText("");
             CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
             if (codeFieldContainer != null) {
-                codeFieldContainer.codeField[0].requestFocus();
+                codeFieldContainer.setText("");
+                this.codeFieldContainer.codeField[0].requestFocus();
             }
             AndroidUtilities.runOnUIThread(this.resendCodeTimeout, 60000L);
         }

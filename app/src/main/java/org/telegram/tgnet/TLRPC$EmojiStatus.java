@@ -3,10 +3,12 @@ package org.telegram.tgnet;
 public abstract class TLRPC$EmojiStatus extends TLObject {
     public static TLRPC$EmojiStatus TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$EmojiStatus tLRPC$TL_emojiStatus;
-        if (i != -1835310691) {
+        if (i == -1835310691) {
+            tLRPC$TL_emojiStatus = new TLRPC$TL_emojiStatus();
+        } else if (i != -97474361) {
             tLRPC$TL_emojiStatus = i != 769727150 ? null : new TLRPC$TL_emojiStatusEmpty();
         } else {
-            tLRPC$TL_emojiStatus = new TLRPC$TL_emojiStatus();
+            tLRPC$TL_emojiStatus = new TLRPC$TL_emojiStatusUntil();
         }
         if (tLRPC$TL_emojiStatus != null || !z) {
             if (tLRPC$TL_emojiStatus != null) {

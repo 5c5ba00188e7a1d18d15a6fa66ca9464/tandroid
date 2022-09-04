@@ -3050,6 +3050,9 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
         public void onAttachedToWindow() {
             super.onAttachedToWindow();
+            if (EmojiView.this.emojiAdapter != null) {
+                EmojiView.this.emojiAdapter.processEmoji(true);
+            }
             updateEmojiDrawables();
         }
 

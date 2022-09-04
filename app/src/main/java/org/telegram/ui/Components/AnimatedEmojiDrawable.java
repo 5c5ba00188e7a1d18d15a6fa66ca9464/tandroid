@@ -469,9 +469,9 @@ public class AnimatedEmojiDrawable extends Drawable {
     /* JADX WARN: Removed duplicated region for block: B:41:0x018c  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x01e8  */
     /* JADX WARN: Removed duplicated region for block: B:53:0x0206  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0186  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0217  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0186  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -579,6 +579,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.imageReceiver.setAutoRepeat(0);
             }
             this.imageReceiver.setAllowDecodeSingleFrame(true);
+            int i5 = this.cacheType;
+            this.imageReceiver.setRoundRadius((i5 != 5 || i5 == 6) ? AndroidUtilities.dp(6.0f) : 0);
             updateAttachState();
             invalidate();
         }
@@ -597,6 +599,8 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (this.cacheType == 8) {
         }
         this.imageReceiver.setAllowDecodeSingleFrame(true);
+        int i52 = this.cacheType;
+        this.imageReceiver.setRoundRadius((i52 != 5 || i52 == 6) ? AndroidUtilities.dp(6.0f) : 0);
         updateAttachState();
         invalidate();
     }

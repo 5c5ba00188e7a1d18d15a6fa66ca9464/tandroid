@@ -1,13 +1,20 @@
 package org.telegram.ui.Components;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,45 +27,57 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$TL_channels_sendAsPeers;
+import org.telegram.tgnet.TLRPC$TL_sendAsPeer;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
+import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes3.dex */
 public class SenderSelectPopup extends ActionBarPopupWindow {
+    private FrameLayout bulletinContainer;
+    private Runnable bulletinHideCallback;
     private TLRPC$ChatFull chatFull;
     private boolean clicked;
     public View dimView;
     private boolean dismissed;
     private View headerShadow;
     public TextView headerText;
+    private boolean isDismissingByBulletin;
     private Boolean isHeaderShadowVisible;
     private LinearLayoutManager layoutManager;
+    private int popupX;
+    private int popupY;
     public LinearLayout recyclerContainer;
     private RecyclerListView recyclerView;
     protected boolean runningCustomSprings;
     private FrameLayout scrimPopupContainerLayout;
     private TLRPC$TL_channels_sendAsPeers sendAsPeers;
     protected List<SpringAnimation> springAnimations = new ArrayList();
+    private List<Bulletin> bulletins = new ArrayList();
 
     /* loaded from: classes3.dex */
     public interface OnSelectCallback {
         void onPeerSelected(RecyclerView recyclerView, SenderView senderView, TLRPC$Peer tLRPC$Peer);
     }
 
-    public SenderSelectPopup(Context context, ChatActivity chatActivity, final MessagesController messagesController, final TLRPC$ChatFull tLRPC$ChatFull, TLRPC$TL_channels_sendAsPeers tLRPC$TL_channels_sendAsPeers, final OnSelectCallback onSelectCallback) {
+    @SuppressLint({"WrongConstant"})
+    public SenderSelectPopup(final Context context, final ChatActivity chatActivity, final MessagesController messagesController, final TLRPC$ChatFull tLRPC$ChatFull, TLRPC$TL_channels_sendAsPeers tLRPC$TL_channels_sendAsPeers, final OnSelectCallback onSelectCallback) {
         super(context);
         this.chatFull = tLRPC$ChatFull;
         this.sendAsPeers = tLRPC$TL_channels_sendAsPeers;
@@ -103,7 +122,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         this.headerText.setPadding(dp2, AndroidUtilities.dp(12.0f), dp2, AndroidUtilities.dp(12.0f));
         this.recyclerContainer.addView(this.headerText);
         FrameLayout frameLayout = new FrameLayout(context);
-        final ArrayList<TLRPC$Peer> arrayList = tLRPC$TL_channels_sendAsPeers.peers;
+        final ArrayList<TLRPC$TL_sendAsPeer> arrayList = tLRPC$TL_channels_sendAsPeers.peers;
         this.recyclerView = new RecyclerListView(context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         this.layoutManager = linearLayoutManager;
@@ -122,7 +141,8 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
                 SenderView senderView = (SenderView) viewHolder.itemView;
-                TLRPC$Peer tLRPC$Peer = (TLRPC$Peer) arrayList.get(i);
+                TLRPC$TL_sendAsPeer tLRPC$TL_sendAsPeer = (TLRPC$TL_sendAsPeer) arrayList.get(i);
+                TLRPC$Peer tLRPC$Peer = tLRPC$TL_sendAsPeer.peer;
                 long j = tLRPC$Peer.channel_id;
                 long j2 = j != 0 ? -j : 0L;
                 if (j2 == 0) {
@@ -135,13 +155,23 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                 if (j2 < 0) {
                     TLRPC$Chat chat = messagesController.getChat(Long.valueOf(-j2));
                     if (chat != null) {
-                        senderView.title.setText(chat.title);
+                        if (tLRPC$TL_sendAsPeer.premium_required) {
+                            SpannableString spannableString = new SpannableString(chat.title + " d");
+                            ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.msg_mini_premiumlock);
+                            coloredImageSpan.setTopOffset(1);
+                            coloredImageSpan.setSize(AndroidUtilities.dp(14.0f));
+                            coloredImageSpan.setColorKey("windowBackgroundWhiteGrayIcon");
+                            spannableString.setSpan(coloredImageSpan, spannableString.length() - 1, spannableString.length(), 33);
+                            senderView.title.setText(spannableString);
+                        } else {
+                            senderView.title.setText(chat.title);
+                        }
                         senderView.subtitle.setText(LocaleController.formatPluralString((!ChatObject.isChannel(chat) || chat.megagroup) ? "Members" : "Subscribers", chat.participants_count, new Object[0]));
                         senderView.avatar.setAvatar(chat);
                     }
                     SimpleAvatarView simpleAvatarView = senderView.avatar;
                     TLRPC$Peer tLRPC$Peer2 = tLRPC$ChatFull.default_send_as;
-                    if (tLRPC$Peer2 == null || tLRPC$Peer2.channel_id != tLRPC$Peer.channel_id) {
+                    if (tLRPC$Peer2 == null ? i != 0 : tLRPC$Peer2.channel_id != tLRPC$Peer.channel_id) {
                         z = false;
                     }
                     simpleAvatarView.setSelected(z, false);
@@ -155,7 +185,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                 }
                 SimpleAvatarView simpleAvatarView2 = senderView.avatar;
                 TLRPC$Peer tLRPC$Peer3 = tLRPC$ChatFull.default_send_as;
-                if (tLRPC$Peer3 == null || tLRPC$Peer3.user_id != tLRPC$Peer.user_id) {
+                if (tLRPC$Peer3 == null ? i != 0 : tLRPC$Peer3.user_id != tLRPC$Peer.user_id) {
                     z = false;
                 }
                 simpleAvatarView2.setSelected(z, false);
@@ -177,12 +207,13 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                 }
             }
         });
-        this.recyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda8
+        this.recyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda10
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i) {
-                SenderSelectPopup.this.lambda$new$0(onSelectCallback, arrayList, view2, i);
+                SenderSelectPopup.this.lambda$new$2(arrayList, context, chatActivity, onSelectCallback, view2, i);
             }
         });
+        this.recyclerView.setOverScrollMode(2);
         frameLayout.addView(this.recyclerView);
         this.headerShadow = new View(context);
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.header_shadow);
@@ -195,12 +226,131 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(OnSelectCallback onSelectCallback, List list, View view, int i) {
+    public /* synthetic */ void lambda$new$2(List list, Context context, final ChatActivity chatActivity, OnSelectCallback onSelectCallback, View view, int i) {
+        TLRPC$TL_sendAsPeer tLRPC$TL_sendAsPeer = (TLRPC$TL_sendAsPeer) list.get(i);
         if (this.clicked) {
             return;
         }
+        if (tLRPC$TL_sendAsPeer.premium_required && !UserConfig.getInstance(UserConfig.selectedAccount).isPremium()) {
+            try {
+                view.performHapticFeedback(3, 2);
+            } catch (Exception unused) {
+            }
+            final WindowManager windowManager = (WindowManager) context.getSystemService("window");
+            if (this.bulletinContainer == null) {
+                this.bulletinContainer = new FrameLayout(context) { // from class: org.telegram.ui.Components.SenderSelectPopup.4
+                    @Override // android.view.View
+                    @SuppressLint({"ClickableViewAccessibility"})
+                    public boolean onTouchEvent(MotionEvent motionEvent) {
+                        View contentView = SenderSelectPopup.this.getContentView();
+                        contentView.getLocationInWindow(r2);
+                        int[] iArr = {iArr[0] + SenderSelectPopup.this.popupX, iArr[1] + SenderSelectPopup.this.popupY};
+                        int[] iArr2 = new int[2];
+                        getLocationInWindow(iArr2);
+                        if ((motionEvent.getAction() == 0 && motionEvent.getX() <= iArr[0]) || motionEvent.getX() >= iArr[0] + contentView.getWidth() || motionEvent.getY() <= iArr[1] || motionEvent.getY() >= iArr[1] + contentView.getHeight()) {
+                            if (!SenderSelectPopup.this.dismissed && !SenderSelectPopup.this.isDismissingByBulletin) {
+                                SenderSelectPopup.this.isDismissingByBulletin = true;
+                                SenderSelectPopup.this.startDismissAnimation(new SpringAnimation[0]);
+                            }
+                            return true;
+                        }
+                        motionEvent.offsetLocation(iArr2[0] - iArr[0], (AndroidUtilities.statusBarHeight + iArr2[1]) - iArr[1]);
+                        return contentView.dispatchTouchEvent(motionEvent);
+                    }
+                };
+            }
+            Runnable runnable = this.bulletinHideCallback;
+            if (runnable != null) {
+                AndroidUtilities.cancelRunOnUIThread(runnable);
+            }
+            if (this.bulletinContainer.getParent() == null) {
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.height = -1;
+                layoutParams.width = -1;
+                layoutParams.format = -3;
+                layoutParams.type = 99;
+                int i2 = Build.VERSION.SDK_INT;
+                if (i2 >= 21) {
+                    layoutParams.flags |= Integer.MIN_VALUE;
+                }
+                if (i2 >= 28) {
+                    layoutParams.layoutInDisplayCutoutMode = 1;
+                }
+                windowManager.addView(this.bulletinContainer, layoutParams);
+            }
+            final Bulletin make = Bulletin.make(this.bulletinContainer, new SelectSendAsPremiumHintBulletinLayout(context, chatActivity.themeDelegate, new Runnable() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda9
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SenderSelectPopup.this.lambda$new$0(chatActivity);
+                }
+            }), 1500);
+            make.getLayout().addCallback(new Bulletin.Layout.Callback() { // from class: org.telegram.ui.Components.SenderSelectPopup.5
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public /* synthetic */ void onAttach(Bulletin.Layout layout, Bulletin bulletin) {
+                    Bulletin.Layout.Callback.-CC.$default$onAttach(this, layout, bulletin);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public /* synthetic */ void onDetach(Bulletin.Layout layout) {
+                    Bulletin.Layout.Callback.-CC.$default$onDetach(this, layout);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public /* synthetic */ void onEnterTransitionEnd(Bulletin.Layout layout) {
+                    Bulletin.Layout.Callback.-CC.$default$onEnterTransitionEnd(this, layout);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public /* synthetic */ void onEnterTransitionStart(Bulletin.Layout layout) {
+                    Bulletin.Layout.Callback.-CC.$default$onEnterTransitionStart(this, layout);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public /* synthetic */ void onExitTransitionEnd(Bulletin.Layout layout) {
+                    Bulletin.Layout.Callback.-CC.$default$onExitTransitionEnd(this, layout);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public /* synthetic */ void onExitTransitionStart(Bulletin.Layout layout) {
+                    Bulletin.Layout.Callback.-CC.$default$onExitTransitionStart(this, layout);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public void onShow(Bulletin.Layout layout) {
+                    SenderSelectPopup.this.bulletins.add(make);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Layout.Callback
+                public void onHide(Bulletin.Layout layout) {
+                    SenderSelectPopup.this.bulletins.remove(make);
+                }
+            });
+            make.show();
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda8
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SenderSelectPopup.this.lambda$new$1(windowManager);
+                }
+            };
+            this.bulletinHideCallback = runnable2;
+            AndroidUtilities.runOnUIThread(runnable2, 2500L);
+            return;
+        }
         this.clicked = true;
-        onSelectCallback.onPeerSelected(this.recyclerView, (SenderView) view, (TLRPC$Peer) list.get(i));
+        onSelectCallback.onPeerSelected(this.recyclerView, (SenderView) view, tLRPC$TL_sendAsPeer.peer);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(ChatActivity chatActivity) {
+        if (chatActivity != null) {
+            chatActivity.presentFragment(new PremiumPreviewFragment("select_sender"));
+            dismiss();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$1(WindowManager windowManager) {
+        windowManager.removeView(this.bulletinContainer);
     }
 
     @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
@@ -208,8 +358,28 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         if (this.dismissed) {
             return;
         }
+        FrameLayout frameLayout = this.bulletinContainer;
+        if (frameLayout != null && frameLayout.getAlpha() == 1.0f) {
+            final WindowManager windowManager = (WindowManager) this.bulletinContainer.getContext().getSystemService("window");
+            this.bulletinContainer.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SenderSelectPopup.6
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    windowManager.removeViewImmediate(SenderSelectPopup.this.bulletinContainer);
+                    if (SenderSelectPopup.this.bulletinHideCallback != null) {
+                        AndroidUtilities.cancelRunOnUIThread(SenderSelectPopup.this.bulletinHideCallback);
+                    }
+                }
+            });
+        }
         this.dismissed = true;
         super.dismiss();
+    }
+
+    @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
+    public void showAtLocation(View view, int i, int i2, int i3) {
+        this.popupX = i2;
+        this.popupY = i3;
+        super.showAtLocation(view, i, i2, i3);
     }
 
     public void startShowAnimation() {
@@ -222,7 +392,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         frameLayout.setPivotY(frameLayout.getMeasuredHeight() - AndroidUtilities.dp(8.0f));
         this.recyclerContainer.setPivotX(0.0f);
         this.recyclerContainer.setPivotY(0.0f);
-        ArrayList<TLRPC$Peer> arrayList = this.sendAsPeers.peers;
+        ArrayList<TLRPC$TL_sendAsPeer> arrayList = this.sendAsPeers.peers;
         TLRPC$Peer tLRPC$Peer = this.chatFull.default_send_as;
         if (tLRPC$Peer == null) {
             tLRPC$Peer = null;
@@ -232,7 +402,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             int size = arrayList.size() * dp;
             int i = 0;
             while (i < arrayList.size()) {
-                TLRPC$Peer tLRPC$Peer2 = arrayList.get(i);
+                TLRPC$Peer tLRPC$Peer2 = arrayList.get(i).peer;
                 long j = tLRPC$Peer2.channel_id;
                 if (j == 0 || j != tLRPC$Peer.channel_id) {
                     long j2 = tLRPC$Peer2.user_id;
@@ -256,22 +426,22 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         this.dimView.setAlpha(0.0f);
         FrameLayout frameLayout2 = this.scrimPopupContainerLayout;
         DynamicAnimation.ViewProperty viewProperty = DynamicAnimation.ALPHA;
-        for (final SpringAnimation springAnimation2 : Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda6
+        for (final SpringAnimation springAnimation2 : Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda5
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                SenderSelectPopup.this.lambda$startShowAnimation$1(dynamicAnimation, f, f2);
+                SenderSelectPopup.this.lambda$startShowAnimation$3(dynamicAnimation, f, f2);
             }
         }), new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_Y).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda4
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                SenderSelectPopup.this.lambda$startShowAnimation$2(dynamicAnimation, f, f2);
+                SenderSelectPopup.this.lambda$startShowAnimation$4(dynamicAnimation, f, f2);
             }
         }), new SpringAnimation(frameLayout2, viewProperty).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.recyclerContainer, viewProperty).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.dimView, viewProperty).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)))) {
             this.springAnimations.add(springAnimation2);
-            springAnimation2.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda2
+            springAnimation2.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda3
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
-                    SenderSelectPopup.this.lambda$startShowAnimation$3(springAnimation2, dynamicAnimation, z, f, f2);
+                    SenderSelectPopup.this.lambda$startShowAnimation$5(springAnimation2, dynamicAnimation, z, f, f2);
                 }
             });
             springAnimation2.start();
@@ -279,17 +449,17 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startShowAnimation$1(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$startShowAnimation$3(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleX(1.0f / f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startShowAnimation$2(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$startShowAnimation$4(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleY(1.0f / f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startShowAnimation$3(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+    public /* synthetic */ void lambda$startShowAnimation$5(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (!z) {
             this.springAnimations.remove(springAnimation);
             dynamicAnimation.cancel();
@@ -297,8 +467,9 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
     }
 
     public void startDismissAnimation(SpringAnimation... springAnimationArr) {
-        for (SpringAnimation springAnimation : this.springAnimations) {
-            springAnimation.cancel();
+        Iterator it = new ArrayList(this.springAnimations).iterator();
+        while (it.hasNext()) {
+            ((SpringAnimation) it.next()).cancel();
         }
         this.springAnimations.clear();
         this.scrimPopupContainerLayout.setPivotX(AndroidUtilities.dp(8.0f));
@@ -317,17 +488,17 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         arrayList.addAll(Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda7
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                SenderSelectPopup.this.lambda$startDismissAnimation$4(dynamicAnimation, f, f2);
+                SenderSelectPopup.this.lambda$startDismissAnimation$6(dynamicAnimation, f, f2);
             }
-        }), new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_Y).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda5
+        }), new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_Y).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda6
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                SenderSelectPopup.this.lambda$startDismissAnimation$5(dynamicAnimation, f, f2);
+                SenderSelectPopup.this.lambda$startDismissAnimation$7(dynamicAnimation, f, f2);
             }
         }), new SpringAnimation(frameLayout2, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.recyclerContainer, viewProperty).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.dimView, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda1
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                SenderSelectPopup.this.lambda$startDismissAnimation$6(dynamicAnimation, z2, f, f2);
+                SenderSelectPopup.this.lambda$startDismissAnimation$8(dynamicAnimation, z2, f, f2);
             }
         })));
         arrayList.addAll(Arrays.asList(springAnimationArr));
@@ -338,33 +509,33 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         ((SpringAnimation) arrayList.get(0)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda0
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                SenderSelectPopup.this.lambda$startDismissAnimation$7(dynamicAnimation, z2, f, f2);
+                SenderSelectPopup.this.lambda$startDismissAnimation$9(dynamicAnimation, z2, f, f2);
             }
         });
-        for (final SpringAnimation springAnimation2 : arrayList) {
-            this.springAnimations.add(springAnimation2);
-            springAnimation2.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda3
+        for (final SpringAnimation springAnimation : arrayList) {
+            this.springAnimations.add(springAnimation);
+            springAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda2
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                    SenderSelectPopup.this.lambda$startDismissAnimation$8(springAnimation2, dynamicAnimation, z2, f, f2);
+                    SenderSelectPopup.this.lambda$startDismissAnimation$10(springAnimation, dynamicAnimation, z2, f, f2);
                 }
             });
-            springAnimation2.start();
+            springAnimation.start();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDismissAnimation$4(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$startDismissAnimation$6(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleX(1.0f / f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDismissAnimation$5(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$startDismissAnimation$7(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.recyclerContainer.setScaleY(1.0f / f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDismissAnimation$6(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+    public /* synthetic */ void lambda$startDismissAnimation$8(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (this.dimView.getParent() != null) {
             ((ViewGroup) this.dimView.getParent()).removeView(this.dimView);
         }
@@ -372,12 +543,12 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDismissAnimation$7(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+    public /* synthetic */ void lambda$startDismissAnimation$9(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         this.runningCustomSprings = false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDismissAnimation$8(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+    public /* synthetic */ void lambda$startDismissAnimation$10(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (!z) {
             this.springAnimations.remove(springAnimation);
             dynamicAnimation.cancel();

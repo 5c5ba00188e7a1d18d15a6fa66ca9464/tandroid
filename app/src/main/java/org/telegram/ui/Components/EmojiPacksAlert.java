@@ -1918,6 +1918,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$init$0() {
             EmojiPacksAlert.this.dismiss();
+            if (EmojiPacksAlert.this.fragment == null || EmojiPacksAlert.this.fragment.getParentActivity() == null) {
+                return;
+            }
             BulletinFactory.of(EmojiPacksAlert.this.fragment).createErrorBulletin(LocaleController.getString("AddEmojiNotFound", R.string.AddEmojiNotFound)).show();
         }
 

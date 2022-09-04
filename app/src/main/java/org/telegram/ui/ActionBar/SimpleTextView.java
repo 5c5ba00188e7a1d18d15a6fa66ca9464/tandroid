@@ -851,7 +851,7 @@ public class SimpleTextView extends View {
 
     private int getMaxTextWidth() {
         Drawable drawable;
-        return getMeasuredWidth() - ((!this.rightDrawableOutside || (drawable = this.rightDrawable) == null) ? 0 : drawable.getIntrinsicWidth());
+        return getMeasuredWidth() - ((!this.rightDrawableOutside || (drawable = this.rightDrawable) == null) ? 0 : drawable.getIntrinsicWidth() + this.drawablePadding);
     }
 
     private void drawLayout(Canvas canvas) {

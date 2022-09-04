@@ -1689,7 +1689,16 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 }
             }
         }
-        invalidate();
+        if (backgroundThreadDrawHolder != null) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ImageReceiver$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ImageReceiver.this.invalidate();
+                }
+            });
+        } else {
+            invalidate();
+        }
     }
 
     public boolean draw(Canvas canvas) {

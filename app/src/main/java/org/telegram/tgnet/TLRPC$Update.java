@@ -12,6 +12,9 @@ public abstract class TLRPC$Update extends TLObject {
             case -2092401936:
                 tLRPC$TL_updateTheme = new TLRPC$TL_updateChatUserTyping();
                 break;
+            case -2030252155:
+                tLRPC$TL_updateTheme = new TLRPC$TL_updateMoveStickerSetToTop();
+                break;
             case -2027964103:
                 tLRPC$TL_updateTheme = new TLRPC$Update() { // from class: org.telegram.tgnet.TLRPC$TL_updateGeoLiveViewed
                     public static int constructor = -2027964103;

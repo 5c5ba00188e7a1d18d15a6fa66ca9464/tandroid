@@ -59,6 +59,7 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.telegram.DispatchQueuePriority;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
@@ -119,10 +120,10 @@ public class ImageLoader {
     private SparseArray<String> waitingForQualityThumbByTag = new SparseArray<>();
     private LinkedList<HttpImageTask> httpTasks = new LinkedList<>();
     private LinkedList<ArtworkLoadTask> artworkTasks = new LinkedList<>();
-    private DispatchQueue cacheOutQueue = new DispatchQueue("cacheOutQueue");
+    private DispatchQueuePriority cacheOutQueue = new DispatchQueuePriority("cacheOutQueue");
     private DispatchQueue cacheThumbOutQueue = new DispatchQueue("cacheThumbOutQueue");
     private DispatchQueue thumbGeneratingQueue = new DispatchQueue("thumbGeneratingQueue");
-    private DispatchQueue imageLoadQueue = new DispatchQueue("imageLoadQueue");
+    private DispatchQueuePriority imageLoadQueue = new DispatchQueuePriority("imageLoadQueue");
     private HashMap<String, String> replacedBitmaps = new HashMap<>();
     private ConcurrentHashMap<String, long[]> fileProgresses = new ConcurrentHashMap<>();
     private HashMap<String, ThumbGenerateTask> thumbGenerateTasks = new HashMap<>();
@@ -968,7 +969,7 @@ public class ImageLoader {
                 public final void run() {
                     ImageLoader.HttpImageTask.this.lambda$onPostExecute$5();
                 }
-            });
+            }, this.cacheImage.priority);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1011,7 +1012,7 @@ public class ImageLoader {
                 public final void run() {
                     ImageLoader.HttpImageTask.this.lambda$onCancelled$6();
                 }
-            });
+            }, this.cacheImage.priority);
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$HttpImageTask$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -2810,7 +2811,7 @@ public class ImageLoader {
                     public final void run() {
                         ImageLoader.CacheOutTask.this.lambda$onPostExecute$2(drawable2, str);
                     }
-                });
+                }, this.cacheImage.priority);
             } else {
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
                 BitmapDrawable fromMemCache = ImageLoader.this.getFromMemCache(this.cacheImage.key);
@@ -2844,7 +2845,7 @@ public class ImageLoader {
                 public final void run() {
                     ImageLoader.CacheOutTask.this.lambda$onPostExecute$2(drawable2, str);
                 }
-            });
+            }, this.cacheImage.priority);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2925,6 +2926,7 @@ public class ImageLoader {
         protected String key;
         protected ArrayList<String> keys;
         protected Object parentObject;
+        public int priority;
         protected SecureDocument secureDocument;
         protected long size;
         protected File tempFilePath;
@@ -2933,6 +2935,7 @@ public class ImageLoader {
         protected String url;
 
         private CacheImage() {
+            this.priority = 1;
             this.imageReceiverArray = new ArrayList<>();
             this.imageReceiverGuidsArray = new ArrayList<>();
             this.keys = new ArrayList<>();
@@ -3935,19 +3938,25 @@ public class ImageLoader {
             return;
         }
         ArrayList<Runnable> loadingOperations = imageReceiver.getLoadingOperations();
+        int i = 0;
         if (!loadingOperations.isEmpty()) {
-            for (int i = 0; i < loadingOperations.size(); i++) {
-                this.imageLoadQueue.cancelRunnable(loadingOperations.get(i));
+            for (int i2 = 0; i2 < loadingOperations.size(); i2++) {
+                this.imageLoadQueue.cancelRunnable(loadingOperations.get(i2));
             }
             loadingOperations.clear();
         }
         imageReceiver.addLoadingImageRunnable(null);
-        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda12
+        DispatchQueuePriority dispatchQueuePriority = this.imageLoadQueue;
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ImageLoader.this.lambda$cancelLoadingForImageReceiver$3(z, imageReceiver);
             }
-        });
+        };
+        if (imageReceiver.getFileLoadingPriority() != 0) {
+            i = 1;
+        }
+        dispatchQueuePriority.postRunnable(runnable, i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4081,6 +4090,8 @@ public class ImageLoader {
     }
 
     private void createLoadOperationForImageReceiver(final ImageReceiver imageReceiver, final String str, final String str2, final String str3, final ImageLocation imageLocation, final String str4, final long j, final int i, final int i2, final int i3, final int i4) {
+        Runnable runnable;
+        int i5;
         if (imageReceiver == null || str2 == null || str == null || imageLocation == null) {
             return;
         }
@@ -4088,49 +4099,57 @@ public class ImageLoader {
         if (tag == 0) {
             tag = this.lastImageNum;
             imageReceiver.setTag(tag, i2);
-            int i5 = this.lastImageNum + 1;
-            this.lastImageNum = i5;
-            if (i5 == Integer.MAX_VALUE) {
+            int i6 = this.lastImageNum + 1;
+            this.lastImageNum = i6;
+            if (i6 == Integer.MAX_VALUE) {
                 this.lastImageNum = 0;
             }
         }
-        final int i6 = tag;
+        final int i7 = tag;
         final boolean isNeedsQualityThumb = imageReceiver.isNeedsQualityThumb();
         final Object parentObject = imageReceiver.getParentObject();
         final TLRPC$Document qualityThumbDocument = imageReceiver.getQualityThumbDocument();
         final boolean isShouldGenerateQualityThumb = imageReceiver.isShouldGenerateQualityThumb();
         final int currentAccount = imageReceiver.getCurrentAccount();
         final boolean z = i2 == 0 && imageReceiver.isCurrentKeyQuality();
-        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda2
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                ImageLoader.this.lambda$createLoadOperationForImageReceiver$6(i3, str2, str, i6, imageReceiver, i4, str4, i2, imageLocation, z, parentObject, currentAccount, qualityThumbDocument, isNeedsQualityThumb, isShouldGenerateQualityThumb, str3, i, j);
+                ImageLoader.this.lambda$createLoadOperationForImageReceiver$6(i3, str2, str, i7, imageReceiver, i4, str4, i2, imageLocation, z, parentObject, currentAccount, qualityThumbDocument, isNeedsQualityThumb, isShouldGenerateQualityThumb, str3, i, j);
             }
         };
-        this.imageLoadQueue.postRunnable(runnable);
+        DispatchQueuePriority dispatchQueuePriority = this.imageLoadQueue;
+        if (imageReceiver.getFileLoadingPriority() == 0) {
+            runnable = runnable2;
+            i5 = 0;
+        } else {
+            runnable = runnable2;
+            i5 = 1;
+        }
+        dispatchQueuePriority.postRunnable(runnable, i5);
         imageReceiver.addLoadingImageRunnable(runnable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:146:0x0308, code lost:
-        if (r7 == false) goto L147;
+    /* JADX WARN: Code restructure failed: missing block: B:149:0x0313, code lost:
+        if (r7 == false) goto L150;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:155:0x03e0, code lost:
-        if (r7.equals(r8) != false) goto L178;
+    /* JADX WARN: Code restructure failed: missing block: B:158:0x03eb, code lost:
+        if (r7.equals(r8) != false) goto L181;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:200:0x04ba, code lost:
-        if (r10.exists() == false) goto L201;
+    /* JADX WARN: Code restructure failed: missing block: B:203:0x04c5, code lost:
+        if (r10.exists() == false) goto L204;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:261:0x01b8, code lost:
-        if (r8.exists() == false) goto L280;
+    /* JADX WARN: Code restructure failed: missing block: B:265:0x01b8, code lost:
+        if (r8.exists() == false) goto L284;
      */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0418  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x0429  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x01ad  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x01bd  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x01c0  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0423  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:264:0x01ad  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x01bd  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0214  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x01c0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4361,6 +4380,7 @@ public class ImageLoader {
             }
             boolean isEncrypted = imageLocation.isEncrypted();
             CacheImage cacheImage6 = new CacheImage();
+            cacheImage6.priority = imageReceiver.getFileLoadingPriority() == 0 ? 0 : 1;
             if (!z) {
                 if (imageLocation.imageType != i8) {
                     if (MessageObject.isGifDocument(imageLocation.webFile) || MessageObject.isGifDocument(imageLocation.document) || MessageObject.isRoundVideoDocument(imageLocation.document) || MessageObject.isVideoSticker(imageLocation.document)) {
@@ -4616,7 +4636,7 @@ public class ImageLoader {
                     this.cacheThumbOutQueue.postRunnable(cacheImage6.cacheTask);
                     return;
                 } else {
-                    this.cacheOutQueue.postRunnable(cacheImage6.cacheTask);
+                    this.cacheOutQueue.postRunnable(cacheImage6.cacheTask, cacheImage6.priority);
                     return;
                 }
             }
@@ -5632,6 +5652,7 @@ public class ImageLoader {
             CacheImage cacheImage2 = this.imageLoadingByKeys.get(str2);
             if (cacheImage2 == null) {
                 cacheImage2 = new CacheImage();
+                cacheImage2.priority = cacheImage.priority;
                 cacheImage2.secureDocument = cacheImage.secureDocument;
                 cacheImage2.currentAccount = cacheImage.currentAccount;
                 cacheImage2.finalFilePath = file;
@@ -5651,10 +5672,10 @@ public class ImageLoader {
         }
         for (int i3 = 0; i3 < arrayList.size(); i3++) {
             CacheOutTask cacheOutTask = (CacheOutTask) arrayList.get(i3);
-            if (cacheOutTask.cacheImage.type == 1) {
-                this.cacheThumbOutQueue.postRunnable(cacheOutTask);
+            if (cacheOutTask.cacheImage.type != 1) {
+                this.cacheOutQueue.postRunnable(cacheOutTask, cacheOutTask.cacheImage.priority);
             } else {
-                this.cacheOutQueue.postRunnable(cacheOutTask);
+                this.cacheThumbOutQueue.postRunnable(cacheOutTask);
             }
         }
     }
@@ -6488,7 +6509,7 @@ public class ImageLoader {
         }
     }
 
-    public DispatchQueue getCacheOutQueue() {
+    public DispatchQueuePriority getCacheOutQueue() {
         return this.cacheOutQueue;
     }
 

@@ -16,6 +16,8 @@ public class GestureDetectorFixDoubleTap {
         boolean onTouchEvent(MotionEvent motionEvent);
 
         void setIsLongpressEnabled(boolean z);
+
+        void setLongpressDuration(long j);
     }
 
     /* loaded from: classes3.dex */
@@ -43,6 +45,7 @@ public class GestureDetectorFixDoubleTap {
         private float mLastFocusX;
         private float mLastFocusY;
         final OnGestureListener mListener;
+        private long mLongpressDuration = ViewConfiguration.getLongPressTimeout();
         private int mMaximumFlingVelocity;
         private int mMinimumFlingVelocity;
         private MotionEvent mPreviousUpEvent;
@@ -123,6 +126,11 @@ public class GestureDetectorFixDoubleTap {
             this.mIsLongpressEnabled = z;
         }
 
+        @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.GestureDetectorCompatImpl
+        public void setLongpressDuration(long j) {
+            this.mLongpressDuration = j;
+        }
+
         /* JADX WARN: Removed duplicated region for block: B:116:0x020f  */
         /* JADX WARN: Removed duplicated region for block: B:119:0x0226  */
         @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.GestureDetectorCompatImpl
@@ -181,7 +189,7 @@ public class GestureDetectorFixDoubleTap {
                         this.mDeferConfirmSingleTap = false;
                         if (this.mIsLongpressEnabled) {
                             this.mHandler.removeMessages(2);
-                            this.mHandler.sendEmptyMessageAtTime(2, this.mCurrentDownEvent.getDownTime() + TAP_TIMEOUT + ViewConfiguration.getLongPressTimeout());
+                            this.mHandler.sendEmptyMessageAtTime(2, this.mCurrentDownEvent.getDownTime() + TAP_TIMEOUT + this.mLongpressDuration);
                         }
                         this.mHandler.sendEmptyMessageAtTime(1, this.mCurrentDownEvent.getDownTime() + TAP_TIMEOUT);
                         return z | this.mListener.onDown(motionEvent);
@@ -380,5 +388,9 @@ public class GestureDetectorFixDoubleTap {
 
     public void setIsLongpressEnabled(boolean z) {
         this.mImpl.setIsLongpressEnabled(z);
+    }
+
+    public void setLongpressDuration(long j) {
+        this.mImpl.setLongpressDuration(j);
     }
 }

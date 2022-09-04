@@ -26,10 +26,11 @@ import androidx.loader.app.LoaderManager;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 /* loaded from: classes.dex */
-public class FragmentActivity extends ComponentActivity implements ViewModelStoreOwner {
+public class FragmentActivity extends ComponentActivity implements ViewModelStoreOwner, ActivityCompat.OnRequestPermissionsResultCallback, ActivityCompat.RequestPermissionsRequestCodeValidator {
     boolean mCreated;
     int mNextCandidateRequestIndex;
     SparseArrayCompat<String> mPendingFragmentActivityResults;
+    boolean mRequestedPermissionsFromFragment;
     boolean mResumed;
     boolean mStartedActivityFromFragment;
     boolean mStartedIntentSenderFromFragment;
@@ -429,7 +430,15 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         throw new IllegalArgumentException("Can only use lower 16 bits for requestCode");
     }
 
-    @Override // android.app.Activity
+    @Override // androidx.core.app.ActivityCompat.RequestPermissionsRequestCodeValidator
+    public final void validateRequestPermissionsRequestCode(int i) {
+        if (this.mRequestedPermissionsFromFragment || i == -1) {
+            return;
+        }
+        checkForValidRequestCode(i);
+    }
+
+    @Override // android.app.Activity, androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
     public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         this.mFragments.noteStateNotSaved();
         int i2 = (i >> 16) & 65535;

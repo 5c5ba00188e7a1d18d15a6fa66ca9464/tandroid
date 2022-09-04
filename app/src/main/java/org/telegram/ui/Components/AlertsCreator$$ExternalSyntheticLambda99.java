@@ -12,6 +12,6 @@ public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda99 impl
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AlertsCreator.lambda$createDeleteMessagesAlert$117(tLObject, tLRPC$TL_error);
+        AlertsCreator.lambda$createDeleteMessagesAlert$123(tLObject, tLRPC$TL_error);
     }
 }

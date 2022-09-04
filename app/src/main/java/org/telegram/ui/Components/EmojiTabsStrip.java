@@ -46,7 +46,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     private ArrayList<EmojiTabButton> emojipackTabs;
     private boolean includeAnimated;
     private Runnable onSettingsOpenRunnable;
-    private EmojiTabButton recentTab;
+    public EmojiTabButton recentTab;
     private Theme.ResourcesProvider resourcesProvider;
     private ValueAnimator selectAnimator;
     private EmojiTabButton settingsTab;

@@ -104,6 +104,7 @@ public class RecyclerListView extends RecyclerView {
     private boolean resetSelectorOnChanged;
     protected final Theme.ResourcesProvider resourcesProvider;
     private boolean scrollEnabled;
+    public boolean scrolledByUserOnce;
     Runnable scroller;
     public boolean scrollingByUser;
     private int sectionOffset;
@@ -115,7 +116,7 @@ public class RecyclerListView extends RecyclerView {
     protected int selectorPosition;
     private int selectorRadius;
     protected android.graphics.Rect selectorRect;
-    Consumer<Canvas> selectorTransformer;
+    protected Consumer<Canvas> selectorTransformer;
     private int selectorType;
     private boolean selfOnLayout;
     private int startSection;
@@ -1477,6 +1478,9 @@ public class RecyclerListView extends RecyclerView {
                     z = true;
                 }
                 recyclerListView2.scrollingByUser = z;
+                if (z) {
+                    recyclerListView2.scrolledByUserOnce = true;
+                }
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -1799,13 +1803,23 @@ public class RecyclerListView extends RecyclerView {
     }
 
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        setOnItemLongClickListener(onItemLongClickListener, ViewConfiguration.getLongPressTimeout());
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener, long j) {
         this.onItemLongClickListener = onItemLongClickListener;
         this.gestureDetector.setIsLongpressEnabled(onItemLongClickListener != null);
+        this.gestureDetector.setLongpressDuration(j);
     }
 
     public void setOnItemLongClickListener(OnItemLongClickListenerExtended onItemLongClickListenerExtended) {
+        setOnItemLongClickListener(onItemLongClickListenerExtended, ViewConfiguration.getLongPressTimeout());
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListenerExtended onItemLongClickListenerExtended, long j) {
         this.onItemLongClickListenerExtended = onItemLongClickListenerExtended;
         this.gestureDetector.setIsLongpressEnabled(onItemLongClickListenerExtended != null);
+        this.gestureDetector.setLongpressDuration(j);
     }
 
     public void setEmptyView(View view) {

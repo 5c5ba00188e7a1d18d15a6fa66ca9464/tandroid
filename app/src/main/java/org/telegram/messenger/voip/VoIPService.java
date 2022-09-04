@@ -342,19 +342,25 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
         @Override // android.bluetooth.BluetoothProfile.ServiceListener
         public void onServiceConnected(int i, BluetoothProfile bluetoothProfile) {
-            Iterator<BluetoothDevice> it = bluetoothProfile.getConnectedDevices().iterator();
-            while (true) {
-                if (!it.hasNext()) {
-                    break;
+            try {
+                if (Build.VERSION.SDK_INT < 31) {
+                    Iterator<BluetoothDevice> it = bluetoothProfile.getConnectedDevices().iterator();
+                    while (true) {
+                        if (!it.hasNext()) {
+                            break;
+                        }
+                        BluetoothDevice next = it.next();
+                        if (bluetoothProfile.getConnectionState(next) == 2) {
+                            VoIPService.this.currentBluetoothDeviceName = next.getName();
+                            break;
+                        }
+                    }
                 }
-                BluetoothDevice next = it.next();
-                if (bluetoothProfile.getConnectionState(next) == 2) {
-                    VoIPService.this.currentBluetoothDeviceName = next.getName();
-                    break;
-                }
+                BluetoothAdapter.getDefaultAdapter().closeProfileProxy(i, bluetoothProfile);
+                VoIPService.this.fetchingBluetoothDeviceName = false;
+            } catch (Throwable th) {
+                FileLog.e(th);
             }
-            BluetoothAdapter.getDefaultAdapter().closeProfileProxy(i, bluetoothProfile);
-            VoIPService.this.fetchingBluetoothDeviceName = false;
         }
     };
     private BroadcastReceiver receiver = new BroadcastReceiver() { // from class: org.telegram.messenger.voip.VoIPService.3

@@ -235,7 +235,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00b5 A[LOOP:0: B:20:0x00af->B:22:0x00b5, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00b8 A[LOOP:0: B:20:0x00b2->B:22:0x00b8, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -263,9 +263,10 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 swapAnimatedEmojiDrawable = swapAnimatedEmojiDrawable2;
                 i2 = dp;
                 setDefaultReactionCell2 = setDefaultReactionCell;
-                selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(getContext(), false, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
+                int i4 = i2;
+                selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
                     @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-                    protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document) {
+                    protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
                         if (l == null) {
                             return;
                         }
@@ -321,7 +322,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 };
                 this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow;
                 selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
-                selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(setDefaultReactionCell, 0, i2, 53);
+                selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(setDefaultReactionCell, 0, i4, 53);
                 selectAnimatedEmojiDialogWindowArr[0].dimBehind();
             }
             swapAnimatedEmojiDrawable = swapAnimatedEmojiDrawable2;
@@ -332,9 +333,10 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         }
         i = 0;
         i2 = 0;
-        selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(getContext(), false, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
+        int i42 = i2;
+        selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-            protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document) {
+            protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
                 if (l == null) {
                     return;
                 }
@@ -384,7 +386,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow2;
         selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow2;
-        selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(setDefaultReactionCell, 0, i2, 53);
+        selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(setDefaultReactionCell, 0, i42, 53);
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
     }
 

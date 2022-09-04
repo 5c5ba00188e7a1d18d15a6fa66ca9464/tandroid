@@ -5,10 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class DrawingInBackgroundThreadDrawable implements NotificationCenter.NotificationCenterDelegate {
     private static DispatchQueue backgroundQueue;
@@ -130,6 +132,10 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
 
     public void draw(Canvas canvas, long j, int i, int i2, float f) {
         if (this.error) {
+            if (!BuildVars.DEBUG_PRIVATE_VERSION) {
+                return;
+            }
+            canvas.drawRect(0.0f, 0.0f, i, i2, Theme.DEBUG_RED);
             return;
         }
         this.height = i2;

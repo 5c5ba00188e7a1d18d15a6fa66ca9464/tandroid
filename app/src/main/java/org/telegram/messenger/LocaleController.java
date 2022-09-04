@@ -2356,6 +2356,28 @@ public class LocaleController {
         }
     }
 
+    public static String formatStatusExpireDateTime(long j) {
+        long j2 = j * 1000;
+        try {
+            Calendar calendar = Calendar.getInstance();
+            int i = calendar.get(6);
+            int i2 = calendar.get(1);
+            calendar.setTimeInMillis(j2);
+            int i3 = calendar.get(6);
+            int i4 = calendar.get(1);
+            if (i3 == i && i2 == i4) {
+                return formatString("TodayAtFormatted", R.string.TodayAtFormatted, getInstance().formatterDay.format(new Date(j2)));
+            }
+            if (Math.abs(System.currentTimeMillis() - j2) < 31536000000L) {
+                return getInstance().formatterScheduleDay.format(new Date(j2));
+            }
+            return getInstance().chatFullDate.format(new Date(j2));
+        } catch (Exception e) {
+            FileLog.e(e);
+            return "LOC_ERR";
+        }
+    }
+
     public static String formatDateTime(long j) {
         long j2 = j * 1000;
         try {

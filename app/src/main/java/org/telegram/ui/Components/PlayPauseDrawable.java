@@ -33,8 +33,9 @@ public class PlayPauseDrawable extends Drawable {
 
     /* JADX WARN: Removed duplicated region for block: B:13:0x0062  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00aa  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0066  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00aa  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0066  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -43,6 +44,7 @@ public class PlayPauseDrawable extends Drawable {
         int i;
         float f;
         float f2;
+        PathAnimator pathAnimator;
         long currentAnimationTimeMillis = AnimationUtils.currentAnimationTimeMillis();
         long j = currentAnimationTimeMillis - this.lastUpdateTime;
         this.lastUpdateTime = currentAnimationTimeMillis;
@@ -80,9 +82,12 @@ public class PlayPauseDrawable extends Drawable {
                 }
                 canvas.scale((this.size * 1.45f) / AndroidUtilities.dp(28.0f), (this.size * 1.5f) / AndroidUtilities.dp(28.0f));
                 canvas.rotate(f2);
-                Theme.playPauseAnimator.draw(canvas, this.paint, f);
-                canvas.scale(1.0f, -1.0f);
-                Theme.playPauseAnimator.draw(canvas, this.paint, f);
+                pathAnimator = Theme.playPauseAnimator;
+                if (pathAnimator != null) {
+                    pathAnimator.draw(canvas, this.paint, f);
+                    canvas.scale(1.0f, -1.0f);
+                    Theme.playPauseAnimator.draw(canvas, this.paint, f);
+                }
                 canvas.restore();
             }
         }
@@ -112,9 +117,9 @@ public class PlayPauseDrawable extends Drawable {
         }
         canvas.scale((this.size * 1.45f) / AndroidUtilities.dp(28.0f), (this.size * 1.5f) / AndroidUtilities.dp(28.0f));
         canvas.rotate(f2);
-        Theme.playPauseAnimator.draw(canvas, this.paint, f);
-        canvas.scale(1.0f, -1.0f);
-        Theme.playPauseAnimator.draw(canvas, this.paint, f);
+        pathAnimator = Theme.playPauseAnimator;
+        if (pathAnimator != null) {
+        }
         canvas.restore();
     }
 

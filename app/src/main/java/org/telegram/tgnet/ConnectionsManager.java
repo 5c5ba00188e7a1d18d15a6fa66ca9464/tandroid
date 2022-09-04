@@ -825,7 +825,7 @@ public class ConnectionsManager extends BaseController {
         try {
             NativeByteBuffer wrap = NativeByteBuffer.wrap(j);
             wrap.reused = true;
-            final TLRPC$Config TLdeserialize = TLRPC$Config.TLdeserialize(wrap, wrap.readInt32(true), true);
+            final TLRPC$TL_config TLdeserialize = TLRPC$TL_config.TLdeserialize(wrap, wrap.readInt32(true), true);
             if (TLdeserialize == null) {
                 return;
             }
@@ -841,8 +841,8 @@ public class ConnectionsManager extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onUpdateConfig$12(int i, TLRPC$Config tLRPC$Config) {
-        AccountInstance.getInstance(i).getMessagesController().updateConfig(tLRPC$Config);
+    public static /* synthetic */ void lambda$onUpdateConfig$12(int i, TLRPC$TL_config tLRPC$TL_config) {
+        AccountInstance.getInstance(i).getMessagesController().updateConfig(tLRPC$TL_config);
     }
 
     public static void onInternalPushReceived(int i) {
