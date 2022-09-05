@@ -922,7 +922,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (i3 < 0 || i3 >= allPhotosArray.size()) {
                 return;
             }
-            PhotoViewer.getInstance().setParentActivity(this.parentAlert.baseFragment.getParentActivity(), resourcesProvider);
+            PhotoViewer.getInstance().setParentActivity(this.parentAlert.baseFragment, resourcesProvider);
             PhotoViewer.getInstance().setParentAlert(this.parentAlert);
             PhotoViewer photoViewer = PhotoViewer.getInstance();
             ChatAttachAlert chatAttachAlert = this.parentAlert;

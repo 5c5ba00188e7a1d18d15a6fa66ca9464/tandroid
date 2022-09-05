@@ -26,7 +26,6 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC$Document;
-import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
 import org.telegram.ui.ActionBar.Theme;
@@ -65,7 +64,7 @@ public class SharedPhotoVideoCell2 extends View {
         this.imageReceiver.setParentView(this);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0238  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -134,9 +133,7 @@ public class SharedPhotoVideoCell2 extends View {
                     this.imageReceiver.setImageBitmap(ContextCompat.getDrawable(getContext(), R.drawable.photo_placeholder_in));
                 }
                 invalidate();
-            }
-            TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-            if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia.photo != null && !messageObject.photoThumbs.isEmpty()) {
+            } else if ((MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaPhoto) && MessageObject.getMedia(messageObject.messageOwner).photo != null && !messageObject.photoThumbs.isEmpty()) {
                 if (messageObject.mediaExists || canAutoDownload(messageObject)) {
                     ImageLocation imageLocation2 = messageObject.mediaThumb;
                     if (imageLocation2 != null) {

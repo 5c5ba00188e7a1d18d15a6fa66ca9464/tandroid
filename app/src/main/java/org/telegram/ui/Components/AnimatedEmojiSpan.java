@@ -38,6 +38,11 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     boolean spanDrawn;
     public boolean standard;
 
+    /* loaded from: classes3.dex */
+    public interface InvalidateHolder {
+        void invalidate();
+    }
+
     public AnimatedEmojiSpan(TLRPC$Document tLRPC$Document, Paint.FontMetricsInt fontMetricsInt) {
         this(tLRPC$Document.id, 1.2f, fontMetricsInt);
         this.document = tLRPC$Document;
@@ -181,7 +186,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     /* loaded from: classes3.dex */
-    public static class AnimatedEmojiHolder {
+    public static class AnimatedEmojiHolder implements InvalidateHolder {
         public float alpha;
         ImageReceiver.BackgroundThreadDrawHolder backgroundDrawHolder;
         public AnimatedEmojiDrawable drawable;
@@ -249,6 +254,7 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
             this.drawable.draw(canvas, this.drawableBounds, f3 * this.alpha);
         }
 
+        @Override // org.telegram.ui.Components.AnimatedEmojiSpan.InvalidateHolder
         public void invalidate() {
             View view = this.view;
             if (view != null) {

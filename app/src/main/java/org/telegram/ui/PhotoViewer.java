@@ -174,7 +174,6 @@ import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageAction;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$MessageFwdHeader;
-import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PageBlock;
 import org.telegram.tgnet.TLRPC$Peer;
 import org.telegram.tgnet.TLRPC$Photo;
@@ -5684,13 +5683,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:113:0x02e4  */
-        /* JADX WARN: Removed duplicated region for block: B:153:0x0416  */
-        /* JADX WARN: Removed duplicated region for block: B:173:0x04c2  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x05b3  */
-        /* JADX WARN: Removed duplicated region for block: B:226:0x0729  */
+        /* JADX WARN: Removed duplicated region for block: B:113:0x02ea  */
+        /* JADX WARN: Removed duplicated region for block: B:153:0x041c  */
+        /* JADX WARN: Removed duplicated region for block: B:173:0x04c8  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x05b9  */
+        /* JADX WARN: Removed duplicated region for block: B:226:0x072f  */
         /* JADX WARN: Removed duplicated region for block: B:228:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:229:0x04d0  */
+        /* JADX WARN: Removed duplicated region for block: B:229:0x04d6  */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -5729,7 +5728,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 int i3 = Build.VERSION.SDK_INT;
                 if (i3 < 23 || ((i3 > 28 && !BuildVars.NO_SCOPED_STORAGE) || PhotoViewer.this.parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == 0)) {
                     if (PhotoViewer.this.currentMessageObject != null) {
-                        if (!(PhotoViewer.this.currentMessageObject.messageOwner.media instanceof TLRPC$TL_messageMediaWebPage) || PhotoViewer.this.currentMessageObject.messageOwner.media.webpage == null || PhotoViewer.this.currentMessageObject.messageOwner.media.webpage.document != null) {
+                        if (!(MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) || MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner).webpage == null || MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner).webpage.document != null) {
                             pathToMessage = FileLoader.getInstance(PhotoViewer.this.currentAccount).getPathToMessage(PhotoViewer.this.currentMessageObject.messageOwner);
                         } else {
                             PhotoViewer photoViewer = PhotoViewer.this;
@@ -5910,7 +5909,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else if (i == 11) {
                     try {
                         if (PhotoViewer.this.isEmbedVideo) {
-                            Browser.openUrl(PhotoViewer.this.parentActivity, PhotoViewer.this.currentMessageObject.messageOwner.media.webpage.url);
+                            Browser.openUrl(PhotoViewer.this.parentActivity, MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner).webpage.url);
                             PhotoViewer.this.closePhoto(false, false);
                         } else if (PhotoViewer.this.currentMessageObject != null) {
                             if (!AndroidUtilities.openForView(PhotoViewer.this.currentMessageObject, PhotoViewer.this.parentActivity, this.val$resourcesProvider)) {
@@ -5932,12 +5931,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (PhotoViewer.this.parentActivity == null || PhotoViewer.this.currentMessageObject == null) {
                         return;
                     }
-                    if (PhotoViewer.this.currentMessageObject.messageOwner.media instanceof TLRPC$TL_messageMediaPhoto) {
-                        tLObject = PhotoViewer.this.currentMessageObject.messageOwner.media.photo;
-                    } else if (!(PhotoViewer.this.currentMessageObject.messageOwner.media instanceof TLRPC$TL_messageMediaDocument)) {
+                    if (MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner) instanceof TLRPC$TL_messageMediaPhoto) {
+                        tLObject = MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner).photo;
+                    } else if (!(MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner) instanceof TLRPC$TL_messageMediaDocument)) {
                         return;
                     } else {
-                        tLObject = PhotoViewer.this.currentMessageObject.messageOwner.media.document;
+                        tLObject = MessageObject.getMedia(PhotoViewer.this.currentMessageObject.messageOwner).document;
                     }
                     PhotoViewer.this.masksAlert = new StickersAlert(PhotoViewer.this.parentActivity, PhotoViewer.this.currentMessageObject, tLObject, this.val$resourcesProvider) { // from class: org.telegram.ui.PhotoViewer.12.1
                         @Override // org.telegram.ui.Components.StickersAlert, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
@@ -8132,8 +8131,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         this.clippingImageProgress = 1.0f;
-        this.parentFragment.getFragmentView().setScaleX(1.0f);
-        this.parentFragment.getFragmentView().setScaleY(1.0f);
+        View fragmentView = this.parentFragment.getFragmentView();
+        fragmentView.setScaleX(1.0f);
+        fragmentView.setScaleY(1.0f);
+        ChatAttachAlert chatAttachAlert = this.parentAlert;
+        if (chatAttachAlert == null) {
+            return;
+        }
+        FrameLayout container = chatAttachAlert.getContainer();
+        container.setScaleX(1.0f);
+        container.setScaleY(1.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -12482,42 +12489,39 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else if (jArr != null) {
                     jArr[0] = -1;
                 }
-            } else {
-                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-                if (((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia.photo != null) || ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && tLRPC$MessageMedia.webpage != null)) {
-                    if (messageObject.isGif()) {
-                        return ImageLocation.getForDocument(messageObject.getDocument());
+            } else if (((MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto) && MessageObject.getMedia(messageObject.messageOwner).photo != null) || ((MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && MessageObject.getMedia(messageObject.messageOwner).webpage != null)) {
+                if (messageObject.isGif()) {
+                    return ImageLocation.getForDocument(messageObject.getDocument());
+                }
+                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize(), false, null, true);
+                if (closestPhotoSizeWithSize2 != null) {
+                    if (jArr != null) {
+                        jArr[0] = closestPhotoSizeWithSize2.size;
+                        if (jArr[0] == 0) {
+                            jArr[0] = -1;
+                        }
                     }
-                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize(), false, null, true);
-                    if (closestPhotoSizeWithSize2 != null) {
+                    return ImageLocation.getForObject(closestPhotoSizeWithSize2, messageObject.photoThumbsObject);
+                } else if (jArr != null) {
+                    jArr[0] = -1;
+                }
+            } else if (MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaInvoice) {
+                return ImageLocation.getForWebFile(WebFile.createWithWebDocument(((TLRPC$TL_messageMediaInvoice) MessageObject.getMedia(messageObject.messageOwner)).photo));
+            } else {
+                if (messageObject.getDocument() != null) {
+                    TLRPC$Document document = messageObject.getDocument();
+                    if (this.sharedMediaType == 5) {
+                        return ImageLocation.getForDocument(document);
+                    }
+                    if (MessageObject.isDocumentHasThumb(messageObject.getDocument())) {
+                        TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
                         if (jArr != null) {
-                            jArr[0] = closestPhotoSizeWithSize2.size;
+                            jArr[0] = closestPhotoSizeWithSize3.size;
                             if (jArr[0] == 0) {
                                 jArr[0] = -1;
                             }
                         }
-                        return ImageLocation.getForObject(closestPhotoSizeWithSize2, messageObject.photoThumbsObject);
-                    } else if (jArr != null) {
-                        jArr[0] = -1;
-                    }
-                } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) {
-                    return ImageLocation.getForWebFile(WebFile.createWithWebDocument(((TLRPC$TL_messageMediaInvoice) tLRPC$MessageMedia).photo));
-                } else {
-                    if (messageObject.getDocument() != null) {
-                        TLRPC$Document document = messageObject.getDocument();
-                        if (this.sharedMediaType == 5) {
-                            return ImageLocation.getForDocument(document);
-                        }
-                        if (MessageObject.isDocumentHasThumb(messageObject.getDocument())) {
-                            TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
-                            if (jArr != null) {
-                                jArr[0] = closestPhotoSizeWithSize3.size;
-                                if (jArr[0] == 0) {
-                                    jArr[0] = -1;
-                                }
-                            }
-                            return ImageLocation.getForDocument(closestPhotoSizeWithSize3, document);
-                        }
+                        return ImageLocation.getForDocument(closestPhotoSizeWithSize3, document);
                     }
                 }
             }
@@ -12568,34 +12572,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else if (jArr != null) {
                     jArr[0] = -1;
                 }
+            } else if (((MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto) && MessageObject.getMedia(messageObject.messageOwner).photo != null) || ((MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && MessageObject.getMedia(messageObject.messageOwner).webpage != null)) {
+                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize(), false, null, true);
+                if (closestPhotoSizeWithSize2 != null) {
+                    if (jArr != null) {
+                        jArr[0] = closestPhotoSizeWithSize2.size;
+                        if (jArr[0] == 0) {
+                            jArr[0] = -1;
+                        }
+                    }
+                    return closestPhotoSizeWithSize2;
+                } else if (jArr != null) {
+                    jArr[0] = -1;
+                }
+            } else if (MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaInvoice) {
+                return ((TLRPC$TL_messageMediaInvoice) MessageObject.getMedia(messageObject.messageOwner)).photo;
             } else {
-                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-                if (((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPhoto) && tLRPC$MessageMedia.photo != null) || ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && tLRPC$MessageMedia.webpage != null)) {
-                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize(), false, null, true);
-                    if (closestPhotoSizeWithSize2 != null) {
-                        if (jArr != null) {
-                            jArr[0] = closestPhotoSizeWithSize2.size;
-                            if (jArr[0] == 0) {
-                                jArr[0] = -1;
-                            }
+                if (messageObject.getDocument() != null && MessageObject.isDocumentHasThumb(messageObject.getDocument())) {
+                    TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(messageObject.getDocument().thumbs, 90);
+                    if (jArr != null) {
+                        jArr[0] = closestPhotoSizeWithSize3.size;
+                        if (jArr[0] == 0) {
+                            jArr[0] = -1;
                         }
-                        return closestPhotoSizeWithSize2;
-                    } else if (jArr != null) {
-                        jArr[0] = -1;
                     }
-                } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) {
-                    return ((TLRPC$TL_messageMediaInvoice) tLRPC$MessageMedia).photo;
-                } else {
-                    if (messageObject.getDocument() != null && MessageObject.isDocumentHasThumb(messageObject.getDocument())) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(messageObject.getDocument().thumbs, 90);
-                        if (jArr != null) {
-                            jArr[0] = closestPhotoSizeWithSize3.size;
-                            if (jArr[0] == 0) {
-                                jArr[0] = -1;
-                            }
-                        }
-                        return closestPhotoSizeWithSize3;
-                    }
+                    return closestPhotoSizeWithSize3;
                 }
             }
             return null;
@@ -12688,8 +12689,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0814  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x086d  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0832  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x088b  */
     /* JADX WARN: Type inference failed for: r11v1 */
     /* JADX WARN: Type inference failed for: r11v2, types: [android.animation.AnimatorSet, java.lang.String] */
     /* JADX WARN: Type inference failed for: r11v23 */
@@ -12891,40 +12892,37 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         boolean z3 = messageObject != null && (MessagesController.getInstance(this.currentAccount).isChatNoForwards(messageObject.getChatId()) || (((tLRPC$Message = messageObject.messageOwner) != null && tLRPC$Message.noforwards) || messageObject.hasRevealedExtendedMedia()));
         if (messageObject != null && arrayList == null) {
             TLRPC$Message tLRPC$Message2 = messageObject.messageOwner;
-            if (tLRPC$Message2 != null) {
-                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message2.media;
-                if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && (str = tLRPC$WebPage.site_name) != null) {
-                    String lowerCase = str.toLowerCase();
-                    if (lowerCase.equals("instagram") || lowerCase.equals("twitter") || "telegram_album".equals(tLRPC$WebPage.type)) {
-                        if (!TextUtils.isEmpty(tLRPC$WebPage.author)) {
-                            this.nameOverride = tLRPC$WebPage.author;
-                        }
-                        if (tLRPC$WebPage.cached_page instanceof TLRPC$TL_page) {
-                            int i6 = 0;
-                            while (true) {
-                                if (i6 >= tLRPC$WebPage.cached_page.blocks.size()) {
-                                    break;
-                                }
-                                TLRPC$PageBlock tLRPC$PageBlock = tLRPC$WebPage.cached_page.blocks.get(i6);
-                                if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockAuthorDate) {
-                                    this.dateOverride = ((TLRPC$TL_pageBlockAuthorDate) tLRPC$PageBlock).published_date;
-                                    break;
-                                }
-                                i6++;
+            if (tLRPC$Message2 != null && (MessageObject.getMedia(tLRPC$Message2) instanceof TLRPC$TL_messageMediaWebPage) && MessageObject.getMedia(messageObject.messageOwner).webpage != null && (str = (tLRPC$WebPage = MessageObject.getMedia(messageObject.messageOwner).webpage).site_name) != null) {
+                String lowerCase = str.toLowerCase();
+                if (lowerCase.equals("instagram") || lowerCase.equals("twitter") || "telegram_album".equals(tLRPC$WebPage.type)) {
+                    if (!TextUtils.isEmpty(tLRPC$WebPage.author)) {
+                        this.nameOverride = tLRPC$WebPage.author;
+                    }
+                    if (tLRPC$WebPage.cached_page instanceof TLRPC$TL_page) {
+                        int i6 = 0;
+                        while (true) {
+                            if (i6 >= tLRPC$WebPage.cached_page.blocks.size()) {
+                                break;
                             }
-                        }
-                        ArrayList<MessageObject> webPagePhotos = messageObject.getWebPagePhotos(null, null);
-                        if (!webPagePhotos.isEmpty()) {
-                            this.slideshowMessageId = messageObject.getId();
-                            this.needSearchImageInArr = false;
-                            this.imagesArr.addAll(webPagePhotos);
-                            this.totalImagesCount = this.imagesArr.size();
-                            int indexOf = this.imagesArr.indexOf(messageObject);
-                            if (indexOf < 0) {
-                                indexOf = 0;
+                            TLRPC$PageBlock tLRPC$PageBlock = tLRPC$WebPage.cached_page.blocks.get(i6);
+                            if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockAuthorDate) {
+                                this.dateOverride = ((TLRPC$TL_pageBlockAuthorDate) tLRPC$PageBlock).published_date;
+                                break;
                             }
-                            setImageIndex(indexOf);
+                            i6++;
                         }
+                    }
+                    ArrayList<MessageObject> webPagePhotos = messageObject.getWebPagePhotos(null, null);
+                    if (!webPagePhotos.isEmpty()) {
+                        this.slideshowMessageId = messageObject.getId();
+                        this.needSearchImageInArr = false;
+                        this.imagesArr.addAll(webPagePhotos);
+                        this.totalImagesCount = this.imagesArr.size();
+                        int indexOf = this.imagesArr.indexOf(messageObject);
+                        if (indexOf < 0) {
+                            indexOf = 0;
+                        }
+                        setImageIndex(indexOf);
                     }
                 }
             }
@@ -12941,51 +12939,45 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             if (this.slideshowMessageId == 0) {
                 this.imagesArr.add(messageObject);
-                long j = messageObject.eventId;
-                if (j != 0) {
-                    i2 = 0;
+                if (messageObject.eventId != 0) {
                     this.needSearchImageInArr = false;
+                } else if (this.currentAnimation != null) {
+                    this.needSearchImageInArr = false;
+                    if (messageObject.canForwardMessage() && !z3) {
+                        setItemVisible(this.sendItem, true, false);
+                    }
                 } else {
-                    i2 = 0;
-                    if (this.currentAnimation != null) {
-                        this.needSearchImageInArr = false;
-                        if (messageObject.canForwardMessage() && !z3) {
-                            setItemVisible(this.sendItem, true, false);
-                        }
-                    } else {
-                        if (!messageObject.scheduled) {
-                            TLRPC$Message tLRPC$Message3 = messageObject.messageOwner;
-                            TLRPC$MessageMedia tLRPC$MessageMedia2 = tLRPC$Message3.media;
-                            if (!(tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaInvoice) && !(tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaWebPage) && ((tLRPC$MessageAction = tLRPC$Message3.action) == null || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionEmpty))) {
-                                this.needSearchImageInArr = true;
-                                this.imagesByIds[0].put(messageObject.getId(), messageObject);
-                                ChatActivity chatActivity3 = this.parentChatActivity;
-                                if (chatActivity3 == null || !chatActivity3.isThreadChat()) {
-                                    this.menuItem.showSubItem(4);
-                                    this.menuItem.showSubItem(2);
-                                }
-                                i2 = 0;
-                                setItemVisible(this.sendItem, !z3, false);
-                            }
+                    if (!messageObject.scheduled && !(MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaInvoice) && !(MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && ((tLRPC$MessageAction = messageObject.messageOwner.action) == null || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionEmpty))) {
+                        this.needSearchImageInArr = true;
+                        this.imagesByIds[0].put(messageObject.getId(), messageObject);
+                        ChatActivity chatActivity3 = this.parentChatActivity;
+                        if (chatActivity3 == null || !chatActivity3.isThreadChat()) {
+                            this.menuItem.showSubItem(4);
+                            this.menuItem.showSubItem(2);
                         }
                         i2 = 0;
-                        if (this.isEmbedVideo && j == 0) {
+                        setItemVisible(this.sendItem, !z3, false);
+                    } else {
+                        i2 = 0;
+                        if (this.isEmbedVideo && messageObject.eventId == 0) {
                             setItemVisible(this.sendItem, true, false);
                         }
                     }
+                    setImageIndex(i2);
                 }
+                i2 = 0;
                 setImageIndex(i2);
             }
         } else if (arrayList2 != null) {
             this.secureDocuments.addAll(arrayList2);
             setImageIndex(i);
         } else if (tLRPC$FileLocation != null) {
-            long j2 = placeProviderObject != null ? placeProviderObject.dialogId : 0L;
-            this.avatarsDialogId = j2;
+            long j = placeProviderObject != null ? placeProviderObject.dialogId : 0L;
+            this.avatarsDialogId = j;
             this.canEditAvatar = placeProviderObject != null && placeProviderObject.canEdit;
-            if (imageLocation != null || j2 == 0) {
+            if (imageLocation != null || j == 0) {
                 imageLocation3 = imageLocation;
-            } else if (j2 > 0) {
+            } else if (j > 0) {
                 imageLocation3 = ImageLocation.getForUserOrChat(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.avatarsDialogId)), 0);
             } else {
                 imageLocation3 = ImageLocation.getForUserOrChat(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.avatarsDialogId)), 0);
@@ -13220,28 +13212,28 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:314:0x0767  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x076e  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x0acb  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x0ada  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0b1c  */
-    /* JADX WARN: Removed duplicated region for block: B:384:0x0b55  */
-    /* JADX WARN: Removed duplicated region for block: B:392:0x0b88  */
-    /* JADX WARN: Removed duplicated region for block: B:395:0x0b92  */
-    /* JADX WARN: Removed duplicated region for block: B:398:0x0b9c  */
-    /* JADX WARN: Removed duplicated region for block: B:401:0x0ba6  */
-    /* JADX WARN: Removed duplicated region for block: B:404:0x0bb0  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x0bdb  */
-    /* JADX WARN: Removed duplicated region for block: B:422:0x0bc9  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x0ba8  */
-    /* JADX WARN: Removed duplicated region for block: B:430:0x0b9e  */
-    /* JADX WARN: Removed duplicated region for block: B:431:0x0b94  */
-    /* JADX WARN: Removed duplicated region for block: B:432:0x0b8a  */
-    /* JADX WARN: Removed duplicated region for block: B:437:0x0af4  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x08a0  */
-    /* JADX WARN: Removed duplicated region for block: B:465:0x0a76  */
-    /* JADX WARN: Removed duplicated region for block: B:479:0x0aa5  */
-    /* JADX WARN: Removed duplicated region for block: B:487:0x09b1  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x077b  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x0782  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x0adf  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x0aee  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x0b30  */
+    /* JADX WARN: Removed duplicated region for block: B:384:0x0b69  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x0b9c  */
+    /* JADX WARN: Removed duplicated region for block: B:395:0x0ba6  */
+    /* JADX WARN: Removed duplicated region for block: B:398:0x0bb0  */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x0bba  */
+    /* JADX WARN: Removed duplicated region for block: B:404:0x0bc4  */
+    /* JADX WARN: Removed duplicated region for block: B:414:0x0bef  */
+    /* JADX WARN: Removed duplicated region for block: B:422:0x0bdd  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x0bbc  */
+    /* JADX WARN: Removed duplicated region for block: B:430:0x0bb2  */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x0ba8  */
+    /* JADX WARN: Removed duplicated region for block: B:432:0x0b9e  */
+    /* JADX WARN: Removed duplicated region for block: B:437:0x0b08  */
+    /* JADX WARN: Removed duplicated region for block: B:448:0x08b4  */
+    /* JADX WARN: Removed duplicated region for block: B:465:0x0a8a  */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x0ab9  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x09c5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -13275,7 +13267,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         boolean z12;
         boolean z13;
         boolean z14;
-        TLRPC$WebPage tLRPC$WebPage;
         String str;
         int i7;
         int i8;
@@ -13311,7 +13302,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     setItemVisible(this.masksItem, false, true);
                     this.menuItem.hideSubItem(6);
                     this.menuItem.hideSubItem(11);
-                    charSequence = messageObject3.messageOwner.media.description;
+                    charSequence = MessageObject.getMedia(messageObject3.messageOwner).description;
                     this.allowShare = false;
                     this.bottomLayout.setTranslationY(AndroidUtilities.dp(48.0f));
                     this.captionTextViewSwitcher.setTranslationY(AndroidUtilities.dp(48.0f));
@@ -13333,7 +13324,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         this.menuItem.showSubItem(11);
                         setItemVisible(this.pipItem, true, false);
                     } else if (isVideo) {
-                        if (!z18 || (this.slideshowMessageId != 0 ? !(this.imagesArr.get(0).messageOwner.media.webpage == null || this.imagesArr.get(0).messageOwner.media.webpage.url == null) : !((tLRPC$WebPage = messageObject3.messageOwner.media.webpage) == null || tLRPC$WebPage.url == null))) {
+                        if (!z18 || (this.slideshowMessageId != 0 ? !(MessageObject.getMedia(this.imagesArr.get(0).messageOwner).webpage == null || MessageObject.getMedia(this.imagesArr.get(0).messageOwner).webpage.url == null) : !(MessageObject.getMedia(messageObject3.messageOwner).webpage == null || MessageObject.getMedia(messageObject3.messageOwner).webpage.url == null))) {
                             this.menuItem.showSubItem(11);
                         } else {
                             this.menuItem.hideSubItem(11);
@@ -13493,9 +13484,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                             this.actionBar.setTitle(LocaleController.formatString("Of", R.string.Of, Integer.valueOf(((this.totalImagesCount + this.totalImagesCountMerge) - this.imagesArr.size()) + this.switchingToIndex + 1), Integer.valueOf(this.totalImagesCount + this.totalImagesCountMerge)));
                         }
-                    } else if (this.slideshowMessageId != 0 || !(messageObject3.messageOwner.media instanceof TLRPC$TL_messageMediaWebPage)) {
+                    } else if (this.slideshowMessageId != 0 || !(MessageObject.getMedia(messageObject3.messageOwner) instanceof TLRPC$TL_messageMediaWebPage)) {
                         if (isInvoice) {
-                            this.actionBar.setTitle(messageObject3.messageOwner.media.title);
+                            this.actionBar.setTitle(MessageObject.getMedia(messageObject3.messageOwner).title);
                         } else if (messageObject3.isVideo()) {
                             this.actionBar.setTitle(LocaleController.getString("AttachVideo", R.string.AttachVideo));
                         } else if (messageObject3.getDocument() != null) {
@@ -14756,7 +14747,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         File file3;
         boolean z5;
         FileLoader.FileResolver fileResolver;
-        TLRPC$WebPage tLRPC$WebPage;
         AnimatedFileDrawable animatedFileDrawable;
         int i2 = this.currentIndex;
         int i3 = i == 1 ? i2 + 1 : i == 2 ? i2 - 1 : i2;
@@ -14776,9 +14766,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     return;
                 }
                 file2 = !TextUtils.isEmpty(messageObject2.messageOwner.attachPath) ? new File(messageObject2.messageOwner.attachPath) : null;
-                final TLRPC$Message tLRPC$Message = messageObject2.messageOwner;
-                TLRPC$MessageMedia tLRPC$MessageMedia = tLRPC$Message.media;
-                if ((tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage) && (tLRPC$WebPage = tLRPC$MessageMedia.webpage) != null && tLRPC$WebPage.document == null) {
+                if ((MessageObject.getMedia(messageObject2.messageOwner) instanceof TLRPC$TL_messageMediaWebPage) && MessageObject.getMedia(messageObject2.messageOwner).webpage != null && MessageObject.getMedia(messageObject2.messageOwner).webpage.document == null) {
                     final TLObject fileLocation = getFileLocation(i3, null);
                     fileResolver = new FileLoader.FileResolver() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda73
                         @Override // org.telegram.messenger.FileLoader.FileResolver
@@ -14789,6 +14777,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     };
                 } else {
+                    final TLRPC$Message tLRPC$Message = messageObject2.messageOwner;
                     fileResolver = new FileLoader.FileResolver() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda74
                         @Override // org.telegram.messenger.FileLoader.FileResolver
                         public final File getFile() {
@@ -16636,7 +16625,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
         };
         this.photoViewerWebView = photoViewerWebView;
-        photoViewerWebView.init(i, this.currentMessageObject.messageOwner.media.webpage);
+        photoViewerWebView.init(i, MessageObject.getMedia(this.currentMessageObject.messageOwner).webpage);
         this.photoViewerWebView.setPlaybackSpeed(this.currentVideoSpeed);
         this.containerView.addView(this.photoViewerWebView, 0, LayoutHelper.createFrame(-1, -1.0f));
         if (this.photoViewerWebView.isControllable()) {
@@ -16691,13 +16680,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:108:0x01e0  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x021f  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0238  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void closePhoto(boolean z, boolean z2) {
         float f;
         float f2;
+        float f3;
+        float f4;
+        float f5;
+        PhotoViewerWebView photoViewerWebView;
+        ChatActivity chatActivity;
+        VelocityTracker velocityTracker;
+        float f6;
+        float f7;
         AnimatedFileDrawable animatedFileDrawable;
         RectF rectF;
         float min;
+        float f8;
         int[] iArr;
+        BaseFragment baseFragment;
         AnimatedFileDrawable animation;
         Bitmap animatedBitmap;
         int i;
@@ -16778,8 +16785,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 ((MediaController.MediaEditState) obj).editedInfo = getCurrentVideoEditedInfo();
             }
         }
-        BaseFragment baseFragment = this.parentFragment;
-        if (baseFragment == null || baseFragment.getFragmentView() == null) {
+        BaseFragment baseFragment2 = this.parentFragment;
+        if (baseFragment2 == null || baseFragment2.getFragmentView() == null) {
             f = 1.0f;
             f2 = 1.0f;
         } else {
@@ -16788,296 +16795,355 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             f2 = fragmentView.getScaleY();
             fragmentView.setScaleX(1.0f);
             fragmentView.setScaleY(1.0f);
-        }
-        final PlaceProviderObject placeForPhoto = this.placeProvider.getPlaceForPhoto(this.currentMessageObject, getFileLocation(this.currentFileLocation), this.currentIndex, true);
-        if (this.videoPlayer != null && placeForPhoto != null && (animation = placeForPhoto.imageReceiver.getAnimation()) != null) {
-            if (this.textureUploaded && (animatedBitmap = animation.getAnimatedBitmap()) != null) {
-                try {
-                    Bitmap bitmap = this.videoTextureView.getBitmap(animatedBitmap.getWidth(), animatedBitmap.getHeight());
-                    new Canvas(animatedBitmap).drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
-                    bitmap.recycle();
-                } catch (Throwable th) {
-                    FileLog.e(th);
+            ChatAttachAlert chatAttachAlert = this.parentAlert;
+            if (chatAttachAlert != null) {
+                FrameLayout container = chatAttachAlert.getContainer();
+                f3 = container.getScaleX();
+                f4 = container.getScaleY();
+                container.setScaleX(1.0f);
+                container.setScaleY(1.0f);
+                final PlaceProviderObject placeForPhoto = this.placeProvider.getPlaceForPhoto(this.currentMessageObject, getFileLocation(this.currentFileLocation), this.currentIndex, true);
+                if (this.videoPlayer != null || placeForPhoto == null || (animation = placeForPhoto.imageReceiver.getAnimation()) == null) {
+                    f5 = f;
+                } else {
+                    if (this.textureUploaded && (animatedBitmap = animation.getAnimatedBitmap()) != null) {
+                        try {
+                            Bitmap bitmap = this.videoTextureView.getBitmap(animatedBitmap.getWidth(), animatedBitmap.getHeight());
+                            new Canvas(animatedBitmap).drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
+                            bitmap.recycle();
+                        } catch (Throwable th) {
+                            FileLog.e(th);
+                        }
+                    }
+                    if (this.currentMessageObject != null) {
+                        long startTime = animation.getStartTime();
+                        long currentPosition = this.videoPlayer.getCurrentPosition();
+                        f5 = f;
+                        if (startTime <= 0) {
+                            startTime = 0;
+                        }
+                        animation.seekTo(currentPosition + startTime, !FileLoader.getInstance(this.currentMessageObject.currentAccount).isLoadingVideo(this.currentMessageObject.getDocument(), true));
+                    } else {
+                        f5 = f;
+                    }
+                    placeForPhoto.imageReceiver.setAllowStartAnimation(true);
+                    placeForPhoto.imageReceiver.startAnimation();
                 }
-            }
-            if (this.currentMessageObject != null) {
-                long startTime = animation.getStartTime();
-                long currentPosition = this.videoPlayer.getCurrentPosition();
-                if (startTime <= 0) {
-                    startTime = 0;
+                if (!this.doneButtonPressed) {
+                    releasePlayer(true);
                 }
-                animation.seekTo(currentPosition + startTime, !FileLoader.getInstance(this.currentMessageObject.currentAccount).isLoadingVideo(this.currentMessageObject.getDocument(), true));
+                photoViewerWebView = this.photoViewerWebView;
+                if (photoViewerWebView != null) {
+                    photoViewerWebView.release();
+                    this.containerView.removeView(this.photoViewerWebView);
+                    this.photoViewerWebView = null;
+                }
+                this.captionEditText.onDestroy();
+                chatActivity = this.parentChatActivity;
+                if (chatActivity != null && chatActivity.getFragmentView() != null) {
+                    this.parentChatActivity.getFragmentView().invalidate();
+                }
+                this.parentChatActivity = null;
+                removeObservers();
+                this.isActionBarVisible = false;
+                velocityTracker = this.velocityTracker;
+                if (velocityTracker != null) {
+                    velocityTracker.recycle();
+                    this.velocityTracker = null;
+                }
+                if (!this.isInline) {
+                    this.isInline = false;
+                    this.animationInProgress = 0;
+                    onPhotoClosed(placeForPhoto);
+                    this.containerView.setScaleX(1.0f);
+                    this.containerView.setScaleY(1.0f);
+                    f6 = f3;
+                    f7 = f4;
+                } else {
+                    if (z) {
+                        ClippingImageView[] animatingImageViews = getAnimatingImageViews(placeForPhoto);
+                        for (int i4 = 0; i4 < animatingImageViews.length; i4++) {
+                            animatingImageViews[i4].setAnimationValues(this.animationValues);
+                            animatingImageViews[i4].setVisibility(0);
+                        }
+                        this.animationInProgress = 3;
+                        this.containerView.invalidate();
+                        AnimatorSet animatorSet = new AnimatorSet();
+                        ViewGroup.LayoutParams layoutParams = this.animatingImageView.getLayoutParams();
+                        if (placeForPhoto != null) {
+                            rectF = placeForPhoto.imageReceiver.getDrawRegion();
+                            layoutParams.width = (int) rectF.width();
+                            layoutParams.height = (int) rectF.height();
+                            int orientation = placeForPhoto.imageReceiver.getOrientation();
+                            int animatedOrientation = placeForPhoto.imageReceiver.getAnimatedOrientation();
+                            if (animatedOrientation != 0) {
+                                orientation = animatedOrientation;
+                            }
+                            for (int i5 = 0; i5 < animatingImageViews.length; i5++) {
+                                animatingImageViews[i5].setOrientation(orientation);
+                                animatingImageViews[i5].setImageBitmap(placeForPhoto.thumb);
+                            }
+                        } else {
+                            layoutParams.width = (int) this.centerImage.getImageWidth();
+                            layoutParams.height = (int) this.centerImage.getImageHeight();
+                            for (int i6 = 0; i6 < animatingImageViews.length; i6++) {
+                                animatingImageViews[i6].setOrientation(this.centerImage.getOrientation());
+                                animatingImageViews[i6].setImageBitmap(this.centerImage.getBitmapSafe());
+                            }
+                            rectF = null;
+                        }
+                        if (layoutParams.width <= 0) {
+                            layoutParams.width = 100;
+                        }
+                        if (layoutParams.height <= 0) {
+                            layoutParams.height = 100;
+                        }
+                        if (this.sendPhotoType == 1) {
+                            float min2 = Math.min(this.photoCropView.getMeasuredWidth(), (this.photoCropView.getMeasuredHeight() - AndroidUtilities.dp(64.0f)) - (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) - (AndroidUtilities.dp(16.0f) * 2);
+                            min = Math.max(min2 / layoutParams.width, min2 / layoutParams.height);
+                        } else {
+                            min = Math.min(this.windowView.getMeasuredWidth() / layoutParams.width, (AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) / layoutParams.height);
+                        }
+                        float f9 = this.scale;
+                        float f10 = layoutParams.height * f9 * min;
+                        float measuredWidth = (this.windowView.getMeasuredWidth() - ((layoutParams.width * f9) * min)) / 2.0f;
+                        if (this.sendPhotoType == 1) {
+                            f8 = this.photoCropView.getMeasuredHeight() - (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0);
+                        } else {
+                            f8 = AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0);
+                        }
+                        float f11 = (f8 - f10) / 2.0f;
+                        for (int i7 = 0; i7 < animatingImageViews.length; i7++) {
+                            animatingImageViews[i7].setLayoutParams(layoutParams);
+                            animatingImageViews[i7].setTranslationX(this.translationX + measuredWidth);
+                            animatingImageViews[i7].setTranslationY(this.translationY + f11);
+                            animatingImageViews[i7].setScaleX(this.scale * min);
+                            animatingImageViews[i7].setScaleY(this.scale * min);
+                        }
+                        if (placeForPhoto != null) {
+                            placeForPhoto.imageReceiver.setVisible(false, true);
+                            int abs = (int) Math.abs(rectF.left - placeForPhoto.imageReceiver.getImageX());
+                            int abs2 = (int) Math.abs(rectF.top - placeForPhoto.imageReceiver.getImageY());
+                            if (this.pageBlocksAdapter != null && placeForPhoto.imageReceiver.isAspectFit()) {
+                                abs = 0;
+                            }
+                            int[] iArr2 = new int[2];
+                            placeForPhoto.parentView.getLocationInWindow(iArr2);
+                            int i8 = iArr2[1];
+                            int i9 = Build.VERSION.SDK_INT;
+                            int i10 = i9 >= 21 ? 0 : AndroidUtilities.statusBarHeight;
+                            int i11 = placeForPhoto.viewY;
+                            f7 = f4;
+                            float f12 = rectF.top;
+                            int i12 = (int) (((i8 - i10) - (i11 + f12)) + placeForPhoto.clipTopAddition);
+                            if (i12 < 0) {
+                                i12 = 0;
+                            }
+                            int height = (int) ((((i11 + f12) + (rectF.bottom - f12)) - ((iArr2[1] + placeForPhoto.parentView.getHeight()) - (i9 >= 21 ? 0 : AndroidUtilities.statusBarHeight))) + placeForPhoto.clipBottomAddition);
+                            if (height < 0) {
+                                height = 0;
+                            }
+                            int max = Math.max(i12, abs2);
+                            int max2 = Math.max(height, abs2);
+                            this.animationValues[0][0] = this.animatingImageView.getScaleX();
+                            this.animationValues[0][1] = this.animatingImageView.getScaleY();
+                            this.animationValues[0][2] = this.animatingImageView.getTranslationX();
+                            this.animationValues[0][3] = this.animatingImageView.getTranslationY();
+                            float[][] fArr = this.animationValues;
+                            fArr[0][4] = 0.0f;
+                            fArr[0][5] = 0.0f;
+                            fArr[0][6] = 0.0f;
+                            fArr[0][7] = 0.0f;
+                            fArr[0][8] = 0.0f;
+                            fArr[0][9] = 0.0f;
+                            fArr[0][10] = 0.0f;
+                            fArr[0][11] = 0.0f;
+                            fArr[0][12] = 0.0f;
+                            float[] fArr2 = fArr[1];
+                            float f13 = placeForPhoto.scale;
+                            fArr2[0] = f13;
+                            fArr[1][1] = f13;
+                            f6 = f3;
+                            fArr[1][2] = placeForPhoto.viewX + (rectF.left * f13);
+                            char c = 1;
+                            fArr[1][3] = placeForPhoto.viewY + (rectF.top * f13);
+                            float f14 = abs;
+                            fArr[1][4] = f14 * f13;
+                            fArr[1][5] = max * f13;
+                            fArr[1][6] = max2 * f13;
+                            int i13 = 0;
+                            for (int i14 = 4; i13 < i14; i14 = 4) {
+                                this.animationValues[c][i13 + 7] = placeForPhoto.radius != null ? iArr[i13] : 0.0f;
+                                i13++;
+                                c = 1;
+                            }
+                            float[][] fArr3 = this.animationValues;
+                            float[] fArr4 = fArr3[1];
+                            float f15 = placeForPhoto.scale;
+                            fArr4[11] = abs2 * f15;
+                            fArr3[1][12] = f14 * f15;
+                            ArrayList arrayList = new ArrayList((this.sendPhotoType == 1 ? 3 : 2) + animatingImageViews.length + (animatingImageViews.length > 1 ? 1 : 0));
+                            for (int i15 = 0; i15 < animatingImageViews.length; i15++) {
+                                ObjectAnimator ofFloat = ObjectAnimator.ofFloat(animatingImageViews[i15], AnimationProperties.CLIPPING_IMAGE_VIEW_PROGRESS, 0.0f, 1.0f);
+                                if (i15 == 0) {
+                                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda1
+                                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                            PhotoViewer.this.lambda$closePhoto$73(valueAnimator);
+                                        }
+                                    });
+                                }
+                                arrayList.add(ofFloat);
+                            }
+                            if (animatingImageViews.length > 1) {
+                                arrayList.add(ObjectAnimator.ofFloat(this.animatingImageView, View.ALPHA, 0.0f));
+                                animatingImageViews[1].setAdditionalTranslationX(-getLeftInset());
+                            }
+                            arrayList.add(ObjectAnimator.ofInt(this.backgroundDrawable, (Property<BackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0));
+                            arrayList.add(ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f));
+                            arrayList.add(ObjectAnimator.ofFloat(this.navigationBar, View.ALPHA, 0.0f));
+                            if (this.sendPhotoType == 1) {
+                                arrayList.add(ObjectAnimator.ofFloat(this.photoCropView, View.ALPHA, 0.0f));
+                            }
+                            animatorSet.playTogether(arrayList);
+                        } else {
+                            f6 = f3;
+                            f7 = f4;
+                            int i16 = AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0);
+                            ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
+                            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda5
+                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    PhotoViewer.this.lambda$closePhoto$74(valueAnimator);
+                                }
+                            });
+                            Animator[] animatorArr = new Animator[6];
+                            animatorArr[0] = ofFloat2;
+                            animatorArr[1] = ObjectAnimator.ofInt(this.backgroundDrawable, (Property<BackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
+                            animatorArr[2] = ObjectAnimator.ofFloat(this.animatingImageView, View.ALPHA, 0.0f);
+                            ClippingImageView clippingImageView = this.animatingImageView;
+                            Property property = View.TRANSLATION_Y;
+                            float[] fArr5 = new float[1];
+                            if (this.translationY < 0.0f) {
+                                i16 = -i16;
+                            }
+                            fArr5[0] = i16;
+                            animatorArr[3] = ObjectAnimator.ofFloat(clippingImageView, property, fArr5);
+                            animatorArr[4] = ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f);
+                            animatorArr[5] = ObjectAnimator.ofFloat(this.navigationBar, View.ALPHA, 0.0f);
+                            animatorSet.playTogether(animatorArr);
+                        }
+                        this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda68
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PhotoViewer.this.lambda$closePhoto$75(placeForPhoto);
+                            }
+                        };
+                        animatorSet.setDuration(200L);
+                        animatorSet.addListener(new 72());
+                        this.transitionAnimationStartTime = System.currentTimeMillis();
+                        if (Build.VERSION.SDK_INT >= 18) {
+                            this.containerView.setLayerType(2, null);
+                        }
+                        animatorSet.start();
+                        animatedFileDrawable = null;
+                    } else {
+                        f6 = f3;
+                        f7 = f4;
+                        AnimatorSet animatorSet2 = new AnimatorSet();
+                        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.containerView, View.SCALE_X, 0.9f), ObjectAnimator.ofFloat(this.containerView, View.SCALE_Y, 0.9f), ObjectAnimator.ofInt(this.backgroundDrawable, (Property<BackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0), ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.navigationBar, View.ALPHA, 0.0f));
+                        this.animationInProgress = 2;
+                        this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda67
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PhotoViewer.this.lambda$closePhoto$76(placeForPhoto);
+                            }
+                        };
+                        animatorSet2.setDuration(200L);
+                        animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.73
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                PhotoViewer.this.clippingImageProgress = 0.0f;
+                                if (PhotoViewer.this.animationEndRunnable != null) {
+                                    ChatActivity chatActivity2 = PhotoViewer.this.parentChatActivity;
+                                    if (chatActivity2 == null && PhotoViewer.this.parentAlert != null) {
+                                        BaseFragment baseFragment3 = PhotoViewer.this.parentAlert.getBaseFragment();
+                                        if (baseFragment3 instanceof ChatActivity) {
+                                            chatActivity2 = (ChatActivity) baseFragment3;
+                                        }
+                                    }
+                                    if (chatActivity2 != null) {
+                                        chatActivity2.lambda$openDiscussionMessageChat$229(PhotoViewer.this.animationEndRunnable);
+                                        return;
+                                    }
+                                    PhotoViewer.this.animationEndRunnable.run();
+                                    PhotoViewer.this.animationEndRunnable = null;
+                                }
+                            }
+                        });
+                        this.transitionAnimationStartTime = System.currentTimeMillis();
+                        if (Build.VERSION.SDK_INT >= 18) {
+                            animatedFileDrawable = null;
+                            this.containerView.setLayerType(2, null);
+                        } else {
+                            animatedFileDrawable = null;
+                        }
+                        animatorSet2.start();
+                    }
+                    AnimatedFileDrawable animatedFileDrawable2 = this.currentAnimation;
+                    if (animatedFileDrawable2 != null) {
+                        animatedFileDrawable2.removeSecondParentView(this.containerView);
+                        this.currentAnimation = animatedFileDrawable;
+                        this.centerImage.setImageBitmap(animatedFileDrawable);
+                    }
+                    PhotoViewerProvider photoViewerProvider = this.placeProvider;
+                    if (photoViewerProvider != null && !photoViewerProvider.canScrollAway()) {
+                        this.placeProvider.cancelButtonPressed();
+                    }
+                }
+                baseFragment = this.parentFragment;
+                if (baseFragment == null || baseFragment.getFragmentView() == null) {
+                }
+                View fragmentView2 = this.parentFragment.getFragmentView();
+                fragmentView2.setScaleX(f5);
+                fragmentView2.setScaleY(f2);
+                ChatAttachAlert chatAttachAlert2 = this.parentAlert;
+                if (chatAttachAlert2 == null) {
+                    return;
+                }
+                FrameLayout container2 = chatAttachAlert2.getContainer();
+                container2.setScaleX(f6);
+                container2.setScaleY(f7);
+                return;
             }
-            placeForPhoto.imageReceiver.setAllowStartAnimation(true);
-            placeForPhoto.imageReceiver.startAnimation();
         }
+        f3 = 1.0f;
+        f4 = 1.0f;
+        final PlaceProviderObject placeForPhoto2 = this.placeProvider.getPlaceForPhoto(this.currentMessageObject, getFileLocation(this.currentFileLocation), this.currentIndex, true);
+        if (this.videoPlayer != null) {
+        }
+        f5 = f;
         if (!this.doneButtonPressed) {
-            releasePlayer(true);
         }
-        PhotoViewerWebView photoViewerWebView = this.photoViewerWebView;
+        photoViewerWebView = this.photoViewerWebView;
         if (photoViewerWebView != null) {
-            photoViewerWebView.release();
-            this.containerView.removeView(this.photoViewerWebView);
-            this.photoViewerWebView = null;
         }
         this.captionEditText.onDestroy();
-        ChatActivity chatActivity = this.parentChatActivity;
-        if (chatActivity != null && chatActivity.getFragmentView() != null) {
+        chatActivity = this.parentChatActivity;
+        if (chatActivity != null) {
             this.parentChatActivity.getFragmentView().invalidate();
         }
         this.parentChatActivity = null;
         removeObservers();
         this.isActionBarVisible = false;
-        VelocityTracker velocityTracker = this.velocityTracker;
+        velocityTracker = this.velocityTracker;
         if (velocityTracker != null) {
-            velocityTracker.recycle();
-            this.velocityTracker = null;
         }
-        if (this.isInline) {
-            this.isInline = false;
-            this.animationInProgress = 0;
-            onPhotoClosed(placeForPhoto);
-            this.containerView.setScaleX(1.0f);
-            this.containerView.setScaleY(1.0f);
-        } else {
-            if (z) {
-                ClippingImageView[] animatingImageViews = getAnimatingImageViews(placeForPhoto);
-                for (int i4 = 0; i4 < animatingImageViews.length; i4++) {
-                    animatingImageViews[i4].setAnimationValues(this.animationValues);
-                    animatingImageViews[i4].setVisibility(0);
-                }
-                this.animationInProgress = 3;
-                this.containerView.invalidate();
-                AnimatorSet animatorSet = new AnimatorSet();
-                ViewGroup.LayoutParams layoutParams = this.animatingImageView.getLayoutParams();
-                if (placeForPhoto != null) {
-                    rectF = placeForPhoto.imageReceiver.getDrawRegion();
-                    layoutParams.width = (int) rectF.width();
-                    layoutParams.height = (int) rectF.height();
-                    int orientation = placeForPhoto.imageReceiver.getOrientation();
-                    int animatedOrientation = placeForPhoto.imageReceiver.getAnimatedOrientation();
-                    if (animatedOrientation != 0) {
-                        orientation = animatedOrientation;
-                    }
-                    for (int i5 = 0; i5 < animatingImageViews.length; i5++) {
-                        animatingImageViews[i5].setOrientation(orientation);
-                        animatingImageViews[i5].setImageBitmap(placeForPhoto.thumb);
-                    }
-                } else {
-                    layoutParams.width = (int) this.centerImage.getImageWidth();
-                    layoutParams.height = (int) this.centerImage.getImageHeight();
-                    for (int i6 = 0; i6 < animatingImageViews.length; i6++) {
-                        animatingImageViews[i6].setOrientation(this.centerImage.getOrientation());
-                        animatingImageViews[i6].setImageBitmap(this.centerImage.getBitmapSafe());
-                    }
-                    rectF = null;
-                }
-                if (layoutParams.width <= 0) {
-                    layoutParams.width = 100;
-                }
-                if (layoutParams.height <= 0) {
-                    layoutParams.height = 100;
-                }
-                if (this.sendPhotoType == 1) {
-                    float min2 = Math.min(this.photoCropView.getMeasuredWidth(), (this.photoCropView.getMeasuredHeight() - AndroidUtilities.dp(64.0f)) - (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) - (AndroidUtilities.dp(16.0f) * 2);
-                    min = Math.max(min2 / layoutParams.width, min2 / layoutParams.height);
-                } else {
-                    min = Math.min(this.windowView.getMeasuredWidth() / layoutParams.width, (AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) / layoutParams.height);
-                }
-                float f3 = this.scale;
-                float f4 = layoutParams.height * f3 * min;
-                float measuredWidth = (this.windowView.getMeasuredWidth() - ((layoutParams.width * f3) * min)) / 2.0f;
-                float measuredHeight = this.sendPhotoType == 1 ? ((this.photoCropView.getMeasuredHeight() - (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) - f4) / 2.0f : ((AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) - f4) / 2.0f;
-                for (int i7 = 0; i7 < animatingImageViews.length; i7++) {
-                    animatingImageViews[i7].setLayoutParams(layoutParams);
-                    animatingImageViews[i7].setTranslationX(this.translationX + measuredWidth);
-                    animatingImageViews[i7].setTranslationY(this.translationY + measuredHeight);
-                    animatingImageViews[i7].setScaleX(this.scale * min);
-                    animatingImageViews[i7].setScaleY(this.scale * min);
-                }
-                if (placeForPhoto != null) {
-                    placeForPhoto.imageReceiver.setVisible(false, true);
-                    int abs = (int) Math.abs(rectF.left - placeForPhoto.imageReceiver.getImageX());
-                    int abs2 = (int) Math.abs(rectF.top - placeForPhoto.imageReceiver.getImageY());
-                    if (this.pageBlocksAdapter != null && placeForPhoto.imageReceiver.isAspectFit()) {
-                        abs = 0;
-                    }
-                    int[] iArr2 = new int[2];
-                    placeForPhoto.parentView.getLocationInWindow(iArr2);
-                    int i8 = iArr2[1];
-                    int i9 = Build.VERSION.SDK_INT;
-                    int i10 = i9 >= 21 ? 0 : AndroidUtilities.statusBarHeight;
-                    int i11 = placeForPhoto.viewY;
-                    float f5 = rectF.top;
-                    int i12 = (int) (((i8 - i10) - (i11 + f5)) + placeForPhoto.clipTopAddition);
-                    if (i12 < 0) {
-                        i12 = 0;
-                    }
-                    int height = (int) ((((i11 + f5) + (rectF.bottom - f5)) - ((iArr2[1] + placeForPhoto.parentView.getHeight()) - (i9 >= 21 ? 0 : AndroidUtilities.statusBarHeight))) + placeForPhoto.clipBottomAddition);
-                    if (height < 0) {
-                        height = 0;
-                    }
-                    int max = Math.max(i12, abs2);
-                    int max2 = Math.max(height, abs2);
-                    this.animationValues[0][0] = this.animatingImageView.getScaleX();
-                    this.animationValues[0][1] = this.animatingImageView.getScaleY();
-                    this.animationValues[0][2] = this.animatingImageView.getTranslationX();
-                    this.animationValues[0][3] = this.animatingImageView.getTranslationY();
-                    float[][] fArr = this.animationValues;
-                    fArr[0][4] = 0.0f;
-                    fArr[0][5] = 0.0f;
-                    fArr[0][6] = 0.0f;
-                    fArr[0][7] = 0.0f;
-                    fArr[0][8] = 0.0f;
-                    fArr[0][9] = 0.0f;
-                    fArr[0][10] = 0.0f;
-                    fArr[0][11] = 0.0f;
-                    fArr[0][12] = 0.0f;
-                    float[] fArr2 = fArr[1];
-                    float f6 = placeForPhoto.scale;
-                    fArr2[0] = f6;
-                    fArr[1][1] = f6;
-                    fArr[1][2] = placeForPhoto.viewX + (rectF.left * f6);
-                    char c = 1;
-                    fArr[1][3] = placeForPhoto.viewY + (rectF.top * f6);
-                    float f7 = abs;
-                    fArr[1][4] = f7 * f6;
-                    fArr[1][5] = max * f6;
-                    fArr[1][6] = max2 * f6;
-                    int i13 = 0;
-                    for (int i14 = 4; i13 < i14; i14 = 4) {
-                        this.animationValues[c][i13 + 7] = placeForPhoto.radius != null ? iArr[i13] : 0.0f;
-                        i13++;
-                        c = 1;
-                    }
-                    float[][] fArr3 = this.animationValues;
-                    float[] fArr4 = fArr3[1];
-                    float f8 = abs2;
-                    float f9 = placeForPhoto.scale;
-                    fArr4[11] = f8 * f9;
-                    fArr3[1][12] = f7 * f9;
-                    ArrayList arrayList = new ArrayList((this.sendPhotoType == 1 ? 3 : 2) + animatingImageViews.length + (animatingImageViews.length > 1 ? 1 : 0));
-                    for (int i15 = 0; i15 < animatingImageViews.length; i15++) {
-                        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(animatingImageViews[i15], AnimationProperties.CLIPPING_IMAGE_VIEW_PROGRESS, 0.0f, 1.0f);
-                        if (i15 == 0) {
-                            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda1
-                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                    PhotoViewer.this.lambda$closePhoto$73(valueAnimator);
-                                }
-                            });
-                        }
-                        arrayList.add(ofFloat);
-                    }
-                    if (animatingImageViews.length > 1) {
-                        arrayList.add(ObjectAnimator.ofFloat(this.animatingImageView, View.ALPHA, 0.0f));
-                        animatingImageViews[1].setAdditionalTranslationX(-getLeftInset());
-                    }
-                    arrayList.add(ObjectAnimator.ofInt(this.backgroundDrawable, (Property<BackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0));
-                    arrayList.add(ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f));
-                    arrayList.add(ObjectAnimator.ofFloat(this.navigationBar, View.ALPHA, 0.0f));
-                    if (this.sendPhotoType == 1) {
-                        arrayList.add(ObjectAnimator.ofFloat(this.photoCropView, View.ALPHA, 0.0f));
-                    }
-                    animatorSet.playTogether(arrayList);
-                } else {
-                    int i16 = AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0);
-                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda5
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            PhotoViewer.this.lambda$closePhoto$74(valueAnimator);
-                        }
-                    });
-                    Animator[] animatorArr = new Animator[6];
-                    animatorArr[0] = ofFloat2;
-                    animatorArr[1] = ObjectAnimator.ofInt(this.backgroundDrawable, (Property<BackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
-                    animatorArr[2] = ObjectAnimator.ofFloat(this.animatingImageView, View.ALPHA, 0.0f);
-                    ClippingImageView clippingImageView = this.animatingImageView;
-                    Property property = View.TRANSLATION_Y;
-                    float[] fArr5 = new float[1];
-                    if (this.translationY < 0.0f) {
-                        i16 = -i16;
-                    }
-                    fArr5[0] = i16;
-                    animatorArr[3] = ObjectAnimator.ofFloat(clippingImageView, property, fArr5);
-                    animatorArr[4] = ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f);
-                    animatorArr[5] = ObjectAnimator.ofFloat(this.navigationBar, View.ALPHA, 0.0f);
-                    animatorSet.playTogether(animatorArr);
-                }
-                this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda68
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PhotoViewer.this.lambda$closePhoto$75(placeForPhoto);
-                    }
-                };
-                animatorSet.setDuration(200L);
-                animatorSet.addListener(new 72());
-                this.transitionAnimationStartTime = System.currentTimeMillis();
-                if (Build.VERSION.SDK_INT >= 18) {
-                    this.containerView.setLayerType(2, null);
-                }
-                animatorSet.start();
-                animatedFileDrawable = null;
-            } else {
-                AnimatorSet animatorSet2 = new AnimatorSet();
-                animatorSet2.playTogether(ObjectAnimator.ofFloat(this.containerView, View.SCALE_X, 0.9f), ObjectAnimator.ofFloat(this.containerView, View.SCALE_Y, 0.9f), ObjectAnimator.ofInt(this.backgroundDrawable, (Property<BackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0), ObjectAnimator.ofFloat(this.containerView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.navigationBar, View.ALPHA, 0.0f));
-                this.animationInProgress = 2;
-                this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda67
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PhotoViewer.this.lambda$closePhoto$76(placeForPhoto);
-                    }
-                };
-                animatorSet2.setDuration(200L);
-                animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.73
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        PhotoViewer.this.clippingImageProgress = 0.0f;
-                        if (PhotoViewer.this.animationEndRunnable != null) {
-                            ChatActivity chatActivity2 = PhotoViewer.this.parentChatActivity;
-                            if (chatActivity2 == null && PhotoViewer.this.parentAlert != null) {
-                                BaseFragment baseFragment2 = PhotoViewer.this.parentAlert.getBaseFragment();
-                                if (baseFragment2 instanceof ChatActivity) {
-                                    chatActivity2 = (ChatActivity) baseFragment2;
-                                }
-                            }
-                            if (chatActivity2 != null) {
-                                chatActivity2.lambda$openDiscussionMessageChat$229(PhotoViewer.this.animationEndRunnable);
-                                return;
-                            }
-                            PhotoViewer.this.animationEndRunnable.run();
-                            PhotoViewer.this.animationEndRunnable = null;
-                        }
-                    }
-                });
-                this.transitionAnimationStartTime = System.currentTimeMillis();
-                if (Build.VERSION.SDK_INT >= 18) {
-                    animatedFileDrawable = null;
-                    this.containerView.setLayerType(2, null);
-                } else {
-                    animatedFileDrawable = null;
-                }
-                animatorSet2.start();
-            }
-            AnimatedFileDrawable animatedFileDrawable2 = this.currentAnimation;
-            if (animatedFileDrawable2 != null) {
-                animatedFileDrawable2.removeSecondParentView(this.containerView);
-                this.currentAnimation = animatedFileDrawable;
-                this.centerImage.setImageBitmap(animatedFileDrawable);
-            }
-            PhotoViewerProvider photoViewerProvider = this.placeProvider;
-            if (photoViewerProvider != null && !photoViewerProvider.canScrollAway()) {
-                this.placeProvider.cancelButtonPressed();
-            }
+        if (!this.isInline) {
         }
-        BaseFragment baseFragment2 = this.parentFragment;
-        if (baseFragment2 == null || baseFragment2.getFragmentView() == null) {
-            return;
+        baseFragment = this.parentFragment;
+        if (baseFragment == null) {
         }
-        View fragmentView2 = this.parentFragment.getFragmentView();
-        fragmentView2.setScaleX(f);
-        fragmentView2.setScaleY(f2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -18007,76 +18073,76 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:580:0x07ed, code lost:
-        if (r0 == 2) goto L581;
+    /* JADX WARN: Code restructure failed: missing block: B:583:0x07fb, code lost:
+        if (r0 == 2) goto L584;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:585:0x07f5, code lost:
-        if (r14 == (-1)) goto L586;
+    /* JADX WARN: Code restructure failed: missing block: B:588:0x0803, code lost:
+        if (r14 == (-1)) goto L589;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:589:0x07fe, code lost:
-        if (r14 == r1) goto L581;
+    /* JADX WARN: Code restructure failed: missing block: B:592:0x080c, code lost:
+        if (r14 == r1) goto L584;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x03a4  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x03a9  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x03c4  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x03c6  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x03cd  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0419  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x0503  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x05e6  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0611  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x063b  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0652 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x0c99  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0d3e  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x0e1d  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0e77  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x0e7e  */
-    /* JADX WARN: Removed duplicated region for block: B:281:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x0d44  */
-    /* JADX WARN: Removed duplicated region for block: B:289:0x0e0a  */
-    /* JADX WARN: Removed duplicated region for block: B:294:0x0680  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x069b  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x06b0  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x06bc A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x078b  */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x07d2  */
-    /* JADX WARN: Removed duplicated region for block: B:340:0x080e  */
-    /* JADX WARN: Removed duplicated region for block: B:355:0x08a0  */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x08ab  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x08c3  */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x08e3  */
-    /* JADX WARN: Removed duplicated region for block: B:380:0x0a24  */
-    /* JADX WARN: Removed duplicated region for block: B:387:0x0a51  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x0a79  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x0a90  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x0abf  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x0aca  */
-    /* JADX WARN: Removed duplicated region for block: B:417:0x0af8  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x0b05  */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x0b93  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x0bae  */
-    /* JADX WARN: Removed duplicated region for block: B:459:0x0bda  */
-    /* JADX WARN: Removed duplicated region for block: B:486:0x0c85 A[EDGE_INSN: B:486:0x0c85->B:211:0x0c85 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:489:0x0b8d  */
-    /* JADX WARN: Removed duplicated region for block: B:491:0x0ae7  */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x0a86  */
-    /* JADX WARN: Removed duplicated region for block: B:496:0x0ac3  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x090d  */
-    /* JADX WARN: Removed duplicated region for block: B:518:0x09f2  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x09fa  */
-    /* JADX WARN: Removed duplicated region for block: B:530:0x0951  */
-    /* JADX WARN: Removed duplicated region for block: B:539:0x0988  */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0992  */
-    /* JADX WARN: Removed duplicated region for block: B:573:0x0a13  */
-    /* JADX WARN: Removed duplicated region for block: B:592:0x0807  */
-    /* JADX WARN: Removed duplicated region for block: B:608:0x0683  */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x050b  */
-    /* JADX WARN: Removed duplicated region for block: B:617:0x058c  */
-    /* JADX WARN: Removed duplicated region for block: B:619:0x05f1  */
-    /* JADX WARN: Removed duplicated region for block: B:626:0x0375  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03b7  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x03d2  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x03d4  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x03db  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0427  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x045b  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0511  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x05f4  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x061f  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x0649  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x0660 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x0ca7  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0d4c  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0e2b  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x0e85  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0e8c  */
+    /* JADX WARN: Removed duplicated region for block: B:284:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x0d52  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x0e18  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x068e  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x06a9  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x06be  */
+    /* JADX WARN: Removed duplicated region for block: B:307:0x06ca A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x0799  */
+    /* JADX WARN: Removed duplicated region for block: B:336:0x07e0  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x081c  */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x08ae  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x08b9  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x08d1  */
+    /* JADX WARN: Removed duplicated region for block: B:373:0x08f1  */
+    /* JADX WARN: Removed duplicated region for block: B:383:0x0a32  */
+    /* JADX WARN: Removed duplicated region for block: B:390:0x0a5f  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x0a87  */
+    /* JADX WARN: Removed duplicated region for block: B:405:0x0a9e  */
+    /* JADX WARN: Removed duplicated region for block: B:414:0x0acd  */
+    /* JADX WARN: Removed duplicated region for block: B:417:0x0ad8  */
+    /* JADX WARN: Removed duplicated region for block: B:420:0x0b06  */
+    /* JADX WARN: Removed duplicated region for block: B:423:0x0b13  */
+    /* JADX WARN: Removed duplicated region for block: B:445:0x0ba1  */
+    /* JADX WARN: Removed duplicated region for block: B:452:0x0bbc  */
+    /* JADX WARN: Removed duplicated region for block: B:462:0x0be8  */
+    /* JADX WARN: Removed duplicated region for block: B:489:0x0c93 A[EDGE_INSN: B:489:0x0c93->B:214:0x0c93 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:492:0x0b9b  */
+    /* JADX WARN: Removed duplicated region for block: B:494:0x0af5  */
+    /* JADX WARN: Removed duplicated region for block: B:496:0x0a94  */
+    /* JADX WARN: Removed duplicated region for block: B:499:0x0ad1  */
+    /* JADX WARN: Removed duplicated region for block: B:502:0x091b  */
+    /* JADX WARN: Removed duplicated region for block: B:521:0x0a00  */
+    /* JADX WARN: Removed duplicated region for block: B:524:0x0a08  */
+    /* JADX WARN: Removed duplicated region for block: B:533:0x095f  */
+    /* JADX WARN: Removed duplicated region for block: B:542:0x0996  */
+    /* JADX WARN: Removed duplicated region for block: B:545:0x09a0  */
+    /* JADX WARN: Removed duplicated region for block: B:576:0x0a21  */
+    /* JADX WARN: Removed duplicated region for block: B:595:0x0815  */
+    /* JADX WARN: Removed duplicated region for block: B:611:0x0691  */
+    /* JADX WARN: Removed duplicated region for block: B:616:0x0519  */
+    /* JADX WARN: Removed duplicated region for block: B:620:0x059a  */
+    /* JADX WARN: Removed duplicated region for block: B:622:0x05ff  */
+    /* JADX WARN: Removed duplicated region for block: B:629:0x0383  */
     /* JADX WARN: Type inference failed for: r14v3 */
     /* JADX WARN: Type inference failed for: r14v35 */
     /* JADX WARN: Type inference failed for: r14v4, types: [int, boolean] */
@@ -18212,6 +18278,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             View fragmentView = this.parentFragment.getFragmentView();
             fragmentView.setScaleX(clamp);
             fragmentView.setScaleY(clamp);
+            ChatAttachAlert chatAttachAlert = this.parentAlert;
+            if (chatAttachAlert != null) {
+                FrameLayout container = chatAttachAlert.getContainer();
+                container.setScaleX(clamp);
+                container.setScaleY(clamp);
+            }
             int i32 = this.animationInProgress;
             if (i32 == 1 || i32 == 3 || this.pipAnimationInProgress) {
                 this.containerView.invalidate();

@@ -156,8 +156,8 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
 
     /* JADX WARN: Removed duplicated region for block: B:118:0x017f  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x01c2  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x02de  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x01c4  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x02e3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -305,7 +305,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                         this.delButton.setScaleY(0.0f);
                         return;
                     }
-                    this.unlockButton.setVisibility(4);
+                    this.unlockButton.setVisibility(8);
                     this.unlockButton.setAlpha(0.0f);
                     this.unlockButton.setScaleX(0.0f);
                     this.unlockButton.setScaleY(0.0f);
@@ -331,6 +331,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                     return;
                 }
                 if (z7) {
+                    this.unlockButton.setVisibility(0);
                     this.delButton.setVisibility(0);
                     this.addButton.setVisibility(0);
                 } else {
@@ -396,12 +397,15 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                         if (FeaturedStickerSetCell2.this.isLocked) {
                             FeaturedStickerSetCell2.this.addButton.setVisibility(4);
                             FeaturedStickerSetCell2.this.delButton.setVisibility(4);
-                            FeaturedStickerSetCell2.this.unlockButton.setVisibility(4);
-                        } else if (FeaturedStickerSetCell2.this.isInstalled) {
+                            FeaturedStickerSetCell2.this.unlockButton.setVisibility(0);
+                            return;
+                        }
+                        if (FeaturedStickerSetCell2.this.isInstalled) {
                             FeaturedStickerSetCell2.this.addButton.setVisibility(4);
                         } else {
                             FeaturedStickerSetCell2.this.delButton.setVisibility(4);
                         }
+                        FeaturedStickerSetCell2.this.unlockButton.setVisibility(8);
                     }
                 });
                 this.currentAnimation.setInterpolator(new OvershootInterpolator(1.02f));

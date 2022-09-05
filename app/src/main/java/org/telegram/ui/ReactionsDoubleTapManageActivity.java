@@ -210,10 +210,14 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
             }
         }
 
+        public void updateImageBounds() {
+            this.imageDrawable.setBounds((getWidth() - this.imageDrawable.getIntrinsicWidth()) - AndroidUtilities.dp(21.0f), (getHeight() - this.imageDrawable.getIntrinsicHeight()) / 2, getWidth() - AndroidUtilities.dp(21.0f), (getHeight() + this.imageDrawable.getIntrinsicHeight()) / 2);
+        }
+
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
             super.dispatchDraw(canvas);
-            this.imageDrawable.setBounds((getWidth() - this.imageDrawable.getIntrinsicWidth()) - AndroidUtilities.dp(21.0f), (getHeight() - this.imageDrawable.getIntrinsicHeight()) / 2, getWidth() - AndroidUtilities.dp(21.0f), (getHeight() + this.imageDrawable.getIntrinsicHeight()) / 2);
+            updateImageBounds();
             this.imageDrawable.draw(canvas);
         }
 
@@ -235,7 +239,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00b8 A[LOOP:0: B:20:0x00b2->B:22:0x00b8, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00bb A[LOOP:0: B:20:0x00b5->B:22:0x00bb, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -256,6 +260,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = setDefaultReactionCell.imageDrawable;
             if (setDefaultReactionCell.imageDrawable != null) {
                 setDefaultReactionCell.imageDrawable.play();
+                setDefaultReactionCell.updateImageBounds();
                 Rect rect = AndroidUtilities.rectTmp2;
                 rect.set(setDefaultReactionCell.imageDrawable.getBounds());
                 int dp = (-(setDefaultReactionCell.getHeight() - rect.centerY())) - AndroidUtilities.dp(16.0f);
@@ -264,7 +269,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 i2 = dp;
                 setDefaultReactionCell2 = setDefaultReactionCell;
                 int i4 = i2;
-                selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
+                selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 2, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
                     @Override // org.telegram.ui.SelectAnimatedEmojiDialog
                     protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
                         if (l == null) {
@@ -334,7 +339,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         i = 0;
         i2 = 0;
         int i42 = i2;
-        selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
+        selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 2, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
             protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
                 if (l == null) {

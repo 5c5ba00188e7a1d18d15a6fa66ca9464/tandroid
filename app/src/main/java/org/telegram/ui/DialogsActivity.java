@@ -4572,11 +4572,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             TLRPC$User user = MessagesController.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).getUser(Long.valueOf(UserConfig.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).getClientUserId()));
             if (user != null) {
                 user.emoji_status = tLRPC$TL_account_updateEmojiStatus.emoji_status;
-                if (DialogsActivity.this.animatedStatusView != null && (user.emoji_status instanceof TLRPC$TL_emojiStatus)) {
-                    DialogsActivity.this.animatedStatusView.animateChange(ReactionsLayoutInBubble.VisibleReaction.fromCustomEmoji(Long.valueOf(((TLRPC$TL_emojiStatus) user.emoji_status).document_id)));
-                }
                 NotificationCenter.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).postNotificationName(NotificationCenter.userEmojiStatusUpdated, user);
                 DialogsActivity.this.getMessagesController().updateEmojiStatusUntilUpdate(user.id, user.emoji_status);
+            }
+            if (l != null) {
+                DialogsActivity.this.animatedStatusView.animateChange(ReactionsLayoutInBubble.VisibleReaction.fromCustomEmoji(l));
             }
             ConnectionsManager.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).sendRequest(tLRPC$TL_account_updateEmojiStatus, DialogsActivity$28$$ExternalSyntheticLambda0.INSTANCE);
             if (this.val$popup[0] != null) {

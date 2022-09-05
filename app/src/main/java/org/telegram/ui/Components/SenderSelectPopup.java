@@ -156,14 +156,16 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                     TLRPC$Chat chat = messagesController.getChat(Long.valueOf(-j2));
                     if (chat != null) {
                         if (tLRPC$TL_sendAsPeer.premium_required) {
-                            SpannableString spannableString = new SpannableString(chat.title + " d");
+                            SpannableString spannableString = new SpannableString(((Object) TextUtils.ellipsize(chat.title, senderView.title.getPaint(), width - AndroidUtilities.dp(100.0f), TextUtils.TruncateAt.END)) + " d");
                             ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.msg_mini_premiumlock);
                             coloredImageSpan.setTopOffset(1);
                             coloredImageSpan.setSize(AndroidUtilities.dp(14.0f));
-                            coloredImageSpan.setColorKey("windowBackgroundWhiteGrayIcon");
+                            coloredImageSpan.setColorKey("windowBackgroundWhiteGrayText5");
                             spannableString.setSpan(coloredImageSpan, spannableString.length() - 1, spannableString.length(), 33);
+                            senderView.title.setEllipsize(null);
                             senderView.title.setText(spannableString);
                         } else {
+                            senderView.title.setEllipsize(TextUtils.TruncateAt.END);
                             senderView.title.setText(chat.title);
                         }
                         senderView.subtitle.setText(LocaleController.formatPluralString((!ChatObject.isChannel(chat) || chat.megagroup) ? "Members" : "Subscribers", chat.participants_count, new Object[0]));
@@ -581,7 +583,6 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             textView.setTextSize(1, 16.0f);
             textView.setTag(textView);
             textView.setMaxLines(1);
-            textView.setEllipsize(TextUtils.TruncateAt.END);
             linearLayout.addView(textView);
             TextView textView2 = new TextView(context);
             this.subtitle = textView2;

@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.MediaCodec;
 import android.media.MediaCrypto;
@@ -97,6 +99,7 @@ import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.webrtc.EglBase;
+import org.webrtc.MediaStreamTrack;
 @TargetApi(18)
 /* loaded from: classes3.dex */
 public class InstantCameraView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -2341,6 +2344,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                     mediaCodec2.stop();
                     this.audioEncoder.release();
                     this.audioEncoder = null;
+                    setBluetoothScoOn(false);
                 } catch (Exception e3) {
                     FileLog.e(e3);
                 }
@@ -2506,8 +2510,43 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
             InstantCameraView.this.startAnimation(false);
         }
 
+        private void setBluetoothScoOn(boolean z) {
+            AudioManager audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+            if ((!audioManager.isBluetoothScoAvailableOffCall() || !SharedConfig.recordViaSco) && z) {
+                return;
+            }
+            BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (defaultAdapter != null) {
+                try {
+                    if (defaultAdapter.getProfileConnectionState(1) != 2) {
+                    }
+                    if (!z && !audioManager.isBluetoothScoOn()) {
+                        audioManager.startBluetoothSco();
+                        return;
+                    } else if (z || !audioManager.isBluetoothScoOn()) {
+                    } else {
+                        audioManager.stopBluetoothSco();
+                        return;
+                    }
+                } catch (SecurityException unused) {
+                    return;
+                } catch (Throwable th) {
+                    FileLog.e(th);
+                    return;
+                }
+            }
+            if (z) {
+                return;
+            }
+            if (!z) {
+            }
+            if (z) {
+            }
+        }
+
         /* JADX INFO: Access modifiers changed from: private */
         public void prepareEncoder() {
+            setBluetoothScoOn(true);
             try {
                 int minBufferSize = AudioRecord.getMinBufferSize(48000, 16, 2);
                 if (minBufferSize <= 0) {

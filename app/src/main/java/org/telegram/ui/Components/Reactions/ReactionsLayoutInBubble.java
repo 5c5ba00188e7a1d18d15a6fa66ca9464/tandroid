@@ -247,7 +247,7 @@ public class ReactionsLayoutInBubble {
             for (int i9 = 0; i9 < this.reactionButtons.size(); i9++) {
                 if (this.reactionButtons.get(i9).y != i7) {
                     int i10 = i9 - 1;
-                    int i11 = (i - this.reactionButtons.get(i10).x) + this.reactionButtons.get(i10).width;
+                    int i11 = i - (this.reactionButtons.get(i10).x + this.reactionButtons.get(i10).width);
                     while (i8 < i9) {
                         this.reactionButtons.get(i8).x += i11;
                         i8++;

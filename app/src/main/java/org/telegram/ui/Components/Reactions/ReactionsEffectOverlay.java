@@ -267,9 +267,9 @@ public class ReactionsEffectOverlay {
         } else {
             if (reactionHolderView != null) {
                 reactionHolderView.getLocationOnScreen(this.loc);
-                imageX = this.loc[0] + this.holderView.enterImageView.getX();
-                imageY = this.loc[1] + this.holderView.enterImageView.getY();
-                f5 = this.holderView.enterImageView.getWidth() * this.holderView.getScaleX();
+                imageX = this.loc[0] + this.holderView.loopImageView.getX();
+                imageY = this.loc[1] + this.holderView.loopImageView.getY();
+                f5 = this.holderView.loopImageView.getWidth() * this.holderView.getScaleX();
             } else if (reactionButton != null) {
                 chatMessageCell.getLocationInWindow(this.loc);
                 imageX = this.loc[0] + chatMessageCell.reactionsLayoutInBubble.x + reactionButton.x + reactionButton.imageReceiver.getImageX();

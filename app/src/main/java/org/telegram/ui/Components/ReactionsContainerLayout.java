@@ -39,6 +39,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -164,7 +165,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         reactionHolderView2.touchable = false;
         reactionHolderView2.pressedBackupImageView.setVisibility(8);
         addView(this.nextRecentReaction);
-        this.animationEnabled = (!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) || SharedConfig.getDevicePerformanceClass() == 0) ? false : z;
+        this.animationEnabled = (!SharedConfig.animationsEnabled() || SharedConfig.getDevicePerformanceClass() == 0) ? false : z;
         this.shadow = ContextCompat.getDrawable(context, R.drawable.reactions_bubble_shadow).mutate();
         android.graphics.Rect rect = this.shadowPad;
         int dp2 = AndroidUtilities.dp(7.0f);
@@ -427,7 +428,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 ReactionHolderView reactionHolderView = (ReactionHolderView) viewHolder.itemView;
                 reactionHolderView.setScaleX(1.0f);
                 reactionHolderView.setScaleY(1.0f);
-                reactionHolderView.setReaction((ReactionsLayoutInBubble.VisibleReaction) ReactionsContainerLayout.this.visibleReactionsList.get(i));
+                reactionHolderView.setReaction((ReactionsLayoutInBubble.VisibleReaction) ReactionsContainerLayout.this.visibleReactionsList.get(i), i);
             }
         }
 
@@ -587,7 +588,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 i++;
             }
             if (i < list.size()) {
-                this.nextRecentReaction.setReaction(list.get(i));
+                this.nextRecentReaction.setReaction(list.get(i), -1);
             }
         } else {
             this.visibleReactionsList.addAll(list);
@@ -1029,7 +1030,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         if (!showCustomEmojiReaction()) {
             return (AndroidUtilities.dp(36.0f) * itemsCount) + (AndroidUtilities.dp(2.0f) * (itemsCount - 1)) + AndroidUtilities.dp(16.0f);
         }
-        return (AndroidUtilities.dp(36.0f) * itemsCount) - AndroidUtilities.dp(6.0f);
+        return (AndroidUtilities.dp(36.0f) * itemsCount) - AndroidUtilities.dp(4.0f);
     }
 
     public int getItemsCount() {
@@ -1225,6 +1226,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         public boolean hasEnterAnimation;
         private boolean isEnter;
         public BackupImageView loopImageView;
+        public int position;
         boolean pressed;
         public BackupImageView pressedBackupImageView;
         float pressedX;
@@ -1334,9 +1336,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public void setReaction(ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
+        public void setReaction(ReactionsLayoutInBubble.VisibleReaction visibleReaction, int i) {
             ReactionsLayoutInBubble.VisibleReaction visibleReaction2 = this.currentReaction;
             if (visibleReaction2 == null || !visibleReaction2.equals(visibleReaction)) {
+                this.position = i;
                 resetAnimation();
                 this.currentReaction = visibleReaction;
                 this.selected = ReactionsContainerLayout.this.selectedReactions.contains(visibleReaction);
@@ -1408,6 +1411,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             if (!ReactionsContainerLayout.this.animationEnabled) {
                 resetAnimation();
                 this.isEnter = true;
+                if (!this.hasEnterAnimation) {
+                    this.loopImageView.setVisibility(0);
+                    this.loopImageView.setScaleY(1.0f);
+                    this.loopImageView.setScaleX(1.0f);
+                }
                 return false;
             }
             AndroidUtilities.cancelRunOnUIThread(this.playRunnable);
@@ -1503,7 +1511,16 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             }
             AnimatedEmojiDrawable animatedEmojiDrawable = this.loopImageView.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null && animatedEmojiDrawable.getImageReceiver() != null) {
-                this.loopImageView.animatedEmojiDrawable.getImageReceiver().setRoundRadius(this.selected ? AndroidUtilities.dp(6.0f) : 0);
+                int i = 0;
+                if (this.position == 0) {
+                    this.loopImageView.animatedEmojiDrawable.getImageReceiver().setRoundRadius(AndroidUtilities.dp(6.0f), 0, 0, AndroidUtilities.dp(6.0f));
+                } else {
+                    ImageReceiver imageReceiver = this.loopImageView.animatedEmojiDrawable.getImageReceiver();
+                    if (this.selected) {
+                        i = AndroidUtilities.dp(6.0f);
+                    }
+                    imageReceiver.setRoundRadius(i);
+                }
             }
             super.dispatchDraw(canvas);
         }

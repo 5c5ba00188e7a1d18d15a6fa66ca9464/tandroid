@@ -304,18 +304,17 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.max(this.renderedEffectsSize, Math.max(this.stateSize, this.effectsSize))), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.max(this.renderedEffectsSize, Math.max(this.stateSize, this.effectsSize))), 1073741824));
         }
 
-        public void translate(int i, int i2) {
-            setTranslationX(i - (getMeasuredWidth() / 2.0f));
-            float measuredHeight = i2 - (getMeasuredHeight() / 2.0f);
+        public void translate(float f, float f2) {
+            setTranslationX(f - (getMeasuredWidth() / 2.0f));
+            float measuredHeight = f2 - (getMeasuredHeight() / 2.0f);
             this.y1 = measuredHeight;
             setTranslationY(measuredHeight + this.y2);
         }
 
-        public void translateY2(int i) {
-            float f = this.y1;
-            float f2 = i;
-            this.y2 = f2;
-            setTranslationY(f + f2);
+        public void translateY2(float f) {
+            float f2 = this.y1;
+            this.y2 = f;
+            setTranslationY(f2 + f);
         }
 
         @Override // android.view.View
@@ -416,6 +415,15 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
 
         public void setColor(int i) {
             this.color = Integer.valueOf(i);
+            PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY);
+            for (int i2 = 0; i2 < this.animations.size(); i2++) {
+                Object obj = this.animations.get(i2);
+                if (obj instanceof ImageReceiver) {
+                    ((ImageReceiver) obj).setColorFilter(porterDuffColorFilter);
+                } else if (obj instanceof AnimatedEmojiEffect) {
+                    ((AnimatedEmojiEffect) obj).animatedEmojiDrawable.setColorFilter(porterDuffColorFilter);
+                }
+            }
         }
     }
 

@@ -88,7 +88,6 @@ import org.telegram.tgnet.TLRPC$InputPeer;
 import org.telegram.tgnet.TLRPC$InputUser;
 import org.telegram.tgnet.TLRPC$Message;
 import org.telegram.tgnet.TLRPC$MessageEntity;
-import org.telegram.tgnet.TLRPC$MessageMedia;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$ReplyMarkup;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantAdmin;
@@ -982,7 +981,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 ArrayList arrayList = (ArrayList) objArr[1];
                 for (int i8 = 0; i8 < arrayList.size(); i8++) {
                     MessageObject messageObject = (MessageObject) arrayList.get(i8);
-                    if (messageObject.messageOwner.media != null && !messageObject.needDrawBluredPreview() && (mediaType = MediaDataController.getMediaType(messageObject.messageOwner)) != -1 && ((mediaType != 0 || this.sharedMediaData[0].filterType != 2 || messageObject.isVideo()) && (mediaType != 0 || this.sharedMediaData[0].filterType != 1 || !messageObject.isVideo()))) {
+                    if (MessageObject.getMedia(messageObject.messageOwner) != null && !messageObject.needDrawBluredPreview() && (mediaType = MediaDataController.getMediaType(messageObject.messageOwner)) != -1 && ((mediaType != 0 || this.sharedMediaData[0].filterType != 2 || messageObject.isVideo()) && (mediaType != 0 || this.sharedMediaData[0].filterType != 1 || !messageObject.isVideo()))) {
                         SharedMediaData[] sharedMediaDataArr2 = this.sharedMediaData;
                         if (sharedMediaDataArr2[mediaType].startReached) {
                             sharedMediaDataArr2[mediaType].addMessage(messageObject, 0, true, isEncryptedDialog);
@@ -4186,8 +4185,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     /* JADX WARN: Removed duplicated region for block: B:193:0x036c  */
     /* JADX WARN: Removed duplicated region for block: B:206:0x038e  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x0498  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x04b9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:284:0x049a  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x04bb A[SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4466,7 +4465,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             boolean z2 = false;
             while (i13 < arrayList3.size()) {
                 MessageObject messageObject3 = (MessageObject) arrayList3.get(i13);
-                if (messageObject3.messageOwner.media != null && !messageObject3.needDrawBluredPreview()) {
+                if (MessageObject.getMedia(messageObject3.messageOwner) != null && !messageObject3.needDrawBluredPreview()) {
                     int mediaType = MediaDataController.getMediaType(messageObject3.messageOwner);
                     if (mediaType == i11) {
                         return;
@@ -5426,8 +5425,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
         } else if (i3 == 3) {
             try {
-                TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
-                TLRPC$WebPage tLRPC$WebPage = tLRPC$MessageMedia != null ? tLRPC$MessageMedia.webpage : null;
+                TLRPC$WebPage tLRPC$WebPage = MessageObject.getMedia(messageObject.messageOwner) != null ? MessageObject.getMedia(messageObject.messageOwner).webpage : null;
                 if (tLRPC$WebPage != null && !(tLRPC$WebPage instanceof TLRPC$TL_webPageEmpty)) {
                     if (tLRPC$WebPage.cached_page != null) {
                         ArticleViewer.getInstance().setParentActivity(this.profileActivity.getParentActivity(), this.profileActivity);
@@ -6455,9 +6453,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                 break;
                             } else if (this.currentType == 4) {
                                 if (messageObject.type == 0) {
-                                    tLRPC$Document = messageObject.messageOwner.media.webpage.document;
+                                    tLRPC$Document = MessageObject.getMedia(messageObject.messageOwner).webpage.document;
                                 } else {
-                                    tLRPC$Document = messageObject.messageOwner.media.document;
+                                    tLRPC$Document = MessageObject.getMedia(messageObject.messageOwner).document;
                                 }
                                 int i4 = 0;
                                 while (true) {

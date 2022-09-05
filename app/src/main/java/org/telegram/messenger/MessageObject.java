@@ -8666,7 +8666,7 @@ public class MessageObject {
                 this.reactionsChanged = true;
                 return false;
             }
-            if (!arrayList.isEmpty() && arrayList.size() >= maxUserReactionsCount) {
+            while (!arrayList.isEmpty() && arrayList.size() >= maxUserReactionsCount) {
                 int i6 = 0;
                 for (int i7 = 1; i7 < arrayList.size(); i7++) {
                     if (((TLRPC$ReactionCount) arrayList.get(i7)).chosen_order < ((TLRPC$ReactionCount) arrayList.get(i6)).chosen_order) {
@@ -8680,6 +8680,7 @@ public class MessageObject {
                 if (i8 <= 0) {
                     this.messageOwner.reactions.results.remove(tLRPC$ReactionCount3);
                 }
+                arrayList.remove(tLRPC$ReactionCount3);
                 if (this.messageOwner.reactions.can_see_list) {
                     int i9 = 0;
                     while (i9 < this.messageOwner.reactions.recent_reactions.size()) {

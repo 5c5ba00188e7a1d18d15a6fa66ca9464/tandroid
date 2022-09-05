@@ -41,6 +41,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.GestureDetectorFixDoubleTap;
@@ -1988,7 +1989,7 @@ public class RecyclerListView extends RecyclerView {
         }
         boolean emptyViewIsVisible = emptyViewIsVisible();
         int i2 = emptyViewIsVisible ? 0 : 8;
-        if (!this.animateEmptyView) {
+        if (!this.animateEmptyView || !SharedConfig.animationsEnabled()) {
             z = false;
         }
         if (z) {

@@ -2542,39 +2542,39 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         replacingChatActivity = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0bc8  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0cfc  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x0d24  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x10bc  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x1213  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x1267  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x146c  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x1486  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x14e0  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x15ab  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x16db  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x17cb  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x1901  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x1941  */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x1a0e  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x1b37  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x1bf7  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x1f27  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x20f3  */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x21ab  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x21bd  */
-    /* JADX WARN: Removed duplicated region for block: B:335:0x2211  */
-    /* JADX WARN: Removed duplicated region for block: B:340:0x2254  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x225d  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x22b6  */
-    /* JADX WARN: Removed duplicated region for block: B:350:0x226c  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x222e  */
-    /* JADX WARN: Removed duplicated region for block: B:360:0x16fa  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x15ca  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x14ff  */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x1489  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x146e  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x103c  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0bca  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x0cfe  */
+    /* JADX WARN: Removed duplicated region for block: B:213:0x0d26  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x10be  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x1215  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x1269  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x146e  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x1488  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x14e2  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x15ad  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x16dd  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x17cd  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x1903  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x1943  */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x1a10  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x1b39  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x1bf9  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x1f29  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x20f5  */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x21ad  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x21bf  */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x2213  */
+    /* JADX WARN: Removed duplicated region for block: B:340:0x2256  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x225f  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x22b8  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x226e  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x2230  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x16fc  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x15cc  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x1501  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x148b  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x1470  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x103e  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2724,6 +2724,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ChatAvatarContainer chatAvatarContainer2 = new ChatAvatarContainer(context, this, this.currentEncryptedChat != null, this.themeDelegate);
         this.avatarContainer = chatAvatarContainer2;
         chatAvatarContainer2.allowShorterStatus = true;
+        chatAvatarContainer2.premiumIconHiddable = true;
         AndroidUtilities.updateViewVisibilityAnimated(chatAvatarContainer2, true, 1.0f, false);
         if (this.inPreviewMode || this.inBubbleMode) {
             this.avatarContainer.setOccupyStatusBar(false);
@@ -12487,18 +12488,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void showProgressView(boolean z) {
-        FrameLayout frameLayout = this.progressView;
-        if (frameLayout == null) {
+        if (this.progressView == null) {
             return;
         }
         int i = 0;
-        if (this.fragmentOpened) {
+        if (this.fragmentOpened && SharedConfig.animationsEnabled()) {
             if (z == this.animateTo) {
                 return;
             }
             this.animateTo = z;
             if (z) {
-                if (frameLayout.getVisibility() != 0) {
+                if (this.progressView.getVisibility() != 0) {
                     this.progressView.setVisibility(0);
                     this.progressView.setAlpha(0.0f);
                     this.progressView.setScaleX(0.3f);
@@ -12508,7 +12508,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.progressView.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(150L).start();
                 return;
             }
-            frameLayout.animate().setListener(null).cancel();
+            this.progressView.animate().setListener(null).cancel();
             this.progressView.animate().alpha(0.0f).scaleX(0.3f).scaleY(0.3f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatActivity.57
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
@@ -12518,6 +12518,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return;
         }
         this.animateTo = z;
+        FrameLayout frameLayout = this.progressView;
         if (!z) {
             i = 4;
         }
@@ -12898,7 +12899,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             try {
                 for (int i2 = 0; i2 < this.selectedMessagesIds[i].size(); i2++) {
                     MessageObject valueAt = this.selectedMessagesIds[i].valueAt(i2);
-                    if (valueAt != null && (tLRPC$Message = valueAt.messageOwner) != null && (tLRPC$Message.noforwards || valueAt.hasRevealedExtendedMedia())) {
+                    if (valueAt != null && (tLRPC$Message = valueAt.messageOwner) != null && tLRPC$Message.noforwards) {
                         return true;
                     }
                 }
@@ -23355,9 +23356,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 spannableString2.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ChatActivity.97
                     @Override // android.text.style.ClickableSpan
                     public void onClick(View view) {
-                        ChatActivity chatActivity = ChatActivity.this;
-                        ChatActivity chatActivity2 = ChatActivity.this;
-                        chatActivity.showDialog(new PremiumFeatureBottomSheet(chatActivity2, chatActivity2.getContext(), ((BaseFragment) ChatActivity.this).currentAccount, 6, false));
+                        ChatActivity.this.presentFragment(new PremiumPreviewFragment(null));
                     }
 
                     @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
@@ -24490,48 +24489,48 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:296:0x1471, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:296:0x1473, code lost:
         if (r2.isEmpty() == false) goto L643;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:653:0x1490, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:653:0x1492, code lost:
         if ((r4.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L654;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:655:0x14a4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:655:0x14a6, code lost:
         if (r2.isEmpty() != false) goto L297;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:658:0x149a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:658:0x149c, code lost:
         if (org.telegram.messenger.ChatObject.isChannel(r53.currentChat) == false) goto L654;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:660:0x149e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:660:0x14a0, code lost:
         if (r53.currentUser != null) goto L654;
      */
     /* JADX WARN: Code restructure failed: missing block: B:889:0x0ab0, code lost:
         if (r0.edit_messages != false) goto L875;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1105:0x13c9  */
-    /* JADX WARN: Removed duplicated region for block: B:1107:0x13cc  */
+    /* JADX WARN: Removed duplicated region for block: B:1105:0x13cb  */
+    /* JADX WARN: Removed duplicated region for block: B:1107:0x13ce  */
     /* JADX WARN: Removed duplicated region for block: B:141:0x02ef  */
     /* JADX WARN: Removed duplicated region for block: B:155:0x0313  */
     /* JADX WARN: Removed duplicated region for block: B:156:0x0315  */
     /* JADX WARN: Removed duplicated region for block: B:243:0x04e2 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:244:0x04e3  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x13de A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:264:0x13e7  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x13f0  */
-    /* JADX WARN: Removed duplicated region for block: B:353:0x15e4  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x1620  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x162c  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x1650  */
-    /* JADX WARN: Removed duplicated region for block: B:493:0x2205  */
-    /* JADX WARN: Removed duplicated region for block: B:496:0x2224  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x222b  */
-    /* JADX WARN: Removed duplicated region for block: B:502:0x2232  */
-    /* JADX WARN: Removed duplicated region for block: B:504:0x2209  */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x17da  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x1633  */
-    /* JADX WARN: Removed duplicated region for block: B:634:0x1622  */
-    /* JADX WARN: Removed duplicated region for block: B:635:0x15e7  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x13e0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:264:0x13e9  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x13f2  */
+    /* JADX WARN: Removed duplicated region for block: B:353:0x15e6  */
+    /* JADX WARN: Removed duplicated region for block: B:356:0x1622  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x162e  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x1652  */
+    /* JADX WARN: Removed duplicated region for block: B:493:0x2207  */
+    /* JADX WARN: Removed duplicated region for block: B:496:0x2226  */
+    /* JADX WARN: Removed duplicated region for block: B:499:0x222d  */
+    /* JADX WARN: Removed duplicated region for block: B:502:0x2234  */
+    /* JADX WARN: Removed duplicated region for block: B:504:0x220b  */
+    /* JADX WARN: Removed duplicated region for block: B:632:0x17dc  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x1635  */
+    /* JADX WARN: Removed duplicated region for block: B:634:0x1624  */
+    /* JADX WARN: Removed duplicated region for block: B:635:0x15e9  */
     /* JADX WARN: Type inference failed for: r15v32 */
     /* JADX WARN: Type inference failed for: r15v5 */
     /* JADX WARN: Type inference failed for: r15v6, types: [int, boolean] */
@@ -24551,7 +24550,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         String str2;
         ArrayList<MessageObject> arrayList;
         TLRPC$User tLRPC$User;
-        MessageObject messageObject3;
         int i;
         TLRPC$Chat tLRPC$Chat2;
         int i2;
@@ -24569,10 +24567,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout2;
         Rect rect3;
         AnimatedEmojiSpan[] animatedEmojiSpanArr;
-        MessageObject messageObject4;
+        MessageObject messageObject3;
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout3;
+        MessageObject messageObject4;
         MessageObject messageObject5;
-        MessageObject messageObject6;
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout4;
         AnimatedEmojiSpan[] animatedEmojiSpanArr2;
         int i3;
@@ -24586,7 +24584,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         AtomicReference atomicReference2;
         AtomicBoolean atomicBoolean2;
         ArrayList arrayList3;
-        final MessageObject messageObject7;
+        final MessageObject messageObject6;
         ArrayList arrayList4;
         ArrayList arrayList5;
         final ChatActivity chatActivity;
@@ -24596,8 +24594,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         final ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout5;
         boolean z9;
         int i7;
+        MessageObject messageObject7;
         MessageObject messageObject8;
-        MessageObject messageObject9;
         final ArrayList arrayList6;
         ArrayList arrayList7;
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout6;
@@ -24626,16 +24624,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         TLRPC$MessageAction tLRPC$MessageAction;
         TLRPC$UserFull tLRPC$UserFull;
         ArrayList<MessageObject> arrayList10;
-        MessageObject messageObject10;
+        MessageObject messageObject9;
         if (this.actionBar.isActionModeShowed() || this.reportType >= 0) {
             return false;
         }
         boolean z12 = view instanceof ChatMessageCell;
         if (z12) {
             ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-            MessageObject messageObject11 = chatMessageCell.getMessageObject();
+            MessageObject messageObject10 = chatMessageCell.getMessageObject();
             messageObject2 = chatMessageCell.getPrimaryMessageObject();
-            messageObject = messageObject11;
+            messageObject = messageObject10;
         } else {
             messageObject = view instanceof ChatActionCell ? ((ChatActionCell) view).getMessageObject() : null;
             messageObject2 = messageObject;
@@ -24656,7 +24654,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     Toast.makeText(getParentActivity(), LocaleController.getString("MessageNotFound", R.string.MessageNotFound), 0).show();
                 }
                 return true;
-            } else if ((tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPaymentSent) && (messageObject10 = messageObject.replyMessageObject) != null && messageObject10.isInvoice()) {
+            } else if ((tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPaymentSent) && (messageObject9 = messageObject.replyMessageObject) != null && messageObject9.isInvoice()) {
                 TLRPC$TL_payments_getPaymentReceipt tLRPC$TL_payments_getPaymentReceipt = new TLRPC$TL_payments_getPaymentReceipt();
                 tLRPC$TL_payments_getPaymentReceipt.msg_id = messageObject.getId();
                 tLRPC$TL_payments_getPaymentReceipt.peer = getMessagesController().getInputPeer(messageObject.messageOwner.peer_id);
@@ -24741,10 +24739,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 size = validGroupedMessage.messages.size();
                 int i13 = 0;
                 for (i11 = 0; i11 < size; i11++) {
-                    MessageObject messageObject12 = validGroupedMessage.messages.get(i11);
-                    if (i11 == 0 || !TextUtils.isEmpty(messageObject12.caption)) {
-                        this.selectedObjectToEditCaption = messageObject12;
-                        if (!TextUtils.isEmpty(messageObject12.caption)) {
+                    MessageObject messageObject11 = validGroupedMessage.messages.get(i11);
+                    if (i11 == 0 || !TextUtils.isEmpty(messageObject11.caption)) {
+                        this.selectedObjectToEditCaption = messageObject11;
+                        if (!TextUtils.isEmpty(messageObject11.caption)) {
                             i13++;
                         }
                     }
@@ -24759,7 +24757,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ArrayList arrayList11 = new ArrayList();
                 ArrayList arrayList12 = new ArrayList();
                 ArrayList arrayList13 = new ArrayList();
-                MessageObject messageObject13 = messageObject2;
+                MessageObject messageObject12 = messageObject2;
                 boolean z19 = z15;
                 boolean z20 = z17;
                 if ((messageObject.messageOwner.action instanceof TLRPC$TL_messageActionSetMessagesTTL) && z14 && (this.dialog_id >= 0 || ((tLRPC$Chat3 = this.currentChat) != null && ChatObject.canUserDoAdminAction(tLRPC$Chat3, 13)))) {
@@ -24821,8 +24819,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         arrayList11.add(Integer.valueOf(R.drawable.msg_block2));
                     }
                     if (messageType == -1) {
-                        MessageObject messageObject14 = this.selectedObject;
-                        if ((messageObject14.type == 0 || messageObject14.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z16) {
+                        MessageObject messageObject13 = this.selectedObject;
+                        if ((messageObject13.type == 0 || messageObject13.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z16) {
                             arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                             arrayList13.add(3);
                             arrayList11.add(Integer.valueOf(R.drawable.msg_copy));
@@ -24858,8 +24856,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 arrayList13.add(13);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_pin));
                             }
-                            MessageObject messageObject15 = this.selectedObject;
-                            if (messageObject15 != null && messageObject15.contentType == 0 && messageCaption != null && messageCaption.length() > 0 && !this.selectedObject.isAnimatedEmoji() && !this.selectedObject.isDice()) {
+                            MessageObject messageObject14 = this.selectedObject;
+                            if (messageObject14 != null && messageObject14.contentType == 0 && messageCaption != null && messageCaption.length() > 0 && !this.selectedObject.isAnimatedEmoji() && !this.selectedObject.isDice()) {
                                 arrayList12.add(LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                 arrayList13.add(29);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_translate));
@@ -24869,8 +24867,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 arrayList13.add(12);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_edit));
                             }
-                            MessageObject messageObject16 = this.selectedObject;
-                            if (messageObject16.contentType == 0 && !messageObject16.isMediaEmptyWebpage() && this.selectedObject.getId() > 0 && !this.selectedObject.isOut() && (this.currentChat != null || ((tLRPC$User2 = this.currentUser) != null && tLRPC$User2.bot))) {
+                            MessageObject messageObject15 = this.selectedObject;
+                            if (messageObject15.contentType == 0 && !messageObject15.isMediaEmptyWebpage() && this.selectedObject.getId() > 0 && !this.selectedObject.isOut() && (this.currentChat != null || ((tLRPC$User2 = this.currentUser) != null && tLRPC$User2.bot))) {
                                 arrayList12.add(LocaleController.getString("ReportChat", R.string.ReportChat));
                                 arrayList13.add(23);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_report));
@@ -24935,8 +24933,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             } else {
                                 str2 = "SaveToGallery";
                             }
-                            MessageObject messageObject17 = this.selectedObject;
-                            if ((messageObject17.type == 0 || messageObject17.isDice() || this.selectedObject.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z16) {
+                            MessageObject messageObject16 = this.selectedObject;
+                            if ((messageObject16.type == 0 || messageObject16.isDice() || this.selectedObject.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z16) {
                                 arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                                 arrayList13.add(3);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_copy));
@@ -25125,7 +25123,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList11.add(Integer.valueOf(R.drawable.msg_unfave));
                                 }
                             }
-                            if (!this.selectedObject.isSponsored() && this.chatMode != 1 && !this.selectedObject.needDrawBluredPreview() && !this.selectedObject.isLiveLocation() && (i = (messageObject3 = this.selectedObject).type) != 16 && !z16 && i != 18 && !messageObject3.hasRevealedExtendedMedia()) {
+                            if (!this.selectedObject.isSponsored() && this.chatMode != 1 && ((!this.selectedObject.needDrawBluredPreview() || this.selectedObject.hasExtendedMediaPreview()) && !this.selectedObject.isLiveLocation() && (i = this.selectedObject.type) != 16 && !z16 && i != 18)) {
                                 arrayList12.add(LocaleController.getString("Forward", R.string.Forward));
                                 arrayList13.add(2);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_forward));
@@ -25139,8 +25137,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 arrayList13.add(13);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_pin));
                             }
-                            MessageObject messageObject18 = this.selectedObject;
-                            if (messageObject18 != null && messageObject18.contentType == 0 && messageCaption != null && messageCaption.length() > 0 && !this.selectedObject.isAnimatedEmoji() && !this.selectedObject.isDice()) {
+                            MessageObject messageObject17 = this.selectedObject;
+                            if (messageObject17 != null && messageObject17.contentType == 0 && messageCaption != null && messageCaption.length() > 0 && !this.selectedObject.isAnimatedEmoji() && !this.selectedObject.isDice()) {
                                 arrayList12.add(LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                 arrayList13.add(29);
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_translate));
@@ -25156,8 +25154,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 arrayList11.add(Integer.valueOf(R.drawable.msg_calendar2));
                             }
                             if (this.chatMode != 1) {
-                                MessageObject messageObject19 = this.selectedObject;
-                                if (messageObject19.contentType == 0 && messageObject19.getId() > 0 && !this.selectedObject.isOut() && (this.currentChat != null || ((tLRPC$User = this.currentUser) != null && tLRPC$User.bot))) {
+                                MessageObject messageObject18 = this.selectedObject;
+                                if (messageObject18.contentType == 0 && messageObject18.getId() > 0 && !this.selectedObject.isOut() && (this.currentChat != null || ((tLRPC$User = this.currentUser) != null && tLRPC$User.bot))) {
                                     if (UserObject.isReplyUser(this.currentUser)) {
                                         arrayList12.add(LocaleController.getString("BlockContact", R.string.BlockContact));
                                         arrayList13.add(23);
@@ -25323,8 +25321,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 atomicBoolean2 = atomicBoolean4;
                                                 animatedEmojiSpanArr = null;
                                                 arrayList3 = arrayList12;
-                                                MessageObject messageObject20 = messageObject;
-                                                messageObject5 = messageObject13;
+                                                MessageObject messageObject19 = messageObject;
+                                                messageObject4 = messageObject12;
                                                 arrayList4 = arrayList13;
                                                 arrayList5 = arrayList11;
                                                 z11 = false;
@@ -25376,7 +25374,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 containerLinerLayout.addView(viewPager, LayoutHelper.createLinear(-1, 0, 1.0f));
                                                 i6 = -1;
                                                 chatActivity = this;
-                                                messageObject7 = messageObject20;
+                                                messageObject6 = messageObject19;
                                                 onHeightChangedListener = null;
                                                 reactedHeaderView = reactedHeaderView2;
                                                 iArr = iArr4;
@@ -25386,11 +25384,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 arrayList3 = arrayList12;
                                                 atomicReference2 = atomicReference4;
                                                 atomicBoolean2 = atomicBoolean4;
-                                                MessageObject messageObject21 = messageObject;
+                                                MessageObject messageObject20 = messageObject;
                                                 arrayList4 = arrayList13;
                                                 arrayList5 = arrayList11;
                                                 containerLinerLayout = containerLinerLayout2;
-                                                messageObject5 = messageObject13;
+                                                messageObject4 = messageObject12;
                                                 z11 = false;
                                                 animatedEmojiSpanArr = null;
                                                 i6 = -1;
@@ -25399,10 +25397,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 str5 = "actionBarDefaultSubmenuSeparator";
                                                 frameLayout2.setBackgroundColor(chatActivity.getThemedColor(str5));
                                                 containerLinerLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, 8));
-                                                messageObject7 = messageObject21;
+                                                messageObject6 = messageObject20;
                                                 iArr = iArr2;
                                                 actionBarPopupWindowLayout7 = actionBarPopupWindowLayout10;
-                                                onHeightChangedListener = new ReactedUsersListView(chatActivity.contentView.getContext(), chatActivity.themeDelegate, chatActivity.currentAccount, messageObject21, null, true).setSeenUsers(reactedHeaderView2.getSeenUsers()).setOnCustomEmojiSelectedListener(new ReactedUsersListView.OnCustomEmojiSelectedListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda245
+                                                onHeightChangedListener = new ReactedUsersListView(chatActivity.contentView.getContext(), chatActivity.themeDelegate, chatActivity.currentAccount, messageObject20, null, true).setSeenUsers(reactedHeaderView2.getSeenUsers()).setOnCustomEmojiSelectedListener(new ReactedUsersListView.OnCustomEmojiSelectedListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda245
                                                     @Override // org.telegram.ui.Components.ReactedUsersListView.OnCustomEmojiSelectedListener
                                                     public final void showCustomEmojiAlert(ReactedUsersListView reactedUsersListView, ArrayList arrayList15) {
                                                         ChatActivity.this.lambda$createMenu$158(reactedUsersListView, arrayList15);
@@ -25410,7 +25408,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 }).setOnProfileSelectedListener(new ReactedUsersListView.OnProfileSelectedListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda247
                                                     @Override // org.telegram.ui.Components.ReactedUsersListView.OnProfileSelectedListener
                                                     public final void onProfileSelected(ReactedUsersListView reactedUsersListView, long j3, TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction) {
-                                                        ChatActivity.this.lambda$createMenu$159(messageObject7, reactedUsersListView, j3, tLRPC$MessagePeerReaction);
+                                                        ChatActivity.this.lambda$createMenu$159(messageObject6, reactedUsersListView, j3, tLRPC$MessagePeerReaction);
                                                     }
                                                 }).setOnHeightChangedListener(new ReactedUsersListView.OnHeightChangedListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda246
                                                     @Override // org.telegram.ui.Components.ReactedUsersListView.OnHeightChangedListener
@@ -25484,12 +25482,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     rect3 = rect5;
                                     animatedEmojiSpanArr = null;
                                     arrayList3 = arrayList12;
-                                    messageObject7 = messageObject;
+                                    messageObject6 = messageObject;
                                     arrayList4 = arrayList13;
                                     arrayList5 = arrayList11;
                                     chatActivity = this;
                                     actionBarPopupWindowLayout3 = actionBarPopupWindowLayout;
-                                    messageObject5 = messageObject13;
+                                    messageObject4 = messageObject12;
                                     i6 = -1;
                                     r15 = 0;
                                     str5 = "actionBarDefaultSubmenuSeparator";
@@ -25497,7 +25495,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     z9 = false;
                                 }
                                 if (z23) {
-                                    final MessageSeenView messageSeenView = new MessageSeenView(chatActivity.contentView.getContext(), chatActivity.currentAccount, messageObject7, chatActivity.currentChat);
+                                    final MessageSeenView messageSeenView = new MessageSeenView(chatActivity.contentView.getContext(), chatActivity.currentAccount, messageObject6, chatActivity.currentChat);
                                     FrameLayout frameLayout3 = new FrameLayout(chatActivity.contentView.getContext());
                                     frameLayout3.addView(messageSeenView, LayoutHelper.createFrame(i6, -2.0f));
                                     ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem((Context) getParentActivity(), true, (boolean) r15, (Theme.ResourcesProvider) chatActivity.themeDelegate);
@@ -25569,9 +25567,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     actionBarPopupWindowLayout5.addView((View) frameLayout3, LayoutHelper.createLinear(i6, 44));
                                     z9 = true;
                                 }
-                                MessageObject messageObject22 = chatActivity.selectedObject;
-                                boolean z24 = messageObject22 != null && messageObject22.isVoice() && chatActivity.selectedObject.messageOwner != null && getUserConfig().isPremium() && !TextUtils.isEmpty(chatActivity.selectedObject.messageOwner.voiceTranscription) && (tLRPC$Message = chatActivity.selectedObject.messageOwner) != null && !tLRPC$Message.voiceTranscriptionRated && tLRPC$Message.voiceTranscriptionId != j && tLRPC$Message.voiceTranscriptionOpen;
-                                if (z24 || !messageObject7.probablyRingtone() || chatActivity.currentEncryptedChat != null) {
+                                MessageObject messageObject21 = chatActivity.selectedObject;
+                                boolean z24 = messageObject21 != null && messageObject21.isVoice() && chatActivity.selectedObject.messageOwner != null && getUserConfig().isPremium() && !TextUtils.isEmpty(chatActivity.selectedObject.messageOwner.voiceTranscription) && (tLRPC$Message = chatActivity.selectedObject.messageOwner) != null && !tLRPC$Message.voiceTranscriptionRated && tLRPC$Message.voiceTranscriptionId != j && tLRPC$Message.voiceTranscriptionOpen;
+                                if (z24 || !messageObject6.probablyRingtone() || chatActivity.currentEncryptedChat != null) {
                                     i7 = 1;
                                 } else {
                                     i7 = 1;
@@ -25582,7 +25580,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda89
                                         @Override // android.view.View.OnClickListener
                                         public final void onClick(View view2) {
-                                            ChatActivity.this.lambda$createMenu$163(messageObject7, view2);
+                                            ChatActivity.this.lambda$createMenu$163(messageObject6, view2);
                                         }
                                     });
                                     z9 = true;
@@ -25630,7 +25628,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     mutate2.setColorFilter(new PorterDuffColorFilter(chatActivity.getThemedColor("actionBarDefaultSubmenuItemIcon"), PorterDuff.Mode.SRC_IN));
                                     imageView2.setImageDrawable(new CrossfadeDrawable(mutate2, new CircularProgressDrawable(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(1.5f), chatActivity.getThemedColor("actionBarDefaultSubmenuItemIcon"))));
                                     frameLayout6.addView(imageView2, LayoutHelper.createFrame(33, 33.0f, 49, 42.0f, 39.0f, 0.0f, 0.0f));
-                                    messageObject8 = messageObject7;
+                                    messageObject7 = messageObject6;
                                     str4 = str5;
                                     final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda207
                                         @Override // java.lang.Runnable
@@ -25654,7 +25652,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     linearLayout3.addView(frameLayout7, LayoutHelper.createLinear(-1, 8));
                                     actionBarPopupWindowLayout5.addView((View) linearLayout3, createLinear);
                                 } else {
-                                    messageObject8 = messageObject7;
+                                    messageObject7 = messageObject6;
                                     str4 = str5;
                                 }
                                 final boolean z25 = MessagesController.getGlobalMainSettings().getBoolean("translate_button", false);
@@ -25751,7 +25749,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                             atomicBoolean3 = atomicBoolean7;
                                             atomicReference3 = atomicReference6;
                                             final CharSequence charSequence3 = charSequence;
-                                            messageObject9 = messageObject8;
+                                            messageObject8 = messageObject7;
                                             arrayList8 = arrayList15;
                                             final boolean z26 = z16;
                                             actionBarMenuSubItem6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda85
@@ -25767,7 +25765,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                 }
                                             }, 250L);
                                         } else {
-                                            messageObject9 = messageObject8;
+                                            messageObject8 = messageObject7;
                                             arrayList6 = arrayList17;
                                             arrayList7 = arrayList16;
                                             actionBarPopupWindowLayout6 = actionBarPopupWindowLayout5;
@@ -25790,7 +25788,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                             }
                                         }
                                     } else {
-                                        messageObject9 = messageObject8;
+                                        messageObject8 = messageObject7;
                                         arrayList6 = arrayList17;
                                         arrayList7 = arrayList16;
                                         actionBarPopupWindowLayout6 = actionBarPopupWindowLayout5;
@@ -25807,10 +25805,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     arrayList5 = arrayList7;
                                     arrayList3 = arrayList8;
                                     actionBarPopupWindowLayout5 = actionBarPopupWindowLayout6;
-                                    messageObject8 = messageObject9;
+                                    messageObject7 = messageObject8;
                                     size3 = i8;
                                 }
-                                messageObject4 = messageObject8;
+                                messageObject3 = messageObject7;
                                 actionBarPopupWindowLayout2 = actionBarPopupWindowLayout5;
                                 atomicReference = atomicReference2;
                                 atomicBoolean = atomicBoolean2;
@@ -25822,9 +25820,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 actionBarPopupWindowLayout2 = actionBarPopupWindowLayout9;
                                 rect3 = rect5;
                                 animatedEmojiSpanArr = null;
-                                messageObject4 = messageObject;
+                                messageObject3 = messageObject;
                                 actionBarPopupWindowLayout3 = actionBarPopupWindowLayout;
-                                messageObject5 = messageObject13;
+                                messageObject4 = messageObject12;
                             }
                             ChatScrimPopupContainerLayout chatScrimPopupContainerLayout = new ChatScrimPopupContainerLayout(this.contentView.getContext()) { // from class: org.telegram.ui.ChatActivity.109
                                 @Override // android.view.ViewGroup, android.view.View
@@ -25882,18 +25880,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         i31 = 0;
                                     }
                                     reactionsContainerLayout.setPadding(dp2, dp3, dp4 + i31, AndroidUtilities.dp(22));
-                                    final MessageObject messageObject23 = messageObject5;
+                                    final MessageObject messageObject22 = messageObject4;
                                     reactionsContainerLayout.setDelegate(new ReactionsContainerLayout.ReactionsContainerDelegate() { // from class: org.telegram.ui.ChatActivity.111
                                         @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
                                         public void onReactionClicked(View view3, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z28, boolean z29) {
-                                            ChatActivity.this.selectReaction(messageObject23, reactionsContainerLayout, view3, 0.0f, 0.0f, visibleReaction, false, z28, z29);
+                                            ChatActivity.this.selectReaction(messageObject22, reactionsContainerLayout, view3, 0.0f, 0.0f, visibleReaction, false, z28, z29);
                                         }
                                     });
                                     chatScrimPopupContainerLayout.addView(reactionsContainerLayout, LayoutHelper.createLinear(-1, 74, 5, 0, 50, 0, -20));
                                     chatScrimPopupContainerLayout.setReactionsLayout(reactionsContainerLayout);
                                     chatScrimPopupContainerLayout.setClipChildren(false);
-                                    messageObject6 = messageObject4;
-                                    reactionsContainerLayout.setMessage(messageObject6, this.chatInfo);
+                                    messageObject5 = messageObject3;
+                                    reactionsContainerLayout.setMessage(messageObject5, this.chatInfo);
                                     reactionsContainerLayout.setTransitionProgress(0.0f);
                                     if (actionBarPopupWindowLayout2.getSwipeBack() != null) {
                                         actionBarPopupWindowLayout2.getSwipeBack().addOnSwipeBackProgressListener(new PopupSwipeBackLayout.OnSwipeBackProgressListener(this) { // from class: org.telegram.ui.ChatActivity.112
@@ -25916,9 +25914,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         });
                                     }
                                 } else {
-                                    messageObject6 = messageObject4;
+                                    messageObject5 = messageObject3;
                                 }
-                                boolean z28 = z16 && messageObject6.messageOwner.action == null && messageObject6.isSent() && !messageObject6.isEditing() && this.chatMode != 1;
+                                boolean z28 = z16 && messageObject5.messageOwner.action == null && messageObject5.isSent() && !messageObject5.isEditing() && this.chatMode != 1;
                                 actionBarPopupWindowLayout4 = actionBarPopupWindowLayout2;
                                 chatScrimPopupContainerLayout.addView(actionBarPopupWindowLayout4, LayoutHelper.createLinearRelatively(-2.0f, -2.0f, 3, z22 ? 16.0f : 0.0f, 0.0f, z22 ? 36.0f : 0.0f, 0.0f));
                                 chatScrimPopupContainerLayout.setPopupWindowLayout(actionBarPopupWindowLayout4);
@@ -25947,8 +25945,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     chatScrimPopupContainerLayout.addView(frameLayout8, LayoutHelper.createLinear(-1, -2, 3, z22 ? 16 : 0, -8, z22 ? 36 : 0, 0));
                                     chatScrimPopupContainerLayout.applyViewBottom(frameLayout8);
                                 }
-                                if (messageObject6.contentType == 0) {
-                                    CharSequence charSequence5 = messageObject6.messageText;
+                                if (messageObject5.contentType == 0) {
+                                    CharSequence charSequence5 = messageObject5.messageText;
                                     AnimatedEmojiSpan[] animatedEmojiSpanArr3 = charSequence5 instanceof Spanned ? (AnimatedEmojiSpan[]) ((Spanned) charSequence5).getSpans(0, charSequence5.length(), AnimatedEmojiSpan.class) : animatedEmojiSpanArr;
                                     CharSequence messageCaption2 = getMessageCaption(this.selectedObject, this.selectedObjectGroup);
                                     AnimatedEmojiSpan[] animatedEmojiSpanArr4 = messageCaption2 instanceof Spanned ? (AnimatedEmojiSpan[]) ((Spanned) messageCaption2).getSpans(0, messageCaption2.length(), AnimatedEmojiSpan.class) : animatedEmojiSpanArr;
@@ -26164,8 +26162,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             arrayList13.add(8);
                             arrayList11.add(Integer.valueOf(R.drawable.msg_reply));
                         }
-                        MessageObject messageObject24 = this.selectedObject;
-                        if ((messageObject24.type == 0 || messageObject24.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z16) {
+                        MessageObject messageObject23 = this.selectedObject;
+                        if ((messageObject23.type == 0 || messageObject23.isAnimatedEmoji() || this.selectedObject.isAnimatedEmojiStickers() || getMessageCaption(this.selectedObject, this.selectedObjectGroup) != null) && !z16) {
                             arrayList12.add(LocaleController.getString("Copy", R.string.Copy));
                             arrayList13.add(3);
                             arrayList11.add(Integer.valueOf(R.drawable.msg_copy));
