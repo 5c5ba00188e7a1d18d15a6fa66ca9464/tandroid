@@ -174,18 +174,21 @@ public class SimpleTextView extends View {
 
     private void updateFadePaints() {
         if ((this.fadePaint == null || this.fadePaintBack == null) && this.scrollNonFitText) {
-            this.fadePaint = new Paint();
-            this.fadePaint.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(6.0f), 0.0f, new int[]{-1, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+            Paint paint = new Paint();
+            this.fadePaint = paint;
+            paint.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(6.0f), 0.0f, new int[]{-1, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
             this.fadePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-            this.fadePaintBack = new Paint();
-            this.fadePaintBack.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(6.0f), 0.0f, new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+            Paint paint2 = new Paint();
+            this.fadePaintBack = paint2;
+            paint2.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(6.0f), 0.0f, new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
             this.fadePaintBack.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         }
         if (this.fadeEllpsizePaint != null || !this.ellipsizeByGradient) {
             return;
         }
-        this.fadeEllpsizePaint = new Paint();
-        this.fadeEllpsizePaint.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(12.0f), 0.0f, new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+        Paint paint3 = new Paint();
+        this.fadeEllpsizePaint = paint3;
+        paint3.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(16.0f), 0.0f, new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
         this.fadeEllpsizePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }
 
@@ -825,8 +828,8 @@ public class SimpleTextView extends View {
                 canvas.restore();
             } else if (this.ellipsizeByGradient && this.fadeEllpsizePaint != null) {
                 canvas.save();
-                canvas.translate((getMaxTextWidth() - this.paddingRight) - AndroidUtilities.dp(12.0f), 0.0f);
-                canvas.drawRect(0.0f, 0.0f, AndroidUtilities.dp(12.0f), getMeasuredHeight(), this.fadeEllpsizePaint);
+                canvas.translate((getMaxTextWidth() - this.paddingRight) - AndroidUtilities.dp(16.0f), 0.0f);
+                canvas.drawRect(0.0f, 0.0f, AndroidUtilities.dp(16.0f), getMeasuredHeight(), this.fadeEllpsizePaint);
                 canvas.restore();
             }
             updateScrollAnimation();
@@ -984,7 +987,7 @@ public class SimpleTextView extends View {
         }
         this.fullLayoutAdditionalWidth = i;
         this.fullLayoutLeftOffset = i2;
-        createLayout(getMaxTextWidth() - this.minusWidth);
+        createLayout(((getMaxTextWidth() - getPaddingLeft()) - getPaddingRight()) - this.minusWidth);
     }
 
     public void setFullTextMaxLines(int i) {

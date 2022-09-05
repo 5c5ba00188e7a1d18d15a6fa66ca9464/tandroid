@@ -2542,39 +2542,39 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         replacingChatActivity = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0bca  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0cfe  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x0d26  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x10be  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x1215  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x1269  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x146e  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x1488  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x14e2  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x15ad  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x16dd  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x17cd  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x1903  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x1943  */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x1a10  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x1b39  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x1bf9  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x1f29  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x20f5  */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x21ad  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x21bf  */
-    /* JADX WARN: Removed duplicated region for block: B:335:0x2213  */
-    /* JADX WARN: Removed duplicated region for block: B:340:0x2256  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x225f  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x22b8  */
-    /* JADX WARN: Removed duplicated region for block: B:350:0x226e  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x2230  */
-    /* JADX WARN: Removed duplicated region for block: B:360:0x16fc  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x15cc  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x1501  */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x148b  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x1470  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x103e  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0bc8  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x0cfc  */
+    /* JADX WARN: Removed duplicated region for block: B:213:0x0d24  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x10bc  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x1213  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x1267  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x146c  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x1486  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x14e0  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x15ab  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x16db  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x17cb  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x1901  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x1941  */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x1a0e  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x1b37  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x1bf7  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x1f27  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x20f3  */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x21ab  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x21bd  */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x2211  */
+    /* JADX WARN: Removed duplicated region for block: B:340:0x2254  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x225d  */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x22b6  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x226c  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x222e  */
+    /* JADX WARN: Removed duplicated region for block: B:360:0x16fa  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x15ca  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x14ff  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x1489  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x146e  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x103c  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2724,7 +2724,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ChatAvatarContainer chatAvatarContainer2 = new ChatAvatarContainer(context, this, this.currentEncryptedChat != null, this.themeDelegate);
         this.avatarContainer = chatAvatarContainer2;
         chatAvatarContainer2.allowShorterStatus = true;
-        chatAvatarContainer2.premiumIconHiddable = true;
         AndroidUtilities.updateViewVisibilityAnimated(chatAvatarContainer2, true, 1.0f, false);
         if (this.inPreviewMode || this.inBubbleMode) {
             this.avatarContainer.setOccupyStatusBar(false);
@@ -14038,38 +14037,46 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     public boolean showEmojiHint() {
+        SharedPreferences globalMainSettings;
+        int i;
         View view;
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
-        if (chatActivityEnterView == null || chatActivityEnterView.getVisibility() != 0 || getParentActivity() == null || (view = this.fragmentView) == null || this.emojiHintTextView != null) {
+        if (chatActivityEnterView == null || chatActivityEnterView.getVisibility() != 0 || ((i = (globalMainSettings = MessagesController.getGlobalMainSettings()).getInt("moreemojihint", 0)) > 3 && UserConfig.getInstance(this.currentAccount).isPremium())) {
             return false;
         }
-        if (!this.allowContextBotPanelSecond) {
-            ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
-            if (chatActivityEnterView2 != null) {
-                chatActivityEnterView2.setOpenGifsTabFirst();
+        if (UserConfig.getInstance(this.currentAccount).isPremium()) {
+            globalMainSettings.edit().putInt("moreemojihint", i + 1).commit();
+        }
+        if (getParentActivity() != null && (view = this.fragmentView) != null && this.emojiHintTextView == null) {
+            if (!this.allowContextBotPanelSecond) {
+                ChatActivityEnterView chatActivityEnterView2 = this.chatActivityEnterView;
+                if (chatActivityEnterView2 != null) {
+                    chatActivityEnterView2.setOpenGifsTabFirst();
+                }
+                return false;
             }
-            return false;
+            SizeNotifierFrameLayout sizeNotifierFrameLayout = (SizeNotifierFrameLayout) view;
+            int indexOfChild = sizeNotifierFrameLayout.indexOfChild(this.chatActivityEnterView);
+            if (indexOfChild == -1) {
+                return false;
+            }
+            this.chatActivityEnterView.setOpenGifsTabFirst();
+            HintView hintView = new HintView(getParentActivity(), 9, this.themeDelegate);
+            this.emojiHintTextView = hintView;
+            hintView.setText(LocaleController.getString("TapHereEmoji", R.string.TapHereEmoji));
+            sizeNotifierFrameLayout.addView(this.emojiHintTextView, indexOfChild + 1, LayoutHelper.createFrame(-2, -2.0f, 83, 5.0f, 0.0f, 5.0f, 3.0f));
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(ObjectAnimator.ofFloat(this.emojiHintTextView, View.ALPHA, 0.0f, 1.0f));
+            animatorSet.addListener(new 68(sizeNotifierFrameLayout));
+            animatorSet.setDuration(300L);
+            animatorSet.start();
+            View emojiButton = this.chatActivityEnterView.getEmojiButton();
+            if (emojiButton != null) {
+                this.emojiHintTextView.showForView(emojiButton, true);
+            }
+            return true;
         }
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = (SizeNotifierFrameLayout) view;
-        int indexOfChild = sizeNotifierFrameLayout.indexOfChild(this.chatActivityEnterView);
-        if (indexOfChild == -1) {
-            return false;
-        }
-        this.chatActivityEnterView.setOpenGifsTabFirst();
-        HintView hintView = new HintView(getParentActivity(), 9, this.themeDelegate);
-        this.emojiHintTextView = hintView;
-        hintView.setText(LocaleController.getString("TapHereEmoji", R.string.TapHereEmoji));
-        sizeNotifierFrameLayout.addView(this.emojiHintTextView, indexOfChild + 1, LayoutHelper.createFrame(-2, -2.0f, 83, 5.0f, 0.0f, 5.0f, 3.0f));
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.emojiHintTextView, View.ALPHA, 0.0f, 1.0f));
-        animatorSet.addListener(new 68(sizeNotifierFrameLayout));
-        animatorSet.setDuration(300L);
-        animatorSet.start();
-        View emojiButton = this.chatActivityEnterView.getEmojiButton();
-        if (emojiButton != null) {
-            this.emojiHintTextView.showForView(emojiButton, true);
-        }
-        return true;
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -31006,7 +31013,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressPaidPreview(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
+            public void didPressExtendedMediaPreview(ChatMessageCell chatMessageCell, TLRPC$KeyboardButton tLRPC$KeyboardButton) {
                 ChatActivity.this.getSendMessagesHelper().sendCallback(true, chatMessageCell.getMessageObject(), tLRPC$KeyboardButton, ChatActivity.this);
             }
 

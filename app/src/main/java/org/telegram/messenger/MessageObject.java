@@ -1569,47 +1569,53 @@ public class MessageObject {
                 return;
             }
             boolean z2 = i3 == i;
+            int i5 = 2;
             switch (i3) {
                 case 0:
                 case 1:
                     TextPaint[] textPaintArr = Theme.chat_msgTextPaintEmoji;
-                    if (z2) {
-                        textPaint = textPaintArr[0];
-                        break;
-                    } else {
-                        textPaint = textPaintArr[2];
-                        break;
-                    }
+                    textPaint = z2 ? textPaintArr[0] : textPaintArr[2];
+                    i5 = 1;
+                    break;
                 case 2:
                     TextPaint[] textPaintArr2 = Theme.chat_msgTextPaintEmoji;
                     textPaint = z2 ? textPaintArr2[0] : textPaintArr2[2];
-                    i2 = 1;
+                    i5 = 1;
                     break;
                 case 3:
                     TextPaint[] textPaintArr3 = Theme.chat_msgTextPaintEmoji;
                     textPaint = z2 ? textPaintArr3[1] : textPaintArr3[3];
-                    i2 = 1;
+                    i5 = 1;
                     break;
                 case 4:
                     TextPaint[] textPaintArr4 = Theme.chat_msgTextPaintEmoji;
                     textPaint = z2 ? textPaintArr4[2] : textPaintArr4[4];
-                    i2 = 1;
+                    i5 = 1;
                     break;
                 case 5:
                     TextPaint[] textPaintArr5 = Theme.chat_msgTextPaintEmoji;
-                    textPaint = z2 ? textPaintArr5[3] : textPaintArr5[5];
-                    i2 = 2;
-                    break;
+                    if (z2) {
+                        textPaint = textPaintArr5[3];
+                        break;
+                    } else {
+                        textPaint = textPaintArr5[5];
+                        break;
+                    }
                 case 6:
                     TextPaint[] textPaintArr6 = Theme.chat_msgTextPaintEmoji;
-                    textPaint = z2 ? textPaintArr6[4] : textPaintArr6[5];
-                    i2 = 2;
-                    break;
+                    if (z2) {
+                        textPaint = textPaintArr6[4];
+                        break;
+                    } else {
+                        textPaint = textPaintArr6[5];
+                        break;
+                    }
                 default:
                     if (i3 > 9) {
                         i2 = 0;
                     }
                     textPaint = Theme.chat_msgTextPaintEmoji[5];
+                    i5 = i2;
                     break;
             }
             int textSize = (int) (textPaint.getTextSize() + AndroidUtilities.dp(4.0f));
@@ -1621,9 +1627,9 @@ public class MessageObject {
             if (animatedEmojiSpanArr == null || animatedEmojiSpanArr.length <= 0) {
                 return;
             }
-            for (int i5 = 0; i5 < animatedEmojiSpanArr.length; i5++) {
-                animatedEmojiSpanArr[i5].replaceFontMetrics(textPaint.getFontMetricsInt(), textSize, i2);
-                animatedEmojiSpanArr[i5].full = true;
+            for (int i6 = 0; i6 < animatedEmojiSpanArr.length; i6++) {
+                animatedEmojiSpanArr[i6].replaceFontMetrics(textPaint.getFontMetricsInt(), textSize, i5);
+                animatedEmojiSpanArr[i6].full = true;
             }
             return;
         }
@@ -1631,9 +1637,9 @@ public class MessageObject {
         AnimatedEmojiSpan[] animatedEmojiSpanArr2 = (AnimatedEmojiSpan[]) ((Spannable) charSequence3).getSpans(0, charSequence3.length(), AnimatedEmojiSpan.class);
         if (animatedEmojiSpanArr2 != null && animatedEmojiSpanArr2.length > 0) {
             this.totalAnimatedEmojiCount = animatedEmojiSpanArr2.length;
-            for (int i6 = 0; i6 < animatedEmojiSpanArr2.length; i6++) {
-                animatedEmojiSpanArr2[i6].replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), -1);
-                animatedEmojiSpanArr2[i6].full = false;
+            for (int i7 = 0; i7 < animatedEmojiSpanArr2.length; i7++) {
+                animatedEmojiSpanArr2[i7].replaceFontMetrics(Theme.chat_msgTextPaint.getFontMetricsInt(), (int) (Theme.chat_msgTextPaint.getTextSize() + AndroidUtilities.dp(4.0f)), -1);
+                animatedEmojiSpanArr2[i7].full = false;
             }
             return;
         }

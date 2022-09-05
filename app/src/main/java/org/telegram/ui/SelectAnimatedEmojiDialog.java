@@ -441,7 +441,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.selectorAccentPaint.setColor(ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhiteBlueIcon", resourcesProvider), 30));
         this.premiumStarColorFilter = new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlueIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY);
         this.emojiX = num;
-        final Integer valueOf = num == null ? null : Integer.valueOf(MathUtils.clamp(num.intValue(), AndroidUtilities.dp(26.0f), AndroidUtilities.dp(324.0f)));
+        final Integer valueOf = num == null ? null : Integer.valueOf(MathUtils.clamp(num.intValue(), AndroidUtilities.dp(26.0f), AndroidUtilities.dp(292.0f)));
         boolean z2 = valueOf != null && valueOf.intValue() > AndroidUtilities.dp(170.0f);
         setFocusableInTouchMode(true);
         if (i == 0 || i == 2) {
@@ -1085,23 +1085,14 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (this.drawableToBounds == null) {
                 this.drawableToBounds = new Rect();
             }
-            Rect rect = this.drawableToBounds;
-            int centerX = (int) (((bounds.centerX() - ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue());
-            int i2 = 0;
-            int height2 = (int) (((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? bounds.height() : 0)) - (bounds.height() * scaleY)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp));
-            int centerX2 = (int) (((bounds.centerX() + ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue());
-            float f = (height - (height - bounds.bottom)) * scaleY;
-            if (scaleY > 1.5f) {
-                i2 = bounds.height();
-            }
-            rect.set(centerX, height2, centerX2, (int) ((((f - i2) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)));
+            this.drawableToBounds.set((int) (((bounds.centerX() - ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) (((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.75f) - 1.0f : 0.0f)) - (bounds.height() * scaleY)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)), (int) (((bounds.centerX() + ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) ((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.75f) - 1.0f : 0.0f)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)));
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable3 = this.scrimDrawable;
+            Rect rect = this.drawableToBounds;
+            int i2 = rect.left;
             Rect rect2 = this.drawableToBounds;
-            int i3 = rect2.left;
+            swapAnimatedEmojiDrawable3.setBounds(i2, rect.top, (int) (i2 + (rect.width() / scaleY)), (int) (rect2.top + (rect2.height() / scaleY)));
             Rect rect3 = this.drawableToBounds;
-            swapAnimatedEmojiDrawable3.setBounds(i3, rect2.top, (int) (i3 + (rect2.width() / scaleY)), (int) (rect3.top + (rect3.height() / scaleY)));
-            Rect rect4 = this.drawableToBounds;
-            canvas.scale(scaleY, scaleY, rect4.left, rect4.top);
+            canvas.scale(scaleY, scaleY, rect3.left, rect3.top);
             this.scrimDrawable.draw(canvas);
             this.scrimDrawable.setAlpha(i);
             this.scrimDrawable.setBounds(bounds);
