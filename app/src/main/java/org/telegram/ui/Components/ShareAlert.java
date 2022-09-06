@@ -82,7 +82,6 @@ import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$EncryptedChat;
 import org.telegram.tgnet.TLRPC$MessageEntity;
 import org.telegram.tgnet.TLRPC$Peer;
-import org.telegram.tgnet.TLRPC$ReplyMarkup;
 import org.telegram.tgnet.TLRPC$TL_channels_exportMessageLink;
 import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
 import org.telegram.tgnet.TLRPC$TL_dialog;
@@ -92,7 +91,6 @@ import org.telegram.tgnet.TLRPC$TL_exportedMessageLink;
 import org.telegram.tgnet.TLRPC$TL_topPeer;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserStatus;
-import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
@@ -2031,7 +2029,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             String charSequence = charSequenceArr[c] == null ? str2 : charSequenceArr[c].toString();
                             i2 = i5;
                             arrayList = arrayList2;
-                            sendMessagesHelper.sendMessage(charSequence, keyAt2, (MessageObject) null, (MessageObject) null, (TLRPC$WebPage) null, true, entities, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z, 0, (MessageObject.SendAnimationData) null, false);
+                            sendMessagesHelper.sendMessage(charSequence, keyAt2, null, null, null, true, entities, null, null, z, 0, null, false);
                         }
                         int sendMessage = SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingMessageObjects, keyAt2, !this.showSendersName, false, z, 0);
                         if (sendMessage != 0) {
@@ -2069,9 +2067,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             } else {
                                 i = i7;
                                 str = str2;
-                                SendMessagesHelper.getInstance(this.currentAccount).sendMessage(charSequenceArr[0] == null ? str2 : charSequenceArr[0].toString(), keyAt3, (MessageObject) null, (MessageObject) null, (TLRPC$WebPage) null, true, entities, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z, 0, (MessageObject.SendAnimationData) null, false);
+                                SendMessagesHelper.getInstance(this.currentAccount).sendMessage(charSequenceArr[0] == null ? str2 : charSequenceArr[0].toString(), keyAt3, null, null, null, true, entities, null, null, z, 0, null, false);
                             }
-                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingText[i6], keyAt3, (MessageObject) null, (MessageObject) null, (TLRPC$WebPage) null, true, (ArrayList<TLRPC$MessageEntity>) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z, 0, (MessageObject.SendAnimationData) null, false);
+                            SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingText[i6], keyAt3, null, null, null, true, null, null, null, z, 0, null, false);
                             i7 = i + 1;
                             str2 = str;
                         }

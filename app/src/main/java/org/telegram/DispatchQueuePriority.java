@@ -25,25 +25,30 @@ public class DispatchQueuePriority {
         this.threadPoolExecutor.execute(runnable);
     }
 
-    public void postRunnable(Runnable runnable, int i) {
+    public Runnable postRunnable(Runnable runnable, int i) {
         if (i == 1) {
             postRunnable(runnable);
-        } else {
-            this.threadPoolExecutor.execute(new PriorityRunnable(i, runnable));
+            return runnable;
         }
+        PriorityRunnable priorityRunnable = new PriorityRunnable(i, runnable);
+        this.threadPoolExecutor.execute(priorityRunnable);
+        return priorityRunnable;
     }
 
     public void cancelRunnable(Runnable runnable) {
+        if (runnable == null) {
+            return;
+        }
         this.threadPoolExecutor.remove(runnable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public class PriorityRunnable implements Runnable {
+    public static class PriorityRunnable implements Runnable {
         final int priority;
         final Runnable runnable;
 
-        private PriorityRunnable(DispatchQueuePriority dispatchQueuePriority, int i, Runnable runnable) {
+        private PriorityRunnable(int i, Runnable runnable) {
             this.priority = i;
             this.runnable = runnable;
         }

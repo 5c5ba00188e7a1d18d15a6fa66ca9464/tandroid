@@ -4,13 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import com.google.android.search.verification.client.SearchActionVerificationClientService;
-import java.util.ArrayList;
-import java.util.HashMap;
-import org.telegram.messenger.MessageObject;
-import org.telegram.tgnet.TLRPC$MessageEntity;
-import org.telegram.tgnet.TLRPC$ReplyMarkup;
 import org.telegram.tgnet.TLRPC$User;
-import org.telegram.tgnet.TLRPC$WebPage;
 /* loaded from: classes.dex */
 public class GoogleVoiceClientService extends SearchActionVerificationClientService {
     @Override // com.google.android.search.verification.client.SearchActionVerificationClientService
@@ -46,7 +40,7 @@ public class GoogleVoiceClientService extends SearchActionVerificationClientServ
                     return;
                 }
                 ContactsController.getInstance(i).markAsContacted(stringExtra2);
-                SendMessagesHelper.getInstance(i).sendMessage(stringExtra, user.id, (MessageObject) null, (MessageObject) null, (TLRPC$WebPage) null, true, (ArrayList<TLRPC$MessageEntity>) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, true, 0, (MessageObject.SendAnimationData) null, false);
+                SendMessagesHelper.getInstance(i).sendMessage(stringExtra, user.id, null, null, null, true, null, null, null, true, 0, null, false);
             }
         } catch (Exception e) {
             FileLog.e(e);

@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.SparseArray;
@@ -273,6 +274,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Point;
@@ -333,8 +335,20 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         public MediaController.SearchImage searchImage;
         public String thumbPath;
         public int ttl;
+        public boolean updateStickersOrder;
         public Uri uri;
         public VideoEditedInfo videoEditedInfo;
+    }
+
+    public static boolean checkUpdateStickersOrder(CharSequence charSequence) {
+        if (charSequence instanceof Spannable) {
+            for (AnimatedEmojiSpan animatedEmojiSpan : (AnimatedEmojiSpan[]) ((Spannable) charSequence).getSpans(0, charSequence.length(), AnimatedEmojiSpan.class)) {
+                if (animatedEmojiSpan.fromEmojiKeyboard) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /* loaded from: classes.dex */
@@ -1961,7 +1975,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX WARN: Removed duplicated region for block: B:26:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0092  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1987,7 +2001,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         TLRPC$MessageMedia tLRPC$MessageMedia3 = tLRPC$Message3.media;
                         tLRPC$Photo = tLRPC$MessageMedia3.photo;
                         if (!(tLRPC$Photo instanceof TLRPC$TL_photo)) {
-                            sendMessage((TLRPC$TL_photo) tLRPC$Photo, (String) null, j, messageObject.replyMessageObject, (MessageObject) null, tLRPC$Message3.message, tLRPC$Message3.entities, (TLRPC$ReplyMarkup) null, hashMap, true, 0, tLRPC$MessageMedia3.ttl_seconds, (Object) messageObject);
+                            sendMessage((TLRPC$TL_photo) tLRPC$Photo, null, j, messageObject.replyMessageObject, null, tLRPC$Message3.message, tLRPC$Message3.entities, null, hashMap, true, 0, tLRPC$MessageMedia3.ttl_seconds, messageObject, false);
                             return;
                         }
                         TLRPC$Document tLRPC$Document = tLRPC$MessageMedia3.document;
@@ -2035,7 +2049,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     }
                 }
             }
-            sendMessage(messageObject.messageOwner.message, j, messageObject.replyMessageObject, (MessageObject) null, tLRPC$WebPage, true, arrayList, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, true, 0, (MessageObject.SendAnimationData) null, false);
+            sendMessage(messageObject.messageOwner.message, j, messageObject.replyMessageObject, null, tLRPC$WebPage, true, arrayList, null, null, true, 0, null, false);
         } else if (DialogObject.isEncryptedDialog(j)) {
             ArrayList<MessageObject> arrayList4 = new ArrayList<>();
             arrayList4.add(messageObject);
@@ -2401,7 +2415,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                         TLRPC$WebPage tLRPC$WebPage = tLRPC$MessageMedia != null ? tLRPC$MessageMedia.webpage : null;
                         i3 = i2;
-                        sendMessage(messageObject.messageText.toString(), j, (MessageObject) null, (MessageObject) null, tLRPC$WebPage, tLRPC$WebPage != null, messageObject.messageOwner.entities, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z3, i, (MessageObject.SendAnimationData) null, false);
+                        sendMessage(messageObject.messageText.toString(), j, null, null, tLRPC$WebPage, tLRPC$WebPage != null, messageObject.messageOwner.entities, null, null, z3, i, null, false);
                         arrayList18 = arrayList2;
                         longSparseArray6 = longSparseArray2;
                     }
@@ -4770,8 +4784,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         sendMessage(null, null, null, null, null, null, null, tLRPC$TL_game, null, null, j, null, null, null, null, true, null, null, tLRPC$ReplyMarkup, hashMap, z, i, 0, null, null, false);
     }
 
-    public void sendMessage(TLRPC$TL_photo tLRPC$TL_photo, String str, long j, MessageObject messageObject, MessageObject messageObject2, String str2, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$ReplyMarkup tLRPC$ReplyMarkup, HashMap<String, String> hashMap, boolean z, int i, int i2, Object obj) {
-        sendMessage(null, str2, null, tLRPC$TL_photo, null, null, null, null, null, null, j, str, messageObject, messageObject2, null, true, null, arrayList, tLRPC$ReplyMarkup, hashMap, z, i, i2, obj, null, false);
+    public void sendMessage(TLRPC$TL_photo tLRPC$TL_photo, String str, long j, MessageObject messageObject, MessageObject messageObject2, String str2, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$ReplyMarkup tLRPC$ReplyMarkup, HashMap<String, String> hashMap, boolean z, int i, int i2, Object obj, boolean z2) {
+        sendMessage(null, str2, null, tLRPC$TL_photo, null, null, null, null, null, null, j, str, messageObject, messageObject2, null, true, null, arrayList, tLRPC$ReplyMarkup, hashMap, z, i, i2, obj, null, z2);
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(71:10|(1:1554)(1:13)|(1:1553)(1:17)|18|(1:20)(1:1552)|21|(2:23|(1:(2:26|27)(1:28))(1:29))(2:1538|(67:1540|(1:1542)(1:1550)|(1:1549)(1:1547)|1548|31|32|(7:34|(3:37|38|(5:40|41|42|(8:(2:45|46)(1:1240)|48|(2:50|51)(6:1177|(3:1182|(1:1184)(2:1186|(3:1188|(1:1190)|1191)(4:1192|(2:1199|(1:1201)(4:1202|(2:1213|(2:1215|(2:1217|1218)(2:1219|1220))(2:1221|(1:1223)(1:1224)))|1225|(2:1227|1218)(2:1228|1220)))|1230|(2:1232|1218)(2:1233|1220)))|1185)|1234|(1:1236)(1:1238)|1237|1185)|(1:55)|56|57|(1:59)(1:1174)|60)(1:1241)|1239))|1248|41|42|(0)(0)|1239)(18:1249|1250|1251|(1:1253)(1:1532)|1254|(12:(1:1257)(1:1329)|(3:1320|1321|(10:1323|(1:1325)(1:1326)|(1:1319)(2:1264|(7:1314|(2:1318|1277)|(1:1270)(1:1313)|(1:1312)(1:1274)|1275|1276|1277))|1268|(0)(0)|(1:1272)|1312|1275|1276|1277))|1259|(1:1261)|1319|1268|(0)(0)|(0)|1312|1275|1276|1277)(4:1330|1331|(3:(1:1334)(1:1338)|1335|1336)(3:1339|(4:(1:1342)(1:1351)|1343|(1:1350)(1:1347)|1348)(4:1352|(13:(1:1355)(2:1387|1388)|1356|1357|(1:1359)|1360|(1:1362)|1363|(1:1383)(1:1367)|(2:1371|(3:1373|1374|1375)(1:1378))|1379|1380|1381|1375)(4:1395|1396|(3:1398|1399|(1:1401))(3:1404|1405|(4:1407|1408|1409|(1:1411))(2:1416|(9:(1:1419)(1:1438)|1420|(1:1437)(1:1424)|1425|(1:1427)|1428|(1:1430)|(1:1436)(1:1434)|1435)(2:1439|(15:(1:1442)(1:1524)|1443|1444|(3:1447|(2:1449|(2:1452|1453)(1:1451))|1520)|1521|1454|(1:1456)|1457|(2:1508|(2:1516|(1:1518)(1:1519))(1:1515))(1:1461)|(3:1463|(1:1465)|1466)|(1:1507)(1:1474)|(3:1480|(3:1483|(3:1486|1487|(6:1489|(1:1491)(1:1502)|1492|(1:1494)(3:1497|(1:1499)(1:1501)|1500)|1495|1496)(3:1503|1504|1496))(1:1485)|1481)|1505)|1506|1504|1496)(1:1525))))|1377)|1376|1377)|1349)|1337)|(1:1281)|(1:1283)(3:1308|1309|(1:1311))|1284|(1:1286)|1287|(2:1304|(1:1306)(6:1307|1292|1293|1294|1295|1296))(1:1290)|1291|1292|1293|1294|1295|1296)|(4:62|63|64|(54:66|67|68|69|(1:71)|72|(1:1168)(2:(3:77|(1:79)|80)(1:1167)|81)|82|83|(4:1143|(1:1145)(2:1165|1166)|1146|(3:(3:1150|1151|1152)|1155|(2:1157|(1:1159)(2:1160|(1:1162))))(2:1163|1164))(1:87)|88|89|(6:1119|1120|(2:1122|(4:1124|1125|1126|(39:1129|1130|1131|93|(1:95)|96|(1:1118)(2:99|(1:101))|102|(3:104|(2:106|(2:108|109)(2:110|(1:112)(1:113)))|114)(8:1072|1073|1074|(1:1076)(1:1117)|(1:1078)(2:1112|(3:1116|1080|(2:1084|(3:1086|(2:1087|(2:1089|(2:1092|1093)(1:1091))(2:1095|1096))|1094)(2:1097|(3:1101|(2:1102|(2:1104|(2:1107|1108)(1:1106))(2:1110|1111))|1109)))))|1079|1080|(3:1082|1084|(0)(0)))|115|(2:1070|1071)|119|(1:121)|122|123|(5:125|(1:127)(1:1068)|128|(1:130)(1:1067)|131)(1:1069)|132|133|134|135|136|137|138|139|(1:141)(1:1057)|142|143|(5:1041|1042|(1:1051)(2:1045|(1:1047))|1048|(1:1050))(1:145)|146|(1:1040)|149|(7:151|(1:153)(1:1025)|154|(1:156)(1:1024)|157|(1:159)(1:1023)|160)(6:1026|1027|(1:1029)|(3:1031|(1:1033)(1:1038)|1034)(1:1039)|1035|(1:1037))|161|(2:163|(1:165)(1:1020))(1:1021)|166|(15:173|(10:178|179|(8:181|(4:183|(1:185)(2:301|(4:303|(1:305)|306|(1:308))(1:309))|186|187)(7:310|(11:561|562|563|(4:565|566|567|568)(1:603)|(1:599)(4:572|(1:574)|575|576)|577|(1:579)(3:595|(1:597)|598)|(3:581|(1:583)(1:585)|584)|586|(1:594)(1:592)|593)(3:314|315|(18:481|482|(13:484|(1:(2:487|(1:489)))(1:555)|496|(1:498)|(3:538|539|(14:541|542|543|544|(1:546)|547|548|501|502|(1:504)(7:524|525|526|527|(1:529)|(1:533)|534)|(5:506|507|508|(1:510)(1:518)|511)(1:523)|512|(2:514|(1:516))|517))|500|501|502|(0)(0)|(0)(0)|512|(0)|517)|556|491|492|(1:494)|496|(0)|(0)|500|501|502|(0)(0)|(0)(0)|512|(0)|517)(3:317|(3:319|(1:326)(1:323)|324)(17:327|328|(2:333|(9:335|(6:357|358|359|360|361|362)|337|(1:339)(6:347|348|349|(1:351)|(1:355)|356)|340|341|(1:343)(1:346)|344|345)(3:379|(4:381|(2:385|(4:387|(2:390|388)|391|392))|393|(2:395|(1:397)))(2:399|(1:401)(1:402))|398))|403|(1:477)(2:407|(1:409)(6:476|427|(1:429)(5:446|447|(1:449)|(1:453)|454)|(3:(4:432|433|(1:435)(1:443)|436)(1:444)|437|(2:439|(1:441)))(1:445)|442|345))|410|(5:468|469|470|471|472)(1:412)|(3:465|466|467)|(2:422|(8:424|425|426|427|(0)(0)|(0)(0)|442|345))|464|425|426|427|(0)(0)|(0)(0)|442|345)|325))|189|190|(5:192|(1:194)(4:272|(1:276)|(1:278)|279)|195|(1:199)|200)(10:280|(1:300)(1:284)|285|(1:287)|288|(1:292)|(1:294)|(1:296)|(1:298)|299)|201|(2:203|204)(2:205|(4:207|(1:209)(1:212)|210|211)(2:213|(1:(2:216|217)(4:218|(1:220)(1:223)|221|222))(2:224|(1:(2:227|228)(3:(1:230)(1:233)|231|232))(2:234|(3:(1:237)(1:240)|238|239)(2:241|(1:(3:(1:248)(1:251)|249|250)(2:245|246))(2:252|(1:(2:255|256)(3:(1:258)(1:261)|259|260))(2:262|(3:(1:268)(1:271)|269|270)(1:266)))))))))|188|189|190|(0)(0)|201|(0)(0))(22:606|607|608|609|(3:864|865|(1:867))(1:611)|612|(1:616)|617|618|(2:620|(1:622))|623|624|(1:629)|630|631|632|(3:634|(1:636)(1:671)|637)(12:672|673|(6:679|(12:681|(10:686|(1:729)(1:690)|691|(2:692|(2:694|(2:697|698)(1:696))(1:728))|699|(2:704|705)|727|719|(1:721)|705)|730|(1:735)(1:734)|691|(3:692|(0)(0)|696)|699|(3:701|704|705)|727|719|(0)|705)(4:736|737|(1:739)(5:741|(2:743|(2:799|(5:801|(1:803)(1:809)|804|(1:806)(1:808)|807))(1:746))(1:810)|747|748|(11:765|(1:767)(1:798)|768|(6:773|774|639|640|(8:642|(1:644)(1:669)|645|646|647|648|(1:662)|652)(1:670)|(4:654|(1:656)(1:660)|657|659)(1:661))|797|(1:791)|792|(1:794)|640|(0)(0)|(0)(0))(4:755|(1:757)(1:764)|(2:759|(1:761))(1:763)|762))|740)|706|640|(0)(0)|(0)(0))|814|815|816|817|818|819|(3:821|822|823)(2:855|856)|824|(8:(7:830|(2:832|(5:834|835|836|(1:838)(1:851)|839))|852|835|836|(0)(0)|839)(1:853)|840|(2:849|850)(1:845)|846|(1:848)|640|(0)(0)|(0)(0))(6:828|774|639|640|(0)(0)|(0)(0)))|638|639|640|(0)(0)|(0)(0))|366|367|(1:369)(1:375)|370|(1:372)|373|374)|872|(11:(1:875)|876|179|(0)(0)|366|367|(0)(0)|370|(0)|373|374)|(11:879|(2:884|(10:886|(1:916)(3:890|(2:892|(1:894)(1:914))(1:915)|895)|896|(1:898)|899|(1:901)(2:908|(1:910)(2:911|(1:913)))|902|(1:904)(1:907)|905|906)(2:917|(14:919|(1:921)|922|(1:924)(1:946)|925|(1:929)|930|(1:932)|933|(3:935|(1:937)(1:939)|938)|940|(1:942)(1:945)|943|944)(1:947)))|948|(0)(0)|366|367|(0)(0)|370|(0)|373|374)|876|179|(0)(0)|366|367|(0)(0)|370|(0)|373|374)|949|950|(15:952|(1:954)(1:987)|955|(1:957)|958|(1:960)|961|(1:965)|(1:967)|(1:971)|(1:973)|974|(1:976)(1:986)|977|(4:979|(1:981)(1:984)|982|983)(1:985))(9:988|(1:992)|993|(2:995|(1:997))|(1:1001)|1002|(1:1016)(1:1006)|1007|(4:1009|(1:1011)(1:1014)|1012|1013)(1:1015)))))|1133|1126|(43:1129|1130|1131|93|(0)|96|(0)|1118|102|(0)(0)|115|(1:117)|1070|1071|119|(0)|122|123|(0)(0)|132|133|134|135|136|137|138|139|(0)(0)|142|143|(0)(0)|146|(0)|1040|149|(0)(0)|161|(0)(0)|166|(17:168|173|(11:175|178|179|(0)(0)|366|367|(0)(0)|370|(0)|373|374)|872|(0)|(0)|879|(3:881|884|(0)(0))|948|(0)(0)|366|367|(0)(0)|370|(0)|373|374)|949|950|(0)(0)))(1:91)|92|93|(0)|96|(0)|1118|102|(0)(0)|115|(0)|1070|1071|119|(0)|122|123|(0)(0)|132|133|134|135|136|137|138|139|(0)(0)|142|143|(0)(0)|146|(0)|1040|149|(0)(0)|161|(0)(0)|166|(0)|949|950|(0)(0)))(1:1173)|1171|67|68|69|(0)|72|(1:74)|1168|82|83|(1:85)|1143|(0)(0)|1146|(0)(0)|88|89|(0)(0)|92|93|(0)|96|(0)|1118|102|(0)(0)|115|(0)|1070|1071|119|(0)|122|123|(0)(0)|132|133|134|135|136|137|138|139|(0)(0)|142|143|(0)(0)|146|(0)|1040|149|(0)(0)|161|(0)(0)|166|(0)|949|950|(0)(0))(1:1551))|30|31|32|(0)(0)|(0)(0)|1171|67|68|69|(0)|72|(0)|1168|82|83|(0)|1143|(0)(0)|1146|(0)(0)|88|89|(0)(0)|92|93|(0)|96|(0)|1118|102|(0)(0)|115|(0)|1070|1071|119|(0)|122|123|(0)(0)|132|133|134|135|136|137|138|139|(0)(0)|142|143|(0)(0)|146|(0)|1040|149|(0)(0)|161|(0)(0)|166|(0)|949|950|(0)(0)) */
@@ -12267,7 +12281,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         sendingMediaInfo.videoEditedInfo = videoEditedInfo;
         ArrayList arrayList3 = new ArrayList();
         arrayList3.add(sendingMediaInfo);
-        prepareSendingMedia(accountInstance, arrayList3, j, messageObject, messageObject2, inputContentInfoCompat, z2, false, messageObject3, z, i2);
+        prepareSendingMedia(accountInstance, arrayList3, j, messageObject, messageObject2, inputContentInfoCompat, z2, false, messageObject3, z, i2, false);
     }
 
     public static void prepareSendingBotContextResult(final BaseFragment baseFragment, final AccountInstance accountInstance, final TLRPC$BotInlineResult tLRPC$BotInlineResult, final HashMap<String, String> hashMap, final long j, final MessageObject messageObject, final MessageObject messageObject2, final boolean z, final int i) {
@@ -12304,7 +12318,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             TLRPC$TL_webPagePending tLRPC$TL_webPagePending2 = tLRPC$TL_webPagePending;
             SendMessagesHelper sendMessagesHelper = accountInstance.getSendMessagesHelper();
             TLRPC$BotInlineMessage tLRPC$BotInlineMessage2 = tLRPC$BotInlineResult.send_message;
-            sendMessagesHelper.sendMessage(tLRPC$BotInlineMessage2.message, j, messageObject, messageObject2, (TLRPC$WebPage) tLRPC$TL_webPagePending2, !tLRPC$BotInlineMessage2.no_webpage, tLRPC$BotInlineMessage2.entities, tLRPC$BotInlineMessage2.reply_markup, hashMap, z, i, (MessageObject.SendAnimationData) null, false);
+            sendMessagesHelper.sendMessage(tLRPC$BotInlineMessage2.message, j, messageObject, messageObject2, tLRPC$TL_webPagePending2, !tLRPC$BotInlineMessage2.no_webpage, tLRPC$BotInlineMessage2.entities, tLRPC$BotInlineMessage2.reply_markup, hashMap, z, i, null, false);
         } else if (tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue) {
             TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue = new TLRPC$TL_messageMediaVenue();
             TLRPC$BotInlineMessage tLRPC$BotInlineMessage3 = tLRPC$BotInlineResult.send_message;
@@ -12890,7 +12904,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             TLRPC$WebDocument tLRPC$WebDocument = tLRPC$BotInlineResult.content;
             String str2 = tLRPC$WebDocument != null ? tLRPC$WebDocument.url : null;
             TLRPC$BotInlineMessage tLRPC$BotInlineMessage2 = tLRPC$BotInlineResult.send_message;
-            sendMessagesHelper2.sendMessage(tLRPC$TL_photo, str2, j, messageObject, messageObject2, tLRPC$BotInlineMessage2.message, tLRPC$BotInlineMessage2.entities, tLRPC$BotInlineMessage2.reply_markup, hashMap, z, i, 0, tLRPC$BotInlineResult);
+            sendMessagesHelper2.sendMessage(tLRPC$TL_photo, str2, j, messageObject, messageObject2, tLRPC$BotInlineMessage2.message, tLRPC$BotInlineMessage2.entities, tLRPC$BotInlineMessage2.reply_markup, hashMap, z, i, 0, tLRPC$BotInlineResult, false);
         }
     }
 
@@ -12946,7 +12960,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             while (i2 < ceil) {
                 int i3 = i2 * 4096;
                 i2++;
-                accountInstance.getSendMessagesHelper().sendMessage(trimmedString.substring(i3, Math.min(i2 * 4096, trimmedString.length())), j, (MessageObject) null, (MessageObject) null, (TLRPC$WebPage) null, true, (ArrayList<TLRPC$MessageEntity>) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z, i, (MessageObject.SendAnimationData) null, false);
+                accountInstance.getSendMessagesHelper().sendMessage(trimmedString.substring(i3, Math.min(i2 * 4096, trimmedString.length())), j, null, null, null, true, null, null, null, z, i, null, false);
             }
         }
     }
@@ -13055,8 +13069,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         return options.outWidth < 800 && options.outHeight < 800;
     }
 
-    public static void prepareSendingMedia(final AccountInstance accountInstance, final ArrayList<SendingMediaInfo> arrayList, final long j, final MessageObject messageObject, final MessageObject messageObject2, final InputContentInfoCompat inputContentInfoCompat, final boolean z, boolean z2, final MessageObject messageObject3, final boolean z3, final int i) {
-        final boolean z4;
+    public static void prepareSendingMedia(final AccountInstance accountInstance, final ArrayList<SendingMediaInfo> arrayList, final long j, final MessageObject messageObject, final MessageObject messageObject2, final InputContentInfoCompat inputContentInfoCompat, final boolean z, boolean z2, final MessageObject messageObject3, final boolean z3, final int i, final boolean z4) {
+        final boolean z5;
         if (arrayList.isEmpty()) {
             return;
         }
@@ -13064,10 +13078,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         int i2 = 0;
         while (true) {
             if (i2 >= size) {
-                z4 = z2;
+                z5 = z2;
                 break;
             } else if (arrayList.get(i2).ttl > 0) {
-                z4 = false;
+                z5 = false;
                 break;
             } else {
                 i2++;
@@ -13076,7 +13090,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         mediaSendQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                SendMessagesHelper.lambda$prepareSendingMedia$91(arrayList, j, z, z4, accountInstance, messageObject3, messageObject, messageObject2, z3, i, inputContentInfoCompat);
+                SendMessagesHelper.lambda$prepareSendingMedia$91(arrayList, j, z, z5, accountInstance, messageObject3, messageObject, messageObject2, z3, i, inputContentInfoCompat, z4);
             }
         });
     }
@@ -13131,7 +13145,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static /* synthetic */ void lambda$prepareSendingMedia$91(ArrayList arrayList, final long j, boolean z, boolean z2, final AccountInstance accountInstance, final MessageObject messageObject, final MessageObject messageObject2, final MessageObject messageObject3, final boolean z3, final int i, InputContentInfoCompat inputContentInfoCompat) {
+    public static /* synthetic */ void lambda$prepareSendingMedia$91(ArrayList arrayList, final long j, boolean z, boolean z2, final AccountInstance accountInstance, final MessageObject messageObject, final MessageObject messageObject2, final MessageObject messageObject3, final boolean z3, final int i, InputContentInfoCompat inputContentInfoCompat, final boolean z4) {
         String str;
         int i2;
         HashMap hashMap;
@@ -13140,7 +13154,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         long j2;
         ArrayList arrayList2;
         String str2;
-        boolean z4;
+        boolean z5;
         int i5;
         int i6;
         String str3;
@@ -13156,18 +13170,18 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         VideoEditedInfo videoEditedInfo;
         AccountInstance accountInstance2;
         String str7;
+        boolean z6;
         long j4;
         int i7;
-        boolean z5;
         int i8;
         SendingMediaInfo sendingMediaInfo;
         ArrayList arrayList6;
         String str8;
         String str9;
         long j5;
-        boolean z6;
         boolean z7;
         boolean z8;
+        boolean z9;
         long j6;
         File file;
         Object obj;
@@ -13175,7 +13189,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         String str11;
         TLRPC$TL_document tLRPC$TL_document;
         Object obj2;
-        boolean z9;
+        boolean z10;
         final Bitmap bitmap;
         final String str12;
         TLRPC$TL_document tLRPC$TL_document2;
@@ -13188,14 +13202,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         int i12;
         int size;
         int i13;
-        boolean z10;
+        boolean z11;
         int i14;
         TLRPC$PhotoSize tLRPC$PhotoSize;
         String str13;
         TLRPC$TL_documentAttributeVideo tLRPC$TL_documentAttributeVideo;
         int i15;
         int i16;
-        boolean z11;
+        boolean z12;
         int i17;
         MediaController.SearchImage searchImage;
         String str14;
@@ -13203,11 +13217,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         String str16;
         String str17;
         String str18;
-        boolean z12;
+        boolean z13;
         HashMap hashMap5;
         String str19;
         String str20;
-        boolean z13;
+        boolean z14;
         String str21;
         ArrayList arrayList8;
         String str22;
@@ -13216,7 +13230,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         Object obj3;
         TLRPC$TL_photo tLRPC$TL_photo;
         String str24;
-        boolean z14;
+        boolean z15;
         final TLRPC$TL_photo tLRPC$TL_photo2;
         String str25;
         Object obj4;
@@ -13224,7 +13238,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         TLRPC$TL_photo tLRPC$TL_photo3;
         Object obj5;
         Object obj6;
-        boolean z15;
+        boolean z16;
         int i19;
         long j8;
         int i20;
@@ -13240,7 +13254,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         Uri uri2;
         SendingMediaInfo sendingMediaInfo2;
         final TLRPC$TL_photo tLRPC$TL_photo4;
-        final boolean z16;
+        final boolean z17;
         long j10;
         int i22;
         int i23;
@@ -13255,7 +13269,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         int i25;
         String str29;
         String str30;
-        boolean z17;
+        boolean z18;
         String str31;
         SendingMediaInfo sendingMediaInfo3;
         int i26;
@@ -13295,14 +13309,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         str30 = sendingMediaInfo4.uri.toString();
                     }
                     if (str38 == null || sendingMediaInfo4.ttl > 0) {
-                        z17 = false;
+                        z18 = false;
                     } else {
                         if (!str38.endsWith(str36)) {
-                            z17 = str38.endsWith(str35);
+                            z18 = str38.endsWith(str35);
                         } else {
-                            z17 = false;
+                            z18 = false;
                         }
-                        if (arrayList.size() > r8 || (z17 && !shouldSendWebPAsSticker(str38, uri5))) {
+                        if (arrayList.size() > r8 || (z18 && !shouldSendWebPAsSticker(str38, uri5))) {
                             sendingMediaInfo4.forceImage = r8;
                             if (str38 == null) {
                                 File file4 = new File(str38);
@@ -13388,8 +13402,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         }
                     }
                     if (!ImageLoader.shouldSendImageAsDocument(sendingMediaInfo4.path, sendingMediaInfo4.uri)) {
-                        if (str38 == null && (uri3 = sendingMediaInfo4.uri) != null && (MediaController.isGif(uri3) || (z17 = MediaController.isWebp(sendingMediaInfo4.uri)))) {
-                            if (arrayList.size() > r8 || (z17 && !shouldSendWebPAsSticker(null, sendingMediaInfo4.uri))) {
+                        if (str38 == null && (uri3 = sendingMediaInfo4.uri) != null && (MediaController.isGif(uri3) || (z18 = MediaController.isWebp(sendingMediaInfo4.uri)))) {
+                            if (arrayList.size() > r8 || (z18 && !shouldSendWebPAsSticker(null, sendingMediaInfo4.uri))) {
                                 sendingMediaInfo4.forceImage = r8;
                             }
                         }
@@ -13546,14 +13560,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                                     arrayList13 = arrayList18;
                                                     str5 = str41;
                                                     str6 = str;
-                                                    z5 = isEncryptedDialog;
+                                                    z6 = isEncryptedDialog;
                                                     accountInstance2 = accountInstance;
                                                     i29 = i7 + 1;
                                                     accountInstance3 = accountInstance2;
                                                     str36 = str5;
                                                     str = str6;
                                                     hashMap = hashMap3;
-                                                    isEncryptedDialog = z5;
+                                                    isEncryptedDialog = z6;
                                                     j12 = j4;
                                                     str37 = str7;
                                                     size2 = i8;
@@ -13594,14 +13608,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         arrayList13 = arrayList18;
                                         str5 = str41;
                                         str6 = str;
-                                        z5 = isEncryptedDialog;
+                                        z6 = isEncryptedDialog;
                                         accountInstance2 = accountInstance;
                                         i29 = i7 + 1;
                                         accountInstance3 = accountInstance2;
                                         str36 = str5;
                                         str = str6;
                                         hashMap = hashMap3;
-                                        isEncryptedDialog = z5;
+                                        isEncryptedDialog = z6;
                                         j12 = j4;
                                         str37 = str7;
                                         size2 = i8;
@@ -13660,9 +13674,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         arrayList13 = arrayList18;
                         str5 = str41;
                         str6 = str;
-                        z5 = isEncryptedDialog;
+                        z6 = isEncryptedDialog;
                     } else {
-                        boolean z18 = isEncryptedDialog;
+                        boolean z19 = isEncryptedDialog;
                         int i31 = size2;
                         String str44 = str;
                         TLRPC$Photo tLRPC$Photo = searchImage2.photo;
@@ -13674,7 +13688,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             sb2.append(".");
                             sb2.append(ImageLoader.getHttpUrlExtension(sendingMediaInfo2.searchImage.imageUrl, "jpg"));
                             File file5 = new File(FileLoader.getDirectory(4), sb2.toString());
-                            boolean z19 = !file5.exists() || file5.length() == 0 || (tLRPC$TL_photo8 = accountInstance.getSendMessagesHelper().generatePhotoSizes(file5.toString(), null)) == null;
+                            boolean z20 = !file5.exists() || file5.length() == 0 || (tLRPC$TL_photo8 = accountInstance.getSendMessagesHelper().generatePhotoSizes(file5.toString(), null)) == null;
                             if (tLRPC$TL_photo8 == null) {
                                 File file6 = new File(FileLoader.getDirectory(4), Utilities.MD5(sendingMediaInfo2.searchImage.thumbUrl) + "." + ImageLoader.getHttpUrlExtension(sendingMediaInfo2.searchImage.thumbUrl, "jpg"));
                                 if (file6.exists()) {
@@ -13693,15 +13707,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     tLRPC$TL_photoSize2.type = "x";
                                     tLRPC$TL_photo8.sizes.add(tLRPC$TL_photoSize2);
                                     tLRPC$TL_photo4 = tLRPC$TL_photo8;
-                                    z16 = z19;
+                                    z17 = z20;
                                 }
                             }
                             tLRPC$TL_photo4 = tLRPC$TL_photo8;
-                            z16 = z19;
+                            z17 = z20;
                         } else {
                             sendingMediaInfo2 = sendingMediaInfo6;
                             tLRPC$TL_photo4 = tLRPC$TL_photo8;
-                            z16 = true;
+                            z17 = true;
                         }
                         final HashMap hashMap9 = new HashMap();
                         String str45 = sendingMediaInfo2.searchImage.imageUrl;
@@ -13738,7 +13752,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda16
                             @Override // java.lang.Runnable
                             public final void run() {
-                                SendMessagesHelper.lambda$prepareSendingMedia$88(MessageObject.this, accountInstance, tLRPC$TL_photo4, z16, sendingMediaInfo7, hashMap9, r7, j, messageObject2, messageObject3, z3, i);
+                                SendMessagesHelper.lambda$prepareSendingMedia$88(MessageObject.this, accountInstance, tLRPC$TL_photo4, z17, sendingMediaInfo7, hashMap9, r7, j, messageObject2, messageObject3, z3, i);
                             }
                         });
                         i28 = i4;
@@ -13750,7 +13764,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         arrayList13 = arrayList18;
                         str5 = str41;
                         str6 = str44;
-                        z5 = z18;
+                        z6 = z19;
                         j4 = j10;
                         i7 = i22;
                     }
@@ -13760,7 +13774,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     str36 = str5;
                     str = str6;
                     hashMap = hashMap3;
-                    isEncryptedDialog = z5;
+                    isEncryptedDialog = z6;
                     j12 = j4;
                     str37 = str7;
                     size2 = i8;
@@ -13768,7 +13782,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     arrayList12 = arrayList;
                 } else {
                     str2 = str36;
-                    z4 = isEncryptedDialog;
+                    z5 = isEncryptedDialog;
                     i5 = size2;
                     i6 = i30;
                     str3 = str;
@@ -13783,7 +13797,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             } else {
                 arrayList2 = arrayList16;
                 str2 = str36;
-                z4 = isEncryptedDialog;
+                z5 = isEncryptedDialog;
                 i5 = size2;
                 i6 = i30;
                 str3 = str;
@@ -13800,7 +13814,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 String str46 = str4;
                 str5 = str2;
                 str6 = str3;
-                boolean z20 = z4;
+                boolean z21 = z5;
                 long j13 = j3;
                 int i34 = i6;
                 if (z) {
@@ -13823,7 +13837,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     File file7 = new File(str47);
                     String str48 = str47 + file7.length() + str46 + file7.lastModified();
                     if (videoEditedInfo != null) {
-                        boolean z21 = videoEditedInfo.muted;
+                        boolean z22 = videoEditedInfo.muted;
                         StringBuilder sb4 = new StringBuilder();
                         sb4.append(str48);
                         str8 = str47;
@@ -13843,22 +13857,22 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             j5 = 0;
                         }
                         str9 = str49;
+                        z8 = z22;
                         z7 = z21;
-                        z6 = z20;
                     } else {
                         str8 = str47;
                         str9 = str48;
                         j5 = 0;
-                        z6 = z20;
-                        z7 = false;
+                        z7 = z21;
+                        z8 = false;
                     }
-                    if (!z6 && sendingMediaInfo6.ttl == 0 && (videoEditedInfo == null || (videoEditedInfo.filterState == null && videoEditedInfo.paintPath == null && videoEditedInfo.mediaEntities == null && videoEditedInfo.cropState == null))) {
+                    if (!z7 && sendingMediaInfo6.ttl == 0 && (videoEditedInfo == null || (videoEditedInfo.filterState == null && videoEditedInfo.paintPath == null && videoEditedInfo.mediaEntities == null && videoEditedInfo.cropState == null))) {
                         MessagesStorage messagesStorage = accountInstance.getMessagesStorage();
-                        if (!z6) {
-                            z11 = z6;
+                        if (!z7) {
+                            z12 = z7;
                             i17 = 2;
                         } else {
-                            z11 = z6;
+                            z12 = z7;
                             i17 = 5;
                         }
                         Object[] sentFile3 = messagesStorage.getSentFile(str9, i17);
@@ -13867,16 +13881,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             file = file7;
                             str7 = str46;
                             obj = "final";
-                            z8 = z11;
+                            z9 = z12;
                         } else {
                             tLRPC$TL_document = (TLRPC$TL_document) sentFile3[0];
-                            boolean z22 = z11;
-                            z8 = z22;
+                            boolean z23 = z12;
+                            z9 = z23;
                             obj2 = "final";
                             str10 = "video/mp4";
                             file = file7;
                             str7 = str46;
-                            ensureMediaThumbExists(accountInstance, z22, tLRPC$TL_document, sendingMediaInfo6.path, null, j6);
+                            ensureMediaThumbExists(accountInstance, z23, tLRPC$TL_document, sendingMediaInfo6.path, null, j6);
                             str11 = (String) sentFile3[1];
                             if (tLRPC$TL_document != null) {
                                 String str50 = sendingMediaInfo6.thumbPath;
@@ -13884,11 +13898,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 if (decodeFile == null && (decodeFile = createVideoThumbnailAtTime(sendingMediaInfo6.path, j6)) == null) {
                                     decodeFile = createVideoThumbnail(sendingMediaInfo6.path, 1);
                                 }
-                                boolean z23 = z8;
+                                boolean z24 = z9;
                                 if (decodeFile != null) {
-                                    int max = (z23 || sendingMediaInfo6.ttl != 0) ? 90 : Math.max(decodeFile.getWidth(), decodeFile.getHeight());
+                                    int max = (z24 || sendingMediaInfo6.ttl != 0) ? 90 : Math.max(decodeFile.getWidth(), decodeFile.getHeight());
                                     float f3 = max;
-                                    tLRPC$PhotoSize = ImageLoader.scaleAndSaveImage(decodeFile, f3, f3, max > 90 ? 80 : 55, z23);
+                                    tLRPC$PhotoSize = ImageLoader.scaleAndSaveImage(decodeFile, f3, f3, max > 90 ? 80 : 55, z24);
                                     i14 = 0;
                                     str13 = getKeyForPhotoSize(accountInstance, tLRPC$PhotoSize, null, true, false);
                                 } else {
@@ -13904,7 +13918,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 }
                                 tLRPC$TL_document5.mime_type = str10;
                                 accountInstance.getUserConfig().saveConfig(i14);
-                                if (z23) {
+                                if (z24) {
                                     tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo();
                                 } else {
                                     tLRPC$TL_documentAttributeVideo = new TLRPC$TL_documentAttributeVideo();
@@ -13916,9 +13930,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         fillVideoAttribute(sendingMediaInfo6.path, tLRPC$TL_documentAttributeVideo, videoEditedInfo);
                                         videoEditedInfo.originalWidth = tLRPC$TL_documentAttributeVideo.w;
                                         videoEditedInfo.originalHeight = tLRPC$TL_documentAttributeVideo.h;
-                                        z9 = z23;
+                                        z10 = z24;
                                     } else {
-                                        z9 = z23;
+                                        z10 = z24;
                                         tLRPC$TL_documentAttributeVideo.duration = (int) (videoEditedInfo.estimatedDuration / 1000);
                                     }
                                     int i35 = videoEditedInfo.rotationValue;
@@ -13939,7 +13953,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     }
                                     tLRPC$TL_document5.size = videoEditedInfo.estimatedSize;
                                 } else {
-                                    z9 = z23;
+                                    z10 = z24;
                                     if (file.exists()) {
                                         tLRPC$TL_document5.size = (int) file.length();
                                     }
@@ -13949,7 +13963,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 tLRPC$TL_document2 = tLRPC$TL_document5;
                                 str12 = str13;
                             } else {
-                                z9 = z8;
+                                z10 = z9;
                                 bitmap = null;
                                 str12 = null;
                                 tLRPC$TL_document2 = tLRPC$TL_document;
@@ -13959,16 +13973,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 i13 = 0;
                                 while (true) {
                                     if (i13 < size) {
-                                        z10 = false;
+                                        z11 = false;
                                         break;
                                     } else if (tLRPC$TL_document2.attributes.get(i13) instanceof TLRPC$TL_documentAttributeAnimated) {
-                                        z10 = true;
+                                        z11 = true;
                                         break;
                                     } else {
                                         i13++;
                                     }
                                 }
-                                if (!z10) {
+                                if (!z11) {
                                     tLRPC$TL_document2.attributes.add(new TLRPC$TL_documentAttributeAnimated());
                                 }
                             }
@@ -13984,7 +13998,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             if (str11 != null) {
                                 hashMap4.put("parentObject", str11);
                             }
-                            if (!z7 || !z2) {
+                            if (!z8 || !z2) {
                                 j7 = j13;
                                 i9 = i34;
                                 i10 = i33;
@@ -14006,7 +14020,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 hashMap4.put(obj2, "1");
                                 j11 = 0;
                             }
-                            if (!z9 && (arrayList7 = sendingMediaInfo6.masks) != null && !arrayList7.isEmpty()) {
+                            if (!z10 && (arrayList7 = sendingMediaInfo6.masks) != null && !arrayList7.isEmpty()) {
                                 tLRPC$TL_document2.attributes.add(new TLRPC$TL_documentAttributeHasStickers());
                                 SerializedData serializedData = new SerializedData((sendingMediaInfo6.masks.size() * 20) + 4);
                                 serializedData.writeInt32(sendingMediaInfo6.masks.size());
@@ -14018,7 +14032,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             }
                             i7 = i9;
                             final TLRPC$TL_document tLRPC$TL_document6 = tLRPC$TL_document2;
-                            z5 = z9;
+                            z6 = z10;
                             final VideoEditedInfo videoEditedInfo2 = videoEditedInfo;
                             final String str51 = str11;
                             j4 = j7;
@@ -14039,7 +14053,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             arrayList13 = arrayList3;
                         }
                     } else {
-                        z8 = z6;
+                        z9 = z7;
                         j6 = j5;
                         file = file7;
                         str7 = str46;
@@ -14059,7 +14073,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             }
                             i13++;
                         }
-                        if (!z10) {
+                        if (!z11) {
                         }
                     }
                     if (videoEditedInfo != null) {
@@ -14072,13 +14086,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     }
                     if (str11 != null) {
                     }
-                    if (!z7) {
+                    if (!z8) {
                     }
                     j7 = j13;
                     i9 = i34;
                     i10 = i33;
                     i11 = i4;
-                    if (!z9) {
+                    if (!z10) {
                         tLRPC$TL_document2.attributes.add(new TLRPC$TL_documentAttributeHasStickers());
                         SerializedData serializedData2 = new SerializedData((sendingMediaInfo6.masks.size() * 20) + 4);
                         serializedData2.writeInt32(sendingMediaInfo6.masks.size());
@@ -14089,7 +14103,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     }
                     i7 = i9;
                     final TLRPC$TL_document tLRPC$TL_document62 = tLRPC$TL_document2;
-                    z5 = z9;
+                    z6 = z10;
                     final VideoEditedInfo videoEditedInfo22 = videoEditedInfo;
                     final String str512 = str11;
                     j4 = j7;
@@ -14111,9 +14125,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 } else {
                     accountInstance2 = accountInstance;
                     str7 = str46;
+                    z6 = z21;
                     j4 = j13;
                     i7 = i34;
-                    z5 = z20;
                     i8 = i33;
                     if (arrayList2 == null) {
                         ArrayList arrayList22 = new ArrayList();
@@ -14230,8 +14244,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         str54 = FileLoader.getFileExtension(new File(str15));
                         str39 = str54;
                         str18 = str15;
-                        z12 = true;
-                        if (z12) {
+                        z13 = true;
+                        if (z13) {
                             ArrayList arrayList24 = arrayList2;
                             if (arrayList24 == null) {
                                 arrayList16 = new ArrayList();
@@ -14261,7 +14275,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             i28 = i4;
                             hashMap3 = hashMap2;
                             str7 = str4;
-                            z5 = z4;
+                            z6 = z5;
                             j4 = j3;
                             i7 = i6;
                         } else {
@@ -14294,16 +14308,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 str5 = str17;
                                 str22 = str16;
                                 str23 = str4;
-                                z14 = z4;
+                                z15 = z5;
                                 i18 = 1;
                                 str25 = str55;
                                 obj6 = "1";
                                 tLRPC$TL_photo2 = tLRPC$TL_photo9;
                             } else {
-                                boolean z24 = z4;
-                                if (z24 || sendingMediaInfo6.ttl != 0) {
+                                boolean z25 = z5;
+                                if (z25 || sendingMediaInfo6.ttl != 0) {
                                     str20 = str18;
-                                    z13 = z24;
+                                    z14 = z25;
                                     hashMap3 = hashMap5;
                                     str21 = str19;
                                     arrayList8 = arrayList26;
@@ -14315,7 +14329,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     tLRPC$TL_photo = null;
                                     str24 = null;
                                 } else {
-                                    Object[] sentFile4 = accountInstance.getMessagesStorage().getSentFile(str19, !z24 ? 0 : 3);
+                                    Object[] sentFile4 = accountInstance.getMessagesStorage().getSentFile(str19, !z25 ? 0 : 3);
                                     HashMap hashMap10 = hashMap5;
                                     if (sentFile4 == null) {
                                         obj4 = "1";
@@ -14326,7 +14340,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         if (tLRPC$TL_photo3 == null) {
                                             if (sendingMediaInfo6.uri != null) {
                                                 str24 = str26;
-                                                Object[] sentFile5 = accountInstance.getMessagesStorage().getSentFile(AndroidUtilities.getPath(sendingMediaInfo6.uri), !z24 ? 0 : 3);
+                                                Object[] sentFile5 = accountInstance.getMessagesStorage().getSentFile(AndroidUtilities.getPath(sendingMediaInfo6.uri), !z25 ? 0 : 3);
                                                 if (sentFile5 != null && (sentFile5[0] instanceof TLRPC$TL_photo)) {
                                                     tLRPC$TL_photo3 = (TLRPC$TL_photo) sentFile5[0];
                                                     str26 = (String) sentFile5[1];
@@ -14335,7 +14349,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                                 str24 = str26;
                                             }
                                             tLRPC$TL_photo = tLRPC$TL_photo3;
-                                            z13 = z24;
+                                            z14 = z25;
                                             hashMap3 = hashMap10;
                                             str21 = str19;
                                             str23 = str4;
@@ -14345,11 +14359,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                             str22 = str16;
                                             obj3 = obj5;
                                             i18 = 1;
-                                            ensureMediaThumbExists(accountInstance, z24, tLRPC$TL_photo, sendingMediaInfo6.path, sendingMediaInfo6.uri, 0L);
+                                            ensureMediaThumbExists(accountInstance, z25, tLRPC$TL_photo, sendingMediaInfo6.path, sendingMediaInfo6.uri, 0L);
                                         }
                                         str24 = str26;
                                         tLRPC$TL_photo = tLRPC$TL_photo3;
-                                        z13 = z24;
+                                        z14 = z25;
                                         hashMap3 = hashMap10;
                                         str21 = str19;
                                         str23 = str4;
@@ -14359,7 +14373,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         str22 = str16;
                                         obj3 = obj5;
                                         i18 = 1;
-                                        ensureMediaThumbExists(accountInstance, z24, tLRPC$TL_photo, sendingMediaInfo6.path, sendingMediaInfo6.uri, 0L);
+                                        ensureMediaThumbExists(accountInstance, z25, tLRPC$TL_photo, sendingMediaInfo6.path, sendingMediaInfo6.uri, 0L);
                                     } else {
                                         obj4 = "1";
                                     }
@@ -14370,7 +14384,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     }
                                     str24 = str26;
                                     tLRPC$TL_photo = tLRPC$TL_photo3;
-                                    z13 = z24;
+                                    z14 = z25;
                                     hashMap3 = hashMap10;
                                     str21 = str19;
                                     str23 = str4;
@@ -14380,16 +14394,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     str22 = str16;
                                     obj3 = obj5;
                                     i18 = 1;
-                                    ensureMediaThumbExists(accountInstance, z24, tLRPC$TL_photo, sendingMediaInfo6.path, sendingMediaInfo6.uri, 0L);
+                                    ensureMediaThumbExists(accountInstance, z25, tLRPC$TL_photo, sendingMediaInfo6.path, sendingMediaInfo6.uri, 0L);
                                 }
                                 if (tLRPC$TL_photo == null) {
                                     tLRPC$TL_photo = accountInstance.getSendMessagesHelper().generatePhotoSizes(sendingMediaInfo6.path, sendingMediaInfo6.uri);
-                                    z14 = z13;
-                                    if (z14 && sendingMediaInfo6.canDeleteAfter) {
+                                    z15 = z14;
+                                    if (z15 && sendingMediaInfo6.canDeleteAfter) {
                                         new File(sendingMediaInfo6.path).delete();
                                     }
                                 } else {
-                                    z14 = z13;
+                                    z15 = z14;
                                 }
                                 tLRPC$TL_photo2 = tLRPC$TL_photo;
                                 str25 = str24;
@@ -14400,9 +14414,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 final Bitmap[] bitmapArr = new Bitmap[i18];
                                 final String[] strArr = new String[i18];
                                 ArrayList<TLRPC$InputDocument> arrayList27 = sendingMediaInfo6.masks;
-                                boolean z25 = arrayList27 != null && !arrayList27.isEmpty();
-                                tLRPC$TL_photo2.has_stickers = z25;
-                                if (z25) {
+                                boolean z26 = arrayList27 != null && !arrayList27.isEmpty();
+                                tLRPC$TL_photo2.has_stickers = z26;
+                                if (z26) {
                                     SerializedData serializedData3 = new SerializedData((sendingMediaInfo6.masks.size() * 20) + 4);
                                     serializedData3.writeInt32(sendingMediaInfo6.masks.size());
                                     for (int i37 = 0; i37 < sendingMediaInfo6.masks.size(); i37++) {
@@ -14430,15 +14444,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         if (z2) {
                                         }
                                         final String str57 = str25;
+                                        z16 = z15;
                                         j8 = j9;
                                         i20 = i21;
-                                        z15 = z14;
                                         str6 = str22;
                                         i19 = i5;
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda77
                                             @Override // java.lang.Runnable
                                             public final void run() {
-                                                SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str57, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i);
+                                                SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str57, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i, z4);
                                             }
                                         });
                                         arrayList15 = arrayList5;
@@ -14446,16 +14460,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         arrayList14 = arrayList4;
                                         arrayList13 = arrayList3;
                                         str7 = str23;
+                                        z6 = z16;
                                         j4 = j8;
                                         i7 = i20;
-                                        z5 = z15;
                                         i8 = i19;
                                         i29 = i7 + 1;
                                         accountInstance3 = accountInstance2;
                                         str36 = str5;
                                         str = str6;
                                         hashMap = hashMap3;
-                                        isEncryptedDialog = z5;
+                                        isEncryptedDialog = z6;
                                         j12 = j4;
                                         str37 = str7;
                                         size2 = i8;
@@ -14482,15 +14496,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         i28 = i4;
                                     }
                                     final String str572 = str25;
+                                    z16 = z15;
                                     j8 = j9;
                                     i20 = i21;
-                                    z15 = z14;
                                     str6 = str22;
                                     i19 = i5;
                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda77
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str572, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i);
+                                            SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str572, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i, z4);
                                         }
                                     });
                                     arrayList15 = arrayList5;
@@ -14509,15 +14523,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         if (z2) {
                                         }
                                         final String str5722 = str25;
+                                        z16 = z15;
                                         j8 = j9;
                                         i20 = i21;
-                                        z15 = z14;
                                         str6 = str22;
                                         i19 = i5;
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda77
                                             @Override // java.lang.Runnable
                                             public final void run() {
-                                                SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str5722, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i);
+                                                SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str5722, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i, z4);
                                             }
                                         });
                                         arrayList15 = arrayList5;
@@ -14525,16 +14539,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                         arrayList14 = arrayList4;
                                         arrayList13 = arrayList3;
                                         str7 = str23;
+                                        z6 = z16;
                                         j4 = j8;
                                         i7 = i20;
-                                        z5 = z15;
                                         i8 = i19;
                                         i29 = i7 + 1;
                                         accountInstance3 = accountInstance2;
                                         str36 = str5;
                                         str = str6;
                                         hashMap = hashMap3;
-                                        isEncryptedDialog = z5;
+                                        isEncryptedDialog = z6;
                                         j12 = j4;
                                         str37 = str7;
                                         size2 = i8;
@@ -14544,15 +14558,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     if (z2) {
                                     }
                                     final String str57222 = str25;
+                                    z16 = z15;
                                     j8 = j9;
                                     i20 = i21;
-                                    z15 = z14;
                                     str6 = str22;
                                     i19 = i5;
                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda77
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str57222, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i);
+                                            SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str57222, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i, z4);
                                         }
                                     });
                                     arrayList15 = arrayList5;
@@ -14564,15 +14578,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 if (z2) {
                                 }
                                 final String str572222 = str25;
+                                z16 = z15;
                                 j8 = j9;
                                 i20 = i21;
-                                z15 = z14;
                                 str6 = str22;
                                 i19 = i5;
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda77
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str572222, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i);
+                                        SendMessagesHelper.lambda$prepareSendingMedia$90(bitmapArr, strArr, messageObject, accountInstance, tLRPC$TL_photo2, hashMap11, str572222, j, messageObject2, messageObject3, sendingMediaInfo6, z3, i, z4);
                                     }
                                 });
                                 arrayList15 = arrayList5;
@@ -14580,7 +14594,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 arrayList14 = arrayList4;
                                 arrayList13 = arrayList3;
                             } else {
-                                z15 = z14;
+                                z16 = z15;
                                 i19 = i5;
                                 str6 = str22;
                                 j8 = j3;
@@ -14612,16 +14626,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 i28 = i4;
                             }
                             str7 = str23;
+                            z6 = z16;
                             j4 = j8;
                             i7 = i20;
-                            z5 = z15;
                             i8 = i19;
                         }
                     } else {
                         str39 = "";
                         str18 = str15;
-                        z12 = true;
-                        if (z12) {
+                        z13 = true;
+                        if (z13) {
                         }
                     }
                 } else {
@@ -14638,22 +14652,22 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             str15 = MediaController.copyFileToCache(sendingMediaInfo6.uri, "gif");
                             str39 = "gif";
                             str18 = str15;
-                            z12 = true;
-                            if (z12) {
+                            z13 = true;
+                            if (z13) {
                             }
                         } else if (MediaController.isWebp(sendingMediaInfo6.uri)) {
                             str14 = sendingMediaInfo6.uri.toString();
                             str15 = MediaController.copyFileToCache(sendingMediaInfo6.uri, str54);
                             str39 = str54;
                             str18 = str15;
-                            z12 = true;
-                            if (z12) {
+                            z13 = true;
+                            if (z13) {
                             }
                         }
                     }
                     str18 = str15;
-                    z12 = false;
-                    if (z12) {
+                    z13 = false;
+                    if (z13) {
                     }
                 }
             }
@@ -14662,7 +14676,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             str36 = str5;
             str = str6;
             hashMap = hashMap3;
-            isEncryptedDialog = z5;
+            isEncryptedDialog = z6;
             j12 = j4;
             str37 = str7;
             size2 = i8;
@@ -14673,7 +14687,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         ArrayList arrayList30 = arrayList14;
         ArrayList arrayList31 = arrayList15;
         ArrayList arrayList32 = arrayList16;
-        boolean z26 = isEncryptedDialog;
+        boolean z27 = isEncryptedDialog;
         int i38 = size2;
         AccountInstance accountInstance4 = accountInstance3;
         long j14 = j11;
@@ -14690,7 +14704,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             int i40 = i28;
             int i41 = 0;
             while (i41 < size3) {
-                if (!z || z26) {
+                if (!z || z27) {
                     i3 = i38;
                 } else {
                     i3 = i38;
@@ -14777,7 +14791,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (z) {
             str2 = sendingMediaInfo.searchImage.imageUrl;
         }
-        sendMessagesHelper2.sendMessage(tLRPC$TL_photo, str2, j, messageObject2, messageObject3, sendingMediaInfo.caption, sendingMediaInfo.entities, (TLRPC$ReplyMarkup) null, hashMap, z2, i, sendingMediaInfo.ttl, str);
+        sendMessagesHelper2.sendMessage(tLRPC$TL_photo, str2, j, messageObject2, messageObject3, sendingMediaInfo.caption, sendingMediaInfo.entities, null, hashMap, z2, i, sendingMediaInfo.ttl, str, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -14793,14 +14807,14 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$prepareSendingMedia$90(Bitmap[] bitmapArr, String[] strArr, MessageObject messageObject, AccountInstance accountInstance, TLRPC$TL_photo tLRPC$TL_photo, HashMap hashMap, String str, long j, MessageObject messageObject2, MessageObject messageObject3, SendingMediaInfo sendingMediaInfo, boolean z, int i) {
+    public static /* synthetic */ void lambda$prepareSendingMedia$90(Bitmap[] bitmapArr, String[] strArr, MessageObject messageObject, AccountInstance accountInstance, TLRPC$TL_photo tLRPC$TL_photo, HashMap hashMap, String str, long j, MessageObject messageObject2, MessageObject messageObject3, SendingMediaInfo sendingMediaInfo, boolean z, int i, boolean z2) {
         if (bitmapArr[0] != null && strArr[0] != null) {
             ImageLoader.getInstance().putImageToCache(new BitmapDrawable(bitmapArr[0]), strArr[0], false);
         }
         if (messageObject != null) {
             accountInstance.getSendMessagesHelper().editMessage(messageObject, tLRPC$TL_photo, null, null, null, hashMap, false, str);
         } else {
-            accountInstance.getSendMessagesHelper().sendMessage(tLRPC$TL_photo, (String) null, j, messageObject2, messageObject3, sendingMediaInfo.caption, sendingMediaInfo.entities, (TLRPC$ReplyMarkup) null, hashMap, z, i, sendingMediaInfo.ttl, str);
+            accountInstance.getSendMessagesHelper().sendMessage(tLRPC$TL_photo, null, j, messageObject2, messageObject3, sendingMediaInfo.caption, sendingMediaInfo.entities, null, hashMap, z, i, sendingMediaInfo.ttl, str, z2);
         }
     }
 

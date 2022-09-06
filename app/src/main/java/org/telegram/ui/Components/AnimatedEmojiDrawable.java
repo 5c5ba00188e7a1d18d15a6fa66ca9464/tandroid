@@ -55,7 +55,6 @@ public class AnimatedEmojiDrawable extends Drawable {
     private boolean attached;
     private int cacheType;
     private ColorFilter colorFilterToSet;
-    int count;
     private TLRPC$Document document;
     private long documentId;
     private ArrayList<AnimatedEmojiSpan.InvalidateHolder> holders;
@@ -698,10 +697,10 @@ public class AnimatedEmojiDrawable extends Drawable {
         updateAttachState();
     }
 
-    public void removeView(Drawable.Callback callback) {
+    public void removeView(View view) {
         ArrayList<View> arrayList = this.views;
         if (arrayList != null) {
-            arrayList.remove(callback);
+            arrayList.remove(view);
         }
         updateAttachState();
     }
@@ -718,12 +717,10 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
         this.attached = z;
         if (z) {
-            this.count++;
             this.imageReceiver.onAttachedToWindow();
-            return;
+        } else {
+            this.imageReceiver.onDetachedFromWindow();
         }
-        this.count--;
-        this.imageReceiver.onDetachedFromWindow();
     }
 
     public boolean canOverrideColor() {

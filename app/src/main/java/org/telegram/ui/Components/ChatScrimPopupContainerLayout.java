@@ -10,6 +10,8 @@ import org.telegram.ui.Components.PopupSwipeBackLayout;
 /* loaded from: classes3.dex */
 public class ChatScrimPopupContainerLayout extends LinearLayout {
     private View bottomView;
+    private float bottomViewYOffset;
+    private float expandSize;
     private int maxHeight;
     private float popupLayoutLeftOffset;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout popupWindowLayout;
@@ -121,6 +123,9 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
 
     public void setReactionsLayout(ReactionsContainerLayout reactionsContainerLayout) {
         this.reactionsLayout = reactionsContainerLayout;
+        if (reactionsContainerLayout != null) {
+            reactionsContainerLayout.setChatScrimView(this);
+        }
     }
 
     public void setPopupWindowLayout(final ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
@@ -143,9 +148,9 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setPopupWindowLayout$0(ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout) {
-        View view = this.bottomView;
-        if (view != null) {
-            view.setTranslationY(actionBarPopupWindowLayout.getVisibleHeight() - actionBarPopupWindowLayout.getMeasuredHeight());
+        if (this.bottomView != null) {
+            this.bottomViewYOffset = actionBarPopupWindowLayout.getVisibleHeight() - actionBarPopupWindowLayout.getMeasuredHeight();
+            updateBottomViewPosition();
         }
     }
 
@@ -159,7 +164,28 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
         updatePopupTranslation();
     }
 
+    private void updateBottomViewPosition() {
+        View view = this.bottomView;
+        if (view != null) {
+            view.setTranslationY(this.bottomViewYOffset + this.expandSize);
+        }
+    }
+
     public void setMaxHeight(int i) {
         this.maxHeight = i;
+    }
+
+    public void setExpandSize(float f) {
+        this.popupWindowLayout.setTranslationY(f);
+        this.expandSize = f;
+        updateBottomViewPosition();
+    }
+
+    public void setPopupAlpha(float f) {
+        this.popupWindowLayout.setAlpha(f);
+        View view = this.bottomView;
+        if (view != null) {
+            view.setAlpha(f);
+        }
     }
 }

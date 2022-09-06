@@ -123,7 +123,7 @@ public class ImageLoader {
     private DispatchQueuePriority cacheOutQueue = new DispatchQueuePriority("cacheOutQueue");
     private DispatchQueue cacheThumbOutQueue = new DispatchQueue("cacheThumbOutQueue");
     private DispatchQueue thumbGeneratingQueue = new DispatchQueue("thumbGeneratingQueue");
-    private DispatchQueuePriority imageLoadQueue = new DispatchQueuePriority("imageLoadQueue");
+    private DispatchQueue imageLoadQueue = new DispatchQueue("imageLoadQueue");
     private HashMap<String, String> replacedBitmaps = new HashMap<>();
     private ConcurrentHashMap<String, long[]> fileProgresses = new ConcurrentHashMap<>();
     private HashMap<String, ThumbGenerateTask> thumbGenerateTasks = new HashMap<>();
@@ -2927,6 +2927,7 @@ public class ImageLoader {
         protected ArrayList<String> keys;
         protected Object parentObject;
         public int priority;
+        public Runnable runningTask;
         protected SecureDocument secureDocument;
         protected long size;
         protected File tempFilePath;
@@ -3018,6 +3019,7 @@ public class ImageLoader {
                         ImageLoader.this.cacheThumbOutQueue.cancelRunnable(this.cacheTask);
                     } else {
                         ImageLoader.this.cacheOutQueue.cancelRunnable(this.cacheTask);
+                        ImageLoader.this.cacheOutQueue.cancelRunnable(this.runningTask);
                     }
                     this.cacheTask.cancel();
                     this.cacheTask = null;
@@ -3938,25 +3940,19 @@ public class ImageLoader {
             return;
         }
         ArrayList<Runnable> loadingOperations = imageReceiver.getLoadingOperations();
-        int i = 0;
         if (!loadingOperations.isEmpty()) {
-            for (int i2 = 0; i2 < loadingOperations.size(); i2++) {
-                this.imageLoadQueue.cancelRunnable(loadingOperations.get(i2));
+            for (int i = 0; i < loadingOperations.size(); i++) {
+                this.imageLoadQueue.cancelRunnable(loadingOperations.get(i));
             }
             loadingOperations.clear();
         }
         imageReceiver.addLoadingImageRunnable(null);
-        DispatchQueuePriority dispatchQueuePriority = this.imageLoadQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda12
+        this.imageLoadQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ImageLoader.this.lambda$cancelLoadingForImageReceiver$3(z, imageReceiver);
             }
-        };
-        if (imageReceiver.getFileLoadingPriority() != 0) {
-            i = 1;
-        }
-        dispatchQueuePriority.postRunnable(runnable, i);
+        }, imageReceiver.getFileLoadingPriority() == 0 ? 0L : 1L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4090,8 +4086,6 @@ public class ImageLoader {
     }
 
     private void createLoadOperationForImageReceiver(final ImageReceiver imageReceiver, final String str, final String str2, final String str3, final ImageLocation imageLocation, final String str4, final long j, final int i, final int i2, final int i3, final int i4) {
-        Runnable runnable;
-        int i5;
         if (imageReceiver == null || str2 == null || str == null || imageLocation == null) {
             return;
         }
@@ -4099,34 +4093,26 @@ public class ImageLoader {
         if (tag == 0) {
             tag = this.lastImageNum;
             imageReceiver.setTag(tag, i2);
-            int i6 = this.lastImageNum + 1;
-            this.lastImageNum = i6;
-            if (i6 == Integer.MAX_VALUE) {
+            int i5 = this.lastImageNum + 1;
+            this.lastImageNum = i5;
+            if (i5 == Integer.MAX_VALUE) {
                 this.lastImageNum = 0;
             }
         }
-        final int i7 = tag;
+        final int i6 = tag;
         final boolean isNeedsQualityThumb = imageReceiver.isNeedsQualityThumb();
         final Object parentObject = imageReceiver.getParentObject();
         final TLRPC$Document qualityThumbDocument = imageReceiver.getQualityThumbDocument();
         final boolean isShouldGenerateQualityThumb = imageReceiver.isShouldGenerateQualityThumb();
         final int currentAccount = imageReceiver.getCurrentAccount();
         final boolean z = i2 == 0 && imageReceiver.isCurrentKeyQuality();
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda2
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.ImageLoader$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                ImageLoader.this.lambda$createLoadOperationForImageReceiver$6(i3, str2, str, i7, imageReceiver, i4, str4, i2, imageLocation, z, parentObject, currentAccount, qualityThumbDocument, isNeedsQualityThumb, isShouldGenerateQualityThumb, str3, i, j);
+                ImageLoader.this.lambda$createLoadOperationForImageReceiver$6(i3, str2, str, i6, imageReceiver, i4, str4, i2, imageLocation, z, parentObject, currentAccount, qualityThumbDocument, isNeedsQualityThumb, isShouldGenerateQualityThumb, str3, i, j);
             }
         };
-        DispatchQueuePriority dispatchQueuePriority = this.imageLoadQueue;
-        if (imageReceiver.getFileLoadingPriority() == 0) {
-            runnable = runnable2;
-            i5 = 0;
-        } else {
-            runnable = runnable2;
-            i5 = 1;
-        }
-        dispatchQueuePriority.postRunnable(runnable, i5);
+        this.imageLoadQueue.postRunnable(runnable, imageReceiver.getFileLoadingPriority() == 0 ? 0L : 1L);
         imageReceiver.addLoadingImageRunnable(runnable);
     }
 
@@ -4636,7 +4622,7 @@ public class ImageLoader {
                     this.cacheThumbOutQueue.postRunnable(cacheImage6.cacheTask);
                     return;
                 } else {
-                    this.cacheOutQueue.postRunnable(cacheImage6.cacheTask, cacheImage6.priority);
+                    cacheImage6.runningTask = this.cacheOutQueue.postRunnable(cacheImage6.cacheTask, cacheImage6.priority);
                     return;
                 }
             }

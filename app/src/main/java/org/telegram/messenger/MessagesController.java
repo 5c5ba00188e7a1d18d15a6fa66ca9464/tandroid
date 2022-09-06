@@ -20,6 +20,7 @@ import android.util.SparseIntArray;
 import androidx.collection.LongSparseArray;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.util.Consumer;
+import com.google.android.exoplayer2.util.Log;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.util.AbstractMap;
@@ -12665,15 +12666,6 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x00a4, code lost:
-        r3 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0113, code lost:
-        r3 = true;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public /* synthetic */ void lambda$processDialogsUpdateRead$182(LongSparseIntArray longSparseIntArray, LongSparseIntArray longSparseIntArray2) {
         boolean z;
         if (longSparseIntArray != null) {
@@ -12695,11 +12687,16 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                     }
                 }
+                if (tLRPC$Dialog == null && BuildVars.DEBUG_PRIVATE_VERSION) {
+                    FileLog.d("can't update dialog " + keyAt + " with new unread " + longSparseIntArray.valueAt(i));
+                }
                 if (tLRPC$Dialog != null) {
                     int i3 = tLRPC$Dialog.unread_count;
-                    int valueAt = longSparseIntArray.valueAt(i);
-                    tLRPC$Dialog.unread_count = valueAt;
-                    if (i3 != 0 && valueAt == 0) {
+                    tLRPC$Dialog.unread_count = longSparseIntArray.valueAt(i);
+                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                        FileLog.d("update dialog " + keyAt + " with new unread " + tLRPC$Dialog.unread_count);
+                    }
+                    if (i3 != 0 && tLRPC$Dialog.unread_count == 0) {
                         if (!isDialogMuted(keyAt)) {
                             this.unreadUnmutedDialogs--;
                         }
@@ -12715,8 +12712,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                 }
                                 i4++;
                             }
+                            z = true;
                         }
-                    } else if (i3 == 0 && !tLRPC$Dialog.unread_mark && valueAt != 0) {
+                    } else if (i3 == 0 && !tLRPC$Dialog.unread_mark && tLRPC$Dialog.unread_count != 0) {
                         if (!isDialogMuted(keyAt)) {
                             this.unreadUnmutedDialogs++;
                         }
@@ -12757,6 +12755,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 i7++;
                             }
                         }
+                        z = true;
                     }
                 }
             }
@@ -18047,35 +18046,35 @@ public class MessagesController extends BaseController implements NotificationCe
         return z;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1020:0x133d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1020:0x1344, code lost:
         if (r0.action.user_id == r31) goto L890;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1010:0x130b  */
-    /* JADX WARN: Removed duplicated region for block: B:1050:0x13bf  */
-    /* JADX WARN: Removed duplicated region for block: B:1052:0x13c5  */
-    /* JADX WARN: Removed duplicated region for block: B:1055:0x13d0  */
-    /* JADX WARN: Removed duplicated region for block: B:1067:0x1425  */
-    /* JADX WARN: Removed duplicated region for block: B:1087:0x1487  */
-    /* JADX WARN: Removed duplicated region for block: B:1094:0x14ba  */
-    /* JADX WARN: Removed duplicated region for block: B:1097:0x14c8  */
-    /* JADX WARN: Removed duplicated region for block: B:1100:0x14d8  */
-    /* JADX WARN: Removed duplicated region for block: B:1103:0x14eb  */
-    /* JADX WARN: Removed duplicated region for block: B:1115:0x1505  */
-    /* JADX WARN: Removed duplicated region for block: B:1117:0x150b  */
-    /* JADX WARN: Removed duplicated region for block: B:1118:0x14bf  */
-    /* JADX WARN: Removed duplicated region for block: B:1127:0x11fe  */
-    /* JADX WARN: Removed duplicated region for block: B:1204:0x19b1  */
-    /* JADX WARN: Removed duplicated region for block: B:1210:0x19d8  */
-    /* JADX WARN: Removed duplicated region for block: B:1216:0x1a04  */
-    /* JADX WARN: Removed duplicated region for block: B:1222:0x1a2b  */
-    /* JADX WARN: Removed duplicated region for block: B:1228:0x1a51  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x1531  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x1548  */
-    /* JADX WARN: Removed duplicated region for block: B:844:0x10d9  */
-    /* JADX WARN: Removed duplicated region for block: B:918:0x11d2  */
-    /* JADX WARN: Removed duplicated region for block: B:927:0x1201  */
-    /* JADX WARN: Removed duplicated region for block: B:949:0x1276  */
-    /* JADX WARN: Removed duplicated region for block: B:991:0x1300 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1010:0x1312  */
+    /* JADX WARN: Removed duplicated region for block: B:1050:0x13c6  */
+    /* JADX WARN: Removed duplicated region for block: B:1052:0x13cc  */
+    /* JADX WARN: Removed duplicated region for block: B:1055:0x13d7  */
+    /* JADX WARN: Removed duplicated region for block: B:1067:0x142c  */
+    /* JADX WARN: Removed duplicated region for block: B:1087:0x148e  */
+    /* JADX WARN: Removed duplicated region for block: B:1094:0x14c1  */
+    /* JADX WARN: Removed duplicated region for block: B:1097:0x14cf  */
+    /* JADX WARN: Removed duplicated region for block: B:1100:0x14df  */
+    /* JADX WARN: Removed duplicated region for block: B:1103:0x14f2  */
+    /* JADX WARN: Removed duplicated region for block: B:1115:0x150c  */
+    /* JADX WARN: Removed duplicated region for block: B:1117:0x1512  */
+    /* JADX WARN: Removed duplicated region for block: B:1118:0x14c6  */
+    /* JADX WARN: Removed duplicated region for block: B:1127:0x1205  */
+    /* JADX WARN: Removed duplicated region for block: B:1204:0x19b8  */
+    /* JADX WARN: Removed duplicated region for block: B:1210:0x19df  */
+    /* JADX WARN: Removed duplicated region for block: B:1216:0x1a0b  */
+    /* JADX WARN: Removed duplicated region for block: B:1222:0x1a32  */
+    /* JADX WARN: Removed duplicated region for block: B:1228:0x1a58  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x1538  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x154f  */
+    /* JADX WARN: Removed duplicated region for block: B:844:0x10e0  */
+    /* JADX WARN: Removed duplicated region for block: B:918:0x11d9  */
+    /* JADX WARN: Removed duplicated region for block: B:927:0x1208  */
+    /* JADX WARN: Removed duplicated region for block: B:949:0x127d  */
+    /* JADX WARN: Removed duplicated region for block: B:991:0x1307 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -19824,6 +19823,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                     }
                                                                                                     arrayList17 = arrayList27;
                                                                                                     arrayList17.add(tLRPC$Update);
+                                                                                                    Log.d("kek", "TL_updateMoveStickerSetToTop");
                                                                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateSavedGifs) {
                                                                                                     if (arrayList27 == null) {
                                                                                                         arrayList27 = new ArrayList();

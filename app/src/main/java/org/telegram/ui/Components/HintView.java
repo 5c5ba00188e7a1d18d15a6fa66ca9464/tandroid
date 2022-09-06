@@ -39,7 +39,7 @@ public class HintView extends FrameLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private long showingDuration;
     private int shownY;
-    private TextView textView;
+    public TextView textView;
     private float translationY;
 
     public HintView(Context context, int i) {

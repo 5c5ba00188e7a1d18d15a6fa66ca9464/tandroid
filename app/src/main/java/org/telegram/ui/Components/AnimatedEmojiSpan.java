@@ -713,11 +713,15 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     }
 
     public static AnimatedEmojiSpan cloneSpan(AnimatedEmojiSpan animatedEmojiSpan) {
+        AnimatedEmojiSpan animatedEmojiSpan2;
         TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
         if (tLRPC$Document != null) {
-            return new AnimatedEmojiSpan(tLRPC$Document, animatedEmojiSpan.fontMetrics);
+            animatedEmojiSpan2 = new AnimatedEmojiSpan(tLRPC$Document, animatedEmojiSpan.fontMetrics);
+        } else {
+            animatedEmojiSpan2 = new AnimatedEmojiSpan(animatedEmojiSpan.documentId, animatedEmojiSpan.scale, animatedEmojiSpan.fontMetrics);
         }
-        return new AnimatedEmojiSpan(animatedEmojiSpan.documentId, animatedEmojiSpan.scale, animatedEmojiSpan.fontMetrics);
+        animatedEmojiSpan2.fromEmojiKeyboard = animatedEmojiSpan.fromEmojiKeyboard;
+        return animatedEmojiSpan2;
     }
 
     /* JADX WARN: Multi-variable type inference failed */

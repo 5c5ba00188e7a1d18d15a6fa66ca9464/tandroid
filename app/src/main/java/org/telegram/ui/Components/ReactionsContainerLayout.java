@@ -89,6 +89,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private float bigCircleRadius;
     ValueAnimator cancelPressedAnimation;
     private float cancelPressedProgress;
+    ChatScrimPopupContainerLayout chatScrimPopupContainerLayout;
     private boolean clicked;
     private int currentAccount;
     private float customEmojiReactionsEnterProgress;
@@ -103,7 +104,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private MessageObject messageObject;
     public ReactionHolderView nextRecentReaction;
     private float otherViewsScale;
-    View popupLayout;
     FrameLayout premiumLockContainer;
     private PremiumLockIconView premiumLockIconView;
     private boolean prepareAnimation;
@@ -144,7 +144,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         void onReactionClicked(View view, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, boolean z2);
     }
 
-    public ReactionsContainerLayout(BaseFragment baseFragment, Context context, int i, View view, Theme.ResourcesProvider resourcesProvider) {
+    public ReactionsContainerLayout(BaseFragment baseFragment, Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         boolean z = true;
         float dp = AndroidUtilities.dp(8.0f);
@@ -157,7 +157,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.resourcesProvider = resourcesProvider;
         this.currentAccount = i;
         this.fragment = baseFragment;
-        this.popupLayout = view;
         ReactionHolderView reactionHolderView = new ReactionHolderView(context);
         this.nextRecentReaction = reactionHolderView;
         reactionHolderView.setVisibility(8);
@@ -176,9 +175,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.shadow.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_messagePanelShadow"), PorterDuff.Mode.MULTIPLY));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.ReactionsContainerLayout.2
             @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-            public boolean drawChild(Canvas canvas, View view2, long j) {
-                if (ReactionsContainerLayout.this.pressedReaction == null || !(view2 instanceof ReactionHolderView) || !((ReactionHolderView) view2).currentReaction.equals(ReactionsContainerLayout.this.pressedReaction)) {
-                    return super.drawChild(canvas, view2, j);
+            public boolean drawChild(Canvas canvas, View view, long j) {
+                if (ReactionsContainerLayout.this.pressedReaction == null || !(view instanceof ReactionHolderView) || !((ReactionHolderView) view).currentReaction.equals(ReactionsContainerLayout.this.pressedReaction)) {
+                    return super.drawChild(canvas, view, j);
                 }
                 return true;
             }
@@ -261,10 +260,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         };
         recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.4
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
-            public void getItemOffsets(android.graphics.Rect rect2, View view2, RecyclerView recyclerView, RecyclerView.State state) {
-                super.getItemOffsets(rect2, view2, recyclerView, state);
+            public void getItemOffsets(android.graphics.Rect rect2, View view, RecyclerView recyclerView, RecyclerView.State state) {
+                super.getItemOffsets(rect2, view, recyclerView, state);
                 if (!ReactionsContainerLayout.this.showCustomEmojiReaction()) {
-                    int childAdapterPosition = recyclerView.getChildAdapterPosition(view2);
+                    int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
                     if (childAdapterPosition == 0) {
                         rect2.left = AndroidUtilities.dp(6.0f);
                     }
@@ -286,9 +285,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         });
         recyclerListView.setLayoutManager(this.linearLayoutManager);
         recyclerListView.setOverScrollMode(2);
-        5 r8 = new 5(context);
-        this.listAdapter = r8;
-        recyclerListView.setAdapter(r8);
+        5 r0 = new 5(context);
+        this.listAdapter = r0;
+        recyclerListView.setAdapter(r0);
         recyclerListView.addOnScrollListener(new LeftRightShadowsListener());
         recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.6
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -319,8 +318,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         });
         recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.7
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
-            public void getItemOffsets(android.graphics.Rect rect2, View view2, RecyclerView recyclerView, RecyclerView.State state) {
-                int childAdapterPosition = recyclerView.getChildAdapterPosition(view2);
+            public void getItemOffsets(android.graphics.Rect rect2, View view, RecyclerView recyclerView, RecyclerView.State state) {
+                int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
                 if (childAdapterPosition == 0) {
                     rect2.left = AndroidUtilities.dp(8.0f);
                 }
@@ -331,15 +330,15 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         });
         recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view2, int i2) {
-                ReactionsContainerLayout.this.lambda$new$0(view2, i2);
+            public final void onItemClick(View view, int i2) {
+                ReactionsContainerLayout.this.lambda$new$0(view, i2);
             }
         });
         recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
-            public final boolean onItemClick(View view2, int i2) {
+            public final boolean onItemClick(View view, int i2) {
                 boolean lambda$new$1;
-                lambda$new$1 = ReactionsContainerLayout.this.lambda$new$1(view2, i2);
+                lambda$new$1 = ReactionsContainerLayout.this.lambda$new$1(view, i2);
                 return lambda$new$1;
             }
         });
@@ -660,9 +659,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
         float pullingLeftProgress = getPullingLeftProgress();
         float expandSize = expandSize();
-        View view = this.popupLayout;
-        if (view != null) {
-            view.setTranslationY(expandSize);
+        ChatScrimPopupContainerLayout chatScrimPopupContainerLayout = this.chatScrimPopupContainerLayout;
+        if (chatScrimPopupContainerLayout != null) {
+            chatScrimPopupContainerLayout.setExpandSize(expandSize);
         }
         this.rect.set(getPaddingLeft() + ((getWidth() - getPaddingRight()) * max), (getPaddingTop() + (this.recyclerListView.getMeasuredHeight() * (1.0f - this.otherViewsScale))) - expandSize, (getWidth() - getPaddingRight()) * f2, (getHeight() - getPaddingBottom()) + expandSize);
         this.radius = (this.rect.height() - (expandSize * 2.0f)) / 2.0f;
@@ -1039,7 +1038,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
     public void setCustomEmojiEnterProgress(float f) {
         this.customEmojiReactionsEnterProgress = f;
-        this.popupLayout.setAlpha(1.0f - f);
+        this.chatScrimPopupContainerLayout.setPopupAlpha(1.0f - f);
         invalidate();
     }
 
@@ -1110,6 +1109,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         setVisibleReactionsList(arrayList);
         this.lastVisibleViews.clear();
         this.reactionsWindow.setRecentReactions(arrayList);
+    }
+
+    public void setChatScrimView(ChatScrimPopupContainerLayout chatScrimPopupContainerLayout) {
+        this.chatScrimPopupContainerLayout = chatScrimPopupContainerLayout;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

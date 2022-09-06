@@ -9537,7 +9537,7 @@ public class MessagesStorage extends BaseController {
         this.archiveUnreadCount = this.pendingArchiveUnreadCount;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0353 A[Catch: Exception -> 0x035b, TRY_LEAVE, TryCatch #0 {Exception -> 0x035b, blocks: (B:3:0x0008, B:7:0x0024, B:8:0x003c, B:10:0x0042, B:13:0x0049, B:16:0x0050, B:23:0x005a, B:19:0x005e, B:32:0x0064, B:33:0x0281, B:35:0x0287, B:39:0x0343, B:41:0x0353, B:46:0x0291, B:48:0x029c, B:49:0x02aa, B:51:0x02b0, B:53:0x02d8, B:54:0x02de, B:56:0x02e3, B:58:0x0300, B:59:0x02ea, B:62:0x0302, B:63:0x030b, B:65:0x0311, B:66:0x031a, B:68:0x0320, B:70:0x0339, B:71:0x033c, B:73:0x0069, B:76:0x0070, B:78:0x0076, B:82:0x008b, B:84:0x0144, B:87:0x0094, B:88:0x00b6, B:92:0x00be, B:94:0x00c5, B:96:0x00ed, B:98:0x00f8, B:99:0x0128, B:101:0x0110, B:103:0x0114, B:104:0x012c, B:106:0x0130, B:110:0x0083, B:112:0x016c, B:114:0x0172, B:116:0x0179, B:117:0x01a2, B:119:0x01a8, B:121:0x01c0, B:123:0x01c6, B:125:0x01cd, B:127:0x01d4, B:129:0x01f6, B:130:0x01fd, B:132:0x021a, B:134:0x020b, B:139:0x0224, B:143:0x0235, B:145:0x023f, B:147:0x0246, B:152:0x024c, B:155:0x0253, B:157:0x0259), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x036e A[Catch: Exception -> 0x0376, TRY_LEAVE, TryCatch #0 {Exception -> 0x0376, blocks: (B:3:0x0008, B:7:0x0024, B:8:0x003c, B:10:0x0042, B:13:0x0049, B:16:0x0050, B:23:0x005a, B:19:0x005e, B:32:0x0064, B:33:0x029c, B:35:0x02a2, B:39:0x035e, B:41:0x036e, B:46:0x02ac, B:48:0x02b7, B:49:0x02c5, B:51:0x02cb, B:53:0x02f3, B:54:0x02f9, B:56:0x02fe, B:58:0x031b, B:59:0x0305, B:62:0x031d, B:63:0x0326, B:65:0x032c, B:66:0x0335, B:68:0x033b, B:70:0x0354, B:71:0x0357, B:73:0x0069, B:76:0x0070, B:78:0x0076, B:82:0x008b, B:84:0x0092, B:86:0x015f, B:90:0x00af, B:91:0x00d1, B:95:0x00d9, B:97:0x00e0, B:99:0x0108, B:101:0x0113, B:102:0x0143, B:104:0x012b, B:106:0x012f, B:107:0x0147, B:109:0x014b, B:113:0x0083, B:115:0x0187, B:117:0x018d, B:119:0x0194, B:120:0x01bd, B:122:0x01c3, B:124:0x01db, B:126:0x01e1, B:128:0x01e8, B:130:0x01ef, B:132:0x0211, B:133:0x0218, B:135:0x0235, B:137:0x0226, B:142:0x023f, B:146:0x0250, B:148:0x025a, B:150:0x0261, B:155:0x0267, B:158:0x026e, B:160:0x0274), top: B:2:0x0008 }] */
     /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9575,6 +9575,9 @@ public class MessagesStorage extends BaseController {
                         int i6 = longSparseIntArray5 == null ? -2 : longSparseIntArray5.get(keyAt, -2);
                         if (i6 >= 0) {
                             longSparseIntArray6.put(keyAt, i6);
+                            if (BuildVars.DEBUG_VERSION) {
+                                FileLog.d(keyAt + " update unread messages count by still unread " + i6);
+                            }
                         } else {
                             if (longSparseIntArray5 == null || i6 == -2) {
                                 z = true;
@@ -9597,14 +9600,14 @@ public class MessagesStorage extends BaseController {
                                     int intValue = queryFinalized3.intValue(0);
                                     longSparseIntArray6.put(keyAt, intValue);
                                     if (BuildVars.DEBUG_VERSION) {
-                                        FileLog.d(keyAt + "update unread messages count " + intValue);
+                                        FileLog.d(keyAt + " update unread messages count " + intValue);
                                     }
                                 } else if (BuildVars.DEBUG_VERSION) {
-                                    FileLog.d(keyAt + "can't update unread messages count cursor trouble");
+                                    FileLog.d(keyAt + " can't update unread messages count cursor trouble");
                                 }
                                 queryFinalized3.dispose();
                             } else if (BuildVars.DEBUG_VERSION) {
-                                FileLog.d(keyAt + "can't update unread messages count");
+                                FileLog.d(keyAt + " can't update unread messages count");
                             }
                         }
                         SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE dialogs SET inbox_max = max((SELECT inbox_max FROM dialogs WHERE did = ?), ?) WHERE did = ?");
