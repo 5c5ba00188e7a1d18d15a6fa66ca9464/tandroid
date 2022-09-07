@@ -18155,7 +18155,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:629:0x0383  */
     /* JADX WARN: Type inference failed for: r14v3 */
     /* JADX WARN: Type inference failed for: r14v35 */
-    /* JADX WARN: Type inference failed for: r14v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v44 */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*

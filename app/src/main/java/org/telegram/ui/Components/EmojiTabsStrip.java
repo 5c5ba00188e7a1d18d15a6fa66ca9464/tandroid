@@ -742,6 +742,10 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 setBackground(Theme.createRadSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 8, 8));
             }
             ImageView imageView = new ImageView(context, EmojiTabsStrip.this) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabButton.1
+                @Override // android.widget.ImageView, android.view.View
+                protected void onDraw(Canvas canvas) {
+                }
+
                 @Override // android.view.View
                 public void invalidate() {
                     super.invalidate();
@@ -750,10 +754,15 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
                 @Override // android.view.View
                 protected void dispatchDraw(Canvas canvas) {
-                    if (getDrawable() != null) {
-                        getDrawable().setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                        getDrawable().setAlpha(255);
-                        getDrawable().draw(canvas);
+                    Drawable drawable2 = getDrawable();
+                    if (drawable2 != null) {
+                        drawable2.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                        drawable2.setAlpha(255);
+                        if (drawable2 instanceof AnimatedEmojiDrawable) {
+                            ((AnimatedEmojiDrawable) drawable2).draw(canvas, false);
+                        } else {
+                            drawable2.draw(canvas);
+                        }
                     }
                 }
             };

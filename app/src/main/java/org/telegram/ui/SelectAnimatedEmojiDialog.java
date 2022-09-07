@@ -1085,7 +1085,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (this.drawableToBounds == null) {
                 this.drawableToBounds = new Rect();
             }
-            this.drawableToBounds.set((int) (((bounds.centerX() - ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) (((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.75f) - 1.0f : 0.0f)) - (bounds.height() * scaleY)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)), (int) (((bounds.centerX() + ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) ((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.75f) - 1.0f : 0.0f)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)));
+            this.drawableToBounds.set((int) (((bounds.centerX() - ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) (((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.81f) + 1.0f : 0.0f)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)) - (bounds.height() * scaleY)), (int) (((bounds.centerX() + ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) ((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.81f) + 1.0f : 0.0f)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)));
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable3 = this.scrimDrawable;
             Rect rect = this.drawableToBounds;
             int i2 = rect.left;
@@ -1099,7 +1099,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             canvas.restore();
         }
         super.dispatchDraw(canvas);
-        if (this.emojiSelectView == null || this.emojiSelectRect == null || this.drawableToBounds == null) {
+        ImageViewEmoji imageViewEmoji = this.emojiSelectView;
+        if (imageViewEmoji == null || this.emojiSelectRect == null || this.drawableToBounds == null || imageViewEmoji.drawable == null) {
             return;
         }
         canvas.save();
@@ -2357,7 +2358,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.emojiTabs.updateEmojiPacks(this.packs);
     }
 
-    /* JADX WARN: Type inference failed for: r5v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v0, types: [boolean, int] */
     public void expand(int i, View view) {
         int spanCount;
         ?? r5;
@@ -2811,7 +2812,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     if (!imageViewEmoji.notDraw) {
                         if (imageViewEmoji.empty) {
                             imageViewEmoji.drawable.setBounds(imageViewEmoji.drawableBounds);
-                            imageViewEmoji.drawable.draw(canvas);
+                            Drawable drawable = imageViewEmoji.drawable;
+                            if (drawable instanceof AnimatedEmojiDrawable) {
+                                ((AnimatedEmojiDrawable) drawable).draw(canvas, false);
+                            } else {
+                                drawable.draw(canvas);
+                            }
                         } else {
                             ImageReceiver imageReceiver = imageViewEmoji.imageReceiverToDraw;
                             if (imageReceiver != null) {
@@ -2925,7 +2931,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 if (drawable != null) {
                     drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
                     drawable.setAlpha((int) (f * 255.0f));
-                    drawable.draw(canvas);
+                    if (drawable instanceof AnimatedEmojiDrawable) {
+                        ((AnimatedEmojiDrawable) drawable).draw(canvas, false);
+                    } else {
+                        drawable.draw(canvas);
+                    }
                     PremiumLockIconView premiumLockIconView = imageViewEmoji.premiumLockIconView;
                 } else if (!imageViewEmoji.isDefaultReaction || (imageReceiver = imageViewEmoji.imageReceiver) == null) {
                 } else {

@@ -10,8 +10,8 @@ android {
         applicationId 'org.telegram.messenger.beta'
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 27929
-        versionName "8.9.3"
+        versionCode 27949
+        versionName "9.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -3197,13 +3197,13 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     ImageViewEmoji imageViewEmoji = this.drawInBackgroundViews.get(i);
                     AnimatedEmojiDrawable animatedEmojiDrawable = imageViewEmoji.drawable;
                     if (animatedEmojiDrawable != null) {
-                        animatedEmojiDrawable.draw(canvas, imageViewEmoji.backgroundThreadDrawHolder);
+                        animatedEmojiDrawable.draw(canvas, imageViewEmoji.backgroundThreadDrawHolder, false);
                     }
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:31:0x017d  */
-            /* JADX WARN: Removed duplicated region for block: B:34:0x0194  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x017e  */
+            /* JADX WARN: Removed duplicated region for block: B:34:0x0196  */
             @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -3244,10 +3244,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                                     if (f5 == 1.0f) {
                                         canvas.save();
                                         canvas.scale(f5, f5, rect.centerX(), rect.centerY());
-                                        animatedEmojiDrawable.draw(canvas);
+                                        animatedEmojiDrawable.draw(canvas, false);
                                         canvas.restore();
                                     } else {
-                                        animatedEmojiDrawable.draw(canvas);
+                                        animatedEmojiDrawable.draw(canvas, false);
                                     }
                                 }
                             }

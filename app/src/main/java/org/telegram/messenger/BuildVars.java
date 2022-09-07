@@ -2,6 +2,8 @@ package org.telegram.messenger;
 
 import android.content.SharedPreferences;
 import android.os.Build;
+import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
+import com.android.billingclient.api.ProductDetails;
 /* loaded from: classes.dex */
 public class BuildVars {
     public static String APPCENTER_HASH = null;
@@ -26,8 +28,8 @@ public class BuildVars {
     static {
         boolean z = true;
         NO_SCOPED_STORAGE = Build.VERSION.SDK_INT <= 29;
-        BUILD_VERSION = 2792;
-        BUILD_VERSION_STRING = "8.9.3";
+        BUILD_VERSION = 2794;
+        BUILD_VERSION_STRING = "9.0.0";
         APP_ID = 4;
         APP_HASH = "014b35b6184100b085b0d0572f9b5103";
         APPCENTER_HASH = "f9726602-67c9-48d2-b5d0-4761f1c1a8f3";
@@ -47,7 +49,23 @@ public class BuildVars {
     }
 
     public static boolean useInvoiceBilling() {
-        return DEBUG_VERSION || isStandaloneApp() || isBetaApp() || isHuaweiStoreApp();
+        return DEBUG_VERSION || isStandaloneApp() || isBetaApp() || isHuaweiStoreApp() || hasDirectCurrency();
+    }
+
+    private static boolean hasDirectCurrency() {
+        ProductDetails productDetails;
+        if (BillingController.getInstance().isReady() && (productDetails = BillingController.PREMIUM_PRODUCT_DETAILS) != null) {
+            for (ProductDetails.SubscriptionOfferDetails subscriptionOfferDetails : productDetails.getSubscriptionOfferDetails()) {
+                for (ProductDetails.PricingPhase pricingPhase : subscriptionOfferDetails.getPricingPhases().getPricingPhaseList()) {
+                    for (String str : MessagesController.getInstance(UserConfig.selectedAccount).directPaymentsCurrency) {
+                        if (ObjectsCompat$$ExternalSyntheticBackport0.m(pricingPhase.getPriceCurrencyCode(), str)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean isStandaloneApp() {

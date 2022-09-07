@@ -4975,9 +4975,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r2v1252 */
     /* JADX WARN: Type inference failed for: r2v1253 */
     /* JADX WARN: Type inference failed for: r2v30 */
-    /* JADX WARN: Type inference failed for: r2v31, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v31, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v39 */
-    /* JADX WARN: Type inference failed for: r2v52, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v52, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r4v584, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r6v473, types: [org.telegram.ui.Cells.ChatMessageCell$1] */
     /* JADX WARN: Type inference failed for: r6v489 */
@@ -20016,7 +20016,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     /* JADX WARN: Type inference failed for: r12v2 */
     /* JADX WARN: Type inference failed for: r12v29 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
     public void drawLinkPreview(Canvas canvas, float f) {
         int dp;
         int i;
@@ -26209,7 +26209,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         invalidate();
         canvas.restore();
         canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (this.unlockAlpha * 255.0f), 31);
+        int alpha5 = Theme.chat_timeBackgroundPaint.getAlpha();
+        Theme.chat_timeBackgroundPaint.setAlpha((int) (alpha5 * 0.7f));
         canvas.drawRoundRect(rectF2, AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f), Theme.chat_timeBackgroundPaint);
+        Theme.chat_timeBackgroundPaint.setAlpha(alpha5);
         canvas.translate(this.unlockX + AndroidUtilities.dp(4.0f), this.unlockY);
         Drawable drawable = Theme.chat_msgUnlockDrawable;
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), Theme.chat_msgUnlockDrawable.getIntrinsicHeight());

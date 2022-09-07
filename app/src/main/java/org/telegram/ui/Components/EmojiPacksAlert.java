@@ -399,7 +399,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                     f2 = 1.0f * (((1.0f - emojiImageView.pressedProgress) * 0.2f) + 0.8f);
                                 }
                                 animatedEmojiDrawable.setBounds((int) (left - ((emojiImageView.getScaleX() * width) * f2)), (int) (paddingTop - ((emojiImageView.getScaleY() * height) * f2)), (int) (left + (width * emojiImageView.getScaleX() * f2)), (int) (paddingTop + (height * emojiImageView.getScaleY() * f2)));
-                                animatedEmojiDrawable.draw(canvas);
+                                animatedEmojiDrawable.draw(canvas, false);
                             }
                         }
                     }

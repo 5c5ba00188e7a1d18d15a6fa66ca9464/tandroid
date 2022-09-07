@@ -51,7 +51,6 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 public class AnimatedEmojiDrawable extends Drawable {
     private static HashMap<Integer, EmojiDocumentFetcher> fetchers;
     private static HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> globalEmojiCache;
-    private float alpha = 1.0f;
     private boolean attached;
     private int cacheType;
     private ColorFilter colorFilterToSet;
@@ -61,6 +60,8 @@ public class AnimatedEmojiDrawable extends Drawable {
     private ImageReceiver imageReceiver;
     public int sizedp;
     private ArrayList<View> views;
+    private float alpha = 1.0f;
+    private Boolean canOverrideColorCached = null;
 
     /* loaded from: classes3.dex */
     public interface ReceivedDocument {
@@ -635,6 +636,15 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
+        draw(canvas, true);
+    }
+
+    public void draw(Canvas canvas, boolean z) {
+        int saveCount = canvas.getSaveCount();
+        if (canOverrideColor() && z) {
+            canvas.save();
+            canvas.translate(AndroidUtilities.dp(-4.0f), 0.0f);
+        }
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setImageCoords(getBounds());
@@ -642,9 +652,15 @@ public class AnimatedEmojiDrawable extends Drawable {
             this.imageReceiver.draw(canvas);
         }
         drawPlaceholder(canvas, getBounds().centerX(), getBounds().centerY(), getBounds().width() / 2.0f);
+        canvas.restoreToCount(saveCount);
     }
 
     public void draw(Canvas canvas, android.graphics.Rect rect, float f) {
+        int saveCount = canvas.getSaveCount();
+        if (canOverrideColor()) {
+            canvas.save();
+            canvas.translate(AndroidUtilities.dp(-4.0f), 0.0f);
+        }
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setImageCoords(rect);
@@ -654,9 +670,15 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (rect != null) {
             drawPlaceholder(canvas, rect.centerX(), rect.centerY(), rect.width() / 2.0f);
         }
+        canvas.restoreToCount(saveCount);
     }
 
-    public void draw(Canvas canvas, ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
+    public void draw(Canvas canvas, ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder, boolean z) {
+        int saveCount = canvas.getSaveCount();
+        if (canOverrideColor() && z) {
+            canvas.save();
+            canvas.translate(AndroidUtilities.dp(-4.0f), 0.0f);
+        }
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setAlpha(this.alpha);
@@ -667,6 +689,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             float f2 = backgroundThreadDrawHolder.imageW;
             drawPlaceholder(canvas, f + (f2 / 2.0f), backgroundThreadDrawHolder.imageY + (backgroundThreadDrawHolder.imageH / 2.0f), f2 / 2.0f);
         }
+        canvas.restoreToCount(saveCount);
     }
 
     public void addView(View view) {
@@ -724,12 +747,22 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public boolean canOverrideColor() {
-        TLRPC$Document tLRPC$Document = this.document;
-        if (tLRPC$Document != null) {
-            TLRPC$InputStickerSet inputStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
-            return (inputStickerSet instanceof TLRPC$TL_inputStickerSetEmojiDefaultStatuses) || ((inputStickerSet instanceof TLRPC$TL_inputStickerSetID) && inputStickerSet.id == 773947703670341676L);
+        Boolean bool = this.canOverrideColorCached;
+        if (bool != null) {
+            return bool.booleanValue();
         }
-        return false;
+        TLRPC$Document tLRPC$Document = this.document;
+        boolean z = false;
+        if (tLRPC$Document == null) {
+            return false;
+        }
+        TLRPC$InputStickerSet inputStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
+        if ((inputStickerSet instanceof TLRPC$TL_inputStickerSetEmojiDefaultStatuses) || ((inputStickerSet instanceof TLRPC$TL_inputStickerSetID) && inputStickerSet.id == 773947703670341676L)) {
+            z = true;
+        }
+        Boolean valueOf = Boolean.valueOf(z);
+        this.canOverrideColorCached = valueOf;
+        return valueOf.booleanValue();
     }
 
     @Override // android.graphics.drawable.Drawable

@@ -1773,7 +1773,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     /* JADX WARN: Type inference failed for: r2v130, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r2v238, types: [java.lang.Long] */
     /* JADX WARN: Type inference failed for: r3v0 */
-    /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v11 */
     /* JADX WARN: Type inference failed for: r3v14 */
     /* JADX WARN: Type inference failed for: r3v15 */

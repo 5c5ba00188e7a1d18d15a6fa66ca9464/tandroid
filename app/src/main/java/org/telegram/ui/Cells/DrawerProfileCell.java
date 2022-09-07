@@ -328,10 +328,6 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                     float f = dp2;
                     imageReceiver.setImageCoords((getMeasuredWidth() - dp2) / 2.0f, (getMeasuredHeight() - dp2) / 2.0f, f, f);
                     imageReceiver.draw(canvas);
-                    if (imageReceiver.getLottieAnimation() != null && imageReceiver.getLottieAnimation().isRunning() && imageReceiver.getLottieAnimation().isLastFrame()) {
-                        imageReceiver.onDetachedFromWindow();
-                        this.animations.remove(imageReceiver);
-                    }
                 } else if (obj instanceof AnimatedEmojiEffect) {
                     AnimatedEmojiEffect animatedEmojiEffect = (AnimatedEmojiEffect) obj;
                     animatedEmojiEffect.setBounds((int) ((getMeasuredWidth() - dp) / 2.0f), (int) ((getMeasuredHeight() - dp) / 2.0f), (int) ((getMeasuredWidth() + dp) / 2.0f), (int) ((getMeasuredHeight() + dp) / 2.0f));
@@ -385,7 +381,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             } else {
                 tLRPC$TL_availableReaction = tLRPC$TL_availableReaction2;
             }
-            if (tLRPC$TL_availableReaction != null) {
+            if (tLRPC$Document == null && tLRPC$TL_availableReaction != null) {
                 ImageReceiver imageReceiver = new ImageReceiver();
                 imageReceiver.setParentView(this);
                 int i = this.animationUniq;

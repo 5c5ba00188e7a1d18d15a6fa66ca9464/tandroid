@@ -722,9 +722,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         arrayList.add(new PremiumFeatureData(9, R.drawable.msg_premium_tools, LocaleController.getString("PremiumPreviewAdvancedChatManagement", R.string.PremiumPreviewAdvancedChatManagement), LocaleController.getString("PremiumPreviewAdvancedChatManagementDescription", R.string.PremiumPreviewAdvancedChatManagementDescription)));
         arrayList.add(new PremiumFeatureData(6, R.drawable.msg_premium_badge, LocaleController.getString("PremiumPreviewProfileBadge", R.string.PremiumPreviewProfileBadge), LocaleController.getString("PremiumPreviewProfileBadgeDescription", R.string.PremiumPreviewProfileBadgeDescription)));
         arrayList.add(new PremiumFeatureData(7, R.drawable.msg_premium_avatar, LocaleController.getString("PremiumPreviewAnimatedProfiles", R.string.PremiumPreviewAnimatedProfiles), LocaleController.getString("PremiumPreviewAnimatedProfilesDescription", R.string.PremiumPreviewAnimatedProfilesDescription)));
-        int i3 = R.drawable.msg_premium_icons;
-        arrayList.add(new PremiumFeatureData(10, i3, LocaleController.getString("PremiumPreviewAppIcon", R.string.PremiumPreviewAppIcon), LocaleController.getString("PremiumPreviewAppIconDescription", R.string.PremiumPreviewAppIconDescription)));
-        arrayList.add(new PremiumFeatureData(12, i3, LocaleController.getString("PremiumPreviewEmojiStatus", R.string.PremiumPreviewEmojiStatus), LocaleController.getString("PremiumPreviewEmojiStatusDescription", R.string.PremiumPreviewEmojiStatusDescription)));
+        arrayList.add(new PremiumFeatureData(10, R.drawable.msg_premium_icons, LocaleController.getString("PremiumPreviewAppIcon", R.string.PremiumPreviewAppIcon), LocaleController.getString("PremiumPreviewAppIconDescription", R.string.PremiumPreviewAppIconDescription)));
+        arrayList.add(new PremiumFeatureData(12, R.drawable.msg_premium_status, LocaleController.getString("PremiumPreviewEmojiStatus", R.string.PremiumPreviewEmojiStatus), LocaleController.getString("PremiumPreviewEmojiStatusDescription", R.string.PremiumPreviewEmojiStatusDescription)));
         if (messagesController.premiumFeaturesTypesToPosition.size() > 0) {
             while (i2 < arrayList.size()) {
                 if (messagesController.premiumFeaturesTypesToPosition.get(arrayList.get(i2).type, -1) == -1) {
@@ -1608,7 +1607,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     PremiumPreviewFragment.this.lambda$updateButtonText$11(view);
                 }
             }, z);
-        } else if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.subscriptionTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
+        } else if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.subscriptionTiers.isEmpty() || this.subscriptionTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
             this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), PremiumPreviewFragment$$ExternalSyntheticLambda2.INSTANCE, z);
             this.premiumButtonView.setFlickerDisabled(true);
         } else {

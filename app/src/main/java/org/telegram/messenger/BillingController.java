@@ -237,13 +237,12 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     public void onPurchasesUpdated(final BillingResult billingResult, List<Purchase> list) {
         FileLog.d("Billing purchases updated: " + billingResult + ", " + list);
         int i = 4;
-        int i2 = 1;
         if (billingResult.getResponseCode() != 0) {
             if (billingResult.getResponseCode() == 1) {
                 PremiumPreviewFragment.sentPremiumBuyCanceled();
             }
-            for (int i3 = 0; i3 < 4; i3++) {
-                AccountInstance accountInstance = AccountInstance.getInstance(i3);
+            for (int i2 = 0; i2 < 4; i2++) {
+                AccountInstance accountInstance = AccountInstance.getInstance(i2);
                 if (!accountInstance.getUserConfig().awaitBillingProductIds.isEmpty()) {
                     accountInstance.getUserConfig().awaitBillingProductIds.clear();
                     accountInstance.getUserConfig().billingPaymentPurpose = null;
@@ -253,36 +252,38 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         } else if (list != null) {
             for (final Purchase purchase : list) {
                 if (!this.requestingTokens.contains(purchase.getPurchaseToken())) {
-                    int i4 = 0;
-                    while (i4 < i) {
-                        final AccountInstance accountInstance2 = AccountInstance.getInstance(i4);
+                    int i3 = 0;
+                    while (i3 < i) {
+                        final AccountInstance accountInstance2 = AccountInstance.getInstance(i3);
                         if (accountInstance2.getUserConfig().awaitBillingProductIds.containsAll(purchase.getProducts()) && purchase.getPurchaseState() != 2) {
-                            accountInstance2.getUserConfig().awaitBillingProductIds.removeAll(purchase.getProducts());
-                            accountInstance2.getUserConfig().saveConfig(false);
-                            if (purchase.getPurchaseState() == i2 && !purchase.isAcknowledged()) {
-                                this.requestingTokens.add(purchase.getPurchaseToken());
-                                final TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction = new TLRPC$TL_payments_assignPlayMarketTransaction();
-                                TLRPC$TL_dataJSON tLRPC$TL_dataJSON = new TLRPC$TL_dataJSON();
-                                tLRPC$TL_payments_assignPlayMarketTransaction.receipt = tLRPC$TL_dataJSON;
-                                tLRPC$TL_dataJSON.data = purchase.getOriginalJson();
-                                tLRPC$TL_payments_assignPlayMarketTransaction.purpose = accountInstance2.getUserConfig().billingPaymentPurpose;
-                                accountInstance2.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
-                                    @Override // org.telegram.tgnet.RequestDelegate
-                                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                        BillingController.this.lambda$onPurchasesUpdated$4(accountInstance2, purchase, billingResult, tLRPC$TL_payments_assignPlayMarketTransaction, tLObject, tLRPC$TL_error);
-                                    }
-                                }, 66);
-                                accountInstance2.getUserConfig().billingPaymentPurpose = null;
+                            if (purchase.getPurchaseState() == 1) {
+                                if (!purchase.isAcknowledged()) {
+                                    this.requestingTokens.add(purchase.getPurchaseToken());
+                                    final TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction = new TLRPC$TL_payments_assignPlayMarketTransaction();
+                                    TLRPC$TL_dataJSON tLRPC$TL_dataJSON = new TLRPC$TL_dataJSON();
+                                    tLRPC$TL_payments_assignPlayMarketTransaction.receipt = tLRPC$TL_dataJSON;
+                                    tLRPC$TL_dataJSON.data = purchase.getOriginalJson();
+                                    tLRPC$TL_payments_assignPlayMarketTransaction.purpose = accountInstance2.getUserConfig().billingPaymentPurpose;
+                                    accountInstance2.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
+                                        @Override // org.telegram.tgnet.RequestDelegate
+                                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                            BillingController.this.lambda$onPurchasesUpdated$4(accountInstance2, purchase, billingResult, tLRPC$TL_payments_assignPlayMarketTransaction, tLObject, tLRPC$TL_error);
+                                        }
+                                    }, 66);
+                                } else {
+                                    accountInstance2.getUserConfig().awaitBillingProductIds.removeAll(purchase.getProducts());
+                                    accountInstance2.getUserConfig().saveConfig(false);
+                                }
+                            } else {
+                                accountInstance2.getUserConfig().awaitBillingProductIds.removeAll(purchase.getProducts());
                                 accountInstance2.getUserConfig().saveConfig(false);
                             }
                         }
-                        i4++;
+                        i3++;
                         i = 4;
-                        i2 = 1;
                     }
                 }
                 i = 4;
-                i2 = 1;
             }
         }
     }
@@ -298,11 +299,15 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
                     remove.accept(billingResult);
                 }
             }
-            if (!(tLRPC$TL_payments_assignPlayMarketTransaction.purpose instanceof TLRPC$TL_inputStorePaymentGiftPremium)) {
-                return;
+            if (tLRPC$TL_payments_assignPlayMarketTransaction.purpose instanceof TLRPC$TL_inputStorePaymentGiftPremium) {
+                this.billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), BillingController$$ExternalSyntheticLambda1.INSTANCE);
             }
-            this.billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), BillingController$$ExternalSyntheticLambda1.INSTANCE);
         }
+        if (tLObject == null && (!ApplicationLoader.isNetworkOnline() || tLRPC$TL_error == null || tLRPC$TL_error.code == -1000)) {
+            return;
+        }
+        accountInstance.getUserConfig().awaitBillingProductIds.removeAll(purchase.getProducts());
+        accountInstance.getUserConfig().saveConfig(false);
     }
 
     @Override // com.android.billingclient.api.BillingClientStateListener

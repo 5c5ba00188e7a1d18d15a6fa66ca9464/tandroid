@@ -23139,18 +23139,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:29:0x017e, code lost:
-        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until < ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L179;
+        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until < ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L177;
      */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x059a  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x0286  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02cc  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x01bd  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x018c  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x01ab  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x048f  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x04b9  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x05bb  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x062a  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0597  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0283  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x01a8  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x048c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x04b6  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x05b8  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0627  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -23210,9 +23209,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 z3 = z9;
             }
             tLRPC$EmojiStatus = this.currentUser.emoji_status;
-            if (z15) {
-                z2 = true;
-            }
             if (!z3 || z10 || z13) {
                 z4 = false;
                 this.reportSpamButton.setVisibility(0);
@@ -23501,8 +23497,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         z3 = z9;
         tLRPC$EmojiStatus = null;
-        if (z15) {
-        }
         if (!z3) {
         }
         z4 = false;
