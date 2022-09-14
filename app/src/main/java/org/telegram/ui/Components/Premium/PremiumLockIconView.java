@@ -105,7 +105,8 @@ public class PremiumLockIconView extends ImageView {
     @Override // android.widget.ImageView, android.view.View
     protected void onDraw(Canvas canvas) {
         if (this.waitingImage) {
-            if (this.imageReceiver.getBitmap() != null) {
+            ImageReceiver imageReceiver = this.imageReceiver;
+            if (imageReceiver != null && imageReceiver.getBitmap() != null) {
                 this.waitingImage = false;
                 setColor(getDominantColor(this.imageReceiver.getBitmap()));
             } else {

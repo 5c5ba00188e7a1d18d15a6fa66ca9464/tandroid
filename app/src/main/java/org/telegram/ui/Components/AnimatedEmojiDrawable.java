@@ -467,11 +467,11 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     /* JADX WARN: Removed duplicated region for block: B:38:0x0183  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x018c  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x01e8  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0206  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0217  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0186  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0205  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0215  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0186  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -482,6 +482,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         SvgHelper.SvgDrawable svgDrawable2;
         int i;
         int i2;
+        int i3;
         if (this.document == null || this.imageReceiver != null) {
             return;
         }
@@ -493,9 +494,9 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
 
             @Override // org.telegram.messenger.ImageReceiver
-            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i4, boolean z, int i5) {
                 AnimatedEmojiDrawable.this.invalidate();
-                return super.setImageBitmapByKey(drawable, str2, i3, z, i4);
+                return super.setImageBitmapByKey(drawable, str2, i4, z, i5);
             }
         };
         if (this.colorFilterToSet != null && canOverrideColor()) {
@@ -505,14 +506,14 @@ public class AnimatedEmojiDrawable extends Drawable {
             this.imageReceiver.setUniqKeyPrefix(this.cacheType + "_");
         }
         this.imageReceiver.setVideoThumbIsSame(true);
-        boolean z = SharedConfig.getDevicePerformanceClass() == 0 && ((i2 = this.cacheType) == 2 || i2 == 3 || i2 == 5);
+        boolean z = SharedConfig.getDevicePerformanceClass() == 0 && ((i3 = this.cacheType) == 2 || i3 == 3 || i3 == 5);
         String str2 = this.sizedp + "_" + this.sizedp;
-        int i3 = this.cacheType;
-        if (i3 != 8 && (i3 != 1 || SharedConfig.getDevicePerformanceClass() < 2)) {
+        int i4 = this.cacheType;
+        if (i4 != 8 && (i4 != 1 || SharedConfig.getDevicePerformanceClass() < 2)) {
             str2 = str2 + "_pcache";
         }
-        int i4 = this.cacheType;
-        if (i4 != 0 && i4 != 1) {
+        int i5 = this.cacheType;
+        if (i5 != 0 && i5 != 1) {
             str2 = str2 + "_compress";
         }
         if (this.cacheType == 8) {
@@ -561,12 +562,16 @@ public class AnimatedEmojiDrawable extends Drawable {
                 TLRPC$Document tLRPC$Document2 = this.document;
                 this.imageReceiver.setImage(imageLocation2, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
             }
-            if (this.cacheType == 7) {
+            i = this.cacheType;
+            if (i != 7 || i == 9) {
                 this.imageReceiver.setAutoRepeatCount(2);
             }
-            i = this.cacheType;
-            if (i != 3 || i == 5 || i == 4) {
+            i2 = this.cacheType;
+            if (i2 != 3 || i2 == 5 || i2 == 4) {
                 this.imageReceiver.setLayerNum(7);
+            }
+            if (this.cacheType == 9) {
+                this.imageReceiver.setLayerNum(6656);
             }
             this.imageReceiver.setAspectFit(true);
             if (this.cacheType == 8) {
@@ -579,8 +584,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.imageReceiver.setAutoRepeat(0);
             }
             this.imageReceiver.setAllowDecodeSingleFrame(true);
-            int i5 = this.cacheType;
-            this.imageReceiver.setRoundRadius((i5 != 5 || i5 == 6) ? AndroidUtilities.dp(6.0f) : 0);
+            int i6 = this.cacheType;
+            this.imageReceiver.setRoundRadius((i6 != 5 || i6 == 6) ? AndroidUtilities.dp(6.0f) : 0);
             updateAttachState();
             invalidate();
         }
@@ -589,18 +594,22 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
         if (this.cacheType != 8) {
         }
-        if (this.cacheType == 7) {
-        }
         i = this.cacheType;
-        if (i != 3) {
+        if (i != 7) {
+        }
+        this.imageReceiver.setAutoRepeatCount(2);
+        i2 = this.cacheType;
+        if (i2 != 3) {
         }
         this.imageReceiver.setLayerNum(7);
+        if (this.cacheType == 9) {
+        }
         this.imageReceiver.setAspectFit(true);
         if (this.cacheType == 8) {
         }
         this.imageReceiver.setAllowDecodeSingleFrame(true);
-        int i52 = this.cacheType;
-        this.imageReceiver.setRoundRadius((i52 != 5 || i52 == 6) ? AndroidUtilities.dp(6.0f) : 0);
+        int i62 = this.cacheType;
+        this.imageReceiver.setRoundRadius((i62 != 5 || i62 == 6) ? AndroidUtilities.dp(6.0f) : 0);
         updateAttachState();
         invalidate();
     }
@@ -640,11 +649,6 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     public void draw(Canvas canvas, boolean z) {
-        int saveCount = canvas.getSaveCount();
-        if (canOverrideColor() && z) {
-            canvas.save();
-            canvas.translate(AndroidUtilities.dp(-4.0f), 0.0f);
-        }
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setImageCoords(getBounds());
@@ -652,15 +656,9 @@ public class AnimatedEmojiDrawable extends Drawable {
             this.imageReceiver.draw(canvas);
         }
         drawPlaceholder(canvas, getBounds().centerX(), getBounds().centerY(), getBounds().width() / 2.0f);
-        canvas.restoreToCount(saveCount);
     }
 
     public void draw(Canvas canvas, android.graphics.Rect rect, float f) {
-        int saveCount = canvas.getSaveCount();
-        if (canOverrideColor()) {
-            canvas.save();
-            canvas.translate(AndroidUtilities.dp(-4.0f), 0.0f);
-        }
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setImageCoords(rect);
@@ -670,15 +668,9 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (rect != null) {
             drawPlaceholder(canvas, rect.centerX(), rect.centerY(), rect.width() / 2.0f);
         }
-        canvas.restoreToCount(saveCount);
     }
 
     public void draw(Canvas canvas, ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder, boolean z) {
-        int saveCount = canvas.getSaveCount();
-        if (canOverrideColor() && z) {
-            canvas.save();
-            canvas.translate(AndroidUtilities.dp(-4.0f), 0.0f);
-        }
         ImageReceiver imageReceiver = this.imageReceiver;
         if (imageReceiver != null) {
             imageReceiver.setAlpha(this.alpha);
@@ -689,7 +681,6 @@ public class AnimatedEmojiDrawable extends Drawable {
             float f2 = backgroundThreadDrawHolder.imageW;
             drawPlaceholder(canvas, f + (f2 / 2.0f), backgroundThreadDrawHolder.imageY + (backgroundThreadDrawHolder.imageH / 2.0f), f2 / 2.0f);
         }
-        canvas.restoreToCount(saveCount);
     }
 
     public void addView(View view) {
@@ -933,7 +924,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             if (!(getDrawable() instanceof AnimatedEmojiDrawable) || (imageReceiver = (animatedEmojiDrawable = (AnimatedEmojiDrawable) getDrawable()).getImageReceiver()) == null) {
                 return;
             }
-            if (animatedEmojiDrawable.cacheType == 7) {
+            if (animatedEmojiDrawable.cacheType == 7 || animatedEmojiDrawable.cacheType == 9) {
                 imageReceiver.setAutoRepeatCount(2);
             }
             imageReceiver.startAnimation();
@@ -944,7 +935,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             if (num2 == null && num == null) {
                 return;
             }
-            if (num2 != null && num != null && num2 == num) {
+            if (num2 != null && num2.equals(num)) {
                 return;
             }
             this.lastColor = num;
@@ -976,7 +967,11 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
             if (this.drawables[0] != null) {
                 canvas.save();
-                if (this.drawables[0] instanceof AnimatedEmojiDrawable) {
+                Drawable[] drawableArr3 = this.drawables;
+                if (drawableArr3[0] instanceof AnimatedEmojiDrawable) {
+                    if (((AnimatedEmojiDrawable) drawableArr3[0]).imageReceiver != null) {
+                        ((AnimatedEmojiDrawable) this.drawables[0]).imageReceiver.setRoundRadius(AndroidUtilities.dp(4.0f));
+                    }
                     if (f < 1.0f) {
                         float interpolation = this.overshootInterpolator.getInterpolation(f);
                         canvas.scale(interpolation, interpolation, bounds.centerX(), bounds.centerY());

@@ -23138,18 +23138,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x017e, code lost:
-        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until < ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L177;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x017d, code lost:
+        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L177;
      */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0597  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x0283  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x02c9  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x01ba  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x01a8  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x048c  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x04b6  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x05b8  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0627  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0596  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x027e  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x01b9  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0488  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x04b3  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x05b7  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0626  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -23158,16 +23158,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         boolean z3;
         TLRPC$EmojiStatus tLRPC$EmojiStatus;
         boolean z4;
-        boolean z5;
         TLRPC$User user;
         int i;
-        boolean z6;
+        boolean z5;
         TextView textView;
         int dp;
         Long valueOf;
         int i2;
         TextView textView2;
-        TLRPC$User tLRPC$User;
         String formatString;
         if (this.topChatPanelView == null || this.chatMode != 0) {
             return;
@@ -23176,13 +23174,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         long j = this.dialog_id;
         TLRPC$EncryptedChat tLRPC$EncryptedChat = this.currentEncryptedChat;
         if (tLRPC$EncryptedChat != null) {
-            boolean z7 = tLRPC$EncryptedChat.admin_id != getUserConfig().getClientUserId() && !getContactsController().isLoadingContacts() && getContactsController().contactsDict.get(Long.valueOf(this.currentUser.id)) == null;
+            boolean z6 = tLRPC$EncryptedChat.admin_id != getUserConfig().getClientUserId() && !getContactsController().isLoadingContacts() && getContactsController().contactsDict.get(Long.valueOf(this.currentUser.id)) == null;
             long j2 = this.currentUser.id;
             int i3 = notificationsSettings.getInt("dialog_bar_vis3" + j2, 0);
-            if (z7 && (i3 == 1 || i3 == 3)) {
-                z7 = false;
+            if (z6 && (i3 == 1 || i3 == 3)) {
+                z6 = false;
             }
-            z2 = z7;
+            z2 = z6;
             j = j2;
         } else {
             StringBuilder sb = new StringBuilder();
@@ -23190,39 +23188,36 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             sb.append(j);
             z2 = notificationsSettings.getInt(sb.toString(), 0) == 2;
         }
-        boolean z8 = notificationsSettings.getBoolean("dialog_bar_share" + j, false);
-        boolean z9 = notificationsSettings.getBoolean("dialog_bar_report" + j, false);
-        boolean z10 = notificationsSettings.getBoolean("dialog_bar_block" + j, false);
-        boolean z11 = notificationsSettings.getBoolean("dialog_bar_add" + j, false);
-        boolean z12 = notificationsSettings.getBoolean("dialog_bar_archived" + this.dialog_id, false);
-        boolean z13 = notificationsSettings.getBoolean("dialog_bar_location" + j, false);
+        boolean z7 = notificationsSettings.getBoolean("dialog_bar_share" + j, false);
+        boolean z8 = notificationsSettings.getBoolean("dialog_bar_report" + j, false);
+        boolean z9 = notificationsSettings.getBoolean("dialog_bar_block" + j, false);
+        boolean z10 = notificationsSettings.getBoolean("dialog_bar_add" + j, false);
+        boolean z11 = notificationsSettings.getBoolean("dialog_bar_archived" + this.dialog_id, false);
+        boolean z12 = notificationsSettings.getBoolean("dialog_bar_location" + j, false);
         final String string = notificationsSettings.getString("dialog_bar_chat_with_admin_title" + j, null);
-        final boolean z14 = notificationsSettings.getBoolean("dialog_bar_chat_with_channel" + j, false);
+        final boolean z13 = notificationsSettings.getBoolean("dialog_bar_chat_with_channel" + j, false);
         final int i4 = notificationsSettings.getInt("dialog_bar_chat_with_date" + j, 0);
-        boolean z15 = notificationsSettings.getBoolean("dialog_bar_invite" + j, false);
-        TLRPC$User tLRPC$User2 = this.currentUser;
-        if (tLRPC$User2 != null && (z9 || z10)) {
-            TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User2.emoji_status;
+        boolean z14 = notificationsSettings.getBoolean("dialog_bar_invite" + j, false);
+        TLRPC$User tLRPC$User = this.currentUser;
+        if (tLRPC$User != null && (z8 || z9)) {
+            TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User.emoji_status;
             if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
-                z3 = z9;
+                z3 = z2;
             } else if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatusUntil) {
-                z3 = z9;
+                z3 = z2;
             }
             tLRPC$EmojiStatus = this.currentUser.emoji_status;
-            if (!z3 || z10 || z13) {
+            if (!z8 || z9 || z12) {
                 z4 = false;
                 this.reportSpamButton.setVisibility(0);
-                z5 = true;
             } else {
                 this.reportSpamButton.setVisibility(8);
-                z5 = z2;
                 z4 = false;
             }
             this.addToContactsButtonArchive = z4;
             user = this.currentUser == null ? getMessagesController().getUser(Long.valueOf(this.currentUser.id)) : null;
             if (user != null || TextUtils.isEmpty(string)) {
-                TLRPC$User tLRPC$User3 = user;
-                if (!z15) {
+                if (!z14) {
                     String string2 = LocaleController.getString("GroupAddMembers", R.string.GroupAddMembers);
                     if (string2 != null) {
                         string2 = string2.toUpperCase();
@@ -23232,19 +23227,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     this.addToContactsButton.setTag(4);
                     this.addToContactsButton.setTextColor(getThemedColor("chat_addContact"));
                     if (Build.VERSION.SDK_INT >= 21) {
-                        Theme.setSelectorDrawableColor(this.addToContactsButton.getBackground(), getThemedColor("chat_addContact") & 436207615, true);
+                        Theme.setSelectorDrawableColor(this.addToContactsButton.getBackground(), 436207615 & getThemedColor("chat_addContact"), true);
                     }
                     this.reportSpamButton.setTag("chat_addContact");
-                } else if (tLRPC$User3 != null) {
-                    if (UserObject.isReplyUser(tLRPC$User3)) {
+                } else if (user != null) {
+                    if (UserObject.isReplyUser(user)) {
                         this.addToContactsButton.setVisibility(8);
                     } else {
-                        boolean z16 = tLRPC$User3.contact;
-                        if (!z16 && !tLRPC$User3.self && z11) {
+                        boolean z15 = user.contact;
+                        if (!z15 && !user.self && z10) {
                             this.addContactItem.setVisibility(0);
                             this.addContactItem.setText(LocaleController.getString("AddToContacts", R.string.AddToContacts));
                             this.addToContactsButton.setVisibility(0);
-                            if (z12) {
+                            if (z11) {
                                 this.addToContactsButtonArchive = true;
                                 this.addToContactsButton.setText(LocaleController.getString("Unarchive", R.string.Unarchive).toUpperCase());
                                 this.addToContactsButton.setTag(3);
@@ -23252,14 +23247,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 this.addToContactsButton.setText(LocaleController.getString("AddContactChat", R.string.AddContactChat));
                             } else {
                                 i = 0;
-                                this.addToContactsButton.setText(LocaleController.formatString("AddContactFullChat", R.string.AddContactFullChat, UserObject.getFirstName(tLRPC$User3)).toUpperCase());
+                                this.addToContactsButton.setText(LocaleController.formatString("AddContactFullChat", R.string.AddContactFullChat, UserObject.getFirstName(user)).toUpperCase());
                                 this.addToContactsButton.setTag(null);
                                 this.addToContactsButton.setVisibility(i);
                             }
                             i = 0;
                             this.addToContactsButton.setTag(null);
                             this.addToContactsButton.setVisibility(i);
-                        } else if (z8 && !tLRPC$User3.self) {
+                        } else if (z7 && !user.self) {
                             this.addContactItem.setVisibility(0);
                             this.addToContactsButton.setVisibility(0);
                             this.addContactItem.setText(LocaleController.getString("ShareMyContactInfo", R.string.ShareMyContactInfo));
@@ -23267,7 +23262,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             this.addToContactsButton.setTag(1);
                             this.addToContactsButton.setVisibility(0);
                         } else {
-                            if (!z16 && !tLRPC$User3.self && !z5) {
+                            if (!z15 && !user.self && !z3) {
                                 this.addContactItem.setVisibility(0);
                                 this.addContactItem.setText(LocaleController.getString("ShareMyContactInfo", R.string.ShareMyContactInfo));
                                 this.addToContactsButton.setTag(2);
@@ -23279,16 +23274,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     this.reportSpamButton.setText(LocaleController.getString("ReportSpamUser", R.string.ReportSpamUser));
                 } else {
-                    if (z13) {
+                    if (z12) {
                         this.reportSpamButton.setText(LocaleController.getString("ReportSpamLocation", R.string.ReportSpamLocation));
                         this.reportSpamButton.setTag(R.id.object_tag, 1);
                         this.reportSpamButton.setTextColor(getThemedColor("chat_addContact"));
                         if (Build.VERSION.SDK_INT >= 21) {
-                            Theme.setSelectorDrawableColor(this.reportSpamButton.getBackground(), getThemedColor("chat_addContact") & 436207615, true);
+                            Theme.setSelectorDrawableColor(this.reportSpamButton.getBackground(), 436207615 & getThemedColor("chat_addContact"), true);
                         }
                         this.reportSpamButton.setTag("chat_addContact");
                     } else {
-                        if (z12) {
+                        if (z11) {
                             this.addToContactsButtonArchive = true;
                             this.addToContactsButton.setText(LocaleController.getString("Unarchive", R.string.Unarchive).toUpperCase());
                             this.addToContactsButton.setTag(3);
@@ -23310,7 +23305,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         actionBarMenuSubItem.setVisibility(8);
                     }
                 }
-                z6 = false;
+                z5 = false;
             } else {
                 if (this.chatWithAdminTextView == null) {
                     TextView textView3 = new TextView(this.topChatPanelView.getContext());
@@ -23321,33 +23316,30 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     this.topChatPanelView.addView(this.chatWithAdminTextView, 0, LayoutHelper.createFrame(-1, 50.0f, 0, 0.0f, 0.0f, 0.0f, 1.0f));
                     this.chatWithAdminTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
                     this.chatWithAdminTextView.setTextSize(1, 14.0f);
-                    final TLRPC$User tLRPC$User4 = user;
-                    tLRPC$User = user;
+                    final TLRPC$User tLRPC$User2 = user;
                     this.chatWithAdminTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity.96
                         @Override // android.view.View.OnClickListener
                         public void onClick(View view) {
-                            AlertsCreator.showChatWithAdmin(ChatActivity.this, tLRPC$User4, string, z14, i4);
+                            AlertsCreator.showChatWithAdmin(ChatActivity.this, tLRPC$User2, string, z13, i4);
                         }
                     });
-                } else {
-                    tLRPC$User = user;
                 }
-                if (z14) {
-                    formatString = LocaleController.formatString("ChatWithGroupAdmin", R.string.ChatWithGroupAdmin, tLRPC$User.first_name, string);
+                if (z13) {
+                    formatString = LocaleController.formatString("ChatWithGroupAdmin", R.string.ChatWithGroupAdmin, user.first_name, string);
                 } else {
-                    formatString = LocaleController.formatString("ChatWithChannelAdmin", R.string.ChatWithChannelAdmin, tLRPC$User.first_name, string);
+                    formatString = LocaleController.formatString("ChatWithChannelAdmin", R.string.ChatWithChannelAdmin, user.first_name, string);
                 }
                 this.reportSpamButton.setVisibility(8);
                 this.addToContactsButton.setVisibility(8);
                 this.chatWithAdminTextView.setText(AndroidUtilities.replaceTags(formatString));
-                z6 = true;
+                z5 = true;
             }
             textView = this.chatWithAdminTextView;
             if (textView != null) {
-                textView.setVisibility(z6 ? 0 : 8);
+                textView.setVisibility(z5 ? 0 : 8);
             }
             if (!this.userBlocked || (this.addToContactsButton.getVisibility() == 8 && this.reportSpamButton.getVisibility() == 8 && ((textView2 = this.chatWithAdminTextView) == null || textView2.getVisibility() == 8))) {
-                z5 = false;
+                z3 = false;
             }
             if (tLRPC$EmojiStatus == null) {
                 this.emojiStatusSpamHint.setVisibility(0);
@@ -23400,7 +23392,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 dp = AndroidUtilities.dp(50.0f);
             }
             this.topChatPanelView.getLayoutParams().height = dp;
-            if (!z5) {
+            if (!z3) {
                 if (this.topChatPanelView.getTag() != null) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("show spam button");
@@ -23495,32 +23487,30 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             checkListViewPaddings();
         }
-        z3 = z9;
+        z3 = z2;
         tLRPC$EmojiStatus = null;
-        if (!z3) {
+        if (!z8) {
         }
         z4 = false;
         this.reportSpamButton.setVisibility(0);
-        z5 = true;
         this.addToContactsButtonArchive = z4;
         if (this.currentUser == null) {
         }
         if (user != null) {
         }
-        TLRPC$User tLRPC$User32 = user;
-        if (!z15) {
+        if (!z14) {
         }
-        z6 = false;
+        z5 = false;
         textView = this.chatWithAdminTextView;
         if (textView != null) {
         }
         if (!this.userBlocked) {
         }
-        z5 = false;
+        z3 = false;
         if (tLRPC$EmojiStatus == null) {
         }
         this.topChatPanelView.getLayoutParams().height = dp;
-        if (!z5) {
+        if (!z3) {
         }
         checkListViewPaddings();
     }

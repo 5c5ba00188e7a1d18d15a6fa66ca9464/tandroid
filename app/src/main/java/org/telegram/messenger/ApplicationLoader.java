@@ -266,6 +266,7 @@ public class ApplicationLoader extends Application {
             LocaleController.getInstance().onDeviceConfigurationChange(configuration);
             AndroidUtilities.checkDisplaySize(applicationContext, configuration);
             VideoCapturerDevice.checkScreenCapturerSize();
+            AndroidUtilities.resetTabletFlag();
         } catch (Exception e) {
             e.printStackTrace();
         }

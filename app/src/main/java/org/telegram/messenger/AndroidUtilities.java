@@ -228,6 +228,7 @@ public class AndroidUtilities {
     public static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
     public static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
     private static Boolean isTablet = null;
+    private static Boolean wasTablet = null;
     private static Boolean isSmallScreen = null;
     private static int adjustOwnerClassGuid = 0;
     private static int altFocusableClassGuid = 0;
@@ -2050,6 +2051,22 @@ public class AndroidUtilities {
             isTablet = Boolean.valueOf(ApplicationLoader.applicationContext != null && ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet));
         }
         return isTablet.booleanValue();
+    }
+
+    public static void resetTabletFlag() {
+        if (wasTablet == null) {
+            wasTablet = Boolean.valueOf(isTabletInternal());
+        }
+        isTablet = null;
+        SharedConfig.updateTabletConfig();
+    }
+
+    public static void resetWasTabletFlag() {
+        wasTablet = null;
+    }
+
+    public static Boolean getWasTablet() {
+        return wasTablet;
     }
 
     public static boolean isTablet() {

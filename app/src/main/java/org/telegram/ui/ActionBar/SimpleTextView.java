@@ -282,11 +282,11 @@ public class SimpleTextView extends View {
             try {
                 Drawable drawable2 = this.leftDrawable;
                 int intrinsicWidth = drawable2 != null ? (i - drawable2.getIntrinsicWidth()) - this.drawablePadding : i;
-                if (this.rightDrawable != null) {
+                if (this.rightDrawable == null || this.rightDrawableOutside) {
+                    i2 = 0;
+                } else {
                     i2 = (int) (drawable.getIntrinsicWidth() * this.rightDrawableScale);
                     intrinsicWidth = (intrinsicWidth - i2) - this.drawablePadding;
-                } else {
-                    i2 = 0;
                 }
                 SpannableStringBuilder spannableStringBuilder = charSequence;
                 if (this.replacedText != null) {
@@ -306,7 +306,7 @@ public class SimpleTextView extends View {
                         }
                     }
                 }
-                if (this.canHideRightDrawable && i2 != 0 && !spannableStringBuilder.equals(TextUtils.ellipsize(spannableStringBuilder, this.textPaint, intrinsicWidth, TextUtils.TruncateAt.END))) {
+                if (this.canHideRightDrawable && i2 != 0 && !this.rightDrawableOutside && !spannableStringBuilder.equals(TextUtils.ellipsize(spannableStringBuilder, this.textPaint, intrinsicWidth, TextUtils.TruncateAt.END))) {
                     this.rightDrawableHidden = true;
                     intrinsicWidth = intrinsicWidth + i2 + this.drawablePadding;
                 }
@@ -393,6 +393,7 @@ public class SimpleTextView extends View {
 
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
+        Drawable drawable;
         int size = View.MeasureSpec.getSize(i);
         int size2 = View.MeasureSpec.getSize(i2);
         int i3 = this.lastWidth;
@@ -402,7 +403,7 @@ public class SimpleTextView extends View {
             this.scrollingOffset = 0.0f;
             this.currentScrollDelay = 500;
         }
-        createLayout(((size - getPaddingLeft()) - getPaddingRight()) - this.minusWidth);
+        createLayout((((size - getPaddingLeft()) - getPaddingRight()) - this.minusWidth) - ((!this.rightDrawableOutside || (drawable = this.rightDrawable) == null) ? 0 : drawable.getIntrinsicWidth() + this.drawablePadding));
         if (View.MeasureSpec.getMode(i2) != 1073741824) {
             size2 = getPaddingBottom() + getPaddingTop() + this.textHeight;
         }
@@ -557,7 +558,9 @@ public class SimpleTextView extends View {
             return false;
         }
         this.text = charSequence;
-        this.scrollingOffset = 0.0f;
+        if ((charSequence != null || charSequence != null) && (charSequence == null || !charSequence.equals(charSequence))) {
+            this.scrollingOffset = 0.0f;
+        }
         this.currentScrollDelay = 500;
         recreateLayoutMaybe();
         return true;

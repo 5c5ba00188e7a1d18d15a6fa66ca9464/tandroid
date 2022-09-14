@@ -6,6 +6,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$TL_document;
@@ -33,6 +35,8 @@ public class VideoSeekPreviewImage extends View {
     private AnimatedFileDrawable fileDrawable;
     private Drawable frameDrawable;
     private String frameTime;
+    private boolean isYoutube;
+    private int lastYoutubePosition;
     private Runnable loadRunnable;
     private float pendingProgress;
     private int pixelWidth;
@@ -40,6 +44,12 @@ public class VideoSeekPreviewImage extends View {
     private boolean ready;
     private int timeWidth;
     private Uri videoUri;
+    private PhotoViewerWebView webView;
+    private ImageReceiver youtubeBoardsReceiver;
+    private int ytImageHeight;
+    private int ytImageWidth;
+    private int ytImageX;
+    private int ytImageY;
     private int currentPixel = -1;
     private TextPaint textPaint = new TextPaint(1);
     private RectF dstR = new RectF();
@@ -47,6 +57,7 @@ public class VideoSeekPreviewImage extends View {
     private Paint bitmapPaint = new Paint(2);
     private RectF bitmapRect = new RectF();
     private Matrix matrix = new Matrix();
+    private Path ytPath = new Path();
 
     /* loaded from: classes3.dex */
     public interface VideoSeekPreviewImageDelegate {
@@ -60,10 +71,97 @@ public class VideoSeekPreviewImage extends View {
         this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setColor(-1);
         this.delegate = videoSeekPreviewImageDelegate;
+        ImageReceiver imageReceiver = new ImageReceiver();
+        this.youtubeBoardsReceiver = imageReceiver;
+        imageReceiver.setParentView(this);
+        this.youtubeBoardsReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda5
+            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+            public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
+                VideoSeekPreviewImage.this.lambda$new$0(imageReceiver2, z, z2, z3);
+            }
+
+            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+            public /* synthetic */ void onAnimationReady(ImageReceiver imageReceiver2) {
+                ImageReceiver.ImageReceiverDelegate.-CC.$default$onAnimationReady(this, imageReceiver2);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
+        int i;
+        if (!z || this.webView == null) {
+            return;
+        }
+        int dp = AndroidUtilities.dp(150.0f);
+        int youtubeStoryboardImageCount = this.webView.getYoutubeStoryboardImageCount(this.lastYoutubePosition);
+        float bitmapWidth = this.youtubeBoardsReceiver.getBitmapWidth() / Math.min(youtubeStoryboardImageCount, 5);
+        float bitmapHeight = this.youtubeBoardsReceiver.getBitmapHeight() / ((int) Math.ceil(youtubeStoryboardImageCount / 5.0f));
+        int min = Math.min(this.webView.getYoutubeStoryboardImageIndex(this.lastYoutubePosition), youtubeStoryboardImageCount - 1);
+        this.ytImageX = (int) ((min % 5) * bitmapWidth);
+        this.ytImageY = (int) ((min / 5) * bitmapHeight);
+        this.ytImageWidth = (int) bitmapWidth;
+        this.ytImageHeight = (int) bitmapHeight;
+        float f = bitmapWidth / bitmapHeight;
+        if (f > 1.0f) {
+            i = (int) (dp / f);
+        } else {
+            i = dp;
+            dp = (int) (dp * f);
+        }
+        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (getVisibility() == 0 && layoutParams.width == dp && layoutParams.height == i) {
+            return;
+        }
+        layoutParams.width = dp;
+        layoutParams.height = i;
+        setVisibility(0);
+        requestLayout();
+    }
+
+    @Override // android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.youtubeBoardsReceiver.onAttachedToWindow();
+    }
+
+    @Override // android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        this.youtubeBoardsReceiver.onDetachedFromWindow();
+    }
+
+    public void setProgressForYouTube(PhotoViewerWebView photoViewerWebView, float f, int i) {
+        this.webView = photoViewerWebView;
+        this.isYoutube = true;
+        if (i != 0) {
+            this.pixelWidth = i;
+            int i2 = ((int) (i * f)) / 5;
+            if (this.currentPixel == i2) {
+                return;
+            }
+            this.currentPixel = i2;
+        }
+        String formatShortDuration = AndroidUtilities.formatShortDuration((int) ((photoViewerWebView.getVideoDuration() * f) / 1000));
+        this.frameTime = formatShortDuration;
+        this.timeWidth = (int) Math.ceil(this.textPaint.measureText(formatShortDuration));
+        invalidate();
+        if (this.progressRunnable != null) {
+            Utilities.globalQueue.cancelRunnable(this.progressRunnable);
+        }
+        int videoDuration = (int) ((f * photoViewerWebView.getVideoDuration()) / 1000.0f);
+        this.lastYoutubePosition = videoDuration;
+        String youtubeStoryboard = photoViewerWebView.getYoutubeStoryboard(videoDuration);
+        if (youtubeStoryboard != null) {
+            this.youtubeBoardsReceiver.setImage(youtubeStoryboard, null, null, null, 0L);
+        }
     }
 
     public void setProgress(final float f, int i) {
         String formatShortDuration;
+        this.webView = null;
+        this.isYoutube = false;
+        this.youtubeBoardsReceiver.setImageBitmap((Drawable) null);
         if (i != 0) {
             this.pixelWidth = i;
             int i2 = ((int) (i * f)) / 5;
@@ -87,7 +185,7 @@ public class VideoSeekPreviewImage extends View {
         Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                VideoSeekPreviewImage.this.lambda$setProgress$1(f, j);
+                VideoSeekPreviewImage.this.lambda$setProgress$2(f, j);
             }
         };
         this.progressRunnable = runnable;
@@ -95,7 +193,7 @@ public class VideoSeekPreviewImage extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setProgress$1(float f, long j) {
+    public /* synthetic */ void lambda$setProgress$2(float f, long j) {
         int i;
         if (this.fileDrawable == null) {
             this.pendingProgress = f;
@@ -127,13 +225,13 @@ public class VideoSeekPreviewImage extends View {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                VideoSeekPreviewImage.this.lambda$setProgress$0(frameAtTime);
+                VideoSeekPreviewImage.this.lambda$setProgress$1(frameAtTime);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setProgress$0(Bitmap bitmap) {
+    public /* synthetic */ void lambda$setProgress$1(Bitmap bitmap) {
         int i;
         if (bitmap != null) {
             if (this.bitmapToDraw != null) {
@@ -179,7 +277,7 @@ public class VideoSeekPreviewImage extends View {
         Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                VideoSeekPreviewImage.this.lambda$open$3(uri);
+                VideoSeekPreviewImage.this.lambda$open$4(uri);
             }
         };
         this.loadRunnable = runnable;
@@ -187,7 +285,7 @@ public class VideoSeekPreviewImage extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$open$3(Uri uri) {
+    public /* synthetic */ void lambda$open$4(Uri uri) {
         String absolutePath;
         if ("tg".equals(uri.getScheme())) {
             int intValue = Utilities.parseInt((CharSequence) uri.getQueryParameter("account")).intValue();
@@ -195,7 +293,7 @@ public class VideoSeekPreviewImage extends View {
             TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
             tLRPC$TL_document.access_hash = Utilities.parseLong(uri.getQueryParameter("hash")).longValue();
             tLRPC$TL_document.id = Utilities.parseLong(uri.getQueryParameter("id")).longValue();
-            tLRPC$TL_document.size = Utilities.parseInt((CharSequence) uri.getQueryParameter("size")).intValue();
+            tLRPC$TL_document.size = Utilities.parseLong(uri.getQueryParameter("size")).longValue();
             tLRPC$TL_document.dc_id = Utilities.parseInt((CharSequence) uri.getQueryParameter("dc")).intValue();
             tLRPC$TL_document.mime_type = uri.getQueryParameter("mime");
             tLRPC$TL_document.file_reference = Utilities.hexToBytes(uri.getQueryParameter("reference"));
@@ -222,13 +320,13 @@ public class VideoSeekPreviewImage extends View {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                VideoSeekPreviewImage.this.lambda$open$2();
+                VideoSeekPreviewImage.this.lambda$open$3();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$open$2() {
+    public /* synthetic */ void lambda$open$3() {
         this.loadRunnable = null;
         if (this.fileDrawable != null) {
             this.ready = true;
@@ -247,17 +345,33 @@ public class VideoSeekPreviewImage extends View {
             bitmap.recycle();
             this.bitmapToRecycle = null;
         }
-        if (this.bitmapToDraw == null || this.bitmapShader == null) {
-            return;
+        if (this.bitmapToDraw != null && this.bitmapShader != null) {
+            this.matrix.reset();
+            float measuredWidth = getMeasuredWidth() / this.bitmapToDraw.getWidth();
+            this.matrix.preScale(measuredWidth, measuredWidth);
+            this.bitmapRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+            canvas.drawRoundRect(this.bitmapRect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.bitmapPaint);
+            this.frameDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            this.frameDrawable.draw(canvas);
+            canvas.drawText(this.frameTime, (getMeasuredWidth() - this.timeWidth) / 2.0f, getMeasuredHeight() - AndroidUtilities.dp(9.0f), this.textPaint);
+        } else if (!this.isYoutube) {
+        } else {
+            canvas.save();
+            this.ytPath.rewind();
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+            this.ytPath.addRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), Path.Direction.CW);
+            canvas.clipPath(this.ytPath);
+            canvas.scale(getWidth() / this.ytImageWidth, getHeight() / this.ytImageHeight);
+            canvas.translate(-this.ytImageX, -this.ytImageY);
+            ImageReceiver imageReceiver = this.youtubeBoardsReceiver;
+            imageReceiver.setImageCoords(0.0f, 0.0f, imageReceiver.getBitmapWidth(), this.youtubeBoardsReceiver.getBitmapHeight());
+            this.youtubeBoardsReceiver.draw(canvas);
+            canvas.restore();
+            this.frameDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            this.frameDrawable.draw(canvas);
+            canvas.drawText(this.frameTime, (getMeasuredWidth() - this.timeWidth) / 2.0f, getMeasuredHeight() - AndroidUtilities.dp(9.0f), this.textPaint);
         }
-        this.matrix.reset();
-        float measuredWidth = getMeasuredWidth() / this.bitmapToDraw.getWidth();
-        this.matrix.preScale(measuredWidth, measuredWidth);
-        this.bitmapRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-        canvas.drawRoundRect(this.bitmapRect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.bitmapPaint);
-        this.frameDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-        this.frameDrawable.draw(canvas);
-        canvas.drawText(this.frameTime, (getMeasuredWidth() - this.timeWidth) / 2, getMeasuredHeight() - AndroidUtilities.dp(9.0f), this.textPaint);
     }
 
     public void close() {
@@ -276,7 +390,7 @@ public class VideoSeekPreviewImage extends View {
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                VideoSeekPreviewImage.this.lambda$close$4();
+                VideoSeekPreviewImage.this.lambda$close$5();
             }
         });
         setVisibility(4);
@@ -289,7 +403,7 @@ public class VideoSeekPreviewImage extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$close$4() {
+    public /* synthetic */ void lambda$close$5() {
         this.pendingProgress = 0.0f;
         AnimatedFileDrawable animatedFileDrawable = this.fileDrawable;
         if (animatedFileDrawable != null) {

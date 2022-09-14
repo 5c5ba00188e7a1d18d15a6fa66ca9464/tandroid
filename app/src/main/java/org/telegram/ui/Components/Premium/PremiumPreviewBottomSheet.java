@@ -3,6 +3,7 @@ package org.telegram.ui.Components.Premium;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -211,6 +212,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onViewCreated(FrameLayout frameLayout) {
         super.onViewCreated(frameLayout);
+        this.currentAccount = UserConfig.selectedAccount;
         PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), false);
         premiumButtonView.setButton(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount, null), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
@@ -362,7 +364,16 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     public /* synthetic */ void lambda$setTitle$3(ClickableSpan clickableSpan) {
         ArrayList arrayList = new ArrayList();
         arrayList.add(this.statusStickerSet);
-        new EmojiPacksAlert(new BaseFragment() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.2
+        BaseFragment baseFragment = new BaseFragment() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.2
+            @Override // org.telegram.ui.ActionBar.BaseFragment
+            public Activity getParentActivity() {
+                BaseFragment baseFragment2 = PremiumPreviewBottomSheet.this.fragment;
+                if (baseFragment2 == null) {
+                    return null;
+                }
+                return baseFragment2.getParentActivity();
+            }
+
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public int getCurrentAccount() {
                 return this.currentAccount;
@@ -383,7 +394,12 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 dialog.show();
                 return dialog;
             }
-        }, getContext(), this.resourcesProvider, arrayList) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.3
+        };
+        BaseFragment baseFragment2 = this.fragment;
+        if (baseFragment2 != null) {
+            baseFragment.setParentFragment(baseFragment2);
+        }
+        new EmojiPacksAlert(baseFragment, getContext(), this.resourcesProvider, arrayList) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.3
             @Override // org.telegram.ui.Components.EmojiPacksAlert
             protected void onCloseByLink() {
                 PremiumPreviewBottomSheet.this.dismiss();
@@ -457,7 +473,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 }
                 if (PremiumPreviewBottomSheet.this.titleView == null) {
                     final PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(ColorUtils.setAlphaComponent(PremiumPreviewBottomSheet.this.getThemedColor("windowBackgroundWhiteLinkText"), 178), PorterDuff.Mode.MULTIPLY);
-                    PremiumPreviewBottomSheet.this.titleView = new LinkSpanDrawable.LinksTextView(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.3
+                    PremiumPreviewBottomSheet.this.titleView = new LinkSpanDrawable.LinksTextView(this, context, ((BottomSheet) PremiumPreviewBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.3
                         private Layout lastLayout;
                         AnimatedEmojiSpan.EmojiGroupedSpans stack;
 

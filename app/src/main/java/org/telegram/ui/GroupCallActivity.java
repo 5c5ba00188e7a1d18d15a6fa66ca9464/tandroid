@@ -157,6 +157,7 @@ import org.telegram.ui.Cells.GroupCallInvitedCell;
 import org.telegram.ui.Cells.GroupCallTextCell;
 import org.telegram.ui.Cells.GroupCallUserCell;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.AudioPlayerAlert;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -1510,10 +1511,13 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             applyCallParticipantUpdates(true);
             AndroidUtilities.updateVisibleRows(this.listView);
         } else if (i == NotificationCenter.updateInterfaces) {
-            if ((((Integer) objArr[0]).intValue() & MessagesController.UPDATE_MASK_CHAT_NAME) == 0) {
+            int intValue = ((Integer) objArr[0]).intValue();
+            if ((MessagesController.UPDATE_MASK_CHAT_NAME & intValue) != 0) {
+                applyCallParticipantUpdates(true);
+            }
+            if ((MessagesController.UPDATE_MASK_CHAT_NAME & intValue) == 0 && (intValue & MessagesController.UPDATE_MASK_EMOJI_STATUS) == 0) {
                 return;
             }
-            applyCallParticipantUpdates(true);
             AndroidUtilities.updateVisibleRows(this.listView);
         } else if (i == NotificationCenter.groupCallScreencastStateChanged) {
             PrivateVideoPreviewDialog privateVideoPreviewDialog = this.previewDialog;
@@ -8552,11 +8556,11 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:220:0x02ba, code lost:
-        if ((r10 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L221;
+    /* JADX WARN: Code restructure failed: missing block: B:223:0x02c8, code lost:
+        if ((r10 instanceof org.telegram.tgnet.TLRPC$TL_chatParticipantCreator) == false) goto L224;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:226:0x02e0, code lost:
-        if (r3 == (-r28.currentChat.id)) goto L222;
+    /* JADX WARN: Code restructure failed: missing block: B:229:0x02ee, code lost:
+        if (r3 == (-r28.currentChat.id)) goto L225;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -8611,6 +8615,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             }
             groupCallUserCell = new GroupCallUserCell(groupCallGridCell.getContext());
             groupCallUserCell.setData(this.accountInstance, groupCallGridCell.getParticipant().participant, this.call, MessageObject.getPeerId(this.selfPeer), null, false);
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = groupCallUserCell.rightDrawable;
+            if (swapAnimatedEmojiDrawable != null) {
+                swapAnimatedEmojiDrawable.play();
+            }
             this.hasScrimAnchorView = false;
             this.scrimGridView = groupCallGridCell;
             this.scrimRenderer = groupCallGridCell.getRenderer();
@@ -8624,6 +8632,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             }
             groupCallUserCell = new GroupCallUserCell(groupCallUserCell3.getContext());
             groupCallUserCell.setData(this.accountInstance, groupCallUserCell3.getParticipant(), this.call, MessageObject.getPeerId(this.selfPeer), null, false);
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = groupCallUserCell.rightDrawable;
+            if (swapAnimatedEmojiDrawable2 != null) {
+                swapAnimatedEmojiDrawable2.play();
+            }
             this.hasScrimAnchorView = false;
             this.scrimFullscreenView = groupCallUserCell3;
             GroupCallMiniTextureView renderer = groupCallUserCell3.getRenderer();

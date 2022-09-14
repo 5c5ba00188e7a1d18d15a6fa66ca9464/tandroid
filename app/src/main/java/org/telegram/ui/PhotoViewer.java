@@ -96,6 +96,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
+import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.core.widget.NestedScrollView;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
@@ -420,6 +421,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     boolean keyboardAnimationEnabled;
     private int keyboardSize;
     private long lastBufferedPositionCheck;
+    private String lastControlFrameDuration;
     private Object lastInsets;
     private long lastPhotoSetTime;
     private long lastSaveTime;
@@ -2668,8 +2670,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (PhotoViewer.this.photoViewerWebView == null || !PhotoViewer.this.photoViewerWebView.isControllable() || PhotoViewer.this.videoForwardDrawable == null || !PhotoViewer.this.videoForwardDrawable.isAnimating()) {
                 return;
             }
-            int measuredHeight = ((int) (PhotoViewer.this.photoViewerWebView.getMeasuredHeight() * (PhotoViewer.this.scale - 1.0f))) / 2;
-            PhotoViewer.this.videoForwardDrawable.setBounds(PhotoViewer.this.photoViewerWebView.getLeft(), (PhotoViewer.this.photoViewerWebView.getTop() - measuredHeight) + ((int) (PhotoViewer.this.translationY / PhotoViewer.this.scale)), PhotoViewer.this.photoViewerWebView.getRight(), PhotoViewer.this.photoViewerWebView.getBottom() + measuredHeight + ((int) (PhotoViewer.this.translationY / PhotoViewer.this.scale)));
+            int measuredHeight = ((int) (PhotoViewer.this.photoViewerWebView.getWebView().getMeasuredHeight() * (PhotoViewer.this.scale - 1.0f))) / 2;
+            PhotoViewer.this.videoForwardDrawable.setBounds(PhotoViewer.this.photoViewerWebView.getLeft(), (PhotoViewer.this.photoViewerWebView.getWebView().getTop() - measuredHeight) + ((int) (PhotoViewer.this.translationY / PhotoViewer.this.scale)), PhotoViewer.this.photoViewerWebView.getRight(), PhotoViewer.this.photoViewerWebView.getWebView().getBottom() + measuredHeight + ((int) (PhotoViewer.this.translationY / PhotoViewer.this.scale)));
             PhotoViewer.this.videoForwardDrawable.draw(canvas);
         }
 
@@ -2883,6 +2885,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
             int i3;
+            String format;
             this.ignoreLayout = true;
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) PhotoViewer.this.videoPlayerTime.getLayoutParams();
             if (this.parentWidth > this.parentHeight) {
@@ -2906,11 +2909,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (duration != -9223372036854775807L) {
                     j = duration;
                 }
+            } else if (PhotoViewer.this.photoViewerWebView != null && PhotoViewer.this.photoViewerWebView.isControllable()) {
+                j = PhotoViewer.this.photoViewerWebView.getVideoDuration();
             }
             long j2 = j / 1000;
             long j3 = j2 / 60;
-            long j4 = j2 % 60;
-            PhotoViewer.this.videoPlayerSeekbar.setSize(((getMeasuredWidth() - AndroidUtilities.dp(16.0f)) - ((int) Math.ceil(PhotoViewer.this.videoPlayerTime.getPaint().measureText(String.format(Locale.ROOT, "%02d:%02d / %02d:%02d", Long.valueOf(j3), Long.valueOf(j4), Long.valueOf(j3), Long.valueOf(j4)))))) - i3, getMeasuredHeight());
+            if (j3 > 60) {
+                format = String.format(Locale.ROOT, "%02d:%02d:%02d", Long.valueOf(j3 / 60), Long.valueOf(j3 % 60), Long.valueOf(j2 % 60));
+            } else {
+                format = String.format(Locale.ROOT, "%02d:%02d", Long.valueOf(j3), Long.valueOf(j2 % 60));
+            }
+            PhotoViewer.this.videoPlayerSeekbar.setSize(((getMeasuredWidth() - AndroidUtilities.dp(16.0f)) - ((int) Math.ceil(PhotoViewer.this.videoPlayerTime.getPaint().measureText(String.format(Locale.ROOT, "%1$s / %1$s", format))))) - i3, getMeasuredHeight());
         }
 
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -8188,11 +8197,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showVideoSeekPreviewPosition(boolean z) {
+        PhotoViewerWebView photoViewerWebView;
         if (!z || this.videoPreviewFrame.getTag() == null) {
             if (!z && this.videoPreviewFrame.getTag() == null) {
                 return;
             }
-            if (z && !this.videoPreviewFrame.isReady()) {
+            if (z && !this.videoPreviewFrame.isReady() && ((photoViewerWebView = this.photoViewerWebView) == null || !photoViewerWebView.isYouTube() || !this.photoViewerWebView.hasYoutubeStoryboards())) {
                 this.needShowOnReady = true;
                 return;
             }
@@ -8245,8 +8255,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override // org.telegram.ui.Components.VideoPlayerSeekBar.SeekBarDelegate
             public void onSeekBarContinuousDrag(float f) {
-                if (PhotoViewer.this.videoPlayer != null && PhotoViewer.this.videoPreviewFrame != null) {
-                    PhotoViewer.this.videoPreviewFrame.setProgress(f, PhotoViewer.this.videoPlayerSeekbar.getWidth());
+                if (PhotoViewer.this.photoViewerWebView == null || !PhotoViewer.this.photoViewerWebView.isYouTube() || PhotoViewer.this.videoPreviewFrame == null) {
+                    if (PhotoViewer.this.videoPlayer != null && PhotoViewer.this.videoPreviewFrame != null) {
+                        PhotoViewer.this.videoPreviewFrame.setProgress(f, PhotoViewer.this.videoPlayerSeekbar.getWidth());
+                    }
+                } else {
+                    PhotoViewer.this.videoPreviewFrame.setProgressForYouTube(PhotoViewer.this.photoViewerWebView, f, PhotoViewer.this.videoPlayerSeekbar.getWidth());
                 }
                 PhotoViewer.this.showVideoSeekPreviewPosition(true);
                 PhotoViewer.this.updateVideoSeekPreviewPosition();
@@ -8661,6 +8675,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateVideoPlayerTime() {
+        String format;
+        String format2;
         Arrays.fill(this.videoPlayerCurrentTime, 0);
         Arrays.fill(this.videoPlayerTotalTime, 0);
         VideoPlayer videoPlayer = this.videoPlayer;
@@ -8711,7 +8727,23 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 iArr4[1] = (int) (j5 % 60);
             }
         }
-        this.videoPlayerTime.setText(String.format(Locale.ROOT, "%02d:%02d / %02d:%02d", Integer.valueOf(this.videoPlayerCurrentTime[0]), Integer.valueOf(this.videoPlayerCurrentTime[1]), Integer.valueOf(this.videoPlayerTotalTime[0]), Integer.valueOf(this.videoPlayerTotalTime[1])));
+        int[] iArr5 = this.videoPlayerCurrentTime;
+        if (iArr5[0] > 60) {
+            format = String.format(Locale.ROOT, "%02d:%02d:%02d", Integer.valueOf(iArr5[0] / 60), Integer.valueOf(this.videoPlayerCurrentTime[0] % 60), Integer.valueOf(this.videoPlayerCurrentTime[1]));
+        } else {
+            format = String.format(Locale.ROOT, "%02d:%02d", Integer.valueOf(iArr5[0]), Integer.valueOf(this.videoPlayerCurrentTime[1]));
+        }
+        int[] iArr6 = this.videoPlayerTotalTime;
+        if (iArr6[0] > 60) {
+            format2 = String.format(Locale.ROOT, "%02d:%02d:%02d", Integer.valueOf(iArr6[0] / 60), Integer.valueOf(this.videoPlayerTotalTime[0] % 60), Integer.valueOf(this.videoPlayerTotalTime[1]));
+        } else {
+            format2 = String.format(Locale.ROOT, "%02d:%02d", Integer.valueOf(iArr6[0]), Integer.valueOf(this.videoPlayerTotalTime[1]));
+        }
+        this.videoPlayerTime.setText(String.format(Locale.ROOT, "%s / %s", format, format2));
+        if (!ObjectsCompat$$ExternalSyntheticBackport0.m(this.lastControlFrameDuration, format2)) {
+            this.lastControlFrameDuration = format2;
+            this.videoPlayerControlFrameLayout.requestLayout();
+        }
     }
 
     private void checkBufferedProgress(float f) {
@@ -8861,11 +8893,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0258  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x025b  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void updatePlayerState(boolean z, int i) {
         VideoPlayer videoPlayer;
         MessageObject messageObject;
@@ -8965,10 +8992,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         AndroidUtilities.runOnUIThread(this.updateProgressRunnable);
                     }
                     PipVideoOverlay.updatePlayButton();
-                    VideoPlayerSeekBar videoPlayerSeekBar = this.videoPlayerSeekbar;
-                    MessageObject messageObject4 = this.currentMessageObject;
-                    VideoPlayer videoPlayer3 = this.videoPlayer;
-                    videoPlayerSeekBar.updateTimestamps(messageObject4, videoPlayer3 != null ? 0L : videoPlayer3.getDuration());
+                    this.videoPlayerSeekbar.updateTimestamps(this.currentMessageObject, getVideoDuration());
                     updateVideoPlayerTime();
                 }
             }
@@ -9017,10 +9041,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             }
             PipVideoOverlay.updatePlayButton();
-            VideoPlayerSeekBar videoPlayerSeekBar2 = this.videoPlayerSeekbar;
-            MessageObject messageObject42 = this.currentMessageObject;
-            VideoPlayer videoPlayer32 = this.videoPlayer;
-            videoPlayerSeekBar2.updateTimestamps(messageObject42, videoPlayer32 != null ? 0L : videoPlayer32.getDuration());
+            this.videoPlayerSeekbar.updateTimestamps(this.currentMessageObject, getVideoDuration());
             updateVideoPlayerTime();
         }
     }
@@ -9524,11 +9545,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void checkFullscreenButton() {
-        float f;
+        int measuredWidth;
         TextureView textureView;
+        int measuredHeight;
         TextureView textureView2;
+        float f;
+        MessageObject messageObject;
         if (this.imagesArr.isEmpty()) {
             for (int i = 0; i < 3; i++) {
                 this.fullscreenButton[i].setVisibility(4);
@@ -9546,26 +9569,37 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (i3 < 0 || i3 >= this.imagesArr.size()) {
                 this.fullscreenButton[i2].setVisibility(4);
             } else {
-                MessageObject messageObject = this.imagesArr.get(i3);
-                if (!messageObject.isVideo()) {
+                MessageObject messageObject2 = this.imagesArr.get(i3);
+                if (!messageObject2.isVideo() && !messageObject2.isYouTubeVideo()) {
                     this.fullscreenButton[i2].setVisibility(4);
                 } else {
-                    int measuredWidth = (i2 != 0 || (textureView2 = this.videoTextureView) == null) ? 0 : textureView2.getMeasuredWidth();
-                    int measuredHeight = (i2 != 0 || (textureView = this.videoTextureView) == null) ? 0 : textureView.getMeasuredHeight();
-                    TLRPC$Document document = messageObject.getDocument();
-                    int size = document.attributes.size();
-                    int i4 = 0;
-                    while (true) {
-                        if (i4 >= size) {
-                            break;
+                    boolean z = messageObject2.isYouTubeVideo() && (messageObject = this.currentMessageObject) != null && messageObject.getId() == messageObject2.getId();
+                    if (z) {
+                        measuredWidth = messageObject2.messageOwner.media.webpage.embed_width;
+                    } else {
+                        measuredWidth = (i2 != 0 || (textureView = this.videoTextureView) == null) ? 0 : textureView.getMeasuredWidth();
+                    }
+                    if (z) {
+                        measuredHeight = messageObject2.messageOwner.media.webpage.embed_height;
+                    } else {
+                        measuredHeight = (i2 != 0 || (textureView2 = this.videoTextureView) == null) ? 0 : textureView2.getMeasuredHeight();
+                    }
+                    TLRPC$Document document = messageObject2.getDocument();
+                    if (document != null) {
+                        int size = document.attributes.size();
+                        int i4 = 0;
+                        while (true) {
+                            if (i4 >= size) {
+                                break;
+                            }
+                            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i4);
+                            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
+                                measuredWidth = tLRPC$DocumentAttribute.w;
+                                measuredHeight = tLRPC$DocumentAttribute.h;
+                                break;
+                            }
+                            i4++;
                         }
-                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = document.attributes.get(i4);
-                        if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo) {
-                            measuredWidth = tLRPC$DocumentAttribute.w;
-                            measuredHeight = tLRPC$DocumentAttribute.h;
-                            break;
-                        }
-                        i4++;
                     }
                     Point point = AndroidUtilities.displaySize;
                     if (point.y > point.x && !(this.videoTextureView instanceof VideoEditTextureView) && measuredWidth > measuredHeight) {
@@ -17068,7 +17102,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.73
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
-                                PhotoViewer.this.clippingImageProgress = 0.0f;
+                                PhotoViewer.this.clippingImageProgress = 1.0f;
                                 if (PhotoViewer.this.animationEndRunnable != null) {
                                     ChatActivity chatActivity2 = PhotoViewer.this.parentChatActivity;
                                     if (chatActivity2 == null && PhotoViewer.this.parentAlert != null) {
@@ -17198,7 +17232,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$closePhoto$76(ValueAnimator valueAnimator) {
-        this.clippingImageProgress = 1.0f - ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.clippingImageProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -18083,80 +18117,79 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:583:0x07fb, code lost:
-        if (r0 == 2) goto L584;
+    /* JADX WARN: Code restructure failed: missing block: B:350:0x0816, code lost:
+        if (r8 == 2) goto L351;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:588:0x0803, code lost:
-        if (r14 == (-1)) goto L589;
+    /* JADX WARN: Code restructure failed: missing block: B:593:0x081e, code lost:
+        if (r9 == (-1)) goto L594;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:592:0x080c, code lost:
-        if (r14 == r1) goto L584;
+    /* JADX WARN: Code restructure failed: missing block: B:597:0x0827, code lost:
+        if (r9 == r0) goto L351;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x03b2  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03b7  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x03d2  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0391  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x03b4  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x03b9  */
     /* JADX WARN: Removed duplicated region for block: B:131:0x03d4  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x03db  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x0427  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x045b  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0511  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x05f4  */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x061f  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0649  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0660 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0ca7  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0d4c  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0e2b  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x0e85  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x0e8c  */
-    /* JADX WARN: Removed duplicated region for block: B:284:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x0d52  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x0e18  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x068e  */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x06a9  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x06be  */
-    /* JADX WARN: Removed duplicated region for block: B:307:0x06ca A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x0799  */
-    /* JADX WARN: Removed duplicated region for block: B:336:0x07e0  */
-    /* JADX WARN: Removed duplicated region for block: B:343:0x081c  */
-    /* JADX WARN: Removed duplicated region for block: B:358:0x08ae  */
-    /* JADX WARN: Removed duplicated region for block: B:361:0x08b9  */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x08d1  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x08f1  */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x0a32  */
-    /* JADX WARN: Removed duplicated region for block: B:390:0x0a5f  */
-    /* JADX WARN: Removed duplicated region for block: B:402:0x0a87  */
-    /* JADX WARN: Removed duplicated region for block: B:405:0x0a9e  */
-    /* JADX WARN: Removed duplicated region for block: B:414:0x0acd  */
-    /* JADX WARN: Removed duplicated region for block: B:417:0x0ad8  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x0b06  */
-    /* JADX WARN: Removed duplicated region for block: B:423:0x0b13  */
-    /* JADX WARN: Removed duplicated region for block: B:445:0x0ba1  */
-    /* JADX WARN: Removed duplicated region for block: B:452:0x0bbc  */
-    /* JADX WARN: Removed duplicated region for block: B:462:0x0be8  */
-    /* JADX WARN: Removed duplicated region for block: B:489:0x0c93 A[EDGE_INSN: B:489:0x0c93->B:214:0x0c93 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x0b9b  */
-    /* JADX WARN: Removed duplicated region for block: B:494:0x0af5  */
-    /* JADX WARN: Removed duplicated region for block: B:496:0x0a94  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x0ad1  */
-    /* JADX WARN: Removed duplicated region for block: B:502:0x091b  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x0a00  */
-    /* JADX WARN: Removed duplicated region for block: B:524:0x0a08  */
-    /* JADX WARN: Removed duplicated region for block: B:533:0x095f  */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0996  */
-    /* JADX WARN: Removed duplicated region for block: B:545:0x09a0  */
-    /* JADX WARN: Removed duplicated region for block: B:576:0x0a21  */
-    /* JADX WARN: Removed duplicated region for block: B:595:0x0815  */
-    /* JADX WARN: Removed duplicated region for block: B:611:0x0691  */
-    /* JADX WARN: Removed duplicated region for block: B:616:0x0519  */
-    /* JADX WARN: Removed duplicated region for block: B:620:0x059a  */
-    /* JADX WARN: Removed duplicated region for block: B:622:0x05ff  */
-    /* JADX WARN: Removed duplicated region for block: B:629:0x0383  */
-    /* JADX WARN: Type inference failed for: r14v3 */
-    /* JADX WARN: Type inference failed for: r14v35 */
-    /* JADX WARN: Type inference failed for: r14v4, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r14v44 */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x03d6  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x03dd  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0429  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x045d  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0517  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x05fd  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0629  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x0657  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x066e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x0cc7  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x0e47  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0ea1  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0ea8  */
+    /* JADX WARN: Removed duplicated region for block: B:287:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x0e34  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x069d  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x06b8  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x06cd  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x06d9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:333:0x07b8  */
+    /* JADX WARN: Removed duplicated region for block: B:340:0x07fd  */
+    /* JADX WARN: Removed duplicated region for block: B:353:0x0835  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x08c7  */
+    /* JADX WARN: Removed duplicated region for block: B:371:0x08d2  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x08ea  */
+    /* JADX WARN: Removed duplicated region for block: B:383:0x090a  */
+    /* JADX WARN: Removed duplicated region for block: B:393:0x0a4f  */
+    /* JADX WARN: Removed duplicated region for block: B:400:0x0a7c  */
+    /* JADX WARN: Removed duplicated region for block: B:428:0x0af8  */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x0b26  */
+    /* JADX WARN: Removed duplicated region for block: B:434:0x0b33  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x0bc1  */
+    /* JADX WARN: Removed duplicated region for block: B:463:0x0bdc  */
+    /* JADX WARN: Removed duplicated region for block: B:473:0x0c08  */
+    /* JADX WARN: Removed duplicated region for block: B:500:0x0cb3 A[EDGE_INSN: B:500:0x0cb3->B:216:0x0cb3 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:503:0x0bbb  */
+    /* JADX WARN: Removed duplicated region for block: B:505:0x0b15  */
+    /* JADX WARN: Removed duplicated region for block: B:511:0x0af1  */
+    /* JADX WARN: Removed duplicated region for block: B:514:0x0934  */
+    /* JADX WARN: Removed duplicated region for block: B:533:0x0a1d  */
+    /* JADX WARN: Removed duplicated region for block: B:536:0x0a25  */
+    /* JADX WARN: Removed duplicated region for block: B:545:0x097a  */
+    /* JADX WARN: Removed duplicated region for block: B:554:0x09b1  */
+    /* JADX WARN: Removed duplicated region for block: B:557:0x09bb  */
+    /* JADX WARN: Removed duplicated region for block: B:588:0x0a3e  */
+    /* JADX WARN: Removed duplicated region for block: B:600:0x082e  */
+    /* JADX WARN: Removed duplicated region for block: B:616:0x06a0  */
+    /* JADX WARN: Removed duplicated region for block: B:619:0x064d  */
+    /* JADX WARN: Removed duplicated region for block: B:622:0x051f  */
+    /* JADX WARN: Removed duplicated region for block: B:626:0x05a4  */
+    /* JADX WARN: Removed duplicated region for block: B:628:0x0608  */
+    /* JADX WARN: Removed duplicated region for block: B:635:0x0385  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x02ae  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x02b5  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0333 A[ADDED_TO_REGION] */
+    /* JADX WARN: Type inference failed for: r15v28 */
+    /* JADX WARN: Type inference failed for: r15v3 */
+    /* JADX WARN: Type inference failed for: r15v37 */
+    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -18168,106 +18201,113 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         float f4;
         float f5;
         float f6;
+        float f7;
         int i;
+        PhotoViewerWebView photoViewerWebView;
         int i2;
         int i3;
         int i4;
         int i5;
         long j;
         int i6;
-        float f7;
         float f8;
         float f9;
-        ?? r14;
         float f10;
         float f11;
+        ?? r15;
         float f12;
         float f13;
-        boolean z;
         float f14;
         float f15;
+        boolean z;
         float f16;
+        float f17;
+        float f18;
+        float f19;
         int i7;
         boolean z2;
         int bitmapWidth;
         int bitmapHeight;
         int i8;
+        float f20;
         int i9;
-        int i10;
         boolean z3;
         boolean z4;
-        float f17;
-        float f18;
+        int i10;
+        float f21;
         int i11;
         int i12;
-        float f19;
+        float f22;
         int i13;
         boolean z5;
+        float f23;
         long j2;
         int i14;
         GradientDrawable[] gradientDrawableArr;
         boolean z6;
-        float f20;
-        float f21;
-        boolean z7;
-        PhotoViewerWebView photoViewerWebView;
-        float f22;
-        int i15;
-        int i16;
-        float f23;
-        int i17;
         float f24;
         float f25;
+        boolean z7;
         float f26;
+        int i15;
+        int i16;
         float f27;
+        int i17;
         float f28;
-        TextureView textureView;
         float f29;
         float f30;
+        float f31;
+        float f32;
+        TextureView textureView;
+        float f33;
+        float f34;
         float minScale;
         int i18;
         float rotation;
-        float min;
+        float f35;
+        float f36;
         int i19;
+        float min;
         int i20;
-        int height;
         int i21;
+        int height;
         int i22;
+        float f37;
+        int i23;
         int containerViewHeight;
         int containerViewHeight2;
         ImageReceiver imageReceiver;
-        float f31;
-        int i23;
-        Drawable drawable;
-        float f32;
-        int i24;
-        float f33;
-        int i25;
-        float f34;
-        boolean z8;
-        float f35;
-        PaintingOverlay paintingOverlay;
-        AspectRatioFrameLayout aspectRatioFrameLayout;
-        float f36;
-        float f37;
         float f38;
+        int i24;
+        Drawable drawable;
         float f39;
+        int i25;
         float f40;
         int i26;
-        boolean z9;
-        float f41;
         int i27;
+        boolean z8;
+        float f41;
+        AspectRatioFrameLayout aspectRatioFrameLayout;
         float f42;
-        int i28;
-        int i29;
-        int i30;
-        boolean z10;
-        PaintingOverlay paintingOverlay2;
-        boolean z11;
-        boolean z12;
         float f43;
         float f44;
+        float f45;
+        int i28;
+        boolean z9;
+        float f46;
+        int i29;
+        float f47;
+        int i30;
         int i31;
+        int i32;
+        int i33;
+        boolean z10;
+        PaintingOverlay paintingOverlay;
+        boolean z11;
+        boolean z12;
+        float f48;
+        float f49;
+        int i34;
         BaseFragment baseFragment = this.parentFragment;
         if (baseFragment != null && baseFragment.getFragmentView() != null) {
             if (!this.scroller.isFinished() && this.scroller.computeScrollOffset()) {
@@ -18280,9 +18320,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.containerView.invalidate();
             }
             float abs = Math.abs(this.translationY) / (getContainerViewHeight() / 2.0f);
-            float f45 = this.clippingImageProgress;
-            if (f45 != 0.0f) {
-                abs += (1.0f - abs) * f45;
+            float f50 = this.clippingImageProgress;
+            if (f50 != 0.0f) {
+                abs += (1.0f - abs) * f50;
             }
             float clamp = ((1.0f - MathUtils.clamp(abs, 0.0f, 1.0f)) * 0.1f) + 1.0f;
             View fragmentView = this.parentFragment.getFragmentView();
@@ -18294,13 +18334,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 container.setScaleX(clamp);
                 container.setScaleY(clamp);
             }
-            int i32 = this.animationInProgress;
-            if (i32 == 1 || i32 == 3 || this.pipAnimationInProgress) {
+            int i35 = this.animationInProgress;
+            if (i35 == 1 || i35 == 2 || i35 == 3 || this.pipAnimationInProgress) {
                 this.containerView.invalidate();
             }
         }
-        int i33 = this.animationInProgress;
-        if (i33 == 1) {
+        int i36 = this.animationInProgress;
+        if (i36 == 1) {
             if (this.padImageForHorizontalInsets) {
                 canvas.save();
                 canvas.translate((getLeftInset() / 2) - (getRightInset() / 2), 0.0f);
@@ -18313,11 +18353,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     animationProgress = 1.0f - animationProgress;
                 }
                 canvas.scale(animationProgress, animationProgress, canvas.getWidth() / 2, canvas.getHeight() / 2);
-                f44 = animationProgress;
+                f49 = animationProgress;
             } else {
-                f44 = 1.0f;
+                f49 = 1.0f;
             }
-            drawProgress(canvas, 0.0f, 1.0f, 0.0f, f44);
+            drawProgress(canvas, 0.0f, 1.0f, 0.0f, f49);
             if (this.animatingImageView != null) {
                 canvas.restore();
             }
@@ -18325,8 +18365,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return;
             }
             canvas.restore();
-        } else if (i33 != 3) {
-            if (!this.isVisible && i33 != 2 && !this.pipAnimationInProgress) {
+        } else if (i36 != 3) {
+            if (!this.isVisible && i36 != 2 && !this.pipAnimationInProgress) {
                 return;
             }
             if (this.padImageForHorizontalInsets) {
@@ -18344,32 +18384,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (!this.scroller.isFinished()) {
                     this.scroller.abortAnimation();
                 }
-                float f46 = this.scale;
-                float f47 = this.animateToScale;
-                float f48 = this.animationValue;
-                float f49 = ((f47 - f46) * f48) + f46;
-                float f50 = this.rotate;
-                f2 = f50 + ((this.animateToRotate - f50) * f48);
-                float f51 = this.translationX;
-                float f52 = ((this.animateToX - f51) * f48) + f51;
-                float f53 = this.translationY;
-                float f54 = f53 + ((this.animateToY - f53) * f48);
-                float f55 = this.mirror;
-                f = f55 + ((this.animateToMirror - f55) * f48);
-                f6 = (f47 == 1.0f && f46 == 1.0f && f51 == 0.0f) ? f54 : -1.0f;
-                updateMinMax(f49);
+                float f51 = this.scale;
+                float f52 = this.animateToScale;
+                float f53 = this.animationValue;
+                float f54 = ((f52 - f51) * f53) + f51;
+                float f55 = this.rotate;
+                f2 = f55 + ((this.animateToRotate - f55) * f53);
+                float f56 = this.translationX;
+                f3 = ((this.animateToX - f56) * f53) + f56;
+                float f57 = this.translationY;
+                float f58 = f57 + ((this.animateToY - f57) * f53);
+                float f59 = this.mirror;
+                f = f59 + ((this.animateToMirror - f59) * f53);
+                f7 = (f52 == 1.0f && f51 == 1.0f && f56 == 0.0f) ? f58 : -1.0f;
+                updateMinMax(f54);
                 this.containerView.invalidate();
-                f3 = f49;
-                f4 = f52;
-                f5 = f54;
+                f4 = f54;
+                f5 = f58;
             } else {
                 if (this.animationStartTime != 0) {
                     this.translationX = this.animateToX;
                     this.translationY = this.animateToY;
-                    float f56 = this.animateToScale;
-                    this.scale = f56;
+                    float f60 = this.animateToScale;
+                    this.scale = f60;
                     this.animationStartTime = 0L;
-                    updateMinMax(f56);
+                    updateMinMax(f60);
                     this.zoomAnimation = false;
                 }
                 if (!this.scroller.isFinished() && this.scroller.computeScrollOffset()) {
@@ -18389,15 +18428,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             ((MediaController.MediaEditState) obj).editedInfo = getCurrentVideoEditedInfo();
                         }
                     }
-                    int i34 = this.switchImageAfterAnimation;
-                    if (i34 == 1) {
+                    int i37 = this.switchImageAfterAnimation;
+                    if (i37 == 1) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda58
                             @Override // java.lang.Runnable
                             public final void run() {
                                 PhotoViewer.this.lambda$onDraw$80();
                             }
                         });
-                    } else if (i34 == 2) {
+                    } else if (i37 == 2) {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda53
                             @Override // java.lang.Runnable
                             public final void run() {
@@ -18407,703 +18446,764 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     this.switchImageAfterAnimation = 0;
                 }
-                float f57 = this.scale;
+                float f61 = this.scale;
                 f = this.mirror;
                 f2 = this.rotate;
-                float f58 = this.translationY;
-                f3 = f57;
-                f4 = this.translationX;
+                float f62 = this.translationY;
+                f3 = this.translationX;
+                f4 = f61;
                 if (!this.moving) {
-                    f6 = f58;
-                    f5 = f6;
+                    f7 = f62;
+                    f5 = f7;
                 } else {
-                    f5 = f58;
-                    f6 = -1.0f;
-                }
-            }
-            float f59 = f2;
-            float f60 = f;
-            PhotoViewerWebView photoViewerWebView2 = this.photoViewerWebView;
-            if (photoViewerWebView2 != null) {
-                photoViewerWebView2.setTranslationY(f5);
-            }
-            if (this.isActionBarVisible) {
-                if (f3 <= 1.0001f) {
-                    if (!this.allowShowFullscreenButton) {
-                        if (this.fullscreenButton[0].getTag() == null) {
-                            this.fullscreenButton[0].animate().alpha(1.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.75
+                    f5 = f62;
+                    f6 = f3;
+                    f7 = -1.0f;
+                    float f63 = f2;
+                    float f64 = f;
+                    photoViewerWebView = this.photoViewerWebView;
+                    if (photoViewerWebView != null) {
+                        photoViewerWebView.setTranslationY(f5);
+                    }
+                    if (this.isActionBarVisible) {
+                        if (f4 <= 1.0001f) {
+                            if (!this.allowShowFullscreenButton) {
+                                if (this.fullscreenButton[0].getTag() == null) {
+                                    this.fullscreenButton[0].animate().alpha(1.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.75
+                                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                        public void onAnimationEnd(Animator animator) {
+                                            PhotoViewer.this.fullscreenButton[0].setTag(null);
+                                        }
+                                    }).start();
+                                    this.fullscreenButton[0].setTag(1);
+                                    this.allowShowFullscreenButton = true;
+                                }
+                            }
+                        } else if (this.allowShowFullscreenButton) {
+                            this.fullscreenButton[0].animate().alpha(0.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.76
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
                                     PhotoViewer.this.fullscreenButton[0].setTag(null);
                                 }
                             }).start();
                             this.fullscreenButton[0].setTag(1);
-                            this.allowShowFullscreenButton = true;
+                            this.allowShowFullscreenButton = false;
                         }
-                    }
-                } else if (this.allowShowFullscreenButton) {
-                    this.fullscreenButton[0].animate().alpha(0.0f).setDuration(120L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.76
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            PhotoViewer.this.fullscreenButton[0].setTag(null);
-                        }
-                    }).start();
-                    this.fullscreenButton[0].setTag(1);
-                    this.allowShowFullscreenButton = false;
-                }
-                int containerViewWidth = getContainerViewWidth();
-                int containerViewHeight3 = getContainerViewHeight();
-                i2 = this.animationInProgress;
-                if (i2 == 2 && i2 != 4 && !this.pipAnimationInProgress && !this.isInline) {
-                    if (this.currentEditMode == 0 && this.sendPhotoType != 1 && this.scale == 1.0f) {
-                        if (f6 != -1.0f && !this.zoomAnimation) {
-                            float f61 = containerViewWidth / 4.0f;
-                            this.backgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f6), f61) / f61)) * 255.0f));
-                        }
-                    }
-                    this.backgroundDrawable.setAlpha(255);
-                } else if (i2 == 4) {
-                    canvas.drawColor(-16777216);
-                }
-                this.sideImage = null;
-                if (this.currentEditMode == 0 && this.sendPhotoType != 1) {
-                    if (this.scale >= 1.0f && !this.zoomAnimation && !this.zooming) {
-                        if (f4 <= this.maxX + AndroidUtilities.dp(5.0f)) {
-                            this.sideImage = this.leftImage;
-                        } else if (f4 < this.minX - AndroidUtilities.dp(5.0f)) {
-                            this.sideImage = this.rightImage;
-                        } else {
-                            this.groupedPhotosListView.setMoveProgress(0.0f);
-                        }
-                    }
-                    this.changingPage = this.sideImage == null;
-                }
-                i4 = 0;
-                for (i3 = 3; i4 < i3; i3 = 3) {
-                    if (i4 != 1) {
-                        if (i4 == 2) {
-                            f43 = ((-this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(15.0f)) + (f4 - this.maxX);
-                        } else {
-                            float f62 = this.minX;
-                            if (f4 < f62) {
-                                f43 = f4 - f62;
-                            }
-                        }
-                        this.fullscreenButton[i4].setTranslationX((f43 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
-                        i4++;
-                    }
-                    f43 = 0.0f;
-                    this.fullscreenButton[i4].setTranslationX((f43 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
-                    i4++;
-                }
-                if (this.sideImage != this.rightImage) {
-                    if (!this.zoomAnimation) {
-                        float f63 = this.minX;
-                        if (f4 < f63) {
-                            f37 = Math.min(1.0f, (f63 - f4) / containerViewWidth);
-                            f38 = (1.0f - f37) * 0.3f;
-                            f36 = (-containerViewWidth) - (AndroidUtilities.dp(30.0f) / 2);
-                            if (!this.sideImage.hasBitmapImage()) {
-                                canvas.save();
-                                canvas.translate(containerViewWidth / 2, containerViewHeight3 / 2);
-                                canvas.translate((AndroidUtilities.dp(30.0f) / 2) + containerViewWidth + f36, 0.0f);
-                                float f64 = 1.0f - f38;
-                                canvas.scale(f64, f64);
-                                int bitmapWidth2 = this.sideImage.getBitmapWidth();
-                                int bitmapHeight2 = this.sideImage.getBitmapHeight();
-                                if (this.rightImageIsVideo || this.rightCropState == null || !this.rightCropTransform.hasViewTransform()) {
-                                    i27 = bitmapHeight2;
-                                    f42 = f37;
-                                    i28 = bitmapWidth2;
-                                    i29 = containerViewHeight3;
-                                    j = j4;
-                                    f40 = f5;
-                                    f7 = f60;
-                                    i30 = containerViewWidth;
-                                } else {
-                                    f42 = f37;
-                                    i28 = bitmapWidth2;
-                                    i29 = containerViewHeight3;
-                                    i27 = bitmapHeight2;
-                                    j = j4;
-                                    f40 = f5;
-                                    f7 = f60;
-                                    i30 = containerViewWidth;
-                                    applyCrop(canvas, containerViewWidth, containerViewHeight3, i28, bitmapHeight2, 1.0f, this.rightCropTransform, this.rightCropState);
+                        int containerViewWidth = getContainerViewWidth();
+                        int containerViewHeight3 = getContainerViewHeight();
+                        i2 = this.animationInProgress;
+                        if (i2 == 2 && i2 != 4 && !this.pipAnimationInProgress && !this.isInline) {
+                            if (this.currentEditMode == 0 && this.sendPhotoType != 1 && this.scale == 1.0f) {
+                                if (f7 != -1.0f && !this.zoomAnimation) {
+                                    float f65 = containerViewWidth / 4.0f;
+                                    this.backgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f7), f65) / f65)) * 255.0f));
                                 }
-                                int i35 = i28;
-                                float f65 = i35;
-                                int i36 = i29;
-                                int i37 = i27;
-                                float f66 = i37;
-                                float min2 = Math.min(i30 / f65, i36 / f66);
-                                int i38 = (int) (f65 * min2);
-                                int i39 = (int) (f66 * min2);
-                                if (!this.imagesArrLocals.isEmpty()) {
-                                    if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
-                                        z10 = this.rightCropTransform.isMirrored();
-                                    } else {
-                                        MediaController.CropState cropState = this.rightCropState;
-                                        if (cropState != null && cropState.mirrored) {
-                                            z10 = true;
-                                        }
+                            }
+                            this.backgroundDrawable.setAlpha(255);
+                        } else if (i2 == 4) {
+                            canvas.drawColor(-16777216);
+                        }
+                        this.sideImage = null;
+                        if (this.currentEditMode == 0 && this.sendPhotoType != 1) {
+                            if (this.scale >= 1.0f && !this.zoomAnimation && !this.zooming) {
+                                if (f6 <= this.maxX + AndroidUtilities.dp(5.0f)) {
+                                    this.sideImage = this.leftImage;
+                                } else if (f6 < this.minX - AndroidUtilities.dp(5.0f)) {
+                                    this.sideImage = this.rightImage;
+                                } else {
+                                    this.groupedPhotosListView.setMoveProgress(0.0f);
+                                }
+                            }
+                            this.changingPage = this.sideImage == null;
+                        }
+                        i4 = 0;
+                        for (i3 = 3; i4 < i3; i3 = 3) {
+                            if (i4 != 1) {
+                                if (i4 == 2) {
+                                    f48 = ((-this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(15.0f)) + (f6 - this.maxX);
+                                } else {
+                                    float f66 = this.minX;
+                                    if (f6 < f66) {
+                                        f48 = f6 - f66;
                                     }
-                                    if (!z10) {
-                                        canvas.scale(-1.0f, 1.0f);
-                                    }
-                                    f41 = f42;
-                                    this.sideImage.setAlpha(f41);
-                                    f9 = f59;
-                                    int i40 = (-i38) / 2;
-                                    i5 = i36;
-                                    f8 = f4;
-                                    int i41 = (-i39) / 2;
-                                    i26 = i30;
-                                    f39 = f36;
-                                    this.sideImage.setImageCoords(i40, i41, i38, i39);
-                                    this.sideImage.draw(canvas);
-                                    paintingOverlay2 = this.rightPaintingOverlay;
-                                    if (paintingOverlay2 == null && paintingOverlay2.getVisibility() == 0) {
-                                        canvas.clipRect(i40, i41, i38 / 2, i39 / 2);
-                                        if (this.rightPaintingOverlay.getMeasuredWidth() == i35 && this.rightPaintingOverlay.getMeasuredHeight() == i37) {
-                                            z12 = false;
+                                }
+                                this.fullscreenButton[i4].setTranslationX((f48 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
+                                i4++;
+                            }
+                            f48 = 0.0f;
+                            this.fullscreenButton[i4].setTranslationX((f48 + this.containerView.getMeasuredWidth()) - AndroidUtilities.dp(48.0f));
+                            i4++;
+                        }
+                        if (this.sideImage == this.rightImage) {
+                            if (!this.zoomAnimation) {
+                                float f67 = this.minX;
+                                if (f6 < f67) {
+                                    f43 = Math.min(1.0f, (f67 - f6) / containerViewWidth);
+                                    f44 = (1.0f - f43) * 0.3f;
+                                    f42 = (-containerViewWidth) - (AndroidUtilities.dp(30.0f) / 2);
+                                    if (!this.sideImage.hasBitmapImage()) {
+                                        canvas.save();
+                                        canvas.translate(containerViewWidth / 2, containerViewHeight3 / 2);
+                                        canvas.translate((AndroidUtilities.dp(30.0f) / 2) + containerViewWidth + f42, 0.0f);
+                                        float f68 = 1.0f - f44;
+                                        canvas.scale(f68, f68);
+                                        int bitmapWidth2 = this.sideImage.getBitmapWidth();
+                                        int bitmapHeight2 = this.sideImage.getBitmapHeight();
+                                        if (this.rightImageIsVideo || this.rightCropState == null || !this.rightCropTransform.hasViewTransform()) {
+                                            i29 = bitmapHeight2;
+                                            f47 = f43;
+                                            i30 = bitmapWidth2;
+                                            i31 = containerViewHeight3;
+                                            j = j4;
+                                            f8 = f6;
+                                            f10 = f64;
+                                            i32 = 1;
+                                            i33 = containerViewWidth;
                                         } else {
-                                            this.rightPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(i35, 1073741824), View.MeasureSpec.makeMeasureSpec(i37, 1073741824));
-                                            z12 = false;
-                                            this.rightPaintingOverlay.layout(0, 0, i35, i37);
+                                            f47 = f43;
+                                            i30 = bitmapWidth2;
+                                            i31 = containerViewHeight3;
+                                            i29 = bitmapHeight2;
+                                            j = j4;
+                                            f8 = f6;
+                                            f10 = f64;
+                                            i32 = 1;
+                                            applyCrop(canvas, containerViewWidth, containerViewHeight3, i30, bitmapHeight2, 1.0f, this.rightCropTransform, this.rightCropState);
+                                            i33 = containerViewWidth;
                                         }
-                                        canvas.scale(min2, min2);
-                                        canvas.translate((-i35) / 2, (-i37) / 2);
-                                        this.rightPaintingOverlay.setAlpha(1.0f);
-                                        this.rightPaintingOverlay.draw(canvas);
-                                        z11 = z12;
-                                    } else {
+                                        int i38 = i30;
+                                        float f69 = i38;
+                                        int i39 = i31;
+                                        int i40 = i29;
+                                        float f70 = i40;
+                                        float min2 = Math.min(i33 / f69, i39 / f70);
+                                        int i41 = (int) (f69 * min2);
+                                        int i42 = (int) (f70 * min2);
+                                        if (!this.imagesArrLocals.isEmpty()) {
+                                            if (this.currentEditMode == i32 || this.sendPhotoType == i32) {
+                                                z10 = this.rightCropTransform.isMirrored();
+                                            } else {
+                                                MediaController.CropState cropState = this.rightCropState;
+                                                if (cropState != null && cropState.mirrored) {
+                                                    z10 = true;
+                                                }
+                                            }
+                                            if (!z10) {
+                                                canvas.scale(-1.0f, 1.0f);
+                                            }
+                                            f46 = f47;
+                                            this.sideImage.setAlpha(f46);
+                                            int i43 = (-i41) / 2;
+                                            f11 = f63;
+                                            i5 = i39;
+                                            int i44 = (-i42) / 2;
+                                            i28 = i33;
+                                            f45 = f42;
+                                            f9 = f4;
+                                            this.sideImage.setImageCoords(i43, i44, i41, i42);
+                                            this.sideImage.draw(canvas);
+                                            paintingOverlay = this.rightPaintingOverlay;
+                                            if (paintingOverlay == null && paintingOverlay.getVisibility() == 0) {
+                                                canvas.clipRect(i43, i44, i41 / 2, i42 / 2);
+                                                if (this.rightPaintingOverlay.getMeasuredWidth() == i38 && this.rightPaintingOverlay.getMeasuredHeight() == i40) {
+                                                    z12 = false;
+                                                } else {
+                                                    this.rightPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(i38, 1073741824), View.MeasureSpec.makeMeasureSpec(i40, 1073741824));
+                                                    z12 = false;
+                                                    this.rightPaintingOverlay.layout(0, 0, i38, i40);
+                                                }
+                                                canvas.scale(min2, min2);
+                                                canvas.translate((-i38) / 2, (-i40) / 2);
+                                                this.rightPaintingOverlay.setAlpha(1.0f);
+                                                this.rightPaintingOverlay.draw(canvas);
+                                                z11 = z12;
+                                            } else {
+                                                z11 = false;
+                                            }
+                                            canvas.restore();
+                                            z9 = z11;
+                                        }
+                                        z10 = false;
+                                        if (!z10) {
+                                        }
+                                        f46 = f47;
+                                        this.sideImage.setAlpha(f46);
+                                        int i432 = (-i41) / 2;
+                                        f11 = f63;
+                                        i5 = i39;
+                                        int i442 = (-i42) / 2;
+                                        i28 = i33;
+                                        f45 = f42;
+                                        f9 = f4;
+                                        this.sideImage.setImageCoords(i432, i442, i41, i42);
+                                        this.sideImage.draw(canvas);
+                                        paintingOverlay = this.rightPaintingOverlay;
+                                        if (paintingOverlay == null) {
+                                        }
                                         z11 = false;
+                                        canvas.restore();
+                                        z9 = z11;
+                                    } else {
+                                        f45 = f42;
+                                        i5 = containerViewHeight3;
+                                        j = j4;
+                                        i28 = containerViewWidth;
+                                        f8 = f6;
+                                        f9 = f4;
+                                        f10 = f64;
+                                        f11 = f63;
+                                        z9 = false;
+                                        f46 = f43;
+                                    }
+                                    this.groupedPhotosListView.setMoveProgress(-f46);
+                                    canvas.save();
+                                    canvas.translate(f45, f5 / f9);
+                                    i6 = i28;
+                                    canvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f5) / f9);
+                                    this.photoProgressViews[1].setScale(1.0f - f44);
+                                    this.photoProgressViews[1].setAlpha(f46);
+                                    this.photoProgressViews[1].onDraw(canvas);
+                                    if (this.isActionBarVisible) {
+                                        this.fullscreenButton[1].setAlpha(f46);
                                     }
                                     canvas.restore();
-                                    z9 = z11;
+                                    r15 = z9;
                                 }
-                                z10 = false;
-                                if (!z10) {
-                                }
-                                f41 = f42;
-                                this.sideImage.setAlpha(f41);
-                                f9 = f59;
-                                int i402 = (-i38) / 2;
-                                i5 = i36;
-                                f8 = f4;
-                                int i412 = (-i39) / 2;
-                                i26 = i30;
-                                f39 = f36;
-                                this.sideImage.setImageCoords(i402, i412, i38, i39);
-                                this.sideImage.draw(canvas);
-                                paintingOverlay2 = this.rightPaintingOverlay;
-                                if (paintingOverlay2 == null) {
-                                }
-                                z11 = false;
-                                canvas.restore();
-                                z9 = z11;
-                            } else {
-                                f39 = f36;
-                                i5 = containerViewHeight3;
-                                j = j4;
-                                f40 = f5;
-                                i26 = containerViewWidth;
-                                f7 = f60;
-                                f8 = f4;
-                                f9 = f59;
-                                z9 = false;
-                                f41 = f37;
                             }
-                            this.groupedPhotosListView.setMoveProgress(-f41);
+                            f42 = f6;
+                            f43 = 1.0f;
+                            f44 = 0.0f;
+                            if (!this.sideImage.hasBitmapImage()) {
+                            }
+                            this.groupedPhotosListView.setMoveProgress(-f46);
                             canvas.save();
-                            f10 = f40;
-                            canvas.translate(f39, f10 / f3);
-                            i6 = i26;
-                            canvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f10) / f3);
-                            this.photoProgressViews[1].setScale(1.0f - f38);
-                            this.photoProgressViews[1].setAlpha(f41);
+                            canvas.translate(f45, f5 / f9);
+                            i6 = i28;
+                            canvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f5) / f9);
+                            this.photoProgressViews[1].setScale(1.0f - f44);
+                            this.photoProgressViews[1].setAlpha(f46);
                             this.photoProgressViews[1].onDraw(canvas);
                             if (this.isActionBarVisible) {
-                                this.fullscreenButton[1].setAlpha(f41);
                             }
                             canvas.restore();
-                            r14 = z9;
-                        }
-                    }
-                    f36 = f4;
-                    f37 = 1.0f;
-                    f38 = 0.0f;
-                    if (!this.sideImage.hasBitmapImage()) {
-                    }
-                    this.groupedPhotosListView.setMoveProgress(-f41);
-                    canvas.save();
-                    f10 = f40;
-                    canvas.translate(f39, f10 / f3);
-                    i6 = i26;
-                    canvas.translate(((i6 * (this.scale + 1.0f)) + AndroidUtilities.dp(30.0f)) / 2.0f, (-f10) / f3);
-                    this.photoProgressViews[1].setScale(1.0f - f38);
-                    this.photoProgressViews[1].setAlpha(f41);
-                    this.photoProgressViews[1].onDraw(canvas);
-                    if (this.isActionBarVisible) {
-                    }
-                    canvas.restore();
-                    r14 = z9;
-                } else {
-                    i5 = containerViewHeight3;
-                    j = j4;
-                    i6 = containerViewWidth;
-                    f7 = f60;
-                    f8 = f4;
-                    f9 = f59;
-                    r14 = 0;
-                    r14 = 0;
-                    f10 = f5;
-                    if (this.isActionBarVisible) {
-                        this.fullscreenButton[1].setAlpha(0.0f);
-                    }
-                }
-                if (!this.zoomAnimation) {
-                    float f67 = this.maxX;
-                    if (f8 > f67 && this.currentEditMode == 0 && this.sendPhotoType != 1) {
-                        float min3 = Math.min(1.0f, (f8 - f67) / i6);
-                        f12 = min3 * 0.3f;
-                        f13 = 1.0f - min3;
-                        f11 = this.maxX;
-                        z = !this.videoSizeSet && (aspectRatioFrameLayout = this.aspectRatioFrameLayout) != null && aspectRatioFrameLayout.getVisibility() == 0;
-                        if (!this.centerImage.hasBitmapImage() || (z && this.textureUploaded)) {
-                            canvas.save();
-                            canvas.translate((i6 / 2) + getAdditionX(), (i5 / 2) + getAdditionY());
-                            canvas.translate(f11, (this.currentEditMode != 3 ? this.currentPanTranslationY : this.currentPanTranslationY / 2.0f) + f10);
-                            f14 = f3 - f12;
-                            canvas.scale(f14, f14);
-                            canvas.rotate(f9);
-                            if (this.currentEditMode == 3 && this.keyboardSize > AndroidUtilities.dp(20.0f)) {
-                                i31 = r14 == true ? 1 : 0;
-                                int i42 = r14 == true ? 1 : 0;
-                                int i43 = r14 == true ? 1 : 0;
-                                int i44 = r14 == true ? 1 : 0;
-                                int i45 = r14 == true ? 1 : 0;
-                                int i46 = r14 == true ? 1 : 0;
-                                if (getContainerViewHeight(true, i31) != getContainerViewHeight(r14, r14)) {
-                                    canvas.translate(0.0f, (containerViewHeight - containerViewHeight2) / 2);
-                                }
+                            r15 = z9;
+                        } else {
+                            i5 = containerViewHeight3;
+                            j = j4;
+                            i6 = containerViewWidth;
+                            f8 = f6;
+                            f9 = f4;
+                            f10 = f64;
+                            f11 = f63;
+                            r15 = 0;
+                            r15 = 0;
+                            if (this.isActionBarVisible) {
+                                this.fullscreenButton[1].setAlpha(0.0f);
                             }
-                            if (!this.pipAnimationInProgress || (z && ((this.textureUploaded || this.videoSizeSet) && this.videoCrossfadeStarted && this.videoCrossfadeAlpha == 1.0f))) {
-                                f15 = f14;
-                                f16 = f11;
-                            } else {
-                                Bitmap bitmap = this.videoFrameBitmap;
-                                if (bitmap != null && this.isCurrentVideo) {
-                                    int width = bitmap.getWidth();
-                                    int i47 = (-width) / 2;
-                                    int i48 = (-this.videoFrameBitmap.getHeight()) / 2;
-                                    if (f13 < 1.0f) {
-                                        i21 = i48;
-                                        f16 = f11;
-                                        i22 = i47;
-                                        f15 = f14;
-                                        canvas.saveLayerAlpha(i47, i48, width + i47, height + i48, (int) (f13 * 255.0f), 31);
-                                    } else {
-                                        i21 = i48;
-                                        f15 = f14;
-                                        f16 = f11;
-                                        i22 = i47;
-                                    }
-                                    canvas.drawBitmap(this.videoFrameBitmap, i22, i21, this.videoFrameBitmapPaint);
-                                    if (f13 < 1.0f) {
-                                        canvas.restore();
-                                    }
-                                } else {
-                                    f15 = f14;
-                                    f16 = f11;
-                                    this.centerImage.setAlpha(f13);
-                                    int bitmapWidth3 = this.centerImage.getBitmapWidth();
-                                    int bitmapHeight3 = this.centerImage.getBitmapHeight();
-                                    if (this.isCurrentVideo && this.currentEditMode == 0 && this.sendPhotoType == 1) {
-                                        min = getCropFillScale(false);
-                                        i7 = i5;
-                                    } else {
-                                        i7 = i5;
-                                        min = Math.min(i6 / bitmapWidth3, i7 / bitmapHeight3);
-                                    }
-                                    this.centerImage.setImageCoords((-i19) / 2, (-i20) / 2, (int) (bitmapWidth3 * min), (int) (bitmapHeight3 * min));
-                                    if (this.isCurrentVideo) {
-                                        this.centerImage.draw(canvas);
-                                        z2 = false;
-                                        if (!z && this.textureUploaded && this.videoSizeSet) {
-                                            bitmapWidth = this.videoTextureView.getMeasuredWidth();
-                                            bitmapHeight = this.videoTextureView.getMeasuredHeight();
-                                        } else {
-                                            bitmapWidth = this.centerImage.getBitmapWidth();
-                                            bitmapHeight = this.centerImage.getBitmapHeight();
+                        }
+                        if (!this.zoomAnimation) {
+                            float f71 = this.maxX;
+                            f12 = f8;
+                            if (f12 > f71 && this.currentEditMode == 0 && this.sendPhotoType != 1) {
+                                float min3 = Math.min(1.0f, (f12 - f71) / i6);
+                                f14 = min3 * 0.3f;
+                                f15 = 1.0f - min3;
+                                f13 = this.maxX;
+                                z = !this.videoSizeSet && (aspectRatioFrameLayout = this.aspectRatioFrameLayout) != null && aspectRatioFrameLayout.getVisibility() == 0;
+                                if (!this.centerImage.hasBitmapImage() || (z && this.textureUploaded)) {
+                                    canvas.save();
+                                    canvas.translate((i6 / 2) + getAdditionX(), (i5 / 2) + getAdditionY());
+                                    canvas.translate(f13, (this.currentEditMode == 3 ? this.currentPanTranslationY : this.currentPanTranslationY / 2.0f) + f5);
+                                    f16 = f9 - f14;
+                                    canvas.scale(f16, f16);
+                                    canvas.rotate(f11);
+                                    if (this.currentEditMode == 3 && this.keyboardSize > AndroidUtilities.dp(20.0f)) {
+                                        i34 = r15 == true ? 1 : 0;
+                                        int i45 = r15 == true ? 1 : 0;
+                                        int i46 = r15 == true ? 1 : 0;
+                                        int i47 = r15 == true ? 1 : 0;
+                                        int i48 = r15 == true ? 1 : 0;
+                                        int i49 = r15 == true ? 1 : 0;
+                                        if (getContainerViewHeight(true, i34) != getContainerViewHeight(r15, r15)) {
+                                            canvas.translate(0.0f, (containerViewHeight - containerViewHeight2) / 2);
                                         }
-                                        float f68 = i6;
-                                        float f69 = bitmapWidth;
-                                        float f70 = f68 / f69;
-                                        float f71 = i7;
-                                        float f72 = bitmapHeight;
-                                        int i49 = bitmapWidth;
-                                        float f73 = f71 / f72;
-                                        int i50 = bitmapHeight;
-                                        float min4 = Math.min(f70, f73);
-                                        int i51 = (int) (f69 * min4);
-                                        i5 = i7;
-                                        int i52 = (int) (f72 * min4);
-                                        i8 = i6;
-                                        float f74 = f13;
-                                        if (!this.imagesArrLocals.isEmpty()) {
-                                            int i53 = this.currentEditMode;
-                                            if (i53 != 3) {
-                                                i10 = i52;
-                                                int i54 = this.switchingToMode;
-                                                if (i54 != 3) {
-                                                    i9 = i51;
-                                                    if (this.sendPhotoType != 1) {
-                                                        int i55 = this.imageMoveAnimation != null ? -1 : -1;
-                                                        if (i53 != 0) {
-                                                            if (i53 != 1) {
+                                    }
+                                    if (!this.pipAnimationInProgress || (z && ((this.textureUploaded || this.videoSizeSet) && this.videoCrossfadeStarted && this.videoCrossfadeAlpha == 1.0f))) {
+                                        f17 = f16;
+                                        f18 = f13;
+                                        f19 = f12;
+                                        i7 = i5;
+                                    } else {
+                                        Bitmap bitmap = this.videoFrameBitmap;
+                                        if (bitmap != null && this.isCurrentVideo) {
+                                            int width = bitmap.getWidth();
+                                            int i50 = (-width) / 2;
+                                            int i51 = (-this.videoFrameBitmap.getHeight()) / 2;
+                                            if (f15 < 1.0f) {
+                                                i22 = i51;
+                                                f18 = f13;
+                                                f19 = f12;
+                                                f37 = 1.0f;
+                                                i23 = i50;
+                                                f17 = f16;
+                                                canvas.saveLayerAlpha(i50, i51, width + i50, height + i51, (int) (f15 * 255.0f), 31);
+                                            } else {
+                                                i22 = i51;
+                                                f17 = f16;
+                                                f18 = f13;
+                                                f19 = f12;
+                                                f37 = 1.0f;
+                                                i23 = i50;
+                                            }
+                                            canvas.drawBitmap(this.videoFrameBitmap, i23, i22, this.videoFrameBitmapPaint);
+                                            if (f15 < f37) {
+                                                canvas.restore();
+                                            }
+                                            i7 = i5;
+                                        } else {
+                                            f17 = f16;
+                                            f18 = f13;
+                                            f19 = f12;
+                                            this.centerImage.setAlpha(f15);
+                                            int bitmapWidth3 = this.centerImage.getBitmapWidth();
+                                            int bitmapHeight3 = this.centerImage.getBitmapHeight();
+                                            if (this.isCurrentVideo && this.currentEditMode == 0 && this.sendPhotoType == 1) {
+                                                min = getCropFillScale(false);
+                                                i7 = i5;
+                                            } else {
+                                                i7 = i5;
+                                                min = Math.min(i6 / bitmapWidth3, i7 / bitmapHeight3);
+                                            }
+                                            this.centerImage.setImageCoords((-i20) / 2, (-i21) / 2, (int) (bitmapWidth3 * min), (int) (bitmapHeight3 * min));
+                                            if (this.isCurrentVideo) {
+                                                this.centerImage.draw(canvas);
+                                            } else {
+                                                z2 = true;
+                                                if (!z && this.textureUploaded && this.videoSizeSet) {
+                                                    bitmapWidth = this.videoTextureView.getMeasuredWidth();
+                                                    bitmapHeight = this.videoTextureView.getMeasuredHeight();
+                                                } else {
+                                                    bitmapWidth = this.centerImage.getBitmapWidth();
+                                                    bitmapHeight = this.centerImage.getBitmapHeight();
+                                                }
+                                                float f72 = i6;
+                                                float f73 = bitmapWidth;
+                                                float f74 = f72 / f73;
+                                                float f75 = i7;
+                                                float f76 = bitmapHeight;
+                                                float f77 = f75 / f76;
+                                                int i52 = bitmapWidth;
+                                                float min4 = Math.min(f74, f77);
+                                                int i53 = bitmapHeight;
+                                                int i54 = (int) (f73 * min4);
+                                                int i55 = (int) (f76 * min4);
+                                                i5 = i7;
+                                                i8 = i6;
+                                                if (!this.imagesArrLocals.isEmpty()) {
+                                                    int i56 = this.currentEditMode;
+                                                    f20 = f15;
+                                                    if (i56 == 3 || (i19 = this.switchingToMode) == 3) {
+                                                        i9 = i55;
+                                                    } else {
+                                                        i9 = i55;
+                                                        if (this.sendPhotoType != 1) {
+                                                            int i57 = this.imageMoveAnimation != null ? -1 : -1;
+                                                            if (i56 != 0) {
+                                                                if (i56 != 1) {
+                                                                }
+                                                            }
+                                                        } else if (i19 != 0) {
+                                                            if (i56 != 3) {
                                                             }
                                                         }
-                                                    } else if (i54 != 0) {
-                                                        if (i53 != 3) {
-                                                        }
-                                                    }
-                                                    if (z3) {
-                                                        int orientation = this.cropTransform.getOrientation();
-                                                        if (orientation == 90 || orientation == 270) {
-                                                            i15 = i49;
-                                                            i16 = i50;
-                                                        } else {
-                                                            i16 = i49;
-                                                            i15 = i50;
-                                                        }
-                                                        z4 = z2;
-                                                        if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
-                                                            f17 = f3;
-                                                        } else if (this.imageMoveAnimation != null && (i17 = this.switchingToMode) != -1) {
-                                                            int i56 = this.currentEditMode;
-                                                            f17 = f3;
-                                                            if (i56 != 1 && i17 != 1 && ((i56 != 2 && i56 != 3) || i17 != -1)) {
-                                                                if (i17 == 0) {
-                                                                    f23 = this.animationValue;
-                                                                } else {
-                                                                    f23 = 1.0f - this.animationValue;
-                                                                }
-                                                                float cropPw = this.cropTransform.getCropPw();
-                                                                float cropPh = this.cropTransform.getCropPh();
-                                                                float f75 = i16;
-                                                                f24 = 1.0f - f23;
-                                                                int i57 = (int) ((cropPw + ((1.0f - cropPw) * f24)) * f75);
-                                                                f25 = i15;
-                                                                int i58 = (int) ((cropPh + ((1.0f - cropPh) * f24)) * f25);
-                                                                f18 = f10;
-                                                                f26 = i57;
-                                                                f27 = f68 / f26;
-                                                                f28 = i58;
-                                                                if (f27 * f28 > f71) {
-                                                                }
-                                                                float f76 = f23;
-                                                                if (this.sendPhotoType != 1) {
-                                                                    float f77 = f26 * f27;
-                                                                    float f78 = f28 * f27;
-                                                                    if (f70 * f72 > f71) {
-                                                                    }
-                                                                    float f79 = f77 + ((((f69 * f70) / f15) - f77) * f24);
-                                                                    float f80 = f78 + ((((f72 * f70) / f15) - f78) * f24);
-                                                                    canvas.clipRect((-f79) / 2.0f, (-f80) / 2.0f, f79 / 2.0f, f80 / 2.0f);
-                                                                }
-                                                                if (this.sendPhotoType != 1) {
-                                                                }
-                                                                if (this.currentEditMode != 1) {
-                                                                }
-                                                                textureView = this.videoTextureView;
-                                                                if (textureView != null) {
-                                                                }
-                                                                float scale = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f24) + 1.0f);
-                                                                f29 = f68 / f75;
-                                                                if (f29 * f25 > f71) {
-                                                                }
-                                                                float f81 = scale * (f29 / min4);
-                                                                if (this.sendPhotoType == 1) {
-                                                                }
-                                                                f30 = f81;
-                                                                canvas.translate(this.cropTransform.getCropAreaX() * f76, this.cropTransform.getCropAreaY() * f76);
-                                                                canvas.scale(f30, f30);
-                                                                canvas.translate(this.cropTransform.getCropPx() * f75 * min4 * f76, this.cropTransform.getCropPy() * f25 * min4 * f76);
-                                                                rotation = this.cropTransform.getRotation() + orientation;
-                                                                if (rotation > 180.0f) {
-                                                                }
-                                                                if (this.sendPhotoType != 1) {
-                                                                }
-                                                                canvas.rotate(rotation * f76);
-                                                                f19 = f27;
-                                                                i11 = i57;
-                                                                i12 = i58;
+                                                        if (z3) {
+                                                            int orientation = this.cropTransform.getOrientation();
+                                                            if (orientation == 90 || orientation == 270) {
+                                                                i15 = i52;
+                                                                i16 = i53;
+                                                            } else {
+                                                                i16 = i52;
+                                                                i15 = i53;
                                                             }
-                                                        } else {
-                                                            f17 = f3;
-                                                            int i59 = this.currentEditMode;
-                                                            if (i59 == 2 || i59 == 3) {
-                                                                f23 = 0.0f;
-                                                                float cropPw2 = this.cropTransform.getCropPw();
-                                                                float cropPh2 = this.cropTransform.getCropPh();
-                                                                float f752 = i16;
-                                                                f24 = 1.0f - f23;
-                                                                int i572 = (int) ((cropPw2 + ((1.0f - cropPw2) * f24)) * f752);
-                                                                f25 = i15;
-                                                                int i582 = (int) ((cropPh2 + ((1.0f - cropPh2) * f24)) * f25);
-                                                                f18 = f10;
-                                                                f26 = i572;
-                                                                f27 = f68 / f26;
-                                                                f28 = i582;
-                                                                if (f27 * f28 > f71) {
-                                                                    f27 = f71 / f28;
-                                                                }
-                                                                float f762 = f23;
-                                                                if (this.sendPhotoType != 1 && ((this.currentEditMode != 1 || this.switchingToMode == 0) && this.editState.cropState != null)) {
-                                                                    float f772 = f26 * f27;
-                                                                    float f782 = f28 * f27;
-                                                                    if (f70 * f72 > f71) {
-                                                                        f70 = f73;
-                                                                    }
-                                                                    float f792 = f772 + ((((f69 * f70) / f15) - f772) * f24);
-                                                                    float f802 = f782 + ((((f72 * f70) / f15) - f782) * f24);
-                                                                    canvas.clipRect((-f792) / 2.0f, (-f802) / 2.0f, f792 / 2.0f, f802 / 2.0f);
-                                                                }
-                                                                if (this.sendPhotoType != 1 || this.cropTransform.hasViewTransform()) {
-                                                                    if (this.currentEditMode != 1 || this.sendPhotoType == 1) {
-                                                                        textureView = this.videoTextureView;
-                                                                        if (textureView != null) {
-                                                                            textureView.setScaleX(this.cropTransform.isMirrored() ? -1.0f : 1.0f);
-                                                                            FirstFrameView firstFrameView = this.firstFrameView;
-                                                                            if (firstFrameView != null) {
-                                                                                firstFrameView.setScaleX(this.videoTextureView.getScaleX());
-                                                                            }
-                                                                        }
-                                                                        float scale2 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f24) + 1.0f);
-                                                                        f29 = f68 / f752;
-                                                                        if (f29 * f25 > f71) {
-                                                                            f29 = f71 / f25;
-                                                                        }
-                                                                        float f812 = scale2 * (f29 / min4);
-                                                                        if (this.sendPhotoType == 1) {
-                                                                            if (this.currentEditMode == 3 || (i18 = this.switchingToMode) == 3) {
-                                                                                minScale = ((this.cropTransform.getMinScale() - 1.0f) * f24) + 1.0f;
-                                                                            } else if (i18 == 0) {
-                                                                                minScale = this.cropTransform.getMinScale();
-                                                                            }
-                                                                            f812 /= minScale;
-                                                                        }
-                                                                        f30 = f812;
+                                                            i10 = i54;
+                                                            if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
+                                                                z4 = z2;
+                                                            } else if (this.imageMoveAnimation != null && (i17 = this.switchingToMode) != -1) {
+                                                                int i58 = this.currentEditMode;
+                                                                z4 = z2;
+                                                                if (i58 != 1 && i17 != 1 && ((i58 != 2 && i58 != 3) || i17 != -1)) {
+                                                                    if (i17 == 0) {
+                                                                        f27 = this.animationValue;
                                                                     } else {
-                                                                        TextureView textureView2 = this.videoTextureView;
-                                                                        if (textureView2 != null) {
-                                                                            MediaController.CropState cropState2 = this.editState.cropState;
-                                                                            textureView2.setScaleX((cropState2 == null || !cropState2.mirrored) ? 1.0f : -1.0f);
-                                                                            FirstFrameView firstFrameView2 = this.firstFrameView;
-                                                                            if (firstFrameView2 != null) {
-                                                                                firstFrameView2.setScaleX(this.videoTextureView.getScaleX());
-                                                                            }
-                                                                        }
-                                                                        MediaController.CropState cropState3 = this.editState.cropState;
-                                                                        float f82 = cropState3 != null ? cropState3.cropScale : 1.0f;
-                                                                        f30 = f82 * ((f27 / min4) / (((f82 - 1.0f) * f24) + 1.0f));
+                                                                        f27 = 1.0f - this.animationValue;
                                                                     }
-                                                                    canvas.translate(this.cropTransform.getCropAreaX() * f762, this.cropTransform.getCropAreaY() * f762);
-                                                                    canvas.scale(f30, f30);
-                                                                    canvas.translate(this.cropTransform.getCropPx() * f752 * min4 * f762, this.cropTransform.getCropPy() * f25 * min4 * f762);
+                                                                    float cropPw = this.cropTransform.getCropPw();
+                                                                    float cropPh = this.cropTransform.getCropPh();
+                                                                    float f78 = i16;
+                                                                    f28 = 1.0f - f27;
+                                                                    int i59 = (int) ((cropPw + ((1.0f - cropPw) * f28)) * f78);
+                                                                    f29 = i15;
+                                                                    int i60 = (int) ((cropPh + ((1.0f - cropPh) * f28)) * f29);
+                                                                    f21 = f5;
+                                                                    f30 = i59;
+                                                                    f31 = f72 / f30;
+                                                                    f32 = i60;
+                                                                    if (f31 * f32 > f75) {
+                                                                    }
+                                                                    if (this.sendPhotoType != 1) {
+                                                                        float f79 = f30 * f31;
+                                                                        float f80 = f32 * f31;
+                                                                        if (f74 * f76 > f75) {
+                                                                        }
+                                                                        float f81 = f79 + ((((f73 * f74) / f17) - f79) * f28);
+                                                                        float f82 = f80 + ((((f76 * f74) / f17) - f80) * f28);
+                                                                        canvas.clipRect((-f81) / 2.0f, (-f82) / 2.0f, f81 / 2.0f, f82 / 2.0f);
+                                                                    }
+                                                                    if (this.sendPhotoType != 1) {
+                                                                    }
+                                                                    if (this.currentEditMode != 1) {
+                                                                    }
+                                                                    textureView = this.videoTextureView;
+                                                                    if (textureView != null) {
+                                                                    }
+                                                                    float scale = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f28) + 1.0f);
+                                                                    f33 = f72 / f78;
+                                                                    if (f33 * f29 > f75) {
+                                                                    }
+                                                                    float f83 = scale * (f33 / min4);
+                                                                    if (this.sendPhotoType == 1) {
+                                                                    }
+                                                                    f34 = f83;
+                                                                    canvas.translate(this.cropTransform.getCropAreaX() * f27, this.cropTransform.getCropAreaY() * f27);
+                                                                    canvas.scale(f34, f34);
+                                                                    canvas.translate(this.cropTransform.getCropPx() * f78 * min4 * f27, this.cropTransform.getCropPy() * f29 * min4 * f27);
                                                                     rotation = this.cropTransform.getRotation() + orientation;
                                                                     if (rotation > 180.0f) {
-                                                                        rotation -= 360.0f;
                                                                     }
-                                                                    if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
-                                                                        canvas.rotate(rotation);
+                                                                    if (this.sendPhotoType != 1) {
+                                                                    }
+                                                                    canvas.rotate(rotation * f27);
+                                                                    f22 = f31;
+                                                                    i11 = i59;
+                                                                    i12 = i60;
+                                                                }
+                                                            } else {
+                                                                z4 = z2;
+                                                                int i61 = this.currentEditMode;
+                                                                if (i61 == 2 || i61 == 3) {
+                                                                    f27 = 0.0f;
+                                                                    float cropPw2 = this.cropTransform.getCropPw();
+                                                                    float cropPh2 = this.cropTransform.getCropPh();
+                                                                    float f782 = i16;
+                                                                    f28 = 1.0f - f27;
+                                                                    int i592 = (int) ((cropPw2 + ((1.0f - cropPw2) * f28)) * f782);
+                                                                    f29 = i15;
+                                                                    int i602 = (int) ((cropPh2 + ((1.0f - cropPh2) * f28)) * f29);
+                                                                    f21 = f5;
+                                                                    f30 = i592;
+                                                                    f31 = f72 / f30;
+                                                                    f32 = i602;
+                                                                    if (f31 * f32 > f75) {
+                                                                        f31 = f75 / f32;
+                                                                    }
+                                                                    if (this.sendPhotoType != 1 && ((this.currentEditMode != 1 || this.switchingToMode == 0) && this.editState.cropState != null)) {
+                                                                        float f792 = f30 * f31;
+                                                                        float f802 = f32 * f31;
+                                                                        if (f74 * f76 > f75) {
+                                                                            f74 = f77;
+                                                                        }
+                                                                        float f812 = f792 + ((((f73 * f74) / f17) - f792) * f28);
+                                                                        float f822 = f802 + ((((f76 * f74) / f17) - f802) * f28);
+                                                                        canvas.clipRect((-f812) / 2.0f, (-f822) / 2.0f, f812 / 2.0f, f822 / 2.0f);
+                                                                    }
+                                                                    if (this.sendPhotoType != 1 || this.cropTransform.hasViewTransform()) {
+                                                                        if (this.currentEditMode != 1 || this.sendPhotoType == 1) {
+                                                                            textureView = this.videoTextureView;
+                                                                            if (textureView != null) {
+                                                                                textureView.setScaleX(this.cropTransform.isMirrored() ? -1.0f : 1.0f);
+                                                                                FirstFrameView firstFrameView = this.firstFrameView;
+                                                                                if (firstFrameView != null) {
+                                                                                    firstFrameView.setScaleX(this.videoTextureView.getScaleX());
+                                                                                }
+                                                                            }
+                                                                            float scale2 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f28) + 1.0f);
+                                                                            f33 = f72 / f782;
+                                                                            if (f33 * f29 > f75) {
+                                                                                f33 = f75 / f29;
+                                                                            }
+                                                                            float f832 = scale2 * (f33 / min4);
+                                                                            if (this.sendPhotoType == 1) {
+                                                                                if (this.currentEditMode == 3 || (i18 = this.switchingToMode) == 3) {
+                                                                                    minScale = ((this.cropTransform.getMinScale() - 1.0f) * f28) + 1.0f;
+                                                                                } else if (i18 == 0) {
+                                                                                    minScale = this.cropTransform.getMinScale();
+                                                                                }
+                                                                                f832 /= minScale;
+                                                                            }
+                                                                            f34 = f832;
+                                                                        } else {
+                                                                            TextureView textureView2 = this.videoTextureView;
+                                                                            if (textureView2 != null) {
+                                                                                MediaController.CropState cropState2 = this.editState.cropState;
+                                                                                textureView2.setScaleX((cropState2 == null || !cropState2.mirrored) ? 1.0f : -1.0f);
+                                                                                FirstFrameView firstFrameView2 = this.firstFrameView;
+                                                                                if (firstFrameView2 != null) {
+                                                                                    firstFrameView2.setScaleX(this.videoTextureView.getScaleX());
+                                                                                }
+                                                                            }
+                                                                            MediaController.CropState cropState3 = this.editState.cropState;
+                                                                            if (cropState3 != null) {
+                                                                                f36 = cropState3.cropScale;
+                                                                                f35 = 1.0f;
+                                                                            } else {
+                                                                                f35 = 1.0f;
+                                                                                f36 = 1.0f;
+                                                                            }
+                                                                            f34 = f36 * ((f31 / min4) / (((f36 - f35) * f28) + f35));
+                                                                        }
+                                                                        canvas.translate(this.cropTransform.getCropAreaX() * f27, this.cropTransform.getCropAreaY() * f27);
+                                                                        canvas.scale(f34, f34);
+                                                                        canvas.translate(this.cropTransform.getCropPx() * f782 * min4 * f27, this.cropTransform.getCropPy() * f29 * min4 * f27);
+                                                                        rotation = this.cropTransform.getRotation() + orientation;
+                                                                        if (rotation > 180.0f) {
+                                                                            rotation -= 360.0f;
+                                                                        }
+                                                                        if (this.sendPhotoType != 1 && (this.currentEditMode == 3 || this.switchingToMode == 3)) {
+                                                                            canvas.rotate(rotation);
+                                                                        } else {
+                                                                            canvas.rotate(rotation * f27);
+                                                                        }
                                                                     } else {
-                                                                        canvas.rotate(rotation * f762);
-                                                                    }
-                                                                } else {
-                                                                    TextureView textureView3 = this.videoTextureView;
-                                                                    if (textureView3 != null) {
-                                                                        textureView3.setScaleX(1.0f);
-                                                                        this.videoTextureView.setScaleY(1.0f);
-                                                                        FirstFrameView firstFrameView3 = this.firstFrameView;
-                                                                        if (firstFrameView3 != null) {
-                                                                            firstFrameView3.setScaleX(1.0f);
-                                                                            this.firstFrameView.setScaleY(1.0f);
+                                                                        TextureView textureView3 = this.videoTextureView;
+                                                                        if (textureView3 != null) {
+                                                                            textureView3.setScaleX(1.0f);
+                                                                            this.videoTextureView.setScaleY(1.0f);
+                                                                            FirstFrameView firstFrameView3 = this.firstFrameView;
+                                                                            if (firstFrameView3 != null) {
+                                                                                firstFrameView3.setScaleX(1.0f);
+                                                                                this.firstFrameView.setScaleY(1.0f);
+                                                                            }
                                                                         }
                                                                     }
+                                                                    f22 = f31;
+                                                                    i11 = i592;
+                                                                    i12 = i602;
                                                                 }
-                                                                f19 = f27;
-                                                                i11 = i572;
-                                                                i12 = i582;
                                                             }
+                                                            f27 = 1.0f;
+                                                            float cropPw22 = this.cropTransform.getCropPw();
+                                                            float cropPh22 = this.cropTransform.getCropPh();
+                                                            float f7822 = i16;
+                                                            f28 = 1.0f - f27;
+                                                            int i5922 = (int) ((cropPw22 + ((1.0f - cropPw22) * f28)) * f7822);
+                                                            f29 = i15;
+                                                            int i6022 = (int) ((cropPh22 + ((1.0f - cropPh22) * f28)) * f29);
+                                                            f21 = f5;
+                                                            f30 = i5922;
+                                                            f31 = f72 / f30;
+                                                            f32 = i6022;
+                                                            if (f31 * f32 > f75) {
+                                                            }
+                                                            if (this.sendPhotoType != 1) {
+                                                            }
+                                                            if (this.sendPhotoType != 1) {
+                                                            }
+                                                            if (this.currentEditMode != 1) {
+                                                            }
+                                                            textureView = this.videoTextureView;
+                                                            if (textureView != null) {
+                                                            }
+                                                            float scale22 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f28) + 1.0f);
+                                                            f33 = f72 / f7822;
+                                                            if (f33 * f29 > f75) {
+                                                            }
+                                                            float f8322 = scale22 * (f33 / min4);
+                                                            if (this.sendPhotoType == 1) {
+                                                            }
+                                                            f34 = f8322;
+                                                            canvas.translate(this.cropTransform.getCropAreaX() * f27, this.cropTransform.getCropAreaY() * f27);
+                                                            canvas.scale(f34, f34);
+                                                            canvas.translate(this.cropTransform.getCropPx() * f7822 * min4 * f27, this.cropTransform.getCropPy() * f29 * min4 * f27);
+                                                            rotation = this.cropTransform.getRotation() + orientation;
+                                                            if (rotation > 180.0f) {
+                                                            }
+                                                            if (this.sendPhotoType != 1) {
+                                                            }
+                                                            canvas.rotate(rotation * f27);
+                                                            f22 = f31;
+                                                            i11 = i5922;
+                                                            i12 = i6022;
+                                                        } else {
+                                                            z4 = z2;
+                                                            i10 = i54;
+                                                            f21 = f5;
+                                                            i11 = i52;
+                                                            i12 = i53;
+                                                            f22 = 1.0f;
                                                         }
-                                                        f23 = 1.0f;
-                                                        float cropPw22 = this.cropTransform.getCropPw();
-                                                        float cropPh22 = this.cropTransform.getCropPh();
-                                                        float f7522 = i16;
-                                                        f24 = 1.0f - f23;
-                                                        int i5722 = (int) ((cropPw22 + ((1.0f - cropPw22) * f24)) * f7522);
-                                                        f25 = i15;
-                                                        int i5822 = (int) ((cropPh22 + ((1.0f - cropPh22) * f24)) * f25);
-                                                        f18 = f10;
-                                                        f26 = i5722;
-                                                        f27 = f68 / f26;
-                                                        f28 = i5822;
-                                                        if (f27 * f28 > f71) {
+                                                        if (this.currentEditMode == 3) {
+                                                            this.photoPaintView.setTransform(f9, f19, f21 + (this.containerView.adjustPanLayoutHelper.animationInProgress() ? (this.keyboardSize / 2.0f) + (this.currentPanTranslationY / 2.0f) : 0.0f), i11 * f22, i12 * f22);
                                                         }
-                                                        float f7622 = f23;
-                                                        if (this.sendPhotoType != 1) {
-                                                        }
-                                                        if (this.sendPhotoType != 1) {
-                                                        }
-                                                        if (this.currentEditMode != 1) {
-                                                        }
-                                                        textureView = this.videoTextureView;
-                                                        if (textureView != null) {
-                                                        }
-                                                        float scale22 = this.cropTransform.getScale() / (((this.cropTransform.getTrueCropScale() - 1.0f) * f24) + 1.0f);
-                                                        f29 = f68 / f7522;
-                                                        if (f29 * f25 > f71) {
-                                                        }
-                                                        float f8122 = scale22 * (f29 / min4);
-                                                        if (this.sendPhotoType == 1) {
-                                                        }
-                                                        f30 = f8122;
-                                                        canvas.translate(this.cropTransform.getCropAreaX() * f7622, this.cropTransform.getCropAreaY() * f7622);
-                                                        canvas.scale(f30, f30);
-                                                        canvas.translate(this.cropTransform.getCropPx() * f7522 * min4 * f7622, this.cropTransform.getCropPy() * f25 * min4 * f7622);
-                                                        rotation = this.cropTransform.getRotation() + orientation;
-                                                        if (rotation > 180.0f) {
-                                                        }
-                                                        if (this.sendPhotoType != 1) {
-                                                        }
-                                                        canvas.rotate(rotation * f7622);
-                                                        f19 = f27;
-                                                        i11 = i5722;
-                                                        i12 = i5822;
-                                                    } else {
-                                                        z4 = z2;
-                                                        f17 = f3;
-                                                        f18 = f10;
-                                                        i11 = i49;
-                                                        i12 = i50;
-                                                        f19 = 1.0f;
-                                                    }
-                                                    if (this.currentEditMode == 3) {
-                                                        this.photoPaintView.setTransform(f17, f8, f18 + (this.containerView.adjustPanLayoutHelper.animationInProgress() ? (this.keyboardSize / 2.0f) + (this.currentPanTranslationY / 2.0f) : 0.0f), i11 * f19, i12 * f19);
-                                                    }
-                                                    if (z4) {
-                                                        if (!this.imagesArrLocals.isEmpty()) {
-                                                            if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
+                                                        if (z4) {
+                                                            if (this.imagesArrLocals.isEmpty()) {
+                                                                z6 = false;
+                                                            } else if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
                                                                 z6 = this.cropTransform.isMirrored();
                                                             } else {
                                                                 MediaController.CropState cropState4 = this.editState.cropState;
-                                                                if (cropState4 != null && cropState4.mirrored) {
-                                                                    z6 = true;
-                                                                }
+                                                                z6 = cropState4 != null && cropState4.mirrored;
                                                             }
-                                                            if (!z6) {
+                                                            if (z6) {
                                                                 canvas.save();
-                                                                f20 = 1.0f;
+                                                                f24 = 1.0f;
                                                                 canvas.scale(-1.0f, 1.0f);
-                                                                f21 = 0.0f;
+                                                                f25 = 0.0f;
                                                                 z7 = true;
                                                             } else {
-                                                                f20 = 1.0f;
-                                                                f21 = 0.0f;
+                                                                f24 = 1.0f;
+                                                                f25 = 0.0f;
                                                                 z7 = false;
                                                             }
-                                                            if (f7 > f21) {
+                                                            if (f10 > f25) {
                                                                 if (!z7) {
                                                                     canvas.save();
-                                                                    f22 = 2.0f;
+                                                                    f26 = 2.0f;
                                                                     z7 = true;
                                                                 } else {
-                                                                    f22 = 2.0f;
+                                                                    f26 = 2.0f;
                                                                 }
-                                                                canvas.scale(f20 - (f7 * f22), f20);
-                                                                canvas.skew(0.0f, f7 * 4.0f * (f20 - f7) * 0.25f);
+                                                                canvas.scale(f24 - (f10 * f26), f24);
+                                                                canvas.skew(0.0f, f10 * 4.0f * (f24 - f10) * 0.25f);
                                                             }
-                                                            photoViewerWebView = this.photoViewerWebView;
-                                                            if (photoViewerWebView != null || !photoViewerWebView.isLoaded()) {
+                                                            PhotoViewerWebView photoViewerWebView2 = this.photoViewerWebView;
+                                                            if (photoViewerWebView2 == null || !photoViewerWebView2.isLoaded()) {
                                                                 this.centerImage.draw(canvas);
                                                             }
                                                             if (z7) {
                                                                 canvas.restore();
                                                             }
                                                         }
-                                                        z6 = false;
-                                                        if (!z6) {
+                                                        if (f10 > 0.0f) {
+                                                            canvas.save();
+                                                            canvas.scale(1.0f - (f10 * 2.0f), 1.0f);
+                                                            canvas.skew(0.0f, f10 * 4.0f * (1.0f - f10) * 0.25f);
+                                                            i13 = i10;
+                                                            z5 = true;
+                                                        } else {
+                                                            i13 = i10;
+                                                            z5 = false;
                                                         }
-                                                        if (f7 > f21) {
-                                                        }
-                                                        photoViewerWebView = this.photoViewerWebView;
-                                                        if (photoViewerWebView != null) {
-                                                        }
-                                                        this.centerImage.draw(canvas);
-                                                        if (z7) {
-                                                        }
-                                                    }
-                                                    if (f7 > 0.0f) {
-                                                        canvas.save();
-                                                        canvas.scale(1.0f - (f7 * 2.0f), 1.0f);
-                                                        canvas.skew(0.0f, f7 * 4.0f * (1.0f - f7) * 0.25f);
-                                                        i13 = i9;
-                                                        z5 = true;
-                                                    } else {
-                                                        i13 = i9;
-                                                        z5 = false;
-                                                    }
-                                                    float f83 = (-i13) / 2;
-                                                    int i60 = i10;
-                                                    float f84 = (-i60) / 2;
-                                                    canvas.translate(f83, f84);
-                                                    if (!z || this.paintingOverlay.getVisibility() == 0) {
-                                                        canvas.scale(min4, min4);
-                                                    }
-                                                    if (z) {
-                                                        if (!this.videoCrossfadeStarted && this.textureUploaded && this.videoSizeSet) {
-                                                            this.videoCrossfadeStarted = true;
-                                                            this.videoCrossfadeAlpha = 0.0f;
-                                                            this.videoCrossfadeAlphaLastTime = System.currentTimeMillis();
-                                                            this.containerView.getMeasuredHeight();
-                                                        }
-                                                        this.videoTextureView.setAlpha(f74 * this.videoCrossfadeAlpha);
-                                                        TextureView textureView4 = this.videoTextureView;
-                                                        if (textureView4 instanceof VideoEditTextureView) {
-                                                            ((VideoEditTextureView) textureView4).setViewRect(((i8 - i13) / 2) + getAdditionX() + f16, ((i5 - i60) / 2) + getAdditionY() + f18 + this.currentPanTranslationY, i13, i60);
-                                                        }
-                                                        this.aspectRatioFrameLayout.draw(canvas);
-                                                        if (this.videoCrossfadeStarted) {
-                                                            float f85 = this.videoCrossfadeAlpha;
-                                                            if (f85 < 1.0f) {
-                                                                j2 = j;
-                                                                this.videoCrossfadeAlpha = f85 + (((float) j2) / (this.playerInjected ? 100.0f : 200.0f));
-                                                                this.containerView.invalidate();
-                                                                if (this.videoCrossfadeAlpha > 1.0f) {
-                                                                    this.videoCrossfadeAlpha = 1.0f;
-                                                                }
-                                                                f13 = f74;
-                                                                this.paintingOverlay.setAlpha(f13);
-                                                            }
-                                                        }
-                                                        j2 = j;
-                                                        f13 = f74;
-                                                        this.paintingOverlay.setAlpha(f13);
-                                                    } else {
-                                                        j2 = j;
-                                                        f13 = f74;
-                                                    }
-                                                    if (z5) {
-                                                        canvas.restore();
-                                                        canvas.translate(f83, f84);
-                                                        if (z || this.paintingOverlay.getVisibility() == 0) {
+                                                        float f84 = (-i13) / 2;
+                                                        int i62 = i9;
+                                                        float f85 = (-i62) / 2;
+                                                        canvas.translate(f84, f85);
+                                                        if (!z || this.paintingOverlay.getVisibility() == 0) {
                                                             canvas.scale(min4, min4);
                                                         }
+                                                        if (z) {
+                                                            if (!this.videoCrossfadeStarted && this.textureUploaded && this.videoSizeSet) {
+                                                                this.videoCrossfadeStarted = true;
+                                                                this.videoCrossfadeAlpha = 0.0f;
+                                                                this.videoCrossfadeAlphaLastTime = System.currentTimeMillis();
+                                                                this.containerView.getMeasuredHeight();
+                                                            }
+                                                            this.videoTextureView.setAlpha(this.videoCrossfadeAlpha * f20);
+                                                            TextureView textureView4 = this.videoTextureView;
+                                                            if (textureView4 instanceof VideoEditTextureView) {
+                                                                ((VideoEditTextureView) textureView4).setViewRect(((i8 - i13) / 2) + getAdditionX() + f18, ((i5 - i62) / 2) + getAdditionY() + f21 + this.currentPanTranslationY, i13, i62);
+                                                            }
+                                                            this.aspectRatioFrameLayout.draw(canvas);
+                                                            if (this.videoCrossfadeStarted) {
+                                                                float f86 = this.videoCrossfadeAlpha;
+                                                                if (f86 < 1.0f) {
+                                                                    j2 = j;
+                                                                    this.videoCrossfadeAlpha = f86 + (((float) j2) / (this.playerInjected ? 100.0f : 200.0f));
+                                                                    this.containerView.invalidate();
+                                                                    if (this.videoCrossfadeAlpha > 1.0f) {
+                                                                        this.videoCrossfadeAlpha = 1.0f;
+                                                                    }
+                                                                    f23 = f20;
+                                                                    this.paintingOverlay.setAlpha(f23);
+                                                                }
+                                                            }
+                                                            j2 = j;
+                                                            f23 = f20;
+                                                            this.paintingOverlay.setAlpha(f23);
+                                                        } else {
+                                                            f23 = f20;
+                                                            j2 = j;
+                                                        }
+                                                        if (z5) {
+                                                            canvas.restore();
+                                                            canvas.translate(f84, f85);
+                                                            if (z || this.paintingOverlay.getVisibility() == 0) {
+                                                                canvas.scale(min4, min4);
+                                                            }
+                                                        }
+                                                        if (this.paintingOverlay.getVisibility() == 0 && (this.isCurrentVideo || this.currentEditMode != 2 || this.switchingToMode != -1)) {
+                                                            canvas.clipRect(0, 0, this.paintingOverlay.getMeasuredWidth(), this.paintingOverlay.getMeasuredHeight());
+                                                            this.paintingOverlay.draw(canvas);
+                                                        }
+                                                        canvas.restore();
+                                                        i14 = 0;
+                                                        while (true) {
+                                                            gradientDrawableArr = this.pressedDrawable;
+                                                            if (i14 >= gradientDrawableArr.length) {
+                                                                break;
+                                                            }
+                                                            if (this.drawPressedDrawable[i14] || this.pressedDrawableAlpha[i14] != 0.0f) {
+                                                                gradientDrawableArr[i14].setAlpha((int) (this.pressedDrawableAlpha[i14] * 255.0f));
+                                                                if (i14 == 0) {
+                                                                    this.pressedDrawable[i14].setBounds(0, 0, this.containerView.getMeasuredWidth() / 5, this.containerView.getMeasuredHeight());
+                                                                } else {
+                                                                    this.pressedDrawable[i14].setBounds(this.containerView.getMeasuredWidth() - (this.containerView.getMeasuredWidth() / 5), 0, this.containerView.getMeasuredWidth(), this.containerView.getMeasuredHeight());
+                                                                }
+                                                                this.pressedDrawable[i14].draw(canvas);
+                                                            }
+                                                            if (this.drawPressedDrawable[i14]) {
+                                                                float[] fArr = this.pressedDrawableAlpha;
+                                                                if (fArr[i14] < 1.0f) {
+                                                                    fArr[i14] = fArr[i14] + (((float) j2) / 180.0f);
+                                                                    if (fArr[i14] > 1.0f) {
+                                                                        fArr[i14] = 1.0f;
+                                                                    }
+                                                                    this.containerView.invalidate();
+                                                                }
+                                                            } else {
+                                                                float[] fArr2 = this.pressedDrawableAlpha;
+                                                                if (fArr2[i14] > 0.0f) {
+                                                                    fArr2[i14] = fArr2[i14] - (((float) j2) / 180.0f);
+                                                                    if (fArr2[i14] < 0.0f) {
+                                                                        fArr2[i14] = 0.0f;
+                                                                    }
+                                                                    this.containerView.invalidate();
+                                                                    i14++;
+                                                                }
+                                                            }
+                                                            i14++;
+                                                        }
                                                     }
-                                                    if (this.paintingOverlay.getVisibility() == 0 && (this.isCurrentVideo || this.currentEditMode != 2 || this.switchingToMode != -1)) {
+                                                    z3 = true;
+                                                    if (z3) {
+                                                    }
+                                                    if (this.currentEditMode == 3) {
+                                                    }
+                                                    if (z4) {
+                                                    }
+                                                    if (f10 > 0.0f) {
+                                                    }
+                                                    float f842 = (-i13) / 2;
+                                                    int i622 = i9;
+                                                    float f852 = (-i622) / 2;
+                                                    canvas.translate(f842, f852);
+                                                    if (!z) {
+                                                    }
+                                                    canvas.scale(min4, min4);
+                                                    if (z) {
+                                                    }
+                                                    if (z5) {
+                                                    }
+                                                    if (this.paintingOverlay.getVisibility() == 0) {
                                                         canvas.clipRect(0, 0, this.paintingOverlay.getMeasuredWidth(), this.paintingOverlay.getMeasuredHeight());
                                                         this.paintingOverlay.draw(canvas);
                                                     }
@@ -19112,468 +19212,445 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                     while (true) {
                                                         gradientDrawableArr = this.pressedDrawable;
                                                         if (i14 >= gradientDrawableArr.length) {
-                                                            break;
-                                                        }
-                                                        if (this.drawPressedDrawable[i14] || this.pressedDrawableAlpha[i14] != 0.0f) {
-                                                            gradientDrawableArr[i14].setAlpha((int) (this.pressedDrawableAlpha[i14] * 255.0f));
-                                                            if (i14 == 0) {
-                                                                this.pressedDrawable[i14].setBounds(0, 0, this.containerView.getMeasuredWidth() / 5, this.containerView.getMeasuredHeight());
-                                                            } else {
-                                                                this.pressedDrawable[i14].setBounds(this.containerView.getMeasuredWidth() - (this.containerView.getMeasuredWidth() / 5), 0, this.containerView.getMeasuredWidth(), this.containerView.getMeasuredHeight());
-                                                            }
-                                                            this.pressedDrawable[i14].draw(canvas);
-                                                        }
-                                                        if (this.drawPressedDrawable[i14]) {
-                                                            float[] fArr = this.pressedDrawableAlpha;
-                                                            if (fArr[i14] < 1.0f) {
-                                                                fArr[i14] = fArr[i14] + (((float) j2) / 180.0f);
-                                                                if (fArr[i14] > 1.0f) {
-                                                                    fArr[i14] = 1.0f;
-                                                                }
-                                                                this.containerView.invalidate();
-                                                            }
-                                                        } else {
-                                                            float[] fArr2 = this.pressedDrawableAlpha;
-                                                            if (fArr2[i14] > 0.0f) {
-                                                                fArr2[i14] = fArr2[i14] - (((float) j2) / 180.0f);
-                                                                if (fArr2[i14] < 0.0f) {
-                                                                    fArr2[i14] = 0.0f;
-                                                                }
-                                                                this.containerView.invalidate();
-                                                                i14++;
-                                                            }
                                                         }
                                                         i14++;
                                                     }
                                                 } else {
-                                                    i9 = i51;
+                                                    f20 = f15;
+                                                    i9 = i55;
                                                 }
-                                            } else {
-                                                i9 = i51;
-                                                i10 = i52;
-                                            }
-                                            z3 = true;
-                                            if (z3) {
-                                            }
-                                            if (this.currentEditMode == 3) {
-                                            }
-                                            if (z4) {
-                                            }
-                                            if (f7 > 0.0f) {
-                                            }
-                                            float f832 = (-i13) / 2;
-                                            int i602 = i10;
-                                            float f842 = (-i602) / 2;
-                                            canvas.translate(f832, f842);
-                                            if (!z) {
-                                            }
-                                            canvas.scale(min4, min4);
-                                            if (z) {
-                                            }
-                                            if (z5) {
-                                            }
-                                            if (this.paintingOverlay.getVisibility() == 0) {
-                                                canvas.clipRect(0, 0, this.paintingOverlay.getMeasuredWidth(), this.paintingOverlay.getMeasuredHeight());
-                                                this.paintingOverlay.draw(canvas);
-                                            }
-                                            canvas.restore();
-                                            i14 = 0;
-                                            while (true) {
-                                                gradientDrawableArr = this.pressedDrawable;
-                                                if (i14 >= gradientDrawableArr.length) {
+                                                z3 = false;
+                                                if (z3) {
                                                 }
-                                                i14++;
+                                                if (this.currentEditMode == 3) {
+                                                }
+                                                if (z4) {
+                                                }
+                                                if (f10 > 0.0f) {
+                                                }
+                                                float f8422 = (-i13) / 2;
+                                                int i6222 = i9;
+                                                float f8522 = (-i6222) / 2;
+                                                canvas.translate(f8422, f8522);
+                                                if (!z) {
+                                                }
+                                                canvas.scale(min4, min4);
+                                                if (z) {
+                                                }
+                                                if (z5) {
+                                                }
+                                                if (this.paintingOverlay.getVisibility() == 0) {
+                                                }
+                                                canvas.restore();
+                                                i14 = 0;
+                                                while (true) {
+                                                    gradientDrawableArr = this.pressedDrawable;
+                                                    if (i14 >= gradientDrawableArr.length) {
+                                                    }
+                                                    i14++;
+                                                }
                                             }
-                                        } else {
-                                            i9 = i51;
-                                            i10 = i52;
-                                        }
-                                        z3 = false;
-                                        if (z3) {
-                                        }
-                                        if (this.currentEditMode == 3) {
-                                        }
-                                        if (z4) {
-                                        }
-                                        if (f7 > 0.0f) {
-                                        }
-                                        float f8322 = (-i13) / 2;
-                                        int i6022 = i10;
-                                        float f8422 = (-i6022) / 2;
-                                        canvas.translate(f8322, f8422);
-                                        if (!z) {
-                                        }
-                                        canvas.scale(min4, min4);
-                                        if (z) {
-                                        }
-                                        if (z5) {
-                                        }
-                                        if (this.paintingOverlay.getVisibility() == 0) {
-                                        }
-                                        canvas.restore();
-                                        i14 = 0;
-                                        while (true) {
-                                            gradientDrawableArr = this.pressedDrawable;
-                                            if (i14 >= gradientDrawableArr.length) {
-                                            }
-                                            i14++;
-                                        }
-                                    } else {
-                                        z2 = true;
-                                        if (!z) {
-                                        }
-                                        bitmapWidth = this.centerImage.getBitmapWidth();
-                                        bitmapHeight = this.centerImage.getBitmapHeight();
-                                        float f682 = i6;
-                                        float f692 = bitmapWidth;
-                                        float f702 = f682 / f692;
-                                        float f712 = i7;
-                                        float f722 = bitmapHeight;
-                                        int i492 = bitmapWidth;
-                                        float f732 = f712 / f722;
-                                        int i502 = bitmapHeight;
-                                        float min42 = Math.min(f702, f732);
-                                        int i512 = (int) (f692 * min42);
-                                        i5 = i7;
-                                        int i522 = (int) (f722 * min42);
-                                        i8 = i6;
-                                        float f742 = f13;
-                                        if (!this.imagesArrLocals.isEmpty()) {
-                                        }
-                                        z3 = false;
-                                        if (z3) {
-                                        }
-                                        if (this.currentEditMode == 3) {
-                                        }
-                                        if (z4) {
-                                        }
-                                        if (f7 > 0.0f) {
-                                        }
-                                        float f83222 = (-i13) / 2;
-                                        int i60222 = i10;
-                                        float f84222 = (-i60222) / 2;
-                                        canvas.translate(f83222, f84222);
-                                        if (!z) {
-                                        }
-                                        canvas.scale(min42, min42);
-                                        if (z) {
-                                        }
-                                        if (z5) {
-                                        }
-                                        if (this.paintingOverlay.getVisibility() == 0) {
-                                        }
-                                        canvas.restore();
-                                        i14 = 0;
-                                        while (true) {
-                                            gradientDrawableArr = this.pressedDrawable;
-                                            if (i14 >= gradientDrawableArr.length) {
-                                            }
-                                            i14++;
                                         }
                                     }
-                                }
-                            }
-                            i7 = i5;
-                            z2 = false;
-                            if (!z) {
-                            }
-                            bitmapWidth = this.centerImage.getBitmapWidth();
-                            bitmapHeight = this.centerImage.getBitmapHeight();
-                            float f6822 = i6;
-                            float f6922 = bitmapWidth;
-                            float f7022 = f6822 / f6922;
-                            float f7122 = i7;
-                            float f7222 = bitmapHeight;
-                            int i4922 = bitmapWidth;
-                            float f7322 = f7122 / f7222;
-                            int i5022 = bitmapHeight;
-                            float min422 = Math.min(f7022, f7322);
-                            int i5122 = (int) (f6922 * min422);
-                            i5 = i7;
-                            int i5222 = (int) (f7222 * min422);
-                            i8 = i6;
-                            float f7422 = f13;
-                            if (!this.imagesArrLocals.isEmpty()) {
-                            }
-                            z3 = false;
-                            if (z3) {
-                            }
-                            if (this.currentEditMode == 3) {
-                            }
-                            if (z4) {
-                            }
-                            if (f7 > 0.0f) {
-                            }
-                            float f832222 = (-i13) / 2;
-                            int i602222 = i10;
-                            float f842222 = (-i602222) / 2;
-                            canvas.translate(f832222, f842222);
-                            if (!z) {
-                            }
-                            canvas.scale(min422, min422);
-                            if (z) {
-                            }
-                            if (z5) {
-                            }
-                            if (this.paintingOverlay.getVisibility() == 0) {
-                            }
-                            canvas.restore();
-                            i14 = 0;
-                            while (true) {
-                                gradientDrawableArr = this.pressedDrawable;
-                                if (i14 >= gradientDrawableArr.length) {
-                                }
-                                i14++;
-                            }
-                        } else {
-                            i8 = i6;
-                            f16 = f11;
-                            f17 = f3;
-                            f18 = f10;
-                        }
-                        drawProgress(canvas, f16, f17, f18, f13);
-                        imageReceiver = this.sideImage;
-                        if (imageReceiver == this.leftImage) {
-                            if (imageReceiver.hasBitmapImage()) {
-                                canvas.save();
-                                canvas.translate(i8 / 2, i5 / 2);
-                                int i61 = i8;
-                                float f86 = i61;
-                                canvas.translate(((-(((this.scale + 1.0f) * f86) + AndroidUtilities.dp(30.0f))) / 2.0f) + f8, 0.0f);
-                                int bitmapWidth4 = this.sideImage.getBitmapWidth();
-                                int bitmapHeight4 = this.sideImage.getBitmapHeight();
-                                if (this.leftImageIsVideo || this.leftCropState == null || !this.leftCropTransform.hasViewTransform()) {
-                                    i24 = i61;
-                                    f32 = f13;
-                                    i25 = i5;
-                                    f34 = -1.0f;
-                                } else {
-                                    i24 = i61;
-                                    f34 = -1.0f;
-                                    f32 = f13;
-                                    i25 = i5;
-                                    applyCrop(canvas, i61, i5, bitmapWidth4, bitmapHeight4, f17, this.leftCropTransform, this.leftCropState);
-                                }
-                                float f87 = bitmapWidth4;
-                                float f88 = bitmapHeight4;
-                                float min5 = Math.min(f86 / f87, i25 / f88);
-                                int i62 = (int) (f87 * min5);
-                                int i63 = (int) (f88 * min5);
-                                if (!this.imagesArrLocals.isEmpty()) {
-                                    if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
-                                        z8 = this.leftCropTransform.isMirrored();
-                                    } else {
-                                        MediaController.CropState cropState5 = this.leftCropState;
-                                        if (cropState5 != null && cropState5.mirrored) {
-                                            z8 = true;
-                                        }
+                                    z2 = false;
+                                    if (!z) {
                                     }
-                                    if (!z8) {
-                                        f35 = 1.0f;
-                                        canvas.scale(f34, 1.0f);
-                                    } else {
-                                        f35 = 1.0f;
+                                    bitmapWidth = this.centerImage.getBitmapWidth();
+                                    bitmapHeight = this.centerImage.getBitmapHeight();
+                                    float f722 = i6;
+                                    float f732 = bitmapWidth;
+                                    float f742 = f722 / f732;
+                                    float f752 = i7;
+                                    float f762 = bitmapHeight;
+                                    float f772 = f752 / f762;
+                                    int i522 = bitmapWidth;
+                                    float min42 = Math.min(f742, f772);
+                                    int i532 = bitmapHeight;
+                                    int i542 = (int) (f732 * min42);
+                                    int i552 = (int) (f762 * min42);
+                                    i5 = i7;
+                                    i8 = i6;
+                                    if (!this.imagesArrLocals.isEmpty()) {
                                     }
-                                    this.sideImage.setAlpha(f35);
-                                    int i64 = (-i62) / 2;
-                                    int i65 = (-i63) / 2;
-                                    this.sideImage.setImageCoords(i64, i65, i62, i63);
-                                    this.sideImage.draw(canvas);
-                                    paintingOverlay = this.leftPaintingOverlay;
-                                    if (paintingOverlay == null && paintingOverlay.getVisibility() == 0) {
-                                        canvas.clipRect(i64, i65, i62 / 2, i63 / 2);
-                                        if (this.leftPaintingOverlay.getMeasuredWidth() != bitmapWidth4 || this.leftPaintingOverlay.getMeasuredHeight() != bitmapHeight4) {
-                                            this.leftPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(bitmapWidth4, 1073741824), View.MeasureSpec.makeMeasureSpec(bitmapHeight4, 1073741824));
-                                            this.leftPaintingOverlay.layout(0, 0, bitmapWidth4, bitmapHeight4);
-                                        }
-                                        canvas.scale(min5, min5);
-                                        canvas.translate((-bitmapWidth4) / 2, (-bitmapHeight4) / 2);
-                                        f33 = 1.0f;
-                                        this.leftPaintingOverlay.setAlpha(1.0f);
-                                        this.leftPaintingOverlay.draw(canvas);
-                                    } else {
-                                        f33 = 1.0f;
+                                    z3 = false;
+                                    if (z3) {
+                                    }
+                                    if (this.currentEditMode == 3) {
+                                    }
+                                    if (z4) {
+                                    }
+                                    if (f10 > 0.0f) {
+                                    }
+                                    float f84222 = (-i13) / 2;
+                                    int i62222 = i9;
+                                    float f85222 = (-i62222) / 2;
+                                    canvas.translate(f84222, f85222);
+                                    if (!z) {
+                                    }
+                                    canvas.scale(min42, min42);
+                                    if (z) {
+                                    }
+                                    if (z5) {
+                                    }
+                                    if (this.paintingOverlay.getVisibility() == 0) {
                                     }
                                     canvas.restore();
+                                    i14 = 0;
+                                    while (true) {
+                                        gradientDrawableArr = this.pressedDrawable;
+                                        if (i14 >= gradientDrawableArr.length) {
+                                        }
+                                        i14++;
+                                    }
+                                } else {
+                                    i8 = i6;
+                                    f18 = f13;
+                                    f19 = f12;
+                                    f21 = f5;
+                                    f23 = f15;
                                 }
-                                z8 = false;
-                                if (!z8) {
+                                drawProgress(canvas, f18, f9, f21, f23);
+                                imageReceiver = this.sideImage;
+                                if (imageReceiver != this.leftImage) {
+                                    if (imageReceiver.hasBitmapImage()) {
+                                        canvas.save();
+                                        canvas.translate(i8 / 2, i5 / 2);
+                                        i25 = i8;
+                                        float f87 = i25;
+                                        canvas.translate(((-(((this.scale + 1.0f) * f87) + AndroidUtilities.dp(30.0f))) / 2.0f) + f19, 0.0f);
+                                        int bitmapWidth4 = this.sideImage.getBitmapWidth();
+                                        int bitmapHeight4 = this.sideImage.getBitmapHeight();
+                                        if (this.leftImageIsVideo || this.leftCropState == null || !this.leftCropTransform.hasViewTransform()) {
+                                            f39 = f23;
+                                            i26 = i5;
+                                            i27 = bitmapHeight4;
+                                        } else {
+                                            i26 = i5;
+                                            f39 = f23;
+                                            i27 = bitmapHeight4;
+                                            applyCrop(canvas, i25, i5, bitmapWidth4, bitmapHeight4, f9, this.leftCropTransform, this.leftCropState);
+                                        }
+                                        float f88 = bitmapWidth4;
+                                        float f89 = i27;
+                                        float min5 = Math.min(f87 / f88, i26 / f89);
+                                        int i63 = (int) (f88 * min5);
+                                        int i64 = (int) (f89 * min5);
+                                        if (this.imagesArrLocals.isEmpty()) {
+                                            z8 = false;
+                                        } else if (this.currentEditMode == 1 || this.sendPhotoType == 1) {
+                                            z8 = this.leftCropTransform.isMirrored();
+                                        } else {
+                                            MediaController.CropState cropState5 = this.leftCropState;
+                                            z8 = cropState5 != null && cropState5.mirrored;
+                                        }
+                                        if (z8) {
+                                            f41 = 1.0f;
+                                            canvas.scale(-1.0f, 1.0f);
+                                        } else {
+                                            f41 = 1.0f;
+                                        }
+                                        this.sideImage.setAlpha(f41);
+                                        int i65 = (-i63) / 2;
+                                        int i66 = (-i64) / 2;
+                                        this.sideImage.setImageCoords(i65, i66, i63, i64);
+                                        this.sideImage.draw(canvas);
+                                        PaintingOverlay paintingOverlay2 = this.leftPaintingOverlay;
+                                        if (paintingOverlay2 == null || paintingOverlay2.getVisibility() != 0) {
+                                            f40 = 1.0f;
+                                        } else {
+                                            canvas.clipRect(i65, i66, i63 / 2, i64 / 2);
+                                            if (this.leftPaintingOverlay.getMeasuredWidth() != bitmapWidth4 || this.leftPaintingOverlay.getMeasuredHeight() != i27) {
+                                                this.leftPaintingOverlay.measure(View.MeasureSpec.makeMeasureSpec(bitmapWidth4, 1073741824), View.MeasureSpec.makeMeasureSpec(i27, 1073741824));
+                                                this.leftPaintingOverlay.layout(0, 0, bitmapWidth4, i27);
+                                            }
+                                            canvas.scale(min5, min5);
+                                            canvas.translate((-bitmapWidth4) / 2, (-i27) / 2);
+                                            f40 = 1.0f;
+                                            this.leftPaintingOverlay.setAlpha(1.0f);
+                                            this.leftPaintingOverlay.draw(canvas);
+                                        }
+                                        canvas.restore();
+                                    } else {
+                                        f39 = f23;
+                                        i25 = i8;
+                                        f40 = 1.0f;
+                                    }
+                                    this.groupedPhotosListView.setMoveProgress(f40 - f39);
+                                    canvas.save();
+                                    canvas.translate(f19, f21 / f9);
+                                    f38 = f21;
+                                    canvas.translate((-((i25 * (this.scale + f40)) + AndroidUtilities.dp(30.0f))) / 2.0f, (-f38) / f9);
+                                    this.photoProgressViews[2].setScale(1.0f);
+                                    this.photoProgressViews[2].setAlpha(1.0f);
+                                    this.photoProgressViews[2].onDraw(canvas);
+                                    if (this.isActionBarVisible) {
+                                        this.fullscreenButton[2].setAlpha(1.0f);
+                                    }
+                                    canvas.restore();
+                                } else {
+                                    f38 = f21;
+                                    if (this.isActionBarVisible) {
+                                        this.fullscreenButton[2].setAlpha(0.0f);
+                                    }
                                 }
-                                this.sideImage.setAlpha(f35);
-                                int i642 = (-i62) / 2;
-                                int i652 = (-i63) / 2;
-                                this.sideImage.setImageCoords(i642, i652, i62, i63);
-                                this.sideImage.draw(canvas);
-                                paintingOverlay = this.leftPaintingOverlay;
-                                if (paintingOverlay == null) {
+                                i24 = this.waitingForDraw;
+                                if (i24 != 0) {
+                                    int i67 = i24 - 1;
+                                    this.waitingForDraw = i67;
+                                    if (i67 == 0) {
+                                        if (this.textureImageView != null) {
+                                            try {
+                                                Bitmap createBitmap = Bitmaps.createBitmap(this.videoTextureView.getWidth(), this.videoTextureView.getHeight(), Bitmap.Config.ARGB_8888);
+                                                this.currentBitmap = createBitmap;
+                                                this.changedTextureView.getBitmap(createBitmap);
+                                                drawable = null;
+                                            } catch (Throwable th) {
+                                                Bitmap bitmap2 = this.currentBitmap;
+                                                if (bitmap2 != null) {
+                                                    bitmap2.recycle();
+                                                    drawable = null;
+                                                    this.currentBitmap = null;
+                                                } else {
+                                                    drawable = null;
+                                                }
+                                                FileLog.e(th);
+                                            }
+                                            if (this.currentBitmap != null) {
+                                                this.textureImageView.setVisibility(0);
+                                                this.textureImageView.setImageBitmap(this.currentBitmap);
+                                            } else {
+                                                this.textureImageView.setImageDrawable(drawable);
+                                            }
+                                        }
+                                        PipVideoOverlay.dismiss(true);
+                                    } else {
+                                        this.containerView.invalidate();
+                                    }
                                 }
-                                f33 = 1.0f;
-                                canvas.restore();
-                            } else {
-                                f32 = f13;
-                                i24 = i8;
-                                f33 = 1.0f;
+                                if (this.padImageForHorizontalInsets) {
+                                    canvas.restore();
+                                }
+                                if (this.aspectRatioFrameLayout == null || !this.videoForwardDrawable.isAnimating()) {
+                                    return;
+                                }
+                                int measuredHeight = ((int) (this.aspectRatioFrameLayout.getMeasuredHeight() * (this.scale - 1.0f))) / 2;
+                                int i68 = (int) (f38 / f9);
+                                this.videoForwardDrawable.setBounds(this.aspectRatioFrameLayout.getLeft(), (this.aspectRatioFrameLayout.getTop() - measuredHeight) + i68, this.aspectRatioFrameLayout.getRight(), this.aspectRatioFrameLayout.getBottom() + measuredHeight + i68);
+                                this.videoForwardDrawable.draw(canvas);
+                                return;
                             }
-                            this.groupedPhotosListView.setMoveProgress(f33 - f32);
-                            canvas.save();
-                            canvas.translate(f8, f18 / f17);
-                            f31 = f18;
-                            canvas.translate((-((i24 * (this.scale + f33)) + AndroidUtilities.dp(30.0f))) / 2.0f, (-f31) / f17);
-                            this.photoProgressViews[2].setScale(1.0f);
-                            this.photoProgressViews[2].setAlpha(1.0f);
-                            this.photoProgressViews[2].onDraw(canvas);
-                            if (this.isActionBarVisible) {
-                                this.fullscreenButton[2].setAlpha(1.0f);
-                            }
-                            canvas.restore();
                         } else {
-                            f31 = f18;
-                            if (this.isActionBarVisible) {
-                                this.fullscreenButton[2].setAlpha(0.0f);
+                            f12 = f8;
+                        }
+                        f13 = f12;
+                        f14 = 0.0f;
+                        f15 = 1.0f;
+                        if (!this.videoSizeSet) {
+                        }
+                        if (!this.centerImage.hasBitmapImage()) {
+                        }
+                        canvas.save();
+                        canvas.translate((i6 / 2) + getAdditionX(), (i5 / 2) + getAdditionY());
+                        canvas.translate(f13, (this.currentEditMode == 3 ? this.currentPanTranslationY : this.currentPanTranslationY / 2.0f) + f5);
+                        f16 = f9 - f14;
+                        canvas.scale(f16, f16);
+                        canvas.rotate(f11);
+                        if (this.currentEditMode == 3) {
+                            i34 = r15 == true ? 1 : 0;
+                            int i452 = r15 == true ? 1 : 0;
+                            int i462 = r15 == true ? 1 : 0;
+                            int i472 = r15 == true ? 1 : 0;
+                            int i482 = r15 == true ? 1 : 0;
+                            int i492 = r15 == true ? 1 : 0;
+                            if (getContainerViewHeight(true, i34) != getContainerViewHeight(r15, r15)) {
                             }
                         }
-                        i23 = this.waitingForDraw;
-                        if (i23 != 0) {
-                            int i66 = i23 - 1;
-                            this.waitingForDraw = i66;
-                            if (i66 == 0) {
-                                if (this.textureImageView != null) {
-                                    try {
-                                        Bitmap createBitmap = Bitmaps.createBitmap(this.videoTextureView.getWidth(), this.videoTextureView.getHeight(), Bitmap.Config.ARGB_8888);
-                                        this.currentBitmap = createBitmap;
-                                        this.changedTextureView.getBitmap(createBitmap);
-                                        drawable = null;
-                                    } catch (Throwable th) {
-                                        Bitmap bitmap2 = this.currentBitmap;
-                                        if (bitmap2 != null) {
-                                            bitmap2.recycle();
-                                            drawable = null;
-                                            this.currentBitmap = null;
-                                        } else {
-                                            drawable = null;
-                                        }
-                                        FileLog.e(th);
-                                    }
-                                    if (this.currentBitmap != null) {
-                                        this.textureImageView.setVisibility(0);
-                                        this.textureImageView.setImageBitmap(this.currentBitmap);
-                                    } else {
-                                        this.textureImageView.setImageDrawable(drawable);
-                                    }
-                                }
-                                PipVideoOverlay.dismiss(true);
-                            } else {
-                                this.containerView.invalidate();
+                        if (!this.pipAnimationInProgress) {
+                        }
+                        f17 = f16;
+                        f18 = f13;
+                        f19 = f12;
+                        i7 = i5;
+                        z2 = false;
+                        if (!z) {
+                        }
+                        bitmapWidth = this.centerImage.getBitmapWidth();
+                        bitmapHeight = this.centerImage.getBitmapHeight();
+                        float f7222 = i6;
+                        float f7322 = bitmapWidth;
+                        float f7422 = f7222 / f7322;
+                        float f7522 = i7;
+                        float f7622 = bitmapHeight;
+                        float f7722 = f7522 / f7622;
+                        int i5222 = bitmapWidth;
+                        float min422 = Math.min(f7422, f7722);
+                        int i5322 = bitmapHeight;
+                        int i5422 = (int) (f7322 * min422);
+                        int i5522 = (int) (f7622 * min422);
+                        i5 = i7;
+                        i8 = i6;
+                        if (!this.imagesArrLocals.isEmpty()) {
+                        }
+                        z3 = false;
+                        if (z3) {
+                        }
+                        if (this.currentEditMode == 3) {
+                        }
+                        if (z4) {
+                        }
+                        if (f10 > 0.0f) {
+                        }
+                        float f842222 = (-i13) / 2;
+                        int i622222 = i9;
+                        float f852222 = (-i622222) / 2;
+                        canvas.translate(f842222, f852222);
+                        if (!z) {
+                        }
+                        canvas.scale(min422, min422);
+                        if (z) {
+                        }
+                        if (z5) {
+                        }
+                        if (this.paintingOverlay.getVisibility() == 0) {
+                        }
+                        canvas.restore();
+                        i14 = 0;
+                        while (true) {
+                            gradientDrawableArr = this.pressedDrawable;
+                            if (i14 >= gradientDrawableArr.length) {
                             }
+                            i14++;
+                        }
+                        drawProgress(canvas, f18, f9, f21, f23);
+                        imageReceiver = this.sideImage;
+                        if (imageReceiver != this.leftImage) {
+                        }
+                        i24 = this.waitingForDraw;
+                        if (i24 != 0) {
                         }
                         if (this.padImageForHorizontalInsets) {
-                            canvas.restore();
                         }
-                        if (this.aspectRatioFrameLayout != null || !this.videoForwardDrawable.isAnimating()) {
+                        if (this.aspectRatioFrameLayout == null) {
                             return;
                         }
-                        int measuredHeight = ((int) (this.aspectRatioFrameLayout.getMeasuredHeight() * (this.scale - 1.0f))) / 2;
-                        int i67 = (int) (f31 / f17);
-                        this.videoForwardDrawable.setBounds(this.aspectRatioFrameLayout.getLeft(), (this.aspectRatioFrameLayout.getTop() - measuredHeight) + i67, this.aspectRatioFrameLayout.getRight(), this.aspectRatioFrameLayout.getBottom() + measuredHeight + i67);
-                        this.videoForwardDrawable.draw(canvas);
                         return;
                     }
-                }
-                f11 = f8;
-                f12 = 0.0f;
-                f13 = 1.0f;
-                if (!this.videoSizeSet) {
-                }
-                if (!this.centerImage.hasBitmapImage()) {
-                }
-                canvas.save();
-                canvas.translate((i6 / 2) + getAdditionX(), (i5 / 2) + getAdditionY());
-                canvas.translate(f11, (this.currentEditMode != 3 ? this.currentPanTranslationY : this.currentPanTranslationY / 2.0f) + f10);
-                f14 = f3 - f12;
-                canvas.scale(f14, f14);
-                canvas.rotate(f9);
-                if (this.currentEditMode == 3) {
-                    i31 = r14 == true ? 1 : 0;
-                    int i422 = r14 == true ? 1 : 0;
-                    int i432 = r14 == true ? 1 : 0;
-                    int i442 = r14 == true ? 1 : 0;
-                    int i452 = r14 == true ? 1 : 0;
-                    int i462 = r14 == true ? 1 : 0;
-                    if (getContainerViewHeight(true, i31) != getContainerViewHeight(r14, r14)) {
+                    int containerViewWidth2 = getContainerViewWidth();
+                    int containerViewHeight32 = getContainerViewHeight();
+                    i2 = this.animationInProgress;
+                    if (i2 == 2) {
+                    }
+                    if (i2 == 4) {
+                    }
+                    this.sideImage = null;
+                    if (this.currentEditMode == 0) {
+                        if (this.scale >= 1.0f) {
+                            if (f6 <= this.maxX + AndroidUtilities.dp(5.0f)) {
+                            }
+                        }
+                        this.changingPage = this.sideImage == null;
+                    }
+                    i4 = 0;
+                    while (i4 < i3) {
+                    }
+                    if (this.sideImage == this.rightImage) {
+                    }
+                    if (!this.zoomAnimation) {
+                    }
+                    f13 = f12;
+                    f14 = 0.0f;
+                    f15 = 1.0f;
+                    if (!this.videoSizeSet) {
+                    }
+                    if (!this.centerImage.hasBitmapImage()) {
+                    }
+                    canvas.save();
+                    canvas.translate((i6 / 2) + getAdditionX(), (i5 / 2) + getAdditionY());
+                    canvas.translate(f13, (this.currentEditMode == 3 ? this.currentPanTranslationY : this.currentPanTranslationY / 2.0f) + f5);
+                    f16 = f9 - f14;
+                    canvas.scale(f16, f16);
+                    canvas.rotate(f11);
+                    if (this.currentEditMode == 3) {
+                    }
+                    if (!this.pipAnimationInProgress) {
+                    }
+                    f17 = f16;
+                    f18 = f13;
+                    f19 = f12;
+                    i7 = i5;
+                    z2 = false;
+                    if (!z) {
+                    }
+                    bitmapWidth = this.centerImage.getBitmapWidth();
+                    bitmapHeight = this.centerImage.getBitmapHeight();
+                    float f72222 = i6;
+                    float f73222 = bitmapWidth;
+                    float f74222 = f72222 / f73222;
+                    float f75222 = i7;
+                    float f76222 = bitmapHeight;
+                    float f77222 = f75222 / f76222;
+                    int i52222 = bitmapWidth;
+                    float min4222 = Math.min(f74222, f77222);
+                    int i53222 = bitmapHeight;
+                    int i54222 = (int) (f73222 * min4222);
+                    int i55222 = (int) (f76222 * min4222);
+                    i5 = i7;
+                    i8 = i6;
+                    if (!this.imagesArrLocals.isEmpty()) {
+                    }
+                    z3 = false;
+                    if (z3) {
+                    }
+                    if (this.currentEditMode == 3) {
+                    }
+                    if (z4) {
+                    }
+                    if (f10 > 0.0f) {
+                    }
+                    float f8422222 = (-i13) / 2;
+                    int i6222222 = i9;
+                    float f8522222 = (-i6222222) / 2;
+                    canvas.translate(f8422222, f8522222);
+                    if (!z) {
+                    }
+                    canvas.scale(min4222, min4222);
+                    if (z) {
+                    }
+                    if (z5) {
+                    }
+                    if (this.paintingOverlay.getVisibility() == 0) {
+                    }
+                    canvas.restore();
+                    i14 = 0;
+                    while (true) {
+                        gradientDrawableArr = this.pressedDrawable;
+                        if (i14 >= gradientDrawableArr.length) {
+                        }
+                        i14++;
+                    }
+                    drawProgress(canvas, f18, f9, f21, f23);
+                    imageReceiver = this.sideImage;
+                    if (imageReceiver != this.leftImage) {
+                    }
+                    i24 = this.waitingForDraw;
+                    if (i24 != 0) {
+                    }
+                    if (this.padImageForHorizontalInsets) {
+                    }
+                    if (this.aspectRatioFrameLayout == null) {
                     }
                 }
-                if (!this.pipAnimationInProgress) {
-                }
-                f15 = f14;
-                f16 = f11;
-                i7 = i5;
-                z2 = false;
-                if (!z) {
-                }
-                bitmapWidth = this.centerImage.getBitmapWidth();
-                bitmapHeight = this.centerImage.getBitmapHeight();
-                float f68222 = i6;
-                float f69222 = bitmapWidth;
-                float f70222 = f68222 / f69222;
-                float f71222 = i7;
-                float f72222 = bitmapHeight;
-                int i49222 = bitmapWidth;
-                float f73222 = f71222 / f72222;
-                int i50222 = bitmapHeight;
-                float min4222 = Math.min(f70222, f73222);
-                int i51222 = (int) (f69222 * min4222);
-                i5 = i7;
-                int i52222 = (int) (f72222 * min4222);
-                i8 = i6;
-                float f74222 = f13;
-                if (!this.imagesArrLocals.isEmpty()) {
-                }
-                z3 = false;
-                if (z3) {
-                }
-                if (this.currentEditMode == 3) {
-                }
-                if (z4) {
-                }
-                if (f7 > 0.0f) {
-                }
-                float f8322222 = (-i13) / 2;
-                int i6022222 = i10;
-                float f8422222 = (-i6022222) / 2;
-                canvas.translate(f8322222, f8422222);
-                if (!z) {
-                }
-                canvas.scale(min4222, min4222);
-                if (z) {
-                }
-                if (z5) {
-                }
-                if (this.paintingOverlay.getVisibility() == 0) {
-                }
-                canvas.restore();
-                i14 = 0;
-                while (true) {
-                    gradientDrawableArr = this.pressedDrawable;
-                    if (i14 >= gradientDrawableArr.length) {
-                    }
-                    i14++;
-                }
-                drawProgress(canvas, f16, f17, f18, f13);
-                imageReceiver = this.sideImage;
-                if (imageReceiver == this.leftImage) {
-                }
-                i23 = this.waitingForDraw;
-                if (i23 != 0) {
-                }
-                if (this.padImageForHorizontalInsets) {
-                }
-                if (this.aspectRatioFrameLayout != null) {
-                    return;
-                }
-                return;
             }
-            int containerViewWidth2 = getContainerViewWidth();
-            int containerViewHeight32 = getContainerViewHeight();
+            f6 = f3;
+            float f632 = f2;
+            float f642 = f;
+            photoViewerWebView = this.photoViewerWebView;
+            if (photoViewerWebView != null) {
+            }
+            if (this.isActionBarVisible) {
+            }
+            int containerViewWidth22 = getContainerViewWidth();
+            int containerViewHeight322 = getContainerViewHeight();
             i2 = this.animationInProgress;
             if (i2 == 2) {
             }
@@ -19581,58 +19658,53 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             this.sideImage = null;
             if (this.currentEditMode == 0) {
-                if (this.scale >= 1.0f) {
-                    if (f4 <= this.maxX + AndroidUtilities.dp(5.0f)) {
-                    }
-                }
-                this.changingPage = this.sideImage == null;
             }
             i4 = 0;
             while (i4 < i3) {
             }
-            if (this.sideImage != this.rightImage) {
+            if (this.sideImage == this.rightImage) {
             }
             if (!this.zoomAnimation) {
             }
-            f11 = f8;
-            f12 = 0.0f;
-            f13 = 1.0f;
+            f13 = f12;
+            f14 = 0.0f;
+            f15 = 1.0f;
             if (!this.videoSizeSet) {
             }
             if (!this.centerImage.hasBitmapImage()) {
             }
             canvas.save();
             canvas.translate((i6 / 2) + getAdditionX(), (i5 / 2) + getAdditionY());
-            canvas.translate(f11, (this.currentEditMode != 3 ? this.currentPanTranslationY : this.currentPanTranslationY / 2.0f) + f10);
-            f14 = f3 - f12;
-            canvas.scale(f14, f14);
-            canvas.rotate(f9);
+            canvas.translate(f13, (this.currentEditMode == 3 ? this.currentPanTranslationY : this.currentPanTranslationY / 2.0f) + f5);
+            f16 = f9 - f14;
+            canvas.scale(f16, f16);
+            canvas.rotate(f11);
             if (this.currentEditMode == 3) {
             }
             if (!this.pipAnimationInProgress) {
             }
-            f15 = f14;
-            f16 = f11;
+            f17 = f16;
+            f18 = f13;
+            f19 = f12;
             i7 = i5;
             z2 = false;
             if (!z) {
             }
             bitmapWidth = this.centerImage.getBitmapWidth();
             bitmapHeight = this.centerImage.getBitmapHeight();
-            float f682222 = i6;
-            float f692222 = bitmapWidth;
-            float f702222 = f682222 / f692222;
-            float f712222 = i7;
-            float f722222 = bitmapHeight;
-            int i492222 = bitmapWidth;
-            float f732222 = f712222 / f722222;
-            int i502222 = bitmapHeight;
-            float min42222 = Math.min(f702222, f732222);
-            int i512222 = (int) (f692222 * min42222);
+            float f722222 = i6;
+            float f732222 = bitmapWidth;
+            float f742222 = f722222 / f732222;
+            float f752222 = i7;
+            float f762222 = bitmapHeight;
+            float f772222 = f752222 / f762222;
+            int i522222 = bitmapWidth;
+            float min42222 = Math.min(f742222, f772222);
+            int i532222 = bitmapHeight;
+            int i542222 = (int) (f732222 * min42222);
+            int i552222 = (int) (f762222 * min42222);
             i5 = i7;
-            int i522222 = (int) (f722222 * min42222);
             i8 = i6;
-            float f742222 = f13;
             if (!this.imagesArrLocals.isEmpty()) {
             }
             z3 = false;
@@ -19642,12 +19714,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             if (z4) {
             }
-            if (f7 > 0.0f) {
+            if (f10 > 0.0f) {
             }
-            float f83222222 = (-i13) / 2;
-            int i60222222 = i10;
-            float f84222222 = (-i60222222) / 2;
-            canvas.translate(f83222222, f84222222);
+            float f84222222 = (-i13) / 2;
+            int i62222222 = i9;
+            float f85222222 = (-i62222222) / 2;
+            canvas.translate(f84222222, f85222222);
             if (!z) {
             }
             canvas.scale(min42222, min42222);
@@ -19665,16 +19737,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 i14++;
             }
-            drawProgress(canvas, f16, f17, f18, f13);
+            drawProgress(canvas, f18, f9, f21, f23);
             imageReceiver = this.sideImage;
-            if (imageReceiver == this.leftImage) {
+            if (imageReceiver != this.leftImage) {
             }
-            i23 = this.waitingForDraw;
-            if (i23 != 0) {
+            i24 = this.waitingForDraw;
+            if (i24 != 0) {
             }
             if (this.padImageForHorizontalInsets) {
             }
-            if (this.aspectRatioFrameLayout != null) {
+            if (this.aspectRatioFrameLayout == null) {
             }
         }
     }

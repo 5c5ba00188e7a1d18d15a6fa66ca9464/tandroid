@@ -40,7 +40,6 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox;
 import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.NotificationsSettingsActivity;
 /* loaded from: classes3.dex */
 public class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -63,6 +62,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private int lastStatus;
     private SimpleTextView nameTextView;
     private boolean needDivider;
+    private Drawable premiumDrawable;
     private Theme.ResourcesProvider resourcesProvider;
     private boolean selfAsSavedMessages;
     private int statusColor;
@@ -400,7 +400,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:155:0x010a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:158:0x010a, code lost:
         if (r7.equals("groups") == false) goto L44;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -628,7 +628,21 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     this.emojiStatus.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground", this.resourcesProvider)));
                     this.nameTextView.setRightDrawable(this.emojiStatus);
                 } else {
-                    this.nameTextView.setRightDrawable(PremiumGradient.getInstance().premiumStarDrawableMini);
+                    if (this.premiumDrawable == null) {
+                        this.premiumDrawable = getContext().getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
+                        AnimatedEmojiDrawable.WrapSizeDrawable wrapSizeDrawable = new AnimatedEmojiDrawable.WrapSizeDrawable(this, this.premiumDrawable, AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f)) { // from class: org.telegram.ui.Cells.UserCell.1
+                            @Override // org.telegram.ui.Components.AnimatedEmojiDrawable.WrapSizeDrawable, android.graphics.drawable.Drawable
+                            public void draw(Canvas canvas) {
+                                canvas.save();
+                                canvas.translate(0.0f, AndroidUtilities.dp(1.0f));
+                                super.draw(canvas);
+                                canvas.restore();
+                            }
+                        };
+                        this.premiumDrawable = wrapSizeDrawable;
+                        wrapSizeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_verifiedBackground", this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+                    }
+                    this.nameTextView.setRightDrawable(this.premiumDrawable);
                 }
             }
             this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));

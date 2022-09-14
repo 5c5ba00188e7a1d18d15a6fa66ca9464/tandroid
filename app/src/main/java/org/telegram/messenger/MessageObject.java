@@ -430,6 +430,7 @@ public class MessageObject {
     public boolean wasJustSent;
     public boolean wasUnread;
     public ArrayList<TLRPC$MessageEntity> webPageDescriptionEntities;
+    public CharSequence youtubeDescription;
 
     /* loaded from: classes.dex */
     public static class SendAnimationData {
@@ -5253,7 +5254,7 @@ public class MessageObject {
         try {
             if (i == 3 || i == 4) {
                 if (videoTimeUrlPattern == null) {
-                    videoTimeUrlPattern = Pattern.compile("\\b(?:(\\d{1,2}):)?(\\d{1,3}):([0-5][0-9])\\b([^\\n]*)");
+                    videoTimeUrlPattern = Pattern.compile("\\b(?:(\\d{1,2}):)?(\\d{1,3}):([0-5][0-9])\\b(?: - |)([^\\n]*)");
                 }
                 matcher = videoTimeUrlPattern.matcher(charSequence);
             } else if (i == 1) {

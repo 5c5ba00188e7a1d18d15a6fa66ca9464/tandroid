@@ -446,13 +446,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         private int selectedType;
         private SwipeController swipeController;
 
-        static /* synthetic */ int access$11208(ViewPage viewPage) {
+        static /* synthetic */ int access$11308(ViewPage viewPage) {
             int i = viewPage.lastItemsCount;
             viewPage.lastItemsCount = i + 1;
             return i;
         }
 
-        static /* synthetic */ int access$11210(ViewPage viewPage) {
+        static /* synthetic */ int access$11310(ViewPage viewPage) {
             int i = viewPage.lastItemsCount;
             viewPage.lastItemsCount = i - 1;
             return i;
@@ -476,6 +476,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         private int startedTrackingX;
         private int startedTrackingY;
         private VelocityTracker velocityTracker;
+        private boolean wasPortrait;
         private Paint actionBarSearchPaint = new Paint(1);
         private Paint windowBackgroundPaint = new Paint();
         private int[] pos = new int[2];
@@ -790,6 +791,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         protected void onMeasure(int i, int i2) {
             int size = View.MeasureSpec.getSize(i);
             int size2 = View.MeasureSpec.getSize(i2);
+            boolean z = size2 > size;
             setMeasuredDimension(size, size2);
             int paddingTop = size2 - getPaddingTop();
             if (DialogsActivity.this.doneItem != null) {
@@ -831,43 +833,62 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (childAt != null && childAt.getVisibility() != 8 && childAt != DialogsActivity.this.commentView && childAt != ((BaseFragment) DialogsActivity.this).actionBar) {
                     if (childAt instanceof DatabaseMigrationHint) {
                         childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), (((View.MeasureSpec.getSize(i2) + measureKeyboardHeight) - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight()), 1073741824));
-                    } else if (!(childAt instanceof ViewPage)) {
-                        if (childAt == DialogsActivity.this.searchViewPager) {
-                            DialogsActivity.this.searchViewPager.setTranslationY(0.0f);
-                            childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), ((((View.MeasureSpec.getSize(i2) + measureKeyboardHeight) - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - (DialogsActivity.this.onlySelect ? 0 : ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight())) - DialogsActivity.this.topPadding) - (DialogsActivity.this.searchTabsView == null ? 0 : AndroidUtilities.dp(44.0f)), 1073741824));
-                            childAt.setPivotX(childAt.getMeasuredWidth() / 2);
-                        } else if (DialogsActivity.this.commentView != null && DialogsActivity.this.commentView.isPopupView(childAt)) {
-                            if (AndroidUtilities.isInMultiwindow) {
-                                if (AndroidUtilities.isTablet()) {
-                                    childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(320.0f), ((paddingTop - this.inputFieldHeight) - AndroidUtilities.statusBarHeight) + getPaddingTop()), 1073741824));
+                    } else {
+                        if (!(childAt instanceof ViewPage)) {
+                            if (childAt == DialogsActivity.this.searchViewPager) {
+                                DialogsActivity.this.searchViewPager.setTranslationY(0.0f);
+                                childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), ((((View.MeasureSpec.getSize(i2) + measureKeyboardHeight) - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - (DialogsActivity.this.onlySelect ? 0 : ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight())) - DialogsActivity.this.topPadding) - (DialogsActivity.this.searchTabsView == null ? 0 : AndroidUtilities.dp(44.0f)), 1073741824));
+                                childAt.setPivotX(childAt.getMeasuredWidth() / 2);
+                            } else if (DialogsActivity.this.commentView != null && DialogsActivity.this.commentView.isPopupView(childAt)) {
+                                if (AndroidUtilities.isInMultiwindow) {
+                                    if (AndroidUtilities.isTablet()) {
+                                        childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(AndroidUtilities.dp(320.0f), ((paddingTop - this.inputFieldHeight) - AndroidUtilities.statusBarHeight) + getPaddingTop()), 1073741824));
+                                    } else {
+                                        childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(((paddingTop - this.inputFieldHeight) - AndroidUtilities.statusBarHeight) + getPaddingTop(), 1073741824));
+                                    }
                                 } else {
-                                    childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(((paddingTop - this.inputFieldHeight) - AndroidUtilities.statusBarHeight) + getPaddingTop(), 1073741824));
+                                    childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
                                 }
                             } else {
-                                childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
+                                measureChildWithMargins(childAt, i, 0, i2, 0);
                             }
                         } else {
-                            measureChildWithMargins(childAt, i, 0, i2, 0);
+                            int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
+                            int dp = (DialogsActivity.this.filterTabsView == null || DialogsActivity.this.filterTabsView.getVisibility() != 0) ? (((paddingTop - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - (DialogsActivity.this.onlySelect ? 0 : ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight())) - DialogsActivity.this.topPadding : (((paddingTop - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - AndroidUtilities.dp(44.0f)) - DialogsActivity.this.topPadding;
+                            if (DialogsActivity.this.filtersTabAnimator != null && DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0) {
+                                dp = (int) (dp + DialogsActivity.this.filterTabsMoveFrom);
+                            } else {
+                                childAt.setTranslationY(f);
+                            }
+                            DialogsActivity dialogsActivity = DialogsActivity.this;
+                            int i5 = (dialogsActivity.isSlideBackTransition || dialogsActivity.isDrawerTransition) ? (int) (dp * 0.05f) : 0;
+                            childAt.setPadding(childAt.getPaddingLeft(), childAt.getPaddingTop(), childAt.getPaddingRight(), i5);
+                            childAt.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), dp + i5), 1073741824));
+                            childAt.setPivotX(childAt.getMeasuredWidth() / 2);
                         }
                         i4++;
                         f = 0.0f;
-                    } else {
-                        int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
-                        int dp = (DialogsActivity.this.filterTabsView == null || DialogsActivity.this.filterTabsView.getVisibility() != 0) ? (((paddingTop - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - (DialogsActivity.this.onlySelect ? 0 : ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight())) - DialogsActivity.this.topPadding : (((paddingTop - this.inputFieldHeight) + AndroidUtilities.dp(2.0f)) - AndroidUtilities.dp(44.0f)) - DialogsActivity.this.topPadding;
-                        if (DialogsActivity.this.filtersTabAnimator != null && DialogsActivity.this.filterTabsView != null && DialogsActivity.this.filterTabsView.getVisibility() == 0) {
-                            dp = (int) (dp + DialogsActivity.this.filterTabsMoveFrom);
-                        } else {
-                            childAt.setTranslationY(f);
-                        }
-                        DialogsActivity dialogsActivity = DialogsActivity.this;
-                        int i5 = (dialogsActivity.isSlideBackTransition || dialogsActivity.isDrawerTransition) ? (int) (dp * 0.05f) : 0;
-                        childAt.setPadding(childAt.getPaddingLeft(), childAt.getPaddingTop(), childAt.getPaddingRight(), i5);
-                        childAt.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(Math.max(AndroidUtilities.dp(10.0f), dp + i5), 1073741824));
-                        childAt.setPivotX(childAt.getMeasuredWidth() / 2);
                     }
                 }
                 i4++;
                 f = 0.0f;
+            }
+            if (z != this.wasPortrait) {
+                post(new Runnable() { // from class: org.telegram.ui.DialogsActivity$ContentView$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DialogsActivity.ContentView.this.lambda$onMeasure$0();
+                    }
+                });
+                this.wasPortrait = z;
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onMeasure$0() {
+            if (DialogsActivity.this.selectAnimatedEmojiDialog != null) {
+                DialogsActivity.this.selectAnimatedEmojiDialog.dismiss();
+                DialogsActivity.this.selectAnimatedEmojiDialog = null;
             }
         }
 
@@ -1101,10 +1122,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0));
                             DialogsActivity.this.filterTabsView.shakeLock(DialogsActivity.this.viewPages[1].selectedType);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$ContentView$$ExternalSyntheticLambda0
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$ContentView$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    DialogsActivity.ContentView.this.lambda$onTouchEvent$0();
+                                    DialogsActivity.ContentView.this.lambda$onTouchEvent$1();
                                 }
                             }, 200L);
                             return false;
@@ -1224,7 +1245,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onTouchEvent$0() {
+        public /* synthetic */ void lambda$onTouchEvent$1() {
             DialogsActivity.this.showDialog(new LimitReachedBottomSheet(DialogsActivity.this, getContext(), 3, ((BaseFragment) DialogsActivity.this).currentAccount));
         }
 
@@ -1813,7 +1834,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 int addDialogToFolder = DialogsActivity.this.getMessagesController().addDialogToFolder(tLRPC$Dialog.id, DialogsActivity.this.folderId == 0 ? 1 : 0, -1, 0L);
                 if (addDialogToFolder != 2 || i2 != 0) {
                     this.parentPage.dialogsItemAnimator.prepareForRemove();
-                    ViewPage.access$11210(this.parentPage);
+                    ViewPage.access$11310(this.parentPage);
                     this.parentPage.dialogsAdapter.notifyItemRemoved(i2);
                     DialogsActivity.this.dialogRemoveFinished = 2;
                 }
@@ -1825,7 +1846,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             DialogsActivity.this.setDialogsListFrozen(true);
                             this.parentPage.dialogsAdapter.notifyItemChanged(0);
                         } else {
-                            ViewPage.access$11208(this.parentPage);
+                            ViewPage.access$11308(this.parentPage);
                             this.parentPage.dialogsAdapter.notifyItemInserted(0);
                             if (!SharedConfig.archiveHidden && this.parentPage.layoutManager.findFirstVisibleItemPosition() == 0) {
                                 DialogsActivity.this.disableActionBarScrolling = true;
@@ -1865,7 +1886,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             DialogsActivity.this.getMessagesController().hidePromoDialog();
             this.parentPage.dialogsItemAnimator.prepareForRemove();
-            ViewPage.access$11210(this.parentPage);
+            ViewPage.access$11310(this.parentPage);
             this.parentPage.dialogsAdapter.notifyItemRemoved(i2);
             DialogsActivity.this.dialogRemoveFinished = 2;
         }
@@ -1886,7 +1907,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 DialogsActivity.this.dialogInsertFinished = 2;
                 DialogsActivity.this.setDialogsListFrozen(true);
                 this.parentPage.dialogsItemAnimator.prepareForRemove();
-                ViewPage.access$11208(this.parentPage);
+                ViewPage.access$11308(this.parentPage);
                 this.parentPage.dialogsAdapter.notifyItemInserted(indexOf);
             }
             if (!dialogs2.isEmpty()) {
@@ -1901,7 +1922,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             DialogsActivity.this.frozenDialogsList.remove(0);
             this.parentPage.dialogsItemAnimator.prepareForRemove();
-            ViewPage.access$11210(this.parentPage);
+            ViewPage.access$11310(this.parentPage);
             this.parentPage.dialogsAdapter.notifyItemRemoved(0);
         }
 
@@ -2056,9 +2077,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         accountInstance.getDownloadController().loadDownloadingFiles();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00cc  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x00d7  */
-    /* JADX WARN: Removed duplicated region for block: B:23:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00db  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:28:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2068,6 +2089,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (this.statusDrawable == null || this.actionBar == null) {
             return;
         }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = null;
         if (tLRPC$User != null) {
             TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
             if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
@@ -2078,6 +2100,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         DialogsActivity.this.lambda$updateStatus$2(view);
                     }
                 });
+                SelectAnimatedEmojiDialog.preload(this.currentAccount);
                 this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("profile_verifiedBackground")));
                 animatedStatusView = this.animatedStatusView;
                 if (animatedStatusView != null) {
@@ -2087,7 +2110,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (selectAnimatedEmojiDialogWindow != null || !(selectAnimatedEmojiDialogWindow.getContentView() instanceof SelectAnimatedEmojiDialog)) {
                     return;
                 }
-                ((SelectAnimatedEmojiDialog) this.selectAnimatedEmojiDialog.getContentView()).setScrimDrawable(this.statusDrawable, this.actionBar.getTitleTextView());
+                SimpleTextView titleTextView = this.actionBar.getTitleTextView();
+                SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = (SelectAnimatedEmojiDialog) this.selectAnimatedEmojiDialog.getContentView();
+                if (titleTextView != null) {
+                    Drawable rightDrawable = titleTextView.getRightDrawable();
+                    AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.statusDrawable;
+                    if (rightDrawable == swapAnimatedEmojiDrawable2) {
+                        swapAnimatedEmojiDrawable = swapAnimatedEmojiDrawable2;
+                    }
+                }
+                selectAnimatedEmojiDialog.setScrimDrawable(swapAnimatedEmojiDrawable, titleTextView);
                 return;
             }
         }
@@ -2101,6 +2133,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         DialogsActivity.this.lambda$updateStatus$3(view);
                     }
                 });
+                SelectAnimatedEmojiDialog.preload(this.currentAccount);
                 this.statusDrawable.setColor(Integer.valueOf(Theme.getColor("profile_verifiedBackground")));
                 animatedStatusView = this.animatedStatusView;
                 if (animatedStatusView != null) {
@@ -2133,6 +2166,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     DialogsActivity.this.lambda$updateStatus$4(view);
                 }
             });
+            SelectAnimatedEmojiDialog.preload(this.currentAccount);
         } else {
             this.statusDrawable.set((Drawable) null, z);
             this.actionBar.setRightDrawableOnClick(null);
@@ -2243,6 +2277,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return super.drawChild(canvas, view, j);
                 }
                 return false;
+            }
+
+            @Override // org.telegram.ui.ActionBar.ActionBar
+            public void setTitleOverlayText(String str, int i, Runnable runnable) {
+                super.setTitleOverlayText(str, i, runnable);
+                if (DialogsActivity.this.selectAnimatedEmojiDialog == null || !(DialogsActivity.this.selectAnimatedEmojiDialog.getContentView() instanceof SelectAnimatedEmojiDialog)) {
+                    return;
+                }
+                SimpleTextView titleTextView = getTitleTextView();
+                ((SelectAnimatedEmojiDialog) DialogsActivity.this.selectAnimatedEmojiDialog.getContentView()).setScrimDrawable((titleTextView == null || titleTextView.getRightDrawable() != DialogsActivity.this.statusDrawable) ? null : DialogsActivity.this.statusDrawable, titleTextView);
             }
         };
         actionBar.setItemsBackgroundColor(Theme.getColor("actionBarDefaultSelector"), false);
@@ -5964,8 +6008,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public void setSearchAnimationProgress(float f) {
         this.searchAnimationProgress = f;
         if (this.whiteActionBar) {
-            this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor(this.folderId != 0 ? "actionBarDefaultArchivedIcon" : "actionBarDefaultIcon"), Theme.getColor("windowBackgroundWhiteGrayText2"), this.searchAnimationProgress), false);
-            this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor("actionBarActionModeDefaultIcon"), Theme.getColor("windowBackgroundWhiteGrayText2"), this.searchAnimationProgress), true);
+            this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor(this.folderId != 0 ? "actionBarDefaultArchivedIcon" : "actionBarDefaultIcon"), Theme.getColor("actionBarActionModeDefaultIcon"), this.searchAnimationProgress), false);
+            this.actionBar.setItemsColor(ColorUtils.blendARGB(Theme.getColor("actionBarActionModeDefaultIcon"), Theme.getColor("actionBarActionModeDefaultIcon"), this.searchAnimationProgress), true);
             this.actionBar.setItemsBackgroundColor(ColorUtils.blendARGB(Theme.getColor(this.folderId != 0 ? "actionBarDefaultArchivedSelector" : "actionBarDefaultSelector"), Theme.getColor("actionBarActionModeDefaultSelector"), this.searchAnimationProgress), false);
         }
         View view = this.fragmentView;
@@ -6349,6 +6393,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             chatActivity.setPreloadedSticker(greetingsSticker, true);
         }
         presentFragment(chatActivity);
+    }
+
+    public void setOpenedDialogId(long j) {
+        this.openedDialogId = j;
+        ViewPage[] viewPageArr = this.viewPages;
+        if (viewPageArr == null) {
+            return;
+        }
+        for (ViewPage viewPage : viewPageArr) {
+            if (viewPage.isDefaultDialogType() && AndroidUtilities.isTablet()) {
+                viewPage.dialogsAdapter.setOpenedDialogId(this.openedDialogId);
+            }
+        }
+        updateVisibleRows(MessagesController.UPDATE_MASK_SELECT_DIALOG);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

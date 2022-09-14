@@ -34,11 +34,15 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$Chat;
+import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$FileLocation;
+import org.telegram.tgnet.TLRPC$TL_emojiStatus;
+import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BlobDrawable;
@@ -71,12 +75,15 @@ public class GroupCallUserCell extends FrameLayout {
     private SimpleTextView nameTextView;
     private boolean needDivider;
     private TLRPC$TL_groupCallParticipant participant;
+    private Drawable premiumDrawable;
     private float progressToAvatarPreview;
+    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable rightDrawable;
     private long selfId;
     private RLottieDrawable shakeHandDrawable;
     private Drawable speakingDrawable;
     private boolean updateRunnableScheduled;
     private boolean updateVoiceRunnableScheduled;
+    private Drawable verifiedDrawable;
     private SimpleTextView[] statusTextView = new SimpleTextView[5];
     private Runnable shakeHandCallback = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda4
         @Override // java.lang.Runnable
@@ -356,6 +363,7 @@ public class GroupCallUserCell extends FrameLayout {
         SimpleTextView simpleTextView2 = this.nameTextView;
         boolean z3 = LocaleController.isRTL;
         addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 54.0f : 67.0f, 10.0f, z3 ? 67.0f : 54.0f, 0.0f));
+        this.rightDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f), 9);
         Drawable drawable = context.getResources().getDrawable(R.drawable.voice_volume_mini);
         this.speakingDrawable = drawable;
         drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("voipgroup_speakingText"), PorterDuff.Mode.MULTIPLY));
@@ -535,9 +543,49 @@ public class GroupCallUserCell extends FrameLayout {
             this.currentChat = null;
             this.avatarDrawable.setInfo(user);
             this.nameTextView.setText(UserObject.getUserName(this.currentUser));
-            SimpleTextView simpleTextView = this.nameTextView;
             TLRPC$User tLRPC$User = this.currentUser;
-            simpleTextView.setRightDrawable((tLRPC$User == null || !tLRPC$User.verified) ? null : new VerifiedDrawable(getContext()));
+            if (tLRPC$User != null && tLRPC$User.verified) {
+                AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
+                Drawable drawable = this.verifiedDrawable;
+                if (drawable == null) {
+                    drawable = new VerifiedDrawable(getContext());
+                }
+                this.verifiedDrawable = drawable;
+                swapAnimatedEmojiDrawable.set(drawable, z);
+            } else {
+                if (tLRPC$User != null) {
+                    TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
+                    if (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) {
+                        this.rightDrawable.set(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus).document_id, z);
+                    }
+                }
+                if (tLRPC$User != null) {
+                    TLRPC$EmojiStatus tLRPC$EmojiStatus2 = tLRPC$User.emoji_status;
+                    if ((tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus2).until > ((int) (System.currentTimeMillis() / 1000))) {
+                        this.rightDrawable.set(((TLRPC$TL_emojiStatusUntil) this.currentUser.emoji_status).document_id, z);
+                    }
+                }
+                TLRPC$User tLRPC$User2 = this.currentUser;
+                if (tLRPC$User2 != null && tLRPC$User2.premium) {
+                    if (this.premiumDrawable == null) {
+                        this.premiumDrawable = getContext().getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
+                        this.premiumDrawable = new AnimatedEmojiDrawable.WrapSizeDrawable(this, this.premiumDrawable, AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f)) { // from class: org.telegram.ui.Cells.GroupCallUserCell.3
+                            @Override // org.telegram.ui.Components.AnimatedEmojiDrawable.WrapSizeDrawable, android.graphics.drawable.Drawable
+                            public void draw(Canvas canvas) {
+                                canvas.save();
+                                canvas.translate(AndroidUtilities.dp(-2.0f), AndroidUtilities.dp(0.0f));
+                                super.draw(canvas);
+                                canvas.restore();
+                            }
+                        };
+                    }
+                    this.rightDrawable.set(this.premiumDrawable, z);
+                } else {
+                    this.rightDrawable.set((Drawable) null, z);
+                }
+            }
+            this.rightDrawable.setColor(Integer.valueOf(Theme.getColor("premiumGradient1")));
+            this.nameTextView.setRightDrawable(this.rightDrawable);
             this.avatarImageView.getImageReceiver().setCurrentAccount(accountInstance.getCurrentAccount());
             if (tLRPC$FileLocation != null) {
                 this.hasAvatar = true;
@@ -558,7 +606,17 @@ public class GroupCallUserCell extends FrameLayout {
             TLRPC$Chat tLRPC$Chat = this.currentChat;
             if (tLRPC$Chat != null) {
                 this.nameTextView.setText(tLRPC$Chat.title);
-                this.nameTextView.setRightDrawable(this.currentChat.verified ? new VerifiedDrawable(getContext()) : null);
+                if (this.currentChat.verified) {
+                    AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.rightDrawable;
+                    Drawable drawable2 = this.verifiedDrawable;
+                    if (drawable2 == null) {
+                        drawable2 = new VerifiedDrawable(getContext());
+                    }
+                    this.verifiedDrawable = drawable2;
+                    swapAnimatedEmojiDrawable2.set(drawable2, z);
+                } else {
+                    this.rightDrawable.set((Drawable) null, z);
+                }
                 this.avatarImageView.getImageReceiver().setCurrentAccount(accountInstance.getCurrentAccount());
                 if (tLRPC$FileLocation != null) {
                     this.hasAvatar = true;
@@ -960,7 +1018,7 @@ public class GroupCallUserCell extends FrameLayout {
                             }
                             AnimatorSet animatorSet3 = new AnimatorSet();
                             this.animatorSet = animatorSet3;
-                            animatorSet3.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.GroupCallUserCell.3
+                            animatorSet3.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.GroupCallUserCell.4
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
                                     if (!GroupCallUserCell.this.isSelfUser()) {

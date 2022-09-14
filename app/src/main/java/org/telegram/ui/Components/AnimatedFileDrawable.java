@@ -915,7 +915,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     /* JADX WARN: Removed duplicated region for block: B:27:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x015f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -999,7 +999,11 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                         i++;
                     }
                     this.roundPath.reset();
-                    this.roundPath.addRoundRect(rectF, radii, Path.Direction.CW);
+                    Path path = this.roundPath;
+                    if (!z) {
+                        rectF = this.actualDrawRect;
+                    }
+                    path.addRoundRect(rectF, radii, Path.Direction.CW);
                     this.roundPath.close();
                 }
                 canvas.drawPath(this.roundPath, paint);

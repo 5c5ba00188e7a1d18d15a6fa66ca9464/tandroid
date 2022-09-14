@@ -13,13 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BringAppForegroundService;
@@ -36,6 +45,7 @@ public class PhotoViewerWebView extends FrameLayout {
     private float bufferedPosition;
     private int currentPosition;
     private TLRPC$WebPage currentWebpage;
+    private String currentYoutubeId;
     private boolean isPlaying;
     private boolean isTouchDisabled;
     private boolean isYouTube;
@@ -47,7 +57,9 @@ public class PhotoViewerWebView extends FrameLayout {
     private boolean setPlaybackSpeed;
     private int videoDuration;
     private WebView webView;
+    private String youtubeStoryboardsSpecUrl;
     private int currentAccount = UserConfig.selectedAccount;
+    private List<String> youtubeStoryboards = new ArrayList();
     private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda2
         @Override // java.lang.Runnable
         public final void run() {
@@ -96,7 +108,6 @@ public class PhotoViewerWebView extends FrameLayout {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPlayerLoaded$0() {
             PhotoViewerWebView.this.progressBar.setVisibility(4);
-            PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
             if (PhotoViewerWebView.this.setPlaybackSpeed) {
                 PhotoViewerWebView.this.setPlaybackSpeed = false;
                 PhotoViewerWebView photoViewerWebView = PhotoViewerWebView.this;
@@ -104,6 +115,9 @@ public class PhotoViewerWebView extends FrameLayout {
             }
             PhotoViewerWebView.this.pipItem.setEnabled(true);
             PhotoViewerWebView.this.pipItem.setAlpha(1.0f);
+            if (PhotoViewerWebView.this.photoViewer != null) {
+                PhotoViewerWebView.this.photoViewer.checkFullscreenButton();
+            }
         }
 
         @JavascriptInterface
@@ -111,37 +125,56 @@ public class PhotoViewerWebView extends FrameLayout {
             int parseInt = Integer.parseInt(str);
             boolean z = PhotoViewerWebView.this.isPlaying;
             final boolean z2 = false;
-            final int i = 3;
+            final int i = 1;
             PhotoViewerWebView.this.isPlaying = parseInt == 1 || parseInt == 3;
             PhotoViewerWebView.this.checkPlayingPoll(z);
-            if (parseInt == 0) {
-                i = 4;
-            } else if (parseInt == 1) {
-                z2 = true;
-            } else if (parseInt != 2) {
-                if (parseInt != 3) {
-                    i = 1;
-                } else {
+            if (parseInt != 0) {
+                if (parseInt == 1) {
                     z2 = true;
-                    i = 2;
+                } else if (parseInt != 2) {
+                    if (parseInt == 3) {
+                        z2 = true;
+                        i = 2;
+                    }
                 }
+                i = 3;
+            } else {
+                i = 4;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
+            if (i == 3 && PhotoViewerWebView.this.progressBarBlackBackground.getVisibility() != 4) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$1();
+                    }
+                }, 300L);
+            }
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$1(z2, i);
+                    PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$2(z2, i);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onPlayerStateChange$1(boolean z, int i) {
+        public /* synthetic */ void lambda$onPlayerStateChange$1() {
+            PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onPlayerStateChange$2(boolean z, int i) {
             PhotoViewerWebView.this.photoViewer.updateWebPlayerState(z, i);
         }
 
         @JavascriptInterface
         public void onPlayerNotifyDuration(int i) {
             PhotoViewerWebView.this.videoDuration = i * 1000;
+            if (PhotoViewerWebView.this.youtubeStoryboardsSpecUrl != null) {
+                PhotoViewerWebView photoViewerWebView = PhotoViewerWebView.this;
+                photoViewerWebView.processYoutubeStoryboards(photoViewerWebView.youtubeStoryboardsSpecUrl);
+                PhotoViewerWebView.this.youtubeStoryboardsSpecUrl = null;
+            }
         }
 
         @JavascriptInterface
@@ -166,6 +199,15 @@ public class PhotoViewerWebView extends FrameLayout {
                 PhotoViewerWebView.this.processTouch(motionEvent);
                 return super.onTouchEvent(motionEvent);
             }
+
+            @Override // android.view.View
+            public void draw(Canvas canvas) {
+                super.draw(canvas);
+                if (PipVideoOverlay.getInnerView() == this && PhotoViewerWebView.this.progressBarBlackBackground.getVisibility() == 0) {
+                    canvas.drawColor(-16777216);
+                    PhotoViewerWebView.this.drawBlackBackground(canvas, getWidth(), getHeight());
+                }
+            }
         };
         this.webView = webView;
         webView.getSettings().setJavaScriptEnabled(true);
@@ -178,27 +220,7 @@ public class PhotoViewerWebView extends FrameLayout {
             this.webView.getSettings().setMixedContentMode(0);
             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
         }
-        this.webView.setWebViewClient(new WebViewClient() { // from class: org.telegram.ui.Components.PhotoViewerWebView.2
-            @Override // android.webkit.WebViewClient
-            public void onPageFinished(WebView webView2, String str) {
-                super.onPageFinished(webView2, str);
-                if (!PhotoViewerWebView.this.isYouTube || Build.VERSION.SDK_INT < 17) {
-                    PhotoViewerWebView.this.progressBar.setVisibility(4);
-                    PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
-                    PhotoViewerWebView.this.pipItem.setEnabled(true);
-                    PhotoViewerWebView.this.pipItem.setAlpha(1.0f);
-                }
-            }
-
-            @Override // android.webkit.WebViewClient
-            public boolean shouldOverrideUrlLoading(WebView webView2, String str) {
-                if (PhotoViewerWebView.this.isYouTube) {
-                    Browser.openUrl(webView2.getContext(), str);
-                    return true;
-                }
-                return super.shouldOverrideUrlLoading(webView2, str);
-            }
-        });
+        this.webView.setWebViewClient(new 2());
         addView(this.webView, LayoutHelper.createFrame(-1, -1, 51));
         View view2 = new View(context) { // from class: org.telegram.ui.Components.PhotoViewerWebView.3
             @Override // android.view.View
@@ -215,6 +237,189 @@ public class PhotoViewerWebView extends FrameLayout {
         this.progressBar = radialProgressView;
         radialProgressView.setVisibility(4);
         addView(this.progressBar, LayoutHelper.createFrame(-2, -2, 17));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 2 extends WebViewClient {
+        2() {
+        }
+
+        @Override // android.webkit.WebViewClient
+        public void onPageFinished(WebView webView, String str) {
+            super.onPageFinished(webView, str);
+            if (!PhotoViewerWebView.this.isYouTube || Build.VERSION.SDK_INT < 17) {
+                PhotoViewerWebView.this.progressBar.setVisibility(4);
+                PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
+                PhotoViewerWebView.this.pipItem.setEnabled(true);
+                PhotoViewerWebView.this.pipItem.setAlpha(1.0f);
+            }
+        }
+
+        @Override // android.webkit.WebViewClient
+        public WebResourceResponse shouldInterceptRequest(WebView webView, final WebResourceRequest webResourceRequest) {
+            final String uri = webResourceRequest.getUrl().toString();
+            if (!PhotoViewerWebView.this.isYouTube || !uri.startsWith("https://www.youtube.com/youtubei/v1/player?key=")) {
+                return null;
+            }
+            Utilities.externalNetworkQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$2$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    PhotoViewerWebView.2.this.lambda$shouldInterceptRequest$0(uri, webResourceRequest);
+                }
+            });
+            return null;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$shouldInterceptRequest$0(String str, WebResourceRequest webResourceRequest) {
+            JSONObject optJSONObject;
+            String optString;
+            try {
+                HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(str).openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                for (Map.Entry<String, String> entry : webResourceRequest.getRequestHeaders().entrySet()) {
+                    httpURLConnection.addRequestProperty(entry.getKey(), entry.getValue());
+                }
+                httpURLConnection.setDoOutput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                JSONObject jSONObject = new JSONObject();
+                JSONObject jSONObject2 = new JSONObject();
+                JSONObject put = new JSONObject().put("userAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36,gzip(gfe)").put("clientName", "WEB").put("clientVersion", webResourceRequest.getRequestHeaders().get("X-Youtube-Client-Version")).put("osName", "Windows").put("osVersion", "10.0");
+                outputStream.write(jSONObject.put("context", jSONObject2.put("client", put.put("originalUrl", "https://www.youtube.com/watch?v=" + PhotoViewerWebView.this.currentYoutubeId).put("platform", "DESKTOP"))).put("videoId", PhotoViewerWebView.this.currentYoutubeId).toString().getBytes("UTF-8"));
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getResponseCode() == 200 ? httpURLConnection.getInputStream() : httpURLConnection.getErrorStream();
+                byte[] bArr = new byte[10240];
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                while (true) {
+                    int read = inputStream.read(bArr);
+                    if (read == -1) {
+                        break;
+                    }
+                    byteArrayOutputStream.write(bArr, 0, read);
+                }
+                byteArrayOutputStream.close();
+                inputStream.close();
+                JSONObject optJSONObject2 = new JSONObject(byteArrayOutputStream.toString("UTF-8")).optJSONObject("storyboards");
+                if (optJSONObject2 == null || (optJSONObject = optJSONObject2.optJSONObject("playerStoryboardSpecRenderer")) == null || (optString = optJSONObject.optString("spec")) == null) {
+                    return;
+                }
+                if (PhotoViewerWebView.this.videoDuration == 0) {
+                    PhotoViewerWebView.this.youtubeStoryboardsSpecUrl = optString;
+                } else {
+                    PhotoViewerWebView.this.processYoutubeStoryboards(optString);
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // android.webkit.WebViewClient
+        public boolean shouldOverrideUrlLoading(WebView webView, String str) {
+            if (PhotoViewerWebView.this.isYouTube) {
+                Browser.openUrl(webView.getContext(), str);
+                return true;
+            }
+            return super.shouldOverrideUrlLoading(webView, str);
+        }
+    }
+
+    public boolean hasYoutubeStoryboards() {
+        return !this.youtubeStoryboards.isEmpty();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0091 A[LOOP:0: B:9:0x008f->B:10:0x0091, LOOP_END] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void processYoutubeStoryboards(String str) {
+        String str2;
+        int i;
+        double ceil;
+        int i2;
+        int videoDuration = getVideoDuration() / 1000;
+        this.youtubeStoryboards.clear();
+        String[] split = str.split("\\|");
+        String str3 = split[0].split("\\$")[0] + "2/";
+        String str4 = split[0].split("\\$N")[1];
+        if (split.length == 3) {
+            str2 = split[2].split("M#")[1];
+        } else if (split.length == 2) {
+            str2 = split[1].split("t#")[1];
+        } else {
+            str2 = split[3].split("M#")[1];
+        }
+        if (videoDuration < 250) {
+            ceil = Math.ceil((videoDuration / 2.0f) / 25.0f);
+        } else if (videoDuration >= 250 && videoDuration < 1000) {
+            ceil = Math.ceil((videoDuration / 4.0f) / 25.0f);
+        } else if (videoDuration < 1000) {
+            i = 0;
+            for (i2 = 0; i2 < i; i2++) {
+                this.youtubeStoryboards.add(String.format(Locale.ROOT, "%sM%d%s&sigh=%s", str3, Integer.valueOf(i2), str4, str2));
+            }
+        } else {
+            ceil = Math.ceil((videoDuration / 10.0f) / 25.0f);
+        }
+        i = (int) ceil;
+        while (i2 < i) {
+        }
+    }
+
+    public int getYoutubeStoryboardImageCount(int i) {
+        double ceil;
+        int indexOf = this.youtubeStoryboards.indexOf(getYoutubeStoryboard(i));
+        int i2 = 0;
+        if (indexOf != -1) {
+            if (indexOf != this.youtubeStoryboards.size() - 1) {
+                return 25;
+            }
+            int videoDuration = getVideoDuration() / 1000;
+            if (videoDuration < 250) {
+                ceil = Math.ceil(videoDuration / 2.0f);
+            } else if (videoDuration >= 250 && videoDuration < 1000) {
+                ceil = Math.ceil(videoDuration / 4.0f);
+            } else {
+                if (videoDuration >= 1000) {
+                    ceil = Math.ceil(videoDuration / 10.0f);
+                }
+                return i2 - ((this.youtubeStoryboards.size() - 1) * 25);
+            }
+            i2 = (int) ceil;
+            return i2 - ((this.youtubeStoryboards.size() - 1) * 25);
+        }
+        return 0;
+    }
+
+    public String getYoutubeStoryboard(int i) {
+        int i2;
+        int videoDuration = getVideoDuration() / 1000;
+        if (videoDuration < 250) {
+            i2 = ((int) (i / 2.0f)) / 25;
+        } else if (videoDuration < 250 || videoDuration >= 1000) {
+            i2 = videoDuration >= 1000 ? (int) ((i / 10.0f) / 25.0f) : -1;
+        } else {
+            i2 = ((int) (i / 4.0f)) / 25;
+        }
+        if (i2 == -1 || i2 >= this.youtubeStoryboards.size()) {
+            return null;
+        }
+        return this.youtubeStoryboards.get(i2);
+    }
+
+    public int getYoutubeStoryboardImageIndex(int i) {
+        int videoDuration = getVideoDuration() / 1000;
+        if (videoDuration < 250) {
+            return ((int) Math.ceil(i / 2.0f)) % 25;
+        }
+        if (videoDuration >= 250 && videoDuration < 1000) {
+            return ((int) Math.ceil(i / 4.0f)) % 25;
+        }
+        if (videoDuration < 1000) {
+            return -1;
+        }
+        return ((int) Math.ceil(i / 10.0f)) % 25;
     }
 
     public void setTouchDisabled(boolean z) {
@@ -351,6 +556,7 @@ public class PhotoViewerWebView extends FrameLayout {
                 }, 300L);
                 return true;
             }
+            this.progressBarBlackBackground.setVisibility(0);
             WebView webView = this.webView;
             TLRPC$WebPage tLRPC$WebPage = this.currentWebpage;
             if (PipVideoOverlay.show(isInAppOnly, (Activity) getContext(), this, webView, tLRPC$WebPage.embed_width, tLRPC$WebPage.embed_height, false)) {
@@ -361,8 +567,12 @@ public class PhotoViewerWebView extends FrameLayout {
         return false;
     }
 
-    public boolean isControllable() {
+    public boolean isYouTube() {
         return this.isYouTube;
+    }
+
+    public boolean isControllable() {
+        return isYouTube();
     }
 
     public boolean isPlaying() {
@@ -399,8 +609,8 @@ public class PhotoViewerWebView extends FrameLayout {
         this.setPlaybackSpeed = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x00a6 A[Catch: Exception -> 0x00e9, LOOP:0: B:10:0x009f->B:12:0x00a6, LOOP_END, TryCatch #0 {Exception -> 0x00e9, blocks: (B:4:0x0013, B:6:0x0021, B:9:0x0088, B:10:0x009f, B:12:0x00a6, B:14:0x00aa, B:41:0x0084, B:42:0x00d5, B:28:0x002f, B:30:0x0035, B:32:0x0048, B:34:0x0050, B:36:0x0058, B:38:0x005e, B:39:0x007a), top: B:2:0x0011, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x00aa A[EDGE_INSN: B:13:0x00aa->B:14:0x00aa ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x00aa A[Catch: Exception -> 0x00ef, LOOP:0: B:11:0x00a3->B:13:0x00aa, LOOP_END, TryCatch #0 {Exception -> 0x00ef, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:10:0x008c, B:11:0x00a3, B:13:0x00aa, B:15:0x00ae, B:42:0x0088, B:43:0x00db, B:29:0x0033, B:31:0x0039, B:33:0x004c, B:35:0x0054, B:37:0x005c, B:39:0x0062, B:40:0x007e), top: B:2:0x0013, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00ae A[EDGE_INSN: B:14:0x00ae->B:15:0x00ae ?: BREAK  , SYNTHETIC] */
     @SuppressLint({"AddJavascriptInterface"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -412,11 +622,11 @@ public class PhotoViewerWebView extends FrameLayout {
         byte[] bArr;
         int read;
         this.currentWebpage = tLRPC$WebPage;
-        String youTubeVideoId = WebPlayerView.getYouTubeVideoId(tLRPC$WebPage.embed_url);
+        this.currentYoutubeId = WebPlayerView.getYouTubeVideoId(tLRPC$WebPage.embed_url);
         String str = tLRPC$WebPage.url;
         requestLayout();
         try {
-            if (youTubeVideoId != null) {
+            if (this.currentYoutubeId != null) {
                 this.progressBarBlackBackground.setVisibility(0);
                 this.isYouTube = true;
                 String str2 = null;
@@ -454,7 +664,7 @@ public class PhotoViewerWebView extends FrameLayout {
                         }
                         byteArrayOutputStream.close();
                         open.close();
-                        this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, byteArrayOutputStream.toString("UTF-8"), youTubeVideoId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
+                        this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, byteArrayOutputStream.toString("UTF-8"), this.currentYoutubeId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
                     }
                 }
                 intValue = 0;
@@ -469,7 +679,7 @@ public class PhotoViewerWebView extends FrameLayout {
                 }
                 byteArrayOutputStream.close();
                 open.close();
-                this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, byteArrayOutputStream.toString("UTF-8"), youTubeVideoId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
+                this.webView.loadDataWithBaseURL("https://messenger.telegram.org/", String.format(Locale.US, byteArrayOutputStream.toString("UTF-8"), this.currentYoutubeId, Integer.valueOf(intValue)), "text/html", "UTF-8", "https://youtube.com");
             } else {
                 HashMap hashMap = new HashMap();
                 hashMap.put("Referer", "messenger.telegram.org");
@@ -481,12 +691,12 @@ public class PhotoViewerWebView extends FrameLayout {
         this.pipItem.setEnabled(false);
         this.pipItem.setAlpha(0.5f);
         this.progressBar.setVisibility(0);
-        if (youTubeVideoId != null) {
+        if (this.currentYoutubeId != null) {
             this.progressBarBlackBackground.setVisibility(0);
         }
         this.webView.setVisibility(0);
         this.webView.setKeepScreenOn(true);
-        if (youTubeVideoId == null || !"disabled".equals(MessagesController.getInstance(this.currentAccount).youtubePipType)) {
+        if (this.currentYoutubeId == null || !"disabled".equals(MessagesController.getInstance(this.currentAccount).youtubePipType)) {
             return;
         }
         this.pipItem.setVisibility(8);
@@ -511,6 +721,7 @@ public class PhotoViewerWebView extends FrameLayout {
                 FileLog.e(th);
             }
         }
+        this.progressBarBlackBackground.setVisibility(0);
         ViewGroup viewGroup = (ViewGroup) this.webView.getParent();
         if (viewGroup != null) {
             viewGroup.removeView(this.webView);
