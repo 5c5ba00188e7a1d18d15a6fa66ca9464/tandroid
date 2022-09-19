@@ -13,7 +13,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -38,7 +37,6 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow;
@@ -55,19 +53,22 @@ public class CustomEmojiReactionsWindow {
     float enterTransitionProgress;
     float fromRadius;
     private boolean invalidatePath;
+    float keyboardHeight;
     private Runnable onDismiss;
     List<ReactionsLayoutInBubble.VisibleReaction> reactions;
     ReactionsContainerLayout reactionsContainerLayout;
     Theme.ResourcesProvider resourcesProvider;
     SelectAnimatedEmojiDialog selectAnimatedEmojiDialog;
+    private boolean wasFocused;
     WindowManager windowManager;
     FrameLayout windowView;
+    float yTranslation;
     RectF fromRect = new RectF();
     public RectF drawingRect = new RectF();
     Path pathToClip = new Path();
     private int frameDrawCount = 0;
 
-    static /* synthetic */ int access$508(CustomEmojiReactionsWindow customEmojiReactionsWindow) {
+    static /* synthetic */ int access$808(CustomEmojiReactionsWindow customEmojiReactionsWindow) {
         int i = customEmojiReactionsWindow.frameDrawCount;
         customEmojiReactionsWindow.frameDrawCount = i + 1;
         return i;
@@ -91,6 +92,17 @@ public class CustomEmojiReactionsWindow {
                 }
                 return false;
             }
+
+            @Override // android.view.View
+            protected boolean fitSystemWindows(Rect rect) {
+                CustomEmojiReactionsWindow customEmojiReactionsWindow = CustomEmojiReactionsWindow.this;
+                if (customEmojiReactionsWindow.keyboardHeight != rect.bottom && customEmojiReactionsWindow.wasFocused) {
+                    CustomEmojiReactionsWindow customEmojiReactionsWindow2 = CustomEmojiReactionsWindow.this;
+                    customEmojiReactionsWindow2.keyboardHeight = rect.bottom;
+                    customEmojiReactionsWindow2.updateWindowPosition();
+                }
+                return super.fitSystemWindows(rect);
+            }
         };
         this.windowView = frameLayout;
         frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda2
@@ -100,9 +112,9 @@ public class CustomEmojiReactionsWindow {
             }
         });
         this.containerView = new ContainerView(context);
-        2 r9 = new 2(baseFragment, context, false, null, 1, resourcesProvider, reactionsContainerLayout, baseFragment);
-        this.selectAnimatedEmojiDialog = r9;
-        r9.setOnLongPressedListener(new SelectAnimatedEmojiDialog.onLongPressedListener(this) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.3
+        2 r15 = new 2(baseFragment, context, false, null, 1, resourcesProvider, baseFragment, reactionsContainerLayout);
+        this.selectAnimatedEmojiDialog = r15;
+        r15.setOnLongPressedListener(new SelectAnimatedEmojiDialog.onLongPressedListener(this) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.3
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.onLongPressedListener
             public void onLongPressed(SelectAnimatedEmojiDialog.ImageViewEmoji imageViewEmoji) {
                 if (imageViewEmoji.isDefaultReaction) {
@@ -125,36 +137,13 @@ public class CustomEmojiReactionsWindow {
         this.containerView.addView(this.selectAnimatedEmojiDialog, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f));
         this.windowView.addView(this.containerView, LayoutHelper.createFrame(-1, -1.0f, 48, 16.0f, 16.0f, 16.0f, 16.0f));
         this.windowView.setClipChildren(false);
-        new EditTextBoldCursor(context) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.5
-            boolean focusable = false;
-
-            @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
-            public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-                if (!this.focusable) {
-                    WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-                    layoutParams.height = -1;
-                    layoutParams.width = -1;
-                    layoutParams.type = 1000;
-                    layoutParams.flags = 65792;
-                    layoutParams.format = -3;
-                    CustomEmojiReactionsWindow customEmojiReactionsWindow = CustomEmojiReactionsWindow.this;
-                    customEmojiReactionsWindow.windowManager.updateViewLayout(customEmojiReactionsWindow.windowView, layoutParams);
-                }
-                return super.dispatchTouchEvent(motionEvent);
-            }
-        }.setBackgroundColor(-16777216);
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.height = -1;
-        layoutParams.width = -1;
-        layoutParams.type = 1000;
-        layoutParams.flags = 65800;
-        layoutParams.format = -3;
+        WindowManager.LayoutParams createLayoutParams = createLayoutParams(false);
         WindowManager windowManager = baseFragment.getParentActivity().getWindowManager();
         this.windowManager = windowManager;
-        windowManager.addView(this.windowView, layoutParams);
+        windowManager.addView(this.windowView, createLayoutParams);
         this.reactionsContainerLayout = reactionsContainerLayout;
         reactionsContainerLayout.prepareAnimation(true);
-        this.containerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.6
+        this.containerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.5
             @Override // android.view.View.OnLayoutChangeListener
             public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                 CustomEmojiReactionsWindow.this.containerView.removeOnLayoutChangeListener(this);
@@ -177,15 +166,30 @@ public class CustomEmojiReactionsWindow {
         final /* synthetic */ ReactionsContainerLayout val$reactionsContainerLayout;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        2(BaseFragment baseFragment, Context context, boolean z, Integer num, int i, Theme.ResourcesProvider resourcesProvider, ReactionsContainerLayout reactionsContainerLayout, BaseFragment baseFragment2) {
+        2(BaseFragment baseFragment, Context context, boolean z, Integer num, int i, Theme.ResourcesProvider resourcesProvider, BaseFragment baseFragment2, ReactionsContainerLayout reactionsContainerLayout) {
             super(baseFragment, context, z, num, i, resourcesProvider);
-            this.val$reactionsContainerLayout = reactionsContainerLayout;
             this.val$baseFragment = baseFragment2;
+            this.val$reactionsContainerLayout = reactionsContainerLayout;
+        }
+
+        @Override // org.telegram.ui.SelectAnimatedEmojiDialog
+        protected void onInputFocus() {
+            if (!CustomEmojiReactionsWindow.this.wasFocused) {
+                CustomEmojiReactionsWindow.this.wasFocused = true;
+                CustomEmojiReactionsWindow customEmojiReactionsWindow = CustomEmojiReactionsWindow.this;
+                customEmojiReactionsWindow.windowManager.updateViewLayout(customEmojiReactionsWindow.windowView, customEmojiReactionsWindow.createLayoutParams(true));
+                BaseFragment baseFragment = this.val$baseFragment;
+                if (!(baseFragment instanceof ChatActivity)) {
+                    return;
+                }
+                ((ChatActivity) baseFragment).needEnterText();
+            }
         }
 
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
         protected void onReactionClick(SelectAnimatedEmojiDialog.ImageViewEmoji imageViewEmoji, ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
             this.val$reactionsContainerLayout.onReactionClicked(imageViewEmoji, visibleReaction, false);
+            AndroidUtilities.hideKeyboard(CustomEmojiReactionsWindow.this.windowView);
         }
 
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
@@ -201,12 +205,44 @@ public class CustomEmojiReactionsWindow {
                 return;
             }
             this.val$reactionsContainerLayout.onReactionClicked(view, ReactionsLayoutInBubble.VisibleReaction.fromCustomEmoji(l), false);
+            AndroidUtilities.hideKeyboard(CustomEmojiReactionsWindow.this.windowView);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onEmojiSelected$0() {
             CustomEmojiReactionsWindow.this.showUnlockPremiumAlert();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateWindowPosition() {
+        if (this.dismissed) {
+            return;
+        }
+        float f = this.yTranslation;
+        if (this.containerView.getMeasuredHeight() + f > (this.windowView.getMeasuredHeight() - this.keyboardHeight) - AndroidUtilities.dp(32.0f)) {
+            f = ((this.windowView.getMeasuredHeight() - this.keyboardHeight) - this.containerView.getMeasuredHeight()) - AndroidUtilities.dp(32.0f);
+        }
+        if (f < 0.0f) {
+            f = 0.0f;
+        }
+        this.containerView.animate().translationY(f).setDuration(250L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public WindowManager.LayoutParams createLayoutParams(boolean z) {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.height = -1;
+        layoutParams.width = -1;
+        layoutParams.type = 1000;
+        layoutParams.softInputMode = 16;
+        if (z) {
+            layoutParams.flags = 65792;
+        } else {
+            layoutParams.flags = 65800;
+        }
+        layoutParams.format = -3;
+        return layoutParams;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -223,17 +259,24 @@ public class CustomEmojiReactionsWindow {
         ReactionsContainerLayout reactionsContainerLayout = this.reactionsContainerLayout;
         this.fromRadius = reactionsContainerLayout.radius;
         int[] iArr = new int[2];
+        int[] iArr2 = new int[2];
         reactionsContainerLayout.getLocationOnScreen(iArr);
-        float dp = (iArr[1] - AndroidUtilities.dp(44.0f)) - AndroidUtilities.dp(34.0f);
+        this.windowView.getLocationOnScreen(iArr2);
+        float dp = ((iArr[1] - iArr2[1]) - AndroidUtilities.dp(44.0f)) - AndroidUtilities.dp(34.0f);
         if (this.containerView.getMeasuredHeight() + dp > this.windowView.getMeasuredHeight() - AndroidUtilities.dp(32.0f)) {
             dp = (this.windowView.getMeasuredHeight() - AndroidUtilities.dp(32.0f)) - this.containerView.getMeasuredHeight();
         }
         if (dp < AndroidUtilities.dp(16.0f)) {
             dp = AndroidUtilities.dp(16.0f);
         }
-        this.containerView.setTranslationX(iArr[0] - AndroidUtilities.dp(2.0f));
-        this.containerView.setTranslationY(dp);
-        this.fromRect.offset(iArr[0] - this.containerView.getX(), iArr[1] - this.containerView.getY());
+        this.containerView.setTranslationX((iArr[0] - iArr2[0]) - AndroidUtilities.dp(2.0f));
+        if (!z) {
+            this.yTranslation = this.containerView.getTranslationY();
+        } else {
+            this.yTranslation = dp;
+        }
+        this.containerView.setTranslationY(this.yTranslation);
+        this.fromRect.offset((iArr[0] - iArr2[0]) - this.containerView.getX(), (iArr[1] - iArr2[1]) - this.containerView.getY());
         this.reactionsContainerLayout.setCustomEmojiEnterProgress(this.enterTransitionProgress);
         float[] fArr = new float[2];
         fArr[0] = this.enterTransitionProgress;
@@ -245,7 +288,7 @@ public class CustomEmojiReactionsWindow {
                 CustomEmojiReactionsWindow.this.lambda$createTransition$1(valueAnimator);
             }
         });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.7
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 CustomEmojiReactionsWindow customEmojiReactionsWindow = CustomEmojiReactionsWindow.this;
@@ -315,7 +358,16 @@ public class CustomEmojiReactionsWindow {
         }
         Bulletin.hideVisible();
         this.dismissed = true;
+        AndroidUtilities.hideKeyboard(this.windowView);
         createTransition(false);
+        if (!this.wasFocused) {
+            return;
+        }
+        BaseFragment baseFragment = this.baseFragment;
+        if (!(baseFragment instanceof ChatActivity)) {
+            return;
+        }
+        ((ChatActivity) baseFragment).onEditTextDialogClose(true, true);
     }
 
     public void onDismissListener(Runnable runnable) {
@@ -336,7 +388,7 @@ public class CustomEmojiReactionsWindow {
                     CustomEmojiReactionsWindow.this.lambda$dismiss$3(valueAnimator);
                 }
             });
-            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.8
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.7
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     CustomEmojiReactionsWindow.this.removeView();
@@ -483,7 +535,7 @@ public class CustomEmojiReactionsWindow {
                                     y -= CustomEmojiReactionsWindow.this.reactionsContainerLayout.recyclerListView.getY();
                                 }
                                 float x2 = imageViewEmoji2.getX() + CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.getX() + CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.emojiGridView.getX();
-                                float y2 = imageViewEmoji2.getY() + CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.getY() + CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.emojiGridView.getY();
+                                float y2 = imageViewEmoji2.getY() + CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.getY() + CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.gridViewContainer.getY() + CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.emojiGridView.getY();
                                 float measuredWidth = imageViewEmoji2.getMeasuredWidth();
                                 if (imageViewEmoji2.selected) {
                                     float f21 = 0.86f * measuredWidth;
@@ -646,7 +698,7 @@ public class CustomEmojiReactionsWindow {
                 if (CustomEmojiReactionsWindow.this.frameDrawCount == 3) {
                     CustomEmojiReactionsWindow.this.reactionsContainerLayout.setSkipDraw(true);
                 }
-                CustomEmojiReactionsWindow.access$508(CustomEmojiReactionsWindow.this);
+                CustomEmojiReactionsWindow.access$808(CustomEmojiReactionsWindow.this);
             }
             CustomEmojiReactionsWindow.this.selectAnimatedEmojiDialog.drawBigReaction(canvas, this);
             invalidate();

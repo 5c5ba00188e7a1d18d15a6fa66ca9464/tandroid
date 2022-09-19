@@ -10,6 +10,6 @@ public final /* synthetic */ class AndroidUtilities$$ExternalSyntheticLambda7 im
 
     @Override // com.google.android.gms.tasks.OnSuccessListener
     public final void onSuccess(Object obj) {
-        AndroidUtilities.lambda$setWaitingForSms$5((Void) obj);
+        AndroidUtilities.lambda$setWaitingForSms$6((Void) obj);
     }
 }

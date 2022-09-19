@@ -36,6 +36,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
+import org.telegram.messenger.BuildConfig;
 /* loaded from: classes.dex */
 public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlaylist> {
     private final HlsMasterPlaylist masterPlaylist;
@@ -811,7 +812,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
             this.reader = bufferedReader;
         }
 
-        @EnsuresNonNullIf(expression = {"next"}, result = true)
+        @EnsuresNonNullIf(expression = {"next"}, result = BuildConfig.DEBUG_VERSION)
         public boolean hasNext() throws IOException {
             String trim;
             if (this.next != null) {

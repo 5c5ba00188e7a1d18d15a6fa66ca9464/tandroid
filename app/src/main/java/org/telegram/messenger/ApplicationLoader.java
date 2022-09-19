@@ -52,12 +52,21 @@ public class ApplicationLoader extends Application {
     private static PushListenerController.IPushListenerServiceProvider pushProvider;
     public static long startTime;
 
+    protected void appCenterLogInternal(Throwable th) {
+    }
+
+    protected void checkForUpdatesInternal() {
+    }
+
     protected boolean isHuaweiBuild() {
         return false;
     }
 
     protected String onGetApplicationId() {
         return null;
+    }
+
+    protected void startAppCenterInternal(Activity activity) {
     }
 
     @Override // android.content.ContextWrapper
@@ -469,5 +478,17 @@ public class ApplicationLoader extends Application {
             FileLog.d("network online mismatch");
         }
         return isNetworkOnlineRealtime;
+    }
+
+    public static void startAppCenter(Activity activity) {
+        applicationLoaderInstance.startAppCenterInternal(activity);
+    }
+
+    public static void checkForUpdates() {
+        applicationLoaderInstance.checkForUpdatesInternal();
+    }
+
+    public static void appCenterLog(Throwable th) {
+        applicationLoaderInstance.appCenterLogInternal(th);
     }
 }

@@ -21,7 +21,6 @@ import androidx.collection.LongSparseArray;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.util.Consumer;
 import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
-import com.google.android.exoplayer2.util.Log;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.File;
 import java.util.AbstractMap;
@@ -10294,10 +10293,10 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:142:0x0400, code lost:
-        if (org.telegram.messenger.MessageObject.getMedia(r2).bytes[0] >= 146) goto L144;
+        if (org.telegram.messenger.MessageObject.getMedia(r2).bytes[0] >= 147) goto L144;
      */
     /* JADX WARN: Code restructure failed: missing block: B:147:0x041b, code lost:
-        if (org.telegram.messenger.Utilities.bytesToInt(org.telegram.messenger.MessageObject.getMedia(r2).bytes) < 146) goto L143;
+        if (org.telegram.messenger.Utilities.bytesToInt(org.telegram.messenger.MessageObject.getMedia(r2).bytes) < 147) goto L143;
      */
     /* JADX WARN: Removed duplicated region for block: B:104:0x0370  */
     /* JADX WARN: Removed duplicated region for block: B:117:0x0434  */
@@ -10485,7 +10484,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             messageObject.scheduled = i11 == 1;
                             arrayList.add(messageObject);
                             if (z) {
-                                if (tLRPC$Message3.legacy && tLRPC$Message3.layer < 146) {
+                                if (tLRPC$Message3.legacy && tLRPC$Message3.layer < 147) {
                                     arrayList3.add(Integer.valueOf(tLRPC$Message3.id));
                                 } else if ((MessageObject.getMedia(tLRPC$Message3) instanceof TLRPC$TL_messageMediaUnsupported) && MessageObject.getMedia(tLRPC$Message3).bytes != null) {
                                     if (MessageObject.getMedia(tLRPC$Message3).bytes.length != 0) {
@@ -18113,35 +18112,35 @@ public class MessagesController extends BaseController implements NotificationCe
         return z;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1020:0x1344, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1020:0x133d, code lost:
         if (r0.action.user_id == r31) goto L890;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1010:0x1312  */
-    /* JADX WARN: Removed duplicated region for block: B:1050:0x13c6  */
-    /* JADX WARN: Removed duplicated region for block: B:1052:0x13cc  */
-    /* JADX WARN: Removed duplicated region for block: B:1055:0x13d7  */
-    /* JADX WARN: Removed duplicated region for block: B:1067:0x142c  */
-    /* JADX WARN: Removed duplicated region for block: B:1087:0x148e  */
-    /* JADX WARN: Removed duplicated region for block: B:1094:0x14c1  */
-    /* JADX WARN: Removed duplicated region for block: B:1097:0x14cf  */
-    /* JADX WARN: Removed duplicated region for block: B:1100:0x14df  */
-    /* JADX WARN: Removed duplicated region for block: B:1103:0x14f2  */
-    /* JADX WARN: Removed duplicated region for block: B:1115:0x150c  */
-    /* JADX WARN: Removed duplicated region for block: B:1117:0x1512  */
-    /* JADX WARN: Removed duplicated region for block: B:1118:0x14c6  */
-    /* JADX WARN: Removed duplicated region for block: B:1127:0x1205  */
-    /* JADX WARN: Removed duplicated region for block: B:1204:0x19b8  */
-    /* JADX WARN: Removed duplicated region for block: B:1210:0x19df  */
-    /* JADX WARN: Removed duplicated region for block: B:1216:0x1a0b  */
-    /* JADX WARN: Removed duplicated region for block: B:1222:0x1a32  */
-    /* JADX WARN: Removed duplicated region for block: B:1228:0x1a58  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x1538  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x154f  */
-    /* JADX WARN: Removed duplicated region for block: B:844:0x10e0  */
-    /* JADX WARN: Removed duplicated region for block: B:918:0x11d9  */
-    /* JADX WARN: Removed duplicated region for block: B:927:0x1208  */
-    /* JADX WARN: Removed duplicated region for block: B:949:0x127d  */
-    /* JADX WARN: Removed duplicated region for block: B:991:0x1307 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1010:0x130b  */
+    /* JADX WARN: Removed duplicated region for block: B:1050:0x13bf  */
+    /* JADX WARN: Removed duplicated region for block: B:1052:0x13c5  */
+    /* JADX WARN: Removed duplicated region for block: B:1055:0x13d0  */
+    /* JADX WARN: Removed duplicated region for block: B:1067:0x1425  */
+    /* JADX WARN: Removed duplicated region for block: B:1087:0x1487  */
+    /* JADX WARN: Removed duplicated region for block: B:1094:0x14ba  */
+    /* JADX WARN: Removed duplicated region for block: B:1097:0x14c8  */
+    /* JADX WARN: Removed duplicated region for block: B:1100:0x14d8  */
+    /* JADX WARN: Removed duplicated region for block: B:1103:0x14eb  */
+    /* JADX WARN: Removed duplicated region for block: B:1115:0x1505  */
+    /* JADX WARN: Removed duplicated region for block: B:1117:0x150b  */
+    /* JADX WARN: Removed duplicated region for block: B:1118:0x14bf  */
+    /* JADX WARN: Removed duplicated region for block: B:1127:0x11fe  */
+    /* JADX WARN: Removed duplicated region for block: B:1204:0x19b1  */
+    /* JADX WARN: Removed duplicated region for block: B:1210:0x19d8  */
+    /* JADX WARN: Removed duplicated region for block: B:1216:0x1a04  */
+    /* JADX WARN: Removed duplicated region for block: B:1222:0x1a2b  */
+    /* JADX WARN: Removed duplicated region for block: B:1228:0x1a51  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x1531  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x1548  */
+    /* JADX WARN: Removed duplicated region for block: B:844:0x10d9  */
+    /* JADX WARN: Removed duplicated region for block: B:918:0x11d2  */
+    /* JADX WARN: Removed duplicated region for block: B:927:0x1201  */
+    /* JADX WARN: Removed duplicated region for block: B:949:0x1276  */
+    /* JADX WARN: Removed duplicated region for block: B:991:0x1300 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -19890,7 +19889,6 @@ public class MessagesController extends BaseController implements NotificationCe
                                                                                                     }
                                                                                                     arrayList17 = arrayList27;
                                                                                                     arrayList17.add(tLRPC$Update);
-                                                                                                    Log.d("kek", "TL_updateMoveStickerSetToTop");
                                                                                                 } else if (tLRPC$Update instanceof TLRPC$TL_updateSavedGifs) {
                                                                                                     if (arrayList27 == null) {
                                                                                                         arrayList27 = new ArrayList();
@@ -21541,187 +21539,215 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x026b, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(getChat(java.lang.Long.valueOf(r5))) != false) goto L76;
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x026e, code lost:
+        if (org.telegram.messenger.ChatObject.isChannel(getChat(java.lang.Long.valueOf(r5))) != false) goto L75;
      */
+    /* JADX WARN: Type inference failed for: r14v4 */
+    /* JADX WARN: Type inference failed for: r14v5, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r14v6 */
+    /* JADX WARN: Type inference failed for: r15v5 */
+    /* JADX WARN: Type inference failed for: r15v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$processUpdateArray$329(LongSparseIntArray longSparseIntArray, LongSparseIntArray longSparseIntArray2, SparseIntArray sparseIntArray, LongSparseArray longSparseArray, LongSparseArray longSparseArray2, LongSparseArray longSparseArray3, LongSparseIntArray longSparseIntArray3) {
         int i;
-        int i2;
         MessageObject messageObject;
-        int i3;
+        int i2;
         MessageObject messageObject2;
-        int i4;
+        ?? r14;
+        int i3;
         long j;
         long j2;
-        int i5;
+        int i4;
         MessageObject messageObject3;
-        LongSparseIntArray longSparseIntArray4 = longSparseIntArray;
-        if (longSparseIntArray4 == null && longSparseIntArray2 == null) {
-            i = 0;
-        } else {
-            getNotificationCenter().postNotificationName(NotificationCenter.messagesRead, longSparseIntArray4, longSparseIntArray2);
-            if (longSparseIntArray4 != null) {
+        int i5 = 0;
+        if (longSparseIntArray != null || longSparseIntArray2 != null) {
+            getNotificationCenter().postNotificationName(NotificationCenter.messagesRead, longSparseIntArray, longSparseIntArray2);
+            if (longSparseIntArray != null) {
                 getNotificationsController().processReadMessages(longSparseIntArray, 0L, 0, 0, false);
                 SharedPreferences.Editor edit = this.notificationsPreferences.edit();
                 int size = longSparseIntArray.size();
                 int i6 = 0;
-                i = 0;
-                while (i6 < size) {
-                    long keyAt = longSparseIntArray4.keyAt(i6);
-                    int valueAt = longSparseIntArray4.valueAt(i6);
+                int i7 = 0;
+                while (i7 < size) {
+                    long keyAt = longSparseIntArray.keyAt(i7);
+                    int valueAt = longSparseIntArray.valueAt(i7);
                     TLRPC$Dialog tLRPC$Dialog = this.dialogs_dict.get(keyAt);
-                    int i7 = size;
-                    if (tLRPC$Dialog != null && (i3 = tLRPC$Dialog.top_message) > 0 && i3 <= valueAt && (messageObject2 = this.dialogMessage.get(tLRPC$Dialog.id)) != null && !messageObject2.isOut()) {
+                    int i8 = size;
+                    if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.top_message) > 0 && i2 <= valueAt && (messageObject2 = this.dialogMessage.get(tLRPC$Dialog.id)) != null && !messageObject2.isOut()) {
                         messageObject2.setIsRead();
-                        i |= UPDATE_MASK_READ_DIALOG_MESSAGE;
+                        i6 = UPDATE_MASK_READ_DIALOG_MESSAGE | i6;
                     }
                     if (keyAt != getUserConfig().getClientUserId()) {
                         edit.remove("diditem" + keyAt);
                         edit.remove("diditemo" + keyAt);
                     }
-                    i6++;
-                    longSparseIntArray4 = longSparseIntArray;
-                    size = i7;
+                    i7++;
+                    size = i8;
                 }
                 edit.commit();
+                i5 = i6;
             } else {
-                i = 0;
+                i5 = 0;
             }
             if (longSparseIntArray2 != null) {
                 int size2 = longSparseIntArray2.size();
-                for (int i8 = 0; i8 < size2; i8++) {
-                    long keyAt2 = longSparseIntArray2.keyAt(i8);
-                    int valueAt2 = longSparseIntArray2.valueAt(i8);
+                int i9 = i5;
+                for (int i10 = 0; i10 < size2; i10++) {
+                    long keyAt2 = longSparseIntArray2.keyAt(i10);
+                    int valueAt2 = longSparseIntArray2.valueAt(i10);
                     TLRPC$Dialog tLRPC$Dialog2 = this.dialogs_dict.get(keyAt2);
-                    if (tLRPC$Dialog2 != null && (i2 = tLRPC$Dialog2.top_message) > 0 && i2 <= valueAt2 && (messageObject = this.dialogMessage.get(tLRPC$Dialog2.id)) != null && messageObject.isOut()) {
+                    if (tLRPC$Dialog2 != null && (i = tLRPC$Dialog2.top_message) > 0 && i <= valueAt2 && (messageObject = this.dialogMessage.get(tLRPC$Dialog2.id)) != null && messageObject.isOut()) {
                         messageObject.setIsRead();
-                        i = UPDATE_MASK_READ_DIALOG_MESSAGE | i;
+                        i9 |= UPDATE_MASK_READ_DIALOG_MESSAGE;
                     }
                 }
+                i5 = i9;
             }
         }
         if (sparseIntArray != null) {
             int size3 = sparseIntArray.size();
-            for (int i9 = 0; i9 < size3; i9++) {
-                int keyAt3 = sparseIntArray.keyAt(i9);
-                int valueAt3 = sparseIntArray.valueAt(i9);
+            int i11 = i5;
+            for (int i12 = 0; i12 < size3; i12++) {
+                int keyAt3 = sparseIntArray.keyAt(i12);
+                int valueAt3 = sparseIntArray.valueAt(i12);
                 getNotificationCenter().postNotificationName(NotificationCenter.messagesReadEncrypted, Integer.valueOf(keyAt3), Integer.valueOf(valueAt3));
                 long makeEncryptedDialogId = DialogObject.makeEncryptedDialogId(keyAt3);
                 if (this.dialogs_dict.get(makeEncryptedDialogId) != null && (messageObject3 = this.dialogMessage.get(makeEncryptedDialogId)) != null && messageObject3.messageOwner.date <= valueAt3) {
                     messageObject3.setIsRead();
-                    i = UPDATE_MASK_READ_DIALOG_MESSAGE | i;
+                    i11 |= UPDATE_MASK_READ_DIALOG_MESSAGE;
                 }
             }
+            r14 = 0;
+            i3 = 1;
+            i5 = i11;
+        } else {
+            r14 = 0;
+            i3 = 1;
         }
         if (longSparseArray != null) {
             int size4 = longSparseArray.size();
-            for (int i10 = 0; i10 < size4; i10++) {
-                getNotificationCenter().postNotificationName(NotificationCenter.messagesReadContent, Long.valueOf(longSparseArray.keyAt(i10)), (ArrayList) longSparseArray.valueAt(i10));
+            for (int i13 = 0; i13 < size4; i13++) {
+                long keyAt4 = longSparseArray.keyAt(i13);
+                NotificationCenter notificationCenter = getNotificationCenter();
+                int i14 = NotificationCenter.messagesReadContent;
+                Object[] objArr = new Object[2];
+                objArr[r14] = Long.valueOf(keyAt4);
+                objArr[i3] = (ArrayList) longSparseArray.valueAt(i13);
+                notificationCenter.postNotificationName(i14, objArr);
             }
         }
-        int i11 = 3;
+        int i15 = 3;
         if (longSparseArray2 != null) {
             int size5 = longSparseArray2.size();
-            int i12 = 0;
-            while (i12 < size5) {
-                long keyAt4 = longSparseArray2.keyAt(i12);
-                ArrayList arrayList = (ArrayList) longSparseArray2.valueAt(i12);
+            int i16 = 0;
+            while (i16 < size5) {
+                long keyAt5 = longSparseArray2.keyAt(i16);
+                ArrayList arrayList = (ArrayList) longSparseArray2.valueAt(i16);
                 if (arrayList == null) {
-                    i5 = i;
+                    i4 = size5;
                 } else {
-                    NotificationCenter notificationCenter = getNotificationCenter();
-                    int i13 = NotificationCenter.messagesDeleted;
-                    Object[] objArr = new Object[i11];
-                    objArr[0] = arrayList;
-                    i5 = i;
-                    objArr[1] = Long.valueOf(-keyAt4);
-                    objArr[2] = Boolean.FALSE;
-                    notificationCenter.postNotificationName(i13, objArr);
-                    if (keyAt4 == 0) {
+                    NotificationCenter notificationCenter2 = getNotificationCenter();
+                    int i17 = NotificationCenter.messagesDeleted;
+                    Object[] objArr2 = new Object[i15];
+                    objArr2[r14] = arrayList;
+                    i4 = size5;
+                    objArr2[i3] = Long.valueOf(-keyAt5);
+                    objArr2[2] = Boolean.FALSE;
+                    notificationCenter2.postNotificationName(i17, objArr2);
+                    if (keyAt5 == 0) {
                         int size6 = arrayList.size();
-                        for (int i14 = 0; i14 < size6; i14++) {
-                            MessageObject messageObject4 = this.dialogMessagesByIds.get(((Integer) arrayList.get(i14)).intValue());
+                        for (int i18 = 0; i18 < size6; i18++) {
+                            MessageObject messageObject4 = this.dialogMessagesByIds.get(((Integer) arrayList.get(i18)).intValue());
                             if (messageObject4 != null) {
                                 if (BuildVars.LOGS_ENABLED) {
                                     FileLog.d("mark messages " + messageObject4.getId() + " deleted");
                                 }
-                                messageObject4.deleted = true;
+                                messageObject4.deleted = i3;
                             }
                         }
                     } else {
-                        MessageObject messageObject5 = this.dialogMessage.get(keyAt4);
+                        MessageObject messageObject5 = this.dialogMessage.get(keyAt5);
                         if (messageObject5 != null) {
                             int size7 = arrayList.size();
-                            int i15 = 0;
+                            int i19 = 0;
                             while (true) {
-                                if (i15 >= size7) {
+                                if (i19 >= size7) {
                                     break;
-                                } else if (messageObject5.getId() == ((Integer) arrayList.get(i15)).intValue()) {
-                                    messageObject5.deleted = true;
+                                } else if (messageObject5.getId() == ((Integer) arrayList.get(i19)).intValue()) {
+                                    messageObject5.deleted = i3;
                                     break;
                                 } else {
-                                    i15++;
+                                    i19++;
                                 }
                             }
                         }
                     }
                 }
-                i12++;
-                i = i5;
-                i11 = 3;
+                i16++;
+                size5 = i4;
+                i15 = 3;
             }
-            i4 = i;
             j = 0;
-            getNotificationsController().removeDeletedMessagesFromNotifications(longSparseArray2);
+            getNotificationsController().removeDeletedMessagesFromNotifications(longSparseArray2, r14);
         } else {
-            i4 = i;
             j = 0;
         }
         if (longSparseArray3 != null) {
             int size8 = longSparseArray3.size();
-            for (int i16 = 0; i16 < size8; i16++) {
-                long keyAt5 = longSparseArray3.keyAt(i16);
-                ArrayList arrayList2 = (ArrayList) longSparseArray3.valueAt(i16);
+            for (int i20 = 0; i20 < size8; i20++) {
+                long keyAt6 = longSparseArray3.keyAt(i20);
+                ArrayList arrayList2 = (ArrayList) longSparseArray3.valueAt(i20);
                 if (arrayList2 != null) {
-                    NotificationCenter notificationCenter2 = getNotificationCenter();
-                    int i17 = NotificationCenter.messagesDeleted;
-                    Object[] objArr2 = new Object[3];
-                    objArr2[0] = arrayList2;
-                    if (DialogObject.isChatDialog(keyAt5)) {
-                        j2 = -keyAt5;
+                    NotificationCenter notificationCenter3 = getNotificationCenter();
+                    int i21 = NotificationCenter.messagesDeleted;
+                    Object[] objArr3 = new Object[3];
+                    objArr3[r14] = arrayList2;
+                    if (DialogObject.isChatDialog(keyAt6)) {
+                        j2 = -keyAt6;
                     }
                     j2 = j;
-                    objArr2[1] = Long.valueOf(j2);
-                    objArr2[2] = Boolean.TRUE;
-                    notificationCenter2.postNotificationName(i17, objArr2);
+                    objArr3[i3] = Long.valueOf(j2);
+                    objArr3[2] = Boolean.TRUE;
+                    notificationCenter3.postNotificationName(i21, objArr3);
                 }
             }
         }
         if (longSparseIntArray3 != null) {
             int size9 = longSparseIntArray3.size();
-            int i18 = 0;
+            int i22 = 0;
             while (true) {
-                if (i18 >= size9) {
+                if (i22 >= size9) {
                     break;
                 }
-                long keyAt6 = longSparseIntArray3.keyAt(i18);
-                int valueAt4 = longSparseIntArray3.valueAt(i18);
-                long j3 = -keyAt6;
-                getNotificationCenter().postNotificationName(NotificationCenter.historyCleared, Long.valueOf(j3), Integer.valueOf(valueAt4));
+                long keyAt7 = longSparseIntArray3.keyAt(i22);
+                int valueAt4 = longSparseIntArray3.valueAt(i22);
+                long j3 = -keyAt7;
+                NotificationCenter notificationCenter4 = getNotificationCenter();
+                int i23 = NotificationCenter.historyCleared;
+                Object[] objArr4 = new Object[2];
+                objArr4[r14] = Long.valueOf(j3);
+                objArr4[i3] = Integer.valueOf(valueAt4);
+                notificationCenter4.postNotificationName(i23, objArr4);
                 MessageObject messageObject6 = this.dialogMessage.get(j3);
                 if (messageObject6 != null && messageObject6.getId() <= valueAt4) {
-                    messageObject6.deleted = true;
+                    messageObject6.deleted = i3;
                     break;
                 }
-                i18++;
+                i22++;
             }
             getNotificationsController().removeDeletedHisoryFromNotifications(longSparseIntArray3);
         }
-        if (i4 != 0) {
-            getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(i4));
+        if (i5 != 0) {
+            NotificationCenter notificationCenter5 = getNotificationCenter();
+            int i24 = NotificationCenter.updateInterfaces;
+            Object[] objArr5 = new Object[i3];
+            Integer valueOf = Integer.valueOf(i5);
+            char c = r14 == true ? 1 : 0;
+            char c2 = r14 == true ? 1 : 0;
+            objArr5[c] = valueOf;
+            notificationCenter5.postNotificationName(i24, objArr5);
         }
     }
 

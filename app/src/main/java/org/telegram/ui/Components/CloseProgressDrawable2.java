@@ -14,11 +14,11 @@ public class CloseProgressDrawable2 extends Drawable {
     private float angle;
     private boolean animating;
     private int currentColor;
+    private int globalColorAlpha;
     private long lastFrameTime;
-    private Paint paint = new Paint(1);
-    private RectF rect = new RectF();
-    private int globalColorAlpha = 255;
-    private int side = AndroidUtilities.dp(8.0f);
+    private Paint paint;
+    private RectF rect;
+    private int side;
 
     protected int getCurrentColor() {
         throw null;
@@ -38,11 +38,19 @@ public class CloseProgressDrawable2 extends Drawable {
     }
 
     public CloseProgressDrawable2() {
+        this(2.0f);
+    }
+
+    public CloseProgressDrawable2(float f) {
+        this.paint = new Paint(1);
         new DecelerateInterpolator();
+        this.rect = new RectF();
+        this.globalColorAlpha = 255;
         this.paint.setColor(-1);
-        this.paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
+        this.paint.setStrokeWidth(AndroidUtilities.dp(f));
         this.paint.setStrokeCap(Paint.Cap.ROUND);
         this.paint.setStyle(Paint.Style.STROKE);
+        this.side = AndroidUtilities.dp(8.0f);
     }
 
     public void startAnimation() {

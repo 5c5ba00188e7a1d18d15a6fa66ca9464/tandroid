@@ -76,6 +76,7 @@ public class BottomSheet extends Dialog {
     protected AnimatorSet currentSheetAnimation;
     protected int currentSheetAnimationType;
     private View customView;
+    protected int customViewGravity;
     protected BottomSheetDelegateInterface delegate;
     protected boolean dimBehind;
     protected int dimBehindAlpha;
@@ -178,7 +179,8 @@ public class BottomSheet extends Dialog {
         return false;
     }
 
-    protected void onContainerTranslationYChanged(float f) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void onContainerTranslationYChanged(float f) {
     }
 
     protected boolean onCustomCloseAnimation() {
@@ -1243,6 +1245,7 @@ public class BottomSheet extends Dialog {
         this.navigationBarAlpha = 0.0f;
         this.navBarColorKey = "windowBackgroundGray";
         this.useBackgroundTopPadding = true;
+        this.customViewGravity = 51;
         this.resourcesProvider = resourcesProvider;
         int i = Build.VERSION.SDK_INT;
         if (i >= 30) {
@@ -1429,9 +1432,9 @@ public class BottomSheet extends Dialog {
                 this.containerView.setClipChildren(false);
                 this.container.setClipToPadding(false);
                 this.container.setClipChildren(false);
-                this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, (-this.backgroundPaddingTop) + i, 0.0f, 0.0f));
+                this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2.0f, this.customViewGravity, 0.0f, (-this.backgroundPaddingTop) + i, 0.0f, 0.0f));
             } else {
-                this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, i, 0.0f, 0.0f));
+                this.containerView.addView(this.customView, LayoutHelper.createFrame(-1, -2.0f, this.customViewGravity, 0.0f, i, 0.0f, 0.0f));
             }
         } else if (this.items != null) {
             int i2 = 0;

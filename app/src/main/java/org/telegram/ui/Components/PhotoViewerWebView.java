@@ -329,17 +329,14 @@ public class PhotoViewerWebView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0091 A[LOOP:0: B:9:0x008f->B:10:0x0091, LOOP_END] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void processYoutubeStoryboards(String str) {
         String str2;
-        int i;
         double ceil;
-        int i2;
         int videoDuration = getVideoDuration() / 1000;
         this.youtubeStoryboards.clear();
+        if (videoDuration <= 15) {
+            return;
+        }
         String[] split = str.split("\\|");
         String str3 = split[0].split("\\$")[0] + "2/";
         String str4 = split[0].split("\\$N")[1];
@@ -350,74 +347,90 @@ public class PhotoViewerWebView extends FrameLayout {
         } else {
             str2 = split[3].split("M#")[1];
         }
-        if (videoDuration < 250) {
+        if (videoDuration <= 100) {
+            ceil = Math.ceil(videoDuration / 25.0f);
+        } else if (videoDuration <= 250) {
             ceil = Math.ceil((videoDuration / 2.0f) / 25.0f);
-        } else if (videoDuration >= 250 && videoDuration < 1000) {
+        } else if (videoDuration <= 500) {
             ceil = Math.ceil((videoDuration / 4.0f) / 25.0f);
-        } else if (videoDuration < 1000) {
-            i = 0;
-            for (i2 = 0; i2 < i; i2++) {
-                this.youtubeStoryboards.add(String.format(Locale.ROOT, "%sM%d%s&sigh=%s", str3, Integer.valueOf(i2), str4, str2));
-            }
+        } else if (videoDuration <= 1000) {
+            ceil = Math.ceil((videoDuration / 5.0f) / 25.0f);
         } else {
             ceil = Math.ceil((videoDuration / 10.0f) / 25.0f);
         }
-        i = (int) ceil;
-        while (i2 < i) {
+        int i = (int) ceil;
+        for (int i2 = 0; i2 < i; i2++) {
+            this.youtubeStoryboards.add(String.format(Locale.ROOT, "%sM%d%s&sigh=%s", str3, Integer.valueOf(i2), str4, str2));
         }
     }
 
     public int getYoutubeStoryboardImageCount(int i) {
         double ceil;
         int indexOf = this.youtubeStoryboards.indexOf(getYoutubeStoryboard(i));
-        int i2 = 0;
         if (indexOf != -1) {
             if (indexOf != this.youtubeStoryboards.size() - 1) {
                 return 25;
             }
             int videoDuration = getVideoDuration() / 1000;
-            if (videoDuration < 250) {
+            if (videoDuration <= 100) {
+                ceil = Math.ceil(videoDuration);
+            } else if (videoDuration <= 250) {
                 ceil = Math.ceil(videoDuration / 2.0f);
-            } else if (videoDuration >= 250 && videoDuration < 1000) {
+            } else if (videoDuration <= 500) {
                 ceil = Math.ceil(videoDuration / 4.0f);
+            } else if (videoDuration <= 1000) {
+                ceil = Math.ceil(videoDuration / 5.0f);
             } else {
-                if (videoDuration >= 1000) {
-                    ceil = Math.ceil(videoDuration / 10.0f);
-                }
-                return i2 - ((this.youtubeStoryboards.size() - 1) * 25);
+                ceil = Math.ceil(videoDuration / 10.0f);
             }
-            i2 = (int) ceil;
-            return i2 - ((this.youtubeStoryboards.size() - 1) * 25);
+            return Math.min(25, (((int) ceil) - ((this.youtubeStoryboards.size() - 1) * 25)) + 1);
         }
         return 0;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0049 A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0040  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public String getYoutubeStoryboard(int i) {
+        float f;
         int i2;
         int videoDuration = getVideoDuration() / 1000;
-        if (videoDuration < 250) {
-            i2 = ((int) (i / 2.0f)) / 25;
-        } else if (videoDuration < 250 || videoDuration >= 1000) {
-            i2 = videoDuration >= 1000 ? (int) ((i / 10.0f) / 25.0f) : -1;
-        } else {
-            i2 = ((int) (i / 4.0f)) / 25;
+        if (videoDuration > 100) {
+            if (videoDuration <= 250) {
+                i2 = ((int) (i / 2.0f)) / 25;
+            } else if (videoDuration <= 500) {
+                i2 = ((int) (i / 4.0f)) / 25;
+            } else if (videoDuration <= 1000) {
+                i2 = ((int) (i / 5.0f)) / 25;
+            } else {
+                f = i / 10.0f;
+            }
+            if (i2 < this.youtubeStoryboards.size()) {
+                return null;
+            }
+            return this.youtubeStoryboards.get(i2);
         }
-        if (i2 == -1 || i2 >= this.youtubeStoryboards.size()) {
-            return null;
+        f = i;
+        i2 = (int) (f / 25.0f);
+        if (i2 < this.youtubeStoryboards.size()) {
         }
-        return this.youtubeStoryboards.get(i2);
     }
 
     public int getYoutubeStoryboardImageIndex(int i) {
         int videoDuration = getVideoDuration() / 1000;
-        if (videoDuration < 250) {
+        if (videoDuration <= 100) {
+            return ((int) Math.ceil(i)) % 25;
+        }
+        if (videoDuration <= 250) {
             return ((int) Math.ceil(i / 2.0f)) % 25;
         }
-        if (videoDuration >= 250 && videoDuration < 1000) {
+        if (videoDuration <= 500) {
             return ((int) Math.ceil(i / 4.0f)) % 25;
         }
-        if (videoDuration < 1000) {
-            return -1;
+        if (videoDuration <= 1000) {
+            return ((int) Math.ceil(i / 5.0f)) % 25;
         }
         return ((int) Math.ceil(i / 10.0f)) % 25;
     }
@@ -734,6 +747,8 @@ public class PhotoViewerWebView extends FrameLayout {
         this.webView.stopLoading();
         this.webView.loadUrl("about:blank");
         this.webView.destroy();
+        this.videoDuration = 0;
+        this.currentPosition = 0;
         AndroidUtilities.cancelRunOnUIThread(this.progressRunnable);
     }
 }

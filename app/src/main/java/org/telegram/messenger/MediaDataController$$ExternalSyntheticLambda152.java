@@ -10,8 +10,8 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda1
 
     @Override // org.telegram.messenger.GenericProvider
     public final Object provide(Object obj) {
-        TLRPC$MessageEntity lambda$getEntities$159;
-        lambda$getEntities$159 = MediaDataController.lambda$getEntities$159((Void) obj);
-        return lambda$getEntities$159;
+        TLRPC$MessageEntity lambda$getEntities$160;
+        lambda$getEntities$160 = MediaDataController.lambda$getEntities$160((Void) obj);
+        return lambda$getEntities$160;
     }
 }

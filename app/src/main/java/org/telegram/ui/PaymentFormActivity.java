@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -266,6 +267,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     private WebView webView;
     private String webViewUrl;
     private boolean webviewLoading;
+    private static final List<String> WEBVIEW_PROTOCOLS = Arrays.asList("http", "https");
+    private static final List<String> BLACKLISTED_PROTOCOLS = Collections.singletonList("tg");
 
     /* loaded from: classes3.dex */
     public enum InvoiceStatus {
@@ -608,7 +611,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public View createView(Context context) {
+    public View createView(final Context context) {
         String str;
         String str2;
         String str3;
@@ -2500,12 +2503,26 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                 @Override // android.webkit.WebViewClient
                                 public boolean shouldOverrideUrlLoading(WebView webView3, String str18) {
                                     try {
-                                        if (!"t.me".equals(Uri.parse(str18).getHost())) {
-                                            return false;
+                                        Uri parse = Uri.parse(str18);
+                                        if ("t.me".equals(parse.getHost())) {
+                                            PaymentFormActivity.this.goToNextStep();
+                                            return true;
+                                        } else if (PaymentFormActivity.BLACKLISTED_PROTOCOLS.contains(parse.getScheme())) {
+                                            return true;
+                                        } else {
+                                            if (PaymentFormActivity.WEBVIEW_PROTOCOLS.contains(parse.getScheme())) {
+                                                return false;
+                                            }
+                                            try {
+                                                if (PaymentFormActivity.this.getContext() instanceof Activity) {
+                                                    ((Activity) PaymentFormActivity.this.getContext()).startActivityForResult(new Intent("android.intent.action.VIEW", parse), 210);
+                                                }
+                                            } catch (ActivityNotFoundException unused5) {
+                                                new AlertDialog.Builder(context).setTitle(PaymentFormActivity.this.currentBotName).setMessage(LocaleController.getString(R.string.PaymentAppNotFoundForDeeplink)).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                                            }
+                                            return true;
                                         }
-                                        PaymentFormActivity.this.goToNextStep();
-                                        return true;
-                                    } catch (Exception unused5) {
+                                    } catch (Exception unused6) {
                                         return false;
                                     }
                                 }

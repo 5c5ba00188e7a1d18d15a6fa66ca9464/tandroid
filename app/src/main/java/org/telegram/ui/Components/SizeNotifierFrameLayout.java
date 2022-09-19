@@ -34,7 +34,7 @@ import org.telegram.ui.Components.WallpaperParallaxEffect;
 /* loaded from: classes3.dex */
 public class SizeNotifierFrameLayout extends FrameLayout {
     private static DispatchQueue blurQueue;
-    protected AdjustPanLayoutHelper adjustPanLayoutHelper;
+    public AdjustPanLayoutHelper adjustPanLayoutHelper;
     private boolean animationInProgress;
     private Drawable backgroundDrawable;
     private int backgroundTranslationY;

@@ -29,6 +29,7 @@ import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.ui.Cells.DialogCell;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.EmptyStubSpan;
 import org.telegram.ui.Components.StaticLayoutEx;
@@ -764,7 +765,9 @@ public class SimpleTextView extends View {
         if (this.layout != null) {
             if (this.rightDrawableOutside || this.ellipsizeByGradient) {
                 canvas.save();
-                canvas.clipRect(0, 0, getMaxTextWidth() - this.paddingRight, getMeasuredHeight());
+                int maxTextWidth = getMaxTextWidth() - this.paddingRight;
+                Drawable drawable7 = this.rightDrawable;
+                canvas.clipRect(0, 0, maxTextWidth - AndroidUtilities.dp((drawable7 == null || (drawable7 instanceof AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) || !this.rightDrawableOutside) ? 0.0f : 2.0f), getMeasuredHeight());
             }
             Emoji.emojiDrawingUseAlpha = this.usaAlphaForEmoji;
             if (this.wrapBackgroundDrawable != null) {
@@ -831,7 +834,9 @@ public class SimpleTextView extends View {
                 canvas.restore();
             } else if (this.ellipsizeByGradient && this.fadeEllpsizePaint != null) {
                 canvas.save();
-                canvas.translate((getMaxTextWidth() - this.paddingRight) - AndroidUtilities.dp(16.0f), 0.0f);
+                int maxTextWidth2 = getMaxTextWidth() - this.paddingRight;
+                Drawable drawable8 = this.rightDrawable;
+                canvas.translate(maxTextWidth2 - AndroidUtilities.dp((drawable8 == null || (drawable8 instanceof AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable) || !this.rightDrawableOutside) ? 16.0f : 18.0f), 0.0f);
                 canvas.drawRect(0.0f, 0.0f, AndroidUtilities.dp(16.0f), getMeasuredHeight(), this.fadeEllpsizePaint);
                 canvas.restore();
             }

@@ -525,62 +525,57 @@ public class NotificationsController extends BaseController {
         ApplicationLoader.applicationContext.sendBroadcast(new Intent("android.intent.action.CLOSE_SYSTEM_DIALOGS"));
     }
 
-    public void removeDeletedMessagesFromNotifications(final LongSparseArray<ArrayList<Integer>> longSparseArray) {
+    public void removeDeletedMessagesFromNotifications(final LongSparseArray<ArrayList<Integer>> longSparseArray, final boolean z) {
         final ArrayList arrayList = new ArrayList(0);
         notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
-                NotificationsController.this.lambda$removeDeletedMessagesFromNotifications$9(longSparseArray, arrayList);
+                NotificationsController.this.lambda$removeDeletedMessagesFromNotifications$9(longSparseArray, z, arrayList);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$removeDeletedMessagesFromNotifications$9(LongSparseArray longSparseArray, final ArrayList arrayList) {
+    public /* synthetic */ void lambda$removeDeletedMessagesFromNotifications$9(LongSparseArray longSparseArray, boolean z, final ArrayList arrayList) {
+        long j;
         Integer num;
-        ArrayList arrayList2;
-        Integer num2;
         LongSparseArray longSparseArray2 = longSparseArray;
         int i = this.total_unread_count;
         getAccountInstance().getNotificationsSettings();
-        Integer num3 = 0;
         int i2 = 0;
         while (i2 < longSparseArray.size()) {
             long keyAt = longSparseArray2.keyAt(i2);
             SparseArray<MessageObject> sparseArray = this.pushMessagesDict.get(keyAt);
-            if (sparseArray == null) {
-                num = num3;
-            } else {
-                ArrayList arrayList3 = (ArrayList) longSparseArray2.get(keyAt);
-                int size = arrayList3.size();
+            if (sparseArray != null) {
+                ArrayList arrayList2 = (ArrayList) longSparseArray2.get(keyAt);
+                int size = arrayList2.size();
                 int i3 = 0;
                 while (i3 < size) {
-                    int intValue = ((Integer) arrayList3.get(i3)).intValue();
+                    int intValue = ((Integer) arrayList2.get(i3)).intValue();
                     MessageObject messageObject = sparseArray.get(intValue);
-                    Integer num4 = num3;
-                    if (messageObject != null) {
+                    if (messageObject == null || (z && !messageObject.isReactionPush)) {
+                        j = keyAt;
+                    } else {
+                        j = keyAt;
                         long dialogId = messageObject.getDialogId();
-                        Integer num5 = this.pushDialogs.get(dialogId);
-                        if (num5 == null) {
-                            num5 = num4;
+                        Integer num2 = this.pushDialogs.get(dialogId);
+                        if (num2 == null) {
+                            num2 = 0;
                         }
-                        Integer valueOf = Integer.valueOf(num5.intValue() - 1);
+                        Integer valueOf = Integer.valueOf(num2.intValue() - 1);
                         if (valueOf.intValue() <= 0) {
                             this.smartNotificationsDialogs.remove(dialogId);
-                            num2 = num4;
+                            num = 0;
                         } else {
-                            num2 = valueOf;
+                            num = valueOf;
                         }
-                        if (!num2.equals(num5)) {
-                            arrayList2 = arrayList3;
-                            int intValue2 = this.total_unread_count - num5.intValue();
+                        if (!num.equals(num2)) {
+                            int intValue2 = this.total_unread_count - num2.intValue();
                             this.total_unread_count = intValue2;
-                            this.total_unread_count = intValue2 + num2.intValue();
-                            this.pushDialogs.put(dialogId, num2);
-                        } else {
-                            arrayList2 = arrayList3;
+                            this.total_unread_count = intValue2 + num.intValue();
+                            this.pushDialogs.put(dialogId, num);
                         }
-                        if (num2.intValue() == 0) {
+                        if (num.intValue() == 0) {
                             this.pushDialogs.remove(dialogId);
                             this.pushDialogsOverrideMention.remove(dialogId);
                         }
@@ -591,21 +586,17 @@ public class NotificationsController extends BaseController {
                             this.personalCount--;
                         }
                         arrayList.add(messageObject);
-                    } else {
-                        arrayList2 = arrayList3;
                     }
                     i3++;
-                    num3 = num4;
-                    arrayList3 = arrayList2;
+                    keyAt = j;
                 }
-                num = num3;
+                long j2 = keyAt;
                 if (sparseArray.size() == 0) {
-                    this.pushMessagesDict.remove(keyAt);
+                    this.pushMessagesDict.remove(j2);
                 }
             }
             i2++;
             longSparseArray2 = longSparseArray;
-            num3 = num;
         }
         if (!arrayList.isEmpty()) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda27

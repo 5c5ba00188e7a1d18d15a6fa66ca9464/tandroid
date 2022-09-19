@@ -1885,6 +1885,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         int i;
         Object obj;
         Theme.ResourcesProvider resourcesProvider;
+        boolean z;
+        float f;
         ChatAvatarContainer avatarContainer;
         TLRPC$ChatParticipants tLRPC$ChatParticipants;
         ChatActivity.ThemeDelegate themeDelegate;
@@ -1929,22 +1931,22 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onSearchStateChanged(boolean z) {
+            protected void onSearchStateChanged(boolean z2) {
                 if (SharedConfig.smoothKeyboard) {
                     AndroidUtilities.removeAdjustResize(ProfileActivity.this.getParentActivity(), ((BaseFragment) ProfileActivity.this).classGuid);
                 }
                 ProfileActivity.this.listView.stopScroll();
                 ProfileActivity.this.avatarContainer2.setPivotY(ProfileActivity.this.avatarContainer.getPivotY() + (ProfileActivity.this.avatarContainer.getMeasuredHeight() / 2.0f));
                 ProfileActivity.this.avatarContainer2.setPivotX(ProfileActivity.this.avatarContainer2.getMeasuredWidth() / 2.0f);
-                AndroidUtilities.updateViewVisibilityAnimated(ProfileActivity.this.avatarContainer2, !z, 0.95f, true);
+                AndroidUtilities.updateViewVisibilityAnimated(ProfileActivity.this.avatarContainer2, !z2, 0.95f, true);
                 int i2 = 4;
-                ProfileActivity.this.callItem.setVisibility((z || !ProfileActivity.this.callItemVisible) ? 8 : 4);
-                ProfileActivity.this.videoCallItem.setVisibility((z || !ProfileActivity.this.videoCallItemVisible) ? 8 : 4);
-                ProfileActivity.this.editItem.setVisibility((z || !ProfileActivity.this.editItemVisible) ? 8 : 4);
-                ProfileActivity.this.otherItem.setVisibility(z ? 8 : 4);
+                ProfileActivity.this.callItem.setVisibility((z2 || !ProfileActivity.this.callItemVisible) ? 8 : 4);
+                ProfileActivity.this.videoCallItem.setVisibility((z2 || !ProfileActivity.this.videoCallItemVisible) ? 8 : 4);
+                ProfileActivity.this.editItem.setVisibility((z2 || !ProfileActivity.this.editItemVisible) ? 8 : 4);
+                ProfileActivity.this.otherItem.setVisibility(z2 ? 8 : 4);
                 if (ProfileActivity.this.qrItem != null) {
                     ActionBarMenuItem actionBarMenuItem = ProfileActivity.this.qrItem;
-                    if (z) {
+                    if (z2) {
                         i2 = 8;
                     }
                     actionBarMenuItem.setVisibility(i2);
@@ -1952,13 +1954,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z) {
-                return ProfileActivity.this.onMemberClick(tLRPC$ChatParticipant, z);
+            protected boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z2) {
+                return ProfileActivity.this.onMemberClick(tLRPC$ChatParticipant, z2);
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void drawBackgroundWithBlur(Canvas canvas, float f, Rect rect, Paint paint) {
-                ProfileActivity.this.contentView.drawBlurRect(canvas, ProfileActivity.this.listView.getY() + getY() + f, rect, paint, true);
+            protected void drawBackgroundWithBlur(Canvas canvas, float f2, Rect rect, Paint paint) {
+                ProfileActivity.this.contentView.drawBlurRect(canvas, ProfileActivity.this.listView.getY() + getY() + f2, rect, paint, true);
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
@@ -2076,7 +2078,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean canHighlightChildAt(View view2, float f, float f2) {
+            public boolean canHighlightChildAt(View view2, float f2, float f3) {
                 return !(view2 instanceof AboutLinkCell);
             }
 
@@ -2132,12 +2134,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
             public boolean drawChild(Canvas canvas, View view2, long j3) {
                 if (getItemAnimator().isRunning() && view2.getBackground() == null && view2.getTranslationY() != 0.0f) {
-                    boolean z = ProfileActivity.this.listView.getChildAdapterPosition(view2) == ProfileActivity.this.sharedMediaRow && view2.getAlpha() != 1.0f;
-                    if (z) {
+                    boolean z2 = ProfileActivity.this.listView.getChildAdapterPosition(view2) == ProfileActivity.this.sharedMediaRow && view2.getAlpha() != 1.0f;
+                    if (z2) {
                         ProfileActivity.this.whitePaint.setAlpha((int) (ProfileActivity.this.listView.getAlpha() * 255.0f * view2.getAlpha()));
                     }
                     canvas.drawRect(ProfileActivity.this.listView.getX(), view2.getY(), ProfileActivity.this.listView.getX() + ProfileActivity.this.listView.getMeasuredWidth(), view2.getY() + view2.getHeight(), ProfileActivity.this.whitePaint);
-                    if (z) {
+                    if (z2) {
                         ProfileActivity.this.whitePaint.setAlpha((int) (ProfileActivity.this.listView.getAlpha() * 255.0f));
                     }
                 }
@@ -2160,7 +2162,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public int scrollVerticallyBy(int i3, RecyclerView.Recycler recycler, RecyclerView.State state) {
-                boolean z = false;
+                boolean z2 = false;
                 View findViewByPosition2 = ProfileActivity.this.layoutManager.findViewByPosition(0);
                 if (findViewByPosition2 != null && !ProfileActivity.this.openingAvatar) {
                     int top = findViewByPosition2.getTop() - AndroidUtilities.dp(88.0f);
@@ -2175,9 +2177,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (ProfileActivity.this.avatarsViewPager.hasImages() && ProfileActivity.this.avatarImage.getImageReceiver().hasNotThumb() && !AndroidUtilities.isAccessibilityScreenReaderEnabled() && !ProfileActivity.this.isInLandscapeMode && !AndroidUtilities.isTablet()) {
                         ProfileActivity profileActivity = ProfileActivity.this;
                         if (profileActivity.avatarBig == null) {
-                            z = true;
+                            z2 = true;
                         }
-                        profileActivity.allowPullingDown = z;
+                        profileActivity.allowPullingDown = z2;
                     }
                     i3 = top;
                 }
@@ -2199,13 +2201,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view2, int i3, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view2, i3, f, f2);
+            public /* synthetic */ void onDoubleTap(View view2, int i3, float f2, float f3) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view2, i3, f2, f3);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view2, int i3, float f, float f2) {
-                ProfileActivity.this.lambda$createView$6(j2, context, view2, i3, f, f2);
+            public final void onItemClick(View view2, int i3, float f2, float f3) {
+                ProfileActivity.this.lambda$createView$6(j2, context, view2, i3, f2, f3);
             }
         });
         this.listView.setOnItemLongClickListener(new 15(context));
@@ -2419,10 +2421,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.avatarsViewPagerIndicatorView = pagerIndicatorView;
         this.avatarContainer2.addView(pagerIndicatorView, LayoutHelper.createFrame(-1, -1.0f));
         frameLayout.addView(this.actionBar);
-        float f = 54 + ((!this.callItemVisible || this.userId == 0) ? 0 : 54);
+        float f2 = 54 + ((!this.callItemVisible || this.userId == 0) ? 0 : 54);
         ActionBarLayout actionBarLayout = this.parentLayout;
-        if (actionBarLayout != null && (actionBarLayout.getLastFragment() instanceof ChatActivity) && (avatarContainer = ((ChatActivity) this.parentLayout.getLastFragment()).getAvatarContainer()) != null && avatarContainer.getLayoutParams() != null && avatarContainer.getTitleTextView() != null) {
-            f = (((ViewGroup.MarginLayoutParams) avatarContainer.getLayoutParams()).rightMargin + (avatarContainer.getWidth() - avatarContainer.getTitleTextView().getRight())) / AndroidUtilities.density;
+        if (actionBarLayout == null || !(actionBarLayout.getLastFragment() instanceof ChatActivity) || (avatarContainer = ((ChatActivity) this.parentLayout.getLastFragment()).getAvatarContainer()) == null) {
+            z = false;
+        } else {
+            z = avatarContainer.getTitleTextView().getPaddingRight() != 0;
+            if (avatarContainer.getLayoutParams() != null && avatarContainer.getTitleTextView() != null) {
+                f2 = (((ViewGroup.MarginLayoutParams) avatarContainer.getLayoutParams()).rightMargin + (avatarContainer.getWidth() - avatarContainer.getTitleTextView().getRight())) / AndroidUtilities.density;
+            }
         }
         int i3 = 0;
         while (true) {
@@ -2461,7 +2468,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.nameTextView[i3].setFocusable(i3 == 0);
                 this.nameTextView[i3].setEllipsizeByGradient(true);
                 this.nameTextView[i3].setRightDrawableOutside(i3 == 0);
-                this.avatarContainer2.addView(this.nameTextView[i3], LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, -6.0f, i3 == 0 ? f - 12.0f : 0.0f, 0.0f));
+                FrameLayout frameLayout4 = this.avatarContainer2;
+                SimpleTextView simpleTextView = this.nameTextView[i3];
+                if (i3 == 0) {
+                    f = f2 - (z ? 16 : 0);
+                } else {
+                    f = 0.0f;
+                }
+                frameLayout4.addView(simpleTextView, LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, -6.0f, f, 0.0f));
             }
             i3++;
         }
@@ -2481,7 +2495,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.onlineTextView[i4].setImportantForAccessibility(2);
             }
             this.onlineTextView[i4].setFocusable(i4 == 0);
-            this.avatarContainer2.addView(this.onlineTextView[i4], LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, 0.0f, i4 == 0 ? f - 12.0f : 8.0f, 0.0f));
+            this.avatarContainer2.addView(this.onlineTextView[i4], LayoutHelper.createFrame(-2, -2.0f, 51, 118.0f, 0.0f, i4 == 0 ? f2 - 12.0f : 8.0f, 0.0f));
             i4++;
         }
         this.avatarContainer2.addView(this.animatedStatusView);
@@ -2542,7 +2556,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.ProfileActivity.24
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i6) {
-                boolean z = true;
+                boolean z2 = true;
                 if (i6 == 1) {
                     AndroidUtilities.hideKeyboard(ProfileActivity.this.getParentActivity().getCurrentFocus());
                 }
@@ -2553,9 +2567,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.this.scrolling = i6 != 0;
                     ActionBarMenuItem actionBarMenuItem = ProfileActivity.this.searchItem;
                     if (ProfileActivity.this.scrolling || ProfileActivity.this.isPulledDown) {
-                        z = false;
+                        z2 = false;
                     }
-                    actionBarMenuItem.setEnabled(z);
+                    actionBarMenuItem.setEnabled(z2);
                 }
                 ProfileActivity.this.sharedMediaLayout.scrollingByUser = ProfileActivity.this.listView.scrollingByUser;
             }
@@ -2566,15 +2580,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.this.fwdRestrictedHint.hide();
                 }
                 ProfileActivity.this.checkListViewScroll();
-                boolean z = false;
+                boolean z2 = false;
                 if (ProfileActivity.this.participantsMap != null && !ProfileActivity.this.usersEndReached && ProfileActivity.this.layoutManager.findLastVisibleItemPosition() > ProfileActivity.this.membersEndRow - 8) {
                     ProfileActivity.this.getChannelParticipants(false);
                 }
                 SharedMediaLayout sharedMediaLayout3 = ProfileActivity.this.sharedMediaLayout;
                 if (ProfileActivity.this.sharedMediaLayout.getY() == 0.0f) {
-                    z = true;
+                    z2 = true;
                 }
-                sharedMediaLayout3.setPinnedToTop(z);
+                sharedMediaLayout3.setPinnedToTop(z2);
             }
         });
         UndoView undoView = new UndoView(context, null, false, this.resourcesProvider);
@@ -2624,11 +2638,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             @Override // org.telegram.ui.PinchToZoomHelper
-            protected void drawOverlays(Canvas canvas, float f2, float f3, float f4, float f5, float f6) {
-                if (f2 > 0.0f) {
+            protected void drawOverlays(Canvas canvas, float f3, float f4, float f5, float f6, float f7) {
+                if (f3 > 0.0f) {
                     RectF rectF = AndroidUtilities.rectTmp;
                     rectF.set(0.0f, 0.0f, ProfileActivity.this.avatarsViewPager.getMeasuredWidth(), ProfileActivity.this.avatarsViewPager.getMeasuredHeight() + AndroidUtilities.dp(30.0f));
-                    canvas.saveLayerAlpha(rectF, (int) (255.0f * f2), 31);
+                    canvas.saveLayerAlpha(rectF, (int) (255.0f * f3), 31);
                     ProfileActivity.this.avatarContainer2.draw(canvas);
                     if (((BaseFragment) ProfileActivity.this).actionBar.getOccupyStatusBar() && !SharedConfig.noStatusBar) {
                         if (this.statusBarPaint == null) {
@@ -2644,8 +2658,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     canvas.restore();
                     if (ProfileActivity.this.writeButton != null && ProfileActivity.this.writeButton.getVisibility() == 0 && ProfileActivity.this.writeButton.getAlpha() > 0.0f) {
                         canvas.save();
-                        float f7 = (f2 * 0.5f) + 0.5f;
-                        canvas.scale(f7, f7, ProfileActivity.this.writeButton.getX() + (ProfileActivity.this.writeButton.getMeasuredWidth() / 2.0f), ProfileActivity.this.writeButton.getY() + (ProfileActivity.this.writeButton.getMeasuredHeight() / 2.0f));
+                        float f8 = (f3 * 0.5f) + 0.5f;
+                        canvas.scale(f8, f8, ProfileActivity.this.writeButton.getX() + (ProfileActivity.this.writeButton.getMeasuredWidth() / 2.0f), ProfileActivity.this.writeButton.getY() + (ProfileActivity.this.writeButton.getMeasuredHeight() / 2.0f));
                         canvas.translate(ProfileActivity.this.writeButton.getX(), ProfileActivity.this.writeButton.getY());
                         ProfileActivity.this.writeButton.draw(canvas);
                         canvas.restore();

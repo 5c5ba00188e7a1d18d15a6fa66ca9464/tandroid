@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+import org.telegram.messenger.BuildConfig;
 /* JADX INFO: Access modifiers changed from: package-private */
 @TargetApi(18)
 /* loaded from: classes.dex */
@@ -197,7 +198,7 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
-    @EnsuresNonNullIf(expression = {"sessionId"}, result = true)
+    @EnsuresNonNullIf(expression = {"sessionId"}, result = BuildConfig.DEBUG_VERSION)
     private boolean openInternal(boolean z) {
         if (isOpen()) {
             return true;
@@ -370,7 +371,7 @@ public class DefaultDrmSession<T extends ExoMediaCrypto> implements DrmSession<T
         }
     }
 
-    @EnsuresNonNullIf(expression = {"sessionId"}, result = true)
+    @EnsuresNonNullIf(expression = {"sessionId"}, result = BuildConfig.DEBUG_VERSION)
     private boolean isOpen() {
         int i = this.state;
         return i == 3 || i == 4;

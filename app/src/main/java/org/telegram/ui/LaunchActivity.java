@@ -758,7 +758,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             FileLog.e(e3);
         }
         MediaController.getInstance().setBaseActivity(this, true);
-        AndroidUtilities.startAppCenter(this);
+        ApplicationLoader.startAppCenter(this);
         updateAppUpdateViews(false);
         int i4 = Build.VERSION.SDK_INT;
         if (i4 >= 23) {

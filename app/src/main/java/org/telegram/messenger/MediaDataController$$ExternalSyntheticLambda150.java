@@ -11,8 +11,8 @@ public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda1
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int lambda$increaseInlineRaiting$130;
-        lambda$increaseInlineRaiting$130 = MediaDataController.lambda$increaseInlineRaiting$130((TLRPC$TL_topPeer) obj, (TLRPC$TL_topPeer) obj2);
-        return lambda$increaseInlineRaiting$130;
+        int lambda$increasePeerRaiting$133;
+        lambda$increasePeerRaiting$133 = MediaDataController.lambda$increasePeerRaiting$133((TLRPC$TL_topPeer) obj, (TLRPC$TL_topPeer) obj2);
+        return lambda$increasePeerRaiting$133;
     }
 }

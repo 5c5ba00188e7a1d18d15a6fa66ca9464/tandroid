@@ -974,8 +974,9 @@ public class EmbedBottomSheet extends BottomSheet {
         return this.fullscreenVideoContainer.getVisibility() != 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected void onContainerTranslationYChanged(float f) {
+    public void onContainerTranslationYChanged(float f) {
         updateTextureViewPosition();
     }
 

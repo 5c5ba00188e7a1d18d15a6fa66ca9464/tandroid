@@ -737,6 +737,12 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x002c, code lost:
+        if (r2 != 2964141614563343L) goto L16;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean canOverrideColor() {
         Boolean bool = this.canOverrideColorCached;
         if (bool != null) {
@@ -748,12 +754,20 @@ public class AnimatedEmojiDrawable extends Drawable {
             return false;
         }
         TLRPC$InputStickerSet inputStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
-        if ((inputStickerSet instanceof TLRPC$TL_inputStickerSetEmojiDefaultStatuses) || ((inputStickerSet instanceof TLRPC$TL_inputStickerSetID) && inputStickerSet.id == 773947703670341676L)) {
-            z = true;
+        if (!(inputStickerSet instanceof TLRPC$TL_inputStickerSetEmojiDefaultStatuses)) {
+            if (inputStickerSet instanceof TLRPC$TL_inputStickerSetID) {
+                long j = inputStickerSet.id;
+                if (j != 773947703670341676L) {
+                }
+            }
+            Boolean valueOf = Boolean.valueOf(z);
+            this.canOverrideColorCached = valueOf;
+            return valueOf.booleanValue();
         }
-        Boolean valueOf = Boolean.valueOf(z);
-        this.canOverrideColorCached = valueOf;
-        return valueOf.booleanValue();
+        z = true;
+        Boolean valueOf2 = Boolean.valueOf(z);
+        this.canOverrideColorCached = valueOf2;
+        return valueOf2.booleanValue();
     }
 
     @Override // android.graphics.drawable.Drawable

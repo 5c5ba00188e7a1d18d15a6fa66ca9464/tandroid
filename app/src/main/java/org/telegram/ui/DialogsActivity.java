@@ -446,13 +446,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         private int selectedType;
         private SwipeController swipeController;
 
-        static /* synthetic */ int access$11308(ViewPage viewPage) {
+        static /* synthetic */ int access$11408(ViewPage viewPage) {
             int i = viewPage.lastItemsCount;
             viewPage.lastItemsCount = i + 1;
             return i;
         }
 
-        static /* synthetic */ int access$11310(ViewPage viewPage) {
+        static /* synthetic */ int access$11410(ViewPage viewPage) {
             int i = viewPage.lastItemsCount;
             viewPage.lastItemsCount = i - 1;
             return i;
@@ -895,7 +895,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         /* JADX WARN: Removed duplicated region for block: B:30:0x00a2  */
         /* JADX WARN: Removed duplicated region for block: B:37:0x00d2  */
         /* JADX WARN: Removed duplicated region for block: B:49:0x010e  */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x00bd  */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x00bd  */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -966,6 +966,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                         measuredHeight = DialogsActivity.this.topPadding;
                                     } else if (childAt instanceof FragmentContextView) {
                                         measuredHeight = ((BaseFragment) DialogsActivity.this).actionBar.getMeasuredHeight();
+                                    } else if (childAt == DialogsActivity.this.floatingButtonContainer && DialogsActivity.this.selectAnimatedEmojiDialog != null) {
+                                        i10 += measureKeyboardHeight;
                                     }
                                     i10 += measuredHeight;
                                 }
@@ -1834,7 +1836,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 int addDialogToFolder = DialogsActivity.this.getMessagesController().addDialogToFolder(tLRPC$Dialog.id, DialogsActivity.this.folderId == 0 ? 1 : 0, -1, 0L);
                 if (addDialogToFolder != 2 || i2 != 0) {
                     this.parentPage.dialogsItemAnimator.prepareForRemove();
-                    ViewPage.access$11310(this.parentPage);
+                    ViewPage.access$11410(this.parentPage);
                     this.parentPage.dialogsAdapter.notifyItemRemoved(i2);
                     DialogsActivity.this.dialogRemoveFinished = 2;
                 }
@@ -1846,7 +1848,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             DialogsActivity.this.setDialogsListFrozen(true);
                             this.parentPage.dialogsAdapter.notifyItemChanged(0);
                         } else {
-                            ViewPage.access$11308(this.parentPage);
+                            ViewPage.access$11408(this.parentPage);
                             this.parentPage.dialogsAdapter.notifyItemInserted(0);
                             if (!SharedConfig.archiveHidden && this.parentPage.layoutManager.findFirstVisibleItemPosition() == 0) {
                                 DialogsActivity.this.disableActionBarScrolling = true;
@@ -1886,7 +1888,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             DialogsActivity.this.getMessagesController().hidePromoDialog();
             this.parentPage.dialogsItemAnimator.prepareForRemove();
-            ViewPage.access$11310(this.parentPage);
+            ViewPage.access$11410(this.parentPage);
             this.parentPage.dialogsAdapter.notifyItemRemoved(i2);
             DialogsActivity.this.dialogRemoveFinished = 2;
         }
@@ -1907,7 +1909,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 DialogsActivity.this.dialogInsertFinished = 2;
                 DialogsActivity.this.setDialogsListFrozen(true);
                 this.parentPage.dialogsItemAnimator.prepareForRemove();
-                ViewPage.access$11308(this.parentPage);
+                ViewPage.access$11408(this.parentPage);
                 this.parentPage.dialogsAdapter.notifyItemInserted(indexOf);
             }
             if (!dialogs2.isEmpty()) {
@@ -1922,7 +1924,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             DialogsActivity.this.frozenDialogsList.remove(0);
             this.parentPage.dialogsItemAnimator.prepareForRemove();
-            ViewPage.access$11310(this.parentPage);
+            ViewPage.access$11410(this.parentPage);
             this.parentPage.dialogsAdapter.notifyItemRemoved(0);
         }
 

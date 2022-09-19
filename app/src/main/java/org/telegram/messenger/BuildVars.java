@@ -6,7 +6,6 @@ import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import com.android.billingclient.api.ProductDetails;
 /* loaded from: classes.dex */
 public class BuildVars {
-    public static String APPCENTER_HASH = null;
     public static String APP_HASH = null;
     public static int APP_ID = 0;
     public static int BUILD_VERSION = 0;
@@ -28,11 +27,10 @@ public class BuildVars {
     static {
         boolean z = true;
         NO_SCOPED_STORAGE = Build.VERSION.SDK_INT <= 29;
-        BUILD_VERSION = 2798;
+        BUILD_VERSION = 2802;
         BUILD_VERSION_STRING = "9.0.0";
         APP_ID = 4;
         APP_HASH = "014b35b6184100b085b0d0572f9b5103";
-        APPCENTER_HASH = "f9726602-67c9-48d2-b5d0-4761f1c1a8f3";
         SMS_HASH = isStandaloneApp() ? "w0lkcmTZkKh" : DEBUG_VERSION ? "O2P2z+/jBpJ" : "oLeq9AcOZkT";
         PLAYSTORE_APP_URL = "https://play.google.com/store/apps/details?id=org.telegram.messenger";
         GOOGLE_AUTH_CLIENT_ID = "760348033671-81kmi3pi84p11ub8hp9a1funsv0rn2p9.apps.googleusercontent.com";

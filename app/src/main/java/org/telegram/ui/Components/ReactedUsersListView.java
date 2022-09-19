@@ -91,7 +91,7 @@ public class ReactedUsersListView extends FrameLayout {
         void onProfileSelected(ReactedUsersListView reactedUsersListView, long j, TLRPC$MessagePeerReaction tLRPC$MessagePeerReaction);
     }
 
-    public ReactedUsersListView(final Context context, final Theme.ResourcesProvider resourcesProvider, int i, MessageObject messageObject, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
+    public ReactedUsersListView(final Context context, final Theme.ResourcesProvider resourcesProvider, final int i, MessageObject messageObject, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
         super(context);
         TLRPC$Reaction tLRPC$Reaction;
         this.currentAccount = i;
@@ -153,7 +153,7 @@ public class ReactedUsersListView extends FrameLayout {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemCount() {
-                return ReactedUsersListView.this.userReactions.size() + (!ReactedUsersListView.this.customReactionsEmoji.isEmpty() ? 1 : 0);
+                return ReactedUsersListView.this.userReactions.size() + ((ReactedUsersListView.this.customReactionsEmoji.isEmpty() || MessagesController.getInstance(i).premiumLocked) ? 0 : 1);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -185,10 +185,11 @@ public class ReactedUsersListView extends FrameLayout {
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ReactedUsersListView.4
             @Override // org.telegram.ui.Components.FlickerLoadingView
             public int getAdditionalHeight() {
-                if (!ReactedUsersListView.this.customReactionsEmoji.isEmpty()) {
-                    return ReactedUsersListView.this.messageContainsEmojiButton.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
+                MessageContainsEmojiButton messageContainsEmojiButton;
+                if (ReactedUsersListView.this.customReactionsEmoji.isEmpty() || (messageContainsEmojiButton = ReactedUsersListView.this.messageContainsEmojiButton) == null) {
+                    return 0;
                 }
-                return 0;
+                return messageContainsEmojiButton.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
             }
         };
         this.loadingView = flickerLoadingView;
@@ -386,6 +387,7 @@ public class ReactedUsersListView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateCustomReactionsButton() {
+        this.customEmojiStickerSets.clear();
         ArrayList arrayList = new ArrayList();
         HashSet hashSet = new HashSet();
         for (int i = 0; i < this.customReactionsEmoji.size(); i++) {
@@ -395,7 +397,9 @@ public class ReactedUsersListView extends FrameLayout {
                 hashSet.add(Long.valueOf(inputStickerSet.id));
             }
         }
-        this.customEmojiStickerSets.clear();
+        if (MessagesController.getInstance(this.currentAccount).premiumLocked) {
+            return;
+        }
         this.customEmojiStickerSets.addAll(arrayList);
         MessageContainsEmojiButton messageContainsEmojiButton = new MessageContainsEmojiButton(this.currentAccount, getContext(), this.resourcesProvider, arrayList, 1);
         this.messageContainsEmojiButton = messageContainsEmojiButton;

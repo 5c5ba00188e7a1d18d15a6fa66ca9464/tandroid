@@ -99,7 +99,9 @@ import androidx.core.math.MathUtils;
 import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.core.widget.NestedScrollView;
 import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -2851,11 +2853,24 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* loaded from: classes3.dex */
     public class VideoPlayerControlFrameLayout extends FrameLayout {
         private boolean ignoreLayout;
+        private int lastTimeWidth;
         private int parentHeight;
         private int parentWidth;
         private boolean seekBarTransitionEnabled;
         private float progress = 1.0f;
         private boolean translationYAnimationEnabled = true;
+        private FloatValueHolder timeValue = new FloatValueHolder(0.0f);
+        private SpringAnimation timeSpring = new SpringAnimation(this.timeValue).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.PhotoViewer$VideoPlayerControlFrameLayout$$ExternalSyntheticLambda0
+            @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+            public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
+                PhotoViewer.VideoPlayerControlFrameLayout.this.lambda$new$0(dynamicAnimation, f, f2);
+            }
+        });
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$new$0(DynamicAnimation dynamicAnimation, float f, float f2) {
+            PhotoViewer.this.videoPlayerSeekbar.setSize((int) (((getMeasuredWidth() - AndroidUtilities.dp(16.0f)) - f) - (this.parentWidth > this.parentHeight ? AndroidUtilities.dp(48.0f) : 0)), getMeasuredHeight());
+        }
 
         public VideoPlayerControlFrameLayout(Context context) {
             super(context);
@@ -2872,6 +2887,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 PhotoViewer.this.videoPlayerSeekbarView.invalidate();
             }
             return true;
+        }
+
+        @Override // android.view.ViewGroup, android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            this.timeValue.setValue(0.0f);
+            this.lastTimeWidth = 0;
         }
 
         @Override // android.view.View, android.view.ViewParent
@@ -2919,7 +2941,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             } else {
                 format = String.format(Locale.ROOT, "%02d:%02d", Long.valueOf(j3), Long.valueOf(j2 % 60));
             }
-            PhotoViewer.this.videoPlayerSeekbar.setSize(((getMeasuredWidth() - AndroidUtilities.dp(16.0f)) - ((int) Math.ceil(PhotoViewer.this.videoPlayerTime.getPaint().measureText(String.format(Locale.ROOT, "%1$s / %1$s", format))))) - i3, getMeasuredHeight());
+            int ceil = (int) Math.ceil(PhotoViewer.this.videoPlayerTime.getPaint().measureText(String.format(Locale.ROOT, "%1$s / %1$s", format)));
+            this.timeSpring.cancel();
+            if (this.lastTimeWidth != 0) {
+                float f = ceil;
+                if (this.timeValue.getValue() != f) {
+                    this.timeSpring.getSpring().setFinalPosition(f);
+                    this.timeSpring.start();
+                    this.lastTimeWidth = ceil;
+                }
+            }
+            PhotoViewer.this.videoPlayerSeekbar.setSize(((getMeasuredWidth() - AndroidUtilities.dp(16.0f)) - ceil) - i3, getMeasuredHeight());
+            this.timeValue.setValue(ceil);
+            this.lastTimeWidth = ceil;
         }
 
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -16663,6 +16697,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (this.photoViewerWebView.isControllable()) {
             setVideoPlayerControlVisible(true, true);
         }
+        this.videoPlayerSeekbar.clearTimestamps();
         updateVideoPlayerTime();
     }
 

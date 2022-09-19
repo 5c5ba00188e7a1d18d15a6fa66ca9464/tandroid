@@ -8,8 +8,8 @@ public final /* synthetic */ class AndroidUtilities$$ExternalSyntheticLambda13 i
 
     @Override // org.telegram.messenger.GenericProvider
     public final Object provide(Object obj) {
-        String lambda$formatSpannableSimple$7;
-        lambda$formatSpannableSimple$7 = AndroidUtilities.lambda$formatSpannableSimple$7((Integer) obj);
-        return lambda$formatSpannableSimple$7;
+        String lambda$formatSpannable$9;
+        lambda$formatSpannable$9 = AndroidUtilities.lambda$formatSpannable$9((Integer) obj);
+        return lambda$formatSpannable$9;
     }
 }

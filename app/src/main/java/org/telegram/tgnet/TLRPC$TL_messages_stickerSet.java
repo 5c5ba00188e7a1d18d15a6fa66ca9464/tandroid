@@ -1,7 +1,7 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_stickerSet extends TLRPC$messages_StickerSet {
-    public static int constructor = -1240849242;
+    public static int constructor = 1846886166;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -30,11 +30,26 @@ public class TLRPC$TL_messages_stickerSet extends TLRPC$messages_StickerSet {
         }
         int readInt324 = abstractSerializedData.readInt32(z);
         for (int i2 = 0; i2 < readInt324; i2++) {
-            TLRPC$Document TLdeserialize2 = TLRPC$Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            TLRPC$TL_stickerKeyword TLdeserialize2 = TLRPC$TL_stickerKeyword.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if (TLdeserialize2 == null) {
                 return;
             }
-            this.documents.add(TLdeserialize2);
+            this.keywords.add(TLdeserialize2);
+        }
+        int readInt325 = abstractSerializedData.readInt32(z);
+        if (readInt325 != 481674261) {
+            if (z) {
+                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt325)));
+            }
+            return;
+        }
+        int readInt326 = abstractSerializedData.readInt32(z);
+        for (int i3 = 0; i3 < readInt326; i3++) {
+            TLRPC$Document TLdeserialize3 = TLRPC$Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            if (TLdeserialize3 == null) {
+                return;
+            }
+            this.documents.add(TLdeserialize3);
         }
     }
 
@@ -49,10 +64,16 @@ public class TLRPC$TL_messages_stickerSet extends TLRPC$messages_StickerSet {
             this.packs.get(i).serializeToStream(abstractSerializedData);
         }
         abstractSerializedData.writeInt32(481674261);
-        int size2 = this.documents.size();
+        int size2 = this.keywords.size();
         abstractSerializedData.writeInt32(size2);
         for (int i2 = 0; i2 < size2; i2++) {
-            this.documents.get(i2).serializeToStream(abstractSerializedData);
+            this.keywords.get(i2).serializeToStream(abstractSerializedData);
+        }
+        abstractSerializedData.writeInt32(481674261);
+        int size3 = this.documents.size();
+        abstractSerializedData.writeInt32(size3);
+        for (int i3 = 0; i3 < size3; i3++) {
+            this.documents.get(i3).serializeToStream(abstractSerializedData);
         }
     }
 }

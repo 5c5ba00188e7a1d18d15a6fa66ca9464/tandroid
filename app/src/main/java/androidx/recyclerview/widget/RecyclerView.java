@@ -2890,6 +2890,11 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         return layoutManager.generateLayoutParams(layoutParams);
     }
 
+    public boolean isAnimating() {
+        ItemAnimator itemAnimator = this.mItemAnimator;
+        return itemAnimator != null && itemAnimator.isRunning();
+    }
+
     void saveOldPositions() {
         int unfilteredChildCount = this.mChildHelper.getUnfilteredChildCount();
         for (int i = 0; i < unfilteredChildCount; i++) {

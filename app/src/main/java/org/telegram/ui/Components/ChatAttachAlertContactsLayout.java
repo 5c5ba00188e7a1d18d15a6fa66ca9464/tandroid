@@ -889,22 +889,20 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x00c4, code lost:
-            if (r5.contains(" " + r0) == false) goto L50;
+        /* JADX WARN: Code restructure failed: missing block: B:105:0x0234, code lost:
+            if (r6.contains(" " + r12) != false) goto L124;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:54:0x00e1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x00c4, code lost:
+            if (r5.contains(" " + r0) == false) goto L58;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:62:0x00e1, code lost:
             if (r6.contains(" " + r0) != false) goto L33;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:70:0x012b, code lost:
-            if (r12.contains(" " + r0) != false) goto L72;
+        /* JADX WARN: Code restructure failed: missing block: B:78:0x012b, code lost:
+            if (r12.contains(" " + r0) != false) goto L80;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:97:0x0222, code lost:
-            if (r6.contains(" " + r12) != false) goto L112;
-         */
-        /* JADX WARN: Removed duplicated region for block: B:104:0x0270 A[LOOP:3: B:88:0x01e8->B:104:0x0270, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x0234 A[SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x018c A[LOOP:1: B:26:0x00a5->B:35:0x018c, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0134 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0136  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x019e A[ADDED_TO_REGION, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -949,57 +947,65 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 }
                 int i5 = 0;
                 char c2 = 0;
-                while (true) {
-                    if (i5 < i3) {
-                        String str5 = strArr[i5];
-                        if (str2 != null) {
-                            if (!str2.startsWith(str5)) {
-                            }
-                            c = 1;
-                            if (c != 0) {
-                                if (c == 3) {
-                                    arrayList4.add(AndroidUtilities.generateSearchName(contact.first_name, contact.last_name, str5));
-                                } else if (c == 1) {
-                                    TLRPC$User tLRPC$User2 = contact.user;
-                                    arrayList4.add(AndroidUtilities.generateSearchName(tLRPC$User2.first_name, tLRPC$User2.last_name, str5));
-                                } else {
-                                    arrayList4.add(AndroidUtilities.generateSearchName("@" + contact.user.username, null, "@" + str5));
-                                }
-                                TLRPC$User tLRPC$User3 = contact.user;
-                                if (tLRPC$User3 != null) {
-                                    longSparseIntArray.put(tLRPC$User3.id, 1);
-                                }
-                                arrayList3.add(contact);
-                            } else {
-                                i5++;
-                                c2 = c;
-                            }
+                while (i5 < i3) {
+                    String str5 = strArr[i5];
+                    if (str2 != null) {
+                        if (!str2.startsWith(str5)) {
                         }
-                        if (str3 != null) {
-                            if (!str3.startsWith(str5)) {
-                            }
-                            c = 1;
-                            if (c != 0) {
-                            }
-                        }
-                        TLRPC$User tLRPC$User4 = contact.user;
-                        if (tLRPC$User4 == null || (str4 = tLRPC$User4.username) == null || !str4.startsWith(str5)) {
-                            if (!lowerCase2.startsWith(str5)) {
-                                if (!lowerCase2.contains(" " + str5)) {
-                                    if (translitString2 != null) {
-                                        if (!translitString2.startsWith(str5)) {
-                                        }
-                                    }
-                                    c = c2;
-                                }
-                            }
-                            c = 3;
+                        c = 1;
+                        String str6 = lowerCase2;
+                        if (c == 0 || (contact.phones.isEmpty() && contact.shortPhones.isEmpty())) {
+                            i5++;
+                            lowerCase2 = str6;
+                            c2 = c;
                         } else {
-                            c = 2;
-                        }
-                        if (c != 0) {
+                            if (c == 3) {
+                                arrayList4.add(AndroidUtilities.generateSearchName(contact.first_name, contact.last_name, str5));
+                            } else if (c == 1) {
+                                TLRPC$User tLRPC$User2 = contact.user;
+                                arrayList4.add(AndroidUtilities.generateSearchName(tLRPC$User2.first_name, tLRPC$User2.last_name, str5));
+                            } else {
+                                arrayList4.add(AndroidUtilities.generateSearchName("@" + contact.user.username, null, "@" + str5));
+                            }
+                            TLRPC$User tLRPC$User3 = contact.user;
+                            if (tLRPC$User3 != null) {
+                                longSparseIntArray.put(tLRPC$User3.id, 1);
+                            }
+                            arrayList3.add(contact);
                         }
                     }
+                    if (str3 != null) {
+                        if (!str3.startsWith(str5)) {
+                        }
+                        c = 1;
+                        String str62 = lowerCase2;
+                        if (c == 0) {
+                        }
+                        i5++;
+                        lowerCase2 = str62;
+                        c2 = c;
+                    }
+                    TLRPC$User tLRPC$User4 = contact.user;
+                    if (tLRPC$User4 == null || (str4 = tLRPC$User4.username) == null || !str4.startsWith(str5)) {
+                        if (!lowerCase2.startsWith(str5)) {
+                            if (!lowerCase2.contains(" " + str5)) {
+                                if (translitString2 != null) {
+                                    if (!translitString2.startsWith(str5)) {
+                                    }
+                                }
+                                c = c2;
+                            }
+                        }
+                        c = 3;
+                    } else {
+                        c = 2;
+                    }
+                    String str622 = lowerCase2;
+                    if (c == 0) {
+                    }
+                    i5++;
+                    lowerCase2 = str622;
+                    c2 = c;
                 }
             }
             for (int i6 = 0; i6 < arrayList2.size(); i6++) {
@@ -1013,22 +1019,22 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                     }
                     char c3 = 0;
                     for (int i7 = 0; i7 < i3; i7++) {
-                        String str6 = strArr[i7];
-                        if (!lowerCase3.startsWith(str6)) {
-                            if (!lowerCase3.contains(" " + str6)) {
+                        String str7 = strArr[i7];
+                        if (!lowerCase3.startsWith(str7)) {
+                            if (!lowerCase3.contains(" " + str7)) {
                                 if (translitString3 != null) {
-                                    if (!translitString3.startsWith(str6)) {
+                                    if (!translitString3.startsWith(str7)) {
                                     }
                                 }
-                                String str7 = user.username;
-                                if (str7 != null && str7.startsWith(str6)) {
+                                String str8 = user.username;
+                                if (str8 != null && str8.startsWith(str7)) {
                                     c3 = 2;
                                 }
-                                if (c3 == 0) {
+                                if (c3 == 0 && user.phone != null) {
                                     if (c3 == 1) {
-                                        arrayList4.add(AndroidUtilities.generateSearchName(user.first_name, user.last_name, str6));
+                                        arrayList4.add(AndroidUtilities.generateSearchName(user.first_name, user.last_name, str7));
                                     } else {
-                                        arrayList4.add(AndroidUtilities.generateSearchName("@" + user.username, null, "@" + str6));
+                                        arrayList4.add(AndroidUtilities.generateSearchName("@" + user.username, null, "@" + str7));
                                     }
                                     arrayList3.add(user);
                                 }
