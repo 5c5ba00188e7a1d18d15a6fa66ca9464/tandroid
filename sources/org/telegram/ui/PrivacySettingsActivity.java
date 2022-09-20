@@ -753,13 +753,17 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         int i7 = i6 + 1;
         this.rowCount = i7;
         this.callsRow = i6;
-        int i8 = i7 + 1;
-        this.rowCount = i8;
+        this.rowCount = i7 + 1;
         this.groupsRow = i7;
         this.groupsDetailRow = -1;
-        int i9 = i8 + 1;
-        this.rowCount = i9;
-        this.voicesRow = i8;
+        if (!getMessagesController().premiumLocked || getUserConfig().isPremium()) {
+            int i8 = this.rowCount;
+            this.rowCount = i8 + 1;
+            this.voicesRow = i8;
+        } else {
+            this.voicesRow = -1;
+        }
+        int i9 = this.rowCount;
         int i10 = i9 + 1;
         this.rowCount = i10;
         this.privacyShadowRow = i9;

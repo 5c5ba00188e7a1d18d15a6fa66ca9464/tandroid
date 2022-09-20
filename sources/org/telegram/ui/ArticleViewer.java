@@ -681,6 +681,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             SeekBarView seekBarView = new SeekBarView(context);
             this.sizeBar = seekBarView;
             seekBarView.setReportChanges(true);
+            this.sizeBar.setSeparatorsCount((this.endFontSize - this.startFontSize) + 1);
             this.sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate(ArticleViewer.this) { // from class: org.telegram.ui.ArticleViewer.TextSizeCell.1
                 @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                 public void onSeekBarPressed(boolean z) {
@@ -1530,7 +1531,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         DrawingText drawingText = this.pressedLinkOwnerLayout;
         if (drawingText != null) {
             AndroidUtilities.addToClipboard(drawingText.getText());
-            if (Build.VERSION.SDK_INT < 31) {
+            if (AndroidUtilities.shouldShowClipboardToast()) {
                 Toast.makeText(this.parentActivity, LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
             }
         }
@@ -3931,7 +3932,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             @Override // org.telegram.ui.Cells.TextSelectionHelper.Callback
             public void onTextCopied() {
-                if (Build.VERSION.SDK_INT < 31) {
+                if (AndroidUtilities.shouldShowClipboardToast()) {
                     BulletinFactory.of(ArticleViewer.this.containerView, null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
                 }
             }

@@ -2471,7 +2471,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 FrameLayout frameLayout4 = this.avatarContainer2;
                 SimpleTextView simpleTextView = this.nameTextView[i3];
                 if (i3 == 0) {
-                    f = f2 - (z ? 16 : 0);
+                    f = f2 - (z ? 10 : 0);
                 } else {
                     f = 0.0f;
                 }
@@ -5157,25 +5157,35 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
             ArrayList arrayList = new ArrayList();
             final ArrayList arrayList2 = new ArrayList();
+            ArrayList arrayList3 = new ArrayList();
             if (i == this.phoneRow) {
                 TLRPC$UserFull tLRPC$UserFull2 = this.userInfo;
                 if (tLRPC$UserFull2 != null && tLRPC$UserFull2.phone_calls_available) {
+                    arrayList3.add(Integer.valueOf(R.drawable.msg_calls));
                     arrayList.add(LocaleController.getString("CallViaTelegram", R.string.CallViaTelegram));
                     arrayList2.add(2);
                     if (Build.VERSION.SDK_INT >= 18 && this.userInfo.video_calls_available) {
+                        arrayList3.add(Integer.valueOf(R.drawable.msg_videocall));
                         arrayList.add(LocaleController.getString("VideoCallViaTelegram", R.string.VideoCallViaTelegram));
                         arrayList2.add(3);
                     }
                 }
+                arrayList3.add(Integer.valueOf(R.drawable.msg_calls_regular));
                 arrayList.add(LocaleController.getString("Call", R.string.Call));
                 arrayList2.add(0);
             }
+            arrayList3.add(Integer.valueOf(R.drawable.msg_copy));
             arrayList.add(LocaleController.getString("Copy", R.string.Copy));
             arrayList2.add(1);
-            builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda8
+            int size = arrayList3.size();
+            int[] iArr = new int[size];
+            for (int i2 = 0; i2 < size; i2++) {
+                iArr[i2] = ((Integer) arrayList3.get(i2)).intValue();
+            }
+            builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda8
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    ProfileActivity.this.lambda$processOnClickOrPress$21(arrayList2, user2, dialogInterface, i2);
+                public final void onClick(DialogInterface dialogInterface, int i3) {
+                    ProfileActivity.this.lambda$processOnClickOrPress$21(arrayList2, user2, dialogInterface, i3);
                 }
             });
             showDialog(builder.create());
@@ -5292,7 +5302,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else {
             try {
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", "+" + tLRPC$User.phone));
-                if (Build.VERSION.SDK_INT >= 31) {
+                if (!AndroidUtilities.shouldShowClipboardToast()) {
                     return;
                 }
                 BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhoneCopied", R.string.PhoneCopied)).show();
@@ -5308,7 +5318,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), this.resourcesProvider);
-        builder.setItems(zArr[0] ? new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("TranslateMessage", R.string.TranslateMessage)} : new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda6
+        builder.setItems(zArr[0] ? new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("TranslateMessage", R.string.TranslateMessage)} : new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, zArr[0] ? new int[]{R.drawable.msg_copy, R.drawable.msg_translate} : new int[]{R.drawable.msg_copy}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda6
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 ProfileActivity.this.lambda$processOnClickOrPress$23(str, i, strArr, str2, dialogInterface, i2);
@@ -7902,21 +7912,32 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x02e0  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x0843  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x0570  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x07a8  */
-    /* JADX WARN: Removed duplicated region for block: B:320:0x07af  */
-    /* JADX WARN: Removed duplicated region for block: B:323:0x07d1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:325:0x07f4  */
-    /* JADX WARN: Removed duplicated region for block: B:330:0x0802  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x0811  */
-    /* JADX WARN: Removed duplicated region for block: B:344:0x07b2  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0393 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x0847  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0582  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0679 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0698  */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x06b1  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x06da  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x0750  */
+    /* JADX WARN: Removed duplicated region for block: B:280:0x078c  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x078f  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x07ab  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x07b2  */
+    /* JADX WARN: Removed duplicated region for block: B:324:0x07d5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:326:0x07f8  */
+    /* JADX WARN: Removed duplicated region for block: B:331:0x0806  */
+    /* JADX WARN: Removed duplicated region for block: B:333:0x0815  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x07b6  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x023a  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0246  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x024e  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0350 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x035f  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x037b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7934,27 +7955,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         String str2;
         String str3;
         String str4;
+        TLRPC$Chat tLRPC$Chat;
+        boolean z4;
         String str5;
         String str6;
         String str7;
         String str8;
-        String str9;
-        String str10;
-        String str11;
         TLRPC$ChatFull tLRPC$ChatFull;
         int i2;
+        TLRPC$Chat tLRPC$Chat2;
         int i3;
         String string2;
         Drawable scamDrawable;
-        boolean z4;
         boolean z5;
-        String str12;
+        boolean z6;
+        String str9;
         ImageLocation imageLocation2;
         if (this.avatarContainer == null || this.nameTextView == null) {
             return;
         }
         int connectionState = getConnectionsManager().getConnectionState();
-        int i4 = 1;
         if (connectionState == 2) {
             string = LocaleController.getString("WaitingForNetwork", R.string.WaitingForNetwork);
         } else if (connectionState == 1) {
@@ -7964,9 +7984,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else {
             string = connectionState == 4 ? LocaleController.getString("ConnectingToProxy", R.string.ConnectingToProxy) : null;
         }
-        String str13 = "drawableMuteIcon";
-        String str14 = "AccDescrVerified";
-        String str15 = "ScamMessage";
+        String str10 = "drawableMuteIcon";
+        String str11 = "AccDescrVerified";
         if (this.userId != 0) {
             final TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.userId));
             if (user == null) {
@@ -8013,10 +8032,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     string2 = LocaleController.formatUserStatus(this.currentAccount, user, zArr);
                     SimpleTextView[] simpleTextViewArr = this.onlineTextView;
                     if (simpleTextViewArr[1] != null && !this.mediaHeaderVisible) {
-                        String str16 = this.isOnline[0] ? "profile_status" : "avatar_subtitleInProfileBlue";
-                        simpleTextViewArr[1].setTag(str16);
+                        String str12 = this.isOnline[0] ? "profile_status" : "avatar_subtitleInProfileBlue";
+                        simpleTextViewArr[1].setTag(str12);
                         if (!this.isPulledDown) {
-                            this.onlineTextView[1].setTextColor(getThemedColor(str16));
+                            this.onlineTextView[1].setTextColor(getThemedColor(str12));
                         }
                     }
                 }
@@ -8025,137 +8044,193 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 userName = Emoji.replaceEmoji(userName, this.nameTextView[1].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
             } catch (Exception unused) {
             }
-            int i5 = 0;
-            while (i5 < 2) {
-                if (this.nameTextView[i5] != null) {
-                    if (i5 == 0 && user.id != getUserConfig().getClientUserId()) {
+            int i4 = 0;
+            while (i4 < 2) {
+                if (this.nameTextView[i4] != null) {
+                    if (i4 == 0 && user.id != getUserConfig().getClientUserId()) {
                         long j2 = user.id;
-                        if (j2 / 1000 != 777 && j2 / 1000 != 333 && (str12 = user.phone) != null && str12.length() != 0 && getContactsController().contactsDict.get(Long.valueOf(user.id)) == null && (getContactsController().contactsDict.size() != 0 || !getContactsController().isLoadingContacts())) {
-                            this.nameTextView[i5].setText(PhoneFormat.getInstance().format("+" + user.phone));
-                            if (i5 != 0 && string != null) {
-                                this.onlineTextView[i5].setText(string);
+                        if (j2 / 1000 != 777 && j2 / 1000 != 333 && (str9 = user.phone) != null && str9.length() != 0 && getContactsController().contactsDict.get(Long.valueOf(user.id)) == null && (getContactsController().contactsDict.size() != 0 || !getContactsController().isLoadingContacts())) {
+                            PhoneFormat phoneFormat = PhoneFormat.getInstance();
+                            this.nameTextView[i4].setText(phoneFormat.format("+" + user.phone));
+                            if (i4 != 0 && string != null) {
+                                this.onlineTextView[i4].setText(string);
                             } else {
-                                this.onlineTextView[i5].setText(string2);
+                                this.onlineTextView[i4].setText(string2);
                             }
                             Drawable lockIconDrawable = this.currentEncryptedChat == null ? getLockIconDrawable() : null;
-                            this.nameTextView[i5].setRightDrawableOutside(i5 != 0);
-                            if (i5 != 0) {
-                                boolean z6 = user.scam;
-                                if (z6 || user.fake) {
-                                    scamDrawable = getScamDrawable(!z6 ? 1 : 0);
-                                    this.nameTextViewRightDrawableContentDescription = LocaleController.getString(str15, R.string.ScamMessage);
+                            this.nameTextView[i4].setRightDrawableOutside(i4 != 0);
+                            if (i4 != 0) {
+                                boolean z7 = user.scam;
+                                if (z7 || user.fake) {
+                                    scamDrawable = getScamDrawable(!z7 ? 1 : 0);
+                                    this.nameTextViewRightDrawableContentDescription = LocaleController.getString("ScamMessage", R.string.ScamMessage);
                                 } else if (user.verified) {
-                                    Drawable verifiedCrossfadeDrawable = getVerifiedCrossfadeDrawable();
-                                    this.nameTextViewRightDrawableContentDescription = LocaleController.getString(str14, R.string.AccDescrVerified);
-                                    scamDrawable = verifiedCrossfadeDrawable;
-                                } else if (getMessagesController().isPremiumUser(user)) {
-                                    TLRPC$EmojiStatus tLRPC$EmojiStatus = user.emoji_status;
-                                    z5 = (tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) || ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000)));
-                                    z4 = !z5;
-                                    Drawable emojiStatusDrawable = getEmojiStatusDrawable(user.emoji_status, false, false, i5);
-                                    this.nameTextViewRightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
-                                    scamDrawable = emojiStatusDrawable;
+                                    scamDrawable = getVerifiedCrossfadeDrawable();
+                                    this.nameTextViewRightDrawableContentDescription = LocaleController.getString(str11, R.string.AccDescrVerified);
                                 } else {
-                                    MessagesController messagesController = getMessagesController();
-                                    long j3 = this.dialogId;
-                                    if (j3 == 0) {
-                                        j3 = this.userId;
-                                    }
-                                    if (messagesController.isDialogMuted(j3)) {
-                                        scamDrawable = getThemedDrawable(str13);
-                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
+                                    TLRPC$EmojiStatus tLRPC$EmojiStatus = user.emoji_status;
+                                    if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatus) || ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000)))) {
+                                        Drawable emojiStatusDrawable = getEmojiStatusDrawable(user.emoji_status, false, false, i4);
+                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
+                                        scamDrawable = emojiStatusDrawable;
+                                        z5 = true;
+                                        z6 = false;
+                                        this.nameTextView[i4].setLeftDrawable(lockIconDrawable);
+                                        this.nameTextView[i4].setRightDrawable(scamDrawable);
+                                        if (i4 == 1 && (z5 || z6)) {
+                                            this.nameTextView[i4].setRightDrawableOutside(true);
+                                        }
+                                        if (user.self && getMessagesController().isPremiumUser(user)) {
+                                            SimpleTextView[] simpleTextViewArr2 = this.nameTextView;
+                                            SimpleTextView simpleTextView = simpleTextViewArr2[i4];
+                                            simpleTextViewArr2[i4].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda11
+                                                @Override // android.view.View.OnClickListener
+                                                public final void onClick(View view) {
+                                                    ProfileActivity.this.lambda$updateProfileData$34(view);
+                                                }
+                                            });
+                                        }
+                                        if (user.self && getMessagesController().isPremiumUser(user)) {
+                                            SimpleTextView[] simpleTextViewArr3 = this.nameTextView;
+                                            final SimpleTextView simpleTextView2 = simpleTextViewArr3[i4];
+                                            simpleTextViewArr3[i4].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda15
+                                                @Override // android.view.View.OnClickListener
+                                                public final void onClick(View view) {
+                                                    ProfileActivity.this.lambda$updateProfileData$35(user, simpleTextView2, view);
+                                                }
+                                            });
+                                        }
+                                    } else if (getMessagesController().isPremiumUser(user)) {
+                                        Drawable emojiStatusDrawable2 = getEmojiStatusDrawable(null, false, false, i4);
+                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
+                                        scamDrawable = emojiStatusDrawable2;
+                                        z5 = false;
+                                        z6 = true;
+                                        this.nameTextView[i4].setLeftDrawable(lockIconDrawable);
+                                        this.nameTextView[i4].setRightDrawable(scamDrawable);
+                                        if (i4 == 1) {
+                                            this.nameTextView[i4].setRightDrawableOutside(true);
+                                        }
+                                        if (user.self) {
+                                            SimpleTextView[] simpleTextViewArr22 = this.nameTextView;
+                                            SimpleTextView simpleTextView3 = simpleTextViewArr22[i4];
+                                            simpleTextViewArr22[i4].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda11
+                                                @Override // android.view.View.OnClickListener
+                                                public final void onClick(View view) {
+                                                    ProfileActivity.this.lambda$updateProfileData$34(view);
+                                                }
+                                            });
+                                        }
+                                        if (user.self) {
+                                            SimpleTextView[] simpleTextViewArr32 = this.nameTextView;
+                                            final SimpleTextView simpleTextView22 = simpleTextViewArr32[i4];
+                                            simpleTextViewArr32[i4].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda15
+                                                @Override // android.view.View.OnClickListener
+                                                public final void onClick(View view) {
+                                                    ProfileActivity.this.lambda$updateProfileData$35(user, simpleTextView22, view);
+                                                }
+                                            });
+                                        }
                                     } else {
-                                        this.nameTextViewRightDrawableContentDescription = null;
-                                        scamDrawable = null;
+                                        MessagesController messagesController = getMessagesController();
+                                        long j3 = this.dialogId;
+                                        if (j3 == 0) {
+                                            j3 = this.userId;
+                                        }
+                                        if (messagesController.isDialogMuted(j3)) {
+                                            scamDrawable = getThemedDrawable(str10);
+                                            this.nameTextViewRightDrawableContentDescription = LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
+                                        } else {
+                                            this.nameTextViewRightDrawableContentDescription = null;
+                                            scamDrawable = null;
+                                        }
                                     }
                                 }
                                 z5 = false;
-                                z4 = false;
+                                z6 = false;
+                                this.nameTextView[i4].setLeftDrawable(lockIconDrawable);
+                                this.nameTextView[i4].setRightDrawable(scamDrawable);
+                                if (i4 == 1) {
+                                }
+                                if (user.self) {
+                                }
+                                if (user.self) {
+                                }
                             } else {
-                                if (i5 == i4) {
-                                    boolean z7 = user.scam;
-                                    if (z7 || user.fake) {
-                                        scamDrawable = getScamDrawable(!z7 ? 1 : 0);
+                                if (i4 == 1) {
+                                    boolean z8 = user.scam;
+                                    if (z8 || user.fake) {
+                                        scamDrawable = getScamDrawable(!z8 ? 1 : 0);
                                     } else if (user.verified) {
                                         scamDrawable = getVerifiedCrossfadeDrawable();
-                                    } else if (getMessagesController().isPremiumUser(user)) {
+                                    } else {
                                         TLRPC$EmojiStatus tLRPC$EmojiStatus2 = user.emoji_status;
-                                        boolean z8 = (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) || ((tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus2).until > ((int) (System.currentTimeMillis() / 1000)));
-                                        z4 = !z8;
-                                        z5 = z8;
-                                        scamDrawable = getEmojiStatusDrawable(user.emoji_status, true, true, i5);
+                                        if ((tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) || ((tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus2).until > ((int) (System.currentTimeMillis() / 1000)))) {
+                                            scamDrawable = getEmojiStatusDrawable(user.emoji_status, true, true, i4);
+                                            z5 = true;
+                                            z6 = false;
+                                            this.nameTextView[i4].setLeftDrawable(lockIconDrawable);
+                                            this.nameTextView[i4].setRightDrawable(scamDrawable);
+                                            if (i4 == 1) {
+                                            }
+                                            if (user.self) {
+                                            }
+                                            if (user.self) {
+                                            }
+                                        } else if (getMessagesController().isPremiumUser(user)) {
+                                            scamDrawable = getEmojiStatusDrawable(null, true, true, i4);
+                                            z5 = false;
+                                            z6 = true;
+                                            this.nameTextView[i4].setLeftDrawable(lockIconDrawable);
+                                            this.nameTextView[i4].setRightDrawable(scamDrawable);
+                                            if (i4 == 1) {
+                                            }
+                                            if (user.self) {
+                                            }
+                                            if (user.self) {
+                                            }
+                                        }
                                     }
                                     z5 = false;
-                                    z4 = false;
+                                    z6 = false;
+                                    this.nameTextView[i4].setLeftDrawable(lockIconDrawable);
+                                    this.nameTextView[i4].setRightDrawable(scamDrawable);
+                                    if (i4 == 1) {
+                                    }
+                                    if (user.self) {
+                                    }
+                                    if (user.self) {
+                                    }
                                 }
                                 scamDrawable = null;
                                 z5 = false;
-                                z4 = false;
-                            }
-                            this.nameTextView[i5].setLeftDrawable(lockIconDrawable);
-                            this.nameTextView[i5].setRightDrawable(scamDrawable);
-                            if (i5 == 1 && (z5 || z4)) {
-                                this.nameTextView[i5].setRightDrawableOutside(true);
-                            }
-                            if (user.self && getMessagesController().isPremiumUser(user)) {
-                                SimpleTextView[] simpleTextViewArr2 = this.nameTextView;
-                                SimpleTextView simpleTextView = simpleTextViewArr2[i5];
-                                simpleTextViewArr2[i5].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda11
-                                    @Override // android.view.View.OnClickListener
-                                    public final void onClick(View view) {
-                                        ProfileActivity.this.lambda$updateProfileData$34(view);
-                                    }
-                                });
-                            }
-                            if (!user.self && getMessagesController().isPremiumUser(user)) {
-                                SimpleTextView[] simpleTextViewArr3 = this.nameTextView;
-                                final SimpleTextView simpleTextView2 = simpleTextViewArr3[i5];
-                                simpleTextViewArr3[i5].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda15
-                                    @Override // android.view.View.OnClickListener
-                                    public final void onClick(View view) {
-                                        ProfileActivity.this.lambda$updateProfileData$35(user, simpleTextView2, view);
-                                    }
-                                });
+                                z6 = false;
+                                this.nameTextView[i4].setLeftDrawable(lockIconDrawable);
+                                this.nameTextView[i4].setRightDrawable(scamDrawable);
+                                if (i4 == 1) {
+                                }
+                                if (user.self) {
+                                }
+                                if (user.self) {
+                                }
                             }
                         }
                     }
-                    this.nameTextView[i5].setText(userName);
-                    if (i5 != 0) {
+                    this.nameTextView[i4].setText(userName);
+                    if (i4 != 0) {
                     }
-                    this.onlineTextView[i5].setText(string2);
+                    this.onlineTextView[i4].setText(string2);
                     if (this.currentEncryptedChat == null) {
                     }
-                    this.nameTextView[i5].setRightDrawableOutside(i5 != 0);
-                    if (i5 != 0) {
-                    }
-                    this.nameTextView[i5].setLeftDrawable(lockIconDrawable);
-                    this.nameTextView[i5].setRightDrawable(scamDrawable);
-                    if (i5 == 1) {
-                        this.nameTextView[i5].setRightDrawableOutside(true);
-                    }
-                    if (user.self) {
-                        SimpleTextView[] simpleTextViewArr22 = this.nameTextView;
-                        SimpleTextView simpleTextView3 = simpleTextViewArr22[i5];
-                        simpleTextViewArr22[i5].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda11
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                ProfileActivity.this.lambda$updateProfileData$34(view);
-                            }
-                        });
-                    }
-                    if (!user.self) {
-                        SimpleTextView[] simpleTextViewArr32 = this.nameTextView;
-                        final SimpleTextView simpleTextView22 = simpleTextViewArr32[i5];
-                        simpleTextViewArr32[i5].setRightDrawableOnClick(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda15
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                ProfileActivity.this.lambda$updateProfileData$35(user, simpleTextView22, view);
-                            }
-                        });
+                    this.nameTextView[i4].setRightDrawableOutside(i4 != 0);
+                    if (i4 != 0) {
                     }
                 }
-                i5++;
-                i4 = 1;
+                i4++;
+            }
+            ChatActivity chatActivity = this.previousTransitionFragment;
+            if (chatActivity != null) {
+                chatActivity.checkAndUpdateAvatar();
             }
             this.avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(tLRPC$FileLocation), false);
         } else if (this.chatId != 0) {
@@ -8165,49 +8240,48 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else {
                 chat = this.currentChat;
             }
-            String str17 = "MegaPublic";
-            String str18 = "MegaPrivate";
-            String str19 = "MegaLocation";
-            String str20 = "Members";
+            String str13 = "MegaPublic";
+            String str14 = "MegaPrivate";
+            String str15 = "Subscribers";
             if (ChatObject.isChannel(chat)) {
                 TLRPC$ChatFull tLRPC$ChatFull2 = this.chatInfo;
                 if (tLRPC$ChatFull2 != null) {
-                    TLRPC$Chat tLRPC$Chat = this.currentChat;
-                    if (tLRPC$Chat.megagroup || (tLRPC$ChatFull2.participants_count != 0 && !ChatObject.hasAdminRights(tLRPC$Chat) && !this.chatInfo.can_view_participants)) {
+                    TLRPC$Chat tLRPC$Chat3 = this.currentChat;
+                    if (tLRPC$Chat3.megagroup || (tLRPC$ChatFull2.participants_count != 0 && !ChatObject.hasAdminRights(tLRPC$Chat3) && !this.chatInfo.can_view_participants)) {
                         if (this.currentChat.megagroup) {
                             if (this.onlineCount <= 1 || (i3 = this.chatInfo.participants_count) == 0) {
-                                str20 = str20;
+                                str15 = str15;
                                 str = string;
-                                int i6 = this.chatInfo.participants_count;
-                                if (i6 == 0) {
+                                int i5 = this.chatInfo.participants_count;
+                                if (i5 == 0) {
                                     if (chat.has_geo) {
-                                        formatPluralString = LocaleController.getString(str19, R.string.MegaLocation).toLowerCase();
+                                        formatPluralString = LocaleController.getString("MegaLocation", R.string.MegaLocation).toLowerCase();
                                     } else if (!TextUtils.isEmpty(chat.username)) {
-                                        formatPluralString = LocaleController.getString(str17, R.string.MegaPublic).toLowerCase();
+                                        formatPluralString = LocaleController.getString(str13, R.string.MegaPublic).toLowerCase();
                                     } else {
-                                        formatPluralString = LocaleController.getString(str18, R.string.MegaPrivate).toLowerCase();
+                                        formatPluralString = LocaleController.getString(str14, R.string.MegaPrivate).toLowerCase();
                                     }
                                     format = formatPluralString;
                                 } else {
-                                    formatPluralString = LocaleController.formatPluralString(str20, i6, new Object[0]);
-                                    format = LocaleController.formatPluralStringComma(str20, this.chatInfo.participants_count);
+                                    formatPluralString = LocaleController.formatPluralString("Members", i5, new Object[0]);
+                                    format = LocaleController.formatPluralStringComma("Members", this.chatInfo.participants_count);
                                 }
                             } else {
-                                str20 = str20;
+                                str15 = str15;
                                 str = string;
-                                formatPluralString = String.format("%s, %s", LocaleController.formatPluralString(str20, i3, new Object[0]), LocaleController.formatPluralString("OnlineCount", Math.min(this.onlineCount, this.chatInfo.participants_count), new Object[0]));
-                                format = String.format("%s, %s", LocaleController.formatPluralStringComma(str20, this.chatInfo.participants_count), LocaleController.formatPluralStringComma("OnlineCount", Math.min(this.onlineCount, this.chatInfo.participants_count)));
+                                formatPluralString = String.format("%s, %s", LocaleController.formatPluralString("Members", i3, new Object[0]), LocaleController.formatPluralString("OnlineCount", Math.min(this.onlineCount, this.chatInfo.participants_count), new Object[0]));
+                                format = String.format("%s, %s", LocaleController.formatPluralStringComma("Members", this.chatInfo.participants_count), LocaleController.formatPluralStringComma("OnlineCount", Math.min(this.onlineCount, this.chatInfo.participants_count)));
                             }
                         } else {
-                            str20 = str20;
+                            str15 = str15;
                             str = string;
                             LocaleController.formatShortNumber(this.chatInfo.participants_count, new int[1]);
                             if (this.currentChat.megagroup) {
-                                formatPluralString = LocaleController.formatPluralString(str20, this.chatInfo.participants_count, new Object[0]);
-                                format = LocaleController.formatPluralStringComma(str20, this.chatInfo.participants_count);
+                                formatPluralString = LocaleController.formatPluralString("Members", this.chatInfo.participants_count, new Object[0]);
+                                format = LocaleController.formatPluralStringComma("Members", this.chatInfo.participants_count);
                             } else {
-                                formatPluralString = LocaleController.formatPluralString("Subscribers", this.chatInfo.participants_count, new Object[0]);
-                                format = LocaleController.formatPluralStringComma("Subscribers", this.chatInfo.participants_count);
+                                formatPluralString = LocaleController.formatPluralString(str15, this.chatInfo.participants_count, new Object[0]);
+                                format = LocaleController.formatPluralStringComma(str15, this.chatInfo.participants_count);
                             }
                         }
                         i = 0;
@@ -8217,13 +8291,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             if (simpleTextViewArr4[i] == null) {
                                 str2 = format;
                                 str3 = formatPluralString;
-                                str8 = str17;
-                                str9 = str18;
-                                str10 = str19;
-                                str11 = str13;
-                                str5 = str15;
-                                str6 = str;
-                                str7 = str14;
+                                str5 = str13;
+                                str6 = str14;
+                                str7 = str10;
+                                str8 = str11;
+                                str4 = str;
                             } else {
                                 CharSequence charSequence = chat.title;
                                 if (charSequence != null) {
@@ -8255,106 +8327,134 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     boolean z9 = chat.scam;
                                     if (z9 || chat.fake) {
                                         this.nameTextView[i].setRightDrawable(getScamDrawable(!z9 ? 1 : 0));
-                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString(str15, R.string.ScamMessage);
+                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString("ScamMessage", R.string.ScamMessage);
                                     } else if (chat.verified) {
                                         this.nameTextView[i].setRightDrawable(getVerifiedCrossfadeDrawable());
-                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString(str14, R.string.AccDescrVerified);
+                                        this.nameTextViewRightDrawableContentDescription = LocaleController.getString(str11, R.string.AccDescrVerified);
                                     } else {
                                         this.nameTextView[i].setRightDrawable((Drawable) null);
                                         this.nameTextViewRightDrawableContentDescription = null;
-                                        str5 = str15;
-                                        str4 = str14;
+                                        if (i != 0 && str != null) {
+                                            str4 = str;
+                                            this.onlineTextView[i].setText(str4);
+                                        } else {
+                                            str4 = str;
+                                            tLRPC$Chat = this.currentChat;
+                                            if (!tLRPC$Chat.megagroup && this.chatInfo != null && this.onlineCount > 0) {
+                                                this.onlineTextView[i].setText(i == 0 ? str3 : str2);
+                                            } else {
+                                                if (i == 0 && ChatObject.isChannel(tLRPC$Chat) && (tLRPC$ChatFull = this.chatInfo) != null && (i2 = tLRPC$ChatFull.participants_count) != 0) {
+                                                    tLRPC$Chat2 = this.currentChat;
+                                                    if (!tLRPC$Chat2.megagroup || tLRPC$Chat2.broadcast) {
+                                                        int[] iArr = new int[1];
+                                                        String formatShortNumber = LocaleController.formatShortNumber(i2, iArr);
+                                                        z4 = z2;
+                                                        if (!this.currentChat.megagroup) {
+                                                            if (this.chatInfo.participants_count == 0) {
+                                                                if (chat.has_geo) {
+                                                                    this.onlineTextView[i].setText(LocaleController.getString("MegaLocation", R.string.MegaLocation).toLowerCase());
+                                                                } else if (!TextUtils.isEmpty(chat.username)) {
+                                                                    this.onlineTextView[i].setText(LocaleController.getString(str13, R.string.MegaPublic).toLowerCase());
+                                                                } else {
+                                                                    this.onlineTextView[i].setText(LocaleController.getString(str14, R.string.MegaPrivate).toLowerCase());
+                                                                }
+                                                                str5 = str13;
+                                                                str6 = str14;
+                                                                str7 = str10;
+                                                                str8 = str11;
+                                                            } else {
+                                                                str5 = str13;
+                                                                str6 = str14;
+                                                                str7 = str10;
+                                                                str8 = str11;
+                                                                this.onlineTextView[i].setText(LocaleController.formatPluralString("Members", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber));
+                                                            }
+                                                        } else {
+                                                            str5 = str13;
+                                                            str6 = str14;
+                                                            str7 = str10;
+                                                            str8 = str11;
+                                                            this.onlineTextView[i].setText(LocaleController.formatPluralString(str15, iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber));
+                                                        }
+                                                        z2 = z4;
+                                                    }
+                                                }
+                                                z4 = z2;
+                                                str5 = str13;
+                                                str6 = str14;
+                                                str7 = str10;
+                                                str8 = str11;
+                                                this.onlineTextView[i].setText(i == 0 ? str3 : str2);
+                                                z2 = z4;
+                                            }
+                                        }
+                                        z4 = z2;
+                                        str5 = str13;
+                                        str6 = str14;
+                                        str7 = str10;
+                                        str8 = str11;
+                                        z2 = z4;
                                     }
-                                    str4 = str14;
-                                    str5 = str15;
+                                    if (i != 0) {
+                                    }
+                                    str4 = str;
+                                    tLRPC$Chat = this.currentChat;
+                                    if (!tLRPC$Chat.megagroup) {
+                                    }
+                                    if (i == 0) {
+                                        tLRPC$Chat2 = this.currentChat;
+                                        if (!tLRPC$Chat2.megagroup) {
+                                        }
+                                        int[] iArr2 = new int[1];
+                                        String formatShortNumber2 = LocaleController.formatShortNumber(i2, iArr2);
+                                        z4 = z2;
+                                        if (!this.currentChat.megagroup) {
+                                        }
+                                        z2 = z4;
+                                    }
+                                    z4 = z2;
+                                    str5 = str13;
+                                    str6 = str14;
+                                    str7 = str10;
+                                    str8 = str11;
+                                    this.onlineTextView[i].setText(i == 0 ? str3 : str2);
+                                    z2 = z4;
                                 } else {
                                     boolean z10 = chat.scam;
                                     if (z10 || chat.fake) {
-                                        str4 = str14;
-                                        str5 = str15;
                                         this.nameTextView[i].setRightDrawable(getScamDrawable(!z10 ? 1 : 0));
                                     } else if (chat.verified) {
                                         this.nameTextView[i].setRightDrawable(getVerifiedCrossfadeDrawable());
-                                        str4 = str14;
-                                        str5 = str15;
+                                    } else if (getMessagesController().isDialogMuted(-this.chatId)) {
+                                        this.nameTextView[i].setRightDrawable(getThemedDrawable(str10));
                                     } else {
-                                        str4 = str14;
-                                        str5 = str15;
-                                        if (getMessagesController().isDialogMuted(-this.chatId)) {
-                                            this.nameTextView[i].setRightDrawable(getThemedDrawable(str13));
-                                        } else {
-                                            this.nameTextView[i].setRightDrawable((Drawable) null);
-                                        }
+                                        this.nameTextView[i].setRightDrawable((Drawable) null);
                                     }
-                                }
-                                if (i == 0 && str != null) {
-                                    str6 = str;
-                                    this.onlineTextView[i].setText(str6);
-                                } else {
-                                    str6 = str;
-                                    TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-                                    if (tLRPC$Chat2.megagroup && this.chatInfo != null && this.onlineCount > 0) {
-                                        this.onlineTextView[i].setText(i == 0 ? str3 : str2);
-                                    } else {
-                                        if (i == 0 && ChatObject.isChannel(tLRPC$Chat2) && (tLRPC$ChatFull = this.chatInfo) != null && (i2 = tLRPC$ChatFull.participants_count) != 0) {
-                                            TLRPC$Chat tLRPC$Chat3 = this.currentChat;
-                                            if (tLRPC$Chat3.megagroup || tLRPC$Chat3.broadcast) {
-                                                int[] iArr = new int[1];
-                                                String formatShortNumber = LocaleController.formatShortNumber(i2, iArr);
-                                                str7 = str4;
-                                                if (this.currentChat.megagroup) {
-                                                    if (this.chatInfo.participants_count == 0) {
-                                                        if (chat.has_geo) {
-                                                            this.onlineTextView[i].setText(LocaleController.getString(str19, R.string.MegaLocation).toLowerCase());
-                                                        } else if (!TextUtils.isEmpty(chat.username)) {
-                                                            this.onlineTextView[i].setText(LocaleController.getString(str17, R.string.MegaPublic).toLowerCase());
-                                                        } else {
-                                                            this.onlineTextView[i].setText(LocaleController.getString(str18, R.string.MegaPrivate).toLowerCase());
-                                                        }
-                                                        str8 = str17;
-                                                        str9 = str18;
-                                                        str10 = str19;
-                                                        str11 = str13;
-                                                    } else {
-                                                        str8 = str17;
-                                                        str9 = str18;
-                                                        str10 = str19;
-                                                        str11 = str13;
-                                                        this.onlineTextView[i].setText(LocaleController.formatPluralString(str20, iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber));
-                                                    }
-                                                } else {
-                                                    str8 = str17;
-                                                    str9 = str18;
-                                                    str10 = str19;
-                                                    str11 = str13;
-                                                    this.onlineTextView[i].setText(LocaleController.formatPluralString("Subscribers", iArr[0], new Object[0]).replace(String.format("%d", Integer.valueOf(iArr[0])), formatShortNumber));
-                                                }
-                                            }
-                                        }
-                                        str7 = str4;
-                                        str8 = str17;
-                                        str9 = str18;
-                                        str10 = str19;
-                                        str11 = str13;
-                                        this.onlineTextView[i].setText(i == 0 ? str3 : str2);
+                                    if (i != 0) {
                                     }
+                                    str4 = str;
+                                    tLRPC$Chat = this.currentChat;
+                                    if (!tLRPC$Chat.megagroup) {
+                                    }
+                                    if (i == 0) {
+                                    }
+                                    z4 = z2;
+                                    str5 = str13;
+                                    str6 = str14;
+                                    str7 = str10;
+                                    str8 = str11;
+                                    this.onlineTextView[i].setText(i == 0 ? str3 : str2);
+                                    z2 = z4;
                                 }
-                                str7 = str4;
-                                str8 = str17;
-                                str9 = str18;
-                                str10 = str19;
-                                str11 = str13;
                             }
                             i++;
-                            str14 = str7;
+                            str = str4;
                             format = str2;
                             formatPluralString = str3;
-                            str17 = str8;
-                            str18 = str9;
-                            str19 = str10;
-                            str13 = str11;
-                            str = str6;
-                            str15 = str5;
+                            str13 = str5;
+                            str14 = str6;
+                            str10 = str7;
+                            str11 = str8;
                         }
                         if (z2) {
                             needLayout(true);
@@ -8369,9 +8469,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if ((forUserOrChat != null || initIfEmpty) && this.isPulledDown && (findViewByPosition = this.layoutManager.findViewByPosition(0)) != null) {
                             this.listView.smoothScrollBy(0, findViewByPosition.getTop() - AndroidUtilities.dp(88.0f), CubicBezierInterpolator.EASE_OUT_QUINT);
                         }
-                        String str21 = (currentVideoLocation2 == null && currentVideoLocation2.imageType == 2) ? ImageLoader.AUTOPLAY_FILTER : null;
+                        String str16 = (currentVideoLocation2 == null && currentVideoLocation2.imageType == 2) ? ImageLoader.AUTOPLAY_FILTER : null;
                         if (this.avatarBig == null) {
-                            this.avatarImage.setImage(currentVideoLocation2, str21, forUserOrChat5, "50_50", this.avatarDrawable, chat);
+                            this.avatarImage.setImage(currentVideoLocation2, str16, forUserOrChat5, "50_50", this.avatarDrawable, chat);
                         }
                         if (forUserOrChat != null && ((imageLocation = this.prevLoadedImageLocation) == null || forUserOrChat.photoId != imageLocation.photoId)) {
                             this.prevLoadedImageLocation = forUserOrChat;
@@ -8380,7 +8480,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         z3 = true;
                         this.avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(tLRPC$FileLocation2), false);
                     } else {
-                        str20 = str20;
+                        str15 = str15;
                     }
                 }
                 str = string;
@@ -8426,15 +8526,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else if (ChatObject.isLeftFromChat(chat)) {
                     formatPluralString = LocaleController.getString("YouLeft", R.string.YouLeft);
                 } else {
-                    int i7 = chat.participants_count;
+                    int i6 = chat.participants_count;
                     TLRPC$ChatFull tLRPC$ChatFull3 = this.chatInfo;
                     if (tLRPC$ChatFull3 != null) {
-                        i7 = tLRPC$ChatFull3.participants.participants.size();
+                        i6 = tLRPC$ChatFull3.participants.participants.size();
                     }
-                    if (i7 == 0 || this.onlineCount <= 1) {
-                        formatPluralString = LocaleController.formatPluralString(str20, i7, new Object[0]);
+                    if (i6 == 0 || this.onlineCount <= 1) {
+                        formatPluralString = LocaleController.formatPluralString("Members", i6, new Object[0]);
                     } else {
-                        format = String.format("%s, %s", LocaleController.formatPluralString(str20, i7, new Object[0]), LocaleController.formatPluralString("OnlineCount", this.onlineCount, new Object[0]));
+                        format = String.format("%s, %s", LocaleController.formatPluralString("Members", i6, new Object[0]), LocaleController.formatPluralString("OnlineCount", this.onlineCount, new Object[0]));
                         formatPluralString = format;
                         i = 0;
                         z2 = false;

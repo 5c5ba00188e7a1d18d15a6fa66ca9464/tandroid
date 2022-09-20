@@ -24,6 +24,7 @@ public class SeekBarView extends FrameLayout {
     private Drawable hoverDrawable;
     private Paint innerPaint1;
     private long lastUpdateTime;
+    int lastValue;
     private Paint outerPaint1;
     private boolean pressed;
     private int[] pressedState;
@@ -75,7 +76,7 @@ public class SeekBarView extends FrameLayout {
 
     public SeekBarView(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        this.animatedThumbX = new AnimatedFloat(this, 150L, CubicBezierInterpolator.DEFAULT);
+        this.animatedThumbX = new AnimatedFloat(this, 0L, 80L, CubicBezierInterpolator.EASE_OUT);
         this.progressToSet = -100.0f;
         this.pressedState = new int[]{16842910, 16842919};
         this.transitionProgress = 1.0f;
@@ -109,10 +110,7 @@ public class SeekBarView extends FrameLayout {
             public void setProgress(float f) {
                 SeekBarView.this.pressed = true;
                 SeekBarView.this.setProgress(f);
-                SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
-                if (seekBarViewDelegate != null) {
-                    seekBarViewDelegate.onSeekBarDrag(true, f);
-                }
+                SeekBarView.this.setSeekBarDrag(true, f);
                 SeekBarView.this.pressed = false;
             }
 
@@ -210,12 +208,12 @@ public class SeekBarView extends FrameLayout {
                         float measuredWidth = (getMeasuredWidth() - this.selectorWidth) / 2;
                         int i = this.thumbX;
                         if (i >= measuredWidth) {
-                            this.delegate.onSeekBarDrag(false, (i - measuredWidth) / measuredWidth);
+                            setSeekBarDrag(false, (i - measuredWidth) / measuredWidth);
                         } else {
-                            this.delegate.onSeekBarDrag(false, -Math.max(0.01f, 1.0f - ((measuredWidth - i) / measuredWidth)));
+                            setSeekBarDrag(false, -Math.max(0.01f, 1.0f - ((measuredWidth - i) / measuredWidth)));
                         }
                     } else {
-                        this.delegate.onSeekBarDrag(true, this.thumbX / (getMeasuredWidth() - this.selectorWidth));
+                        setSeekBarDrag(true, this.thumbX / (getMeasuredWidth() - this.selectorWidth));
                     }
                 }
                 if (Build.VERSION.SDK_INT >= 21 && (drawable = this.hoverDrawable) != null) {
@@ -267,12 +265,12 @@ public class SeekBarView extends FrameLayout {
                         float measuredWidth2 = (getMeasuredWidth() - this.selectorWidth) / 2;
                         int i2 = this.thumbX;
                         if (i2 >= measuredWidth2) {
-                            this.delegate.onSeekBarDrag(false, (i2 - measuredWidth2) / measuredWidth2);
+                            setSeekBarDrag(false, (i2 - measuredWidth2) / measuredWidth2);
                         } else {
-                            this.delegate.onSeekBarDrag(false, -Math.max(0.01f, 1.0f - ((measuredWidth2 - i2) / measuredWidth2)));
+                            setSeekBarDrag(false, -Math.max(0.01f, 1.0f - ((measuredWidth2 - i2) / measuredWidth2)));
                         }
                     } else {
-                        this.delegate.onSeekBarDrag(false, this.thumbX / (getMeasuredWidth() - this.selectorWidth));
+                        setSeekBarDrag(false, this.thumbX / (getMeasuredWidth() - this.selectorWidth));
                     }
                 }
                 if (Build.VERSION.SDK_INT >= 21 && (drawable2 = this.hoverDrawable) != null) {
@@ -283,6 +281,24 @@ public class SeekBarView extends FrameLayout {
             }
         }
         return false;
+    }
+
+    public void setSeekBarDrag(boolean z, float f) {
+        SeekBarViewDelegate seekBarViewDelegate = this.delegate;
+        if (seekBarViewDelegate != null) {
+            seekBarViewDelegate.onSeekBarDrag(z, f);
+        }
+        int i = this.separatorsCount;
+        if (i > 1) {
+            int round = Math.round((i - 1) * f);
+            if (!z && round != this.lastValue) {
+                try {
+                    performHapticFeedback(9, 1);
+                } catch (Exception unused) {
+                }
+            }
+            this.lastValue = round;
+        }
     }
 
     public float getProgress() {
@@ -355,10 +371,10 @@ public class SeekBarView extends FrameLayout {
         return this.pressed;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:50:0x029a  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x02f7  */
-    /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x02e2  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0211  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:49:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0259  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -372,46 +388,31 @@ public class SeekBarView extends FrameLayout {
         if (!this.twoSided && this.separatorsCount > 1) {
             i2 = (int) this.animatedThumbX.set(Math.round(i2 / measuredWidth) * ((getMeasuredWidth() - this.selectorWidth) / (this.separatorsCount - 1.0f)));
         }
-        int i3 = i2;
         int measuredHeight = (getMeasuredHeight() - this.thumbSize) / 2;
         this.innerPaint1.setColor(getThemedColor("player_progressBackground"));
         canvas.drawRect(this.selectorWidth / 2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), getMeasuredWidth() - (this.selectorWidth / 2), (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.innerPaint1);
-        boolean z2 = false;
-        if (!this.twoSided && this.separatorsCount > 1) {
-            for (int i4 = 0; i4 < this.separatorsCount; i4++) {
-                canvas.drawCircle(AndroidUtilities.lerp(this.selectorWidth / 2, getMeasuredWidth() - (this.selectorWidth / 2), i4 / (this.separatorsCount - 1.0f)), getMeasuredHeight() / 2, AndroidUtilities.dp(1.6f), this.innerPaint1);
-            }
-        }
         if (this.bufferedProgress > 0.0f) {
             this.innerPaint1.setColor(getThemedColor("key_player_progressCachedBackground"));
-            canvas.drawRect(this.selectorWidth / 2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), (this.bufferedProgress * (getMeasuredWidth() - this.selectorWidth)) + (this.selectorWidth / 2), (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.innerPaint1);
+            canvas.drawRect(this.selectorWidth / 2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), (this.selectorWidth / 2) + (this.bufferedProgress * (getMeasuredWidth() - this.selectorWidth)), (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.innerPaint1);
         }
         float f2 = 6.0f;
         if (this.twoSided) {
             canvas.drawRect((getMeasuredWidth() / 2) - AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) - AndroidUtilities.dp(6.0f), (getMeasuredWidth() / 2) + AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(6.0f), this.outerPaint1);
-            if (i3 > (getMeasuredWidth() - this.selectorWidth) / 2) {
-                canvas.drawRect(getMeasuredWidth() / 2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), (this.selectorWidth / 2) + i3, (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.outerPaint1);
+            if (i2 > (getMeasuredWidth() - this.selectorWidth) / 2) {
+                canvas.drawRect(getMeasuredWidth() / 2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), (this.selectorWidth / 2) + i2, (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.outerPaint1);
             } else {
-                canvas.drawRect((i / 2) + i3, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), getMeasuredWidth() / 2, (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.outerPaint1);
+                canvas.drawRect((i / 2) + i2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), getMeasuredWidth() / 2, (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.outerPaint1);
             }
         } else {
-            canvas.drawRect(this.selectorWidth / 2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), (this.selectorWidth / 2) + i3, (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.outerPaint1);
-            if (this.separatorsCount > 1) {
-                for (int i5 = 0; i5 < this.separatorsCount; i5++) {
-                    float lerp = AndroidUtilities.lerp(this.selectorWidth / 2, getMeasuredWidth() - (this.selectorWidth / 2), i5 / (this.separatorsCount - 1.0f));
-                    if (lerp > (this.selectorWidth / 2) + i3) {
-                        break;
-                    }
-                    canvas.drawCircle(lerp, getMeasuredHeight() / 2, AndroidUtilities.dp(1.4f), this.outerPaint1);
-                }
-            }
+            canvas.drawRect(this.selectorWidth / 2, (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f), (this.selectorWidth / 2) + i2, (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.outerPaint1);
         }
         if (this.hoverDrawable != null) {
-            int dp = ((this.selectorWidth / 2) + i3) - AndroidUtilities.dp(16.0f);
+            int dp = ((this.selectorWidth / 2) + i2) - AndroidUtilities.dp(16.0f);
             int dp2 = ((this.thumbSize / 2) + measuredHeight) - AndroidUtilities.dp(16.0f);
             this.hoverDrawable.setBounds(dp, dp2, AndroidUtilities.dp(32.0f) + dp, AndroidUtilities.dp(32.0f) + dp2);
             this.hoverDrawable.draw(canvas);
         }
+        boolean z2 = false;
         if (this.pressed) {
             f2 = 8.0f;
         }
@@ -452,9 +453,9 @@ public class SeekBarView extends FrameLayout {
                 if (interpolation > 0.0f) {
                     canvas.drawCircle(this.transitionThumbX + (this.selectorWidth / 2), (this.thumbSize / 2) + measuredHeight, this.currentRadius * interpolation, this.outerPaint1);
                 }
-                canvas.drawCircle(i3 + (this.selectorWidth / 2), measuredHeight + (this.thumbSize / 2), this.currentRadius * interpolation2, this.outerPaint1);
+                canvas.drawCircle(i2 + (this.selectorWidth / 2), measuredHeight + (this.thumbSize / 2), this.currentRadius * interpolation2, this.outerPaint1);
             } else {
-                canvas.drawCircle(i3 + (this.selectorWidth / 2), measuredHeight + (this.thumbSize / 2), this.currentRadius, this.outerPaint1);
+                canvas.drawCircle(i2 + (this.selectorWidth / 2), measuredHeight + (this.thumbSize / 2), this.currentRadius, this.outerPaint1);
             }
             if (z) {
                 return;

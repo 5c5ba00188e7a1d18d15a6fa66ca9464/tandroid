@@ -62,6 +62,7 @@ public class SharedConfig {
     public static int emojiInteractionsHintCount = 0;
     public static int fastScrollHintCount = 0;
     public static int fontSize = 0;
+    public static boolean fontSizeIsDefault = false;
     public static boolean forceDisableTabletMode = false;
     public static boolean forceRtmpStream = false;
     public static boolean forwardingOptionsHintShown = false;
@@ -151,7 +152,7 @@ public class SharedConfig {
         autoplayGifs = true;
         autoplayVideo = true;
         raiseToSpeak = false;
-        recordViaSco = true;
+        recordViaSco = false;
         customTabs = true;
         directShare = true;
         inappCamera = true;
@@ -274,9 +275,11 @@ public class SharedConfig {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:41:0x0232  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x016a A[Catch: Exception -> 0x0188, all -> 0x03dd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x016e A[Catch: Exception -> 0x0188, all -> 0x03dd, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:63:0x016a, B:65:0x016e, B:66:0x0170, B:68:0x0174, B:70:0x017a, B:72:0x0180, B:76:0x0164), top: B:21:0x011b, outer: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0245  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0235  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x016a A[Catch: Exception -> 0x0188, all -> 0x03ea, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x016e A[Catch: Exception -> 0x0188, all -> 0x03ea, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -359,7 +362,7 @@ public class SharedConfig {
                                 autoplayVideo = sharedPreferences.getBoolean("autoplay_video", true);
                                 mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
                                 raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
-                                recordViaSco = sharedPreferences.getBoolean("record_via_sco", true);
+                                recordViaSco = sharedPreferences.getBoolean("record_via_sco", false);
                                 customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                                 directShare = sharedPreferences.getBoolean("direct_share", true);
                                 boolean z = sharedPreferences.getBoolean("shuffleMusic", false);
@@ -370,6 +373,7 @@ public class SharedConfig {
                                 roundCamera16to9 = true;
                                 repeatMode = sharedPreferences.getInt("repeatMode", 0);
                                 fontSize = sharedPreferences.getInt("fons_size", !AndroidUtilities.isTablet() ? 18 : 16);
+                                fontSizeIsDefault = sharedPreferences.contains("fons_size");
                                 bubbleRadius = sharedPreferences.getInt("bubbleRadius", 17);
                                 ivFontSize = sharedPreferences.getInt("iv_font_size", fontSize);
                                 allowBigEmoji = sharedPreferences.getBoolean("allowBigEmoji", true);
@@ -451,7 +455,7 @@ public class SharedConfig {
                 autoplayVideo = sharedPreferences.getBoolean("autoplay_video", true);
                 mapPreviewType = sharedPreferences.getInt("mapPreviewType", 2);
                 raiseToSpeak = sharedPreferences.getBoolean("raise_to_speak", false);
-                recordViaSco = sharedPreferences.getBoolean("record_via_sco", true);
+                recordViaSco = sharedPreferences.getBoolean("record_via_sco", false);
                 customTabs = sharedPreferences.getBoolean("custom_tabs", true);
                 directShare = sharedPreferences.getBoolean("direct_share", true);
                 boolean z2 = sharedPreferences.getBoolean("shuffleMusic", false);
@@ -462,6 +466,7 @@ public class SharedConfig {
                 roundCamera16to9 = true;
                 repeatMode = sharedPreferences.getInt("repeatMode", 0);
                 fontSize = sharedPreferences.getInt("fons_size", !AndroidUtilities.isTablet() ? 18 : 16);
+                fontSizeIsDefault = sharedPreferences.contains("fons_size");
                 bubbleRadius = sharedPreferences.getInt("bubbleRadius", 17);
                 ivFontSize = sharedPreferences.getInt("iv_font_size", fontSize);
                 allowBigEmoji = sharedPreferences.getBoolean("allowBigEmoji", true);
@@ -522,10 +527,12 @@ public class SharedConfig {
     }
 
     public static void updateTabletConfig() {
-        SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("userconfing", 0);
-        int i = sharedPreferences.getInt("fons_size", AndroidUtilities.isTablet() ? 18 : 16);
-        fontSize = i;
-        ivFontSize = sharedPreferences.getInt("iv_font_size", i);
+        if (fontSizeIsDefault) {
+            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("userconfing", 0);
+            int i = sharedPreferences.getInt("fons_size", AndroidUtilities.isTablet() ? 18 : 16);
+            fontSize = i;
+            ivFontSize = sharedPreferences.getInt("iv_font_size", i);
+        }
     }
 
     public static void increaseBadPasscodeTries() {
@@ -1019,13 +1026,6 @@ public class SharedConfig {
         edit.commit();
     }
 
-    public static void toggleRecordViaSco() {
-        recordViaSco = !recordViaSco;
-        SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
-        edit.putBoolean("record_via_sco", recordViaSco);
-        edit.commit();
-    }
-
     public static void toggleCustomTabs() {
         customTabs = !customTabs;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
@@ -1330,7 +1330,7 @@ public class SharedConfig {
                 devicePerformanceClass = 2;
             }
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("device performance info selected_class = " + devicePerformanceClass + " (cpu_count = " + i2 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i + ")");
+                FileLog.d("device performance info selected_class = " + devicePerformanceClass + " (cpu_count = " + i2 + ", freq = " + ceil + ", memoryClass = " + memoryClass + ", android version " + i + ", manufacture " + Build.MANUFACTURER + ")");
             }
         }
         return devicePerformanceClass;

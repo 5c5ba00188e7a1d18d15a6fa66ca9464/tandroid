@@ -5859,7 +5859,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         int[] iArr = new int[1];
         CharSequence charSequence2 = charSequence;
         Emoji.parseEmojis(charSequence2, iArr);
-        boolean z2 = iArr[0] <= 100;
+        boolean z2 = iArr[0] > 0;
         if (!z2) {
             charSequence2 = AndroidUtilities.getTrimmedString(charSequence);
         }
@@ -9667,6 +9667,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 return;
             }
             editTextCaption.postInvalidate();
+            this.messageEditText.invalidateForce();
             return;
         }
         int i4 = 0;

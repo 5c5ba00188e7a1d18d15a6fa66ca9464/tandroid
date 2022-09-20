@@ -465,13 +465,13 @@ public class AnimatedEmojiDrawable extends Drawable {
         return this.document;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0183  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x018c  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0205  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0215  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0226  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0186  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0189  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0192  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x018c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -536,7 +536,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             sb.append("@");
             sb.append(str2);
             String sb2 = sb.toString();
-            if (this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
+            if (SharedConfig.getDevicePerformanceClass() != 0 || this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
                 SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
                 if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                     svgThumb.overrideWidthAndHeight(512, 512);

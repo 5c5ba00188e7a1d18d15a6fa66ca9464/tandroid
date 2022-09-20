@@ -851,7 +851,7 @@ public class PhonebookShareAlert extends BottomSheet {
         if (i == 0) {
             try {
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", vcardItem.getValue(false)));
-                if (Build.VERSION.SDK_INT >= 31) {
+                if (!AndroidUtilities.shouldShowClipboardToast()) {
                     return;
                 }
                 Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
@@ -891,7 +891,7 @@ public class PhonebookShareAlert extends BottomSheet {
                     simpleLayout.textView.setText(LocaleController.getString("TextCopied", R.string.TextCopied));
                     simpleLayout.imageView.setImageResource(R.drawable.msg_info);
                 }
-                if (Build.VERSION.SDK_INT < 31) {
+                if (AndroidUtilities.shouldShowClipboardToast()) {
                     Bulletin.make((FrameLayout) this.containerView, simpleLayout, 1500).show();
                 }
             }

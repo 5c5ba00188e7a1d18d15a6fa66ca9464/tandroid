@@ -2552,32 +2552,32 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:238:0x10c5  */
     /* JADX WARN: Removed duplicated region for block: B:241:0x1222  */
     /* JADX WARN: Removed duplicated region for block: B:244:0x1276  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x146a  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x1484  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x14de  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x15aa  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x16da  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x17cb  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x1903  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x1943  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x1a12  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x1b3e  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x1bfe  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x1f34  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x2102  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x21ba  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x21ca  */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x2220  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x2263  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x226c  */
-    /* JADX WARN: Removed duplicated region for block: B:348:0x22c5  */
-    /* JADX WARN: Removed duplicated region for block: B:352:0x227b  */
-    /* JADX WARN: Removed duplicated region for block: B:353:0x223d  */
-    /* JADX WARN: Removed duplicated region for block: B:362:0x16f9  */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x15c9  */
-    /* JADX WARN: Removed duplicated region for block: B:364:0x14fd  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x1487  */
-    /* JADX WARN: Removed duplicated region for block: B:366:0x146c  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x1466  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x1480  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x14da  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x15a6  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x16d6  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x17c7  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x18ff  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x193f  */
+    /* JADX WARN: Removed duplicated region for block: B:284:0x1a0e  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x1b3a  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x1bfa  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x1f30  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x20fe  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x21b6  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x21c6  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x221c  */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x225f  */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x2268  */
+    /* JADX WARN: Removed duplicated region for block: B:348:0x22c1  */
+    /* JADX WARN: Removed duplicated region for block: B:352:0x2277  */
+    /* JADX WARN: Removed duplicated region for block: B:353:0x2239  */
+    /* JADX WARN: Removed duplicated region for block: B:362:0x16f5  */
+    /* JADX WARN: Removed duplicated region for block: B:363:0x15c5  */
+    /* JADX WARN: Removed duplicated region for block: B:364:0x14f9  */
+    /* JADX WARN: Removed duplicated region for block: B:365:0x1483  */
+    /* JADX WARN: Removed duplicated region for block: B:366:0x1468  */
     /* JADX WARN: Removed duplicated region for block: B:368:0x1047  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -3639,7 +3639,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.reportSpamButton.setSingleLine(true);
                 this.reportSpamButton.setMaxLines(1);
                 this.reportSpamButton.setGravity(17);
-                this.topChatPanelView.addView(this.reportSpamButton, LayoutHelper.createFrame(-1, 50.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
+                this.topChatPanelView.addView(this.reportSpamButton, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
                 this.reportSpamButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda80
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view3) {
@@ -3707,7 +3707,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (i3 >= 21) {
                     this.addToContactsButton.setBackground(Theme.createSelectorDrawable(getThemedColor("chat_addContact") & 436207615, 3));
                 }
-                this.topChatPanelView.addView(this.addToContactsButton, LayoutHelper.createFrame(-1, 50.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
+                this.topChatPanelView.addView(this.addToContactsButton, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
                 this.addToContactsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda86
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view5) {
@@ -3719,11 +3719,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 imageView3.setImageResource(R.drawable.miniplayer_close);
                 this.closeReportSpam.setContentDescription(LocaleController.getString("Close", R.string.Close));
                 if (i3 >= 21) {
-                    this.closeReportSpam.setBackground(Theme.createSelectorDrawable(getThemedColor("chat_topPanelClose") & 436207615));
+                    this.closeReportSpam.setBackground(Theme.AdaptiveRipple.circle(getThemedColor("chat_topPanelClose")));
                 }
                 this.closeReportSpam.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_topPanelClose"), PorterDuff.Mode.MULTIPLY));
                 this.closeReportSpam.setScaleType(ImageView.ScaleType.CENTER);
-                this.topChatPanelView.addView(this.closeReportSpam, LayoutHelper.createFrame(36, 48.0f, 53, 0.0f, 0.0f, 2.0f, 0.0f));
+                this.topChatPanelView.addView(this.closeReportSpam, LayoutHelper.createFrame(36, 36.0f, 53, 0.0f, 6.0f, 2.0f, 0.0f));
                 this.closeReportSpam.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda76
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view5) {
@@ -3874,7 +3874,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                     public boolean needSend() {
-                        return false;
+                        return true;
                     }
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -5172,7 +5172,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.reportSpamButton.setSingleLine(true);
         this.reportSpamButton.setMaxLines(1);
         this.reportSpamButton.setGravity(17);
-        this.topChatPanelView.addView(this.reportSpamButton, LayoutHelper.createFrame(-1, 50.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
+        this.topChatPanelView.addView(this.reportSpamButton, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
         this.reportSpamButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda80
             @Override // android.view.View.OnClickListener
             public final void onClick(View view32) {
@@ -5239,7 +5239,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.addToContactsButton.setGravity(17);
         if (i3 >= 21) {
         }
-        this.topChatPanelView.addView(this.addToContactsButton, LayoutHelper.createFrame(-1, 50.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
+        this.topChatPanelView.addView(this.addToContactsButton, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, 0.0f, 0.0f, 1.0f));
         this.addToContactsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda86
             @Override // android.view.View.OnClickListener
             public final void onClick(View view52) {
@@ -5254,7 +5254,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         this.closeReportSpam.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_topPanelClose"), PorterDuff.Mode.MULTIPLY));
         this.closeReportSpam.setScaleType(ImageView.ScaleType.CENTER);
-        this.topChatPanelView.addView(this.closeReportSpam, LayoutHelper.createFrame(36, 48.0f, 53, 0.0f, 0.0f, 2.0f, 0.0f));
+        this.topChatPanelView.addView(this.closeReportSpam, LayoutHelper.createFrame(36, 36.0f, 53, 0.0f, 6.0f, 2.0f, 0.0f));
         this.closeReportSpam.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda76
             @Override // android.view.View.OnClickListener
             public final void onClick(View view52) {
@@ -5405,7 +5405,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public boolean needSend() {
-                return false;
+                return true;
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -18059,7 +18059,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         this.bottomOverlayChatText.setEnabled(true);
     }
 
-    private void updateTitle(boolean z) {
+    public void updateTitle(boolean z) {
         if (this.avatarContainer == null) {
             return;
         }
@@ -18098,18 +18098,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (!TextUtils.isEmpty(this.currentUser.phone)) {
                                 ChatAvatarContainer chatAvatarContainer = this.avatarContainer;
                                 PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                                chatAvatarContainer.setTitle(phoneFormat.format("+" + this.currentUser.phone));
+                                String format = phoneFormat.format("+" + this.currentUser.phone);
+                                TLRPC$User tLRPC$User2 = this.currentUser;
+                                chatAvatarContainer.setTitle(format, tLRPC$User2.scam, tLRPC$User2.fake, tLRPC$User2.verified, getMessagesController().isPremiumUser(this.currentUser), this.currentUser.emoji_status, z);
                             } else {
                                 ChatAvatarContainer chatAvatarContainer2 = this.avatarContainer;
                                 String userName = UserObject.getUserName(this.currentUser);
-                                TLRPC$User tLRPC$User2 = this.currentUser;
-                                chatAvatarContainer2.setTitle(userName, tLRPC$User2.scam, tLRPC$User2.fake, tLRPC$User2.verified, getMessagesController().isPremiumUser(this.currentUser), this.currentUser.emoji_status, z);
+                                TLRPC$User tLRPC$User3 = this.currentUser;
+                                chatAvatarContainer2.setTitle(userName, tLRPC$User3.scam, tLRPC$User3.fake, tLRPC$User3.verified, getMessagesController().isPremiumUser(this.currentUser), this.currentUser.emoji_status, z);
                             }
                         } else {
                             ChatAvatarContainer chatAvatarContainer3 = this.avatarContainer;
                             String userName2 = UserObject.getUserName(this.currentUser);
-                            TLRPC$User tLRPC$User3 = this.currentUser;
-                            chatAvatarContainer3.setTitle(userName2, tLRPC$User3.scam, tLRPC$User3.fake, tLRPC$User3.verified, getMessagesController().isPremiumUser(this.currentUser), this.currentUser.emoji_status, z);
+                            TLRPC$User tLRPC$User4 = this.currentUser;
+                            chatAvatarContainer3.setTitle(userName2, tLRPC$User4.scam, tLRPC$User4.fake, tLRPC$User4.verified, getMessagesController().isPremiumUser(this.currentUser), this.currentUser.emoji_status, z);
                         }
                     }
                 }
@@ -18203,7 +18205,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         chatNotificationsPopupWrapper.lambda$update$10(this.dialog_id);
     }
 
-    private void checkAndUpdateAvatar() {
+    public void checkAndUpdateAvatar() {
         if (this.currentUser != null) {
             TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.currentUser.id));
             if (user == null) {
@@ -18759,14 +18761,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3105
+        jadx.core.utils.exceptions.JadxRuntimeException: CFG modification limit reached, blocks count: 3094
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:60)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:40)
         */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-    public void didReceivedNotification(int r57, int r58, java.lang.Object... r59) {
+    public void didReceivedNotification(int r54, int r55, java.lang.Object... r56) {
         /*
-            Method dump skipped, instructions count: 14105
+            Method dump skipped, instructions count: 14051
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -23317,7 +23319,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     textView3.setGravity(16);
                     this.chatWithAdminTextView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(46.0f), 0);
                     this.chatWithAdminTextView.setBackground(Theme.createSelectorDrawable(getThemedColor("listSelectorSDK21"), 2));
-                    this.topChatPanelView.addView(this.chatWithAdminTextView, 0, LayoutHelper.createFrame(-1, 50.0f, 0, 0.0f, 0.0f, 0.0f, 1.0f));
+                    this.topChatPanelView.addView(this.chatWithAdminTextView, 0, LayoutHelper.createFrame(-1, 48.0f, 0, 0.0f, 0.0f, 0.0f, 1.0f));
                     this.chatWithAdminTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
                     this.chatWithAdminTextView.setTextSize(1, 14.0f);
                     final TLRPC$User tLRPC$User2 = user;
@@ -24543,7 +24545,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:640:0x15f5  */
     /* JADX WARN: Type inference failed for: r15v32 */
     /* JADX WARN: Type inference failed for: r15v5 */
-    /* JADX WARN: Type inference failed for: r15v6, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v6, types: [boolean, int] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

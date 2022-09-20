@@ -1213,59 +1213,60 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         View view;
         int i2;
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable;
-        if (this.selectAnimatedEmojiDialog == null && (lastFragment = this.actionBarLayout.getLastFragment()) != null) {
-            View childAt = this.sideMenu.getChildAt(0);
-            SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];
-            TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId()));
-            if (childAt instanceof DrawerProfileCell) {
-                DrawerProfileCell drawerProfileCell = (DrawerProfileCell) childAt;
-                AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable = drawerProfileCell.getEmojiStatusDrawable();
-                if (emojiStatusDrawable != null) {
-                    emojiStatusDrawable.play();
-                }
-                View emojiStatusDrawableParent = drawerProfileCell.getEmojiStatusDrawableParent();
-                if (emojiStatusDrawable != null) {
-                    boolean z = emojiStatusDrawable.getDrawable() instanceof AnimatedEmojiDrawable;
-                }
-                Rect rect = AndroidUtilities.rectTmp2;
-                drawerProfileCell.getEmojiStatusLocation(rect);
-                int dp = (-(childAt.getHeight() - rect.centerY())) - AndroidUtilities.dp(16.0f);
-                i = rect.centerX();
-                if (Build.VERSION.SDK_INT >= 23 && getWindow() != null && getWindow().getDecorView() != null && getWindow().getDecorView().getRootWindowInsets() != null) {
-                    i -= getWindow().getDecorView().getRootWindowInsets().getStableInsetLeft();
-                }
-                i2 = dp;
-                swapAnimatedEmojiDrawable = emojiStatusDrawable;
-                view = emojiStatusDrawableParent;
-            } else {
-                i = 0;
-                view = null;
-                i2 = 0;
-                swapAnimatedEmojiDrawable = null;
-            }
-            View view2 = view;
-            10 r7 = new 10(lastFragment, this, true, Integer.valueOf(i), 0, null, selectAnimatedEmojiDialogWindowArr);
-            if (user != null) {
-                TLRPC$EmojiStatus tLRPC$EmojiStatus = user.emoji_status;
-                if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
-                    r7.setExpireDateHint(((TLRPC$TL_emojiStatusUntil) user.emoji_status).until);
-                }
-            }
-            r7.setSelected((swapAnimatedEmojiDrawable == null || !(swapAnimatedEmojiDrawable.getDrawable() instanceof AnimatedEmojiDrawable)) ? null : Long.valueOf(((AnimatedEmojiDrawable) swapAnimatedEmojiDrawable.getDrawable()).getDocumentId()));
-            r7.setSaveState(2);
-            r7.setScrimDrawable(swapAnimatedEmojiDrawable, view2);
-            SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(r7, -2, -2) { // from class: org.telegram.ui.LaunchActivity.11
-                @Override // org.telegram.ui.SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow, android.widget.PopupWindow
-                public void dismiss() {
-                    super.dismiss();
-                    LaunchActivity.this.selectAnimatedEmojiDialog = null;
-                }
-            };
-            this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow;
-            selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
-            selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(this.sideMenu.getChildAt(0), 0, i2, 48);
-            selectAnimatedEmojiDialogWindowArr[0].dimBehind();
+        if (this.selectAnimatedEmojiDialog != null || SharedConfig.appLocked || (lastFragment = this.actionBarLayout.getLastFragment()) == null) {
+            return;
         }
+        View childAt = this.sideMenu.getChildAt(0);
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];
+        TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId()));
+        if (childAt instanceof DrawerProfileCell) {
+            DrawerProfileCell drawerProfileCell = (DrawerProfileCell) childAt;
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable = drawerProfileCell.getEmojiStatusDrawable();
+            if (emojiStatusDrawable != null) {
+                emojiStatusDrawable.play();
+            }
+            View emojiStatusDrawableParent = drawerProfileCell.getEmojiStatusDrawableParent();
+            if (emojiStatusDrawable != null) {
+                boolean z = emojiStatusDrawable.getDrawable() instanceof AnimatedEmojiDrawable;
+            }
+            Rect rect = AndroidUtilities.rectTmp2;
+            drawerProfileCell.getEmojiStatusLocation(rect);
+            int dp = (-(childAt.getHeight() - rect.centerY())) - AndroidUtilities.dp(16.0f);
+            i = rect.centerX();
+            if (Build.VERSION.SDK_INT >= 23 && getWindow() != null && getWindow().getDecorView() != null && getWindow().getDecorView().getRootWindowInsets() != null) {
+                i -= getWindow().getDecorView().getRootWindowInsets().getStableInsetLeft();
+            }
+            i2 = dp;
+            swapAnimatedEmojiDrawable = emojiStatusDrawable;
+            view = emojiStatusDrawableParent;
+        } else {
+            i = 0;
+            view = null;
+            i2 = 0;
+            swapAnimatedEmojiDrawable = null;
+        }
+        View view2 = view;
+        10 r7 = new 10(lastFragment, this, true, Integer.valueOf(i), 0, null, selectAnimatedEmojiDialogWindowArr);
+        if (user != null) {
+            TLRPC$EmojiStatus tLRPC$EmojiStatus = user.emoji_status;
+            if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
+                r7.setExpireDateHint(((TLRPC$TL_emojiStatusUntil) user.emoji_status).until);
+            }
+        }
+        r7.setSelected((swapAnimatedEmojiDrawable == null || !(swapAnimatedEmojiDrawable.getDrawable() instanceof AnimatedEmojiDrawable)) ? null : Long.valueOf(((AnimatedEmojiDrawable) swapAnimatedEmojiDrawable.getDrawable()).getDocumentId()));
+        r7.setSaveState(2);
+        r7.setScrimDrawable(swapAnimatedEmojiDrawable, view2);
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(r7, -2, -2) { // from class: org.telegram.ui.LaunchActivity.11
+            @Override // org.telegram.ui.SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow, android.widget.PopupWindow
+            public void dismiss() {
+                super.dismiss();
+                LaunchActivity.this.selectAnimatedEmojiDialog = null;
+            }
+        };
+        this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow;
+        selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
+        selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(this.sideMenu.getChildAt(0), 0, i2, 48);
+        selectAnimatedEmojiDialogWindowArr[0].dimBehind();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1697,6 +1698,11 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             PasscodeView passcodeView = new PasscodeView(this);
             this.passcodeView = passcodeView;
             this.drawerLayoutContainer.addView(passcodeView, LayoutHelper.createFrame(-1, -1.0f));
+        }
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = this.selectAnimatedEmojiDialog;
+        if (selectAnimatedEmojiDialogWindow != null) {
+            selectAnimatedEmojiDialogWindow.dismiss();
+            this.selectAnimatedEmojiDialog = null;
         }
         SharedConfig.appLocked = true;
         if (SecretMediaViewer.hasInstance() && SecretMediaViewer.getInstance().isVisible()) {

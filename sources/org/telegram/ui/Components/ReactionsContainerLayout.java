@@ -543,7 +543,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public boolean showCustomEmojiReaction() {
-        return this.allReactionsAvailable;
+        return !MessagesController.getInstance(this.currentAccount).premiumLocked && this.allReactionsAvailable;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

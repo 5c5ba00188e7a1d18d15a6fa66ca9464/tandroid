@@ -74,7 +74,7 @@ public class FileLoader extends BaseController {
     private static volatile DispatchQueue fileLoaderQueue = new DispatchQueue("fileUploadQueue");
     private static SparseArray<File> mediaDirs = null;
     private static final FileLoader[] Instance = new FileLoader[4];
-    private final FileLoaderPriorityQueue largeFilesQueue = new FileLoaderPriorityQueue("large files queue", 1);
+    private final FileLoaderPriorityQueue largeFilesQueue = new FileLoaderPriorityQueue("large files queue", 2);
     private final FileLoaderPriorityQueue filesQueue = new FileLoaderPriorityQueue("files queue", 3);
     private final FileLoaderPriorityQueue imagesQueue = new FileLoaderPriorityQueue("imagesQueue queue", 6);
     private final FileLoaderPriorityQueue audioQueue = new FileLoaderPriorityQueue("audioQueue queue", 3);

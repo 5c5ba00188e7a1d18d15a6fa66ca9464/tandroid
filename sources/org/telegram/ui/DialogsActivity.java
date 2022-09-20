@@ -4550,7 +4550,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public void showSelectStatusDialog() {
         int i;
         int i2;
-        if (this.selectAnimatedEmojiDialog != null) {
+        if (this.selectAnimatedEmojiDialog != null || SharedConfig.appLocked) {
             return;
         }
         SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];

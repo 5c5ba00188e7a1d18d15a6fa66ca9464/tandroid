@@ -2457,7 +2457,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 MessageObject messageObject = chatMessageCell.getMessageObject();
                 if (characterStyle instanceof URLSpanMono) {
                     ((URLSpanMono) characterStyle).copyToClipboard();
-                    if (Build.VERSION.SDK_INT >= 31) {
+                    if (!AndroidUtilities.shouldShowClipboardToast()) {
                         return;
                     }
                     Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();

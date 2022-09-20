@@ -196,7 +196,7 @@ public class ReactedUsersListView extends FrameLayout {
         flickerLoadingView.setIsSingleCell(true);
         this.loadingView.setItemsCount(this.predictiveCount);
         addView(this.loadingView, LayoutHelper.createFrame(-1, -1.0f));
-        if (!z && (tLRPC$Reaction = this.filter) != null && (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji)) {
+        if (!z && (tLRPC$Reaction = this.filter) != null && (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) && !MessagesController.getInstance(i).premiumLocked) {
             this.customReactionsEmoji.clear();
             this.customReactionsEmoji.add(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(this.filter));
             updateCustomReactionsButton();
