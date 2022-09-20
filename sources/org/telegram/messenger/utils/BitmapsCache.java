@@ -34,6 +34,7 @@ public class BitmapsCache {
     String fileName;
     private int frameIndex;
     int h;
+    BitmapFactory.Options options;
     volatile boolean recycled;
     private final Cacheable source;
     int w;
@@ -426,7 +427,7 @@ public class BitmapsCache {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00d0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00df A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -471,7 +472,7 @@ public class BitmapsCache {
                     randomAccessFile.seek(frameOffset2.frameOffset);
                     byte[] bArr = this.bufferTmp;
                     if (bArr == null || bArr.length < frameOffset2.frameSize) {
-                        this.bufferTmp = new byte[frameOffset2.frameSize];
+                        this.bufferTmp = new byte[(int) (frameOffset2.frameSize * 1.3f)];
                     }
                     randomAccessFile.readFully(this.bufferTmp, 0, frameOffset2.frameSize);
                     if (!this.recycled) {
@@ -481,7 +482,10 @@ public class BitmapsCache {
                         randomAccessFile.close();
                     }
                     try {
-                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        if (this.options == null) {
+                            this.options = new BitmapFactory.Options();
+                        }
+                        BitmapFactory.Options options = this.options;
                         options.inBitmap = bitmap;
                         BitmapFactory.decodeByteArray(this.bufferTmp, 0, frameOffset2.frameSize, options);
                         return 0;
