@@ -1846,7 +1846,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     /* JADX WARN: Type inference failed for: r2v130, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r2v238, types: [java.lang.Long] */
     /* JADX WARN: Type inference failed for: r3v0 */
-    /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v11 */
     /* JADX WARN: Type inference failed for: r3v14 */
     /* JADX WARN: Type inference failed for: r3v15 */
@@ -9954,13 +9954,13 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         checkLayout();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x0277, code lost:
-        if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L122;
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x028c, code lost:
+        if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L125;
      */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0266  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x05b6  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x05d2  */
-    /* JADX WARN: Removed duplicated region for block: B:230:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x027b  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x05cb  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x05e7  */
+    /* JADX WARN: Removed duplicated region for block: B:233:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10021,6 +10021,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     showTosActivity(i2, (TLRPC$TL_help_termsOfService) objArr[1]);
                     return;
                 }
+                if (!mainFragmentsStack.isEmpty()) {
+                    ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+                    arrayList.get(arrayList.size() - 1);
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                 if (num.intValue() != 2 && num.intValue() != 3) {
@@ -10063,8 +10067,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (mainFragmentsStack.isEmpty()) {
                     return;
                 }
-                ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-                arrayList.get(arrayList.size() - 1).showDialog(builder.create());
+                ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+                arrayList2.get(arrayList2.size() - 1).showDialog(builder.create());
             } else if (i == NotificationCenter.wasUnableToFindCurrentLocation) {
                 final HashMap hashMap = (HashMap) objArr[0];
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
@@ -10080,8 +10084,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (mainFragmentsStack.isEmpty()) {
                     return;
                 }
-                ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
-                arrayList2.get(arrayList2.size() - 1).showDialog(builder2.create());
+                ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
+                arrayList3.get(arrayList3.size() - 1).showDialog(builder2.create());
             } else if (i == NotificationCenter.didSetNewWallpapper) {
                 RecyclerListView recyclerListView = this.sideMenu;
                 if (recyclerListView != null && (childAt = recyclerListView.getChildAt(0)) != null) {
@@ -10108,11 +10112,11 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 }
             } else if (i == NotificationCenter.reloadInterface) {
                 if (mainFragmentsStack.size() > 1) {
-                    ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
-                    if (arrayList3.get(arrayList3.size() - 1) instanceof ProfileActivity) {
+                    ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+                    if (arrayList4.get(arrayList4.size() - 1) instanceof ProfileActivity) {
                         z2 = true;
                         if (z2) {
-                            ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+                            ArrayList<BaseFragment> arrayList5 = mainFragmentsStack;
                         }
                         z4 = z2;
                         rebuildAllFragments(z4);
@@ -10130,8 +10134,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     return;
                 }
                 ArticleViewer articleViewer = ArticleViewer.getInstance();
-                ArrayList<BaseFragment> arrayList5 = mainFragmentsStack;
-                articleViewer.setParentActivity(this, arrayList5.get(arrayList5.size() - 1));
+                ArrayList<BaseFragment> arrayList6 = mainFragmentsStack;
+                articleViewer.setParentActivity(this, arrayList6.get(arrayList6.size() - 1));
                 ArticleViewer.getInstance().open((TLRPC$TL_webPage) objArr[0], (String) objArr[1]);
             } else if (i == NotificationCenter.hasNewContactsToImport) {
                 ActionBarLayout actionBarLayout = this.actionBarLayout;
@@ -10142,7 +10146,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 final HashMap hashMap2 = (HashMap) objArr[1];
                 final boolean booleanValue = ((Boolean) objArr[2]).booleanValue();
                 final boolean booleanValue2 = ((Boolean) objArr[3]).booleanValue();
-                ArrayList<BaseFragment> arrayList6 = this.actionBarLayout.fragmentsStack;
+                ArrayList<BaseFragment> arrayList7 = this.actionBarLayout.fragmentsStack;
                 AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
                 builder3.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor("dialogTopBackground"));
                 builder3.setTitle(LocaleController.getString("UpdateContactsTitle", R.string.UpdateContactsTitle));
@@ -10166,7 +10170,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     }
                 });
                 AlertDialog create = builder3.create();
-                arrayList6.get(arrayList6.size() - 1).showDialog(create);
+                arrayList7.get(arrayList7.size() - 1).showDialog(create);
                 create.setCanceledOnTouchOutside(false);
             } else if (i == NotificationCenter.didSetNewTheme) {
                 if (!((Boolean) objArr[0]).booleanValue()) {
@@ -10415,14 +10419,14 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (objArr.length <= 1 || mainFragmentsStack.isEmpty()) {
                     return;
                 }
-                ArrayList<BaseFragment> arrayList7 = mainFragmentsStack;
-                AlertsCreator.processError(this.currentAccount, (TLRPC$TL_error) objArr[2], arrayList7.get(arrayList7.size() - 1), (TLObject) objArr[1], new Object[0]);
+                ArrayList<BaseFragment> arrayList8 = mainFragmentsStack;
+                AlertsCreator.processError(this.currentAccount, (TLRPC$TL_error) objArr[2], arrayList8.get(arrayList8.size() - 1), (TLObject) objArr[1], new Object[0]);
             } else if (i == NotificationCenter.stickersImportComplete) {
                 MediaDataController mediaDataController = MediaDataController.getInstance(i2);
                 TLObject tLObject = (TLObject) objArr[0];
                 if (!mainFragmentsStack.isEmpty()) {
-                    ArrayList<BaseFragment> arrayList8 = mainFragmentsStack;
-                    baseFragment2 = arrayList8.get(arrayList8.size() - 1);
+                    ArrayList<BaseFragment> arrayList9 = mainFragmentsStack;
+                    baseFragment2 = arrayList9.get(arrayList9.size() - 1);
                 } else {
                     baseFragment2 = null;
                 }
@@ -10436,8 +10440,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 int intValue3 = ((Integer) objArr[0]).intValue();
                 FrameLayout container = (!GroupCallActivity.groupCallUiVisible || (groupCallActivity = GroupCallActivity.groupCallInstance) == null) ? null : groupCallActivity.getContainer();
                 if (container == null) {
-                    ArrayList<BaseFragment> arrayList9 = mainFragmentsStack;
-                    baseFragment = arrayList9.get(arrayList9.size() - 1);
+                    ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
+                    baseFragment = arrayList10.get(arrayList10.size() - 1);
                 } else {
                     baseFragment = null;
                 }
@@ -10512,8 +10516,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (mainFragmentsStack.isEmpty()) {
                     return;
                 }
-                ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
-                BaseFragment baseFragment3 = arrayList10.get(arrayList10.size() - 1);
+                ArrayList<BaseFragment> arrayList11 = mainFragmentsStack;
+                BaseFragment baseFragment3 = arrayList11.get(arrayList11.size() - 1);
                 if (baseFragment3.getParentActivity() == null) {
                     return;
                 }

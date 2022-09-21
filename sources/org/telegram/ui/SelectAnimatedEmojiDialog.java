@@ -3228,7 +3228,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.emojiTabs.updateEmojiPacks(this.packs);
     }
 
-    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
     public void expand(int i, View view) {
         ?? r5;
         int size;

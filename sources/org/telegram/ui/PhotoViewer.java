@@ -9692,9 +9692,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     }
                     Point point = AndroidUtilities.displaySize;
-                    if (point.y > point.x && !(this.videoTextureView instanceof VideoEditTextureView) && measuredWidth > measuredHeight) {
+                    if (point.y > point.x && measuredWidth > measuredHeight) {
                         if (this.fullscreenButton[i2].getVisibility() != 0) {
                             this.fullscreenButton[i2].setVisibility(0);
+                        }
+                        if (this.isActionBarVisible) {
+                            this.fullscreenButton[i2].setAlpha(1.0f);
                         }
                         ((FrameLayout.LayoutParams) this.fullscreenButton[i2].getLayoutParams()).topMargin = ((this.containerView.getMeasuredHeight() + ((int) (measuredHeight / (measuredWidth / this.containerView.getMeasuredWidth())))) / 2) - AndroidUtilities.dp(48.0f);
                     } else if (this.fullscreenButton[i2].getVisibility() != 4) {
@@ -18280,7 +18283,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v37 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
