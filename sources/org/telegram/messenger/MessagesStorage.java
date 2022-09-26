@@ -182,6 +182,7 @@ public class MessagesStorage extends BaseController {
     private int[] mentionGroups = new int[2];
     private LongSparseArray<Integer> dialogsWithMentions = new LongSparseArray<>();
     private LongSparseArray<Integer> dialogsWithUnread = new LongSparseArray<>();
+    private int malformedCleanupCount = 0;
 
     /* loaded from: classes.dex */
     public interface BooleanCallback {
@@ -2488,7 +2489,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:43:0x035f  */
     /* JADX WARN: Removed duplicated region for block: B:99:0x026d A[Catch: all -> 0x0287, Exception -> 0x028a, TryCatch #3 {Exception -> 0x028a, blocks: (B:96:0x0194, B:97:0x0197, B:99:0x026d, B:100:0x027c), top: B:95:0x0194 }] */
     /* JADX WARN: Type inference failed for: r6v12 */
-    /* JADX WARN: Type inference failed for: r6v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5112,7 +5113,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:45:0x00fd  */
-    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v3 */
     /* JADX WARN: Type inference failed for: r3v6 */
     /*
@@ -14642,6 +14643,15 @@ public class MessagesStorage extends BaseController {
         executeFast.dispose();
     }
 
+    public void checkMalformed(Exception exc) {
+        int i;
+        if (exc == null || exc.getMessage() == null || !exc.getMessage().contains("malformed") || (i = this.malformedCleanupCount) >= 3) {
+            return;
+        }
+        this.malformedCleanupCount = i + 1;
+        cleanup(false);
+    }
+
     public void getUsersInternal(String str, ArrayList<TLRPC$User> arrayList) throws Exception {
         if (str == null || str.length() == 0 || arrayList == null) {
             return;
@@ -14663,6 +14673,7 @@ public class MessagesStorage extends BaseController {
                 }
             } catch (Exception e) {
                 FileLog.e(e);
+                checkMalformed(e);
             }
         }
         queryFinalized.dispose();
@@ -20691,6 +20702,7 @@ public class MessagesStorage extends BaseController {
                         e = e;
                         sQLitePreparedStatement = executeFast;
                         FileLog.e(e);
+                        checkMalformed(e);
                         SQLiteDatabase sQLiteDatabase = this.database;
                         if (sQLiteDatabase != null) {
                             sQLiteDatabase.commitTransaction();
