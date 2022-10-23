@@ -1042,19 +1042,28 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:211:0x015a, code lost:
-        if (r7 == 1) goto L218;
+    /* JADX WARN: Code restructure failed: missing block: B:128:0x0266, code lost:
+        if (r6 == 1) goto L133;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:218:0x015d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:129:0x0268, code lost:
+        if (r6 == 2) goto L131;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x026c, code lost:
+        r0 = org.telegram.messenger.BotWebViewVibrationEffect.NOTIFICATION_WARNING;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:133:0x026f, code lost:
+        r0 = org.telegram.messenger.BotWebViewVibrationEffect.NOTIFICATION_SUCCESS;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x015a, code lost:
+        if (r6 == 1) goto L226;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:226:0x015d, code lost:
         r12 = "windowBackgroundGray";
      */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x02d3 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x01e3, B:119:0x02d3, B:121:0x02d9, B:123:0x02e6, B:126:0x0229, B:127:0x022d, B:139:0x026d, B:141:0x0270, B:142:0x0273, B:143:0x0247, B:146:0x0251, B:149:0x025a, B:152:0x0277, B:153:0x0281, B:162:0x02c2, B:163:0x02c5, B:164:0x02c8, B:165:0x02cb, B:166:0x02ce, B:167:0x0285, B:170:0x028f, B:173:0x0298, B:176:0x02a2, B:179:0x02ac, B:182:0x0202, B:185:0x020c, B:188:0x0216), top: B:105:0x01e3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:125:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0273 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x01e3, B:119:0x02d3, B:121:0x02d9, B:123:0x02e6, B:126:0x0229, B:127:0x022d, B:139:0x026d, B:141:0x0270, B:142:0x0273, B:143:0x0247, B:146:0x0251, B:149:0x025a, B:152:0x0277, B:153:0x0281, B:162:0x02c2, B:163:0x02c5, B:164:0x02c8, B:165:0x02cb, B:166:0x02ce, B:167:0x0285, B:170:0x028f, B:173:0x0298, B:176:0x02a2, B:179:0x02ac, B:182:0x0202, B:185:0x020c, B:188:0x0216), top: B:105:0x01e3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0277 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x01e3, B:119:0x02d3, B:121:0x02d9, B:123:0x02e6, B:126:0x0229, B:127:0x022d, B:139:0x026d, B:141:0x0270, B:142:0x0273, B:143:0x0247, B:146:0x0251, B:149:0x025a, B:152:0x0277, B:153:0x0281, B:162:0x02c2, B:163:0x02c5, B:164:0x02c8, B:165:0x02cb, B:166:0x02ce, B:167:0x0285, B:170:0x028f, B:173:0x0298, B:176:0x02a2, B:179:0x02ac, B:182:0x0202, B:185:0x020c, B:188:0x0216), top: B:105:0x01e3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x02d1 A[Catch: Exception -> 0x02d6, TRY_LEAVE, TryCatch #5 {Exception -> 0x02d6, blocks: (B:102:0x01e3, B:115:0x02d1, B:119:0x0229, B:120:0x022d, B:131:0x026c, B:133:0x026f, B:134:0x0272, B:135:0x0247, B:138:0x0251, B:141:0x025b, B:144:0x0276, B:145:0x0280, B:153:0x02c0, B:154:0x02c3, B:155:0x02c6, B:156:0x02c9, B:157:0x02cc, B:158:0x0284, B:161:0x028e, B:164:0x0298, B:167:0x02a2, B:170:0x02ac, B:173:0x0202, B:176:0x020c, B:179:0x0216), top: B:101:0x01e3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:118:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0276 A[Catch: Exception -> 0x02d6, TryCatch #5 {Exception -> 0x02d6, blocks: (B:102:0x01e3, B:115:0x02d1, B:119:0x0229, B:120:0x022d, B:131:0x026c, B:133:0x026f, B:134:0x0272, B:135:0x0247, B:138:0x0251, B:141:0x025b, B:144:0x0276, B:145:0x0280, B:153:0x02c0, B:154:0x02c3, B:155:0x02c6, B:156:0x02c9, B:157:0x02cc, B:158:0x0284, B:161:0x028e, B:164:0x0298, B:167:0x02a2, B:170:0x02ac, B:173:0x0202, B:176:0x020c, B:179:0x0216), top: B:101:0x01e3 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1067,7 +1076,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         }
         str.hashCode();
         char c3 = 65535;
-        char c4 = 0;
+        boolean z = false;
         switch (str.hashCode()) {
             case -1717314938:
                 if (str.equals("web_app_open_link")) {
@@ -1337,9 +1346,9 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 return;
             case 6:
                 if ((getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) && ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent()).isSwipeInProgress()) {
-                    c4 = 1;
+                    z = true;
                 }
-                invalidateViewPortHeight(c4 ^ 1, true);
+                invalidateViewPortHeight(!z, true);
                 return;
             case 7:
                 try {
@@ -1388,165 +1397,126 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     if (hashCode == -1184809658) {
                         if (optString4.equals("impact")) {
                             c2 = 0;
-                            if (c2 != 0) {
-                            }
-                            if (botWebViewVibrationEffect2 != null) {
+                            if (c2 == 0) {
                             }
                         }
                         c2 = 65535;
-                        if (c2 != 0) {
-                        }
-                        if (botWebViewVibrationEffect2 != null) {
+                        if (c2 == 0) {
                         }
                     } else if (hashCode != 193071555) {
                         if (hashCode == 595233003 && optString4.equals("notification")) {
                             c2 = 1;
-                            if (c2 != 0) {
-                                String optString5 = jSONObject2.optString("impact_style");
-                                switch (optString5.hashCode()) {
-                                    case -1078030475:
-                                        if (optString5.equals("medium")) {
-                                            c4 = 1;
+                            if (c2 == 0) {
+                                if (c2 == 1) {
+                                    String optString5 = jSONObject2.optString("notification_type");
+                                    int hashCode2 = optString5.hashCode();
+                                    if (hashCode2 != -1867169789) {
+                                        if (hashCode2 != 96784904) {
+                                            if (hashCode2 == 1124446108 && optString5.equals("warning")) {
+                                                c3 = 2;
+                                                break;
+                                            }
+                                        } else if (optString5.equals("error")) {
+                                            c3 = 0;
                                             break;
                                         }
-                                        c4 = 65535;
+                                    } else if (optString5.equals("success")) {
+                                        c3 = 1;
                                         break;
-                                    case 3535914:
-                                        if (optString5.equals("soft")) {
-                                            c4 = 4;
-                                            break;
-                                        }
-                                        c4 = 65535;
-                                        break;
-                                    case 99152071:
-                                        if (optString5.equals("heavy")) {
-                                            c4 = 2;
-                                            break;
-                                        }
-                                        c4 = 65535;
-                                        break;
-                                    case 102970646:
-                                        if (optString5.equals("light")) {
-                                            break;
-                                        }
-                                        c4 = 65535;
-                                        break;
-                                    case 108511787:
-                                        if (optString5.equals("rigid")) {
-                                            c4 = 3;
-                                            break;
-                                        }
-                                        c4 = 65535;
-                                        break;
-                                    default:
-                                        c4 = 65535;
-                                        break;
-                                }
-                                if (c4 == 0) {
-                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_LIGHT;
-                                } else if (c4 == 1) {
-                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_MEDIUM;
-                                } else if (c4 == 2) {
-                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_HEAVY;
-                                } else if (c4 == 3) {
-                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_RIGID;
-                                } else if (c4 == 4) {
-                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_SOFT;
-                                }
-                                botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                            } else if (c2 == 1) {
-                                String optString6 = jSONObject2.optString("notification_type");
-                                int hashCode2 = optString6.hashCode();
-                                if (hashCode2 == -1867169789) {
-                                    if (optString6.equals("success")) {
-                                        c4 = 1;
-                                        if (c4 != 0) {
-                                        }
-                                        botWebViewVibrationEffect2 = botWebViewVibrationEffect;
                                     }
-                                    c4 = 65535;
-                                    if (c4 != 0) {
-                                    }
+                                    botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_ERROR;
                                     botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                } else if (hashCode2 != 96784904) {
-                                    if (hashCode2 == 1124446108 && optString6.equals("warning")) {
-                                        c4 = 2;
-                                        if (c4 != 0) {
-                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_ERROR;
-                                        } else if (c4 == 1) {
-                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_SUCCESS;
-                                        } else if (c4 == 2) {
-                                            botWebViewVibrationEffect = BotWebViewVibrationEffect.NOTIFICATION_WARNING;
-                                        }
-                                        botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                    }
-                                    c4 = 65535;
-                                    if (c4 != 0) {
-                                    }
-                                    botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                } else {
-                                    if (optString6.equals("error")) {
-                                        if (c4 != 0) {
-                                        }
-                                        botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                                    }
-                                    c4 = 65535;
-                                    if (c4 != 0) {
-                                    }
-                                    botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                                } else if (c2 == 2) {
+                                    botWebViewVibrationEffect2 = BotWebViewVibrationEffect.SELECTION_CHANGE;
                                 }
-                            } else if (c2 == 2) {
-                                botWebViewVibrationEffect2 = BotWebViewVibrationEffect.SELECTION_CHANGE;
-                            }
-                            if (botWebViewVibrationEffect2 != null) {
+                                if (botWebViewVibrationEffect2 == null) {
+                                    return;
+                                }
+                                botWebViewVibrationEffect2.vibrate();
                                 return;
                             }
-                            if (Build.VERSION.SDK_INT >= 26) {
-                                AndroidUtilities.getVibrator().vibrate(botWebViewVibrationEffect2.getVibrationEffectForOreo());
-                                return;
-                            } else {
-                                AndroidUtilities.getVibrator().vibrate(botWebViewVibrationEffect2.fallbackTimings, -1);
-                                return;
+                            String optString6 = jSONObject2.optString("impact_style");
+                            switch (optString6.hashCode()) {
+                                case -1078030475:
+                                    if (optString6.equals("medium")) {
+                                        c3 = 1;
+                                        break;
+                                    }
+                                    break;
+                                case 3535914:
+                                    if (optString6.equals("soft")) {
+                                        c3 = 4;
+                                        break;
+                                    }
+                                    break;
+                                case 99152071:
+                                    if (optString6.equals("heavy")) {
+                                        c3 = 2;
+                                        break;
+                                    }
+                                    break;
+                                case 102970646:
+                                    if (optString6.equals("light")) {
+                                        c3 = 0;
+                                        break;
+                                    }
+                                    break;
+                                case 108511787:
+                                    if (optString6.equals("rigid")) {
+                                        c3 = 3;
+                                        break;
+                                    }
+                                    break;
+                            }
+                            if (c3 == 0) {
+                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_LIGHT;
+                            } else if (c3 == 1) {
+                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_MEDIUM;
+                            } else if (c3 == 2) {
+                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_HEAVY;
+                            } else if (c3 == 3) {
+                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_RIGID;
+                            } else if (c3 == 4) {
+                                botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_SOFT;
+                            } else if (botWebViewVibrationEffect2 == null) {
+                            }
+                            botWebViewVibrationEffect2 = botWebViewVibrationEffect;
+                            if (botWebViewVibrationEffect2 == null) {
                             }
                         }
                         c2 = 65535;
-                        if (c2 != 0) {
-                        }
-                        if (botWebViewVibrationEffect2 != null) {
+                        if (c2 == 0) {
                         }
                     } else {
                         if (optString4.equals("selection_change")) {
                             c2 = 2;
-                            if (c2 != 0) {
-                            }
-                            if (botWebViewVibrationEffect2 != null) {
+                            if (c2 == 0) {
                             }
                         }
                         c2 = 65535;
-                        if (c2 != 0) {
-                        }
-                        if (botWebViewVibrationEffect2 != null) {
+                        if (c2 == 0) {
                         }
                     }
                 } catch (Exception e8) {
                     FileLog.e(e8);
                     return;
                 }
-                break;
+                FileLog.e(e8);
+                return;
             case '\r':
                 try {
                     JSONObject jSONObject3 = new JSONObject(str2);
                     boolean optBoolean2 = jSONObject3.optBoolean("is_active", false);
                     String trim = jSONObject3.optString("text", this.lastButtonText).trim();
-                    boolean z = jSONObject3.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
+                    boolean z2 = jSONObject3.optBoolean("is_visible", false) && !TextUtils.isEmpty(trim);
                     int parseColor = jSONObject3.has("color") ? Color.parseColor(jSONObject3.optString("color")) : this.lastButtonColor;
                     int parseColor2 = jSONObject3.has("text_color") ? Color.parseColor(jSONObject3.optString("text_color")) : this.lastButtonTextColor;
-                    boolean z2 = jSONObject3.optBoolean("is_progress_visible", false) && z;
+                    boolean z3 = jSONObject3.optBoolean("is_progress_visible", false) && z2;
                     this.lastButtonColor = parseColor;
                     this.lastButtonTextColor = parseColor2;
                     this.lastButtonText = trim;
                     this.buttonData = str2;
-                    this.delegate.onSetupMainButton(z, optBoolean2, trim, parseColor, parseColor2, z2);
+                    this.delegate.onSetupMainButton(z2, optBoolean2, trim, parseColor, parseColor2, z3);
                     return;
                 } catch (IllegalArgumentException | JSONException e9) {
                     FileLog.e(e9);

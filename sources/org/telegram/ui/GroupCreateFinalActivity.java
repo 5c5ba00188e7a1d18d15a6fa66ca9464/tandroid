@@ -706,7 +706,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             if (vibrator != null) {
                 vibrator.vibrate(200L);
             }
-            AndroidUtilities.shakeView(this.editText, 2.0f, 0);
+            AndroidUtilities.shakeView(this.editText);
             return;
         }
         this.donePressed = true;

@@ -152,13 +152,17 @@ public class FilePathDatabase {
             }
             return strArr[0];
         }
+        SQLiteDatabase sQLiteDatabase = this.database;
         SQLiteCursor sQLiteCursor = null;
-        r1 = null;
+        r2 = null;
         String str2 = null;
         sQLiteCursor = null;
+        if (sQLiteDatabase == null) {
+            return null;
+        }
         try {
             try {
-                queryFinalized = this.database.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+                queryFinalized = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
             } catch (SQLiteException e) {
                 sQLiteException = e;
                 str = null;
@@ -195,35 +199,37 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0070, code lost:
-        if (r0 == null) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0072, code lost:
+        if (r1 == null) goto L21;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$getPath$1(long j, int i, int i2, String[] strArr, CountDownLatch countDownLatch) {
-        SQLiteCursor sQLiteCursor = null;
-        try {
+        SQLiteDatabase sQLiteDatabase = this.database;
+        if (sQLiteDatabase != null) {
+            SQLiteCursor sQLiteCursor = null;
             try {
-                SQLiteDatabase sQLiteDatabase = this.database;
-                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
-                if (sQLiteCursor.next()) {
-                    strArr[0] = sQLiteCursor.stringValue(0);
-                    if (BuildVars.DEBUG_VERSION) {
-                        FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0]);
+                try {
+                    sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+                    if (sQLiteCursor.next()) {
+                        strArr[0] = sQLiteCursor.stringValue(0);
+                        if (BuildVars.DEBUG_VERSION) {
+                            FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + strArr[0]);
+                        }
                     }
+                } catch (SQLiteException e) {
+                    FileLog.e(e);
                 }
-            } catch (SQLiteException e) {
-                FileLog.e(e);
-            }
-            sQLiteCursor.dispose();
-            countDownLatch.countDown();
-        } catch (Throwable th) {
-            if (sQLiteCursor != null) {
                 sQLiteCursor.dispose();
+            } catch (Throwable th) {
+                if (sQLiteCursor != null) {
+                    sQLiteCursor.dispose();
+                }
+                throw th;
             }
-            throw th;
         }
+        countDownLatch.countDown();
     }
 
     public void putPath(final long j, final int i, final int i2, final String str) {
@@ -236,8 +242,8 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00bd  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00c2  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00c3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -247,10 +253,14 @@ public class FilePathDatabase {
         if (BuildVars.DEBUG_VERSION) {
             FileLog.d("put file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str);
         }
+        SQLiteDatabase sQLiteDatabase = this.database;
+        if (sQLiteDatabase == null) {
+            return;
+        }
         SQLitePreparedStatement sQLitePreparedStatement3 = null;
         try {
             if (str != null) {
-                SQLitePreparedStatement executeFast = this.database.executeFast("DELETE FROM paths WHERE path = ?");
+                SQLitePreparedStatement executeFast = sQLiteDatabase.executeFast("DELETE FROM paths WHERE path = ?");
                 try {
                     executeFast.bindString(1, str);
                     executeFast.step();
@@ -299,7 +309,7 @@ public class FilePathDatabase {
                     throw th;
                 }
             } else {
-                this.database.executeFast("DELETE FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2).stepThis().dispose();
+                sQLiteDatabase.executeFast("DELETE FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2).stepThis().dispose();
                 sQLitePreparedStatement2 = null;
             }
             if (sQLitePreparedStatement3 != null) {
@@ -368,7 +378,7 @@ public class FilePathDatabase {
     public /* synthetic */ void lambda$clear$4() {
         try {
             this.database.executeFast("DELETE FROM paths WHERE 1").stepThis().dispose();
-        } catch (SQLiteException e) {
+        } catch (Exception e) {
             FileLog.e(e);
         }
     }

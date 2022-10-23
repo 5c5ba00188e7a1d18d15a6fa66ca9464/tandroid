@@ -108,9 +108,9 @@ public class ClearHistoryAlert extends BottomSheet {
 
     /* JADX WARN: Removed duplicated region for block: B:19:0x00d8  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x0107  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x045f  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x046d  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02f3  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x045d  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x046b  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02f1  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x00e1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -277,7 +277,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     this.linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 51, 23, 16, 23, 5));
                     if (tLRPC$User != null) {
                         textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureClearHistoryWithUser", R.string.AreYouSureClearHistoryWithUser, UserObject.getUserName(tLRPC$User))));
-                    } else if (!ChatObject.isChannel(tLRPC$Chat) || (tLRPC$Chat.megagroup && TextUtils.isEmpty(tLRPC$Chat.username))) {
+                    } else if (!ChatObject.isChannel(tLRPC$Chat) || (tLRPC$Chat.megagroup && !ChatObject.isPublic(tLRPC$Chat))) {
                         textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureClearHistoryWithChat", R.string.AreYouSureClearHistoryWithChat, tLRPC$Chat.title)));
                     } else if (tLRPC$Chat.megagroup) {
                         textView2.setText(LocaleController.getString("AreYouSureClearHistoryGroup", R.string.AreYouSureClearHistoryGroup));

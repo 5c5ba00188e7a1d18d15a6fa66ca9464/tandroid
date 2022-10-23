@@ -422,7 +422,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 int i6 = R.id.shortcut_widget_item_badge;
                 remoteViews3.setTextViewText(i6, String.format("%d", Integer.valueOf(i3)));
                 remoteViews3.setViewVisibility(i6, 0);
-                if (this.accountInstance.getMessagesController().isDialogMuted(tLRPC$Dialog.id)) {
+                if (this.accountInstance.getMessagesController().isDialogMuted(tLRPC$Dialog.id, 0)) {
                     remoteViews3.setBoolean(i6, "setEnabled", false);
                     remoteViews3.setInt(i6, "setBackgroundResource", R.drawable.widget_badge_muted_background);
                 } else {

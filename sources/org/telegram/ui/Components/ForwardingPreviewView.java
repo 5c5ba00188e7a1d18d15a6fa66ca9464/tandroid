@@ -217,7 +217,7 @@ public class ForwardingPreviewView extends FrameLayout {
             }
 
             /* JADX WARN: Type inference failed for: r3v0 */
-            /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
+            /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
             /* JADX WARN: Type inference failed for: r3v9 */
             private void drawChatBackgroundElements(Canvas canvas) {
                 boolean z;
@@ -1338,8 +1338,8 @@ public class ForwardingPreviewView extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ boolean needPlayMessage(MessageObject messageObject) {
-                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject);
+                public /* synthetic */ boolean needPlayMessage(MessageObject messageObject, boolean z2) {
+                    return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needPlayMessage(this, messageObject, z2);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -1348,8 +1348,8 @@ public class ForwardingPreviewView extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void needShowPremiumFeatures(String str) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumFeatures(this, str);
+                public /* synthetic */ void needShowPremiumBulletin(int i2) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumBulletin(this, i2);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

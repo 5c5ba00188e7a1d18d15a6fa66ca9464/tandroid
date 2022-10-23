@@ -44,6 +44,7 @@ public class NotificationsDisabledReceiver extends BroadcastReceiver {
         SharedPreferences notificationsSettings = AccountInstance.getInstance(intValue).getNotificationsSettings();
         boolean startsWith = split[1].startsWith("channel");
         int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i3 = 2;
         if (startsWith) {
             if (!stringExtra.equals(notificationsSettings.getString("channels", null))) {
                 return;
@@ -91,6 +92,7 @@ public class NotificationsDisabledReceiver extends BroadcastReceiver {
             if (longValue == 0) {
                 return;
             }
+            String sharedPrefKey = NotificationsController.getSharedPrefKey(longValue, 0);
             if (!stringExtra.equals(notificationsSettings.getString("org.telegram.key" + longValue, null))) {
                 return;
             }
@@ -98,16 +100,16 @@ public class NotificationsDisabledReceiver extends BroadcastReceiver {
                 FileLog.d("apply channel " + stringExtra + " state");
             }
             SharedPreferences.Editor edit4 = notificationsSettings.edit();
-            String str = "notify2_" + longValue;
-            if (booleanExtra) {
-                i = 2;
-            }
-            edit4.putInt(str, i);
+            String str = NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey;
             if (!booleanExtra) {
-                edit4.remove("notifyuntil_" + longValue);
+                i3 = 0;
+            }
+            edit4.putInt(str, i3);
+            if (!booleanExtra) {
+                edit4.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY_UNTIL + sharedPrefKey);
             }
             edit4.commit();
-            AccountInstance.getInstance(intValue).getNotificationsController().updateServerNotificationsSettings(longValue, true);
+            AccountInstance.getInstance(intValue).getNotificationsController().updateServerNotificationsSettings(longValue, 0, true);
         }
         AccountInstance.getInstance(intValue).getConnectionsManager().resumeNetworkMaybe();
     }

@@ -41,7 +41,7 @@ public class TLRPC$TL_dcOption extends TLObject {
         this.id = abstractSerializedData.readInt32(z);
         this.ip_address = abstractSerializedData.readString(z);
         this.port = abstractSerializedData.readInt32(z);
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             this.secret = abstractSerializedData.readByteArray(z);
         }
     }
@@ -63,7 +63,7 @@ public class TLRPC$TL_dcOption extends TLObject {
         abstractSerializedData.writeInt32(this.id);
         abstractSerializedData.writeString(this.ip_address);
         abstractSerializedData.writeInt32(this.port);
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             abstractSerializedData.writeByteArray(this.secret);
         }
     }

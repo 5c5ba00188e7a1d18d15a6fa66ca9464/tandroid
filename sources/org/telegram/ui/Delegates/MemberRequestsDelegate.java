@@ -1162,7 +1162,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             Canvas canvas = new Canvas(createBitmap);
             canvas.scale(0.16666667f, 0.16666667f);
             canvas.save();
-            ((LaunchActivity) MemberRequestsDelegate.this.fragment.getParentActivity()).getActionBarLayout().draw(canvas);
+            ((LaunchActivity) MemberRequestsDelegate.this.fragment.getParentActivity()).getActionBarLayout().getView().draw(canvas);
             canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, 76));
             Dialog visibleDialog = MemberRequestsDelegate.this.fragment.getVisibleDialog();
             if (visibleDialog != null) {

@@ -41,7 +41,7 @@ public class TLRPC$TL_peerSettings extends TLObject {
         this.report_geo = (readInt32 & 32) != 0;
         this.autoarchived = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         this.invite_members = (readInt32 & 256) != 0;
-        if ((readInt32 & 1024) != 0) {
+        if ((readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             z2 = true;
         }
         this.request_chat_broadcast = z2;
@@ -75,7 +75,7 @@ public class TLRPC$TL_peerSettings extends TLObject {
         this.flags = i7;
         int i8 = this.invite_members ? i7 | 256 : i7 & (-257);
         this.flags = i8;
-        int i9 = this.request_chat_broadcast ? i8 | 1024 : i8 & (-1025);
+        int i9 = this.request_chat_broadcast ? i8 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i8 & (-1025);
         this.flags = i9;
         abstractSerializedData.writeInt32(i9);
         if ((this.flags & 64) != 0) {

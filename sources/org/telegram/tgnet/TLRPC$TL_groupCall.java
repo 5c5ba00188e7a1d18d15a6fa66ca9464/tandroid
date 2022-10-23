@@ -39,7 +39,7 @@ public class TLRPC$TL_groupCall extends TLRPC$GroupCall {
         if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             this.schedule_date = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             this.unmuted_video_count = abstractSerializedData.readInt32(z);
         }
         this.unmuted_video_limit = abstractSerializedData.readInt32(z);
@@ -81,7 +81,7 @@ public class TLRPC$TL_groupCall extends TLRPC$GroupCall {
         if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             abstractSerializedData.writeInt32(this.schedule_date);
         }
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             abstractSerializedData.writeInt32(this.unmuted_video_count);
         }
         abstractSerializedData.writeInt32(this.unmuted_video_limit);

@@ -1718,7 +1718,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onRemoveFromParent() {
         MediaController.getInstance().setTextureView(this.videoTextureView, null, null, false);
@@ -2000,7 +1999,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyHidden() {
         UndoView undoView = this.undoView;
@@ -2300,8 +2298,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public /* synthetic */ void needShowPremiumFeatures(String str) {
-                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumFeatures(this, str);
+            public /* synthetic */ void needShowPremiumBulletin(int i) {
+                ChatMessageCell.ChatMessageCellDelegate.-CC.$default$needShowPremiumBulletin(this, i);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2347,9 +2345,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public boolean needPlayMessage(MessageObject messageObject) {
+            public boolean needPlayMessage(MessageObject messageObject, boolean z) {
                 if (messageObject.isVoice() || messageObject.isRoundVideo()) {
-                    boolean playMessage = MediaController.getInstance().playMessage(messageObject);
+                    boolean playMessage = MediaController.getInstance().playMessage(messageObject, z);
                     MediaController.getInstance().setVoiceMessagesPlaylist(null, false);
                     return playMessage;
                 } else if (!messageObject.isMusic()) {
@@ -2538,7 +2536,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             /* JADX WARN: Code restructure failed: missing block: B:35:0x011c, code lost:
-                if (r9.exists() != false) goto L36;
+                if (r10.exists() != false) goto L36;
              */
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             /*
@@ -2552,7 +2550,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     ChannelAdminLogActivity.this.showDialog(new StickersAlert(ChannelAdminLogActivity.this.getParentActivity(), ChannelAdminLogActivity.this, messageObject.getInputStickerSet(), (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null));
                 } else if (messageObject.isVideo() || (i = messageObject.type) == 1 || ((i == 0 && !messageObject.isWebpageDocument()) || messageObject.isGif())) {
                     PhotoViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this);
-                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, ChannelAdminLogActivity.this.provider);
+                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, 0, ChannelAdminLogActivity.this.provider);
                 } else {
                     int i2 = messageObject.type;
                     File file2 = null;
@@ -2680,7 +2678,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 PhotoViewer.getInstance().setParentActivity(ChannelAdminLogActivity.this);
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 640);
                 if (closestPhotoSizeWithSize == null) {
-                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, ChannelAdminLogActivity.this.provider);
+                    PhotoViewer.getInstance().openPhoto(messageObject, (ChatActivity) null, 0L, 0L, 0, ChannelAdminLogActivity.this.provider);
                     return;
                 }
                 PhotoViewer.getInstance().openPhoto(closestPhotoSizeWithSize.location, ImageLocation.getForPhoto(closestPhotoSizeWithSize, messageObject.messageOwner.action.photo), ChannelAdminLogActivity.this.provider);
@@ -2791,6 +2789,16 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     return;
                 }
                 BulletinFactory.of(ChannelAdminLogActivity.this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("LinkHashExpired", R.string.LinkHashExpired)).show();
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public BaseFragment getBaseFragment() {
+                return ChannelAdminLogActivity.this;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public long getDialogId() {
+                return -ChannelAdminLogActivity.this.currentChat.id;
             }
         }
 

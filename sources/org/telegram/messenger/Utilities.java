@@ -13,9 +13,11 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class Utilities {
     private static final String RANDOM_STRING_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -87,7 +89,7 @@ public class Utilities {
     static {
         try {
             FileInputStream fileInputStream = new FileInputStream(new File("/dev/urandom"));
-            byte[] bArr = new byte[1024];
+            byte[] bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
             fileInputStream.read(bArr);
             fileInputStream.close();
             random.setSeed(bArr);
@@ -466,5 +468,10 @@ public class Utilities {
             sb.append(RANDOM_STRING_CHARS.charAt(fastRandom.nextInt(62)));
         }
         return sb.toString();
+    }
+
+    public static <Key, Value> Value getOrDefault(HashMap<Key, Value> hashMap, Key key, Value value) {
+        Value value2 = hashMap.get(key);
+        return value2 == null ? value : value2;
     }
 }

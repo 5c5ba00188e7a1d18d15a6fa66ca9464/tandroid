@@ -1200,10 +1200,10 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         }
                         if (StickersActivity.this.currentType != 0) {
                             if (StickersActivity.this.currentType == 5) {
-                                textCell.setTextAndValue(LocaleController.getString("ArchivedEmojiPacks", R.string.ArchivedEmojiPacks), str, true);
+                                textCell.setTextAndValue(LocaleController.getString("ArchivedEmojiPacks", R.string.ArchivedEmojiPacks), str, false, true);
                                 return;
                             } else {
-                                textCell.setTextAndValue(LocaleController.getString("ArchivedMasks", R.string.ArchivedMasks), str, true);
+                                textCell.setTextAndValue(LocaleController.getString("ArchivedMasks", R.string.ArchivedMasks), str, false, true);
                                 return;
                             }
                         }
@@ -1230,7 +1230,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         } else {
                             string2 = LocaleController.getString("SuggestStickersNone", R.string.SuggestStickersNone);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("SuggestStickers", R.string.SuggestStickers), string2, true);
+                        textCell.setTextAndValue(LocaleController.getString("SuggestStickers", R.string.SuggestStickers), string2, false, true);
                         return;
                     } else {
                         int size2 = MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).getStickerSets(5).size();
@@ -1637,7 +1637,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                 return;
             }
             SharedConfig.setStickersReorderingHintUsed(true);
-            Bulletin.make(((BaseFragment) StickersActivity.this).parentLayout, new ReorderingBulletinLayout(this.mContext, LocaleController.getString("StickersReorderHint", R.string.StickersReorderHint), null), 3250).show();
+            Bulletin.make(((BaseFragment) StickersActivity.this).parentLayout.getLastFragment(), new ReorderingBulletinLayout(this.mContext, LocaleController.getString("StickersReorderHint", R.string.StickersReorderHint), null), 3250).show();
         }
 
         private void checkActionModeIcons() {

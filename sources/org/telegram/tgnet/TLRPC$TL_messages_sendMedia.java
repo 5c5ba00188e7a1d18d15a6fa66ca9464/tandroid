@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messages_sendMedia extends TLObject {
-    public static int constructor = -497026848;
+    public static int constructor = 1967638886;
     public boolean background;
     public boolean clear_draft;
     public ArrayList<TLRPC$MessageEntity> entities = new ArrayList<>();
@@ -18,6 +18,7 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
     public int schedule_date;
     public TLRPC$InputPeer send_as;
     public boolean silent;
+    public int top_msg_id;
     public boolean update_stickersets_order;
 
     @Override // org.telegram.tgnet.TLObject
@@ -43,6 +44,9 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
         if ((this.flags & 1) != 0) {
             abstractSerializedData.writeInt32(this.reply_to_msg_id);
         }
+        if ((this.flags & 512) != 0) {
+            abstractSerializedData.writeInt32(this.top_msg_id);
+        }
         this.media.serializeToStream(abstractSerializedData);
         abstractSerializedData.writeString(this.message);
         abstractSerializedData.writeInt64(this.random_id);
@@ -57,7 +61,7 @@ public class TLRPC$TL_messages_sendMedia extends TLObject {
                 this.entities.get(i6).serializeToStream(abstractSerializedData);
             }
         }
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             abstractSerializedData.writeInt32(this.schedule_date);
         }
         if ((this.flags & 8192) != 0) {

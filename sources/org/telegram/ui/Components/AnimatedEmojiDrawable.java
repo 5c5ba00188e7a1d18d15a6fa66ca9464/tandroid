@@ -467,11 +467,11 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     /* JADX WARN: Removed duplicated region for block: B:38:0x0189  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0192  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x01b2  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x018c  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x020f  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x021f  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x018c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -563,7 +563,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.imageReceiver.setImage(imageLocation2, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);
             }
             i = this.cacheType;
-            if (i != 7 || i == 9) {
+            if (i != 7 || i == 9 || i == 10) {
                 this.imageReceiver.setAutoRepeatCount(2);
             }
             i2 = this.cacheType;
@@ -864,13 +864,14 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     /* loaded from: classes3.dex */
-    public static class SwapAnimatedEmojiDrawable extends Drawable {
+    public static class SwapAnimatedEmojiDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder {
         private int alpha;
         private int cacheType;
         public boolean center;
         private AnimatedFloat changeProgress;
         private ColorFilter colorFilter;
         private Drawable[] drawables;
+        private boolean invalidateParent;
         private Integer lastColor;
         private OvershootInterpolator overshootInterpolator;
         private View parentView;
@@ -886,10 +887,18 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         public SwapAnimatedEmojiDrawable(View view, int i) {
-            this(view, i, 7);
+            this(view, false, i, 7);
+        }
+
+        public SwapAnimatedEmojiDrawable(View view, boolean z, int i) {
+            this(view, z, i, 7);
         }
 
         public SwapAnimatedEmojiDrawable(View view, int i, int i2) {
+            this(view, false, i, i2);
+        }
+
+        public SwapAnimatedEmojiDrawable(View view, boolean z, int i, int i2) {
             this.center = false;
             this.overshootInterpolator = new OvershootInterpolator(2.0f);
             AnimatedFloat animatedFloat = new AnimatedFloat((View) null, 300L, CubicBezierInterpolator.EASE_OUT);
@@ -900,6 +909,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             animatedFloat.setParent(view);
             this.size = i;
             this.cacheType = i2;
+            this.invalidateParent = z;
         }
 
         public void setParentView(View view) {
@@ -938,7 +948,7 @@ public class AnimatedEmojiDrawable extends Drawable {
             if (!(getDrawable() instanceof AnimatedEmojiDrawable) || (imageReceiver = (animatedEmojiDrawable = (AnimatedEmojiDrawable) getDrawable()).getImageReceiver()) == null) {
                 return;
             }
-            if (animatedEmojiDrawable.cacheType == 7 || animatedEmojiDrawable.cacheType == 9) {
+            if (animatedEmojiDrawable.cacheType == 7 || animatedEmojiDrawable.cacheType == 9 || animatedEmojiDrawable.cacheType == 10) {
                 imageReceiver.setAutoRepeatCount(2);
             }
             imageReceiver.startAnimation();
@@ -1028,28 +1038,24 @@ public class AnimatedEmojiDrawable extends Drawable {
                     Drawable[] drawableArr2 = this.drawables;
                     if (drawableArr2[1] != null) {
                         if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this.parentView);
+                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
                         }
                         this.drawables[1] = null;
                     }
                     Drawable[] drawableArr3 = this.drawables;
                     drawableArr3[1] = drawableArr3[0];
                     drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
-                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
                 } else {
                     this.changeProgress.set(1.0f, true);
                     detach();
                     this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
-                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
                 }
                 this.lastColor = -1;
                 this.colorFilter = null;
                 play();
-                View view = this.parentView;
-                if (view == null) {
-                    return;
-                }
-                view.invalidate();
+                invalidate();
             }
         }
 
@@ -1065,7 +1071,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     Drawable[] drawableArr2 = this.drawables;
                     if (drawableArr2[1] != null) {
                         if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this.parentView);
+                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
                         }
                         this.drawables[1] = null;
                     }
@@ -1073,7 +1079,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     drawableArr3[1] = drawableArr3[0];
                     if (tLRPC$Document != null) {
                         drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
-                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
                     } else {
                         drawableArr3[0] = null;
                     }
@@ -1082,7 +1088,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                     detach();
                     if (tLRPC$Document != null) {
                         this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
-                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this.parentView);
+                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
                     } else {
                         this.drawables[0] = null;
                     }
@@ -1090,11 +1096,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.lastColor = -1;
                 this.colorFilter = null;
                 play();
-                View view = this.parentView;
-                if (view == null) {
-                    return;
-                }
-                view.invalidate();
+                invalidate();
             }
         }
 
@@ -1107,7 +1109,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 Drawable[] drawableArr = this.drawables;
                 if (drawableArr[1] != null) {
                     if (drawableArr[1] instanceof AnimatedEmojiDrawable) {
-                        ((AnimatedEmojiDrawable) drawableArr[1]).removeView(this.parentView);
+                        ((AnimatedEmojiDrawable) drawableArr[1]).removeView(this);
                     }
                     this.drawables[1] = null;
                 }
@@ -1122,32 +1124,28 @@ public class AnimatedEmojiDrawable extends Drawable {
             this.lastColor = -1;
             this.colorFilter = null;
             play();
-            View view = this.parentView;
-            if (view == null) {
-                return;
-            }
-            view.invalidate();
+            invalidate();
         }
 
         public void detach() {
             Drawable[] drawableArr = this.drawables;
             if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr[0]).removeView(this.parentView);
+                ((AnimatedEmojiDrawable) drawableArr[0]).removeView(this);
             }
             Drawable[] drawableArr2 = this.drawables;
             if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this.parentView);
+                ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
             }
         }
 
         public void attach() {
             Drawable[] drawableArr = this.drawables;
             if (drawableArr[0] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr[0]).addView(this.parentView);
+                ((AnimatedEmojiDrawable) drawableArr[0]).addView(this);
             }
             Drawable[] drawableArr2 = this.drawables;
             if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                ((AnimatedEmojiDrawable) drawableArr2[1]).addView(this.parentView);
+                ((AnimatedEmojiDrawable) drawableArr2[1]).addView(this);
             }
         }
 
@@ -1164,6 +1162,18 @@ public class AnimatedEmojiDrawable extends Drawable {
         @Override // android.graphics.drawable.Drawable
         public void setAlpha(int i) {
             this.alpha = i;
+        }
+
+        @Override // org.telegram.ui.Components.AnimatedEmojiSpan.InvalidateHolder
+        public void invalidate() {
+            View view = this.parentView;
+            if (view != null) {
+                if (this.invalidateParent && (view.getParent() instanceof View)) {
+                    ((View) this.parentView.getParent()).invalidate();
+                } else {
+                    this.parentView.invalidate();
+                }
+            }
         }
     }
 }

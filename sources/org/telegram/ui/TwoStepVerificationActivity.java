@@ -1173,7 +1173,6 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         updateRows();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         super.onTransitionAnimationEnd(z, z2);

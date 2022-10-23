@@ -818,7 +818,6 @@ public class ProxySettingsActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         if (!z || z2 || !this.addingNewProxy) {

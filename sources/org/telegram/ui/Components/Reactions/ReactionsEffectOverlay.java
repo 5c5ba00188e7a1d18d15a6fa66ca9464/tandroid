@@ -89,7 +89,7 @@ public class ReactionsEffectOverlay {
     /* JADX WARN: Removed duplicated region for block: B:93:0x0345  */
     /* JADX WARN: Removed duplicated region for block: B:96:0x03e2  */
     /* JADX WARN: Type inference failed for: r15v3 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v5 */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */

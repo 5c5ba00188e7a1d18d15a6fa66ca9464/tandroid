@@ -35,7 +35,7 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.promote = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         this.demote = (readInt32 & 256) != 0;
         this.info = (readInt32 & 512) != 0;
-        this.settings = (readInt32 & 1024) != 0;
+        this.settings = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         this.pinned = (readInt32 & 2048) != 0;
         this.edit = (readInt32 & 4096) != 0;
         this.delete = (readInt32 & 8192) != 0;
@@ -69,7 +69,7 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.flags = i9;
         int i10 = this.info ? i9 | 512 : i9 & (-513);
         this.flags = i10;
-        int i11 = this.settings ? i10 | 1024 : i10 & (-1025);
+        int i11 = this.settings ? i10 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i10 & (-1025);
         this.flags = i11;
         int i12 = this.pinned ? i11 | 2048 : i11 & (-2049);
         this.flags = i12;

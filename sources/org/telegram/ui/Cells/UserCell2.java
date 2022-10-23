@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -308,7 +307,7 @@ public class UserCell2 extends FrameLayout {
                 int i3 = tLRPC$Chat.participants_count;
                 if (i3 != 0) {
                     this.statusTextView.setText(LocaleController.formatPluralString("Subscribers", i3, new Object[0]));
-                } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
+                } else if (!ChatObject.isPublic(tLRPC$Chat)) {
                     this.statusTextView.setText(LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate));
                 } else {
                     this.statusTextView.setText(LocaleController.getString("ChannelPublic", R.string.ChannelPublic));
@@ -319,7 +318,7 @@ public class UserCell2 extends FrameLayout {
                     this.statusTextView.setText(LocaleController.formatPluralString("Members", i4, new Object[0]));
                 } else if (tLRPC$Chat.has_geo) {
                     this.statusTextView.setText(LocaleController.getString("MegaLocation", R.string.MegaLocation));
-                } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
+                } else if (!ChatObject.isPublic(tLRPC$Chat)) {
                     this.statusTextView.setText(LocaleController.getString("MegaPrivate", R.string.MegaPrivate));
                 } else {
                     this.statusTextView.setText(LocaleController.getString("MegaPublic", R.string.MegaPublic));

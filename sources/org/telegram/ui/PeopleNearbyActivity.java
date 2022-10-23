@@ -844,7 +844,6 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         getLocationController().startLocationLookupForPeopleNearby(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyHidden() {
         super.onBecomeFullyHidden();
@@ -876,7 +875,6 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         openGroupCreate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyVisible() {
         super.onBecomeFullyVisible();

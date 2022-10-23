@@ -297,7 +297,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                             }
                             this.attributes.add(tLRPC$TL_webPageAttributeTheme);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.cached_page = TLRPC$Page.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                     }
@@ -350,7 +350,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                             abstractSerializedData2.writeInt32(481674261);
                             abstractSerializedData2.writeInt32(0);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.cached_page.serializeToStream(abstractSerializedData2);
                         }
                     }
@@ -403,7 +403,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 512) != 0) {
                             this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.cached_page = TLRPC$Page.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                     }
@@ -452,7 +452,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 512) != 0) {
                             this.document.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.cached_page.serializeToStream(abstractSerializedData2);
                         }
                     }

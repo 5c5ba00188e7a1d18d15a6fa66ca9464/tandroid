@@ -542,7 +542,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public AnimatorSet onCustomTransitionAnimation(boolean z, Runnable runnable) {
         if (this.isOnLogout) {

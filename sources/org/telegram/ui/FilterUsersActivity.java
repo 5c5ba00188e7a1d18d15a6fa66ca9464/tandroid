@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.DispatchQueue;
@@ -1153,11 +1154,11 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x01c3  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x01d9  */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x0219  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x01c5  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x01db  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x021b  */
         /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x01c9  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x01cb  */
         /* JADX WARN: Type inference failed for: r1v2, types: [org.telegram.ui.Cells.GroupCreateUserCell] */
         /* JADX WARN: Type inference failed for: r7v0 */
         /* JADX WARN: Type inference failed for: r7v1 */
@@ -1181,7 +1182,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
             CharSequence charSequence;
             TLObject tLObject2;
             long j;
-            String str2;
+            String publicUsername;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType != 1) {
                 if (itemViewType != 2) {
@@ -1214,25 +1215,25 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                 }
                 if (tLObject != null) {
                     if (tLObject instanceof TLRPC$User) {
-                        str2 = ((TLRPC$User) tLObject).username;
+                        publicUsername = ((TLRPC$User) tLObject).username;
                     } else {
-                        str2 = ((TLRPC$Chat) tLObject).username;
+                        publicUsername = ChatObject.getPublicUsername((TLRPC$Chat) tLObject);
                     }
                     if (i < size) {
                         charSequence = this.searchResultNames.get(i);
                         tLObject2 = tLObject;
                         if (charSequence != null) {
                             tLObject2 = tLObject;
-                            if (!TextUtils.isEmpty(str2)) {
+                            if (!TextUtils.isEmpty(publicUsername)) {
                                 tLObject2 = tLObject;
-                                if (charSequence.toString().startsWith("@" + str2)) {
+                                if (charSequence.toString().startsWith("@" + publicUsername)) {
                                     r7 = charSequence;
                                     charSequence = null;
                                     tLObject2 = tLObject;
                                 }
                             }
                         }
-                    } else if (i > size && !TextUtils.isEmpty(str2)) {
+                    } else if (i > size && !TextUtils.isEmpty(publicUsername)) {
                         String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
                         if (lastFoundUsername.startsWith("@")) {
                             lastFoundUsername = lastFoundUsername.substring(1);
@@ -1240,8 +1241,8 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                         try {
                             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                             spannableStringBuilder.append((CharSequence) "@");
-                            spannableStringBuilder.append((CharSequence) str2);
-                            int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str2, lastFoundUsername);
+                            spannableStringBuilder.append((CharSequence) publicUsername);
+                            int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(publicUsername, lastFoundUsername);
                             if (indexOfIgnoreCase != -1) {
                                 int length = lastFoundUsername.length();
                                 if (indexOfIgnoreCase == 0) {
@@ -1256,7 +1257,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                             tLObject2 = tLObject;
                         } catch (Exception unused) {
                             charSequence = null;
-                            r7 = str2;
+                            r7 = publicUsername;
                             tLObject2 = tLObject;
                         }
                     }

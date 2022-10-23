@@ -1319,7 +1319,7 @@ public class FilterCreateActivity extends BaseFragment {
                 int i4 = chat.participants_count;
                 if (i4 != 0) {
                     string2 = LocaleController.formatPluralString("Members", i4, new Object[0]);
-                } else if (TextUtils.isEmpty(chat.username)) {
+                } else if (!ChatObject.isPublic(chat)) {
                     if (ChatObject.isChannel(chat) && !chat.megagroup) {
                         string2 = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate);
                     } else {

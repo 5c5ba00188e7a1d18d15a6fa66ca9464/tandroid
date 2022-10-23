@@ -58,6 +58,7 @@ import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.FourierTransform;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.secretmedia.ExtendedDefaultDataSourceFactory;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Components.VideoPlayer;
 @SuppressLint({"NewApi"})
 /* loaded from: classes3.dex */
@@ -1009,8 +1010,8 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
     public class VisualizerBufferSink implements TeeAudioProcessor.AudioBufferSink {
         ByteBuffer byteBuffer;
         long lastUpdateTime;
-        FourierTransform.FFT fft = new FourierTransform.FFT(1024, 48000.0f);
-        float[] real = new float[1024];
+        FourierTransform.FFT fft = new FourierTransform.FFT(ConnectionsManager.RequestFlagDoNotWaitFloodWait, 48000.0f);
+        float[] real = new float[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
         int position = 0;
 
         @Override // com.google.android.exoplayer2.audio.TeeAudioProcessor.AudioBufferSink
@@ -1069,7 +1070,7 @@ public class VideoPlayer implements Player.EventListener, SimpleExoPlayer.VideoL
                     f += f2 * f2;
                     i4++;
                 }
-                float sqrt2 = (float) Math.sqrt(f / 1024);
+                float sqrt2 = (float) Math.sqrt(f / ((float) ConnectionsManager.RequestFlagDoNotWaitFloodWait));
                 final float[] fArr = new float[7];
                 fArr[6] = sqrt2;
                 if (sqrt2 < 0.4f) {

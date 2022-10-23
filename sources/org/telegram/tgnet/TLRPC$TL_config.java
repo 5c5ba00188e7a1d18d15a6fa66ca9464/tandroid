@@ -138,7 +138,7 @@ public class TLRPC$TL_config extends TLObject {
         if ((this.flags & 512) != 0) {
             this.gif_search_username = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             this.venue_search_username = abstractSerializedData.readString(z);
         }
         if ((this.flags & 2048) != 0) {
@@ -231,7 +231,7 @@ public class TLRPC$TL_config extends TLObject {
         if ((this.flags & 512) != 0) {
             abstractSerializedData.writeString(this.gif_search_username);
         }
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             abstractSerializedData.writeString(this.venue_search_username);
         }
         if ((this.flags & 2048) != 0) {

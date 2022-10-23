@@ -28,7 +28,6 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Property;
 import android.view.View;
@@ -188,7 +187,6 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         getNotificationCenter().onAnimationFinish(this.animationIndex);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationProgress(boolean z, float f) {
         super.onTransitionAnimationProgress(z, f);
@@ -199,30 +197,30 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(17:1|(2:3|(1:5)(2:86|(1:88)(1:89)))(1:90)|6|(3:10|(1:12)(1:14)|13)|15|(1:17)(2:77|(2:79|(1:84)(1:83))(11:85|19|20|21|(2:23|(1:25)(1:73))(1:74)|26|(20:30|(1:32)(1:66)|33|(1:35)(1:65)|36|(1:38)|39|(1:41)(1:64)|42|(1:44)(1:63)|45|(1:47)|48|(1:50)(1:62)|51|(1:53)|54|(1:56)(1:61)|(1:58)(1:60)|59)|67|(1:69)|70|71))|18|19|20|21|(0)(0)|26|(21:28|30|(0)(0)|33|(0)(0)|36|(0)|39|(0)(0)|42|(0)(0)|45|(0)|48|(0)(0)|51|(0)|54|(0)(0)|(0)(0)|59)|67|(0)|70|71) */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x011c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x011a, code lost:
         r23.hasGps = false;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0137  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0202  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0218  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0220  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0229  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x02b7  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x02d0  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0333  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x033a  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x033d  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0336  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0223  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x020e  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0205  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0357  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0200  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0209  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0227  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0265  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02b5  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x02ce  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0331  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0338  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x033b  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0334  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0221  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x020c  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0203  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0355  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x013d  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -350,7 +348,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             i2 = ChatObject.canUserDoAdminAction(getMessagesController().getChat(Long.valueOf(this.chatId)), 3);
         } else if (this.channelId != 0) {
             TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.channelId));
-            i2 = (!ChatObject.canUserDoAdminAction(chat, 3) || !TextUtils.isEmpty(chat.username)) ? 0 : 2;
+            i2 = (!ChatObject.canUserDoAdminAction(chat, 3) || ChatObject.isPublic(chat)) ? 0 : 2;
         } else {
             i = 0;
             this.hasGps = ApplicationLoader.applicationContext.getPackageManager().hasSystemFeature("android.hardware.location.gps");
@@ -1288,11 +1286,9 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public AnimatorSet onCustomTransitionAnimation(final boolean z, final Runnable runnable) {
         final ValueAnimator ofFloat;
-        BaseFragment baseFragment;
         float[] fArr = {0.0f, 1.0f};
         if (z) {
             // fill-array-data instruction
@@ -1303,12 +1299,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             ofFloat = ValueAnimator.ofFloat(fArr);
         }
         final ViewGroup viewGroup = (ViewGroup) this.fragmentView.getParent();
-        if (this.parentLayout.fragmentsStack.size() > 1) {
-            ArrayList<BaseFragment> arrayList = this.parentLayout.fragmentsStack;
-            baseFragment = arrayList.get(arrayList.size() - 2);
-        } else {
-            baseFragment = null;
-        }
+        BaseFragment baseFragment = this.parentLayout.getFragmentStack().size() > 1 ? this.parentLayout.getFragmentStack().get(this.parentLayout.getFragmentStack().size() - 2) : null;
         DialogsActivity dialogsActivity = baseFragment instanceof DialogsActivity ? (DialogsActivity) baseFragment : null;
         if (dialogsActivity == null) {
             return null;
@@ -1331,7 +1322,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         FrameLayout frameLayout = this.floatingButtonContainer;
         if (frameLayout != null) {
             ((ViewGroup) this.fragmentView).removeView(frameLayout);
-            ((FrameLayout) viewGroup.getParent()).addView(this.floatingButtonContainer);
+            this.parentLayout.getOverlayContainerView().addView(this.floatingButtonContainer);
         }
         ofFloat.setDuration(150L);
         ofFloat.setInterpolator(new DecelerateInterpolator(1.5f));

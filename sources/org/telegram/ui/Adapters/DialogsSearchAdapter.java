@@ -1263,17 +1263,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return new RecyclerListView.Holder(recyclerListView);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:147:0x0355, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:147:0x0357, code lost:
         if (r6.startsWith("@" + r4.username) != false) goto L148;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x035f  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0436  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x0453  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0472  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x0455  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0361  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x042d  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0438  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0455  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0472  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0474  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0457  */
     /* JADX WARN: Type inference failed for: r2v20, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v23, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v24 */
@@ -1320,7 +1320,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     }
                     dialogCell.useSeparator = z4;
                     MessageObject messageObject = (MessageObject) getItem(i4);
-                    dialogCell.setDialog(messageObject.getDialogId(), messageObject, messageObject.messageOwner.date, false);
+                    dialogCell.setDialog(messageObject.getDialogId(), messageObject, messageObject.messageOwner.date, false, false);
                     return;
                 } else if (itemViewType == 4) {
                     HashtagSearchCell hashtagSearchCell = (HashtagSearchCell) viewHolder.itemView;

@@ -43,6 +43,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserObject;
@@ -246,11 +247,11 @@ public class EditWidgetActivity extends BaseFragment {
             this.shadowDrawable = Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow");
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:59:0x028d, code lost:
-            if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L60;
+        /* JADX WARN: Code restructure failed: missing block: B:63:0x029e, code lost:
+            if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L64;
          */
-        /* JADX WARN: Removed duplicated region for block: B:339:0x0900  */
-        /* JADX WARN: Removed duplicated region for block: B:353:0x094b  */
+        /* JADX WARN: Removed duplicated region for block: B:344:0x0911  */
+        /* JADX WARN: Removed duplicated region for block: B:358:0x095c  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -637,7 +638,8 @@ public class EditWidgetActivity extends BaseFragment {
                         }
                         canvas2.setBitmap(null);
                         ((ImageView) this.cells[i10].findViewById(R.id.shortcut_widget_item_avatar)).setImageBitmap(createBitmap2);
-                        MessageObject messageObject = EditWidgetActivity.this.getMessagesController().dialogMessage.get(tLRPC$Dialog2.id);
+                        ArrayList<MessageObject> arrayList = EditWidgetActivity.this.getMessagesController().dialogMessage.get(tLRPC$Dialog2.id);
+                        MessageObject messageObject = (arrayList == null || arrayList.size() <= 0) ? null : arrayList.get(0);
                         if (messageObject != null) {
                             long fromChatId = messageObject.getFromChatId();
                             if (fromChatId > 0) {
@@ -811,7 +813,7 @@ public class EditWidgetActivity extends BaseFragment {
                             str7 = str4;
                             ((TextView) viewGroup2.findViewById(i12)).setText(String.format(str7, Integer.valueOf(tLRPC$Dialog2.unread_count)));
                             this.cells[i10].findViewById(i12).setVisibility(0);
-                            if (EditWidgetActivity.this.getMessagesController().isDialogMuted(tLRPC$Dialog2.id)) {
+                            if (EditWidgetActivity.this.getMessagesController().isDialogMuted(tLRPC$Dialog2.id, 0)) {
                                 this.cells[i10].findViewById(i12).setBackgroundResource(R.drawable.widget_counter_muted);
                             } else {
                                 this.cells[i10].findViewById(i12).setBackgroundResource(R.drawable.widget_counter);
@@ -1004,9 +1006,12 @@ public class EditWidgetActivity extends BaseFragment {
                     } else {
                         EditWidgetActivity.this.finishFragment();
                     }
-                } else if (i != 1 || EditWidgetActivity.this.getParentActivity() == null) {
-                } else {
-                    EditWidgetActivity.this.getMessagesStorage().putWidgetDialogs(EditWidgetActivity.this.currentWidgetId, EditWidgetActivity.this.selectedDialogs);
+                } else if (i == 1 && EditWidgetActivity.this.getParentActivity() != null) {
+                    ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
+                    for (int i2 = 0; i2 < EditWidgetActivity.this.selectedDialogs.size(); i2++) {
+                        arrayList.add(MessagesStorage.TopicKey.of(((Long) EditWidgetActivity.this.selectedDialogs.get(i2)).longValue(), 0));
+                    }
+                    EditWidgetActivity.this.getMessagesStorage().putWidgetDialogs(EditWidgetActivity.this.currentWidgetId, arrayList);
                     SharedPreferences.Editor edit = EditWidgetActivity.this.getParentActivity().getSharedPreferences("shortcut_widget", 0).edit();
                     edit.putInt("account" + EditWidgetActivity.this.currentWidgetId, ((BaseFragment) EditWidgetActivity.this).currentAccount);
                     edit.putInt("type" + EditWidgetActivity.this.currentWidgetId, EditWidgetActivity.this.widgetType);

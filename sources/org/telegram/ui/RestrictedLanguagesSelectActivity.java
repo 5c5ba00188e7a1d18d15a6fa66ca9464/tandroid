@@ -237,7 +237,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
         final String str = localeInfo.pluralLangCode;
         if (str != null && str.equals(currentLocaleInfo.pluralLangCode)) {
-            AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox, 2.0f, 0);
+            AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox);
             return;
         }
         boolean contains = this.selectedLanguages.contains(str);

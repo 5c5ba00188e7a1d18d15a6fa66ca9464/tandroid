@@ -346,7 +346,7 @@ public class FileUploadOperation {
                 long j3 = j2 * 1024;
                 int max = (int) Math.max(this.slowNetwork ? 32L : 128L, ((this.totalFileSize + j3) - 1) / j3);
                 this.uploadChunkSize = max;
-                if (1024 % max != 0) {
+                if (ConnectionsManager.RequestFlagDoNotWaitFloodWait % max != 0) {
                     int i3 = 64;
                     while (this.uploadChunkSize > i3) {
                         i3 *= 2;
@@ -360,7 +360,7 @@ public class FileUploadOperation {
                         this.freeRequestIvs.add(new byte[32]);
                     }
                 }
-                this.uploadChunkSize *= 1024;
+                this.uploadChunkSize *= ConnectionsManager.RequestFlagDoNotWaitFloodWait;
                 calcTotalPartsCount();
                 this.readBuffer = new byte[this.uploadChunkSize];
                 StringBuilder sb = new StringBuilder();
@@ -533,7 +533,7 @@ public class FileUploadOperation {
                     i2 = 0;
                 } else {
                     i2 = 0;
-                    read = this.stream.read(this.readBuffer, 0, 1024);
+                    read = this.stream.read(this.readBuffer, 0, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
                 }
                 this.currentPartNum = i2;
             } else {

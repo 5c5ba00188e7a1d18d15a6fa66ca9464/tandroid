@@ -73,6 +73,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.NotificationsSettingsFacade;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
@@ -2900,7 +2901,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
     public /* synthetic */ void lambda$new$12(Theme.ResourcesProvider resourcesProvider, View view) {
         if (this.currentLimit - this.codepointCount < 0) {
-            AndroidUtilities.shakeView(this.captionLimitView, 2.0f, 0);
+            AndroidUtilities.shakeView(this.captionLimitView);
             Vibrator vibrator = (Vibrator) this.captionLimitView.getContext().getSystemService("vibrator");
             if (vibrator == null) {
                 return;
@@ -3216,7 +3217,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             TLRPC$Chat currentChat = chatActivity.getCurrentChat();
             if (chatActivity.getCurrentUser() != null || ((ChatObject.isChannel(currentChat) && currentChat.megagroup) || !ChatObject.isChannel(currentChat))) {
                 SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                edit.putBoolean("silent_" + chatActivity.getDialogId(), !z).commit();
+                edit.putBoolean(NotificationsSettingsFacade.PROPERTY_SILENT + chatActivity.getDialogId(), !z).commit();
             }
         }
         if (checkCaption(this.commentTextView.getText())) {

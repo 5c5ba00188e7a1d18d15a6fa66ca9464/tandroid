@@ -17,6 +17,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes3.dex */
 public class FilterShaders {
     private BlurProgram blurProgram;
@@ -593,7 +594,7 @@ public class FilterShaders {
             GLES20.glTexParameteri(3553, 10240, 9729);
             GLES20.glTexParameteri(3553, 10242, 33071);
             GLES20.glTexParameteri(3553, 10243, 33071);
-            ByteBuffer allocateDirect = ByteBuffer.allocateDirect(1024);
+            ByteBuffer allocateDirect = ByteBuffer.allocateDirect(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
             allocateDirect.order(ByteOrder.LITTLE_ENDIAN);
             if (this.redCurve.length < 256 || this.greenCurve.length < 256 || this.blueCurve.length < 256 || this.rgbCompositeCurve.length < 256) {
                 return;

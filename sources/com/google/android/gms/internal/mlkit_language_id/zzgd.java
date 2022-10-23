@@ -363,7 +363,7 @@ final class zzgd<T> implements zzgp<T> {
                 }
                 int i72 = charAt24 & 255;
                 int i73 = charAt2;
-                if ((charAt24 & 1024) != 0) {
+                if ((charAt24 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                     iArr[i62] = i63;
                     i62++;
                 }

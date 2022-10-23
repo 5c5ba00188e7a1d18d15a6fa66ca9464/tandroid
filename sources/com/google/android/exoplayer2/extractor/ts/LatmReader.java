@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Collections;
 import org.telegram.messenger.MediaController;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class LatmReader implements ElementaryStreamReader {
     private int audioMuxVersionA;
@@ -40,7 +41,7 @@ public final class LatmReader implements ElementaryStreamReader {
 
     public LatmReader(String str) {
         this.language = str;
-        ParsableByteArray parsableByteArray = new ParsableByteArray(1024);
+        ParsableByteArray parsableByteArray = new ParsableByteArray((int) ConnectionsManager.RequestFlagDoNotWaitFloodWait);
         this.sampleDataBuffer = parsableByteArray;
         this.sampleBitArray = new ParsableBitArray(parsableByteArray.data);
     }

@@ -343,7 +343,7 @@ public class TranslateAlert extends Dialog {
         this.fragment = baseFragment;
         this.fromLanguage = (str == null || !str.equals("und")) ? str : "auto";
         this.toLanguage = str2;
-        this.textBlocks = cutInBlocks(charSequence, 1024);
+        this.textBlocks = cutInBlocks(charSequence, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
         this.onDismiss = runnable;
         int i5 = Build.VERSION.SDK_INT;
         if (i5 >= 30) {

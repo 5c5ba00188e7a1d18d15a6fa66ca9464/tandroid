@@ -201,6 +201,32 @@ public class LongSparseArray<E> implements Cloneable {
         this.mGarbage = false;
     }
 
+    public void append(long j, E e) {
+        int i = this.mSize;
+        if (i != 0 && j <= this.mKeys[i - 1]) {
+            put(j, e);
+            return;
+        }
+        if (this.mGarbage && i >= this.mKeys.length) {
+            gc();
+        }
+        int i2 = this.mSize;
+        if (i2 >= this.mKeys.length) {
+            int idealLongArraySize = ContainerHelpers.idealLongArraySize(i2 + 1);
+            long[] jArr = new long[idealLongArraySize];
+            Object[] objArr = new Object[idealLongArraySize];
+            long[] jArr2 = this.mKeys;
+            System.arraycopy(jArr2, 0, jArr, 0, jArr2.length);
+            Object[] objArr2 = this.mValues;
+            System.arraycopy(objArr2, 0, objArr, 0, objArr2.length);
+            this.mKeys = jArr;
+            this.mValues = objArr;
+        }
+        this.mKeys[i2] = j;
+        this.mValues[i2] = e;
+        this.mSize = i2 + 1;
+    }
+
     public String toString() {
         if (size() <= 0) {
             return "{}";

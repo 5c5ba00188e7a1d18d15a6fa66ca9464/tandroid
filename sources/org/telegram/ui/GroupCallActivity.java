@@ -109,6 +109,7 @@ import org.telegram.tgnet.TLRPC$TL_chatFull;
 import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
 import org.telegram.tgnet.TLRPC$TL_chatParticipantAdmin;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_groupCall;
 import org.telegram.tgnet.TLRPC$TL_groupCallDiscarded;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
@@ -1187,7 +1188,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         canvas.scale(0.16666667f, 0.16666667f);
         canvas.save();
         canvas.translate(0.0f, -AndroidUtilities.statusBarHeight);
-        this.parentActivity.getActionBarLayout().draw(canvas);
+        this.parentActivity.getActionBarLayout().getView().draw(canvas);
         canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, 76));
         canvas.restore();
         canvas.save();
@@ -1786,18 +1787,18 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x007a, code lost:
-        if (android.text.TextUtils.isEmpty(r0.username) == false) goto L166;
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0076, code lost:
+        if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L166;
      */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0358  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0286  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x01be  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x00d1  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x00c1  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00cc  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00ec  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0283  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0354  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0282  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x00cd  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x00bd  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00c8  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x027f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1825,7 +1826,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         if (chat2 != null) {
             this.currentChat = chat2;
         }
-        if (!ChatObject.canUserDoAdminAction(this.currentChat, 3) && ((ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup) || (TextUtils.isEmpty(this.currentChat.username) && !ChatObject.canUserDoAdminAction(this.currentChat, 3)))) {
+        if (!ChatObject.canUserDoAdminAction(this.currentChat, 3) && ((ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup) || (!ChatObject.isPublic(this.currentChat) && !ChatObject.canUserDoAdminAction(this.currentChat, 3)))) {
             if (ChatObject.isChannel(this.currentChat)) {
                 TLRPC$Chat tLRPC$Chat2 = this.currentChat;
                 if (!tLRPC$Chat2.megagroup) {
@@ -2007,7 +2008,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     protected void makeFocusable(final BottomSheet bottomSheet, final AlertDialog alertDialog, final EditTextBoldCursor editTextBoldCursor, final boolean z) {
         if (!this.enterEventSent) {
-            BaseFragment baseFragment = this.parentActivity.getActionBarLayout().fragmentsStack.get(this.parentActivity.getActionBarLayout().fragmentsStack.size() - 1);
+            BaseFragment baseFragment = this.parentActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1);
             if (baseFragment instanceof ChatActivity) {
                 boolean needEnterText = ((ChatActivity) baseFragment).needEnterText();
                 this.enterEventSent = true;
@@ -4187,7 +4188,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9(DialogInterface dialogInterface) {
-        BaseFragment baseFragment = this.parentActivity.getActionBarLayout().fragmentsStack.get(this.parentActivity.getActionBarLayout().fragmentsStack.size() - 1);
+        BaseFragment baseFragment = this.parentActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1);
         if (!this.anyEnterEventSent || !(baseFragment instanceof ChatActivity)) {
             return;
         }
@@ -4364,7 +4365,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         if (!this.ignoreTextChange && editable.length() > 40) {
                             this.ignoreTextChange = true;
                             editable.delete(40, editable.length());
-                            AndroidUtilities.shakeView(editTextBoldCursor, 2.0f, 0);
+                            AndroidUtilities.shakeView(editTextBoldCursor);
                             editTextBoldCursor.performHapticFeedback(3, 2);
                             this.ignoreTextChange = false;
                         }
@@ -4746,13 +4747,13 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (groupCallInvitedCell.hasAvatarSet()) {
                 bundle.putBoolean("expandPhoto", true);
             }
-            this.parentActivity.lambda$runLinkRequest$62(new ProfileActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$66(new ProfileActivity(bundle));
             dismiss();
         } else if (i != this.listAdapter.addMemberRow) {
         } else {
             if (ChatObject.isChannel(this.currentChat)) {
                 TLRPC$Chat tLRPC$Chat = this.currentChat;
-                if (!tLRPC$Chat.megagroup && !TextUtils.isEmpty(tLRPC$Chat.username)) {
+                if (!tLRPC$Chat.megagroup && ChatObject.isPublic(tLRPC$Chat)) {
                     getLink(false);
                     return;
                 }
@@ -5638,7 +5639,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             return;
                         }
                         GroupCallActivity.this.playingHandAnimation = true;
-                        AndroidUtilities.shakeView(GroupCallActivity.this.muteLabel[0], 2.0f, 0);
+                        AndroidUtilities.shakeView(GroupCallActivity.this.muteLabel[0]);
                         view.performHapticFeedback(3, 2);
                         int nextInt = Utilities.random.nextInt(100);
                         int i3 = 540;
@@ -6278,12 +6279,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             int systemUiVisibility = this.containerView.getSystemUiVisibility();
             if (z) {
                 i = systemUiVisibility & (-5) & (-3);
-                getWindow().clearFlags(1024);
+                getWindow().clearFlags(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
                 setHideSystemVerticalInsets(false);
             } else {
                 setHideSystemVerticalInsets(true);
                 i = systemUiVisibility | 4 | 2;
-                getWindow().addFlags(1024);
+                getWindow().addFlags(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
             }
             this.containerView.setSystemUiVisibility(i);
             this.wasNotInLayoutFullscreen = Boolean.valueOf(z);
@@ -6927,10 +6928,11 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         String str;
         TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
         TLRPC$Chat chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(this.currentChat.id));
-        if (chat != null && TextUtils.isEmpty(chat.username)) {
+        if (chat != null && !ChatObject.isPublic(chat)) {
             final TLRPC$ChatFull chatFull = this.accountInstance.getMessagesController().getChatFull(this.currentChat.id);
-            if (!TextUtils.isEmpty(this.currentChat.username)) {
-                str = this.accountInstance.getMessagesController().linkPrefix + "/" + this.currentChat.username;
+            String publicUsername = ChatObject.getPublicUsername(this.currentChat);
+            if (!TextUtils.isEmpty(publicUsername)) {
+                str = this.accountInstance.getMessagesController().linkPrefix + "/" + publicUsername;
             } else {
                 str = (chatFull == null || (tLRPC$TL_chatInviteExported = chatFull.exported_invite) == null) ? null : tLRPC$TL_chatInviteExported.link;
             }
@@ -7016,7 +7018,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             this.invites[0] = null;
         }
         String[] strArr2 = this.invites;
-        if (strArr2[0] == null && strArr2[1] == null && !TextUtils.isEmpty(this.currentChat.username)) {
+        if (strArr2[0] == null && strArr2[1] == null && ChatObject.isPublic(this.currentChat)) {
             openShareAlert(true, null, this.accountInstance.getMessagesController().linkPrefix + "/" + this.currentChat.username, z);
             return;
         }
@@ -7024,8 +7026,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         openShareAlert(false, strArr3[0], strArr3[1], z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00c2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7049,7 +7051,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
         LaunchActivity launchActivity = this.parentActivity;
         if (launchActivity != null) {
-            BaseFragment baseFragment = launchActivity.getActionBarLayout().fragmentsStack.get(this.parentActivity.getActionBarLayout().fragmentsStack.size() - 1);
+            BaseFragment baseFragment = launchActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1);
             if (baseFragment instanceof ChatActivity) {
                 boolean needEnterText = ((ChatActivity) baseFragment).needEnterText();
                 this.anyEnterEventSent = true;
@@ -7074,7 +7076,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 }
                 ShareAlert shareAlert = new ShareAlert(getContext(), null, null, str5, str3, false, str4, str3, false, true) { // from class: org.telegram.ui.GroupCallActivity.46
                     @Override // org.telegram.ui.Components.ShareAlert
-                    protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i) {
+                    protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
                         if (longSparseArray.size() == 1) {
                             GroupCallActivity.this.getUndoView().showWithAction(longSparseArray.valueAt(0).id, 41, Integer.valueOf(i));
                         } else {
@@ -7122,7 +7124,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         str5 = str4;
         ShareAlert shareAlert2 = new ShareAlert(getContext(), null, null, str5, str3, false, str4, str3, false, true) { // from class: org.telegram.ui.GroupCallActivity.46
             @Override // org.telegram.ui.Components.ShareAlert
-            protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i) {
+            protected void onSend(LongSparseArray<TLRPC$Dialog> longSparseArray, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
                 if (longSparseArray.size() == 1) {
                     GroupCallActivity.this.getUndoView().showWithAction(longSparseArray.valueAt(0).id, 41, Integer.valueOf(i));
                 } else {
@@ -7254,7 +7256,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             processSelectedOption(null, j, 3);
             return;
         }
-        AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this.parentActivity.getActionBarLayout().fragmentsStack.get(this.parentActivity.getActionBarLayout().fragmentsStack.size() - 1), tLRPC$TL_phone_inviteToGroupCall, new Object[0]);
+        AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, this.parentActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1), tLRPC$TL_phone_inviteToGroupCall, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7686,7 +7688,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         boolean z2 = false;
         if (sharedInstance == null || isRtmpStream()) {
             this.soundButton.setData(R.drawable.msg_voiceshare, -1, 0, 0.3f, true, LocaleController.getString("VoipChatShare", R.string.VoipChatShare), false, z);
-            this.soundButton.setEnabled(!TextUtils.isEmpty(this.currentChat.username) || (ChatObject.hasAdminRights(this.currentChat) && ChatObject.canAddUsers(this.currentChat)), false);
+            this.soundButton.setEnabled(ChatObject.isPublic(this.currentChat) || (ChatObject.hasAdminRights(this.currentChat) && ChatObject.canAddUsers(this.currentChat)), false);
             this.soundButton.setChecked(true, false);
             return;
         }
@@ -8456,11 +8458,11 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$62(new ChatActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$66(new ChatActivity(bundle));
             dismiss();
         } else if (i == 8) {
             this.parentActivity.switchToAccount(this.currentAccount, true);
-            BaseFragment baseFragment = this.parentActivity.getActionBarLayout().fragmentsStack.get(this.parentActivity.getActionBarLayout().fragmentsStack.size() - 1);
+            BaseFragment baseFragment = this.parentActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1);
             if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getDialogId() == j) {
                 dismiss();
                 return;
@@ -8471,7 +8473,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle2.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$62(new ChatActivity(bundle2));
+            this.parentActivity.lambda$runLinkRequest$66(new ChatActivity(bundle2));
             dismiss();
         } else if (i == 7) {
             sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, Boolean.FALSE, null);
@@ -8537,7 +8539,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSelectedOption$56(TLRPC$User tLRPC$User, final long j, DialogInterface dialogInterface, int i) {
-        this.accountInstance.getMessagesController().addUserToChat(this.currentChat.id, tLRPC$User, 0, null, this.parentActivity.getActionBarLayout().fragmentsStack.get(this.parentActivity.getActionBarLayout().fragmentsStack.size() - 1), new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda38
+        this.accountInstance.getMessagesController().addUserToChat(this.currentChat.id, tLRPC$User, 0, null, this.parentActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1), new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda38
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCallActivity.this.lambda$processSelectedOption$55(j);
@@ -9397,8 +9399,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x0112, code lost:
-            if (android.text.TextUtils.isEmpty(r0.username) == false) goto L40;
+        /* JADX WARN: Code restructure failed: missing block: B:39:0x0110, code lost:
+            if (org.telegram.messenger.ChatObject.isPublic(r0) != false) goto L40;
          */
         /* JADX WARN: Removed duplicated region for block: B:22:0x0096  */
         /* JADX WARN: Removed duplicated region for block: B:30:0x00de  */
@@ -9581,7 +9583,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 groupCallTextCell.setColors(offsetColor, offsetColor);
                 if (ChatObject.isChannel(GroupCallActivity.this.currentChat)) {
                     TLRPC$Chat tLRPC$Chat = GroupCallActivity.this.currentChat;
-                    if (!tLRPC$Chat.megagroup && !TextUtils.isEmpty(tLRPC$Chat.username)) {
+                    if (!tLRPC$Chat.megagroup && ChatObject.isPublic(tLRPC$Chat)) {
                         groupCallTextCell.setTextAndIcon(LocaleController.getString("VoipGroupShareLink", R.string.VoipGroupShareLink), R.drawable.msg_link, false);
                         return;
                     }

@@ -30,7 +30,7 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
         zzi(ConnectionsManager.RequestFlagNeedQuickAck),
         zzj(256),
         zzk(512),
-        zzl(1024),
+        zzl(ConnectionsManager.RequestFlagDoNotWaitFloodWait),
         zzm(2048),
         zzn(4096);
         

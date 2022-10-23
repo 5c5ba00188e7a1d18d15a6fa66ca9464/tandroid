@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class WebvttExtractor implements Extractor {
     private static final Pattern LOCAL_TIMESTAMP = Pattern.compile("LOCAL:([^,]+)");
@@ -27,7 +28,7 @@ public final class WebvttExtractor implements Extractor {
     private int sampleSize;
     private final TimestampAdjuster timestampAdjuster;
     private final ParsableByteArray sampleDataWrapper = new ParsableByteArray();
-    private byte[] sampleData = new byte[1024];
+    private byte[] sampleData = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {

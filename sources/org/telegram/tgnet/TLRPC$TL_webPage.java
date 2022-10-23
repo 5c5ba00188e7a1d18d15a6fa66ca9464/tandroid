@@ -46,7 +46,7 @@ public class TLRPC$TL_webPage extends TLRPC$WebPage {
         if ((this.flags & 512) != 0) {
             this.document = TLRPC$Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             this.cached_page = TLRPC$Page.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags & 4096) != 0) {
@@ -112,7 +112,7 @@ public class TLRPC$TL_webPage extends TLRPC$WebPage {
         if ((this.flags & 512) != 0) {
             this.document.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & 1024) != 0) {
+        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             this.cached_page.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 4096) != 0) {

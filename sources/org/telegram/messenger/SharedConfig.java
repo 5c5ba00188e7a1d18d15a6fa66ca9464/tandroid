@@ -69,6 +69,7 @@ public class SharedConfig {
     public static boolean hasCameraCache = false;
     public static boolean hasEmailLogin = false;
     public static boolean inappCamera = false;
+    public static boolean isFloatingDebugActive = false;
     public static boolean isWaitingForPasscodeEnter = false;
     public static int ivFontSize = 0;
     public static int keepMedia = 2;
@@ -131,6 +132,7 @@ public class SharedConfig {
     public static int suggestStickers = 0;
     public static int textSelectionHintShows = 0;
     public static boolean useFingerprint = true;
+    public static boolean useLNavigation;
     public static boolean useSystemEmoji;
     public static boolean useThreeLinesLayout;
     public static byte[] passcodeSalt = new byte[0];
@@ -243,7 +245,6 @@ public class SharedConfig {
                 edit.putBoolean("forwardingOptionsHintShown", forwardingOptionsHintShown);
                 edit.putInt("lockRecordAudioVideoHint", lockRecordAudioVideoHint);
                 edit.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
-                edit.putBoolean("hasEmailLogin", hasEmailLogin);
                 TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = pendingAppUpdate;
                 if (tLRPC$TL_help_appUpdate != null) {
                     try {
@@ -259,6 +260,11 @@ public class SharedConfig {
                 }
                 edit.putLong("appUpdateCheckTime", lastUpdateCheckTime);
                 edit.apply();
+                SharedPreferences.Editor edit2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0).edit();
+                edit2.putBoolean("hasEmailLogin", hasEmailLogin);
+                edit2.putBoolean("useLNavigation", useLNavigation);
+                edit2.putBoolean("floatingDebugActive", isFloatingDebugActive);
+                edit2.apply();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -278,8 +284,8 @@ public class SharedConfig {
     /* JADX WARN: Removed duplicated region for block: B:44:0x0245  */
     /* JADX WARN: Removed duplicated region for block: B:58:0x0247  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x016a A[Catch: Exception -> 0x0188, all -> 0x03ea, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x016e A[Catch: Exception -> 0x0188, all -> 0x03ea, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x016a A[Catch: Exception -> 0x0188, all -> 0x03fa, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x016e A[Catch: Exception -> 0x0188, all -> 0x03fa, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -420,6 +426,8 @@ public class SharedConfig {
                                 fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
                                 dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
                                 hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
+                                useLNavigation = sharedPreferences.getBoolean("useLNavigation", true);
+                                isFloatingDebugActive = sharedPreferences.getBoolean("floatingDebugActive", false);
                                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                                 configLoaded = true;
                                 if (Build.VERSION.SDK_INT >= 19) {
@@ -513,6 +521,8 @@ public class SharedConfig {
                 fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
                 dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
                 hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
+                useLNavigation = sharedPreferences.getBoolean("useLNavigation", true);
+                isFloatingDebugActive = sharedPreferences.getBoolean("floatingDebugActive", false);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
                 try {
@@ -528,7 +538,7 @@ public class SharedConfig {
 
     public static void updateTabletConfig() {
         if (fontSizeIsDefault) {
-            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("userconfing", 0);
+            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
             int i = sharedPreferences.getInt("fons_size", AndroidUtilities.isTablet() ? 18 : 16);
             fontSize = i;
             ivFontSize = sharedPreferences.getInt("iv_font_size", i);

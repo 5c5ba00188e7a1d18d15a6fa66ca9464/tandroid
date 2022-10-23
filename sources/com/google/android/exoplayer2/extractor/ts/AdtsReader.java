@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Arrays;
 import java.util.Collections;
 import org.telegram.messenger.MediaController;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class AdtsReader implements ElementaryStreamReader {
     private static final byte[] ID3_IDENTIFIER = {73, 68, 51};
@@ -188,7 +189,7 @@ public final class AdtsReader implements ElementaryStreamReader {
             } else if (i4 == 511) {
                 this.matchState = 512;
             } else if (i4 == 836) {
-                this.matchState = 1024;
+                this.matchState = ConnectionsManager.RequestFlagDoNotWaitFloodWait;
             } else if (i4 == 1075) {
                 setReadingId3HeaderState();
                 parsableByteArray.setPosition(i);

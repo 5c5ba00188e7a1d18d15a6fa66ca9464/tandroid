@@ -598,10 +598,10 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01a6  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x01d3  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x01fb  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x01a4  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01dc  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01f9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -613,7 +613,7 @@ public class LinkEditActivity extends BaseFragment {
         }
         int selectedIndex = this.timeChooseView.getSelectedIndex();
         if (selectedIndex < this.dispalyedDates.size() && this.dispalyedDates.get(selectedIndex).intValue() < 0) {
-            AndroidUtilities.shakeView(this.timeEditText, 2.0f, 0);
+            AndroidUtilities.shakeView(this.timeEditText);
             Vibrator vibrator = (Vibrator) this.timeEditText.getContext().getSystemService("vibrator");
             if (vibrator == null) {
                 return;

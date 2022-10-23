@@ -9,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
@@ -519,6 +518,7 @@ public class UsersAlertBase extends BottomSheet {
     public class ContainerView extends FrameLayout {
         private boolean ignoreLayout = false;
         float snapToTopOffset;
+        private Boolean statusBarOpen;
         ValueAnimator valueAnimator;
 
         public ContainerView(Context context) {
@@ -631,6 +631,7 @@ public class UsersAlertBase extends BottomSheet {
 
         /* JADX WARN: Removed duplicated region for block: B:11:0x00c3  */
         /* JADX WARN: Removed duplicated region for block: B:14:0x016a  */
+        /* JADX WARN: Removed duplicated region for block: B:17:0x01a7  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -644,6 +645,7 @@ public class UsersAlertBase extends BottomSheet {
             UsersAlertBase usersAlertBase2 = UsersAlertBase.this;
             int dp2 = (usersAlertBase2.scrollOffsetY - ((BottomSheet) usersAlertBase2).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
             int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(50.0f) + ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop;
+            boolean z = false;
             if (Build.VERSION.SDK_INT >= 21) {
                 int i2 = AndroidUtilities.statusBarHeight;
                 dp2 += i2;
@@ -675,9 +677,13 @@ public class UsersAlertBase extends BottomSheet {
                     Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(UsersAlertBase.this.keyScrollUp));
                     canvas.drawRoundRect(UsersAlertBase.this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                     if (i > 0) {
-                        Theme.dialogs_onlineCirclePaint.setColor(Color.argb(255, (int) (Color.red(UsersAlertBase.this.backgroundColor) * 0.8f), (int) (Color.green(UsersAlertBase.this.backgroundColor) * 0.8f), (int) (Color.blue(UsersAlertBase.this.backgroundColor) * 0.8f)));
+                        Theme.dialogs_onlineCirclePaint.setColor(UsersAlertBase.this.backgroundColor);
                         canvas.drawRect(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, (AndroidUtilities.statusBarHeight - i) - getTranslationY(), getMeasuredWidth() - ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - getTranslationY(), Theme.dialogs_onlineCirclePaint);
                     }
+                    if (i > AndroidUtilities.statusBarHeight / 2) {
+                        z = true;
+                    }
+                    updateLightStatusBar(z);
                     canvas.restore();
                 }
             } else {
@@ -694,7 +700,27 @@ public class UsersAlertBase extends BottomSheet {
             canvas.drawRoundRect(UsersAlertBase.this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
             if (i > 0) {
             }
+            if (i > AndroidUtilities.statusBarHeight / 2) {
+            }
+            updateLightStatusBar(z);
             canvas.restore();
+        }
+
+        private void updateLightStatusBar(boolean z) {
+            Boolean bool = this.statusBarOpen;
+            if (bool == null || bool.booleanValue() != z) {
+                boolean z2 = true;
+                boolean z3 = AndroidUtilities.computePerceivedBrightness(UsersAlertBase.this.getThemedColor("dialogBackground")) > 0.721f;
+                if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(UsersAlertBase.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
+                    z2 = false;
+                }
+                Boolean valueOf = Boolean.valueOf(z);
+                this.statusBarOpen = valueOf;
+                if (!valueOf.booleanValue()) {
+                    z3 = z2;
+                }
+                AndroidUtilities.setLightStatusBar(UsersAlertBase.this.getWindow(), z3);
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: protected */

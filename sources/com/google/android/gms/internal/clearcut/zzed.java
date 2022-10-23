@@ -160,7 +160,7 @@ final class zzed {
             i = this.zznv + 1;
         }
         this.zznv = i;
-        if ((this.zznz & 1024) != 0) {
+        if ((this.zznz & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             int[] iArr = this.zzms;
             int i6 = this.zznq;
             this.zznq = i6 + 1;

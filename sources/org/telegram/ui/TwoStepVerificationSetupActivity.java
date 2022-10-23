@@ -42,7 +42,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
-import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -1205,7 +1204,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         public void onItemClick(int i) {
             String string;
             if (i == -1) {
-                if (TwoStepVerificationSetupActivity.this.otherwiseReloginDays >= 0 && ((BaseFragment) TwoStepVerificationSetupActivity.this).parentLayout.fragmentsStack.size() == 1) {
+                if (TwoStepVerificationSetupActivity.this.otherwiseReloginDays >= 0 && ((BaseFragment) TwoStepVerificationSetupActivity.this).parentLayout.getFragmentStack().size() == 1) {
                     TwoStepVerificationSetupActivity.this.showSetForcePasswordAlert();
                 } else {
                     TwoStepVerificationSetupActivity.this.finishFragment();
@@ -2685,7 +2684,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isSwipeBackEnabled(MotionEvent motionEvent) {
-        if (this.otherwiseReloginDays < 0 || this.parentLayout.fragmentsStack.size() != 1) {
+        if (this.otherwiseReloginDays < 0 || this.parentLayout.getFragmentStack().size() != 1) {
             return super.isSwipeBackEnabled(motionEvent);
         }
         return false;
@@ -2693,7 +2692,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (this.otherwiseReloginDays >= 0 && this.parentLayout.fragmentsStack.size() == 1) {
+        if (this.otherwiseReloginDays >= 0 && this.parentLayout.getFragmentStack().size() == 1) {
             showSetForcePasswordAlert();
             return false;
         }
@@ -2703,11 +2702,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void finishFragment(boolean z) {
-        Iterator<BaseFragment> it = getParentLayout().fragmentsStack.iterator();
-        while (it.hasNext()) {
-            BaseFragment next = it.next();
-            if (next != this && (next instanceof TwoStepVerificationSetupActivity)) {
-                ((TwoStepVerificationSetupActivity) next).floatingAutoAnimator.ignoreNextLayout();
+        for (BaseFragment baseFragment : getParentLayout().getFragmentStack()) {
+            if (baseFragment != this && (baseFragment instanceof TwoStepVerificationSetupActivity)) {
+                ((TwoStepVerificationSetupActivity) baseFragment).floatingAutoAnimator.ignoreNextLayout();
             }
         }
         super.finishFragment(z);
@@ -2739,7 +2736,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void finishFragment() {
-        if (this.otherwiseReloginDays >= 0 && this.parentLayout.fragmentsStack.size() == 1) {
+        if (this.otherwiseReloginDays >= 0 && this.parentLayout.getFragmentStack().size() == 1) {
             Bundle bundle = new Bundle();
             bundle.putBoolean("afterSignup", true);
             presentFragment(new DialogsActivity(bundle), true);

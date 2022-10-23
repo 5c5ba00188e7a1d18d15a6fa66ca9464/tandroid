@@ -360,6 +360,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                             NotificationCenter.getInstance(TextMessageEnterTransition.this.currentAccount).onAnimationFinish(TextMessageEnterTransition.this.animationIndex);
                             messageEnterTransitionContainer.removeTransition(TextMessageEnterTransition.this);
                             chatMessageCell.setEnterTransitionInProgress(false);
+                            chatMessageCell.getTransitionParams().lastDrawingBackgroundRect.set(chatMessageCell.getBackgroundDrawableLeft(), chatMessageCell.getBackgroundDrawableTop(), chatMessageCell.getBackgroundDrawableRight(), chatMessageCell.getBackgroundDrawableBottom());
                             chatActivityEnterView.setTextTransitionIsRunning(false);
                             chatActivityEnterView.getEditField().setAlpha(1.0f);
                             chatActivity.getReplyNameTextView().setAlpha(1.0f);
@@ -466,6 +467,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 NotificationCenter.getInstance(TextMessageEnterTransition.this.currentAccount).onAnimationFinish(TextMessageEnterTransition.this.animationIndex);
                 messageEnterTransitionContainer.removeTransition(TextMessageEnterTransition.this);
                 chatMessageCell.setEnterTransitionInProgress(false);
+                chatMessageCell.getTransitionParams().lastDrawingBackgroundRect.set(chatMessageCell.getBackgroundDrawableLeft(), chatMessageCell.getBackgroundDrawableTop(), chatMessageCell.getBackgroundDrawableRight(), chatMessageCell.getBackgroundDrawableBottom());
                 chatActivityEnterView.setTextTransitionIsRunning(false);
                 chatActivityEnterView.getEditField().setAlpha(1.0f);
                 chatActivity.getReplyNameTextView().setAlpha(1.0f);

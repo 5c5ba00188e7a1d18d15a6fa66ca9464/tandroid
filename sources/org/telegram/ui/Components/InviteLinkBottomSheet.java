@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -146,6 +145,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.1
             private boolean fullHeight;
             private RectF rect = new RectF();
+            private Boolean statusBarOpen;
 
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
@@ -189,7 +189,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
             /* JADX WARN: Removed duplicated region for block: B:13:0x009c  */
             /* JADX WARN: Removed duplicated region for block: B:15:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:18:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:18:0x011c  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -199,6 +199,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 int i;
                 int dp = (InviteLinkBottomSheet.this.scrollOffsetY - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop) - AndroidUtilities.dp(8.0f);
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(36.0f) + ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop;
+                boolean z3 = false;
                 if (Build.VERSION.SDK_INT >= 21) {
                     int i2 = AndroidUtilities.statusBarHeight;
                     dp += i2;
@@ -225,21 +226,25 @@ public class InviteLinkBottomSheet extends BottomSheet {
                                 this.rect.set(((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop + dp, getMeasuredWidth() - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop + dp + AndroidUtilities.dp(24.0f));
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
                             }
-                            if (i <= 0) {
-                                return;
+                            if (i > 0) {
+                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
+                                canvas.drawRect(((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             }
-                            int color = Theme.getColor("dialogBackground");
-                            Theme.dialogs_onlineCirclePaint.setColor(Color.argb(255, (int) (Color.red(color) * 0.8f), (int) (Color.green(color) * 0.8f), (int) (Color.blue(color) * 0.8f)));
-                            canvas.drawRect(((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
-                            return;
+                            if (i > AndroidUtilities.statusBarHeight / 2) {
+                                z3 = true;
+                            }
+                            updateLightStatusBar(z3);
                         }
                         i = 0;
                         ((BottomSheet) InviteLinkBottomSheet.this).shadowDrawable.setBounds(0, dp, getMeasuredWidth(), measuredHeight);
                         ((BottomSheet) InviteLinkBottomSheet.this).shadowDrawable.draw(canvas);
                         if (f != 1.0f) {
                         }
-                        if (i <= 0) {
+                        if (i > 0) {
                         }
+                        if (i > AndroidUtilities.statusBarHeight / 2) {
+                        }
+                        updateLightStatusBar(z3);
                     }
                 }
                 f = 1.0f;
@@ -248,7 +253,27 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 ((BottomSheet) InviteLinkBottomSheet.this).shadowDrawable.draw(canvas);
                 if (f != 1.0f) {
                 }
-                if (i <= 0) {
+                if (i > 0) {
+                }
+                if (i > AndroidUtilities.statusBarHeight / 2) {
+                }
+                updateLightStatusBar(z3);
+            }
+
+            private void updateLightStatusBar(boolean z3) {
+                Boolean bool = this.statusBarOpen;
+                if (bool == null || bool.booleanValue() != z3) {
+                    boolean z4 = true;
+                    boolean z5 = AndroidUtilities.computePerceivedBrightness(InviteLinkBottomSheet.this.getThemedColor("dialogBackground")) > 0.721f;
+                    if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(InviteLinkBottomSheet.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
+                        z4 = false;
+                    }
+                    Boolean valueOf = Boolean.valueOf(z3);
+                    this.statusBarOpen = valueOf;
+                    if (!valueOf.booleanValue()) {
+                        z5 = z4;
+                    }
+                    AndroidUtilities.setLightStatusBar(InviteLinkBottomSheet.this.getWindow(), z5);
                 }
             }
         };

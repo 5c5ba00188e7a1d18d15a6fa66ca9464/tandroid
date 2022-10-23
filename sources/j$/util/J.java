@@ -98,7 +98,7 @@ public class J implements u {
         if (j <= 1 || !it.hasNext()) {
             return null;
         }
-        int i = this.e + 1024;
+        int i = this.e + ConnectionsManager.RequestFlagDoNotWaitFloodWait;
         if (i > j) {
             i = (int) j;
         }

@@ -1788,7 +1788,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 super.onScrollStateChanged(recyclerView, i4);
             }
         });
-        this.emojiTabs = new EmojiTabsStrip(context, resourcesProvider, true, z, baseFragment != null ? new Runnable() { // from class: org.telegram.ui.Components.EmojiView$$ExternalSyntheticLambda6
+        this.emojiTabs = new EmojiTabsStrip(context, resourcesProvider, true, z, 0, baseFragment != null ? new Runnable() { // from class: org.telegram.ui.Components.EmojiView$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 EmojiView.this.lambda$new$1();

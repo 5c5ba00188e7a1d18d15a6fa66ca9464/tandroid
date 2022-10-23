@@ -38,7 +38,7 @@ public class TLRPC$TL_channelAdminRights_layer92 extends TLObject {
         this.invite_users = (readInt32 & 32) != 0;
         this.pin_messages = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         this.add_admins = (readInt32 & 512) != 0;
-        if ((readInt32 & 1024) != 0) {
+        if ((readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
             z2 = true;
         }
         this.manage_call = z2;
@@ -63,7 +63,7 @@ public class TLRPC$TL_channelAdminRights_layer92 extends TLObject {
         this.flags = i7;
         int i8 = this.add_admins ? i7 | 512 : i7 & (-513);
         this.flags = i8;
-        int i9 = this.manage_call ? i8 | 1024 : i8 & (-1025);
+        int i9 = this.manage_call ? i8 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i8 & (-1025);
         this.flags = i9;
         abstractSerializedData.writeInt32(i9);
     }

@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
+import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
@@ -59,8 +60,8 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     }
 
     private void writePayload(OutputStream outputStream, byte[] bArr) throws IOException {
-        for (int i = 0; i < bArr.length; i += 1024) {
-            outputStream.write(bArr, i, Math.min(bArr.length - i, 1024));
+        for (int i = 0; i < bArr.length; i += ConnectionsManager.RequestFlagDoNotWaitFloodWait) {
+            outputStream.write(bArr, i, Math.min(bArr.length - i, (int) ConnectionsManager.RequestFlagDoNotWaitFloodWait));
             if (isCancelled()) {
                 return;
             }
@@ -72,7 +73,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
         InputStream inputStream = getInputStream(httpsURLConnection);
         try {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-            char[] cArr = new char[1024];
+            char[] cArr = new char[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
             do {
                 int read = inputStreamReader.read(cArr);
                 if (read <= 0) {

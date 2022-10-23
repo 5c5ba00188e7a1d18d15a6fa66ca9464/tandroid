@@ -7,7 +7,7 @@ import java.util.Map;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes.dex */
-public abstract class TLRPC$Message extends TLObject {
+public class TLRPC$Message extends TLObject {
     public TLRPC$MessageAction action;
     public int date;
     public int destroyTime;
@@ -47,6 +47,7 @@ public abstract class TLRPC$Message extends TLObject {
     public int seq_in;
     public int seq_out;
     public boolean silent;
+    public boolean topic_start;
     public int ttl;
     public int ttl_period;
     public boolean unread;
@@ -55,6 +56,7 @@ public abstract class TLRPC$Message extends TLObject {
     public int views;
     public String voiceTranscription;
     public boolean voiceTranscriptionFinal;
+    public boolean voiceTranscriptionForce;
     public long voiceTranscriptionId;
     public boolean voiceTranscriptionOpen;
     public boolean voiceTranscriptionRated;
@@ -151,10 +153,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -245,10 +247,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i12).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -344,7 +346,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -399,7 +401,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i7).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -478,7 +480,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -562,7 +564,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -827,10 +829,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -919,10 +921,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i11).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -1079,7 +1081,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize3);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1135,7 +1137,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i9).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1296,7 +1298,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize4);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                     }
@@ -1347,7 +1349,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i6).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -1520,10 +1522,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1604,10 +1606,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1745,7 +1747,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -1815,7 +1817,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2159,7 +2161,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2221,7 +2223,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i9).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2303,7 +2305,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2384,7 +2386,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i10).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         if ((this.flags & 32768) != 0) {
@@ -2533,10 +2535,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.forwards = abstractSerializedData2.readInt32(z2);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -2622,10 +2624,10 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i11).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.forwards);
                         }
                         if ((this.flags & 8388608) != 0) {
@@ -2721,7 +2723,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.add(TLdeserialize4);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             this.views = abstractSerializedData2.readInt32(z2);
                         }
                     }
@@ -2769,7 +2771,7 @@ public abstract class TLRPC$Message extends TLObject {
                                 this.entities.get(i6).serializeToStream(abstractSerializedData2);
                             }
                         }
-                        if ((this.flags & 1024) != 0) {
+                        if ((this.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
                             abstractSerializedData2.writeInt32(this.views);
                         }
                         writeAttachPath(abstractSerializedData2);
@@ -2917,8 +2919,8 @@ public abstract class TLRPC$Message extends TLObject {
             if (this.params == null) {
                 this.params = new HashMap<>();
             }
-            this.layer = 147;
-            this.params.put("legacy_layer", "147");
+            this.layer = 148;
+            this.params.put("legacy_layer", "148");
         }
         if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {
             for (Map.Entry<String, String> entry2 : this.params.entrySet()) {

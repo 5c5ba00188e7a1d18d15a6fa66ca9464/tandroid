@@ -39,6 +39,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.ringtone.RingtoneDataStore;
 import org.telegram.messenger.ringtone.RingtoneUploader;
@@ -48,6 +49,7 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$TL_account_saveRingtone;
 import org.telegram.tgnet.TLRPC$TL_document;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_inputDocument;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -64,6 +66,7 @@ import org.telegram.ui.Components.ChatAttachAlertDocumentLayout;
 import org.telegram.ui.Components.ChatAvatarContainer;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CombinedDrawable;
+import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.NumberTextView;
 import org.telegram.ui.Components.RadioButton;
@@ -98,6 +101,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     private int stableIds = 100;
     SparseArray<Tone> selectedTones = new SparseArray<>();
     int currentType = -1;
+    int topicId = 0;
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
@@ -125,11 +129,14 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         String str2;
         if (getArguments() != null) {
             this.dialogId = getArguments().getLong("dialog_id", 0L);
+            this.topicId = getArguments().getInt("topic_id", 0);
             this.currentType = getArguments().getInt("type", -1);
         }
-        if (this.dialogId != 0) {
-            str2 = "sound_document_id_" + this.dialogId;
-            str = "sound_path_" + this.dialogId;
+        long j = this.dialogId;
+        if (j != 0) {
+            String sharedPrefKey = NotificationsController.getSharedPrefKey(j, this.topicId);
+            str2 = "sound_document_id_" + sharedPrefKey;
+            str = "sound_path_" + sharedPrefKey;
         } else {
             int i = this.currentType;
             if (i == 1) {
@@ -146,13 +153,13 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             }
         }
         SharedPreferences notificationsSettings = getNotificationsSettings();
-        long j = notificationsSettings.getLong(str2, 0L);
+        long j2 = notificationsSettings.getLong(str2, 0L);
         String string = notificationsSettings.getString(str, "NoSound");
         Tone tone = new Tone(null);
         this.startSelectedTone = tone;
-        if (j != 0) {
+        if (j2 != 0) {
             tone.document = new TLRPC$TL_document();
-            this.startSelectedTone.document.id = j;
+            this.startSelectedTone.document.id = j2;
         } else {
             tone.uri = string;
         }
@@ -186,9 +193,15 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             chatAvatarContainer.setOccupyStatusBar(!AndroidUtilities.isTablet());
             this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, !this.inPreviewMode ? 56.0f : 0.0f, 0.0f, 40.0f, 0.0f));
             if (this.dialogId < 0) {
-                TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
-                this.avatarContainer.setChatAvatar(chat);
-                this.avatarContainer.setTitle(chat.title);
+                if (this.topicId != 0) {
+                    TLRPC$TL_forumTopic findTopic = getMessagesController().getTopicsController().findTopic(-this.dialogId, this.topicId);
+                    ForumUtilities.setTopicIcon(this.avatarContainer.getAvatarImageView(), findTopic);
+                    this.avatarContainer.setTitle(findTopic.title);
+                } else {
+                    TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+                    this.avatarContainer.setChatAvatar(chat);
+                    this.avatarContainer.setTitle(chat.title);
+                }
             } else {
                 TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.dialogId));
                 if (user != null) {
@@ -929,10 +942,10 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
         SharedPreferences.Editor edit = getNotificationsSettings().edit();
         if (this.dialogId != 0) {
-            str = "sound_" + this.dialogId;
-            str2 = "sound_path_" + this.dialogId;
-            str3 = "sound_document_id_" + this.dialogId;
-            edit.putBoolean("sound_enabled_" + this.dialogId, true);
+            str = "sound_" + NotificationsController.getSharedPrefKey(this.dialogId, this.topicId);
+            str2 = "sound_path_" + NotificationsController.getSharedPrefKey(this.dialogId, this.topicId);
+            str3 = "sound_document_id_" + NotificationsController.getSharedPrefKey(this.dialogId, this.topicId);
+            edit.putBoolean("sound_enabled_" + NotificationsController.getSharedPrefKey(this.dialogId, this.topicId), true);
         } else {
             int i = this.currentType;
             if (i == 1) {
@@ -971,7 +984,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
         edit.apply();
         if (this.dialogId != 0) {
-            getNotificationsController().updateServerNotificationsSettings(this.dialogId);
+            getNotificationsController().updateServerNotificationsSettings(this.dialogId, this.topicId);
             return;
         }
         getNotificationsController().updateServerNotificationsSettings(this.currentType);

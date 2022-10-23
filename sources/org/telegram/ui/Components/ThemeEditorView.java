@@ -56,9 +56,9 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.ActionBar;
-import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.TextColorThemeCell;
@@ -764,6 +764,7 @@ public class ThemeEditorView {
             FrameLayout frameLayout = new FrameLayout(context, ThemeEditorView.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.1
                 private boolean ignoreLayout = false;
                 private RectF rect1 = new RectF();
+                private Boolean statusBarOpen;
 
                 @Override // android.view.ViewGroup
                 public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
@@ -818,9 +819,9 @@ public class ThemeEditorView {
                     super.requestLayout();
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:13:0x00b4  */
+                /* JADX WARN: Removed duplicated region for block: B:13:0x00b3  */
                 /* JADX WARN: Removed duplicated region for block: B:16:0x0154  */
-                /* JADX WARN: Removed duplicated region for block: B:19:? A[RETURN, SYNTHETIC] */
+                /* JADX WARN: Removed duplicated region for block: B:19:0x0185  */
                 @Override // android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -831,6 +832,7 @@ public class ThemeEditorView {
                     int dp = (EditorAlert.this.scrollOffsetY - ((BottomSheet) EditorAlert.this).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
                     int dp2 = (EditorAlert.this.scrollOffsetY - ((BottomSheet) EditorAlert.this).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
                     int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + ((BottomSheet) EditorAlert.this).backgroundPaddingTop;
+                    boolean z = false;
                     if (((BottomSheet) EditorAlert.this).isFullscreen || Build.VERSION.SDK_INT < 21) {
                         f = 1.0f;
                     } else {
@@ -865,11 +867,13 @@ public class ThemeEditorView {
                             Theme.dialogs_onlineCirclePaint.setAlpha((int) (EditorAlert.this.listView.getAlpha() * 255.0f));
                             canvas.drawRoundRect(this.rect1, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                             if (i > 0) {
-                                return;
+                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
+                                canvas.drawRect(((BottomSheet) EditorAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) EditorAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             }
-                            Theme.dialogs_onlineCirclePaint.setColor(Color.argb(255, (int) (Color.red(-1) * 0.8f), (int) (Color.green(-1) * 0.8f), (int) (Color.blue(-1) * 0.8f)));
-                            canvas.drawRect(((BottomSheet) EditorAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) EditorAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
-                            return;
+                            if (i > AndroidUtilities.statusBarHeight / 2) {
+                                z = true;
+                            }
+                            updateLightStatusBar(z);
                         }
                     }
                     i = 0;
@@ -883,6 +887,26 @@ public class ThemeEditorView {
                     Theme.dialogs_onlineCirclePaint.setAlpha((int) (EditorAlert.this.listView.getAlpha() * 255.0f));
                     canvas.drawRoundRect(this.rect1, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                     if (i > 0) {
+                    }
+                    if (i > AndroidUtilities.statusBarHeight / 2) {
+                    }
+                    updateLightStatusBar(z);
+                }
+
+                private void updateLightStatusBar(boolean z) {
+                    Boolean bool = this.statusBarOpen;
+                    if (bool == null || bool.booleanValue() != z) {
+                        boolean z2 = true;
+                        boolean z3 = AndroidUtilities.computePerceivedBrightness(EditorAlert.this.getThemedColor("dialogBackground")) > 0.721f;
+                        if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(EditorAlert.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
+                            z2 = false;
+                        }
+                        Boolean valueOf = Boolean.valueOf(z);
+                        this.statusBarOpen = valueOf;
+                        if (!valueOf.booleanValue()) {
+                            z3 = z2;
+                        }
+                        AndroidUtilities.setLightStatusBar(EditorAlert.this.getWindow(), z3);
                     }
                 }
             };
@@ -1662,17 +1686,17 @@ public class ThemeEditorView {
             super(context);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:61:0x0088, code lost:
-            if (r6.fragmentsStack.isEmpty() != false) goto L72;
+        /* JADX WARN: Code restructure failed: missing block: B:61:0x008c, code lost:
+            if (r6.getFragmentStack().isEmpty() != false) goto L72;
          */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x008d  */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x0093  */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x0091  */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x0097  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public boolean onTouchEvent(MotionEvent motionEvent) {
-            ActionBarLayout actionBarLayout;
+            INavigationLayout iNavigationLayout;
             ArrayList<ThemeDescription> themeDescriptions;
             WindowManager.LayoutParams layoutParams;
             WindowManager.LayoutParams layoutParams2;
@@ -1691,22 +1715,21 @@ public class ThemeEditorView {
                 LaunchActivity launchActivity = (LaunchActivity) ThemeEditorView.this.parentActivity;
                 BaseFragment baseFragment = null;
                 if (AndroidUtilities.isTablet()) {
-                    actionBarLayout = launchActivity.getLayersActionBarLayout();
-                    if (actionBarLayout != null && actionBarLayout.fragmentsStack.isEmpty()) {
-                        actionBarLayout = null;
+                    iNavigationLayout = launchActivity.getLayersActionBarLayout();
+                    if (iNavigationLayout != null && iNavigationLayout.getFragmentStack().isEmpty()) {
+                        iNavigationLayout = null;
                     }
-                    if (actionBarLayout == null) {
-                        actionBarLayout = launchActivity.getRightActionBarLayout();
-                        if (actionBarLayout != null) {
+                    if (iNavigationLayout == null) {
+                        iNavigationLayout = launchActivity.getRightActionBarLayout();
+                        if (iNavigationLayout != null) {
                         }
                     }
-                    if (actionBarLayout == null) {
-                        actionBarLayout = launchActivity.getActionBarLayout();
+                    if (iNavigationLayout == null) {
+                        iNavigationLayout = launchActivity.getActionBarLayout();
                     }
-                    if (actionBarLayout != null) {
-                        if (!actionBarLayout.fragmentsStack.isEmpty()) {
-                            ArrayList<BaseFragment> arrayList = actionBarLayout.fragmentsStack;
-                            baseFragment = arrayList.get(arrayList.size() - 1);
+                    if (iNavigationLayout != null) {
+                        if (!iNavigationLayout.getFragmentStack().isEmpty()) {
+                            baseFragment = iNavigationLayout.getFragmentStack().get(iNavigationLayout.getFragmentStack().size() - 1);
                         }
                         if (baseFragment != null && (themeDescriptions = baseFragment.getThemeDescriptions()) != null) {
                             ThemeEditorView themeEditorView = ThemeEditorView.this;
@@ -1724,10 +1747,10 @@ public class ThemeEditorView {
                         }
                     }
                 }
-                actionBarLayout = null;
-                if (actionBarLayout == null) {
+                iNavigationLayout = null;
+                if (iNavigationLayout == null) {
                 }
-                if (actionBarLayout != null) {
+                if (iNavigationLayout != null) {
                 }
             }
             if (this.dragging) {

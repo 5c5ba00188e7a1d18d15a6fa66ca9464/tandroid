@@ -44,6 +44,7 @@ import org.telegram.tgnet.TLRPC$TL_secureFile;
 import org.telegram.tgnet.TLRPC$TL_videoSize;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$WebDocument;
+import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
 public class FileLoader extends BaseController {
     public static final long DEFAULT_MAX_FILE_SIZE = 2097152000;
@@ -948,10 +949,12 @@ public class FileLoader extends BaseController {
                                     if (FileLoader.this.delegate != null) {
                                         FileLoader.this.delegate.fileDidFailedLoad(str8, i11);
                                     }
-                                    if (tLRPC$Document == null || !(obj instanceof MessageObject) || i11 != 0) {
-                                        return;
+                                    if (tLRPC$Document != null && (obj instanceof MessageObject) && i11 == 0) {
+                                        FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
+                                    } else if (i11 != -1) {
+                                    } else {
+                                        LaunchActivity.checkFreeDiscSpaceStatic(2);
                                     }
-                                    FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
                                 }
 
                                 @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
@@ -1023,10 +1026,12 @@ public class FileLoader extends BaseController {
                             if (FileLoader.this.delegate != null) {
                                 FileLoader.this.delegate.fileDidFailedLoad(str82, i11);
                             }
-                            if (tLRPC$Document == null || !(obj instanceof MessageObject) || i11 != 0) {
-                                return;
+                            if (tLRPC$Document != null && (obj instanceof MessageObject) && i11 == 0) {
+                                FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
+                            } else if (i11 != -1) {
+                            } else {
+                                LaunchActivity.checkFreeDiscSpaceStatic(2);
                             }
-                            FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
                         }
 
                         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
@@ -1092,10 +1097,12 @@ public class FileLoader extends BaseController {
                         if (FileLoader.this.delegate != null) {
                             FileLoader.this.delegate.fileDidFailedLoad(str822, i11);
                         }
-                        if (tLRPC$Document == null || !(obj instanceof MessageObject) || i11 != 0) {
-                            return;
+                        if (tLRPC$Document != null && (obj instanceof MessageObject) && i11 == 0) {
+                            FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
+                        } else if (i11 != -1) {
+                        } else {
+                            LaunchActivity.checkFreeDiscSpaceStatic(2);
                         }
-                        FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
                     }
 
                     @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate

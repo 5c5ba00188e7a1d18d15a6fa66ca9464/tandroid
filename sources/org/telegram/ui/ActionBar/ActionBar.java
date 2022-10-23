@@ -120,7 +120,6 @@ public class ActionBar extends FrameLayout {
         }
 
         public void onItemClick(int i) {
-            throw null;
         }
     }
 
@@ -645,6 +644,10 @@ public class ActionBar extends FrameLayout {
 
     public void showActionMode() {
         showActionMode(true, null, null, null, null, null, 0);
+    }
+
+    public void showActionMode(boolean z) {
+        showActionMode(z, null, null, null, null, null, 0);
     }
 
     public void showActionMode(boolean z, View view, View view2, View[] viewArr, final boolean[] zArr, View view3, int i) {

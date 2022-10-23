@@ -3131,7 +3131,7 @@ public class ImageLoader {
         int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
         z = memoryClass < 192 ? false : z;
         this.canForce8888 = z;
-        int min = Math.min(z ? 30 : 15, memoryClass / 7) * 1024 * 1024;
+        int min = Math.min(z ? 30 : 15, memoryClass / 7) * ConnectionsManager.RequestFlagDoNotWaitFloodWait * ConnectionsManager.RequestFlagDoNotWaitFloodWait;
         float f = min;
         this.memCache = new LruCache<BitmapDrawable>((int) (0.8f * f)) { // from class: org.telegram.messenger.ImageLoader.1
             /* JADX INFO: Access modifiers changed from: protected */
@@ -3776,7 +3776,7 @@ public class ImageLoader {
                     file3 = new File(file, "000000000_999999_temp.f");
                     file4 = new File(file2, "000000000_999999.f");
                 }
-                bArr = new byte[1024];
+                bArr = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
                 file3.createNewFile();
                 randomAccessFile = new RandomAccessFile(file3, "rws");
             } catch (Throwable th) {

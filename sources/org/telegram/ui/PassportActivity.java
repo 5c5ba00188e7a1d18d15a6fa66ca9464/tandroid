@@ -3111,7 +3111,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (vibrator != null) {
                     vibrator.vibrate(200L);
                 }
-                AndroidUtilities.shakeView(getViewByType(tLRPC$TL_secureRequiredType), 2.0f, 0);
+                AndroidUtilities.shakeView(getViewByType(tLRPC$TL_secureRequiredType));
                 return;
             }
             HashMap<String, String> hashMap = this.errorsMap.get(getNameForType(tLRPC$TL_secureRequiredType.type));
@@ -3120,7 +3120,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (vibrator2 != null) {
                     vibrator2.vibrate(200L);
                 }
-                AndroidUtilities.shakeView(getViewByType(tLRPC$TL_secureRequiredType), 2.0f, 0);
+                AndroidUtilities.shakeView(getViewByType(tLRPC$TL_secureRequiredType));
                 return;
             }
             arrayList2.add(new 1ValueToSend(this, valueByType, tLRPC$TL_secureRequiredType.selfie_required, tLRPC$TL_secureRequiredType.translation_required));
@@ -4753,7 +4753,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (vibrator != null) {
             vibrator.vibrate(200L);
         }
-        AndroidUtilities.shakeView(view, 2.0f, 0);
+        AndroidUtilities.shakeView(view);
         scrollToField(view);
     }
 
@@ -8142,7 +8142,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (z) {
             this.inputFields[0].setText("");
         }
-        AndroidUtilities.shakeView(this.inputFields[0], 2.0f, 0);
+        AndroidUtilities.shakeView(this.inputFields[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9965,7 +9965,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 str = getCode();
             }
             if (TextUtils.isEmpty(str)) {
-                AndroidUtilities.shakeView(this.codeFieldContainer, 2.0f, 0);
+                AndroidUtilities.shakeView(this.codeFieldContainer);
                 return;
             }
             this.nextPressed = true;

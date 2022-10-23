@@ -664,7 +664,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             public void onStartStopSelection(boolean z) {
                 PhotoPickerActivity.this.alertOnlyOnce = z ? 1 : 0;
                 if (z) {
-                    ((BaseFragment) PhotoPickerActivity.this).parentLayout.requestDisallowInterceptTouchEvent(true);
+                    ((BaseFragment) PhotoPickerActivity.this).parentLayout.getView().requestDisallowInterceptTouchEvent(true);
                 }
                 PhotoPickerActivity.this.listView.hideSelector(true);
             }
@@ -1199,7 +1199,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("ClearSearchAlertTitle", R.string.ClearSearchAlertTitle));
                 builder.setMessage(LocaleController.getString("ClearSearchAlert", R.string.ClearSearchAlert));
-                builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton).toUpperCase(), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda0
+                builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
                         PhotoPickerActivity.this.lambda$createView$0(dialogInterface, i3);

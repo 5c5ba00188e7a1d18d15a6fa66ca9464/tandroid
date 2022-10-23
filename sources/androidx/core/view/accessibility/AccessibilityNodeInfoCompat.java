@@ -49,7 +49,7 @@ public class AccessibilityNodeInfoCompat {
                     return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
                 case 512:
                     return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
-                case 1024:
+                case ConnectionsManager.RequestFlagDoNotWaitFloodWait /* 1024 */:
                     return "ACTION_NEXT_HTML_ELEMENT";
                 case 2048:
                     return "ACTION_PREVIOUS_HTML_ELEMENT";
@@ -141,7 +141,7 @@ public class AccessibilityNodeInfoCompat {
             new AccessibilityActionCompat(ConnectionsManager.RequestFlagNeedQuickAck, null);
             new AccessibilityActionCompat(256, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
             new AccessibilityActionCompat(512, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
-            new AccessibilityActionCompat(1024, null, AccessibilityViewCommand.MoveHtmlArguments.class);
+            new AccessibilityActionCompat(ConnectionsManager.RequestFlagDoNotWaitFloodWait, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             new AccessibilityActionCompat(2048, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             new AccessibilityActionCompat(16384, null);
             new AccessibilityActionCompat(32768, null);

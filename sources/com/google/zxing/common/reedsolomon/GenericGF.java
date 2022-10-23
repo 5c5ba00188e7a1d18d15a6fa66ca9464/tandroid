@@ -1,4 +1,6 @@
 package com.google.zxing.common.reedsolomon;
+
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class GenericGF {
     private final int[] expTable;
@@ -19,7 +21,7 @@ public final class GenericGF {
 
     static {
         new GenericGF(4201, 4096, 1);
-        new GenericGF(1033, 1024, 1);
+        new GenericGF(1033, ConnectionsManager.RequestFlagDoNotWaitFloodWait, 1);
         new GenericGF(19, 16, 1);
     }
 

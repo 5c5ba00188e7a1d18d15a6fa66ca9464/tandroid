@@ -76,6 +76,7 @@ import org.telegram.tgnet.TLRPC$StickerSetCovered;
 import org.telegram.tgnet.TLRPC$TL_boolTrue;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeSticker;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_inputDocument;
 import org.telegram.tgnet.TLRPC$TL_inputPhoto;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
@@ -526,7 +527,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 }
                 SendMessagesHelper.ImportingSticker importingSticker = new SendMessagesHelper.ImportingSticker();
                 importingSticker.animated = equals;
-                String copyFileToCache = MediaController.copyFileToCache(uri, stickerExt, (equals ? 64 : 512) * 1024);
+                String copyFileToCache = MediaController.copyFileToCache(uri, stickerExt, (equals ? 64 : 512) * ConnectionsManager.RequestFlagDoNotWaitFloodWait);
                 importingSticker.path = copyFileToCache;
                 if (copyFileToCache != null) {
                     if (!equals) {
@@ -982,7 +983,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(StickersAlert.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
                         z2 = false;
                     }
-                    if (!z) {
+                    Boolean valueOf = Boolean.valueOf(z);
+                    this.statusBarOpen = valueOf;
+                    if (!valueOf.booleanValue()) {
                         z3 = z2;
                     }
                     AndroidUtilities.setLightStatusBar(StickersAlert.this.getWindow(), z3);
@@ -1535,7 +1538,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.Components.ShareAlert
-        protected void onSend(final LongSparseArray<TLRPC$Dialog> longSparseArray, final int i) {
+        protected void onSend(final LongSparseArray<TLRPC$Dialog> longSparseArray, final int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersAlert$10$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -1801,7 +1804,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (!(getContext() instanceof LaunchActivity)) {
         } else {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$62(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$66(new PremiumPreviewFragment(null));
         }
     }
 
@@ -2039,7 +2042,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         } else {
             iArr[0] = 3;
             if (!this.lastNameAvailable) {
-                AndroidUtilities.shakeView(editTextBoldCursor, 2.0f, 0);
+                AndroidUtilities.shakeView(editTextBoldCursor);
                 editTextBoldCursor.performHapticFeedback(3, 2);
             }
             AndroidUtilities.hideKeyboard(editTextBoldCursor);

@@ -157,7 +157,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         this.linkImageView = imageReceiver;
         imageReceiver.setLayerNum(1);
         this.linkImageView.setUseSharedAnimationQueue(true);
-        this.letterDrawable = new LetterDrawable(resourcesProvider);
+        this.letterDrawable = new LetterDrawable(resourcesProvider, 0);
         this.radialProgress = new RadialProgress2(this);
         this.TAG = DownloadController.getInstance(this.currentAccount).generateObserverTag();
         setFocusable(true);
@@ -206,7 +206,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     /* JADX WARN: Removed duplicated region for block: B:88:0x0306 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:91:0x0311  */
     /* JADX WARN: Removed duplicated region for block: B:97:0x053d  */
-    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v36 */
     /* JADX WARN: Type inference failed for: r3v37 */
     /* JADX WARN: Type inference failed for: r3v38 */

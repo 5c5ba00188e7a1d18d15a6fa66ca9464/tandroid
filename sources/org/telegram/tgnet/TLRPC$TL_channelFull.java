@@ -12,7 +12,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         this.can_view_participants = (readInt32 & 8) != 0;
         this.can_set_username = (readInt32 & 64) != 0;
         this.can_set_stickers = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
-        this.hidden_prehistory = (readInt32 & 1024) != 0;
+        this.hidden_prehistory = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         this.can_set_location = (65536 & readInt32) != 0;
         this.has_scheduled = (524288 & readInt32) != 0;
         this.can_view_stats = (1048576 & readInt32) != 0;
@@ -153,7 +153,7 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         this.flags = i2;
         int i3 = this.can_set_stickers ? i2 | ConnectionsManager.RequestFlagNeedQuickAck : i2 & (-129);
         this.flags = i3;
-        int i4 = this.hidden_prehistory ? i3 | 1024 : i3 & (-1025);
+        int i4 = this.hidden_prehistory ? i3 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i3 & (-1025);
         this.flags = i4;
         int i5 = this.can_set_location ? i4 | CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT : i4 & (-65537);
         this.flags = i5;

@@ -46,6 +46,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.camera.CameraView;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
@@ -1478,7 +1479,7 @@ public class BottomSheet extends Dialog {
             if (Build.VERSION.SDK_INT >= 21) {
                 attributes.flags |= -2147417856;
             }
-            attributes.flags |= 1024;
+            attributes.flags |= ConnectionsManager.RequestFlagDoNotWaitFloodWait;
             this.container.setSystemUiVisibility(1284);
         }
         attributes.height = -1;

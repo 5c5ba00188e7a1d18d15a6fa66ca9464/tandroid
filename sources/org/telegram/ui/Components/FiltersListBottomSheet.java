@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -65,6 +64,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         FrameLayout frameLayout = new FrameLayout(parentActivity) { // from class: org.telegram.ui.Components.FiltersListBottomSheet.1
             private boolean fullHeight;
             private RectF rect = new RectF();
+            private Boolean statusBarOpen;
 
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
@@ -128,7 +128,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
 
             /* JADX WARN: Removed duplicated region for block: B:13:0x009c  */
             /* JADX WARN: Removed duplicated region for block: B:15:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:18:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:18:0x011c  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -138,6 +138,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 int i;
                 int dp = (FiltersListBottomSheet.this.scrollOffsetY - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop) - AndroidUtilities.dp(8.0f);
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(36.0f) + ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop;
+                boolean z = false;
                 if (Build.VERSION.SDK_INT >= 21) {
                     int i2 = AndroidUtilities.statusBarHeight;
                     dp += i2;
@@ -164,21 +165,25 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                                 this.rect.set(((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + dp, getMeasuredWidth() - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + dp + AndroidUtilities.dp(24.0f));
                                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(12.0f) * f, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
                             }
-                            if (i <= 0) {
-                                return;
+                            if (i > 0) {
+                                Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
+                                canvas.drawRect(((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             }
-                            int color = Theme.getColor("dialogBackground");
-                            Theme.dialogs_onlineCirclePaint.setColor(Color.argb(255, (int) (Color.red(color) * 0.8f), (int) (Color.green(color) * 0.8f), (int) (Color.blue(color) * 0.8f)));
-                            canvas.drawRect(((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
-                            return;
+                            if (i > AndroidUtilities.statusBarHeight / 2) {
+                                z = true;
+                            }
+                            updateLightStatusBar(z);
                         }
                         i = 0;
                         ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.setBounds(0, dp, getMeasuredWidth(), measuredHeight);
                         ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.draw(canvas);
                         if (f != 1.0f) {
                         }
-                        if (i <= 0) {
+                        if (i > 0) {
                         }
+                        if (i > AndroidUtilities.statusBarHeight / 2) {
+                        }
+                        updateLightStatusBar(z);
                     }
                 }
                 f = 1.0f;
@@ -187,7 +192,27 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.draw(canvas);
                 if (f != 1.0f) {
                 }
-                if (i <= 0) {
+                if (i > 0) {
+                }
+                if (i > AndroidUtilities.statusBarHeight / 2) {
+                }
+                updateLightStatusBar(z);
+            }
+
+            private void updateLightStatusBar(boolean z) {
+                Boolean bool = this.statusBarOpen;
+                if (bool == null || bool.booleanValue() != z) {
+                    boolean z2 = true;
+                    boolean z3 = AndroidUtilities.computePerceivedBrightness(FiltersListBottomSheet.this.getThemedColor("dialogBackground")) > 0.721f;
+                    if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(FiltersListBottomSheet.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
+                        z2 = false;
+                    }
+                    Boolean valueOf = Boolean.valueOf(z);
+                    this.statusBarOpen = valueOf;
+                    if (!valueOf.booleanValue()) {
+                        z3 = z2;
+                    }
+                    AndroidUtilities.setLightStatusBar(FiltersListBottomSheet.this.getWindow(), z3);
                 }
             }
         };

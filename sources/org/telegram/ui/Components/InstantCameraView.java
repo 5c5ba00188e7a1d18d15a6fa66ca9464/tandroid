@@ -1102,6 +1102,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$3() {
+        CameraGLThread cameraGLThread;
         CameraSession cameraSession = this.cameraSession;
         if (cameraSession != null) {
             boolean z = false;
@@ -1128,10 +1129,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 FileLog.d("camera initied");
             }
             this.cameraSession.setInitied();
-            if (!z) {
+            if (!z || (cameraGLThread = this.cameraThread) == null) {
                 return;
             }
-            this.cameraThread.reinitForNewCamera();
+            cameraGLThread.reinitForNewCamera();
         }
     }
 
@@ -1888,10 +1889,11 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
 
         public void startRecording(File file, android.opengl.EGLContext eGLContext) {
             int i = MessagesController.getInstance(InstantCameraView.this.currentAccount).roundVideoSize;
+            int i2 = MessagesController.getInstance(InstantCameraView.this.currentAccount).roundVideoBitrate * ConnectionsManager.RequestFlagDoNotWaitFloodWait;
             this.videoFile = file;
             this.videoWidth = i;
             this.videoHeight = i;
-            this.videoBitrate = MessagesController.getInstance(InstantCameraView.this.currentAccount).roundVideoBitrate * 1024;
+            this.videoBitrate = i2;
             this.sharedEglContext = eGLContext;
             synchronized (this.sync) {
                 if (this.running) {
@@ -2577,7 +2579,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
                 mediaFormat.setString("mime", MediaController.AUIDO_MIME_TYPE);
                 mediaFormat.setInteger("sample-rate", 48000);
                 mediaFormat.setInteger("channel-count", 1);
-                mediaFormat.setInteger("bitrate", MessagesController.getInstance(InstantCameraView.this.currentAccount).roundAudioBitrate * 1024);
+                mediaFormat.setInteger("bitrate", MessagesController.getInstance(InstantCameraView.this.currentAccount).roundAudioBitrate * ConnectionsManager.RequestFlagDoNotWaitFloodWait);
                 mediaFormat.setInteger("max-input-size", 20480);
                 MediaCodec createEncoderByType = MediaCodec.createEncoderByType(MediaController.AUIDO_MIME_TYPE);
                 this.audioEncoder = createEncoderByType;

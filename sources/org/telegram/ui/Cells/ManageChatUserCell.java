@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -375,7 +374,7 @@ public class ManageChatUserCell extends FrameLayout {
                     }
                 } else if (tLRPC$Chat.has_geo) {
                     this.statusTextView.setText(LocaleController.getString("MegaLocation", R.string.MegaLocation));
-                } else if (TextUtils.isEmpty(tLRPC$Chat.username)) {
+                } else if (!ChatObject.isPublic(tLRPC$Chat)) {
                     this.statusTextView.setText(LocaleController.getString("MegaPrivate", R.string.MegaPrivate));
                 } else {
                     this.statusTextView.setText(LocaleController.getString("MegaPublic", R.string.MegaPublic));

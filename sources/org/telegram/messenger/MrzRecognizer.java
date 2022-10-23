@@ -15,6 +15,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.util.Calendar;
 import java.util.HashMap;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class MrzRecognizer {
 
@@ -239,7 +240,7 @@ public class MrzRecognizer {
             double d3 = hypot2 / hypot3;
             double d4 = hypot2 / hypot4;
             if (d >= 1.35d && d <= 1.75d && d3 >= 1.35d && d3 <= 1.75d && d2 >= 1.35d && d2 <= 1.75d && d4 >= 1.35d && d4 <= 1.75d) {
-                Bitmap createBitmap = Bitmap.createBitmap(1024, (int) Math.round(1024.0d / ((((d + d2) + d3) + d4) / 4.0d)), Bitmap.Config.ARGB_8888);
+                Bitmap createBitmap = Bitmap.createBitmap(ConnectionsManager.RequestFlagDoNotWaitFloodWait, (int) Math.round(1024.0d / ((((d + d2) + d3) + d4) / 4.0d)), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(createBitmap);
                 float[] fArr = {point2.x * f, point2.y * f, point.x * f, point.y * f, point5.x * f, point5.y * f, point6.x * f, point6.y * f};
                 Matrix matrix3 = new Matrix();

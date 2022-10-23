@@ -61,7 +61,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
         this.versioned = (readInt32 & 32) != 0;
         this.min = (readInt32 & 256) != 0;
         this.muted_by_you = (readInt32 & 512) != 0;
-        this.volume_by_admin = (readInt32 & 1024) != 0;
+        this.volume_by_admin = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         this.self = (readInt32 & 4096) != 0;
         if ((readInt32 & 32768) != 0) {
             z2 = true;
@@ -107,7 +107,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
         this.flags = i6;
         int i7 = this.muted_by_you ? i6 | 512 : i6 & (-513);
         this.flags = i7;
-        int i8 = this.volume_by_admin ? i7 | 1024 : i7 & (-1025);
+        int i8 = this.volume_by_admin ? i7 | ConnectionsManager.RequestFlagDoNotWaitFloodWait : i7 & (-1025);
         this.flags = i8;
         int i9 = this.self ? i8 | 4096 : i8 & (-4097);
         this.flags = i9;

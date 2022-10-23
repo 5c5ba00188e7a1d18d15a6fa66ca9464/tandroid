@@ -232,7 +232,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 this.recentPostIdtoIndexMap.put(recentPostInfo.counters.msg_id, i);
             }
             if (this.recentPostsAll.size() > 0) {
-                getMessagesStorage().getMessages(-this.chat.id, 0L, false, this.recentPostsAll.size(), this.recentPostsAll.get(0).counters.msg_id, 0, 0, this.classGuid, 0, false, 0, 0, true);
+                getMessagesStorage().getMessages(-this.chat.id, 0L, false, this.recentPostsAll.size(), this.recentPostsAll.get(0).counters.msg_id, 0, 0, this.classGuid, 0, false, 0, 0, true, false);
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
@@ -2187,7 +2187,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             for (int i = 0; i < arrayList2.size(); i++) {
                 arrayList.add(new MessageObject(this.currentAccount, arrayList2.get(i), false, true));
             }
-            getMessagesStorage().putMessages(arrayList2, false, true, true, 0, false);
+            getMessagesStorage().putMessages(arrayList2, false, true, true, 0, false, 0);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.StatisticActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
@@ -3199,7 +3199,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 long j2 = tLRPC$ChatFull.id;
                 TLRPC$ChannelParticipant tLRPC$ChannelParticipant = tLRPC$TL_chatChannelParticipant.channelParticipant;
                 ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(j, j2, tLRPC$ChannelParticipant.admin_rights, null, tLRPC$ChannelParticipant.banned_rights, tLRPC$ChannelParticipant.rank, 0, true, z, null) { // from class: org.telegram.ui.StatisticActivity.MemberData.1
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.BaseFragment
                     public void onTransitionAnimationEnd(boolean z2, boolean z3) {
                         if (z2 || !z3 || !zArr[0] || !BulletinFactory.canShowBulletin(statisticActivity)) {

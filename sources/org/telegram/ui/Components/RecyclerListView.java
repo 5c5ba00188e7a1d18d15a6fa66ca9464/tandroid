@@ -32,10 +32,13 @@ import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
+import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
@@ -119,6 +122,7 @@ public class RecyclerListView extends RecyclerView {
     protected android.graphics.Rect selectorRect;
     protected Consumer<Canvas> selectorTransformer;
     private int selectorType;
+    protected View selectorView;
     private boolean selfOnLayout;
     private int startSection;
     int startSelectionFrom;
@@ -267,6 +271,7 @@ public class RecyclerListView extends RecyclerView {
     /* loaded from: classes3.dex */
     public static abstract class SectionsAdapter extends FastScrollAdapter {
         private int count;
+        private ArrayList<Integer> hashes = new ArrayList<>();
         private SparseIntArray sectionCache;
         private int sectionCount;
         private SparseIntArray sectionCountCache;
@@ -311,8 +316,7 @@ public class RecyclerListView extends RecyclerView {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyDataSetChanged() {
-            cleanupCache();
-            super.notifyDataSetChanged();
+            update(false);
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -408,6 +412,44 @@ public class RecyclerListView extends RecyclerView {
                 i4 = internalGetCountForSection;
             }
             return -1;
+        }
+
+        public void update(boolean z) {
+            cleanupCache();
+            final ArrayList arrayList = new ArrayList(this.hashes);
+            this.hashes.clear();
+            int internalGetSectionCount = internalGetSectionCount();
+            for (int i = 0; i < internalGetSectionCount; i++) {
+                int internalGetCountForSection = internalGetCountForSection(i);
+                for (int i2 = 0; i2 < internalGetCountForSection; i2++) {
+                    this.hashes.add(Integer.valueOf(Arrays.hashCode(new Object[]{Integer.valueOf((-49612) * i), getItem(i, i2)})));
+                }
+            }
+            if (z) {
+                DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.Components.RecyclerListView.SectionsAdapter.1
+                    @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                    public int getOldListSize() {
+                        return arrayList.size();
+                    }
+
+                    @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                    public int getNewListSize() {
+                        return SectionsAdapter.this.hashes.size();
+                    }
+
+                    @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                    public boolean areItemsTheSame(int i3, int i4) {
+                        return ObjectsCompat$$ExternalSyntheticBackport0.m(arrayList.get(i3), SectionsAdapter.this.hashes.get(i4));
+                    }
+
+                    @Override // androidx.recyclerview.widget.DiffUtil.Callback
+                    public boolean areContentsTheSame(int i3, int i4) {
+                        return areItemsTheSame(i3, i4);
+                    }
+                }, true).dispatchUpdatesTo(this);
+            } else {
+                super.notifyDataSetChanged();
+            }
         }
     }
 
@@ -1803,6 +1845,19 @@ public class RecyclerListView extends RecyclerView {
         return this.onItemClickListener;
     }
 
+    public void clickItem(View view, int i) {
+        OnItemClickListener onItemClickListener = this.onItemClickListener;
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(view, i);
+            return;
+        }
+        OnItemClickListenerExtended onItemClickListenerExtended = this.onItemClickListenerExtended;
+        if (onItemClickListenerExtended == null) {
+            return;
+        }
+        onItemClickListenerExtended.onItemClick(view, i, 0.0f, 0.0f);
+    }
+
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         setOnItemLongClickListener(onItemLongClickListener, ViewConfiguration.getLongPressTimeout());
     }
@@ -2133,6 +2188,16 @@ public class RecyclerListView extends RecyclerView {
         positionSelector(i, view, false, -1.0f, -1.0f);
     }
 
+    public void updateSelector() {
+        View view;
+        int i = this.selectorPosition;
+        if (i == -1 || (view = this.selectorView) == null) {
+            return;
+        }
+        positionSelector(i, view);
+        invalidate();
+    }
+
     private void positionSelector(int i, View view, boolean z, float f, float f2) {
         Runnable runnable = this.removeHighlighSelectionRunnable;
         if (runnable != null) {
@@ -2148,6 +2213,7 @@ public class RecyclerListView extends RecyclerView {
         if (i != -1) {
             this.selectorPosition = i;
         }
+        this.selectorView = view;
         if (this.selectorType == 8) {
             Theme.setMaskDrawableRad(this.selectorDrawable, this.selectorRadius, 0);
         } else if (this.topBottomSelectorRadius > 0 && getAdapter() != null) {
@@ -2280,6 +2346,7 @@ public class RecyclerListView extends RecyclerView {
         }
         this.currentFirst = -1;
         this.selectorPosition = -1;
+        this.selectorView = null;
         this.selectorRect.setEmpty();
         this.pinnedHeader = null;
         if (adapter instanceof SectionsAdapter) {
@@ -2462,11 +2529,22 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
+    public void relayoutPinnedHeader() {
+        View view = this.pinnedHeader;
+        if (view != null) {
+            view.measure(View.MeasureSpec.makeMeasureSpec(getMeasuredWidth(), 1073741824), View.MeasureSpec.makeMeasureSpec(getMeasuredHeight(), 0));
+            View view2 = this.pinnedHeader;
+            view2.layout(0, 0, view2.getMeasuredWidth(), this.pinnedHeader.getMeasuredHeight());
+            invalidate();
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.selectorPosition = -1;
+        this.selectorView = null;
         this.selectorRect.setEmpty();
         RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = this.itemsEnterAnimator;
         if (recyclerItemsEnterAnimator != null) {

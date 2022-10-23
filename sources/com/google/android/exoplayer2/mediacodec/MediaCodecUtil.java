@@ -77,7 +77,7 @@ public final class MediaCodecUtil {
                 return 414720;
             case 512:
                 return 921600;
-            case 1024:
+            case ConnectionsManager.RequestFlagDoNotWaitFloodWait /* 1024 */:
                 return 1310720;
             case 2048:
             case 4096:
@@ -123,7 +123,7 @@ public final class MediaCodecUtil {
         sparseIntArray2.put(22, ConnectionsManager.RequestFlagNeedQuickAck);
         sparseIntArray2.put(30, 256);
         sparseIntArray2.put(31, 512);
-        sparseIntArray2.put(32, 1024);
+        sparseIntArray2.put(32, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
         sparseIntArray2.put(40, 2048);
         sparseIntArray2.put(41, 4096);
         sparseIntArray2.put(42, 8192);
@@ -158,7 +158,7 @@ public final class MediaCodecUtil {
         hashMap.put("L63", 16);
         hashMap.put("L90", 64);
         hashMap.put("L93", 256);
-        hashMap.put("L120", 1024);
+        hashMap.put("L120", Integer.valueOf((int) ConnectionsManager.RequestFlagDoNotWaitFloodWait));
         hashMap.put("L123", 4096);
         hashMap.put("L150", 16384);
         hashMap.put("L153", Integer.valueOf((int) CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT));
@@ -214,7 +214,7 @@ public final class MediaCodecUtil {
         sparseIntArray5.put(7, ConnectionsManager.RequestFlagNeedQuickAck);
         sparseIntArray5.put(8, 256);
         sparseIntArray5.put(9, 512);
-        sparseIntArray5.put(10, 1024);
+        sparseIntArray5.put(10, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
         sparseIntArray5.put(11, 2048);
         sparseIntArray5.put(12, 4096);
         sparseIntArray5.put(13, 8192);

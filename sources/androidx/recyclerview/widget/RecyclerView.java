@@ -5890,7 +5890,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
         void addChangePayload(Object obj) {
             if (obj == null) {
-                addFlags(1024);
+                addFlags(ConnectionsManager.RequestFlagDoNotWaitFloodWait);
             } else if ((1024 & this.mFlags) != 0) {
             } else {
                 createPayloadsIfNeeded();
@@ -5915,7 +5915,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         List<Object> getUnmodifiedPayloads() {
-            if ((this.mFlags & 1024) == 0) {
+            if ((this.mFlags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) == 0) {
                 List<Object> list = this.mPayloads;
                 if (list == null || list.size() == 0) {
                     return FULLUPDATE_PAYLOADS;

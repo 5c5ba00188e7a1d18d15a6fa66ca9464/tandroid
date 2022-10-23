@@ -2966,7 +2966,6 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         finishFragment();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyHidden() {
         UndoView[] undoViewArr = this.undoView;

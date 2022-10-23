@@ -98,6 +98,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
+import org.telegram.messenger.NotificationsSettingsFacade;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.StatsController;
@@ -2822,7 +2823,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v7, types: [org.telegram.messenger.AccountInstance, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r0v9, types: [java.lang.String, int] */
+    /* JADX WARN: Type inference failed for: r0v9, types: [int, java.lang.String] */
     public /* synthetic */ void lambda$createGroupInstance$45(final int i, final long j, long j2, final int i2, final int i3) {
         StringBuilder sb;
         if (i != 0) {
@@ -4490,7 +4491,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 }
             }
             try {
-                if (notificationsSettings.getBoolean("custom_" + j, false)) {
+                if (notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + j, false)) {
                     string = notificationsSettings.getString("ringtone_path_" + j, RingtoneManager.getDefaultUri(1).toString());
                 } else {
                     string = notificationsSettings.getString("CallsRingtonePath", RingtoneManager.getDefaultUri(1).toString());
@@ -4505,7 +4506,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     this.ringtonePlayer = null;
                 }
             }
-            if (notificationsSettings.getBoolean("custom_" + j, false)) {
+            if (notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + j, false)) {
                 i = notificationsSettings.getInt("calls_vibrate_" + j, 0);
             } else {
                 i = notificationsSettings.getInt("vibrate_calls", 0);

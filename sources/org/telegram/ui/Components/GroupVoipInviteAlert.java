@@ -162,7 +162,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         this.rowCount = 0;
         this.rowCount = 0 + 1;
         this.emptyRow = 0;
-        if (!TextUtils.isEmpty(this.currentChat.username) || ChatObject.canUserDoAdminAction(this.currentChat, 3)) {
+        if (ChatObject.isPublic(this.currentChat) || ChatObject.canUserDoAdminAction(this.currentChat, 3)) {
             int i = this.rowCount;
             this.rowCount = i + 1;
             this.addNewRow = i;

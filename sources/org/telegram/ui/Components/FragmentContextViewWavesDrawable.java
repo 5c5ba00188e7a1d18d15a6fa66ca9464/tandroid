@@ -44,19 +44,19 @@ public class FragmentContextViewWavesDrawable {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(float f, float f2, float f3, float f4, Canvas canvas, FragmentContextView fragmentContextView, float f5) {
         boolean z;
         long j;
-        float f6;
         int i;
+        float f6;
+        int i2;
         checkColors();
-        int i2 = 0;
-        boolean z2 = fragmentContextView != null && this.parents.size() > 0 && fragmentContextView == this.parents.get(0);
+        boolean z2 = fragmentContextView != null && this.parents.size() > 0;
         if (f2 > f4) {
             return;
         }
@@ -114,11 +114,12 @@ public class FragmentContextViewWavesDrawable {
                         fragmentContextView.invalidate();
                     }
                 }
-                while (i2 < 2) {
-                    if (i2 == 0 && this.previousState == null) {
-                        i = i2;
+                i = 0;
+                while (i < 2) {
+                    if (i == 0 && this.previousState == null) {
+                        i2 = i;
                     } else {
-                        if (i2 == 0) {
+                        if (i == 0) {
                             f6 = f7 - this.progressToState;
                             this.previousState.setToPaint(this.paint);
                         } else {
@@ -142,7 +143,7 @@ public class FragmentContextViewWavesDrawable {
                         LineBlobDrawable lineBlobDrawable2 = this.lineBlobDrawable2;
                         float f19 = this.amplitude;
                         lineBlobDrawable2.maxRadius = AndroidUtilities.dp(3.0f) + (AndroidUtilities.dp(9.0f) * f19);
-                        if (i2 == 1 && z) {
+                        if (i == 1 && z) {
                             this.lineBlobDrawable.update(f19, 0.3f);
                             this.lineBlobDrawable1.update(this.amplitude, 0.7f);
                             this.lineBlobDrawable2.update(this.amplitude, 0.7f);
@@ -150,17 +151,17 @@ public class FragmentContextViewWavesDrawable {
                         this.paint.setAlpha((int) (76.0f * f18));
                         float dp = AndroidUtilities.dp(6.0f) * this.amplitude2;
                         float dp2 = AndroidUtilities.dp(6.0f) * this.amplitude2;
-                        i = i2;
+                        i2 = i;
                         this.lineBlobDrawable1.draw(f, f2 - dp, f3, f4, canvas, this.paint, f2, f5);
                         this.lineBlobDrawable2.draw(f, f2 - dp2, f3, f4, canvas, this.paint, f2, f5);
-                        if (i == 1 && z3) {
+                        if (i2 == 1 && z3) {
                             this.paint.setAlpha(255);
-                        } else if (i == 1) {
+                        } else if (i2 == 1) {
                             this.paint.setAlpha((int) (255.0f * f18));
                         } else {
                             this.paint.setAlpha(255);
                         }
-                        if (i == 1 && z3) {
+                        if (i2 == 1 && z3) {
                             this.path.reset();
                             this.path.addCircle(f3 - AndroidUtilities.dp(18.0f), f2 + ((f4 - f2) / 2.0f), (f3 - f) * 1.1f * f18, Path.Direction.CW);
                             canvas.save();
@@ -171,7 +172,7 @@ public class FragmentContextViewWavesDrawable {
                             this.lineBlobDrawable.draw(f, f2, f3, f4, canvas, this.paint, f2, f5);
                         }
                     }
-                    i2 = i + 1;
+                    i = i2 + 1;
                     f8 = 0.0f;
                     f7 = 1.0f;
                 }
@@ -183,7 +184,8 @@ public class FragmentContextViewWavesDrawable {
         float f82 = 0.0f;
         if (z) {
         }
-        while (i2 < 2) {
+        i = 0;
+        while (i < 2) {
         }
     }
 

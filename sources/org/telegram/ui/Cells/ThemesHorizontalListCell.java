@@ -63,7 +63,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ThemeSetUrlActivity;
 /* loaded from: classes3.dex */
 public class ThemesHorizontalListCell extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
-    public static byte[] bytes = new byte[1024];
+    public static byte[] bytes = new byte[ConnectionsManager.RequestFlagDoNotWaitFloodWait];
     private ThemesListAdapter adapter;
     private int currentType;
     private ArrayList<Theme.ThemeInfo> customThemes;

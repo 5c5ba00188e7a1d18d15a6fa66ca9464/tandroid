@@ -47,7 +47,7 @@ public class DrawerLayoutContainer extends FrameLayout {
     private boolean keyboardVisibility;
     private Object lastInsets;
     private boolean maybeStartTracking;
-    private ActionBarLayout parentActionBarLayout;
+    private INavigationLayout parentActionBarLayout;
     private BitmapDrawable previewBlurDrawable;
     private PreviewForegroundDrawable previewForegroundDrawable;
     private float scrimOpacity;
@@ -187,8 +187,8 @@ public class DrawerLayoutContainer extends FrameLayout {
         if (this.drawerLayout.getVisibility() != i) {
             this.drawerLayout.setVisibility(i);
         }
-        if (!this.parentActionBarLayout.fragmentsStack.isEmpty()) {
-            BaseFragment baseFragment = this.parentActionBarLayout.fragmentsStack.get(0);
+        if (!this.parentActionBarLayout.getFragmentStack().isEmpty()) {
+            BaseFragment baseFragment = this.parentActionBarLayout.getFragmentStack().get(0);
             if (this.drawerPosition == this.drawerLayout.getMeasuredWidth()) {
                 baseFragment.setProgressToDrawerOpened(1.0f);
             } else {
@@ -217,13 +217,12 @@ public class DrawerLayoutContainer extends FrameLayout {
     }
 
     public void openDrawer(boolean z) {
-        ActionBarLayout actionBarLayout;
-        Activity activity;
+        INavigationLayout iNavigationLayout;
         if (!this.allowOpenDrawer || this.drawerLayout == null) {
             return;
         }
-        if (AndroidUtilities.isTablet() && (actionBarLayout = this.parentActionBarLayout) != null && (activity = actionBarLayout.parentActivity) != null) {
-            AndroidUtilities.hideKeyboard(activity.getCurrentFocus());
+        if (AndroidUtilities.isTablet() && (iNavigationLayout = this.parentActionBarLayout) != null && iNavigationLayout.getParentActivity() != null) {
+            AndroidUtilities.hideKeyboard(this.parentActionBarLayout.getParentActivity().getCurrentFocus());
         }
         cancelCurrentAnimation();
         AnimatorSet animatorSet = new AnimatorSet();
@@ -295,14 +294,14 @@ public class DrawerLayoutContainer extends FrameLayout {
         return this.drawerLayout;
     }
 
-    public void setParentActionBarLayout(ActionBarLayout actionBarLayout) {
-        this.parentActionBarLayout = actionBarLayout;
+    public void setParentActionBarLayout(INavigationLayout iNavigationLayout) {
+        this.parentActionBarLayout = iNavigationLayout;
     }
 
     public void presentFragment(BaseFragment baseFragment) {
-        ActionBarLayout actionBarLayout = this.parentActionBarLayout;
-        if (actionBarLayout != null) {
-            actionBarLayout.presentFragment(baseFragment);
+        INavigationLayout iNavigationLayout = this.parentActionBarLayout;
+        if (iNavigationLayout != null) {
+            iNavigationLayout.presentFragment(baseFragment);
         }
         closeDrawer(false);
     }
@@ -407,10 +406,10 @@ public class DrawerLayoutContainer extends FrameLayout {
         return super.dispatchTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:111:0x019d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x01a3, code lost:
         if (r9 != r8.drawerLayout.getMeasuredWidth()) goto L115;
      */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x020a  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0210  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -427,12 +426,12 @@ public class DrawerLayoutContainer extends FrameLayout {
             }
             return true;
         }
-        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.fragmentsStack.size() == 1) {
+        if ((this.allowOpenDrawerBySwipe || this.drawerOpened) && this.allowOpenDrawer && this.parentActionBarLayout.getFragmentStack().size() == 1) {
             if (motionEvent != null && ((motionEvent.getAction() == 0 || motionEvent.getAction() == 2) && !this.startedTracking && !this.maybeStartTracking)) {
                 if (findScrollingChild(this, motionEvent.getX(), motionEvent.getY()) != null) {
                     return false;
                 }
-                this.parentActionBarLayout.getHitRect(this.rect);
+                this.parentActionBarLayout.getView().getHitRect(this.rect);
                 this.startedTrackingX = (int) motionEvent.getX();
                 int y = (int) motionEvent.getY();
                 this.startedTrackingY = y;
@@ -649,14 +648,14 @@ public class DrawerLayoutContainer extends FrameLayout {
 
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
-        ActionBarLayout actionBarLayout;
+        INavigationLayout iNavigationLayout;
         super.dispatchDraw(canvas);
-        if (!this.drawCurrentPreviewFragmentAbove || (actionBarLayout = this.parentActionBarLayout) == null) {
+        if (!this.drawCurrentPreviewFragmentAbove || (iNavigationLayout = this.parentActionBarLayout) == null) {
             return;
         }
         BitmapDrawable bitmapDrawable = this.previewBlurDrawable;
         if (bitmapDrawable != null) {
-            bitmapDrawable.setAlpha((int) (actionBarLayout.getCurrentPreviewFragmentAlpha() * 255.0f));
+            bitmapDrawable.setAlpha((int) (iNavigationLayout.getCurrentPreviewFragmentAlpha() * 255.0f));
             this.previewBlurDrawable.draw(canvas);
         }
         this.parentActionBarLayout.drawCurrentPreviewFragment(canvas, Build.VERSION.SDK_INT >= 21 ? this.previewForegroundDrawable : null);
@@ -747,8 +746,9 @@ public class DrawerLayoutContainer extends FrameLayout {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    private static class PreviewForegroundDrawable extends Drawable {
+    public static class PreviewForegroundDrawable extends Drawable {
         private final GradientDrawable bottomDrawable;
         private final GradientDrawable topDrawable;
 

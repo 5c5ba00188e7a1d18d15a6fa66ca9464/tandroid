@@ -63,14 +63,15 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserObject;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$WallPaper;
-import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.EmojiThemes;
+import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.SettingsSearchCell;
@@ -457,7 +458,7 @@ public class QrActivity extends BaseFragment {
 
     private void applyScreenSettings() {
         if (getParentActivity() != null) {
-            getParentActivity().getWindow().getDecorView().setSystemUiVisibility(this.prevSystemUiVisibility | 1024 | 4);
+            getParentActivity().getWindow().getDecorView().setSystemUiVisibility(this.prevSystemUiVisibility | ConnectionsManager.RequestFlagDoNotWaitFloodWait | 4);
         }
     }
 
@@ -569,7 +570,7 @@ public class QrActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
     public void onItemSelected(EmojiThemes emojiThemes, int i, boolean z) {
         float f;
         this.selectedPosition = i;
@@ -674,7 +675,7 @@ public class QrActivity extends BaseFragment {
             this.prevMotionDrawable = null;
             this.backgroundView.invalidate();
         }
-        ActionBarLayout.ThemeAnimationSettings themeAnimationSettings = new ActionBarLayout.ThemeAnimationSettings(null, (this.isCurrentThemeDark ? Theme.getCurrentNightTheme() : Theme.getCurrentTheme()).currentAccentId, this.isCurrentThemeDark, !z);
+        INavigationLayout.ThemeAnimationSettings themeAnimationSettings = new INavigationLayout.ThemeAnimationSettings(null, (this.isCurrentThemeDark ? Theme.getCurrentNightTheme() : Theme.getCurrentTheme()).currentAccentId, this.isCurrentThemeDark, !z);
         themeAnimationSettings.applyTheme = false;
         themeAnimationSettings.onlyTopFragment = true;
         themeAnimationSettings.resourcesProvider = getResourceProvider();

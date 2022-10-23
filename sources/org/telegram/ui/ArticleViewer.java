@@ -91,6 +91,7 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -4970,7 +4971,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     messageObject.messageOwner.media.webpage = tLRPC$TL_webPage;
                     TLRPC$TL_messages_messages tLRPC$TL_messages_messages = new TLRPC$TL_messages_messages();
                     tLRPC$TL_messages_messages.messages.add(messageObject.messageOwner);
-                    MessagesStorage.getInstance(i).putMessages((TLRPC$messages_Messages) tLRPC$TL_messages_messages, messageObject.getDialogId(), -2, 0, false, messageObject.scheduled);
+                    MessagesStorage.getInstance(i).putMessages((TLRPC$messages_Messages) tLRPC$TL_messages_messages, messageObject.getDialogId(), -2, 0, false, messageObject.scheduled, 0);
                 }
                 this.pagesStack.set(0, tLRPC$TL_webPage);
                 if (this.pagesStack.size() == 1) {
@@ -5015,7 +5016,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             TLRPC$TL_messages_messages tLRPC$TL_messages_messages2 = new TLRPC$TL_messages_messages();
             tLRPC$TL_messages_messages2.messages.add(messageObject.messageOwner);
-            MessagesStorage.getInstance(i).putMessages((TLRPC$messages_Messages) tLRPC$TL_messages_messages2, messageObject.getDialogId(), -2, 0, false, messageObject.scheduled);
+            MessagesStorage.getInstance(i).putMessages((TLRPC$messages_Messages) tLRPC$TL_messages_messages2, messageObject.getDialogId(), -2, 0, false, messageObject.scheduled, 0);
         }
     }
 
@@ -5314,7 +5315,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public void loadChannel(final BlockChannelCell blockChannelCell, final WebpageAdapter webpageAdapter, TLRPC$Chat tLRPC$Chat) {
-        if (this.loadingChannel || TextUtils.isEmpty(tLRPC$Chat.username)) {
+        if (this.loadingChannel || !ChatObject.isPublic(tLRPC$Chat)) {
             return;
         }
         this.loadingChannel = true;
@@ -7265,6 +7266,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
                 public final void onSeekBarDrag(float f) {
                     ArticleViewer.BlockAudioCell.this.lambda$new$0(f);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
+                public /* synthetic */ void onSeekBarPressed() {
+                    SeekBar.SeekBarDelegate.-CC.$default$onSeekBarPressed(this);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBar.SeekBarDelegate
+                public /* synthetic */ void onSeekBarReleased() {
+                    SeekBar.SeekBarDelegate.-CC.$default$onSeekBarReleased(this);
                 }
             });
         }
@@ -12831,19 +12842,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     public boolean openPhoto(TLRPC$PageBlock tLRPC$PageBlock, WebpageAdapter webpageAdapter) {
-        int indexOf;
         List list;
+        BaseFragment baseFragment = this.parentFragment;
+        int i = 0;
+        if (baseFragment == null || baseFragment.getParentActivity() == null) {
+            return false;
+        }
         if (!(tLRPC$PageBlock instanceof TLRPC$TL_pageBlockVideo) || WebPageUtils.isVideo(webpageAdapter.currentPage, tLRPC$PageBlock)) {
             ArrayList arrayList = new ArrayList(webpageAdapter.photoBlocks);
-            indexOf = webpageAdapter.photoBlocks.indexOf(tLRPC$PageBlock);
+            i = webpageAdapter.photoBlocks.indexOf(tLRPC$PageBlock);
             list = arrayList;
         } else {
             list = Collections.singletonList(tLRPC$PageBlock);
-            indexOf = 0;
         }
         PhotoViewer photoViewer = PhotoViewer.getInstance();
         photoViewer.setParentActivity(this.parentFragment);
-        return photoViewer.openPhoto(indexOf, new RealPageBlocksAdapter(webpageAdapter.currentPage, list), new PageBlocksPhotoViewerProvider(list));
+        return photoViewer.openPhoto(i, new RealPageBlocksAdapter(webpageAdapter.currentPage, list), new PageBlocksPhotoViewerProvider(list));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
