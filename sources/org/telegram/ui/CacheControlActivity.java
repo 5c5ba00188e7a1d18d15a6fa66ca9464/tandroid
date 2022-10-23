@@ -75,6 +75,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     AlertDialog progressDialog;
     private int rowCount;
     private int storageUsageRow;
+    private boolean updateDatabaseSize;
     private long databaseSize = -1;
     private long cacheSize = -1;
     private long documentsSize = -1;
@@ -704,6 +705,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 return;
             }
             this.databaseSize = MessagesStorage.getInstance(this.currentAccount).getDatabaseSize();
+            this.updateDatabaseSize = true;
             this.listAdapter.notifyDataSetChanged();
         }
     }
@@ -781,7 +783,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             if (itemViewType == 0) {
                 TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
                 if (i == CacheControlActivity.this.databaseRow) {
-                    textSettingsCell.setTextAndValue(LocaleController.getString("ClearLocalDatabase", R.string.ClearLocalDatabase), AndroidUtilities.formatFileSize(CacheControlActivity.this.databaseSize), false);
+                    textSettingsCell.setTextAndValue(LocaleController.getString("ClearLocalDatabase", R.string.ClearLocalDatabase), AndroidUtilities.formatFileSize(CacheControlActivity.this.databaseSize), CacheControlActivity.this.updateDatabaseSize, false);
+                    CacheControlActivity.this.updateDatabaseSize = false;
                 } else if (i != CacheControlActivity.this.migrateOldFolderRow) {
                 } else {
                     textSettingsCell.setTextAndValue(LocaleController.getString("MigrateOldFolder", R.string.MigrateOldFolder), null, false);

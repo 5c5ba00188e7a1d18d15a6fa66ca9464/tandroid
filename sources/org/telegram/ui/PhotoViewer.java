@@ -1378,10 +1378,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0104  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x013d  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x013b  */
     /* JADX WARN: Removed duplicated region for block: B:18:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x010b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1441,9 +1441,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             }
             if (DialogObject.isChatDialog(dialogId)) {
-                TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-dialogId));
-                if (chat != null && chat.username != null) {
-                    url = "https://t.me/" + chat.username + "/" + id + "?t=" + i;
+                String publicUsername = ChatObject.getPublicUsername(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-dialogId)));
+                if (publicUsername != null) {
+                    url = "https://t.me/" + publicUsername + "/" + id + "?t=" + i;
                 }
             } else {
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(dialogId));
@@ -2784,13 +2784,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             this.adjustPanLayoutHelper.onAttach();
             Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.PhotoViewer.FrameLayoutDrawer.2
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onHide(Bulletin bulletin) {
-                    Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+                public /* synthetic */ int getTopOffset(int i) {
+                    return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
-                public /* synthetic */ void onOffsetChange(float f) {
-                    Bulletin.Delegate.-CC.$default$onOffsetChange(this, f);
+                public /* synthetic */ void onBottomOffsetChange(float f) {
+                    Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+                }
+
+                @Override // org.telegram.ui.Components.Bulletin.Delegate
+                public /* synthetic */ void onHide(Bulletin bulletin) {
+                    Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate

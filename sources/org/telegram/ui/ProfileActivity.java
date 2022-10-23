@@ -5398,8 +5398,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (i == this.bioRow && ((tLRPC$UserFull = this.userInfo) == null || TextUtils.isEmpty(tLRPC$UserFull.about))) {
                 return false;
             }
-            boolean z = view2 instanceof AboutLinkCell;
-            if (z && ((AboutLinkCell) view2).onClick()) {
+            if ((view2 instanceof AboutLinkCell) && ((AboutLinkCell) view2).onClick()) {
                 return false;
             }
             String str4 = null;
@@ -5427,7 +5426,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return false;
             }
             final String[] strArr = {"und"};
-            final boolean z2 = MessagesController.getGlobalMainSettings().getBoolean("translate_button", false);
+            final boolean z = MessagesController.getGlobalMainSettings().getBoolean("translate_button", false);
             final boolean[] zArr = new boolean[1];
             zArr[0] = i == this.bioRow || i == this.channelInfoRow || i == this.userInfoRow;
             final String language = LocaleController.getInstance().getCurrentLocale().getLanguage();
@@ -5442,7 +5441,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     LanguageDetector.detectLanguage(str5, new LanguageDetector.StringCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda37
                         @Override // org.telegram.messenger.LanguageDetector.StringCallback
                         public final void run(String str6) {
-                            ProfileActivity.this.lambda$processOnClickOrPress$27(strArr, zArr, language, z2, runnable, str6);
+                            ProfileActivity.this.lambda$processOnClickOrPress$27(strArr, zArr, language, z, runnable, str6);
                         }
                     }, new LanguageDetector.ExceptionCallback() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda36
                         @Override // org.telegram.messenger.LanguageDetector.ExceptionCallback
@@ -5456,7 +5455,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else {
                 runnable.run();
             }
-            return !z;
+            return true;
         }
     }
 
@@ -5618,7 +5617,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public /* synthetic */ void lambda$processOnClickOrPress$27(String[] strArr, boolean[] zArr, String str, boolean z, Runnable runnable, String str2) {
         TLRPC$Chat tLRPC$Chat;
         strArr[0] = str2;
-        zArr[0] = str2 != null && (!str2.equals(str) || str2.equals("und")) && ((z && !RestrictedLanguagesSelectActivity.getRestrictedLanguages().contains(str2)) || ((tLRPC$Chat = this.currentChat) != null && ((tLRPC$Chat.has_link || tLRPC$Chat.username != null) && ("uk".equals(str2) || "ru".equals(str2)))));
+        zArr[0] = str2 != null && (!str2.equals(str) || str2.equals("und")) && ((z && !RestrictedLanguagesSelectActivity.getRestrictedLanguages().contains(str2)) || ((tLRPC$Chat = this.currentChat) != null && ((tLRPC$Chat.has_link || ChatObject.isPublic(tLRPC$Chat)) && ("uk".equals(str2) || "ru".equals(str2)))));
         runnable.run();
     }
 
@@ -9944,7 +9943,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     TextDetailCell textDetailCell2 = new TextDetailCell(context, resourcesProvider, z);
                     textDetailCell2.setContentDescriptionValueFirst(true);
                     final ProfileActivity profileActivity = ProfileActivity.this;
-                    textDetailCell2.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda3
+                    textDetailCell2.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             ProfileActivity.access$27200(ProfileActivity.this, view);
@@ -10245,7 +10244,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         aboutLinkCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$5(view);
+                                ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$1(view);
                             }
                         });
                         return;
@@ -10254,6 +10253,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
                             public boolean onDown(MotionEvent motionEvent) {
                                 return true;
+                            }
+
+                            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+                            public void onLongPress(MotionEvent motionEvent) {
+                                try {
+                                    aboutLinkCell.performHapticFeedback(0, 1);
+                                } catch (Exception unused) {
+                                }
+                                ProfileActivity.this.processOnClickOrPress(i, aboutLinkCell, motionEvent.getX(), motionEvent.getY());
                             }
 
                             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -10662,7 +10670,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 textCell.setTextAndValue(LocaleController.getString("MessageLifetime", R.string.MessageLifetime), formatTTLString, false, false);
                 return;
             }
-            final TextDetailCell textDetailCell = (TextDetailCell) viewHolder.itemView;
+            TextDetailCell textDetailCell = (TextDetailCell) viewHolder.itemView;
             if (i == ProfileActivity.this.usernameRow) {
                 Drawable drawable = ContextCompat.getDrawable(textDetailCell.getContext(), R.drawable.msg_qr_mini);
                 drawable.setColorFilter(new PorterDuffColorFilter(ProfileActivity.this.getThemedColor("switch2TrackChecked"), PorterDuff.Mode.MULTIPLY));
@@ -10721,21 +10729,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     textDetailCell.setTextAndValue(string, string19, true);
                     textDetailCell.setContentDescriptionValueFirst(true);
-                    textDetailCell.setBackground(Theme.createSelectorWithBackgroundDrawable(ProfileActivity.this.getThemedColor("windowBackgroundWhite"), ProfileActivity.this.getThemedColor("listSelectorSDK21")));
-                    textDetailCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda1
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$3(textDetailCell, i, view2);
-                        }
-                    });
-                    textDetailCell.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda5
-                        @Override // android.view.View.OnLongClickListener
-                        public final boolean onLongClick(View view2) {
-                            boolean lambda$onBindViewHolder$4;
-                            lambda$onBindViewHolder$4 = ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$4(i, textDetailCell, view2);
-                            return lambda$onBindViewHolder$4;
-                        }
-                    });
                 }
             } else {
                 ArrayList<TLRPC$TL_username> arrayList = new ArrayList<>();
@@ -10782,47 +10775,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     link = "—";
                 }
                 textDetailCell.setTextAndValue(link, alsoUsernamesString(str4, arrayList, str5), false);
-                textDetailCell.setBackground(Theme.createSelectorWithBackgroundDrawable(ProfileActivity.this.getThemedColor("windowBackgroundWhite"), ProfileActivity.this.getThemedColor("listSelectorSDK21")));
-                textDetailCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda2
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$1(textDetailCell, i, view2);
-                    }
-                });
-                textDetailCell.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda4
-                    @Override // android.view.View.OnLongClickListener
-                    public final boolean onLongClick(View view2) {
-                        boolean lambda$onBindViewHolder$2;
-                        lambda$onBindViewHolder$2 = ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$2(i, textDetailCell, view2);
-                        return lambda$onBindViewHolder$2;
-                    }
-                });
             }
             textDetailCell.setTag(Integer.valueOf(i));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$1(TextDetailCell textDetailCell, int i, View view) {
-            ProfileActivity.this.listView.clickItem(textDetailCell, i);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ boolean lambda$onBindViewHolder$2(int i, TextDetailCell textDetailCell, View view) {
-            return ProfileActivity.this.processOnClickOrPress(i, textDetailCell, 0.0f, 0.0f);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$3(TextDetailCell textDetailCell, int i, View view) {
-            ProfileActivity.this.listView.clickItem(textDetailCell, i);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ boolean lambda$onBindViewHolder$4(int i, TextDetailCell textDetailCell, View view) {
-            return ProfileActivity.this.processOnClickOrPress(i, textDetailCell, 0.0f, 0.0f);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$5(View view) {
+        public /* synthetic */ void lambda$onBindViewHolder$1(View view) {
             if (ProfileActivity.this.userInfo != null) {
                 ProfileActivity.this.presentFragment(new ChangeBioActivity());
             }

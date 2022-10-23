@@ -239,7 +239,7 @@ public class UndoView extends FrameLayout {
         this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textPaint.setColor(getThemedColor("undo_infoColor"));
         setWillNotDraw(false);
-        this.backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(14.0f), getThemedColor("undo_background"));
+        this.backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(10.0f), getThemedColor("undo_background"));
         setOnTouchListener(UndoView$$ExternalSyntheticLambda3.INSTANCE);
         setVisibility(4);
     }
@@ -379,9 +379,9 @@ public class UndoView extends FrameLayout {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:48:0x1773  */
-    /* JADX WARN: Removed duplicated region for block: B:513:0x1753  */
+    /* JADX WARN: Removed duplicated region for block: B:515:0x1753  */
     /* JADX WARN: Removed duplicated region for block: B:51:0x179a  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x188d  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x1891  */
     /* JADX WARN: Removed duplicated region for block: B:71:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:72:0x17df  */
     /* JADX WARN: Type inference failed for: r2v393, types: [java.lang.CharSequence] */
@@ -1005,7 +1005,7 @@ public class UndoView extends FrameLayout {
                             measureChildWithMargins(this.infoTextView, View.MeasureSpec.makeMeasureSpec(measuredWidth2 - AndroidUtilities.dp(16.0f), 1073741824), 0, View.MeasureSpec.makeMeasureSpec(0, 0), 0);
                             int measuredHeight = this.infoTextView.getMeasuredHeight();
                             int i17 = this.currentAction;
-                            int dp2 = measuredHeight + AndroidUtilities.dp((i17 == 16 || i17 == 17 || i17 == 18 || i17 == 84) ? 14.0f : 28.0f);
+                            int dp2 = measuredHeight + AndroidUtilities.dp((i17 == 16 || i17 == 17 || i17 == 18 || i17 == 84 || i17 == 86) ? 14.0f : 28.0f);
                             this.undoViewHeight = dp2;
                             int i18 = this.currentAction;
                             if (i18 == 18) {

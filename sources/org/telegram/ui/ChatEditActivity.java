@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
@@ -327,7 +328,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             this.nameTextView.getEditText().requestFocus();
         }
         AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
-        updateFields(true, false);
+        updateFields(true, true);
         this.imageUpdater.onResume();
     }
 
@@ -381,15 +382,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return checkDiscard();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:121:0x0651  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x06c4  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x06fe  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0790  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x079e  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x07db  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0861  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x08a9  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x077d  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0655  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x06c8  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0702  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0794  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x07a2  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x07df  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0865  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x08c3  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x0781  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1006,9 +1007,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 UndoView undoView = new UndoView(context);
                 this.undoView = undoView;
                 sizeNotifierFrameLayout.addView(undoView, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 8.0f));
-                this.nameTextView.setText(this.currentChat.title);
                 EditTextEmoji editTextEmoji5 = this.nameTextView;
-                editTextEmoji5.setSelection(editTextEmoji5.length());
+                editTextEmoji5.setText(Emoji.replaceEmoji(this.currentChat.title, editTextEmoji5.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), true));
+                EditTextEmoji editTextEmoji6 = this.nameTextView;
+                editTextEmoji6.setSelection(editTextEmoji6.length());
                 tLRPC$ChatFull = this.info;
                 if (tLRPC$ChatFull != null) {
                     this.descriptionTextView.setText(tLRPC$ChatFull.about);
@@ -1116,9 +1118,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         UndoView undoView2 = new UndoView(context);
         this.undoView = undoView2;
         sizeNotifierFrameLayout.addView(undoView2, LayoutHelper.createFrame(-1, -2.0f, 83, 8.0f, 0.0f, 8.0f, 8.0f));
-        this.nameTextView.setText(this.currentChat.title);
         EditTextEmoji editTextEmoji52 = this.nameTextView;
-        editTextEmoji52.setSelection(editTextEmoji52.length());
+        editTextEmoji52.setText(Emoji.replaceEmoji(this.currentChat.title, editTextEmoji52.getEditText().getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), true));
+        EditTextEmoji editTextEmoji62 = this.nameTextView;
+        editTextEmoji62.setSelection(editTextEmoji62.length());
         tLRPC$ChatFull = this.info;
         if (tLRPC$ChatFull != null) {
         }
@@ -1461,6 +1464,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         EditTextBoldCursor editTextBoldCursor;
+        boolean z = true;
         if (i == NotificationCenter.chatInfoDidLoad) {
             TLRPC$ChatFull tLRPC$ChatFull = (TLRPC$ChatFull) objArr[0];
             if (tLRPC$ChatFull.id != this.chatId) {
@@ -1469,7 +1473,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             if (this.info == null && (editTextBoldCursor = this.descriptionTextView) != null) {
                 editTextBoldCursor.setText(tLRPC$ChatFull.about);
             }
-            boolean z = true;
             boolean z2 = this.info == null;
             this.info = tLRPC$ChatFull;
             if (ChatObject.isChannel(this.currentChat) && !this.info.hidden_prehistory) {
@@ -1497,7 +1500,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             if (chatFull != null) {
                 this.availableReactions = chatFull.available_reactions;
             }
-            updateReactionsCell();
+            updateReactionsCell(true);
         }
     }
 
@@ -2098,7 +2101,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 this.adminCell.setTextAndIcon(LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), R.drawable.msg_admins, true);
             }
             this.reactionsCell.setVisibility(ChatObject.canChangeChatInfo(this.currentChat) ? 0 : 8);
-            updateReactionsCell();
+            updateReactionsCell(z2);
             if (this.info == null || !ChatObject.canUserDoAdminAction(this.currentChat, 3) || (!z3 && this.currentChat.creator)) {
                 this.inviteLinksCell.setVisibility(8);
             } else if (this.info.invitesCount > 0) {
@@ -2218,7 +2221,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
     }
 
-    private void updateReactionsCell() {
+    private void updateReactionsCell(boolean z) {
         String string;
         TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
         TLRPC$ChatReactions tLRPC$ChatReactions = this.availableReactions;
@@ -2242,7 +2245,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         } else {
             string = LocaleController.getString("ReactionsAll", R.string.ReactionsAll);
         }
-        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", R.string.Reactions), string, R.drawable.msg_reactions2, true);
+        this.reactionsCell.setTextAndValueAndIcon(LocaleController.getString("Reactions", R.string.Reactions), string, z, R.drawable.msg_reactions2, true);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

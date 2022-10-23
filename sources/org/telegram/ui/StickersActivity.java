@@ -124,6 +124,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
     private int suggestAnimatedEmojiRow;
     private int suggestRow;
     private TrendingStickersAlert trendingStickersAlert;
+    private boolean updateSuggestStickers;
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
@@ -462,6 +463,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(AlertDialog.Builder builder, View view) {
         SharedConfig.setSuggestStickers(((Integer) view.getTag()).intValue());
+        this.updateSuggestStickers = true;
         this.listAdapter.notifyItemChanged(this.suggestRow);
         builder.getDismissRunnable().run();
     }
@@ -1096,7 +1098,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:165:0x041d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:165:0x0428, code lost:
             if (r6 == false) goto L166;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1230,7 +1232,8 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         } else {
                             string2 = LocaleController.getString("SuggestStickersNone", R.string.SuggestStickersNone);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("SuggestStickers", R.string.SuggestStickers), string2, false, true);
+                        textCell.setTextAndValue(LocaleController.getString("SuggestStickers", R.string.SuggestStickers), string2, StickersActivity.this.updateSuggestStickers, true);
+                        StickersActivity.this.updateSuggestStickers = false;
                         return;
                     } else {
                         int size2 = MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).getStickerSets(5).size();

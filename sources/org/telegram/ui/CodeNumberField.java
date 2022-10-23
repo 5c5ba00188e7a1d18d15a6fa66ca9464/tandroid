@@ -1,6 +1,7 @@
 package org.telegram.ui;
 
 import android.animation.ValueAnimator;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -256,9 +257,10 @@ public class CodeNumberField extends EditTextBoldCursor {
                         return false;
                     }
                     clipboardManager.getPrimaryClipDescription().hasMimeType("text/plain");
+                    ClipData.Item itemAt = clipboardManager.getPrimaryClip().getItemAt(0);
                     int i = -1;
                     try {
-                        i = Integer.parseInt(clipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
+                        i = Integer.parseInt((itemAt == null || itemAt.getText() == null) ? "" : itemAt.getText().toString());
                     } catch (Exception unused) {
                     }
                     if (i > 0) {

@@ -5413,10 +5413,15 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i13);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, i14);
         }
+        boolean z = false;
         updateScheduleButton(false);
         checkRoundVideo();
         updateFieldHint(false);
-        updateSendAsButton(this.parentFragment.getFragmentBeginToShow());
+        ChatActivity chatActivity = this.parentFragment;
+        if (chatActivity != null && chatActivity.getFragmentBeginToShow()) {
+            z = true;
+        }
+        updateSendAsButton(z);
     }
 
     public void setChatInfo(TLRPC$ChatFull tLRPC$ChatFull) {
