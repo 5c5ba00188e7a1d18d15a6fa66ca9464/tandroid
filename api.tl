@@ -619,7 +619,8 @@ messages.searchResultsCalendar#147ee23c flags:# inexact:flags.0?true count:int m
 messages.searchResultsPositions#53b22baf count:int positions:Vector<SearchResultPosition> = messages.SearchResultsPositions;
 messages.sentEncryptedFile#9493ff32 date:int file:EncryptedFile = messages.SentEncryptedMessage;
 messages.sentEncryptedMessage#560f8935 date:int = messages.SentEncryptedMessage;
-messages.sponsoredMessages#65a4c7d5 messages:Vector<SponsoredMessage> chats:Vector<Chat> users:Vector<User> = messages.SponsoredMessages;
+messages.sponsoredMessages#c9ee1d87 flags:# posts_between:flags.0?int messages:Vector<SponsoredMessage> chats:Vector<Chat> users:Vector<User> = messages.SponsoredMessages;
+messages.sponsoredMessagesEmpty#1839490f = messages.SponsoredMessages;
 messages.stickerSet#6e153f16 set:StickerSet packs:Vector<StickerPack> keywords:Vector<StickerKeyword> documents:Vector<Document> = messages.StickerSet;
 messages.stickerSetInstallResultArchive#35e410a8 sets:Vector<StickerSetCovered> = messages.StickerSetInstallResult;
 messages.stickerSetInstallResultSuccess#38641628 = messages.StickerSetInstallResult;
