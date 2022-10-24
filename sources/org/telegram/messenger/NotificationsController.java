@@ -1012,8 +1012,8 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Code restructure failed: missing block: B:15:0x0048, code lost:
         if ((r5 instanceof org.telegram.tgnet.TLRPC$TL_messageActionUserJoined) == false) goto L20;
      */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00f6  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x013d  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00fe  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0145  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1069,176 +1069,187 @@ public class NotificationsController extends BaseController {
                 longSparseArray2 = longSparseArray;
                 z8 = z5;
             }
-            int id = messageObject4.getId();
-            if (messageObject4.isFcmMessage()) {
-                i = i5;
-                j = messageObject4.messageOwner.random_id;
-            } else {
-                i = i5;
-                j = 0;
-            }
-            long dialogId = messageObject4.getDialogId();
-            if (messageObject4.isFcmMessage()) {
-                z6 = messageObject4.localChannel;
-                z5 = z8;
-            } else if (DialogObject.isChatDialog(dialogId)) {
-                z5 = z8;
-                TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-dialogId));
-                z6 = ChatObject.isChannel(chat) && !chat.megagroup;
-            } else {
-                z5 = z8;
-                z6 = false;
-            }
-            long j5 = messageObject4.messageOwner.peer_id.channel_id;
-            long j6 = j5 != 0 ? -j5 : 0L;
-            SparseArray<MessageObject> sparseArray3 = this.pushMessagesDict.get(j6);
-            MessageObject messageObject5 = sparseArray3 != null ? sparseArray3.get(id) : null;
-            if (messageObject5 == null) {
-                i2 = i4;
-                messageObject = messageObject5;
-                long j7 = messageObject4.messageOwner.random_id;
-                if (j7 != 0) {
-                    messageObject2 = this.fcmRandomMessagesDict.get(j7);
-                    if (messageObject2 != null) {
-                        j2 = j;
-                        this.fcmRandomMessagesDict.remove(messageObject4.messageOwner.random_id);
-                    } else {
-                        j2 = j;
-                    }
-                    if (messageObject2 == null) {
-                        if (messageObject2.isFcmMessage()) {
-                            if (sparseArray3 == null) {
-                                sparseArray3 = new SparseArray<>();
-                                this.pushMessagesDict.put(j6, sparseArray3);
-                            }
-                            sparseArray3.put(id, messageObject4);
-                            int indexOf = this.pushMessages.indexOf(messageObject2);
-                            if (indexOf >= 0) {
-                                this.pushMessages.set(indexOf, messageObject4);
-                                messageObject3 = messageObject4;
-                                i4 = addToPopupMessages(arrayList2, messageObject4, dialogId, z6, notificationsSettings);
-                            } else {
-                                messageObject3 = messageObject4;
-                                i4 = i2;
-                            }
-                            if (z) {
-                                boolean z12 = messageObject3.localEdit;
-                                if (z12) {
-                                    getMessagesStorage().putPushMessage(messageObject3);
+            if (!MessageObject.isTopicActionMessage(messageObject4)) {
+                int id = messageObject4.getId();
+                if (messageObject4.isFcmMessage()) {
+                    i = i5;
+                    j = messageObject4.messageOwner.random_id;
+                } else {
+                    i = i5;
+                    j = 0;
+                }
+                long dialogId = messageObject4.getDialogId();
+                if (messageObject4.isFcmMessage()) {
+                    z6 = messageObject4.localChannel;
+                    z5 = z8;
+                } else if (DialogObject.isChatDialog(dialogId)) {
+                    z5 = z8;
+                    TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-dialogId));
+                    z6 = ChatObject.isChannel(chat) && !chat.megagroup;
+                } else {
+                    z5 = z8;
+                    z6 = false;
+                }
+                long j5 = messageObject4.messageOwner.peer_id.channel_id;
+                long j6 = j5 != 0 ? -j5 : 0L;
+                SparseArray<MessageObject> sparseArray3 = this.pushMessagesDict.get(j6);
+                MessageObject messageObject5 = sparseArray3 != null ? sparseArray3.get(id) : null;
+                if (messageObject5 == null) {
+                    i2 = i4;
+                    messageObject = messageObject5;
+                    long j7 = messageObject4.messageOwner.random_id;
+                    if (j7 != 0) {
+                        messageObject2 = this.fcmRandomMessagesDict.get(j7);
+                        if (messageObject2 != null) {
+                            j2 = j;
+                            this.fcmRandomMessagesDict.remove(messageObject4.messageOwner.random_id);
+                        } else {
+                            j2 = j;
+                        }
+                        if (messageObject2 == null) {
+                            if (messageObject2.isFcmMessage()) {
+                                if (sparseArray3 == null) {
+                                    sparseArray3 = new SparseArray<>();
+                                    this.pushMessagesDict.put(j6, sparseArray3);
                                 }
-                                z10 = z12;
+                                sparseArray3.put(id, messageObject4);
+                                int indexOf = this.pushMessages.indexOf(messageObject2);
+                                if (indexOf >= 0) {
+                                    this.pushMessages.set(indexOf, messageObject4);
+                                    messageObject3 = messageObject4;
+                                    i4 = addToPopupMessages(arrayList2, messageObject4, dialogId, z6, notificationsSettings);
+                                } else {
+                                    messageObject3 = messageObject4;
+                                    i4 = i2;
+                                }
+                                if (z) {
+                                    boolean z12 = messageObject3.localEdit;
+                                    if (z12) {
+                                        getMessagesStorage().putPushMessage(messageObject3);
+                                    }
+                                    z10 = z12;
+                                }
+                                longSparseArray = longSparseArray2;
+                                i5 = i + 1;
+                                arrayList3 = arrayList;
+                                longSparseArray2 = longSparseArray;
+                                z8 = z5;
                             }
                             longSparseArray = longSparseArray2;
+                            i4 = i2;
+                            i5 = i + 1;
+                            arrayList3 = arrayList;
+                            longSparseArray2 = longSparseArray;
+                            z8 = z5;
+                        } else {
+                            if (!z10) {
+                                if (z) {
+                                    getMessagesStorage().putPushMessage(messageObject4);
+                                }
+                                int topicId = MessageObject.getTopicId(messageObject4.messageOwner);
+                                if (dialogId != this.openedDialogId || !ApplicationLoader.isScreenOn) {
+                                    TLRPC$Message tLRPC$Message2 = messageObject4.messageOwner;
+                                    if (!tLRPC$Message2.mentioned) {
+                                        j3 = dialogId;
+                                    } else if (z5 || !(tLRPC$Message2.action instanceof TLRPC$TL_messageActionPinMessage)) {
+                                        j3 = messageObject4.getFromChatId();
+                                    }
+                                    if (isPersonalMessage(messageObject4)) {
+                                        this.personalCount++;
+                                    }
+                                    DialogObject.isChatDialog(j3);
+                                    int indexOfKey = longSparseArray2.indexOfKey(j3);
+                                    if (indexOfKey >= 0 && topicId == 0) {
+                                        z7 = ((Boolean) longSparseArray2.valueAt(indexOfKey)).booleanValue();
+                                    } else {
+                                        int notifyOverride = getNotifyOverride(notificationsSettings, j3, topicId);
+                                        if (notifyOverride == -1) {
+                                            z7 = isGlobalNotificationsEnabled(j3, Boolean.valueOf(z6));
+                                        } else {
+                                            z7 = notifyOverride != 2;
+                                        }
+                                        longSparseArray2.put(j3, Boolean.valueOf(z7));
+                                    }
+                                    if (z7) {
+                                        if (!z) {
+                                            sparseArray = sparseArray3;
+                                            longSparseArray = longSparseArray2;
+                                            j4 = j6;
+                                            boolean z13 = z6;
+                                            i3 = id;
+                                            i4 = addToPopupMessages(arrayList2, messageObject4, j3, z13, notificationsSettings);
+                                        } else {
+                                            sparseArray = sparseArray3;
+                                            i3 = id;
+                                            longSparseArray = longSparseArray2;
+                                            j4 = j6;
+                                            i4 = i2;
+                                        }
+                                        if (!z11) {
+                                            z11 = messageObject4.messageOwner.from_scheduled;
+                                        }
+                                        this.delayedPushMessages.add(messageObject4);
+                                        this.pushMessages.add(0, messageObject4);
+                                        if (i3 != 0) {
+                                            if (sparseArray == null) {
+                                                sparseArray2 = new SparseArray<>();
+                                                this.pushMessagesDict.put(j4, sparseArray2);
+                                            } else {
+                                                sparseArray2 = sparseArray;
+                                            }
+                                            sparseArray2.put(i3, messageObject4);
+                                        } else if (j2 != 0) {
+                                            this.fcmRandomMessagesDict.put(j2, messageObject4);
+                                        }
+                                        if (dialogId != j3) {
+                                            Integer num2 = this.pushDialogsOverrideMention.get(dialogId);
+                                            this.pushDialogsOverrideMention.put(dialogId, Integer.valueOf(num2 == null ? 1 : num2.intValue() + 1));
+                                        }
+                                    } else {
+                                        i3 = id;
+                                        longSparseArray = longSparseArray2;
+                                        i4 = i2;
+                                    }
+                                    if (messageObject4.isReactionPush) {
+                                        SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
+                                        sparseBooleanArray.put(i3, true);
+                                        getMessagesController().checkUnreadReactions(j3, MessageObject.getTopicId(messageObject4.messageOwner), sparseBooleanArray);
+                                    }
+                                    z9 = true;
+                                    i5 = i + 1;
+                                    arrayList3 = arrayList;
+                                    longSparseArray2 = longSparseArray;
+                                    z8 = z5;
+                                } else if (!z) {
+                                    playInChatSound();
+                                }
+                            }
+                            longSparseArray = longSparseArray2;
+                            i4 = i2;
                             i5 = i + 1;
                             arrayList3 = arrayList;
                             longSparseArray2 = longSparseArray;
                             z8 = z5;
                         }
-                        longSparseArray = longSparseArray2;
-                        i4 = i2;
-                        i5 = i + 1;
-                        arrayList3 = arrayList;
-                        longSparseArray2 = longSparseArray;
-                        z8 = z5;
-                    } else {
-                        if (!z10) {
-                            if (z) {
-                                getMessagesStorage().putPushMessage(messageObject4);
-                            }
-                            int topicId = MessageObject.getTopicId(messageObject4.messageOwner);
-                            if (dialogId != this.openedDialogId || !ApplicationLoader.isScreenOn) {
-                                TLRPC$Message tLRPC$Message2 = messageObject4.messageOwner;
-                                if (!tLRPC$Message2.mentioned) {
-                                    j3 = dialogId;
-                                } else if (z5 || !(tLRPC$Message2.action instanceof TLRPC$TL_messageActionPinMessage)) {
-                                    j3 = messageObject4.getFromChatId();
-                                }
-                                if (isPersonalMessage(messageObject4)) {
-                                    this.personalCount++;
-                                }
-                                DialogObject.isChatDialog(j3);
-                                int indexOfKey = longSparseArray2.indexOfKey(j3);
-                                if (indexOfKey >= 0 && topicId == 0) {
-                                    z7 = ((Boolean) longSparseArray2.valueAt(indexOfKey)).booleanValue();
-                                } else {
-                                    int notifyOverride = getNotifyOverride(notificationsSettings, j3, topicId);
-                                    if (notifyOverride == -1) {
-                                        z7 = isGlobalNotificationsEnabled(j3, Boolean.valueOf(z6));
-                                    } else {
-                                        z7 = notifyOverride != 2;
-                                    }
-                                    longSparseArray2.put(j3, Boolean.valueOf(z7));
-                                }
-                                if (z7) {
-                                    if (!z) {
-                                        sparseArray = sparseArray3;
-                                        longSparseArray = longSparseArray2;
-                                        j4 = j6;
-                                        boolean z13 = z6;
-                                        i3 = id;
-                                        i4 = addToPopupMessages(arrayList2, messageObject4, j3, z13, notificationsSettings);
-                                    } else {
-                                        sparseArray = sparseArray3;
-                                        i3 = id;
-                                        longSparseArray = longSparseArray2;
-                                        j4 = j6;
-                                        i4 = i2;
-                                    }
-                                    if (!z11) {
-                                        z11 = messageObject4.messageOwner.from_scheduled;
-                                    }
-                                    this.delayedPushMessages.add(messageObject4);
-                                    this.pushMessages.add(0, messageObject4);
-                                    if (i3 != 0) {
-                                        if (sparseArray == null) {
-                                            sparseArray2 = new SparseArray<>();
-                                            this.pushMessagesDict.put(j4, sparseArray2);
-                                        } else {
-                                            sparseArray2 = sparseArray;
-                                        }
-                                        sparseArray2.put(i3, messageObject4);
-                                    } else if (j2 != 0) {
-                                        this.fcmRandomMessagesDict.put(j2, messageObject4);
-                                    }
-                                    if (dialogId != j3) {
-                                        Integer num2 = this.pushDialogsOverrideMention.get(dialogId);
-                                        this.pushDialogsOverrideMention.put(dialogId, Integer.valueOf(num2 == null ? 1 : num2.intValue() + 1));
-                                    }
-                                } else {
-                                    i3 = id;
-                                    longSparseArray = longSparseArray2;
-                                    i4 = i2;
-                                }
-                                if (messageObject4.isReactionPush) {
-                                    SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
-                                    sparseBooleanArray.put(i3, true);
-                                    getMessagesController().checkUnreadReactions(j3, MessageObject.getTopicId(messageObject4.messageOwner), sparseBooleanArray);
-                                }
-                                z9 = true;
-                                i5 = i + 1;
-                                arrayList3 = arrayList;
-                                longSparseArray2 = longSparseArray;
-                                z8 = z5;
-                            } else if (!z) {
-                                playInChatSound();
-                            }
-                        }
-                        longSparseArray = longSparseArray2;
-                        i4 = i2;
-                        i5 = i + 1;
-                        arrayList3 = arrayList;
-                        longSparseArray2 = longSparseArray;
-                        z8 = z5;
                     }
+                } else {
+                    i2 = i4;
+                    messageObject = messageObject5;
                 }
-            } else {
-                i2 = i4;
-                messageObject = messageObject5;
+                j2 = j;
+                messageObject2 = messageObject;
+                if (messageObject2 == null) {
+                }
             }
-            j2 = j;
-            messageObject2 = messageObject;
-            if (messageObject2 == null) {
-            }
+            i2 = i4;
+            z5 = z8;
+            i = i5;
+            longSparseArray = longSparseArray2;
+            i4 = i2;
+            i5 = i + 1;
+            arrayList3 = arrayList;
+            longSparseArray2 = longSparseArray;
+            z8 = z5;
         }
         final int i6 = i4;
         if (z9) {
@@ -8955,7 +8966,7 @@ public class NotificationsController extends BaseController {
             String key = entry.getKey();
             if (key.startsWith(NotificationsSettingsFacade.PROPERTY_NOTIFY + j)) {
                 int intValue = Utilities.parseInt((CharSequence) key.replace(NotificationsSettingsFacade.PROPERTY_NOTIFY + j, "")).intValue();
-                if (intValue != 0) {
+                if (intValue != 0 && getMessagesController().isDialogMuted(j, intValue) != getMessagesController().isDialogMuted(j, 0)) {
                     hashSet.add(Integer.valueOf(intValue));
                 }
             }

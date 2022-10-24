@@ -160,8 +160,6 @@ public interface INavigationLayout {
 
     void setUseAlphaAnimations(boolean z);
 
-    void setUseBackground(boolean z);
-
     @Deprecated
     void showLastFragment();
 
@@ -179,9 +177,6 @@ public interface INavigationLayout {
 
         @Deprecated
         public static void $default$rebuildLogout(INavigationLayout iNavigationLayout) {
-        }
-
-        public static void $default$setUseBackground(INavigationLayout iNavigationLayout, boolean z) {
         }
 
         public static INavigationLayout newLayout(Context context) {

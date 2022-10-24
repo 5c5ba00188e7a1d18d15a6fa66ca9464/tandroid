@@ -750,7 +750,11 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             return;
         }
         dismiss();
-        BulletinFactory.of(this.parentFragment).createErrorBulletin(LocaleController.getString("AddStickersNotFound", R.string.AddStickersNotFound)).show();
+        BaseFragment baseFragment = this.parentFragment;
+        if (baseFragment == null) {
+            return;
+        }
+        BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString("AddStickersNotFound", R.string.AddStickersNotFound)).show();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

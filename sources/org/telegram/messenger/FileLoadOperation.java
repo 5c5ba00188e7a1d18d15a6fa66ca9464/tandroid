@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FilePathDatabase;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
@@ -903,19 +904,19 @@ public class FileLoadOperation {
     /* JADX WARN: Code restructure failed: missing block: B:58:0x03f1, code lost:
         if (r6 != r28.cacheFileFinal.length()) goto L59;
      */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x0610  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x061b A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x063d  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x06b0  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0734  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0760  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x079d  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x0801  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x0824 A[Catch: Exception -> 0x082a, TRY_LEAVE, TryCatch #1 {Exception -> 0x082a, blocks: (B:215:0x0813, B:217:0x0824), top: B:214:0x0813 }] */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x0844  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x0848  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x0709  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0855  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0611  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x061c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x063e  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x06b1  */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x0735  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0761  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x079e  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0802  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x0825 A[Catch: Exception -> 0x082b, TRY_LEAVE, TryCatch #0 {Exception -> 0x082b, blocks: (B:215:0x0814, B:217:0x0825), top: B:214:0x0814 }] */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x0845  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x0849  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x070a  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0856  */
     /* JADX WARN: Removed duplicated region for block: B:312:0x03ba  */
     /* JADX WARN: Removed duplicated region for block: B:50:0x0394  */
     /* JADX WARN: Removed duplicated region for block: B:53:0x03db  */
@@ -1169,7 +1170,7 @@ public class FileLoadOperation {
                                                         e = e4;
                                                         str8 = str3;
                                                         str9 = str4;
-                                                        FileLog.e(e);
+                                                        FileLog.e((Throwable) e, false);
                                                         if (!this.isPreloadVideoOperation) {
                                                         }
                                                         if (str9 != null) {
@@ -1202,7 +1203,7 @@ public class FileLoadOperation {
                                                         this.preloadNotRequestedBytesCount = readLong3;
                                                     } catch (Exception e5) {
                                                         e = e5;
-                                                        FileLog.e(e);
+                                                        FileLog.e((Throwable) e, false);
                                                         if (!this.isPreloadVideoOperation) {
                                                         }
                                                         if (str9 != null) {
@@ -1268,7 +1269,7 @@ public class FileLoadOperation {
                                     str9 = str4;
                                     z3 = z10;
                                     str10 = str12;
-                                    FileLog.e(e);
+                                    FileLog.e((Throwable) e, false);
                                     if (!this.isPreloadVideoOperation) {
                                         this.cacheFilePreload = null;
                                         try {
@@ -1409,34 +1410,34 @@ public class FileLoadOperation {
                                 } else {
                                     j2 = 0;
                                 }
-                                try {
-                                    this.downloadedBytes = j2;
-                                    this.requestedBytesCount = j2;
-                                } catch (Exception e11) {
-                                    e = e11;
-                                    this.downloadedBytes = j2;
-                                    this.requestedBytesCount = j2;
-                                    if (AndroidUtilities.isENOSPC(e)) {
-                                        LaunchActivity.checkFreeDiscSpaceStatic(1);
-                                    } else {
-                                        FileLog.e(e);
-                                    }
-                                    if (!this.isPreloadVideoOperation) {
-                                    }
-                                    updateProgress();
-                                    RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
-                                    this.fileOutputStream = randomAccessFile32222;
-                                    j3 = this.downloadedBytes;
-                                    if (j3 != 0) {
-                                    }
-                                    z4 = true;
-                                    z5 = false;
-                                    if (this.fileOutputStream != null) {
-                                    }
-                                }
+                            } catch (Exception e11) {
+                                e = e11;
+                                j2 = 0;
+                            }
+                            try {
+                                this.downloadedBytes = j2;
+                                this.requestedBytesCount = j2;
                             } catch (Exception e12) {
                                 e = e12;
-                                j2 = 0;
+                                this.downloadedBytes = j2;
+                                this.requestedBytesCount = j2;
+                                if (AndroidUtilities.isENOSPC(e)) {
+                                    LaunchActivity.checkFreeDiscSpaceStatic(1);
+                                } else {
+                                    FileLog.e(e);
+                                }
+                                if (!this.isPreloadVideoOperation) {
+                                }
+                                updateProgress();
+                                RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
+                                this.fileOutputStream = randomAccessFile32222;
+                                j3 = this.downloadedBytes;
+                                if (j3 != 0) {
+                                }
+                                z4 = true;
+                                z5 = false;
+                                if (this.fileOutputStream != null) {
+                                }
                             }
                         }
                     } catch (Exception e13) {
@@ -2164,7 +2165,7 @@ public class FileLoadOperation {
         Integer num;
         if (this.state != 1) {
             if (BuildVars.DEBUG_VERSION && this.state == 3) {
-                FileLog.e(new Exception("trying to write to finished file " + this.fileName + " offset " + requestInfo.offset + " " + this.totalBytesCount));
+                FileLog.e(new FileLog.IgnoreSentException("trying to write to finished file " + this.fileName + " offset " + requestInfo.offset + " " + this.totalBytesCount));
             }
             return false;
         }

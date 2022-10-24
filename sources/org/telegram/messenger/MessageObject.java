@@ -372,7 +372,6 @@ public class MessageObject {
     private boolean hasUnwrappedEmoji;
     public boolean hideSendersName;
     public ArrayList<String> highlightedWords;
-    public boolean isCreateTopicStubMessage;
     public boolean isDateObject;
     public boolean isDownloadingFile;
     public boolean isReactionPush;
@@ -399,6 +398,7 @@ public class MessageObject {
     public ImageLocation mediaThumb;
     public TLRPC$Message messageOwner;
     public CharSequence messageText;
+    public CharSequence messageTextShort;
     public String messageTrimmedToHighlight;
     public String monthKey;
     public int parentWidth;
@@ -437,7 +437,7 @@ public class MessageObject {
     public ArrayList<TextLayoutBlock> textLayoutBlocks;
     public int textWidth;
     public float textXOffset;
-    public String topicName;
+    public ForumBubbleDrawable[] topicIconDrawable;
     private int totalAnimatedEmojiCount;
     public int type;
     public boolean useCustomPhoto;
@@ -1360,7 +1360,9 @@ public class MessageObject {
     public MessageObject(int i, TLRPC$Message tLRPC$Message, String str, String str2, String str3, boolean z, boolean z2, boolean z3, boolean z4) {
         this.type = 1000;
         this.forceSeekTo = -1.0f;
-        this.localType = z ? 2 : 1;
+        int i2 = 1;
+        this.topicIconDrawable = new ForumBubbleDrawable[1];
+        this.localType = z ? 2 : i2;
         this.currentAccount = i;
         this.localName = str2;
         this.localUserName = str3;
@@ -1403,6 +1405,7 @@ public class MessageObject {
         TextPaint textPaint;
         this.type = 1000;
         this.forceSeekTo = -1.0f;
+        this.topicIconDrawable = new ForumBubbleDrawable[1];
         Theme.createCommonMessageResources();
         this.currentAccount = i;
         this.messageOwner = tLRPC$Message;
@@ -1699,17 +1702,17 @@ public class MessageObject {
         this.totalAnimatedEmojiCount = 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x15ee  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x163c  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x163f  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x04b5  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x04cf A[LOOP:0: B:217:0x0482->B:230:0x04cf, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x04e8 A[EDGE_INSN: B:231:0x04e8->B:232:0x04e8 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x16c2  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x04c9  */
-    /* JADX WARN: Removed duplicated region for block: B:501:0x0ca2  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x15f2  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x1640  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x1643  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04b9  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x04d3 A[LOOP:0: B:217:0x0486->B:230:0x04d3, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x04ec A[EDGE_INSN: B:231:0x04ec->B:232:0x04ec ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x16c6  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x04cd  */
+    /* JADX WARN: Removed duplicated region for block: B:501:0x0ca6  */
     /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x16bb  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x16bf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1763,6 +1766,7 @@ public class MessageObject {
         TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2 = tLRPC$TL_channelAdminLogEvent;
         this.type = 1000;
         this.forceSeekTo = -1.0f;
+        this.topicIconDrawable = new ForumBubbleDrawable[1];
         this.currentEvent = tLRPC$TL_channelAdminLogEvent2;
         this.currentAccount = i;
         TLRPC$User user2 = tLRPC$TL_channelAdminLogEvent2.user_id > 0 ? MessagesController.getInstance(i).getUser(Long.valueOf(tLRPC$TL_channelAdminLogEvent2.user_id)) : null;
@@ -3914,7 +3918,7 @@ public class MessageObject {
         return tLRPC$Chat == null ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)) : tLRPC$Chat;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:138:0x108a  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x10d2  */
     /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:205:0x05ac  */
     /* JADX WARN: Removed duplicated region for block: B:209:0x05ca  */
@@ -3924,7 +3928,7 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:246:0x069a  */
     /* JADX WARN: Removed duplicated region for block: B:276:0x0763  */
     /* JADX WARN: Removed duplicated region for block: B:280:0x079b  */
-    /* JADX WARN: Removed duplicated region for block: B:539:0x0e01  */
+    /* JADX WARN: Removed duplicated region for block: B:539:0x0e49  */
     /* JADX WARN: Removed duplicated region for block: B:640:0x002c  */
     /* JADX WARN: Removed duplicated region for block: B:6:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0039  */
@@ -4350,6 +4354,12 @@ public class MessageObject {
                                     this.messageText = LocaleController.getString("HistoryCleared", R.string.HistoryCleared);
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionTopicCreate) {
                                     this.messageText = LocaleController.getString("TopicCreated", R.string.TopicCreated);
+                                    TLRPC$TL_messageActionTopicCreate tLRPC$TL_messageActionTopicCreate = (TLRPC$TL_messageActionTopicCreate) this.messageOwner.action;
+                                    TLRPC$TL_forumTopic tLRPC$TL_forumTopic = new TLRPC$TL_forumTopic();
+                                    tLRPC$TL_forumTopic.icon_emoji_id = tLRPC$TL_messageActionTopicCreate.icon_emoji_id;
+                                    tLRPC$TL_forumTopic.title = tLRPC$TL_messageActionTopicCreate.title;
+                                    tLRPC$TL_forumTopic.icon_color = tLRPC$TL_messageActionTopicCreate.icon_color;
+                                    this.messageTextShort = AndroidUtilities.replaceCharSequence("%s", LocaleController.getString("TopicWasCreatedAction", R.string.TopicWasCreatedAction), ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic, null));
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionTopicEdit) {
                                     TLRPC$TL_messageActionTopicEdit tLRPC$TL_messageActionTopicEdit = (TLRPC$TL_messageActionTopicEdit) tLRPC$MessageAction;
                                     int i7 = tLRPC$MessageAction.flags;
@@ -4360,27 +4370,30 @@ public class MessageObject {
                                             this.messageText = LocaleController.getString("TopicRestarted", R.string.TopicRestarted);
                                         }
                                     } else if ((i7 & 2) != 0 && (i7 & 1) != 0) {
-                                        TLRPC$TL_forumTopic tLRPC$TL_forumTopic = new TLRPC$TL_forumTopic();
-                                        tLRPC$TL_forumTopic.icon_emoji_id = tLRPC$TL_messageActionTopicEdit.icon_emoji_id;
-                                        tLRPC$TL_forumTopic.title = tLRPC$TL_messageActionTopicEdit.title;
-                                        tLRPC$TL_forumTopic.icon_color = ForumBubbleDrawable.serverSupportedColor[0];
+                                        TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = new TLRPC$TL_forumTopic();
+                                        tLRPC$TL_forumTopic2.icon_emoji_id = tLRPC$TL_messageActionTopicEdit.icon_emoji_id;
+                                        tLRPC$TL_forumTopic2.title = tLRPC$TL_messageActionTopicEdit.title;
+                                        tLRPC$TL_forumTopic2.icon_color = ForumBubbleDrawable.serverSupportedColor[0];
                                         String string2 = LocaleController.getString("TopicRenamedTo", R.string.TopicRenamedTo);
                                         int indexOf2 = string2.indexOf("%s");
                                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string2);
-                                        spannableStringBuilder.replace(indexOf2, indexOf2 + 2, ForumUtilities.getForumSpannedName(tLRPC$TL_forumTopic, null));
+                                        spannableStringBuilder.replace(indexOf2, indexOf2 + 2, ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic2, null, this.topicIconDrawable));
                                         this.messageText = spannableStringBuilder;
+                                        this.messageTextShort = LocaleController.getString("TopicRenamed", R.string.TopicRenamed);
                                     } else if ((i7 & 2) != 0) {
-                                        TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = new TLRPC$TL_forumTopic();
-                                        tLRPC$TL_forumTopic2.icon_emoji_id = tLRPC$TL_messageActionTopicEdit.icon_emoji_id;
-                                        tLRPC$TL_forumTopic2.title = str;
-                                        tLRPC$TL_forumTopic2.icon_color = ForumBubbleDrawable.serverSupportedColor[0];
-                                        String string3 = LocaleController.getString("TopicIconChanged", R.string.TopicIconChanged);
+                                        TLRPC$TL_forumTopic tLRPC$TL_forumTopic3 = new TLRPC$TL_forumTopic();
+                                        tLRPC$TL_forumTopic3.icon_emoji_id = tLRPC$TL_messageActionTopicEdit.icon_emoji_id;
+                                        tLRPC$TL_forumTopic3.title = str;
+                                        tLRPC$TL_forumTopic3.icon_color = ForumBubbleDrawable.serverSupportedColor[0];
+                                        String string3 = LocaleController.getString("TopicIconChangedTo", R.string.TopicIconChangedTo);
                                         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(string3);
                                         int indexOf3 = string3.indexOf("%s");
-                                        spannableStringBuilder2.replace(indexOf3, indexOf3 + 2, ForumUtilities.getForumSpannedName(tLRPC$TL_forumTopic2, null));
+                                        spannableStringBuilder2.replace(indexOf3, indexOf3 + 2, ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic3, null, this.topicIconDrawable));
                                         this.messageText = spannableStringBuilder2;
+                                        this.messageTextShort = LocaleController.getString("TopicIconChanged", R.string.TopicIconChanged);
                                     } else if ((i7 & 1) != 0) {
                                         this.messageText = LocaleController.formatString("TopicRenamedTo", R.string.TopicRenamedTo, tLRPC$TL_messageActionTopicEdit.title);
+                                        this.messageTextShort = LocaleController.getString("TopicRenamed", R.string.TopicRenamed);
                                     }
                                 } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGameScore) {
                                     generateGameMessageText(tLRPC$User);
@@ -5199,7 +5212,7 @@ public class MessageObject {
                     str3 = "invite";
                     tLRPC$TL_chatInviteExported = tLRPC$TL_chatInviteExported2;
                 } else if (tLObject instanceof TLRPC$ForumTopic) {
-                    charSequence2 = ForumUtilities.getForumSpannedName((TLRPC$ForumTopic) tLObject, null);
+                    charSequence2 = ForumUtilities.getTopicSpannedName((TLRPC$ForumTopic) tLObject, null);
                     str3 = "topic";
                     tLRPC$TL_chatInviteExported = tLObject;
                 } else {
@@ -8891,11 +8904,13 @@ public class MessageObject {
         if (arrayList.isEmpty() || !arrayList.contains(tLRPC$ReactionCount) || !z) {
             int maxUserReactionsCount = MessagesController.getInstance(this.currentAccount).getMaxUserReactionsCount();
             if (!arrayList.isEmpty() && (arrayList.contains(tLRPC$ReactionCount) || z2)) {
-                tLRPC$ReactionCount.chosen = false;
-                int i4 = tLRPC$ReactionCount.count - 1;
-                tLRPC$ReactionCount.count = i4;
-                if (i4 <= 0) {
-                    this.messageOwner.reactions.results.remove(tLRPC$ReactionCount);
+                if (tLRPC$ReactionCount != null) {
+                    tLRPC$ReactionCount.chosen = false;
+                    int i4 = tLRPC$ReactionCount.count - 1;
+                    tLRPC$ReactionCount.count = i4;
+                    if (i4 <= 0) {
+                        this.messageOwner.reactions.results.remove(tLRPC$ReactionCount);
+                    }
                 }
                 if (this.messageOwner.reactions.can_see_list) {
                     int i5 = 0;

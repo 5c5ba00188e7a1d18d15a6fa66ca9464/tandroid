@@ -2909,7 +2909,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         int unfilteredChildCount = this.mChildHelper.getUnfilteredChildCount();
         for (int i = 0; i < unfilteredChildCount; i++) {
             ViewHolder childViewHolderInt = getChildViewHolderInt(this.mChildHelper.getUnfilteredChildAt(i));
-            if (!childViewHolderInt.shouldIgnore()) {
+            if (childViewHolderInt != null && !childViewHolderInt.shouldIgnore()) {
                 childViewHolderInt.clearOldPosition();
             }
         }
@@ -6161,11 +6161,19 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         public int getViewLayoutPosition() {
-            return this.mViewHolder.getLayoutPosition();
+            ViewHolder viewHolder = this.mViewHolder;
+            if (viewHolder == null) {
+                return -1;
+            }
+            return viewHolder.getLayoutPosition();
         }
 
         public int getViewAdapterPosition() {
-            return this.mViewHolder.getAdapterPosition();
+            ViewHolder viewHolder = this.mViewHolder;
+            if (viewHolder == null) {
+                return -1;
+            }
+            return viewHolder.getAdapterPosition();
         }
     }
 

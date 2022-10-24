@@ -502,7 +502,7 @@ public class BitmapsCache {
                     } catch (Throwable th2) {
                         th = th2;
                         randomAccessFile2 = randomAccessFile;
-                        FileLog.e(th);
+                        FileLog.e(th, false);
                         if (randomAccessFile2 != null) {
                         }
                         return -1;

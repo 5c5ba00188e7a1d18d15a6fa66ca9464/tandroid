@@ -2260,7 +2260,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             if (i3 >= this.sections.size() || (arrayList = this.sectionArrays.get(this.sections.get(i3))) == null) {
                 return null;
             }
-            return arrayList.get(i2 - ((i3 != 0 || !this.searchResult.isEmpty()) ? 1 : 0));
+            int i4 = i2 - ((i3 != 0 || !this.searchResult.isEmpty()) ? 1 : 0);
+            if (i4 >= 0 && i4 < arrayList.size()) {
+                return arrayList.get(i4);
+            }
+            return null;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter

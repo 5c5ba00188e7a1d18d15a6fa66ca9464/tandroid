@@ -43,7 +43,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Property;
 import android.util.SparseIntArray;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.VelocityTracker;
@@ -67,7 +66,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
-import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.NestedScrollingParent3;
 import androidx.core.view.NestedScrollingParentHelper;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -4598,10 +4596,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$16(View view) {
-        if (this.avatarBig != null) {
-            return false;
+        if (this.avatarBig == null && !this.isTopic) {
+            openAvatar();
         }
-        openAvatar();
         return false;
     }
 
@@ -7591,8 +7588,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     */
     public void updateRowsIds() {
         boolean z;
-        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights;
         TLRPC$ChatParticipants tLRPC$ChatParticipants;
+        TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights;
+        TLRPC$ChatParticipants tLRPC$ChatParticipants2;
         TLRPC$ChatFull tLRPC$ChatFull;
         TLRPC$ChatFull tLRPC$ChatFull2;
         int i;
@@ -7996,7 +7994,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             if (ChatObject.isChannel(this.currentChat)) {
                 TLRPC$ChatFull tLRPC$ChatFull5 = this.chatInfo;
-                if (tLRPC$ChatFull5 != null && this.currentChat.megagroup && (tLRPC$ChatParticipants = tLRPC$ChatFull5.participants) != null && !tLRPC$ChatParticipants.participants.isEmpty()) {
+                if (tLRPC$ChatFull5 != null && this.currentChat.megagroup && (tLRPC$ChatParticipants2 = tLRPC$ChatFull5.participants) != null && !tLRPC$ChatParticipants2.participants.isEmpty()) {
                     if (!ChatObject.isNotInChat(this.currentChat) && ChatObject.canAddUsers(this.currentChat) && this.chatInfo.participants_count < getMessagesController().maxMegagroupCount) {
                         int i78 = this.rowCount;
                         this.rowCount = i78 + 1;
@@ -8053,7 +8051,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             } else {
                 TLRPC$ChatFull tLRPC$ChatFull6 = this.chatInfo;
-                if (tLRPC$ChatFull6 != null && !(tLRPC$ChatFull6.participants instanceof TLRPC$TL_chatParticipantsForbidden)) {
+                if (tLRPC$ChatFull6 != null && (tLRPC$ChatParticipants = tLRPC$ChatFull6.participants) != null && !(tLRPC$ChatParticipants instanceof TLRPC$TL_chatParticipantsForbidden)) {
                     if (ChatObject.canAddUsers(this.currentChat) || (tLRPC$TL_chatBannedRights = this.currentChat.default_banned_rights) == null || !tLRPC$TL_chatBannedRights.invite_users) {
                         int i85 = this.rowCount;
                         this.rowCount = i85 + 1;
@@ -9943,7 +9941,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     TextDetailCell textDetailCell2 = new TextDetailCell(context, resourcesProvider, z);
                     textDetailCell2.setContentDescriptionValueFirst(true);
                     final ProfileActivity profileActivity = ProfileActivity.this;
-                    textDetailCell2.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda1
+                    textDetailCell2.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             ProfileActivity.access$27200(ProfileActivity.this, view);
@@ -10139,7 +10137,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String str;
             String string;
             String str2;
@@ -10213,13 +10211,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             int i4 = 0;
             if (itemViewType != 2) {
                 if (itemViewType == 3) {
-                    final AboutLinkCell aboutLinkCell = (AboutLinkCell) viewHolder.itemView;
+                    AboutLinkCell aboutLinkCell = (AboutLinkCell) viewHolder.itemView;
                     if (i == ProfileActivity.this.userInfoRow) {
                         TLRPC$User user2 = ProfileActivity.this.userInfo.user != null ? ProfileActivity.this.userInfo.user : ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userInfo.id));
                         if (!ProfileActivity.this.isBot && (user2 == null || !user2.premium || ProfileActivity.this.userInfo.about == null)) {
                             z14 = false;
                         }
                         aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", R.string.UserBio), z14);
+                        return;
                     } else if (i == ProfileActivity.this.channelInfoRow) {
                         String str7 = ProfileActivity.this.chatInfo.about;
                         while (str7.contains("\n\n\n")) {
@@ -10229,7 +10228,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             z15 = false;
                         }
                         aboutLinkCell.setText(str7, z15);
-                    } else if (i == ProfileActivity.this.bioRow) {
+                        return;
+                    } else if (i != ProfileActivity.this.bioRow) {
+                        return;
+                    } else {
                         if (ProfileActivity.this.userInfo == null || !TextUtils.isEmpty(ProfileActivity.this.userInfo.about)) {
                             aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo == null ? LocaleController.getString("Loading", R.string.Loading) : ProfileActivity.this.userInfo.about, LocaleController.getString("UserBio", R.string.UserBio), ProfileActivity.this.getUserConfig().isPremium());
                             ProfileActivity profileActivity = ProfileActivity.this;
@@ -10239,37 +10241,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             ProfileActivity.this.currentBio = null;
                         }
                         aboutLinkCell.setMoreButtonDisabled(true);
-                    }
-                    if (i == ProfileActivity.this.bioRow) {
-                        aboutLinkCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$1(view);
-                            }
-                        });
-                        return;
-                    } else {
-                        aboutLinkCell.setGestureDetector(new GestureDetectorCompat(ProfileActivity.this.getContext(), new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.ProfileActivity.ListAdapter.5
-                            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-                            public boolean onDown(MotionEvent motionEvent) {
-                                return true;
-                            }
-
-                            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-                            public void onLongPress(MotionEvent motionEvent) {
-                                try {
-                                    aboutLinkCell.performHapticFeedback(0, 1);
-                                } catch (Exception unused) {
-                                }
-                                ProfileActivity.this.processOnClickOrPress(i, aboutLinkCell, motionEvent.getX(), motionEvent.getY());
-                            }
-
-                            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-                            public boolean onSingleTapUp(MotionEvent motionEvent) {
-                                ProfileActivity.this.processOnClickOrPress(i, aboutLinkCell, motionEvent.getX(), motionEvent.getY());
-                                return true;
-                            }
-                        }));
                         return;
                     }
                 }
@@ -10779,13 +10750,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             textDetailCell.setTag(Integer.valueOf(i));
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBindViewHolder$1(View view) {
-            if (ProfileActivity.this.userInfo != null) {
-                ProfileActivity.this.presentFragment(new ChangeBioActivity());
-            }
-        }
-
         private CharSequence alsoUsernamesString(String str, ArrayList<TLRPC$TL_username> arrayList, CharSequence charSequence) {
             if (arrayList == null) {
                 return charSequence;
@@ -10805,7 +10769,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 for (int i2 = 0; i2 < arrayList2.size(); i2++) {
                     final String str2 = ((TLRPC$TL_username) arrayList2.get(i2)).username;
                     SpannableString spannableString = new SpannableString("@" + str2);
-                    spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ProfileActivity.ListAdapter.6
+                    spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ProfileActivity.ListAdapter.5
                         @Override // android.text.style.ClickableSpan
                         public void onClick(View view) {
                             String str3 = ProfileActivity.this.getMessagesController().linkPrefix + "/" + str2;

@@ -7216,7 +7216,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX WARN: Removed duplicated region for block: B:135:0x047a  */
     /* JADX WARN: Removed duplicated region for block: B:157:0x04d4  */
     /* JADX WARN: Type inference failed for: r15v0 */
-    /* JADX WARN: Type inference failed for: r15v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v16 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7749,7 +7749,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     setDialogsListFrozen(false, false);
                 }
                 i = i2;
-                getMessagesController().markMentionsAsRead(j);
+                getMessagesController().markMentionsAsRead(j, 0);
                 MessagesController messagesController = getMessagesController();
                 int i4 = tLRPC$Dialog.top_message;
                 messagesController.markDialogAsRead(j, i4, i4, tLRPC$Dialog.last_message_date, false, 0, 0, true, 0);
@@ -7764,7 +7764,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
         i = -1;
-        getMessagesController().markMentionsAsRead(j);
+        getMessagesController().markMentionsAsRead(j, 0);
         MessagesController messagesController2 = getMessagesController();
         int i42 = tLRPC$Dialog.top_message;
         messagesController2.markDialogAsRead(j, i42, i42, tLRPC$Dialog.last_message_date, false, 0, 0, true, 0);

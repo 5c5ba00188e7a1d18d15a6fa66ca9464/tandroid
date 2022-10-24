@@ -1304,20 +1304,23 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             @Override // android.view.View
             protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
-                ReactionHolderView reactionHolderView = ReactionHolderView.this;
-                if (!reactionHolderView.shouldSwitchToLoopView || reactionHolderView.switchedToLoopView || this.imageReceiver.getLottieAnimation() == null || !this.imageReceiver.getLottieAnimation().isLastFrame() || ReactionHolderView.this.loopImageView.imageReceiver.getLottieAnimation() == null || !ReactionHolderView.this.loopImageView.imageReceiver.getLottieAnimation().hasBitmap()) {
-                    return;
+                if (this.imageReceiver.getLottieAnimation() != null) {
+                    this.imageReceiver.getLottieAnimation().start();
                 }
-                ReactionHolderView reactionHolderView2 = ReactionHolderView.this;
-                reactionHolderView2.switchedToLoopView = true;
-                reactionHolderView2.loopImageView.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
-                ReactionHolderView.this.loopImageView.setVisibility(0);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$ReactionHolderView$2$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ReactionsContainerLayout.ReactionHolderView.2.this.lambda$dispatchDraw$0();
-                    }
-                });
+                ReactionHolderView reactionHolderView = ReactionHolderView.this;
+                if (reactionHolderView.shouldSwitchToLoopView && !reactionHolderView.switchedToLoopView && this.imageReceiver.getLottieAnimation() != null && this.imageReceiver.getLottieAnimation().isLastFrame() && ReactionHolderView.this.loopImageView.imageReceiver.getLottieAnimation() != null && ReactionHolderView.this.loopImageView.imageReceiver.getLottieAnimation().hasBitmap()) {
+                    ReactionHolderView reactionHolderView2 = ReactionHolderView.this;
+                    reactionHolderView2.switchedToLoopView = true;
+                    reactionHolderView2.loopImageView.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
+                    ReactionHolderView.this.loopImageView.setVisibility(0);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$ReactionHolderView$2$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ReactionsContainerLayout.ReactionHolderView.2.this.lambda$dispatchDraw$0();
+                        }
+                    });
+                }
+                invalidate();
             }
 
             /* JADX INFO: Access modifiers changed from: private */
@@ -1355,6 +1358,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         this.loopImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, null, 0L, "tgs", this.currentReaction, 0);
                         this.loopImageView.setAnimatedEmojiDrawable(null);
                         this.pressedBackupImageView.setAnimatedEmojiDrawable(null);
+                        if (this.enterImageView.getImageReceiver().getLottieAnimation() != null) {
+                            this.enterImageView.getImageReceiver().getLottieAnimation().setCurrentFrame(0, false);
+                        }
                     }
                 } else {
                     this.pressedBackupImageView.getImageReceiver().clearImage();

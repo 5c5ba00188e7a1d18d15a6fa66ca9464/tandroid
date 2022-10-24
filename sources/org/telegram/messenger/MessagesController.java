@@ -8368,7 +8368,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:131:0x03d9  */
     /* JADX WARN: Removed duplicated region for block: B:142:0x0412  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -12978,7 +12978,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (i == 0) {
                 i = tLRPC$messages_Messages.messages.size();
             }
-            getMessagesStorage().resetMentionsCount(-tLRPC$InputPeer.channel_id, i);
+            getMessagesStorage().resetMentionsCount(-tLRPC$InputPeer.channel_id, 0, i);
         }
         if (j != 0) {
             getMessagesStorage().removePendingTask(j);
@@ -14055,13 +14055,17 @@ public class MessagesController extends BaseController implements NotificationCe
         this.readTasksMap.remove(j);
     }
 
-    public void markMentionsAsRead(long j) {
+    public void markMentionsAsRead(long j, int i) {
         if (DialogObject.isEncryptedDialog(j)) {
             return;
         }
-        getMessagesStorage().resetMentionsCount(j, 0);
+        getMessagesStorage().resetMentionsCount(j, i, 0);
         TLRPC$TL_messages_readMentions tLRPC$TL_messages_readMentions = new TLRPC$TL_messages_readMentions();
         tLRPC$TL_messages_readMentions.peer = getInputPeer(j);
+        if (i != 0) {
+            tLRPC$TL_messages_readMentions.top_msg_id = i;
+            tLRPC$TL_messages_readMentions.flags |= 1;
+        }
         getConnectionsManager().sendRequest(tLRPC$TL_messages_readMentions, MessagesController$$ExternalSyntheticLambda365.INSTANCE);
     }
 
@@ -21100,14 +21104,14 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:703:0x0f27  */
-    /* JADX WARN: Removed duplicated region for block: B:709:0x0f43  */
-    /* JADX WARN: Removed duplicated region for block: B:768:0x1048  */
-    /* JADX WARN: Removed duplicated region for block: B:770:0x1056  */
-    /* JADX WARN: Removed duplicated region for block: B:772:0x105c  */
-    /* JADX WARN: Removed duplicated region for block: B:775:0x1068  */
-    /* JADX WARN: Removed duplicated region for block: B:784:0x10a4  */
-    /* JADX WARN: Removed duplicated region for block: B:787:0x10ba  */
+    /* JADX WARN: Removed duplicated region for block: B:703:0x0f2d  */
+    /* JADX WARN: Removed duplicated region for block: B:709:0x0f49  */
+    /* JADX WARN: Removed duplicated region for block: B:768:0x104e  */
+    /* JADX WARN: Removed duplicated region for block: B:770:0x105c  */
+    /* JADX WARN: Removed duplicated region for block: B:772:0x1062  */
+    /* JADX WARN: Removed duplicated region for block: B:775:0x106e  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x10aa  */
+    /* JADX WARN: Removed duplicated region for block: B:787:0x10c0  */
     /* JADX WARN: Removed duplicated region for block: B:790:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -21255,21 +21259,21 @@ public class MessagesController extends BaseController implements NotificationCe
                                     }
                                 }
                                 for (int i20 = 0; i20 < tLRPC$TL_updateUserName.usernames.size(); i20++) {
-                                    String str2 = tLRPC$TL_updateUserName.usernames.get(i20);
+                                    String str2 = tLRPC$TL_updateUserName.usernames.get(i20).username;
                                     if (!TextUtils.isEmpty(str2)) {
                                         this.objectsByUsernames.put(str2, user3);
                                     }
                                 }
-                                ArrayList<String> arrayList12 = tLRPC$TL_updateUserName.usernames;
-                                user3.username = (arrayList12 == null || arrayList12.size() != 1) ? null : tLRPC$TL_updateUserName.usernames.get(0);
+                                ArrayList<TLRPC$TL_username> arrayList12 = tLRPC$TL_updateUserName.usernames;
+                                user3.username = (arrayList12 == null || arrayList12.size() != 1) ? null : tLRPC$TL_updateUserName.usernames.get(0).username;
                             }
                             TLRPC$TL_user tLRPC$TL_user3 = new TLRPC$TL_user();
                             tLRPC$TL_user3.id = tLRPC$TL_updateUserName.user_id;
                             tLRPC$TL_user3.first_name = tLRPC$TL_updateUserName.first_name;
                             tLRPC$TL_user3.last_name = tLRPC$TL_updateUserName.last_name;
-                            ArrayList<String> arrayList13 = tLRPC$TL_updateUserName.usernames;
+                            ArrayList<TLRPC$TL_username> arrayList13 = tLRPC$TL_updateUserName.usernames;
                             if (arrayList13 != null && arrayList13.size() == 1) {
-                                str = tLRPC$TL_updateUserName.usernames.get(0);
+                                str = tLRPC$TL_updateUserName.usernames.get(0).username;
                                 tLRPC$TL_user3.username = str;
                                 arrayList10.add(tLRPC$TL_user3);
                             }

@@ -1513,9 +1513,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return new int[]{i2, i};
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0277 A[Catch: Exception -> 0x02b1, TryCatch #1 {Exception -> 0x02b1, blocks: (B:34:0x0077, B:36:0x008c, B:37:0x0092, B:39:0x00b4, B:41:0x00bf, B:43:0x00cf, B:48:0x00e0, B:50:0x00ec, B:52:0x00ef, B:54:0x00f5, B:59:0x00ff, B:61:0x0105, B:63:0x010b, B:65:0x0111, B:67:0x0115, B:69:0x0273, B:71:0x0119, B:72:0x0126, B:74:0x012a, B:76:0x0132, B:79:0x0159, B:128:0x0268, B:130:0x0265, B:132:0x0277, B:134:0x027d, B:136:0x0283, B:138:0x028c, B:140:0x0292, B:141:0x0298, B:143:0x02a2, B:146:0x00e3, B:147:0x00d5, B:81:0x0164, B:83:0x0196, B:84:0x0198, B:86:0x01a2, B:88:0x01ae, B:90:0x01c5, B:92:0x01c8, B:94:0x01d3, B:96:0x01f6, B:103:0x01b9, B:105:0x01f9, B:107:0x01ff, B:109:0x0203, B:111:0x020f, B:113:0x022e, B:115:0x0231, B:117:0x023c, B:125:0x021e), top: B:33:0x0077, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00ff A[Catch: Exception -> 0x02b1, TryCatch #1 {Exception -> 0x02b1, blocks: (B:34:0x0077, B:36:0x008c, B:37:0x0092, B:39:0x00b4, B:41:0x00bf, B:43:0x00cf, B:48:0x00e0, B:50:0x00ec, B:52:0x00ef, B:54:0x00f5, B:59:0x00ff, B:61:0x0105, B:63:0x010b, B:65:0x0111, B:67:0x0115, B:69:0x0273, B:71:0x0119, B:72:0x0126, B:74:0x012a, B:76:0x0132, B:79:0x0159, B:128:0x0268, B:130:0x0265, B:132:0x0277, B:134:0x027d, B:136:0x0283, B:138:0x028c, B:140:0x0292, B:141:0x0298, B:143:0x02a2, B:146:0x00e3, B:147:0x00d5, B:81:0x0164, B:83:0x0196, B:84:0x0198, B:86:0x01a2, B:88:0x01ae, B:90:0x01c5, B:92:0x01c8, B:94:0x01d3, B:96:0x01f6, B:103:0x01b9, B:105:0x01f9, B:107:0x01ff, B:109:0x0203, B:111:0x020f, B:113:0x022e, B:115:0x0231, B:117:0x023c, B:125:0x021e), top: B:33:0x0077, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x010b A[Catch: Exception -> 0x02b1, TryCatch #1 {Exception -> 0x02b1, blocks: (B:34:0x0077, B:36:0x008c, B:37:0x0092, B:39:0x00b4, B:41:0x00bf, B:43:0x00cf, B:48:0x00e0, B:50:0x00ec, B:52:0x00ef, B:54:0x00f5, B:59:0x00ff, B:61:0x0105, B:63:0x010b, B:65:0x0111, B:67:0x0115, B:69:0x0273, B:71:0x0119, B:72:0x0126, B:74:0x012a, B:76:0x0132, B:79:0x0159, B:128:0x0268, B:130:0x0265, B:132:0x0277, B:134:0x027d, B:136:0x0283, B:138:0x028c, B:140:0x0292, B:141:0x0298, B:143:0x02a2, B:146:0x00e3, B:147:0x00d5, B:81:0x0164, B:83:0x0196, B:84:0x0198, B:86:0x01a2, B:88:0x01ae, B:90:0x01c5, B:92:0x01c8, B:94:0x01d3, B:96:0x01f6, B:103:0x01b9, B:105:0x01f9, B:107:0x01ff, B:109:0x0203, B:111:0x020f, B:113:0x022e, B:115:0x0231, B:117:0x023c, B:125:0x021e), top: B:33:0x0077, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0277 A[Catch: Exception -> 0x02b3, TryCatch #1 {Exception -> 0x02b3, blocks: (B:34:0x0077, B:36:0x008c, B:37:0x0092, B:39:0x00b4, B:41:0x00bf, B:43:0x00cf, B:48:0x00e0, B:50:0x00ec, B:52:0x00ef, B:54:0x00f5, B:59:0x00ff, B:61:0x0105, B:63:0x010b, B:65:0x0111, B:67:0x0115, B:69:0x0273, B:71:0x0119, B:72:0x0126, B:74:0x012a, B:76:0x0132, B:79:0x0159, B:128:0x0268, B:130:0x0265, B:132:0x0277, B:134:0x027d, B:136:0x0283, B:138:0x028c, B:140:0x0292, B:141:0x0298, B:143:0x029c, B:145:0x02a4, B:148:0x00e3, B:149:0x00d5, B:81:0x0164, B:83:0x0196, B:84:0x0198, B:86:0x01a2, B:88:0x01ae, B:90:0x01c5, B:92:0x01c8, B:94:0x01d3, B:96:0x01f6, B:103:0x01b9, B:105:0x01f9, B:107:0x01ff, B:109:0x0203, B:111:0x020f, B:113:0x022e, B:115:0x0231, B:117:0x023c, B:125:0x021e), top: B:33:0x0077, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00ff A[Catch: Exception -> 0x02b3, TryCatch #1 {Exception -> 0x02b3, blocks: (B:34:0x0077, B:36:0x008c, B:37:0x0092, B:39:0x00b4, B:41:0x00bf, B:43:0x00cf, B:48:0x00e0, B:50:0x00ec, B:52:0x00ef, B:54:0x00f5, B:59:0x00ff, B:61:0x0105, B:63:0x010b, B:65:0x0111, B:67:0x0115, B:69:0x0273, B:71:0x0119, B:72:0x0126, B:74:0x012a, B:76:0x0132, B:79:0x0159, B:128:0x0268, B:130:0x0265, B:132:0x0277, B:134:0x027d, B:136:0x0283, B:138:0x028c, B:140:0x0292, B:141:0x0298, B:143:0x029c, B:145:0x02a4, B:148:0x00e3, B:149:0x00d5, B:81:0x0164, B:83:0x0196, B:84:0x0198, B:86:0x01a2, B:88:0x01ae, B:90:0x01c5, B:92:0x01c8, B:94:0x01d3, B:96:0x01f6, B:103:0x01b9, B:105:0x01f9, B:107:0x01ff, B:109:0x0203, B:111:0x020f, B:113:0x022e, B:115:0x0231, B:117:0x023c, B:125:0x021e), top: B:33:0x0077, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x010b A[Catch: Exception -> 0x02b3, TryCatch #1 {Exception -> 0x02b3, blocks: (B:34:0x0077, B:36:0x008c, B:37:0x0092, B:39:0x00b4, B:41:0x00bf, B:43:0x00cf, B:48:0x00e0, B:50:0x00ec, B:52:0x00ef, B:54:0x00f5, B:59:0x00ff, B:61:0x0105, B:63:0x010b, B:65:0x0111, B:67:0x0115, B:69:0x0273, B:71:0x0119, B:72:0x0126, B:74:0x012a, B:76:0x0132, B:79:0x0159, B:128:0x0268, B:130:0x0265, B:132:0x0277, B:134:0x027d, B:136:0x0283, B:138:0x028c, B:140:0x0292, B:141:0x0298, B:143:0x029c, B:145:0x02a4, B:148:0x00e3, B:149:0x00d5, B:81:0x0164, B:83:0x0196, B:84:0x0198, B:86:0x01a2, B:88:0x01ae, B:90:0x01c5, B:92:0x01c8, B:94:0x01d3, B:96:0x01f6, B:103:0x01b9, B:105:0x01f9, B:107:0x01ff, B:109:0x0203, B:111:0x020f, B:113:0x022e, B:115:0x0231, B:117:0x023c, B:125:0x021e), top: B:33:0x0077, inners: #0 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1655,10 +1655,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                             }
                                             resetPressedLink(1);
                                             this.pressedEmoji = null;
-                                        } else if (characterStyleArr3[0] == this.pressedLink.getSpan()) {
-                                            this.delegate.didPressUrl(this, this.pressedLink.getSpan(), false);
-                                            resetPressedLink(1);
-                                            return true;
+                                        } else {
+                                            LinkSpanDrawable linkSpanDrawable3 = this.pressedLink;
+                                            if (linkSpanDrawable3 != null && characterStyleArr3[0] == linkSpanDrawable3.getSpan()) {
+                                                this.delegate.didPressUrl(this, this.pressedLink.getSpan(), false);
+                                                resetPressedLink(1);
+                                                return true;
+                                            }
                                         }
                                     }
                                 }
@@ -2896,137 +2899,136 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public boolean checkSpoilersMotionEvent(MotionEvent motionEvent, int i) {
         int i2;
         MessageObject.GroupedMessages groupedMessages;
-        if (i > 15) {
-            return false;
-        }
-        if (this.currentMessageObject.hasValidGroupId() && (groupedMessages = this.currentMessagesGroup) != null && !groupedMessages.isDocuments) {
-            ViewGroup viewGroup = (ViewGroup) getParent();
-            for (int i3 = 0; i3 < viewGroup.getChildCount(); i3++) {
-                View childAt = viewGroup.getChildAt(i3);
-                if (childAt instanceof ChatMessageCell) {
-                    ChatMessageCell chatMessageCell = (ChatMessageCell) childAt;
-                    MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell.getCurrentMessagesGroup();
-                    MessageObject.GroupedMessagePosition currentPosition = chatMessageCell.getCurrentPosition();
-                    if (currentMessagesGroup != null && currentMessagesGroup.groupId == this.currentMessagesGroup.groupId) {
-                        int i4 = currentPosition.flags;
-                        if ((i4 & 8) != 0 && (i4 & 1) != 0 && chatMessageCell != this) {
-                            motionEvent.offsetLocation(getLeft() - chatMessageCell.getLeft(), getTop() - chatMessageCell.getTop());
-                            boolean checkSpoilersMotionEvent = chatMessageCell.checkSpoilersMotionEvent(motionEvent, i + 1);
-                            motionEvent.offsetLocation(-(getLeft() - chatMessageCell.getLeft()), -(getTop() - chatMessageCell.getTop()));
-                            return checkSpoilersMotionEvent;
-                        }
-                    }
-                }
-            }
-        }
-        if (this.isSpoilerRevealing) {
-            return false;
-        }
-        int x = (int) motionEvent.getX();
-        int y = (int) motionEvent.getY();
-        int actionMasked = motionEvent.getActionMasked();
-        if (actionMasked == 0) {
-            int i5 = this.textX;
-            if (x >= i5 && y >= (i2 = this.textY)) {
-                MessageObject messageObject = this.currentMessageObject;
-                if (x <= i5 + messageObject.textWidth && y <= i2 + messageObject.textHeight) {
-                    ArrayList<MessageObject.TextLayoutBlock> arrayList = messageObject.textLayoutBlocks;
-                    for (int i6 = 0; i6 < arrayList.size() && arrayList.get(i6).textYOffset <= y; i6++) {
-                        MessageObject.TextLayoutBlock textLayoutBlock = arrayList.get(i6);
-                        int i7 = textLayoutBlock.isRtl() ? (int) this.currentMessageObject.textXOffset : 0;
-                        for (SpoilerEffect spoilerEffect : textLayoutBlock.spoilers) {
-                            if (spoilerEffect.getBounds().contains((x - this.textX) + i7, (int) ((y - this.textY) - textLayoutBlock.textYOffset))) {
-                                this.spoilerPressed = spoilerEffect;
-                                this.isCaptionSpoilerPressed = false;
-                                return true;
+        if (i <= 15 && getParent() != null) {
+            if (this.currentMessageObject.hasValidGroupId() && (groupedMessages = this.currentMessagesGroup) != null && !groupedMessages.isDocuments) {
+                ViewGroup viewGroup = (ViewGroup) getParent();
+                for (int i3 = 0; i3 < viewGroup.getChildCount(); i3++) {
+                    View childAt = viewGroup.getChildAt(i3);
+                    if (childAt instanceof ChatMessageCell) {
+                        ChatMessageCell chatMessageCell = (ChatMessageCell) childAt;
+                        MessageObject.GroupedMessages currentMessagesGroup = chatMessageCell.getCurrentMessagesGroup();
+                        MessageObject.GroupedMessagePosition currentPosition = chatMessageCell.getCurrentPosition();
+                        if (currentMessagesGroup != null && currentMessagesGroup.groupId == this.currentMessagesGroup.groupId) {
+                            int i4 = currentPosition.flags;
+                            if ((i4 & 8) != 0 && (i4 & 1) != 0 && chatMessageCell != this) {
+                                motionEvent.offsetLocation(getLeft() - chatMessageCell.getLeft(), getTop() - chatMessageCell.getTop());
+                                boolean checkSpoilersMotionEvent = chatMessageCell.checkSpoilersMotionEvent(motionEvent, i + 1);
+                                motionEvent.offsetLocation(-(getLeft() - chatMessageCell.getLeft()), -(getTop() - chatMessageCell.getTop()));
+                                return checkSpoilersMotionEvent;
                             }
                         }
                     }
                 }
             }
-            if (hasCaptionLayout()) {
-                float f = x;
-                float f2 = this.captionX;
-                if (f >= f2) {
-                    float f3 = y;
-                    if (f3 >= this.captionY && f <= f2 + this.captionLayout.getWidth() && f3 <= this.captionY + this.captionLayout.getHeight()) {
-                        for (SpoilerEffect spoilerEffect2 : this.captionSpoilers) {
-                            if (spoilerEffect2.getBounds().contains((int) (f - this.captionX), (int) (f3 - this.captionY))) {
-                                this.spoilerPressed = spoilerEffect2;
-                                this.isCaptionSpoilerPressed = true;
-                                return true;
-                            }
-                        }
-                    }
-                }
+            if (this.isSpoilerRevealing) {
+                return false;
             }
-        } else if (actionMasked == 1 && this.spoilerPressed != null) {
-            playSoundEffect(0);
-            this.sPath.rewind();
-            if (this.isCaptionSpoilerPressed) {
-                for (SpoilerEffect spoilerEffect3 : this.captionSpoilers) {
-                    Rect bounds = spoilerEffect3.getBounds();
-                    this.sPath.addRect(bounds.left, bounds.top, bounds.right, bounds.bottom, Path.Direction.CW);
-                }
-            } else {
-                Iterator<MessageObject.TextLayoutBlock> it = this.currentMessageObject.textLayoutBlocks.iterator();
-                while (it.hasNext()) {
-                    MessageObject.TextLayoutBlock next = it.next();
-                    for (SpoilerEffect spoilerEffect4 : next.spoilers) {
-                        Rect bounds2 = spoilerEffect4.getBounds();
-                        float f4 = next.textYOffset;
-                        this.sPath.addRect(bounds2.left, bounds2.top + f4, bounds2.right, bounds2.bottom + f4, Path.Direction.CW);
-                    }
-                }
-            }
-            this.sPath.computeBounds(this.rect, false);
-            float sqrt = (float) Math.sqrt(Math.pow(this.rect.width(), 2.0d) + Math.pow(this.rect.height(), 2.0d));
-            this.isSpoilerRevealing = true;
-            this.spoilerPressed.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatMessageCell.this.lambda$checkSpoilersMotionEvent$1();
-                }
-            });
-            if (this.isCaptionSpoilerPressed) {
-                for (SpoilerEffect spoilerEffect5 : this.captionSpoilers) {
-                    spoilerEffect5.startRipple(x - this.captionX, y - this.captionY, sqrt);
-                }
-            } else {
-                ArrayList<MessageObject.TextLayoutBlock> arrayList2 = this.currentMessageObject.textLayoutBlocks;
-                if (arrayList2 != null) {
-                    Iterator<MessageObject.TextLayoutBlock> it2 = arrayList2.iterator();
-                    while (it2.hasNext()) {
-                        MessageObject.TextLayoutBlock next2 = it2.next();
-                        int i8 = next2.isRtl() ? (int) this.currentMessageObject.textXOffset : 0;
-                        for (SpoilerEffect spoilerEffect6 : next2.spoilers) {
-                            spoilerEffect6.startRipple((x - this.textX) + i8, (y - next2.textYOffset) - this.textY, sqrt);
-                        }
-                    }
-                }
-            }
-            if (getParent() instanceof RecyclerListView) {
-                ViewGroup viewGroup2 = (ViewGroup) getParent();
-                for (int i9 = 0; i9 < viewGroup2.getChildCount(); i9++) {
-                    View childAt2 = viewGroup2.getChildAt(i9);
-                    if (childAt2 instanceof ChatMessageCell) {
-                        final ChatMessageCell chatMessageCell2 = (ChatMessageCell) childAt2;
-                        if (chatMessageCell2.getMessageObject() != null && chatMessageCell2.getMessageObject().getReplyMsgId() == getMessageObject().getId() && !chatMessageCell2.replySpoilers.isEmpty()) {
-                            chatMessageCell2.replySpoilers.get(0).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda5
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    ChatMessageCell.this.lambda$checkSpoilersMotionEvent$3(chatMessageCell2);
+            int x = (int) motionEvent.getX();
+            int y = (int) motionEvent.getY();
+            int actionMasked = motionEvent.getActionMasked();
+            if (actionMasked == 0) {
+                int i5 = this.textX;
+                if (x >= i5 && y >= (i2 = this.textY)) {
+                    MessageObject messageObject = this.currentMessageObject;
+                    if (x <= i5 + messageObject.textWidth && y <= i2 + messageObject.textHeight) {
+                        ArrayList<MessageObject.TextLayoutBlock> arrayList = messageObject.textLayoutBlocks;
+                        for (int i6 = 0; i6 < arrayList.size() && arrayList.get(i6).textYOffset <= y; i6++) {
+                            MessageObject.TextLayoutBlock textLayoutBlock = arrayList.get(i6);
+                            int i7 = textLayoutBlock.isRtl() ? (int) this.currentMessageObject.textXOffset : 0;
+                            for (SpoilerEffect spoilerEffect : textLayoutBlock.spoilers) {
+                                if (spoilerEffect.getBounds().contains((x - this.textX) + i7, (int) ((y - this.textY) - textLayoutBlock.textYOffset))) {
+                                    this.spoilerPressed = spoilerEffect;
+                                    this.isCaptionSpoilerPressed = false;
+                                    return true;
                                 }
-                            });
-                            for (SpoilerEffect spoilerEffect7 : chatMessageCell2.replySpoilers) {
-                                spoilerEffect7.startRipple(spoilerEffect7.getBounds().centerX(), spoilerEffect7.getBounds().centerY(), sqrt);
                             }
                         }
                     }
                 }
+                if (hasCaptionLayout()) {
+                    float f = x;
+                    float f2 = this.captionX;
+                    if (f >= f2) {
+                        float f3 = y;
+                        if (f3 >= this.captionY && f <= f2 + this.captionLayout.getWidth() && f3 <= this.captionY + this.captionLayout.getHeight()) {
+                            for (SpoilerEffect spoilerEffect2 : this.captionSpoilers) {
+                                if (spoilerEffect2.getBounds().contains((int) (f - this.captionX), (int) (f3 - this.captionY))) {
+                                    this.spoilerPressed = spoilerEffect2;
+                                    this.isCaptionSpoilerPressed = true;
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (actionMasked == 1 && this.spoilerPressed != null) {
+                playSoundEffect(0);
+                this.sPath.rewind();
+                if (this.isCaptionSpoilerPressed) {
+                    for (SpoilerEffect spoilerEffect3 : this.captionSpoilers) {
+                        Rect bounds = spoilerEffect3.getBounds();
+                        this.sPath.addRect(bounds.left, bounds.top, bounds.right, bounds.bottom, Path.Direction.CW);
+                    }
+                } else {
+                    Iterator<MessageObject.TextLayoutBlock> it = this.currentMessageObject.textLayoutBlocks.iterator();
+                    while (it.hasNext()) {
+                        MessageObject.TextLayoutBlock next = it.next();
+                        for (SpoilerEffect spoilerEffect4 : next.spoilers) {
+                            Rect bounds2 = spoilerEffect4.getBounds();
+                            float f4 = next.textYOffset;
+                            this.sPath.addRect(bounds2.left, bounds2.top + f4, bounds2.right, bounds2.bottom + f4, Path.Direction.CW);
+                        }
+                    }
+                }
+                this.sPath.computeBounds(this.rect, false);
+                float sqrt = (float) Math.sqrt(Math.pow(this.rect.width(), 2.0d) + Math.pow(this.rect.height(), 2.0d));
+                this.isSpoilerRevealing = true;
+                this.spoilerPressed.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatMessageCell.this.lambda$checkSpoilersMotionEvent$1();
+                    }
+                });
+                if (this.isCaptionSpoilerPressed) {
+                    for (SpoilerEffect spoilerEffect5 : this.captionSpoilers) {
+                        spoilerEffect5.startRipple(x - this.captionX, y - this.captionY, sqrt);
+                    }
+                } else {
+                    ArrayList<MessageObject.TextLayoutBlock> arrayList2 = this.currentMessageObject.textLayoutBlocks;
+                    if (arrayList2 != null) {
+                        Iterator<MessageObject.TextLayoutBlock> it2 = arrayList2.iterator();
+                        while (it2.hasNext()) {
+                            MessageObject.TextLayoutBlock next2 = it2.next();
+                            int i8 = next2.isRtl() ? (int) this.currentMessageObject.textXOffset : 0;
+                            for (SpoilerEffect spoilerEffect6 : next2.spoilers) {
+                                spoilerEffect6.startRipple((x - this.textX) + i8, (y - next2.textYOffset) - this.textY, sqrt);
+                            }
+                        }
+                    }
+                }
+                if (getParent() instanceof RecyclerListView) {
+                    ViewGroup viewGroup2 = (ViewGroup) getParent();
+                    for (int i9 = 0; i9 < viewGroup2.getChildCount(); i9++) {
+                        View childAt2 = viewGroup2.getChildAt(i9);
+                        if (childAt2 instanceof ChatMessageCell) {
+                            final ChatMessageCell chatMessageCell2 = (ChatMessageCell) childAt2;
+                            if (chatMessageCell2.getMessageObject() != null && chatMessageCell2.getMessageObject().getReplyMsgId() == getMessageObject().getId() && !chatMessageCell2.replySpoilers.isEmpty()) {
+                                chatMessageCell2.replySpoilers.get(0).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda5
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        ChatMessageCell.this.lambda$checkSpoilersMotionEvent$3(chatMessageCell2);
+                                    }
+                                });
+                                for (SpoilerEffect spoilerEffect7 : chatMessageCell2.replySpoilers) {
+                                    spoilerEffect7.startRipple(spoilerEffect7.getBounds().centerX(), spoilerEffect7.getBounds().centerY(), sqrt);
+                                }
+                            }
+                        }
+                    }
+                }
+                this.spoilerPressed = null;
+                return true;
             }
-            this.spoilerPressed = null;
-            return true;
         }
         return false;
     }
@@ -5105,7 +5107,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r0v586, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v117, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v117, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v140 */
     /* JADX WARN: Type inference failed for: r13v151 */
     /* JADX WARN: Type inference failed for: r13v209 */
@@ -5117,9 +5119,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r2v1264 */
     /* JADX WARN: Type inference failed for: r2v1265 */
     /* JADX WARN: Type inference failed for: r2v30 */
-    /* JADX WARN: Type inference failed for: r2v31, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v31, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v39 */
-    /* JADX WARN: Type inference failed for: r2v52, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v52, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r36v1 */
     /* JADX WARN: Type inference failed for: r36v4 */
     /* JADX WARN: Type inference failed for: r36v5 */
@@ -18419,19 +18421,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 return;
             }
         }
-        int i8 = this.backgroundWidth;
         SeekBarWaveform seekBarWaveform2 = this.seekBarWaveform;
         if (seekBarWaveform2 != null) {
             if (transitionParams.animateUseTranscribeButton) {
-                int i9 = i3 + i8;
-                seekBarWaveform2.setSize(i9 - ((int) (AndroidUtilities.dp(34.0f) * getUseTranscribeButtonProgress())), AndroidUtilities.dp(30.0f), (!this.useTranscribeButton ? -AndroidUtilities.dp(34.0f) : 0) + i9, i9 + (this.useTranscribeButton ? -AndroidUtilities.dp(34.0f) : 0));
+                seekBarWaveform2.setSize((this.backgroundWidth + i3) - ((int) (AndroidUtilities.dp(34.0f) * getUseTranscribeButtonProgress())), AndroidUtilities.dp(30.0f), this.backgroundWidth + i3 + (!this.useTranscribeButton ? -AndroidUtilities.dp(34.0f) : 0), this.backgroundWidth + i3 + (this.useTranscribeButton ? -AndroidUtilities.dp(34.0f) : 0));
             } else {
-                seekBarWaveform2.setSize((i3 + i8) - ((int) (AndroidUtilities.dp(34.0f) * getUseTranscribeButtonProgress())), AndroidUtilities.dp(30.0f));
+                seekBarWaveform2.setSize((this.backgroundWidth + i3) - ((int) (AndroidUtilities.dp(34.0f) * getUseTranscribeButtonProgress())), AndroidUtilities.dp(30.0f));
             }
         }
         SeekBar seekBar2 = this.seekBar;
         if (seekBar2 != null) {
-            int useTranscribeButtonProgress2 = i8 - ((int) (getUseTranscribeButtonProgress() * AndroidUtilities.dp(34.0f)));
+            int useTranscribeButtonProgress2 = this.backgroundWidth - ((int) (getUseTranscribeButtonProgress() * AndroidUtilities.dp(34.0f)));
             if (this.documentAttachType != 5) {
                 i4 = 72;
             }
@@ -20644,7 +20644,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     /* JADX WARN: Type inference failed for: r12v2 */
     /* JADX WARN: Type inference failed for: r12v29 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
     public void drawLinkPreview(Canvas canvas, float f) {
         int dp;
         int i;
